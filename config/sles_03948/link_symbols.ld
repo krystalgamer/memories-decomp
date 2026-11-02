@@ -355,8 +355,8 @@ gModel_dwLineF3Template = 0x8009C35C;
 gModel_dwLineF4Template = 0x8009C360;
 gModel_dwDrawModeTemplate = 0x8009C364;
 gModel_dwTpageBlendRateBits = 0x8009C368;
-D_8009BF64 = 0x8009C36C;
-D_8009BF68 = 0x8009C370;
+gModel_dwSecondPassClutBits = 0x8009C36C;
+gModel_dwLitColorCacheBase = 0x8009C370;
 D_8009BF6C = 0x8009C374;
 gModel_bBlendRateActive = 0x8009C375;
 D_8009BF6E = 0x8009C376;
@@ -1028,8 +1028,6 @@ CampaignMap_SetLocation = 0x8016866C;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
-gModel_dwSecondPassClutBits = D_8009BF64;
-gModel_dwLitColorCacheBase = D_8009BF68;
 
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;

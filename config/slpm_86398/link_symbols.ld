@@ -13,8 +13,6 @@ FreeDuel_Entry = 0x80168FB4;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
-gModel_dwSecondPassClutBits = gJapanese_D_8009AFDC;
-gModel_dwLitColorCacheBase = gJapanese_D_8009AFE0;
 
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;

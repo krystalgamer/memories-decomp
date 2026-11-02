@@ -25,8 +25,6 @@ DuelEffect_DispatchRequest = 0x801462B0;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
-D_8009AFDC = gModel_dwSecondPassClutBits;
-D_8009AFE0 = gModel_dwLitColorCacheBase;
 
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
