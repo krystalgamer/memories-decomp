@@ -13,10 +13,10 @@
 #ifndef MODEL627_STRING_PAD
 #define MODEL627_STRING_PAD ""
 #endif
-static const char D_8013C36C[24] = "E_DATA size = %x byte\n\0" MODEL627_STRING_PAD;
+static const char gModelVariant627_D136C[24] = "E_DATA size = %x byte\n\0" MODEL627_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
 {
     Model627State *work;
     MATRIX ls;
@@ -35,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model627State));
 #ifndef VERSION_FRENCH
-        printf(D_8013C36C, sizeof(Model627State));
+        printf(gModelVariant627_D136C, sizeof(Model627State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
@@ -46,18 +46,18 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->line_count = 10;
             }
         }
-        work->inner = D_8013C384[command].inner;
-        work->outer = D_8013C384[command].outer;
-        work->height = D_8013C384[command].height;
+        work->inner = gModelVariant627_D1384[command].inner;
+        work->outer = gModelVariant627_D1384[command].outer;
+        work->height = gModelVariant627_D1384[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
-            work->rings[i].duration = D_8013C384[command].duration;
+            work->rings[i].duration = gModelVariant627_D1384[command].duration;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = D_8013C384[command].red;
-            work->rings[i].green = D_8013C384[command].green;
-            work->rings[i].blue = D_8013C384[command].blue;
+            work->rings[i].red = gModelVariant627_D1384[command].red;
+            work->rings[i].green = gModelVariant627_D1384[command].green;
+            work->rings[i].blue = gModelVariant627_D1384[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000 - (i << 12) / work->ring_count,
@@ -73,12 +73,12 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < work->line_count; i++) {
             work->lines[i].active = 0;
             work->lines[i].elapsed = 0;
-            work->lines[i].duration = D_8013C384[command].duration;
+            work->lines[i].duration = gModelVariant627_D1384[command].duration;
             work->lines[i].mode = 1;
             work->lines[i].coord = Model_GetCameraCoordinateUnit();
-            work->lines[i].red = D_8013C384[command].red;
-            work->lines[i].green = D_8013C384[command].green;
-            work->lines[i].blue = D_8013C384[command].blue;
+            work->lines[i].red = gModelVariant627_D1384[command].red;
+            work->lines[i].green = gModelVariant627_D1384[command].green;
+            work->lines[i].blue = gModelVariant627_D1384[command].blue;
             setVector(&work->lines[i].scale, 0x1000 - (i << 12) / work->line_count,
                 0x1000 - (i << 12) / work->line_count, 0x1000);
             setVector(&work->lines[i].growth, 0, 0, 0);
@@ -89,7 +89,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&work->lines[i].rotation, 0, work->slot * 2048, (i << 12) / work->line_count);
             }
         }
-        work->delay = D_8013C384[command].delay;
+        work->delay = gModelVariant627_D1384[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -130,18 +130,18 @@ s32 func_8013B004(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
-                    if (D_8013C384[work->command].red / (work->rings[i].duration / 2 - 1) * step < work->rings[i].red) {
-                        work->rings[i].red -= D_8013C384[work->command].red / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].red / (work->rings[i].duration / 2 - 1) * step < work->rings[i].red) {
+                        work->rings[i].red -= gModelVariant627_D1384[work->command].red / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].red = 0;
                     }
-                    if (D_8013C384[work->command].green / (work->rings[i].duration / 2 - 1) * step < work->rings[i].green) {
-                        work->rings[i].green -= D_8013C384[work->command].green / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].green / (work->rings[i].duration / 2 - 1) * step < work->rings[i].green) {
+                        work->rings[i].green -= gModelVariant627_D1384[work->command].green / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].green = 0;
                     }
-                    if (D_8013C384[work->command].blue / (work->rings[i].duration / 2 - 1) * step < work->rings[i].blue) {
-                        work->rings[i].blue -= D_8013C384[work->command].blue / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].blue / (work->rings[i].duration / 2 - 1) * step < work->rings[i].blue) {
+                        work->rings[i].blue -= gModelVariant627_D1384[work->command].blue / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].blue = 0;
                     }
@@ -221,18 +221,18 @@ s32 func_8013B004(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 if (work->lines[i].duration / 2 < work->lines[i].elapsed) {
-                    if (D_8013C384[work->command].red / (work->lines[i].duration / 2 - 1) * step < work->lines[i].red) {
-                        work->lines[i].red -= D_8013C384[work->command].red / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].red / (work->lines[i].duration / 2 - 1) * step < work->lines[i].red) {
+                        work->lines[i].red -= gModelVariant627_D1384[work->command].red / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].red = 0;
                     }
-                    if (D_8013C384[work->command].green / (work->lines[i].duration / 2 - 1) * step < work->lines[i].green) {
-                        work->lines[i].green -= D_8013C384[work->command].green / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].green / (work->lines[i].duration / 2 - 1) * step < work->lines[i].green) {
+                        work->lines[i].green -= gModelVariant627_D1384[work->command].green / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].green = 0;
                     }
-                    if (D_8013C384[work->command].blue / (work->lines[i].duration / 2 - 1) * step < work->lines[i].blue) {
-                        work->lines[i].blue -= D_8013C384[work->command].blue / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_D1384[work->command].blue / (work->lines[i].duration / 2 - 1) * step < work->lines[i].blue) {
+                        work->lines[i].blue -= gModelVariant627_D1384[work->command].blue / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].blue = 0;
                     }
