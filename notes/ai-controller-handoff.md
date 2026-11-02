@@ -64,7 +64,7 @@ They still store 1, store 0, or load the whole unsigned byte into a
 script-selected VM register. The dispatch table references the canonical
 functions. All 21 native function records retain their addresses, extents,
 grouping and `gcc_2_8_1_g0_split` profile; old callable names remain linker
-aliases. The unrelated set/clear pair for `AiScriptState.field_97` is not
+aliases. The unrelated set/clear pair for `AiScriptState.unread_flag` is not
 renamed.
 
 ## Field source and target codes

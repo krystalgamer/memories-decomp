@@ -28,7 +28,7 @@ void Library_UpdateCardView(LibraryState *state);
 /* Selects grid state 1 with a whole-byte write, not grid setup or a reset. */
 void Library_EnterGridState(LibraryState *state);
 /* The dispatcher's unchanged empty state-3 handler. */
-void func_8002BAAC(u8 *state);
+void Library_NoOpScreenState3(u8 *state);
 
 void Library_UpdateScreen(void);
 

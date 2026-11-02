@@ -264,7 +264,7 @@ address,size,name,status,module,notes
 0x8002ABB4,0xF0,Library_CreateFadingCardOutline,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002ACA4,0xDFC,Library_UpdateCardView,matching_c,game,"Library screen state 2, the card view: opens the view, slides the model and text box in, rotates the model light with the view angle and walks the close sequence back to the grid. Matching C at the head of src/game/library_runtime.c under uniform gcc_2_8_1_g8_split, with the unit's nine-entry state table; the slide states are separate arms that cross-jumping merges, the state 0 flag updates go through named variables so their loads are not glued to their uses, and the .data views of gDuel_wSelectedCardID and the pad word plus a volatile gGraphics_bSyncVBlankTarget replace the mixed -G8/-G0 profile."
 0x8002BAA0,0xC,Library_EnterGridState,matching_c,game,Byte store of one matched first variant.
-0x8002BAAC,0x8,func_8002BAAC,matching_c,game,Empty pointer-parameter function matched first variant.
+0x8002BAAC,0x8,Library_NoOpScreenState3,matching_c,game,Empty pointer-parameter function matched first variant.
 0x8002BAB4,0x258,Library_UpdateScreen,matching_c,game,Pure-C uniform-profile match; splitting the absolute-value quotient and increment lets GCC allocate the retail result register without a hard-register binding.
 0x8002BD0C,0x230,Library_LoadPackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; Library package phase callback, owns jtbl_80010208."
 0x8002BF3C,0x90,Library_MarkOwnedCards,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -373,7 +373,7 @@ address,size,name,status,module,notes
 0x80031000,0x78,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031078,0xC,DebugMenu_ResetEntryState,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
 0x80031084,0x2C8,DebugMenu_Update,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
-0x8003134C,0x8,func_8003134C,matching_c,game,First empty-function candidate matched.
+0x8003134C,0x8,DebugMenu_NoOpBustUpFrame,matching_c,game,First empty-function candidate matched.
 0x80031354,0x94,DebugMenu_UpdateBustUpEntry,matching_c,game,Post-terminal declaration/profile recovery; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800313E8,0x18C,BuildDeck_UpdateCardTransferIcon,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031574,0x17C,BuildDeck_CreateCardTransferIcon,matching_c,game,"Exact pin-free 380-byte icon builder: restore the returned DisplayObject pointer, capture the stats base before index arithmetic, and preserve final independent flag-update scheduling. Canonical object fields and typed callback; uniform G0 split, no instruction assembly."
@@ -1189,8 +1189,8 @@ address,size,name,status,module,notes
 0x80073420,0x28,AiScript_ClearTypes,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80073448,0x10,AiScript_SetHandFaceDownRequest,matching_c,game,Sets the AiSelection.random byte; 4 pre-policy variants: direct assignment and split-only failed; GAS split matched; a pre-rule no-gpopt probe was distinct but byte-equivalent.
 0x80073458,0xC,AiScript_ClearHandFaceDownRequest,matching_c,game,Clears the AiSelection.random byte; 3 pre-policy variants: direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
-0x80073464,0x10,func_80073464,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
-0x80073474,0xC,func_80073474,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
+0x80073464,0x10,AiScript_SetUnreadFlag,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
+0x80073474,0xC,AiScript_ClearUnreadFlag,matching_c,game,3 pre-policy variants: Direct assignment and split-only failed; -mgas -msplit-addresses selected the target base register and delay-slot store.
 0x80073480,0x5C,AiScript_MoveCard,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800734DC,0xC4,AiScript_LoadOpponentData,matching_c,game,"Reads three script bytes: two index gAiScript_aMemory to give an opponent record index and a field selector, the third is the destination slot. Stores either the record's byte at 1+field, or its byte at 1 scaled by 100 when the selector is zero."
 0x800735A0,0x3C,AiScript_Store,matching_c,game,Immediate checkpoint table store using GCC 2.8.1 PSX -O2 -G0

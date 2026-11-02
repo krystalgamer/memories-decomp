@@ -277,7 +277,7 @@ was read from the handler; none was inferred.
 | 36 | ClearCards | 1 | - | Unused. | `0x80073380` |
 | 37 / 38 | AddType / ClearTypes | 2 / 1 | rType / - | Edit the 25-entry type set. Unused. | `0x800733A8` / `0x80073420` |
 | 39 / 3A | SetSelectionRandom / ClearSelectionRandom | 1 | - | set / clear selection byte 8 | `0x80073448` / `0x80073458` |
-| 3B / 3C | func_80073464 / func_80073474 | 1 | - | Set / clear `gAiScript_State.field_97`. Unused, and nothing reads the field. | `0x80073464` / `0x80073474` |
+| 3B / 3C | AiScript_SetUnreadFlag / AiScript_ClearUnreadFlag | 1 | - | Set / clear `gAiScript_State.unread_flag`. Unused, and nothing reads the field. | `0x80073464` / `0x80073474` |
 | 3D | MoveCard | 2 | rSlot | Set the used-this-turn flag on a snapshot slot. The scripts use it as a "done with this target" marker. The name is mechanical. | `0x80073480` |
 | 3E | LoadOpponentData | 4 | rId rField ->rD | field 0 gives `values[1]*100`; field f > 0 gives `values[f+1]` | `0x800734DC` |
 | 3F | Store | 4 | imm ->rD | rD = imm | `0x800735A0` |
@@ -291,7 +291,7 @@ was read from the handler; none was inferred.
 understand the retail AI: `JumpBetween`, `TestDefenseAtLeastAttack`, `LoadCardState`,
 `LoadSelectionRandom`, `LoadBest*`, `FindFirstMonster`, `FindFirstType`,
 `SkipHand`/`SkipField`, `FindBestAttack`, the two nops, `ClearCards`,
-`AddType`/`ClearTypes`, the `field_97` pair and `Print`. Because
+`AddType`/`ClearTypes`, the `unread_flag` pair and `Print`. Because
 `FindBestAttack` is unused, the matchup search described in older notes is
 dead code in retail.
 

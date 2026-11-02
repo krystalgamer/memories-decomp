@@ -38,9 +38,11 @@ void DebugMenu_Exit(void)
 
 #ifdef VERSION_EUROPE
 /* A European-only debug-menu handler, which follows DebugMenu_Exit in the
-   image and has its own slot in the menu's handler table: it sets both
-   gMain_bActiveModeState and gMain_bReturnMode to 15. */
-void func_800310FC(void)
+   image. The European alternate-page step table holds it at element 2,
+   between DebugMenu_UpdateTwoPlayerDuelEntry and
+   DebugMenu_UpdateLanguageEntry. It sets both gMain_bActiveModeState and
+   gMain_bReturnMode to 15, MAIN_MODE_CREDITS. */
+void DebugMenu_EnterCredits(void)
 {
     gMain_bActiveModeState = 15;
     gMain_bReturnMode = 15;

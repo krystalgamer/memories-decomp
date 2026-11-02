@@ -363,8 +363,9 @@ void AiScript_EvaluateFusion(void)
     }
 }
 
-/* The European image has no skip handlers; its script table points at the
-   two empty handlers below instead. */
+/* Script opcodes 0x2C and 0x2D. The European image has no operand-skipping
+   bodies; its script table points the same two slots at the empty handlers
+   below instead. */
 #ifndef VERSION_EUROPE
 void AiScript_SkipHand(void)
 {
@@ -384,13 +385,13 @@ void AiScript_SkipField(void)
 #endif
 
 #ifdef VERSION_EUROPE
-/* Two empty European-only script handlers, right before AiScript_PlayFaceUp
-   in the image; the European AI script table points at both. */
-void func_800732E0(void)
+/* The European opcode 0x2C and 0x2D handlers: empty bodies right before
+   AiScript_PlayFaceUp in the image, which consume no operand bytes. */
+void AiScript_SkipHand(void)
 {
 }
 
-void func_800732E8(void)
+void AiScript_SkipField(void)
 {
 }
 #endif

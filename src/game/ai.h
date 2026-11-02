@@ -38,11 +38,11 @@ typedef struct {
     u8 combo_cards[AI_SCRIPT_COMBO_CARD_COUNT];
     u16 card_set[AI_SCRIPT_CARD_SET_COUNT];
     u8 type_set[AI_SCRIPT_TYPE_SET_COUNT];
-    /* func_80073464 and func_80073474 set and clear this byte as a paired
-     * flag, so 0x97 is live state rather than padding before the attack
-     * scratch. Its meaning is not otherwise evidenced, so it keeps an
-     * address-based name. */
-    u8 field_97;
+    /* Script opcodes 0x3B and 0x3C (AiScript_SetUnreadFlag and
+     * AiScript_ClearUnreadFlag) set and clear this byte as a paired flag, so
+     * 0x97 is live state rather than padding before the attack scratch.
+     * Nothing in the image reads it, and its purpose is not evidenced. */
+    u8 unread_flag;
     /* AiScript_FindBestAttack zeroes 0x98 on entry, then keeps a running
      * maximum there (compared unsigned, stored signed) and records the pair
      * of slots that produced it: the attacking slot i at 0x9A and the target
@@ -193,8 +193,8 @@ typedef char AiScriptState_combo_offset_must_be_0x38[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
         AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
 ];
-typedef char AiScriptState_field_97_offset_must_be_0x97[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, field_97) == 0x97 ? 1 : -1
+typedef char AiScriptState_unread_flag_offset_must_be_0x97[
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, unread_flag) == 0x97 ? 1 : -1
 ];
 typedef char AiScriptState_attack_best_stat_offset_must_be_0x98[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_stat) == 0x98 ? 1 : -1
