@@ -81,9 +81,7 @@ extern u8 D_801BF870[];
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
-#ifdef TEXT_STRING_ID_SIGNED
-extern s16 gText_StagedStringId;
-#elif defined(TEXT_STRING_ID_IN_DATA)
+#if defined(TEXT_STRING_ID_IN_DATA)
 extern u16 gText_StagedStringId __attribute__((section(".data")));
 #else
 extern u16 gText_StagedStringId;

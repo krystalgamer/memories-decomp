@@ -10,7 +10,7 @@ not the generic text system or the accepted three-position focus selector.
 | --- | --- | --- |
 | `0x800610E0` | `MainMenu_CreateTradeReadyIndicator` | Channel 3/template 10, side-specific text branch and sprite at side times 160 |
 | `0x800611D0` | `MainMenu_CreateTradeDecisionMenu` | Channel 3/template `0x20`, selected one of three color slots and attached cursor |
-| `0x80185CC8` | `gTrade_abReady` | Two side-ready bytes; scalar view remains selected by `MAIN_MENU_TRADE_READY_AS_SCALAR` |
+| `0x80185CC8` | `gTrade_abReady` | Two side-ready bytes; the offers renderer reads element 0 |
 | `0x80185CC9` | `gTrade_bSide1Ready` | Separate symbol for the second ready byte, not another allocation |
 | `0x80185CCF` | `gTrade_bDecisionMenuActive` | Gates final menu navigation and decisions |
 | `0x80185CD0` | `gTrade_bCommitRequested` | Requests applying offers and starting the save |

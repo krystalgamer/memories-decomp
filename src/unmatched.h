@@ -271,12 +271,6 @@ extern char gAiScript_szReturnUnderflowError[];
 
 #include "game/main_mode_state.h"
 
-#ifdef D_8009B370_AS_BYTE_ARRAY
-extern u8 D_8009B370[];
-#else
-extern u16 D_8009B370;
-#endif
-extern u16 D_8009B372;
 /* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
  * %hi/%lo pair into the load's own register, which is the .data form. */
 #ifdef D_8009B374_IN_DATA

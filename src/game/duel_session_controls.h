@@ -15,8 +15,11 @@ extern u8 gDuel_bResumeFromAnimatedBattle __attribute__((section(".data")));
 extern u8 gDuel_bResumeFromAnimatedBattle;
 #endif
 
-#ifdef D_8009B370_AS_BYTE_ARRAY
-extern u8 gDuel_wCampaignSceneOnWin[];
+/* The win/loss scene pair. Main_RunDuelAndLibrary indexes it by
+ * gDuel_bPlayerLost through an absolute address, which cc1psx builds only for
+ * an unknown-bound array; the scalar writers reach it gp-relative. */
+#ifdef GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR
+extern u16 gDuel_wCampaignSceneOnWin[];
 #else
 extern u16 gDuel_wCampaignSceneOnWin;
 #endif

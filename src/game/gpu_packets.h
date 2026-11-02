@@ -9,14 +9,8 @@
 
 /* The packet cursor these helpers write through: a cursor into the frame's
  * scratch packet area, advanced past each packet as it is linked. It is
- * libgs.h's GsOUT_PACKET_P, and DivideFT4 also returns the advanced cursor.
- * The model-capacity query needs the same storage loaded as a forced-.data
- * integer address to preserve its retail address construction. */
-#ifdef GPU_PACKET_CURSOR_AS_ADDRESS
-extern s32 gGraphics_pPacketWorkCursor __attribute__((section(".data")));
-#else
+ * libgs.h's GsOUT_PACKET_P, and DivideFT4 also returns the advanced cursor. */
 extern u32 *gGraphics_pPacketWorkCursor __attribute__((section(".data")));
-#endif
 
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags);

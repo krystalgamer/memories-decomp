@@ -541,7 +541,11 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 
 u8 **Text_PushStagedString(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
+#ifdef VERSION_JAPAN
+    s32 a2 = (s16)gText_StagedStringId;
+#else
     s32 a2 = gText_StagedStringId;
+#endif
     u32 v1;
     u8 counter;
     u8 **slot;

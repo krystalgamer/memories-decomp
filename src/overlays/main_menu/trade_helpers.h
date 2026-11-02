@@ -131,14 +131,9 @@ extern u8 gTrade_bCommitRequested;
 extern u8 gTrade_bWritePending;
 
 /* Per-side Trade interaction state. The offer table carries a count followed
- * by ten card ids. gTrade_abReady needs a scalar view only in the offer drawing
- * unit; the update paths index both players. */
+ * by ten card ids. */
 extern u16 gTrade_awOffers[2][11];
-#ifdef MAIN_MENU_TRADE_READY_AS_SCALAR
-extern u8 gTrade_abReady;
-#else
 extern u8 gTrade_abReady[2];
-#endif
 extern u8 gTrade_abCursorRow[2];
 extern u8 gTrade_abSortMode[2];
 
