@@ -1,6 +1,7 @@
 # French MODEL461 rings helper
 
-`func_8013D498` / `func_8017D498` (MODEL461 family, image offset `0x2498`,
+`SpanishModelVariant461_DrawRing` (formerly `func_8013D498` / `func_8017D498`;
+MODEL461 family, image offset `0x2498`,
 0x43C bytes) draws the 24-segment textured ring. **No release had matching C
 for this body before.** It is reachable directly from the entry.
 

@@ -1,9 +1,9 @@
 // Japanese MODEL.MRG model 705 (record 605), sector 167180, header 444, loaded at 0x8013B000; built from the US source layout of model_variant_705_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1504 defined:true
-func_8013C508 = 0x8013C508; // type:func size:0xA3C defined:true
-func_8013CF44 = 0x8013CF44; // type:func size:0x540 defined:true
-func_8013D484 = 0x8013D484; // type:func size:0x43C defined:true
-D_8013D8C0 = 0x8013D8C0; // type:u8 size:0x2740 defined:true
+FrenchModelVariant461_HandleRequest = 0x8013B004; // type:func size:0x1504 defined:true
+FrenchModelVariant461_DrawRibbons = 0x8013C508; // type:func size:0xA3C defined:true
+SpanishModelVariant461_DrawSheets = 0x8013CF44; // type:func size:0x540 defined:true
+SpanishModelVariant461_DrawRing = 0x8013D484; // type:func size:0x43C defined:true
+gFrenchModelVariant461_D28D4 = 0x8013D8C0; // type:u8 size:0x2740 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

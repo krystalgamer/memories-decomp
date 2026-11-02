@@ -48,6 +48,9 @@ allocation outside the web; direct latitude expressions changed strength
 reduction. Trial 21 recovered every nonweb byte but retained 20 web-only
 register differences. Trial 22 is the exact combined ownership above.
 
-The slot-1 wrapper remaps only the entry, three local helper names and local
-configuration-data symbol. Data ownership, original image layout and helper
+Both slots build the same sources; each image's symbols file binds
+`FrenchModelVariant461_HandleRequest`, the three helpers
+(`FrenchModelVariant461_DrawRibbons`, `SpanishModelVariant461_DrawSheets`,
+`SpanishModelVariant461_DrawRing`) and `gFrenchModelVariant461_D28D4` at its
+own addresses. Data ownership, original image layout and helper
 implementations remain unchanged.
