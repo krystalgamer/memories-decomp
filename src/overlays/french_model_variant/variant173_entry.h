@@ -33,9 +33,9 @@ typedef struct {
     s32 frames;
 } Model173State;
 
-extern const VECTOR D_8013BEB0;
-extern GsIMAGE D_8013BEC0[];
-extern Model173Config D_8013BFD8[];
-s32 func_8013B004(u8 *context, s32 command);
+extern const VECTOR gFrenchModelVariant173_D0EB0;
+extern GsIMAGE gFrenchModelVariant173_D0EC0[];
+extern Model173Config gFrenchModelVariant173_D0FD8[];
+s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command);
 
 #endif
