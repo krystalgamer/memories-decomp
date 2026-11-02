@@ -19,8 +19,10 @@ No loader entry or resident reference to it has been found; its reachability is 
 - **Bindings.** Its calls go to an older resident layout that does not match
   any shipped executable: `rsin` at `0x80053D1C`, `GsSortPoly` at
   `0x80057B1C`, and so on. The names come from the identical call sequence of
-  the header-463 body. They live in `model_image447_rings_linker_symbols.txt` in each region;
-  the slot 0 and slot 1 copies call the same absolute addresses.
+  the header-463 body. The Spanish images bind them in `model_image447_rings_linker_symbols.txt`;
+  the French, German and Italian images take the full French layout and its
+  `model_variant685_rings_linker_symbols.txt`. The slot 0 and slot 1 copies call
+  the same absolute addresses.
 
 All eight French, Spanish, German and Italian images rebuild exactly; the
 German and Italian images are byte-identical to the Spanish ones. The

@@ -1,0 +1,3 @@
+address,size,name,status,module,notes
+0x8013B004,0x10B0,func_8013B004,matching_c,overlay/model_variant_447_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013E520,0x42C,func_8013E520,matching_c,overlay/model_variant_447_stage9_slot0,"Uncalled header-447 rings helper: the accepted French variant447_rings C (gcc 2.7.2 cdk), carried over through variant685_rings with its original bindings aliased."

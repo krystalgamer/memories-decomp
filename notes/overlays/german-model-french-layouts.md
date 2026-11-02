@@ -25,5 +25,15 @@ are likewise byte-identical to the French modules, so `german_duel_effects`
 and `german_options` are registered with the French layouts, sources and
 linker bindings.
 
+The four German images at sectors 48224, 48234, 109772 and 109782 were
+registered earlier as `german_model_image_model_*` for the MODEL450 and
+header-447 rings takeovers, which put only their helpers in C. They are
+the French `model_variant_174` and `model_variant_447` slot 0 and slot 1
+images byte for byte, so they now take those French layouts and are named
+`german_model_variant_174_*` and `german_model_variant_447_*`. The takeover
+ledgers keep the historical module names. `model_variant450_linker_symbols.txt`
+gains the French names of the eleven Psy-Q entries it already bound under
+placeholder names.
+
 `make german-match-overlays`, which the German overlay workflow runs,
 builds and verifies every configured German overlay.
