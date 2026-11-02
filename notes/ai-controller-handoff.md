@@ -30,8 +30,8 @@ or a newly range-checked enumeration.
 
 The header declares the selector once, as a `.data` `s8 [DUEL_SIDE_COUNT]`;
 every unit, -G0 and -G8 alike, compiles to retail's absolute accesses from
-that declaration. The opponent's scalar, sized-array and incomplete-array
-views remain independent. There is no new allocation or
+that declaration. `gDuel_bOpponentID` is
+likewise declared once, as a `.data` signed byte. There is no new allocation or
 layout assertion.
 
 ## Guardian choice versus face-down request
