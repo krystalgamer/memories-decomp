@@ -1,7 +1,7 @@
 // Japanese MODEL.MRG model 285 (record 285), sector 78870, header 743, loaded at 0x8017B000; the US source variant676us_entry_slot1.c; built from the US source layout of model_variant_285_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x3474 defined:true
-D_8017E490 = 0x8017E490; // type:u8 size:0xA8 defined:true
-D_8017E538 = 0x8017E538; // type:u8 size:0x20 defined:true
+func_8013B004 = 0x8017B004; // type:func size:0x3474 defined:true
+D_8013E490 = 0x8017E490; // type:u8 size:0xA8 defined:true
+D_8013E538 = 0x8017E538; // type:u8 size:0x20 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true
