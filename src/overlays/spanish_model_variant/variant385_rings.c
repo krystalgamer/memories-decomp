@@ -6,7 +6,7 @@
  * direction. Ring 3 grows with the timing record and shrinks over its fade
  * window; the other rings grow by step * 128 a frame, cycle until phase 5 and
  * fade out past half size. The ring angle advances by step * 80. */
-void func_8013D6B4(u8 *ctx)
+void SpanishModelVariant385_DrawRings(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

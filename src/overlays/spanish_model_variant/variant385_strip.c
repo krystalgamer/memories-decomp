@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant385_strip.h"
 
-void func_8013C478(u8 *context)
+void SpanishModelVariant385_DrawStationStrip(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant385_lines.h"
 
-void func_8013BF5C(u8 *context)
+void SpanishModelVariant385_DrawLines(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
