@@ -9,9 +9,9 @@
  * ribbon then throws out a ring of tumbling sparks. A negative command draws
  * a frame; any other command sets the work area up and prints its size. */
 
-static const VECTOR D_8013C7AC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant174_D17AC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
 {
     Model174State *work;
     s32 direction;
@@ -38,12 +38,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C7AC;
+    scale = gModelVariant174_D17AC;
     work = (Model174State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C83C[command % 100];
+        config = work->config = &gModelVariant174_D183C[command % 100];
         point = work->ribbon;
         origin = work->ribbon + 17;
         for (i = 0; i < 17; point++, origin++, i++) {
@@ -84,7 +84,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = rand() % config->spark_spread * 2 - config->spark_spread;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C7CC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant174_D17CC[i]);
         }
         work->elapsed = 0;
         work->animation = 0;

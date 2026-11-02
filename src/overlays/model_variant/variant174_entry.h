@@ -50,9 +50,9 @@ typedef struct {
     s32 elapsed, animation;
 } Model174State;
 
-extern GsIMAGE D_8013C7CC[];
-extern Model174Config D_8013C83C[];
+extern GsIMAGE gModelVariant174_D17CC[];
+extern Model174Config gModelVariant174_D183C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant174_HandleRequest(u8 *context, s32 command);
 
 #endif
