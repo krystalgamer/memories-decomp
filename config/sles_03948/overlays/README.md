@@ -566,10 +566,12 @@ symbols file binds `gModelVariant665_D3504` and `gModelVariant665_D361C` 0x28
 lower.
 
 Twelve images under French headers 813 and 910 are the North American
-header-796 entry (`model_variant/variant796_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant813_linker_symbols.txt` binds to the French
-addresses.
+header-796 entry (`ModelVariant796_HandleRequest`,
+`model_variant/variant796_entry.c`, built directly in both slots) unchanged: it
+has no work-size printf, and only the resident call targets differ, which
+`model_variant813_linker_symbols.txt` binds to the French addresses. Each
+image's symbols file binds `gModelVariant796_D382C` and
+`gModelVariant796_D38B8` at its own addresses.
 
 Four images under French headers 774 and 871 are the North American
 header-757 entry (`model_variant/variant757_entry.c`) with the palette from
