@@ -1071,7 +1071,7 @@ typedef char FileTransferDescriptorWords_size_must_match_descriptor[
 
 /* Sound's staged command and the loader's two request slots are the same
    record: SD_StepActiveCommand passes it to File_RequestSecondarySlot for a 0x20-byte copy. */
-typedef struct {
+typedef struct FileRequestSlot {
     s32 file_selector;
     s32 sector_offset;
     u8 pad_08[4];

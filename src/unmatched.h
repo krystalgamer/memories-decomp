@@ -92,14 +92,6 @@
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
-/* One consumer, Model_ApplyTextureTint. These four contiguous halfwords are filled
- * as a RECT for StoreImage2, LoadImage2, and MoveImage. The linker assignments
- * establish the scratch storage, but no subsystem header owns it. */
-extern s16 gModel_sTextureTintRectX;
-extern s16 gModel_sTextureTintRectY;
-extern s16 gModel_sTextureTintRectW;
-extern s16 gModel_sTextureTintRectH;
-
 
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
@@ -293,9 +285,6 @@ extern u16 D_8009B374 __attribute__((section(".data")));
 extern u16 D_8009B374;
 #endif
 
-#ifdef D_8009B_MODEL_VISIBLE
-extern ModelBytes8 gModel_ViewSnapshot;
-#endif
 
 extern u8 D_8018C7D8[];
 extern u8 D_801B122B[];

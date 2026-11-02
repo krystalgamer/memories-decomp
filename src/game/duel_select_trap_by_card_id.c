@@ -9,8 +9,9 @@
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    store below a single %gp_rel instruction whose load-delay slot needs the
-   retail nop. The address itself comes from c_symbols.ld, which overrides this
-   common symbol, so no storage is allocated here. */
+   retail nop. Under this unit's comm-section profile the definition stays a
+   common symbol, which resolves to the strong owner in duel_field_card_render.c
+   (the duel scene block at 0x8009B150), so no storage is allocated here. */
 u8 gDuel_bSelectedTrapSlot;
 
 /* Searches the acting side's five mapped field slots for an occupied trap

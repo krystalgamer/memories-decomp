@@ -97,12 +97,15 @@ object before it.
 | `src/game/hmd_fog_textured_drivers.c` | `.sbss` | `0x8009B300`-`0x8009B304` |
 | `src/game/sorted_entry_relink.c` | `.sbss` | `0x8009B304`-`0x8009B318` |
 | `src/game/options_screen.c` | `.sbss` | `0x8009B37C`-`0x8009B390` |
+| `src/game/input_pads.c` | `.sbss` | `0x8009B390`-`0x8009B3B8` |
 | `src/game/save_data_payload.c` | `.sbss` | `0x8009B3B8`-`0x8009B3BC` |
 | `src/game/mem_card_dialog.c` | `.sbss` | `0x8009B3BC`-`0x8009B400` |
 | `src/game/sound_frontend.c` | `.sbss` | `0x8009B400`-`0x8009B410` |
 | `src/game/display_object_core.c` | `.sbss` | `0x8009B410`-`0x8009B428` |
 | `src/game/main_run_boot_sequence.c` | `.sbss` | `0x8009B428`-`0x8009B430` |
 | `src/game/mem_card_driver.c` | `.sbss` | `0x8009B430`-`0x8009B458` |
+| `src/game/sound_output_transition.c` | `.sbss` | `0x8009B458`-`0x8009B468` |
+| `src/game/model_scene_controllers.c` | `.sbss` | `0x8009B468`-`0x8009B498` |
 | `src/game/movie_frame_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
 | `src/game/graphics_frame.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
 | `src/game/file_set_position_table.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
@@ -152,3 +155,12 @@ a lower 4-byte boundary started there: `duel_effect_dialog_state.c` owns
 Where a unit's headers declare its globals in a different order than retail,
 the unit is not converted yet; the declaration order has to be reconstructed
 first.
+
+Two small ranges remain raw: `0x8009B268`-`0x8009B27C` and
+`0x8009B318`-`0x8009B37C`. Every unit between their neighbours that names
+them reaches them through absolute or oversized views (`gCampaignSceneIndex`,
+`gDialog_bChoice[9]`, `gDuel_bOpponentID[9]`), which an owner compiled at `-G8`
+would not use for its own small data, so their owners are units that do not
+name them and need further evidence. A `-G0` unit cannot own small data at all;
+`sound_output_state.c` is one, which is why the sound block belongs to
+`sound_output_transition.c`.

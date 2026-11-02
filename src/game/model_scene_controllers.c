@@ -31,6 +31,23 @@
 #include "../psyq/stdio.h"
 #include "model.h"
 
+/* Zero-initialized storage this unit owns at 0x8009B468-0x8009B498, defined in
+ * address order ahead of the headers that declare it (#2602). */
+RECT gModel_ImageCopyRect;
+s16 gModel_sTextureTintRectX;
+s16 gModel_sTextureTintRectY;
+s16 gModel_sTextureTintRectW;
+s16 gModel_sTextureTintRectH;
+u16 gModel_wViewDistance;
+u16 gModel_wViewYaw;
+u16 gModel_wViewPitch;
+ModelBytes8 gModel_ViewSnapshot;
+s16 gModel_awSlotModelIds[3];
+u8 gModelDebug_abSlotAfFlags[2];
+u8 gModelDebug_abSlotGfFlags[2];
+static u16 D_8009B492;
+static u32 D_8009B494;
+
 /* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
  * address order ahead of the headers that declare it (#2602). */
 ModelCameraMove D_800F2B20;
@@ -98,6 +115,7 @@ u8 D_800F2C40[0xCF8];
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
 #include "model_distance_queries_data.h"
+#include "model_scene_controllers_data.h"
 
 void Model_StepBackgroundVramAnimation(void) {
     s32 k;

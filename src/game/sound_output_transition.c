@@ -1,4 +1,12 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B458-0x8009B468, defined in
+ * address order ahead of the headers that declare it (#2602). */
+struct SDSecondaryState *G32 gSD_pSecondaryState;
+struct SDValue *G32 g_SDValue;
+struct FileRequestSlot *G32 gSD_pFileRequest;
+static u32 D_8009B464;
+
 #include "../psyq/libspu.h"
 
 #include "sound.h"
