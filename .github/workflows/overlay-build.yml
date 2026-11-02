@@ -33,6 +33,8 @@ jobs:
     timeout-minutes: 15
     env:
       USE_SYSTEM_MIPS_BINUTILS: "1"
+      # Splat draws progress bars for every one of thousands of modules.
+      TQDM_DISABLE: "1"
 
     steps:
       - name: Select build parallelism
@@ -97,5 +99,15 @@ jobs:
           make overlays
           make verify-overlays
 
+      - name: Restore overlay build caches
+        uses: ./.github/actions/overlay-cache-restore
+        with:
+          region: usa
+
       - name: Perform exact overlay build
         run: make match-overlays
+
+      - name: Save overlay build caches
+        uses: ./.github/actions/overlay-cache-save
+        with:
+          region: usa

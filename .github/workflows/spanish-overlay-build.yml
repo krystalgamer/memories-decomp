@@ -34,6 +34,8 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
+      # Splat draws progress bars for every one of thousands of modules.
+      TQDM_DISABLE: "1"
 
     steps:
       - name: Check out source
@@ -76,9 +78,19 @@ jobs:
           python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
           make check-build-tools
 
+      - name: Restore overlay build caches
+        uses: ./.github/actions/overlay-cache-restore
+        with:
+          region: spain
+
       - name: Verify Spanish inputs and exact resident and overlay builds
         run: |
           make verify-spanish-inputs
           make spanish-match
           make spanish-match-overlays
           make spanish-verify-overlays
+
+      - name: Save overlay build caches
+        uses: ./.github/actions/overlay-cache-save
+        with:
+          region: spain

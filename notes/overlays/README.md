@@ -130,6 +130,14 @@ Every configured module is extracted from its archive, split by a
 module-specific Splat layout, rebuilt, and compared byte-for-byte against the
 verified slice by `make match-overlays`.
 
+C units are compiled once per distinct preprocessed source and profile into
+`tmp/overlay-object-cache/` and copied into each module that links them;
+`make clean` removes the store. To check only modules whose inputs changed
+since a full verified build, record the build with
+`tools/project/overlay_build.py record --output tmp/overlay-verified.txt`
+and pass `OVERLAY_FLAGS="--skip-verified tmp/overlay-verified.txt"` to
+`make match-overlays` (see `notes/continuous-integration.md`).
+
 Extraction and verification hash each distinct archive once per invocation,
 not once per module. All modules retain their own expected archive hash,
 payload hash, sector bounds and duplicate-copy checks. Payloads are read

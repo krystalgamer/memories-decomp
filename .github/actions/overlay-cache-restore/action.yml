@@ -1,0 +1,39 @@
+name: Restore overlay build caches
+description: >-
+  Restore the region's compiled overlay C objects and, for pull requests, the
+  fingerprints of modules a full master build verified. Both hold only data
+  derived from tracked sources and hashes, never retail bytes.
+
+inputs:
+  region:
+    description: overlay_build.py region (usa, japan, europe, france, germany, italy, spain)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Restore compiled overlay objects
+      uses: actions/cache/restore@v4
+      with:
+        path: tmp/overlay-object-cache/objects
+        key: ${{ runner.os }}-overlay-objects-v1-${{ inputs.region }}-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-overlay-objects-v1-${{ inputs.region }}-
+
+    - name: Restore modules verified by master
+      if: github.event_name == 'pull_request'
+      uses: actions/cache/restore@v4
+      with:
+        path: tmp/overlay-verified/${{ inputs.region }}.txt
+        key: ${{ runner.os }}-overlay-verified-v1-${{ inputs.region }}-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-overlay-verified-v1-${{ inputs.region }}-
+
+    - name: Check only modules whose inputs changed
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        record="tmp/overlay-verified/${{ inputs.region }}.txt"
+        if [ -f "$record" ]; then
+          echo "OVERLAY_FLAGS=--skip-verified $record" >> "$GITHUB_ENV"
+        else
+          echo "No master record for ${{ inputs.region }}; checking every module."
+        fi

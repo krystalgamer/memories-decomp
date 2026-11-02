@@ -27,6 +27,12 @@ from build_baseline import (
 )
 from overlay_sources import OverlaySourceError, c_segments
 from overlay_extract import OVERLAY_MANIFESTS, OverlayError, select_modules
+from overlay_objects import (
+    ObjectStore,
+    OverlayObjectError,
+    executed_files,
+    module_segments,
+)
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -40,6 +46,8 @@ class OverlayBuildError(RuntimeError):
 
 
 _IN_PROCESS_SPLAT: Any = None
+# Set while build_modules runs; forked module workers inherit it.
+_OBJECT_STORE: ObjectStore | None = None
 
 
 def job_count(makeflags: str | None = None) -> int:
@@ -57,8 +65,8 @@ def _build_child(root: Path, module: dict[str, Any], connection: Any) -> None:
         os.environ.update(local_environment(root))
         build_module(root, module)
     except (
-        OverlayBuildError, OverlaySourceError, BuildError, WorkspaceError,
-        OSError, TypeError, ValueError, json.JSONDecodeError,
+        OverlayBuildError, OverlaySourceError, OverlayObjectError, BuildError,
+        WorkspaceError, OSError, TypeError, ValueError, json.JSONDecodeError,
     ) as caught:
         error = f"{module.get('name')}: {caught}"
     connection.send(error)
@@ -66,6 +74,22 @@ def _build_child(root: Path, module: dict[str, Any], connection: Any) -> None:
 
 
 def build_modules(root: Path, modules: list[dict[str, Any]], jobs: int) -> None:
+    global _OBJECT_STORE
+    os.environ.update(local_environment(root))
+    store = ObjectStore(root)
+    counts = store.ensure(module_segments(root, modules), jobs)
+    print(
+        f"overlay objects: {counts['units']} distinct C units, "
+        f"compiled {counts['compiled']}, reused {counts['units'] - counts['compiled']}"
+    )
+    _OBJECT_STORE = store
+    try:
+        _build_modules(root, modules, jobs)
+    finally:
+        _OBJECT_STORE = None
+
+
+def _build_modules(root: Path, modules: list[dict[str, Any]], jobs: int) -> None:
     if jobs <= 1 or len(modules) <= 1:
         for module in modules:
             build_module(root, module)
@@ -154,9 +178,16 @@ def compile_sources(
 ) -> list[Path]:
     if not segments:
         return []
+    build_root = module_root.relative_to(root) / "build"
+    if _OBJECT_STORE is not None:
+        return [
+            _OBJECT_STORE.materialize(
+                segment, resolve_within(root, f"{build_root}/{segment['object']}")
+            )
+            for segment in segments
+        ]
     assembler = tool(root, "as")
     profiles = load_compiler_profiles(root)
-    build_root = module_root.relative_to(root) / "build"
     objects: list[Path] = []
     for segment in segments:
         objects.append(
@@ -426,32 +457,168 @@ def verify_module(root: Path, module: dict[str, Any]) -> None:
     print(f"overlay match: {name} {actual_hash}")
 
 
+FINGERPRINT_FORMAT = "overlay-module-v2"
+# Every script whose behavior shapes a module's split, objects or link.
+FINGERPRINT_SCRIPTS = (
+    "tools/project/build_baseline.py",
+    "tools/project/overlay_build.py",
+    "tools/project/overlay_extract.py",
+    "tools/project/overlay_objects.py",
+    "tools/project/overlay_sources.py",
+    "tools/project/workspace.py",
+    "tools/vendor/maspsx/maspsx.py",
+)
+CONFIG_REFERENCE = re.compile(r"config/[A-Za-z0-9_./-]+")
+
+
+def pipeline_fingerprint(root: Path) -> str:
+    """Hash the tools shared by every module build."""
+    from importlib import metadata
+
+    digest = hashlib.sha256(FINGERPRINT_FORMAT.encode())
+    paths = [resolve_within(root, p, must_exist=True) for p in FINGERPRINT_SCRIPTS]
+    bootstrap = resolve_within(root, "tools/bootstrap", must_exist=True)
+    paths += sorted(p for p in bootstrap.iterdir() if p.is_file())
+    for name in ("as", "ld", "objcopy", "objdump"):
+        paths += executed_files(tool(root, name))
+    for path in paths:
+        digest.update(path.name.encode() + b"\0" + path.read_bytes())
+    for package in ("splat64", "spimdisasm", "rabbitizer"):
+        digest.update(f"{package}={metadata.version(package)}".encode())
+    digest.update(
+        f"system={os.environ.get('USE_SYSTEM_MIPS_BINUTILS') == '1'}".encode()
+    )
+    return digest.hexdigest()
+
+
+def module_fingerprints(
+    root: Path, modules: list[dict[str, Any]], jobs: int
+) -> dict[str, str]:
+    """Hash every input of each module build, keyed by module name.
+
+    Equal fingerprints mean an identical layout, manifest entry, referenced
+    configuration, compiled objects and tools, so a module verified once
+    with a fingerprint rebuilds to the same verified bytes.
+    """
+    store = ObjectStore(root)
+    segments = {m["name"]: c_segments(root, root / m["layout"]) for m in modules}
+    store.keys((s for group in segments.values() for s in group), jobs)
+    base = pipeline_fingerprint(root)
+    file_hashes: dict[str, str] = {}
+
+    def file_hash(relative: str) -> str:
+        if relative not in file_hashes:
+            path = resolve_within(root, relative)
+            file_hashes[relative] = (
+                hashlib.sha256(path.read_bytes()).hexdigest()
+                if path.is_file() else "missing"
+            )
+        return file_hashes[relative]
+
+    result: dict[str, str] = {}
+    for module in modules:
+        name = module_field(module, "name")
+        layout = module_field(module, "layout")
+        stem = layout[: -len(Path(layout).suffix)]
+        files = {layout, f"{stem}_matching_c.json", f"{stem}_data_c.json"}
+        files.update(
+            CONFIG_REFERENCE.findall(resolve_within(root, layout).read_text("utf-8"))
+        )
+        if module.get("linker_symbols") is not None:
+            files.add(module_field(module, "linker_symbols"))
+        record = {
+            "pipeline": base,
+            "module": module,
+            "files": {path: file_hash(path) for path in sorted(files)},
+            "objects": [
+                [segment["kind"], segment["source"], segment["profile"],
+                 segment["object"], store.key(segment)]
+                for segment in segments[name]
+            ],
+        }
+        result[name] = hashlib.sha256(
+            json.dumps(record, sort_keys=True).encode()
+        ).hexdigest()
+    return result
+
+
+def unverified_modules(
+    root: Path, modules: list[dict[str, Any]], record: Path, jobs: int
+) -> list[dict[str, Any]]:
+    """Drop modules whose exact inputs a full build already verified."""
+    if not record.is_file():
+        print(f"overlay incremental: no record at {record}; building every module")
+        return modules
+    verified = set(record.read_text(encoding="utf-8").split())
+    fingerprints = module_fingerprints(root, modules, jobs)
+    remaining = [m for m in modules if fingerprints[m["name"]] not in verified]
+    print(
+        f"overlay incremental: {len(modules) - len(remaining)} modules unchanged "
+        f"since a verified full build; checking {len(remaining)}"
+    )
+    return remaining
+
+
+def write_record(root: Path, modules: list[dict[str, Any]], output: Path) -> None:
+    """Record fingerprints, but only of modules whose built bytes match now."""
+    for module in modules:
+        verify_module(root, module)
+    fingerprints = module_fingerprints(root, modules, job_count())
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        "".join(f"{value}\n" for value in sorted(fingerprints.values())),
+        encoding="utf-8",
+    )
+    print(f"overlay record: {len(fingerprints)} verified modules -> {output}")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Build and verify configured runtime overlay modules."
     )
-    parser.add_argument("command", choices=("build", "verify"))
+    parser.add_argument("command", choices=("build", "verify", "record"))
     parser.add_argument("--region", choices=tuple(OVERLAY_MANIFESTS), default="usa")
     parser.add_argument(
         "--module", help="build or verify only this exact build-ready module name"
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--skip-verified", metavar="RECORD",
+        help="build or verify only modules whose fingerprint RECORD lacks",
+    )
+    parser.add_argument(
+        "--output", metavar="RECORD",
+        help="record: write the fingerprints of every verified module here",
+    )
+    args = parser.parse_args()
+    if (args.command == "record") != (args.output is not None):
+        parser.error("--output is required by, and only valid for, record")
+    if args.command == "record" and args.skip_verified is not None:
+        parser.error("record checks every module; --skip-verified is invalid")
+    return args
 
 
 def main() -> int:
     args = parse_args()
     try:
         root = require_workspace_root()
+        os.environ.update(local_environment(root))
         modules = load_modules(root, args.region)
         modules = select_modules(modules, args.module)
+        if args.skip_verified is not None:
+            modules = unverified_modules(
+                root, modules, resolve_within(root, args.skip_verified), job_count()
+            )
         if args.command == "build":
             build_modules(root, modules, job_count())
+        elif args.command == "record":
+            write_record(root, modules, resolve_within(root, args.output))
         else:
             for module in modules:
                 verify_module(root, module)
     except (
         OverlayBuildError,
         OverlayError,
+        OverlayObjectError,
         OverlaySourceError,
         BuildError,
         WorkspaceError,
