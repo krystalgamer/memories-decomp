@@ -9,7 +9,7 @@
  * a segment is drawn only when its depth and flag are non-negative and the
  * word at work + 0x2128 has reached 0x1000. From the fifth phase on, the
  * streamer length is reset from the word at work + 0x2138. */
-void func_8013DBC0(u8 *ctx)
+void FrenchModelVariant426_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

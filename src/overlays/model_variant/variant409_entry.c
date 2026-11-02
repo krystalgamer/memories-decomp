@@ -7,7 +7,7 @@
 /* Header 409's entry: a dome mesh, twelve spirals, a ribbon, two sheets,
  * four streamers and two funnels around the active slot's part, aimed at
  * the opposite slot. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
 {
     EntryState409 *work = (EntryState409 *)context;
     MATRIX unused_matrix0, unused_matrix1;
@@ -38,7 +38,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig409 *)(D_8013E7A8 + 0xFC) + command;
+        work->config = (EntryConfig409 *)(gModelVariant409_D37A8 + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -52,16 +52,16 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT409_CLUT_X, 244);
         other_tpage = GetTPage(1, 1, 896, 0);
         other_clut = GetClut(MODEL_VARIANT409_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant409_D37A8 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant409_D37A8 + 0x8C));
         extra_page = packed >> 16;
         extra_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant409_D37A8 + 0x1C));
         funnel_page = packed >> 16;
         funnel_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant409_D37A8 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -301,17 +301,17 @@ s32 func_8013B004(u8 *context, s32 command)
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->elapsed) {
-            func_8013D65C(context);
+            SpanishModelVariant426_DrawSheets(context);
         }
         if (work->phase >= 3) {
-            func_8013DB50(context);
-            func_8013BF28(context);
+            FrenchModelVariant426_DrawStreamers(context);
+            SpanishModelVariant426_DrawMesh(context);
         }
         if (work->phase > 0) {
-            func_8013CDAC(context);
+            FrenchModelVariant426_DrawRibbon(context);
         }
         if (work->config->spiral_start <= work->elapsed) {
-            func_8013C38C(context);
+            SpanishModelVariant426_DrawSpiral(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
