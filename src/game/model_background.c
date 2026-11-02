@@ -10,6 +10,7 @@
 #include "model_update_background_scroll.h"
 #include "camera_view.h"
 #include "ordering_tables.h"
+#include "model_scene_controllers_data.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 

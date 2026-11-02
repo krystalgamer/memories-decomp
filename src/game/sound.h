@@ -125,7 +125,7 @@ typedef union {
     s16 halves[2];
 } SDLevelWord;
 
-typedef struct {
+typedef struct SDValue {
     u16 note_id_count;
     u16 value_link_count;
     u16 dynamic_note_start;
@@ -388,7 +388,7 @@ typedef struct {
     u8 field_002B;
 } SDSequenceTrack;
 
-typedef struct {
+typedef struct SDSecondaryState {
     SDSecondaryRecord channels[SD_SEQUENCE_CHANNEL_COUNT];
     SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
     u8 pad04A0[4];

@@ -384,3 +384,25 @@ D_800F2B22 = D_800F2B20 + 2;
 gModel_wCameraTargetSlot = D_800F2B20 + 42;
 gModel_aSlots = D_800F2C40;
 g_SDValue_output_level = g_SDValue;
+
+/* Other names for game/input_pads's small data (#2602). */
+D_8009B390 = gInput_dwPreviousHeld;
+D_8009B394 = gInput_wPad1Repeat;
+D_8009B396 = gInput_wPad2Repeat;
+D_8009B398 = gInput_wPad1Pressed;
+D_8009B39A = gInput_wPad2Pressed;
+D_8009B39E = gInput_wPad1RepeatBackup;
+D_8009B3A0 = gInput_wPad1PressedBackup;
+D_8009B3A4 = gInput_wPad1Held;
+D_8009B3A6 = gInput_wPad2Held;
+D_8009B3A8 = gInput_dwPendingHeld;
+D_8009B3AC = gInput_wPad1HeldBackup;
+D_8009B3B0 = gInput_dwDeferredRepeat;
+D_8009B3B4 = gInput_dwDeferredPressed;
+
+/* Other names for game/model_scene_controllers's small data (#2602). */
+gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
+gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
+gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;
+gModel_wViewYawSnapshot = gModel_ViewSnapshot + 2;
+gModel_wViewPitchSnapshot = gModel_ViewSnapshot + 4;

@@ -1613,6 +1613,7 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
 #include "../psyq/memory.h"
 #include "model.h"
 #include "model_view_coordinate_helpers.h"
+#include "model_scene_controllers_data.h"
 
 void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     GsRVIEW2 *cached_view;
