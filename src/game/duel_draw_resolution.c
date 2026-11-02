@@ -10,7 +10,6 @@
 #define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#define ANIMATED_BATTLE_MODEL_PROPERTIES_AS_HALFWORDS
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
@@ -373,7 +372,7 @@ next_obj:
         return;
     }
     Fade_CutToWhite();
-    gMain_aAnimatedBattleModels[0] = MODEL_SPECIAL_BATTLE_ID;
+    gMain_aAnimatedBattleModels[0].model_id = MODEL_SPECIAL_BATTLE_ID;
     side = gDuel_bActiveSide;
     gDuel_bWinnerSide = side;
     gDuel_aSideStates[(u8)side].rank.result_adjustment = 0x28;
