@@ -288,8 +288,7 @@ gModel_PartMaskAddress = 0x8009C32C;
 gModel_bActiveSlotIndex = 0x8009C330;
 gGraphics_bPacketBufferIndex = 0x8009C332;
 gGraphics_bFrameStep = 0x8009C333;
-D_8009AFA4 = 0x8009C334;
-D_8009AFA6 = 0x8009C336;
+gGraphics_FrameStepControl = 0x8009C334;
 gModel_dwPolyFt3Template = 0x8009C33C;
 gModel_dwPolyFt4Template = 0x8009C340;
 gModel_dwPolyGt3Template = 0x8009C344;
@@ -1035,7 +1034,6 @@ gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 
-gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;

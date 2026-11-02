@@ -1295,7 +1295,6 @@ gModelDebug_bSelectedDigit = 0x8009AFA1; // defined:True
 gGraphics_bPacketBufferIndex = 0x8009AFA2; // defined:True
 gGraphics_bFrameStep = 0x8009AFA3; // defined:True
 gGraphics_FrameStepControl = 0x8009AFA4; // defined:True
-D_8009AFA6 = 0x8009AFA6; // defined:True
 gModel_bCurrentDrawMode = 0x8009AFE4; // defined:True
 gModel_bBlendRateActive = 0x8009AFE5; // defined:True
 gModel_wDrawTintRedGreen = 0x8009AFE6; // defined:True

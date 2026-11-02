@@ -113,8 +113,7 @@ gModel_PartMaskAddress = 0x8009C32C;
 gModel_bActiveSlotIndex = 0x8009C330;
 gGraphics_bPacketBufferIndex = 0x8009C332;
 gGraphics_bFrameStep = 0x8009C333;
-D_8009AFA4 = 0x8009C334;
-D_8009AFA6 = 0x8009C336;
+gGraphics_FrameStepControl = 0x8009C334;
 gMainMenu_PackageStageRect = 0x8009C3FC;
 gMovie_bFrameDecoded = 0x8009C3EA;
 gMovie_bStreamEnded = 0x8009C3EB;
@@ -1035,7 +1034,6 @@ gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 
-gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;

@@ -74,7 +74,6 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
 
-gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;
 gGraphics_bSkipDisplaySwap = 0x8009AF98;
 

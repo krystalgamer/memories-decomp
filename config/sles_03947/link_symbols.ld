@@ -121,7 +121,6 @@ func_80061A84 = Model_DrawGt4Primitives;
 gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
 gModel_ExodiaOrbitOffset = 0x8009BF84;
 
-gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;

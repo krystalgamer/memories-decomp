@@ -10,7 +10,6 @@ bss_start = text_SBSS_START;
 /* Unmatched func_8002ACA4 still names the primary orbit by address. */
 
 /* Interior byte of the model/graphics state's four-byte A4-A7 owner. */
-D_8009AFA6 = D_8009AFA4 + 2;
 
 gText_GlyphUploadScratch = D_801DA000;
 
@@ -85,7 +84,6 @@ func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 
-D_8009AFA4 = gGraphics_FrameStepControl;
 gGraphics_nBaseFrameStep = D_8009B0D8;
 gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
 gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
