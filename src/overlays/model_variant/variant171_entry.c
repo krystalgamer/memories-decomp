@@ -7,9 +7,9 @@
  * one of the slot's parts while their colour rises and fades, then a fixed
  * burst frame fades out at each point's starting position. */
 
-static const VECTOR D_8013BF34 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant171_D0F34 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant171_HandleRequest(u8 *context, s32 command)
 {
     Model171State *work;
     MATRIX base, matrix;
@@ -30,14 +30,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BF34;
+    scale = gModelVariant171_D0F34;
     work = (Model171State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->positions;
         start = work->starts;
-        config = work->config = &D_8013C0DC[command % 100];
+        config = work->config = &gModelVariant171_D10DC[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         vertices[0].vy = -350;
         for (i = 0; i <= 512; i++) {
@@ -57,7 +57,7 @@ s32 func_8013B004(u8 *context, s32 command)
             start++;
         }
         for (i = 0; i < 14; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BF54[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant171_D0F54[i]);
         }
         work->elapsed = 0;
         work->frames = 0;
