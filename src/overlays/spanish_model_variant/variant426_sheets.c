@@ -2,7 +2,7 @@
 #include "variant426_sheets.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013D6D0(u8 *context)
+void SpanishModelVariant426_DrawSheets(u8 *context)
 {
     u32 shrink;
     SVECTOR rotation;
