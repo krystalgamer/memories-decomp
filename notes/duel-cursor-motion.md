@@ -160,9 +160,8 @@ direction through `DuelCursor_UpdateDirection`. Once that status is idle,
 it clears the pending direction, schedules a row step before a column step,
 or reports zero when already at the target. Scheduling a new direction
 still returns busy; it does not add a movement step in the same call.
-The controller's unsigned target declarations and the comparator's signed
-declarations remain under `DUEL_CURSOR_COORDS_SIGNED`; no byte is widened
-or clamped.
+The targets are declared `u8`; the step helper compares them as signed
+bytes through `(s8)` casts. No byte is widened or clamped.
 
 The pick-state machine keeps all repeated reads and exact masks. First
 activation arms initialized/hold and request `3`; hold waits for the display

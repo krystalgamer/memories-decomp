@@ -12,16 +12,11 @@
  * see the note in duel_cursor_status.c. */
 
 /* Direction selected by the cursor path plus the target column and row used
- * by DuelCursor_StepTowardTarget. The field-action controller keeps the
- * coordinates unsigned; the comparison helper requires signed loads. */
+ * by DuelCursor_StepTowardTarget. The field-action controller treats the
+ * coordinates as unsigned; the step helper compares them as signed bytes. */
 extern s8 gDuelCursor_Direction;
-#ifdef DUEL_CURSOR_COORDS_SIGNED
-extern s8 gDuelCursor_TargetColumn;
-extern s8 gDuelCursor_TargetRow;
-#else
 extern u8 gDuelCursor_TargetColumn;
 extern u8 gDuelCursor_TargetRow;
-#endif
 
 s32 DuelCursor_UpdateFromInput(DuelSelectionRecord *object);
 
