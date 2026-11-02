@@ -57,33 +57,11 @@ preserves complete compiler/MASPSX output, not a filtered comparison.
 
 ## Three interior pointer slots
 
-`gGraphics_pOrderingTable1/2/3` name the pointer slots formerly exposed as
-`D_800E9D94/98/9C`. They are interiors of the existing
-`gGraphics_apOrderingTables[4]`, not new descriptors or pointer storage.
-Frame begin publishes four active `GraphicsFrameBuffer` descriptors and
-clears them through `GsClearOt`.
-
-The slot-one selector retains the intentional oversized four-pointer
-array versus scalar `GsOT *` view. Slot two retains its incomplete array
-versus scalar view; slot three remains a scalar pointer declaration.
-These declarations control old-GCC addressing and must not be resized.
-Model rendering still reaches slot three through slot-two-view element
-one; already named primary-array reads are not rewritten.
-
-| Image | Primary pointer array | Slots one/two/three |
-| --- | --- | --- |
-| NA | `0x800E9D90` | `0x800E9D94/98/9C` |
-| Japan | `0x800E9C70` | `0x800E9C74/78/7C` |
-| SLES-03947 | `0x8009C438` | `0x8009C43C/440/444` |
-| Other PAL images | `0x8009C858` | `0x8009C85C/860/864` |
-
-These addresses come from each native primary array and its established
-four-byte pointer stride, checked against every explicit interior binding.
-Japan has no original explicit logical slot-one alias, and the other four
-PAL images have no original explicit logical slot-three alias. Canonical
-bindings name those actual slots without rebinding potentially unrelated
-literal NA-address names. Existing foreign providers and literal labels
-remain unchanged.
+Slots 1-3 of `gGraphics_apOrderingTables[4]` are reached only by indexing
+the array. The former `D_800E9D94/98/9C` and `gGraphics_pOrderingTable1/2/3`
+names, with their oversized, unsized and scalar declaration views, were
+removed; see `notes/memory-map.md`. Frame begin publishes four active
+`GraphicsFrameBuffer` descriptors and clears them through `GsClearOt`.
 
 ## Preservation and validation
 

@@ -5,8 +5,7 @@
 already-typed packet dispatcher. This is not a depth, table entry or
 texture identifier.
 
-The projected-card caller selects `D_800E9D98[0]` through the existing
-typed interior-slot array view. It now passes that pointer directly,
+The projected-card caller selects `gGraphics_apOrderingTables[2]`. It now passes that pointer directly,
 retaining the volatile scratch stores, RTPS macros, second record reload
 and projected coordinate stores. Those scheduling-sensitive operations
 are otherwise untouched.

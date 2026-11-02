@@ -50,7 +50,6 @@
 #include "../game/model_primitive_templates.h"
 #include "primitive_handler_modes.h"
 #include "../game/model_record_tables.h"
-#define ORDERING_TABLE_SLOT2_ARRAY
 #include "../game/ordering_tables.h"
 #include "../game/model_get_frame_step.h"
 #include "../game/model_slot_control.h"
@@ -63,7 +62,6 @@
 #include "../game/screen_projection.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_draw_slot.h"
-#include "graphics_ordering_table_views.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -178,9 +176,9 @@ void Model_DrawSlot(s32 index)
     u8 texture_state;
 
     if (index < 2) {
-        ordering_table = gGraphics_pOrderingTable2[0];
+        ordering_table = gGraphics_apOrderingTables[2];
     } else {
-        ordering_table = gGraphics_pOrderingTable2[1];
+        ordering_table = gGraphics_apOrderingTables[3];
     }
     slot = &gModel_aSlots[index];
     metadata_bytes = (s8 *)&slot->metadata;

@@ -99,13 +99,6 @@ gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
 gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
 gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
 D_8009B0CC_arr = gGraphics_dwSyncedFrameCount;
-gGraphics_pOrderingTable1 = gGraphics_apOrderingTables + 4;
-gGraphics_pOrderingTable2 = gGraphics_apOrderingTables + 8;
-gGraphics_pOrderingTable3 = gGraphics_apOrderingTables + 12;
-D_800E9D90 = gGraphics_apOrderingTables;
-D_800E9D94 = gGraphics_pOrderingTable1;
-D_800E9D98 = gGraphics_pOrderingTable2;
-D_800E9D9C = gGraphics_pOrderingTable3;
 D_800E9DB8 = gMain_apFrameServiceCallbacks + 8;
 D_800E9DBC = gMain_apFrameServiceCallbacks + 12;
 

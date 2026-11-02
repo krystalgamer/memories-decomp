@@ -82,7 +82,7 @@ void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
     sprite.v2 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
     sprite.u3 = 0x10;
     sprite.v3 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
-    GsSortPoly(&sprite, D_800E9D94, 0x20);
+    GsSortPoly(&sprite, gGraphics_apOrderingTables[1], 0x20);
 }
 
 #endif
@@ -108,7 +108,7 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.y2 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
     quad.x3 = right;
     quad.y3 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
-    func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
+    func_8005B260((u32 *)&quad, (GsOT *)gGraphics_apOrderingTables[1], 0x1F, 2);
 }
 #endif
 
