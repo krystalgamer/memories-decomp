@@ -167,6 +167,37 @@ SDK functions that shared European C calls are bound under their SDK names
 (`SetMem = 0x80073D98;` in `sles_03948/link_symbols.ld`, `SetMem =
 0x80073B94;` in `sles_03947/symbols.txt`), so no wrapper redefines them.
 
+#### Second-pass carry-over from the North American inventory
+
+The library-object pass names only the labelled function of each matched
+object, so the other functions of multi-function objects (the `INTR`,
+`LIBDS` command-queue and `DS_*` system paths, GPU `_otc`/`_addque` helpers,
+`valiable_init`, `gte_set_lc`/`gte_read_lc`, the MDEC entry points and
+others) stayed placeholders. A second pass compares each remaining regional
+`psyq` placeholder with the North American inventory directly: the two
+bodies must have the same size and identical instruction words with `jal`
+targets and 16-bit immediates masked, the masked body must occur exactly once
+in each image, every `jal` whose target is named in both inventories must
+reach the same name, the North American name must not be a `func_` or an
+address-qualified `*_8xxxxxxx` duplicate marker, and the name must not
+already be used in the regional inventory or `symbols.txt`. Placeholders that
+any source, symbol or linker file spells as `func_` are left alone.
+
+| Image | Renamed |
+|---|---:|
+| `slpm_86398` | 92 |
+| `sles_03947` | 93 |
+| `sles_03948` | 103 |
+| `sles_03949` | 104 |
+| `sles_03950` | 104 |
+| `sles_03951` | 103 |
+
+As in the first pass only the name column of the six `functions.csv` files
+changes; each rename has a `regional/<image>/function` row in
+`semantic-symbol-map.csv`. Masked bodies matching more than one North
+American function, code the North American image does not link, and
+duplicate regional copies keep their placeholders.
+
 ### Catalogue input contract
 
 Treat the third-party directory as untrusted input rather than partial
