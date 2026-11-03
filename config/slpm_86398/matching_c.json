@@ -2069,25 +2069,25 @@
       "address": "0x8002FAB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/japanese/campaign_load_scene_package.c"
+      "source": "src/game/japanese/campaign_scene.c"
     },
     {
       "address": "0x8002FC78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/japanese/campaign_scene.c"
     },
     {
       "address": "0x8002FC80",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xFC",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/japanese/campaign_scene.c"
     },
     {
       "address": "0x8002FD7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/japanese/campaign_scene.c"
     },
     {
       "address": "0x8002FDF8",
