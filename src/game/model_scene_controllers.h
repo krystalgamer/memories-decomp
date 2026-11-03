@@ -6,7 +6,7 @@
 #include "../psyq/libgpu.h"
 #include "model.h"
 
-/* Steps one of two VRAM copy animations, gated on gModel_bAuxiliaryActive[0] and selected
+/* Steps one of two VRAM copy animations, gated on gModel_aSlots[2].is_active and selected
  * by byte 0xA0 of the selected background record at gModel_pBackgroundRecord (the intro
  * controller switches on the same byte, values 0 to 6). Model_UpdateScene
  * calls it every scene update, directly after the background renderer
@@ -23,7 +23,6 @@
  * Model_UpdateScene in model_scene_states.c is the only caller and held the only
  * declaration. */
 void Model_StepBackgroundVramAnimation(void);
-extern u8 gModel_bAuxiliaryActive[];
 extern RECT gModel_ImageCopyRect;
 /* Separate field aliases preserve the original gp-relative store schedule;
  * using the RECT base for every member makes GCC retain the y-field address

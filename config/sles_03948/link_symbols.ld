@@ -427,16 +427,8 @@ gViewState_Current = 0x800F11E0;
 gDisplayObject_awListKeys = 0x800F11D0;
 gModel_CameraMove = 0x800F4058;
 gModel_aSlots = 0x800F4178;
-gModel_Slot0MetadataView = 0x800F4E70;
-gModel_aSlot0FlatLights = 0x800F4EE8;
-gModel_Slot0Scale = 0x800F4F28;
-gModel_awSlot0Position = 0x800F4F48;
-gModel_awStageSlotModelId = 0x800F6BB0;
-D_800F5694 = 0x800F6BCC;
-D_800F569F = 0x800F6BD7;
 gModel_CameraCoordinateUnit = 0x800F6BD8;
 gModel_RView = 0x800F6C28;
-gModel_ViewReferencePoint = 0x800F6C34;
 gModel_SavedRefView = 0x800F6C48;
 gMovie_FileInfo = 0x800F6F08;
 gModel_aPoseSnapshot = 0x800F3EA8;
@@ -1105,8 +1097,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gModel_bAuxiliaryLoadStep = D_800F5694;
-gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
 gDuel_wActionSubstate = 0x8009C52E;

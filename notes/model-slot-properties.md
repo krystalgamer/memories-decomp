@@ -74,8 +74,8 @@ views do not redefine the shared storage or establish freshness, range,
 ownership, readiness, units, exact model origin or geometric-centroid
 invariants. Existing gates can leave the cache stale.
 
-The gModel_awSlot0Position interior alias and independent byte/halfword
-stride constructions remain unchanged. The new canonical header keeps
+Readers reach the field as gModel_aSlots[0].cached_position plus the
+byte/halfword stride constructions. The new canonical header keeps
 one explicit old-name preprocessor bridge, and the old include path
 forwards to it. Frozen overlay C bodies, terminal fingerprints and all
 attempt/dependency ledgers remain byte-for-byte untouched. Native import
@@ -87,7 +87,7 @@ expectation remains unchanged. No fixture or cloud tests ran locally.
 ## Slot scale quad
 
 `Model_GetSlotScale` (`0x8005949C`) returns the `render_scale` interior
-`ModelSlotS32Quad` through `gModel_Slot0Scale` and the original slot stride.
+`ModelSlotS32Quad` as `&gModel_aSlots[index].render_scale`.
 `Model_DrawSlot` passes that same member as a `VECTOR` view to
 `ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
 scale role without guessing a getter caller or UI context.

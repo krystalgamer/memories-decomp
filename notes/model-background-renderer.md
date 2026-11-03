@@ -180,9 +180,9 @@ Negative values keep the corresponding field/mirror unchanged, including
 the original halfword narrowing and !=0 flag conversions. These comparison
 overrides are not newly identified numerical attack/defense statistics.
 Japanese builds still omit exactly their original three mirror writes.
-For idx>=2, the selected record still uses gModel_awStageSlotModelId[0],
-NOT the local model_id or idx, with the original 0xB2 byte-table stride.
-For supported slot2, this alias addresses slot2.model_id at +0xDF8.
+For idx>=2, the selected record still uses gModel_aSlots[2].model_id
+(+0xDF8), NOT the local model_id or idx, with the original 0xB2 byte-table
+stride.
 Negative input therefore retains the stored index, while nonnegative
 input narrows to u16 BEFORE lookup. Do not substitute the signed local.
 The selection and unconditional scene-mode15 store stay in source order.

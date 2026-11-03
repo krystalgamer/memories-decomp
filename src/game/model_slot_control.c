@@ -339,11 +339,11 @@ void Model_UpdateSlotControl(s32 index)
         s32 other_record;
         amount = Model_GetFrameStep();
         offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0);
+        do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&gModel_Slot0MetadataView;
+        other_record = offset + (s32)&gModel_aSlots[0].metadata;
         amount = slot->playback_speed * (amount + 1);
-        if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+        if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
@@ -420,10 +420,10 @@ no_handler:
             s32 midpoint = slot->animation_duration_rows[slot->current_animation_row].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
-                own_record = offset + (s32)&gModel_Slot0MetadataView;
+                own_record = offset + (s32)&gModel_aSlots[0].metadata;
                 offset = (index ^ 1) * MODEL_SLOT_SIZE;
-                other_record = offset + (s32)&gModel_Slot0MetadataView;
-                if ((((u8 *)&gModel_Slot0MetadataView) +
+                other_record = offset + (s32)&gModel_aSlots[0].metadata;
+                if ((((u8 *)&gModel_aSlots[0].metadata) +
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =
@@ -1287,7 +1287,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         break;
 
     case 5:
-        gModel_bAuxiliaryLoadStep[0] = 1;
+        gModel_aSlots[2].load_step = 1;
         break;
     }
 }
@@ -1851,7 +1851,7 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
     /* pivot_position and orbit_position are the two long triples at the head of the reference view,
        vpx..vpz and vrx..vrz: orbit_position is moved around pivot_position. */
     if (direction_scale > 0) {
-        pivot_position = (long *)gModel_ViewReferencePoint;
+        pivot_position = &gModel_RView.vrx;
         orbit_position = pivot_position - 3;
     } else {
         pivot_position = &gModel_RView.vpx;

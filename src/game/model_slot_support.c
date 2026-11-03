@@ -114,9 +114,7 @@ void Model_InitLightTriplet(s32 index)
 
 /* Returns flat light `light` of model slot `index`: Model_DrawSlot and
    Model_DrawBackground hand the three flat_lights records to
-   GsSetFlatLight(0..2). This is gModel_aSlots[0].flat_lights, but spelling the
-   base that way materializes the 0xD70 offset and makes this function one
-   instruction longer. */
+   GsSetFlatLight(0..2). */
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
 {
     register u8 *entry;
@@ -124,7 +122,7 @@ unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
     if (light >= 3) {
         light = 0;
     }
-    entry = (u8 *)gModel_aSlot0FlatLights + index * MODEL_SLOT_SIZE;
+    entry = (u8 *)gModel_aSlots[index].flat_lights;
 
     return entry + (u32)&((ModelSlotLightEntry *)0)[light];
 }
@@ -241,7 +239,7 @@ s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 ModelSlotS32Quad *Model_GetSlotScale(s32 index)
 {
     return (ModelSlotS32Quad *)(
-        (u8 *)&gModel_Slot0Scale + index * MODEL_SLOT_SIZE
+        (u8 *)&gModel_aSlots[index].render_scale
     );
 }
 

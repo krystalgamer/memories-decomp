@@ -126,7 +126,6 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "../unmatched.h"
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
-#include "model_distance_queries_data.h"
 #include "model_scene_controllers_data.h"
 
 void Model_StepBackgroundVramAnimation(void) {
@@ -138,7 +137,7 @@ void Model_StepBackgroundVramAnimation(void) {
     s32 n;
     s32 q;
 
-    if (gModel_bAuxiliaryActive[0] != 0) {
+    if (gModel_aSlots[2].is_active != 0) {
         k = gModel_pBackgroundRecord->selector;
         switch (k) {
         case 1:
@@ -2246,7 +2245,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (eye_transport != 0 || mode_request <= 0) {
         if (eye_transport > 0) {
             selected_slot = eye_transport - 1;
-            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
             if (timing_work >= 0) {
                 gModel_CameraMove.eye.pair_slot = selected_slot ^ 1;
             } else {
@@ -2263,7 +2262,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (target_transport != 0 || mode_request <= 0) {
         if (target_transport > 0) {
             selected_slot = target_transport - 1;
-            target_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            target_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
             if (timing_work >= 0) {
                 gModel_CameraMove.target.pair_slot = selected_slot ^ 1;
             } else {
@@ -2442,7 +2441,7 @@ void Model_SetSlotProperties(s32 idx, ...)
         }
     } else {
         gModel_pBackgroundRecord =
-            (ModelBackgroundRecord *)&gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2];
+            (ModelBackgroundRecord *)&gModel_abBackgroundRecords[gModel_aSlots[2].model_id * 0xB2];
     }
     gModel_bSceneMode = 15;
 }

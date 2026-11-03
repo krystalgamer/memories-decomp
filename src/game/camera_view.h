@@ -36,9 +36,6 @@ extern SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT + 1];
 
 extern GsRVIEW2 gModel_RView;
 
-/* Incomplete interior view of gModel_RView.vrx/vry/vrz; no separate storage. */
-extern s32 gModel_ViewReferencePoint[];
-
 /* Advance the camera move or follow/orbit the selected model slots. */
 void Model_UpdateCamera(void);
 

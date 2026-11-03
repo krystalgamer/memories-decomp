@@ -215,8 +215,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gModel_bAuxiliaryLoadStep = D_800F5694;
-gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
 gMain_nServiceResyncCountdown = runtime_gp;
@@ -383,14 +381,7 @@ gMemCard_szRequestPath = D_800F37F0_sles_03947 + 32;
 gMemCard_aDirEntries = D_800F37F0_sles_03947 + 64;
 gAi_bHandFaceDownRequested = gAi_Selection + 8;
 D_8009C0CC = D_8009C0CC_sles_03947;
-D_800F5694 = gModel_aSlots + 10836;
 D_8009C0A8 = D_8009C0A8_sles_03947;
 D_8009C0C0 = D_8009C0C0_sles_03947;
 D_8009C148 = D_8009C148_sles_03947;
 D_8009C408 = D_8009C408_sles_03947;
-gModel_Slot0MetadataView = gModel_aSlots + 3320;
-gModel_Slot0Scale = gModel_aSlots + 3504;
-gModel_ViewReferencePoint = gModel_RView + 12;
-gModel_aSlot0FlatLights = gModel_aSlots + 3440;
-gModel_awSlot0Position = gModel_aSlots + 3536;
-gModel_awStageSlotModelId = gModel_aSlots + 10808;

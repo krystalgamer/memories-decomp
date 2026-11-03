@@ -685,9 +685,7 @@ the table alone does not predict:
   translation unit *defines* it, which is what supplies a missing load-delay
   `nop`. The same reasoning is recorded for `gGraphics_bClearBlue`/`gGraphics_bClearGreen`/`gGraphics_bClearRed`.
 - **Oversizing is deliberate.** `gModel_awSlotModelIds`, `gModelDebug_abSlotAfFlags` and `gModelDebug_abSlotGfFlags`
-  "needed sized array declarations to land in small data as `%gp_rel`", while
-  `gModel_awStageSlotModelId` needed the incomplete form so its `lui %hi` would hoist into a
-  branch delay slot.
+  "needed sized array declarations to land in small data as `%gp_rel`".
 - **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
   eight-byte aggregate is what keeps it non-small "while the four-byte
   `D_8009B20C` remains gp-relative" (that pair is now two scalars).

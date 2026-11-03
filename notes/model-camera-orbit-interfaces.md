@@ -17,12 +17,11 @@ arithmetic, pivot selection, call order and casts remain exact.
 
 ## Reference-point interior view
 
-`gModel_ViewReferencePoint` is the former `D_800F56FC`, the alias beginning
-at `gModel_RView + 0x0C`, where the SDK `GsRVIEW2` stores `vrx`, `vry` and
-`vrz`. Its declaration moves from `unmatched.h` to `camera_view.h` without
-changing the incomplete `s32 []` type or introducing a standalone vector.
-The orbit step retains its explicit `long *` cast and three-word
-access rather than replacing the alias with typed field indexing.
+The former `D_800F56FC` / `gModel_ViewReferencePoint` alias began at
+`gModel_RView + 0x0C`, where the SDK `GsRVIEW2` stores `vrx`, `vry` and
+`vrz`. It is no longer a separate symbol: the orbit step takes
+`&gModel_RView.vrx` and walks the three words from there, which compiles
+to the same instructions.
 
 All seven native images retain the same interior offset:
 

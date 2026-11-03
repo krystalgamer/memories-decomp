@@ -89,8 +89,8 @@ invented ELF size. No storage, numeric production pin, compiler flag,
 overlay import dependency, or instruction is added.
 
 The previously unclassified `D_800F5694` is now independently tied to slot 2's
-load-step member in all seven images. Its canonical retained-native view is
-`gModel_bAuxiliaryLoadStep`; see [the lifecycle contract](model-slot-lifecycle.md).
+load-step member in all seven images. It is written as
+`gModel_aSlots[2].load_step`; see [the lifecycle contract](model-slot-lifecycle.md).
 The new evidence is aggregate/alias identity and its readers, not the phase-5 store alone.
 
 ## Existing native consumers and conservation
