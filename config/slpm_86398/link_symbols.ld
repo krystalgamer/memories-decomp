@@ -1,6 +1,5 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
 
-gText_aChannels = gJapanese_D_800EB0F8;
 
 CampaignMap_SetLocation = 0x8016866C;
 FreeDuel_Entry = 0x80168FB4;

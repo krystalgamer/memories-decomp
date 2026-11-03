@@ -44,7 +44,10 @@
  * not move the object between sections. */
 extern u8 gDuelEffect_aOccupancyValues[DUEL_EFFECT_OCCUPANCY_COUNT];
 
+/* Japan's text-box unit defines the channels as raw 0x60-byte records. */
+#ifndef TEXT_CHANNELS_JAPANESE_STORAGE
 extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
+#endif
 /* Channel `index` of gText_aChannels. Japan's channel records are 0x60
  * bytes rather than sizeof(DuelEffectChannel), so its units select the
  * smaller stride (VERSION_JAPAN, or an explicit TEXT_CHANNEL_SIZE). */

@@ -34,10 +34,11 @@ Channel 0's word at pool offset `0x34` (formerly the separate
 and the high halfword is its string ID. No halfword load replaces the
 original word loads or masks.
 
-In Japan the canonical pool aliases `gJapanese_D_800EB0F8`, at
-`0x800EAFD8`, **not** the literal `D_800EB0F8` address; channel 3 lands on
-that latter address (`0x800EAFD8 + 3 * 0x60`). Overlays bind only
-`gText_aChannels` itself.
+In Japan the Japanese text-box unit defines `gText_aChannels` itself, as
+`u8[0x180]` at `0x800EAFD8` (four 0x60-byte records). It does this under
+`TEXT_CHANNELS_JAPANESE_STORAGE`, which hides the shared 0x64-byte
+declaration. The literal `D_800EB0F8` address is channel 3
+(`0x800EAFD8 + 3 * 0x60`). Overlays bind only `gText_aChannels` itself.
 
 The PAL password channel 2/3 imports (formerly `D_800F04F8`/`D_800F055C`)
 are the same pool elements; see the
