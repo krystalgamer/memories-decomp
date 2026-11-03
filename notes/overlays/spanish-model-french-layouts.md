@@ -31,7 +31,21 @@ The Spanish copies of the header-414, header-415 and header-442 helpers
 removed; the French layouts compile the French helpers. The two header-447
 images at sectors 109772 and 109782 keep their raw layouts, because they are
 the only Spanish split that compiles `french_model_variant/variant447_rings.c`,
-which `variant685_rings.c` includes.
+which `variant685_rings.c` includes. Their loader entries are therefore
+still generated assembly: the French layout compiles `variant685_entry.c`
+there, whose calls to `GsSetLsMatrix`, `GsSortPoly`, `ScaleMatrix`, `rcos`
+and `func_80058F10` need the shipped resident addresses, while the directly
+compiled rings helper binds the same five names to its stale ones. Taking
+the full French layout (entry and `variant685_rings.c`) rebuilds both images
+exactly but leaves `variant447_rings.c` and `variant447_rings_slot1.c`
+unwired.
+
+The other 17 Spanish modules whose loader entry at `0x4` was still
+assembly (headers 433, 440, 465, 476 and 477 of models 108, 117, 180,
+262, 573, 631 and 712) now compile the French module's entry source with
+its profile. Their symbol files take the French names at the same
+addresses (entry, entry data and Psy-Q calls), and their linker files gain
+the French files' Psy-Q bindings.
 
 `make spanish-match-overlays`, which the Spanish overlay workflow runs,
 builds and verifies every configured Spanish overlay.

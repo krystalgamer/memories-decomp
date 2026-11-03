@@ -44,7 +44,18 @@ The two bytes at `0x80169618` and `0x80169619` are **not** included.
 They share the raw word `00 00 43 00`; the remaining halfword `0x0043` cannot
 be absorbed as zero-fill padding. `gCampaignMap_LocationPrev` and
 `D_80169619` stay declared in `campaign_map.h`, and the whole word and
-following opaque tail stay in the generated assembly beginning at `0x1618`.
+following opaque tail stay raw.
+
+That tail, `0x80169618-0x801697D0`, is a `data` subsegment
+(`live_state_tail`) after the live state in every region's two overworld
+images, not code. Past the boundary word it holds `0x1B4` bytes of stale
+`-O0` instructions: the frame-pointer-relative body of some earlier function
+from its middle (no prologue) through its epilogue. Nothing branches to,
+calls or loads from it; its only jump targets itself. The US and Japanese
+images carry the same bytes; the PAL images carry a variant whose boundary
+word is zero. Splat still places the existing labels inside it
+(`gCampaignMap_LocationPrev` and `D_80169619` in the US and Japanese maps,
+`gCampaignMap_dwTweenRefZStep` in the PAL maps).
 
 ## One pointer-slot declaration
 

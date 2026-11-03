@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x1248,func_8017B004,unmatched_asm,overlay/model_variant_573_stage10_slot1,Game-owned generated assembly retained; direct-entry reachable.
+0x8017B004,0x1248,ModelVariant448_HandleRequest,matching_c,overlay/model_variant_573_stage10_slot1,Exact entry; North American header-448 entry C with the PAL palette x and image-local symbol renames; complete French image and layout/callee ownership verified.
 0x8017C24C,0x420,ModelVariant448_DrawRadialDisc,matching_c,overlay/model_variant_573_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
 0x8017C66C,0xF00,ModelVariant448_DrawFans,matching_c,overlay/model_variant_573_stage10_slot1,Exact C fans; the GCC 2.8.1 build of the header-448 fan body with separate colour tables; complete image exact; direct-entry reachable.
 0x8017D56C,0x548,ModelVariant448_DrawOrbitSheets,matching_c,overlay/model_variant_573_stage10_slot1,Shared C independently matched to Spanish image; direct-entry reachable.

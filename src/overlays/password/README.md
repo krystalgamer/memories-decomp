@@ -270,8 +270,11 @@ changes old-GCC allocation; explicit zeroing adds unwanted instructions.
 The inline cell-code helper updates its column argument before indexing,
 preserving the selector block's operand order. Neither construct fixes a
 register or inserts assembly. The table declarations live in
-[`name_entry_tables.h`](name_entry_tables.h); their raw module storage is
-unchanged. Existing `DisplayObjectVelocity` views cover the two movement
+[`name_entry_tables.h`](name_entry_tables.h). Their storage, followed by the
+starter-deck pools and pointer list of
+[`name_entry_starter_deck.h`](name_entry_starter_deck.h), is the raw
+`name_entry_tables` data subsegment at module offset `0x2B38-0x5400`, not
+code. Existing `DisplayObjectVelocity` views cover the two movement
 helper calls without changing the selection frame's layout.
 
 The two external doors are the lifecycle pair: `NameEntry_Init` builds the
