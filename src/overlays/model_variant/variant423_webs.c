@@ -4,7 +4,7 @@
 
 /* Header 423's form of the header-416 webs: the records start at work, and
  * the lines are projected with RotTransPers3. */
-void func_8013CBDC(u8 *ctx)
+void ModelVariant423_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

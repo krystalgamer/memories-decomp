@@ -1,8 +1,9 @@
 # Spanish MODEL headers 440 and 590
 
 Four distinct Spanish images for models262/631 reuse the unchanged
-accepted `variant423_{sheets,webs,spokes,rings,quad}.c` bodies through four Spanish
-sheet/web wrappers and six existing French440 wrappers. Ten canonical compiler
+accepted `variant423_{sheets,webs,spokes,rings,quad}.c` bodies, which both slots
+now compile directly under the shared `ModelVariant423_*` names (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)). Ten canonical compiler
 objects independently provide20 C instances / 20,736 instruction bytes using named
 `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81. Shared implementations,
 canonical local/SDK declarations and profiles are unchanged.
@@ -15,7 +16,7 @@ remain independently verified.
 
 The independent sheet extension adds four entry-called C instances / 5,072
 bytes without changing the accepted web scope. Its two three-line wrappers
-select the existing header-423 body; all shared implementations, declarations
+selected the existing header-423 body and have since been removed; all shared implementations, declarations
 and compiler profiles are unchanged. Historical proofs retain their original
 objects and source hashes; current production selection is verified separately.
 
@@ -117,8 +118,9 @@ resident/layout evidence are checked independently.
 
 Regional regressions reuse the French source and boundary fixture, adding
 Spanish fallback-binding, actual descriptor and minimum-context checks.
-Per-helper source directories select the Spanish sheet/web wrappers while
-preserving every existing French default and the three accepted wrappers.
+Per-helper source directories selected the Spanish sheet/web wrappers while
+preserving every existing French default and the three accepted wrappers;
+all of these wrappers have since been removed.
 Accepted module records are preserved and progress snapshots stay
 separate. The independent sheet extension preserves all 154 accepted images,
 including MODEL415 curtains, MODEL402 layers and MODEL433 sheets, and selects
