@@ -5,7 +5,7 @@
 #include "menu_record.h"
 
 /* Dialog transition callbacks, also present in gDisplayEffect_apfnSteps.
- * Their first-entry latch and progress bits share D_8009B3C1 with the
+ * Their first-entry latch and progress bits share gDialog_bCallbackState with the
  * memory-card controller; this is not per-record state.
  *
  * Contraction and open create a spotlight mask and decrease its radii.

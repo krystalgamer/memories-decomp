@@ -200,11 +200,11 @@ extern s16 gText_CdSoundPollBudget;
 
 /* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
  * point in this subsystem opens with the same
- * `if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
+ * `if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
  * sets the bit inside, so the body runs on the first tick of a scene only.
  * dialog_transition.c's handlers additionally raise 0x20 and 0x40,
  * and the byte is cleared back to 0 when a scene is torn down. */
-extern u8 D_8009B3C1;
+extern u8 gDialog_bCallbackState;
 
 /* Raw legacy work-operation mode, also consumed by the combined dialog
  * opener. MemCardWork_InitializeOperation stores its entire u8 parameter.

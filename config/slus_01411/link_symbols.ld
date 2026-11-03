@@ -114,7 +114,6 @@ D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;
 
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
-gDialog_bCallbackState = D_8009B3C1;
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
 

@@ -297,7 +297,7 @@ D_8009B372 = 0x8009C6EE;
 D_8009B374 = 0x8009C6F6;
 gGameOver_pTitleObject = 0x8009C700;
 gSaveData_PairMessageCode = 0x8009C77B;
-D_8009B3C1 = 0x8009C751;
+gDialog_bCallbackState = 0x8009C751;
 gMemCardWork_OperationMode = 0x8009C756;
 gMemCardWork_wFlags = 0x8009C758;
 gMemCardWork_OperationState = 0x8009C75A;
@@ -1052,7 +1052,6 @@ gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
-gDialog_bCallbackState = D_8009B3C1;
 
 gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;

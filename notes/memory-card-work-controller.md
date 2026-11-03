@@ -74,9 +74,9 @@ mode remains a complete raw `u8`: only bit zero selects the controller's
 header-read/header-write paths and the combined dialog opener's
 `0xD0/0xD1` channel. All other incoming bits are still stored.
 
-Neither byte is `D_8009B3C1`. That shared byte retains its transition
-dispatch nibble, transition progress flags and modal load/save/trade
-first-entry uses without a new universal semantic name or type. Likewise
+Neither byte is `gDialog_bCallbackState`. That shared byte retains its
+transition dispatch nibble, transition progress flags and modal
+load/save/trade first-entry uses without a new type. Likewise
 `tent_MemCardDialogStepState` and `gMemCard_wDialogFlags` remain the
 separate LIBMCRD modal runtime's state and flags, not work-operation state.
 

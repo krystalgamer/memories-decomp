@@ -1051,7 +1051,7 @@ Fade_Init = 0x8001509C;
 TextStream_ReadByte = 0x8003ADD8;
 
 MemCardWork_InitializeOperation = 0x8003C8C4;
-D_8009B3C1 = 0x8009B2B1;
+gDialog_bCallbackState = 0x8009B2B1;
 gMemCardWork_OperationMode = 0x8009B2B7;
 gMemCardWork_wFlags = 0x8009B2BC;
 gMemCardWork_OperationState = 0x8009B2BF;

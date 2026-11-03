@@ -16,8 +16,8 @@ They do not infer behavior from the older header's reversed radii prose.
 
 ## Shared state is not a new per-record lifecycle
 
-All four callbacks use the existing `u8 gDialog_bCallbackState` (legacy
-`D_8009B3C1`): bit `0x80` is their
+All four callbacks use the existing `u8 gDialog_bCallbackState` (at
+`0x8009B3C1`): bit `0x80` is their
 first-entry latch, while the individual handlers interpret `0x40` and
 `0x20` through their original branches. The memory-card controller also
 uses its low nibble as a dispatch selector. The canonical name groups

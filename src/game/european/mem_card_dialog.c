@@ -31,7 +31,7 @@ u8 D_8009C32C_sles_03947;
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
 u8 gSaveData_AllowIdentityBypass;
-u8 D_8009B3C1;
+u8 gDialog_bCallbackState;
 u16 gMemCardDialog_TransferSize;
 u16 gMemCardDialog_TransferOffset;
 u8 gMemCardWork_OperationMode;

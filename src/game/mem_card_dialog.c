@@ -30,7 +30,7 @@ extern u8 gMemCardDialog_FileNameBuffer[];
  * address order ahead of the headers that declare it (#2602). */
 s32 gMemCardDialog_SyncStatus;
 u8 gSaveData_PairMessageCode;
-u8 D_8009B3C1;
+u8 gDialog_bCallbackState;
 u16 gMemCardDialog_TransferSize;
 u16 gMemCardDialog_TransferOffset;
 u8 gMemCardDialog_MessageCode;
@@ -64,7 +64,7 @@ static u32 D_8009B3FC;
 #else
 extern s32 gMemCardDialog_SyncStatus;
 extern u8 gSaveData_PairMessageCode;
-extern u8 D_8009B3C1;
+extern u8 gDialog_bCallbackState;
 extern u16 gMemCardDialog_TransferSize;
 extern u16 gMemCardDialog_TransferOffset;
 extern u8 gMemCardDialog_MessageCode;
@@ -101,7 +101,6 @@ extern u16 gMemCard_wDialogFlags;
 #include "../psyq/strings.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
-#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "mem_card.h"
 #include "save_data.h"

@@ -51,7 +51,7 @@ The initializer does not clear either output word or the result byte.
 Existing conditional and unconditional create-file traces remain.
 Request processing, signed/narrowed chunk arithmetic, message pumping,
 transition dispatch and operation-state fallthrough retain their order.
-The shared transition byte `D_8009B3C1` is not renamed as work-only state.
+The shared transition byte `gDialog_bCallbackState` is not work-only state.
 
 ## PAL request-result linkage is a distinct surface
 

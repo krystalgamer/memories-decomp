@@ -545,7 +545,7 @@ gSaveData_PairSetupState = 0x8009C738;
 gMemCardDialog_Port = 0x8009C74D;
 gMemCard_wDialogFlags = 0x8009C74E;
 gSaveData_AllowIdentityBypass = 0x8009C750;
-D_8009B3C1 = 0x8009C751;
+gDialog_bCallbackState = 0x8009C751;
 gMemCardDialog_TransferSize = 0x8009C752;
 gMemCardDialog_TransferOffset = 0x8009C754;
 gMemCardWork_OperationMode = 0x8009C756;
@@ -1052,7 +1052,6 @@ gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
-gDialog_bCallbackState = D_8009B3C1;
 
 gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;

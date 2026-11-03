@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "duel_effect.h"
-#include "dialog_callback_state.h"
 #include "mem_card_work_initialize_operation.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"

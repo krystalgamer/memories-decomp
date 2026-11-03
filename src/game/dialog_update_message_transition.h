@@ -6,7 +6,7 @@
 
 /* Message-only variant: create the sprite and channel, advance the slide
  * by 0x20 in the same call, then pump text after reaching the endpoint.
- * Completion clears the shared D_8009B3C1 byte, not the record or objects. */
+ * Completion clears the shared gDialog_bCallbackState byte, not the record or objects. */
 void Dialog_UpdateMessageTransition(MenuRecord *record);
 
 #endif

@@ -582,7 +582,7 @@ and clears the state; otherwise the latched index dispatches through
 `gDuelEffect_apfnStateHandler`. The complete five-slot contract is documented
 in [`duel-effect-state-runtime.md`](duel-effect-state-runtime.md).
 
-That dispatcher byte is separate from `D_8009B3C1`. In the later callback
+That dispatcher byte is separate from `gDialog_bCallbackState`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
 one-shot entry latch. The matching callbacks in `dialog_transition.c`
 and the load/save callbacks in
