@@ -4,7 +4,8 @@ This component names the complete game-owned handwritten shared dispatch
 family selected by `Model_GetSharedPrimitiveHandler`: one cache-preparation
 stage and sixteen cached-input polygon drivers. All 119 actual native
 function records across the seven resident images retain their original
-ownership, extents and instructions; regional images keep `handwritten_asm`.
+ownership, extents and instructions; the Japanese and European resident
+executables compile the same two sources at their own addresses.
 
 The NA bodies are matched C under the `gcc_2_8_1_g0_handwritten_asm` policy:
 the sixteen drivers in `src/game/shared_polygon_renderers.c` and the

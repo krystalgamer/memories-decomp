@@ -3,7 +3,12 @@
 The thirty-two game-owned handwritten callbacks selected by
 `Model_GetPrimitiveHandler` have names derived from their actual polygon
 templates, backface handling, command bits and record layouts. All 32 NA
-bodies are matched C (see "Matched C" below).
+bodies are matched C (see "Matched C" below), and the Japanese and European
+resident executables build the same `src/game/polygon_renderers.c`. Those six
+images place the base Gt3/Gt4 drawers well before the rest (0x8004FDEC in
+Japan, 0x8004CD98/0x8004CF9C in Europe), so their
+`src/game/<region>/polygon_renderers.c` and `model_draw_gouraud_primitives.c`
+wrappers build the file twice, split by `MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES`.
 
 ## Complete feature matrix
 
@@ -98,8 +103,8 @@ Points that the C has to reproduce:
 
 ## Native boundaries and acceptance
 
-All 224 records across seven images are explicitly game-owned
-`handwritten_asm`. Every native boundary is resolved through the existing
+All 224 records across seven images are game-owned handwritten code, now
+matched C in every image. Every native boundary is resolved through the existing
 binding before consulting the function inventory; neither a NA suffix nor
 apparent family contiguity supplies an address. For example, the two typed
 German callbacks are at `0x8004CD98` and `0x8004D05C`, away from the other
