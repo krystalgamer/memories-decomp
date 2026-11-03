@@ -36,7 +36,7 @@
 /* The European build places it through config/sles_03947/symbols.txt; its
    .sdata is not carved from the executable. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-s32 runtime_gp = 0x3C;
+s32 gMain_nServiceResyncCountdown = 0x3C;
 #endif
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of

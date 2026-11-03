@@ -925,7 +925,7 @@ ratan2 = 0x80089928;
 rcos = 0x800866F8;
 read = 0x80073E38;
 rsin = 0x80086628;
-runtime_gp = 0x8009C298;
+gMain_nServiceResyncCountdown = 0x8009C298;
 sprintf = 0x80090408;
 srand = 0x8008F738;
 strcmp = 0x8008F7F8;
@@ -1065,7 +1065,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 /* Auxiliary slot's retained load-step byte view. */
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
-gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 gText_bLanguageIndex = D_8009C02B;
 g_SDValue_output_level = g_SDValue;

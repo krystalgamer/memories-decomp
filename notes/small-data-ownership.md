@@ -204,7 +204,7 @@ assembly rather than assigning it to the model-handler owner.
 
 ## The runtime watchdog word
 
-The four-byte extracted blob at `0x8009AF08` is `runtime_gp`, the watchdog
+The four-byte extracted blob at `0x8009AF08` is `gMain_nServiceResyncCountdown` (formerly `runtime_gp`), the watchdog
 counter read, decremented, and reset to `0x3C` only by `main_services.c`.
 That unit now defines the word in `.sdata`, preserving its `%gp_rel` accesses
 and its position before `main_frame`'s small data. The generated blob is no

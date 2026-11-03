@@ -258,7 +258,7 @@ gModel_BurstImageData = 0x80092A30;
 gModel_BurstRingPaletteWords = 0x80092AF4;
 gAiScript_apfnCommand = 0x80092B00;
 gDuel_aOpponentData = 0x80092C10;
-runtime_gp = 0x8009C298;
+gMain_nServiceResyncCountdown = 0x8009C298;
 gMain_bSoundVSyncBusy = 0x8009C29C;
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
 gDuel_awSideViewHeadings = 0x8009C2B0;
@@ -1065,7 +1065,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 /* Auxiliary slot's retained load-step byte view. */
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
-gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 gText_bLanguageIndex = D_8009C02B;
 g_SDValue_output_level = g_SDValue;

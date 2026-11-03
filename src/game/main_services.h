@@ -55,10 +55,7 @@ extern jmp_buf gMain_RecoveryJmpBuf;
 extern void (*gMain_pfnExtraFrameService)(void);
 
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
-extern s32 runtime_gp;
-
-/* Keep the native initialized symbol and expose only its countdown role. */
-#define gMain_nServiceResyncCountdown runtime_gp
+extern s32 gMain_nServiceResyncCountdown;
 
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, gMain_bRequestedMenuID),

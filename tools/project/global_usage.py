@@ -1484,7 +1484,7 @@ def preferred_name(names: set[str], address: int) -> str:
             category = 0
         elif GENERATED_NAME_RE.fullmatch(name):
             category = 1
-        elif name.endswith(("_start", "_end")) or name == "runtime_gp":
+        elif name.endswith(("_start", "_end")):
             category = 0
         else:
             category = 3

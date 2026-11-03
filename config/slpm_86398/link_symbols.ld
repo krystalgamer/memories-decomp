@@ -159,7 +159,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Auxiliary slot's retained load-step byte view. */
 gTextBox_apfnStateCallbacks = 0x80090D14;
-gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 

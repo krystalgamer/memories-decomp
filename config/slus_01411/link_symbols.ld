@@ -120,7 +120,6 @@ gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */
-gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 
 /* Other names for game/duel_field_card_render's small data (#2602). */

@@ -190,7 +190,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */
-gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 

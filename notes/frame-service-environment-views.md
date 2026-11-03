@@ -1,9 +1,8 @@
 # Frame-service countdown and drawing-environment views
 
-The system-service and graphics-frame units expose two existing data roles
-without changing their declarations, storage or compiler-visible tokens:
+The system-service and graphics-frame units name two existing data roles:
 
-| Native identity | Canonical view | Existing representation |
+| Former identity | Canonical name | Representation |
 |---|---|---|
 | `runtime_gp` | `gMain_nServiceResyncCountdown` | signed `s32` |
 | `D_800FE048` | `gLibGs_DrawEnvView` | unsized `DRAWENV[]` transport |
@@ -23,9 +22,10 @@ heap, passive-snapshot, crash-reset or elapsed-time interpretation is added.
 In particular, the decrement-before-underflow behavior is not replaced by
 a claim that reset occurs after exactly sixty idle calls.
 
-The original initialized `runtime_gp` definition, native symbol, `.sdata`
-attribute and regional placement remain intact. The code-generation name
-is not renamed in any linker, definition or backend input.
+`main_services.c` defines the initialized word as
+`gMain_nServiceResyncCountdown` in `.sdata`, and every region binds that name
+directly; the former `runtime_gp` symbol and its link alias are gone.
+Its regional placement is unchanged.
 
 ## SDK object with a distinct game-facing view
 

@@ -328,37 +328,19 @@ second object to offset 4. The successful owner is one six-byte array,
 were private to `debug_effect_screen.c`, no external alias is lost. The object
 tiles the complete six-byte window and the linked executable remains exact.
 
-`initialized_data_8009af08` is blocked for a different reason: it opens with
-`runtime_gp`, which `symbols.txt` fixes at `0x8009AF08` and which the
-`%gp_rel` arithmetic elsewhere in this file uses as the `_gp` base. A C
-definition of that word would have to reproduce a symbol the addressing model
-is expressed in terms of. It also stores a pointer to
-`gFile_PrimaryTransferDescriptor`, so the range carries a relocation as well as
-plain bytes.
+`initialized_data_8009af08` opens with the watchdog counter at `0x8009AF08`,
+the `_gp` base. `main_services.c` does `cnt = gMain_nServiceResyncCountdown - 1;`,
+stores it back and resets it to `0x3C` when it goes negative, matching the
+`0x0000003C` the range is initialized with. A GP base is never decremented:
+the address carries two independent roles. `_gp` points at `0x8009AF08`
+because that is where the small-data region is centred, and the word stored
+there is a separate variable that happens to live at the base.
 
-The name deserves a note, because it looks wrong and is not. `runtime_gp` is
-also read and written as an ordinary counter: `main_services.c` does
-`cnt = runtime_gp - 1; runtime_gp = cnt;` and resets it to `0x3C` when it goes
-negative, matching the `0x0000003C` the range is initialized with, and the
-function's own comment calls it the watchdog counter. A GP base is never
-decremented, so the two readings genuinely conflict -- but the answer is that
-the address carries two independent roles rather than that either reading is
-mistaken. `_gp` points at `0x8009AF08` because that is where the small-data
-region is centred; the word stored there is a separate variable that happens
-to live at the base.
-
-The naming follows the first role, and that is load bearing outside the game
-sources: `audit_unchiga_candidates.py` looks the symbol up by name to recover
-the base, `global_usage.py` special-cases it beside the `_start`/`_end`
-boundary markers, and the GPREL16 reach test in
-`notes/research/matching-evidence.md` is expressed as ±32 KB around it. So
-`runtime_gp` should not be renamed to describe the counter, and the counter is
-not drift to be cleaned up either.
-
-That sharpens what blocks the range rather than removing the block. A source
-file taking `0x8009AF08` would have to define a watchdog counter under a name
-three tools resolve as the GP base, which is a heavier commitment than the
-twenty-eight bytes suggest.
+The word was once named `runtime_gp` after the first role. No tool resolves
+the GP base from that name: the linker uses `_gp`,
+`audit_unchiga_candidates.py` hardcodes the address, and the GPREL16 reach
+test in `notes/research/matching-evidence.md` is about the address. It is now
+defined and bound only as `gMain_nServiceResyncCountdown`.
 
 #### Who actually owned the extracted bytes
 
