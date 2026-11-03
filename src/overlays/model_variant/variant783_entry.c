@@ -8,7 +8,7 @@
 #define FLASH_HEIGHT 240
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant783_HandleRequest(u8 *context, s32 command)
 {
     Model783State *work;
     MATRIX view, matrix;
@@ -35,13 +35,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D4F0;
+    scale = gModelVariant783_D24F0;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model783State *)context;
     if (command >= 0) {
         point = work->particles;
-        work->command = &D_8013D538[command];
+        work->command = &gModelVariant783_D2538[command];
         work->position.vx = 0;
         velocity = work->particle_velocities;
         work->position.vy = -work->command->height;
@@ -102,7 +102,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->ring_green = work->command->ring_green;
         work->ring_blue = work->command->ring_blue;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D500[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant783_D2500[i]);
         }
         work->ambient = 0x800;
         work->elapsed = 0;

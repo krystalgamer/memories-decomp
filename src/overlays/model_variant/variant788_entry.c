@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant788_entry.h"
 
-static const VECTOR D_8013D3D0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant788_D23D0 = {4096, 4096, 4096, 0};
 
 #define FADE_IN(value, target)                                     \
     if (value < work->config->target - 15) {                       \
@@ -20,7 +20,7 @@ static const VECTOR D_8013D3D0 = {4096, 4096, 4096, 0};
         value = 0;                                                 \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant788_HandleRequest(u8 *context, s32 command)
 {
     Model788State *work;
     MATRIX base, matrix, saved;
@@ -51,13 +51,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D3D0;
+    scale = gModelVariant788_D23D0;
     memset(&center, 0, 8);
     work = (Model788State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D3FC[command];
+        work->config = &gModelVariant788_D23FC[command];
         Model_CopySlotPosition(slot ^ 1, (u16 *)&work->position);
         work->position.vy = 0;
         work->radius = work->config->radius;
@@ -89,7 +89,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->dots[i].vy / work->config->dot_duration, work->dots[i].vz / work->config->dot_duration);
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D3E0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant788_D23E0[i]);
         }
         work->band_bottom = work->config->band_width;
         work->band_top = work->config->band_top;

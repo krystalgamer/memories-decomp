@@ -15,9 +15,7 @@ void MemCardDialog_StepLoadUnprompted(void);
 void MemCardDialog_UpdateSave(void);
 void MemCardDialog_StepSave(void);
 void MemCardDialog_StepNone(void);
-#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 void MemCardDialog_StepAlternateSave(void);
-#endif
 
 /* The memory card dialog's modal runtime.
  *

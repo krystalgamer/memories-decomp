@@ -40,10 +40,8 @@
    Text_EncodeDecimalDigits indexes by digit count and then walks with
    d /= TEXT_DECIMAL_RADIX: 1, 1, 10, 100, 1000, 10000, 100000.
 
-   The twelve words after it have no reader in tracked C and no symbol of
-   their own. They are transcribed as they stand rather than named, because
-   moving them out of the blob is what #2602 asks for and a name for them is
-   not yet supported by anything. */
+   The glyph nibble patterns and colour masks follow it. Only Japan's text
+   renderer reads them (DuelEffect entries), but every image carries them. */
 void (*gBuildDeck_apfnStepHandlers[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdatePaneTransition,
@@ -61,19 +59,38 @@ s32 gText_DecimalDivisorView[] = {
     0x000003E8,
     0x00002710,
     0x000186A0,
-    /* No reader in tracked C, and no symbol of its own. */
-    0xF0000000,
-    0xFF00EF00,
-    0xFEF00EF0,
-    0xFFF0EFF0,
-    0xF0EF00EF,
-    0xFFEFEFEF,
-    0xFEFF0EFF,
-    0xFFFFEFFF,
-    0xBBBBFFFF,
-    0x99997777,
-    0x5555DDDD,
-    0x00003333,
+};
+
+/* Japan's text renderer expands each glyph nibble through these sixteen
+ * patterns and masks the result with the channel's colour. */
+u16 gText_awGlyphNibblePatterns[16] = {
+    0x0000,
+    0xF000,
+    0xEF00,
+    0xFF00,
+    0x0EF0,
+    0xFEF0,
+    0xEFF0,
+    0xFFF0,
+    0x00EF,
+    0xF0EF,
+    0xEFEF,
+    0xFFEF,
+    0x0EFF,
+    0xFEFF,
+    0xEFFF,
+    0xFFFF,
+};
+
+u16 gText_awGlyphColorMasks[8] = {
+    0xFFFF,
+    0xBBBB,
+    0x7777,
+    0x9999,
+    0xDDDD,
+    0x5555,
+    0x3333,
+    0x0000,
 };
 
 /* Regional values: the confirmation boxes' y and flags (wide 0x78, 0x1028 ->

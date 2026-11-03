@@ -11,8 +11,12 @@ label or `#define` alias.
 |---|---|---|
 | `gText_bLanguageIndex` | SLES_039.47 (European `graphics_frame` storage) | `0x8009C02B` |
 | `gText_bLanguageIndex` | SLES_039.48 through SLES_039.51 | `0x8009C44B` |
-| `gText_awGlyphNibblePatterns` | SLPM_863.98 | `0x80090CD8` |
-| `gText_awGlyphColorMasks` | SLPM_863.98 | `0x80090CF8` |
+| `gText_awGlyphNibblePatterns` | every image; read only in SLPM_863.98 | `0x80090CD8` in SLPM_863.98 |
+| `gText_awGlyphColorMasks` | every image; read only in SLPM_863.98 | `0x80090CF8` in SLPM_863.98 |
+
+`src/game/build_deck_update.c` defines both glyph tables right after
+`gText_DecimalDivisorView`, as `u16[16]` and `u16[8]`. Every image carries
+their bytes; only Japan's `DuelEffect_RasterizeGlyph` reads them.
 
 ## PAL language selection
 

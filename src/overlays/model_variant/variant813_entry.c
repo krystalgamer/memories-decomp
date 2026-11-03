@@ -8,9 +8,9 @@
  * tumbling textured shards; once the last of both has landed the light
  * comes back. */
 
-static const VECTOR D_8013CE70 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant813_D1E70 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant813_HandleRequest(u8 *context, s32 command)
 {
     Model813State *work;
     MATRIX base;
@@ -29,12 +29,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CE70;
+    scale = gModelVariant813_D1E70;
     work = (Model813State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CF0C[command];
+        work->config = &gModelVariant813_D1F0C[command];
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 64; j++) {
                 setVector(&work->orbs[i][j], work->config->spread * ((rand() - rand()) % 4096) / 4096,
@@ -67,7 +67,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CE80[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant813_D1E80[i]);
         }
         work->orb_count = 0;
         work->comet_count = 0;

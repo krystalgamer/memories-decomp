@@ -58,8 +58,8 @@ typedef struct {
 } Model627State;
 
 extern MATRIX D_800FE168;
-extern Model627Command D_8013C384[];
+extern Model627Command gModelVariant627_D1384[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant627_HandleRequest(u8 *context, s32 command);
 
 #endif

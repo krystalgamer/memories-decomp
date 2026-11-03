@@ -1,6 +1,6 @@
-// Spanish MODEL.MRG model 541 (record 491), sector 135726, header 711, loaded at 0x8017B000; the US header-694 source variant627_entry_slot1.c; built from the French source layout of french_model_variant_541_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1358 defined:true
-D_8017C35C = 0x8017C35C; // type:u8 size:0x3CA4 defined:true
+// Spanish MODEL.MRG model 541 (record 491), sector 135726, header 711, loaded at 0x8017B000; the US header-694 source variant627_entry.c; built from the French source layout of french_model_variant_541_stage10_slot1.
+ModelVariant627_HandleRequest = 0x8017B004; // type:func size:0x1358 defined:true
+gModelVariant627_D1384 = 0x8017C35C; // type:u8 size:0x3CA4 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

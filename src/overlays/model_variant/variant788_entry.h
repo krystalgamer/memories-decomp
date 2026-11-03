@@ -90,9 +90,9 @@ typedef struct {
     u8 box[3], unknown_1143;
 } Model788State;
 
-extern GsIMAGE D_8013D3E0[];
-extern Model788Config D_8013D3FC[];
+extern GsIMAGE gModelVariant788_D23E0[];
+extern Model788Config gModelVariant788_D23FC[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant788_HandleRequest(u8 *context, s32 command);
 
 #endif

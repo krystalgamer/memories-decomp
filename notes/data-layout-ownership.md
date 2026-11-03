@@ -247,12 +247,19 @@ region's storage before including the shared source:
 Japan's text channels (four 0x60-byte records), duel-effect entries, input
 repeat timers and model small block use this; every other Japanese zero-
 initialized block is the shared one at the shifted address, so all of Japan's
-game zero-initialized data now comes from units. Of the North American
-initialized tables, the eighteen that Japan has unchanged, 0x150 bytes lower,
-come from the same owners; the seven it lays out differently (build-deck and
-effect-layout tables, display effects, memory-card dialog steps, the
-display-object stream tables, movie stream ranges and model effects) remain
-in the extracted blob.
+game zero-initialized data now comes from units. Japan keeps the North
+American initialized tables 0x150 bytes lower, with relocated pointers and a
+few regional values, from `duel_field_layout` through `mem_card_dialog`. Its
+twenty-four owners include the data-only `duel_field_layout`, which the
+regional builder compiles from `data_c.json` like any data-only unit the
+region's split places. Two tables take a Japanese arm in the shared source:
+- the duel-effect entry ranges (a 300-entry pool split 55/100/100/45);
+- the memory-card step table's fourth entry,
+  `MemCardDialog_StepAlternateSave`.
+
+From the display-object stream tables onward (`0x80090E9C`), Japan lays its
+tables out differently (a larger zero run, and the shadow-fan steps beside
+the model effects), so that range stays in the extracted blob.
 
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative

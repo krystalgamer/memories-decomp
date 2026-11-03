@@ -78,11 +78,11 @@ extern MATRIX D_800FE168;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n"; the image keeps it in data because the
  * byte after its terminator is a nonzero alignment pad. */
-extern char D_8013CB30[];
+extern char gModelVariant673_D1B30[];
 #endif
-extern GsIMAGE D_8013CB48[3];
-extern Model673Command D_8013CB9C[];
+extern GsIMAGE gModelVariant673_D1B48[3];
+extern Model673Command gModelVariant673_D1B9C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant673_HandleRequest(u8 *context, s32 command);
 
 #endif

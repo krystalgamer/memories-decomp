@@ -13,7 +13,7 @@
 #ifndef MODEL644_STRING_PAD
 #define MODEL644_STRING_PAD "<"
 #endif
-static const char D_8013D200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_PAD;
+static const char gModelVariant644_D2200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_PAD;
 #endif
 
 /* Moves every glow and star to the joint's world position. */
@@ -42,9 +42,9 @@ static const char D_8013D200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_P
         work->bursts[work->flags[1]].active = 1;                                     \
         work->bursts[work->flags[1]].elapsed = 0;                                    \
         setVector(&work->bursts[work->flags[1]].scale, 0, 0, 0);                     \
-        work->bursts[work->flags[1]].color[0] = D_8013D234[work->command].color[0];  \
-        work->bursts[work->flags[1]].color[1] = D_8013D234[work->command].color[1];  \
-        work->bursts[work->flags[1]].color[2] = D_8013D234[work->command].color[2];  \
+        work->bursts[work->flags[1]].color[0] = gModelVariant644_D2234[work->command].color[0];  \
+        work->bursts[work->flags[1]].color[1] = gModelVariant644_D2234[work->command].color[1];  \
+        work->bursts[work->flags[1]].color[2] = gModelVariant644_D2234[work->command].color[2];  \
         work->flags[1]++;                                                            \
         if (work->flags[1] >= work->count[2]) {                                      \
             work->flags[1] = 0;                                                      \
@@ -60,7 +60,7 @@ static const char D_8013D200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_P
         - work->radius * (rise = rcos(i << 8) * scale) / 4096                        \
             * (work->radius * (rise2 = rcos(i << 8) * scale) / 4096))
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
 {
     Model644State *work;
     MATRIX ls, world;
@@ -81,13 +81,13 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model644State));
 #ifndef VERSION_FRENCH
-        printf(D_8013D200, sizeof(Model644State));
+        printf(gModelVariant644_D2200, sizeof(Model644State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D218);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant644_D2218);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {
@@ -104,17 +104,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count[2] = 32;
             break;
         }
-        work->radius = D_8013D234[command].radius;
-        work->height = D_8013D234[command].height;
+        work->radius = gModelVariant644_D2234[command].radius;
+        work->height = gModelVariant644_D2234[command].height;
         for (i = 0; i < work->count[0]; i++) {
             work->glows[i].active = 0;
             work->glows[i].elapsed = 0;
             work->glows[i].duration = 0;
             work->glows[i].mode = 1;
             work->glows[i].coord = Model_GetCameraCoordinateUnit();
-            work->glows[i].color[0] = D_8013D234[command].color[0];
-            work->glows[i].color[1] = D_8013D234[command].color[1];
-            work->glows[i].color[2] = D_8013D234[command].color[2];
+            work->glows[i].color[0] = gModelVariant644_D2234[command].color[0];
+            work->glows[i].color[1] = gModelVariant644_D2234[command].color[1];
+            work->glows[i].color[2] = gModelVariant644_D2234[command].color[2];
             work->glows[i].u = 0;
             work->glows[i].v = 0;
             setVector(&work->glows[i].scale, 4096, 4096, 4096);
@@ -137,9 +137,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->stars[i].duration = 0;
             work->stars[i].mode = 1;
             work->stars[i].coord = Model_GetCameraCoordinateUnit();
-            work->stars[i].color[0] = D_8013D234[command].color[0];
-            work->stars[i].color[1] = D_8013D234[command].color[1];
-            work->stars[i].color[2] = D_8013D234[command].color[2];
+            work->stars[i].color[0] = gModelVariant644_D2234[command].color[0];
+            work->stars[i].color[1] = gModelVariant644_D2234[command].color[1];
+            work->stars[i].color[2] = gModelVariant644_D2234[command].color[2];
             setVector(&work->stars[i].scale, 4096, 4096, 4096);
             setVector(&work->stars[i].unknown_40, 0, 0, 0);
             switch (command) {
@@ -160,9 +160,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].elapsed = 0;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = D_8013D234[command].color[0];
-            work->bursts[i].color[1] = D_8013D234[command].color[1];
-            work->bursts[i].color[2] = D_8013D234[command].color[2];
+            work->bursts[i].color[0] = gModelVariant644_D2234[command].color[0];
+            work->bursts[i].color[1] = gModelVariant644_D2234[command].color[1];
+            work->bursts[i].color[2] = gModelVariant644_D2234[command].color[2];
             setVector(&work->bursts[i].scale, 0, 0, 0);
             setVector(&work->bursts[i].unknown_40, 0, 0, 0);
             setVector(&work->bursts[i].rotation, 0,
@@ -176,7 +176,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].position.vy -= 350;
             work->bursts[i].position.vz += work->direction * 450;
         }
-        work->delay = D_8013D234[command].delay;
+        work->delay = gModelVariant644_D2234[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -301,9 +301,9 @@ s32 func_8013B004(u8 *context, s32 command)
                  * counter; VALUE holds k + 1 so it lands in retail's s0. */
                 divisor = 4;
                 value = k + 1;
-                red = D_8013D234[work->command].color[0] * value / divisor;
-                green = D_8013D234[work->command].color[1] * value / divisor;
-                blue = D_8013D234[work->command].color[2] * value / divisor;
+                red = gModelVariant644_D2234[work->command].color[0] * value / divisor;
+                green = gModelVariant644_D2234[work->command].color[1] * value / divisor;
+                blue = gModelVariant644_D2234[work->command].color[2] * value / divisor;
                 for (j = 0; j < 8; j++) {
                     setPolyGT4(&work->strip);
                     work->strip.tpage = work->tpage[0];
@@ -420,9 +420,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                 /* The divisor is reloaded into DIVISOR, as in 659. */
                 divisor = work->bursts[i].duration;
-                work->bursts[i].color[0] = D_8013D234[work->command].color[0] * value / divisor;
-                work->bursts[i].color[1] = D_8013D234[work->command].color[1] * value / divisor;
-                work->bursts[i].color[2] = D_8013D234[work->command].color[2] * value / divisor;
+                work->bursts[i].color[0] = gModelVariant644_D2234[work->command].color[0] * value / divisor;
+                work->bursts[i].color[1] = gModelVariant644_D2234[work->command].color[1] * value / divisor;
+                work->bursts[i].color[2] = gModelVariant644_D2234[work->command].color[2] * value / divisor;
             }
             value = work->bursts[i].elapsed * 3 * 8192 / work->bursts[i].duration;
             setVector(&work->bursts[i].scale, value, value, value);

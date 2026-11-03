@@ -4,9 +4,9 @@ Ten North American MODEL variant images share one entry, at `+0x4` and
 `0x1B2C` bytes long. The entry is new North American C in
 [`variant673_entry.c`](../../src/overlays/model_variant/variant673_entry.c),
 built under `gcc_2_8_1_g0_split` (not the CDK GCC 2.7.2 profile, which leaves
-a large register-allocation diff).
-[`variant673_entry_slot1.c`](../../src/overlays/model_variant/variant673_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+a large register-allocation diff), as `ModelVariant673_HandleRequest`. The
+images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -16,8 +16,9 @@ covers the images loaded at `0x8017B000`.
 The French headers 690 and 757 carry the same entry without the `E_DATA`
 work-size printf (`0x1B1C` bytes). Their
 [`french_model_variant/variant690_entry.c`](../../src/overlays/french_model_variant/variant690_entry.c)
-and `_slot1.c` wrappers define `VERSION_FRENCH` and rename the two data tables
-`0x28` lower. All twenty images rebuild byte-identical to retail.
+wrapper, built in both slots, defines `VERSION_FRENCH`; the French symbols
+files bind `gModelVariant673_D1B48` and `gModelVariant673_D1B9C` `0x28` lower.
+All twenty images rebuild byte-identical to retail.
 
 ## Layout
 
@@ -33,7 +34,7 @@ The pad byte after the format string's terminator is `0x01` in slot 0 and
 `0x08` in slot 1, so a compiled `.rodata` string (zero-padded by the linker
 script's 4-byte alignment) cannot reproduce it. The string therefore stays in
 the unclassified data tail and the entry prints through
-`extern char D_8013CB30[]`; the instructions are the same `lui`/`addiu` pair a
+`extern char gModelVariant673_D1B30[]`; the instructions are the same `lui`/`addiu` pair a
 literal would produce.
 
 ## What the entry does

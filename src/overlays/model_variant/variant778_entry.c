@@ -6,9 +6,9 @@
  * ambient light dims; then glows swirl around the opposing slot and rings of
  * spokes expand and fade there until the light recovers. */
 
-static const VECTOR D_8013C4B4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant778_D14B4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
 {
     Model778State *work;
     MATRIX base, matrix;
@@ -26,11 +26,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C4B4;
+    scale = gModelVariant778_D14B4;
     work = (Model778State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &D_8013C518[command];
+        work->config = &gModelVariant778_D1518[command];
         point = work->smoke;
         for (i = 0; i < 25; i++) {
             setVector(point, 0, 0, 0);
@@ -60,7 +60,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4C4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant778_D14C4[i]);
         }
         work->level = 2048;
         work->phase = 0;
