@@ -13,6 +13,7 @@
 #include "display_object_fade_callbacks.h"
 #include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
+#include "european_glyph_fade_callbacks.h"
 
 /* Initialized data at 0x80090EAC: three adjacent dispatch tables.
  *
@@ -59,6 +60,10 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     Text_JumpBySelectorB,
     Text_UnlockDuelist,
     Text_CloseChoice,
+#ifdef VERSION_EUROPE
+    Text_PushPlayerNameStream,
+    Text_SetPenY,
+#endif
 };
 
 void (*gText_apfnPrimaryCommands[])(u8 *) = {
@@ -85,4 +90,12 @@ void (*gDuelEffect_EntryHandlers[])(DuelEffectEntry *, DuelEffectChannel *) = {
     (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphReveal,
     (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphConceal,
     (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateDelayedGlyphRotation,
+#ifdef VERSION_EUROPE
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphSpiralFade,
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_StartGlyphSpiralReveal,
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_StartGlyphSpiralConceal,
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphLinearFade,
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphFadeIn,
+    (void (*)(DuelEffectEntry *, DuelEffectChannel *))DuelEffect_UpdateGlyphFadeOut,
+#endif
 };

@@ -276,9 +276,30 @@ Two of them take a European arm in the shared source:
 - the burst image records use 0x280 in the field that is 0x200 in the
   North American build.
 
-The 0x1C bytes after `scene_script_slots` and the build-deck to
-display-object-stream range (`0x80091E20`-`0x800925F4`), where the European
-order differs, stay in the extracted blob.
+The middle range (`0x80091E20`-`0x800925F4`) groups the same tables
+differently from the North American build, but ten of its units now own
+their tables there:
+- `build_deck_update`: its European table ends with the divisor ladder
+  (`BUILD_DECK_DIVISOR_LADDER_ONLY`).
+- `duel_effect_update_object_layout`: an 800-entry pool, split
+  280/220/220/80.
+- `text_box_build_step`.
+- `european/duel_effect_command_table`, a data-only unit compiled through
+  `config/sles_03947/data_c.json`: two more secondary text commands and six
+  more glyph-fade entry handlers.
+- `display_effect_process_menu_records`, `mem_card_dialog` and
+  `display_object_runtime`.
+- `model_effect_state`.
+- `european/movie_stream_requests`: six movies share one stream range.
+- `model_image_copy_frames`.
+
+Three ranges stay in the extracted blob:
+- the 0x1C bytes after `scene_script_slots`;
+- the display-object stream command table (`0x80092004`);
+- the background-record run (`0x800920EC`-`0x800925EC`).
+
+Europe places the last two apart, where the North American build keeps them
+in one unit.
 
 The four language builds keep Europe's tables:
 - `duel_field_layout` at `+0x204`;
