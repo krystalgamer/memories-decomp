@@ -1445,3 +1445,4 @@ Model_DrawSharedTwoSidedSemiGt4Primitives = 0x800674E8; // type:func size:0x2E8
 Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives = 0x800677D0; // type:func size:0x2B4
 
 Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives = 0x80067A84; // type:func size:0x304
+_spu_RQ = 0x800F70A8;

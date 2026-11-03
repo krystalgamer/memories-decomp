@@ -1,0 +1,10 @@
+// Add confirmed relocation overrides here.
+// _SpuSetAnyVoice addresses the _spu_RQ SPU-register shadow by register index (>= 0xC4).
+rom:0x673F8 reloc:MIPS_HI16 symbol:_spu_RQ addend:-0x188
+rom:0x673FC reloc:MIPS_LO16 symbol:_spu_RQ addend:-0x188
+rom:0x67480 reloc:MIPS_HI16 symbol:_spu_RQ addend:-0x188
+rom:0x67484 reloc:MIPS_LO16 symbol:_spu_RQ addend:-0x188
+rom:0x6753C reloc:MIPS_HI16 symbol:_spu_RQ addend:-0x188
+rom:0x67540 reloc:MIPS_LO16 symbol:_spu_RQ addend:-0x188
+rom:0x67610 reloc:MIPS_HI16 symbol:_spu_RQ addend:-0x188
+rom:0x67614 reloc:MIPS_LO16 symbol:_spu_RQ addend:-0x188

@@ -28,6 +28,8 @@ options:
 
   symbol_addrs_path:
     - config/sles_03947/symbols.txt
+  reloc_addrs_path:
+    - config/sles_03947/relocations.txt
 
   gp_value: 0x8009BE84
   find_file_boundaries: false

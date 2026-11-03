@@ -28,6 +28,8 @@ options:
 
   symbol_addrs_path:
     - config/slpm_86398/symbols.txt
+  reloc_addrs_path:
+    - config/slpm_86398/relocations.txt
 
   gp_value: 0x8009ae48
   find_file_boundaries: false

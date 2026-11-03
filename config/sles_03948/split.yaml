@@ -19,6 +19,8 @@ options:
   undefined_syms_auto_path: tmp/splat/sles_03948/undefined_syms_auto.txt
   symbol_addrs_path:
   - config/sles_03948/symbols.txt
+  reloc_addrs_path:
+  - config/sles_03948/relocations.txt
   gp_value: 2148123288
   find_file_boundaries: false
   check_consecutive_segment_types: false

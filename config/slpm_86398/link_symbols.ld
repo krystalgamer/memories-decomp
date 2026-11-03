@@ -203,7 +203,6 @@ gAi_bHandFaceDownRequested = gAi_Selection + 8;
 /* Names inside duel_effect_process_entries's own storage (#2602). */
 
 /* Names inside input_pads's own storage (#2602). */
-D_800F3288 = gAiScript_aMemory + 24;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside model_scene_controllers's own storage (#2602). */

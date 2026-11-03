@@ -28,6 +28,8 @@ options:
 
   symbol_addrs_path:
     - config/sles_03950/symbols.txt
+  reloc_addrs_path:
+    - config/sles_03950/relocations.txt
 
   gp_value: 0x8009C298
   symbol_name_format: italian_$VRAM

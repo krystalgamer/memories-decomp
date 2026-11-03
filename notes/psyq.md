@@ -1086,7 +1086,7 @@ their evidence.
 | `SQRT` | `0x800951A8` | `0x80095058` | `0x80096094` | `LIBGTE/SQRTBL` | `SquareRoot0` |
 | `rcossin_tbl` | `0x80095638` | `0x800954E8` | `0x80096524` | `LIBGTE/CSTBL` | `RotMatrix`, `RotMatrixX`, `RotMatrixY`, `RotMatrixYXZ` and others |
 | `_ctype_` | `0x80099EE8` |  |  | `LIBC2/CTYPE_0` | `_putchar`, `prnt` |
-| `_spu_RQ` | `0x800F5D20` | `0x800F3410` | `0x800F6C88` | `LIBSPU/SPU`, 0x14 bytes | `SpuSetKey` |
+| `_spu_RQ` | `0x800F5D20` | `0x800F3410` | `0x800F6C88` | `LIBSPU/SPU`, 0x14 bytes | `SpuSetKey`; `_SpuSetAnyVoice` uses `_spu_RQ - 0x188` as a register-indexed shadow base (relocation overrides) |
 | `Stframe_no` | `0x800F5D38` | `0x800F3428` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
 | `Stsector_offset` | `0x800F5D3C` | `0x800F342C` |  | `LIBCD/CDROM`, 0x2 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
 | `StRgb24` | `0x800F5D40` | `0x800F3430` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetStream` |
