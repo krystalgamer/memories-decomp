@@ -79,7 +79,6 @@ gModel_ExodiaOrbitOffset = 0x8009AF5C;
 
 gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;
-gGraphics_bSkipDisplaySwap = 0x8009AF98;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
@@ -158,8 +157,6 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
-
-gGraphics_aImageTransferRects = 0x800E9C50;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;

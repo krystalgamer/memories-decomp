@@ -159,7 +159,7 @@ segments:
     - initial_data_1c14
   - - 7384
     - .rodata
-    - game/european/model_scene_controllers
+    - game/spanish/model_scene_controllers
   - - 7708
     - rodata
     - initial_data_1e1c
@@ -1019,7 +1019,7 @@ segments:
     - game/european/model_background
   - - 271092
     - c
-    - game/european/model_scene_controllers
+    - game/spanish/model_scene_controllers
   - - 290336
     - c
     - game/european/model_debug_controller
@@ -1133,7 +1133,7 @@ segments:
     - text_68c60
   - - 370064
     - c
-    - game/european/movie_frame_pipeline
+    - game/spanish/movie_frame_pipeline
   - - 372868
     - c
     - game/movie_stream_requests
@@ -1227,4 +1227,55 @@ segments:
     type: bin
     name: resident_tail_8cb98
     linker_section_order: .sdata
+  - [0x8CC08, .sbss, game/european/graphics_frame]
+  - [0x8CC58, .sbss, game/european/file_set_position_table]
+  - [0x8CC60, .sbss, game/european/file_transfer_runtime]
+  - [0x8CCB8, .sbss, game/european/fade_runtime]
+  - [0x8CCCC, .sbss, game/european/duel_field_card_render]
+  - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
+  - [0x8CDF0, .sbss, game/european/library_card_grid]
+  - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
+  - {start: 0x8CE0A, type: bin, name: resident_tail_8009c60a, linker_section_order: .sbss}
+  - [0x8CE10, .sbss, game/european/script_command_busy]
+  - [0x8CE14, .sbss, game/european/script_op_load_image_scene]
+  - [0x8CE50, .sbss, game/french/debug_menu_editor_entries]
+  - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
+  - [0x8CE88, .sbss, game/hmd_fog_textured_drivers]
+  - [0x8CE8C, .sbss, game/european/sorted_entry_relink]
+  - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
+  - [0x8CF08, .sbss, game/european/input_pads]
+  - [0x8CF30, .sbss, game/spanish/mem_card_dialog]
+  - [0x8CF80, .sbss, game/european/sound_frontend]
+  - [0x8CF94, .sbss, game/european/display_object_core]
+  - [0x8CFA8, .sbss, game/french/main_run_boot_sequence]
+  - [0x8CFB0, .sbss, game/european/mem_card_driver]
+  - [0x8CFD8, .sbss, game/european/sound_output_transition]
+  - [0x8CFE8, .sbss, game/spanish/model_scene_controllers]
+  - [0x8D018, .sbss, game/spanish/movie_frame_pipeline]
+  - [0x8D038, .bss, game/european/graphics_frame]
+  - [0xDB970, .bss, game/european/file_set_position_table]
+  - [0xDB998, .bss, game/european/file_transfer_runtime]
+  - [0xDBA48, .bss, game/european/fade_runtime]
+  - [0xDBA78, .bss, game/european/duel_field_card_render]
+  - [0xDBD70, .bss, game/library_create_grid_section_sprites]
+  - [0xDC910, .bss, game/european/duel_effect_object_pool]
+  - [0xDCA10, .bss, game/main_run_campaign]
+  - [0xDCA60, .bss, game/french/debug_menu_editor_entries]
+  - [0xDCA90, .bss, game/european/duel_effect_command]
+  - [0xDCAA8, .bss, game/european/text_control_commands]
+  - [0xDCB90, .bss, game/european/duel_effect_process_entries]
+  - [0xE1050, .bss, game/european/text_box_runtime]
+  - [0xE11F0, .bss, game/european/input_pads]
+  - [0xE1258, .bss, game/spanish/mem_card_dialog]
+  - [0xE19C0, .bss, game/european/display_object_core]
+  - [0xE4410, .bss, game/european/mem_card_driver]
+  - [0xE46A8, .bss, game/european/model_keyframe_update]
+  - [0xE4858, .bss, game/spanish/model_scene_controllers]
+  - [0xE5670, .bss, game/european/model_slot_control]
+  - [0xE56E8, .bss, game/european/model_slot_support]
+  - [0xE5748, .bss, game/model_distance_queries]
+  - [0xE7488, .bss, game/european/model_handler_dispatch]
+  - [0xE7708, .bss, game/movie_stream_requests]
+  - [0xE7720, .bss, game/ai_script_vm]
+  - {start: 0xE7810, type: bin, name: resident_tail_800f7010, linker_section_order: .bss}
 - - 1902592
