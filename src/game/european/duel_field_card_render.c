@@ -10,7 +10,7 @@ s16 gDuel_wViewTweenFramesRemaining;
 u16 D_8009C0AE_sles_03947;
 u32 D_8009C0B0_sles_03947;
 u32 D_8009C0B4_sles_03947;
-s8 D_8009B208;
+s8 D_8009C0B8_sles_03947;
 u8 D_8009C0B9_sles_03947;
 u16 D_8009C0BA_sles_03947;
 s32 gDuel_dwViewTweenDistanceStep;

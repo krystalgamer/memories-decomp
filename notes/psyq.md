@@ -163,11 +163,9 @@ above.
 | `sles_03951` | 412 | 0 | 19 | 6 |
 
 The European renames touch only the five `functions.csv` inventories. The
-`func_` identities that European C reaches through `link_symbols.ld` lines
-(`func_80073B94 = 0x80073D98;` in `sles_03948`) and through
-`#define SetMem func_80073B94`-style wrappers keep their spelling. They are
-address assignments, so they still resolve to the same words. Turning them
-into the new names is separate cleanup.
+SDK functions that shared European C calls are bound under their SDK names
+(`SetMem = 0x80073D98;` in `sles_03948/link_symbols.ld`, `SetMem =
+0x80073B94;` in `sles_03947/symbols.txt`), so no wrapper redefines them.
 
 ### Catalogue input contract
 

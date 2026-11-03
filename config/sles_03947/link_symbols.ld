@@ -65,8 +65,8 @@ func_8006988C = 0x80068B8C;
 func_80069B40 = 0x80068E40;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
 gDuel_wAiHandStackPending = D_8009B20C;
-gEuropean_D_8009B208 = 0x8009C10A;
-gEuropean_D_8009B20C = 0x8009C10E;
+D_8009B208 = D_8009C10A_sles_03947;
+gDuel_wActionSubstate = D_8009C10E_sles_03947;
 func_80025034 = DuelEffect_ApplyLifePointRecovery;
 func_800251C8 = DuelEffect_ApplyDirectDamage;
 func_800252F8 = DuelEffect_ApplyMonsterRemoval;
@@ -131,7 +131,6 @@ gGraphics_nBaseFrameStep = D_8009B0D8;
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
-func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = 0x801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
@@ -148,7 +147,7 @@ func_8002C570 = Library_CheckCardInChest;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
+gDuel_bBattleRemovalSlot0 = D_8009C0B8_sles_03947;
 gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
@@ -236,7 +235,6 @@ gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
-gDuel_wActionSubstate = gEuropean_D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
@@ -285,8 +283,6 @@ gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
 gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
 gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
 gDuel_pActionReadyMarker = D_8009C108_sles_03947;
-gEuropean_D_8009B208 = D_8009C10A_sles_03947;
-gEuropean_D_8009B20C = D_8009C10E_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
 gDuel_pCardViewerBackground = D_8009C1B4_sles_03947;
 
@@ -415,9 +411,9 @@ gMemCard_aDirEntries = D_800F37F0_sles_03947 + 64;
 tent_AiSelectionRandom = D_800EAE88 + 8;
 D_8009C0CC = D_8009C0CC_sles_03947;
 D_800F5694 = D_800F3A10 + 7300;
-D_8009C0A8 = D_8009C0A8_sles_03947;
-D_8009C0C0 = D_8009C0C0_sles_03947;
-D_8009C148 = D_8009C148_sles_03947;
+gDuel_wAiSelectionStepDelay = D_8009C0A8_sles_03947;
+gDuel_bAiSelectionCursor = D_8009C0C0_sles_03947;
+gDuel_bAnimatedBattleRequested = D_8009C148_sles_03947;
 D_8009C408 = D_8009C408_sles_03947;
 gAiScript_State = D_800F5BE8;
 gAi_Selection = D_800EAE88;

@@ -67,8 +67,8 @@ cast and byte interpretation remains.
 
 The French literal `D_80090DD8_French` at the NA address is not the
 logical sort table at `0x80092214` and remains untouched.
-European native builder providers retain their old `func_80050B6C`
-compatibility name; frozen Trade overlays keep their independently bound
+European builds call the builder by its semantic name; frozen Trade
+overlays keep their independently bound
 `func_80060E70` import. Unrelated literal function identities are not rebound.
 
 ## Scope boundaries
