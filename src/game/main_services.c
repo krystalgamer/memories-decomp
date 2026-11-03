@@ -32,9 +32,9 @@
    pad-driven screen-offset adjustment loop follow in this unit. The last
    clears the gMain_apFrameServiceCallbacks slots and gMain_pfnExtraFrameService callback that the pump runs. */
 
-/* The European build places it through config/sles_03947/symbols.txt; its
+/* The Japanese build places it through config/slpm_86398/symbols.txt; its
    .sdata is not carved from the executable. */
-#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+#ifndef VERSION_JAPAN
 s32 gMain_nServiceResyncCountdown = 0x3C;
 #endif
 
