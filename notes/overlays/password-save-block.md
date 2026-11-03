@@ -9,9 +9,9 @@ exactly; the interpretation is flagged where it goes beyond that.
 
 The function does five things in order:
 
-1. `Util_FillMemory(D_801D0000, 0, 0x3000)` (`0x80035748`) — clears
+1. `Util_FillMemory(gSaveData_Workspace, 0, 0x3000)` (`0x80035748`) — clears
    `0x801D0000`–`0x801D3000`.
-2. `printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000)` —
+2. `printf("SaveLoadBuf add = 0x%x size = 0x%x\n", gSaveData_Workspace, 0x3000)` —
    logs the cleared buffer's address and size. The 36-byte format string is
    emitted at overlay address `0x80168090`; it is not source data for the
    buffer.
@@ -33,7 +33,7 @@ and duplicate-state staging layout is documented in
 
 ## Shared live-workspace contract
 
-[`save_data.h`](../../src/game/save_data.h) owns `D_801D0000` and the
+[`save_data.h`](../../src/game/save_data.h) owns `gSaveData_Workspace` and the
 independently labeled chest, player-name and Free Duel record interiors.
 The live `SaveDataWorkspace.state` starts at `+0x200`, while `SaveDataState`
 remains a prefix of the persisted block, not a replacement allocation:
@@ -84,7 +84,7 @@ four bytes; the guarded array retains the original instructions.
 `func_8002C570` retains its byte-offset API and two-stage base calculation.
 Its displacement is now derived from the card-quantity layout, but no caller
 establishes that its argument is a bounded one-based card ID. Moving the
-one-based bias into the base pointer changed the `D_801D0000` relocation
+one-based bias into the base pointer changed the `gSaveData_Workspace` relocation
 addend from zero to minus one and the byte-load displacement from `0x24F` to
 `0x250`; that spelling was rejected. `Library_UpdateCardUsedFlag` likewise
 retains its existing byte cursor, encoded requests and register assignments.
@@ -131,7 +131,7 @@ The resident flag accessors mask an encoded ID with `CAMPAIGN_FLAG_ID_MASK`
 (`0x7FF`), select its byte using `CAMPAIGN_FLAG_BYTE_SHIFT` (`3`), and select
 the bit with `CAMPAIGN_FLAG_BYTE_HIGH_BIT` (`0x80`) shifted right by the low
 three ID bits. The bank therefore contains 2048 MSB-first flags in 256 bytes.
-Its `CAMPAIGN_FLAG_BANK_OFFSET` (`0x618`) is relative to `D_801D0000`, placing
+Its `CAMPAIGN_FLAG_BANK_OFFSET` (`0x618`) is relative to `gSaveData_Workspace`, placing
 it at `0x801D0618`; relative to the persisted state at `0x801D0200`, the same
 bank starts at `+0x418`. The existing two-stage address calculation and
 set/clear polarity are preserved.
@@ -202,5 +202,5 @@ that the external map was reading a larger structure rooted at that field,
 rather than two unrelated pieces of address arithmetic.
 
 Those relative expressions describe the external map's notation. The
-resident flag helpers themselves use `D_801D0000 + 0x618`, not the
+resident flag helpers themselves use `gSaveData_Workspace + 0x618`, not the
 duelist-code field as their access base.

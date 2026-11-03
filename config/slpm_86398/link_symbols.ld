@@ -1,5 +1,4 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
-gText_GlyphUploadScratch = D_801DA000;
 gText_awGlyphNibblePatterns = D_80090E28;
 gText_awGlyphColorMasks = D_80090E48;
 
@@ -96,7 +95,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -127,8 +125,6 @@ gFile_dwCancelRequestState = 0x8009B024;
 gFile_dwCancelRequestState_abs = 0x8009B024;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
@@ -158,9 +154,6 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
@@ -187,9 +180,6 @@ gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
 gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
-
-/* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;

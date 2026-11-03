@@ -73,10 +73,10 @@ void NameEntry_Main(void)
     s32 value;
     s32 i;
 
-    Util_FillMemory(D_801D0000, 0, 0x3000);
+    Util_FillMemory(gSaveData_Workspace, 0, 0x3000);
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     /* The Japanese build has no load-buffer trace. */
-    printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000);
+    printf("SaveLoadBuf add = 0x%x size = 0x%x\n", gSaveData_Workspace, 0x3000);
 #endif
     NameEntry_Init();
     do {

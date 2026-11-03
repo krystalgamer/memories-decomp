@@ -14,7 +14,7 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
   their scalar names. Native fixtures must allocate a real pointer pair and
   map the second scalar identity to its second element.
 - `Duel_InitScene` selects the two `0x1000`-byte windows beginning at
-  `D_801D1200` in the no-opponent path, or the persistent state base in the
+  `gSaveData_aPairWorkspace` in the no-opponent path, or the persistent state base in the
   normal path. `SaveDataState` already covers the required `0x5E4`-byte
   prefix. Its former four-byte padding at `+0x518` is now two `u16`
   duel totals: wins at `+0x518`, losses at `+0x51A`. Starchips occupy the

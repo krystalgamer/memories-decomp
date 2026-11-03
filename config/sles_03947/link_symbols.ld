@@ -144,7 +144,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -174,8 +173,6 @@ gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
@@ -207,9 +204,6 @@ gText_GlobalStringOffsets = D_801D5804;
 
 gGraphics_aImageTransferRects = D_8009C418_sles_03947;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
@@ -233,9 +227,6 @@ PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-
-/* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;

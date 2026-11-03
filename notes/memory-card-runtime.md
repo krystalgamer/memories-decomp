@@ -592,7 +592,7 @@ UI and modal-save phases; it is not replaced with a local, reader helper,
 byte scene index or new context object.
 
 The confirmed-choice path still writes the retained halfword to
-`D_801D0000[(SAVE_DATA_HEADER_SIZE +
+`gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE +
 SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) / sizeof(s16)]` *before* inspecting
 the selected choice. The save case repeats that same store before
 `SaveData_RequestWrite`. Both stores remain even though their values can
