@@ -522,7 +522,7 @@ gDuel_bPlayerLost = 0x8009C6F4;
 D_8009B374 = 0x8009C6F6;
 D_8009B363 = 0x8009C6F8;
 gDuel_bTerrain = 0x8009C6F9;
-D_8009B368 = 0x8009C6FA;
+gDuel_bPostDuelMainMode = 0x8009C6FA;
 gFreeDuel_bReturnFlags = 0x8009C6FB;
 gDuel_bResumeFromAnimatedBattle = 0x8009C6FC;
 gGameOver_pTitleObject = 0x8009C700;
@@ -1008,7 +1008,6 @@ func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
 
-gDuel_bPostDuelMainMode = D_8009B368;
 gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;

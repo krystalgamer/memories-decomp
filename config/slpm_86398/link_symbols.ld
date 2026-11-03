@@ -96,7 +96,6 @@ func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
 
-gDuel_bPostDuelMainMode = 0x8009B258;
 gDuel_bResumeFromAnimatedBattle = 0x8009B259;
 gDuel_wCampaignSceneOnWin = 0x8009B260;
 gDuel_wCampaignSceneOnLoss = 0x8009B262;

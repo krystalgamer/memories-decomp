@@ -16,6 +16,7 @@
 #include "../../game/duel_effect.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/duel_side_state.h"
+#include "../../game/duel_session_controls.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/image_transfer_rects.h"
 #include "../../game/text_constants.h"
@@ -570,7 +571,7 @@ void FreeDuel_UpdateScreen(void)
             gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
                 gFreeDuel_bCursorColumn,
             0x6000, 0x6000);
-        D_8009B368 = 6;
+        gDuel_bPostDuelMainMode = 6;
         gMain_bActiveModeState = 3;
     }
 }

@@ -39,8 +39,8 @@ remain, including their existing behavior for other byte values.
 At duel completion, `Main_RunDuel` performs its existing fade/sound/frame/
 transfer cleanup and copies the post-duel mode into the active main mode.
 Existing producers choose Debug (0), Campaign (2), Free Duel (6) or Menu
-(8). Free Duel's overlay still writes the numeric legacy identity; it
-binds to the same byte and is not retargeted.
+(8). Free Duel's overlay writes the same byte under its canonical name;
+each image's overlay link file binds that name to the resident address.
 
 Only when returning to Campaign does the runner select a scene from the
 win/loss operands. It reads the **low byte** at the first halfword's base

@@ -290,7 +290,7 @@ gText_PumpedGlyphIndex = 0x8009C6D6;
 gDuel_bSide0ControllerSelector = 0x8009C6F2;
 gDuel_bPlayerLost = 0x8009C6F4;
 D_8009B363 = 0x8009C6F8;
-D_8009B368 = 0x8009C6FA;
+gDuel_bPostDuelMainMode = 0x8009C6FA;
 gDuel_bResumeFromAnimatedBattle = 0x8009C6FC;
 D_8009B370 = 0x8009C6EC;
 D_8009B372 = 0x8009C6EE;
@@ -1008,7 +1008,6 @@ func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
 
-gDuel_bPostDuelMainMode = D_8009B368;
 gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
