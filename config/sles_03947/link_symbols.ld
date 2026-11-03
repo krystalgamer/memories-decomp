@@ -278,7 +278,6 @@ gCampaignSceneIndex = D_8009C218_sles_03947;
 gScript_WaitCounter = D_8009C220_sles_03947;
 
 /* Names inside debug_menu_editor_entries's own storage (#2602). */
-D_8009B2C6 = gDebug_nLastSoundID + 2;
 
 /* Names inside sorted_entry_relink's own storage (#2602). */
 gModel_dwFogDrawFlags = D_8009C26C_sles_03947;
@@ -317,9 +316,6 @@ gFade_State = D_800EAE28_sles_03947;
 /* Names inside duel_field_card_render's own storage (#2602). */
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
-D_800F0004 = gDuelEffect_aEntries + 16532;
-D_800F0008 = gDuelEffect_aEntries + 16536;
-D_800F0030 = gDuelEffect_aEntries + 16576;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 
