@@ -7,7 +7,7 @@
 #define CAMPAIGN_MAP_LOCATION_OBJECT_COUNT 4
 
 /* The camera tween: CampaignMap_StartCameraTween loads five 16.16
- * accumulators (each value << 16 | 0x8000) from D_800F2848 -- yaw (angle),
+ * accumulators (each value << 16 | 0x8000) from gViewState_Current -- yaw (angle),
  * pitch (field_04), distance (field_00) and the reference point's x and z --
  * and a per-frame step towards the location record's camera; the location
  * transition adds each step and writes the integer halves back. */

@@ -192,7 +192,7 @@ Read the target both ways:
   a repeated expression into a local displaces an address load out of a branch
   delay slot.
 - If the target **does** materialise one, the local is required.
-  `CampaignMap_SetCameraFromLocation` forms the `D_800F2848` base in its own
+  `CampaignMap_SetCameraFromLocation` forms the `gViewState_Current` base in its own
   register and stores at constant offsets from it; without a local for that
   base, GCC walks the address incrementally instead.
 
@@ -773,14 +773,14 @@ pitch = *(s32 *)(camera + 0x1C);
 dist  = *(s32 *)(camera + 0x24);
 
 /* matches: a second base, typed to the field being read */
-s32 *cameraLong = (s32 *)D_800F2848;
+s32 *cameraLong = (s32 *)gViewState_Current;
 pitch = cameraLong[7];
 dist  = cameraLong[9];
 ```
 
 Both bases are the same symbol, so this costs nothing at runtime and adds no
 instruction — it only tells GCC what is being read. Note the base has to be
-the symbol itself: `(s32 *)(D_800F2848 + 0x10)` with indices `3` and `5`
+the symbol itself: `(s32 *)(gViewState_Current + 0x10)` with indices `3` and `5`
 needs its own `addiu` and comes out a word long.
 
 The tell is a load that appears *later* than its source position, separated

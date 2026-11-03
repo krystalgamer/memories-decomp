@@ -82,7 +82,6 @@ func_80060E70 = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
-gViewState_Current = D_800F2848;
 
 func_8003FFD8 = SD_CdBgmPlay;
 gSD_dwSavedBgmCommand = D_8009B404;
@@ -238,7 +237,7 @@ gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 
 /* Names inside input_pads's own storage (#2602). */
 gInput_abRepeatTimers = D_800ECD88_slpm_86398;
-D_800F2848 = D_800EFE38 + 10768;
+gViewState_Current = D_800EFE38 + 10768;
 D_800F5694 = D_800F3A10 + 7300;
 D_800F3288 = gAiScript_aMemory + 24;
 gAiScript_State = D_800F5BE8;

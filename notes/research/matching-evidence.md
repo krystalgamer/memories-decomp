@@ -2342,7 +2342,7 @@ is the same padding trap recorded above for `no_sched2`.
 
 | Base | Evidence-backed layout |
 |---|---|
-| `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
+| `gViewState_Current` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
 | `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_ground_projection.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
@@ -5256,9 +5256,9 @@ returns control to the outer state. This state/loop structure is unchanged.
 
 The earlier candidate established several useful source-shape constraints:
 
-- Keep `w = D_800F2848` before the outer flag test. This retains the high-half
+- Keep `w = gViewState_Current` before the outer flag test. This retains the high-half
   and full address in their function-wide saved registers. Offset zero must
-  still use `D_800F2848[0]`, while the other offsets use `w`: that preserves
+  still use `gViewState_Current[0]`, while the other offsets use `w`: that preserves
   the direct low relocation and prevents the later halfword load from moving
   before the offset-zero store.
 - Keep phase-2 halfword updates in place, followed by the signed comparison.

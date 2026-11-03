@@ -390,7 +390,7 @@ typedef struct DisplayObject {
    The 0x70 stride is not merely asserted, it is fixed by the layout:
    gDisplayObject_aPool holds DISPLAY_OBJECT_POOL_CAPACITY (96) entries, and
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
-   D_800F2848 begins. There is no room for a larger record.
+   gViewState_Current begins. There is no room for a larger record.
 
    Yet DisplayObject_RenderTexturedGouraudQuadList walks this pool with that
    stride and then tests e[0x72] as a flag, reading a second vertex set from

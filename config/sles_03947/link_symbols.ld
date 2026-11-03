@@ -124,7 +124,6 @@ func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = 0x801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
-gViewState_Current = D_800F2848;
 
 func_8003FFD8 = SD_CdBgmPlay;
 gSD_dwSavedBgmCommand = D_8009B404;
@@ -401,7 +400,7 @@ D_800EFE40 = D_800F0DA0_sles_03947 + 8;
 D_800EFE42 = D_800F0DA0_sles_03947 + 10;
 D_800EFE44 = D_800F0DA0_sles_03947 + 12;
 gDisplayObject_awListKeys = D_800F0DA0_sles_03947 + 16;
-D_800F2848 = D_800F0DA0_sles_03947 + 32;
+gViewState_Current = D_800F0DA0_sles_03947 + 32;
 D_800F284A = D_800F0DA0_sles_03947 + 34;
 D_800F2856 = D_800F0DA0_sles_03947 + 46;
 gDisplayObject_aPool = D_800F0DA0_sles_03947 + 80;

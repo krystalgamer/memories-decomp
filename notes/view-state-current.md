@@ -1,7 +1,8 @@
 # Active scene-view state and alternate orbit
 
-`gViewState_Current` names the existing `D_800F2848` view, not a new allocation
-or a replacement layout. Duel setup, projection, view tweening, Library,
+`gViewState_Current` is the view record at `0x800F2848` (formerly
+`D_800F2848`, now its only name), not a new allocation or a replacement
+layout. Duel setup, projection, view tweening, Library,
 developer effect controls and result-heading updates use this record. The
 overworld also imports its legacy name. It is distinct from `gModel_RView`
 and `gModel_CameraMove`.

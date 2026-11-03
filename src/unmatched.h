@@ -217,7 +217,7 @@ struct CardList;
 struct DuelEffectChannel;
 struct DuelRitualResult;
 
-/* The duel screen's per-frame view callback. It reads D_800F2848, programs
+/* The duel screen's per-frame view callback. It reads gViewState_Current, programs
  * the geometry engine from its projection field -- SetGeomScreen,
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
  * records.

@@ -4,8 +4,6 @@
 #include "../types.h"
 #include "view_state.h"
 
-extern ViewState gViewState_Current;
-
 void ViewState_ApplyAlternateOrbit(void);
 
 #endif

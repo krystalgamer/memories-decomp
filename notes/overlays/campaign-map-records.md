@@ -36,7 +36,7 @@ not just zero stores. Immediate camera setup and several marker copies
 formerly loaded the same halfwords through `u16 *`. Their explicit `(u16)`
 conversions remain at the copy sites, preserving those accesses without
 creating a second struct view. The two tween channels that read
-`D_800F2848` through `s32 *cameraLong` are unrelated to the source-table
+`gViewState_Current` through `s32 *cameraLong` are unrelated to the source-table
 contract and are deliberately unchanged.
 
 ## One exit

@@ -92,7 +92,6 @@ func_80060E70 = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
-gViewState_Current = D_800F2848;
 
 func_8003FFD8 = SD_CdBgmPlay;
 gSD_dwSavedBgmCommand = D_8009B404;
@@ -268,7 +267,7 @@ gDisplayObject_wSpriteListHead = D_800EFE38 + 2;
 gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
 gDisplayObject_aPool = D_800EFE38 + 16;
 gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
-D_800F2848 = D_800EFE38 + 10768;
+gViewState_Current = D_800EFE38 + 10768;
 gDisplayObject_awListKeys = D_800EFE38 + 10816;
 
 /* Other names for game/mem_card_driver's small data (#2602). */

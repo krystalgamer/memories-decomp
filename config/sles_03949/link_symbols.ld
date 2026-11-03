@@ -639,7 +639,7 @@ gDisplayObject_awListHeads = 0x800F11C0;
 gDisplayObject_wSpriteListHead = 0x800F11C2;
 gDisplayObject_wSpriteSheetListHead = 0x800F11C4;
 gDisplayObject_awListKeys = 0x800F11D0;
-D_800F2848 = 0x800F11E0;
+gViewState_Current = 0x800F11E0;
 gDisplayObject_aPool = 0x800F1210;
 gDisplayObject_aGeneralSlots = 0x800F1910;
 gModel_aPoseSnapshot = 0x800F3EA8;
@@ -1031,7 +1031,6 @@ func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
-gViewState_Current = D_800F2848;
 
 func_8003FFD8 = SD_CdBgmPlay;
 gSD_dwSavedBgmCommand = D_8009B404;
