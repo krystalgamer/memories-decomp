@@ -87,7 +87,7 @@ typedef struct {
     /* AiScript_LoadGuardianStarChoice stores the low byte of an AI register
      * here; DuelScene_UpdateCardMove reads bit 0 as bytes[7]. */
     s8 zero;        /* 0x07 */
-    s8 random;      /* 0x08 */
+    u8 face_down;   /* 0x08 */
     /* The field-action source and target codes. DuelScene_UpdateFieldActions
      * reads them as bytes[9] and bytes[10]; AiScript_PlayFieldCard writes all three. */
     s8 field_09;    /* 0x09 */
@@ -102,12 +102,11 @@ typedef union {
 
 extern AiSelection gAi_Selection;
 
-/* Byte 0x08 of that same selection -- AiSelection.fields.random -- is also
- * gAi_bHandFaceDownRequested (ai_controller_handoff.h). Its opcode setters
- * and loader reach it as that standalone u8 rather than through the struct:
- * the recorded attempts for AiScript_LoadSelectionRandom fail to link with
- * an R_MIPS_GPREL16 truncation through the struct, so the symbol's own
- * small-data addressing is what those functions match on.
+/* Byte 0x08 of that same selection -- AiSelection.fields.face_down -- is the
+ * hand face-down request: Ai_SelectMagicPlay and Ai_SelectHandPlay set it to 1
+ * or rand() & 1, and
+ * the AI script opcodes set, clear and load it. Its loader zero-extends it
+ * (lbu), so the field is unsigned.
  *
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
  * gAi_Selection.bytes[8]: the symbol-plus-offset form is what orders its %hi ahead of
@@ -243,8 +242,8 @@ typedef char AiSelection_value_offset_must_be_0x06[
 typedef char AiSelection_zero_offset_must_be_0x07[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, zero) == 0x07 ? 1 : -1
 ];
-typedef char AiSelection_random_offset_must_be_0x08[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, random) == 0x08 ? 1 : -1
+typedef char AiSelection_face_down_offset_must_be_0x08[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, face_down) == 0x08 ? 1 : -1
 ];
 typedef char AiSelection_field_09_offset_must_be_0x09[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_09) == 0x09 ? 1 : -1

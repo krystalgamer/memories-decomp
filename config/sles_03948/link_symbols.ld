@@ -935,7 +935,6 @@ srand = 0x8008F738;
 strcmp = 0x8008F7F8;
 strcpy = 0x8008F868;
 tail_data_start = 0x801AC000;
-gAi_bHandFaceDownRequested = 0x800EC218;
 tent_DebugEffectObject0 = 0x8009C588;
 tent_DebugEffectObject1 = 0x8009C58C;
 gDebug_pszEditorFormat = 0x8009C674;

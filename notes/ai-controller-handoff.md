@@ -8,7 +8,7 @@ structure or replace the existing twelve-byte `AiSelection` union.
 | --- | --- | --- |
 | `D_8009B360` | `gDuel_bSide0ControllerSelector` | one `.data` `s8 [DUEL_SIDE_COUNT]` declaration |
 | `D_800EAE8F` | `gAi_Selection.fields.zero` (`bytes[7]`) | selection +7, no separate name |
-| `tent_AiSelectionRandom` | `gAi_bHandFaceDownRequested` | unsigned scalar, selection +8 |
+| `tent_AiSelectionRandom`, `gAi_bHandFaceDownRequested` | `gAi_Selection.fields.face_down` (`bytes[8]`) | selection +8, unsigned, no separate name |
 | `D_800EAE91` | `gAi_Selection.bytes[9]` | selection +9, no separate name |
 | `D_800EAE92` | `gAi_Selection.bytes[10]` | selection +10, no separate name |
 

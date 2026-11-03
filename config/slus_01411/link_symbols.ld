@@ -211,7 +211,6 @@ Base2_8009B2AA = gScript_ViewportTargetY;
 /* Other names for game/duel_field_card_render's small data (#2602). */
 
 /* Other names for game/main_run_campaign's small data (#2602). */
-gAi_bHandFaceDownRequested = gAi_Selection + 8;
 
 /* Other names for game/text_box_runtime's small data (#2602). */
 

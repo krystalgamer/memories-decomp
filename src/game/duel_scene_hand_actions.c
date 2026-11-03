@@ -8,9 +8,9 @@
  * source:
  * - The pad words are volatile: every test re-reads them.
  * - The AI selection bytes are read as elements of gAi_Selection.bytes ([1], [6] and
- *   [8]). Byte 8 also has the gAi_bHandFaceDownRequested name, but the
- *   symbol-plus-offset form is what puts the %hi ahead of
- *   the neighbouring constants, and the linked bytes are the same.
+ *   [8]). Byte 8 is fields.face_down, the hand face-down request; the
+ *   byte-index form is what puts the %hi ahead of the neighbouring
+ *   constants.
  * - The substate word is a scalar. sched lets a struct-member load through a
  *   pointer pass a store to a fixed scalar, which is the order of every
  *   "substate, then object flags" pair here; an array-element spelling

@@ -27,7 +27,7 @@ void AiScript_LoadHandFaceDownRequest(void)
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
 
-    values[index] = gAi_bHandFaceDownRequested;
+    values[index] = gAi_Selection.fields.face_down;
 }
 
 void AiScript_TestSwordsActive(void)

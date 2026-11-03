@@ -324,7 +324,6 @@ gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 /* Names inside display_object_core's own storage (#2602). */
 
 /* Names inside mem_card_driver's own storage (#2602). */
-gAi_bHandFaceDownRequested = gAi_Selection + 8;
 D_8009C0CC = D_8009C0CC_sles_03947;
 D_8009C0A8 = D_8009C0A8_sles_03947;
 D_8009C0C0 = D_8009C0C0_sles_03947;

@@ -195,7 +195,6 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-gAi_bHandFaceDownRequested = gAi_Selection + 8;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 

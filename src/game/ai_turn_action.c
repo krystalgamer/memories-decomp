@@ -32,8 +32,8 @@
 int Ai_SelectMagicPlay(void)
 {
  DuelCardRecord*list[6];int count=Duel_CollectFieldCardsByType(list,0,CARD_TYPE_MAGIC);
- if(count){s8 first=list[0]->table_index;int index;gAi_Selection.fields.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.fields.field1=0;gAi_Selection.fields.zero=0;gAi_Selection.fields.random=0;gAi_Selection.fields.value=6;
-  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.fields.random=rand()&1;gAi_Selection.fields.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
+ if(count){s8 first=list[0]->table_index;int index;gAi_Selection.fields.result=first%DUEL_FIELD_ROW_SIZE+11;gAi_Selection.fields.field1=0;gAi_Selection.fields.zero=0;gAi_Selection.fields.face_down=0;gAi_Selection.fields.value=6;
+  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){gAi_Selection.fields.face_down=rand()&1;gAi_Selection.fields.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
 }
 
 /* AI fusion attempt. Collects hand monsters, rolls a coin, and looks for a
@@ -88,7 +88,7 @@ found1:
     v = e2->table_index;
     st->value = v % DUEL_FIELD_ROW_SIZE + 1;
     st->zero = rand() & 1;
-    st->random = 0;
+    st->face_down = 0;
     return 0;
     }
 
@@ -106,7 +106,7 @@ found2:
     st->value = slot % DUEL_FIELD_ROW_SIZE + 1;
     st->field1 = w % DUEL_FIELD_ROW_SIZE + 0xB;
     st->zero = rand() & 1;
-    st->random = 0;
+    st->face_down = 0;
     return 0;
     }
 
@@ -160,7 +160,7 @@ s32 Ai_SelectHandPlay(void) {
         gAi_Selection.fields.value = slot % DUEL_FIELD_ROW_SIZE + 1;
         gAi_Selection.fields.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
         gAi_Selection.fields.zero = rand() & 1;
-        gAi_Selection.fields.random = 1;
+        gAi_Selection.fields.face_down = 1;
     } else {
         s8 v;
 
@@ -173,9 +173,9 @@ s32 Ai_SelectHandPlay(void) {
         gAi_Selection.fields.zero = 0;
         gAi_Selection.fields.value = slot % DUEL_FIELD_ROW_SIZE + 6;
         gAi_Selection.fields.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        gAi_Selection.fields.random = rand() & 1;
+        gAi_Selection.fields.face_down = rand() & 1;
         if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQUIP) {
-            gAi_Selection.fields.random = 1;
+            gAi_Selection.fields.face_down = 1;
         }
     }
     return 0;
