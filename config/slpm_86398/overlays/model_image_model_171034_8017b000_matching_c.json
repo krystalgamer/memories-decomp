@@ -4,31 +4,31 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x110C",
-      "source": "src/overlays/model_variant/variant455_entry_slot1.c"
+      "source": "src/overlays/model_variant/variant455_entry.c"
     },
     {
       "address": "0x8017C110",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x628",
-      "source": "src/overlays/model_variant/variant455_blooms_slot1.c"
+      "source": "src/overlays/french_model_variant/variant472_blooms.c"
     },
     {
       "address": "0x8017C738",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x604",
-      "source": "src/overlays/model_variant/variant455_mesh_slot1.c"
+      "source": "src/overlays/french_model_variant/variant472_mesh.c"
     },
     {
       "address": "0x8017CD3C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xB4C",
-      "source": "src/overlays/model_variant/variant455_spiral_slot1.c"
+      "source": "src/overlays/model_variant/variant455_spiral.c"
     },
     {
       "address": "0x8017D888",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3AC",
-      "source": "src/overlays/model_variant/variant455_sheets_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant472_sheets.c"
     }
   ],
   "schema": 1

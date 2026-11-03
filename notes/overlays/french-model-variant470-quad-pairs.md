@@ -1,6 +1,7 @@
 # French MODEL470 quad pairs helper
 
-`func_8013C510` / `func_8017C510` (MODEL470 family, image offset `0x1510`,
+`FrenchModelVariant470_DrawQuadPairs` (formerly `func_8013C510` /
+`func_8017C510`; MODEL470 family, image offset `0x1510`,
 0x4E4 bytes) draws and advances two groups of ten growing quads. **No
 release had matching C for this body before.**
 

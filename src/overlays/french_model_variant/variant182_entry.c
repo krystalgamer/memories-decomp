@@ -7,9 +7,9 @@
  * and bursts into an expanding ring with a fading screen flash. The return
  * value is 0 until the burst starts, then 1 once, 0 and finally 2. */
 
-static const VECTOR D_8013CCC8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant182_D1CC8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base;
     MATRIX matrix;
@@ -43,13 +43,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CCC8;
+    scale = gFrenchModelVariant182_D1CC8;
     work = (Model182State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         p = work->offsets;
-        config = work->config = &D_8013CD64[command % 100];
+        config = work->config = &gFrenchModelVariant182_D1D64[command % 100];
         for (i = 0; i < config->count; i++) {
             value = rand() % 4096;
             elevation = rand() % 2048;
@@ -75,7 +75,7 @@ s32 func_8013B004(u8 *context, s32 command)
             p++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CCD8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant182_D1CD8[i]);
         }
         work->elapsed = 0;
         work->frame = 0;
@@ -156,10 +156,10 @@ s32 func_8013B004(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256,
-                D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -233,10 +233,10 @@ s32 func_8013B004(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256,
-                D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -289,10 +289,10 @@ s32 func_8013B004(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256,
-                D_8013CCD8[i % 3].px % 64 * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph,
-                (D_8013CCD8[i % 3].px % 64 + D_8013CCD8[i % 3].pw) * 4, D_8013CCD8[i % 3].py % 256 + D_8013CCD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
+                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
+                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }

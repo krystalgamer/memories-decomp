@@ -1,8 +1,8 @@
-func_8013B004 = 0x8013B004; // type:func size:0x1088
+FrenchModelVariant117_HandleRequest = 0x8013B004; // type:func size:0x1088
 D_8013C08C = 0x8013C08C; // type:u32 size:0x10 defined:true
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-D_8013C09C = 0x8013C09C; // type:u8 size:0xA8 defined:true
-D_8013C144 = 0x8013C144; // type:u8 size:0x3EBC defined:true
+gFrenchModelVariant117_D109C = 0x8013C09C; // type:u8 size:0xA8 defined:true
+gFrenchModelVariant117_D1144 = 0x8013C144; // type:u8 size:0x3EBC defined:true
 GsGetLwUnit = 0x8008A428; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true
 GsSortPoly = 0x800842A8; // type:func absolute:true

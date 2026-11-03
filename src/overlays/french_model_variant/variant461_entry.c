@@ -6,7 +6,7 @@
 #define MODEL_VARIANT461_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState461 *work = (EntryState461 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -41,7 +41,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig461 *)(D_8013D8D4 + 0xFC) + command;
+        work->config = (EntryConfig461 *)(gFrenchModelVariant461_D28D4 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -57,12 +57,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT461_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT461_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D8D4 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant461_D28D4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D8D4 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D8D4 + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 0, (GsIMAGE *)(D_8013D8D4 + 0x54));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant461_D28D4 + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant461_D28D4 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 0, (GsIMAGE *)(gFrenchModelVariant461_D28D4 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -375,12 +375,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->elapsed && work->phase < 8) {
-            func_8013D498((u8 *)point);
+            SpanishModelVariant461_DrawRing((u8 *)point);
             if (work->phase > 0) {
-                func_8013CF54((u8 *)point);
+                SpanishModelVariant461_DrawSheets((u8 *)point);
             }
             if (work->phase >= 2) {
-                func_8013C508((u8 *)point);
+                FrenchModelVariant461_DrawRibbons((u8 *)point);
             }
         }
         work->frame_count++;

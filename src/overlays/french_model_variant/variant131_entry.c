@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant131_entry.h"
 
-static const VECTOR D_8013C5BC = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant131_D15BC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
 {
     Model131State *work;
     Model131Config *config;
@@ -25,12 +25,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C5BC;
+    scale = gFrenchModelVariant131_D15BC;
     work = (Model131State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &D_8013C604[command % 100];
+        work->config = &gFrenchModelVariant131_D1604[command % 100];
         config = work->config;
         point = work->ring;
         for (i = 0; i < 7; i++) {
@@ -53,7 +53,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->pad = i % 16;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C5CC[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant131_D15CC[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

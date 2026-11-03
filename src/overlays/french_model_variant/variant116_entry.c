@@ -2,9 +2,9 @@
 #include "variant116_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR D_8013C15C = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant116_D115C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant116_HandleRequest(u8 *context, s32 command)
 {
     Model116State *work;
     s32 direction;
@@ -25,11 +25,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C15C;
+    scale = gFrenchModelVariant116_D115C;
     work = (Model116State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C1C0[command];
+        config = work->config = &gFrenchModelVariant116_D11C0[command];
         point = work->ring;
         for (i = 0; i < 16; point++, i++) {
             point->vx = config->ring_radius * csin(i * 256) / 4096;
@@ -55,7 +55,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = (radius * csin(value) / 4096) * csin(elevation) / 4096;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C16C[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant116_D116C[i]);
         }
         work->elapsed = -config->initial_delay;
         setVector(&vertices[0], 0, 0, 0);

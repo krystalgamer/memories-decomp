@@ -112,13 +112,13 @@ typedef struct {
     u16 command;
 } Model372State;
 
-extern Model372Path23 D_8013CE10;
-extern Model372Path25 D_8013CE28;
-extern GsIMAGE D_8013CE44[];
-extern Model372Config D_8013CF40[];
+extern Model372Path23 gModelVariant372_D1E10;
+extern Model372Path25 gModelVariant372_D1E28;
+extern GsIMAGE gModelVariant372_D1E44[];
+extern Model372Config gModelVariant372_D1F40[];
 
-void func_8013BE68(u8 *context);
-void func_8013C828(u8 *context);
-s32 func_8013B004(u8 *context, s32 command);
+void FrenchModelVariant389_DrawRibbons(u8 *context);
+void FrenchModelVariant389_DrawSheets(u8 *context);
+s32 ModelVariant372_HandleRequest(u8 *context, s32 command);
 
 #endif

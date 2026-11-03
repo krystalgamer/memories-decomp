@@ -1,6 +1,8 @@
 # French header-389 image sheets helper
 
-`func_8013C864` / `func_8017C864` (image offset `0x1864`, 0x5E8 bytes)
+`FrenchModelVariant389_DrawSheets` (formerly `func_8013C864` / `func_8017C864`;
+image offset `0x1864`, 0x5E8 bytes; the North American header-372 images bind
+it at `0x1828`)
 draws and updates the header-389 sheet sets.
 **No release had matching C for this body before.**
 

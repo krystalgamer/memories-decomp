@@ -54,14 +54,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant107_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant107_entry]
   - name: scale
     type: code
     start: 0x1188
     vram: 0x8017C188
     align: 4
     subsegments:
-      - [0x1188, .rodata, overlays/french_model_variant/variant107_entry_slot1]
+      - [0x1188, .rodata, overlays/french_model_variant/variant107_entry]
   - name: unclassified_tail
     type: code
     start: 0x1198

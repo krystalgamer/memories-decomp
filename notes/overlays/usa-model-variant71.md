@@ -2,7 +2,7 @@
 
 Fourteen newly registered USA images reuse the accepted
 [French header-88 entry](../../src/overlays/french_model_variant/variant88_entry.c)
-and its slot-1 wrapper unchanged. Each contributes one exact 2,384-byte C
+unchanged in both slots, with the names bound per image. Each contributes one exact 2,384-byte C
 function under `gcc_2_8_1_g0_split` (GCC 2.8.1, MASPSX 2.81), for **33,376
 additional matching C bytes**. These older headers use a slot delta of 130,
 not the later MODEL variants' delta of 150 or their GCC 2.7.2 profile.

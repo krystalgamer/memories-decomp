@@ -3,7 +3,9 @@
 Fourteen distinct images for models 31, 290, 295, 408, 501, 518 and 531
 now have an exact 2,384-byte entry using the named
 `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
-The slot-1 wrapper only renames the entry and its opaque suffix symbol.
+Both slots build `variant88_entry.c`; each image's symbols file binds
+`FrenchModelVariant88_HandleRequest` and the opaque suffix symbol
+`gFrenchModelVariant88_D0954` at its own addresses.
 No compiler profile, shared SDK header or other regional implementation
 changes.
 

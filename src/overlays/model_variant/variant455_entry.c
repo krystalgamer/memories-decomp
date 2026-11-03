@@ -11,7 +11,7 @@
 /* Header 455's entry: eight bloom groups, a rainbow disc, twelve fans and a
  * four-quad sheet around the active slot's first part, aimed at the
  * opposite slot. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
 {
     EntryState455 *work = (EntryState455 *)context;
     EntryBloom455 *bloom = work->blooms;
@@ -42,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = &D_8013DD30[command];
+        work->config = &gModelVariant455_D2D30[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -58,16 +58,16 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT455_CLUT_X, 244);
         beam_tpage = GetTPage(1, 1, 896, 0);
         beam_clut = GetClut(MODEL_VARIANT455_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC34[7]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant455_D2C34[7]);
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC34[5]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant455_D2C34[5]);
         glow_page = packed >> 16;
         glow_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC34[1]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant455_D2C34[1]);
         beam_page = packed >> 16;
         flare_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC34[3]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant455_D2C34[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -278,14 +278,14 @@ s32 func_8013B004(u8 *context, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->fan_start <= work->elapsed) {
-            func_8013D888(context);
-            func_8013CD3C(context);
+            SpanishModelVariant472_DrawSheets(context);
+            SpanishModelVariant472_DrawSpiral(context);
         }
         if (work->config->mesh_start <= work->elapsed) {
-            func_8013C738(context);
+            FrenchModelVariant472_DrawMesh(context);
         }
         if (work->config->bloom_start <= work->elapsed) {
-            func_8013C110(context);
+            FrenchModelVariant472_DrawBlooms(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

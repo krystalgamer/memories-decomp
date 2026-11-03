@@ -85,10 +85,10 @@ typedef struct {
     s16 slot, command;
 } EntryState436;
 
-extern u8 D_8013DFBC[];
-void func_8013CAEC(u8 *context);
-void func_8013C53C(u8 *context);
-void func_8013D6C8(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant436_D2FBC[];
+void FrenchModelVariant436_DrawRibbons(u8 *context);
+void SpanishModelVariant436_DrawSheets(u8 *context);
+void FrenchModelVariant436_DrawStreamers(u8 *context);
+s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

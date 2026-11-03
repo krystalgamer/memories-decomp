@@ -614,9 +614,12 @@ French MODEL headers 832 (stage 9 slot 0) and 929 (stage 10 slot 1) build the he
 
 Eight images under French headers 389 and 539 build their entry from the
 North American header-372 entry (`model_variant/variant372_entry.c`) through
-`src/overlays/french_model_variant/variant389_entry{,_slot1}.c`, with
-`VERSION_FRENCH` moving the CLUT column from 512 to 640, the sheets helper
-0x3C later and the data labels 0x3C later. The French entry compiles under
+`src/overlays/french_model_variant/variant389_entry.c` in both slots, with
+`VERSION_FRENCH` moving the CLUT column from 512 to 640. Each image's symbols
+file binds `ModelVariant372_HandleRequest`, the helpers
+`FrenchModelVariant389_DrawRibbons` and `FrenchModelVariant389_DrawSheets` and
+the data labels `gModelVariant372_D1E10`, `_D1E28`, `_D1E44` and `_D1F40` at its
+own addresses, so the French sheets helper and data labels sit 0x3C later. The French entry compiles under
 `gcc_2_8_1_g0_split`; the North American one needs `gcc_2_7_2_cdk_g0`.
 
 French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also build their entry (`ModelVariant386_HandleRequest`, 0xF34 bytes) from the US header-386 source `src/overlays/model_variant/variant386_entry.c` through `src/overlays/french_model_variant/variant403_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640; the entry, the helper calls and the GsIMAGE/command tables use stable names that each image's symbols file binds at the French addresses (helpers 0x8013BF38/0x8013CBB0/0x8013D22C, tables 0x44 higher). The images link through their own `model_variant403_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
@@ -1314,7 +1317,10 @@ each image's symbols file binds `gModelVariant144_D1908` and
 `gModelVariant144_D1A20` at its own addresses.
 
 Six images under French headers 182 and 312 build their entry from French C,
-`src/overlays/french_model_variant/variant182_entry{,_slot1}.c`. It is the
+`src/overlays/french_model_variant/variant182_entry.c`, built in both slots;
+each image's symbols file binds `FrenchModelVariant182_HandleRequest`,
+`gFrenchModelVariant182_D1CD8` and `gFrenchModelVariant182_D1D64` at its own
+addresses. It is the
 effect of the North American header-165 entry without its work-size printf
 or that call's `.rodata` format string, and with a 256-line screen flash.
 The scale vector sits 0x14 lower than in the North American image and the
@@ -1376,7 +1382,7 @@ images bind resident calls through their own
 
 French MODEL headers 471 (stage 9 slot 0) and 621 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0x152C bytes) from the US header-454 source `src/overlays/model_variant/variant454_entry.c` through `src/overlays/french_model_variant/variant471_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the helper calls to 0x8013C530/0x8013CA34 and the GsIMAGE/command base `D_8013CEFC` to `D_8013CF10`.
 
-French MODEL headers 472 (stage 7 slot 0) and 622 (stage 8 slot 1) now also build their entry (`func_8013B004`, 0x110C bytes) from the US header-455 source `src/overlays/model_variant/variant455_entry.c` through `src/overlays/french_model_variant/variant472_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the helper calls (0x8013C734/0x8013CD30/0x8013D8B0) and the GsIMAGE/command tables (0x24 higher) to the French addresses. The images link through their own `model_variant622_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
+French MODEL headers 472 (stage 7 slot 0) and 622 (stage 8 slot 1) now also build their entry (`ModelVariant455_HandleRequest`, 0x110C bytes) from the US header-455 source `src/overlays/model_variant/variant455_entry.c` through `src/overlays/french_model_variant/variant472_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640; each image's symbols file binds the helpers (`FrenchModelVariant472_DrawMesh`, `SpanishModelVariant472_DrawSpiral`, `SpanishModelVariant472_DrawSheets` at 0x8013C734/0x8013CD30/0x8013D8B0) and the GsIMAGE/command tables (`gModelVariant455_D2C34`/`_D2D30`, 0x24 higher) at the French addresses. The images link through their own `model_variant622_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
 
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does

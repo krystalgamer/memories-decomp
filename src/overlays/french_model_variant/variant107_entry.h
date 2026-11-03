@@ -25,7 +25,7 @@ typedef struct {
     u8 started, unknown_3ad[3];
 } Model107State;
 
-extern Model107Config D_8013C198[];
-s32 func_8013B004(u8 *context, s32 command);
+extern Model107Config gFrenchModelVariant107_D1198[];
+s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command);
 
 #endif

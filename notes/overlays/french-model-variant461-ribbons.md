@@ -1,6 +1,7 @@
 # French MODEL461 ribbons helper
 
-`func_8013C508` / `func_8017C508` (image offset `0x1508`, 0xA4C bytes) in the
+`FrenchModelVariant461_DrawRibbons` (image offset `0x1508`, 0xA4C bytes; bound
+per image, formerly `func_8013C508` / `func_8017C508`) in the
 model_variant_705 stage 9 slot 0 and stage 10 slot 1 images is the
 [header-469 ribbon body](french-model-variant469-ribbons.md) with the header-461
 work offsets. It reuses `Variant469Ribbon` from

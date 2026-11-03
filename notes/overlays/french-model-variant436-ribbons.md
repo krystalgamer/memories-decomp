@@ -1,6 +1,7 @@
 # French MODEL436 ribbons helper
 
-`func_8013CAEC` / `func_8017CAEC` (image offset `0x1AEC`, 0xBDC bytes) in the
+`FrenchModelVariant436_DrawRibbons` (formerly `func_8013CAEC` / `func_8017CAEC`;
+image offset `0x1AEC`, 0xBDC bytes) in the
 model_variant_707 stage 9 slot 0 and stage 10 slot 1 images draws four
 nine-point ribbons. Each ribbon is stored in a 0x200-byte
 `Ribbons436Ribbon` record at the start of the work area.

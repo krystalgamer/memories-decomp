@@ -1,6 +1,7 @@
 # French MODEL472 mesh helper
 
-`func_8013C734` / `func_8017C734` (image offset `0x1734`, 0x5FC bytes)
+`FrenchModelVariant472_DrawMesh` (formerly `func_8013C734` / `func_8017C734`;
+image offset `0x1734`, 0x5FC bytes)
 draws a 6x16 grid of semi-transparent `POLY_GT4` quads and updates a single
 mesh's progress from the effect timing. **No release had matching C for this
 body before.**

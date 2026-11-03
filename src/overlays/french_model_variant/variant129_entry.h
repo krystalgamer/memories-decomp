@@ -27,9 +27,9 @@ typedef struct {
     u8 completed, effect_started, unknown_412[2];
 } Model129State;
 
-extern const VECTOR D_8013BFE8;
-extern GsIMAGE D_8013BFF8[];
-extern Model129Config D_8013C030[];
-s32 func_8013B004(u8 *context, s32 command);
+extern const VECTOR gFrenchModelVariant129_D0FE8;
+extern GsIMAGE gFrenchModelVariant129_D0FF8[];
+extern Model129Config gFrenchModelVariant129_D1030[];
+s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command);
 
 #endif

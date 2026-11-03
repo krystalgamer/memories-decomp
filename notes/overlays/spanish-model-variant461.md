@@ -7,12 +7,12 @@ record finds exactly these two occurrences.
 
 | Slot | Stage | Sector | Load address | Selected helper | Bytes |
 | --- | --- | --- | --- | --- | --- |
-| 0 | 9 | 167180 | `0x8013B000` | `func_8013CF54` | 1,348 |
-| 1 | 10 | 167190 | `0x8017B000` | `func_8017CF54` | 1,348 |
+| 0 | 9 | 167180 | `0x8013B000` | `SpanishModelVariant461_DrawSheets` | 1,348 |
+| 1 | 10 | 167190 | `0x8017B000` | `SpanishModelVariant461_DrawSheets` | 1,348 |
 
 Both complete 20,480-byte images reproduce their recorded retail hashes with
-`gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81). The second source is a symbol-only
-wrapper. The attempt ledger records the initial descriptor-reload mismatch,
+`gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81). Both slots build the same source;
+each image's symbols file binds the helper at its own address. The attempt ledger records the initial descriptor-reload mismatch,
 the twelve-word induction-register mismatch, both exact slot comparisons, and
 the final source/header fingerprints.
 

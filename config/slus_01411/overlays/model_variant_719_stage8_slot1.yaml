@@ -54,35 +54,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant455_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant455_entry]
   - name: helper_1110
     type: code
     start: 0x1110
     vram: 0x8017C110
     align: 4
     subsegments:
-      - [0x1110, c, overlays/model_variant/variant455_blooms_slot1]
+      - [0x1110, c, overlays/french_model_variant/variant472_blooms]
   - name: helper_1738
     type: code
     start: 0x1738
     vram: 0x8017C738
     align: 4
     subsegments:
-      - [0x1738, c, overlays/model_variant/variant455_mesh_slot1]
+      - [0x1738, c, overlays/french_model_variant/variant472_mesh]
   - name: helper_1d3c
     type: code
     start: 0x1D3C
     vram: 0x8017CD3C
     align: 4
     subsegments:
-      - [0x1D3C, c, overlays/model_variant/variant455_spiral_slot1]
+      - [0x1D3C, c, overlays/model_variant/variant455_spiral]
   - name: helper_2888
     type: code
     start: 0x2888
     vram: 0x8017D888
     align: 4
     subsegments:
-      - [0x2888, c, overlays/model_variant/variant455_sheets_slot1]
+      - [0x2888, c, overlays/spanish_model_variant/variant472_sheets]
   - name: data
     type: code
     start: 0x2C34

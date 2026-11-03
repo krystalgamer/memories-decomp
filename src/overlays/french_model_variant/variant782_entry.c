@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant782_entry.h"
 
-static const VECTOR D_8013C4B0 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant782_D14B0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
 {
     Model782State *work;
     s32 slot, direction;
@@ -24,12 +24,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C4B0;
+    scale = gFrenchModelVariant782_D14B0;
     work = (Model782State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C54C[command];
+        work->config = &gFrenchModelVariant782_D154C[command];
         point = work->debris_positions;
         Model_CopySlotU16Values(slot ^ 1, (u16 *)&work->origin);
         other = work->debris_velocities;
@@ -66,7 +66,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->growth_age = 0;
         work->shade = 128;
         for (i = 0; i < 5; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C4C0[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant782_D14C0[i]);
         }
         return 0;
     }

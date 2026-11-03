@@ -56,49 +56,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant410_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant410_entry]
   - name: helper_fb8
     type: code
     start: 0xFB8
     vram: 0x8017BFB8
     align: 4
     subsegments:
-      - [0xFB8, c, overlays/model_variant/variant410_mesh_slot1]
+      - [0xFB8, c, overlays/model_variant/variant410_mesh]
   - name: helper_15a0
     type: code
     start: 0x15A0
     vram: 0x8017C5A0
     align: 4
     subsegments:
-      - [0x15A0, c, overlays/model_variant/variant410_spiral_slot1]
+      - [0x15A0, c, overlays/model_variant/variant410_spiral]
   - name: helper_1fa8
     type: code
     start: 0x1FA8
     vram: 0x8017CFA8
     align: 4
     subsegments:
-      - [0x1FA8, c, overlays/model_variant/variant410_ribbons_slot1]
+      - [0x1FA8, c, overlays/model_variant/variant410_ribbons]
   - name: helper_284c
     type: code
     start: 0x284C
     vram: 0x8017D84C
     align: 4
     subsegments:
-      - [0x284C, c, overlays/model_variant/variant410_panels_slot1]
+      - [0x284C, c, overlays/model_variant/variant410_panels]
   - name: streamers
     type: code
     start: 0x2DA8
     vram: 0x8017DDA8
     align: 4
     subsegments:
-      - [0x2DA8, c, overlays/model_variant/variant410_streamers_slot1]
+      - [0x2DA8, c, overlays/french_model_variant/variant427_streamers]
   - name: helper_351c
     type: code
     start: 0x351C
     vram: 0x8017E51C
     align: 4
     subsegments:
-      - [0x351C, c, overlays/model_variant/variant410_curtains_slot1]
+      - [0x351C, c, overlays/model_variant/variant410_curtains]
   - name: data
     type: code
     start: 0x3A30

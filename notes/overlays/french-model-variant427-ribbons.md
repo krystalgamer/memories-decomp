@@ -1,7 +1,8 @@
 # French MODEL variant 427 ribbons helper
 
-`func_8013CFC4` in the French and Spanish `model_variant_379_stage9_slot0`
-images and `func_8017CFC4` in the `model_variant_379_stage10_slot1` images
+`FrenchModelVariant427_DrawRibbons` (formerly `func_8013CFC4`) in the French
+and Spanish `model_variant_379_stage9_slot0`
+images and the `model_variant_379_stage10_slot1` images (bound per image)
 (offset `0x1FC4`, 0x8DC bytes) draw three ribbons.
 `french_model_variant/variant427_ribbons_slot1.c` renames the body for the
 slot-1 images.

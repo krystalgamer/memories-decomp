@@ -1,10 +1,10 @@
 // MODEL.MRG model 707 (record 607), sector 167742, header 569, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0xD98 defined:true
-func_8017BD9C = 0x8017BD9C; // type:func size:0x79C defined:true
-func_8017C538 = 0x8017C538; // type:func size:0x5B4 defined:true
-func_8017CAEC = 0x8017CAEC; // type:func size:0xB88 defined:true
-func_8017D674 = 0x8017D674; // type:func size:0x8D0 defined:true
-D_8017DF44 = 0x8017DF44; // type:u8 size:0x20BC defined:true
+FrenchModelVariant436_HandleRequest = 0x8017B004; // type:func size:0xD98 defined:true
+FrenchModelVariant436_DrawBands = 0x8017BD9C; // type:func size:0x79C defined:true
+SpanishModelVariant436_DrawSheets = 0x8017C538; // type:func size:0x5B4 defined:true
+FrenchModelVariant436_DrawRibbons = 0x8017CAEC; // type:func size:0xB88 defined:true
+FrenchModelVariant436_DrawStreamers = 0x8017D674; // type:func size:0x8D0 defined:true
+gFrenchModelVariant436_D2FBC = 0x8017DF44; // type:u8 size:0x20BC defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

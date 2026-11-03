@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8017B004,0xFB4,func_8017B004,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BFB8,0x5E8,func_8017BFB8,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C5A0,0xA08,func_8017C5A0,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CFA8,0x8A4,func_8017CFA8,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D84C,0x55C,func_8017D84C,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017DDA8,0x774,func_8017DDA8,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017E51C,0x514,func_8017E51C,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xFB4,FrenchModelVariant427_HandleRequest,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BFB8,0x5E8,SpanishModelVariant427_DrawMeshes,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C5A0,0xA08,SpanishModelVariant427_DrawSpiral,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CFA8,0x8A4,FrenchModelVariant427_DrawRibbons,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D84C,0x55C,SpanishModelVariant427_DrawPanels,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017DDA8,0x774,FrenchModelVariant427_DrawStreamers,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017E51C,0x514,SpanishModelVariant427_DrawCurtains,matching_c,overlay/model_image_model_91014_8017b000,Complete module byte identity and section-defined C ownership verified.

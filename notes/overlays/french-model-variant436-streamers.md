@@ -1,6 +1,7 @@
 # French MODEL436 streamers helper
 
-`func_8013D6C8` / `func_8017D6C8` (MODEL436 family, image offset `0x26C8`,
+`FrenchModelVariant436_DrawStreamers` (formerly `func_8013D6C8` /
+`func_8017D6C8`; MODEL436 family, image offset `0x26C8`,
 0x8F4 bytes) builds three thirteen-point streamers and draws them in one
 pass. **No release had matching C for this body before.** It is reachable
 from the entry.

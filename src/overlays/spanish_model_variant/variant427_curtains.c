@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant427_curtains.h"
 
-void func_8013E5BC(u8 *context)
+void SpanishModelVariant427_DrawCurtains(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

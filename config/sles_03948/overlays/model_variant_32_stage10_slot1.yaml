@@ -54,21 +54,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant389_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant389_entry]
   - name: helper_E68
     type: code
     start: 0xE68
     vram: 0x8017BE68
     align: 4
     subsegments:
-      - [0xE68, c, overlays/french_model_variant/variant389_ribbons_slot1]
+      - [0xE68, c, overlays/french_model_variant/variant389_ribbons]
   - name: helper_1864
     type: code
     start: 0x1864
     vram: 0x8017C864
     align: 4
     subsegments:
-      - [0x1864, c, overlays/french_model_variant/variant389_sheets_slot1]
+      - [0x1864, c, overlays/french_model_variant/variant389_sheets]
   - name: unclassified_tail
     type: code
     start: 0x1E4C

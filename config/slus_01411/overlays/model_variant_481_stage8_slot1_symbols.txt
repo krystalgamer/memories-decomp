@@ -1,9 +1,9 @@
 // MODEL.MRG model 481 (record 431), sector 119146, header 256, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0xFF0
+FrenchModelVariant143_HandleRequest = 0x8017B004; // type:func size:0xFF0
 D_8017BFF4 = 0x8017BFF4; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017C004 = 0x8017C004; // type:u8 size:0x1C defined:true
-D_8017C020 = 0x8017C020; // type:u8 size:0x3FE0 defined:true
+gFrenchModelVariant143_D1004 = 0x8017C004; // type:u8 size:0x1C defined:true
+gFrenchModelVariant143_D1020 = 0x8017C020; // type:u8 size:0x3FE0 defined:true
 GsGetLwUnit = 0x8008A4A0; // type:func absolute:true
 GsSetLsMatrix = 0x800855D0; // type:func absolute:true
 GsSortPoly = 0x80084320; // type:func absolute:true

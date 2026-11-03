@@ -70,7 +70,7 @@ segments:
     vram: 0x8013C828
     align: 4
     subsegments:
-      - [0x1828, c, overlays/model_variant/variant372_sheets]
+      - [0x1828, c, overlays/french_model_variant/variant389_sheets]
   - name: unclassified_tail
     type: code
     start: 0x1E10

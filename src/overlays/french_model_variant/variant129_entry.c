@@ -2,7 +2,7 @@
 #include "variant129_entry.h"
 #include "../../game/screen_projection.h"
 
-const VECTOR D_8013BFE8 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant129_D0FE8 = {4096, 4096, 4096, 0};
 
 #define DRAW_QUAD(a, b, c, d) \
     depth = RotAverage4(&vertices[a], &vertices[b], &vertices[c], &vertices[d], \
@@ -12,7 +12,7 @@ const VECTOR D_8013BFE8 = {4096, 4096, 4096, 0};
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
 {
     Model129State *work;
     s32 direction;
@@ -33,12 +33,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BFE8;
+    scale = gFrenchModelVariant129_D0FE8;
     work = (Model129State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C030[command];
+        config = work->config = &gFrenchModelVariant129_D1030[command];
         point = work->positions;
         velocity = work->velocities;
         for (i = 0; i < config->count; i++) {
@@ -46,7 +46,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(velocity, 0, 0, 0);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BFF8[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant129_D0FF8[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;
