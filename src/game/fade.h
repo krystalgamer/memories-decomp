@@ -28,7 +28,7 @@ extern u8 gFade_bOrderingTableMode;
  * family, and the start-up block in Main_InitHardware -- so the family
  * header holds the declaration.
  *
- * Main_InitHardware (src/game/main_services.c) takes the arm below and it
+ * Main_InitHardware (src/game/main.c) takes the arm below and it
  * is a codegen input on that unit: retail stores the six D_8009B14x bytes
  * there through `lui $at` / `sb %lo(...)`, i.e. outside small data, and in
  * source order, which is what `.data` and `volatile` give. The three fade
