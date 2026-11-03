@@ -17,7 +17,6 @@
 #define GetDrawEnv func_8008025C
 #define DecDCTin func_80090D3C
 #define DecDCTout func_80090DB8
-#define D_800F5D44 D_800F6CD4
 #define StCdInterrupt func_80078A34
 #define D_8009B4A0 gEuropean_D_8009B4A0
 #define D_8009B4A1 gEuropean_D_8009B4A1

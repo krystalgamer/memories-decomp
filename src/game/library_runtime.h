@@ -13,12 +13,6 @@ typedef char LibraryViewQuad_size_must_be_0x10[
     sizeof(LibraryViewQuad) == 0x10 ? 1 : -1
 ];
 
-/* Signed coordinate views in the Library overlay work area. The dispatcher
- * compares the copied slot coordinate at 0x80181012 with its reference at
- * 0x80181002 while converging the shared view state. */
-extern s16 D_80181002 __attribute__((section(".data")));
-extern s16 D_80181012 __attribute__((section(".data")));
-
 /* Library screen state 2, the card view: opens the view, slides the model
  * and text box in, rotates the model light with the view angle and walks the
  * close sequence back to the grid. Library_UpdateScreen passes the owned LibraryState;

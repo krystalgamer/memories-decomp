@@ -2115,3 +2115,6 @@ gModel_abTexturePaletteStaging = 0x801DE000;
 gSaveData_aFirstPlayerNameSjis = 0x801D160C;
 gSaveData_aSecondPlayerState = 0x801D2200;
 gModel_abAuxiliaryPaletteSector = 0x801DD800;
+gLibCd_nDeferredStreamInterrupt = 0x800F6CD4;
+gLibrary_sCapturedReferenceY = 0x80181002;
+gLibrary_sSampledReferenceY = 0x80181012;

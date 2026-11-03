@@ -422,15 +422,15 @@ gModel_SavedRefView = 0x800F6C48;
 gMovie_FileInfo = 0x800F6F08;
 gModel_aPoseSnapshot = 0x800F3EA8;
 gModel_aEffectKeys = 0x800F3EC8;
-D_800F6CD4 = 0x800F70F4;
+gLibCd_nDeferredStreamInterrupt = 0x800F70F4;
 GsDRAWENV = 0x800FF3D0;
 gGraphics_LightSourceMatrix = 0x800FF4D0;
 gGraphics_pPacketWorkCursor = 0x800FF5C4;
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 gDuel_abCardStagingBuffer = 0x8015C424;
 gDuel_aCardUploadRects = 0x80177EA4;
-D_80181002 = 0x80181002;
-D_80181012 = 0x80181012;
+gLibrary_sCapturedReferenceY = 0x80181002;
+gLibrary_sSampledReferenceY = 0x80181012;
 gDuel_aCardThumbnailBlocks = 0x8018C2D8;
 D_8018C7D8 = 0x8018C7D8;
 gDuel_aCardRecords = 0x801A7AD8;
@@ -1013,11 +1013,8 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 
-gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 
 
-gLibrary_sCapturedReferenceY = D_80181002;
-gLibrary_sSampledReferenceY = D_80181012;
 
 
 /* Canonical view of the retained native countdown entry point. */

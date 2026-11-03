@@ -100,10 +100,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 
-PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
 
-PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
-PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 
 
 /* Canonical view of the retained native countdown entry point. */

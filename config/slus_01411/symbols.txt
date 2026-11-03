@@ -2568,3 +2568,6 @@ gText_aFirstPlayerNameGlyphs = 0x801B122B;
 gText_aSecondPlayerNameGlyphs = 0x801B1238;
 gDuelEffect_nCompactionRequested = 0x8009B330;
 gModel_abAuxiliaryPaletteSector = 0x801DD800;
+gLibCd_nDeferredStreamInterrupt = 0x800F5D44;
+gLibrary_sCapturedReferenceY = 0x80181002;
+gLibrary_sSampledReferenceY = 0x80181012;

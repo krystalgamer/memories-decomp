@@ -123,11 +123,8 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 
 
 gSaveData_aPairWorkspace = 0x801D1200;
-PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
 
 
-PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
-PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 
 
 /* Canonical view of the retained native countdown entry point. */

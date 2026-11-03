@@ -80,13 +80,6 @@ typedef char GraphicsDimension_size_must_be_4[
 extern GraphicsDimension gGraphics_CurrentWidth __attribute__((section(".data")));
 extern GraphicsDimension gGraphics_CurrentHeight __attribute__((section(".data")));
 
-/* The pending-interrupt word Movie_OnDecodeOutput tests, and clears after calling
- * StCdInterrupt, while the stream is running (gMovie_bRgb24). Four bytes, so at
- * -G8 a plain declaration would land in sdata and both accesses would come out
- * gp-relative; retail reaches it through lui %hi / %lo, which the .data
- * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
-extern s32 D_800F5D44 __attribute__((section(".data")));
-
 /* The movie work area lives at gMovie_pWorkArea + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed
  * gMovie_pWorkArea + 0x42400 + idx * 8 with idx kept in 0..3 by an
