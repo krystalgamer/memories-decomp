@@ -50,8 +50,9 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * only caller. Nothing else writes it, so the parameter type is not a guess:
  * it is Text_TryCompleteChoiceLayout's own, volatile qualifier included. */
 extern void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
-/* Interior alias into the enclosing initialized secondary-command table:
- * +0x6C in NA/Japan, +0x74 in Europe. Keep the existing raw callback ABI. */
+/* Sixteen handlers for stream bytes 0xF0-0xFF, defined directly after the
+ * secondary-command table in duel_effect_command_table.c. TextBox_BuildStep
+ * passes the channel as a raw byte pointer. */
 extern void (*gText_apfnPrimaryCommands[])(u8 *);
 
 #endif

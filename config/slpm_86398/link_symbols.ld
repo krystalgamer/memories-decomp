@@ -125,10 +125,5 @@ bss_start = main_SBSS_START;
 gDisplay_abResourceBank1 = 0x801BF800;
 gText_StagedValues = 0x801D5608;
 
-/* Names inside the initialized tables Japan's units own (#2602). */
-gText_apfnPrimaryCommands = gText_SecondaryCommandHandlers + 108;
-gDuelEffect_EntryHandlers = gText_SecondaryCommandHandlers + 172;
-gDialog_apfnTransitionSteps = gDisplayEffect_apfnSteps + 32;
-
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
