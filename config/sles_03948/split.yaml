@@ -1248,7 +1248,7 @@ segments:
   - {start: 0x8CAD6, type: bin, name: resident_tail_8009c2d6, linker_section_order: .sdata}
   - [0x8CAD8, .sdata, game/european/debug_menu_update]
   - [0x8CAEC, .sdata, game/spanish/save_data_payload]
-  - {start: 0x8CAF4, type: bin, name: resident_tail_8009c2f4, linker_section_order: .sdata}
+  - [0x8CAF4, .sdata, game/european/data_8009af6c]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
   - [0x8CB18, .sdata, game/model_graphics_state]
   - [0x8CB3C, .sdata, game/european/model_background]

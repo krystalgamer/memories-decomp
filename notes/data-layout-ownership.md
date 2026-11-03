@@ -327,9 +327,12 @@ Italian and Spanish now split their data image as plain data rather than one
 Europe's small initialized data starts `0xF7C` above the North American
 `.sdata` and follows Europe's own unit order. As in its text, the camera
 orbit and movie units come before `model_graphics_state`. Its split places
-seventeen owners from `main_services` (`0x8009BE84`) to
-`main_menu_load_package_stage`, leaving only `data_8009af6c`'s European
-strings (`0x8009BED8`-`0x8009BEF0`) in the blob. Europe has no small data
+eighteen owners from `main_services` (`0x8009BE84`) to
+`main_menu_load_package_stage`. That includes `european/data_8009af6c`,
+whose PAL strings lack the North American directory-entry format
+(`gMemCard_szDirectoryEntryFormat`, guarded by `VERSION_EUROPE`); all five
+PAL builds compile it at the US unit's `gcc_2_8_1_g8` profile. Europe has no
+small data
 for `duel_field_effects`, `options_layout_position_data` or
 `ai_script_source_line_format`.
 
@@ -342,8 +345,7 @@ symbol file. The shared sources also gained European arms:
 The four language builds keep Europe's small data 0x414 to 0x41C higher,
 except that, as in their text, they place the movie unit after the model
 units: the model units are 0x408 higher and `movie_frame_pipeline` 0x4EC
-higher. Each split places the same seventeen owners, and bins remain for:
-- `data_8009af6c`'s strings;
+higher. Each split places the same eighteen owners, and bins remain for:
 - six bytes after `duel_battle_stats`;
 - two bytes after `duel_card_effects`.
 

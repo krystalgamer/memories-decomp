@@ -492,7 +492,7 @@ segments:
       - [0x08C6B9, pad]
       - [0x08C6BC, .sdata, game/european/debug_menu_update]
       - [0x08C6D0, .sdata, game/european/save_data_payload]
-      - [0x08C6D8, sdata, initialized_sdata_8009bed8]
+      - [0x08C6D8, .sdata, game/european/data_8009af6c]
       - [0x08C6F0, .sdata, game/model_queue_relative_camera_orbit]
       - [0x08C6FC, .sdata, game/european/movie_frame_pipeline]
       - [0x08C710, .sdata, game/model_graphics_state]
