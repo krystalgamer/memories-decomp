@@ -1,8 +1,20 @@
 #include "../../types.h"
-#define GRAPHICS_FRAME_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x8009C418-0x800EAD50 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_8009C418_sles_03947[0x4E938];
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
+#define GRAPHICS_FRAME_STORAGE_ORDER
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x8009C418-0x800EAD50 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern RECT gGraphics_aImageTransferRects[];
+static u32 D_8009C428_sles_03947[4];
+extern GsOT *gGraphics_apOrderingTables[];
+extern int gMain_RecoveryJmpBuf[];
+extern void (*gMain_apFrameServiceCallbacks[])(void);
+extern DISPENV gGraphics_DispEnv;
+static u8 D_8009C4A0_sles_03947[0x30];
+extern u8 gGraphics_abPacketBuffers[];
+extern struct GraphicsFrameBuffer gGraphics_aFrameBuffers[];
 #define D_8009B318_IN_DATA
 #define GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009BFE8-0x8009C038 (#2602); its

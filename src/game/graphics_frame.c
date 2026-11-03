@@ -70,7 +70,7 @@ extern s32 D_8009B0D8;
 #include "graphics_frame_buffer.h"
 #include "../psyq/setjmp.h"
 
-#ifndef GRAPHICS_FRAME_REGIONAL_STORAGE
+#ifndef GRAPHICS_FRAME_STORAGE_ORDER
 /* Zero-initialized storage this unit owns at 0x8009B4A8-0x800E9DF0, defined in
  * address order (#2602). graphics_frame.h declares the first three in this
  * order; the rest are first declared here, ahead of ordering_tables.h. The
@@ -87,13 +87,14 @@ static u32 D_800E9DA0[4];
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 #else
-extern GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
-extern u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
-extern DISPENV gGraphics_DispEnv;
-extern RECT gGraphics_aImageTransferRects[2];
-extern GsOT *gGraphics_apOrderingTables[4];
-extern void (*gMain_apFrameServiceCallbacks[4])(void);
-extern jmp_buf gMain_RecoveryJmpBuf;
+/* The regional wrapper declared these in its own address order. */
+GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
+u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
+DISPENV gGraphics_DispEnv;
+RECT gGraphics_aImageTransferRects[2];
+GsOT *gGraphics_apOrderingTables[4];
+void (*gMain_apFrameServiceCallbacks[4])(void);
+jmp_buf gMain_RecoveryJmpBuf;
 #endif
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE

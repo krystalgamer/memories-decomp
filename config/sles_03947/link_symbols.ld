@@ -181,7 +181,6 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
 
-gGraphics_aImageTransferRects = D_8009C418_sles_03947;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
@@ -309,12 +308,6 @@ gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
 gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;
 
 /* Names inside graphics_frame's own storage (#2602). */
-gGraphics_apOrderingTables = D_8009C418_sles_03947 + 32;
-gMain_RecoveryJmpBuf = D_8009C418_sles_03947 + 48;
-gMain_apFrameServiceCallbacks = D_8009C418_sles_03947 + 96;
-gGraphics_DispEnv = D_8009C418_sles_03947 + 112;
-gGraphics_abPacketBuffers = D_8009C418_sles_03947 + 184;
-gGraphics_aFrameBuffers = D_8009C418_sles_03947 + 280184;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
 
