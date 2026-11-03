@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Marks every D_800EB010 menu record inactive (effect_id = -1), clears its
+/* Marks every gDisplayEffect_aMenuRecords menu record inactive (effect_id = -1), clears its
    variant_update_flags, requested_variant, variant_update_counter and child grid, and frees every display-effect
    VRAM slot.
    The returned pointer is a loop leftover that no caller reads. */

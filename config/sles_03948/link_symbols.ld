@@ -406,7 +406,7 @@ D_800EAE91 = 0x800EC219;
 D_800EAE92 = 0x800EC21A;
 gSceneScript_Slots = 0x800EC220;
 gText_DecimalDigitGlyphMap = 0x800EC290;
-D_800EB010 = 0x800EC2A8;
+gDisplayEffect_aMenuRecords = 0x800EC2A8;
 gText_aChannels = 0x800F0850;
 gDebug_szEditorCaretLine = 0x800EC260;
 gMain_aAnimatedBattleModels = 0x800F09E0;
@@ -1012,7 +1012,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
-gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
 
 

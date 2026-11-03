@@ -8,7 +8,7 @@
  * resetting and tearing down an effect slot.
  *
  * This is a narrower view of MenuRecord in menu_record.h: the records these
- * helpers are handed are elements of D_800EB010, and every offset the two
+ * helpers are handed are elements of gDisplayEffect_aMenuRecords, and every offset the two
  * spell in common agrees -- 0x30, 0x32, 0x33 (display_effect_step there),
  * 0x34 and now 0x36. The view stays because the helpers' own signatures are
  * written against it; what it adds over the full record is nothing, and a
@@ -36,7 +36,7 @@ void DisplayEffect_ReleaseObjectRow(void **objects);
 void DisplayEffect_ReleaseRecord(MenuRecord *record);
 
 /* gText_DisplayEffectRecord moved to menu_record.h with the MenuRecord * type it now
- * carries; it points into D_800EB010, which is declared there too. */
+ * carries; it points into gDisplayEffect_aMenuRecords, which is declared there too. */
 void DisplayEffect_FinishStepWhenIdle(DisplayEffectState *object);
 
 #endif

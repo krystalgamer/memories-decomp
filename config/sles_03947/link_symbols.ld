@@ -141,7 +141,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
-gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
 
 

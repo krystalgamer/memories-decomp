@@ -51,7 +51,7 @@ void Text_EndStream(DuelEffectChannel *object);
 
 /* gText_SecondaryCommandHandlers entry: the effect-script command. It reads a command id and a flag
  * byte from the object's current stream, finds the display effect record for
- * the id in D_800EB010 -- ids below 0x41 live in the first two records, others
+ * the id in gDisplayEffect_aMenuRecords -- ids below 0x41 live in the first two records, others
  * in the third -- and depending on the flags stops it (bit 7), adjusts a
  * running one (bits 5 and 6), or starts it in the slot bit 0 names, putting the
  * object into the matching wait state.
