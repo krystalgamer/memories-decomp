@@ -11,7 +11,7 @@
 #define RIBBON426_SB(k) (ribbon->sb[k])
 #endif
 
-void func_8013CDF0(u8 *context)
+void FrenchModelVariant426_DrawRibbon(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

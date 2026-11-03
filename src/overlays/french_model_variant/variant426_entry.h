@@ -53,12 +53,12 @@ typedef struct {
     s16 slot, command;
 } EntryState426;
 
-extern u8 D_8013E874[];
+extern u8 gFrenchModelVariant426_D3874[];
 
-void func_8013BF24(u8 *context);
-void func_8013C3B0(u8 *context);
-void func_8013CDF0(u8 *context);
-void func_8013D6D0(u8 *context);
-void func_8013DBC0(u8 *context);
+void SpanishModelVariant426_DrawMesh(u8 *context);
+void SpanishModelVariant426_DrawSpiral(u8 *context);
+void FrenchModelVariant426_DrawRibbon(u8 *context);
+void SpanishModelVariant426_DrawSheets(u8 *context);
+void FrenchModelVariant426_DrawStreamers(u8 *context);
 
 #endif

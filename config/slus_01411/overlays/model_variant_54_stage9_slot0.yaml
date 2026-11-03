@@ -61,14 +61,14 @@ segments:
     vram: 0x8013B940
     align: 4
     subsegments:
-      - [0x940, c, overlays/model_variant/variant391_update]
+      - [0x940, c, overlays/spanish_model_variant/variant408_update]
   - name: draw
     type: code
     start: 0x1034
     vram: 0x8013C034
     align: 4
     subsegments:
-      - [0x1034, c, overlays/model_variant/variant391_draw]
+      - [0x1034, c, overlays/spanish_model_variant/variant408_draw]
   - name: unknown_prefix
     type: code
     start: 0x146C

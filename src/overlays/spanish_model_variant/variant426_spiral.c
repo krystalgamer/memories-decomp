@@ -8,7 +8,7 @@
  * drawn as two POLY_GT4 halves with negative depths clamped to zero. The size
  * grows to 0x400 before phase 1 and shrinks to zero after it; the sweep advances
  * by 40 a frame. */
-void func_8013C3B0(u8 *ctx)
+void SpanishModelVariant426_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

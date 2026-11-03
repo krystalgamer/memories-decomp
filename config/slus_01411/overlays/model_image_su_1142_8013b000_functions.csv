@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
 0x8013B004,0x860,func_8013B004,matching_c,overlay/model_image_su_1142_8013b000,Loader entry; C body exact through us_entry.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
-0x8013B864,0x3F4,func_8013B864,matching_c,overlay/model_image_su_1142_8013b000,C body exact through us_ring.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
-0x8013BC58,0xB2C,func_8013BC58,matching_c,overlay/model_image_su_1142_8013b000,C body exact through us_spokes.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
+0x8013B864,0x3F4,ModelExodia_DrawRing,matching_c,overlay/model_image_su_1142_8013b000,C body exact through us_ring.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
+0x8013BC58,0xB2C,ModelExodia_DrawSpokes,matching_c,overlay/model_image_su_1142_8013b000,C body exact through us_spokes.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.

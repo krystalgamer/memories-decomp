@@ -1,10 +1,12 @@
 # French header-426 loader entry
 
-`func_8013B004` / `func_8017B004` (image offset `0x4`, 0xF20 bytes) is the
-loader entry of the header-426 images. These are the French and Spanish
-`model_variant_0_stage7_slot0` and `model_variant_0_stage8_slot1`, and all
-four are byte-identical. `french_model_variant/variant426_entry_slot1.c`
-renames the body, its helpers and its data label for the slot-1 images.
+`FrenchModelVariant426_HandleRequest` (`0x8013B004` / `0x8017B004`, image
+offset `0x4`, 0xF20 bytes) is the loader entry of the header-426 images. These
+are the French and Spanish `model_variant_0_stage7_slot0` and
+`model_variant_0_stage8_slot1`, and all four are byte-identical. Both slots
+compile `french_model_variant/variant426_entry.c`; each image's symbol file
+binds the entry, its helpers and its data label `gFrenchModelVariant426_D3874`
+at its own addresses.
 
 - **Base.** It is the header-425 entry (`variant425_entry.c`). The work-area
   tail, from the matrix onwards, sits 0x974 bytes higher. The changes are:
