@@ -91,8 +91,6 @@ and 590,848 cases, assertions, mutations, generators and compiler/setup
 logic are unchanged. No new harness, fixture, probe or testcase is added,
 and cloud/regional/overlay/witness suites are not executed locally.
 
-The nearby `D_8009B20C` scratch views deliberately stay numeric. Hand/field
-action state and card-effect scratch share a base in NA/Japan but resolve
-to different PAL bases (`C10E/C52E` versus `C0C2/C4E2`). They cannot receive
-one blanket global rename. No duplicate-address semantic rows, combined
-scratch allocation or new struct are introduced in this component.
+The nearby action substate and effect-work counter are separate scalars
+(`gDuel_wActionSubstate`, `gDuel_sEffectWorkCounter`); see
+[duel-working-word-views.md](duel-working-word-views.md).

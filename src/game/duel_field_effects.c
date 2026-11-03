@@ -148,7 +148,6 @@ DuelEffectHandler
     func_800289AC,
     DuelEffect_UpdateIdentitySave,
 };
-#define gDuel_sEffectWorkCounter D_8009B20C[1]
 
 char D_8009AF40[] = "%d\n";
 

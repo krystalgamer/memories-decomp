@@ -13,7 +13,7 @@
  *   the neighbouring constants, and the linked bytes are the same.
  * - The substate word is a scalar. sched lets a struct-member load through a
  *   pointer pass a store to a fixed scalar, which is the order of every
- *   "substate, then object flags" pair here; D_8009B20C[0] as an array element
+ *   "substate, then object flags" pair here; an array-element spelling
  *   would hold those loads back.
  * - The object's position pairs are copied as whole words. The copy that waits
  *   behind the substate store is a plain word access; the one that moves ahead
@@ -80,8 +80,6 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"
-#define gDuel_wActionSubstate SUBSTATE
-#define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \
@@ -654,7 +652,6 @@ void DuelScene_UpdateHandActions(void)
     }
 }
 
-#undef gDuel_wActionSubstate
 #undef SIDE_CURSOR
 #undef HAND_CARD_INDEX
 #undef FIELD_CURSOR

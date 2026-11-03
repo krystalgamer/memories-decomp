@@ -64,7 +64,6 @@ func_800695A4 = 0x800688A4;
 func_8006988C = 0x80068B8C;
 func_80069B40 = 0x80068E40;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
-gDuel_wAiHandStackPending = D_8009B20C;
 func_80025034 = DuelEffect_ApplyLifePointRecovery;
 func_800251C8 = DuelEffect_ApplyDirectDamage;
 func_800252F8 = DuelEffect_ApplyMonsterRemoval;
@@ -230,8 +229,6 @@ gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
-gDuel_wActionSubstate = gEuropean_D_8009B20C;
-gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
@@ -270,14 +267,11 @@ gDuel_wViewTweenDistanceTarget = D_8009C0AA_sles_03947;
 
 /* Names inside duel_field_card_render's own storage (#2602). */
 gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
-D_8009B20C = D_8009C0C2_sles_03947;
-D_8009B20E = D_8009C0C4_sles_03947;
 gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
 gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
 gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
 gDuel_pActionReadyMarker = D_8009C108_sles_03947;
 gEuropean_D_8009B208 = D_8009C10A_sles_03947;
-gEuropean_D_8009B20C = D_8009C10E_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
 gDuel_pCardViewerBackground = D_8009C1B4_sles_03947;
 

@@ -46,7 +46,6 @@ u8 gDuel_abMonsterRemovalRules[] = {
     CARD_TYPE_FISH,
     0, 0, /* Retail alignment before the following effect-handler table. */
 };
-#define gDuel_sEffectWorkCounter D_8009B20C[1]
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DUEL_FIELD_EFFECT_OBJECT_VIEW(object) \
     ((DuelFieldEffectObject *)(object))

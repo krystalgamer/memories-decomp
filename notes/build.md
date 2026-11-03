@@ -690,7 +690,7 @@ the table alone does not predict:
   branch delay slot.
 - **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
   eight-byte aggregate is what keeps it non-small "while the four-byte
-  `D_8009B20C` remains gp-relative".
+  `D_8009B20C` remains gp-relative" (that pair is now two scalars).
 
 #### Where a shared declaration belongs
 
@@ -892,7 +892,7 @@ collapsed: they are opposite levers, and no single spelling can serve them.
 
 This check belongs *before* any attempt to reconcile sizes, because a size
 disagreement on its own does not settle the question. #3108 settled
-`D_8009B20C` by bounding the object from two directions -- the next named
+`D_8009B20C` (since split into two scalars) by bounding the object from two directions -- the next named
 address above it, and the highest index any consumer actually reaches below --
 and then centralizing on the size that was correct rather than the largest one
 observed. That reasoning holds only while every consumer wants the same
