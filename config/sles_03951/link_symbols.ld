@@ -605,7 +605,6 @@ gMovie_dwStreamBaseLba = 0x800EB1A4;
 gFile_PrimaryTransferDescriptor = 0x800EB1B8;
 gFile_SecondaryTransferDescriptor = 0x800EB200;
 gFade_State = 0x800EB248;
-gFade_abCurrentLevel = 0x800EB24C;
 gDuel_aSideStates = 0x800EB278;
 gDuel_bSide1CardViewMode = 0x800EB2B7;
 gDuelHand_aSlots = 0x800EB2B8;

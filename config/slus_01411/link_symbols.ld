@@ -224,7 +224,6 @@ tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
 /* Other names for game/sound_frontend's small data (#2602). */
 
 /* Other names for game/fade_runtime's small data (#2602). */
-gFade_abCurrentLevel = gFade_State + 4;
 
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
 gMovie_dwStreamBaseLba = gFile_anLba + 12;

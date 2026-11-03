@@ -467,7 +467,6 @@ gFade_bTargetBlue = 0x8009C09C;
 gFade_bTargetGreen = 0x8009C09D;
 gFade_bTargetRed = 0x8009C09E;
 gFade_State = 0x800EAE28;
-gFade_abCurrentLevel = 0x800EAE2C;
 Model_SetSlotDrawMode = 0x8005D748;
 Model_BuildCameraRelativeCoordinateUnit = 0x8005D770;
 Model_GetSlotTintDescriptor = 0x8005D9E4;

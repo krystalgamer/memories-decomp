@@ -9,10 +9,6 @@
 #define FADE_SCREEN_HEIGHT (FADE_BAND_COUNT * FADE_BAND_HEIGHT)
 
 extern FadeTransitionState gFade_State;
-/* Byte 4 of gFade_State, the current fade level, under its own label.
-   The updated level stays outside the small-data model so its split
-   address can fill the final clamp branch delay slot. */
-extern u8 gFade_abCurrentLevel[];
 
 /* Latches the white-fade path until the transition completes. Most fade
    units reach it through small data; Script_OpShowImage defines the arm below

@@ -389,9 +389,9 @@ competing declarations:
 - `Fade_DrawOverlay` passes `&gFade_State` to `Fade_Update`, while the tail
   uses typed `gFade_State` fields; that reproduces the target's fresh address
   materialization in the exact draw-screen-fade implementation.
-- `Fade_Update` keeps its existing `FadeTransitionState *` parameter and the offset-symbol array
-  `gFade_abCurrentLevel[]`; the latter preserves absolute `%hi/%lo` addressing for the
-  final level store instead of the small-data form. Its byte definitions
+- `Fade_Update` keeps its existing `FadeTransitionState *` parameter and
+  writes the final level as `gFade_State.level`; the 0x28-byte record is
+  outside small data, so the store keeps its absolute `%hi/%lo` form. Its byte definitions
   for `gGraphics_bClearBlue`, `gGraphics_bClearGreen`, and `gGraphics_bClearRed` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
 - `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
@@ -402,9 +402,9 @@ competing declarations:
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 
-`gFade_abCurrentLevel` is an offset symbol at `+0x04`, not a same-address
-alias. The flag and step bytes at `+0x06` and `+0x07` have no names of their
-own: the scene, model, script, library and overworld consumers read
+The level, flag and step bytes at `+0x04`, `+0x06` and `+0x07` have no
+names of their own (the former `gFade_abCurrentLevel` label at `+0x04` is
+gone): the scene, model, script, library and overworld consumers read
 `gFade_State.flags` and `gFade_State.step` like the grouped fade runtime. See
 [fade-state-byte-views.md](fade-state-byte-views.md).
 

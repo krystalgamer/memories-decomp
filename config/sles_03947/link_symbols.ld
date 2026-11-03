@@ -351,7 +351,6 @@ gFile_SecondaryTransferDescriptor = D_800EAD78_sles_03947 + 104;
 
 /* Names inside fade_runtime's own storage (#2602). */
 gFade_State = D_800EAE28_sles_03947;
-gFade_abCurrentLevel = D_800EAE28_sles_03947 + 4;
 
 /* Names inside duel_field_card_render's own storage (#2602). */
 gDuel_aSideStates = D_800EAE58_sles_03947;

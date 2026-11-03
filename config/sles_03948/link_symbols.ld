@@ -399,7 +399,6 @@ gMain_RecoveryJmpBuf = 0x8009C868;
 D_800E9DF0 = 0x800EB170;
 gMovie_dwStreamBaseLba = 0x800EB1A4;
 gFile_nMasterXaLba = 0x800EB1B0;
-gFade_abCurrentLevel = 0x800EB24C;
 gDisplayObject_apWorkSlots = 0x800EB370;
 gDuel_abSelectionSides = 0x800EB390;
 gDuel_abSelectionRecord2 = 0x800EB3C8;

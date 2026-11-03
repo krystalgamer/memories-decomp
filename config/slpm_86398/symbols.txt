@@ -593,7 +593,6 @@ D_8009B145 = 0x8009B035;
 gFade_bTargetBlue = 0x8009B03A;
 gFade_bTargetGreen = 0x8009B03B;
 gFade_bTargetRed = 0x8009B03C;
-gFade_abCurrentLevel = 0x800E9DAC;
 SD_MeasureCdAudioLevel = 0x80044740;
 SD_EnqueueCdSePlay = 0x800448CC;
 SD_EnqueueCdPlay = 0x800448F4;

@@ -198,7 +198,7 @@ step:
             lvl = tgt;
         }
     }
-    gFade_abCurrentLevel[0] = lvl;
+    gFade_State.level = lvl;
 }
 
 /* Full-screen fade / brightness overlay, drawn once per frame from

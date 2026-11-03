@@ -479,7 +479,7 @@ void DuelScene_UpdateBattle(void)
             gDuel_bSceneSubStep |= 0x80;
             SD_BGMFadeOut();
             Fade_StartOut();
-            gFade_abCurrentLevel[0] = 0xFF;
+            gFade_State.level = 0xFF;
             Fade_FillBandLevels(0xFF);
             return;
         }
