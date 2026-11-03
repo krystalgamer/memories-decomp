@@ -39664,7 +39664,7 @@
       "sector_count": 10,
       "sector_offset": 45198,
       "sha256": "d1821f61d2388d56d745a24546287a43a3901bdbf542338c0f8620427cae152d",
-      "linker_symbols": "config/slpm_86398/overlays/model_variant_linker_symbols.txt"
+      "linker_symbols": "config/slpm_86398/overlays/model_variant552_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
