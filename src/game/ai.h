@@ -46,10 +46,12 @@ typedef struct {
     /* AiScript_FindBestAttack zeroes 0x98 on entry, then keeps a running
      * maximum there (compared unsigned, stored signed) and records the pair
      * of slots that produced it: the attacking slot i at 0x9A and the target
-     * slot j at 0x9B. Nothing else in the image touches these three. */
+     * slot j at 0x9B. AiScript_LoadBestDifference, AiScript_LoadBestAttacker
+     * and AiScript_LoadBestTarget read all three back unsigned into script
+     * memory; nothing else in the image touches them. */
     u16 attack_best_stat;
-    s8 attack_best_slot;
-    s8 attack_best_target;
+    u8 attack_best_slot;
+    u8 attack_best_target;
     u8 fusion_count;
     u8 fusion_limit;
     u8 fusion_set;
@@ -120,16 +122,6 @@ extern AiSelection gAi_Selection;
  * DuelScene_UpdateHandActions is the only reader and reads the byte view too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
  * the table form is the one that reproduces the instruction order. */
-
-/* AiScript_LoadBestAttacker reads the byte recorded by
-   AiScript_FindBestAttack before copying it into the VM register file. */
-extern u8 gAi_bBestAttacker;
-extern u8 gAi_bBestTarget;
-
-/* This object is one u16. Keeping the declaration as an array prevents -G8
-   users from selecting a small-data relocation; -G0 users generate the same
-   absolute load for element zero. */
-extern u16 gAi_wBestDifference[];
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1

@@ -268,10 +268,6 @@ gModel_aPoseSnapshot = D_800F5768;
 gModel_aEffectKeys = D_800F5768 + 32;
 
 /* Other names for game/ai_script_vm's small data (#2602). */
-gAiScript_State = D_800F5BE8;
-gAi_wBestDifference = D_800F5BE8 + 152;
-gAi_bBestAttacker = D_800F5BE8 + 154;
-gAi_bBestTarget = D_800F5BE8 + 155;
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
 gModel_aSlots = D_800F2C40;

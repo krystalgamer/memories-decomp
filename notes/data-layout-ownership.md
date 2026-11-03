@@ -132,7 +132,7 @@ object before it.
 | `src/game/movie_stream_requests.c` | `.bss` | `0x800F5750`-`0x800F5768` |
 | `src/game/model_keyframe_update.c` | `.bss` | `0x800F5768`-`0x800F5918` |
 | `src/game/model_handler_registry.c` | `.bss` | `0x800F5918`-`0x800F5B98` |
-| `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5C88` |
+| `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
 
 Bytes inside a unit's range that no code names are written as `static`
 address-named objects (`static u32 D_8009B448;`): they keep the retail

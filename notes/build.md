@@ -918,32 +918,24 @@ symbol.
 #### Agreeing relocations still need a source-expression check
 
 The check above rejects a symbol when its objects disagree. An earlier
-experiment with `gAi_wBestDifference` appeared to show the converse was also
-unsafe: changing the G8 use from an array to a scalar moved the two-byte symbol
-into small data. That result was real, but the conclusion drawn from it was too
-broad. The completed loader now shows that one shared array declaration works
-for both translation units when each use spells the element access explicitly:
+experiment with the former `gAi_wBestDifference` name appeared to show the
+converse was also unsafe: changing the G8 use from an array to a scalar moved
+the two-byte symbol into small data. That result was real, but the name was
+only a link-script alias at `gAiScript_State + 0x98`, with `gAi_bBestAttacker`
+and `gAi_bBestTarget` at `+0x9A` and `+0x9B`. Both sources now read the
+`attack_best_stat`, `attack_best_slot` and `attack_best_target` members of the
+0xD4-byte `gAiScript_State` instead:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/game/ai_script_combo.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` |
-| `src/game/ai_script_find_best_attack.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/ai_script_combo.c` | `gAiScript_State.attack_best_*` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98..0x9B` |
+| `src/game/ai_script_find_best_attack.c` | `gAiScript_State.attack_best_stat` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98` |
 
-The object is still exactly one `u16`: `gAi_bBestAttacker` is the next name at
-`+2`, followed by `gAi_bBestTarget` at `+3`, and neither source indexes above
-`[0]`. The array spelling therefore remains an addressing lever rather than a
-storage-size claim. It keeps the G8 best-attack source out of small data, while
-the G0 loader naturally emits the same absolute relocation pair. In the loader,
-the `[0]` expression also preserves the measured unsigned-halfword load; its
-explicit byte-scaled destination index supplies the separate scheduling lever
-needed for the exact 60-byte function.
-
-The historical scalar experiment is useful because it proves that relocation,
-profile, declaration, and expression must be checked together. It does not
-prove that differing profiles require guarded declarations. Here, the current
-native builds establish the opposite: the flat shared `u16[]` declaration in
-`ai.h` is correct for both profiles, and both current sources retain their exact
-retail text and absolute relocations.
+The structure is larger than the G8 limit, so neither profile can select a
+small-data relocation; the old array spelling was only needed while the alias
+had a size of its own. The loader's measured unsigned loads match the `u8`
+slot members, and its explicit byte-scaled destination index remains the
+scheduling lever for the exact 60-byte function.
 
 #### A header may declare what its own source defines
 

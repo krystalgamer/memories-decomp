@@ -61,7 +61,7 @@ void AiScript_FindBestAttack(void) {
         }
     }
 
-    if (gAi_wBestDifference[0] != 0) {
+    if (gAiScript_State.attack_best_stat != 0) {
         gAiScript_aMemory[out] = 0;
     } else {
         gAiScript_aMemory[out] = 1;

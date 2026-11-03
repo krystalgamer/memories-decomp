@@ -63,7 +63,7 @@ void AiScript_LoadBestDifference(void)
     u32 value;
 
     index *= sizeof(*values);
-    value = gAi_wBestDifference[0];
+    value = gAiScript_State.attack_best_stat;
     *(u32 *)((u8 *)values + index) = value;
 }
 
@@ -72,7 +72,7 @@ void AiScript_LoadBestAttacker(void)
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
 
-    values[index] = gAi_bBestAttacker;
+    values[index] = gAiScript_State.attack_best_slot;
 }
 
 void AiScript_LoadBestTarget(void)
@@ -82,7 +82,7 @@ void AiScript_LoadBestTarget(void)
     u32 value;
 
     index *= sizeof(*values);
-    value = gAi_bBestTarget;
+    value = gAiScript_State.attack_best_target;
     *(u32 *)((u8 *)values + index) = value;
 }
 

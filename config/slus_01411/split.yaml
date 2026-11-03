@@ -268,7 +268,7 @@ segments:
       - [0xe5f68, .bss, game/model_keyframe_update]
       - [0xe6118, .bss, game/model_handler_registry]
       - [0xe6398, .bss, game/ai_script_vm]
-      - [0xe6488, bin, bss_image_800f5c88]
+      - [0xe64c0, bin, bss_image_800f5cc0]
 
   - name: reserved_zero
     type: bin

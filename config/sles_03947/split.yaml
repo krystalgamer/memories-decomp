@@ -508,7 +508,7 @@ segments:
       - [0xe5340, .bss, game/model_distance_queries]
       - [0xe7080, .bss, game/european/model_handler_dispatch]
       - [0xe7300, .bss, game/ai_script_vm]
-      - {start: 0xe73f0, type: bin, name: bss_image_800f6bf0, linker_section_order: .bss}
+      - {start: 0xe7424, type: bin, name: bss_image_800f6c24, linker_section_order: .bss}
 
   - name: reserved_zero
     type: bin
