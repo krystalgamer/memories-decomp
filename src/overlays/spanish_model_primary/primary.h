@@ -37,7 +37,7 @@ typedef struct {
     s32 animation;
 } ModelPrimaryEffectState;
 
-extern ModelPrimaryCopyConfig D_8013A118[];
-extern ModelPrimaryEffectConfig D_8013A0DC[];
+extern ModelPrimaryCopyConfig gModelPrimaryCopy_Configs[];
+extern ModelPrimaryEffectConfig gModelPrimaryEffect_Configs[];
 
 #endif

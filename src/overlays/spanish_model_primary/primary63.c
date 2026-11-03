@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "primary63.h"
 
-s32 func_8013A004(u8 *context, s32 command)
+s32 ModelPrimary63_HandleRequest(u8 *context, s32 command)
 {
     ModelPrimary63State *work;
     MATRIX base;
@@ -26,11 +26,11 @@ s32 func_8013A004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013AA08;
+    scale = gModelPrimary63_Scale;
     work = (ModelPrimary63State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &D_8013AA18[command];
+        config = work->config = &gModelPrimary63_Configs[command];
         point = work->points[0];
         velocity = work->velocities[0];
         for (i = 0; i < 16; point++, velocity++, i++) {

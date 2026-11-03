@@ -1,13 +1,13 @@
 #include "../../types.h"
 #include "primary.h"
 
-s32 func_8013A004(u8 *context, s32 command)
+s32 ModelPrimaryEffect_HandleRequest(u8 *context, s32 command)
 {
     ModelPrimaryEffectState *work = (ModelPrimaryEffectState *)context;
     s32 slot;
 
     if (command >= 0) {
-        work->config = &D_8013A0DC[command % 100];
+        work->config = &gModelPrimaryEffect_Configs[command % 100];
         work->animation = command / 100 + 3;
     } else {
         slot = Model_GetActiveSlotIndex();

@@ -30,7 +30,7 @@ typedef struct {
     s32 frame;
 } ModelPrimary63State;
 
-extern VECTOR D_8013AA08;
-extern ModelPrimary63Config D_8013AA18[];
+extern VECTOR gModelPrimary63_Scale;
+extern ModelPrimary63Config gModelPrimary63_Configs[];
 
 #endif

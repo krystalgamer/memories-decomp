@@ -29,8 +29,8 @@ typedef struct {
     s32 delay;
 } ModelPrimary62State;
 
-extern VECTOR D_8013A628;
-extern GsIMAGE D_8013A638;
-extern ModelPrimary62Config D_8013A750[];
+extern VECTOR gModelPrimary62_Scale;
+extern GsIMAGE gModelPrimary62_Image;
+extern ModelPrimary62Config gModelPrimary62_Configs[];
 
 #endif

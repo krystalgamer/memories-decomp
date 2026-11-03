@@ -34,8 +34,11 @@ the complete image hash. There are no direct callees or structure accesses
 requiring extra callee/layout bindings.
 
 The [attempt ledger](spanish-model-return-two-attempts.csv) records the terminal
-exact candidates. Slot one renames only the function before including the
-same C body. No reference types, instruction arrays, inline assembly, register
+exact candidates; its slot-one row records the former renaming wrapper. Both
+slots now compile `return_two.c`, which defines `ModelPrimary_IgnoreRequest`:
+the entry ignores its request and returns 2, which the MODEL slot controller
+discards. One symbol file per region and slot binds the name at `0x8013A004`
+or `0x8017A004`. No reference types, instruction arrays, inline assembly, register
 pinning, or one-off compiler flags were used.
 
 Configured progress adds **two function instances / 16 instruction bytes**,
