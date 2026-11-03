@@ -8,7 +8,7 @@
  * bursts into animated sparks, rising smoke and falling debris while the
  * ambient light dims and recovers. */
 
-static const VECTOR D_8013E920 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant821_D3920 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -16,7 +16,7 @@ static const VECTOR D_8013E920 = {4096, 4096, 4096, 0};
  * lengthen the shared "&p" lifetime enough for loop.c to hoist it out of
  * the draw loop, which changes the register allocation. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
 {
     Model821State *work;
     MATRIX light;
@@ -40,12 +40,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013E920;
+    scale = gModelVariant821_D3920;
     work = (Model821State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E9BC[command];
+        work->config = &gModelVariant821_D39BC[command];
         for (g = 0; g < 3; g++) {
             work->head[g] = 0;
             for (i = 0; i < 10; i++) {
@@ -99,10 +99,10 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (g = 0; g < 5; g++) {
-            work->texture[g] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E930[g]);
+            work->texture[g] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_D3930[g]);
         }
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013E930[3]);
-        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E930[3]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant821_D3930[3]);
+        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_D3930[3]);
         work->ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;
