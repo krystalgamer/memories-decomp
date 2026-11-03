@@ -1,7 +1,7 @@
 // MODEL.MRG model 230 (record 230), sector 63690, header 296, loaded at 0x8017B000; the US source variant166_entry.c.
-func_8017B004 = 0x8017B004; // type:func size:0x1CB8 defined:true
-D_8017CCDC = 0x8017CCDC; // type:u8 size:0x8C defined:true
-D_8017CD68 = 0x8017CD68; // type:u8 size:0x3298 defined:true
+ModelVariant166_HandleRequest = 0x8017B004; // type:func size:0x1CB8 defined:true
+gModelVariant166_D1CDC = 0x8017CCDC; // type:u8 size:0x8C defined:true
+gModelVariant166_D1D68 = 0x8017CD68; // type:u8 size:0x3298 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

@@ -13,7 +13,7 @@ indices for these three models.
 | 244 | 7/8 | 67524/67534 | 630000 | 2 |
 
 Each pair loads at `0x8013B000/0x8017B000`. The selected helpers are
-`func_8013CE94/func_8017CE94`, each 1,164 bytes, totaling 6,984 newly matched
+`SpanishModelVariant464_DrawSheets` at `0x8013CE94/0x8017CE94`, each 1,164 bytes, totaling 6,984 newly matched
 instruction bytes. All six complete 20,480-byte images reproduce their
 recorded retail hashes with named `gcc_2_8_1_g0_split`
 (GCC 2.8.1/MASPSX 2.81).

@@ -1,8 +1,9 @@
-// Italian MODEL.MRG model 227 (record 227), sector 62842, header 300, loaded at 0x8017B000; the US header-283 source variant153us_entry_slot1.c, through french_model_variant/variant170_entry_slot1.c; built from the French source layout of french_model_variant_227_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1424
+// Italian MODEL.MRG model 227 (record 227), sector 62842, header 300, loaded at 0x8017B000; the US header-283 source variant153us_entry.c, through french_model_variant/variant170_entry.c; built from the French source layout of french_model_variant_227_stage8_slot1.
+ModelVariant153Us_HandleRequest = 0x8017B004; // type:func size:0x1424
 D_8017C428 = 0x8017C428; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017C438 = 0x8017C438; // type:u8 size:0x3C defined:true
+gModelVariant153Us_D145C = 0x8017C438; // type:u8 size:0x3C defined:true
+gModelVariant153Us_D1478 = 0x8017C454; // type:u8 defined:true
 D_8017C474 = 0x8017C474; // type:u8 size:0x3B8C defined:true
 GsGetLwUnit = 0x8008A428; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true

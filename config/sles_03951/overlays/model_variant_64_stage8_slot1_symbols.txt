@@ -1,7 +1,7 @@
-// Spanish MODEL.MRG model 64 (record 64), sector 17854, header 955, loaded at 0x8017B000; the US header-938 source variant841_entry_slot1.c; built from the French source layout of french_model_variant_64_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x16CC defined:true
-D_8017C6E0 = 0x8017C6E0; // type:u8 size:0x38 defined:true
-D_8017C718 = 0x8017C718; // type:u8 size:0x38E8 defined:true
+// Spanish MODEL.MRG model 64 (record 64), sector 17854, header 955, loaded at 0x8017B000; the US header-938 source variant841_entry.c; built from the French source layout of french_model_variant_64_stage8_slot1.
+ModelVariant841_HandleRequest = 0x8017B004; // type:func size:0x16CC defined:true
+gModelVariant841_D16E0 = 0x8017C6E0; // type:u8 size:0x38 defined:true
+gModelVariant841_D1718 = 0x8017C718; // type:u8 size:0x38E8 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

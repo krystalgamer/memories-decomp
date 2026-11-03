@@ -1,5 +1,5 @@
 // Japanese MODEL.MRG model 543 (record 493), sector 136268, header 679, loaded at 0x8013B000; the US source variant679us_entry.c; built from the US source layout of model_variant_543_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x211C defined:true
-D_8013D120 = 0x8013D120; // type:u8 size:0x18 defined:true
-D_8013D138 = 0x8013D138; // type:u8 size:0x134 defined:true
-D_8013D26C = 0x8013D26C; // type:u8 size:0x2D94 defined:true
+ModelVariant679Us_HandleRequest = 0x8013B004; // type:func size:0x211C defined:true
+gModelVariant679Us_D2120 = 0x8013D120; // type:u8 size:0x18 defined:true
+gModelVariant679Us_D2138 = 0x8013D138; // type:u8 size:0x134 defined:true
+gModelVariant679Us_D226C = 0x8013D26C; // type:u8 size:0x2D94 defined:true

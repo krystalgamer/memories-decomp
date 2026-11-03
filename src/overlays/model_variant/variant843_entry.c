@@ -8,9 +8,9 @@
  * model. Each arrival opens into a fading four-petal burst; once the last
  * of both has landed the light comes back. */
 
-static const VECTOR D_8013CC80 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant843_D1C80 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant843_HandleRequest(u8 *context, s32 command)
 {
     Model843State *work;
     MATRIX base;
@@ -31,13 +31,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CC80;
+    scale = gModelVariant843_D1C80;
     work = (Model843State *)context;
     packet = &ft4;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CCE4[command];
+        work->config = &gModelVariant843_D1CE4[command];
         work->tpage = 0xAE;
 #ifdef VERSION_FRENCH
         work->clut = 0x3D28;
@@ -45,7 +45,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->clut = 0x3D20;
 #endif
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CC90[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant843_D1C90[i]);
         }
         for (i = 0; i < 32; i++) {
             setVector(&work->sparks[i], 0, 0, 0);

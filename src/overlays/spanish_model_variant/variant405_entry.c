@@ -11,7 +11,7 @@
  * and part 0 until config word 0x1C, freezing the aim origin after word
  * 0x10, then draws through the outer-band, 0x12CC and pulse helpers. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant405EntryState *work = (Variant405EntryState *)point;
     Variant405EntryStack stack;
@@ -40,7 +40,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant405EntryConfig *)(D_8013CFBC + 0x38) + command;
+        work->config = (Variant405EntryConfig *)(gSpanishModelVariant405_D1FBC + 0x38) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -56,7 +56,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT405_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CFBC + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant405_D1FBC + 0x1C));
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
         SetPolyG3(triangle);
@@ -265,9 +265,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vx = dx;
         work->screen_delta.vy = dy;
-        func_8013CB64((u8 *)point);
-        func_8013C2CC((u8 *)point);
-        func_8013BD00((u8 *)point);
+        SpanishModelVariant405_DrawOuterBands((u8 *)point);
+        FrenchModelVariant562_DrawShards((u8 *)point);
+        SpanishModelVariant405_DrawPulses((u8 *)point);
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
         if (frame != work->animation_frame) {

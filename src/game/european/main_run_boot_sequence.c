@@ -7,6 +7,5 @@
 /* The European display height. */
 #define GRAPHICS_DEFAULT_HEIGHT 256
 /* As in main_init.c. */
-/* This build names the loader words directly. */
 
 #include "../main_run_boot_sequence.c"

@@ -1,4 +1,4 @@
-// MODEL.MRG model 485 (record 485), sector 120270, header 236, loaded at 0x8017B000; the US header-89 source variant89_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x2408 defined:true
-D_8017D42C = 0x8017D42C; // type:u8 size:0x38 defined:true
-D_8017D464 = 0x8017D464; // type:u8 size:0x2B9C defined:true
+// MODEL.MRG model 485 (record 485), sector 120270, header 236, loaded at 0x8017B000; the US header-89 source variant89_entry.c.
+ModelVariant89_HandleRequest = 0x8017B004; // type:func size:0x2408 defined:true
+gModelVariant89_D242C = 0x8017D42C; // type:u8 size:0x38 defined:true
+gModelVariant89_D2464 = 0x8017D464; // type:u8 size:0x2B9C defined:true

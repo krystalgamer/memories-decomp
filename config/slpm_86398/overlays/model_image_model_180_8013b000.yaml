@@ -63,14 +63,14 @@ segments:
     vram: 0x8013BF28
     align: 4
     subsegments:
-      - [0xF28, c, overlays/model_variant/variant409_mesh]
+      - [0xF28, c, overlays/spanish_model_variant/variant426_mesh]
   - name: spiral
     type: code
     start: 0x138C
     vram: 0x8013C38C
     align: 4
     subsegments:
-      - [0x138C, c, overlays/model_variant/variant409_spiral]
+      - [0x138C, c, overlays/spanish_model_variant/variant426_spiral]
   - name: ribbon
     type: code
     start: 0x1DAC
@@ -84,21 +84,21 @@ segments:
     vram: 0x8013D65C
     align: 4
     subsegments:
-      - [0x265C, c, overlays/model_variant/variant409_sheets]
+      - [0x265C, c, overlays/spanish_model_variant/variant426_sheets]
   - name: streamers
     type: code
     start: 0x2B50
     vram: 0x8013DB50
     align: 4
     subsegments:
-      - [0x2B50, c, overlays/model_variant/variant409_streamers]
+      - [0x2B50, c, overlays/french_model_variant/variant426_streamers]
   - name: helper_3370
     type: code
     start: 0x3370
     vram: 0x8013E370
     align: 4
     subsegments:
-      - [0x3370, c, overlays/model_variant/variant409_funnel]
+      - [0x3370, c, overlays/spanish_model_variant/variant426_funnel]
   - name: data
     type: code
     start: 0x37A8

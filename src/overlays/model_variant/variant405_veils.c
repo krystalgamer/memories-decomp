@@ -7,7 +7,7 @@
  * strip is textured from the screen half it lands on. Each scale grows to
  * 0x800 and wraps with a count until the timing record's deadline, and the
  * phase moves on once every veil has wrapped. */
-void func_8013C620(u8 *ctx)
+void ModelVariant405_DrawVeils(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

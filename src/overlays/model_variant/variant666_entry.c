@@ -12,11 +12,11 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL666_FADE(e, offset, value, divisor)                                      \
-    (e).color[0] = D_8013CAB8[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = D_8013CAB8[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = D_8013CAB8[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant666_D1AB8[work->command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant666_D1AB8[work->command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant666_D1AB8[work->command].color[(offset) + 2] * (value) / (divisor)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
 {
     Model666State *work;
     MATRIX ls;
@@ -36,20 +36,20 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model666State));
 #ifndef VERSION_FRENCH
-        printf(D_8013CA4C, sizeof(Model666State));
+        printf(gModelVariant666_D1A4C, sizeof(Model666State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CA64[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_D1A64[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CA64[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_D1A64[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CA64[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_D1A64[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -58,8 +58,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->sparks_per_bloom = 16;
             break;
         }
-        work->radius = D_8013CAB8[command].radius;
-        work->height = D_8013CAB8[command].height;
+        work->radius = gModelVariant666_D1AB8[command].radius;
+        work->height = gModelVariant666_D1AB8[command].height;
         for (i = 0; i < work->count; i++) {
             work->blooms[i].duration = 480;
             work->blooms[i].active = 0;
@@ -67,9 +67,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->blooms[i].mode = 1;
             work->blooms[i].coord = Model_GetCameraCoordinateUnit();
             work->blooms[i].frame = 0;
-            work->blooms[i].color[0] = D_8013CAB8[command].color[0];
-            work->blooms[i].color[1] = D_8013CAB8[command].color[1];
-            work->blooms[i].color[2] = D_8013CAB8[command].color[2];
+            work->blooms[i].color[0] = gModelVariant666_D1AB8[command].color[0];
+            work->blooms[i].color[1] = gModelVariant666_D1AB8[command].color[1];
+            work->blooms[i].color[2] = gModelVariant666_D1AB8[command].color[2];
             work->blooms[i].u = 0;
             work->blooms[i].v = 32;
             setVector(&work->blooms[i].scale, 4096, 4096, 4096);
@@ -90,9 +90,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->sparks[i][j].elapsed = 0;
                 work->sparks[i][j].mode = 1;
                 work->sparks[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->sparks[i][j].color[0] = D_8013CAB8[command].color[0];
-                work->sparks[i][j].color[1] = D_8013CAB8[command].color[1];
-                work->sparks[i][j].color[2] = D_8013CAB8[command].color[2];
+                work->sparks[i][j].color[0] = gModelVariant666_D1AB8[command].color[0];
+                work->sparks[i][j].color[1] = gModelVariant666_D1AB8[command].color[1];
+                work->sparks[i][j].color[2] = gModelVariant666_D1AB8[command].color[2];
                 work->sparks[i][j].spawned = 0;
                 setVector(&work->sparks[i][j].scale, 4096, 4096, 4096);
                 sign = i % 2 * 2 - 1;
@@ -112,9 +112,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->rings[i][j].elapsed = 0;
                 work->rings[i][j].mode = 1;
                 work->rings[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->rings[i][j].color[0] = D_8013CAB8[command].color[3];
-                work->rings[i][j].color[1] = D_8013CAB8[command].color[4];
-                work->rings[i][j].color[2] = D_8013CAB8[command].color[5];
+                work->rings[i][j].color[0] = gModelVariant666_D1AB8[command].color[3];
+                work->rings[i][j].color[1] = gModelVariant666_D1AB8[command].color[4];
+                work->rings[i][j].color[2] = gModelVariant666_D1AB8[command].color[5];
                 work->rings[i][j].u = 0;
                 work->rings[i][j].v = 0;
                 setVector(&work->rings[i][j].scale, 4096, 4096, 4096);
@@ -128,7 +128,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->blooms[j].position.vz + sign * value * rcos(i << 8) / 4096);
             }
         }
-        work->delay = D_8013CAB8[command].delay;
+        work->delay = gModelVariant666_D1AB8[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -219,9 +219,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (ended == 1) {
                 work->sparks[work->blooms[i].cursor][i].active = ended;
                 work->sparks[work->blooms[i].cursor][i].elapsed = 0;
-                work->sparks[work->blooms[i].cursor][i].color[0] = D_8013CAB8[work->command].color[0];
-                work->sparks[work->blooms[i].cursor][i].color[1] = D_8013CAB8[work->command].color[1];
-                work->sparks[work->blooms[i].cursor][i].color[2] = D_8013CAB8[work->command].color[2];
+                work->sparks[work->blooms[i].cursor][i].color[0] = gModelVariant666_D1AB8[work->command].color[0];
+                work->sparks[work->blooms[i].cursor][i].color[1] = gModelVariant666_D1AB8[work->command].color[1];
+                work->sparks[work->blooms[i].cursor][i].color[2] = gModelVariant666_D1AB8[work->command].color[2];
                 work->sparks[work->blooms[i].cursor][i].spawned = 0;
                 if (++work->blooms[i].cursor >= work->sparks_per_bloom) {
                     work->blooms[i].cursor = 0;
@@ -286,9 +286,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->sparks[i][j].duration / 4 < work->sparks[i][j].elapsed && work->sparks[i][j].spawned == 0) {
                     work->rings[i][j].active = 1;
                     work->rings[i][j].elapsed = 0;
-                    work->rings[i][j].color[0] = D_8013CAB8[work->command].color[3];
-                    work->rings[i][j].color[1] = D_8013CAB8[work->command].color[4];
-                    work->rings[i][j].color[2] = D_8013CAB8[work->command].color[5];
+                    work->rings[i][j].color[0] = gModelVariant666_D1AB8[work->command].color[3];
+                    work->rings[i][j].color[1] = gModelVariant666_D1AB8[work->command].color[4];
+                    work->rings[i][j].color[2] = gModelVariant666_D1AB8[work->command].color[5];
                     work->rings[i][j].u = 0;
                     work->sparks[i][j].spawned = 1;
                 }

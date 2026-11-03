@@ -12,5 +12,4 @@
 #define CARD_LIST_ICON_CX(page) ((page) + 0x280)
 
 #define CARD_LIST_FOLLOWING_FLAG 0x80
-#define func_80060E70 func_80050B6C
 #include "../card_list_deck_box.c"

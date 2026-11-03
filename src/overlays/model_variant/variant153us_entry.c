@@ -10,9 +10,9 @@
  * then two sheets trail towards an anchor beside it and towards a point
  * between the slots, both spin there, and a white flash closes the effect. */
 
-static const VECTOR D_8013C43C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant153Us_D143C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command)
 {
     Model153UsState *work;
     s32 direction;
@@ -39,7 +39,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C43C;
+    scale = gModelVariant153Us_D143C;
     work = (Model153UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -47,7 +47,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->rotation.vx = 0;
         work->rotation.vy = 0;
         work->rotation.vz = 0;
-        config = work->config = &D_8013C478[command % 100];
+        config = work->config = &gModelVariant153Us_D1478[command % 100];
         work->spin[0] = config->spin[0];
         work->spin[1] = config->spin[1];
         work->spin[2] = config->spin[2];
@@ -72,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->trail_index = 0;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C45C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant153Us_D145C[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

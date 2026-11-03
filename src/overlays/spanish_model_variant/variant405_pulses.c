@@ -2,7 +2,7 @@
 #include "variant405_pulses.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013BD00(u8 *context)
+void SpanishModelVariant405_DrawPulses(u8 *context)
 {
     SVECTOR rotation;
     /* Unreferenced; occupies the untouched 16 bytes after the rotation. */

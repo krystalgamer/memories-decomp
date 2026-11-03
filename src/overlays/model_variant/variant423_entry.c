@@ -10,7 +10,7 @@
 /* Header 423's entry: header 428's entry without the spiral arms, with a
  * 0x108-byte band and a 0x30-byte config. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant423EntryState *work = (Variant423EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -43,7 +43,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant423EntryConfig *)(D_8013DB38 + 0xFC) + command;
+        work->config = (Variant423EntryConfig *)(gModelVariant423_D2B38 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -61,12 +61,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT423_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT423_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DB38 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant423_D2B38 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DB38 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DB38 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DB38 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant423_D2B38 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant423_D2B38 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant423_D2B38 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -278,11 +278,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013C6E4((u8 *)point);
-            func_8013CBDC((u8 *)point);
+            ModelVariant423_DrawSheets((u8 *)point);
+            ModelVariant423_DrawWebs((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013BF18((u8 *)point);
+            ModelVariant423_DrawBand((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

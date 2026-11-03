@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8017B004,0xF38,func_8017B004,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BF3C,0x428,func_8017BF3C,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C364,0x470,func_8017C364,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C7D4,0xB24,func_8017C7D4,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D2F8,0x3D0,func_8017D2F8,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D6C8,0x318,func_8017D6C8,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D9E0,0x384,func_8017D9E0,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xF38,FrenchModelVariant341_HandleRequest,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BF3C,0x428,ModelVariant324_DrawWebs,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C364,0x470,ModelVariant324_DrawFan,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C7D4,0xB24,ModelVariant324_DrawBand,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D2F8,0x3D0,ModelVariant324_DrawMovingRing,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D6C8,0x318,ModelVariant324_DrawSpokeRings,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D9E0,0x384,ModelVariant324_DrawExpandingRings,matching_c,overlay/model_image_model_2122_8017b000,Complete module byte identity and section-defined C ownership verified.

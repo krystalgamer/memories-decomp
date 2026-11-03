@@ -87,11 +87,11 @@ typedef struct {
 extern MATRIX D_800FE168;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n". */
-extern char D_8013D514[];
+extern char gModelVariant683_D2514[];
 #endif
-extern GsIMAGE D_8013D52C[6];
-extern Model683Command D_8013D5D4[];
+extern GsIMAGE gModelVariant683_D252C[6];
+extern Model683Command gModelVariant683_D25D4[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant683_HandleRequest(u8 *context, s32 command);
 
 #endif

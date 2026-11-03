@@ -53,6 +53,14 @@ The ledger keeps every materially distinct form. Two details were required:
 The MODEL439 binding list gains the SDK alias `GsGetActiveBuff`, whose address
 was already bound as `func_800852A8`.
 
+## Per-image binding
+
+Every image builds `variant439_screen_rings.c` directly, and its symbol file
+binds `SpanishModelVariant439_DrawScreenRings` at its own address:
+`0x8013C230`/`0x8017C230` in the PAL images and `0x8013C234`/`0x8017C234` in
+the North American and Japanese header-422/572 images. Those build the same
+source under `gcc_2_7_2_cdk_g0`.
+
 ## Acceptance evidence
 
 All fourteen complete 20KiB images match using `gcc_2_8_1_g0_split`.

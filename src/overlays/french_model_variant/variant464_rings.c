@@ -2,7 +2,7 @@
 #include "variant464_rings.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013C368(u8 *context)
+void FrenchModelVariant464_DrawRings(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

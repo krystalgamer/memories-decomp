@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant412_trails.h"
 
-void func_8013BB98(u8 *ctx)
+void FrenchModelVariant412_DrawTrails(u8 *ctx)
 {
     SVECTOR rotation;
     VECTOR scale;

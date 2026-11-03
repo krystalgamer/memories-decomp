@@ -25,8 +25,9 @@ The four images contribute twenty-four C instances / 46,288 instruction bytes,
 no assembly instances in the inventoried spans, and 35,632 raw bytes.
 Unknown suffix storage is not counted as code or matching C.
 
-The six Spanish wrappers only rename symbols in the accepted local US458
-sheet, quad and strand bodies. All were independently compiled with
+The Spanish images build the accepted local US458 sheet, quad and strand
+bodies directly, with no symbol-renaming wrappers. All were independently
+compiled with
 `gcc_2_8_1_g0_split` (GCC 2.8.1 / MASPSX 2.81), individually relocated and
 selected as real compiler objects in four complete byte-identical scratch
 images. US compiler registrations were not imported. The
