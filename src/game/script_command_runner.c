@@ -1,3 +1,6 @@
+#define D_8009B268_IN_DATA
+#define D_8009B26D_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #define D_800EB12C_IN_DATA
 #include "../types.h"
 #include "../ygo_types.h"
@@ -7,7 +10,6 @@
 #include "text_box_update_channels.h"
 #include "script_op_show_dialog.h"
 #include "script_command_table.h"
-#include "script_run_tick.h"
 #include "script_state.h"
 #include "script_op_load_image_scene.h"
 #include "script_op_open_campaign_map.h"
@@ -15,15 +17,16 @@
 #include "script_op_save_prompt.h"
 #include "script_op_fade_out.h"
 #include "script_op_duel_result.h"
-#include "script_op_jump_if_deck_incomplete.h"
-#include "script_op_return_to_menu.h"
 #include "script_command_busy.h"
 #include "script_control_commands.h"
 #include "script_flag_commands.h"
 #include "script_noop_commands.h"
 #include "script_image_commands.h"
 #include "script_stream_commands.h"
+#include "main_services.h"
+#include "script_command_runner.h"
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 /* Initialized data this unit owns at 0x80090C50: the 23 scene-script command handlers.
  *
@@ -64,6 +67,22 @@ ScriptCommandHandler gScript_apfnCommandHandlers[] = {
 #ifndef SCRIPT_RUN_TICK_COMPLETION_MASK
 #define SCRIPT_RUN_TICK_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
+
+void Script_OpJumpIfDeckIncomplete(void) {
+    unsigned char *current = gScript_StreamCursor;
+    unsigned int offset;
+    gScript_StreamCursor = current + 2;
+    offset = current[0] | (current[1] << 8);
+    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = D_801A8000 + offset;
+    gScript_wCommandWord = 0;
+}
+
+void Script_OpReturnToMenu(void)
+{
+    D_8009B268 = 1;
+    gMain_bRequestedMenuID = 5;
+    gMain_bActiveModeState = 8;
+}
 
 void Script_RunTick(void)
 {
