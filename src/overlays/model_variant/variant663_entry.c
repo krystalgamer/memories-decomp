@@ -443,7 +443,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->bursts[i].elapsed << 13) / work->bursts[i].duration + 0x800;
                 setVector(&work->bursts[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
@@ -525,7 +525,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
                     setRGB2(&work->strip, 0, 0, 0);
                     setRGB3(&work->strip, 0, 0, 0);
                     PushMatrix();
-                    m = D_800FE168;
+                    m = GsIDMATRIX;
                     /* Alternate strips spin the other way, faster outward. */
                     angle = ((k % 2) * 2 - 1) * 55;
                     RotMatrixZ(work->bursts[i].elapsed * (k * 5 + 1) * angle, &m);

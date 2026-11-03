@@ -29,7 +29,7 @@
         for (j = 0; j < work->spark_count; j++) {                                             \
             PushMatrix();                                                                     \
             offset = work->sparks[j][i].offset;                                               \
-            m = D_800FE168;                                                                   \
+            m = GsIDMATRIX;                                                                   \
             RotMatrixZ(work->tubes[i].rotation.vz, &m);                                       \
             RotMatrixX(work->tubes[i].rotation.vx, &m);                                       \
             RotMatrixY(work->tubes[i].rotation.vy, &m);                                       \
@@ -257,7 +257,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][0].active = 1;
                 PushMatrix();
                 offset = work->sparks[i][0].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixY(work->slot * 2048, &m);
                 ApplyMatrixLV(&m, &offset, &work->sparks[i][0].position);
                 applyVector(&work->sparks[i][0].position, 0, -350, work->direction * 450, +=);
@@ -299,7 +299,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->tube_count; i++) {
         if (work->tubes[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->tubes[i].elapsed < work->tubes[i].duration / 4) {
                 value = (work->tubes[i].elapsed << 14) / work->tubes[i].duration;
             } else {
@@ -383,7 +383,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->tube_count; i++) {
         if (work->cones[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             /* Here and below, an if/else rather than a preset scale keeps
              * retail's spill slots and frame size. */
             if (work->cones[i].elapsed < work->cones[i].duration / 2) {
@@ -471,7 +471,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->tube_count; i++) {
         if (work->domes[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->domes[i].elapsed < work->domes[i].duration / 4) {
                 value = (work->domes[i].elapsed << 14) / work->domes[i].duration;
             } else {
@@ -533,7 +533,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->spark_count; i++) {
             if (work->sparks[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->sparks[i][j].elapsed < work->sparks[i][j].duration / 4) {
                     value = (work->sparks[i][j].elapsed << 14) / work->sparks[i][j].duration;
                 } else {

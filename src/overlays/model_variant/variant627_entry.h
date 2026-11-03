@@ -57,7 +57,7 @@ typedef struct {
     Model627Ring lines[10];
 } Model627State;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern Model627Command gModelVariant627_D1384[];
 
 s32 ModelVariant627_HandleRequest(u8 *context, s32 command);

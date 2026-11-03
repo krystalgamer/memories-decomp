@@ -122,7 +122,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             d = i % 2 * 2 - 1;
             n = work->radius * 2;
             PushMatrix();
-            m = D_800FE168;
+            m = GsIDMATRIX;
             RotMatrixZ(d * (i << 11) / work->shard_count, &m);
             RotMatrixY(d * (i % 16 << 12) / 16, &m);
             RotMatrixX(i % 16 << 8, &m);
@@ -249,7 +249,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
                     points[1].vy = n * -rcos(k << 8) / 4096 + s * rcos(k << 8) / 4096;
                     points[1].vz = 0;
                     PushMatrix();
-                    m = D_800FE168;
+                    m = GsIDMATRIX;
                     RotMatrixX(k << 10, &m);
                     s = i % 2 * 2 - 1;
                     RotMatrixZ(s * (i << 12) / 8, &m);
@@ -306,7 +306,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->flash_count; i++) {
             if (work->flashes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->flashes[i].elapsed < work->flashes[i].duration / 2) {
                     n = (work->flashes[i].elapsed << 13) / work->flashes[i].duration;
                 } else {
@@ -343,7 +343,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
                     GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->flashes[i].elapsed < work->flashes[i].duration / 2) {
                     n = (work->flashes[i].elapsed << 13) / work->flashes[i].duration;
                 } else {
@@ -407,7 +407,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->shard_count; i++) {
             if (work->shards[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->shards[i].scale);
                 RotMatrixZ(work->shards[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->shards[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * work->direction,
@@ -459,7 +459,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->bursts[i].elapsed < work->bursts[i].duration / 8) {
                     n = (work->bursts[i].elapsed << 15) / work->bursts[i].duration;
                 } else {
@@ -510,7 +510,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < work->spoke_count; k++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     if (work->bursts[i].elapsed < work->bursts[i].duration / 8) {
                         n = (work->bursts[i].elapsed << 15) / work->bursts[i].duration;
                     } else {
@@ -585,7 +585,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->rings[i].elapsed << 13) / work->rings[i].duration + 0x400;
                 if ((work->rings[i].ticks & 1) == 0) {
                     n = (u32)n >> 1;
@@ -646,7 +646,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
                 RotMatrixZ(work->rings[i].elapsed * 300, &unit.matrix);
                 RotMatrixX(work->rings[i].elapsed * 350, &unit.matrix);
@@ -698,7 +698,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->waves[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = work->waves[i].elapsed * 0x3000 / work->waves[i].duration + 0x1000;
                 if ((work->waves[i].ticks & 1) == 0) {
                     n = (u32)n >> 1;

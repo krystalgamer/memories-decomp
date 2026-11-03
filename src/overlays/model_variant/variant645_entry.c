@@ -619,7 +619,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->halo_count; i++) {
             if (work->halos[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->halos[i].elapsed << 13) / work->halos[i].duration + 2048;
                 setVector(&work->halos[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->halos[i].scale);
@@ -700,7 +700,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                     setRGB2(&work->strip, 0, 0, 0);
                     setRGB3(&work->strip, 0, 0, 0);
                     PushMatrix();
-                    rot = D_800FE168;
+                    rot = GsIDMATRIX;
                     /* "* 55 * sign" folds into retail's elapsed * (5k + 1) * (sign * 55). */
                     RotMatrixZ(work->halos[i].elapsed * (k * 5 + 1) * 55 * (k % 2 * 2 - 1), &rot);
                     corners[0].in = work->blades[k][0];

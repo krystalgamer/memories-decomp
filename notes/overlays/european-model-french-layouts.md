@@ -20,7 +20,7 @@ files:
 
 - named symbols map to their European address in
   `config/sles_03947/symbols.txt`;
-- `D_800FE168`, the US-named word 0x40 after `GsWSMATRIX_ORG`, is
+- `GsIDMATRIX`, the US-named word 0x40 after `GsWSMATRIX_ORG`, is
   `0x800FF0D0` (French `0x800FF4F0`, US `0x800FE168`);
 - address-named entries whose address the French executable names (for
   example `func_80059B90` at French `0x8005CC98`,

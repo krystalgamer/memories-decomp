@@ -378,7 +378,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                     setRGB3(&work->strip, 0, 0, 0);
                     PushMatrix();
                     n = i % 2;
-                    m = D_800FE168;
+                    m = GsIDMATRIX;
                     RotMatrixZ(work->rings[i].elapsed * 20 + (n << 7), &m);
                     ApplyMatrixSV(&m, &work->ring_inner[j], &p[0]);
                     ApplyMatrixSV(&m, &work->ring_outer[j], &p[1]);
@@ -414,7 +414,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->rows; i++) {
                 if (work->rising[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     n = (work->rising[i][j].elapsed << 12) / work->rising[i][j].duration + 0x1000;
                     setVector(&work->rising[i][j].scale, n, n, n);
                     ScaleMatrix(&unit.matrix, &work->rising[i][j].scale);
@@ -462,7 +462,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->spark_count; i++) {
             if (work->sparks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->sparks[i].elapsed << 14) / work->sparks[i].duration + 0x800;
                 setVector(&work->sparks[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->sparks[i].scale);
@@ -518,7 +518,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
         }
         if (work->burst.active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->burst.elapsed < work->burst.duration / 4) {
                 n = (work->burst.elapsed << 13) / work->burst.duration + 0x800;
             } else {
@@ -565,7 +565,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->fan_count; i++) {
             if (work->fans[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->fans[i].elapsed << 14) / work->fans[i].duration + 0x800;
                 setVector(&work->fans[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->fans[i].scale);

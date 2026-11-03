@@ -356,7 +356,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < work->count_a; i++) {
             if (work->a[i].f00 == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->a[i].scale);
                 RotMatrixZ(work->a[i].rot.vz, &unit.matrix);
                 RotMatrixY(work->a[i].rot.vy, &unit.matrix);
@@ -439,7 +439,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < work->count_b; i++) {
             if (work->b[i].f00 == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->b[i].scale);
                 unit.matrix.t[0] = work->b[i].pos.vx;
                 unit.matrix.t[1] = work->b[i].pos.vy;
@@ -506,7 +506,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 32; i++) {
             if (work->c[i].f00 == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->c[i].scale);
                 RotMatrixX(work->c[i].rot.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
                 RotMatrixY(work->c[i].rot.vy + (0xC06 - view.yaw), &unit.matrix);

@@ -180,7 +180,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->emitter_count; i++) {
             if (work->emitters[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->emitters[i].scale);
                 RotMatrixY(work->emitters[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->emitters[i].position.vx;
@@ -302,7 +302,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->shell_count; i++) {
                 if (work->shells[l + i].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &(&work->shells[i])[l].scale);
                     RotMatrixY(work->shells[l + i].rotation.vy, &unit.matrix);
                     unit.matrix.t[0] = work->shells[l + i].position.vx;
@@ -362,7 +362,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->cone_count; i++) {
                 if (work->cones[l + i].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     n = 0x1000;
                     if (work->cones[l + i].elapsed < (u16)(work->cones[l + i].duration / 10)) {
                         n = work->cones[l + i].elapsed * 0xA000 / work->cones[l + i].duration;
@@ -426,7 +426,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->cone_count; i++) {
                 if (work->spheres[l + i].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     n = (work->spheres[l + i].elapsed << 12) / work->spheres[l + i].duration;
                     setVector(&(&work->spheres[i])[l].scale, n, n, n);
                     ScaleMatrix(&unit.matrix, &(&work->spheres[i])[l].scale);

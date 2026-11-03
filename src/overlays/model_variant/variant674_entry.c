@@ -182,7 +182,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                     n = (work->rings[i].elapsed << 13) / work->rings[i].duration;
                 } else {
@@ -219,7 +219,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 8; k++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                         n = (work->rings[i].elapsed << 13) / work->rings[i].duration;
                     } else {
@@ -295,7 +295,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->domes[i].elapsed << 13) / work->domes[i].duration + 0x800;
                 setVector(&work->domes[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->domes[i].scale);
@@ -354,7 +354,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 for (k = 0; k < 8; k++) {
                     work->domes[i].v = (work->domes[i].elapsed + k * 10) % 32 * 63 / 32 + 128;
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->domes[i].scale);
                     n = k % 2 * 2 - 1;
                     d = k << 9;

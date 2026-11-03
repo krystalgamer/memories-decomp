@@ -17,7 +17,7 @@
 /* Builds the coordinate unit of element E facing the camera. */
 #define MODEL678_BILLBOARD(e)                                                         \
     unit.flg = 0;                                                                     \
-    unit.matrix = D_800FE168;                                                         \
+    unit.matrix = GsIDMATRIX;                                                         \
     ScaleMatrix(&unit.matrix, &(e).scale);                                           \
     RotMatrixZ((e).rotation.vz, &unit.matrix);                                       \
     RotMatrixX((e).rotation.vx - (view.pitch - 0x1000) * work->direction, &unit.matrix); \
@@ -90,7 +90,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         work->height = gModelVariant678Us_D2374[command].height;
         for (i = 0; i < 5; i++) {
             PushMatrix();
-            m = D_800FE168;
+            m = GsIDMATRIX;
             if (command == 0) {
                 setVector(&axis, work->radius * 2, 0, -(work->radius * work->direction));
                 RotMatrixZ((i << 12) / 5, &m);
@@ -101,7 +101,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 16; i++) {
             PushMatrix();
-            m = D_800FE168;
+            m = GsIDMATRIX;
             if (command == 0) {
                 setVector(&axis, 0, work->radius * 2, 0);
                 RotMatrixZ(i << 7, &m);
@@ -265,7 +265,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->columns; i++) {
             if (work->bursts[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->bursts[i][j].elapsed << 12) / work->bursts[i][j].duration + 0x1000;
                 setVector(&work->bursts[i][j].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
@@ -327,7 +327,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 }
                 for (n = 0; n < 8; n++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     value = (n * 1000 + 9192) * work->bursts[i][j].elapsed / work->bursts[i][j].duration;
                     setVector(&work->bursts[i][j].scale, value, value, value);
                     ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);

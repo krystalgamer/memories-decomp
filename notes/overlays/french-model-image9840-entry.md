@@ -46,7 +46,7 @@ delay/update path are preserved.
 
 French resident bindings were recovered independently. In particular,
 `rsin` is `0x80086628`, `rcos` is `0x800866F8`, the canonical matrix
-`D_800FE168` binds to `0x800FF4F0`, and the SDK ordering-table getter
+`GsIDMATRIX` binds to `0x800FF4F0`, and the SDK ordering-table getter
 `func_80058F10` binds to `0x8005C018`. The provider contains precisely the
 symbols required by the two independently compiled owners.
 

@@ -21,7 +21,7 @@ selects the same profile as its US counterpart, including
 Resident calls and data references resolve through Japanese
 `*_linker_symbols.txt` files with the same names as the US files. Every name
 maps to its Japanese address from `config/slpm_86398/symbols.txt`; the only
-unnamed resident symbol, `D_800FE168`, sits between `GsWSMATRIX_ORG` and
+unnamed resident symbol, `GsIDMATRIX`, sits between `GsWSMATRIX_ORG` and
 `GsIDMATRIX2` in both executables and moves with them from `0x800FE168` to
 `0x800FB858` (confirmed from the low halves in the header-628 and header-632
 images). Address-named calls (`func_80058F10`, `func_8005B260`) map through the

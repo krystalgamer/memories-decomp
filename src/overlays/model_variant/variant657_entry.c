@@ -228,7 +228,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 work->shards[i][0].active = 1;
                 PushMatrix();
                 offset = work->shards[i][0].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixY(work->slot << 11, &m);
                 ApplyMatrixLV(&m, &offset, &work->shards[i][0].position);
                 /* Adding 0 to vx leaves the original's dead load of it. */
@@ -247,7 +247,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 work->shards[i][0].active = 1;
                 PushMatrix();
                 offset = work->shards[i][0].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixY(work->slot << 11, &m);
                 ApplyMatrixLV(&m, &offset, &work->shards[i][0].position);
                 applyVector(&work->shards[i][0].position, 0, -300, work->direction * 450, +=);
@@ -281,7 +281,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -311,7 +311,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -342,7 +342,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -372,7 +372,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -403,7 +403,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -434,7 +434,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -465,7 +465,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -497,7 +497,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0; j < work->shard_count; j++) {
                 PushMatrix();
                 offset = work->shards[j][i].offset;
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->rings[i].rotation.vz, &m);
                 RotMatrixX(work->rings[i].rotation.vx, &m);
                 RotMatrixY(work->rings[i].rotation.vy, &m);
@@ -517,7 +517,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->ring_count; i++) {
         if (work->rings[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->rings[i].elapsed < work->rings[i].duration / 4) {
                 value = (work->rings[i].elapsed << 14) / work->rings[i].duration;
             } else {
@@ -610,7 +610,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->ring_count; i++) {
         if (work->bands[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             /* An if/else, not a preset, keeps the order of the hoisted &unit
              * and &unit.matrix spill slots. */
             if (work->bands[i].elapsed < work->bands[i].duration / 2) {
@@ -714,7 +714,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->ring_count; i++) {
         if (work->caps[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->caps[i].elapsed < work->caps[i].duration / 4) {
                 value = (work->caps[i].elapsed << 14) / work->caps[i].duration;
             } else {
@@ -787,7 +787,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->shard_count; i++) {
             if (work->shards[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->shards[i][j].elapsed < work->shards[i][j].duration / 4) {
                     value = (work->shards[i][j].elapsed << 14) / work->shards[i][j].duration;
                 } else {

@@ -79,7 +79,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Model682UsViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant682Us_D20B0[3];
 extern Model682UsCommand gModelVariant682Us_D2104[];
 

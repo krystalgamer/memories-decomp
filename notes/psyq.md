@@ -1053,12 +1053,15 @@ word behind `gGraphics_pPacketWorkCursor` (`0x800FE240`).
 | `PSDGPU` | `0x800FE0CE` | `0x800FB7BE` | | `GS_001`, 2 | `GsDefDispBuff`, `GsSetDrawBuffOffset` |
 | `GsLIGHTWSMATRIX` | `0x800FE0E8` | `0x800FB7D8` | `0x800FF050` | `GS_107`, 0x20 | `GS_001` (`GsInitGraph`), `GsSetLightMatrix` |
 | `GsWSMATRIX_ORG` | `0x800FE128` | `0x800FB818` | `0x800FF090` | `GS_123`, 0x20 | `GsSetRefView2` |
+| `GsIDMATRIX` | `0x800FE168` | `0x800FB858` | `0x800FF0D0` | unrecorded, 0x20 | `valiable_init` (writes the unit matrix), `GsSortBg`, `GsSortSprite`, `Gssub_make_matrix` |
 | `GsIDMATRIX2` | `0x800FE188` | `0x800FB878` | `0x800FF0F0` | `GS_128`, 0x20 | `GS_001` (`GsInitGraph`), `GsSetRefView2` |
 
-The symbols use the SDK's own spelling. `src/psyq/libgs.h` declares eight of
+The symbols use the SDK's own spelling. `src/psyq/libgs.h` declares nine of
 them; `PSDOFSX`, `PSDOFSY`, `PSDGPU`, `GsORGOFSX` and `GsORGOFSY` are library
-symbols that the header does not export. No game code uses any of them, so
-the change is confined to the symbol maps.
+symbols that the header does not export. Game code uses only `GsIDMATRIX`:
+MODEL overlay effects copy it as the identity base before `RotMatrix*`.
+`GsIDMATRIX` is bound from its use rather than a library relocation match
+(see its semantic-map row); the exact defining object is not recorded.
 
 An empty cell means that image's inventory does not yet name a function
 whose object relocates the symbol. The `sles_03947` inventory keeps

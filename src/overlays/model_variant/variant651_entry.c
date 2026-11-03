@@ -128,7 +128,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 y = rsin((k + 1) * 96 + 256);
                 v[1].vy = work->radius * ((y << 2) + y) / 4096 * rcos(j) / 4096;
                 v[1].vz = work->height / 2 - work->height * k / 8 - work->height / 4;
-                ls = D_800FE168;
+                ls = GsIDMATRIX;
                 RotMatrixZ(k << 9, &ls);
                 for (t = 0; t < 2; t++) {
                     PushMatrix();
@@ -193,7 +193,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->rings[i].elapsed << 12) / work->rings[i].duration;
                 setVector(&work->rings[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
@@ -244,7 +244,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->dome_count; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->domes[i].elapsed < (u16)(work->domes[i].duration / 3)) {
                     n = (work->domes[i].elapsed << 12) / (u16)(work->domes[i].duration / 3);
                 } else {
@@ -312,7 +312,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 8; i++) {
             if (work->cones[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->cones[i].elapsed * 5 << 12) / work->cones[i].duration + 0x1000;
                 setVector(&work->cones[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->cones[i].scale);

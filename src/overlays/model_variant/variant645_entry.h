@@ -74,7 +74,7 @@ typedef struct {
     SVECTOR in, out;
 } Model645Corner;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant645_D4EDC[2];
 extern Model645Command gModelVariant645_D4F14[];
 

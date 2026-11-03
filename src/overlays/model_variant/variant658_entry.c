@@ -401,7 +401,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->halo_count; i++) {
         if (work->halos[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             /* An if/else, not a preset 0x1400, keeps the original order of
              * the hoisted &unit and &unit.matrix spill slots. */
             if (work->halos[i].elapsed < work->halos[i].duration) {
@@ -484,7 +484,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 }
             }
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->halos[i].scale);
             RotMatrixZ(work->halos[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->halos[i].rotation.vx, &unit.matrix);
@@ -672,7 +672,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             work->flash.u, work->flash.v + 127,
             work->flash.u + 127, work->flash.v + 127);
         setRGB0(&work->sprite, work->flash.color[0], work->flash.color[1], work->flash.color[2]);
-        m = D_800FE168;
+        m = GsIDMATRIX;
         RotMatrixZ(work->flash.elapsed * 10, &m);
         for (i = 0; i < 4; i++) {
             PushMatrix();

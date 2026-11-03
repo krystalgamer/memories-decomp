@@ -229,7 +229,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                     n = (work->rings[i].elapsed << 13) / work->rings[i].duration;
                 } else {
@@ -273,7 +273,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 8; k++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                         n = (work->rings[i].elapsed << 13) / work->rings[i].duration;
                     } else {
@@ -336,7 +336,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                     n = (work->rings[i].elapsed << 13) / work->rings[i].duration;
                 } else {
@@ -389,7 +389,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->bolt_count; i++) {
             if (work->bolts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->bolts[i].scale);
                 unit.matrix.t[0] = work->bolts[i].position.vx;
                 unit.matrix.t[1] = work->bolts[i].position.vy;
@@ -474,7 +474,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->trail_count; i++) {
                 if (work->trails[i][k].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->trails[i][k].scale);
                     unit.matrix.t[0] = work->trails[i][k].position.vx;
                     unit.matrix.t[1] = work->trails[i][k].position.vy;
@@ -515,7 +515,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->bolt_count; i++) {
             if (work->sparks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->sparks[i].elapsed < work->sparks[i].duration / 16) {
                     n = (work->sparks[i].elapsed << 16) / work->sparks[i].duration;
                 } else {

@@ -110,7 +110,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 32; i++) {
             PushMatrix();
             n = i % 2 * 2 - 1;
-            m = D_800FE168;
+            m = GsIDMATRIX;
             RotMatrixZ(n * (i << 11) / 32, &m);
             /* Spelled out so the quotient stays in a scratch register. */
             d = i - i / 16 * 16;
@@ -179,7 +179,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->orbs[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->orbs[i].duration / 2 < work->orbs[i].elapsed) {
                     n = ((work->orbs[i].duration - work->orbs[i].elapsed) << 13) / work->orbs[i].duration;
                 } else {
@@ -258,7 +258,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->bursts[i].elapsed > work->bursts[i].duration * 3 / 4) {
                     n = ((work->bursts[i].duration - work->bursts[i].elapsed) << 14) / work->bursts[i].duration;
                 } else {
@@ -315,7 +315,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 }
                 work->bursts[i].v = (work->bursts[i].elapsed % 32) * 63 / 32 - 128;
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
                 RotMatrixZ(work->bursts[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->bursts[i].rotation.vx - (view.pitch - 0x1000) * work->direction, &unit.matrix);
@@ -363,7 +363,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->bursts[i].elapsed > work->bursts[i].duration * 3 / 4) {
                     n = ((work->bursts[i].duration - work->bursts[i].elapsed) << 14) / work->bursts[i].duration;
                 } else {
@@ -410,7 +410,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 }
                 for (j = 0; j < 32; j++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
                     RotMatrixZ(work->bursts[i].rotation.vz, &unit.matrix);
                     RotMatrixX(work->bursts[i].rotation.vx - (view.pitch - 0x1000) * work->direction, &unit.matrix);

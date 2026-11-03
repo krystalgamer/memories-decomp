@@ -464,7 +464,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->trail_count; i++) {
             if (work->trails[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->trails[i].scale);
                 RotMatrixZ(work->trails[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->trails[i].rotation.vx, &unit.matrix);
@@ -564,7 +564,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
                 RotMatrixY(work->bursts[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->bursts[i].position.vx;
@@ -608,7 +608,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             for (k = 0; k < work->spark_count; k++) {
                 if (work->sparks[i][k].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sparks[i][k].scale);
                     RotMatrixZ(work->sparks[i][k].rotation.vz, &unit.matrix);
                     RotMatrixX(work->sparks[i][k].rotation.vx
@@ -664,7 +664,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             for (k = 0; k < work->trail_count; k++) {
                 if (work->flares[i][k].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->flares[i][k].scale);
                     RotMatrixZ(work->flares[i][k].rotation.vz, &unit.matrix);
                     RotMatrixX(work->flares[i][k].rotation.vx
@@ -723,7 +723,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->trail_count; i++) {
             if (work->glows[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->glows[i].scale);
                 RotMatrixY(work->glows[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->glows[i].position.vx;

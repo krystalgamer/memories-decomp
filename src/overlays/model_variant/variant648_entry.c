@@ -347,7 +347,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                             offset.vy /= value;
                             offset.vz /= value;
                             unit.flg = 0;
-                            unit.matrix = D_800FE168;
+                            unit.matrix = GsIDMATRIX;
                             value = grow * (n + value) / 9;
                             setVector(&work->bursts[i][j].scale, value, value, value);
                             ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
@@ -391,7 +391,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                         }
                     }
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     value = (work->bursts[i][j].elapsed << 12) / work->bursts[i][j].duration;
                     setVector(&scale, value, value, value);
                     ScaleMatrix(&unit.matrix, &scale);

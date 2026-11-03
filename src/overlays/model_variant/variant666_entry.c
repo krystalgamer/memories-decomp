@@ -172,7 +172,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count; i++) {
         if (work->blooms[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ended = 0;
             if (work->blooms[i].elapsed < (u16)(work->blooms[i].duration / 10)) {
                 value = work->blooms[i].elapsed * 5 * 8192 / work->blooms[i].duration;
@@ -240,7 +240,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->sparks_per_bloom; i++) {
             if (work->sparks[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sparks[i][j].scale);
                 RotMatrixZ(work->sparks[i][j].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sparks[i][j].rotation.vx, &unit.matrix);
@@ -305,7 +305,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->sparks_per_bloom; i++) {
             if (work->rings[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->rings[i][j].elapsed << 13) / work->rings[i][j].duration + 0x800;
                 setVector(&work->rings[i][j].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->rings[i][j].scale);

@@ -74,7 +74,7 @@ typedef struct {
     Model653Strip spheres[8];
 } Model653State;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant653_D250C;
 extern Model653Command gModelVariant653_D2528[];
 

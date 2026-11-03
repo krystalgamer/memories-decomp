@@ -266,7 +266,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     inactive = 0;
     switch (work->command) {
     case 0:
-        world = D_800FE168;
+        world = GsIDMATRIX;
         break;
     case 1:
         unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 9);
@@ -284,7 +284,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count[0]; i++) {
         if (work->glows[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->glows[i].scale);
             RotMatrixY(work->glows[i].rotation.vy, &unit.matrix);
             unit.matrix.t[0] = work->glows[i].position.vx;
@@ -357,7 +357,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count[1]; i++) {
         if (work->stars[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->stars[i].scale);
             switch (work->command) {
             case 0:
@@ -406,7 +406,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count[2]; i++) {
         if (work->bursts[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
             RotMatrixZ(work->bursts[i].rotation.vz, &unit.matrix);
             RotMatrixY(work->bursts[i].rotation.vy, &unit.matrix);

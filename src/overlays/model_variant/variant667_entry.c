@@ -337,7 +337,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->rows; i++) {
             if (work->ribbons[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->ribbons[i].scale);
                 unit.matrix.t[0] = work->ribbons[i].position.vx;
                 unit.matrix.t[1] = work->ribbons[i].position.vy;
@@ -444,7 +444,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->sprite_count; i++) {
             if (work->sprites[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->sprites[i].duration / 2 < work->sprites[i].elapsed) {
                     value = ((work->sprites[i].duration - work->sprites[i].elapsed) << 13) / work->sprites[i].duration;
                 } else {
@@ -498,7 +498,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->fan_count; i++) {
             if (work->fans[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->fans[i].elapsed < work->fans[i].duration / 2) {
                     value = (work->fans[i].elapsed << 13) / work->fans[i].duration;
                 } else {
@@ -549,7 +549,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->dome_count; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->domes[i].scale);
                 RotMatrixY(work->domes[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->domes[i].position.vx;
@@ -603,7 +603,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 }
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     value = (work->domes[i].elapsed << 13) / work->domes[i].duration;
                     setVector(&size, value, value, value);
                     ScaleMatrix(&unit.matrix, &size);

@@ -1,5 +1,5 @@
 ApplyMatrixLV = 0x80086FF8;
-D_800FE168 = 0x800FF4F0;
+GsIDMATRIX = 0x800FF4F0;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
 GsGetLsUnit = 0x8008A6E8;
 GsGetLwUnit = 0x8008A428;

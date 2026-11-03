@@ -78,7 +78,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Model660UsViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 /* Spark, shard/band and glow/orb texture images; the entry uploads them last
  * to first, so tpage[0] belongs to the glows and orbs. */
 extern GsIMAGE gModelVariant660Us_D3674[3];

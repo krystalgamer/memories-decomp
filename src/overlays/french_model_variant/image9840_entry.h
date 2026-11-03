@@ -57,7 +57,7 @@ typedef struct {
     u8 bytes[8];
 } Image9840ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant648_D1D54;
 extern Image9840Command gFrenchModelVariant648_D1D70[];
 

@@ -647,7 +647,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->rows; i++) {
             if (work->streaks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->streaks[i].scale);
                 unit.matrix.t[0] = work->streaks[i].position.vx;
                 unit.matrix.t[1] = work->streaks[i].position.vy;
@@ -756,7 +756,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->burst_count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = work->bursts[i].elapsed * 0xAAA / work->bursts[i].duration + 0x800;
                 setVector(&work->bursts[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
@@ -793,7 +793,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                     GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = work->bursts[i].elapsed * 5 * 4096 / work->bursts[i].duration;
                 setVector(&work->bursts[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
@@ -847,7 +847,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                     }
                     for (k = 0; k < 8; k++) {
                         unit.flg = 0;
-                        unit.matrix = D_800FE168;
+                        unit.matrix = GsIDMATRIX;
                         value = 0x800;
                         scale = work->sparks[i][j].elapsed * 5 * 4096 / work->sparks[i][j].duration + value;
                         setVector(&work->sparks[i][j].scale, value, scale, value);

@@ -96,7 +96,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
                     setVector(&points[1], k * duration / 8,
                         value * -rcos(k << 7) / 4096 + (k % 2 * 2 - 1) * value * rcos(k << 7) / 4096, 0);
                     PushMatrix();
-                    m = D_800FE168;
+                    m = GsIDMATRIX;
                     RotMatrixX(k << 9, &m);
                     sign = i % 2 * 2 - 1;
                     RotMatrixZ(sign * (i << 12) / 8, &m);
@@ -151,7 +151,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
                     work->shells[i].color[2] = gModelVariant668_D10F8[work->command].color[2] * value / duration;
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->shells[i].scale);
                 duration = work->shells[i].elapsed * 300;
                 RotMatrixZ(duration + work->shells[i].rotation.vz, &unit.matrix);
@@ -197,7 +197,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->shells[i].scale);
                 RotMatrixZ(work->shells[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->shells[i].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);

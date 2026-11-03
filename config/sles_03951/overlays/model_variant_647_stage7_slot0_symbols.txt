@@ -29,4 +29,4 @@ GsGetLwUnit = 0x8008A428; // type:func absolute:true
 GsGetLsUnit = 0x8008A6E8; // type:func absolute:true
 bzero = 0x8008F4D8; // type:func absolute:true
 printf = 0x8008FA78; // type:func absolute:true
-D_800FE168 = 0x800FF4F0; // absolute:true
+GsIDMATRIX = 0x800FF4F0; // absolute:true

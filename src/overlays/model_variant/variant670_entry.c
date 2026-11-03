@@ -199,7 +199,7 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->shells[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->shells[i].elapsed * 3 << 12) / work->shells[i].duration + 0x800;
                 setVector(&work->shells[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->shells[i].scale);
@@ -235,7 +235,7 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
                     GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->shells[i].scale);
                 RotMatrixZ(work->shells[i].rotation.vz, &unit.matrix);
                 RotMatrixY(work->shells[i].rotation.vy, &unit.matrix);
@@ -297,7 +297,7 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->rings[i].elapsed * 3 << 12) / work->rings[i].duration + 0x800;
                 setVector(&work->rings[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
@@ -338,7 +338,7 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
                 RotMatrixZ(work->rings[i].elapsed * 10, &unit.matrix);
                 RotMatrixX(work->rings[i].rotation.vx - (view.pitch - 0x1000) * work->direction,

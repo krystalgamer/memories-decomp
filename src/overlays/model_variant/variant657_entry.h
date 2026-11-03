@@ -68,7 +68,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Model657ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant657_D4BC8[3];
 extern Model657Command gModelVariant657_D4C1C[];
 

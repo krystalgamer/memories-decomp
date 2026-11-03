@@ -187,7 +187,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
         for (j = 0; j < work->count; j++) {
             for (i = 0; i < 5; i++) {
                 PushMatrix();
-                rotation = D_800FE168;
+                rotation = GsIDMATRIX;
                 RotMatrixZ((i << 12) / 5, &rotation);
                 tilt = work->direction * 6;
                 RotMatrixX(j * tilt, &rotation);
@@ -199,7 +199,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
         setVector(&offset, 0, work->radius * 20, 0);
         for (i = 0; i < 5; i++) {
             PushMatrix();
-            rotation = D_800FE168;
+            rotation = GsIDMATRIX;
             RotMatrixZ((i << 11) / 5, &rotation);
             RotMatrixY((i % 3 << 12) / 3, &rotation);
             ApplyMatrixLV(&rotation, &offset, &work->spokes[i]);
@@ -306,7 +306,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->blooms[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->blooms[i].elapsed << 12) / work->blooms[i].duration;
                 setVector(&work->blooms[i].scale, 4096, 4096, value);
                 ScaleMatrix(&unit.matrix, &work->blooms[i].scale);
@@ -400,7 +400,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 5; k++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     MODEL680US_FACE(work->rings[i]);
                     value = i % 2 * 2 - 1;
                     unit.matrix.t[0] = work->rings[i].position.vx
@@ -437,7 +437,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                     MODEL680US_FADE(work->bursts[i], 3, value, sign);
                 }
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 MODEL680US_FACE(work->bursts[i]);
                 unit.matrix.t[0] = work->bursts[i].position.vx;
                 unit.matrix.t[1] = work->bursts[i].position.vy;
@@ -450,7 +450,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 MODEL680US_SORT_QUAD(work->squares[0]);
                 for (j = 0; j < 5; j++) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     MODEL680US_FACE(work->bursts[i]);
                     unit.matrix.t[0] = work->bursts[i].position.vx
                         + work->spokes[j].vx * work->bursts[i].elapsed / work->bursts[i].duration;
@@ -486,7 +486,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->cols; i++) {
                 if (work->sparks[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     value = (work->sparks[i][j].elapsed << 12) / work->sparks[i][j].duration + 0x1000;
                     setVector(&offset, value, value, value);
                     ScaleMatrix(&unit.matrix, &offset);

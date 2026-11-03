@@ -212,7 +212,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->petal_count; i++) {
             if (work->petals[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->petals[i].elapsed < work->petals[i].duration / 10) {
                     temp = work->petals[i].elapsed * 10 << 12;
                     den = work->petals[i].duration;
@@ -280,7 +280,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
         }
         if (work->dome_element.active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->dome_element.elapsed < work->dome_element.duration / 4) {
                 temp = work->dome_element.elapsed << 14;
                 den = work->dome_element.duration;
@@ -361,7 +361,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
             (first.vz + second.vz) / 2 - work->side * 100);
         if (work->card_element.active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             den = work->card_element.duration * 3;
             if (work->card_element.elapsed < den / 4) {
                 temp = work->card_element.elapsed << 14;
@@ -437,7 +437,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->shard_count; i++) {
             if (work->shards[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 if (work->shards[i].elapsed < work->shards[i].duration * 3 / 4) {
                     temp = ((i % 8) * 0x124 + 0x800) * (work->shards[i].elapsed << 2);
                     den = work->shards[i].duration * 3;
@@ -502,7 +502,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->spark_count; i++) {
             if (work->sparks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 temp = (work->sparks[i].elapsed << 12) / work->sparks[i].duration + 0x400;
                 setVector(&work->sparks[i].scale, temp, temp, temp);
                 ScaleMatrix(&unit.matrix, &work->sparks[i].scale);

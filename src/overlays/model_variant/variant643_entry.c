@@ -232,7 +232,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->cone_count; i++) {
         if (work->cones[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->cones[i].scale);
             RotMatrixX(work->cones[i].rotation.vx, &unit.matrix);
             RotMatrixY(work->cones[i].rotation.vy, &unit.matrix);
@@ -289,7 +289,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->band_count; i++) {
         if (work->bands[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->bands[i].scale);
             RotMatrixX(work->bands[i].rotation.vx, &unit.matrix);
             RotMatrixY(work->bands[i].rotation.vy, &unit.matrix);
@@ -358,7 +358,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->rows; i++) {
             if (work->grid[i][j].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->grid[i][j].scale);
                 RotMatrixZ(work->grid[i][j].rotation.vz, &unit.matrix);
                 RotMatrixX(work->grid[i][j].rotation.vx - (view.pitch - 0x1000) * work->direction, &unit.matrix);

@@ -92,7 +92,7 @@ typedef struct {
     u16 pad;
 } Model629ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE D_8013DC80[2];
 extern Model629Config D_8013DCB8[];
 
