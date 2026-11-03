@@ -1167,7 +1167,7 @@ typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
 #define FADE_TRANSITION_STATE_SIZE 0x28
 #endif
 
-typedef struct {
+typedef struct FadeTransitionState {
     u8 tint_r;
     u8 tint_g;
     u8 tint_b;

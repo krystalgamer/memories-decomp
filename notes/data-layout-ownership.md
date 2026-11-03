@@ -267,7 +267,9 @@ The European wrappers (now including `graphics_frame`, `file_transfer_runtime`,
 `duel_effect_object_pool`, `script_command_busy`, `sorted_entry_relink`,
 `sound_frontend` and `sound_output_transition`, which all five PAL builds
 compile) give each differing block European storage:
-- `.bss` blocks are one `u8` array, as in Japan.
+- `.bss` blocks are one `u8` array, as in Japan. The exception is a block
+  holding one object whose real type fills it, such as
+  `struct FadeTransitionState gFade_State` (32 bands).
 - `.sbss` blocks reuse the shared source's typed definitions in European
   address order, with the slots between them as `D_<ADDR>_sles_03947` scalars.
 - A slot whose shared type has the slot's own size is defined under that

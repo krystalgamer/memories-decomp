@@ -5,7 +5,7 @@
 #define FADE_RUNTIME_REGIONAL_STORAGE
 /* This build's own zero-initialized storage at 0x800EAE28-0x800EAE58 (#2602); its
  * layout differs from the North American block the shared source defines. */
-u8 D_800EAE28_sles_03947[0x30];
+struct FadeTransitionState gFade_State;
 #define FADE_RUNTIME_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C098-0x8009C0AC (#2602); its
  * layout differs from the North American block the shared source defines. */

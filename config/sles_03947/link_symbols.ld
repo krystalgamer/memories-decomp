@@ -154,7 +154,6 @@ gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
 gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
 gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
 gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
-gDuel_pActionReadyMarker = D_8009C108_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
 
 /* Names inside duel_effect_dialog_state's own storage (#2602). */
@@ -192,7 +191,6 @@ gScript_WaitCounter = D_8009C220_sles_03947;
 /* Names inside file_transfer_runtime's own storage (#2602). */
 
 /* Names inside fade_runtime's own storage (#2602). */
-gFade_State = D_800EAE28_sles_03947;
 
 /* Names inside duel_field_card_render's own storage (#2602). */
 
