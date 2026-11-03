@@ -36,7 +36,7 @@ typedef struct {
     s16 y;
 } ProjectedPair;
 
-typedef struct {
+typedef struct ScreenPair {
     s16 x;
     s16 y;
 } ScreenPair;

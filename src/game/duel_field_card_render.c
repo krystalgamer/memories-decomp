@@ -8,12 +8,18 @@
 
 #include "../types.h"
 
-#ifndef DUEL_FIELD_CARD_RENDER_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800E9EF0-0x800EA1E8, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800E9EF0[0x2F8];
-#else
-extern u8 D_800E9EF0[0x2F8];
+#ifndef DUEL_FIELD_CARD_RENDER_STORAGE_ORDER
+/* Zero-initialized storage this unit owns at 0x800E9EF0-0x800EA1E8. GCC lays
+ * it out in first-declaration order, so it is declared here in address order
+ * ahead of the headers and defined once they supply the types (#2602). A
+ * regional wrapper that lays it out differently declares its own order and
+ * defines DUEL_FIELD_CARD_RENDER_STORAGE_ORDER. */
+extern struct DisplayObject *gDisplayObject_apWorkSlots[];
+extern u8 gDuel_abSelectionSides[];
+extern struct DuelSideState gDuel_aSideStates[];
+extern struct DuelHandSlot gDuelHand_aSlots[];
+extern struct ScreenPair gDuel_aCardSlotScreenPositions[];
+extern struct DuelEffectResourceRecord gCardPreview_Resources[];
 #endif
 
 #ifndef DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE
@@ -206,6 +212,19 @@ extern struct DisplayObject *gDuel_pCardViewerBackground;
 #include "ordering_tables.h"
 #include "duel_field_card_render.h"
 #include "duel_field_card_render_data.h"
+#include "duel_selection_layout.h"
+#include "duel_screen_tables.h"
+#include "duel_effect_resource_record.h"
+
+/* Five work slots and the terminator word DisplayObject_CopyWorkSlots
+ * appends; both regional layouts reserve 0x20 bytes, so two more words
+ * follow. */
+DisplayObject *gDisplayObject_apWorkSlots[8];
+u8 gDuel_abSelectionSides[DUEL_SIDE_COUNT * DUEL_SELECTION_SIDE_SIZE];
+DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
+DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
+ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
+DuelEffectResourceRecord gCardPreview_Resources[4];
 
 /* Volatile scratchpad stores and the second record reload preserve retail
  * ordering around the official Psy-Q RTPS macros. The scratchpad word is the

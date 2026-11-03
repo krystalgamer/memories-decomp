@@ -17,7 +17,7 @@ struct DisplayObject;
  * Duel_ClearHandSlots zeroes it alongside the two pointers; marker creation
  * publishes the running count, and cancellation renumbers later selections.
  */
-typedef struct {
+typedef struct DuelHandSlot {
     struct DisplayObject *object;
     struct DisplayObject *order_marker;
     u8 pad_08;

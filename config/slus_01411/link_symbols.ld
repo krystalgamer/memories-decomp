@@ -210,17 +210,11 @@ Base2_8009B2AA = gScript_ViewportTargetY;
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
-gDisplayObject_apWorkSlots = D_800E9EF0;
-gDuel_abSelectionSides = D_800E9EF0 + 32;
-gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
-gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
-gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
-gDuel_aSideStates = D_800E9EF0 + 256;
-gDuel_bSide1CardViewMode = D_800E9EF0 + 319;
-gDuelHand_aSlots = D_800E9EF0 + 320;
-gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
-gCardPreview_Resources = D_800E9EF0 + 504;
-gCardPreview_Resource1 = D_800E9EF0 + 568;
+gDuel_abSelectionRecord1 = gDuel_abSelectionSides + 28;
+gDuel_abSelectionRecord2 = gDuel_abSelectionSides + 56;
+gDuel_abSelectionRecord3 = gDuel_abSelectionSides + 84;
+gDuel_bSide1CardViewMode = gDuel_aSideStates + 63;
+gCardPreview_Resource1 = gCardPreview_Resources + 64;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 gAi_bHandFaceDownRequested = gAi_Selection + 8;

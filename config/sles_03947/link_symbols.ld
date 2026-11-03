@@ -326,18 +326,11 @@ gFile_SecondaryTransferDescriptor = D_800EAD78_sles_03947 + 104;
 gFade_State = D_800EAE28_sles_03947;
 
 /* Names inside duel_field_card_render's own storage (#2602). */
-gDuel_aSideStates = D_800EAE58_sles_03947;
-gDuel_bSide1CardViewMode = D_800EAE58_sles_03947 + 63;
-gDuelHand_aSlots = D_800EAE58_sles_03947 + 64;
-gDuel_aCardSlotScreenPositions = D_800EAE58_sles_03947 + 128;
-gDisplayObject_apWorkSlots = D_800EAE58_sles_03947 + 248;
-D_800E9EF4 = D_800EAE58_sles_03947 + 252;
-gDuel_abSelectionSides = D_800EAE58_sles_03947 + 280;
-gDuel_abSelectionRecord1 = D_800EAE58_sles_03947 + 308;
-gDuel_abSelectionRecord2 = D_800EAE58_sles_03947 + 336;
-gDuel_abSelectionRecord3 = D_800EAE58_sles_03947 + 364;
-gCardPreview_Resources = D_800EAE58_sles_03947 + 504;
-gCardPreview_Resource1 = D_800EAE58_sles_03947 + 568;
+gDuel_bSide1CardViewMode = gDuel_aSideStates + 63;
+gDuel_abSelectionRecord1 = gDuel_abSelectionSides + 28;
+gDuel_abSelectionRecord2 = gDuel_abSelectionSides + 56;
+gDuel_abSelectionRecord3 = gDuel_abSelectionSides + 84;
+gCardPreview_Resource1 = gCardPreview_Resources + 64;
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
 tent_DuelEffectEntries = D_800EBF70_sles_03947;

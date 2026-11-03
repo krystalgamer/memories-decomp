@@ -197,16 +197,10 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 gAi_bHandFaceDownRequested = gAi_Selection + 8;
-gCardPreview_Resource1 = D_800E9EF0 + 568;
-gCardPreview_Resources = D_800E9EF0 + 504;
-gDisplayObject_apWorkSlots = D_800E9EF0;
-gDuelHand_aSlots = D_800E9EF0 + 320;
-gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
-gDuel_aSideStates = D_800E9EF0 + 256;
-gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
-gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
-gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
-gDuel_abSelectionSides = D_800E9EF0 + 32;
+gCardPreview_Resource1 = gCardPreview_Resources + 64;
+gDuel_abSelectionRecord1 = gDuel_abSelectionSides + 28;
+gDuel_abSelectionRecord2 = gDuel_abSelectionSides + 56;
+gDuel_abSelectionRecord3 = gDuel_abSelectionSides + 84;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 

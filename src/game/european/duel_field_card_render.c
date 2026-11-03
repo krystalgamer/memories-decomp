@@ -1,8 +1,14 @@
 #include "../../types.h"
-#define DUEL_FIELD_CARD_RENDER_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x800EAE58-0x800EB150 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_800EAE58_sles_03947[0x2F8];
+#define DUEL_FIELD_CARD_RENDER_STORAGE_ORDER
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x800EAE58-0x800EB150 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern struct DuelSideState gDuel_aSideStates[];
+extern struct DuelHandSlot gDuelHand_aSlots[];
+extern struct ScreenPair gDuel_aCardSlotScreenPositions[];
+extern struct DisplayObject *gDisplayObject_apWorkSlots[];
+extern u8 gDuel_abSelectionSides[];
+extern struct DuelEffectResourceRecord gCardPreview_Resources[];
 #define DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C0AC-0x8009C1B8 (#2602); its
  * layout differs from the North American block the shared source defines. */
