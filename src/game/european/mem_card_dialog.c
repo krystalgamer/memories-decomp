@@ -1,8 +1,11 @@
 #include "../../types.h"
-#define MEM_CARD_DIALOG_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x800F0638-0x800F0DA0 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_800F0638_sles_03947[0x768];
+#define MEM_CARD_DIALOG_STORAGE_ORDER
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x800F0638-0x800F0DA0 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern u8 gMemCardDialog_DirectoryBuffer[];
+extern u8 gMemCardDialog_FileNameBuffer[];
+extern struct MemCardWorkArea gMemCardWork_Area;
 #define GDIALOG_CHOICE_IN_DATA
 #define MEM_CARD_DIRECTORY_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW

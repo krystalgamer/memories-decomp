@@ -13,11 +13,10 @@ block byte is at `+0x10`, remaining count at `+0x12`, offset at `+0x14`,
 chunk at `+0x16`, and text index at `+0x1A`. Slot cursor, free-block count
 and directory-entry index are at `+0`, `+0xC` and `+0xD`.
 
-The existing `bss_image_after_viewport` backing covers `gMemCardWork_Area` at
-`0x800EF6D0`. A bounded two-slot view ends at `0x800EFBBC`, four bytes
-before the independently used directory buffer at `0x800EFBC0`. This is a
-capacity view of existing storage, not a claim that the runtime selects both
-slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
+`mem_card_dialog.c` defines `gMemCardWork_Area` at `0x800EF6D0`. Its two
+slots end at `0x800EFBBC`; alignment leaves four bytes before the
+directory buffer at `0x800EFBC0`. The two-slot capacity is not a claim that
+the runtime selects both slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
 is the byte store of zero at `0x8003D31C`, in `MemCardWork_InitializeOperation`. In particular,
 the selector's `u8` type does not justify 256 slots; arbitrary selectors
 remain outside the measured contract. The root's block byte keeps its

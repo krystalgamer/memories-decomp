@@ -337,10 +337,7 @@ gMain_aAnimatedBattleModels = D_800F0430_sles_03947 + 400;
 /* Names inside input_pads's own storage (#2602). */
 
 /* Names inside mem_card_dialog's own storage (#2602). */
-gMemCardDialog_DirectoryBuffer = D_800F0638_sles_03947;
-gMemCardDialog_FileNameBuffer = D_800F0638_sles_03947 + 600;
-gMemCardWork_Area = D_800F0638_sles_03947 + 632;
-gMemCardWork_bRootBlocks = D_800F0638_sles_03947 + 648;
+gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside display_object_core's own storage (#2602). */
 

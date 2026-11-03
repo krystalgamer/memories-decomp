@@ -219,7 +219,6 @@ gAi_bHandFaceDownRequested = gAi_Selection + 8;
 /* Other names for game/input_pads's small data (#2602). */
 
 /* Other names for game/mem_card_dialog's small data (#2602). */
-gMemCardWork_Area = D_800EF6D0;
 
 /* Other names for game/display_object_core's small data (#2602). */
 

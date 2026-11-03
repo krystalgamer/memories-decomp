@@ -207,7 +207,6 @@ gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 
 /* Names inside input_pads's own storage (#2602). */
 D_800F3288 = gAiScript_aMemory + 24;
-gMemCardWork_Area = D_800EF6D0;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
