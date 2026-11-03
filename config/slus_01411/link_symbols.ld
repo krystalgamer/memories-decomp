@@ -13,8 +13,6 @@ bss_start = text_SBSS_START;
 CampaignMap_SetLocation = 0x8016866C;
 DuelEffect_DispatchRequest = 0x801462B0;
 
-gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
-gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
 func_800617E0 = Model_DrawFt4Primitives;

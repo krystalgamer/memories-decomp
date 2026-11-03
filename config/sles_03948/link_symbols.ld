@@ -934,8 +934,8 @@ srand = 0x8008F738;
 strcmp = 0x8008F7F8;
 strcpy = 0x8008F868;
 tail_data_start = 0x801AC000;
-tent_DebugEffectObject0 = 0x8009C588;
-tent_DebugEffectObject1 = 0x8009C58C;
+gDebugEffect_pPreviewCard0 = 0x8009C588;
+gDebugEffect_pPreviewCard1 = 0x8009C58C;
 gDebug_pszEditorFormat = 0x8009C674;
 gDebug_abEditorCaretColumns = 0x8009C654;
 gDebug_bEditorLeadingLineCount = 0x8009C658;
@@ -977,8 +977,6 @@ CampaignMap_SetLocation = 0x8016866C;
 gDuel_aFieldCardRecords = D_801A7B64;
 
 
-gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
-gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
 gDebugEffect_aPreviewCardRecords = D_801A7B80;
 gDebugEffect_szOperandsFormat = D_80010074;
 gDebugEffect_szSecondOperandMarker = D_80010090;

@@ -10,9 +10,6 @@
  * coordinate-axis byte in gDebugEffect_abPreviewState.
  *
  * The other two functions this unit defines are reached only from within it. */
-extern u8 *tent_DebugEffectObject0;
-extern u8 *tent_DebugEffectObject1;
-
 void DuelScene_UpdateEffectPreview(void);
 
 #endif

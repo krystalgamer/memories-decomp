@@ -916,8 +916,8 @@ D_801B1238 = 0x801BF814;
 tent_TradeSaveBuffer = 0x801D1880;
 D_8009B16E = 0x8009C538;
 gDebugEffect_abPreviewState = 0x8009C2C0;
-tent_DebugEffectObject1 = 0x8009C58C;
-tent_DebugEffectObject0 = 0x8009C588;
+gDebugEffect_pPreviewCard1 = 0x8009C58C;
+gDebugEffect_pPreviewCard0 = 0x8009C588;
 D_801A7B80 = 0x801A7B80;
 D_80010074 = 0x80010060;
 D_80010090 = 0x8001007C;
@@ -977,8 +977,6 @@ CampaignMap_SetLocation = 0x8016866C;
 gDuel_aFieldCardRecords = D_801A7B64;
 
 
-gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
-gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
 gDebugEffect_aPreviewCardRecords = D_801A7B80;
 gDebugEffect_szOperandsFormat = D_80010074;
 gDebugEffect_szSecondOperandMarker = D_80010090;
