@@ -207,13 +207,7 @@ gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 
 /* Names inside input_pads's own storage (#2602). */
 gInput_abRepeatTimers = D_800ECD88_slpm_86398;
-gViewState_Current = D_800EFE38 + 10768;
 D_800F3288 = gAiScript_aMemory + 24;
-gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
-gDisplayObject_aPool = D_800EFE38 + 16;
-gDisplayObject_awListHeads = D_800EFE38;
-gDisplayObject_awListKeys = D_800EFE38 + 10816;
-gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
 gMemCardWork_Area = D_800EF6D0;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 gMemCard_aDirEntries = D_800F2888;

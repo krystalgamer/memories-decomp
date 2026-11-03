@@ -348,19 +348,6 @@ gMemCardWork_Area = D_800F0638_sles_03947 + 632;
 gMemCardWork_bRootBlocks = D_800F0638_sles_03947 + 648;
 
 /* Names inside display_object_core's own storage (#2602). */
-gDisplayObject_awListHeads = D_800F0DA0_sles_03947;
-gDisplayObject_wSpriteListHead = D_800F0DA0_sles_03947 + 2;
-gDisplayObject_wSpriteSheetListHead = D_800F0DA0_sles_03947 + 4;
-D_800EFE3E = D_800F0DA0_sles_03947 + 6;
-D_800EFE40 = D_800F0DA0_sles_03947 + 8;
-D_800EFE42 = D_800F0DA0_sles_03947 + 10;
-D_800EFE44 = D_800F0DA0_sles_03947 + 12;
-gDisplayObject_awListKeys = D_800F0DA0_sles_03947 + 16;
-gViewState_Current = D_800F0DA0_sles_03947 + 32;
-D_800F284A = D_800F0DA0_sles_03947 + 34;
-D_800F2856 = D_800F0DA0_sles_03947 + 46;
-gDisplayObject_aPool = D_800F0DA0_sles_03947 + 80;
-gDisplayObject_aGeneralSlots = D_800F0DA0_sles_03947 + 1872;
 
 /* Names inside mem_card_driver's own storage (#2602). */
 gMemCard_aIOEventHandles = D_800F37F0_sles_03947;

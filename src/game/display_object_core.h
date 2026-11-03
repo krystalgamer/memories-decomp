@@ -5,7 +5,6 @@
 
 struct DisplayObject;
 
-extern s16 gDisplayObject_wSpriteListHead[];
 extern u8 tail_data_start[];
 
 s32 DisplayObject_FindFreeGeneralSlot(void);

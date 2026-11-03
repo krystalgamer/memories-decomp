@@ -61,7 +61,7 @@
 
    There is no size assert: gViewState_Current is a single object with no stride
    evidence, so where the record ends is not something this code can show. */
-typedef struct {
+typedef struct ViewState {
     s16 field_00;
     s16 angle;
     s16 field_04;

@@ -223,13 +223,6 @@ gInput_abRawPadBuffers = D_800EF668;
 gMemCardWork_Area = D_800EF6D0;
 
 /* Other names for game/display_object_core's small data (#2602). */
-gDisplayObject_awListHeads = D_800EFE38;
-gDisplayObject_wSpriteListHead = D_800EFE38 + 2;
-gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
-gDisplayObject_aPool = D_800EFE38 + 16;
-gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
-gViewState_Current = D_800EFE38 + 10768;
-gDisplayObject_awListKeys = D_800EFE38 + 10816;
 
 /* Other names for game/mem_card_driver's small data (#2602). */
 gMemCard_aDirEntries = D_800F2888;

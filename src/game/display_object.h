@@ -496,12 +496,9 @@ extern s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT];
  * array and gDisplayObject_awListHeads directly by list key. */
 extern s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
+/* Entries from DISPLAY_OBJECT_RESERVED_CAPACITY on are the allocatable tail
+ * that DisplayObject_FindFreeGeneralSlot scans. */
 extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
-/* &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
- * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
-extern DisplayObject gDisplayObject_aGeneralSlots[
-    DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
-];
 
 /* Two counters the pool keeps beside the tables above. DisplayObject_AcquireSlot bumps
  * gDisplayObject_wAcquireCount once it has picked a slot, after reading the slot's
