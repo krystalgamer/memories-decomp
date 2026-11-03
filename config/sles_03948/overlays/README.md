@@ -15,7 +15,7 @@ C utilities and the existing `gcc_2_8_1_g0_split` profile.
 The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
 translation unit unchanged, with independently verified French bindings.
 Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
-copy, effect and particle bodies and slot wrappers unchanged.
+copy, effect and particle bodies unchanged.
 Two model-54 secondary-variant images reuse the accepted
 `spanish_model_variant/` entry, mesh and ring bodies unchanged.
 Two model-401 secondary-variant images reuse the accepted
@@ -63,7 +63,7 @@ G32/PSXLONG declarations and GCC 2.8.1/MASPSX 2.81 profiles are preserved.
 Two special Exodia/SU images contain four independently recovered helpers
 under `model_exodia/`, with three other functions retained as generated assembly.
 Two representative return-two primary images reuse the accepted
-`spanish_model_primary/return_two.c` body and slot wrapper unchanged.
+`spanish_model_primary/return_two.c` body unchanged.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|

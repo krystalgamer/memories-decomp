@@ -32,8 +32,8 @@ typedef struct {
     s32 frame;
 } ModelPrimary64State;
 
-extern VECTOR D_8013A994;
-extern GsIMAGE D_8013A9A4[5];
-extern ModelPrimary64Config D_8013AA30[];
+extern VECTOR gModelPrimary64_Scale;
+extern GsIMAGE gModelPrimary64_Images[5];
+extern ModelPrimary64Config gModelPrimary64_Configs[];
 
 #endif

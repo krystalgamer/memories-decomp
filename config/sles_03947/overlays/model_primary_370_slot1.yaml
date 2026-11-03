@@ -56,7 +56,7 @@ segments:
     vram: 0x8017A004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_primary/effect_slot1]
+      - [0x4, c, overlays/spanish_model_primary/effect]
       - [0xDC, data, overlays/european_model_primary_370_slot1/descriptors]
   # Verified descriptor prefix only; the remaining bytes are unclassified.
   - name: opaque_tail

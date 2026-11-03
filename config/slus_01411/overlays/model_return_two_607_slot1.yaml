@@ -54,7 +54,7 @@ segments:
     vram: 0x8017A004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_primary/return_two_slot1]
+      - [0x4, c, overlays/spanish_model_primary/return_two]
   - name: unclassified_tail
     type: code
     start: 0xC

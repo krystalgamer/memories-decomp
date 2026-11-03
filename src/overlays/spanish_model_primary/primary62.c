@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "primary62.h"
 
-s32 func_8013A004(u8 *context, s32 command)
+s32 ModelPrimary62_HandleRequest(u8 *context, s32 command)
 {
     ModelPrimary62State *work;
     MATRIX base;
@@ -28,11 +28,11 @@ s32 func_8013A004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013A628;
+    scale = gModelPrimary62_Scale;
     work = (ModelPrimary62State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013A750[command];
+        config = work->config = &gModelPrimary62_Configs[command];
         point = work->points;
         for (i = 0; i < config->count; point++, i++) {
             angle0 = rand() % 4096;
@@ -43,7 +43,7 @@ s32 func_8013A004(u8 *context, s32 command)
             point->vz = -direction * radius;
             work->frames[i] = (rand() >> 8) % 8;
         }
-        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013A638);
+        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelPrimary62_Image);
         work->delay = -config->delay;
         return 0;
     }
@@ -59,7 +59,7 @@ s32 func_8013A004(u8 *context, s32 command)
     SetPolyFT4(&quad);
     quad.tpage = work->texture >> 16;
     quad.clut = work->texture;
-    color = *(CVECTOR *)func_80059520(Model_GetActiveSlotIndex());
+    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
     red = config->r * color.r / 128;
     green = config->g * color.g / 128;
     blue = config->b * color.b / 128;

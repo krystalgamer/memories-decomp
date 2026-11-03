@@ -1,14 +1,14 @@
 #include "../../types.h"
 #include "primary.h"
 
-s32 func_8013A004(u8 *context, s32 command)
+s32 ModelPrimaryCopy_HandleRequest(u8 *context, s32 command)
 {
     ModelPrimaryCopyState *work = (ModelPrimaryCopyState *)context;
     s32 frame;
     s32 slot;
 
     if (command >= 0) {
-        work->config = &D_8013A118[command];
+        work->config = &gModelPrimaryCopy_Configs[command];
         work->tick = 0;
     } else {
         frame = (work->tick / work->config->delay) % work->config->frames;

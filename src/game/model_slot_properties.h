@@ -6,7 +6,6 @@
 
 /* Preserve fingerprinted overlay sources while emitting canonical symbols. */
 #define func_800593D0 Model_TransformPartVertex
-#define func_80059520 Model_GetSlotTintDescriptor
 #define func_800595C8 Model_SetSlotAmbient
 
 s32 Model_TransformPartVertex(s32 slot, s32 part, s32 vertex, VECTOR *out);

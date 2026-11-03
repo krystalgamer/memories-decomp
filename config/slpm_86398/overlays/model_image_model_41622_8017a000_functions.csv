@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8017A004,0x114,func_8017A004,matching_c,overlay/model_image_model_41622_8017a000,Advance unsigned timed texture copy using metadata-selected descriptor.
+0x8017A004,0x114,ModelPrimaryCopy_HandleRequest,matching_c,overlay/model_image_model_41622_8017a000,Advance unsigned timed texture copy using metadata-selected descriptor.

@@ -258,7 +258,7 @@ list or image total for them; header-specific evidence lives in
 
 The 1,189 USA return-two primary images (headers 37 and 40) build their
 eight-byte `jr ra; li v0,2` entry from the accepted
-`spanish_model_primary/return_two.c` and its slot-1 wrapper under
+`spanish_model_primary/return_two.c` under
 `gcc_2_8_1_g0_split`, as `model_return_two_<model>_slot<0|1>` modules
 sharing one symbol file per slot. Each keeps its four-byte header and
 4,084-byte tail as unclassified data; see the
