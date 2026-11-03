@@ -52,7 +52,8 @@ The rectangle's original resident providers are North American
 `D_800E9D70`, Japanese `D_800E9D70` at `0x800E9C50`, UK
 `D_800E9D70` at `0x8009C418`, and other PAL `D_800E9D70` at `0x8009C838`.
 Japanese Free Duel instead keeps its original `D_800E9D70` overlay import
-at `0x800E9C50`. Canonical aliases are image-local and preserve that
+at `0x800E9C50`. Each image now defines `gGraphics_aImageTransferRects`
+once at its own address, with no `D_800E9D70` alias, preserving that
 distinction; automatic original providers are not replaced with guessed
 tracked addresses.
 

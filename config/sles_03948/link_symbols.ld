@@ -25,9 +25,9 @@ gMainMenu_dwSuModuleBase = 0x8001002C;
 gModel_CreditsModuleAddress = 0x80010030;
 gModel_pCreditsMusicTrackBuffer = 0x80010034;
 gFile_szPositionFormat = 0x80010038;
-D_80010074 = 0x80010060;
-D_80010090 = 0x8001007C;
-D_800100A8 = 0x80010094;
+gDebugEffect_szOperandsFormat = 0x80010060;
+gDebugEffect_szSecondOperandMarker = 0x8001007C;
+gDebugEffect_szFirstOperandMarker = 0x80010094;
 gFile_pScreenBankBase = 0x800101D8;
 gFile_pDuelBankBase = 0x800101DC;
 gFile_pBootTextStage5Destination = 0x800101E0;
@@ -89,7 +89,7 @@ gDebugMenu_szLanguageEditorFormat = 0x800920CC;
 gDuelResult_aItalianSpriteSpecsNoOpponent = 0x80091CC0;
 gDuelResult_aSpanishSpriteSpecsOpponent = 0x80091D10;
 gDuelResult_aSpanishSpriteSpecsNoOpponent = 0x80091D60;
-D_800925CC = 0x800929AC;
+gModel_aShadowFanSteps = 0x800929AC;
 gMain_bSoundVSyncBusy = 0x8009C29C;
 gFile_ReadyTransferDescriptor = 0x8009C2A8;
 gDuel_awSideViewHeadings = 0x8009C2B0;
@@ -237,7 +237,7 @@ gMain_bReturnMode = 0x8009C60D;
 gMain_bActiveModeState = 0x8009C60A;
 gMain_bRequestedMenuID = 0x8009C60E;
 gMain_bModeRunnerStep = 0x8009C60B;
-D_8009B274 = 0x8009C634;
+gScript_pMenuRecord = 0x8009C634;
 gScript_WaitCounter = 0x8009C640;
 gScript_wCommandWord = 0x8009C610;
 gScript_TransitionObject = 0x8009C63C;
@@ -271,13 +271,13 @@ gText_SelectedCardColorIndex = 0x8009C6E1;
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;
 gText_DisplayEffectRecord = 0x8009C6AC;
 gText_StagedStringId = 0x8009C6B4;
-D_8009B330 = 0x8009C6E4;
+gDuelEffect_nCompactionRequested = 0x8009C6E4;
 gText_CdSoundWaitPhase = 0x8009C6B0;
 gText_CurrentStreamCode = 0x8009C6DA;
 gText_CdSoundPollBudget = 0x8009C6B2;
 gText_ChoiceLayoutCallback = 0x8009C6BC;
 gText_GuardianGlyphCode = 0x8009C6C0;
-D_8009B34C = 0x8009C6C8;
+gDialog_bChoiceControl = 0x8009C6C8;
 gText_BranchSelectorA = 0x8009C6D1;
 gText_CommandDisposition = 0x8009C6CC;
 gText_BranchSelectorB = 0x8009C6D8;
@@ -286,12 +286,12 @@ gText_ScriptDispatchGate = 0x8009C6D2;
 gText_PumpedGlyphIndex = 0x8009C6D6;
 gDuel_bSide0ControllerSelector = 0x8009C6F2;
 gDuel_bPlayerLost = 0x8009C6F4;
-D_8009B363 = 0x8009C6F8;
+gCampaignMap_bEntryLocation = 0x8009C6F8;
 gDuel_bPostDuelMainMode = 0x8009C6FA;
 gDuel_bResumeFromAnimatedBattle = 0x8009C6FC;
-D_8009B370 = 0x8009C6EC;
-D_8009B372 = 0x8009C6EE;
-D_8009B374 = 0x8009C6F6;
+gDuel_wCampaignSceneOnWin = 0x8009C6EC;
+gDuel_wCampaignSceneOnLoss = 0x8009C6EE;
+gDuel_wAnimatedBattleBgmCommand = 0x8009C6F6;
 gGameOver_pTitleObject = 0x8009C700;
 gSaveData_PairMessageCode = 0x8009C77B;
 gDialog_bCallbackState = 0x8009C751;
@@ -347,10 +347,10 @@ gModel_dwDrawModeTemplate = 0x8009C364;
 gModel_dwTpageBlendRateBits = 0x8009C368;
 gModel_dwSecondPassClutBits = 0x8009C36C;
 gModel_dwLitColorCacheBase = 0x8009C370;
-D_8009BF6C = 0x8009C374;
+gModel_bCurrentDrawMode = 0x8009C374;
 gModel_bBlendRateActive = 0x8009C375;
-D_8009BF6E = 0x8009C376;
-D_8009BF70 = 0x8009C378;
+gModel_wDrawTintRedGreen = 0x8009C376;
+gModel_bDrawTintBlue = 0x8009C378;
 gModel_bPresentationTimer = 0x8009C379;
 gModel_AnimatedBattleCameraEndpoint = 0x8009C37C;
 gModel_szWhyTrace = 0x8009C384;
@@ -385,7 +385,7 @@ gModel_awSlotModelIds = 0x8009C808;
 gModelDebug_abSlotAfFlags = 0x8009C80E;
 gModelDebug_abSlotGfFlags = 0x8009C810;
 gGraphics_abPacketBuffers = 0x8009C8F0;
-D_800E9D70 = 0x8009C838;
+gGraphics_aImageTransferRects = 0x8009C838;
 gGraphics_apOrderingTables = 0x8009C858;
 gMain_apFrameServiceCallbacks = 0x8009C898;
 gMain_RecoveryJmpBuf = 0x8009C868;
@@ -434,31 +434,31 @@ D_80181012 = 0x80181012;
 gDuel_aCardThumbnailBlocks = 0x8018C2D8;
 D_8018C7D8 = 0x8018C7D8;
 gDuel_aCardRecords = 0x801A7AD8;
-D_801A7B64 = 0x801A7B64;
-D_801A7B80 = 0x801A7B80;
+gDuel_aFieldCardRecords = 0x801A7B64;
+gDebugEffect_aPreviewCardRecords = 0x801A7B80;
 gFile_StagingBuffer = 0x801A8000;
 gAiScript_abFieldScript = 0x801A9800;
 gAiSnapshot_aOwnCards = 0x801AB00C;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
 D_801B0004 = 0x801B0004;
-D_801B122B = 0x801BF800;
-D_801B1238 = 0x801BF814;
-D_801B125A = 0x801BF848;
+gText_aFirstPlayerNameGlyphs = 0x801BF800;
+gText_aSecondPlayerNameGlyphs = 0x801BF814;
+gText_aCurrentPlayerNameGlyphs = 0x801BF848;
 gText_DecimalDigitGlyphString = 0x801BF870;
 gText_AlternateStringAddressAnchor = 0x801C0004;
 gSaveData_Workspace = 0x801D0000;
-D_801D1200 = 0x801D1200;
-D_801D160C = 0x801D160C;
-D_801D2200 = 0x801D2200;
+gSaveData_aPairWorkspace = 0x801D1200;
+gSaveData_aFirstPlayerNameSjis = 0x801D160C;
+gSaveData_aSecondPlayerState = 0x801D2200;
 gFile_ActiveRequestSlot = 0x801D4200;
 gText_StagedValues = 0x801BF88C;
 gMemCardDialog_CardNumberArg = 0x801BF8CC;
-D_801D56A8 = 0x801BF92C;
+gDuel_DroppedCardTextValue = 0x801BF92C;
 D_801D5804 = 0x801D5804;
-D_801DD000 = 0x801DD000;
-D_801DD800 = 0x801DD800;
-D_801DE000 = 0x801DE000;
+gFile_abPackageStagingBuffer = 0x801DD000;
+gModel_abAuxiliaryPaletteSector = 0x801DD800;
+gModel_abTexturePaletteStaging = 0x801DE000;
 gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
 D_8021007A = 0x8021007A;
@@ -962,22 +962,12 @@ gSaveData_aTradeWriteStaging = 0x801D1880;
 write = 0x80073E48;
 
 /* Semantic draw-state aliases retain the original native providers. */
-gModel_bCurrentDrawMode = D_8009BF6C;
-gModel_wDrawTintRedGreen = D_8009BF6E;
-gModel_bDrawTintBlue = D_8009BF70;
-gModel_aShadowFanSteps = D_800925CC;
 
 
-gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 
-gDuel_aFieldCardRecords = D_801A7B64;
 
 
-gDebugEffect_aPreviewCardRecords = D_801A7B80;
-gDebugEffect_szOperandsFormat = D_80010074;
-gDebugEffect_szSecondOperandMarker = D_80010090;
-gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 
 
@@ -999,25 +989,18 @@ func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
 
-gDuel_wCampaignSceneOnWin = D_8009B370;
-gDuel_wCampaignSceneOnLoss = D_8009B372;
-gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
-gScript_pMenuRecord = D_8009B274;
-
-
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 
 
 
-gDuel_DroppedCardTextValue = D_801D56A8;
+
+
 
 
 
@@ -1027,22 +1010,13 @@ gDuel_DroppedCardTextValue = D_801D56A8;
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
 
-gGraphics_aImageTransferRects = D_800E9D70;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 
-gDialog_bChoiceControl = D_8009B34C;
 
-gText_aCurrentPlayerNameGlyphs = D_801B125A;
-gText_aFirstPlayerNameGlyphs = D_801B122B;
-gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 
-gDuelEffect_nCompactionRequested = D_8009B330;
 
 gLibrary_sCapturedReferenceY = D_80181002;
 gLibrary_sSampledReferenceY = D_80181012;
@@ -1051,7 +1025,6 @@ gLibrary_sSampledReferenceY = D_80181012;
 /* Canonical view of the retained native countdown entry point. */
 
 /* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 

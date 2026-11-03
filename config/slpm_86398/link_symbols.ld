@@ -5,17 +5,12 @@ gText_awGlyphColorMasks = D_80090E48;
 
 gText_aChannels = gJapanese_D_800EB0F8;
 
-gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 FreeDuel_Entry = 0x80168FB4;
 
-gDuel_aFieldCardRecords = D_801A7B64;
 
 
 gDebugEffect_aPreviewCardRecords = D_801B7B80;
-gDebugEffect_szOperandsFormat = D_80010074;
-gDebugEffect_szSecondOperandMarker = D_80010090;
-gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
@@ -126,16 +121,13 @@ gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
 
-gDialog_bChoiceControl = D_8009B34C;
 
-gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;
 gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
 
-gDuelEffect_nCompactionRequested = D_8009B330;
 
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
 PROVIDE(gLibrary_sSampledReferenceY = D_80181012);

@@ -92,16 +92,12 @@ gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
 
 
-gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
 
 gDebugEffect_aPreviewCardRecords = D_801A7B80;
-gDebugEffect_szOperandsFormat = D_80010074;
-gDebugEffect_szSecondOperandMarker = D_80010090;
-gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 func_8006151C = Model_DrawGt3Primitives;
 func_80061A84 = Model_DrawGt4Primitives;
@@ -129,9 +125,6 @@ func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
 
-gDuel_wCampaignSceneOnWin = D_8009B370;
-gDuel_wCampaignSceneOnLoss = D_8009B372;
-gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
@@ -147,7 +140,6 @@ gModel_abTexturePaletteStaging = D_801DE000;
 
 
 
-gDuel_DroppedCardTextValue = D_801D56A8;
 
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
@@ -158,19 +150,14 @@ gText_GlobalStringOffsets = D_801D5804;
 
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
+gSaveData_aPairWorkspace = 0x801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
 
-gDialog_bChoiceControl = D_8009B34C;
 
-gText_aCurrentPlayerNameGlyphs = D_801B125A;
-gText_aFirstPlayerNameGlyphs = D_801B122B;
-gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
 
-gDuelEffect_nCompactionRequested = D_8009B330;
 
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
 PROVIDE(gLibrary_sSampledReferenceY = D_80181012);

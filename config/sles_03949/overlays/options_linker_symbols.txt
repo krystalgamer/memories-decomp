@@ -3,7 +3,7 @@ D_8009C02B = 0x8009C44B;
 DisplayObject_UpdateResourceVariant = 0x80040748;
 Main_RequestLanguageBootPackage = 0x80043DC8;
 Main_InitDebugFont = 0x80043D7C;
-D_800E9D70 = 0x8009C838;
+gGraphics_aImageTransferRects = 0x8009C838;
 gFile_TransferBufferBase = 0x8009C4B0;
 StoreImage = 0x8007FF70;
 LoadImage = 0x8007FF10;
@@ -32,4 +32,3 @@ DisplayObject_SetDepthOffset = 0x80042C1C;
 SD_BGMPlay = 0x8004022C;
 gDisplay_abResourceBank0 = 0x801AF000;
 
-gGraphics_aImageTransferRects = D_800E9D70;
