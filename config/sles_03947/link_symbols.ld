@@ -136,8 +136,6 @@ gSaveData_Workspace = D_801D0000;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
-gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
 gDuel_wCampaignSceneOnWin = D_8009B370;
@@ -149,7 +147,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
-gDuel_bFieldActionAutoCommit = D_8009C0CC;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
@@ -257,7 +254,6 @@ gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
 gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
 gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
 gDuel_pActionReadyMarker = D_8009C108_sles_03947;
-gEuropean_D_8009B208 = D_8009C10A_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
 gDuel_pCardViewerBackground = D_8009C1B4_sles_03947;
 
@@ -323,7 +319,6 @@ gFade_State = D_800EAE28_sles_03947;
 /* Names inside display_object_core's own storage (#2602). */
 
 /* Names inside mem_card_driver's own storage (#2602). */
-D_8009C0CC = D_8009C0CC_sles_03947;
 D_8009C0A8 = D_8009C0A8_sles_03947;
 D_8009C0C0 = D_8009C0C0_sles_03947;
 D_8009C148 = D_8009C148_sles_03947;

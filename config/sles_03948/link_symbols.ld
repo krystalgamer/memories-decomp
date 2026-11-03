@@ -218,7 +218,7 @@ gDuel_sGroundReferenceScreenX = 0x8009C514;
 gDuel_sGroundReferenceScreenY = 0x8009C516;
 gDuel_wViewTweenFramesRemaining = 0x8009C4CC;
 gDuel_wEquipCardId = 0x8009C524;
-D_8009B208 = 0x8009C4D8;
+gDuel_bBattleRemovalSlot0 = 0x8009C4D8;
 gDuel_wTrapPresentationMode = 0x8009C520;
 gDuel_pTerrainIcon = 0x8009C4E8;
 D_8009B218 = 0x8009C522;
@@ -371,9 +371,9 @@ D_8009BFD0 = 0x8009C3D8;
 D_8009BFD8 = 0x8009C3E0;
 D_8009C02B = 0x8009C44B;
 D_8009C0A8 = 0x8009C4C8;
-D_8009C0B9 = 0x8009C4D9;
+gDuel_bBattleRemovalSlot1 = 0x8009C4D9;
 D_8009C0C0 = 0x8009C4E0;
-D_8009C0CC = 0x8009C4EC;
+gDuel_bFieldActionAutoCommit = 0x8009C4EC;
 gDuel_dwFieldDimTarget = 0x8009C4F0;
 gDuel_awSavedStatModifiers = 0x8009C554;
 D_8009C148 = 0x8009C568;
@@ -830,7 +830,7 @@ gModel_bEffectKeyCount = 0x8009C310;
 gModel_bHandlerCallbackState = 0x8009C314;
 gDuel_wAiHandStackPending = 0x8009C4E2;
 gDuel_pSide1SaveData = 0x8009C4FC;
-gEuropean_D_8009B208 = 0x8009C52A;
+D_8009B20A = 0x8009C52C;
 gText_WaitCounter = 0x8009C6DC;
 gText_PageAdvanceHoldCountdown = 0x8009C6DE;
 gText_ShakeViewportOrigin = 0x8009C6C4;
@@ -1007,8 +1007,6 @@ gSaveData_Workspace = D_801D0000;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
-gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
 gDuel_wCampaignSceneOnWin = D_8009B370;
@@ -1020,7 +1018,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
-gDuel_bFieldActionAutoCommit = D_8009C0CC;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;

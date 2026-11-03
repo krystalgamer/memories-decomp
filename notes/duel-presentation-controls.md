@@ -72,16 +72,14 @@ and timing remain.
 | --- | --- | --- | --- |
 | NA | `8009B1B9` | `8009B218` | `8009B21A` |
 | Japan | `8009B0A9` | `8009B108` | `8009B10A` |
-| SLES_039.47 | `8009C0C1` | `8009C102` | original automatic `D_8009C0CC` |
+| SLES_039.47 | `8009C0C1` | `8009C102` | `8009C0CC` |
 | Other PAL | `8009C4E1` | `8009C522` | `8009C4EC` |
 
-Canonical aliases point to original providers, including Japan's
-`D_8009B218` (`0x8009B108`) and PAL's logical `D_8009C0CC`. The English field
-provider is not tracked as a numeric assignment and its regional retail
-input is unavailable locally. Its existing symbolic provider is retained;
-no guessed tracked numeric binding replaces the automatic one. Native
-compiler conservation is not independent regional-image proof, and fresh
-PR-side full-image validation remains required.
+The auto-commit byte is defined once per image under its canonical name, in
+the duel storage unit (`duel_field_card_render.c`, or the European wrapper);
+Japan and the non-English PAL images bind its address in `symbols.txt` and
+`link_symbols.ld`. Japan's placement-setup byte still reaches
+`D_8009B218` (`0x8009B108`).
 
 All old headers, wrapper macros, overlays/imports, function records,
 grouped sources and named profiles remain unchanged. The two existing

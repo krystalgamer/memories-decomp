@@ -46,37 +46,34 @@ The resume unit retains its measured `s8[8]` view under
 does not authorize changing that declaration or asserting a new allocation
 extent. Old headers, source grouping and definition order are unchanged.
 
-Canonical root aliases refer to the **original symbolic providers**.
-NA uses Splat's automatic absolute `D_8009B208/209` labels; Japan retains its
-explicit bindings. PAL slot 1 follows the producer's original CPP identity,
-`D_8009C0B9`, not an invented numeric provider or a French literal alias.
-The builders link automatic undefined-symbol providers before the tracked
-extra linker script. Generated provider files must not be edited.
+## Storage
 
-| Image | Slot 0 | Slot 1 provider |
-| --- | --- | --- |
-| North America | `0x8009B208` | `D_8009B209` at `0x8009B209` |
-| Japan | `0x8009B0F8` | `D_8009B209` at `0x8009B0F9` |
-| SLES_039.47 | `0x8009C0B8` | Original automatic/COMMON `D_8009C0B9` |
-| Other PAL | `0x8009C4D8` | `D_8009C0B9` at `0x8009C4D9` |
+Each image defines the two bytes once, under these names, in its duel
+storage unit: `src/game/duel_field_card_render.c` for North America and
+Japan, `src/game/european/duel_field_card_render.c` for the PAL images.
+The tentative definitions in `duel_scene_battle.c` are COMMON and merge
+with that storage, so no linker alias joins the two names.
 
-The English slot-1 provider and full regional image remain PR-side
-acceptance requirements; no missing retail input is replaced or inferred
-from NA bytes. The unrelated French literal
-`D_8009C0B9_French = 0x8009C0B9` stays distinct.
+| Image | Slot 0 | Slot 1 | Bound by |
+| --- | --- | --- | --- |
+| North America | `0x8009B208` | `0x8009B209` | storage order |
+| Japan | `0x8009B0F8` | `0x8009B0F9` | `symbols.txt` |
+| SLES_039.47 | `0x8009C0B8` | `0x8009C0B9` | storage order, `symbols.txt` |
+| Other PAL | `0x8009C4D8` | `0x8009C4D9` | `link_symbols.ld` |
+
+The unrelated French literal `D_8009C0B9_French = 0x8009C0B9` stays
+distinct.
 
 ## Deliberate scope boundary
 
-Only battle and resume/phase source views change. Hand actions continue to
-use their legacy view: NA's byte at base `+2` is an AI target, not another
-removal entry. PAL is more distinct still: the hand-action
-`gEuropean_D_8009B208` base is `0x8009C10A` in English Europe and
-`0x8009C52A` in other PAL images, versus the removal bases
-`0x8009C0B8/0x8009C4D8`. They must not be globally renamed, collapsed or
-rebound just because a common source once used the same numeric spelling.
+NA's byte at `0x8009B20A`, two past slot 0, is the hand actions' scripted
+AI target, not another removal entry. Hand actions used to reach it as
+`D_8009B208[2]`; it is now its own `s8 D_8009B20A`, which the PAL images
+place at `0x8009C10C` (English Europe) and `0x8009C52C` (other PAL), far
+from the removal bases `0x8009C0B8/0x8009C4D8`.
 
 Signed sentinels, scan order, request creation, removal, sound and cleanup
-behavior remain. All old headers, hand-action sources, overlays/imports,
-function registrations and existing tests remain unchanged. No new harness,
+behavior remain. Overlays/imports, function registrations and existing
+tests remain unchanged. No new harness,
 C fixture, probe or case is added; cloud/regional/overlay/witness execution
 remains PR-side validation.

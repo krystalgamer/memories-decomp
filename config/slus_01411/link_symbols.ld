@@ -89,8 +89,6 @@ gSaveData_Workspace = D_801D0000;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
-gDuel_bBattleRemovalSlot1 = D_8009B209;
 
 gDuel_bPostDuelMainMode = D_8009B368;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
@@ -98,7 +96,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
-gDuel_bFieldActionAutoCommit = D_8009B21A;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gFile_dwTransferState = D_8009B0F4;

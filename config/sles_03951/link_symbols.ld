@@ -372,7 +372,7 @@ D_8009B145 = 0x8009C4C5;
 gDuel_wViewTweenDistanceTarget = 0x8009C4CA;
 gDuel_wViewTweenFramesRemaining = 0x8009C4CC;
 gDuel_apSwordsEffectObjects = 0x8009C4D0;
-D_8009B208 = 0x8009C4D8;
+gDuel_bBattleRemovalSlot0 = 0x8009C4D8;
 gDuel_dwViewTweenDistanceStep = 0x8009C4DC;
 gDuel_bPresentationCursor = 0x8009C4E1;
 gDuel_pTerrainIcon = 0x8009C4E8;
@@ -722,9 +722,9 @@ gDuel_wEquipCardId = 0x8009C524;
 gDuel_bCardMoveSlot = 0x8009C59C;
 D_8009C0C0 = 0x8009C4E0;
 gDuel_wAiHandStackPending = 0x8009C4E2;
-gEuropean_D_8009B208 = 0x8009C52A;
+D_8009B20A = 0x8009C52C;
 D_8009C0A8 = 0x8009C4C8;
-D_8009C0CC = 0x8009C4EC;
+gDuel_bFieldActionAutoCommit = 0x8009C4EC;
 D_800EAE91 = 0x800EC219;
 D_8009C148 = 0x8009C568;
 gDuel_awSavedRecordFlags = 0x8009C594;
@@ -732,7 +732,7 @@ gDuel_awSavedStatModifiers = 0x8009C554;
 gDuel_dwFieldDimTarget = 0x8009C4F0;
 gDuel_abBattleOutcome = 0x8009C5AC;
 gDuel_awBattleDamage = 0x8009C5A0;
-D_8009C0B9 = 0x8009C4D9;
+gDuel_bBattleRemovalSlot1 = 0x8009C4D9;
 gDuel_abMonsterRemovalRules = 0x80091E64;
 gDuel_wMonsterRemovalCriterion = 0x8009C5A8;
 gDuel_wMonsterRemovalZone = 0x8009C5AA;
@@ -1007,8 +1007,6 @@ gSaveData_Workspace = D_801D0000;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
-gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
 gDuel_wCampaignSceneOnWin = D_8009B370;
@@ -1020,7 +1018,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
-gDuel_bFieldActionAutoCommit = D_8009C0CC;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
