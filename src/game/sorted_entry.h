@@ -24,7 +24,7 @@
  * this target that word holds `distance` in the high halfword and `packed` in
  * the low one, so the order is ascending by distance, ties broken by `packed`.
  */
-typedef struct {
+typedef struct SortedEntry {
     /* ratan2(dx, dz) / 16, clamped to 255 and shifted left by 8, or'd with
      * dy >> 4.  The two halves are never read apart, so they are not named
      * separately here. */

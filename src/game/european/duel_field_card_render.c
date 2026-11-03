@@ -20,7 +20,7 @@ s8 gDuel_bBattleRemovalSlot0;
 s8 gDuel_bBattleRemovalSlot1;
 u16 D_8009C0BA_sles_03947;
 s32 gDuel_dwViewTweenDistanceStep;
-u8 D_8009C0C0_sles_03947;
+u8 D_8009C0C0;
 s8 gDuel_bPresentationCursor;
 s16 gDuel_wAiHandStackPending;
 s16 gDuel_sEffectWorkCounter;
@@ -77,7 +77,7 @@ s8 gDuel_bOutroWinnerSide;
 s16 gDuel_wViewTweenHeadingTarget;
 u16 gDuel_wSceneStateFlags;
 s16 gDuel_wViewTweenOrbitAngleTarget;
-u32 D_8009C148_sles_03947;
+u32 D_8009C148;
 s32 gDuel_dwViewTweenHeadingStep;
 s32 gDuel_dwViewTweenOrbitAngleStep;
 u16 gDuel_wPlacementCardId;
@@ -125,7 +125,7 @@ u8 gDuel_bPendingDrawCount;
 u8 D_8009C1AD_sles_03947;
 u16 D_8009C1AE_sles_03947;
 u32 D_8009C1B0_sles_03947;
-u32 D_8009C1B4_sles_03947;
+struct DisplayObject *gDuel_pCardViewerBackground;
 
 /* SLES-03947 build of src/game/duel_field_card_render.c. The US source is included as is. */
 

@@ -270,7 +270,14 @@ compile) give each differing block European storage:
 - `.bss` blocks are one `u8` array, as in Japan.
 - `.sbss` blocks reuse the shared source's typed definitions in European
   address order, with the slots between them as `D_<ADDR>_sles_03947` scalars.
-- A name stays untyped, aliased to its slot, when its type would move it:
+- A slot whose shared type has the slot's own size is defined under that
+  shared name and type, with no link alias. A struct pointer the wrapper
+  needs before any header is spelled through its tag, as in
+  `struct SortedEntry *`.
+- A name stays untyped, aliased to its slot, when its type would move it.
+  This is a measured exception: maspsx aligns `.sbss` purely by size, so a
+  byte or halfword name in a European word slot can't be given its real type.
+  The cases are:
   - when its natural alignment (8 for arrays of 8 bytes or more, which also
     needs the block itself 8-aligned; 4 for words, pointers and arrays of 4 or
     more) doesn't hold at the European address;

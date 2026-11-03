@@ -181,25 +181,13 @@ D_8009C02B = D_8009C02B_sles_03947;
 gFile_wStepState = D_8009C044_sles_03947;
 gFile_FilterParams = D_8009C048_sles_03947;
 D_8009B108 = D_8009C04C_sles_03947;
-gFile_SecondaryPayloadCompleteCallback = D_8009C050_sles_03947;
 D_8009B110 = D_8009C054_sles_03947;
-gFile_ReadyDataEventCount = D_8009C058_sles_03947;
 gFile_wTransferStepFlags = D_8009C05C_sles_03947;
-gFile_CommandRetryCount = D_8009C060_sles_03947;
-gFile_RangePauseCallback = D_8009C068_sles_03947;
-D_8009B12C = D_8009C06C_sles_03947;
 gFile_ServiceCallGate = D_8009C070_sles_03947;
-gFile_ServiceReentryLatch = D_8009C074_sles_03947;
 gFile_RangeWaitCountdown = D_8009C078_sles_03947;
-gFile_RangeReadCallback = D_8009C07C_sles_03947;
-D_8009B0FC = D_8009C080_sles_03947;
-gFile_ReadySourceCursor = D_8009C084_sles_03947;
-gFile_BeforePrimaryRequestCallback = D_8009C088_sles_03947;
 gFile_ReadyEventCount = D_8009C08C_sles_03947;
-gFile_TargetLoc = D_8009C094_sles_03947;
 
 /* Names inside fade_runtime's own storage (#2602). */
-gDuel_wViewTweenDistanceTarget = D_8009C0AA_sles_03947;
 
 /* Names inside duel_field_card_render's own storage (#2602). */
 gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
@@ -208,17 +196,13 @@ gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
 gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
 gDuel_pActionReadyMarker = D_8009C108_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
-gDuel_pCardViewerBackground = D_8009C1B4_sles_03947;
 
 /* Names inside duel_effect_dialog_state's own storage (#2602). */
-gDuel_pCardViewerCard = D_8009C1C0_sles_03947;
-gDuel_pCardViewerTextBox = D_8009C1C8_sles_03947;
 
 /* Names inside duel_effect_object_pool's own storage (#2602). */
 gDuel_bEffectRequestStatus = D_8009C1D8_sles_03947;
 
 /* Names inside script_command_busy's own storage (#2602). */
-gScript_SharedOperand = D_8009C1F2_sles_03947;
 
 /* Names inside script_op_load_image_scene's own storage (#2602). */
 gScript_ImageOperand = D_8009C210_sles_03947;
@@ -229,18 +213,10 @@ gScript_WaitCounter = D_8009C220_sles_03947;
 /* Names inside debug_menu_editor_entries's own storage (#2602). */
 
 /* Names inside sorted_entry_relink's own storage (#2602). */
-gModel_dwFogDrawFlags = D_8009C26C_sles_03947;
-gSortedEntry_pCursor = D_8009C270_sles_03947;
-gSortedEntry_nCount = D_8009C274_sles_03947;
-gSortedEntry_pBase = D_8009C278_sles_03947;
-gSortedEntry_nSortedCount = D_8009C27C_sles_03947;
 
 /* Names inside input_pads's own storage (#2602). */
 
 /* Names inside mem_card_dialog's own storage (#2602). */
-gSaveDataSequence = D_8009C31C_sles_03947;
-D_8009B3BC = D_8009C32C_sles_03947;
-D_8009B3DE = D_8009C34A_sles_03947;
 
 /* Names inside sound_frontend's own storage (#2602). */
 
@@ -272,10 +248,6 @@ gFade_State = D_800EAE28_sles_03947;
 /* Names inside display_object_core's own storage (#2602). */
 
 /* Names inside mem_card_driver's own storage (#2602). */
-D_8009C0A8 = D_8009C0A8_sles_03947;
-D_8009C0C0 = D_8009C0C0_sles_03947;
-D_8009C148 = D_8009C148_sles_03947;
-D_8009C408 = D_8009C408_sles_03947;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
 gText_StagedValues = 0x801BF88C;

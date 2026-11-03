@@ -36,7 +36,7 @@ u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
 u16 D_8009C402_sles_03947;
 u32 D_8009C404_sles_03947;
-u32 D_8009C408_sles_03947;
+u32 D_8009C408;
 u32 D_8009C40C_sles_03947;
 u32 D_8009C410_sles_03947;
 u32 D_8009C414_sles_03947;
