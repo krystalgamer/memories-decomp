@@ -1,7 +1,7 @@
 // MODEL.MRG model 411 (record 411), sector 99836, header 123, loaded at 0x8013B000; header-123 rings, flash and crossing quads entry.
-func_8013B004 = 0x8013B004; // type:func size:0x133C defined:true
-D_8013C350 = 0x8013C350; // type:u8 size:0x38 defined:true
-D_8013C388 = 0x8013C388; // type:u8 size:0x3C78 defined:true
+ModelVariant123_HandleRequest = 0x8013B004; // type:func size:0x133C defined:true
+gModelVariant123_D1350 = 0x8013C350; // type:u8 size:0x38 defined:true
+gModelVariant123_D1388 = 0x8013C388; // type:u8 size:0x3C78 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

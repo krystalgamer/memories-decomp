@@ -10,7 +10,7 @@ typedef struct {
     s32 cycles;
 } Family402Band;
 
-void func_8013CB38(u8 *context);
+void FrenchModelVariant402_DrawBands(u8 *context);
 
 #ifdef MODEL_VARIANT412_BANDS
 typedef POLY_FT4 Family402BandPacket;

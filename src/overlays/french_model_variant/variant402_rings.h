@@ -45,5 +45,5 @@ typedef struct {
     s32 phase;
 } Family402RingView;
 
-void func_8013C69C(u8 *context);
+void FrenchModelVariant402_DrawRings(u8 *context);
 #endif

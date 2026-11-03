@@ -6,7 +6,7 @@
 #define MODEL_VARIANT412_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant412EntryState *work = (Variant412EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1, unused_matrix2;
@@ -34,7 +34,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant412EntryConfig *)(D_8013D7A8 + 0xFC) + command;
+        work->config = (Variant412EntryConfig *)(gFrenchModelVariant412_D27A8 + 0xFC) + command;
         work->root_part = (GsCOORDINATE2 *)Model_GetSlotDataEntry(work->slot, work->config->root_part);
         for (i = 0; i < 6; i++) {
             work->parts[i] = (GsCOORDINATE2 *)Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
@@ -53,14 +53,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT412_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT412_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D7A8 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant412_D27A8 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D7A8 + 0x8C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D7A8 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant412_D27A8 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant412_D27A8 + 0x1C));
         band_page = packed >> 16;
         band_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D7A8 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant412_D27A8 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -239,7 +239,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->part_count);
         }
         if (work->config->capture_start <= work->elapsed) {
-            func_8013BB98((u8 *)point);
+            FrenchModelVariant412_DrawTrails((u8 *)point);
         }
         work->frame_count++;
         if (work->current_animation_frame != work->animation_frame) {

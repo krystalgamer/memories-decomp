@@ -6,7 +6,8 @@ and `0x8017B000`. The [instance ledger](spanish-model-variant402-instances.csv)
 records their sectors, headers, hashes and normal commands.
 
 The Spanish manifests reuse the accepted French entry, strip, ribbons, rings and bands sources,
-their local headers and slot-one wrappers without regional forks. Each helper and
+and their local headers without regional forks; both slots compile the
+same sources (see [Names](french-model-variant402.md#names)). Each helper and
 slot compiles independently under the named GCC 2.8.1 / MASPSX 2.81
 `gcc_2_8_1_g0_split` profile; all four complete Spanish images match.
 

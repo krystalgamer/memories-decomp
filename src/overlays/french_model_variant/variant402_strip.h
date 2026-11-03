@@ -11,7 +11,7 @@ typedef struct {
     s32 depth[2];
 } Family402Strip;
 
-void func_8013BA5C(u8 *context);
+void FrenchModelVariant402_DrawStrip(u8 *context);
 
 enum {
 #ifdef MODEL_VARIANT412_STRIP
