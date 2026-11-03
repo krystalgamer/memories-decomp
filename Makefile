@@ -245,11 +245,11 @@ french-map: verify-french-target
 		--image-map config/sles_03948/image_map.json
 
 french-split: french-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:sles_03948
 	@$(SPLAT) split config/sles_03948/split.yaml
 
 french-build: french-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:sles_03948
 	@$(PYTHON) tools/project/build_french_baseline.py
 
 french-match: french-build
@@ -271,21 +271,21 @@ spanish-map: verify-spanish-target
 		--image-map config/sles_03951/image_map.json
 
 split: map check-build-tools
-	@$(PYTHON) tools/project/clean.py generated splat
+	@$(PYTHON) tools/project/clean.py generated splat:slus_01411
 	@$(PYTHON) tools/project/generate_build_config.py
 	@$(SPLAT) split tmp/generated/slus_01411.split.yaml
 	@$(PYTHON) tools/project/build_baseline.py --finalize-linker-script
 
 japanese-split: japanese-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:slpm_86398
 	@$(SPLAT) split config/slpm_86398/split.yaml
 
 european-split: european-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:sles_03947
 	@$(SPLAT) split config/sles_03947/split.yaml
 
 spanish-split: spanish-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:sles_03951
 	@$(SPLAT) split config/sles_03951/split.yaml
 
 regional-progress-split: split japanese-map european-map french-map spanish-map italian-map german-map check-build-tools
@@ -297,19 +297,19 @@ regional-progress-split: split japanese-map european-map french-map spanish-map 
 	@$(SPLAT) split config/sles_03949/split.yaml
 
 build: split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:slus_01411
 	@$(PYTHON) tools/project/build_baseline.py
 
 japanese-build: japanese-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:slpm_86398
 	@$(PYTHON) tools/project/build_japanese_baseline.py
 
 european-build: european-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:sles_03947
 	@$(PYTHON) tools/project/build_european_baseline.py
 
 spanish-build: spanish-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:sles_03951
 	@$(PYTHON) tools/project/build_spanish_baseline.py
 
 match: build
@@ -349,19 +349,19 @@ german-map: verify-german-target
 		--image-map config/sles_03949/image_map.json
 
 italian-split: italian-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:sles_03950
 	@$(SPLAT) split config/sles_03950/split.yaml
 
 german-split: german-map check-build-tools
-	@$(PYTHON) tools/project/clean.py splat
+	@$(PYTHON) tools/project/clean.py splat:sles_03949
 	@$(SPLAT) split config/sles_03949/split.yaml
 
 italian-build: italian-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:sles_03950
 	@$(PYTHON) tools/project/build_italian_baseline.py
 
 german-build: german-split
-	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/clean.py project-build:sles_03949
 	@$(PYTHON) tools/project/build_german_baseline.py
 
 italian-match: italian-build
