@@ -54,14 +54,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant668_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant668_entry]
   - name: rodata
     type: code
     start: 0x10C4
     vram: 0x8017C0C4
     align: 4
     subsegments:
-      - [0x10C4, .rodata, overlays/model_variant/variant668_entry_slot1]
+      - [0x10C4, .rodata, overlays/model_variant/variant668_entry]
   - name: data
     type: code
     start: 0x10DC
@@ -75,7 +75,7 @@ segments:
     vram: 0x8017E520
     align: 4
     subsegments:
-      - [0x3520, c, overlays/french_model_variant/variant685_rings]
+      - [0x3520, c, overlays/french_model_variant/variant447_rings]
   - name: unclassified_tail
     type: code
     start: 0x394C

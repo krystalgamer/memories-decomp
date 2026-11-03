@@ -31,10 +31,11 @@ German and Italian images are byte-identical to the Spanish ones. The
 ## Per-image names
 
 The source defines `FrenchModelVariant447_DrawRings`. All fourteen model-447
-images build it at `0x8013E520`/`0x8017E520`: the Spanish images
-109772/109782 compile `variant447_rings.c` directly, and the North American,
-Japanese, European, French, German and Italian images compile it through
-`variant685_rings.c`, which aliases five resident names to the older layout
-beside the header-668/685 entry. Each image binds the name at its own address
+images build it at `0x8013E520`/`0x8017E520` by compiling `variant447_rings.c`
+directly. Its five calls into the older resident layout beside the
+header-668/685 entry use the `Rings447_*` names declared in
+`variant447_rings.h` (`Rings447_func_80058F10`, `Rings447_rcos`,
+`Rings447_GsSetLsMatrix`, `Rings447_ScaleMatrix` and `Rings447_GsSortPoly`),
+which each image's linker file binds at those addresses. Each image binds the name at its own address
 (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).

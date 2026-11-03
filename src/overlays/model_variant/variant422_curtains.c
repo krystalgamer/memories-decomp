@@ -6,7 +6,7 @@
  * points, turned to face the variant's direction and faded once their scale
  * passes 0x800, and grows each scale to 0x1000, wrapping it and counting the
  * wraps until the fourth phase. */
-void func_8013D888(u8 *ctx)
+void ModelVariant422_DrawCurtains(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

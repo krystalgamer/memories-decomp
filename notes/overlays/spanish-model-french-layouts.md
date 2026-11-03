@@ -29,16 +29,11 @@ The Spanish copies of the header-414, header-415 and header-442 helpers
 (`spanish_model_variant/variant414_bands`, `variant415_bands` and
 `variant442_ribbons`) were wired only by those modules' raw layouts and are
 removed; the French layouts compile the French helpers. The two header-447
-images at sectors 109772 and 109782 keep their raw layouts, because they are
-the only Spanish split that compiles `french_model_variant/variant447_rings.c`,
-which `variant685_rings.c` includes. Their loader entries are therefore
-still generated assembly: the French layout compiles `variant685_entry.c`
-there, whose calls to `GsSetLsMatrix`, `GsSortPoly`, `ScaleMatrix`, `rcos`
-and `func_80058F10` need the shipped resident addresses, while the directly
-compiled rings helper binds the same five names to its stale ones. Taking
-the full French layout (entry and `variant685_rings.c`) rebuilds both images
-exactly but leaves `variant447_rings.c` and `variant447_rings_slot1.c`
-unwired.
+images at sectors 109772 and 109782 keep their raw layouts but compile the
+French header-685 entry (`french_model_variant/variant685_entry.c`) at `0x4`
+beside `variant447_rings.c`; the rings body's five stale resident calls use
+the `Rings447_*` names, so `model_image447_rings_linker_symbols.txt` carries
+the French header-685 bindings unchanged.
 
 The other 17 Spanish modules whose loader entry at `0x4` was still
 assembly (headers 433, 440, 465, 476 and 477 of models 108, 117, 180,

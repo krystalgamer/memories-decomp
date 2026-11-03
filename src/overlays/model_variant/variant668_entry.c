@@ -12,10 +12,10 @@
 #ifndef MODEL668_STRING_PAD
 #define MODEL668_STRING_PAD "\x14"
 #endif
-static const char D_8013C0C4[24] = "E_DATA size = %x byte\n\0" MODEL668_STRING_PAD;
+static const char gModelVariant668_D10C4[24] = "E_DATA size = %x byte\n\0" MODEL668_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
 {
     Model668State *work;
     MATRIX ls, m;
@@ -35,13 +35,13 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model668State));
 #ifndef VERSION_FRENCH
-        printf(D_8013C0C4, sizeof(Model668State));
+        printf(gModelVariant668_D10C4, sizeof(Model668State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C0DC);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant668_D10DC);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {
@@ -50,17 +50,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->shell_count = 1;
             break;
         }
-        work->radius = D_8013C0F8[command].radius;
-        work->twist = D_8013C0F8[command].twist;
+        work->radius = gModelVariant668_D10F8[command].radius;
+        work->twist = gModelVariant668_D10F8[command].twist;
         for (i = 0; i < work->shell_count; i++) {
             work->shells[i].duration = 64;
             work->shells[i].active = 0;
             work->shells[i].elapsed = 0;
             work->shells[i].mode = 1;
             work->shells[i].coord = Model_GetCameraCoordinateUnit();
-            work->shells[i].color[0] = D_8013C0F8[command].color[0];
-            work->shells[i].color[1] = D_8013C0F8[command].color[1];
-            work->shells[i].color[2] = D_8013C0F8[command].color[2];
+            work->shells[i].color[0] = gModelVariant668_D10F8[command].color[0];
+            work->shells[i].color[1] = gModelVariant668_D10F8[command].color[1];
+            work->shells[i].color[2] = gModelVariant668_D10F8[command].color[2];
             work->shells[i].u = 0;
             work->shells[i].v = 0;
             setVector(&work->shells[i].scale, 4096, 4096, 4096);
@@ -75,10 +75,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->flash.elapsed = 0;
         work->flash.mode = 1;
         work->flash.coord = Model_GetCameraCoordinateUnit();
-        work->flash.color[0] = D_8013C0F8[command].color[3];
-        work->flash.color[1] = D_8013C0F8[command].color[4];
-        work->flash.color[2] = D_8013C0F8[command].color[5];
-        work->delay = D_8013C0F8[command].delay;
+        work->flash.color[0] = gModelVariant668_D10F8[command].color[3];
+        work->flash.color[1] = gModelVariant668_D10F8[command].color[4];
+        work->flash.color[2] = gModelVariant668_D10F8[command].color[5];
+        work->delay = gModelVariant668_D10F8[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -146,9 +146,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->shells[i].duration / 2 < work->shells[i].elapsed) {
                     value = (work->shells[i].duration - work->shells[i].elapsed) * 2;
                     duration = work->shells[i].duration;
-                    work->shells[i].color[0] = D_8013C0F8[work->command].color[0] * value / duration;
-                    work->shells[i].color[1] = D_8013C0F8[work->command].color[1] * value / duration;
-                    work->shells[i].color[2] = D_8013C0F8[work->command].color[2] * value / duration;
+                    work->shells[i].color[0] = gModelVariant668_D10F8[work->command].color[0] * value / duration;
+                    work->shells[i].color[1] = gModelVariant668_D10F8[work->command].color[1] * value / duration;
+                    work->shells[i].color[2] = gModelVariant668_D10F8[work->command].color[2] * value / duration;
                 }
                 unit.flg = 0;
                 unit.matrix = D_800FE168;
@@ -238,9 +238,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->flash.elapsed < work->flash.duration) {
                 value = work->flash.duration - work->flash.elapsed;
                 duration = work->flash.duration;
-                work->flash.color[0] = D_8013C0F8[work->command].color[3] * value / duration;
-                work->flash.color[1] = D_8013C0F8[work->command].color[4] * value / duration;
-                work->flash.color[2] = D_8013C0F8[work->command].color[5] * value / duration;
+                work->flash.color[0] = gModelVariant668_D10F8[work->command].color[3] * value / duration;
+                work->flash.color[1] = gModelVariant668_D10F8[work->command].color[4] * value / duration;
+                work->flash.color[2] = gModelVariant668_D10F8[work->command].color[5] * value / duration;
             }
             setPolyF4(&work->flash_poly);
 #ifdef VERSION_FRENCH

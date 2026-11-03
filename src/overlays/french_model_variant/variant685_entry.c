@@ -4,6 +4,4 @@
  * stays in place, so the command table absorbs the difference. The flash
  * covers the 256-line PAL screen. */
 #define VERSION_FRENCH
-#define D_8013C0DC D_8013C0B4
-#define D_8013C0F8 D_8013C0D0
 #include "../model_variant/variant668_entry.c"

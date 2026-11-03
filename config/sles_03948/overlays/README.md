@@ -1028,13 +1028,15 @@ Six images under French headers 685 and 752 are the North American
 header-668 entry (`model_variant/variant668_entry.c`) without its `E_DATA`
 work-size printf, with the full-screen flash covering the 256-line PAL
 screen. The format string was the whole read-only section, so it goes too,
-and the `src/overlays/french_model_variant/variant685_entry{,_slot1}.c`
-wrappers move the two data labels 0x28 lower. The uncalled function at
+and `src/overlays/french_model_variant/variant685_entry.c` builds both
+slots; each image's symbols file binds `ModelVariant668_HandleRequest`,
+`gModelVariant668_D10DC` and `gModelVariant668_D10F8` with the data labels
+0x28 lower. The uncalled function at
 0x3520 and the data after it stay in place; in the two model-447 images that
 helper keeps its accepted French C (`variant447_rings.c`, GCC 2.7.2 CDK)
-through `variant685_rings{,_slot1}.c`, which alias the five resident names
-it shares with the entry and bind them in
-`model_variant685_rings_linker_symbols.txt`.
+directly. Its five calls into the older resident layout use the `Rings447_*`
+names declared in `variant447_rings.h`, which
+`model_variant685_rings_linker_symbols.txt` binds at those addresses.
 
 Two images under French headers 179 and 309 are the North American
 header-162 entry (`model_variant/variant162us_entry.c`) without its

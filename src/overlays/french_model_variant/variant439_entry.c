@@ -5,7 +5,7 @@
 #define MODEL_VARIANT439_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant439EntryState *work = (Variant439EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -43,7 +43,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant439EntryConfig *)(D_8013DC90 + 0xFC) + command;
+        work->config = (Variant439EntryConfig *)(gFrenchModelVariant439_D2C90 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -61,14 +61,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT439_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT439_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DC90 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant439_D2C90 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DC90 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DC90 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant439_D2C90 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant439_D2C90 + 0x1C));
         curtain_page = packed >> 16;
         curtain_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DC90 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant439_D2C90 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -323,13 +323,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013CE7C((u8 *)point);
+            ModelVariant422_DrawSheets((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013D878((u8 *)point);
+            ModelVariant422_DrawCurtains((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013C704((u8 *)point);
+            ModelVariant422_DrawBands((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
