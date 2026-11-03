@@ -36,7 +36,7 @@
    shows the game produces a larger index and widening the array would change
    the bytes.
 
-   D_80090E0C's first seven words are the divisor ladder
+   gText_DecimalDivisorView's first seven words are the divisor ladder
    Text_EncodeDecimalDigits indexes by digit count and then walks with
    d /= TEXT_DECIMAL_RADIX: 1, 1, 10, 100, 1000, 10000, 100000.
 
@@ -52,7 +52,7 @@ void (*gBuildDeck_apfnStepHandlers[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdateExitConfirmation,
 };
 
-s32 D_80090E0C[] = {
+s32 gText_DecimalDivisorView[] = {
     /* The divisor ladder, indexed by digit count. */
     0x00000001,
     0x00000001,

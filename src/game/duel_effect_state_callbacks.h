@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* Fifteen entries of the D_80090E64 text-box state table, plus the choice
+/* Fifteen entries of the gTextBox_apfnStateCallbacks text-box state table, plus the choice
  * object constructor used by the first interaction state. Each callback takes
  * the state record, tests or sets its 0x51 byte, and advances from there.
  *

@@ -452,7 +452,7 @@ address,size,name,status,module,notes
 0x8003771C,0x90,Text_StartViewportTween,matching_c,game,"Exact pure-C duel-effect value setup. Reads three script halfwords, normalizes the middle value above 0x1000 while selecting object state 10, then sets the global effect state and countdown to 7."
 0x800377AC,0x1C,TextBox_WaitForScriptCompletion,matching_c,game,First -O2 -G8 conditional-byte-store candidate matched.
 0x800377C8,0xB4,Text_ContinueDisplayEffect,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003787C,0x5C,Text_WaitForDisplayEffectAndRelease,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations. Its g8_split and g8 objects are byte-identical; grouped between the other D_80090E64 callbacks.
+0x8003787C,0x5C,Text_WaitForDisplayEffectAndRelease,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations. Its g8_split and g8 objects are byte-identical; grouped between the other gTextBox_apfnStateCallbacks callbacks.
 0x800378D8,0x3C,Text_WaitForDisplayEffect,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037914,0x3C,Text_RequestDisplayEffectFadeOut,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037950,0x3C,Text_RequestDisplayEffectCrossfade,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

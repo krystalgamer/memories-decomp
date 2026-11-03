@@ -31,7 +31,7 @@
  * exceed that bound, so the public declaration remains unsized.
  */
 
-TextBoxStateCallback D_80090E64[] = {
+TextBoxStateCallback gTextBox_apfnStateCallbacks[] = {
     Dialog_UpdateChoice,
     Dialog_UpdateChoice,
     Text_CompletePageAdvance,

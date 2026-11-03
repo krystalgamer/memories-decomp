@@ -32,20 +32,19 @@ contract without claiming that every possible key must be a polygon kind.
 The signed numeric handler word is not converted to a function pointer,
 and no callback ABI, map implementation, validation, or storage is added.
 
-`model.h` declares only the canonical fixed-count view, with no assembler
-label. The seven resident linker inputs export the canonical name as an
-alias to the retained native provider:
+`model.h` declares the canonical fixed-count array, which
+`model_handler_registry.c` defines. The other resident images bind the same
+name directly; there is no link alias to a second name:
 
-| Image | Existing provider address |
+| Image | Address |
 | --- | --- |
 | North America | `0x800F5918` |
 | Japan | `0x800F2FF0` |
 | United Kingdom | `0x800F6880` |
 | France, Germany, Italy, Spain | `0x800F6C88` |
 
-The NA provider is an absolute symbol. It is not replaced by a C definition
-or assigned a fabricated ELF size. The 80-entry type remains the existing
-view, not a new allocation or exclusive-ownership claim.
+The 80-entry type is the existing extent, not a new allocation or
+exclusive-ownership claim.
 
 ## Image records and the CLUT-data pointer
 

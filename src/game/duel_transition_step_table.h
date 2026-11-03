@@ -9,9 +9,9 @@ struct BuildDeckTransitionState;
    declared here so the source that defines them and the two that read them
    cannot drift apart. */
 extern void (*gBuildDeck_apfnStepHandlers[])(struct BuildDeckTransitionState *);
-extern s32 D_80090E0C[];
+extern s32 gText_DecimalDivisorView[];
 
 /* Logical divisor-prefix view; the opaque suffix keeps its native owner. */
-#define gText_DecimalDivisorView D_80090E0C
+#define gText_DecimalDivisorView gText_DecimalDivisorView
 
 #endif

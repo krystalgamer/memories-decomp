@@ -37,7 +37,7 @@ Verified channel fields used by matching C include:
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
-| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
+| `0x51` | `state_51` | low five bits dispatch `gTextBox_apfnStateCallbacks` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
@@ -334,7 +334,7 @@ Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
 the record through `TextBoxStateCallback`, defined with the other game-owned
 text/script value types in `ygo_types.h` and declared
-`void (*)(DuelEffectChannel *)`; all eighteen entries of `D_80090E64` have
+`void (*)(DuelEffectChannel *)`; all eighteen entries of `gTextBox_apfnStateCallbacks` have
 typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.

@@ -4,9 +4,9 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-extern TextBoxStateCallback D_80090E64[];
+extern TextBoxStateCallback gTextBox_apfnStateCallbacks[];
 
 /* Expand through the existing Japanese native-name adapter as well. */
-#define gTextBox_apfnStateCallbacks D_80090E64
+#define gTextBox_apfnStateCallbacks gTextBox_apfnStateCallbacks
 
 #endif

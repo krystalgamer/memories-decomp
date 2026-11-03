@@ -520,9 +520,9 @@ typedef struct DuelEffectChannel {
     u8 pad_0B;
     u16 local_x;
     u16 local_y;
-    /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
+    /* The object's slot in the gDuelEffect_aOccupancyValues occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
-       tent_DuelEffectOccupancy[glyph_index] and zeroes
+       gDuelEffect_aOccupancyValues[glyph_index] and zeroes
        entry_flags when it releases the slot. */
     u8 glyph_index;
     u8 entry_flags;
@@ -555,7 +555,7 @@ typedef struct DuelEffectChannel {
     /* The glyph buffer Text_PushFormattedDecimal formats a decimal number into; it then
        pushes the buffer as the channel's next stream. */
     u8 decimal_buffer[0x0D];
-    /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
+    /* TextBox_BuildStep dispatches on the low five bits through gTextBox_apfnStateCallbacks.
        0x80 is an initialization latch used by the waiting callbacks. */
     u8 playback_state;
     /* Reloaded from glyph_delay during glyph parsing; the CD-sound wait also

@@ -42,7 +42,7 @@
  * Two hundred and forty bytes is well over the -G8 threshold, so unlike the
  * small arrays elsewhere in this tree the bound here costs nothing: it does
  * not move the object between sections. */
-extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
+extern u8 gDuelEffect_aOccupancyValues[DUEL_EFFECT_OCCUPANCY_COUNT];
 
 extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 /* Channel `index` of gText_aChannels. Japan's channel records are 0x60

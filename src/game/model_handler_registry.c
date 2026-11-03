@@ -17,7 +17,7 @@
 
 /* Zero-initialized storage this unit owns at 0x800F5918-0x800F5B98, defined in
  * address order ahead of the headers that declare it (#2602). */
-ModelHandlerRegistryEntry tent_ModelHandlerRegistry[80];
+ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
 
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"

@@ -141,7 +141,6 @@ gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
 
-gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
@@ -157,10 +156,8 @@ gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
-gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = 0x80090D14;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;

@@ -12,7 +12,6 @@
 #endif
 extern DUEL_EFFECT_ENTRY_STORAGE_TYPE
     gDuelEffect_aEntries[DUEL_EFFECT_ENTRY_STORAGE_COUNT];
-extern u8 gDuelEffect_aOccupancyValues[DUEL_EFFECT_OCCUPANCY_COUNT];
 
 /* The shared compaction-request word. DuelEffect_ProcessEntries clears it
  * before invoking entry handlers; DisplayObjectFade_ReleaseChannel raises it.

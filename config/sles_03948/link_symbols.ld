@@ -69,8 +69,8 @@ gDebugMenu_szMenuEditorFormat = 0x8009215C;
 gDebugMenu_szMovieEditorFormat = 0x80092178;
 gCardList_SortIconTable = 0x80092214;
 gBuildDeck_apfnStepHandlers = 0x80092234;
-D_80090E0C = 0x80092248;
-D_80090E64 = 0x80092270;
+gText_DecimalDivisorView = 0x80092248;
+gTextBox_apfnStateCallbacks = 0x80092270;
 gText_apfnPrimaryCommands = 0x8009232C;
 gDisplayEffect_apfnSteps = 0x80092394;
 gDialog_apfnTransitionSteps = 0x800923B4;
@@ -952,7 +952,7 @@ gMemCardDialog_Port = 0x8009C74D;
 gMemCardDialog_TransferOffset = 0x8009C754;
 gMemCardDialog_TransferSize = 0x8009C752;
 gModel_aCameraOrbitPresets = 0x80092454;
-tent_ModelHandlerRegistry = 0x800F6C88;
+gModel_aHandlerKeyRegistry = 0x800F6C88;
 gModel_aTintRequests = 0x800F4088;
 gSD_awNotePitchTable = 0x80010760;
 gSceneScript_RecordCallbacks = 0x800920C4;
@@ -1061,11 +1061,8 @@ gText_aGlyphLookup = tent_GlyphLookupTable;
 gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
-gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gText_DecimalDivisorView = D_80090E0C;
-gTextBox_apfnStateCallbacks = D_80090E64;
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
 gMain_nServiceResyncCountdown = runtime_gp;
