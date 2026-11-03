@@ -61,11 +61,11 @@ extern u8 gModelDebug_abSlotAfFlags[2];
 extern u8 gModelDebug_abSlotGfFlags[2];
 #endif
 
-/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
+/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F56A0, defined in
  * address order ahead of the headers that declare it (#2602). */
 ModelCameraMove gModel_CameraMove;
 ModelTintRequest gModel_aTintRequests[10];
-u8 D_800F2C40[0xCF8];
+ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 #include "model_slot_control.h"
 #include "model_get_frame_step.h"

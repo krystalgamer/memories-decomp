@@ -220,7 +220,7 @@ gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 /* Names inside input_pads's own storage (#2602). */
 gInput_abRepeatTimers = D_800ECD88_slpm_86398;
 gViewState_Current = D_800EFE38 + 10768;
-D_800F5694 = D_800F3A10 + 7300;
+D_800F5694 = gModel_aSlots + 10836;
 D_800F3288 = gAiScript_aMemory + 24;
 gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
 gDisplayObject_aPool = D_800EFE38 + 16;
@@ -230,16 +230,12 @@ gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
 gMemCardWork_Area = D_800EF6D0;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 gMemCard_aDirEntries = D_800F2888;
-gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
-gModel_RView = D_800F3A10 + 7392;
-gModel_SavedRefView = D_800F3A10 + 7424;
-gModel_Slot0MetadataView = D_800F3938;
-gModel_Slot0Scale = D_800F39B0 + 64;
-gModel_ViewReferencePoint = D_800F3A10 + 7404;
-gModel_aSlot0FlatLights = D_800F39B0;
-gModel_aSlots = D_800F2C40;
-gModel_awSlot0Position = D_800F3A10;
-gModel_awStageSlotModelId = D_800F3A10 + 7272;
+gModel_Slot0MetadataView = gModel_aSlots + 3320;
+gModel_Slot0Scale = gModel_aSlots + 3504;
+gModel_ViewReferencePoint = gModel_RView + 12;
+gModel_aSlot0FlatLights = gModel_aSlots + 3440;
+gModel_awSlot0Position = gModel_aSlots + 3536;
+gModel_awStageSlotModelId = gModel_aSlots + 10808;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
 gModel_ImageCopyRect = D_8009B368_slpm_86398;

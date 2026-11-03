@@ -1,11 +1,18 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x800F3A10-0x800F5750, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800F3A10[0x1D40];
-
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "../psyq/memory.h"
+
+/* Zero-initialized storage this unit owns at 0x800F56A0-0x800F5750, right
+ * after gModel_aSlots, defined in address order ahead of the headers that
+ * declare it (#2602); nothing in the image names the last 0x20 bytes. */
+GsCOORDUNIT gModel_CameraCoordinateUnit;
+GsRVIEW2 gModel_RView;
+GsRVIEW2 gModel_SavedRefView;
+static u8 D_800F5730[0x20];
 
 #include "model.h"
 #include "camera_view.h"

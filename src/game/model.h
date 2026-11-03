@@ -901,6 +901,12 @@ typedef char ModelCameraOrbitPreset_halfword_layout_must_match[
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
 extern ModelCameraOrbitPreset gModel_aCameraOrbitPresets[];
 #endif
+/* Declared in address order: model_scene_controllers.c defines all three
+ * after including this header, and GCC emits them in declaration order. */
+extern ModelCameraMove gModel_CameraMove;
+#ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
+extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
+#endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
@@ -931,10 +937,6 @@ extern ModelSlotCF8TailView gModel_Slot0MetadataView;
 extern ModelSlotLightEntry gModel_aSlot0FlatLights[3];
 extern ModelSlotS32Quad gModel_Slot0Scale;
 extern u16 gModel_awSlot0Position[];
-#endif
-extern ModelCameraMove gModel_CameraMove;
-#ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
-extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
 #endif
 
 extern ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[MODEL_HANDLER_REGISTRY_COUNT];

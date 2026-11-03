@@ -184,8 +184,8 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gModel_bAuxiliaryLoadStep = D_800F3A10 + 7300;
-gModel_bAuxiliaryActive = D_800F3A10 + 7311;
+gModel_bAuxiliaryLoadStep = gModel_aSlots + 10836;
+gModel_bAuxiliaryActive = gModel_aSlots + 10847;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
 gMain_nServiceResyncCountdown = runtime_gp;
@@ -248,26 +248,22 @@ gDisplayObject_awListKeys = D_800EFE38 + 10816;
 gMemCard_aDirEntries = D_800F2888;
 
 /* Other names for game/model_slot_control's small data (#2602). */
-gModel_Slot0MetadataView = D_800F3938;
+gModel_Slot0MetadataView = gModel_aSlots + 3320;
 
 /* Other names for game/model_slot_support's small data (#2602). */
-gModel_aSlot0FlatLights = D_800F39B0;
-gModel_Slot0Scale = D_800F39B0 + 64;
+gModel_aSlot0FlatLights = gModel_aSlots + 3440;
+gModel_Slot0Scale = gModel_aSlots + 3504;
 
 /* Other names for game/model_distance_queries's small data (#2602). */
-gModel_awSlot0Position = D_800F3A10;
-gModel_awStageSlotModelId = D_800F3A10 + 7272;
-gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
-gModel_RView = D_800F3A10 + 7392;
-gModel_ViewReferencePoint = D_800F3A10 + 7404;
-gModel_SavedRefView = D_800F3A10 + 7424;
+gModel_awSlot0Position = gModel_aSlots + 3536;
+gModel_awStageSlotModelId = gModel_aSlots + 10808;
+gModel_ViewReferencePoint = gModel_RView + 12;
 
 /* Other names for game/model_keyframe_update's small data (#2602). */
 
 /* Other names for game/ai_script_vm's small data (#2602). */
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
-gModel_aSlots = D_800F2C40;
 g_SDValue_output_level = g_SDValue;
 
 /* Other names for game/input_pads's small data (#2602). */

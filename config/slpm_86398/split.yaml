@@ -513,9 +513,7 @@ segments:
       - [0xe09f8, .bss, game/movie_stream_requests]
       - [0xe0a10, .bss, game/japanese/model_keyframe_update]
       - [0xe0bc0, .bss, game/japanese/model_scene_controllers]
-      - [0xe19d8, .bss, game/japanese/model_slot_control]
-      - [0xe1a50, .bss, game/model_slot_support]
-      - [0xe1ab0, .bss, game/model_distance_queries]
+      - [0xe3740, .bss, game/model_distance_queries]
       - [0xe37f0, .bss, game/japanese/model_handler_dispatch]
       - [0xe3a70, .bss, game/ai_script_vm]
       - {start: 0xe3b94, type: bin, name: bss_image_800f3394, linker_section_order: .bss}
