@@ -123,7 +123,6 @@ D_801D9174_b = 0x801D9174;
 D_801D9174 = 0x801D9174;
 gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
-gMain_bModeRunnerStep = 0x8009B26E;
 
 
 

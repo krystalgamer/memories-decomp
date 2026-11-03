@@ -386,7 +386,6 @@ gMovie_StreamLoc = 0x8009C81C;
 gEuropean_D_8009B4A0 = 0x8009C820;
 gEuropean_D_8009B4A1 = 0x8009C821;
 gEuropean_D_8009B4A2 = 0x8009C822;
-gGraphics_apOrderingTables = 0x8009C858;
 gMain_RecoveryJmpBuf = 0x8009C868;
 gMain_apFrameServiceCallbacks = 0x8009C898;
 gGraphics_DispEnv = 0x8009C8A8;
@@ -730,73 +729,11 @@ g_SDValue_output_level = g_SDValue;
 /* Names inside graphics_frame's own storage (#2602). */
 D_8009B0A8 = D_8009C02A_sles_03947;
 
-/* Names inside file_transfer_runtime's own storage (#2602). */
-gFile_wStepState = D_8009C044_sles_03947;
-gFile_FilterParams = D_8009C048_sles_03947;
-D_8009B108 = D_8009C04C_sles_03947;
-D_8009B110 = D_8009C054_sles_03947;
-gFile_wTransferStepFlags = D_8009C05C_sles_03947;
-gFile_ServiceCallGate = D_8009C070_sles_03947;
-gFile_RangeWaitCountdown = D_8009C078_sles_03947;
-gFile_ReadyEventCount = D_8009C08C_sles_03947;
-
-/* Names inside fade_runtime's own storage (#2602). */
-
-/* Names inside duel_field_card_render's own storage (#2602). */
-gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
-gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
-gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
-gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
-gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
-
-/* Names inside duel_effect_dialog_state's own storage (#2602). */
-
-/* Names inside duel_effect_object_pool's own storage (#2602). */
-gDuel_bEffectRequestStatus = D_8009C1D8_sles_03947;
-
-/* Names inside script_command_busy's own storage (#2602). */
-
-/* Names inside script_op_load_image_scene's own storage (#2602). */
-gScript_ImageOperand = D_8009C210_sles_03947;
-gCampaignSceneIndex = D_8009C218_sles_03947;
-gScript_WaitCounter = D_8009C220_sles_03947;
-
-/* Names inside debug_menu_editor_entries's own storage (#2602). */
-
-/* Names inside sorted_entry_relink's own storage (#2602). */
-
-/* Names inside mem_card_dialog's own storage (#2602). */
-
 /* Names inside graphics_frame's own storage (#2602). */
 D_800E9D70 = gGraphics_aImageTransferRects;
 
-/* Names inside file_transfer_runtime's own storage (#2602). */
-
-/* Names inside fade_runtime's own storage (#2602). */
-
-/* Names inside duel_field_card_render's own storage (#2602). */
-
-/* Names inside duel_effect_process_entries's own storage (#2602). */
-
-/* Names inside text_box_runtime's own storage (#2602). */
-
-/* Names inside input_pads's own storage (#2602). */
-
-/* Names inside mem_card_dialog's own storage (#2602). */
-
-/* Names inside display_object_core's own storage (#2602). */
-
-/* Names inside mem_card_driver's own storage (#2602). */
-
-/* Names inside movie_frame_pipeline's own storage (#2602). */
-gMovie_StreamLoc = D_8009C81C_sles_03948;
-gEuropean_D_8009B4A0 = D_8009C820_sles_03948;
-gEuropean_D_8009B4A1 = D_8009C821_sles_03948;
-gEuropean_D_8009B4A2 = D_8009C822_sles_03948;
-
 /* Raw names inside this build's owned zero-initialized storage (#2602). */
 D_spanish_8009C408 = D_8009BFE8_sles_03947;
-D_spanish_8009C860 = gGraphics_apOrderingTables + 8;
 D_spanish_800F6F20 = gAiScript_aMemory;
 gText_DecimalDivisorView = 0x80092248;
 gTextBox_apfnStateCallbacks = 0x80092270;
