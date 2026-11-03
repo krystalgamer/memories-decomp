@@ -1,6 +1,6 @@
 # French MODEL417 ribbon helper
 
-`func_8013CE60` / `func_8017CE60` (MODEL417, image offset `0x1E60`, 0x620
+`SpanishModelVariant441_DrawRibbon` (`0x8013CE60` / `0x8017CE60`, MODEL417, image offset `0x1E60`, 0x620
 bytes) is the MODEL417 member of the ribbon helper family. **No release had
 matching C for this body before.** It is a closed stack-prologue helper, and no
 call from the entry was observed.

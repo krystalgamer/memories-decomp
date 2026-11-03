@@ -1,15 +1,15 @@
 # French MODEL441 framebuffer-strip rings
 
-`func_8013F14C` / `func_8017F14C` (image offset `0x414C..0x4754`, 1,544
+`ModelVariant398_DrawRings` (`0x8013F14C` / `0x8017F14C`, image offset `0x414C..0x4754`, 1,544
 bytes) is the last helper before the unclassified tail in all ten French
 MODEL441 images (models 166, 360, 487 and 590 at stages 7/8, model 709 at
 stages 9/10). The entry calls it directly. It is the same routine as the
 accepted North American `variant398_rings.c`: three rings of sixteen
 `POLY_GT4` strips, textured from the frame-buffer half each strip lands on.
 
-The French wrappers `variant441_rings.c` and `variant441_rings_slot1.c` only
-define `VARIANT398_RINGS_LAYOUT_441` and rename the function before including
-the shared source. The difference belongs to the header, not the release,
+The French wrapper `variant441_rings.c` only defines
+`VARIANT398_RINGS_LAYOUT_441` before including the shared source in both
+slots; each image's symbols file binds the name at its own address. The difference belongs to the header, not the release,
 so it is not a `VERSION_FRENCH` arm: the North American header-424
 counterpart (`func_8013F168`) is the same body and is still assembly.
 

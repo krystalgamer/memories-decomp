@@ -9,7 +9,7 @@
    also scales the later rings by n / (count - 1), a branch the single ring never takes. */
 #define MODEL_VARIANT438_RING_COUNT 1
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant438EntryState *work = (Variant438EntryState *)point;
     u8 unknown_stack[64];
@@ -48,7 +48,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant438EntryConfig *)(D_8013F868 + 0xFC) + command;
+        work->config = (Variant438EntryConfig *)(gSpanishModelVariant438_D4868 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -66,15 +66,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT438_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT438_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant438_D4868 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant438_D4868 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant438_D4868 + 0x1C));
         ray_page = packed >> 16;
         ray_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant438_D4868 + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant438_D4868 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -360,16 +360,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->matrix.t[1];
         work->direction.vz = work->target.vz - work->matrix.t[2];
         if (work->config->start <= work->frame) {
-            func_8013EDE8((u8 *)point);
+            SpanishModelVariant438_DrawTargetClampedSheets((u8 *)point);
         }
-        func_8013CB5C((u8 *)point);
+        SpanishModelVariant438_DrawRing((u8 *)point);
         if (work->phase > 0) {
-            func_8013F300((u8 *)point);
-            func_8013E638((u8 *)point);
-            func_8013C614((u8 *)point);
+            SpanishModelVariant438_DrawLines((u8 *)point);
+            SpanishModelVariant438_DrawAdvancingBand((u8 *)point);
+            SpanishModelVariant438_DrawWarpRings((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013DA34((u8 *)point);
+            SpanishModelVariant438_DrawSpiral((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

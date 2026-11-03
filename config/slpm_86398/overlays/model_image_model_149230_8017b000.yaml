@@ -56,63 +56,63 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant424_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant424_entry]
   - name: helper_11c0
     type: code
     start: 0x11C0
     vram: 0x8017C1C0
     align: 4
     subsegments:
-      - [0x11C0, c, overlays/model_variant/variant424_lines_slot1]
+      - [0x11C0, c, overlays/model_variant/variant424_lines]
   - name: helper_1744
     type: code
     start: 0x1744
     vram: 0x8017C744
     align: 4
     subsegments:
-      - [0x1744, c, overlays/model_variant/variant424_tube_slot1]
+      - [0x1744, c, overlays/model_variant/variant424_tube]
   - name: helper_1dec
     type: code
     start: 0x1DEC
     vram: 0x8017CDEC
     align: 4
     subsegments:
-      - [0x1DEC, c, overlays/model_variant/variant424_ribbon_slot1]
+      - [0x1DEC, c, overlays/model_variant/variant424_ribbon]
   - name: helper_2408
     type: code
     start: 0x2408
     vram: 0x8017D408
     align: 4
     subsegments:
-      - [0x2408, c, overlays/model_variant/variant424_rays_slot1]
+      - [0x2408, c, overlays/model_variant/variant424_rays]
   - name: helper_2a3c
     type: code
     start: 0x2A3C
     vram: 0x8017DA3C
     align: 4
     subsegments:
-      - [0x2A3C, c, overlays/model_variant/variant424_sheets_slot1]
+      - [0x2A3C, c, overlays/model_variant/variant424_sheets]
   - name: helper_3068
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/model_variant/variant424_framebuffer_rings_slot1]
+      - [0x3068, c, overlays/model_variant/variant424_framebuffer_rings]
   - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8017E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/model_variant/variant424_spiral_slot1]
+      - [0x3640, c, overlays/model_variant/variant424_spiral]
   - name: helper_4168
     type: code
     start: 0x4168
     vram: 0x8017F168
     align: 4
     subsegments:
-      - [0x4168, c, overlays/model_variant/variant424_rings_slot1]
+      - [0x4168, c, overlays/model_variant/variant424_rings]
   - name: data
     type: code
     start: 0x4774

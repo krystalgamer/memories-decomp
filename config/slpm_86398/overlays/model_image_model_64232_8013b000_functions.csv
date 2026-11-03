@@ -1,9 +1,9 @@
 address,size,name,status,module,notes
-0x8013B004,0x1204,func_8013B004,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C208,0x578,func_8013C208,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C780,0x6F0,func_8013C780,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CE70,0x61C,func_8013CE70,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D48C,0x634,func_8013D48C,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013DAC0,0x62C,func_8013DAC0,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013E0EC,0x674,func_8013E0EC,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013E760,0xCA4,func_8013E760,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x1204,SpanishModelVariant417_HandleRequest,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C208,0x578,SpanishModelVariant417_DrawPhasedLines,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C780,0x6F0,SpanishModelVariant417_DrawTube,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CE70,0x61C,SpanishModelVariant441_DrawRibbon,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D48C,0x634,SpanishModelVariant417_DrawRays,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013DAC0,0x62C,SpanishModelVariant441_DrawRainbowSheets,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013E0EC,0x674,FrenchModelVariant417_DrawFramebufferFeedback,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013E760,0xCA4,SpanishModelVariant417_DrawSpiral,matching_c,overlay/model_image_model_64232_8013b000,Complete module byte identity and section-defined C ownership verified.

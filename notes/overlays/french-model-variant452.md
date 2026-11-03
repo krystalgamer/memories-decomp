@@ -80,8 +80,8 @@ bodies within that slot. Slot-zero helper SHA-256:
 slot-one:
 `b3f9c892287204f7f77620addcb12fc8bdd90c59a0830ab0375dc0c1697264cc`.
 
-The shared C body and symbol-only slot wrapper are selected separately in
-each image manifest. Full production-image equality and sized linked C
+Each image manifest selects the shared C body for both slots, and each
+image's symbols file binds its names at its own addresses. Full production-image equality and sized linked C
 ownership, not isolated text matching alone, are required for terminal
 `matched` ledger records.
 
@@ -97,8 +97,9 @@ bodies. The prior 317 registrations are unchanged.
 ## Sheet helper
 
 The first independently measured sheet candidate matches all 1,084 bytes
-with a 256-byte frame in each of the six linked instances. The slot wrapper
-only renames `func_8013C0E0` to `func_8017C0E0`. The accepted
+with a 256-byte frame in each of the six linked instances. One source serves
+both slots; each image binds `FrenchModelVariant452_DrawSheets` at
+`0x8013C0E0` or `0x8017C0E0`. The accepted
 `ModelVariantSheet` record is reused unchanged: four corner arrays at
 `0`, `0x20`, `0x40` and `0x60`, outer/inner colors at `0x80`/`0x84`, scale at
 `0x88`, and stride `0x98`.

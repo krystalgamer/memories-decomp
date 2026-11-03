@@ -1,6 +1,6 @@
 # French MODEL444 beams helper
 
-`func_8013C4E8` / `func_8017C4E8` (MODEL444 family, image offset `0x14E8`,
+`SpanishModelVariant411_DrawBeams` (`0x8013C4E8` / `0x8017C4E8`, MODEL444 family, image offset `0x14E8`,
 0x8DC bytes) draws the sixteen two-point beams of the accepted Spanish
 header-411 helper ([Spanish MODEL411 beams](spanish-model-variant411-beams.md)).
 

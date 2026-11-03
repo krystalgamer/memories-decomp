@@ -1,13 +1,9 @@
 #include "../../types.h"
 #include "variant452_entry.h"
 
-/* The entry's data block.  D_8013D3E4 is where this module's unclassified tail
- * starts, at a helper that the module does not split out yet, 0xA30 bytes
- * before the block.  The North American build points this at its own data
- * symbol. */
-#ifndef MODEL_VARIANT452_DATA
-#define MODEL_VARIANT452_DATA (D_8013D3E4 + 0xA30)
-#endif
+/* gFrenchModelVariant452_D2E14 is the entry's data block. In the PAL images it starts 0xA30
+ * bytes into the unclassified tail, after a helper that the module does not
+ * split out yet; each image binds it at its own address. */
 
 /* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
  * the North American ones. */
@@ -19,7 +15,7 @@
  * sheet, rings, spoke rings and a fan, plus sixteen streamers and trails
  * for the three per-frame helpers. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant452EntryState *work = (Variant452EntryState *)point;
     /* Preserve the native frame, including two unused matrices. */
@@ -55,7 +51,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant452EntryConfig *)(MODEL_VARIANT452_DATA + 0xFC) + command;
+        work->config = (Variant452EntryConfig *)(gFrenchModelVariant452_D2E14 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -73,12 +69,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT452_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT452_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant452_D2E14 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x8C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant452_D2E14 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant452_D2E14 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant452_D2E14 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -332,10 +328,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->position.vy,
                   work->target.vz - work->position.vz);
         if (work->config->start <= work->frame) {
-            func_8013C0E0((u8 *)point);
-            func_8013C51C((u8 *)point);
+            FrenchModelVariant452_DrawSheets((u8 *)point);
+            FrenchModelVariant452_DrawStreamers((u8 *)point);
             if (work->phase > 0) {
-                func_8013D010((u8 *)point);
+                FrenchModelVariant452_DrawLines((u8 *)point);
             }
         }
         work->frame_count++;

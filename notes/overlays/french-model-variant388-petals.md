@@ -1,6 +1,6 @@
 # French MODEL388 petals helper
 
-`func_8013D410` / `func_8017D410` (MODEL388 family, image offset `0x2410`,
+`FrenchModelVariant388_DrawPetals` (`0x8013D410` / `0x8017D410`, MODEL388 family, image offset `0x2410`,
 0xA6C bytes) builds twelve petal arms, projects them and draws them, then
 advances the bloom. **No release had matching C for this body before.**
 

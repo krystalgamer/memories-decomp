@@ -1332,12 +1332,13 @@ French MODEL headers 191 (stage 9 slot 0) and 321 (stage 10 slot 1) build the US
 
 French MODEL headers 383 (stage 9 slot 0) and 533 (stage 10 slot 1) now also build their entry (`ModelVariant366_HandleRequest`, 0xCB8 bytes) from the US header-366 source `src/overlays/model_variant/variant366_entry.c` through `src/overlays/french_model_variant/variant383_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640, and each image binds the helper and GsIMAGE/command table names at its own addresses (helpers 0x8013BCBC/0x8013C91C/0x8013D8FC, tables 0xC higher).
 
-Six images under French headers 452 and 602 build their loader entry from
-French C, `src/overlays/french_model_variant/variant452_entry.c` (slot 1
-through `variant452_entry_slot1.c`), alongside the already-matched sheets,
-streamers and lines helpers. The entry has no work-size printf; its command
-rows and texture images are offsets into the image's tail data
-(`D_8013D3E4`).
+Six images under French headers 452 and 602 build their loader entry
+(`FrenchModelVariant452_HandleRequest`) from French C,
+`src/overlays/french_model_variant/variant452_entry.c` in both slots,
+alongside the already-matched sheets, streamers and lines helpers. The entry
+has no work-size printf; its command rows and texture images are offsets into
+the data block `gFrenchModelVariant452_D2E14`, which each image's symbols
+file binds 0xA30 bytes into the unclassified tail (`D_8013D3E4`).
 
 Six images under French headers 456 and 606 build their loader entry
 (`SpanishModelVariant456_HandleRequest`) from

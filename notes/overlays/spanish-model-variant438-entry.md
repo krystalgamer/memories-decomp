@@ -3,10 +3,11 @@
 Loader entry `+0x0004..+0x1614` is matching C. It is 5,648 bytes in the
 twelve Spanish MODEL438-family images (MODEL147, 211 and 610 stages 7/8;
 MODEL263, 525 and 632 stages 9/10) and the twelve French images that carry
-the identical body at the same offsets. `variant438_entry.c` is compiled
-once per slot with `gcc_2_8_1_g0_split`. The slot-1 wrapper only renames the
-descriptor base `D_8013F868` and the entry and helper symbols to their
-`0x8017....` addresses. This is a new decompilation; no region had accepted
+the identical body at the same offsets. `variant438_entry.c`
+(`SpanishModelVariant438_HandleRequest`) is compiled once per slot with
+`gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
+and the descriptor base (`gSpanishModelVariant438_D4868`) at its own
+addresses. This is a new decompilation; no region had accepted
 C for it. With the entry in C, every game-owned function in these images is
 now C.
 

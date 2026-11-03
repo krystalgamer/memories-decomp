@@ -56,13 +56,13 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant400_entry_slot1]
-      - [0x1208, c, overlays/model_variant/variant400_lines_slot1]
-      - [0x1780, c, overlays/model_variant/variant400_tube_slot1]
-      - [0x1E70, c, overlays/model_variant/variant400_ribbon_slot1]
-      - [0x248C, c, overlays/model_variant/variant400_rays_slot1]
-      - [0x2AC0, c, overlays/model_variant/variant400_sheets_slot1]
-      - [0x30EC, c, overlays/model_variant/variant400_feedback_slot1]
-      - [0x3760, c, overlays/model_variant/variant400_spiral_slot1]
+      - [0x4, c, overlays/model_variant/variant400_entry]
+      - [0x1208, c, overlays/model_variant/variant400_lines]
+      - [0x1780, c, overlays/model_variant/variant400_tube]
+      - [0x1E70, c, overlays/model_variant/variant400_ribbon]
+      - [0x248C, c, overlays/model_variant/variant400_rays]
+      - [0x2AC0, c, overlays/model_variant/variant400_sheets]
+      - [0x30EC, c, overlays/model_variant/variant400_feedback]
+      - [0x3760, c, overlays/model_variant/variant400_spiral]
       - [0x4404, data, overlays/japanese_model_image_model_84094_8017b000/data]
   - [0x5000]

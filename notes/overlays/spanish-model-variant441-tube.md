@@ -1,6 +1,6 @@
 # Spanish MODEL441 tubular mesh
 
-`func_8013C73C` / `func_8017C73C`, `+173C..+1DDC`, is a 1,696-byte independently
+`SpanishModelVariant441_DrawTubularMesh` (`0x8013C73C` / `0x8017C73C`), `+173C..+1DDC`, is a 1,696-byte independently
 recovered tubular-mesh helper in the ten MODEL441 images listed in the instance
 CSV. A fresh screen of 6,009 configured regional C entries found no same-size
 body. No regional C was ported. The existing GCC 2.8.1 / MASPSX 2.81

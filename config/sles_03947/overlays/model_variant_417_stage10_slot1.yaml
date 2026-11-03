@@ -56,56 +56,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant459_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant459_entry]
   - name: helper_13E0
     type: code
     start: 0x13E0
     vram: 0x8017C3E0
     align: 4
     subsegments:
-      - [0x13E0, c, overlays/spanish_model_variant/variant459_warp_slot1]
+      - [0x13E0, c, overlays/spanish_model_variant/variant459_warp]
   - name: helper_19AC
     type: code
     start: 0x19AC
     vram: 0x8017C9AC
     align: 4
     subsegments:
-      - [0x19AC, c, overlays/spanish_model_variant/variant459_curtains_slot1]
+      - [0x19AC, c, overlays/spanish_model_variant/variant459_curtains]
   - name: helper_1FB8
     type: code
     start: 0x1FB8
     vram: 0x8017CFB8
     align: 4
     subsegments:
-      - [0x1FB8, c, overlays/spanish_model_variant/variant459_rays_slot1]
+      - [0x1FB8, c, overlays/spanish_model_variant/variant459_rays]
   - name: helper_2604
     type: code
     start: 0x2604
     vram: 0x8017D604
     align: 4
     subsegments:
-      - [0x2604, c, overlays/spanish_model_variant/variant459_spiral_slot1]
+      - [0x2604, c, overlays/spanish_model_variant/variant459_spiral]
   - name: helper_3224
     type: code
     start: 0x3224
     vram: 0x8017E224
     align: 4
     subsegments:
-      - [0x3224, c, overlays/spanish_model_variant/variant459_bands_slot1]
+      - [0x3224, c, overlays/spanish_model_variant/variant459_bands]
   - name: helper_3A24
     type: code
     start: 0x3A24
     vram: 0x8017EA24
     align: 4
     subsegments:
-      - [0x3A24, c, overlays/spanish_model_variant/variant459_sheets_slot1]
+      - [0x3A24, c, overlays/spanish_model_variant/variant459_sheets]
   - name: helper_3FE0
     type: code
     start: 0x3FE0
     vram: 0x8017EFE0
     align: 4
     subsegments:
-      - [0x3FE0, c, overlays/spanish_model_variant/variant459_lines_slot1]
+      - [0x3FE0, c, overlays/spanish_model_variant/variant459_lines]
   - name: unclassified_tail
     type: code
     start: 0x4548

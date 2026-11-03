@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant388_feedback.h"
 
-void func_8013CE9C(u8 *context)
+void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

@@ -12,7 +12,7 @@
  * parts and runs the strips, ribbons, sheets, petals and feedback helpers.
  * The screen words are read as scalar longs so the index store can be
  * scheduled ahead of their loads. */
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant388EntryState *work = (Variant388EntryState *)point;
     u8 unknown_stack[64];
@@ -44,7 +44,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = (Variant388EntryConfig *)(D_8013DE7C + 0xFC) + command;
+        work->config = (Variant388EntryConfig *)(gSpanishModelVariant388_D2E7C + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -62,15 +62,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT388_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT388_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant388_D2E7C + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant388_D2E7C + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant388_D2E7C + 0x1C));
         paged_page = packed >> 16;
         paged_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant388_D2E7C + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant388_D2E7C + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -247,17 +247,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->direction.vx = work->target.vx - work->matrix.t[0];
             work->direction.vy = work->target.vy - work->matrix.t[1];
             work->direction.vz = work->target.vz - work->matrix.t[2];
-            func_8013D410((u8 *)point);
+            FrenchModelVariant388_DrawPetals((u8 *)point);
             if (work->config->sheet_start <= work->frame) {
-                func_8013C9A4((u8 *)point);
+                SpanishModelVariant388_DrawSheets((u8 *)point);
             }
             if (work->phase > 0) {
-                func_8013C344((u8 *)point);
-                func_8013BCD4((u8 *)point);
+                SpanishModelVariant388_DrawRibbonFan((u8 *)point);
+                FrenchModelVariant388_DrawStrips((u8 *)point);
             }
         }
         if (work->phase >= 2) {
-            func_8013CE9C((u8 *)point);
+            SpanishModelVariant388_DrawFeedbackStrips((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

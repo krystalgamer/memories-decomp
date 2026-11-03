@@ -1,6 +1,6 @@
 # Spanish MODEL441 retained Gouraud lines
 
-`func_8013C1BC` / `func_8017C1BC`, offsets `0x11BC..0x173C`, is independently
+`SpanishModelVariant441_DrawLines` (`0x8013C1BC` / `0x8017C1BC`), offsets `0x11BC..0x173C`, is independently
 recovered game-owned C: 1,408 instruction bytes in each of ten physical loads.
 The fresh pre-integration screen covered 5,983 configured regional C entries;
 none of the four same-size bodies had its normalized instruction shape.

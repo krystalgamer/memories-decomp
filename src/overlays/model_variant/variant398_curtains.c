@@ -5,7 +5,7 @@
 /* Header 398's form of the header-422 curtains: each frame the two rows of
  * every shown curtain are rebuilt around the rotating angle at work + 0x1A2C,
  * the outer row lifted by the first sheet's size when flag bit 0 is set. */
-void func_8013DA44(u8 *ctx)
+void ModelVariant398_DrawCurtains(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

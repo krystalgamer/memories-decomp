@@ -61,8 +61,8 @@ typedef struct {
     s16 slot, command;
 } EntryState411;
 
-void func_8013BE60(u8 *context);
-void func_8013CE58(u8 *context);
-void func_8013D4A4(u8 *context);
+void FrenchModelVariant411_DrawTube(u8 *context);
+void SpanishModelVariant411_DrawFadingSheets(u8 *context);
+void SpanishModelVariant411_DrawFunnels(u8 *context);
 
 #endif

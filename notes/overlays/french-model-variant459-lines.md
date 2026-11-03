@@ -1,6 +1,6 @@
 # French MODEL459 line helper
 
-`func_8013EFE0` / `func_8017EFE0` (image offset `0x3FE0`, 0x568 bytes) is the
+`SpanishModelVariant459_DrawLines` (`0x8013EFE0` / `0x8017EFE0`, image offset `0x3FE0`, 0x568 bytes) is the
 MODEL459 member of the "lines" helper family. **No release had matching C for
 this body before.**
 

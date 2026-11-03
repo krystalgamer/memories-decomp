@@ -4,7 +4,7 @@
 
 /* Header 425's form of the header-418 webs: 5x6 grids projected with
  * RotTransPers3, faded past scale 0x800 and grown to 0x1000. */
-void func_8013D8F8(u8 *ctx)
+void ModelVariant425_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

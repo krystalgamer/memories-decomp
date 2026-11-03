@@ -92,7 +92,7 @@ snapshots are separate.
 ## Entry-reachable smaller-web follow-up
 
 The accepted `variant425_webs.c` compiles unchanged to 964 French bytes.
-Two wrappers rename `func_8013D8F8` to `func_8013D924/func_8017D924`.
+Each image's symbols file binds `ModelVariant425_DrawWebs` at `0x8013D924` or `0x8017D924`.
 All four complete canonical images match after replacing only the assembly
 owner at `0x2924..0x2CE8`, adding four C instances / 3,856 instruction
 bytes. No module records, hashes, function boundaries, resident bindings,

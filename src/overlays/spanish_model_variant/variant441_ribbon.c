@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant441_ribbon.h"
 
-void func_8013CDDC(u8 *context)
+void SpanishModelVariant441_DrawRibbon(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

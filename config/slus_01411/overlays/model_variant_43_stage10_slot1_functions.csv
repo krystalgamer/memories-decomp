@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x8017B004,0xCD4,func_8017B004,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017BCD8,0x66C,func_8017BCD8,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C344,0x648,func_8017C344,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C98C,0x4FC,func_8017C98C,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017CE88,0x57C,func_8017CE88,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D404,0xA3C,func_8017D404,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xCD4,SpanishModelVariant388_HandleRequest,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017BCD8,0x66C,FrenchModelVariant388_DrawStrips,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C344,0x648,SpanishModelVariant388_DrawRibbonFan,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C98C,0x4FC,SpanishModelVariant388_DrawSheets,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CE88,0x57C,SpanishModelVariant388_DrawFeedbackStrips,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D404,0xA3C,FrenchModelVariant388_DrawPetals,matching_c,overlay/model_variant_43_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

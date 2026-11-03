@@ -2,7 +2,7 @@
 #include "variant438_bands.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013E638(u8 *context)
+void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

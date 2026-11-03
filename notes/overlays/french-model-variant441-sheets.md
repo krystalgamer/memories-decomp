@@ -1,7 +1,8 @@
 # French MODEL441 and MODEL417 rainbow sheets helper
 
-The functions `func_8013DA48` / `func_8017DA48` (MODEL441, image offset
-`0x2A48`) and `func_8013DACC` / `func_8017DACC` (MODEL417, offset `0x2ACC`)
+`SpanishModelVariant441_DrawRainbowSheets`, bound at `0x8013DA48` /
+`0x8017DA48` (MODEL441, image offset `0x2A48`) and at `0x8013DACC` /
+`0x8017DACC` (MODEL417, offset `0x2ACC`), names one source; the two addresses
 contain the same 0x618-byte body. **No release had matching C for this body
 before.** In both families the helper is reachable from the entry.
 

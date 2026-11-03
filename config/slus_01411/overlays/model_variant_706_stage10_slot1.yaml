@@ -54,42 +54,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant371_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant371_entry]
   - name: helper_cd8
     type: code
     start: 0xCD8
     vram: 0x8017BCD8
     align: 4
     subsegments:
-      - [0xCD8, c, overlays/model_variant/variant371_strips_slot1]
+      - [0xCD8, c, overlays/model_variant/variant371_strips]
   - name: helper_1344
     type: code
     start: 0x1344
     vram: 0x8017C344
     align: 4
     subsegments:
-      - [0x1344, c, overlays/model_variant/variant371_ribbons_slot1]
+      - [0x1344, c, overlays/model_variant/variant371_ribbons]
   - name: helper_198c
     type: code
     start: 0x198C
     vram: 0x8017C98C
     align: 4
     subsegments:
-      - [0x198C, c, overlays/model_variant/variant371_sheets_slot1]
+      - [0x198C, c, overlays/model_variant/variant371_sheets]
   - name: helper_1e88
     type: code
     start: 0x1E88
     vram: 0x8017CE88
     align: 4
     subsegments:
-      - [0x1E88, c, overlays/model_variant/variant371_feedback_slot1]
+      - [0x1E88, c, overlays/model_variant/variant371_feedback]
   - name: helper_2404
     type: code
     start: 0x2404
     vram: 0x8017D404
     align: 4
     subsegments:
-      - [0x2404, c, overlays/model_variant/variant371_petals_slot1]
+      - [0x2404, c, overlays/model_variant/variant371_petals]
   - name: data
     type: code
     start: 0x2E40
