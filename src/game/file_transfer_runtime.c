@@ -22,7 +22,7 @@
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 /* One eight-word LBA table: the file LBAs, the movie stream base at word 3
- * and the master XA LBA at word 6 are link_symbols.ld names inside it. */
+ * and the master XA LBA at word 6. */
 s32 gFile_anLba[8];
 
 /* The loader's zero-initialized state, defined here in address order before
@@ -52,9 +52,10 @@ u32 D_8009B134;
 s32 gFile_ReadyDataEventCount;
 static s32 D_8009B13C;
 #else
-extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
-extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
-extern s32 gFile_anLba[8];
+/* The regional wrapper declared these in its own address order. */
+FileTransferDescriptor gFile_SecondaryTransferDescriptor;
+FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+s32 gFile_anLba[8];
 extern volatile s32 gFile_ServiceReentryLatch;
 extern u16 gFile_RangeWaitCountdown;
 extern void (*gFile_RangeReadCallback)(void);

@@ -1,8 +1,11 @@
 #include "../../types.h"
 #define FILE_TRANSFER_RUNTIME_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x800EAD78-0x800EAE28 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_800EAD78_sles_03947[0xB0];
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x800EAD78-0x800EAE28 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern s32 gFile_anLba[];
+extern struct FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+extern struct FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 #define FILE_TRANSFER_RUNTIME_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C040-0x8009C098 (#2602); its
  * layout differs from the North American block the shared source defines. */

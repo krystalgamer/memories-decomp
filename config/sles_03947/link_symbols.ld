@@ -318,9 +318,6 @@ gGraphics_abPacketBuffers = D_8009C418_sles_03947 + 184;
 gGraphics_aFrameBuffers = D_8009C418_sles_03947 + 280184;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
-gFile_anLba = D_800EAD78_sles_03947;
-gFile_PrimaryTransferDescriptor = D_800EAD78_sles_03947 + 32;
-gFile_SecondaryTransferDescriptor = D_800EAD78_sles_03947 + 104;
 
 /* Names inside fade_runtime's own storage (#2602). */
 gFade_State = D_800EAE28_sles_03947;
