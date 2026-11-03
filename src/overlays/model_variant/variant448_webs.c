@@ -5,7 +5,7 @@
 /* Header 448's form of the header-397 phased webs: the records start at
  * work + 0x6F8, phase 0 shrinks each scale by step * 0xE0, and a line is
  * sorted whenever its depth is positive. */
-void func_8013DB58(u8 *ctx)
+void ModelVariant448_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

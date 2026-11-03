@@ -3,8 +3,8 @@ address,size,name,status,module,notes
 0x8017C254,0x424,ModelVariant448_DrawRadialDisc,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C678,0xFC0,ModelVariant448_DrawFans,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D638,0x520,ModelVariant448_DrawOrbitSheets,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017DB58,0x564,func_8017DB58,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017E0BC,0x30C,func_8017E0BC,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017E3C8,0x380,func_8017E3C8,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017E748,0x368,func_8017E748,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017EAB0,0x934,func_8017EAB0,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017DB58,0x564,ModelVariant448_DrawWebs,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E0BC,0x30C,ModelVariant448_DrawSpokes,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E3C8,0x380,ModelVariant448_DrawRings,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E748,0x368,ModelVariant448_DrawQuad,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017EAB0,0x934,ModelVariant448_DrawSpiral,matching_c,overlay/model_variant_573_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
