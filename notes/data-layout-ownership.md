@@ -25,9 +25,9 @@ names stay local. A unit that owns small data is compiled without MASPSX's
 `--use-comm-section` (the `_comm` profiles), which would leave its commons for
 the linker to allocate in hash order.
 
-Names that are interior bytes of an owned object are linker aliases of it
-(`gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;` in
-`link_symbols.ld`), and `bss_start` is the start of the first owned block,
+Interior bytes of an owned object are reached through the object itself
+(`gGraphics_abOrderingTableLengths[1]`), not through separate linker names,
+and `bss_start` is the start of the first owned block,
 `text_SBSS_START`.
 
 The regional executables lay these blocks out in their own orders and still

@@ -817,7 +817,8 @@ current candidates to this single owner.
 
 Both directions come up, and only one of them is sound.
 
-Refuting works. `gGraphics_bOrderingTable3Length` was declared `[9]` by one consumer, and
+Refuting works. Byte 3 of `gGraphics_abOrderingTableLengths` (then a separate
+`gGraphics_bOrderingTable3Length` name) was declared `[9]` by one consumer, and
 `c_symbols.ld` names `D_8009B0A4` one byte later, so nine bytes would run
 through that and past `gGraphics_bActiveBuffer`. The bound was therefore an
 addressing lever rather than a size -- and that is what made it worth

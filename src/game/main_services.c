@@ -1,8 +1,6 @@
-#define D_8009B0A3_IS_VOLATILE_SCALAR
 #define D_8009B142_IN_DATA_VOLATILE
 #define GRAPHICS_DRAW_ENV_IS_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
-#define GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
 /* Graphics_AdjustScreenOffset re-reads both pad words on each path and reaches them outside
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -118,10 +116,10 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     gLibGs_DrawEnvView[0].g0 = 1;
     gLibGs_DrawEnvView[0].b0 = 1;
     count = six;
-    gGraphics_abOrderingTableLengths = 2;
-    gGraphics_bOrderingTable1Length = count;
-    gGraphics_bOrderingTable2Length = 0xC;
-    gGraphics_bOrderingTable3Length = count;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[0] = 2;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[1] = count;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[2] = 0xC;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[3] = count;
 next:
     k = 3;
     buf->ordering_tables[0].length = 2;

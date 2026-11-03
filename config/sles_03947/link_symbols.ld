@@ -238,9 +238,6 @@ g_SDValue_output_level = g_SDValue;
 
 /* Names inside graphics_frame's own storage (#2602). */
 bss_start = D_8009BFE8_sles_03947;
-gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
-gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
-gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
 D_8009C02B = D_8009C02B_sles_03947;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */

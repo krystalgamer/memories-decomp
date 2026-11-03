@@ -1,3 +1,4 @@
+#define GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
 #define D_8009B0C0_IN_DATA
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
@@ -47,7 +48,7 @@ void Main_RunDuel(void)
         gMain_bModeRunnerStep = 1;
         if (!gDuel_bResumeFromAnimatedBattle && gDuel_bOpponentID >= 0)
             gMain_bModeRunnerStep = 0;
-        gGraphics_bOrderingTable3Length[0] = 10;
+        gGraphics_abOrderingTableLengths[3] = 10;
         return;
     }
 
@@ -88,7 +89,7 @@ void Main_RunDuel(void)
         SD_BGMFadeOut();
         SD_ReplaceValueLink(2);
         Main_ClearFrameServiceCallbacks();
-        gGraphics_bOrderingTable3Length[0] = 6;
+        gGraphics_abOrderingTableLengths[3] = 6;
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         next = gDuel_bPostDuelMainMode;

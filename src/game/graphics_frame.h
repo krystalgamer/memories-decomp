@@ -427,19 +427,17 @@ extern DISPENV gGraphics_DispEnv;
  * same was already true of gGraphics_bExtraFrameStep above, whose volatile view in
  * main_init.c was dropped the same way.
  *
- * Their neighbour gGraphics_abOrderingTableLengths begins a four-byte state block. The defining
- * frame unit addresses the block as an array, while Main_InitHardware writes the
- * first three bytes as ordered volatile scalars. The selector keeps both
- * measured views at the owner instead of leaving private declarations in the
- * startup source. */
+ * Their neighbour gGraphics_abOrderingTableLengths holds the four ordering-table
+ * lengths. Main_InitHardware writes all four through small data in program
+ * order (volatile); the two menu runners write element 3 through the absolute
+ * %hi/%lo form, which an array of unknown size reaches at -G8, so they select
+ * the unsized view. */
 extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
 extern u8 gGraphics_bSkipDisplaySwap;
 
-#ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
-extern volatile u8 gGraphics_abOrderingTableLengths;
-extern volatile u8 gGraphics_bOrderingTable1Length;
-extern volatile u8 gGraphics_bOrderingTable2Length;
+#ifdef GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
+extern u8 gGraphics_abOrderingTableLengths[];
 #else
 extern u8 gGraphics_abOrderingTableLengths[4];
 #endif

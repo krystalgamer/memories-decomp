@@ -5,8 +5,7 @@
 /* Zero-initialized storage this unit owns at 0x8009B090-0x8009B0E0, defined in
  * address order ahead of the headers that declare it (#2602). The startup,
  * frame and service units sit beside this one in text and declare these
- * through their headers. gGraphics_bOrderingTable1Length..3Length are bytes of
- * gGraphics_abOrderingTableLengths named by link_symbols.ld. */
+ * through their headers. */
 static u32 D_8009B090;
 static u32 D_8009B094;
 u16 gGraphics_wFlags;

@@ -1,3 +1,4 @@
+#define GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define D_8009B2F8_AS_ARRAY
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
@@ -11,6 +12,7 @@
 #include "main_frame.h"
 #include "main_init_free_duel_menu.h"
 #include "main_services.h"
+#include "graphics_frame.h"
 #include "main_modes.h"
 #include "fade.h"
 #include "sound.h"
@@ -21,7 +23,7 @@
 #include "build_deck_init_screen.h"
 #include "build_deck_draw_card_list_page_data.h"
 
-void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;gGraphics_bOrderingTable3Length[0]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_bOrderingTable3Length[0]=6;Main_AdvanceFrame();}}}
+void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;gGraphics_abOrderingTableLengths[3]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_abOrderingTableLengths[3]=6;Main_AdvanceFrame();}}}
 
 /* The common definition makes MASPSX preserve the load-delay nop before the
  * final gMain_bActiveModeState store. c_symbols.ld supplies the retail storage address. */

@@ -80,9 +80,6 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 
 gGraphics_nBaseFrameStep = D_8009B0D8;
-gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
-gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
-gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
