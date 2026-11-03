@@ -2025,7 +2025,6 @@ gMemCardWork_OperationState = 0x8009B3CF;
 
 gMemCardWork_Area = 0x800EF6D0;
 
-gMemCardWork_bRootBlocks = 0x800EF6E0;
 
 gMemCardWork_wFlags = 0x8009B3CC;
 

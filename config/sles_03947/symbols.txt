@@ -577,7 +577,6 @@ gInput_abRawPadBuffers = 0x800F05F0;
 gMemCardDialog_DirectoryBuffer = 0x800F0638;
 gMemCardDialog_FileNameBuffer = 0x800F0890;
 gMemCardWork_Area = 0x800F08B0;
-gMemCardWork_bRootBlocks = 0x800F08C0;
 gDisplayObject_awListHeads = 0x800F0DA0;
 gViewState_Current = 0x800F0DC0;
 Model_SetFogDrawFlags = 0x8003597C;

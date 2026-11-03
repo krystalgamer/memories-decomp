@@ -90,7 +90,6 @@ D_8009B370 = 0x8009B370;
 D_8009B372 = 0x8009B372;
 D_8009B374 = 0x8009B374;
 gGameOver_pTitleObject = 0x8009B378;
-gMemCardWork_bRootBlocks = 0x800EF6E0;
 gLibGs_sActiveBufferIndex = 0x800FE0CC;
 gGraphics_CurrentWidth = 0x800FE0D0;
 gGraphics_CurrentHeight = 0x800FE0D4;

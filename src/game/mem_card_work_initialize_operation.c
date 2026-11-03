@@ -8,7 +8,7 @@
 
 void MemCardWork_InitializeOperation(u8 value)
 {
-    gMemCardWork_bRootBlocks[0] = 1;
+    gMemCardWork_Area.root.blocks = 1;
     gMemCardWork_OperationState = 0;
     gDialog_bCallbackState = 0;
     gMemCardWork_wFlags = 0x8000;

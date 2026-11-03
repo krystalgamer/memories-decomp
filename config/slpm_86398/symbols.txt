@@ -1056,7 +1056,6 @@ gMemCardWork_OperationMode = 0x8009B2B7;
 gMemCardWork_wFlags = 0x8009B2BC;
 gMemCardWork_OperationState = 0x8009B2BF;
 gMemCardWork_bSlotIndex = 0x8009B2CD;
-gMemCardWork_bRootBlocks = 0x800ECDB8;
 DisplayObject_CopyWorkSlots = 0x8002C930;
 gDisplayObject_apWorkSlots = 0x800E9DD0;
 Script_OpOpenCampaignMap = 0x8002E920;

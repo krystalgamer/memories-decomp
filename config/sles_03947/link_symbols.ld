@@ -319,7 +319,6 @@ gFade_State = D_800EAE28_sles_03947;
 /* Names inside input_pads's own storage (#2602). */
 
 /* Names inside mem_card_dialog's own storage (#2602). */
-gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside display_object_core's own storage (#2602). */
 

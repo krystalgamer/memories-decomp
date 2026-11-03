@@ -19,10 +19,10 @@ directory buffer at `0x800EFBC0`. The two-slot capacity is not a claim that
 the runtime selects both slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
 is the byte store of zero at `0x8003D31C`, in `MemCardWork_InitializeOperation`. In particular,
 the selector's `u8` type does not justify 256 slots; arbitrary selectors
-remain outside the measured contract. The root's block byte keeps its
-interior identity `gMemCardWork_bRootBlocks` (its unsized array view keeps a
-`-G8` store out of small data); `DuelEffect_CreateChannel` reads the text
-index as `gMemCardWork_Area.root.text_index`.
+remain outside the measured contract. The root's block byte is
+`gMemCardWork_Area.root.blocks`; the area is too large for small data, so the
+member store links like the former interior label. `DuelEffect_CreateChannel`
+reads the text index as `gMemCardWork_Area.root.text_index`.
 
 The initialized `gDialog_apfnTransitionSteps` view at `0x80090F88` has five
 words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
@@ -59,13 +59,13 @@ The unchanged implementation was separately reprobed: all 40 bytes match.
 ## Partial operation initialization and separate state bytes
 
 `MemCardWork_InitializeOperation` (`0x8003D300`) keeps exactly six stores
-in their original order: `gMemCardWork_bRootBlocks[0] = 1`,
+in their original order: `gMemCardWork_Area.root.blocks = 1`,
 `gMemCardWork_OperationState = 0`, `gDialog_bCallbackState = 0`,
 `gMemCardWork_wFlags = 0x8000`, `gMemCardWork_bSlotIndex = 0`, then
 `gMemCardWork_OperationMode = value`. It does not allocate or clear the
 whole `gMemCardWork_Area`, submit a request, initialize SDK events or
-establish a new active caller. The independently spelled root-block byte
-`gMemCardWork_bRootBlocks` stays an unsized array, not a new typed-member assignment.
+establish a new active caller. The root-block store goes through the work
+area member; the former `gMemCardWork_bRootBlocks` interior label is gone.
 
 The operation state remains `u8`: its low nibble selects the existing
 legacy controller case and bit `0x80` is that case's first-entry latch.

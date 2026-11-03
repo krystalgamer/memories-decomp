@@ -202,6 +202,5 @@ gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 /* Names inside duel_effect_process_entries's own storage (#2602). */
 
 /* Names inside input_pads's own storage (#2602). */
-gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
