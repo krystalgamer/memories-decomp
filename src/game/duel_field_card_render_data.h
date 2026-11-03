@@ -13,7 +13,6 @@
  * two bytes later, so it has no room for an element to carry its own name.
  * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
 extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
-extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 /* Three more undefined globals, moved together for the same reason as the
  * batch above: this header is a serialisation point, so separate changes for
  * separate symbols conflict with each other without making any of them

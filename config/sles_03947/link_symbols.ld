@@ -109,8 +109,6 @@ CampaignMap_SetLocation = 0x8016866C;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
-gModel_dwSecondPassClutBits = D_8009BF64;
-gModel_dwLitColorCacheBase = D_8009BF68;
 
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
@@ -124,22 +122,17 @@ func_80061A84 = Model_DrawGt4Primitives;
 
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
-gModel_wCameraTargetSlot = D_800F2B4A;
 gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
-D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
 gModel_ExodiaOrbitOffset = 0x8009BF84;
-D_8009BF84 = gModel_ExodiaOrbitOffset;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
-gGraphics_bSkipDisplaySwap = D_8009B0A8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = 0x801A8000;
-gCardList_SortIconTable = D_80090DD8;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 gViewState_Current = D_800F2848;
@@ -160,7 +153,6 @@ gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
-gDuel_bResumeFromAnimatedBattle = D_8009B369;
 gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
@@ -213,7 +205,7 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
 
-gGraphics_aImageTransferRects = D_800E9D70;
+gGraphics_aImageTransferRects = D_8009C418_sles_03947;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
@@ -264,7 +256,6 @@ bss_start = D_8009BFE8_sles_03947;
 gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
 gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
 gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
-D_8009B0A8 = D_8009C02A_sles_03947;
 D_8009C02B = D_8009C02B_sles_03947;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
@@ -362,7 +353,6 @@ gModel_wViewYawSnapshot = D_8009C3F2_sles_03947;
 gModel_wViewPitchSnapshot = D_8009C3F4_sles_03947;
 
 /* Names inside graphics_frame's own storage (#2602). */
-D_800E9D70 = D_8009C418_sles_03947;
 gGraphics_apOrderingTables = D_8009C418_sles_03947 + 32;
 gMain_RecoveryJmpBuf = D_8009C418_sles_03947 + 48;
 gMain_apFrameServiceCallbacks = D_8009C418_sles_03947 + 96;

@@ -1,6 +1,5 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
-#include "card_type_icon_table.h"
 #include "text_encode_decimal_digits.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

@@ -13,8 +13,6 @@ FreeDuel_Entry = 0x80168FB4;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
-gModel_dwSecondPassClutBits = gJapanese_D_8009AFDC;
-gModel_dwLitColorCacheBase = gJapanese_D_8009AFE0;
 
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
@@ -77,10 +75,7 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_wCameraTargetSlot = 0x800F03E8;
-D_800F2B4A = 0x800F03E8;
-gModel_AnimatedBattleCameraEndpoint = D_8009AFEC;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
-D_8009AFFC = 0x8009AF5C;
 
 gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;
@@ -221,12 +216,6 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
 
 /* Former Japanese names still used by the duel_draw_resolution.c and
  * duel_effect_states.c wrappers. */
-gJapanese_D_8009AF74 = 0x8009AEBC;
-gJapanese_D_8009B140 = 0x8009B030;
-gJapanese_D_800E9D70 = 0x800E9C50;
-gJapanese_DuelFlag = 0x8009B259;
-gJapanese_FileSecondaryRequest = 0x8009B024;
-gJapanese_FileTransferFlags = 0x8009AFE4;
 
 /* Names inside the small zero-initialized blocks this build's units own
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
@@ -304,4 +293,3 @@ gModel_wViewPitch = D_8009B37C_slpm_86398;
 gModel_ViewSnapshot = D_8009B380_slpm_86398;
 gModel_wViewYawSnapshot = D_8009B382_slpm_86398;
 gModel_wViewPitchSnapshot = D_8009B384_slpm_86398;
-D_80090DD8 = gCardList_SortIconTable;

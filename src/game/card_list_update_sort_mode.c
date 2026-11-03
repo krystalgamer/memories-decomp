@@ -1,5 +1,4 @@
 #include "../types.h"
-#include "card_type_icon_table.h"
 #include "card_list_update_sort_mode.h"
 #include "card_list_sort_icons.h"
 

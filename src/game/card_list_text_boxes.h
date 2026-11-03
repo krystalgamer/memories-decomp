@@ -84,7 +84,7 @@ typedef struct CardList {
     u8 pad_2D44;
     /* The sort order card_list_sort.c switches on. It is not stored
        directly: BuildDeck_UpdateCardListInput cycles sort_choice and then looks this up as
-       the low nibble of D_80090DD8[sort_choice * 2 + kind * 16 + 1]. */
+       the low nibble of gCardList_SortIconTable[sort_choice * 2 + kind * 16 + 1]. */
     u8 sort_mode;
     /* Which entry of the sort menu is highlighted. SELECT and START step it,
        and it wraps within [0, 6]. */

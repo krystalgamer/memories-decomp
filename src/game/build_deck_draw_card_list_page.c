@@ -11,7 +11,6 @@ struct BuildDeckTransitionState *gBuildDeck_pState;
 #include "display_object.h"
 #include "text_encode_decimal_digits.h"
 #include "text_encode_decimal_no_padding.h"
-#include "card_type_icon_table.h"
 #include "build_deck_transition_state.h"
 #include "color_constants.h"
 #include "duel_card_stat_display.h"

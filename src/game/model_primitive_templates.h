@@ -38,7 +38,5 @@ extern u32 gModel_dwLineF3Template;
 extern u32 gModel_dwLineF4Template;
 extern u32 gModel_dwDrawModeTemplate;
 extern u32 gModel_dwTpageBlendRateBits;
-extern u32 D_8009AFDC;
-extern u32 D_8009AFE0;
 
 #endif

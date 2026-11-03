@@ -50,7 +50,6 @@
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "sound.h"
-#include "card_type_icon_table.h"
 #include "build_deck_init_screen.h"
 #include "card_list_sort_icons.h"
 #include "build_deck_test_and_set_initialized.h"
