@@ -4,19 +4,10 @@
 #include "../types.h"
 #include "frontend_debug_state.h"
 
-#ifdef FRONTEND_DEBUG_ROW_VIEWS
+/* Three editor rows: caret anchor column and digit width per row. */
 extern FrontendDebugColumns gDebug_abEditorCaretColumns;
 extern FrontendDebugDigitCounts gDebug_abEditorDigitCounts;
-#else
-extern u8 gDebug_abEditorCaretColumns;
-extern u8 gDebug_abEditorDigitCounts;
-#endif
-
-extern u8 gDebug_bEditorCaretColumn1;
-extern u8 gDebug_bEditorCaretColumn2;
 extern u8 gDebug_bEditorLeadingLineCount;
-extern u8 gDebug_bEditorDigitCount1;
-extern u8 gDebug_bEditorDigitCount2;
 extern u8 gDebug_bEditorRowCount;
 extern u8 gDebug_bEditorFlags;
 extern u8 *gDebug_pszEditorFormat;

@@ -132,16 +132,6 @@ gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
 
 
-gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
-gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
-gDebug_bEditorCaretColumn2 = tent_DebugInterfaceFieldB6;
-gDebug_bEditorLeadingLineCount = tent_DebugInterfaceFieldB8;
-gDebug_abEditorDigitCounts = tent_DebugInterfaceFieldC0;
-gDebug_bEditorDigitCount1 = tent_DebugInterfaceFieldC1;
-gDebug_bEditorDigitCount2 = tent_DebugInterfaceFieldC2;
-gDebug_bEditorRowCount = tent_DebugInterfaceFieldE0;
-gDebug_bEditorFlags = tent_DebugInterfaceFlags;
-gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
@@ -214,10 +204,6 @@ Base2_8009B2AA = gScript_ViewportTargetY;
 /* Other names for game/duel_effect_dialog_state's small data (#2602). */
 
 /* Other names for game/debug_menu_editor_entries's small data (#2602). */
-tent_DebugInterfaceFieldB5 = tent_DebugInterfaceFieldB4 + 1;
-tent_DebugInterfaceFieldB6 = tent_DebugInterfaceFieldB4 + 2;
-tent_DebugInterfaceFieldC1 = tent_DebugInterfaceFieldC0 + 1;
-tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
 
 /* Other names for game/sound_frontend's small data (#2602). */
 

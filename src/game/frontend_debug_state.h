@@ -24,15 +24,6 @@ typedef union {
 /* Edits the active frontend debug value and redraws its digit caret. */
 s32 DebugMenu_UpdateValueEditor(void);
 
-/* The editor walks three adjacent rows; scalar producers retain their own
- * linker labels and small-data accesses. See notes/frontend-debug-state.md. */
-#ifdef FRONTEND_DEBUG_ROW_VIEWS
-extern FrontendDebugColumns tent_DebugInterfaceFieldB4;
-extern FrontendDebugDigitCounts tent_DebugInterfaceFieldC0;
-#else
-extern u8 tent_DebugInterfaceFieldB4;
-extern u8 tent_DebugInterfaceFieldC0;
-#endif
 /* A six-byte extern changes assembler -G4 relocations in the editor's split
  * profile. The bounded value view is taken from this scalar label instead. */
 extern u16 gDebug_nSceneOrSoundID;
@@ -44,24 +35,16 @@ extern u16 gDebug_nLastSoundID;
 #endif
 
 extern u8 D_8009B2B2;
-extern u8 tent_DebugInterfaceFieldB5;
-extern u8 tent_DebugInterfaceFieldB6;
-extern u8 tent_DebugInterfaceFieldB8;
 extern u8 gDebugMenu_bCampaignEditField;
-extern u8 tent_DebugInterfaceFieldC1;
-extern u8 tent_DebugInterfaceFieldC2;
 extern u16 gDebug_nEditedBgmId;
 extern u16 gDebug_nEditedCdSoundId;
 extern u16 gDebug_nLastBgmId;
 extern s8 gDebug_bEditorRow;
 extern u16 D_8009B2DE;
-extern u8 tent_DebugInterfaceFieldE0;
 extern DisplayObject *gDebugMenu_pCursorQuad;
 extern u8 gDebugMenu_bLastMapId;
 extern s8 gDebug_bEditorDigit;
-extern u8 tent_DebugInterfaceFlags;
 extern u8 gDebugMenu_bStep;
-extern u8 *tent_DebugInterfaceData;
 extern u8 gDebugMenu_bPage;
 extern u8 gDebug_szEditorCaretLine[];
 

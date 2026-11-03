@@ -167,16 +167,6 @@ gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
 
 
-gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
-gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
-gDebug_bEditorCaretColumn2 = tent_DebugInterfaceFieldB6;
-gDebug_bEditorLeadingLineCount = tent_DebugInterfaceFieldB8;
-gDebug_abEditorDigitCounts = tent_DebugInterfaceFieldC0;
-gDebug_bEditorDigitCount1 = tent_DebugInterfaceFieldC1;
-gDebug_bEditorDigitCount2 = tent_DebugInterfaceFieldC2;
-gDebug_bEditorRowCount = tent_DebugInterfaceFieldE0;
-gDebug_bEditorFlags = tent_DebugInterfaceFlags;
-gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
@@ -292,10 +282,6 @@ gCampaignSceneIndex = D_8009C218_sles_03947;
 gScript_WaitCounter = D_8009C220_sles_03947;
 
 /* Names inside debug_menu_editor_entries's own storage (#2602). */
-tent_DebugInterfaceFieldC1 = tent_DebugInterfaceFieldC0 + 1;
-tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
-tent_DebugInterfaceFieldB5 = tent_DebugInterfaceFieldB4 + 1;
-tent_DebugInterfaceFieldB6 = tent_DebugInterfaceFieldB4 + 2;
 D_8009B2C6 = gDebug_nLastSoundID + 2;
 
 /* Names inside sorted_entry_relink's own storage (#2602). */

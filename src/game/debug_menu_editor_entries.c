@@ -1,4 +1,3 @@
-#define FRONTEND_DEBUG_ROW_VIEWS
 #define GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
 #define GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
@@ -19,15 +18,15 @@ u8 gDebug_szEditorCaretLine[48];
  * address order ahead of the headers that declare it (#2602). */
 static u16 D_8009B2B0;
 u8 D_8009B2B2;
-s8 tent_DebugInterfaceFieldB4[3];
+s8 gDebug_abEditorCaretColumns[3];
 static u8 D_8009B2B7;
-u8 tent_DebugInterfaceFieldB8;
+u8 gDebug_bEditorLeadingLineCount;
 static u8 D_8009B2B9;
 static u16 D_8009B2BA;
 u8 gDebugMenu_bCampaignEditField;
 static u8 D_8009B2BD;
 static u16 D_8009B2BE;
-u8 tent_DebugInterfaceFieldC0[3];
+u8 gDebug_abEditorDigitCounts[3];
 u16 gDebug_nLastSoundID[2];
 u16 gDebug_nSceneOrSoundID;
 u16 gDebug_nEditedBgmId;
@@ -39,23 +38,23 @@ static u16 D_8009B2D8;
 u16 gDebug_nLastBgmId;
 s8 gDebug_bEditorRow;
 u16 D_8009B2DE;
-u8 tent_DebugInterfaceFieldE0;
+u8 gDebug_bEditorRowCount;
 struct DisplayObject *gDebugMenu_pCursorQuad;
 u8 gDebugMenu_bLastMapId;
 s8 gDebug_bEditorDigit;
-u8 tent_DebugInterfaceFlags;
+u8 gDebug_bEditorFlags;
 u8 gDebugMenu_bStep;
-u8 *tent_DebugInterfaceData;
+u8 *gDebug_pszEditorFormat;
 u8 gDebugMenu_bPage;
 s8 gDebugMenu_bCursor;
 static u16 D_8009B2F2;
 static u32 D_8009B2F4;
 #else
 extern u8 D_8009B2B2;
-extern s8 tent_DebugInterfaceFieldB4[3];
-extern u8 tent_DebugInterfaceFieldB8;
+extern s8 gDebug_abEditorCaretColumns[3];
+extern u8 gDebug_bEditorLeadingLineCount;
 extern u8 gDebugMenu_bCampaignEditField;
-extern u8 tent_DebugInterfaceFieldC0[3];
+extern u8 gDebug_abEditorDigitCounts[3];
 extern u16 gDebug_nLastSoundID[2];
 extern u16 gDebug_nSceneOrSoundID;
 extern u16 gDebug_nEditedBgmId;
@@ -63,13 +62,13 @@ extern u16 gDebug_nEditedCdSoundId;
 extern u16 gDebug_nLastBgmId;
 extern s8 gDebug_bEditorRow;
 extern u16 D_8009B2DE;
-extern u8 tent_DebugInterfaceFieldE0;
+extern u8 gDebug_bEditorRowCount;
 extern struct DisplayObject *gDebugMenu_pCursorQuad;
 extern u8 gDebugMenu_bLastMapId;
 extern s8 gDebug_bEditorDigit;
-extern u8 tent_DebugInterfaceFlags;
+extern u8 gDebug_bEditorFlags;
 extern u8 gDebugMenu_bStep;
-extern u8 *tent_DebugInterfaceData;
+extern u8 *gDebug_pszEditorFormat;
 extern u8 gDebugMenu_bPage;
 extern s8 gDebugMenu_bCursor;
 #endif
@@ -218,13 +217,13 @@ void DebugMenu_OpenValueEditor(
     gDebug_bEditorFlags = 0;
     gDebug_pszEditorFormat = data;
     gDebug_abEditorCaretColumns[0] = field_B4;
-    gDebug_bEditorCaretColumn1 = field_B5;
-    gDebug_bEditorCaretColumn2 = field_B6;
+    gDebug_abEditorCaretColumns[1] = field_B5;
+    gDebug_abEditorCaretColumns[2] = field_B6;
     gDebug_bEditorDigit = 0;
     gDebug_bEditorRow = 0;
     gDebug_bEditorLeadingLineCount = field_B8;
-    gDebug_bEditorDigitCount2 = field_C0;
-    gDebug_bEditorDigitCount1 = field_C0;
+    gDebug_abEditorDigitCounts[2] = field_C0;
+    gDebug_abEditorDigitCounts[1] = field_C0;
     gDebug_abEditorDigitCounts[0] = field_C0;
     gDebug_bEditorRowCount = field_E0;
 }
@@ -429,8 +428,8 @@ void DebugMenu_UpdateLanguageEntry(void)
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = gText_bLanguageIndex;
         DebugMenu_OpenValueEditor(gDebugMenu_szLanguageEditorFormat, 0x15, 0x15, 0x15, 5, 1, 1);
-        gDebug_bEditorDigitCount2 = 3;
-        gDebug_bEditorDigitCount1 = 3;
+        gDebug_abEditorDigitCounts[2] = 3;
+        gDebug_abEditorDigitCounts[1] = 3;
         return;
     }
 
@@ -467,8 +466,8 @@ void DebugMenu_UpdateSoundEntry(void)
         gDebug_nEditedBgmId = gDebug_nLastBgmId;
         gDebug_nEditedCdSoundId = gDebug_nLastSoundID[1];
         DebugMenu_OpenValueEditor(gDebugMenu_szSoundEditorFormat, 0x11, 0x19, 0x21, 9, 4, count);
-        gDebug_bEditorDigitCount2 = count;
-        gDebug_bEditorDigitCount1 = count;
+        gDebug_abEditorDigitCounts[2] = count;
+        gDebug_abEditorDigitCounts[1] = count;
         return;
     }
 

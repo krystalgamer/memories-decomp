@@ -6,25 +6,25 @@ the menu dispatcher, scene/sound states, cursor updater, async return path,
 and matching `DebugMenu_UpdateValueEditor` consume the same declarations.
 The raw-word `DebugMenu_UpdateCampaignEntry` also includes it without changing
 any assembly.
-The header still declares views only; it adds no C-owned backing storage.
 
 ## Configuration identities
 
-The isolated `debug_value_editor_config.h` supplies canonical names while
-the original declaration owners remain unchanged:
+`debug_value_editor_config.h` declares the editor configuration, defined
+under these names by `debug_menu_editor_entries.c` (or its regional block):
 
-| NA address | Former identity | Canonical role |
+| NA address | Former identity | Name |
 | --- | --- | --- |
-| `8009B2B4` | `tent_DebugInterfaceFieldB4` | `gDebug_abEditorCaretColumns` |
-| `8009B2B5` | `tent_DebugInterfaceFieldB5` | `gDebug_bEditorCaretColumn1` |
-| `8009B2B6` | `tent_DebugInterfaceFieldB6` | `gDebug_bEditorCaretColumn2` |
+| `8009B2B4` | `tent_DebugInterfaceFieldB4` (+B5/B6 interior labels) | `gDebug_abEditorCaretColumns[3]` |
 | `8009B2B8` | `tent_DebugInterfaceFieldB8` | `gDebug_bEditorLeadingLineCount` |
-| `8009B2C0` | `tent_DebugInterfaceFieldC0` | `gDebug_abEditorDigitCounts` |
-| `8009B2C1` | `tent_DebugInterfaceFieldC1` | `gDebug_bEditorDigitCount1` |
-| `8009B2C2` | `tent_DebugInterfaceFieldC2` | `gDebug_bEditorDigitCount2` |
+| `8009B2C0` | `tent_DebugInterfaceFieldC0` (+C1/C2 interior labels) | `gDebug_abEditorDigitCounts[3]` |
 | `8009B2E0` | `tent_DebugInterfaceFieldE0` | `gDebug_bEditorRowCount` |
 | `8009B2EA` | `tent_DebugInterfaceFlags` | `gDebug_bEditorFlags` |
 | `8009B2EC` | `tent_DebugInterfaceData` | `gDebug_pszEditorFormat` |
+
+Rows 1 and 2 of both triplets were once separate linker labels
+(`gDebug_bEditorCaretColumn1/2`, `gDebug_bEditorDigitCount1/2`) aliased
+at base + 1/2; the producers now store `[1]`/`[2]` directly, which only
+changes relocation names.
 
 `DebugMenu_OpenValueEditor` stores the caller's three caret anchors,
 leading-line count and row count, initializes the three digit widths,
@@ -79,15 +79,10 @@ a semantic name for the second value.
 
 ## Addressing and ABI constraints
 
-Scalar producers retain their original labels for the three column and
-digit stores. `FRONTEND_DEBUG_ROW_VIEWS` gives the matching editor bounded
-three-byte arrays; both remain inside its assembler's `-G8` limit.
-The canonical base names preserve the same selector: signed `s8[3]` caret
-columns and unsigned `u8[3]` digit counts in the editor, unsigned scalar
-row-0 labels in producers. Rows 1/2 retain their independent scalar labels.
-Both triplets' interior bindings are verified in all seven images; the
-new names do not fold those labels into base-plus-offset expressions or
-add a packed configuration record.
+The caret columns are signed `s8[3]` (`FrontendDebugColumns`) and the
+digit counts unsigned `u8[3]` (`FrontendDebugDigitCounts`); both stay
+inside the editor's `-G8` limit, so every store and indexed read keeps its
+gp-relative form.
 The saved sound pair is selected by `FRONTEND_DEBUG_SOUND_ROW_VIEW` in
 `DebugMenu_UpdateSoundEntry`; its four-byte size remains small data under that TU's profile.
 No array is a new definition, and no interior label is folded into a base
@@ -112,10 +107,7 @@ The row/digit control labels stay unsigned bytes. Existing signed reads of
 `D_8009B2DE` remains a halfword and `gDebugMenu_bStep` a byte of menu-state flags.
 There are no tentative definitions, section-attribute changes, or new pins.
 
-All seventy logical bindings retain the original providers across seven
-images, including the independently labeled interior rows. The ten
-original NA addresses have no earlier global-map rows, so promotion appends
-new evidence without rewriting accepted history. The flags byte is at
+The flags byte is at
 `0x8009B2EA`, not the neighboring digit or padding byte.
 
 All existing test modules, old headers, wrappers, overlays/imports, source
