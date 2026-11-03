@@ -16,13 +16,13 @@
       "address": "0x8013C7F8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x584",
-      "source": "src/overlays/model_variant/variant383_sheets.c"
+      "source": "src/overlays/french_model_variant/variant400_sheets.c"
     },
     {
       "address": "0x8013CD7C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x96C",
-      "source": "src/overlays/model_variant/variant383_streamers.c"
+      "source": "src/overlays/french_model_variant/variant400_streamers.c"
     }
   ],
   "schema": 1

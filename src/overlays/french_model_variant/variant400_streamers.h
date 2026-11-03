@@ -24,5 +24,5 @@ typedef struct {
     u8 unknown_04[0x94];
 } Model400Size;
 
-void func_8013CDB8(u8 *ctx);
+void FrenchModelVariant400_DrawStreamers(u8 *ctx);
 #endif
