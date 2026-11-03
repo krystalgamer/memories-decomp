@@ -54,12 +54,12 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant397_entry_slot1]
-      - [0x122C, c, overlays/model_variant/variant397_bands_slot1]
-      - [0x1994, c, overlays/model_variant/variant397_sheets_slot1]
-      - [0x1E7C, c, overlays/model_variant/variant397_webs_slot1]
-      - [0x23F0, c, overlays/model_variant/variant397_spokes_slot1]
-      - [0x26FC, c, overlays/model_variant/variant397_rings_slot1]
-      - [0x2A7C, c, overlays/model_variant/variant397_quad_slot1]
+      - [0x4, c, overlays/model_variant/variant397_entry]
+      - [0x122C, c, overlays/model_variant/variant397_bands]
+      - [0x1994, c, overlays/model_variant/variant397_sheets]
+      - [0x1E7C, c, overlays/model_variant/variant397_webs]
+      - [0x23F0, c, overlays/model_variant/variant397_spokes]
+      - [0x26FC, c, overlays/model_variant/variant397_rings]
+      - [0x2A7C, c, overlays/model_variant/variant397_quad]
       - [0x2DE4, data, overlays/model_variant_168_stage10_slot1/data]
   - [0x5000]
