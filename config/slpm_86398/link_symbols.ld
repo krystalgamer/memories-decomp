@@ -168,7 +168,6 @@ gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
-gFile_wTransferStepFlags_abs = 0x8009B002;
 
 /* Former Japanese names still used by the duel_draw_resolution.c and
  * duel_effect_states.c wrappers. */

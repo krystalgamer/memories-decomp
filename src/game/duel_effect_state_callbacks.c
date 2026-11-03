@@ -4,6 +4,7 @@
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
+#define FILE_TRANSFER_STEP_FLAGS_IN_DATA
 #include "text_stream_read_le.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
@@ -300,13 +301,13 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
             p->delay_countdown = 0xFF;
             gText_CdSoundWaitPhase = 1;
         case 1:
-            if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
+            if ((gFile_wTransferStepFlags & 0x4000) == 0) {
                 return;
             }
             p->delay_countdown = 0xFF;
             gText_CdSoundWaitPhase = 2;
         case 2:
-            if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
+            if ((gFile_wTransferStepFlags & 0x4000) == 0) {
                 break;
             }
             if ((p->playback_state & 0x40) == 0) {

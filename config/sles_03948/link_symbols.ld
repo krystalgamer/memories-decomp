@@ -153,7 +153,6 @@ D_8009B108 = 0x8009C46C;
 gFile_BeforePrimaryRequestCallback = 0x8009C4A8;
 D_8009B110 = 0x8009C474;
 gFile_wTransferStepFlags = 0x8009C47C;
-gFile_wTransferStepFlags_abs = 0x8009C47C;
 gFile_ReadyEventCount = 0x8009C4AC;
 gFile_TransferBufferBase = 0x8009C4B0;
 gFile_FilterParams = 0x8009C468;

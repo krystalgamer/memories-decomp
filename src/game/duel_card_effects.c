@@ -1,5 +1,6 @@
 #define gDuel_bEffectRequestStatus_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_STEP_FLAGS_IN_DATA
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
 #include "duel_select_trap_by_card_id.h"
@@ -354,7 +355,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x20) == 0) {
-        if ((gFile_wTransferStepFlags_abs & 0x4000) == 0) {
+        if ((gFile_wTransferStepFlags & 0x4000) == 0) {
             return;
         }
         gDuel_wCardEffectFlags = f | 0x20;
@@ -370,7 +371,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
         return;
     }
 
-    if ((gFile_wTransferStepFlags_abs & 0x4000) != 0) {
+    if ((gFile_wTransferStepFlags & 0x4000) != 0) {
         return;
     }
 

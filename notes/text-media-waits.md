@@ -30,8 +30,9 @@ passes its effect object in `$a0`. Retain the
 do not strengthen the caller to the callee's zero-argument view. The fade
 command's high operand bit selects this state.
 
-The file-state declaration arms, widths and qualifiers stay fixed. In particular, the transfer-step `_abs` halfword remains the
-existing nonvolatile `.data` view, not the separate volatile GP view.
+The file-state declaration arms, widths and qualifiers stay fixed. In
+particular, the transfer-step halfword is read through its
+`FILE_TRANSFER_STEP_FLAGS_IN_DATA` `.data` arm, not the small-data arm.
 
 ## CD-sound producer and initialization
 

@@ -736,7 +736,6 @@ gDuel_bBattleRemovalSlot1 = 0x8009C4D9;
 gDuel_abMonsterRemovalRules = 0x80091E64;
 gDuel_wMonsterRemovalCriterion = 0x8009C5A8;
 gDuel_wMonsterRemovalZone = 0x8009C5AA;
-gFile_wTransferStepFlags_abs = 0x8009C47C;
 gDuel_RitualResultCardId = 0x8009C59E;
 NameEntry_Main = 0x8016A850;
 gCampaignSavedSceneIndex = 0x801D07DC;
