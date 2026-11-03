@@ -49,8 +49,14 @@ register u32 gHw_Unused30 asm("$30");
  * next primitive block returned in $v0. Register variables and the
  * handwritten_asm.h macros reproduce that contract; see
  * notes/direct-polygon-renderers.md.
+ *
+ * The Japanese and European executables link the base Gt3/Gt4 drawers well
+ * before the rest of this file; their regional wrappers build this file once
+ * without those two and once (with MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
+ * with only those two.
  */
 
+#if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
     register u8 *rec asm("$7");
@@ -203,7 +209,9 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
         return next;
     }
 }
+#endif
 
+#if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
     register u8 *rec asm("$7");
@@ -386,7 +394,9 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
         return next;
     }
 }
+#endif
 
+#if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
     register u8 *rec asm("$7");
@@ -555,7 +565,9 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
         return next;
     }
 }
+#endif
 
+#if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
     register u8 *rec asm("$7");
@@ -772,6 +784,9 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
         return next;
     }
 }
+#endif
+
+#if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 
 /*
  * Window record Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80061DDC-0x80062978).
@@ -6408,3 +6423,5 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         return next;
     }
 }
+
+#endif
