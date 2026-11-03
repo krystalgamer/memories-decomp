@@ -6,13 +6,11 @@ load slots. The [instance inventory](french-model-variant475-instances.csv)
 records the physical slices, commands and complete SHA-256 hashes.
 
 Every complete French image is byte-identical to its corresponding accepted
-[Spanish header-475 image](spanish-model-variant475.md). The six existing
-`src/overlays/spanish_model_variant/variant475_*.c` wrappers are reused without
-editing them, their shared NA458 bodies, or their headers. The accepted Spanish
-475 ribbon body and its slot-one wrapper are also reused unchanged. The entry
-has a locally recovered French body, entry-only header and slot-one wrapper;
-no accepted Spanish entry body was available. Retained streamers have a local
-French body and slot-one wrapper using the unchanged `Variant458Streamer` header. There are no regional conditionals.
+[Spanish header-475 image](spanish-model-variant475.md). Both slots build the
+shared NA458 sheet, quad and strand bodies and the accepted Spanish 475 ribbon
+body directly. The entry has a locally recovered French body and entry-only
+header; no accepted Spanish entry body was available. Retained streamers have a
+local French body using the unchanged `Variant458Streamer` header. There are no regional conditionals.
 Independent French compilation uses
 `gcc_2_8_1_g0_split`, GCC 2.8.1 / MASPSX 2.81, not the historical NA compiler
 registration or the older compiler claim in the common header's comment.
@@ -237,3 +235,18 @@ instruction bytes out of 1,975 inventoried functions across 323 images.
 These totals do not establish exhaustive runtime coverage: strand and
 streamers still have no demonstrated direct entry-call path, and every
 8,904-byte suffix remains unclassified.
+
+## Per-image names
+
+The French entry source defines `FrenchModelVariant475_HandleRequest` and
+`gFrenchModelVariant475_D2D38`. Each helper role has one name in every image of
+models 116 and 576: `ModelVariant458_DrawRibbons`, `ModelVariant458_DrawSheets`,
+`ModelVariant458_DrawQuads`, `ModelVariant458_DrawStrand` and
+`ModelVariant458_DrawStreamers`. The North American and Japanese images build
+the header-458 bodies; the PAL images build the sheet, quad and strand bodies
+directly and the ribbons and streamers from
+`spanish_model_variant/variant475_ribbons.c` and
+`french_model_variant/variant475_streamers.c`, which define the same names.
+Each image binds them at its own addresses, and the header-552 image of model
+163 binds `ModelVariant458_DrawStrand` at `0x8017F4D0` (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
