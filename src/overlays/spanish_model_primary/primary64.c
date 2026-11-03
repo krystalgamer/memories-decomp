@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "primary64.h"
 
-s32 func_8013A004(u8 *context, s32 command)
+s32 ModelPrimary64_HandleRequest(u8 *context, s32 command)
 {
     ModelPrimary64State *work;
     MATRIX base;
@@ -26,11 +26,11 @@ s32 func_8013A004(u8 *context, s32 command)
     s32 red, green, blue;
 
     memset(&rotation, 0, 8);
-    scale = D_8013A994;
+    scale = gModelPrimary64_Scale;
     work = (ModelPrimary64State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &D_8013AA30[command];
+        config = work->config = &gModelPrimary64_Configs[command];
         base = *(MATRIX *)Model_GetLightSourceMatrix();
         PushMatrix();
         point = work->points;
@@ -44,7 +44,7 @@ s32 func_8013A004(u8 *context, s32 command)
         }
         PopMatrix();
         for (i = 0; i < 5; i++) {
-            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013A9A4[i]);
+            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelPrimary64_Images[i]);
         }
         work->frame = 0;
         return 0;

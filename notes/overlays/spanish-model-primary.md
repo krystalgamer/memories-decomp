@@ -2,13 +2,14 @@
 
 The first registered MODEL batch covers seven models at both primary slots:
 14 complete 4,096-byte images and 3,264 matching instruction bytes. Four source
-units use the named `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline. Slot-one
-wrappers rename the entry and descriptor symbols before including the same C
-body; there are no patched instructions or absolute descriptor aliases.
+units use the named `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline. Both slots
+compile the same C; each image's `*_symbols.txt` and `*_functions.csv` bind
+the entry and descriptor names at that slot's addresses. There are no patched
+instructions or absolute descriptor aliases.
 
 The particle batch adds models 8, 416 and 141 at both slots: six complete
-images and 13,168 instruction bytes. Three additional C bodies and their
-slot wrappers use the same profile. Total registered primary coverage is
+images and 13,168 instruction bytes. Three additional C bodies use the same
+profile. Total registered primary coverage is
 20 nontrivial instances / 16,432 instruction bytes. The separately documented
 [return-two family](spanish-model-return-two.md) adds two representative images
 and 16 bytes; neither count is an exhaustive MODEL runtime-completion claim.
