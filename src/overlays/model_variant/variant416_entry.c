@@ -11,7 +11,7 @@
  * webs, two bands, three sheets, rings, spokes and a fan; a second config
  * threshold starts the burst helpers. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant416EntryState *work = (Variant416EntryState *)point;
     MATRIX unused_matrix0;
@@ -62,7 +62,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant416EntryConfig *)(D_8013E0D0 + 0xFC) + command;
+        work->config = (Variant416EntryConfig *)(gModelVariant416_D30D0 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -80,12 +80,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT416_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT416_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E0D0 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant416_D30D0 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E0D0 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E0D0 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E0D0 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant416_D30D0 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant416_D30D0 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant416_D30D0 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -319,21 +319,21 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013CC68((u8 *)point);
+            ModelVariant416_DrawWebs((u8 *)point);
             if (work->phase == 0) {
                 work->phase = 1;
             }
         }
         if (work->config->burst_start <= work->frame) {
             if (work->phase < 5) {
-                func_8013C814((u8 *)point);
+                ModelVariant416_DrawSheets((u8 *)point);
             }
             if (work->phase < 3) {
-                func_8013C054((u8 *)point);
+                ModelVariant416_DrawBands((u8 *)point);
             }
         }
         if (work->phase >= 2) {
-            func_8013D1D4((u8 *)point);
+            FrenchModelVariant433_DrawRays((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
