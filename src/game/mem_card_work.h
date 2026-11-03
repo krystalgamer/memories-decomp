@@ -72,7 +72,7 @@ extern u8 gMemCardWork_OperationState;
 
 /* Measured two-argument caller view. The five stored callbacks currently
  * consume the root through their own MenuRecord view and ignore argument 2.
- * This is the +0x20 interior of gDisplayEffect_apfnSteps, not new storage.
+ * Defined after gDisplayEffect_apfnSteps in display_effect_process_menu_records.c.
  * The low-nibble selector is not evidence of a sixteen-entry table. */
 extern void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
     MemCardWorkRoot *root, MemCardWorkSlot *slot

@@ -185,8 +185,9 @@ void Duel_InitScene(void)
         gDuel_pSide0SaveData = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                gDuel_pSide0SaveData = gSaveData_aPairWorkspace;
-                gDuel_pSide1SaveData = gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE;
+                gDuel_pSide0SaveData = (SaveDataState *)gSaveData_aPairWorkspace;
+                gDuel_pSide1SaveData =
+                    (SaveDataState *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE);
                 Duel_ShuffleBothDecks(
                     (const u16 *)gSaveData_aPairWorkspace,
                     (const u16 *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE)
@@ -194,7 +195,7 @@ void Duel_InitScene(void)
                 return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
-            gDuel_pSide0SaveData = p;
+            gDuel_pSide0SaveData = (SaveDataState *)p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
                 goto shuffle;

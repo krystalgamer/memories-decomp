@@ -7,7 +7,7 @@ It starts from accepted request-handoff master
 
 | Former label | Canonical C name | Unchanged storage |
 |---|---|---|
-| `D_80184560` | `gMainMenu_pStartPrompt` | Four-byte stored `DisplayObject *` at `gMainMenu_FrontendState + 8` |
+| `D_80184560` | `gMainMenu_pStartPrompt` | Four-byte stored `DisplayObject *` at `0x80184560`, defined in `module_state.c` |
 | `D_801AF800`, `gMainMenu_DisplayResources` | `gDisplay_abResourceBank1` | Existing unsized `u8[]` view of the separate `0x800`-byte SU phase |
 
 ## Start-input lifecycle, not a texture identification

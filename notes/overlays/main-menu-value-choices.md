@@ -13,12 +13,10 @@ is their one shared toggle choice. They are not a current value and its
 starting value. The actual values, displayed values and output pointers
 remain in the two existing `ValueSetupEntry` records.
 
-`gMainMenu_bValueSetupToggleChoice` (formerly `D_801845BE`) remains a
-separate `u8` scalar. The linker symbols put the array at
-`gMainMenu_ValueSetupState+0x1C` and the scalar at `+0x1E`. Consequently
-array byte 2 and the scalar view overlap, but the compiler still sees the
-same two distinct C identities as before. Neither access is rewritten into
-an aggregate-member expression or the other symbol.
+Byte 2 once had a second label, `gMainMenu_bValueSetupToggleChoice`
+(formerly `D_801845BE`, the array's own `+2`). Finish now reads it as
+`gMainMenu_abValueSetupChoices[2]`, which addresses the byte the same way,
+so the array is its only name.
 
 The real initialized owner in `module_state.c` remains the complete
 `0x3C`-byte `MainMenuValueSetupState` at NA `0x801845A0`. Its three-byte
@@ -74,7 +72,7 @@ no real-time duration is inferred.
 ## Finish also commits on cancel
 
 Finish writes both target values through their saved output pointers and
-writes `(gMainMenu_bValueSetupToggleChoice != 1)` through the saved toggle
+writes `(gMainMenu_abValueSetupChoices[2] != 1)` through the saved toggle
 pointer. Thus 0 writes 1, 1 writes 0, and other byte values still write 1:
 the comparison is not replaced by logical negation or Boolean storage.
 The resident passes a byte view of the wider card-view mode; its type and

@@ -142,7 +142,6 @@ void MainMenu_InitTradeScreen(void)
 #define MAIN_MENU_TRADE_PAGE_STEP 7
 #define MAIN_MENU_TRADE_SCROLL_MAX 6
 #endif
-extern CardCountEntry gTrade_aSide1WorkingCards[];
 
 #define MAIN_MENU_TRADE_BLOCK_INDEX(byte_offset) \
     ((byte_offset) / sizeof(MainMenuTradeBlock16))
@@ -490,7 +489,7 @@ player1:
     if (gTrade_aListScroll[1].current != gTrade_aListScroll[1].target) {
         goto scroll1;
     }
-    card1 = &gTrade_aSide1WorkingCards[gTrade_aListScroll[1].current + gTrade_abCursorRow[1]];
+    card1 = &gTrade_aWorkingCards[1][gTrade_aListScroll[1].current + gTrade_abCursorRow[1]];
     if (gTrade_abReady[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -506,7 +505,7 @@ player1:
         }
         SD_SEPlay(48, 255, 0);
         MainMenu_CreateTradeReadyIndicator(1);
-        gTrade_bSide1Ready = 1;
+        gTrade_abReady[1] = 1;
         goto check_scroll1;
     }
     if ((gInput_wPad1Pressed[1] & 0x10) != 0) {
@@ -640,7 +639,7 @@ update:
         ((MainMenuWidget *)gTrade_aCardSlots[0].object)->y = gTrade_abCursorRow[0] * 22 + 36;
     }
     if (cursor1 != 0) {
-        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = gTrade_bSide1CursorRow * 22 + 36;
+        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = gTrade_abCursorRow[1] * 22 + 36;
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);

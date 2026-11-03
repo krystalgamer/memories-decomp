@@ -82,7 +82,6 @@ gDuel_awSaTecCardDrops = 0x801792F4;
 gDuel_awRankScoreChange = 0x801798A8;
 gDuel_wCardDropID = 0x80179A14;
 gDuel_aFusionTable = 0x8017C2D8;
-gMain_bMenuID = 0x80184594;
 gDuel_aDeckCardRecords = 0x801A7E20;
 gLibrary_aPasswordCardData = 0x801A8008;
 gSaveData_Workspace = 0x801D0000;
@@ -436,7 +435,6 @@ gMemCard_bDirFlags = 0x8009B44E;
 gMemCard_bRequestStep = 0x8009B44F;
 gMemCard_nIOResult = 0x8009B450;
 gFile_anLba = 0x800E9EA8;
-gPassword_abDigits = 0x8016D410;
 gDuel_awRitualData = 0x801799D8;
 gDuel_anRankScore = 0x80179A04;
 gDuel_awEquipTable = 0x8017A1D8;
@@ -638,7 +636,6 @@ gDuel_abTrapAttackThresholds = 0x8009AF24;
 gDuel_bWidespreadRuinAttackThreshold = 0x8009AF29;
 
 // Semantic names
-gMain_apMenuEntries = 0x80184568;
 Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 
 // Semantic names
@@ -1551,8 +1548,6 @@ gFile_szDiscMasterXaPath = 0x80090778;
 Duel_StepCardDataTransfer = 0x800245EC; // type:func
 gInput_bRepeatDelay = 0x8009B39C;
 gInput_bRepeatInterval = 0x8009B3A2;
-gPassword_pDigitCursorWidget = 0x8016D420;
-gPassword_nDigitIndex = 0x8016D428;
 
 // Semantic names
 PCread = 0x80073758; // type:func

@@ -227,27 +227,11 @@ loop, forms `gTrade_abReady + i` as a pointer, and compares
 `gTrade_abReady[0]` against `gTrade_abReady[1]` when deciding whether both
 players have confirmed.
 
-The second byte also has its own name, `gTrade_bSide1Ready` (`0x80185CC9`),
-and both spellings are live *in the same function*. The trade updater reads
-side 1 as `gTrade_abReady[1]` and writes it as `gTrade_bSide1Ready = 1`. `trade_offers.c` goes
-further and declares the pair as two independent scalars, never indexing at
-all.
-
-This is not drift to be tidied. The generated assembly for the trade updater
-materialises `%hi`/`%lo` of both names independently, so retail addressed the
-byte both ways and the declarations reproduce that. It is the same shape as the
-ordering-table pointers recorded in `notes/memory-map.md`, with the difference
-that here a single file uses both forms rather than two files disagreeing.
-
-Three consequences:
-
-- Do not unify the declarations. `trade_offers.c`'s scalars and the trade
-  updater's `[2]` are different addressing forms of one object.
-- A symbol-size heuristic based on the gap to the next name reports one byte
-  here, because the next name is the array's own second element.
-- The scalar spelling is still worth reading carefully: it hides that a second
-  side exists, so a reader who only opens `trade_offers.c` will not see that
-  this is per-side state.
+The second byte used to carry a second label, `gTrade_bSide1Ready`
+(`0x80185CC9`), which the trade updater wrote and `trade_offers.c` read.
+Both now spell it `gTrade_abReady[1]`: a constant index addresses
+`%hi`/`%lo(gTrade_abReady + 1)` independently, exactly as the label did, so
+the overlay still matches and the byte has one name.
 
 ### Offer rendering and working inventory
 
@@ -428,9 +412,9 @@ The two twelve-byte state records hold target/display halfwords at offsets
 `MAIN_MENU_VALUE_SETUP_CHOICE_VALUE` is 2, a side's value-bar position.
 Setup initializes the choice to `(*toggle == 0)`, and finish writes
 `(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
-caption remains unproved. The separate scalar
-`gMainMenu_bValueSetupToggleChoice` (formerly `D_801845BE`), overlapping
-the array's third byte without merging their C identities. See
+caption remains unproved. The finish step reads it as
+`gMainMenu_abValueSetupChoices[2]` (once a separate label,
+`gMainMenu_bValueSetupToggleChoice`, formerly `D_801845BE`). See
 [choice lifecycle](../../../notes/overlays/main-menu-value-choices.md)
 for the input, draw, tween, commit and real data-owner evidence. The
 [resident handoff](../../../notes/duel-card-record.md#per-side-view-mode-handoff)
@@ -710,10 +694,8 @@ the other three users only do byte arithmetic, which a cast covers.
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 
-`gMainMenu_abValueSetupChoices[2]` and `gMainMenu_bValueSetupToggleChoice`
-remain two views of one byte, each bound at its own address by the
-main-menu symbol files. The unsized array/scalar declarations, real aggregate
-owner and original alias-sensitive access pattern are unchanged.
+`gMainMenu_abValueSetupChoices[2]` is the byte formerly also labelled
+`gMainMenu_bValueSetupToggleChoice`; it now has the array name only.
 
 The renderer and the widget tween it drives, previously the subject of this
 section, remain adjacent inside the unit. Both read the same displayed-value halfword table
@@ -732,16 +714,10 @@ complete contiguous `0x708`-byte text range, ending exactly where
 
 This is the **visual** slice of the value editor only. It is not the whole
 editor: `MainMenu_StartValueSetup`, `MainMenu_FinishValueSetup` and the input
-and write-back routines remain separate units. The two files kept distinct
-views of neighbouring globals — the renderer's `ValueWidgetView *gMainMenu_apValueSetupCursors[]`
-and the tween's `u8 *gMainMenu_pValueSetupMainCursor` — and those are preserved as-is rather than
-reconciled into one array access. When that decision was made, no evidence
-established that `gMainMenu_pValueSetupMainCursor` is an element of
-`gMainMenu_apValueSetupCursors`. The current layout evidence now does: the NA
-import map binds the two at `gMainMenu_ValueSetupState + 0x10` and `+ 0x18`, so the
-named cursor is `gMainMenu_apValueSetupCursors + 8` (element 2), the slot
-`MainMenu_StartValueSetup` fills with its third cursor sprite. The separate
-spelling is still kept in C; no array-access rewrite is implied.
+and write-back routines remain separate units. The tween's cursor, once
+labelled `gMainMenu_pValueSetupMainCursor` at `0x801845B8`, is element 2 of
+`gMainMenu_apValueSetupCursors` (the slot `MainMenu_StartValueSetup` fills
+with its third cursor sprite), and the tween now reads it as that element.
 
 ## Value-editor rendering
 

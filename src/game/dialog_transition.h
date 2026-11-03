@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* Dialog transition callbacks, also present in gDisplayEffect_apfnSteps.
+/* Dialog transition callbacks, stored in gDialog_apfnTransitionSteps.
  * Their first-entry latch and progress bits share gDialog_bCallbackState with the
  * memory-card controller; this is not per-record state.
  *

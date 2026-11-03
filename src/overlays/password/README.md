@@ -44,18 +44,17 @@ observed prefix. No screen function bodies or callback signatures change.
 
 ## Shared module state
 
-[`module_state.c`](module_state.c) owns the zero-initialized
-`0x8016D400-0x8016D590` prefix as one `PasswordModuleState`. Its fields cover
-the name-entry flags, selection frame and caret state followed by the password
-digits, cursor, preview, selected card and shop state. The record is asserted
-to remain exactly `0x190` bytes; data after `0x8016D590` remains raw.
+[`module_state.c`](module_state.c) defines the zero-initialized
+`0x8016D400-0x8016D590` prefix as separate variables in address order: the
+name-entry flags, selection frame and caret state followed by the password
+digits, cursor, preview, selected card and shop state. Japan and Europe place
+the same names at other addresses and in another order, so they are not
+fields of one record. Three `D_` arrays cover bytes no consumer names; data
+after `0x8016D590` remains raw.
 
-[`module_state.h`](module_state.h) centralizes the historical declarations so
-matching C and stored candidates preserve their original relocations.
-`password_linker_symbols.txt` maps each historical interior name to an offset
-from `gPassword_ModuleState`, allowing generated unmatched assembly to keep
-using names such as `gNameEntry_bStateFlags` and `gNameEntry_wSelectionFrameFlags` without creating duplicate
-storage owners.
+[`module_state.h`](module_state.h) declares them for the matching C, and
+`password_symbols.txt` marks each one defined so Splat does not bind it a
+second time.
 
 ## Password-shop lifecycle translation unit
 

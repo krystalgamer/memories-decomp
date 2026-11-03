@@ -116,7 +116,6 @@ g_SDValue_output_level = g_SDValue;
 bss_start = main_SBSS_START;
 
 /* Names inside the small zero-initialized blocks this build's units own (#2602). */
-gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
 
@@ -125,11 +124,6 @@ gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 /* Names inside model_scene_controllers's own storage (#2602). */
 gDisplay_abResourceBank1 = 0x801BF800;
 gText_StagedValues = 0x801D5608;
-
-/* Names inside the initialized tables Japan's units own (#2602). */
-gText_apfnPrimaryCommands = gText_SecondaryCommandHandlers + 108;
-gDuelEffect_EntryHandlers = gText_SecondaryCommandHandlers + 172;
-gDialog_apfnTransitionSteps = gDisplayEffect_apfnSteps + 32;
 
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;

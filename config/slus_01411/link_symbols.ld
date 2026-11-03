@@ -110,7 +110,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 /* Auxiliary slot's retained load-step byte view. */
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
-gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 
 /* Other names for game/script_op_load_image_scene's small data (#2602). */
 

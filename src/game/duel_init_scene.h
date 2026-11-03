@@ -23,25 +23,24 @@ void Duel_InitScene(void);
 extern DisplayObject *gDuel_pTerrainIcon;
 extern DisplayObject *gDuel_pLifePointsPanel;
 
-/* Save-data windows selected while the duel scene starts. The no-opponent
- * path points them at the two 0x1000-byte halves of gSaveData_aPairWorkspace; the normal
- * path uses the buffers returned by the duel package transfer.
- * func_800218F0 indexes the two adjacent pointer words at B1D8/B1DC;
- * the bounded eight-byte pair remains GP-relative at -G8. That arm is
- * declared SaveDataState *, since every reach through it is a save-record
- * member; the scalar arm stays u8 * for Duel_InitScene, which only assigns
- * the two byte buffers into it. Both words
- * already have real backing in bss_image_after_viewport. This view does
- * not allocate over two separately defined C scalars. Existing consumers
- * retain their independent scalar linker identities. The pair arm indexes
- * the first word by duel side, so its element 1 is gDuel_pSide1SaveData;
- * DuelResult updates the winner's wins, the loser's losses and side 0's
- * starchips through it. */
+/* Save-data windows selected while the duel scene starts, one per duel side.
+ * The no-opponent path points them at the two 0x1000-byte halves of
+ * gSaveData_aPairWorkspace; the normal path uses the buffers returned by the
+ * duel package transfer. They are two adjacent scalars, each defined once in
+ * duel_field_card_render.c: Duel_InitScene stores each through its own
+ * GP-relative address, which one two-entry array would fold into a shared
+ * base register.
+ *
+ * DuelResult instead indexes the pair by side from gDuel_pSide0SaveData, and
+ * retail reloads side 0's pointer after each starchip store. GCC 2.8 only
+ * reloads when that read is an array access, so DUEL_SAVE_WINDOWS_AS_PAIR
+ * declares gDuel_pSide0SaveData as the eight-byte pair it starts; the second
+ * entry is gDuel_pSide1SaveData. */
 #ifdef DUEL_SAVE_WINDOWS_AS_PAIR
 extern SaveDataState *gDuel_pSide0SaveData[2];
 #else
-extern u8 *gDuel_pSide0SaveData;
+extern SaveDataState *gDuel_pSide0SaveData;
+extern SaveDataState *gDuel_pSide1SaveData;
 #endif
-extern u8 *gDuel_pSide1SaveData;
 
 #endif

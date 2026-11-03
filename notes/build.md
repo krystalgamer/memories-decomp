@@ -1166,9 +1166,8 @@ reason to treat them as two jobs rather than one. And `free_duel` has only
 five labels across six kilobytes, so the vast majority of it is unnamed.
 
 `main_menu` previously held a hazard that is now accounted for:
-`gTrade_abReady` and `gTrade_bSide1Ready` are adjacent bytes inside
-`gMainMenu_TradeState`, while interior linker bindings preserve the array view
-and the scalar neighbour used by different consumers.
+`gTrade_bSide1Ready` was a second label for `gTrade_abReady[1]`; both
+consumers now spell the array element.
 
 `free_duel` is the smallest by label count, and its named prefix is now
 C-owned. Consumer widths, rather than generated label extents, establish:
@@ -1204,9 +1203,8 @@ see it.
 
 The password head is now mapped without accepting those misleading sparse
 extents. [`module_state.c`](../src/overlays/password/module_state.c) owns the
-complete `0x8016D400-0x8016D590` prefix as one `0x190`-byte
-`PasswordModuleState`, whose field offsets are supported by the name-entry and
-shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
+complete `0x8016D400-0x8016D590` prefix as separate variables whose types are
+supported by the name-entry and shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
 
 `shop.c` declares `extern u8 *gPassword_apDigitCursorDecorations[]` and walks it to store **four**
 objects -- sixteen bytes -- and the overlay's own function notes describe
@@ -1295,14 +1293,17 @@ The remaining overlay data work is in the current raw tails:
 | `overworld_before_coup` | `0x2274-0x3000` | 3468 |
 | `overworld_after_coup` | `0x2274-0x3000` | 3468 |
 
-The mapped main-menu prefix now covers `0x80184558-0x80185CD4`: three
-consecutive typed objects own frontend state, value-setup state, both
-722-card Trade inventory rows, scroll positions, offers, and interaction
-flags. Historical names remain linker aliases at their original offsets,
-including `D_801845BC[2]`/`D_801845BE`,
-`gTrade_aWorkingCards[1]`/`gTrade_aSide1WorkingCards`, and
-`gTrade_abReady[1]`/`gTrade_bSide1Ready`. The two nonzero loaded-image padding bytes at
-`0x8018459E-0x8018459F` are explicit rather than being silently zero-filled.
+The mapped main-menu prefix now covers `0x80184558-0x80185CD4`:
+`module_state.c` defines each frontend, value-setup and Trade name once, in
+address order, with `D_` placeholders for unnamed bytes. Former second labels
+are array elements (`gMainMenu_abValueSetupChoices[2]`,
+`gMainMenu_apValueSetupCursors[2]`, `gTrade_aWorkingCards[1]`,
+`gTrade_abReady[1]`, `gTrade_abCursorRow[1]`). The one remaining binding is
+`gTrade_abCursorRow = D_80185CCA`: GCC 2.8.1 word-aligns every byte array or
+struct in `.data`, so no C object can start at `0x80185CCA`. Retail most
+likely got that address from a linker-allocated common. The two nonzero
+loaded-image padding bytes `D_8018459E`/`D_8018459F` are explicit rather
+than being silently zero-filled.
 
 The ranges in the table still require consumer-backed boundaries before they
 can be split further. The data-only overlay manifest and build path are no

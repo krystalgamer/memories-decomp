@@ -8,7 +8,7 @@
  *
  * Each callback receives the MenuRecord selected from gDisplayEffect_aMenuRecords. Left
  * unsized deliberately: its consumer indexes it with `& 0x1F`, which permits
- * thirty-two entries against the thirteen defined, so a bound here would
+ * thirty-two entries against the eight defined, so a bound here would
  * contradict the call site rather than describe it. */
 extern void (*gDisplayEffect_apfnSteps[])(MenuRecord *);
 

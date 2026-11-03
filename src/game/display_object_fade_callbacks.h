@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* The last four entries of the duel effect command table gText_SecondaryCommandHandlers
+/* The four duel effect entry handlers in gDuelEffect_EntryHandlers
  * (duel_effect_command_table.c), in table order: DuelEffect_UpdateGlyphConceal,
  * DuelEffect_UpdateGlyphReveal, DuelEffect_UpdateGlyphConceal again, DuelEffect_UpdateDelayedGlyphRotation.
  *

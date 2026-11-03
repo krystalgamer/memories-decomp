@@ -44,9 +44,6 @@ func_80058838 = 0x80058838;
 func_80058938 = 0x80058938;
 func_8007058C = 0x8007058C;
 func_800705AC = 0x800705AC;
-gText_apfnPrimaryCommands = 0x80090F18;
-gDuelEffect_EntryHandlers = 0x80090F58;
-gDialog_apfnTransitionSteps = 0x80090F88;
 D_8009AF76 = 0x8009AF76;
 D_8009AF7A = 0x8009AF7A;
 D_8009B268 = 0x8009B268;
@@ -123,7 +120,6 @@ D_801D9174_b = 0x801D9174;
 D_801D9174 = 0x801D9174;
 gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
-gMain_bModeRunnerStep = 0x8009B26E;
 
 
 
