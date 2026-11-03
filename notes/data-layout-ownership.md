@@ -315,6 +315,19 @@ higher. Each split places the same seventeen owners, and bins remain for:
 Their `debug_effect_screen` small data is seven bytes. Placing the owners
 removed 74 more linker assignments per build.
 
+Japan's small initialized data starts `0xC0` below the North American
+`.sdata`. Like Europe, it places the movie and camera-orbit units before the
+model units. Its split places seventeen owners from `main_services`
+(`0x8009AE48`) to `ai_script_source_line_format`. Bins remain for:
+- eight bytes after `duel_field_effects`;
+- Japan's own `model_graphics_state` layout;
+- the `model_scene_controllers`/`model_debug_controller` run;
+- four bytes before `ai_script_source_line_format`.
+
+With every build now owning `main_services`, `main_frame` and
+`debug_effect_screen`, the shared sources define `runtime_gp`,
+`gMain_bSoundVSyncBusy` and `gDebugEffect_abPreviewState` unconditionally.
+
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative
 definitions in declaration order, so this is a source difference, not a

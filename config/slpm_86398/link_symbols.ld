@@ -87,7 +87,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 gScript_pMenuRecord = 0x8009B164;
-gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
@@ -127,3 +126,8 @@ gText_StagedValues = 0x801D5608;
 
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
+/* Names inside the small initialized data this build's units own (#2602). */
+D_8009AE50 = _ramsize;
+D_8009AE54 = _stacksize;
+gJapanese_D_8009AFDC = gModel_dwSecondPassClutBits;
+gJapanese_D_8009AFE0 = gModel_dwLitColorCacheBase;
