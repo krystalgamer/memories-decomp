@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_rays.h"
 
-void func_8013E3EC(u8 *context)
+void FrenchModelVariant373_DrawRays(u8 *context)
 {
     Family373RayView *work = (Family373RayView *)context;
     SVECTOR rotation;

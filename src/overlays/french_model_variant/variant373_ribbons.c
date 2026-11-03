@@ -2,7 +2,7 @@
 #include "variant373_ribbons.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013D784(u8 *context)
+void FrenchModelVariant373_DrawRibbons(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

@@ -2,7 +2,7 @@
 
 Fourteen distinct images for models 31, 290, 295, 408, 501, 518 and 531
 have an independently matched 2,384-byte entry. The unchanged accepted
-French canonical body, header and slot wrapper are selected under
+French canonical body and header, built in both slots, are selected under
 `gcc_2_8_1_g0_split`, using GCC 2.8.1 and MASPSX 2.81. No compiler,
 shared SDK declaration or other regional mapping changes. The shared
 model/graphics header now includes the existing canonical

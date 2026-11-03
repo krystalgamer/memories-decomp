@@ -91,7 +91,7 @@ segments:
     vram: 0x8013E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/model_variant/variant462_streamers]
+      - [0x3068, c, overlays/spanish_model_variant/variant479_streamers]
   - name: helper_37dc
     type: code
     start: 0x37DC

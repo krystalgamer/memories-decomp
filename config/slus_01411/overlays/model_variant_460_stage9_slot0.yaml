@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CF34
     align: 4
     subsegments:
-      - [0x1F34, c, overlays/model_variant/variant439_sprays]
+      - [0x1F34, c, overlays/spanish_model_variant/variant456_sprays]
   - name: helper_2a60
     type: code
     start: 0x2A60

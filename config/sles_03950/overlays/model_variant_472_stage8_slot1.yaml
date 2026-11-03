@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant336_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant336_entry]
   - name: ribbon
     type: code
     start: 0xA9C
     vram: 0x8017BA9C
     align: 4
     subsegments:
-      - [0xA9C, c, overlays/french_model_variant/variant336_ribbon_slot1]
+      - [0xA9C, c, overlays/french_model_variant/variant336_ribbon]
   - name: sheets
     type: code
     start: 0x13D4
     vram: 0x8017C3D4
     align: 4
     subsegments:
-      - [0x13D4, c, overlays/french_model_variant/variant336_sheets_slot1]
+      - [0x13D4, c, overlays/french_model_variant/variant336_sheets]
   - name: strand
     type: code
     start: 0x1860
     vram: 0x8017C860
     align: 4
     subsegments:
-      - [0x1860, c, overlays/french_model_variant/variant336_strand_slot1]
+      - [0x1860, c, overlays/french_model_variant/variant336_strand]
   - name: streamers
     type: code
     start: 0x1B6C
     vram: 0x8017CB6C
     align: 4
     subsegments:
-      - [0x1B6C, c, overlays/french_model_variant/variant336_streamers_slot1]
+      - [0x1B6C, c, overlays/french_model_variant/variant336_streamers]
   - name: unclassified_tail
     type: code
     start: 0x23B8

@@ -54,63 +54,63 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant435_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant435_entry]
   - name: helper_1084
     type: code
     start: 0x1084
     vram: 0x8017C084
     align: 4
     subsegments:
-      - [0x1084, c, overlays/french_model_variant/variant435_spiral_slot1]
+      - [0x1084, c, overlays/french_model_variant/variant435_spiral]
   - name: helper_1AD4
     type: code
     start: 0x1AD4
     vram: 0x8017CAD4
     align: 4
     subsegments:
-      - [0x1AD4, c, overlays/french_model_variant/variant435_sheet_slot1]
+      - [0x1AD4, c, overlays/model_variant/variant418_sheet]
   - name: unmatched_1E7C
     type: code
     start: 0x1E7C
     vram: 0x8017CE7C
     align: 4
     subsegments:
-      - [0x1E7C, c, overlays/french_model_variant/variant435_webs_slot1]
+      - [0x1E7C, c, overlays/model_variant/variant418_webs]
   - name: helper_2258
     type: code
     start: 0x2258
     vram: 0x8017D258
     align: 4
     subsegments:
-      - [0x2258, c, overlays/french_model_variant/variant435_ribbons_slot1]
+      - [0x2258, c, overlays/french_model_variant/variant435_ribbons]
   - name: helper_28A4
     type: code
     start: 0x28A4
     vram: 0x8017D8A4
     align: 4
     subsegments:
-      - [0x28A4, c, overlays/french_model_variant/variant435_bands_slot1]
+      - [0x28A4, c, overlays/model_variant/variant418_bands]
   - name: helper_2FB0
     type: code
     start: 0x2FB0
     vram: 0x8017DFB0
     align: 4
     subsegments:
-      - [0x2FB0, c, overlays/french_model_variant/variant435_spokes_slot1]
+      - [0x2FB0, c, overlays/model_variant/variant418_spokes]
   - name: helper_32B8
     type: code
     start: 0x32B8
     vram: 0x8017E2B8
     align: 4
     subsegments:
-      - [0x32B8, c, overlays/french_model_variant/variant435_rings_slot1]
+      - [0x32B8, c, overlays/model_variant/variant418_rings]
   - name: helper_3634
     type: code
     start: 0x3634
     vram: 0x8017E634
     align: 4
     subsegments:
-      - [0x3634, c, overlays/french_model_variant/variant435_quad_slot1]
+      - [0x3634, c, overlays/model_variant/variant418_quad]
   - name: unclassified_tail
     type: code
     start: 0x3998

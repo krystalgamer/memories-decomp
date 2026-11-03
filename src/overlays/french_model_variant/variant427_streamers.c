@@ -5,7 +5,7 @@
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. */
-void func_8013DDF8(u8 *ctx)
+void FrenchModelVariant427_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -1,6 +1,6 @@
 # French MODEL388 strips helper
 
-`func_8013BCD4` / `func_8017BCD4` (MODEL388 family, image offset `0xCD4`,
+`FrenchModelVariant388_DrawStrips` (`0x8013BCD4` / `0x8017BCD4`, MODEL388 family, image offset `0xCD4`,
 0x670 bytes) builds two five-point strips, projects them with
 `RotTransPers3`, draws them, and then advances the grow and shrink timing.
 **No release had matching C for this body before.** It is written from

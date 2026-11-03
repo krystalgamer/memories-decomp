@@ -13,7 +13,7 @@
  * `do { } while (0)`: the loop notes stop the scheduler from hoisting the
  * counter increment above it, which reproduces the retail order. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
 {
     u32 screen_x;
     MATRIX unused_matrix0, unused_matrix1;
@@ -64,7 +64,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant474EntryConfig *)(D_8013E980 + 0x1C) + command;
+        work->config = (Variant474EntryConfig *)(gFrenchModelVariant474_D3980 + 0x1C) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -80,13 +80,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT474_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT474_CLUT_X, 244);
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)D_8013E980);
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x38));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0xA8));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)gFrenchModelVariant474_D3980);
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant474_D3980 - 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant474_D3980 - 0xA8));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x70));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant474_D3980 - 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant474_D3980 - 0x70));
         tpage2 = GetTPage(1, 1, 896, 0);
         clut2 = GetClut(MODEL_VARIANT474_CLUT_X, 244);
         SetPolyG3(triangle);
@@ -336,9 +336,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->frame) {
-            func_8013C738((u8 *)point);
+            FrenchModelVariant474_DrawPairedFunnels((u8 *)point);
             if (work->phase < 6) {
-                func_8013BE38((u8 *)point);
+                FrenchModelVariant474_DrawRibbon((u8 *)point);
             }
         }
         work->frame_count++;

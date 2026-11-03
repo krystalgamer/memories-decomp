@@ -12,7 +12,7 @@
 #define RIBBONS389_SB(k) (ribbon->sb[k])
 #endif
 
-void func_8013BE68(u8 *context)
+void FrenchModelVariant389_DrawRibbons(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

@@ -1,9 +1,9 @@
 // Japanese MODEL.MRG model 78 (record 78), sector 21738, header 862, loaded at 0x8017B000; built from the US source layout of model_variant_78_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x14AC
+FrenchModelVariant782_HandleRequest = 0x8017B004; // type:func size:0x14AC
 D_8017C4B0 = 0x8017C4B0; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017C4C0 = 0x8017C4C0; // type:u8 size:0x8C defined:true
-D_8017C54C = 0x8017C54C; // type:u8 size:0x3AB4 defined:true
+gFrenchModelVariant782_D14C0 = 0x8017C4C0; // type:u8 size:0x8C defined:true
+gFrenchModelVariant782_D154C = 0x8017C54C; // type:u8 size:0x3AB4 defined:true
 GsSetLsMatrix = 0x800855D0; // type:func absolute:true
 GsSortBoxFill = 0x80084240; // type:func absolute:true
 Model_CopySlotPosition = 0x80058FB0; // type:func absolute:true

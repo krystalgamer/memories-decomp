@@ -49,5 +49,5 @@ typedef struct {
     s32 rotation_z;
 } Variant449StreamerView;
 
-void func_8013CB9C(u8 *ctx);
+void FrenchModelVariant449_DrawStreamers(u8 *ctx);
 #endif

@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_99826_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_99826_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_99826_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_99826_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -54,13 +56,13 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant442_entry_slot1]
-      - [0x13E4, c, overlays/model_variant/variant442_warp_slot1]
-      - [0x19E0, c, overlays/model_variant/variant442_curtains_slot1]
-      - [0x2008, c, overlays/model_variant/variant442_rays_slot1]
-      - [0x263C, c, overlays/model_variant/variant442_spiral_slot1]
-      - [0x32C0, c, overlays/model_variant/variant442_bands_slot1]
-      - [0x3AC0, c, overlays/model_variant/variant442_sheets_slot1]
-      - [0x4080, c, overlays/model_variant/variant442_lines_slot1]
+      - [0x4, c, overlays/model_variant/variant442_entry]
+      - [0x13E4, c, overlays/model_variant/variant442_warp]
+      - [0x19E0, c, overlays/spanish_model_variant/variant459_curtains]
+      - [0x2008, c, overlays/spanish_model_variant/variant459_rays]
+      - [0x263C, c, overlays/spanish_model_variant/variant459_spiral]
+      - [0x32C0, c, overlays/spanish_model_variant/variant459_bands]
+      - [0x3AC0, c, overlays/spanish_model_variant/variant459_sheets]
+      - [0x4080, c, overlays/spanish_model_variant/variant459_lines]
       - [0x45EC, data, overlays/japanese_model_image_model_99826_8017b000/data]
   - [0x5000]

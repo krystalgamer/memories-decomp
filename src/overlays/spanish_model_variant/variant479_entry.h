@@ -7,7 +7,7 @@
 #include "variant479_ribs.h"
 #include "variant479_spiral.h"
 
-/* One 0x2C-byte command record of header 479's table at D_8013ED20 + 0xFC. */
+/* One 0x2C-byte command record of header 479's table at gSpanishModelVariant479_D3D20 + 0xFC. */
 typedef struct {
     u8 unknown_00[4];
     u8 color[3];
@@ -64,11 +64,11 @@ typedef struct {
     s16 slot, command;
 } Variant479EntryState;
 
-extern u8 D_8013ED20[];
-void func_8013BFD0(u8 *context);
-void func_8013C4F8(u8 *context);
-void func_8013CF68(u8 *context);
-void func_8013DB90(u8 *context);
-void func_8013E860(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gSpanishModelVariant479_D3D20[];
+void FrenchModelVariant379_DrawGrid(u8 *context);
+void SpanishModelVariant479_DrawSpiral(u8 *context);
+void SpanishModelVariant479_DrawRibs(u8 *context);
+void SpanishModelVariant479_DrawSheets(u8 *context);
+void SpanishModelVariant479_DrawCurtains(u8 *context);
+s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command);
 #endif

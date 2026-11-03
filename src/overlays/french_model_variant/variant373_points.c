@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_points.h"
 
-void func_8013CEE4(u8 *context)
+void FrenchModelVariant373_DrawPoints(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

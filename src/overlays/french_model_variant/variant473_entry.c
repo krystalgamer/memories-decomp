@@ -5,7 +5,7 @@
 #define MODEL_VARIANT473_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState473 *work = (EntryState473 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -35,7 +35,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig473 *)(D_8013ECE4 + 0xFC) + command;
+        work->config = (EntryConfig473 *)(gFrenchModelVariant473_D3CE4 + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -49,16 +49,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT473_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT473_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ECE4 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant473_D3CE4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ECE4 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant473_D3CE4 + 0x8C));
         extra_page = packed >> 16;
         extra_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ECE4 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant473_D3CE4 + 0x1C));
         funnel_page = packed >> 16;
         funnel_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ECE4 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant473_D3CE4 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -324,17 +324,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if ((u32)(work->phase - 3) < 3) {
-            func_8013E86C((u8 *)point);
-            func_8013C04C((u8 *)point);
+            SpanishModelVariant473_DrawFunnels((u8 *)point);
+            FrenchModelVariant385_DrawGrid((u8 *)point);
         }
         if ((u32)(work->phase - 2) < 3) {
-            func_8013CFB0((u8 *)point);
+            FrenchModelVariant473_DrawRibs((u8 *)point);
         }
         if ((u32)(work->phase - 1) < 4) {
-            func_8013C5AC((u8 *)point);
+            SpanishModelVariant473_DrawSpiral((u8 *)point);
         }
         if (work->config->draw_start <= work->elapsed && work->phase < 5) {
-            func_8013DBE8((u8 *)point);
+            SpanishModelVariant473_DrawSheets((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

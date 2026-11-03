@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant427_panels.h"
 
-void func_8013D8A0(u8 *context)
+void SpanishModelVariant427_DrawPanels(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

@@ -1,8 +1,8 @@
 // MODEL.MRG model 85 (record 85), sector 23670, header 220, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x1184
+FrenchModelVariant107_HandleRequest = 0x8017B004; // type:func size:0x1184
 D_8017C188 = 0x8017C188; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017C198 = 0x8017C198; // type:u8 size:0x3E68 defined:true
+gFrenchModelVariant107_D1198 = 0x8017C198; // type:u8 size:0x3E68 defined:true
 AverageZ4 = 0x80089C90; // type:func absolute:true
 GetDispEnv = 0x800803F4; // type:func absolute:true
 GetTPage = 0x80082780; // type:func absolute:true

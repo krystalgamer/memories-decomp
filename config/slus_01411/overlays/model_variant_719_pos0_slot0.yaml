@@ -61,14 +61,14 @@ segments:
     vram: 0x8013C110
     align: 4
     subsegments:
-      - [0x1110, c, overlays/model_variant/variant455_blooms]
+      - [0x1110, c, overlays/french_model_variant/variant472_blooms]
   - name: helper_1738
     type: code
     start: 0x1738
     vram: 0x8013C738
     align: 4
     subsegments:
-      - [0x1738, c, overlays/model_variant/variant455_mesh]
+      - [0x1738, c, overlays/french_model_variant/variant472_mesh]
   - name: helper_1d3c
     type: code
     start: 0x1D3C
@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D888
     align: 4
     subsegments:
-      - [0x2888, c, overlays/model_variant/variant455_sheets]
+      - [0x2888, c, overlays/spanish_model_variant/variant472_sheets]
   - name: data
     type: code
     start: 0x2C34

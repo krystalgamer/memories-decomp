@@ -4,7 +4,7 @@
 
 /* Header 404's copy of the header-397 phased webs, at its own work-area
  * offsets. */
-void func_8013E18C(u8 *ctx)
+void ModelVariant404_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

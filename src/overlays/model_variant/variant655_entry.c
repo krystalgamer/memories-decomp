@@ -10,7 +10,7 @@
  * prints the work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char D_8013FBE0[24] = "E_DATA size = %x byte\n\0\0";
+static const char gModelVariant655_D4BE0[24] = "E_DATA size = %x byte\n\0\0";
 #endif
 
 #define TRACK_POINT(index, point)                                              \
@@ -20,7 +20,7 @@ static const char D_8013FBE0[24] = "E_DATA size = %x byte\n\0\0";
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant655_HandleRequest(u8 *context, s32 command)
 {
     Model655State *work;
     MATRIX ls;
@@ -46,16 +46,16 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model655State));
 #ifndef VERSION_FRENCH
-        printf(D_8013FBE0, sizeof(Model655State));
+        printf(gModelVariant655_D4BE0, sizeof(Model655State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013FD94[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant655_D4D94[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013FD94[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant655_D4D94[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -150,8 +150,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count = 8;
             break;
         }
-        work->radius = D_8013FDCC[command].radius;
-        work->height = D_8013FDCC[command].height;
+        work->radius = gModelVariant655_D4DCC[command].radius;
+        work->height = gModelVariant655_D4DCC[command].height;
         for (i = 0; i < work->rows; i++) {
             work->streaks[i].active = 0;
             work->streaks[i].elapsed = 0;
@@ -213,9 +213,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->streaks[i].mode = 1;
             work->streaks[i].coord = Model_GetCameraCoordinateUnit();
-            work->streaks[i].color[0] = D_8013FDCC[command].color[0];
-            work->streaks[i].color[1] = D_8013FDCC[command].color[1];
-            work->streaks[i].color[2] = D_8013FDCC[command].color[2];
+            work->streaks[i].color[0] = gModelVariant655_D4DCC[command].color[0];
+            work->streaks[i].color[1] = gModelVariant655_D4DCC[command].color[1];
+            work->streaks[i].color[2] = gModelVariant655_D4DCC[command].color[2];
             work->streaks[i].u = 0;
             work->streaks[i].v = 0;
             work->streaks[i].done = 0;
@@ -231,9 +231,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].duration = 48;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = D_8013FDCC[command].color[3];
-            work->bursts[i].color[1] = D_8013FDCC[command].color[4];
-            work->bursts[i].color[2] = D_8013FDCC[command].color[5];
+            work->bursts[i].color[0] = gModelVariant655_D4DCC[command].color[3];
+            work->bursts[i].color[1] = gModelVariant655_D4DCC[command].color[4];
+            work->bursts[i].color[2] = gModelVariant655_D4DCC[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
@@ -263,9 +263,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->sparks[i][j].duration = 48;
                 work->sparks[i][j].mode = 1;
                 work->sparks[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->sparks[i][j].color[0] = D_8013FDCC[command].color[3];
-                work->sparks[i][j].color[1] = D_8013FDCC[command].color[4];
-                work->sparks[i][j].color[2] = D_8013FDCC[command].color[5];
+                work->sparks[i][j].color[0] = gModelVariant655_D4DCC[command].color[3];
+                work->sparks[i][j].color[1] = gModelVariant655_D4DCC[command].color[4];
+                work->sparks[i][j].color[2] = gModelVariant655_D4DCC[command].color[5];
                 work->sparks[i][j].u = 0;
                 work->sparks[i][j].v = 64;
                 setVector(&work->sparks[i][j].scale, 4096, 4096, 4096);
@@ -292,7 +292,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->sparks[i][j].position.vz += work->direction * 450;
             }
         }
-        work->delay = D_8013FDCC[command].delay;
+        work->delay = gModelVariant655_D4DCC[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -993,9 +993,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     value = (duration - work->streaks[i].elapsed) * 5;
                     /* The divisor is a copy held in a saved register. */
                     scale = duration;
-                    work->streaks[i].color[0] = D_8013FDCC[work->command].color[0] * value / scale;
-                    work->streaks[i].color[1] = D_8013FDCC[work->command].color[1] * value / scale;
-                    work->streaks[i].color[2] = D_8013FDCC[work->command].color[2] * value / scale;
+                    work->streaks[i].color[0] = gModelVariant655_D4DCC[work->command].color[0] * value / scale;
+                    work->streaks[i].color[1] = gModelVariant655_D4DCC[work->command].color[1] * value / scale;
+                    work->streaks[i].color[2] = gModelVariant655_D4DCC[work->command].color[2] * value / scale;
                 }
                 for (j = 0; j < work->streaks[i].count * 2 - 1; j++) {
                     scale = j + 1;
@@ -1107,9 +1107,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     scale = work->bursts[i].duration;
-                    work->bursts[i].color[0] = D_8013FDCC[work->command].color[3] * value / scale;
-                    work->bursts[i].color[1] = D_8013FDCC[work->command].color[4] * value / scale;
-                    work->bursts[i].color[2] = D_8013FDCC[work->command].color[5] * value / scale;
+                    work->bursts[i].color[0] = gModelVariant655_D4DCC[work->command].color[3] * value / scale;
+                    work->bursts[i].color[1] = gModelVariant655_D4DCC[work->command].color[4] * value / scale;
+                    work->bursts[i].color[2] = gModelVariant655_D4DCC[work->command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -1176,9 +1176,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     if (work->sparks[i][j].duration / 2 < work->sparks[i][j].elapsed) {
                         value = (work->sparks[i][j].duration - work->sparks[i][j].elapsed) * 2;
                         scale = work->sparks[i][j].duration;
-                        work->sparks[i][j].color[0] = D_8013FDCC[work->command].color[3] * value / scale;
-                        work->sparks[i][j].color[1] = D_8013FDCC[work->command].color[4] * value / scale;
-                        work->sparks[i][j].color[2] = D_8013FDCC[work->command].color[5] * value / scale;
+                        work->sparks[i][j].color[0] = gModelVariant655_D4DCC[work->command].color[3] * value / scale;
+                        work->sparks[i][j].color[1] = gModelVariant655_D4DCC[work->command].color[4] * value / scale;
+                        work->sparks[i][j].color[2] = gModelVariant655_D4DCC[work->command].color[5] * value / scale;
                     }
                     for (k = 0; k < 8; k++) {
                         unit.flg = 0;

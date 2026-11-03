@@ -54,28 +54,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant461_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant461_entry]
   - name: helper_1508
     type: code
     start: 0x1508
     vram: 0x8017C508
     align: 4
     subsegments:
-      - [0x1508, c, overlays/french_model_variant/variant461_ribbons_slot1]
+      - [0x1508, c, overlays/french_model_variant/variant461_ribbons]
   - name: helper_1F54
     type: code
     start: 0x1F54
     vram: 0x8017CF54
     align: 4
     subsegments:
-      - [0x1F54, c, overlays/spanish_model_variant/variant461_sheets_slot1]
+      - [0x1F54, c, overlays/spanish_model_variant/variant461_sheets]
   - name: helper_2498
     type: code
     start: 0x2498
     vram: 0x8017D498
     align: 4
     subsegments:
-      - [0x2498, c, overlays/spanish_model_variant/variant461_rings_slot1]
+      - [0x2498, c, overlays/spanish_model_variant/variant461_rings]
   - name: unclassified_tail
     type: code
     start: 0x28D4

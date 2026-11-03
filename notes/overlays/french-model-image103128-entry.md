@@ -4,12 +4,15 @@ MODEL.MRG sector 103128 (slot 0) and sector 103138 (slot 1) share this
 3,816-byte entry at image offset `0x4`. Each complete 20,480-byte image
 matches its original bytes with `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
 2.81. The four-byte loader header and raw suffix beginning at `0xEEC`
-remain unchanged. The function names and raw module identities are retained.
+remain unchanged. One source serves both slots: each image's symbols file
+binds `FrenchModelVariant857_HandleRequest` and the three raw-tail data names
+(`gFrenchModelVariant857_D0EEC`, `_D0EFC`, `_D0F34`) at its own addresses,
+replacing the per-region linker assignments.
 
 | Sector | Entry | Complete-image SHA-256 |
 |---|---|---|
-| 103128 | `func_8013B004` | `d2c6179efd66e6a17cfa32ad5d2bee5324590ba5fc58e02a7597b2dc5e6ad208` |
-| 103138 | `func_8017B004` | `121a41edde9b0e40f2c83c6efec12fc785bb239921464482ba74f3fc7085a486` |
+| 103128 | `0x8013B004` | `d2c6179efd66e6a17cfa32ad5d2bee5324590ba5fc58e02a7597b2dc5e6ad208` |
+| 103138 | `0x8017B004` | `121a41edde9b0e40f2c83c6efec12fc785bb239921464482ba74f3fc7085a486` |
 
 ## Measured behavior and layout
 

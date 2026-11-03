@@ -24,7 +24,7 @@ typedef struct {
     u8 unknown_28[0x0C];
 } EntryConfig455;
 
-/* One 0x2B4-byte group of twelve blooming quads (drawn by func_8013C110). */
+/* One 0x2B4-byte group of twelve blooming quads (drawn by FrenchModelVariant472_DrawBlooms). */
 typedef struct {
     SVECTOR a[12], b[12], c[12], d[12];
     u8 unknown_180[0x60];
@@ -90,11 +90,11 @@ typedef struct {
 
 /* Nine-entry GsIMAGE table (entries 1, 3, 5 and 7 are uploaded) and the
  * command table; the French image places them at 0x8013DC58/0x8013DD54. */
-extern GsIMAGE D_8013DC34[9];
-extern EntryConfig455 D_8013DD30[];
-void func_8013C110(u8 *context);
-void func_8013C738(u8 *context);
-void func_8013CD3C(u8 *context);
-void func_8013D888(u8 *context);
+extern GsIMAGE gModelVariant455_D2C34[9];
+extern EntryConfig455 gModelVariant455_D2D30[];
+void FrenchModelVariant472_DrawBlooms(u8 *context);
+void FrenchModelVariant472_DrawMesh(u8 *context);
+void SpanishModelVariant472_DrawSpiral(u8 *context);
+void SpanishModelVariant472_DrawSheets(u8 *context);
 
 #endif

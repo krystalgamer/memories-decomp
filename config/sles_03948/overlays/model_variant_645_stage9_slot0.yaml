@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C2B4
     align: 4
     subsegments:
-      - [0x12B4, c, overlays/french_model_variant/variant415_rings]
+      - [0x12B4, c, overlays/model_variant/variant398_rings]
   - name: helper_18A4
     type: code
     start: 0x18A4
@@ -75,21 +75,21 @@ segments:
     vram: 0x8013D024
     align: 4
     subsegments:
-      - [0x2024, c, overlays/french_model_variant/variant415_sheets]
+      - [0x2024, c, overlays/model_variant/variant398_sheets]
   - name: helper_2508
     type: code
     start: 0x2508
     vram: 0x8013D508
     align: 4
     subsegments:
-      - [0x2508, c, overlays/french_model_variant/variant415_webs]
+      - [0x2508, c, overlays/model_variant/variant398_webs]
   - name: helper_2A34
     type: code
     start: 0x2A34
     vram: 0x8013DA34
     align: 4
     subsegments:
-      - [0x2A34, c, overlays/french_model_variant/variant415_curtains]
+      - [0x2A34, c, overlays/model_variant/variant398_curtains]
   - name: unclassified_tail
     type: code
     start: 0x2FB8

@@ -16,7 +16,7 @@
 #define RIBBONS437_NEXT(points, k) ((points)[(k) + 1])
 #endif
 
-void func_8013CB08(u8 *ctx)
+void FrenchModelVariant437_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

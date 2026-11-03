@@ -1,8 +1,9 @@
 # French header-474 paired funnels
 
 The `0x688` helper at image offset `0x1738` is matching C in four French images:
-MODEL121 stages 7/8 and MODEL431 stages 9/10. Slot 0 owns `func_8013C738`;
-the rename-only slot-1 wrapper owns `func_8017C738`. Both use the supported
+MODEL121 stages 7/8 and MODEL431 stages 9/10. One source,
+`FrenchModelVariant474_DrawPairedFunnels`, is bound at `0x8013C738` and
+`0x8017C738` by each image's symbols file. Both slots use the supported
 `gcc_2_8_1_g0_split` pipeline, GCC 2.8.1 / MASPSX 2.81.
 
 This is a first-ever body recovery. The current seven-release overlay

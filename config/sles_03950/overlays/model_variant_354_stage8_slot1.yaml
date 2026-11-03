@@ -56,56 +56,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant417_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant417_entry]
   - name: helper_1204
     type: code
     start: 0x1204
     vram: 0x8017C204
     align: 4
     subsegments:
-      - [0x1204, c, overlays/spanish_model_variant/variant417_lines_slot1]
+      - [0x1204, c, overlays/spanish_model_variant/variant417_lines]
   - name: helper_1778
     type: code
     start: 0x1778
     vram: 0x8017C778
     align: 4
     subsegments:
-      - [0x1778, c, overlays/spanish_model_variant/variant417_tube_slot1]
+      - [0x1778, c, overlays/spanish_model_variant/variant417_tube]
   - name: helper_1E60
     type: code
     start: 0x1E60
     vram: 0x8017CE60
     align: 4
     subsegments:
-      - [0x1E60, c, overlays/spanish_model_variant/variant417_ribbon_slot1]
+      - [0x1E60, c, overlays/spanish_model_variant/variant417_ribbon]
   - name: helper_2480
     type: code
     start: 0x2480
     vram: 0x8017D480
     align: 4
     subsegments:
-      - [0x2480, c, overlays/spanish_model_variant/variant417_rays_slot1]
+      - [0x2480, c, overlays/spanish_model_variant/variant417_rays]
   - name: helper_2ACC
     type: code
     start: 0x2ACC
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, c, overlays/spanish_model_variant/variant417_sheets_slot1]
+      - [0x2ACC, c, overlays/spanish_model_variant/variant417_sheets]
   - name: helper_30E4
     type: code
     start: 0x30E4
     vram: 0x8017E0E4
     align: 4
     subsegments:
-      - [0x30E4, c, overlays/french_model_variant/variant417_feedback_slot1]
+      - [0x30E4, c, overlays/french_model_variant/variant417_feedback]
   - name: helper_3750
     type: code
     start: 0x3750
     vram: 0x8017E750
     align: 4
     subsegments:
-      - [0x3750, c, overlays/spanish_model_variant/variant417_spiral_slot1]
+      - [0x3750, c, overlays/spanish_model_variant/variant417_spiral]
   - name: unclassified_tail
     type: code
     start: 0x43A0

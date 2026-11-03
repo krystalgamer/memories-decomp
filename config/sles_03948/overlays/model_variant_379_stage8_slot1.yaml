@@ -54,49 +54,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant479_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant479_entry]
   - name: helper_FD0
     type: code
     start: 0xFD0
     vram: 0x8017BFD0
     align: 4
     subsegments:
-      - [0xFD0, c, overlays/french_model_variant/variant379_grid_slot1]
+      - [0xFD0, c, overlays/french_model_variant/variant379_grid]
   - name: helper_14F8
     type: code
     start: 0x14F8
     vram: 0x8017C4F8
     align: 4
     subsegments:
-      - [0x14F8, c, overlays/spanish_model_variant/variant479_spiral_slot1]
+      - [0x14F8, c, overlays/spanish_model_variant/variant479_spiral]
   - name: helper_1F68
     type: code
     start: 0x1F68
     vram: 0x8017CF68
     align: 4
     subsegments:
-      - [0x1F68, c, overlays/spanish_model_variant/variant479_ribs_slot1]
+      - [0x1F68, c, overlays/spanish_model_variant/variant479_ribs]
   - name: helper_2B90
     type: code
     start: 0x2B90
     vram: 0x8017DB90
     align: 4
     subsegments:
-      - [0x2B90, c, overlays/spanish_model_variant/variant479_sheets_slot1]
+      - [0x2B90, c, overlays/spanish_model_variant/variant479_sheets]
   - name: helper_309C
     type: code
     start: 0x309C
     vram: 0x8017E09C
     align: 4
     subsegments:
-      - [0x309C, c, overlays/spanish_model_variant/variant479_streamers_slot1]
+      - [0x309C, c, overlays/spanish_model_variant/variant479_streamers]
   - name: helper_3860
     type: code
     start: 0x3860
     vram: 0x8017E860
     align: 4
     subsegments:
-      - [0x3860, c, overlays/spanish_model_variant/variant479_curtains_slot1]
+      - [0x3860, c, overlays/spanish_model_variant/variant479_curtains]
   - name: unclassified_tail
     type: code
     start: 0x3D20

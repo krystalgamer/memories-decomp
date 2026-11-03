@@ -1,9 +1,9 @@
 # French header-463 sheets helper
 
-`func_8013E2E8` / `func_8017E2E8` (image offset `0x32E8`, 0x4EC bytes)
-draws and sizes up to ten four-quad sheets.
-`french_model_variant/variant463_sheets_slot1.c` renames the body for the
-slot-1 images.
+`FrenchModelVariant463_DrawSheets` (`0x8013E2E8` / `0x8017E2E8`, image offset
+`0x32E8`, 0x4EC bytes) draws and sizes up to ten four-quad sheets. One source
+serves both slots; each image's symbols file binds the name at its own
+address.
 
 The body appears in eight images:
 

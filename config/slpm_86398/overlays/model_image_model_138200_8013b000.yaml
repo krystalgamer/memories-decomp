@@ -63,7 +63,7 @@ segments:
     vram: 0x8013C0E4
     align: 4
     subsegments:
-      - [0x10E4, c, overlays/model_variant/variant435_sheets]
+      - [0x10E4, c, overlays/french_model_variant/variant452_sheets]
   - name: helper_1524
     type: code
     start: 0x1524
@@ -77,7 +77,7 @@ segments:
     vram: 0x8013CFCC
     align: 4
     subsegments:
-      - [0x1FCC, c, overlays/model_variant/variant435_lines]
+      - [0x1FCC, c, overlays/french_model_variant/variant452_lines]
   - name: helper_23ac
     type: code
     start: 0x23AC

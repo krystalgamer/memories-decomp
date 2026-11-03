@@ -2,9 +2,9 @@
 #include "variant117_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR D_8013C08C = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant117_D108C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
 {
     Model117State *work;
     Model117Config *config;
@@ -21,11 +21,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C08C;
+    scale = gFrenchModelVariant117_D108C;
     work = (Model117State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C144[command];
+        config = work->config = &gFrenchModelVariant117_D1144[command];
         point = work->positions;
         for (i = 0; i < config->count; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -47,7 +47,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 direction * (450 - config->radius));
         }
         for (i = 0; i < 6; i++) {
-            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C09C[i]);
+            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant117_D109C[i]);
         }
         work->completed = 0;
         work->elapsed = -config->delay;

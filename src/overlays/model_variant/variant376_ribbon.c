@@ -7,7 +7,7 @@
  * `work[0xDCC]` segments as flat POLY_FT4 quads as wide as the projected
  * offset. In phase 1 the drawn length grows by the frame step up to 16; later
  * the copy's offset shrinks with the timing record's progress. */
-void func_8013BDE0(u8 *ctx)
+void ModelVariant376_DrawRibbon(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

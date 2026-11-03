@@ -1,10 +1,11 @@
 # French MODEL474 entry
 
-The loader entries `func_8013B004` / `func_8017B004`, at offset `0x4` in
-MODEL121 stages 7/8 and MODEL431 stages 9/10, now use pure C with the existing
-`gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX 2.81). Each entry preserves
-all 3,636 instruction bytes. The slot-1 wrapper only renames the entry, its two
-helpers and the configuration table. The byte-identical Spanish copies of the
+The loader entry `FrenchModelVariant474_HandleRequest` (`0x8013B004` /
+`0x8017B004`), at offset `0x4` in MODEL121 stages 7/8 and MODEL431 stages
+9/10, now uses pure C with the existing `gcc_2_8_1_g0_split` profile (GCC
+2.8.1 and MASPSX 2.81). Each entry preserves all 3,636 instruction bytes. One
+source serves both slots; each image's symbols file binds the entry, its two
+helpers and the configuration table at its own addresses. The byte-identical Spanish copies of the
 same four images use the same sources.
 
 ## Measured context
@@ -27,7 +28,7 @@ the configuration row pointer and the part. The phase word is at `0x1C1C`,
 the camera vector at `0x1C28`, the tint at `0x1C30`, the slot at `0x1C34` and
 the command at `0x1C36`.
 
-Configuration rows are `0x34` bytes at `D_8013E980 + 0x1C`: the part byte at
+Configuration rows are `0x34` bytes at `gFrenchModelVariant474_D3980 + 0x1C`: the part byte at
 `+0x10`, the trigger at `+0x18` and the fade window at `+0x20`/`+0x24`. The
 five texture images sit immediately before the table. The old
 `D_8013E8BC` symbol is split at `0x8013E980` so the source can address the

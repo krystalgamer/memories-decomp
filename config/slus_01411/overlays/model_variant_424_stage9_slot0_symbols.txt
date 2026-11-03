@@ -1,11 +1,11 @@
 // MODEL.MRG model 424 (record 374), sector 103424, header 446, loaded at 0x8013B000; the US source variant446_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x1980 defined:true
-func_8013C984 = 0x8013C984; // type:func size:0x990 defined:true
-func_8013D314 = 0x8013D314; // type:func size:0x54C defined:true
-func_8013D860 = 0x8013D860; // type:func size:0xA78 defined:true
-func_8013E2D8 = 0x8013E2D8; // type:func size:0x4F0 defined:true
-func_8013E7C8 = 0x8013E7C8; // type:func size:0x42C defined:true
-D_8013EBF4 = 0x8013EBF4; // type:u8 size:0x140C defined:true
+ModelVariant446_HandleRequest = 0x8013B004; // type:func size:0x1980 defined:true
+FrenchModelVariant463_DrawRibbons = 0x8013C984; // type:func size:0x990 defined:true
+FrenchModelVariant463_DrawPairedSheets = 0x8013D314; // type:func size:0x54C defined:true
+FrenchModelVariant463_DrawTrailRibbons = 0x8013D860; // type:func size:0xA78 defined:true
+FrenchModelVariant463_DrawSheets = 0x8013E2D8; // type:func size:0x4F0 defined:true
+FrenchModelVariant463_DrawRings = 0x8013E7C8; // type:func size:0x42C defined:true
+gModelVariant446_D3BF4 = 0x8013EBF4; // type:u8 size:0x140C defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

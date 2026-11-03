@@ -1,9 +1,9 @@
-func_8013B004 = 0x8013B004; // type:func size:0xDD8
-func_8013BDDC = 0x8013BDDC; // type:func size:0x928
-func_8013C704 = 0x8013C704; // type:func size:0x488
-func_8013CB8C = 0x8013CB8C; // type:func size:0x824
+FrenchModelVariant393_HandleRequest = 0x8013B004; // type:func size:0xDD8
+ModelVariant376_DrawRibbon = 0x8013BDDC; // type:func size:0x928
+ModelVariant376_DrawRings = 0x8013C704; // type:func size:0x488
+FrenchModelVariant393_DrawStreamers = 0x8013CB8C; // type:func size:0x824
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-D_8013D3B0 = 0x8013D3B0; // type:u8 size:0x2C50 defined:true
+gFrenchModelVariant393_D23B0 = 0x8013D3B0; // type:u8 size:0x2C50 defined:true
 GetClut = 0x80082D28; // type:func absolute:true
 GetTPage = 0x80082CE8; // type:func absolute:true
 GsGetLs = 0x80086258; // type:func absolute:true

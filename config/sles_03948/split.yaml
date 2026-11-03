@@ -529,10 +529,7 @@ segments:
     - game/european/campaign_load_scene_package_stage
   - - 132964
     - c
-    - game/european/campaign_load_scene_package
-  - - 133412
-    - c
-    - game/scene_script_slots
+    - game/european/campaign_scene
   - - 133796
     - c
     - game/script_readers

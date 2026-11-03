@@ -21,6 +21,11 @@ at`0x10B0`, `func_8013C0B0` and `func_8017C0B0`, add1,724 C instruction
 bytes per slot while preserving all six accepted helpers.
 The [entries](french-model-variant373-entry.md) at `0x4` add4,268 C
 instruction bytes per slot, completing all eight closed functions in each image.
+The entry, helpers and data label are now bound per image under stable names
+(`FrenchModelVariant373_HandleRequest`, `FrenchModelVariant373_DrawLayers`,
+`_DrawGrid`, `_DrawPoints`, `_DrawStrip`, `_DrawRibbons`, `_DrawQuads`,
+`_DrawRays` and `gFrenchModelVariant373_D3EF0`); both slots build the same
+sources.
 
 ## Ownership and retained scope
 

@@ -1,6 +1,6 @@
 # French MODEL388 sheets helper
 
-`func_8013C9A4` / `func_8017C9A4` (MODEL388 family, image offset `0x19A4`,
+`SpanishModelVariant388_DrawSheets` (`0x8013C9A4` / `0x8017C9A4`, MODEL388 family, image offset `0x19A4`,
 0x4F8 bytes) draws two four-quad sheets. **No release had matching C for this
 body before.** It is reachable directly from the entry.
 

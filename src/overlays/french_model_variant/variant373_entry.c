@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_entry.h"
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState373 *work = (EntryState373 *)point;
     EntryTextureStack373 texture_stack;
@@ -34,7 +34,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = (EntryConfig373 *)(D_8013EEF0 + 0x70) + command;
+        work->config = (EntryConfig373 *)(gFrenchModelVariant373_D3EF0 + 0x70) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -46,13 +46,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         GsGetLwUnit(work->parts[0], &work->matrix);
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 0, (GsIMAGE *)D_8013EEF0);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 0, (GsIMAGE *)gFrenchModelVariant373_D3EF0);
         tpage0 = packed >> 16;
         texture_stack.clut0 = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013EEF0 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant373_D3EF0 + 0x1C));
         tpage1 = packed >> 16;
         texture_stack.clut1 = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013EEF0 + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant373_D3EF0 + 0x38));
         tpage2 = packed >> 16;
         texture_stack.clut2 = packed;
         SetPolyG3(triangle);
@@ -293,11 +293,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->layers_start <= work->elapsed && work->phase < 8) {
-            func_8013C0B0((u8 *)point);
+            FrenchModelVariant373_DrawLayers((u8 *)point);
         }
         if (work->config->grid_start <= work->elapsed && work->phase < 8) {
             if (work->phase >= 6) {
-                packed = ModelTexture_PackPageClutCopy(work->slot, 2, (GsIMAGE *)D_8013EEF0);
+                packed = ModelTexture_PackPageClutCopy(work->slot, 2, (GsIMAGE *)gFrenchModelVariant373_D3EF0);
                 tpage0 = packed >> 16;
                 texture_stack.clut0 = packed;
                 for (i = 0, grid_packet = work->packets.grid; i < 8; i++, grid_packet++) {
@@ -308,10 +308,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                     SetShadeTex(grid_packet, 0);
                 }
             }
-            func_8013C76C((u8 *)point);
+            FrenchModelVariant373_DrawGrid((u8 *)point);
         }
         if (work->config->points_start <= work->elapsed) {
-            func_8013CEE4((u8 *)point);
+            FrenchModelVariant373_DrawPoints((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

@@ -1,6 +1,6 @@
 # Spanish MODEL441 retained ribbon
 
-`func_8013CDDC` / `func_8017CDDC`, `+1DDC..+23FC`, is independently recovered
+`SpanishModelVariant441_DrawRibbon` (`0x8013CDDC` / `0x8017CDDC`), `+1DDC..+23FC`, is independently recovered
 game-owned C: 1,568 bytes in each of the ten physical MODEL441 images.
 A refreshed screen of 6,057 configured regional C entries, including accepted
 framebuffer rings and French MODEL129, found no same-size body. No regional

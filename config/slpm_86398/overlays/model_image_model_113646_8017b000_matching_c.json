@@ -4,37 +4,37 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x1980",
-      "source": "src/overlays/model_variant/variant446_entry_slot1.c"
+      "source": "src/overlays/model_variant/variant446_entry.c"
     },
     {
       "address": "0x8017C984",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x990",
-      "source": "src/overlays/model_variant/variant446_ribbons_slot1.c"
+      "source": "src/overlays/model_variant/variant446_ribbons.c"
     },
     {
       "address": "0x8017D314",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x54C",
-      "source": "src/overlays/model_variant/variant446_paired_sheets_slot1.c"
+      "source": "src/overlays/french_model_variant/variant463_paired_sheets.c"
     },
     {
       "address": "0x8017D860",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xA78",
-      "source": "src/overlays/model_variant/variant446_trail_ribbons_slot1.c"
+      "source": "src/overlays/model_variant/variant446_trail_ribbons.c"
     },
     {
       "address": "0x8017E2D8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F0",
-      "source": "src/overlays/model_variant/variant446_sheets_slot1.c"
+      "source": "src/overlays/french_model_variant/variant463_sheets.c"
     },
     {
       "address": "0x8017E7C8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x42C",
-      "source": "src/overlays/model_variant/variant446_rings_slot1.c"
+      "source": "src/overlays/french_model_variant/variant463_rings.c"
     }
   ],
   "schema": 1

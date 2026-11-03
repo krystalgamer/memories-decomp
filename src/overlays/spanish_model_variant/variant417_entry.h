@@ -4,7 +4,7 @@
 #include "../../overlays/french_model_variant/variant337_entry.h"
 #include "../../game/model_get_frame_step.h"
 
-/* One 0x44-byte command record of the table at D_8013F3A0 + 0xFC. */
+/* One 0x44-byte command record of the table at gSpanishModelVariant417_D43A0 + 0xFC. */
 typedef struct {
     u8 unknown_00[8];
     CVECTOR web;
@@ -107,11 +107,11 @@ typedef struct {
     s16 slot, command;
 } Variant417EntryState;
 
-extern u8 D_8013F3A0[];
-void func_8013C204(u8 *context);
-void func_8013C778(u8 *context);
-void func_8013DACC(u8 *context);
-void func_8013E750(u8 *context);
+extern u8 gSpanishModelVariant417_D43A0[];
+void SpanishModelVariant417_DrawPhasedLines(u8 *context);
+void SpanishModelVariant417_DrawTube(u8 *context);
+void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
+void SpanishModelVariant417_DrawSpiral(u8 *context);
 typedef char Variant417EntryConfigSize[(sizeof(Variant417EntryConfig) == 0x44) ? 1 : -1];
 typedef char Variant417EntryStateSize[(sizeof(Variant417EntryState) == 0x2188) ? 1 : -1];
 #endif

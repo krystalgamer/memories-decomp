@@ -13,7 +13,7 @@
  * direction by the progress. On the last index of each timing cycle the
  * first sheet grows over the timing window and shrinks over the fade
  * window, while the second follows the phase. */
-void func_8013DA48(u8 *context)
+void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
 {
     SVECTOR rot;
     /* The target reserves 16 unused bytes between rot and scale. */

@@ -2,7 +2,7 @@
 #include "variant437_sheet.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013C4A8(u8 *context)
+void SpanishModelVariant437_DrawSheet(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

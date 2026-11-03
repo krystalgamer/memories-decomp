@@ -7,9 +7,9 @@
  * leaving a fading trail and a textured ring, and bursts into a growing glow
  * with flares and sparks while the ambient light dims and recovers. */
 
-static const VECTOR D_8013D610 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant834_D2610 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant834_HandleRequest(u8 *context, s32 command)
 {
     Model834State *work;
     MATRIX base, matrix;
@@ -28,14 +28,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D610;
+    scale = gModelVariant834_D2610;
     work = (Model834State *)context;
     quad = &quad_packet;
     ring = &ring_packet;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D674[command];
+        work->config = &gModelVariant834_D2674[command];
         work->position.vx = 0;
         work->position.vy = -512;
         work->position.vz = 0;
@@ -68,7 +68,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->ring_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D620[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant834_D2620[i]);
         }
         for (i = 0; i < 64; i++) {
             setVector(&work->orbs[i], 0, 0, 0);

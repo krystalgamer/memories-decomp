@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant441_tube.h"
 
-void func_8013C73C(u8 *context)
+void SpanishModelVariant441_DrawTubularMesh(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

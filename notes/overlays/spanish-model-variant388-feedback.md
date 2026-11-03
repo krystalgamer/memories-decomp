@@ -1,6 +1,6 @@
 # Spanish MODEL388 framebuffer-feedback strips
 
-`func_8013CE9C` / `func_8017CE9C` now have independently recovered matching C:
+`SpanishModelVariant388_DrawFeedbackStrips` (`0x8013CE9C` / `0x8017CE9C`) now has independently recovered matching C:
 `+1E9C..+2410`, 1,396 bytes, using `gcc_2_8_1_g0_split` (GCC 2.8.1 /
 MASPSX 2.81). A fresh comparison against 6,105 accepted regional C entries
 examined 36 same-size bodies and found no accepted normalized match.

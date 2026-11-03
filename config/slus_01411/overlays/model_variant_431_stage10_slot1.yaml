@@ -54,49 +54,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant457_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant457_entry]
   - name: helper_e38
     type: code
     start: 0xE38
     vram: 0x8017BE38
     align: 4
     subsegments:
-      - [0xE38, c, overlays/model_variant/variant457_ribbons_slot1]
+      - [0xE38, c, overlays/model_variant/variant457_ribbons]
   - name: helper_1718
     type: code
     start: 0x1718
     vram: 0x8017C718
     align: 4
     subsegments:
-      - [0x1718, c, overlays/model_variant/variant457_funnels_slot1]
+      - [0x1718, c, overlays/french_model_variant/variant474_funnels]
   - name: helper_1db0
     type: code
     start: 0x1DB0
     vram: 0x8017CDB0
     align: 4
     subsegments:
-      - [0x1DB0, c, overlays/model_variant/variant457_mesh_slot1]
+      - [0x1DB0, c, overlays/spanish_model_variant/variant474_mesh]
   - name: helper_2208
     type: code
     start: 0x2208
     vram: 0x8017D208
     align: 4
     subsegments:
-      - [0x2208, c, overlays/model_variant/variant457_spiral_slot1]
+      - [0x2208, c, overlays/spanish_model_variant/variant474_spiral]
   - name: helper_2b6c
     type: code
     start: 0x2B6C
     vram: 0x8017DB6C
     align: 4
     subsegments:
-      - [0x2B6C, c, overlays/model_variant/variant457_sheets_slot1]
+      - [0x2B6C, c, overlays/spanish_model_variant/variant474_sheets]
   - name: helper_3068
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/model_variant/variant457_streamers_slot1]
+      - [0x3068, c, overlays/model_variant/variant457_streamers]
   - name: data
     type: code
     start: 0x3854

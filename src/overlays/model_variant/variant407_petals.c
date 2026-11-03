@@ -14,7 +14,7 @@
 /* Draws 48 petals: each a POLY_G4 grown from the variant centre along its own
  * velocity and swung around a circle, faded past half size, and cycles each
  * petal's size through the timing record's phases. */
-void func_8013C2DC(u8 *ctx)
+void ModelVariant407_DrawPetals(u8 *ctx)
 {
     SVECTOR rot;
     /* The target reserves 16 unused bytes between rot and scale. */

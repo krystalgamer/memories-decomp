@@ -3,9 +3,10 @@
 Loader entry `+0x0004..+0x0F5C` is matching C. It is 3,928 bytes in the
 eight Spanish MODEL385-family images (MODEL170 stages 7/8; MODEL406, 407 and
 513 stages 9/10) and the eight French images that carry the identical body
-at the same offsets. `variant385_entry.c` is compiled once per slot with
-`gcc_2_8_1_g0_split`. The slot-1 wrapper only renames the descriptor base
-`D_8013DEB4` and the entry and helper symbols to their `0x8017....`
+at the same offsets. `variant385_entry.c`
+(`SpanishModelVariant385_HandleRequest`) is compiled once per slot with
+`gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
+and the descriptor base (`gSpanishModelVariant385_D2EB4`) at its own
 addresses. This is a new decompilation; no region had accepted C for it.
 With it, every function in these sixteen images is C.
 

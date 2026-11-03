@@ -56,56 +56,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant421_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant421_entry]
   - name: helper_1660
     type: code
     start: 0x1660
     vram: 0x8017C660
     align: 4
     subsegments:
-      - [0x1660, c, overlays/model_variant/variant421_warp_slot1]
+      - [0x1660, c, overlays/model_variant/variant421_warp]
   - name: helper_1bd8
     type: code
     start: 0x1BD8
     vram: 0x8017CBD8
     align: 4
     subsegments:
-      - [0x1BD8, c, overlays/model_variant/variant421_rings_slot1]
+      - [0x1BD8, c, overlays/model_variant/variant421_rings]
   - name: helper_2480
     type: code
     start: 0x2480
     vram: 0x8017D480
     align: 4
     subsegments:
-      - [0x2480, c, overlays/model_variant/variant421_rays_slot1]
+      - [0x2480, c, overlays/model_variant/variant421_rays]
   - name: helper_2ab4
     type: code
     start: 0x2AB4
     vram: 0x8017DAB4
     align: 4
     subsegments:
-      - [0x2AB4, c, overlays/model_variant/variant421_spiral_slot1]
+      - [0x2AB4, c, overlays/model_variant/variant421_spiral]
   - name: helper_3734
     type: code
     start: 0x3734
     vram: 0x8017E734
     align: 4
     subsegments:
-      - [0x3734, c, overlays/model_variant/variant421_bands_slot1]
+      - [0x3734, c, overlays/model_variant/variant421_bands]
   - name: helper_3ee4
     type: code
     start: 0x3EE4
     vram: 0x8017EEE4
     align: 4
     subsegments:
-      - [0x3EE4, c, overlays/model_variant/variant421_sheets_slot1]
+      - [0x3EE4, c, overlays/model_variant/variant421_sheets]
   - name: helper_4400
     type: code
     start: 0x4400
     vram: 0x8017F400
     align: 4
     subsegments:
-      - [0x4400, c, overlays/model_variant/variant421_lines_slot1]
+      - [0x4400, c, overlays/model_variant/variant421_lines]
   - name: data
     type: code
     start: 0x496C

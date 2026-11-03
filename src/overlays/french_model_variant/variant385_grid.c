@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant385_grid.h"
 
-void func_8013C04C(u8 *context)
+void FrenchModelVariant385_DrawGrid(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

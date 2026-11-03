@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CF98
     align: 4
     subsegments:
-      - [0x1F98, c, overlays/model_variant/variant456_ribs]
+      - [0x1F98, c, overlays/french_model_variant/variant473_ribs]
   - name: helper_2bac
     type: code
     start: 0x2BAC

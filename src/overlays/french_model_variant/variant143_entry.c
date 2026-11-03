@@ -2,9 +2,9 @@
 #include "variant143_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR D_8013BFF4 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant143_D0FF4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant143_HandleRequest(u8 *context, s32 command)
 {
     Model143State *work;
     Model143Config *config;
@@ -24,12 +24,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BFF4;
+    scale = gFrenchModelVariant143_D0FF4;
     work = (Model143State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C020[command];
+        config = work->config = &gFrenchModelVariant143_D1020[command];
         point = work->positions;
         for (i = 0; i < config->count; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -80,7 +80,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->faces[5].b = &point[4];
         work->faces[5].c = &point[1];
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C004[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant143_D1004[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

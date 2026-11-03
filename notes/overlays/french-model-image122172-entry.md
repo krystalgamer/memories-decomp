@@ -13,7 +13,10 @@ Both use the authoritative named `gcc_2_8_1_g0_split` profile. The four-byte
 headers and all bytes from image offset `0x152C` remain original raw data.
 The external scale vector, texture descriptor and configurations at slot-zero
 addresses `0x8013C52C`, `0x8013C53C` and `0x8013C558` are not new C data owners.
-Slot one relocates those addresses by `0x40000`.
+Slot one relocates those addresses by `0x40000`. One source serves both slots:
+each image's symbols file binds `FrenchModelVariant142_HandleRequest` and the
+three data names (`gFrenchModelVariant142_D152C`, `_D153C`, `_D1558`) at its
+own addresses, replacing the per-region linker assignments.
 
 ## Measured state and configuration
 

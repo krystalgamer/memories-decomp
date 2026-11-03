@@ -156,7 +156,7 @@ segments:
       - [0x81350, .data, game/main_mode_runners]
       - [0x813a8, .data, game/script_image_rebuild]
       - [0x81450, .data, game/script_command_runner]
-      - [0x814ac, .data, game/scene_script_slots]
+      - [0x814ac, .data, game/campaign_scene]
       - [0x814b4, .data, game/debug_menu_editor_entries]
       - [0x8157c, .data, game/debug_menu_update]
       - [0x815d8, .data, game/build_deck_draw_card_list_page]

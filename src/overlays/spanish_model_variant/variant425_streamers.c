@@ -5,7 +5,7 @@
 /* Builds one two-point streamer that coils around the variant's axis, projects
  * the spine and a copy of it moved along the view, and draws the segment as a
  * POLY_G4 as wide as the projected offset where the depth is not negative. */
-void func_8013DBC8(u8 *ctx)
+void SpanishModelVariant425_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

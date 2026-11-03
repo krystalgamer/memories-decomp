@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x8017B004,0xF5C,func_8017B004,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BF60,0x528,func_8017BF60,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C488,0x684,func_8017C488,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CB0C,0x6AC,func_8017CB0C,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D1B8,0x504,func_8017D1B8,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D6BC,0x7F8,func_8017D6BC,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xF5C,SpanishModelVariant385_HandleRequest,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BF60,0x528,SpanishModelVariant385_DrawLines,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C488,0x684,SpanishModelVariant385_DrawStationStrip,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CB0C,0x6AC,FrenchModelVariant385_DrawRibbonFan,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D1B8,0x504,SpanishModelVariant385_DrawPulsingQuads,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D6BC,0x7F8,SpanishModelVariant385_DrawRings,matching_c,overlay/model_image_model_47110_8017b000,Complete module byte identity and section-defined C ownership verified.

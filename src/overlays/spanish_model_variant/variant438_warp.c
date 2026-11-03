@@ -11,7 +11,7 @@
 #define WARP_SORTS(ring) ((ring)->size < 2048)
 #endif
 
-void func_8013C614(u8 *context)
+void SpanishModelVariant438_DrawWarpRings(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

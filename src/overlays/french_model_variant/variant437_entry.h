@@ -84,9 +84,9 @@ typedef struct {
     s16 slot, command;
 } Variant437EntryState;
 
-extern u8 D_8013DF30[];
-void func_8013C4A8(u8 *context);
-void func_8013D5D4(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant437_D2F30[];
+void SpanishModelVariant437_DrawSheet(u8 *context);
+void SpanishModelVariant437_DrawStreamers(u8 *context);
+s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

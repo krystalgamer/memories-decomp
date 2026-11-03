@@ -29,7 +29,7 @@ typedef struct {
     u8 unknown_8C[4];
 } Variant404EntryQuad;
 
-/* 0x7C-byte record at work + 0x4E0 used by func_8013C864. */
+/* 0x7C-byte record at work + 0x4E0 used by SpanishModelVariant421_DrawSpiral. */
 typedef struct {
     u8 unknown_00[0x50];
     CVECTOR inner[2];
@@ -70,10 +70,10 @@ typedef struct {
     s16 slot, command;
 } Variant404EntryState;
 
-extern u8 D_8013F0FC[];
-void func_8013C1D4(u8 *context);
-void func_8013C864(u8 *context);
-void func_8013D4F8(u8 *context);
-void func_8013DCA4(u8 *context);
-void func_8013E18C(u8 *context);
+extern u8 gModelVariant404_D40FC[];
+void ModelVariant404_DrawRibbons(u8 *context);
+void SpanishModelVariant421_DrawSpiral(u8 *context);
+void ModelVariant404_DrawBands(u8 *context);
+void ModelVariant404_DrawSheets(u8 *context);
+void ModelVariant404_DrawWebs(u8 *context);
 #endif

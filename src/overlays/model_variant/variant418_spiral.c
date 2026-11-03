@@ -6,7 +6,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * arm as two POLY_GT4 halves as wide as the projected offset. The spiral turns
  * by 0x10 a frame and grows and widens through the timing record's phases. */
-void func_8013C088(u8 *ctx)
+void ModelVariant418_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

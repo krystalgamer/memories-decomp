@@ -154,7 +154,7 @@ The84 earlier C instances remained selected. The then-unmatched secondary
 streamers and every10,036-byte suffix retained their prior classifications.
 
 The subsequent final-streamer integration selects the unchanged accepted
-French460 streamer body and slot wrapper in all28 Spanish images. This adds
+French460 streamer body, now built in both slots, in all28 Spanish images. This adds
 28 C instances/58,016 bytes, bringing the family to140 matching instances/
 292,320 instruction bytes. All complete image hashes, selected defining
 objects, linked extents, resident-call relocations and header/suffix owners

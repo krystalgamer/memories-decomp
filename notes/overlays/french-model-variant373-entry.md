@@ -1,6 +1,7 @@
 # French MODEL373 entry
 
-The MODEL707 stage7/8 entries `func_8013B004` / `func_8017B004`, at
+The MODEL707 stage7/8 entries `FrenchModelVariant373_HandleRequest`
+(formerly `func_8013B004` / `func_8017B004`), at
 image offset `0x4`, each own 4,268 bytes with a 272-byte frame.
 Both use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81.
 All eight closed functions in each image are now matching C; the seven

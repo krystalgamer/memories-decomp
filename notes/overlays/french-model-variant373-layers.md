@@ -1,8 +1,9 @@
 # French MODEL373 five-layer helper
 
-The directly entry-called `func_8013C0B0` / `func_8017C0B0` at image
-`+0x10B0` owns 1,724 bytes in MODEL707 stages7/8, retail headers373/523.
-The source and slot wrapper use the existing `gcc_2_8_1_g0_split` profile,
+The directly entry-called `FrenchModelVariant373_DrawLayers` (formerly
+`func_8013C0B0` / `func_8017C0B0`) at image `+0x10B0` owns 1,724 bytes in
+MODEL707 stages7/8, retail headers373/523. Both slots build the source with
+the existing `gcc_2_8_1_g0_split` profile,
 GCC2.8.1 and MASPSX2.81. All six earlier C helpers remain unchanged.
 
 ## Independently recovered layout and behavior

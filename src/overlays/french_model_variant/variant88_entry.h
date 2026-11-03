@@ -34,6 +34,6 @@ typedef struct {
     } shared;
 } Family88State;
 
-extern u8 D_8013B954[];
-s32 func_8013B004(u8 *context, s32 command);
+extern u8 gFrenchModelVariant88_D0954[];
+s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command);
 #endif

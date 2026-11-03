@@ -3,9 +3,9 @@
 #include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR D_8013C188 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant107_D1188 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command)
 {
     Model107State *work;
     Model107Config *config;
@@ -28,13 +28,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C188;
+    scale = gFrenchModelVariant107_D1188;
     work = (Model107State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     value = 0;
     if (command >= 0) {
-        config = work->config = &D_8013C198[command];
+        config = work->config = &gFrenchModelVariant107_D1198[command];
         point = work->ring;
         for (i = 0; i < 17; point++, i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;

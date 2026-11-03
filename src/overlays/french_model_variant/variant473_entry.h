@@ -84,11 +84,11 @@ typedef struct {
     s16 slot, command;
 } EntryState473;
 
-extern u8 D_8013ECE4[];
-void func_8013C04C(u8 *context);
-void func_8013C5AC(u8 *context);
-void func_8013CFB0(u8 *context);
-void func_8013DBE8(u8 *context);
-void func_8013E86C(u8 *context);
+extern u8 gFrenchModelVariant473_D3CE4[];
+void FrenchModelVariant385_DrawGrid(u8 *context);
+void SpanishModelVariant473_DrawSpiral(u8 *context);
+void FrenchModelVariant473_DrawRibs(u8 *context);
+void SpanishModelVariant473_DrawSheets(u8 *context);
+void SpanishModelVariant473_DrawFunnels(u8 *context);
 
 #endif

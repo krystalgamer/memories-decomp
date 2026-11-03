@@ -191,7 +191,7 @@ package and compliance-module contract.
 ### Campaign scene package
 
 Matching
-[`Campaign_LoadScenePackage`](../src/game/campaign_load_scene_package.c)
+[`Campaign_LoadScenePackage`](../src/game/campaign_scene.c)
 requests the same 49 WA sectors beginning at `0x1E57` for every argument,
 which is archive range `0xF2B800-0xF44000`. Matching callback
 `Campaign_LoadScenePackageStage` accounts for all four transfer phases:

@@ -51,9 +51,9 @@ typedef struct {
     DVECTOR target;
 } Variant338EntryProjection;
 
-extern u8 D_8013D70C[];
-void func_8013BBA0(u8 *context);
-void func_8013C6D8(u8 *context);
-void func_8013CED4(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant338_D270C[];
+void ModelVariant321_DrawRibbon(u8 *context);
+void ModelVariant321_DrawRings(u8 *context);
+void FrenchModelVariant338_DrawStreamers(u8 *context);
+s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command);
 #endif

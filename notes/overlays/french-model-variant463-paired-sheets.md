@@ -1,9 +1,9 @@
 # French header-463 paired sheets helper
 
-`func_8013D318` / `func_8017D318` (image offset `0x2318`, 0x548 bytes)
-draws and sizes the header-463 sheet set whose count depends on the timing
-mode. `french_model_variant/variant463_paired_sheets_slot1.c` renames the
-body for the slot-1 images.
+`FrenchModelVariant463_DrawPairedSheets` (`0x8013D318` / `0x8017D318`, image
+offset `0x2318`, 0x548 bytes) draws and sizes the header-463 sheet set whose
+count depends on the timing mode. One source serves both slots; each image's
+symbols file binds the name at its own address.
 
 It is built into the same eight images as the
 [header-463 sheets helper](french-model-variant463-sheets.md). In the French

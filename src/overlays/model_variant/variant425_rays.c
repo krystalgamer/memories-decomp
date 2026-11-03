@@ -20,7 +20,7 @@
  * view, and draws each segment as two POLY_GT4 halves as wide as the projected
  * offset, the outer one fading to black. The size at work + 0x273C grows by
  * step * 256 up to 0x1000, which moves phase 2 on to phase 3. */
-void func_8013CF14(u8 *ctx)
+void ModelVariant425_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

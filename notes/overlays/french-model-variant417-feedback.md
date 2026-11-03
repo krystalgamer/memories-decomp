@@ -43,8 +43,9 @@ not a whole-context allocation capacity. Unknown regions remain opaque.
 ## Source and evidence
 
 The body and local declarations are
-`src/overlays/french_model_variant/variant417_feedback.{c,h}`. The slot-one
-wrapper changes only `func_8013E0E4` to `func_8017E0E4`. Declaration order
+`src/overlays/french_model_variant/variant417_feedback.{c,h}`, one source for
+both slots; each image's symbols file binds
+`FrenchModelVariant417_DrawFramebufferFeedback` at its own address. Declaration order
 and reuse of the same counter for geometry and rendering preserve old-GCC
 stack-slot and register allocation without register forcing or artificial
 memory traffic.

@@ -16,7 +16,7 @@
  * origin, and draws each segment as a POLY_G4 as wide as the projected offset
  * with the depth scaled by 9/10. From phase 6 on the scale shrinks from 0x4000
  * and the streamer length fades out. */
-void func_8013D5D4(u8 *ctx)
+void SpanishModelVariant437_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

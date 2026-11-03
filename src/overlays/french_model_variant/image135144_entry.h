@@ -52,10 +52,10 @@ typedef struct {
     u8 unknown_r[8], unknown_g[8], unknown_b[8];
 } Image135144State;
 
-extern const VECTOR D_8013D18C;
-extern GsIMAGE D_8013D19C[];
-extern Image135144Config D_8013D1F0[];
+extern const VECTOR gFrenchModelVariant820_D218C;
+extern GsIMAGE gFrenchModelVariant820_D219C[];
+extern Image135144Config gFrenchModelVariant820_D21F0[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 FrenchModelVariant820_HandleRequest(u8 *context, s32 command);
 
 #endif

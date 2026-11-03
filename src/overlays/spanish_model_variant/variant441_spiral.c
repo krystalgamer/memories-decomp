@@ -7,7 +7,7 @@
  * the view by the spread, and drawn as two POLY_GT4 halves whose inner and outer
  * colours follow (flags + arm) & 7. The sweep advances by 16 a frame and the
  * size grows to 0x400 once the timing record's bound is reached. */
-void func_8013E630(u8 *ctx)
+void SpanishModelVariant441_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

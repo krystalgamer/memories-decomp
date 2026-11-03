@@ -5,7 +5,7 @@
 /* Draws three webs of 6x6 GsGLINE segments between their near and far grids,
  * fading each web's colour once its scale passes 0x1000, and grows each scale
  * to 0x2000, wrapping it until the fourth phase. */
-void func_8013CE50(u8 *ctx)
+void ModelVariant418_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

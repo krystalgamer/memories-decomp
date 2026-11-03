@@ -6,7 +6,7 @@
 #define MODEL_VARIANT459_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant459EntryState *work = (Variant459EntryState *)point;
     u8 unknown_stack[64];
@@ -43,7 +43,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant459EntryConfig *)(D_8013F548 + 0xFC) + command;
+        work->config = (Variant459EntryConfig *)(gSpanishModelVariant459_D4548 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -73,15 +73,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT459_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F548 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant459_D4548 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F548 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F548 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant459_D4548 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant459_D4548 + 0x1C));
         ray_page = packed >> 16;
         ray_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F548 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F548 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant459_D4548 + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant459_D4548 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -360,17 +360,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->matrices[0].t[1];
         work->direction.vz = work->target.vz - work->matrices[0].t[2];
         if (work->config->start <= work->frame) {
-            func_8013EA24((u8 *)point);
+            SpanishModelVariant459_DrawPairedSheets((u8 *)point);
         }
         if (work->config->curtains == 1) {
-            func_8013C9AC((u8 *)point);
+            SpanishModelVariant459_DrawCurtains((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013EFE0((u8 *)point);
-            func_8013E224((u8 *)point);
+            SpanishModelVariant459_DrawLines((u8 *)point);
+            SpanishModelVariant459_DrawTimedBands((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013D604((u8 *)point);
+            SpanishModelVariant459_DrawSpiral((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

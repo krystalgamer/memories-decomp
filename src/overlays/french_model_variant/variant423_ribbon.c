@@ -17,7 +17,7 @@
 #define RIBBON423_HI(screen, n) ((screen)[n].packed >> 16)
 #endif
 
-void func_8013CCB4(u8 *context)
+void FrenchModelVariant423_DrawRibbon(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

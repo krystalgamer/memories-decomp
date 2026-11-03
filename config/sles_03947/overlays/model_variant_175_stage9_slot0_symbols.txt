@@ -1,6 +1,6 @@
 func_8013B004 = 0x8013B004; // type:func size:0xDB0
 func_8013BDB4 = 0x8013BDB4; // type:func size:0x734
-func_8013C4E8 = 0x8013C4E8; // type:func size:0x8DC
+SpanishModelVariant411_DrawBeams = 0x8013C4E8; // type:func size:0x8DC
 func_8013CDC4 = 0x8013CDC4; // type:func size:0x648
 func_8013D40C = 0x8013D40C; // type:func size:0x510
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true

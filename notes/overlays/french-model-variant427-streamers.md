@@ -1,6 +1,7 @@
 # French MODEL427 streamers helper
 
-`func_8013DDF8` / `func_8017DDF8` (MODEL427 family, image offset `0x2DF8`,
+`FrenchModelVariant427_DrawStreamers` (formerly `func_8013DDF8` /
+`func_8017DDF8`; MODEL427 family, image offset `0x2DF8`,
 0x7C4 bytes) builds, projects and draws two seventeen-point streamers.
 **No release had matching C for this body before.** No call from the entry
 was observed.

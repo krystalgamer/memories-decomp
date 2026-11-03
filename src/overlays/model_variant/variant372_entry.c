@@ -21,7 +21,7 @@
 
 #define setCV(p, R, G, B) ((p)->r = (R), (p)->g = (G), (p)->b = (B))
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
 {
     Model372State *work = (Model372State *)context;
     MATRIX unused_matrix0;
@@ -68,11 +68,11 @@ s32 func_8013B004(u8 *context, s32 command)
     quad = &work->quad;
     extra = &work->extra;
     result = 0;
-    test = D_8013CE10;
-    beamer = D_8013CE28;
+    test = gModelVariant372_D1E10;
+    beamer = gModelVariant372_D1E28;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = D_8013CF40 + command;
+        work->config = gModelVariant372_D1F40 + command;
         for (i = 0; i < 8; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -98,14 +98,14 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL372_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL372_CLUT_X, 244);
-        first = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[1]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[2]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[3]);
+        first = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[1]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[3]);
         flat_page = first >> 16;
         flat_clut = first;
-        first = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE44[0]);
+        first = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant372_D1E44[0]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -284,10 +284,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->screen_delta.vx = (s16)screen1 - x0;
         work->screen_delta.vy = (screen1 >> 16) - y0;
         if (work->config->ribbon_start <= work->time) {
-            func_8013BE68(context);
+            FrenchModelVariant389_DrawRibbons(context);
         }
         if (work->config->sheet_start <= work->time) {
-            func_8013C828(context);
+            FrenchModelVariant389_DrawSheets(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

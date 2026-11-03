@@ -1,9 +1,9 @@
 address,size,name,status,module,notes
-0x8013B004,0x1034,func_8013B004,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C038,0x774,func_8013C038,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C7AC,0x4E8,func_8013C7AC,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CC94,0x568,func_8013CC94,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D1FC,0x30C,func_8013D1FC,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D508,0x380,func_8013D508,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D888,0x368,func_8013D888,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013DBF0,0x9AC,func_8013DBF0,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x1034,ModelVariant428_HandleRequest,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C038,0x774,ModelVariant428_DrawBands,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C7AC,0x4E8,ModelVariant428_DrawSheets,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CC94,0x568,ModelVariant428_DrawWebs,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D1FC,0x30C,ModelVariant428_DrawSpokes,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D508,0x380,ModelVariant428_DrawRings,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D888,0x368,ModelVariant428_DrawQuad,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013DBF0,0x9AC,ModelVariant428_DrawSpiral,matching_c,overlay/model_variant_368_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

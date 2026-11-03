@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant116_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant116_entry]
   - name: scale
     type: code
     start: 0x115C
     vram: 0x8017C15C
     align: 4
     subsegments:
-      - [0x115C, .rodata, overlays/french_model_variant/variant116_entry_slot1]
+      - [0x115C, .rodata, overlays/french_model_variant/variant116_entry]
   - name: image_view
     type: code
     start: 0x116C

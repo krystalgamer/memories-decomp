@@ -1,0 +1,5 @@
+// French MODEL.MRG model 539 (record 489), sector 135154, header 917, loaded at 0x8017B000; the French header-820 entry image135144_entry.c, with its data in the raw tail.
+FrenchModelVariant820_HandleRequest = 0x8017B004; // type:func size:0x2188 defined:true
+gFrenchModelVariant820_D218C = 0x8017D18C; // type:u8 size:0x10
+gFrenchModelVariant820_D219C = 0x8017D19C; // type:u8 size:0x54
+gFrenchModelVariant820_D21F0 = 0x8017D1F0; // type:u8 size:0x2E10

@@ -16,7 +16,7 @@
       "address": "0x8013C704",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x488",
-      "source": "src/overlays/french_model_variant/variant393_rings.c"
+      "source": "src/overlays/model_variant/variant376_rings.c"
     },
     {
       "address": "0x8013CB8C",

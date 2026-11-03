@@ -1,7 +1,7 @@
 # French MODEL411 entry
 
-The loader entries `func_8013B004` / `func_8017B004`, at image offset
-`0x4`, own 3,676 bytes each in MODEL364 and MODEL452 stages 9/10.
+The loader entry `FrenchModelVariant411_HandleRequest` (`0x8013B004` / `0x8017B004`), at image offset
+`0x4`, owns 3,676 bytes each in MODEL364 and MODEL452 stages 9/10.
 All four French images now have five matching C functions, using
 `gcc_2_8_1_g0_split` (GCC 2.8.1 and MASPSX 2.81). The four existing
 helper bodies and their ownership are unchanged.

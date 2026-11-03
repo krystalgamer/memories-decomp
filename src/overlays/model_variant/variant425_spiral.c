@@ -11,7 +11,7 @@
  * shrunk by work[0x2738]; from phase 2 on that grows by step * 128 up to
  * 0x800. The sweep advances by 16 a frame. The two products tested before the
  * arms are template code with dead arms. */
-void func_8013C568(u8 *ctx)
+void ModelVariant425_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

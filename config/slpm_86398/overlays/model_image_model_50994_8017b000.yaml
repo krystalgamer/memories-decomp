@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant404_entry_slot1]
-      - [0x11D4, c, overlays/model_variant/variant404_ribbons_slot1]
-      - [0x1864, c, overlays/model_variant/variant404_spiral_slot1]
-      - [0x24F8, c, overlays/model_variant/variant404_bands_slot1]
-      - [0x2CA4, c, overlays/model_variant/variant404_sheets_slot1]
-      - [0x318C, c, overlays/model_variant/variant404_webs_slot1]
-      - [0x3700, c, overlays/model_variant/variant404_spokes_slot1]
-      - [0x3A14, c, overlays/model_variant/variant404_rings_slot1]
-      - [0x3D94, c, overlays/model_variant/variant404_quad_slot1]
+      - [0x4, c, overlays/model_variant/variant404_entry]
+      - [0x11D4, c, overlays/model_variant/variant404_ribbons]
+      - [0x1864, c, overlays/spanish_model_variant/variant421_spiral]
+      - [0x24F8, c, overlays/model_variant/variant404_bands]
+      - [0x2CA4, c, overlays/model_variant/variant404_sheets]
+      - [0x318C, c, overlays/model_variant/variant404_webs]
+      - [0x3700, c, overlays/model_variant/variant404_spokes]
+      - [0x3A14, c, overlays/model_variant/variant404_rings]
+      - [0x3D94, c, overlays/model_variant/variant404_quad]
       - [0x40FC, data, overlays/japanese_model_image_model_50994_8017b000/data]
   - [0x5000]

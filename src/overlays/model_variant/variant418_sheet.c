@@ -4,7 +4,7 @@
 
 /* Draws one sheet of four POLY_GT4 quads at the variant's origin and grows or
  * shrinks its size along the two phases of the pointed-to timing record. */
-void func_8013CAA4(u8 *ctx)
+void ModelVariant418_DrawSheet(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

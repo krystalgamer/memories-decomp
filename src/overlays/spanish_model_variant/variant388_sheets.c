@@ -5,7 +5,7 @@
  * along the direction by the progress. On the last index of each timing
  * cycle the first sheet grows over the timing window and shrinks over the
  * fade window, while the second follows the phase. */
-void func_8013C9A4(u8 *context)
+void SpanishModelVariant388_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     /* The target reserves 16 unused bytes between rotation and scale. */

@@ -13,7 +13,7 @@
  * sorting. The last drawn segment ends on the bare projected spine point
  * instead of its width offsets. The unused `turn` and first-loop `bend` are
  * kept from the template, as in the header-469 helper. */
-void func_8013C508(u8 *ctx)
+void FrenchModelVariant461_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

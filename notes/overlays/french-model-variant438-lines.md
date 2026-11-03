@@ -1,6 +1,6 @@
 # French MODEL438 line helper
 
-`func_8013F300` / `func_8017F300` (image offset `0x4300`, 0x568 bytes) is the
+`SpanishModelVariant438_DrawLines` (`0x8013F300` / `0x8017F300`, image offset `0x4300`, 0x568 bytes) is the
 MODEL438 member of the "lines" helper family. **No release had matching C for
 this body before.** It was chosen because no C existed for it in any release,
 with `J`/`JAL` destination fields masked when comparing bodies across releases.

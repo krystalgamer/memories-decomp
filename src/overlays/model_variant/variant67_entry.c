@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant67_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
 {
     Model67State *work;
     Model67Command *cmd;
@@ -27,7 +27,7 @@ s32 func_8013B004(u8 *context, s32 command)
     work = (Model67State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        cmd = work->command = &D_8013C934[command];
+        cmd = work->command = &gModelVariant67_D1934[command];
         p = work->ribbon[0];
         for (j = 0; j < 8; j++) {
             for (i = 0; i < 16; p++, i++) {
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = -cmd->delay;
         work->done = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C8E0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant67_D18E0[i]);
         }
         return 0;
     }

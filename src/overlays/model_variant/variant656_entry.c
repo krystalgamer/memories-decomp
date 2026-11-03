@@ -8,7 +8,7 @@
  * textured cone and dome open at another, singly or one per spawn step. The
  * setup also prints the work-area size. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
 {
     Model656State *work;
     MATRIX ls, m;
@@ -29,16 +29,16 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model656State));
 #ifndef VERSION_FRENCH
-        printf(D_8013D3C8, sizeof(Model656State));
+        printf(gModelVariant656_D23C8, sizeof(Model656State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &D_8013D3E0[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant656_D23E0[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D3E0[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant656_D23E0[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -55,17 +55,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->dome_count = 1;
             break;
         }
-        work->radius = D_8013D418[command].radius;
-        work->height = D_8013D418[command].height;
+        work->radius = gModelVariant656_D2418[command].radius;
+        work->height = gModelVariant656_D2418[command].height;
         for (i = 0; i < work->count; i++) {
             work->sprites[i].active = 0;
             work->sprites[i].elapsed = 0;
             work->sprites[i].duration = 64;
             work->sprites[i].mode = 1;
             work->sprites[i].coord = Model_GetCameraCoordinateUnit();
-            work->sprites[i].color[0] = D_8013D418[command].color[3];
-            work->sprites[i].color[1] = D_8013D418[command].color[4];
-            work->sprites[i].color[2] = D_8013D418[command].color[5];
+            work->sprites[i].color[0] = gModelVariant656_D2418[command].color[3];
+            work->sprites[i].color[1] = gModelVariant656_D2418[command].color[4];
+            work->sprites[i].color[2] = gModelVariant656_D2418[command].color[5];
             work->sprites[i].u = 0;
             work->sprites[i].v = 0;
             setVector(&work->sprites[i].scale, 4096, 4096, 4096);
@@ -99,9 +99,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->cones[i].mode = 1;
             work->cones[i].coord = Model_GetCameraCoordinateUnit();
-            work->cones[i].color[0] = D_8013D418[command].color[0];
-            work->cones[i].color[1] = D_8013D418[command].color[1];
-            work->cones[i].color[2] = D_8013D418[command].color[2];
+            work->cones[i].color[0] = gModelVariant656_D2418[command].color[0];
+            work->cones[i].color[1] = gModelVariant656_D2418[command].color[1];
+            work->cones[i].color[2] = gModelVariant656_D2418[command].color[2];
             work->cones[i].u = 0;
             work->cones[i].v = 16;
             setVector(&work->cones[i].scale, 4096, 4096, 4096);
@@ -123,9 +123,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].color[0] = D_8013D418[command].color[0];
-            work->domes[i].color[1] = D_8013D418[command].color[1];
-            work->domes[i].color[2] = D_8013D418[command].color[2];
+            work->domes[i].color[0] = gModelVariant656_D2418[command].color[0];
+            work->domes[i].color[1] = gModelVariant656_D2418[command].color[1];
+            work->domes[i].color[2] = gModelVariant656_D2418[command].color[2];
             work->domes[i].u = 0;
             work->domes[i].v = 16;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
@@ -133,7 +133,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->domes[i].rotation, 0, work->slot * 2048, (i << 12) / work->count);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
-        work->delay = D_8013D418[command].delay;
+        work->delay = gModelVariant656_D2418[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -331,9 +331,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->cones[i].duration / 2 < work->cones[i].elapsed) {
                     value = (work->cones[i].duration - work->cones[i].elapsed) * 2;
                     duration = work->cones[i].duration;
-                    work->cones[i].color[0] = D_8013D418[work->command].color[0] * value / duration;
-                    work->cones[i].color[1] = D_8013D418[work->command].color[1] * value / duration;
-                    work->cones[i].color[2] = D_8013D418[work->command].color[2] * value / duration;
+                    work->cones[i].color[0] = gModelVariant656_D2418[work->command].color[0] * value / duration;
+                    work->cones[i].color[1] = gModelVariant656_D2418[work->command].color[1] * value / duration;
+                    work->cones[i].color[2] = gModelVariant656_D2418[work->command].color[2] * value / duration;
                 }
                 for (j = 0; j < 8; j++) {
                     for (k = 0; k < 8; k++) {
@@ -407,9 +407,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     value = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     duration = work->domes[i].duration;
-                    work->domes[i].color[0] = D_8013D418[work->command].color[0] * value / duration;
-                    work->domes[i].color[1] = D_8013D418[work->command].color[1] * value / duration;
-                    work->domes[i].color[2] = D_8013D418[work->command].color[2] * value / duration;
+                    work->domes[i].color[0] = gModelVariant656_D2418[work->command].color[0] * value / duration;
+                    work->domes[i].color[1] = gModelVariant656_D2418[work->command].color[1] * value / duration;
+                    work->domes[i].color[2] = gModelVariant656_D2418[work->command].color[2] * value / duration;
                 }
                 for (k = 0; k < work->dome_count; k++) {
                     for (j = 0; j < 8; j++) {

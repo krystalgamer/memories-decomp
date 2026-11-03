@@ -11,7 +11,7 @@
  * black. The size at work + 0x1BD4 grows by step * 128 up to 0x1000; once the
  * clock passes the timing table's start the length shrinks to zero over the
  * table's span. */
-void func_8013DCAC(u8 *ctx)
+void FrenchModelVariant446_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

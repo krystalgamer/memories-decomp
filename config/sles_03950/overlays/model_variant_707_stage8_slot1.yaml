@@ -56,56 +56,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant373_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant373_entry]
   - name: layers
     type: code
     start: 0x10B0
     vram: 0x8017C0B0
     align: 4
     subsegments:
-      - [0x10B0, c, overlays/french_model_variant/variant373_layers_slot1]
+      - [0x10B0, c, overlays/french_model_variant/variant373_layers]
   - name: grid
     type: code
     start: 0x176C
     vram: 0x8017C76C
     align: 4
     subsegments:
-      - [0x176C, c, overlays/french_model_variant/variant373_grid_slot1]
+      - [0x176C, c, overlays/french_model_variant/variant373_grid]
   - name: points
     type: code
     start: 0x1EE4
     vram: 0x8017CEE4
     align: 4
     subsegments:
-      - [0x1EE4, c, overlays/french_model_variant/variant373_points_slot1]
+      - [0x1EE4, c, overlays/french_model_variant/variant373_points]
   - name: strip
     type: code
     start: 0x223C
     vram: 0x8017D23C
     align: 4
     subsegments:
-      - [0x223C, c, overlays/french_model_variant/variant373_strip_slot1]
+      - [0x223C, c, overlays/french_model_variant/variant373_strip]
   - name: ribbons
     type: code
     start: 0x2784
     vram: 0x8017D784
     align: 4
     subsegments:
-      - [0x2784, c, overlays/french_model_variant/variant373_ribbons_slot1]
+      - [0x2784, c, overlays/french_model_variant/variant373_ribbons]
   - name: quads
     type: code
     start: 0x2E68
     vram: 0x8017DE68
     align: 4
     subsegments:
-      - [0x2E68, c, overlays/french_model_variant/variant373_quads_slot1]
+      - [0x2E68, c, overlays/french_model_variant/variant373_quads]
   - name: rays
     type: code
     start: 0x33EC
     vram: 0x8017E3EC
     align: 4
     subsegments:
-      - [0x33EC, c, overlays/french_model_variant/variant373_rays_slot1]
+      - [0x33EC, c, overlays/french_model_variant/variant373_rays]
   - name: unclassified_tail
     type: code
     start: 0x3EF0

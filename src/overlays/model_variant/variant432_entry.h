@@ -21,7 +21,7 @@ typedef struct {
     DVECTOR target;
 } Variant432EntryProjection;
 
-/* One 0x24-byte command row at D_8013DB64 + 0xFC. */
+/* One 0x24-byte command row at gModelVariant432_D2B64 + 0xFC. */
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
     s32 start, scale_start, scale_end;
@@ -88,10 +88,10 @@ typedef struct {
     s16 slot, command;
 } Variant432EntryState;
 
-extern u8 D_8013DB64[];
-void func_8013BD24(u8 *context);
-void func_8013C244(u8 *context);
-void func_8013CB78(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gModelVariant432_D2B64[];
+void FrenchModelVariant449_DrawSheet(u8 *context);
+void FrenchModelVariant449_DrawRibbons(u8 *context);
+void FrenchModelVariant449_DrawStreamers(u8 *context);
+s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

@@ -1,6 +1,7 @@
 # French header-389 image ribbons helper
 
-`func_8013BE68` / `func_8017BE68` (image offset `0xE68`, 0x9FC bytes)
+`FrenchModelVariant389_DrawRibbons` (formerly `func_8013BE68` / `func_8017BE68`;
+image offset `0xE68`, 0x9FC bytes)
 updates, projects and draws the eight header-389 ribbons.
 **No release had matching C for this body before.**
 

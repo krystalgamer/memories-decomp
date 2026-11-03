@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x134C,func_8013B004,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C350,0x540,func_8013C350,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C890,0x4FC,func_8013C890,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CD8C,0x494,func_8013CD8C,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x134C,FrenchModelVariant478_HandleRequest,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C350,0x540,FrenchModelVariant478_DrawSwarm,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C890,0x4FC,SpanishModelVariant478_DrawOrbitingQuads,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CD8C,0x494,SpanishModelVariant478_DrawPetalRings,matching_c,overlay/model_image_model_161936_8013b000,Complete module byte identity and section-defined C ownership verified.

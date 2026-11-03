@@ -8,7 +8,7 @@
 #define FLASH_HEIGHT 240
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
 {
     Model122State *work;
     Model122Command *cmd;
@@ -33,7 +33,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C840;
+    scale = gModelVariant122_D1840;
     work = (Model122State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     /* A nested scope gives step the last spill slot, as in the original. */
@@ -41,7 +41,7 @@ s32 func_8013B004(u8 *context, s32 command)
         u8 step;
         step = Model_GetFrameStep();
         if (command >= 0) {
-            cmd = work->command = &D_8013C888[command];
+            cmd = work->command = &gModelVariant122_D1888[command];
             p = work->particles;
             for (i = 0; i < 64; p++, i++) {
                 j = rand() % 4096;
@@ -67,7 +67,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->done = 0;
             for (i = 0; i < 2; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C850[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant122_D1850[i]);
             }
             work->elapsed = 0;
             return 0;

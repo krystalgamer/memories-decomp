@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0xE34,func_8013B004,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013BE38,0x8E0,func_8013BE38,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C718,0x698,func_8013C718,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CDB0,0x458,func_8013CDB0,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D208,0x964,func_8013D208,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013DB6C,0x4FC,func_8013DB6C,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013E068,0x7EC,func_8013E068,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0xE34,FrenchModelVariant474_HandleRequest,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013BE38,0x8E0,FrenchModelVariant474_DrawRibbon,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C718,0x698,FrenchModelVariant474_DrawPairedFunnels,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CDB0,0x458,SpanishModelVariant474_DrawGouraudMesh,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D208,0x964,SpanishModelVariant474_DrawSpiral,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013DB6C,0x4FC,SpanishModelVariant474_DrawOffsetSheets,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013E068,0x7EC,SpanishModelVariant474_DrawCoiledStreamers,matching_c,overlay/model_variant_431_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

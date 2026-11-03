@@ -1,7 +1,8 @@
 # Spanish MODEL459 curtains
 
-Helper `+0x19AC..+0x1FB8` is matching C: `variant459_curtains.c`, with
-`variant459_curtains_slot1.c` renaming it for the second load slot. It is
+Helper `+0x19AC..+0x1FB8` is matching C: `variant459_curtains.c`
+(`SpanishModelVariant459_DrawCurtains`), one source for both load slots,
+bound per image. It is
 1,548 bytes in the twelve Spanish MODEL459 loads (MODEL47, MODEL238,
 MODEL411 and MODEL620 at stages 7/8; MODEL231 and MODEL417 at stages 9/10)
 and in the eleven French images that carry the identical body. French

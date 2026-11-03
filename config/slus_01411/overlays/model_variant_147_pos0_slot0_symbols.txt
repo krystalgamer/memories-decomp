@@ -1,13 +1,13 @@
 // MODEL.MRG model 147 (record 147), sector 40752, header 421, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0x165C defined:true
-func_8013C660 = 0x8013C660; // type:func size:0x578 defined:true
-func_8013CBD8 = 0x8013CBD8; // type:func size:0x8A8 defined:true
-func_8013D480 = 0x8013D480; // type:func size:0x634 defined:true
-func_8013DAB4 = 0x8013DAB4; // type:func size:0xC80 defined:true
-func_8013E734 = 0x8013E734; // type:func size:0x7B0 defined:true
-func_8013EEE4 = 0x8013EEE4; // type:func size:0x51C defined:true
-func_8013F400 = 0x8013F400; // type:func size:0x56C defined:true
-D_8013F96C = 0x8013F96C; // type:u8 size:0x694 defined:true
+SpanishModelVariant438_HandleRequest = 0x8013B004; // type:func size:0x165C defined:true
+SpanishModelVariant438_DrawWarpRings = 0x8013C660; // type:func size:0x578 defined:true
+SpanishModelVariant438_DrawRing = 0x8013CBD8; // type:func size:0x8A8 defined:true
+SpanishModelVariant438_DrawRays = 0x8013D480; // type:func size:0x634 defined:true
+SpanishModelVariant438_DrawSpiral = 0x8013DAB4; // type:func size:0xC80 defined:true
+SpanishModelVariant438_DrawAdvancingBand = 0x8013E734; // type:func size:0x7B0 defined:true
+SpanishModelVariant438_DrawTargetClampedSheets = 0x8013EEE4; // type:func size:0x51C defined:true
+SpanishModelVariant438_DrawLines = 0x8013F400; // type:func size:0x56C defined:true
+gSpanishModelVariant438_D4868 = 0x8013F96C; // type:u8 size:0x694 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

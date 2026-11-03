@@ -5,7 +5,7 @@
 #define MODEL_VARIANT423_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState423 *work = (EntryState423 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -35,7 +35,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig423 *)(D_8013E7D4 + 0xFC) + command;
+        work->config = (EntryConfig423 *)(gFrenchModelVariant423_D37D4 + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -49,13 +49,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT423_CLUT_X, 244);
         other_tpage = GetTPage(1, 1, 896, 0);
         other_clut = GetClut(MODEL_VARIANT423_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7D4 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant423_D37D4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7D4 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant423_D37D4 + 0x8C));
         extra_page = packed >> 16;
         extra_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7D4 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant423_D37D4 + 0x1C));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -284,17 +284,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->elapsed) {
-            func_8013D564((u8 *)point);
+            SpanishModelVariant423_DrawSheets((u8 *)point);
         }
         if (work->phase >= 3) {
-            func_8013E214((u8 *)point);
-            func_8013BE18((u8 *)point);
+            FrenchModelVariant423_DrawFunnel((u8 *)point);
+            SpanishModelVariant423_DrawMesh((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013CCB4((u8 *)point);
+            FrenchModelVariant423_DrawRibbon((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013C2A8((u8 *)point);
+            SpanishModelVariant423_DrawSpiral((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

@@ -5,7 +5,7 @@
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
  * path, fading its radius in and out with the two phases of the timing record at
  * work + 0x1938. */
-void func_8013D4F8(u8 *ctx)
+void ModelVariant404_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

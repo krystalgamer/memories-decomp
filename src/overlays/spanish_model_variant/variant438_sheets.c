@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant438_sheets.h"
 
-void func_8013EDE8(u8 *context)
+void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

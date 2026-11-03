@@ -8,7 +8,7 @@
  * view direction, spin by step * 80 a frame, grow to 0x1000 over the timing
  * record's growth window and shrink after its fade bound. Below phase 2 only
  * the second funnel is handled. */
-void func_8013D4A4(u8 *context)
+void SpanishModelVariant411_DrawFunnels(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -106,8 +106,8 @@ void func_8013D4A4(u8 *context)
                 }
             }
         } else if (state->timing->fade_after < state->time && funnel->size > 0) {
-            funnel->size = 4096 - (state->time - *(u32 *)(D_8013D9B4 + 0x114)) * 4096 /
-                                  (state->timing->fade_end - *(u32 *)(D_8013D9B4 + 0x114));
+            funnel->size = 4096 - (state->time - *(u32 *)(gSpanishModelVariant411_D29B4 + 0x114)) * 4096 /
+                                  (state->timing->fade_end - *(u32 *)(gSpanishModelVariant411_D29B4 + 0x114));
             if (funnel->size <= 0) {
                 funnel->size = 0;
             }
