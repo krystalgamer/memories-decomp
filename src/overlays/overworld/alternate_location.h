@@ -10,8 +10,9 @@
    The types below are deliberately named for this family and are not shared
    with the live map helpers. The inventory rows for both functions warn
    against aliasing this family to those helpers, and the tables are distinct
-   symbols in any case: this family reads D_80169E54 and D_8016A278, the live
-   path reads gCampaignMap_aLocationTable and gCampaignMap_pSpotlight. The layouts happen
+   symbols in any case: this family reads D_80169E54 and
+   gCampaignMap_AlternateState.marker, the live path reads
+   gCampaignMap_aLocationTable and gCampaignMap_pSpotlight. The layouts happen
    to agree because this is a mechanical copy, which is corroboration for the
    offsets below and not a reason to merge the declarations. */
 
@@ -29,7 +30,7 @@ typedef struct {
     u8 pad11;
 } AlternateExit;
 
-/* An alternate location record, 66 bytes, indexed by the u8 at D_8016A2BC.
+/* An alternate location record, 66 bytes, indexed by gCampaignMap_AlternateState.location.
    The 66-byte stride and the exit array at +0x12 are visible in the index
    arithmetic of CampaignMap_PickAlternateExit.
 
@@ -57,7 +58,7 @@ typedef char AlternateExit_size_must_be_12[
     sizeof(AlternateExit) == 12 ? 1 : -1
 ];
 
-/* The alternate marker/map object held in D_8016A278 and D_8016A288.
+/* The alternate marker/map object held in the state's marker and blinkObject.
    CampaignMap_UpdateAlternateLocation toggles bit 0x40 of `f8` and writes the
    location record's pair into `f48`/`f50`. */
 typedef struct {
@@ -80,18 +81,19 @@ typedef struct {
     u8 location;
     u8 transitionFlags;
     u8 unknown4A[0x0A];
-} __attribute__((packed)) AlternateLocationState;
+} AlternateLocationState;
 
 typedef char AlternateLocationState_size_must_be_0x54[
     sizeof(AlternateLocationState) == 0x54 ? 1 : -1
 ];
 
-/* The three symbols both sources share. The comments above already name two
- * of them while describing the layouts, so the declarations belong here too.
+/* The symbols both sources share. The comments above already name some of
+ * them while describing the layouts, so the declarations belong here too.
  *
  *   D_80169E54   The sixteen-record table defined by alternate_location.c,
- *                indexed by D_8016A2BC at the 66-byte stride above.
- *   D_8016A2BC   The current alternate location, compared against 10 by both
+ *                indexed by the state's location at the 66-byte stride above.
+ *   gCampaignMap_AlternateState.location
+ *                The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
  *   D_800C4E68   A pad or status word; the alternate exit selector tests
  *                0x20/0xC0 in US and 0x40/0xA0 in Japan.
@@ -100,12 +102,6 @@ typedef char AlternateLocationState_size_must_be_0x54[
  * C-owned enclosing record. */
 extern AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT];
 extern AlternateLocationState gCampaignMap_AlternateState;
-extern AlternateObject *D_8016A278;
-extern AlternateObject *D_8016A288;
-extern u8 D_8016A29C;
-extern s32 D_8016A2B8;
-extern u8 D_8016A2BC;
-extern u8 D_8016A2BD;
 extern u8 D_8016A2C8;
 extern u8 D_8016A2C9;
 extern u16 D_800C4E68;
