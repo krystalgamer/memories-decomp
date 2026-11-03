@@ -110,8 +110,6 @@ gDisplay_abResourceBank1 = D_801AF800;
 
 gText_StagedValues = D_801D5608;
 D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;
-gFade_bKeepOverlayDepth = D_8009B140;
-gFade_bWhiteLatch = D_8009B145;
 
 
 

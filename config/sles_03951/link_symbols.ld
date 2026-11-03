@@ -367,8 +367,8 @@ gFade_bTargetGreen = 0x8009C4BD;
 gFade_bTargetRed = 0x8009C4BE;
 gGraphics_sViewportX = 0x8009C4C0;
 gGraphics_sViewportY = 0x8009C4C2;
-D_8009B140 = 0x8009C4C4;
-D_8009B145 = 0x8009C4C5;
+gFade_bKeepOverlayDepth = 0x8009C4C4;
+gFade_bWhiteLatch = 0x8009C4C5;
 gDuel_wViewTweenDistanceTarget = 0x8009C4CA;
 gDuel_wViewTweenFramesRemaining = 0x8009C4CC;
 gDuel_apSwordsEffectObjects = 0x8009C4D0;
@@ -1039,8 +1039,6 @@ gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
 gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
-gFade_bKeepOverlayDepth = D_8009B140;
-gFade_bWhiteLatch = D_8009B145;
 
 
 

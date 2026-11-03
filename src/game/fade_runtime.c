@@ -4,12 +4,12 @@
 #ifndef FADE_RUNTIME_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B140-0x8009B150, defined in
  * address order ahead of the headers that declare it (#2602). */
-u8 D_8009B140;
+u8 gFade_bKeepOverlayDepth;
 u8 gFade_bOrderingTableMode;
 u8 gGraphics_bClearBlue;
 u8 gGraphics_bClearGreen;
 u8 gGraphics_bClearRed;
-u8 D_8009B145;
+u8 gFade_bWhiteLatch;
 s16 gGraphics_sViewportX;
 s16 gGraphics_sViewportY;
 u8 gFade_bTargetBlue;
@@ -18,12 +18,12 @@ u8 gFade_bTargetRed;
 static u8 D_8009B14D;
 static u16 D_8009B14E;
 #else
-extern u8 D_8009B140;
+extern u8 gFade_bKeepOverlayDepth;
 extern u8 gFade_bOrderingTableMode;
 extern u8 gGraphics_bClearBlue;
 extern u8 gGraphics_bClearGreen;
 extern u8 gGraphics_bClearRed;
-extern u8 D_8009B145;
+extern u8 gFade_bWhiteLatch;
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
 extern u8 gFade_bTargetBlue;

@@ -164,12 +164,12 @@ D_8009B12C = 0x8009C48C;
 gFile_CommandRetryCount = 0x8009C480;
 D_8009B134 = 0x8009C484;
 gFile_ReadyDataEventCount = 0x8009C478;
-D_8009B140 = 0x8009C4C4;
+gFade_bKeepOverlayDepth = 0x8009C4C4;
 gFade_bOrderingTableMode = 0x8009C4B8;
 gGraphics_bClearBlue = 0x8009C4B9;
 gGraphics_bClearGreen = 0x8009C4BA;
 gGraphics_bClearRed = 0x8009C4BB;
-D_8009B145 = 0x8009C4C5;
+gFade_bWhiteLatch = 0x8009C4C5;
 gFade_bTargetBlue = 0x8009C4BC;
 gFade_bTargetGreen = 0x8009C4BD;
 gFade_bTargetRed = 0x8009C4BE;
@@ -1039,8 +1039,6 @@ gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
 gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
-gFade_bKeepOverlayDepth = D_8009B140;
-gFade_bWhiteLatch = D_8009B145;
 
 
 

@@ -168,8 +168,6 @@ gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
 gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
-gFade_bKeepOverlayDepth = D_8009B140;
-gFade_bWhiteLatch = D_8009B145;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 

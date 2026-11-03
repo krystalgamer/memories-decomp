@@ -147,11 +147,11 @@ rather than inferred from a caller's name:
 |---|---|---|
 | `Fade_InitIn` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
-| `Fade_Init` in [`fade_runtime.c`](../src/game/fade_runtime.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `D_8009B145`; no transition is armed |
+| `Fade_Init` in [`fade_runtime.c`](../src/game/fade_runtime.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `gFade_bWhiteLatch`; no transition is armed |
 
 `Fade_StartIn` and `Fade_StartOut` call `Fade_InitIn` and `Fade_InitOut`,
 then request step `8` and flag `0x01` (band mode). However, both call a color
-helper **after** that request. When `D_8009B145` is nonzero,
+helper **after** that request. When `gFade_bWhiteLatch` is nonzero,
 [`Fade_ApplyWhiteLatchToFadeIn`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
 while [`Fade_ApplyWhiteLatchToFadeOut`](../src/game/fade_runtime.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
@@ -208,7 +208,7 @@ control byte is not a simple record of fade direction.
 ### What the extra bits do
 
 `FADE_FLAG_KEEP_OVERLAY` (`0x02`) is already covered by the submission table
-above: it makes the tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
+above: it makes the tail box take its depth from `gFade_bKeepOverlayDepth` (or `0x3F` when that is zero)
 instead of the fixed `4`. That is what lets other objects sort in front of
 the cover, and `Script_OpShowImage` is the clearest use -- it creates its
 full-screen image object and only then calls `0x80015C84`, the non-blocking
@@ -253,7 +253,7 @@ reaches `0xFF` has `Fade_Update` clear both bits, and secondary-table
 suppression is only consumed at level `0` together with `KEEP_OVERLAY`. Which
 screens would use the uncalled forms remains unknown.
 
-The two colour helpers act only while the `D_8009B145` white latch is set.
+The two colour helpers act only while the `gFade_bWhiteLatch` white latch is set.
 `Fade_ApplyWhiteLatchToFadeIn` and `Fade_ApplyWhiteLatchToFadeOut` then
 overwrite the tint with white, restore step `0x0C`, replace the flag byte
 (`0x90` and `0xB0` respectively) and set the destination colour that
@@ -314,8 +314,8 @@ The coordinates below belong to the scratchpad descriptor:
 |---|---|---|---|
 | `0x00` | none | one `320x240` box at `(0,0)` | `4` |
 | `0x01` | 30 `320x8` boxes at `(0,8*i)`, `i=0..29`, depth `4` | none | not applicable |
-| `0x02` | none | one `320x240` box at `(0,0)` | `D_8009B140`, or `0x3F` if zero |
-| `0x03` | the same 30 boxes at depth `4` | one `320x8` box at `(0,240)` | `D_8009B140`, or `0x3F` if zero |
+| `0x02` | none | one `320x240` box at `(0,0)` | `gFade_bKeepOverlayDepth`, or `0x3F` if zero |
+| `0x03` | the same 30 boxes at depth `4` | one `320x8` box at `(0,240)` | `gFade_bKeepOverlayDepth`, or `0x3F` if zero |
 
 The combined `0x03` path does **not** restore height or y after the band
 loop. Its extra submission is not another full-screen cover. The resident

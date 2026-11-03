@@ -10,32 +10,10 @@
 
 extern FadeTransitionState gFade_State;
 
-/* Latches the white-fade path until the transition completes. Most fade
-   units reach it through small data; Script_OpShowImage defines the arm below
-   to preserve its measured absolute-addressing form. */
-#ifdef D_8009B145_IN_DATA
-extern u8 D_8009B145[];
-#else
-extern u8 D_8009B145;
-#endif
-
-/* The fade depth byte and the fade-active flag. Five of the fade family reach
- * both through $gp (small data) and take the plain arms below.
- *
- * build_deck_update.c and src/game/duel_effect_states.c address D_8009B140
- * with %hi/%lo instead, outside small data, so they take the .data arm the
- * same way script_image_commands.c takes one for D_8009B145. Both set it from
- * D_8009AF74[1] (display_object_helpers.h) and take that table's .data
- * arm for the same reason.
- *
- * graphics_frame.c reaches gFade_bOrderingTableMode with %hi/%lo as well and takes its
- * .data arm below; every other user keeps the plain small-data arm. */
-#ifdef D_8009B140_IN_DATA
-extern u8 D_8009B140[];
-#else
-extern u8 D_8009B140;
-#endif
-
+/* The fade-active flag. Five of the fade family reach it through $gp (small
+ * data) and take the plain arm below. graphics_frame.c reaches it with
+ * %hi/%lo and takes the .data arm. The keep-overlay depth byte beside it is
+ * gFade_bKeepOverlayDepth (fade_overlay_controls.h). */
 #ifdef D_8009B141_IN_DATA
 extern u8 gFade_bOrderingTableMode __attribute__((section(".data")));
 #else
