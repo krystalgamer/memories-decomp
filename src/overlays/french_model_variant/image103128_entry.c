@@ -7,7 +7,7 @@
 #define IMAGE103128_BURST_CLUT 0x3D28
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant857_HandleRequest(u8 *context, s32 command)
 {
     Image103128State *state;
     MATRIX light;
@@ -33,19 +33,19 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
-    scale = D_8013BEEC;
+    scale = gFrenchModelVariant857_D0EEC;
     state = (Image103128State *)context;
     packet = &quad;
     gradient_packet = &gradient;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        state->config = &D_8013BF34[command];
+        state->config = &gFrenchModelVariant857_D0F34[command];
         state->tpage = 174;
         state->clut = IMAGE103128_BURST_CLUT;
         for (i = 0; i < 2; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &D_8013BEFC[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant857_D0EFC[i]);
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 8; j++) {

@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/japanese/model_variant/variant162_entry_usa_slot1]
+      - [0x4, c, overlays/japanese/model_variant/variant162_entry_usa]
   - name: scale
     type: code
     start: 0xDC0
     vram: 0x8017BDC0
     align: 4
     subsegments:
-      - [0xDC0, .rodata, overlays/japanese/model_variant/variant162_entry_usa_slot1]
+      - [0xDC0, .rodata, overlays/japanese/model_variant/variant162_entry_usa]
   - name: image_view
     type: code
     start: 0xDE4

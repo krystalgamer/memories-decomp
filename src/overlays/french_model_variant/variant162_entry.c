@@ -13,7 +13,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR D_8013BDAC = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant162_D0DAC = {4096, 4096, 4096, 0};
 
 #if defined(VARIANT162_PRINT_WORK_SIZE)
 /* North American retail fills the three bytes after the string with 0x18, 0x20, 0x02. */
@@ -23,7 +23,7 @@ const VECTOR D_8013BDAC = {4096, 4096, 4096, 0};
 static const char work_size_format[20] = "%d ( %x ) Byte.\n\0" MODEL162_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
 {
     Model162State *work;
     MATRIX base, matrix;
@@ -45,13 +45,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BDAC;
+    scale = gFrenchModelVariant162_D0DAC;
     work = (Model162State *)context;
     Model_GetActiveSlotIndex();
     {
         s32 step = Model_GetFrameStep();
         if (command >= 0) {
-            config = work->config = &D_8013BDD8[command];
+            config = work->config = &gFrenchModelVariant162_D0DD8[command];
             point = work->points;
             for (i = 0; i < 256; point++, i++) {
                 value = config->radius * i / 256;
@@ -60,7 +60,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 point->vz = 0;
             }
             for (i = 0; i < 1; i++) {
-                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BDBC[i]);
+                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant162_D0DBC[i]);
             }
             work->elapsed = 0;
             work->completed = 0;
