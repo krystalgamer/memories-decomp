@@ -8,6 +8,6 @@ void Script_OpJumpIfDeckIncomplete(void) {
     unsigned int offset;
     gScript_StreamCursor = current + 2;
     offset = current[0] | (current[1] << 8);
-    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = D_801A8000 + offset;
+    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = gFile_StagingBuffer + offset;
     gScript_wCommandWord = 0;
 }

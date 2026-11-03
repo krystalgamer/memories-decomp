@@ -117,7 +117,7 @@ void Script_OpStoryFlag(void)
         gScript_StreamCursor = cursor + 4;
         offset = cursor[2] | (next[1] << 8);
         if (Campaign_TestStoryFlag(command))
-            gScript_StreamCursor = D_801A8000 + offset;
+            gScript_StreamCursor = gFile_StagingBuffer + offset;
     }
     gScript_wCommandWord = 0;
 }

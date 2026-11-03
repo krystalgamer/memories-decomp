@@ -29,9 +29,10 @@ stores remain load-bearing; no loop or register-lifetime cleanup is made.
 
 ## Typed row view of shared scratch
 
-`gCardList_aRowSets` names only the existing incomplete
-`CardListRowSet[]` view formerly spelled `D_801A8000` in three typed
-consumers: the row constructor, renderer and builder.
+The row constructor, renderer and builder cast the shared
+`gFile_StagingBuffer` (formerly `D_801A8000`, with a `gCardList_aRowSets`
+alias) to `CardListRowSet *`. The buffer is declared once, as bytes, in
+`file_staging_buffer.h`.
 
 The constructor initializes two logical records and their display objects,
 sets each object's side selector and renderer callback, and the other

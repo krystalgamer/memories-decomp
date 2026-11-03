@@ -44,7 +44,7 @@
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
    gCardList_SortIconTable gives the u/v and page bits of each type icon; the selected
    icon (byte +0x69) is drawn bright. For each card entry of the box
-   record (gCardList_aRowSets, 24 bytes per box) that names a monster, the attack
+   record (gFile_StagingBuffer, 24 bytes per box) that names a monster, the attack
    and defence from gDuel_adwCardStats are rendered as four decimal digits
    each (through Text_EncodeDecimalDigits), dimmed when the entry's high
    bit is set. */
@@ -63,7 +63,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
 
     tbl = gCardList_SortIconTable;
     sp = (GsSPRITE *)0x1F800320;
-    rec = &gCardList_aRowSets[obj->field_6A];
+    rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->field_6A];
     pri = *(s16 *)&obj->ot_depth;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;
@@ -174,7 +174,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s32 empty_color;
 #endif
 
-    s = &gCardList_aRowSets[idx];
+    s = &((CardListRowSet *)gFile_StagingBuffer)[idx];
     base = 0x18;
     s->enabled = flag;
     ((DisplayObject *)s->object)->field_68 = flag;

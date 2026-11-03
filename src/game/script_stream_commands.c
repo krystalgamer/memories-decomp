@@ -84,5 +84,5 @@ void Script_OpJump(void)
     gScript_StreamCursor = source + 2;
     offset = source[0] | (source[1] << 8);
     gScript_wCommandWord = 0;
-    gScript_StreamCursor = D_801A8000 + offset;
+    gScript_StreamCursor = gFile_StagingBuffer + offset;
 }

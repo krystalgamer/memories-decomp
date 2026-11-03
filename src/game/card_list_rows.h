@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "duel_card_display_state.h"
+#include "file_staging_buffer.h"
 
 #define CARD_LIST_ROW_SET_OFFSET(member) \
     ((u32)&(((CardListRowSet *)0)->member))
@@ -14,7 +15,7 @@
 #define CARD_LIST_ROW_ENTRY_COUNT 7
 #endif
 
-/* One of the D_801A8000 records (24 bytes; European 28) shared by the row
+/* One of the gFile_StagingBuffer records (24 bytes; European 28) shared by the row
  * builder and renderer. CardList_RenderDeckBoxStats independently confirms
  * the enabled halfword and the card entries below. */
 typedef struct {
@@ -44,17 +45,11 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
  * CardList_RenderDeckBoxStats and
  * func_80060E70 index by the display object's field_6A.
  *
- * This declaration is deliberately NOT the only one of D_801A8000 in the
- * tree, and must not be made so. 0x801A8000 is a shared staging buffer that
- * unrelated subsystems reinterpret wholesale: the script interpreter treats
- * it as bytecode (gScript_StreamCursor = D_801A8000 + offset, in script_run_tick.c and
- * three siblings), the file-transfer steps hand its raw address to a DMA
- * descriptor word (sector_destination/alternate_sector_destination, in file_transfer_steps.c and three
- * siblings), and two overlays view it as u32[] and MainMenuState[]. Those
- * are not worse-informed views of one record -- they are different records
- * living at one address at different times, so each keeps its own
- * declaration. Only the card-list group sees CardListRowSet here. */
-extern CardListRowSet D_801A8000[];
+ * The records live in gFile_StagingBuffer, a shared staging buffer that
+ * unrelated subsystems reinterpret wholesale at different times: script
+ * bytecode, file-transfer destinations, the password shop's price table and
+ * the trade screen's state. It is declared once, as bytes, in
+ * file_staging_buffer.h, and each user casts to its record type. */
 
 /* The fourth word preserves caller setup; this body does not consume it. */
 void func_80060E70(u16 *entries, s32 side, s32 flag, s32 ignored);

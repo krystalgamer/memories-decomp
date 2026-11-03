@@ -436,7 +436,7 @@ D_8018C7D8 = 0x8018C7D8;
 gDuel_aCardRecords = 0x801A7AD8;
 D_801A7B64 = 0x801A7B64;
 D_801A7B80 = 0x801A7B80;
-D_801A8000 = 0x801A8000;
+gFile_StagingBuffer = 0x801A8000;
 gAiScript_abFieldScript = 0x801A9800;
 gAiSnapshot_aOwnCards = 0x801AB00C;
 gDisplay_abResourceBank0 = 0x801AF000;
@@ -985,7 +985,6 @@ func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80050B6C = CardList_BuildRowSetTextBoxes;
-gCardList_aRowSets = D_801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SCRIPT_STATE_H
 
 #include "../types.h"
+#include "file_staging_buffer.h"
 
 /* The script engine's current command word.
  *
@@ -39,25 +40,14 @@ extern u8 *gScript_StreamCursor;
  * cursor above is set from.
  *
  * script_run_tick.c states the layout in one line --
- * `gScript_StreamCursor = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
+ * `gScript_StreamCursor = gFile_StagingBuffer + *(u16 *)(gFile_StagingBuffer + g * 2)` -- so the head of
  * the package is a table of little-endian u16 byte offsets indexed by script
  * number, and the entry is where that script's code starts. The other three
  * namers jump within the same package: Script_OpStoryFlag,
  * Script_OpJump and Script_OpJumpIfDeckIncomplete all set the cursor to
- * `D_801A8000 + offset`. All four spelled it `extern u8 D_801A8000[]`, which
- * is the spelling kept here.
- *
- * This is the script engine's view of the address, not a claim to own it.
- * The same buffer is read as 24-byte records through
- * `CardListRowSet D_801A8000[]` in card_list_rows.h, and the overlays reach
- * it as `u32 []` and `MainMenuState []`. None of those files includes this
- * header and none of the four here includes card_list_rows.h, so the
- * spellings never meet.
- *
- * The four file-transfer units that store `(s32)D_801A8000` into a transfer
- * object's fields keep their own declarations: they never read through the
- * base, which is a different reading from this one. */
-extern u8 D_801A8000[];
+ * `gFile_StagingBuffer + offset`. They use the byte view in
+ * file_staging_buffer.h; card_list_rows.h explains the other subsystems'
+ * record views of the same buffer. */
 
 /* The viewport tween target, X then Y, as two consecutive halfwords.
  *

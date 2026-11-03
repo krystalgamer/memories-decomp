@@ -14,7 +14,7 @@
  *
  * Script_OpFadeBgm fades the BGM out, with the low seven bits as the step and
  * zero meaning the default, and carries the same bit 7. Script_OpJump is the script
- * jump: it takes a 16-bit offset and repoints gScript_StreamCursor into D_801A8000. */
+ * jump: it takes a 16-bit offset and repoints gScript_StreamCursor into gFile_StagingBuffer. */
 void Script_OpSound(void);
 void Script_OpFadeBgm(void);
 void Script_OpJump(void);

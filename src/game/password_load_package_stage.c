@@ -52,8 +52,8 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->w = 0x100;
         object->h = 0x10;
         LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
-        object->alternate_sector_destination = (s32)D_801A8000;
-        object->sector_destination = (s32)D_801A8000;
+        object->alternate_sector_destination = (s32)gFile_StagingBuffer;
+        object->sector_destination = (s32)gFile_StagingBuffer;
         object->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->transfer_mode = 1;

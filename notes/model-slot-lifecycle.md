@@ -173,7 +173,7 @@ caller-domain restriction is introduced.
 In `Model_LoadMonsterMergeStage`, nonzero skip state consumes phase 13's
 one sector and phase 14's fifty sectors through the original mode-1
 skip-RAM-write path. The unflagged phase 13 writes the sequence block to
-`D_801A8000 + index * FILE_SECTOR_SIZE`. Unflagged phase 14 keeps both
+`gFile_StagingBuffer + index * FILE_SECTOR_SIZE`. Unflagged phase 14 keeps both
 descriptor destination assignments and uses mode 3 with SPU address
 `0xD810 + index * 0x19000`. This is sample audio, NOT an image upload:
 `File_TransferReadyCallback` case 3 uses `SpuSetTransferStartAddr` and

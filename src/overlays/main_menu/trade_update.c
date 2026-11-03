@@ -712,6 +712,6 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
         );
     }
 
-    gTrade_aInventoryRowSets[slot].object[0x69] = mode;
+    ((MainMenuState *)gFile_StagingBuffer)[slot].object[0x69] = mode;
 }
 #endif

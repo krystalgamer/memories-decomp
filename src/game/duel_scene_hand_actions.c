@@ -179,7 +179,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0x8000;
                 Ai_RefreshBoardSnapshot();
-                AiScript_Init(D_801A8000);
+                AiScript_Init(gFile_StagingBuffer);
                 return;
             }
             if (AiScript_Run() != 0) {

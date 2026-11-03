@@ -485,14 +485,14 @@ void Password_UpdateShopScreen(void)
         flags2 = gPassword_wShopState;
         if ((flags2 & 0x8000) == 0) {
             gPassword_wShopState = flags2 | 0x8000;
-            gText_StagedValues[0].pair.lo = D_801A8000[gPassword_wCardId].price;
+            gText_StagedValues[0].pair.lo = ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price;
             gText_StagedValues[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
                     gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (gLibrary_dwStarchips < D_801A8000[gPassword_wCardId].price) {
+            if (gLibrary_dwStarchips < ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);
@@ -517,7 +517,7 @@ void Password_UpdateShopScreen(void)
         if ((flags3 & 0x8000) == 0) {
             gPassword_wShopState = flags3 | 0x8000;
             card = gPassword_wCardId;
-            gPassword_dwPriceRemaining = D_801A8000[card].price;
+            gPassword_dwPriceRemaining = ((PasswordShopCard *)gFile_StagingBuffer)[card].price;
         }
         count = gPassword_dwPriceRemaining;
         step = 1;

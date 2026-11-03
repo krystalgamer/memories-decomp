@@ -84,7 +84,7 @@ void Script_RunTick(void)
     }
     if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         g = gScript_EventState;
-        gScript_StreamCursor = D_801A8000 + ((u16 *)D_801A8000)[g];
+        gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[g];
         b = *gScript_StreamCursor++;
         gScript_DialogCommandLatch = 0;
         gScript_EventState = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;

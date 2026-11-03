@@ -4,6 +4,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
+#include "../../game/file_staging_buffer.h"
 #include "module_rodata.h"
 
 /* One entry of gTrade_aCardSlots, the two Trade card-display slots.
@@ -42,7 +43,7 @@ typedef struct {
 
 extern MainMenuPair gTrade_aListScroll[];
 
-/* One entry of gTrade_aInventoryRowSets, the per-side inventory row state. Only the leading
+/* One entry of gFile_StagingBuffer, the per-side inventory row state. Only the leading
    display-object pointer is named; the rest is carried so the stride is
    right. */
 typedef struct {
@@ -61,9 +62,6 @@ typedef union {
     u8 *clearBase;
 } MainMenuTradeDirtyCarrier;
 
-/* The Trade updater and inventory updater's two-record view of the shared
-   overlay staging base. */
-extern MainMenuState gTrade_aInventoryRowSets[];
 
 /* The main-menu view of a display-object pool record. Named for this overlay
    rather than shared with the resident DisplayObject: `y` at 0x32 falls

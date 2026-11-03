@@ -73,8 +73,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->w = 0x100;
         p->h = 1;
         LoadImage2((RECT *)p, (u32 *)c);
-        *(s32 *)&p->alternate_sector_destination = (s32)D_801A8000;
-        *(s32 *)&p->sector_destination = (s32)D_801A8000;
+        *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer;
+        *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer;
         m = 0xFFDCFFFF;
         v_2 = gFile_dwTransferState;
         p->phase_size = 0x1000;

@@ -73,8 +73,8 @@ The cursor remains `u8 *`, not an instruction-only pointer, const
 package address or new stream object. Readers keep their separate local
 base, cursor advance before byte loads and LE16 expression. Every handler
 keeps its original two/four/six-byte advances and branch assignments.
-The loaded `D_801A8000` buffer and its unrelated typed users remain
-address-qualified rather than gaining a script-only storage interpretation.
+The loaded `gFile_StagingBuffer` and its unrelated typed users keep one
+byte declaration rather than gaining a script-only storage interpretation.
 
 The event word remains raw `u16`. `Campaign_LoadScenePackage` copies its
 signed argument with the existing halfword store; it does not select a

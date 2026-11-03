@@ -175,7 +175,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->transfer_mode = 1;
         break;
     case 8:
-        d->sector_destination = d->alternate_sector_destination = (u32)D_801A8000;
+        d->sector_destination = d->alternate_sector_destination = (u32)gFile_StagingBuffer;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
