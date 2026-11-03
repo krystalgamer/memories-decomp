@@ -24,7 +24,7 @@ declaration point for all 18 C-owned symbols.
 | `0x801695F8` | `gCampaignMap_apExitObjects` | Four object pointers, 16 bytes |
 | `0x80169608` | `gCampaignMap_MoveState` | `s32`, chosen transition step count |
 | `0x8016960C` | `gCampaignMap_Location` | `u8`, current location |
-| `0x8016960D` | `D_8016960D` | `u8`, departure/fade flags |
+| `0x8016960D` | `gCampaignMap_bEnterSceneState` | `u8`, scene-entry request: 1 after confirming the current location, 0x80 latches the fade-out setup |
 | `0x80169610` | `gCampaignMap_dwTweenDistance` | `s32`, `field_00` accumulator |
 | `0x80169614` | `gCampaignMap_dwTweenDistanceStep` | `s32`, `field_00` delta |
 

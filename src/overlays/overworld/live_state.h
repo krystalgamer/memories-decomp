@@ -30,7 +30,7 @@ extern s32 gCampaignMap_dwTweenPitchStep;
 extern u8 *gCampaignMap_apExitObjects[CAMPAIGN_MAP_LOCATION_OBJECT_COUNT];
 extern s32 gCampaignMap_MoveState;
 extern u8 gCampaignMap_Location;
-extern u8 D_8016960D;
+extern u8 gCampaignMap_bEnterSceneState;
 extern s32 gCampaignMap_dwTweenDistance;
 extern s32 gCampaignMap_dwTweenDistanceStep;
 
