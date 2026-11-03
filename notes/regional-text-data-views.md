@@ -4,12 +4,15 @@ These names describe existing PAL language state and Japanese glyph lookup
 data. Their native providers are absent from the North American executable;
 none is registered as an unqualified resident `global`.
 
-| View | Images | Existing provider | Actual address |
-|---|---|---|---|
-| `gText_bLanguageIndex` | SLES_039.47 | `D_8009C02B` | `0x8009C02B` |
-| `gText_bLanguageIndex` | SLES_039.48 through SLES_039.51 | `D_8009C02B` | `0x8009C44B` |
-| `gText_awGlyphNibblePatterns` | SLPM_863.98 | `D_80090E28` | `0x80090CD8` |
-| `gText_awGlyphColorMasks` | SLPM_863.98 | `D_80090E48` | `0x80090CF8` |
+Each name is defined once per image at its own address, with no `D_`
+label or `#define` alias.
+
+| Name | Images | Address |
+|---|---|---|
+| `gText_bLanguageIndex` | SLES_039.47 (European `graphics_frame` storage) | `0x8009C02B` |
+| `gText_bLanguageIndex` | SLES_039.48 through SLES_039.51 | `0x8009C44B` |
+| `gText_awGlyphNibblePatterns` | SLPM_863.98 | `0x80090CD8` |
+| `gText_awGlyphColorMasks` | SLPM_863.98 | `0x80090CF8` |
 
 ## PAL language selection
 

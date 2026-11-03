@@ -366,7 +366,7 @@ D_8009BFC0 = 0x8009C3C8;
 D_8009BFC8 = 0x8009C3D0;
 D_8009BFD0 = 0x8009C3D8;
 D_8009BFD8 = 0x8009C3E0;
-D_8009C02B = 0x8009C44B;
+gText_bLanguageIndex = 0x8009C44B;
 D_8009C0A8 = 0x8009C4C8;
 gDuel_bBattleRemovalSlot1 = 0x8009C4D9;
 D_8009C0C0 = 0x8009C4E0;
@@ -1031,5 +1031,4 @@ gLibrary_sSampledReferenceY = D_80181012;
 /* Auxiliary slot's retained load-step byte view. */
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
-gText_bLanguageIndex = D_8009C02B;
 g_SDValue_output_level = g_SDValue;

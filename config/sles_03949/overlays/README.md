@@ -43,7 +43,7 @@ The legacy overworld generated-assembly window at `0x1618..0x17D0` is
 preserved, not claimed as C or newly classified as handwritten assembly.
 It starts within an instruction sequence rather than at a function prologue;
 the accepted shared inventories do not list it as a function. Password
-language accesses retain `D_8009C02B = 0x8009C44B`.
+language accesses retain `gText_bLanguageIndex = 0x8009C44B`.
 
 Overlay CI uses `YGOFM_GER_SU_MRG_URL` and `YGOFM_GER_WA_MRG_URL`.
 The separate resident pipeline uses `YGOFM_SLES_03949_URL`.

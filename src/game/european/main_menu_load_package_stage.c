@@ -11,7 +11,7 @@ u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
 
 /* The package's first sector is gText_bLanguageIndex * 0x88 (gText_bLanguageIndex read
  * through $at). */
-#define D_8009C02B_IN_DATA
+#define TEXT_LANGUAGE_INDEX_IN_DATA
 #include "../duel_effect_resource_setup.h"
 #define MAIN_MENU_PACKAGE_FIRST_SECTOR (gText_bLanguageIndex * 0x88)
 

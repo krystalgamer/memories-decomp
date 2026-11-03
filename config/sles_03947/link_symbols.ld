@@ -1,5 +1,4 @@
 loaded_image_end = 0x801E0000;
-gText_bLanguageIndex = D_8009C02B;
 gMovie_bStreamEnded = 0x8009BEFF;
 gMovie_bFadingOut = 0x8009BF00;
 func_80069144 = Color_RgbToHsl;
@@ -143,7 +142,6 @@ g_SDValue_output_level = g_SDValue;
 
 /* Names inside graphics_frame's own storage (#2602). */
 bss_start = D_8009BFE8_sles_03947;
-D_8009C02B = D_8009C02B_sles_03947;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
 gFile_wStepState = D_8009C044_sles_03947;

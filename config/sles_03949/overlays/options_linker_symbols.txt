@@ -1,5 +1,5 @@
 gText_abColorSlots = 0x801BF98C;
-D_8009C02B = 0x8009C44B;
+gText_bLanguageIndex = 0x8009C44B;
 DisplayObject_UpdateResourceVariant = 0x80040748;
 Main_RequestLanguageBootPackage = 0x80043DC8;
 Main_InitDebugFont = 0x80043D7C;

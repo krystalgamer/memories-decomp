@@ -332,7 +332,7 @@ gGraphics_nBaseFrameStep = 0x8009C43C;
 gGraphics_wFlags = 0x8009C440;
 gMain_dwFrameCounter = 0x8009C444;
 gGraphics_bSkipDisplaySwap = 0x8009C44A;
-D_8009C02B = 0x8009C44B;
+gText_bLanguageIndex = 0x8009C44B;
 D_8009B0A4 = 0x8009C44C;
 gMain_pfnExtraFrameService = 0x8009C450;
 gGraphics_bExtraFrameStep = 0x8009C454;
@@ -1031,5 +1031,4 @@ gLibrary_sSampledReferenceY = D_80181012;
 /* Auxiliary slot's retained load-step byte view. */
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
-gText_bLanguageIndex = D_8009C02B;
 g_SDValue_output_level = g_SDValue;

@@ -42,7 +42,7 @@ u16 D_8009C022_sles_03947;
 volatile s32 gMain_dwFrameCounter;
 u16 D_8009C028_sles_03947;
 u8 D_8009C02A_sles_03947;
-u8 D_8009C02B_sles_03947;
+u8 gText_bLanguageIndex;
 s32 D_8009B0A4;
 void (*gMain_pfnExtraFrameService)(void);
 u8 gGraphics_bExtraFrameStep;
