@@ -89,14 +89,14 @@ segments:
     align: 4
     subsegments:
       - [0x15C8, data, overlays/spanish_overworld_after_coup/live_state]
+      - [0x1618, data, overlays/spanish_overworld_after_coup/live_state_tail]
 
   - name: module_tail
     type: code
-    start: 0x1618
-    vram: 0x80169618
+    start: 0x17D0
+    vram: 0x801697D0
     align: 4
     subsegments:
-      - [0x1618, asm, overlays/spanish_overworld_after_coup/text_1618]
       - [0x17D0, c, overlays/european/overworld_after_coup/pick_alternate_exit]
       - [0x1A9C, c, overlays/european/overworld_after_coup/update_alternate_location]
 
