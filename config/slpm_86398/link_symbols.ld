@@ -104,7 +104,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPlacementNeedsCardMoveSetup = 0x8009B108;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = 0x8009B164;

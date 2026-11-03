@@ -9,7 +9,6 @@
  * distinguish fusion from equipment. The low twelve bits are the card id. */
 extern u16 gDuel_wPlacementCardId;
 extern s16 gDuel_wEquipCardId;
-extern s8 D_8009B218;
 
 /* A signed read of the same two bytes, not another allocation. The aggregate
  * read preserves the result-publication dependency in the combination path. */

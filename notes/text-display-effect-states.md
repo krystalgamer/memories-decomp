@@ -108,7 +108,8 @@ contracts.
 | Selected record pointer | `0x8009B328` | `0x8009B218` | `0x8009C28C` | `0x8009C6AC` |
 
 Japan's selected record pointer at `0x8009B218` is distinct from the
-unrelated `D_8009B218`, which Japan binds at `0x8009B108`. Native-address selection preserves
+unrelated NA address `0x8009B218` (`gDuel_bPlacementNeedsCardMoveSetup`,
+Japan `0x8009B108`). Native-address selection preserves
 that alias and every other unrelated binding. Remove only the eleven
 obsolete callback/selector wrapper macros.
 

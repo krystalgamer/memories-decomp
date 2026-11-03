@@ -714,7 +714,7 @@ gFile_SecondaryPayloadCompleteCallback = 0x8009C470;
 func_80013A80 = 0x80013A84;
 gFile_pDuelBankBase = 0x800101DC;
 gAiScript_abFieldScript = 0x801A9800;
-D_8009B218 = 0x8009C522;
+gDuel_bPlacementNeedsCardMoveSetup = 0x8009C522;
 gDuel_wPendingEquipBonus = 0x8009C57C;
 gDuel_wTrapPresentationMode = 0x8009C520;
 gDuel_pCardPreviewObject = 0x8009C5BC;
@@ -1014,7 +1014,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;

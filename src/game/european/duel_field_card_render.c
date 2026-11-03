@@ -47,7 +47,7 @@ s16 gDuel_sGroundReferenceScreenY;
 s32 gDuel_dwViewTweenReferenceZAccumulator;
 u8 *gDuel_pActiveFieldGrid;
 u16 gDuel_wTrapPresentationMode;
-s8 D_8009B218;
+s8 gDuel_bPlacementNeedsCardMoveSetup;
 u8 D_8009C103_sles_03947;
 s16 gDuel_wEquipCardId;
 u16 D_8009C106_sles_03947;

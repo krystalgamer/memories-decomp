@@ -221,7 +221,7 @@ gDuel_wEquipCardId = 0x8009C524;
 gDuel_bBattleRemovalSlot0 = 0x8009C4D8;
 gDuel_wTrapPresentationMode = 0x8009C520;
 gDuel_pTerrainIcon = 0x8009C4E8;
-D_8009B218 = 0x8009C522;
+gDuel_bPlacementNeedsCardMoveSetup = 0x8009C522;
 gDuel_pLifePointsPanel = 0x8009C55C;
 gDuel_dwViewTweenReferenceZAccumulator = 0x8009C518;
 gDuel_wSelectedTrapCardId = 0x8009C558;
@@ -1014,7 +1014,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;

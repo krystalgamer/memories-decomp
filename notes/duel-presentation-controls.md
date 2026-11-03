@@ -75,11 +75,12 @@ and timing remain.
 | SLES_039.47 | `8009C0C1` | `8009C102` | `8009C0CC` |
 | Other PAL | `8009C4E1` | `8009C522` | `8009C4EC` |
 
-The auto-commit byte is defined once per image under its canonical name, in
-the duel storage unit (`duel_field_card_render.c`, or the European wrapper);
-Japan and the non-English PAL images bind its address in `symbols.txt` and
-`link_symbols.ld`. Japan's placement-setup byte still reaches
-`D_8009B218` (`0x8009B108`).
+The auto-commit and placement-setup bytes are defined once per image under
+their canonical names, in the duel storage unit (`duel_field_card_render.c`,
+or the European wrapper); Japan and the non-English PAL images bind their
+addresses in `symbols.txt` and `link_symbols.ld`. No `D_8009B218` alias
+remains, and `duel_presentation_controls.h` holds the only declaration of
+the placement-setup byte outside the storage unit.
 
 All old headers, wrapper macros, overlays/imports, function records,
 grouped sources and named profiles remain unchanged. The two existing
