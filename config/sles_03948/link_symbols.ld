@@ -429,7 +429,6 @@ gDebug_szEditorCaretLine = 0x800EC260;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gMemCardWork_Area = 0x800F0CD0;
 gMemCardWork_bRootBlocks = 0x800F0CE0;
-D_800EF6EA = 0x800F0CEA;
 gMemCardDialog_DirectoryBuffer = 0x800F0A58;
 gDisplayObject_awListHeads = 0x800F11C0;
 gDisplayObject_wSpriteListHead = 0x800F11C2;

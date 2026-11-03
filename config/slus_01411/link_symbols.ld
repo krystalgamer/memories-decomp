@@ -261,7 +261,6 @@ gInput_abRawPadBuffers = D_800EF668;
 
 /* Other names for game/mem_card_dialog's small data (#2602). */
 gMemCardWork_Area = D_800EF6D0;
-D_800EF6EA = D_800EF6D0 + 26;
 
 /* Other names for game/display_object_core's small data (#2602). */
 gDisplayObject_awListHeads = D_800EFE38;

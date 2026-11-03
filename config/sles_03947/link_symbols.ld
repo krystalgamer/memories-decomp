@@ -391,7 +391,6 @@ gMemCardDialog_DirectoryBuffer = D_800F0638_sles_03947;
 gMemCardDialog_FileNameBuffer = D_800F0638_sles_03947 + 600;
 gMemCardWork_Area = D_800F0638_sles_03947 + 632;
 gMemCardWork_bRootBlocks = D_800F0638_sles_03947 + 648;
-D_800EF6EA = D_800F0638_sles_03947 + 658;
 
 /* Names inside display_object_core's own storage (#2602). */
 gDisplayObject_awListHeads = D_800F0DA0_sles_03947;

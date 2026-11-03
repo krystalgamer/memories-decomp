@@ -7,6 +7,7 @@
 #include "display_object_depth_bases.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_layout.h"
+#include "mem_card_work.h"
 
 /* Regional value: the channel flags it sets (0x1008 -> 0x1010). The European
  * build (src/game/european/) defines its own. */
@@ -30,7 +31,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     /* A symbolic store changes the retail assembler-temporary address form. */
     gDialog_bChoice = -1;
     channel = TextBox_Create(
-        D_800EF6EA,
+        gMemCardWork_Area.root.text_index,
         value & 0x7FFF,
         DIALOG_BOX_X,
         0x50,

@@ -933,7 +933,6 @@ func_8006988C = 0x800677D0;
 func_80069B40 = 0x80067A84;
 gMainMenu_PackageStageRect = 0x8009C3FC;
 gMainMenu_dwSuModuleBase = 0x8001002C;
-D_800EF6EA = 0x800F0CEA;
 gMemCard_pSecondaryTransferCursor = 0x8009C76C;
 gMemCardDialog_ChannelIndex = 0x8009C73A;
 gMemCard_pDialogObject = 0x8009C764;

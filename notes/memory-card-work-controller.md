@@ -20,9 +20,10 @@ capacity view of existing storage, not a claim that the runtime selects both
 slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
 is the byte store of zero at `0x8003D31C`, in `MemCardWork_InitializeOperation`. In particular,
 the selector's `u8` type does not justify 256 slots; arbitrary selectors
-remain outside the measured contract. The root's block byte and text index
-retain their existing interior identities, `gMemCardWork_bRootBlocks` and
-`D_800EF6EA`.
+remain outside the measured contract. The root's block byte keeps its
+interior identity `gMemCardWork_bRootBlocks` (its unsized array view keeps a
+`-G8` store out of small data); `DuelEffect_CreateChannel` reads the text
+index as `gMemCardWork_Area.root.text_index`.
 
 The initialized `gDialog_apfnTransitionSteps` view at `0x80090F88` has five
 words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
