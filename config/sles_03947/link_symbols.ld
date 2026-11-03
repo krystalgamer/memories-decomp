@@ -86,19 +86,7 @@ func_80014B58 = File_RequestSecondarySlot;
 gDuel_aCardUploadRects = 0x80177EA4;
 
 /* Semantic draw-state aliases retain the original native providers. */
-gModel_bCurrentDrawMode = D_8009BF6C;
-gModel_wDrawTintRedGreen = D_8009BF6E;
-gModel_bDrawTintBlue = D_8009BF70;
-gModel_aShadowFanSteps = D_800925CC;
-
-
 CampaignMap_SetLocation = 0x8016866C;
-
-gDuel_aFieldCardRecords = D_801A7B64;
-
-
-gDebugEffect_aPreviewCardRecords = D_801A7B80;
-
 func_8006151C = Model_DrawGt3Primitives;
 func_80061A84 = Model_DrawGt4Primitives;
 
@@ -132,30 +120,12 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 gScript_pMenuRecord = D_8009B274;
-
-
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
-
-
-
-
-
-
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
-
-
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = 0x801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
-
-
-
-
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
 
 
@@ -166,8 +136,6 @@ PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 /* Canonical view of the retained native countdown entry point. */
 
 /* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
-
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */

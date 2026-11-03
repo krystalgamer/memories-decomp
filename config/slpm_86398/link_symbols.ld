@@ -1,5 +1,4 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
-gText_GlyphUploadScratch = D_801DA000;
 gText_awGlyphNibblePatterns = D_80090E28;
 gText_awGlyphColorMasks = D_80090E48;
 
@@ -7,11 +6,6 @@ gText_aChannels = gJapanese_D_800EB0F8;
 
 CampaignMap_SetLocation = 0x8016866C;
 FreeDuel_Entry = 0x80168FB4;
-
-
-
-gDebugEffect_aPreviewCardRecords = D_801B7B80;
-
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
 func_800617E0 = Model_DrawFt4Primitives;
@@ -97,31 +91,12 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 gScript_pMenuRecord = 0x8009B164;
-
-
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
-
-
-
-
-gDuel_DroppedCardTextValue = D_801D56A8;
-
 gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
-
-
-gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
 
 gGraphics_aImageTransferRects = 0x800E9C50;
-
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
-
-
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;
 gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
@@ -136,8 +111,6 @@ PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 /* Canonical view of the retained native countdown entry point. */
 
 /* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
-
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */
