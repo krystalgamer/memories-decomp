@@ -42,11 +42,14 @@ extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 #endif
 
-#ifndef INPUT_PADS_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800EF668[0x48];
-u8 gInput_abRepeatTimers[(2  * 16 ) ];
+#ifndef INPUT_PADS_STORAGE_ORDER
+/* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0. GCC lays
+ * it out in first-declaration order, so it is declared here in address order
+ * ahead of the headers and defined once they supply the types (#2602). A
+ * regional wrapper that lays it out differently declares its own order and
+ * defines INPUT_PADS_STORAGE_ORDER. */
+extern struct InputRawPadPacket gInput_abRawPadBuffers[];
+extern u8 gInput_abRepeatTimers[];
 #endif
 
 #include "../psyq/libapi.h"
@@ -56,6 +59,11 @@ u8 gInput_abRepeatTimers[(2  * 16 ) ];
 #include "graphics_frame.h"
 #include "input.h"
 #include "graphics_frame_controls.h"
+
+#ifndef VERSION_JAPAN
+InputRawPadPacket gInput_abRawPadBuffers[INPUT_PAD_COUNT];
+#endif
+u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
 
 /* The controller runtime: reset, regional SDK startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the

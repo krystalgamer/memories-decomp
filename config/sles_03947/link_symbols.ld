@@ -338,8 +338,6 @@ gText_aChannels = D_800F0430_sles_03947;
 gMain_aAnimatedBattleModels = D_800F0430_sles_03947 + 400;
 
 /* Names inside input_pads's own storage (#2602). */
-gInput_abRepeatTimers = D_800F05D0_sles_03947;
-gInput_abRawPadBuffers = D_800F05D0_sles_03947 + 32;
 
 /* Names inside mem_card_dialog's own storage (#2602). */
 gMemCardDialog_DirectoryBuffer = D_800F0638_sles_03947;
