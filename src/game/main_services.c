@@ -1,5 +1,4 @@
 #define D_8009B142_IN_DATA_VOLATILE
-#define GRAPHICS_DRAW_ENV_IS_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
 /* Graphics_AdjustScreenOffset re-reads both pad words on each path and reaches them outside
    small data; see the arms in input.h. */
@@ -110,11 +109,11 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     gGraphics_bClearGreen = 1;
     gFade_bTargetBlue = 1;
     gGraphics_bClearBlue = 1;
-    gLibGs_DrawEnvView[0].isbg = 1;
-    gLibGs_DrawEnvView[0].dtd = 1;
-    gLibGs_DrawEnvView[0].r0 = 1;
-    gLibGs_DrawEnvView[0].g0 = 1;
-    gLibGs_DrawEnvView[0].b0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->isbg = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->dtd = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->r0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->g0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->b0 = 1;
     count = six;
     ((volatile u8 *)gGraphics_abOrderingTableLengths)[0] = 2;
     ((volatile u8 *)gGraphics_abOrderingTableLengths)[1] = count;

@@ -190,7 +190,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */
-gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 
 /* Names inside graphics_frame's own storage (#2602). */

@@ -265,16 +265,10 @@ extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
 extern u8 gGraphics_bActiveBuffer;
 #endif
 
-/* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
- * draw environment unsized, and retain startup's volatile byte stores.
- * See notes/graphics-frame-environments.md for the address/field evidence. */
-#ifdef GRAPHICS_DRAW_ENV_IS_VOLATILE
-extern volatile DRAWENV D_800FE048[];
-#else
-extern DRAWENV D_800FE048[];
-#endif
-/* Preserve both array/qualifier arms without conflicting with GsDRAWENV. */
-#define gLibGs_DrawEnvView D_800FE048
+/* libgs's environments passed to PutDrawEnv / PutDispEnv. Startup writes the
+ * draw environment through a volatile view at the use. See
+ * notes/graphics-frame-environments.md for the address/field evidence. */
+extern DRAWENV GsDRAWENV;
 
 extern DISPENV GsDISPENV;
 

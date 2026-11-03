@@ -159,7 +159,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Auxiliary slot's retained load-step byte view. */
 gTextBox_apfnStateCallbacks = 0x80090D14;
-gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */

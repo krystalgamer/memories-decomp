@@ -4,18 +4,15 @@
 display environments and the three background-tint bytes. These are declarations
 of existing addresses, not C data ownership. The display environment carries
 libgs's public `GsDISPENV` name, which `src/psyq/libgs.h` declares with the
-same `DISPENV` type. The drawing environment stays `D_800FE048`: libgs's
-`GsDRAWENV` is a scalar `DRAWENV`, while this view is an unsized (and, at
-startup, volatile) array, so the SDK name cannot share a translation unit
-with it.
-The canonical game-facing `gLibGs_DrawEnvView` is therefore a code-generation
-alias of that existing array identifier, not a conflicting replacement
-declaration of `GsDRAWENV`. See
+same `DISPENV` type. The drawing environment likewise carries libgs's
+`GsDRAWENV`, a scalar `DRAWENV`. It was formerly the unsized array
+`D_800FE048` with a link-aliased `gLibGs_DrawEnvView` view; the scalar
+SDK name builds identically. See
 [`frame-service-environment-views.md`](frame-service-environment-views.md).
 
 ## Address and layout evidence
 
-The resident `GsSetDrawBuffClip` body at `0x80085440` loads `D_800FE048` into
+The resident `GsSetDrawBuffClip` body at `0x80085440` loads `GsDRAWENV` (`0x800FE048`) into
 `a0` at `0x8008547C`/`0x80085480`, writes the clip rectangle at offsets
 `0, 2, 4, 6`, and passes that same address to `PutDrawEnv` at `0x800854A0`.
 The existing `src/psyq/libgpu.h` declaration takes `DRAWENV *`. This establishes
@@ -44,9 +41,9 @@ the four bytes after the `0x5C` drawing environment are not claimed.
 
 ## Code generation and integration
 
-`D_800FE048` remains an unsized extern array, with only element zero accessed.
-Startup retains its volatile view; per-frame updates retain their nonvolatile
-view. The five byte stores in each function keep their original source order.
+`GsDRAWENV` is the scalar SDK declaration. Startup writes it through a
+`(volatile DRAWENV *)&GsDRAWENV` cast at each store; per-frame updates use
+the plain name. The five byte stores in each function keep their original source order.
 `GsDISPENV` remains a nonvolatile scalar `DISPENV`. The tint bytes retain
 startup's volatile `.data`, the movie/frame paths' nonvolatile `.data`, and
 all existing scalar/array and tentative-definition forms in other consumers.

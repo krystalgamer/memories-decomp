@@ -633,7 +633,7 @@ gMovie_FileInfo = 0x800F6F08;
 gAiScript_aMemory = 0x800F6F20;
 gAiScript_State = 0x800F6F70;
 D_800F6CD4 = 0x800F70F4;
-D_800FE048 = 0x800FF3D0;
+GsDRAWENV = 0x800FF3D0;
 gEuropean_GsDISPENV = 0x800FF430;
 gLibGs_sActiveBufferIndex = 0x800FF454;
 gGraphics_CurrentWidth = 0x800FF45C;
@@ -1065,6 +1065,5 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 /* Auxiliary slot's retained load-step byte view. */
 gDuel_wActionSubstate = 0x8009C52E;
 gDuel_sEffectWorkCounter = 0x8009C4E4;
-gLibGs_DrawEnvView = D_800FE048;
 gText_bLanguageIndex = D_8009C02B;
 g_SDValue_output_level = g_SDValue;

@@ -139,11 +139,11 @@ void Graphics_BeginFrame(void)
     GsOT **base;
 
     if (gGraphics_bSkipDisplaySwap == 0) {
-        gLibGs_DrawEnvView[0].isbg = gGraphics_bClearBackground;
-        gLibGs_DrawEnvView[0].dtd = gGraphics_bDither;
-        gLibGs_DrawEnvView[0].r0 = gGraphics_bClearRed;
-        gLibGs_DrawEnvView[0].g0 = gGraphics_bClearGreen;
-        gLibGs_DrawEnvView[0].b0 = gGraphics_bClearBlue;
+        GsDRAWENV.isbg = gGraphics_bClearBackground;
+        GsDRAWENV.dtd = gGraphics_bDither;
+        GsDRAWENV.r0 = gGraphics_bClearRed;
+        GsDRAWENV.g0 = gGraphics_bClearGreen;
+        GsDRAWENV.b0 = gGraphics_bClearBlue;
         GsSwapDispBuff();
         if ((gGraphics_wFlags & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);
