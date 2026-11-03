@@ -636,7 +636,7 @@ whole overlay set contains exactly one `jtbl` symbol.
 
 A historical scan of the then-unmatched functions found the local-initializer
 pattern in `func_80168CDC`. `MainMenu_UpdateTradeScreen` (`0x801821DC`) also
-copies blocks, but **between regions of `D_801D1200`** backing its working
+copies blocks, but **between regions of `gSaveData_aPairWorkspace`** backing its working
 and staged saves, rather than into a local array in the stack frame.
 Those Trade staging/completion copies are not scrolling and do not create
 a C-owned initializer-data placement requirement.

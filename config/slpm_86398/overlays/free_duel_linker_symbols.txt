@@ -18,6 +18,7 @@ TextBox_CreateFlagged = 0x8003598C;
 Main_StartDuel = 0x80024BF4;
 gDuel_bPostDuelMainMode = 0x8009B258;
 gMain_bActiveModeState = 0x8009B15C;
+gSaveData_Workspace = 0x801D0000;
 gDuel_awPlayerDeck = 0x801D0200;
 gDisplay_abResourceBank0 = 0x801BF000;
 gText_aChannels = 0x800EAFD8;
@@ -43,5 +44,4 @@ SD_BGMPlay = 0x8003F5E8;
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
 gGraphics_aImageTransferRects = D_800E9D70;
-gSaveData_Workspace = 0x801D0000;
 gText_StagedValues = 0x801D5608;

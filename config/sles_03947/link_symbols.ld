@@ -121,14 +121,11 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 
-gSaveData_aPairWorkspace = 0x801D1200;
-
 
 
 
 /* Canonical view of the retained native countdown entry point. */
 
-/* Auxiliary-model upload sector; retain its native provider. */
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */

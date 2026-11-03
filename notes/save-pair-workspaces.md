@@ -12,13 +12,15 @@
 All four declarations remain mutable incomplete `u8[]` views of external
 storage. The names do not introduce an allocation, a complete array bound,
 a `SaveDataState[]` declaration or an ownership/lifetime guarantee.
-The original providers and their separate relocation identities remain.
+Each name is bound directly at its native address in every region; the
+former `D_` providers and their alias lines are gone. The names keep
+separate relocation identities.
 
 ## Load and duel consumers
 
 `SaveData_UpdateLoadPair` requests `SAVE_DATA_STATE_SIZE` (`0x680`) bytes
 into the first base, then requests the second save through its own
-`D_801D2200` label. The same second window is reached elsewhere as
+`gSaveData_aSecondPlayerState` label. The same second window is reached elsewhere as
 base plus `TWO_PLAYER_SAVE_SLOT_STRIDE` (`0x1000`). Neither spelling is
 rewritten to the other.
 

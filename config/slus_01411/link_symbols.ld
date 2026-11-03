@@ -105,7 +105,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Canonical view of the retained native countdown entry point. */
 
-/* Auxiliary-model upload sector; retain its native provider. */
 /* Canonical view of the retained handler-key registry. */
 
 /* Auxiliary slot's retained load-step byte view. */
