@@ -254,7 +254,6 @@ gScript_StreamCursor = 0x8009B180;
 gScript_SavePromptSceneOperand = 0x8009B196;
 DebugMenu_DimPrimaryDisplayObject = 0x8002FE38;
 DebugMenu_RestorePrimaryDisplayObject = 0x8002FE54;
-gDisplayObject_apBrightnessPool = 0x800EB060;
 gMemCard_nIOResult = 0x8009B340;
 gFade_State = 0x800E9DA8;
 D_8009B0D8 = 0x8009AFC8;

@@ -414,7 +414,6 @@ gDuel_abSelectionRecord3 = 0x800EB3E4;
 gText_DecimalDigitGlyphMap = 0x800EC290;
 D_800EB010 = 0x800EC2A8;
 gText_aChannels = 0x800F0850;
-gDisplayObject_apBrightnessPool = 0x800F08DC;
 gDebug_szEditorCaretLine = 0x800EC260;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gMemCardWork_Area = 0x800F0CD0;

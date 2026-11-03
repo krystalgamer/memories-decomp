@@ -1715,7 +1715,6 @@ gMemCard_bDirFlags = 0x8009C3AB;
 gMemCard_bTransferRetriesRemaining = 0x8009C3AC;
 gMemCard_bRequestStep = 0x8009C3AD;
 gMemCard_nFreeBlocks = 0x8009C3B4;
-gDisplayObject_apBrightnessPool = 0x800F04BC;
 gMovie_bFadingOut = 0x8009BF00;
 gMovie_bInputSlot = 0x8009BF02;
 gMovie_dwStartFrame = 0x8009BF04;

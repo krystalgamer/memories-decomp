@@ -770,9 +770,10 @@ question rather than a thirteenth member of the batch.
 Three multi-consumer symbols show the three outcomes of the same ownership
 test. `D_8009B2A0` is created by the scene-package initializer and toggled by
 its result-screen consumer, so it lives in `campaign_scene_package.h`.
-`D_800EB184` is the four-object brightness pool and now lives in the narrow
-`display_object_brightness.h`, avoiding a declaration in the cross-module
-`display_object.h`. The former `gFile_nMasterXaLba` view is now spelled
+`D_800EB184`, once named a four-object brightness pool, was an alias at
+`gText_aChannels + 0x8C`: the debug dim/restore helpers and the bust-up entry
+read text channel 1's `render_object`, now spelled
+`TEXT_CHANNEL(1)->render_object`. The former `gFile_nMasterXaLba` view is now spelled
 `gFile_anLba[FILE_INDEX_MASTER_XA]` in `file_transfer.h`.
 
 `D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is

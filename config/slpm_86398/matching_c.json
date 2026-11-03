@@ -2105,13 +2105,13 @@
       "address": "0x8002FE38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C",
-      "source": "src/game/display_object_brightness.c"
+      "source": "src/game/japanese/display_object_brightness.c"
     },
     {
       "address": "0x8002FE54",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C",
-      "source": "src/game/display_object_brightness.c"
+      "source": "src/game/japanese/display_object_brightness.c"
     },
     {
       "address": "0x8002FF40",

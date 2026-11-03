@@ -228,7 +228,6 @@ gCardPreview_Resource1 = D_800E9EF0 + 568;
 gAi_bHandFaceDownRequested = gAi_Selection + 8;
 
 /* Other names for game/text_box_runtime's small data (#2602). */
-gDisplayObject_apBrightnessPool = gText_aChannels + 140;
 
 /* Other names for game/input_pads's small data (#2602). */
 gInput_abRawPadBuffers = D_800EF668;

@@ -617,7 +617,6 @@ gText_DecimalDigitGlyphMap = 0x800EC290;
 D_800EB010 = 0x800EC2A8;
 tent_DuelEffectEntries = 0x800EC390;
 gText_aChannels = 0x800F0850;
-gDisplayObject_apBrightnessPool = 0x800F08DC;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gInput_abRepeatTimers = 0x800F09F0;
 gInput_abRawPadBuffers = 0x800F0A10;

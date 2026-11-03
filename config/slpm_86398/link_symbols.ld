@@ -211,7 +211,6 @@ gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
 gDuel_abSelectionSides = D_800E9EF0 + 32;
 
 /* Names inside text_box_runtime's own storage (#2602). */
-gDisplayObject_apBrightnessPool = gJapanese_D_800EB0F8 + 136;
 
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */

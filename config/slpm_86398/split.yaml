@@ -223,7 +223,7 @@ segments:
       - [0x202b8, c, game/japanese/campaign_load_scene_package]
       - [0x20478, c, game/scene_script_slots]
       - [0x205f8, c, game/script_readers]
-      - [0x20638, c, game/display_object_brightness]
+      - [0x20638, c, game/japanese/display_object_brightness]
       - [0x20670, c, game/japanese/debug_menu_editor_entries]
       - [0x21164, c, game/frontend_scene_states]
       - [0x214f4, c, game/debug_menu_leave_entries]

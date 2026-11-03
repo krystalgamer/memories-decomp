@@ -349,7 +349,6 @@ D_800F0030 = D_800EBF70_sles_03947 + 16576;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 gText_aChannels = D_800F0430_sles_03947;
-gDisplayObject_apBrightnessPool = D_800F0430_sles_03947 + 140;
 gMain_aAnimatedBattleModels = D_800F0430_sles_03947 + 400;
 
 /* Names inside input_pads's own storage (#2602). */
