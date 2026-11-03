@@ -12,7 +12,4 @@ void Model_QueueRelativeCameraOrbit(
     s32 arg0, s32 arg1, s32 arg2, s32 arg3, SVECTOR *offset, s32 arg5
 );
 
-/* Keep the frozen Spanish primary-effect source spelling. */
-#define func_8005D994 Model_QueueRelativeCameraOrbit
-
 #endif
