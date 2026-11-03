@@ -92,12 +92,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 gDisplayEffect_aMenuRecords = D_800EB010;
-gFile_dwTransferState = D_8009B0F4;
-gFile_dwTransferState_abs = D_8009B0F4;
-gFile_dwCancelRequestState = D_8009B134;
-gFile_dwCancelRequestState_abs = D_8009B134;
 
-gFile_TransferBufferBase = D_8009B118;
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
 

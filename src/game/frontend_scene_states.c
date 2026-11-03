@@ -6,6 +6,7 @@
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "secondary_scene_commands.h"
 #include "mem_card.h"
 #include "frontend_debug_state.h"
@@ -15,7 +16,6 @@
 #include "duel_effect_mode_7.h"
 #include "duel_interface_setup.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "main_start_duel.h"
 #include "save_data_update_trade_load.h"
 #include "two_player_save_setup.h"
@@ -91,7 +91,7 @@ void DebugMenu_UpdateMovieEntry(void)
         u8 flags = gDebugMenu_bStep;
 
         if (flags & FRONTEND_STEP_FLAG_ASYNC_PENDING) {
-            u32 word = gFile_dwTransferState_abs;
+            u32 word = gFile_dwTransferState;
             if ((word & 0x02000000) == 0)
                 gDebugMenu_bStep = flags & ~FRONTEND_STEP_FLAG_ASYNC_PENDING;
         } else {

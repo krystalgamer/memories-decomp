@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_action_lock.h"
 
 s32 DuelEffect_MarkInitialized(void)
@@ -30,7 +31,6 @@ void DuelEffect_ClearCardEffect(void)
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "sound.h"
 #include "display_object_config.h"
 #include "../unmatched.h"
@@ -88,8 +88,8 @@ void DuelEffect_ApplyTerrain(void) {
     }
 
     if ((f & 0x20) == 0) {
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) == 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) == 0) {
             a = (DisplayObjectConfig *)gDuel_pTerrainIcon;
             b = gDuel_bTerrain;
             gDuelEffect_pTrackedRequest->phase = -2;

@@ -18,6 +18,7 @@
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -109,7 +110,6 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "model_slot_state_updates.h"
 #include "model_queue_relative_camera_orbit.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "high_memory_addresses.h"
 #include "model_load_words.h"
 #include "../psyq/libgs.h"
@@ -811,7 +811,7 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs) {
+            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) {
                 goto check_ready;
             }
             Model_LoadMonsterMerge(
@@ -991,8 +991,8 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
     initial_slot = initial_base + slot_index;
     if (initial_slot->is_active == 0) {
         if (initial_slot->load_step == 0xFF) {
-            if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 gFile_dwCancelRequestState_abs) == 0) {
+            if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState) == 0) {
                 do {
                     t = rand() >> 8;
                     model_id = t % CARD_COUNT;

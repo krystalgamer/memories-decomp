@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 
 #ifndef SCRIPT_OP_LOAD_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, defined in
@@ -37,7 +38,6 @@ extern u16 gScript_ViewportTargetY;
 #include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "script_state.h"
@@ -77,8 +77,8 @@ void Script_OpLoadImageScene(void)
     }
     flags = gScript_wCommandWord;
     if ((flags & SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE) == 0) {
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) == 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) == 0) {
             gScript_wCommandWord = flags | SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE;
             ScriptImage_RebuildObjects(
                 SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);

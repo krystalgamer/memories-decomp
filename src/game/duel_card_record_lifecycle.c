@@ -16,6 +16,7 @@
 #define DUEL_SCREEN_TABLES_TYPED_POSITIONS
 
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_deck_card_data.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"
@@ -23,7 +24,6 @@
 #include "duel_deck_card.h"
 #include "duel_card_staging.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "util_memory.h"
 #include "util_compare_s16.h"
 #include "../psyq/libgte.h"
@@ -104,7 +104,7 @@ void Duel_RequestCombinedDeckData(void)
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
     result->position = (u32)table;
-    gFile_dwTransferState_abs =
+    gFile_dwTransferState =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 

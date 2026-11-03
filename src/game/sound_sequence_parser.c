@@ -51,7 +51,7 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
  * mode (0x1E: >> 2; 0x18 and 0x3C: >> 1) and stores the byte into +0x16 and
  * +0x14 of the record before handing it to SD_ReadSequenceByte.
  *
- * The shape is the D_8009B0F4-family idiom: a `do { } while (0);` (a macro
+ * The shape is the gFile_dwTransferState-family idiom: a `do { } while (0);` (a macro
  * in the original) round the eight statements from the +0x7F0 store to the
  * +0x808 store. The last three levers, in order: a base local `b` loaded
  * BEFORE the byte store through the pointee, so the +0x518 store goes

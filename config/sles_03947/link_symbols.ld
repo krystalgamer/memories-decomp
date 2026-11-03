@@ -145,12 +145,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
 
-gFile_dwTransferState = D_8009B0F4;
-gFile_dwTransferState_abs = D_8009B0F4;
-gFile_dwCancelRequestState = D_8009B134;
-gFile_dwCancelRequestState_abs = D_8009B134;
 
-gFile_TransferBufferBase = D_8009B118;
 gFile_abPackageStagingBuffer = D_801DD000;
 gModel_abTexturePaletteStaging = D_801DE000;
 
@@ -212,7 +207,6 @@ bss_start = D_8009BFE8_sles_03947;
 D_8009C02B = D_8009C02B_sles_03947;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
-D_8009B0F4 = D_8009C040_sles_03947;
 gFile_wStepState = D_8009C044_sles_03947;
 gFile_FilterParams = D_8009C048_sles_03947;
 D_8009B108 = D_8009C04C_sles_03947;
@@ -222,7 +216,6 @@ gFile_ReadyDataEventCount = D_8009C058_sles_03947;
 gFile_wTransferStepFlags = D_8009C05C_sles_03947;
 gFile_wTransferStepFlags_abs = D_8009C05C_sles_03947;
 gFile_CommandRetryCount = D_8009C060_sles_03947;
-D_8009B134 = D_8009C064_sles_03947;
 gFile_RangePauseCallback = D_8009C068_sles_03947;
 D_8009B12C = D_8009C06C_sles_03947;
 gFile_ServiceCallGate = D_8009C070_sles_03947;
@@ -233,7 +226,6 @@ D_8009B0FC = D_8009C080_sles_03947;
 gFile_ReadySourceCursor = D_8009C084_sles_03947;
 gFile_BeforePrimaryRequestCallback = D_8009C088_sles_03947;
 gFile_ReadyEventCount = D_8009C08C_sles_03947;
-D_8009B118 = D_8009C090_sles_03947;
 gFile_TargetLoc = D_8009C094_sles_03947;
 
 /* Names inside fade_runtime's own storage (#2602). */

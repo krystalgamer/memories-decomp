@@ -17,7 +17,7 @@ void PalOptions_Init(s32 mode)
     DisplayObject *object;
     u32 music;
 
-    buffer = D_8009B118[0];
+    buffer = gFile_TransferBufferBase;
     gPalOptions_bMode = mode;
     gPalOptions_bLanguage = gText_bLanguageIndex;
     rect = &gGraphics_aImageTransferRects[1];
@@ -34,14 +34,14 @@ void PalOptions_Init(s32 mode)
         first->y = 0xC0;
         first->w = 0x30;
         first->h = 0x10;
-        StoreImage(first, (u32 *)D_8009B118[0]);
+        StoreImage(first, (u32 *)gFile_TransferBufferBase);
     }
     DrawSync(0);
-    buffer = D_8009B118[0];
+    buffer = gFile_TransferBufferBase;
     index = 0x60;
     while (buffer[index] == buffer[index + 0x2000]) {
         if (++index >= 0x5A0) {
-            gPalOptions_bLanguage = D_8009B118[0][0];
+            gPalOptions_bLanguage = gFile_TransferBufferBase[0];
             break;
         }
     }

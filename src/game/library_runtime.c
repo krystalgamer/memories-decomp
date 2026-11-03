@@ -3,13 +3,13 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_get_slot_readiness.h"
 #include "camera_view.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
@@ -22,7 +22,6 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 #include "model_slot_control.h"
 #include "library_grid_cursor.h"
 #include "library_card_grid.h"
@@ -303,7 +302,7 @@ void Library_UpdateCardView(LibraryState *state)
     }
     TextBox_UpdateChannels();
     mode = state->motion.model_load_phase;
-    if ((mode & 0xF) && ((gFile_dwTransferState_abs & 0x02000030) | gFile_dwCancelRequestState_abs) == 0) {
+    if ((mode & 0xF) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
         if (mode == 1) {
             state->motion.model_load_phase = 0;
             id = (u16)state->motion.selected_card_id - 1;
@@ -776,8 +775,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -786,7 +785,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
     case 1:
         object->phase_size = 5 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
         object->transfer_mode = 1;
@@ -800,7 +799,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         LoadImage2(&gStageRect,
                    (u32 *)(gFile_TransferBufferBase + gText_bLanguageIndex * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
         object->transfer_mode = 1;
@@ -816,8 +815,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -840,7 +839,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 4:
     case 6:
         object->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
         object->transfer_mode = 1;
@@ -860,8 +859,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -870,7 +869,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
     case 1:
         object->phase_size = 4 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
         object->transfer_mode = 1;
@@ -886,8 +885,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -910,7 +909,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 3:
     case 5:
         object->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
         object->transfer_mode = 1;

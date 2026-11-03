@@ -195,7 +195,7 @@ volatile streams: held `gInput_wPad1Held`, repeat `gInput_wPad1Repeat`, and newl
 `gInput_wPad1Pressed`.
 
 State 1 first requests the selected card into cached slot 0. It waits for
-`((D_8009B0F4 & 0x2000030) | D_8009B134) == 0` before recreating the
+`((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0` before recreating the
 preview. Later eligible updates add 8 to preview phase `+0x21`; wrapping
 from the initialized `0x80` to zero takes sixteen such updates. State 4
 similarly advances from zero until the phase is negative as `s8`. These are

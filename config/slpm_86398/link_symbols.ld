@@ -106,12 +106,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = 0x8009B164;
 
-gFile_dwTransferState = 0x8009AFE4;
-gFile_dwTransferState_abs = 0x8009AFE4;
-gFile_dwCancelRequestState = 0x8009B024;
-gFile_dwCancelRequestState_abs = 0x8009B024;
 
-gFile_TransferBufferBase = D_8009B118;
 gFile_abPackageStagingBuffer = D_801DD000;
 gModel_abTexturePaletteStaging = D_801DE000;
 
@@ -173,8 +168,6 @@ gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
-D_8009B0F4_abs = 0x8009AFE4;
-D_8009B134_abs = 0x8009B024;
 gFile_wTransferStepFlags_abs = 0x8009B002;
 
 /* Former Japanese names still used by the duel_draw_resolution.c and

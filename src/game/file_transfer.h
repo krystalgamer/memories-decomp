@@ -121,24 +121,24 @@ void File_CancelTransfers(void);
  * File_HandleRangeReadEvent raises pending, File_StepActiveTransfer submits it and raises
  * busy, and File_HandleLogicalPositionEvent clears busy. The word is only ever read and written
  * whole, and only ever through bit masks. Nothing indexes it, so the
- * `D_8009B0F4[0]` spellings this header replaces were an addressing device
+ * `gFile_dwTransferState[0]` spellings this header replaces were an addressing device
  * rather than evidence of an array.
  *
- * `volatile` is load-bearing on both names, measured rather than assumed:
- * dropping it from the plain name builds a 0x1D0668-byte executable and
- * dropping it from `D_8009B0F4_abs` builds a 0x1D071C-byte one, against the
+ * `volatile` is load-bearing on both arms, measured rather than assumed:
+ * dropping it from the plain arm builds a 0x1D0668-byte executable and
+ * dropping it from the `.data` arm builds a 0x1D071C-byte one, against the
  * retail 0x1D0800.
  *
- * Two names, one word. The retail image reaches this address both ways. The
- * ready-sector callback in `file_transfer_runtime.c` uses
- * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
- * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
- * produce both inside a -G8 translation unit, because the form follows from
- * whether the symbol is small-data eligible. The plain name is, so the
- * assembler resolves it gp-relative; `D_8009B0F4_abs` carries
- * `section(".data")` so it is not, and `c_symbols.ld` ties that name to the
- * same address. Which of the two a unit needs is a property of its compiler
- * profile, not of the word.
+ * One name, two addressing arms. The retail image reaches this address both
+ * ways. The ready-sector callback in `file_transfer_runtime.c` uses
+ * `%gp_rel(gFile_dwTransferState)($gp)` seven times, while six other generated assembly
+ * files use `lui %hi` / `%lo` fifty-nine times. The form follows from whether
+ * the symbol is small-data eligible in the translation unit, and no unit
+ * needs both, so a unit that reaches this word (and
+ * gFile_dwCancelRequestState below) absolutely defines
+ * FILE_TRANSFER_WORDS_IN_DATA before its first include and gets the
+ * `section(".data")` arm. Which arm a unit needs is a property of its
+ * compiler profile, not of the word.
  */
 /* The word at 0x800101D8, which holds the address 0x80168000: the base of the
  * WA_MRG screen-bank overlay slot (notes/memory-map.md) that each screen
@@ -175,8 +175,11 @@ extern u8 *gFile_pScreenBankBase;
 #define FILE_INDEX_MASTER_XA 6
 extern s32 gFile_anLba[];
 
-extern volatile u32 D_8009B0F4;
-extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
+#ifdef FILE_TRANSFER_WORDS_IN_DATA
+extern volatile u32 gFile_dwTransferState __attribute__((section(".data")));
+#else
+extern volatile u32 gFile_dwTransferState;
+#endif
 
 /* The transfer-step flag word. File_StepActiveTransfer sets and clears every
  * bit of it through the streaming retry state machine and reloads it after
@@ -184,7 +187,7 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
  * this family test the set and clear phases of bit 0x4000, which is set when
  * the range read advances the stepper from 5 to 6 and cleared by the 0x3FFC
  * mask when the range ends or stops. Same two forms as
- * D_8009B0F4 above: five units reach it gp-relative, and two --
+ * gFile_dwTransferState above: five units reach it gp-relative, and two --
  * Text_WaitForCdSoundTransfer and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
  * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
  * which is the bare form; they take the _abs name. Measured per unit: with
@@ -193,29 +196,32 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
  * loads. volatile stays on the shared form, where it keeps
  * File_StepActiveTransfer's back-to-back read-modify-writes from folding; the
  * _abs twin is not volatile, and that is measured -- the two readers build
- * byte-identical without it, as D_8009B134_abs does. */
+ * byte-identical without it, as gFile_dwCancelRequestState's .data arm does. */
 extern volatile u16 gFile_wTransferStepFlags;
 extern u16 gFile_wTransferStepFlags_abs __attribute__((section(".data")));
 
 /* The loader's secondary-request word at 0x8009B134, the other half of the
- * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
+ * `(gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState` predicate
  * that eighteen units use to ask whether a transfer is still in flight.
  * `File_CancelTransfers` and `File_FinishActiveTransfer` raise it to 0x80, the frame pump
  * `File_ServiceTransfers` latches 0x40 into it once and otherwise clears it, and
  * `File_InitTransferState` zeroes it with the rest of the loader block.
  *
- * It takes the same two addressing views as D_8009B0F4, for the same reason,
+ * It takes the same two addressing views as gFile_dwTransferState, for the same reason,
  * but it is deliberately *not* volatile. That is a measured difference
  * between the two neighbouring words, not an oversight: declaring it
  * volatile makes `File_ServiceTransfers` re-load it for the 0x40 test and again for
  * the `|=`, where retail keeps one load live in `$3` across all three uses.
  */
-extern u32 D_8009B134;
-extern u32 D_8009B134_abs __attribute__((section(".data")));
+#ifdef FILE_TRANSFER_WORDS_IN_DATA
+extern u32 gFile_dwCancelRequestState __attribute__((section(".data")));
+#else
+extern u32 gFile_dwCancelRequestState;
+#endif
 
 /* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
  * File_SetPositionTable hands its address to File_InitTransferState
- * (src/game/file_set_position_table.c), which stores it into D_8009B118
+ * (src/game/file_set_position_table.c), which stores it into gFile_TransferBufferBase
  * (File_InitTransferState, file_transfer_runtime.c). The two memory-card dialogs also reach it, always by
  * address: MemCardDialog_UpdateSave and MemCardDialog_UpdateTradeSave
  * (mem_card_dialog.c) pass it to MemCardReadFile as the destination of a
@@ -339,7 +345,7 @@ extern s32 gFile_CommandRetryCount;
  * Without it the load hoists above the store and fills that slot itself, the
  * nop goes, and the function ends four bytes earlier -- which is the whole of
  * the size difference, 0x1d07fc against 0x1d0800. The same pinning is already
- * recorded for D_8009B0F4 in notes/decompilation-workflow.md; it is the
+ * recorded for gFile_dwTransferState in notes/decompilation-workflow.md; it is the
  * ordinary consequence of a volatile access sitting between a store and a
  * dependent load.
  *
@@ -382,7 +388,7 @@ extern s32 D_8009B12C;
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
  * immediately after it, so no element can hide inside. Fifteen files declared
- * it identically as `extern s32 D_8009B118;`, which is why it moved to unmatched.h and now here, beside its definer
+ * it identically as `extern s32 gFile_TransferBufferBase;`, which is why it moved to unmatched.h and now here, beside its definer
  * unchanged - there is no per-consumer spelling to preserve.
  *
  * It holds an address despite the s32 spelling:
@@ -398,11 +404,11 @@ extern s32 D_8009B12C;
  * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
  * input.h and sound.h use, rather than by re-declaring the symbol locally. */
 #ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *D_8009B118[];
+extern u8 *gFile_TransferBufferBase __attribute__((section(".data")));
 #elif defined(D_8009B118_IN_DATA)
-extern s32 D_8009B118 __attribute__((section(".data")));
+extern s32 gFile_TransferBufferBase __attribute__((section(".data")));
 #else
-extern s32 D_8009B118;
+extern s32 gFile_TransferBufferBase;
 #endif
 
 #endif

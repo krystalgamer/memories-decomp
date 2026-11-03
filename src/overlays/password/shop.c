@@ -464,8 +464,8 @@ void Password_UpdateShopScreen(void)
             return;
         }
         if ((flags & 0x4000) == 0) {
-            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 D_8009B134) != 0) {
+            if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState) != 0) {
                 return;
             }
             gPassword_wShopState = flags | 0x4000;

@@ -9,7 +9,7 @@ extern struct FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 #define FILE_TRANSFER_RUNTIME_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C040-0x8009C098 (#2602); its
  * layout differs from the North American block the shared source defines. */
-u32 D_8009C040_sles_03947;
+volatile u32 gFile_dwTransferState;
 u32 D_8009C044_sles_03947;
 u32 D_8009C048_sles_03947;
 u32 D_8009C04C_sles_03947;
@@ -18,7 +18,7 @@ u32 D_8009C054_sles_03947;
 u32 D_8009C058_sles_03947;
 u32 D_8009C05C_sles_03947;
 u32 D_8009C060_sles_03947;
-u32 D_8009C064_sles_03947;
+u32 gFile_dwCancelRequestState;
 u32 D_8009C068_sles_03947;
 u32 D_8009C06C_sles_03947;
 u32 D_8009C070_sles_03947;
@@ -29,7 +29,7 @@ u32 D_8009C080_sles_03947;
 u32 D_8009C084_sles_03947;
 u32 D_8009C088_sles_03947;
 u32 D_8009C08C_sles_03947;
-u32 D_8009C090_sles_03947;
+s32 gFile_TransferBufferBase;
 u32 D_8009C094_sles_03947;
 
 /* The European builds compile the shared unit through this wrapper so that

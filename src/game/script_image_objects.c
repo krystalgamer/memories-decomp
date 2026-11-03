@@ -4,10 +4,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 #include "script_image_objects.h"
 #ifdef SCRIPT_IMAGE_LOCALIZED_IDS
 #include "duel_effect_resource_setup.h"

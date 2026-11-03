@@ -3,6 +3,7 @@
 #define D_8009B0CC_IN_DATA
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_stream_read_le.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
@@ -11,7 +12,6 @@
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "input.h"
@@ -224,8 +224,8 @@ void Text_RequestDisplayEffectCrossfade(DuelEffectChannel *object)
 
 void DuelEffect_WaitForFileTransfer(DuelEffectChannel *object)
 {
-    if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-         gFile_dwCancelRequestState_abs) == 0) {
+    if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+         gFile_dwCancelRequestState) == 0) {
         object->playback_state = 0;
     }
 }
@@ -294,7 +294,7 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
     if (p->delay_countdown != 0) {
         switch (gText_CdSoundWaitPhase) {
         case 0:
-            if ((gFile_dwTransferState_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
                 return;
             }
             p->delay_countdown = 0xFF;

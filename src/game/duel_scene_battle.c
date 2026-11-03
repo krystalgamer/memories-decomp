@@ -43,10 +43,10 @@
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/rand.h"
 #include "duel_scene_state.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_side_state.h"
 #include "duel_action_lock.h"
 #include "duel_init_scene.h"
@@ -194,7 +194,7 @@ void DuelScene_UpdateBattle(void)
 
     switch (gDuel_bSceneSubStep & 0xF) {
     case 1:
-        if (!(gDuel_bSceneSubStep & 0x80) && ((gFile_dwTransferState_abs & 0x02000030) | gFile_dwCancelRequestState_abs) == 0) {
+        if (!(gDuel_bSceneSubStep & 0x80) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
             if (!(gDuel_bSceneSubStep & 0x40)) {
                 id = gDuel_wSelectedTrapCardId;
                 gDuel_bSceneSubStep |= 0x40;

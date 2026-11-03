@@ -2,10 +2,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_load_package_stage.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 

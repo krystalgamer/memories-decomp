@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_object_config.h"
 #include "script_command_busy.h"
 #include "../psyq/libgte.h"
@@ -10,7 +11,6 @@
 #include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "sound_output.h"
@@ -59,8 +59,8 @@ void Script_OpDuelResult(void) {
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             return;
         }
         gScript_wCommandWord = flags | 0x4000;
