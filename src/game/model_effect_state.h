@@ -43,8 +43,4 @@ void Model_ApplyEffectKeyQueueCommand(
     s32 arg
 );
 
-/* Preserve historical matching overlay bodies while publishing canonical imports. */
-#define func_8005F5C8 Model_QueueCameraOrbitFromPreset
-#define func_8005F7B0 Model_QueueCameraShake
-
 #endif

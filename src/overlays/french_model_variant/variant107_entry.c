@@ -69,7 +69,7 @@ s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command)
     line.attribute = 0x50000000;
     if (work->elapsed >= 0 && !work->started) {
         work->started++;
-        func_8005F7B0(30, config->count * config->stagger / 2);
+        Model_QueueCameraShake(30, config->count * config->stagger / 2);
     }
     point = work->positions;
     for (i = 0; i < config->count; point++, i++) {

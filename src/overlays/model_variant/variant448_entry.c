@@ -375,7 +375,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         }
     }
     setVector(&work->offset, -512, -256, 0);
-    func_8005F5C8(work->slot, 3, &work->offset, 20);
+    Model_QueueCameraOrbitFromPreset(work->slot, 3, &work->offset, 20);
     func_800595C8(2, work->tint, work->tint, work->tint);
     if (work->phase < 11) {
         if (work->tint > 0) {
