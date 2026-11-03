@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_573_stage10_slot1/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant465_entry]
   - name: helper_124C
     type: code
     start: 0x124C
