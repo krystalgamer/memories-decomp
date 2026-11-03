@@ -2069,25 +2069,25 @@
       "address": "0x8002FF64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/european/campaign_load_scene_package.c"
+      "source": "src/game/european/campaign_scene.c"
     },
     {
       "address": "0x80030124",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/european/campaign_scene.c"
     },
     {
       "address": "0x8003012C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xFC",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/european/campaign_scene.c"
     },
     {
       "address": "0x80030228",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/scene_script_slots.c"
+      "source": "src/game/european/campaign_scene.c"
     },
     {
       "address": "0x800302A4",

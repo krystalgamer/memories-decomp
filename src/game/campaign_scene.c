@@ -1,3 +1,8 @@
+/* The campaign scene package and its scene-script slots, in address order:
+   Campaign_LoadScenePackage requests the scene package, clears the three
+   gSceneScript_Slots records and uploads the dialog portraits; the
+   scene-script record callbacks and SceneScript_UpdateSlots then drive the
+   live records through gSceneScript_RecordCallbacks, which this unit owns. */
 #include "../types.h"
 #include "display_object.h"
 #include "scene_script.h"
@@ -15,6 +20,10 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
+#include "trig_constants.h"
+#include "scene_script_color_pulse.h"
+#include "scene_script_noop_record_callback.h"
+#include "scene_script_record_callbacks.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef CAMPAIGN_SCENE_PACKAGE_START_SECTOR
@@ -113,4 +122,74 @@ void Campaign_LoadScenePackage(s16 arg0)
     } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);
 
     gCampaign_PrimaryDisplayObject = Campaign_CreatePrimaryDisplayObject();
+}
+
+/* Initialized data this unit owns at 0x80090CAC: the two callbacks SceneScript_UpdateSlots selects
+ * from each live scene-script record's byte at +4. Their native prototypes
+ * differ, so the table keeps the generic two-argument call shape used by its
+ * sole consumer and casts at the initializer boundary.
+ */
+
+SceneScriptRecordCallback gSceneScript_RecordCallbacks[] = {
+    (SceneScriptRecordCallback)SceneScript_NoOpRecordCallback,
+    (SceneScriptRecordCallback)SceneScript_UpdateColorPulse,
+};
+
+/* The two scene-script record callbacks, in the order gSceneScript_RecordCallbacks
+   (this unit) holds them: SceneScript_UpdateSlots picks
+   one by each live record's byte at +4. */
+
+void SceneScript_NoOpRecordCallback(void)
+{
+}
+
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
+
+void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
+{
+    s32 angle;
+    s32 intensity;
+    s32 component;
+    DisplayObject *object;
+
+    if (((u16)state->callback_control & 0x8000) == 0) {
+        state->callback_control |= 0x8000;
+        state->pulse_angle = 0;
+    }
+    angle = ((u16)state->pulse_angle + 32) & TRIG_ANGLE_MASK;
+    state->pulse_angle = angle;
+    intensity = rsin(angle) * 24 / ONE;
+    if (intensity == 0)
+        intensity = 1;
+    if (intensity == 24)
+        intensity = 23;
+    component = intensity - 104;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
+    object = (DisplayObject *)gSceneScript_Slots[0].object_address;
+    if (object != 0) {
+        component = (intensity + 24) / 2 - 128;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
+    }
+    object = (DisplayObject *)gSceneScript_Slots[1].object_address;
+    if (object != 0) {
+        component = (intensity + 24) / 2 - 128;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
+    }
+}
+
+void SceneScript_UpdateSlots(SceneScriptSlot *records) {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        s32 value = records->object_address;
+        if (value != 0) {
+            gSceneScript_RecordCallbacks[*(u8 *)&records->callback_control](records, value);
+        }
+        records++;
+    }
 }

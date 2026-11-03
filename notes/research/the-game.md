@@ -1982,7 +1982,7 @@ campaign duelist available.
 >
 > * an **event script** — 4 KB loaded to `0x801A8000` as the third chunk of
 >   the 49-sector blob at `WA_MRG.MRG` sector `0x1E57` [matching
->   [`Campaign_LoadScenePackage`](../../src/game/campaign_load_scene_package.c)
+>   [`Campaign_LoadScenePackage`](../../src/game/campaign_scene.c)
 >   requests the fixed package; callback `Campaign_LoadScenePackageStage`
 >   routes the script phase]. Its argument initializes
 >   `D_8009B2A4`, not a per-scene archive-page address. Matching
