@@ -210,7 +210,6 @@ gInput_abRepeatTimers = D_800ECD88_slpm_86398;
 D_800F3288 = gAiScript_aMemory + 24;
 gMemCardWork_Area = D_800EF6D0;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
-gMemCard_aDirEntries = D_800F2888;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
 gModel_ImageCopyRect = D_8009B368_slpm_86398;

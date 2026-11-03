@@ -1,8 +1,12 @@
 #include "../../types.h"
-#define MEM_CARD_DRIVER_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x800F37F0-0x800F3A88 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_800F37F0_sles_03947[0x298];
+#define MEM_CARD_DRIVER_STORAGE_ORDER
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x800F37F0-0x800F3A88 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern long gMemCard_aIOEventHandles[];
+extern long gMemCard_aHwIOEventHandles[];
+extern char gMemCard_szRequestPath[];
+extern struct DIRENTRY gMemCard_aDirEntries[];
 #define MEM_CARD_DRIVER_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C390-0x8009C3B8 (#2602); its
  * layout differs from the North American block the shared source defines. */

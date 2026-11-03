@@ -225,7 +225,6 @@ gMemCardWork_Area = D_800EF6D0;
 /* Other names for game/display_object_core's small data (#2602). */
 
 /* Other names for game/mem_card_driver's small data (#2602). */
-gMemCard_aDirEntries = D_800F2888;
 
 /* Other names for game/model_slot_control's small data (#2602). */
 

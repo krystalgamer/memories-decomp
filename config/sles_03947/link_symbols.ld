@@ -350,10 +350,6 @@ gMemCardWork_bRootBlocks = D_800F0638_sles_03947 + 648;
 /* Names inside display_object_core's own storage (#2602). */
 
 /* Names inside mem_card_driver's own storage (#2602). */
-gMemCard_aIOEventHandles = D_800F37F0_sles_03947;
-gMemCard_aHwIOEventHandles = D_800F37F0_sles_03947 + 16;
-gMemCard_szRequestPath = D_800F37F0_sles_03947 + 32;
-gMemCard_aDirEntries = D_800F37F0_sles_03947 + 64;
 gAi_bHandFaceDownRequested = gAi_Selection + 8;
 D_8009C0CC = D_8009C0CC_sles_03947;
 D_8009C0A8 = D_8009C0A8_sles_03947;
