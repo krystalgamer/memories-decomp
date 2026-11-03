@@ -4,8 +4,8 @@ The twelve game-owned handwritten callbacks returned by
 `Model_MapToWireframePrimitiveHandler` have source-format-based names. In the
 North American resident executable they are matched in C by
 `src/game/wireframe_renderers.c` under the named
-`gcc_2_8_1_g0_handwritten_asm` profile; the regional images keep their
-`handwritten_asm` records.
+`gcc_2_8_1_g0_handwritten_asm` profile; the Japanese and European resident
+executables compile the same source at their own addresses.
 
 ## Source formats, not line shading
 
@@ -78,8 +78,8 @@ and packet-work-cursor store is reproduced exactly. Triangle variants use
 
 ## Native bindings and acceptance
 
-Outside the North American resident executable, the remaining seventy-two
-function records across the other images stay game-owned `handwritten_asm`.
+All eighty-four records across the seven resident images are now matched C
+built from `src/game/wireframe_renderers.c`.
 Regional C-reference bindings are resolved before selecting each actual
 native boundary: some inventories use raw
 native-address names or borrowed-country labels rather than the NA suffix.

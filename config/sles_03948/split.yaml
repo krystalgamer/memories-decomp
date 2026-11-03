@@ -979,8 +979,8 @@ segments:
     - c
     - game/sound_sequence_tracks
   - - 251804
-    - asm
-    - text_4cf9c
+    - c
+    - game/european/model_draw_gouraud_primitives
   - - 253368
     - c
     - game/gpu_packets
@@ -1108,8 +1108,14 @@ segments:
     - c
     - game/european/model_primitive_handler
   - - 327712
-    - asm
-    - text_5f820
+    - c
+    - game/european/polygon_renderers
+  - - 350564
+    - c
+    - game/shared_primitive_cache_prepare
+  - - 350872
+    - c
+    - game/shared_polygon_renderers
   - - 361864
     - c
     - game/color_transform
@@ -1123,8 +1129,8 @@ segments:
     - c
     - game/european/model_find_handler_key
   - - 365664
-    - asm
-    - text_68c60
+    - c
+    - game/wireframe_renderers
   - - 370064
     - c
     - game/spanish/movie_frame_pipeline
