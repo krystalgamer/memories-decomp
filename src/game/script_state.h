@@ -6,7 +6,7 @@
 
 /* The script engine's current command word.
  *
- * script_run_tick.c fetches it straight from the script stream
+ * script_command_runner.c fetches it straight from the script stream
  * (gScript_wCommandWord = *gScript_StreamCursor++) and dispatches on its low five bits
  * (gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
@@ -32,14 +32,14 @@ extern u16 gScript_wCommandWord;
  * Script_ReadU16LE returns current[0] | (current[1] << 8) after advancing two.
  * Operands are little-endian and the cursor is byte-granular. Command handlers
  * advance it by two, four or six according to how many operands they take, and
- * script_run_tick.c fetches the next opcode through it into gScript_wCommandWord.
+ * script_command_runner.c fetches the next opcode through it into gScript_wCommandWord.
  */
 extern u8 *gScript_StreamCursor;
 
 /* The loaded script package, as the script engine reads it: a byte base the
  * cursor above is set from.
  *
- * script_run_tick.c states the layout in one line --
+ * script_command_runner.c states the layout in one line --
  * `gScript_StreamCursor = gFile_StagingBuffer + *(u16 *)(gFile_StagingBuffer + g * 2)` -- so the head of
  * the package is a table of little-endian u16 byte offsets indexed by script
  * number, and the entry is where that script's code starts. The other three

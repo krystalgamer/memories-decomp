@@ -67,7 +67,7 @@ extern s32 gMain_nServiceResyncCountdown;
    Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
    request and 0 in three of Main_ApplyMenuSelection's arms. Both are bytes, read lbu.
    Main_ApplyMenuSelection and Main_RunMenu (main_mode_runners.c) reach them through $gp;
-   script_op_save_prompt.c, script_op_return_to_menu.c and frontend_scene_states.c
+   script_op_save_prompt.c, script_command_runner.c and frontend_scene_states.c
    address them with %hi/%lo, outside small data, and define the .data arms. */
 #ifdef D_8009B268_IN_DATA
 extern u8 D_8009B268 __attribute__((section(".data")));

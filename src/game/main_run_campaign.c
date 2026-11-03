@@ -13,7 +13,7 @@ SceneScriptSlot gSceneScript_Slots[3];
 
 #include "duel_effect.h"
 #include "fade.h"
-#include "script_run_tick.h"
+#include "script_command_runner.h"
 #include "sound.h"
 #include "campaign_scene_package.h"
 #include "../unmatched.h"
