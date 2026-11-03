@@ -1,9 +1,9 @@
 # Shared text-message staging views
 
-`gText_StagedValues` (legacy `D_801D5608`) is a reused message-input area,
+`gText_StagedValues` (formerly `D_801D5608`) is a reused message-input area,
 not a dedicated card record, rank table, or save structure. Its NA address
-remains `0x801D5608`; the canonical alias neither defines C storage nor
-establishes the allocation's full extent.
+remains `0x801D5608`; the name neither defines C storage nor establishes the
+allocation's full extent.
 
 The isolated `text_message_staging.h` declares the existing incomplete
 `TextStagingValues[]` view and the separate
@@ -46,8 +46,8 @@ view that would select a different store register.
 | `SaveData_UpdateDuelLoad` in `mem_card_dialog.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `gText_StagedValues[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `Main_RunCredits` | `+0`, `+4` | The current matching C runner publishes its two input halfwords through the existing `pair` view before the secret-number text request; the old assembly-only exclusion no longer applies. |
-| `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
-| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer writes the union's `starchips` member. Neither becomes a resident card/count interpretation. |
+| `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `gText_StagedValues[0].pair`. |
+| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `gText_StagedValues[0].pair`; the starchip renderer writes the union's `starchips` member. Neither becomes a resident card/count interpretation. |
 
 The union's `0x80` size comes from the rank producer's existing table, not an
 inferred allocation boundary. Assertions also cover the named members at
@@ -68,7 +68,7 @@ explains why these are not persistent ATK/DEF globals.
   unchanged. `TEXT_STAGING_STARCHIPS_ALIAS` and its `D_801D5608_starchips`
   linker alias are gone too: `Password_RefreshStarchipDisplay` writes the
   union's `starchips` member, which builds the same `-G0` store, so no unit
-  reaches `D_801D5608` through an `asm` label.
+  reaches `gText_StagedValues` through an `asm` label.
 - The default remains an incomplete array, preserving its small-data
   classification. No tentative definitions, `.data` attributes, pins, compiler
   profiles or grouped function order are added, removed or relocated.

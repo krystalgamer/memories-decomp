@@ -59,11 +59,10 @@ projection, physical time unit or the separate elapsed/duration pair.
 The compact Japanese record still lacks the baseline word; later
 members retain their two-byte layout difference.
 
-Model_SetCameraFollowCountdown still stores twice its signed request
-through the independent signed s16 gModel_wCameraFollowCountdown alias.
-The record view stays u16. Preserve the alias, guard, multiplication,
-narrowing and independent address construction instead of replacing the
-store with typed record indexing or a saturating/absolute-value setter.
+Model_SetCameraFollowCountdown stores twice its signed request into
+gModel_CameraMove.follow_countdown (formerly a separate s16 alias; the
+member store matches exactly). Preserve the guard, multiplication and
+narrowing instead of a saturating/absolute-value setter.
 
 Model_UpdateCamera decrements the word only after entering its follow
 path with nonzero mode. The first frame-step getter and record read

@@ -35,7 +35,7 @@
 
 /* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8, defined in
  * address order ahead of the headers that declare it (#2602). */
-MenuRecord D_800EB010[3];
+MenuRecord gDisplayEffect_aMenuRecords[3];
 
 #include "menu_record.h"
 #include "display_menu_records.h"

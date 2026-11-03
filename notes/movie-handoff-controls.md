@@ -8,6 +8,10 @@
 | `D_800FE0CC` | `gLibGs_sActiveBufferIndex` | LIBGS-owned `s16`, `.data` caller view |
 | `D_800F5D44` | `gLibCd_nDeferredStreamInterrupt` | LIBCD-owned `s32`, `.data` caller view |
 
+The interrupt word is declared once, in `movie_handoff_state.h`. Each
+image labels it at its own address (NA `0x800F5D44`, Japan `0x800F3434`,
+UK `0x800F6CD4`, other PAL `0x800F70F4`), with no `D_` alias.
+
 The library prefixes describe SDK-owned data, not new game-owned storage
 or claims of official Psy-Q symbol spellings. No SDK function is renamed,
 reimplemented or entered in an attempt ledger. The existing SDK assembly
@@ -79,21 +83,11 @@ old reset-latch prose is corrected. All regional wrappers, compiler
 profiles, source groups, data-unit registration and existing tests
 remain unchanged.
 
-Native imports retain the original Japanese and PAL providers,
-including PAL's `gEuropean_D_8009B061`, `gEuropean_D_800FE0CC` and
-`D_800F6CD4` assembler identities. The NA initialized byte keeps its
-C-defined canonical primary and receives `legacy = ABSOLUTE(canonical)`; the
-other regional byte providers and both SDK words keep
-`canonical = original`. Automatic SDK providers use conditional
-`PROVIDE`, retaining production resolution without adding unused
-symbol-expression dependencies to unrelated import links. No numeric
-address is guessed or pinned.
-
-The accepted NA legacy name has absolute ELF class `A`, even though its
-real initialized data-object definition has class `D`. `ABSOLUTE`
-preserves that legacy class/address while the canonical primary retains
-its real C-owned `D` definition. It assigns no address over the primary
-and changes no section, storage, compiler flag or data byte.
+Each of the two names has one declaration and one binding per image. The
+legacy movie header no longer redeclares `D_8009B061` or `D_800FE0CC`, and
+the NA, Japanese and PAL configs bind `gMovie_bCopyDisplayOnStop` and
+`gLibGs_sActiveBufferIndex` directly instead of through `D_`, `ABSOLUTE`
+or `gEuropean_*` aliases. The movie unit's generated assembly is unchanged.
 
 Actual compiler/CPP evidence covers seven contexts: six caller
 contexts and the explicit NA `data_c.json` owner, with forty-two

@@ -9,7 +9,6 @@ DisplayObject_StepPositionXY = 0x80042DA8;
 SD_SEPlayFull = 0x80040204;
 DisplayObject_UpdateCommandStream = 0x80042090;
 TextBox_UpdateChannels = 0x80039770;
-D_800EB15C = 0x800F08B4;
 gInput_wPad1Held = 0x8009C710;
 gInput_wPad1Pressed = 0x8009C72C;
 BuildDeck_EnterNarrowConfirmMode = 0x80034190;
@@ -17,11 +16,11 @@ gMain_bReturnMode = 0x8009C60D;
 gFreeDuel_bReturnFlags = 0x8009C6FB;
 TextBox_CreateFlagged = 0x800361D8;
 Main_StartDuel = 0x80024E84;
-D_8009B368 = 0x8009C6FA;
+gDuel_bPostDuelMainMode = 0x8009C6FA;
 gMain_bActiveModeState = 0x8009C60A;
 gDuel_awPlayerDeck = 0x801D0200;
-D_801AF000 = 0x801AF000;
-D_800EB0F8 = 0x800F0850;
+gDisplay_abResourceBank0 = 0x801AF000;
+gText_aChannels = 0x800F0850;
 gFreeDuel_bCursorColumn = 0x8009C6E8;
 gFreeDuel_bCursorRow = 0x8009C6E9;
 gFreeDuel_bTargetColumn = 0x8009C6F0;
@@ -35,4 +34,3 @@ gGraphics_sViewportY = 0x8009C4C2;
 
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
-gGraphics_aImageTransferRects = D_800E9D70;

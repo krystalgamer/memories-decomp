@@ -509,7 +509,7 @@ The third singleton now has the behavioral C view
 the Start button and hides it before opening the menu wheel. That is input
 and lifecycle evidence, not identification of its texture or wording.
 The other two singleton names remain native. The separately loaded
-`D_801AF800` bank is exposed as `gMainMenu_DisplayResources`, retaining the
+bank at `0x801AF800` is `gDisplay_abResourceBank1`, retaining the
 original unsized byte view; see
 [main-menu display ownership](overlays/main-menu-display-ownership.md).
 

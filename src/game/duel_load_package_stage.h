@@ -12,8 +12,8 @@
  * build noticing. */
 void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage);
 
-/* Address-only transfer views, not the records used by other arena clients. */
-extern u8 D_801A8000[];
+#include "file_staging_buffer.h"
+
 extern u8 gAiScript_abFieldScript[];
 
 #endif

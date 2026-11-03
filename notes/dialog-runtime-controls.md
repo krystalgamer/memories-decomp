@@ -2,7 +2,7 @@
 
 ## Choice command, layout and confirmation control
 
-`gDialog_bChoiceControl` names the existing `u8 D_8009B34C` view shared
+`gDialog_bChoiceControl` (formerly `D_8009B34C`) names the `u8` view shared
 by the text-choice producer, layout helpers, confirmation callback and
 script save prompt.
 
@@ -33,7 +33,8 @@ its selector spelling and its first-include behavior remain unchanged.
 
 ## Shared callback state, not work-only or per-record state
 
-`gDialog_bCallbackState` names the existing plain `u8 D_8009B3C1`.
+`gDialog_bCallbackState` (`0x8009B3C1`, formerly `D_8009B3C1`) is a plain `u8`,
+defined once in `mem_card_dialog.c` and declared once in `duel_effect.h`.
 Its users span the generic dialog transitions, memory-card work
 controller and prompted/unprompted load, save and trade modal callbacks.
 The name groups those already shared callback uses; it does not assign

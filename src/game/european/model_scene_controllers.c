@@ -1,4 +1,5 @@
 #include "../../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #ifndef EUROPEAN_LANGUAGE_BUILD
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
@@ -18,7 +19,10 @@
 #define MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C3D8-0x8009C418 (#2602); its
  * layout differs from the North American block the shared source defines. */
-RECT gModel_ImageCopyRect;
+s16 gModel_ImageCopyRectX;
+s16 gModel_ImageCopyRectY;
+s16 gModel_ImageCopyRectW;
+s16 gModel_ImageCopyRectH;
 s16 gModel_sTextureTintRectX;
 s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
@@ -27,15 +31,13 @@ u16 gModel_wViewDistance;
 u16 gModel_wViewYaw;
 u16 gModel_wViewPitch;
 u16 D_8009C3EE_sles_03947;
-u16 D_8009C3F0_sles_03947;
-u16 D_8009C3F2_sles_03947;
-u32 D_8009C3F4_sles_03947;
+ModelBytes8 gModel_ViewSnapshot;
 s16 gModel_awSlotModelIds[3];
 u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
 u16 D_8009C402_sles_03947;
 u32 D_8009C404_sles_03947;
-u32 D_8009C408_sles_03947;
+u32 D_8009C408;
 u32 D_8009C40C_sles_03947;
 u32 D_8009C410_sles_03947;
 u32 D_8009C414_sles_03947;

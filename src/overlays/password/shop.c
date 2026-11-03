@@ -109,11 +109,11 @@ void Password_RefreshDigitDisplay(void)
 #endif
 #ifdef VERSION_JAPAN
     func_80039A14(
-        (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0xC0));
+        (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0xC0));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&gText_Channel2View);
+    func_80039A14(TEXT_CHANNEL(2));
 #else
-    boxes = D_800EB0F8;
+    boxes = gText_aChannels;
     boxes[2].glyph_advance_x = 0x10;
     boxes[2].line_advance_y = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[2]);
@@ -128,18 +128,18 @@ void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
 
-    D_801D5608[0].starchips = gLibrary_dwStarchips;
+    gText_StagedValues[0].starchips = gLibrary_dwStarchips;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     func_8003B6AC(3, 1);
 #endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
 #ifdef VERSION_JAPAN
     func_80039A14(
-        (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0x120));
+        (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0x120));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&gText_Channel3View);
+    func_80039A14(TEXT_CHANNEL(3));
 #else
-    boxes = D_800EB0F8;
+    boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 0x10;
     boxes[3].line_advance_y = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
@@ -154,7 +154,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 {
     DuelEffectChannel *object;
 
-    TextBox_Destroy(D_800EB0F8);
+    TextBox_Destroy(gText_aChannels);
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
     object->glyph_delay = 1;
     if (flags & 0xF) {
@@ -390,7 +390,7 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
-    if ((D_800EB12C & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
+    if ((*(u32 *)&gText_aChannels[0].flags_34 & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
         TEXT_BOX_FLAG_DONE) {
         return;
     }
@@ -464,8 +464,8 @@ void Password_UpdateShopScreen(void)
             return;
         }
         if ((flags & 0x4000) == 0) {
-            if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 D_8009B134) != 0) {
+            if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState) != 0) {
                 return;
             }
             gPassword_wShopState = flags | 0x4000;
@@ -485,14 +485,14 @@ void Password_UpdateShopScreen(void)
         flags2 = gPassword_wShopState;
         if ((flags2 & 0x8000) == 0) {
             gPassword_wShopState = flags2 | 0x8000;
-            D_801D5608[0].pair.lo = D_801A8000[gPassword_wCardId].price;
-            D_801D5608[0].pair.hi = gPassword_wCardId;
+            gText_StagedValues[0].pair.lo = ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price;
+            gText_StagedValues[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
                     gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (gLibrary_dwStarchips < D_801A8000[gPassword_wCardId].price) {
+            if (gLibrary_dwStarchips < ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);
@@ -517,7 +517,7 @@ void Password_UpdateShopScreen(void)
         if ((flags3 & 0x8000) == 0) {
             gPassword_wShopState = flags3 | 0x8000;
             card = gPassword_wCardId;
-            gPassword_dwPriceRemaining = D_801A8000[card].price;
+            gPassword_dwPriceRemaining = ((PasswordShopCard *)gFile_StagingBuffer)[card].price;
         }
         count = gPassword_dwPriceRemaining;
         step = 1;

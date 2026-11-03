@@ -20,7 +20,7 @@
 
 void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
 {
-    CardListRowSet *record = gCardList_aRowSets;
+    CardListRowSet *record = (CardListRowSet *)gFile_StagingBuffer;
     DisplayObject *object;
     s32 i = 0;
 

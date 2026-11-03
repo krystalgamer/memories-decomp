@@ -48,8 +48,8 @@ not forwarded as this operand.
 
 `gCampaignMap_bEntryLocation` keeps the original incomplete `u8[]`
 declaration and `[0]` accesses. The incomplete array is an absolute-addressing
-input under G8, not evidence of a longer buffer. Each image's alias refers
-to its existing `D_8009B363` provider. The French symbol
+input under G8, not evidence of a longer buffer. Each image defines the
+name once at its own address; no `D_8009B363` alias remains. The French symbol
 `D_8009B363_French`, which names the literal address `0x8009B363`, is a
 different native identity and is not substituted.
 

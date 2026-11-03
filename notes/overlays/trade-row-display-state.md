@@ -49,9 +49,9 @@ DisplayObject retyping is introduced.
 
 ## Independent Trade row-set view
 
-`gTrade_aInventoryRowSets` retains native `D_801A8000` and the original
-unsized `MainMenuState[]` declaration, now declared unconditionally in
-`trade_helpers.h`. That private record still has a leading
+The Trade refresh casts the shared `gFile_StagingBuffer` (formerly
+`D_801A8000`, with a `gTrade_aInventoryRowSets` alias) to
+`MainMenuState *`. That private record still has a leading
 `u8 *object` and the original five padding words, or six in Europe:
 strides remain 24/28 bytes. Neither the pads nor the pointer are retyped
 as the resident's independently recovered `CardListRowSet`.
@@ -71,13 +71,11 @@ unvalidated comparator indexing, followed by the sort-icon byte write.
 No exclusive two-record allocation, new bound, bool, extent or ownership
 claim follows from the two logical users.
 
-This is a Trade-only typed view of phase-dependent shared RAM, not a
-project-wide rename. The resident `gCardList_aRowSets` view, script
-bytecode, model payload/DMA, raw-word and other overlay interpretations
-retain their own declarations and aliases. NA/Europe staging remains
-`0x801A8000`; Japan binds the name at `0x801B8000`. Each main-menu linker
-symbol file binds `gTrade_aInventoryRowSets` directly, in place of the
-former `D_801A8000` label. It is external
+This is a Trade-only cast of phase-dependent shared RAM. The resident
+card-list rows, script bytecode, model payload/DMA, raw-word and other
+overlay interpretations cast the same single declaration. NA/Europe
+staging remains `0x801A8000`; Japan binds the name at `0x801B8000`. Each
+main-menu linker symbol file binds `gFile_StagingBuffer` directly. It is external
 staging, not a new C-owned array in the main-menu image. Original maps,
 loader addresses, resident text-provider aliases and overlay import
 counts are untouched.

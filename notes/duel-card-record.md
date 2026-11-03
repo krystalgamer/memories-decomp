@@ -16,7 +16,8 @@ The generated `notes/global-usage.csv` snapshot lists matching-C and
 assembly users; filter it on global address `0x801A7AD8`. The
 typed-migration inventory below separately records which matching sources
 have adopted the shared declaration. `Duel_CollectMatchingFieldCardObjects` now uses the shared
-typed C declarations directly, including the `D_801A7B64` interior alias.
+typed C declarations directly, including the `gDuel_aFieldCardRecords`
+interior view (formerly `D_801A7B64`).
 The generated report may predate a promotion until it is regenerated.
 
 ## Typed setup result and publication
@@ -56,7 +57,7 @@ argument evaluation and object-publication order are unchanged.
 Resume reconstruction uses the same local deck-entry view for its two
 occupied-field traversals, records 5-14 and 20-29. Both rebuild arguments
 read the canonical signed `deck_index` member rather than byte +0x02.
-The `D_801A7B64` interior alias, record stride, flags/stat-modifier
+The `gDuel_aFieldCardRecords` interior view, record stride, flags/stat-modifier
 snapshots and restores, helper ordering and object-flag refresh remain
 unchanged; the global data member stays opaque.
 
@@ -497,8 +498,8 @@ request path, not by itself evidence for every button or visibility mode.
 The constructor clears `gText_BranchSelectorA` and `gText_BranchSelectorB` on entry. For an
 occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
 the occupied-monster branch (packed type below `20`) writes
-the words at `D_801D5608 + 0` and `+4`, now expressed as
-`D_801D5608[0].card_stats.attack` and `.defense` through
+the words at `gText_StagedValues + 0` and `+4`, now expressed as
+`gText_StagedValues[0].card_stats.attack` and `.defense` through
 [`text_staging.h`](../src/game/text_staging.h): they receive the ATK and DEF returned by
 `Duel_CalcCardStats`. No opponent-dependent guardian adjustment is added
 to these two assignments.
@@ -521,7 +522,7 @@ after the data was prepared; `TextBox_Create` is still called after the
 conditional setup. Matching
 [`FreeDuel_PlaceCursor`](../src/overlays/free_duel/screen_runtime.c) reuses
 the same two words for its selected duelist's win/loss values. Interpret
-`D_801D5608` with its current caller and text-request state, not as
+`gText_StagedValues` with its current caller and text-request state, not as
 dedicated persistent ATK/DEF storage. No conclusion about hidden-card
 visibility or a complete scratch-buffer layout follows from these writes.
 
@@ -636,7 +637,7 @@ retains a local or raw record view. Derive that changing set from
 
 `Duel_CollectMatchingFieldCardObjects` replaces the former inline-assembly
 implementation with matching C and the shared `DuelCardRecord` view. Its
-negative-selector path retains `D_801A7B64` for the original two-side
+negative-selector path uses `gDuel_aFieldCardRecords` for the original two-side
 traversal and relocation; this is an interior view of the existing table, not
 another allocation.
 

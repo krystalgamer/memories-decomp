@@ -4,9 +4,9 @@
 
 | Original NA provider | Canonical view | Original C contract |
 |---|---|---|
-| `tent_GlyphLookupTable` (`0x801D9000`) | `gText_aGlyphLookup` | Mutable incomplete `TextGlyphLookupEntry[]` |
-| `tent_GlyphLookupTableEntries` (`0x801D9004`) | `gText_aGlyphSearchEntries` | Const incomplete `TextGlyphLookupEntry[]`, independently labeled |
-| `tent_DecimalDigitSjisKeys` (`0x80010330`) | `gText_DecimalDigitSjisKeys` | By-value `TextDecimalDigitKeyBlock`, twenty bytes |
+| `0x801D9000` (formerly `tent_GlyphLookupTable`) | `gText_aGlyphLookup` | Mutable incomplete `TextGlyphLookupEntry[]` |
+| `0x801D9004` (formerly `tent_GlyphLookupTableEntries`) | `gText_aGlyphSearchEntries` | Const incomplete `TextGlyphLookupEntry[]`, independently labeled; a measured exception, see `src/game/text_constants.h` |
+| `0x80010330` (formerly `tent_DecimalDigitSjisKeys`) | `gText_DecimalDigitSjisKeys` | By-value `TextDecimalDigitKeyBlock`, twenty bytes |
 
 The lookup entry remains the existing four-byte, word-aligned union:
 packed word, low key halfword and upper metadata halfword. No new

@@ -17,7 +17,7 @@ void Options_Init(s32 mode)
     DisplayObject *object;
     u32 music;
 
-    buffer = D_8009B118[0];
+    buffer = gFile_TransferBufferBase;
     gPalOptions_bMode = mode;
     gPalOptions_bLanguage = gText_bLanguageIndex;
     rect = &gGraphics_aImageTransferRects[1];
@@ -34,14 +34,14 @@ void Options_Init(s32 mode)
         first->y = 0xC0;
         first->w = 0x30;
         first->h = 0x10;
-        StoreImage(first, (u32 *)D_8009B118[0]);
+        StoreImage(first, (u32 *)gFile_TransferBufferBase);
     }
     DrawSync(0);
-    buffer = D_8009B118[0];
+    buffer = gFile_TransferBufferBase;
     index = 0x60;
     while (buffer[index] == buffer[index + 0x2000]) {
         if (++index >= 0x5A0) {
-            gPalOptions_bLanguage = D_8009B118[0][0];
+            gPalOptions_bLanguage = gFile_TransferBufferBase[0];
             break;
         }
     }
@@ -52,13 +52,13 @@ void Options_Init(s32 mode)
     } else {
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 2, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 2, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -5);
         object->flags |= 0x28;
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pLanguageSprite = (DisplayObjectConfig *)object;
         object->flags |= 0x28;
@@ -66,7 +66,7 @@ void Options_Init(s32 mode)
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         object->flags |= 0x28;
         gPalOptions_pLabelSprite = (DisplayObjectConfig *)object;
@@ -77,7 +77,7 @@ void Options_Init(s32 mode)
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pSoundTypeSprite = (DisplayObjectConfig *)object;
         object->flags |= 0x28;

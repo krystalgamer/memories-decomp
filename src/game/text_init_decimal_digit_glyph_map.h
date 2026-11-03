@@ -5,8 +5,7 @@
 #include "../ygo_types.h"
 #include "text_constants.h"
 
-extern TextDecimalDigitKeyBlock tent_DecimalDigitSjisKeys;
-extern const TextGlyphLookupEntry tent_GlyphLookupTableEntries[];
+extern TextDecimalDigitKeyBlock gText_DecimalDigitSjisKeys;
 
 void Text_InitDecimalDigitGlyphMap(void);
 

@@ -39,9 +39,13 @@
 /* Unsized: a declared size is a -G input for this toolchain, and no consumer
  * needs the bound. The count is above, with what it was derived from.
  *
- * Open question, not resolved by fiat: our matching tree reads a byte at
- * +0x64, which is record 5 -- one past the five the arithmetic here gives --
- * and there is no symbol at 0x800EAEFC for it to belong to instead. */
+ * main_run_campaign.c defines only three records: that is all the room
+ * before gDebug_szEditorCaretLine, and SceneScript_UpdateSlots sweeps three.
+ * Package initialization's -1 store at slot three's head (+0x3C) lands in
+ * the four bytes left before that next object.
+ * The five-record figure above comes from old declarations, and our
+ * matching tree's byte read at +0x64 lands inside the caret line; neither
+ * is resolved here. */
 extern SceneScriptSlot gSceneScript_Slots[];
 
 /* The per-tick sweep over the first three slots. It dispatches each live

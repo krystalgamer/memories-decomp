@@ -15,7 +15,8 @@ four-byte scene view. A nonzero first byte forces the published
 stores the low byte of its argument, not an arbitrary requested step.
 
 The other bytes are not inferred from that first-byte role. Byte one is
-unclassified. Byte two remains `D_8009AFA6`, and its getter
+unclassified. Byte two is read as `gGraphics_FrameStepControl[2]` (formerly the
+separate interior alias `D_8009AFA6`), and its getter
 `func_80058DC0` remains address-named because no semantic consumer or
 writer is established. Three watch traces under #418 saw neither a call
 to the getter nor a write to the byte on the title loop, Library 3-D view

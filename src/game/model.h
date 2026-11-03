@@ -177,7 +177,7 @@ typedef struct {
     s32 primary_module_command;
 } ModelSlotMetadataBlock;
 
-/* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
+/* View rooted at a slot's metadata (ModelSlot +0xCF8) and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
  * Model_UpdateSlotControl; camera-yaw selection uses guardian_star_options
  * through guardian_star_selection. Other CF8 members retain relative
@@ -357,7 +357,7 @@ typedef struct {
     s32 key;
 } ModelHandlerRegistryEntry;
 
-/* The camera move record at D_800F2B20. One leg per point the move drives --
+/* The camera move record at gModel_CameraMove. One leg per point the move drives --
  * the eye and the target -- and the two are laid out identically, which is
  * what makes the two halves of Model_StartCameraMove's setup literal copies of each
  * other. `slot` is the model slot the end point is read from and `pair_slot`
@@ -901,42 +901,14 @@ typedef char ModelCameraOrbitPreset_halfword_layout_must_match[
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
 extern ModelCameraOrbitPreset gModel_aCameraOrbitPresets[];
 #endif
-#ifndef MODEL_SLOT_CUSTOM_EXTERN
-extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
-
-/* Interior names for fields of slot zero. Their types come from the asserted
- * ModelSlot layout above; consumers still step their addresses by
- * MODEL_SLOT_SIZE when selecting another slot, so none of these declarations
- * claims that same-named fields from adjacent slots are contiguous arrays.
- *
- * 0x800F3938 = gModel_aSlots[0].metadata
- * 0x800F39B0 = gModel_aSlots[0].flat_lights
- * 0x800F39F0 = gModel_aSlots[0].render_scale
- * 0x800F3A10 = gModel_aSlots[0].cached_position
- *
- * For example, the cached_position consumers use the equivalent byte-stride form
- *
- *     entry = (u8 *)gModel_awSlot0Position + index * MODEL_SLOT_SIZE;
- *
- * to reach that field of slot `index`. model_distance_queries.c reads the
- * first three halfwords of it and differences them against gModel_RView
- * before SquareRoot0, so they are a position.
- *
- * The two names stay separate: all three matched sites reach the field
- * through this symbol, so writing it as an offset from gModel_aSlots would
- * change which symbol their relocations name. Unlike the selection-table case
- * there is no assembly reader to corroborate that, but the matched C is
- * itself the evidence. */
-extern ModelSlotCF8TailView gModel_Slot0MetadataView;
-extern ModelSlotLightEntry gModel_aSlot0FlatLights[3];
-extern ModelSlotS32Quad gModel_Slot0Scale;
-extern u16 gModel_awSlot0Position[];
-#endif
-#ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
-extern ModelCameraMove D_800F2B20;
-#endif
+/* Declared in address order: model_scene_controllers.c defines all three
+ * after including this header, and GCC emits them in declaration order. */
+extern ModelCameraMove gModel_CameraMove;
 #ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
 extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
+#endif
+#ifndef MODEL_SLOT_CUSTOM_EXTERN
+extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #endif
 
 extern ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[MODEL_HANDLER_REGISTRY_COUNT];

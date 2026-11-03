@@ -8,9 +8,9 @@ u8 gDuel_bEffectState;
 u8 gDuel_bCardViewerYOffset;
 u8 gDuel_bEffectHandlerFlags;
 u8 D_8009C1BF_sles_03947;
-u32 D_8009C1C0_sles_03947;
+struct DisplayObject *gDuel_pCardViewerCard;
 u32 D_8009C1C4_sles_03947;
-u32 D_8009C1C8_sles_03947;
+struct DuelEffectChannel *gDuel_pCardViewerTextBox;
 u32 D_8009C1CC_sles_03947;
 
 #define DUEL_EFFECT_DIALOG_DONE_FLAG 0x2000

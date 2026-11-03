@@ -57,11 +57,7 @@ typedef struct {
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, build_deck_update.c
    and src/game/duel_effect_states.c define the arm below for that. */
-#ifdef D_8009AF74_IN_DATA
-extern volatile u16 D_8009AF74[];
-#else
-extern volatile u16 D_8009AF74[4];
-#endif
+#include "display_object_depth_bases.h"
 
 /* Returns the first allocated display object carrying the requested tag. */
 void *DisplayObject_FindAllocatedByTag(s32 value);
@@ -84,7 +80,7 @@ void DisplayObject_ConfigureSpriteWithResource(
     void *resource
 );
 /* resource is a pointer, not an integer. Every caller passes one -- the
-   overlays pass D_801AF000 / D_801AF800, the resident callers pass a spec or
+   overlays pass gDisplay_abResourceBank0 / gDisplay_abResourceBank1, the resident callers pass a spec or
    table address -- and the function stores it straight into the object's
    0x54 word, which DisplayObject already declares void *.
    DisplayObject_ConfigureSpriteWithResource just above does the same job

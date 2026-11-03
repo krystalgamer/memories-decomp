@@ -1,10 +1,13 @@
 # Logical string-bank lookup views
 
-| Canonical view | NA provider | Japanese provider | PAL provider |
+Each name is defined once per image at its own address, with no `D_` label
+or alias.
+
+| Name | NA address | Japanese address | PAL address |
 | --- | --- | --- | --- |
-| `gText_PrimaryStringOffsets` | `D_801C0000` | `D_801C0000` | `D_801B0004` |
-| `gText_GlobalStringOffsets` | `D_801D5800` | `D_801D6000` | `D_801D5804` |
-| `gText_PrimaryStringAddressAnchor` | `D_801B0000` | no compiled consumer | no compiled consumer |
+| `gText_PrimaryStringOffsets` | `0x801C0000` | `0x801C0000` | `0x801B0004` |
+| `gText_GlobalStringOffsets` | `0x801D5800` | `0x801D6000` | `0x801D5804` |
+| `gText_PrimaryStringAddressAnchor` | `0x801B0000` | no compiled consumer | no compiled consumer |
 
 These names describe the existing lookup roles, not uniform physical banks
 or a recovered file format. All remain mutable incomplete `u16[]` views.
@@ -23,9 +26,9 @@ that same table with `id - 0xD000`. The name does not eliminate this shared
 table/address role or assert that every entry describes one content class.
 
 Japan uses the primary table as its masked address anchor as well as its
-offset table. PAL uses `D_801B0004` for both low-range offsets and the
+offset table. PAL uses the primary table at `0x801B0004` for both low-range offsets and the
 below-`0x500` address anchor; for larger local IDs, its address anchor
-switches to the distinct `D_801C0004` while offsets still come from the
+switches to the distinct `gText_AlternateStringAddressAnchor` (`0x801C0004`) while offsets still come from the
 primary table.
 
 That PAL alternate anchor remains address-named. It is not incorrectly

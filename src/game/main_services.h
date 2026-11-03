@@ -29,17 +29,16 @@
  * (src/game/library_runtime.c), which clears it when the card view opens and
  * restores Library_DrawCardGrid when it closes.
  * Slot 2 is stored only by Library_UpdateCardView, which installs Library_DrawWireframeGlobe for
- * the model view and clears it on the way out; splat's name for that address
- * is D_800E9DB8, and no other listing or C unit names it.
+ * the model view and clears it on the way out; no other listing or C unit
+ * names it.
  * Slot 1 is stored by the main_menu overlay, by index:
  * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
  * `gMain_apFrameServiceCallbacks[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
  * (src/overlays/main_menu/trade_offers.c:145, `gMain_apFrameServiceCallbacks[1] = 0;`). Before
  * that the overlay reached it as D_800E9DB4, with a private declaration in
- * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
- * and + 12) carry no displacement off gMain_apFrameServiceCallbacks, so their writers do not
- * appear as `%lo(gMain_apFrameServiceCallbacks)` references. */
+ * each unit. Every slot is reached as an element of
+ * gMain_apFrameServiceCallbacks; no slot has a symbol of its own. */
 extern void (*gMain_apFrameServiceCallbacks[4])(void);
 
 /* The recovery point the registry's comment above already places at
@@ -56,41 +55,7 @@ extern jmp_buf gMain_RecoveryJmpBuf;
 extern void (*gMain_pfnExtraFrameService)(void);
 
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
-extern s32 runtime_gp;
-
-/* Keep the native initialized symbol and expose only its countdown role. */
-#define gMain_nServiceResyncCountdown runtime_gp
-
-/* A one-byte state value Main_InitHardware sets alongside gGraphics_abOrderingTableLengths to
- * gGraphics_bOrderingTable2Length, and that the two menu runners set to 10 or 6 through index 0.
- * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
- * object is wider than the byte it is.
- *
- * Two arms, because the consumers split on addressing form. Main_InitHardware
- * writes the byte from small data, which is what a scalar reaches at -G8:
- *     sb         $v1, %gp_rel(gGraphics_bOrderingTable3Length)($gp)
- * (the store at 0x80013224), and that arm is the volatile one. Main_RunDuel
- * and Main_RunCampaignMap write it through index 0 and
- * both want the absolute form, which an array of unknown size reaches at
- * the same -G8:
- *     lui        $at, %hi(gGraphics_bOrderingTable3Length)
- *     sb         $v0, %lo(gGraphics_bOrderingTable3Length)($at)
- * -- at 0x8002CF3C and 0x8002D074 in Main_RunDuel, and the same two
- * words 0A80013C / A3B022A0 at 0x8002D2F8 and 0x8002D350 inside
- * Main_RunCampaignMap.
- *
- * A third arm, `u8 gGraphics_bOrderingTable3Length[9]`, used to serve
- * src/game/main_run_duel_and_library.c. A bound the assembler can see is only
- * needed where its -G sits below the compiler's, which is what
- * duel_terrain_boost.h records for gDuel_bTerrain's [8] under
- * gcc_2_8_1_cc_g8_as_g4_split; both array consumers here are plain
- * gcc_2_8_1_g8, where the incomplete array is already outside small data.
- * Relaxing the [9] to the shared [] leaves the retail SHA-256 unchanged. */
-#ifdef D_8009B0A3_IS_VOLATILE_SCALAR
-extern volatile u8 gGraphics_bOrderingTable3Length;
-#else
-extern u8 gGraphics_bOrderingTable3Length[];
-#endif
+extern s32 gMain_nServiceResyncCountdown;
 
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, gMain_bRequestedMenuID),

@@ -67,11 +67,12 @@ change the existing record layout or member representations.
 | SLES_039.47 | `800EBE88` | `8009C214` |
 | Other PAL | `800EC2A8` | `8009C634` |
 
-All fourteen bindings retain the original logical providers. The Japanese
-pointer binds `D_8009B274` at its own address; the table retains
-its independent provider. French literal aliases remain distinct from the
-logical PAL addresses. Old names continue to bind, and no storage,
-initialization, section or allocation extent is added.
+The record table is defined once, as `gDisplayEffect_aMenuRecords[3]` in
+`text_control_commands.c`, and every region binds that name directly; the
+former `D_800EB010` link alias is gone. The Japanese pointer binds
+`D_8009B274` at its own address. French literal aliases remain distinct
+from the logical PAL addresses. No storage, initialization, section or
+allocation extent is added.
 
 The six complete C files differ only by the scoped names and isolated
 include. Old headers, wrappers, overlays/imports, compiler profiles,

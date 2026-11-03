@@ -72,16 +72,15 @@ and timing remain.
 | --- | --- | --- | --- |
 | NA | `8009B1B9` | `8009B218` | `8009B21A` |
 | Japan | `8009B0A9` | `8009B108` | `8009B10A` |
-| SLES_039.47 | `8009C0C1` | `8009C102` | original automatic `D_8009C0CC` |
+| SLES_039.47 | `8009C0C1` | `8009C102` | `8009C0CC` |
 | Other PAL | `8009C4E1` | `8009C522` | `8009C4EC` |
 
-Canonical aliases point to original providers, including Japan's
-`D_8009B218` (`0x8009B108`) and PAL's logical `D_8009C0CC`. The English field
-provider is not tracked as a numeric assignment and its regional retail
-input is unavailable locally. Its existing symbolic provider is retained;
-no guessed tracked numeric binding replaces the automatic one. Native
-compiler conservation is not independent regional-image proof, and fresh
-PR-side full-image validation remains required.
+The auto-commit and placement-setup bytes are defined once per image under
+their canonical names, in the duel storage unit (`duel_field_card_render.c`,
+or the European wrapper); Japan and the non-English PAL images bind their
+addresses in `symbols.txt` and `link_symbols.ld`. No `D_8009B218` alias
+remains, and `duel_presentation_controls.h` holds the only declaration of
+the placement-setup byte outside the storage unit.
 
 All old headers, wrapper macros, overlays/imports, function records,
 grouped sources and named profiles remain unchanged. The two existing
@@ -91,8 +90,6 @@ and 590,848 cases, assertions, mutations, generators and compiler/setup
 logic are unchanged. No new harness, fixture, probe or testcase is added,
 and cloud/regional/overlay/witness suites are not executed locally.
 
-The nearby `D_8009B20C` scratch views deliberately stay numeric. Hand/field
-action state and card-effect scratch share a base in NA/Japan but resolve
-to different PAL bases (`C10E/C52E` versus `C0C2/C4E2`). They cannot receive
-one blanket global rename. No duplicate-address semantic rows, combined
-scratch allocation or new struct are introduced in this component.
+The nearby action substate and effect-work counter are separate scalars
+(`gDuel_wActionSubstate`, `gDuel_sEffectWorkCounter`); see
+[duel-working-word-views.md](duel-working-word-views.md).

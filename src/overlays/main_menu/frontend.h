@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_MAIN_MENU_FRONTEND_H
 
 #include "../../types.h"
-#include "display_resources.h"
+#include "../../game/display_asset_banks.h"
 
 struct DisplayObject;
 

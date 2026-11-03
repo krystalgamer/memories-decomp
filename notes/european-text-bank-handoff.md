@@ -36,7 +36,7 @@ The same numeric addresses in NA/Japan are not assigned these PAL roles.
 declaration; each PAL symbol file binds the name at `0x801C0004` (formerly
 the native `D_801C0004` label), with no assembler label in C. PAL local IDs from `0x500` use
 this provider's masked address while still reading halfword offsets from
-the existing `gText_PrimaryStringOffsets` provider at `D_801B0004`.
+the existing `gText_PrimaryStringOffsets` at `0x801B0004`.
 It is not renamed to the primary offset table merely because the address
 begins with `801C`.
 

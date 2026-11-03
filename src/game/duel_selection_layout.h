@@ -104,68 +104,15 @@ typedef char DuelSelectionSide_size_must_be_side_size[
     sizeof(DuelSelectionSide) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
 ];
 
-/* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
+/* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side.
+ * Callers that start from record N of the active side form
+ * gDuel_abSelectionSides + N * DUEL_SELECTION_RECORD_SIZE and add the side
+ * stride. */
 extern u8 gDuel_abSelectionSides[];
 
-/* A name for record 1 of that same table, 0x1C bytes in -- exactly
- * DUEL_SELECTION_RECORD_SIZE -- so it is record 1 of side 0, and because it
- * is indexed with the same per-side stride it is record 1 of whichever side
- * is selected:
- *
- *     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord1 +
- *         gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
- *
- * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
- * in the tree that mentions it; the plain pointer sum already adds the base
- * to the index, which is retail's operand order.
- *
- * Like the other names into this table it keeps its own relocations -- one
- * %hi/%lo pair in that function, and no access is gp-relative -- so this is
- * the plain array declaration. */
-extern u8 gDuel_abSelectionRecord1[];
-
-/* A second name for the inside of that same table, 0x38 bytes in --
- * exactly 2 * DUEL_SELECTION_RECORD_SIZE, so it is record 2 of side 0, and
- * because it is indexed with the same per-side stride it is record 2 of
- * whichever side is selected:
- *
- *     gDuel_pActiveSelectionRecord = gDuel_abSelectionRecord2 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
- *
- * which is the same cursor assignment the gDuel_abSelectionSides callers make, just from
- * two records further in. DuelField_CreateCardInfoTextBox (duel_field_display_objects.c)
- * passes the same expression to DuelField_GetGuardianStarDisplayCode.
- *
- * The overlap is retail's, not an artefact of the port, and the two names
- * have to stay separate: DuelScene_UpdateHandActions and
- * DuelScene_UpdateFieldActions each take the
- * address of both symbols, and each carries its own
- * `addiu $v1, $v1, %lo(gDuel_abSelectionRecord2)` relocation. Folding this into an offset
- * from gDuel_abSelectionSides would change which symbol those relocations name. */
-extern u8 gDuel_abSelectionRecord2[];
-
-/* A third name for the same table, 0x54 bytes in -- exactly
- * 3 * DUEL_SELECTION_RECORD_SIZE, so it is record 3 of side 0, and because
- * both users index it with the per-side stride it is record 3 of whichever
- * side is selected:
- *
- *     gDuel_abSelectionRecord3 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE
- *
- * DuelScene_UpdateBattle assigns exactly that to gDuel_pActiveSelectionRecord
- * (src/game/duel_scene_battle.c) and DuelScene_UpdateFieldActions forms
- * it six times, once reaching back 0x18 into record 2
- * (src/game/duel_scene_field_actions.c). No
- * other source in the tree mentions the symbol.
- *
- * Like gDuel_abSelectionRecord2 above, this name has to stay separate rather than become an
- * offset from gDuel_abSelectionSides: each listing carries its own relocations for it --
- * five %hi/%lo pairs in DuelScene_UpdateFieldActions and one in DuelScene_UpdateBattle -- and
- * folding it would change which symbol they name. No access is gp-relative,
- * so this is the plain array declaration. */
-extern u8 gDuel_abSelectionRecord3[];
-
 /* Active record in the selection table. Every writer selects a whole
- * DuelSelectionRecord through one of the four table symbols above, retaining
- * its original side-stride arithmetic and relocations. Phase entry writes
+ * DuelSelectionRecord of gDuel_abSelectionSides with the side-stride
+ * arithmetic above. Phase entry writes
  * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
  * the cursor/viewer paths read the shared coordinates and status.
  *

@@ -15,7 +15,7 @@
 
    gModel_abBackgroundRecords is the 0xB2-byte record table Model_LoadMonsterMerge
    describes and model_scene_controllers.c indexes as
-   &gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
+   &gModel_abBackgroundRecords[gModel_aSlots[2].model_id * 0xB2]. Eighty of its 1248 bytes are non-zero;
    the rest are written out so the array is unambiguously initialized data.
 
    gModel_aShadowFanSteps is read by Model_DrawSlot as eight x/z direction pairs, the

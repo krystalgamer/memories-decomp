@@ -25,6 +25,7 @@ SD_BGMPlay = 0x8003FF08;
 gText_StagedStringId = 0x8009B32E;
 gGraphics_dwSyncedFrameCount = 0x8009B0CC;
 gDuel_bPlayerLost = 0x8009B362;
+gDuel_bPostDuelMainMode = 0x8009B368;
 
 TextBox_BuildBlockingWithGlyphScratch = 0x80039A60;
 
@@ -33,3 +34,6 @@ func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 gGraphics_aImageTransferRects = D_800E9D70;
 gMain_bActiveModeState = 0x8009B26C;
 gMain_bReturnMode = 0x8009B269;
+gText_aChannels = 0x800EB0F8;
+gDisplay_abResourceBank0 = 0x801AF000;
+gText_StagedValues = 0x801D5608;

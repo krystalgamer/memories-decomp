@@ -3,9 +3,8 @@
 
 #include "../types.h"
 
-/* The gDisplayObject_ListRenderers entry for the single-headed list at
- * gDisplayObject_wSpriteSheetListHead -- the one list whose head is a scalar rather than an entry of
- * gDisplayObject_awListHeads. Runs each object's callback, updates its command stream, and
+/* The gDisplayObject_ListRenderers entry for the list rooted at
+ * gDisplayObject_awListHeads[2]. Runs each object's callback, updates its command stream, and
  * renders the eligible sprite sheets. */
 void DisplayObject_RenderSpriteSheetList(void);
 

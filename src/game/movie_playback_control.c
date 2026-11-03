@@ -1,10 +1,10 @@
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #define D_8009B142_IS_AGGREGATE
 #include "graphics_frame.h"
 #include "file_cd_helpers.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "input.h"
 #include "mdec_sync.h"
 #include "movie_playback_control.h"
@@ -16,7 +16,7 @@ void Movie_Play(s32 index)
     File_WaitForTransfers();
     SD_SetCdVolumeImmediate(0xFF);
     gMovie_bPlaybackState = 0x80;
-    gFile_dwTransferState_abs |= 0x2000000;
+    gFile_dwTransferState |= 0x2000000;
     Movie_OpenIndexedStream(index, 1, -1, 1, 0);
 }
 
@@ -34,7 +34,7 @@ void Movie_UpdatePlayback(void)
             Movie_StartFadeOut();
         }
     } else {
-        gFile_dwTransferState_abs = gFile_dwTransferState_abs & 0xFDFFFFFF;
+        gFile_dwTransferState = gFile_dwTransferState & 0xFDFFFFFF;
         gMovie_bPlaybackState &= 0x7F;
     }
 }

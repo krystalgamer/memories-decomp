@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Starts a linear tween of the view state at D_800F2848 over `frames` frames.
+/* Starts a linear tween of the view state at gViewState_Current over `frames` frames.
  * It reads the four current channel values, records them and the targets, and
  * stores a 16.16 fixed-point per-frame delta for each; advancing the tween is
  * someone else's job.

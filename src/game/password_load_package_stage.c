@@ -2,12 +2,10 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_load_package_stage.h"
 #include "password_load_package_stage.h"
 #include "file_constants.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef PASSWORD_PACKAGE_START_SECTOR
@@ -54,8 +52,8 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->w = 0x100;
         object->h = 0x10;
         LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
-        object->alternate_sector_destination = (s32)D_801A8000;
-        object->sector_destination = (s32)D_801A8000;
+        object->alternate_sector_destination = (s32)gFile_StagingBuffer;
+        object->sector_destination = (s32)gFile_StagingBuffer;
         object->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->transfer_mode = 1;

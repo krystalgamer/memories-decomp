@@ -1,10 +1,10 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #define D_8009B404_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "script_state.h"
 #include "script_stream_commands.h"
 #include "sound_bgm_commands.h"
@@ -46,8 +46,8 @@ void Script_OpSound(void)
         if (f & 0x80) {
             return;
         }
-    } else if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-               gFile_dwCancelRequestState_abs) {
+    } else if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+               gFile_dwCancelRequestState) {
         return;
     }
     gScript_wCommandWord = 0;
@@ -84,5 +84,5 @@ void Script_OpJump(void)
     gScript_StreamCursor = source + 2;
     offset = source[0] | (source[1] << 8);
     gScript_wCommandWord = 0;
-    gScript_StreamCursor = D_801A8000 + offset;
+    gScript_StreamCursor = gFile_StagingBuffer + offset;
 }

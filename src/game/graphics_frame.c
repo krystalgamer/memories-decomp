@@ -5,8 +5,7 @@
 /* Zero-initialized storage this unit owns at 0x8009B090-0x8009B0E0, defined in
  * address order ahead of the headers that declare it (#2602). The startup,
  * frame and service units sit beside this one in text and declare these
- * through their headers. gGraphics_bOrderingTable1Length..3Length are bytes of
- * gGraphics_abOrderingTableLengths named by link_symbols.ld. */
+ * through their headers. */
 static u32 D_8009B090;
 static u32 D_8009B094;
 u16 gGraphics_wFlags;
@@ -32,7 +31,7 @@ volatile s32 gGraphics_dwSyncedFrameCount;
 u8 gGraphics_bClearBackground;
 u8 D_8009B0D1;
 s32 D_8009B0D4;
-s32 D_8009B0D8;
+s32 gGraphics_nBaseFrameStep;
 static u32 D_8009B0DC;
 #else
 extern u16 gGraphics_wFlags;
@@ -55,7 +54,7 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
 extern u8 gGraphics_bClearBackground;
 extern u8 D_8009B0D1;
 extern s32 D_8009B0D4;
-extern s32 D_8009B0D8;
+extern s32 gGraphics_nBaseFrameStep;
 #endif
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -71,7 +70,7 @@ extern s32 D_8009B0D8;
 #include "graphics_frame_buffer.h"
 #include "../psyq/setjmp.h"
 
-#ifndef GRAPHICS_FRAME_REGIONAL_STORAGE
+#ifndef GRAPHICS_FRAME_STORAGE_ORDER
 /* Zero-initialized storage this unit owns at 0x8009B4A8-0x800E9DF0, defined in
  * address order (#2602). graphics_frame.h declares the first three in this
  * order; the rest are first declared here, ahead of ordering_tables.h. The
@@ -88,13 +87,14 @@ static u32 D_800E9DA0[4];
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 #else
-extern GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
-extern u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
-extern DISPENV gGraphics_DispEnv;
-extern RECT gGraphics_aImageTransferRects[2];
-extern GsOT *gGraphics_apOrderingTables[4];
-extern void (*gMain_apFrameServiceCallbacks[4])(void);
-extern jmp_buf gMain_RecoveryJmpBuf;
+/* The regional wrapper declared these in its own address order. */
+GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
+u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
+DISPENV gGraphics_DispEnv;
+RECT gGraphics_aImageTransferRects[2];
+GsOT *gGraphics_apOrderingTables[4];
+void (*gMain_apFrameServiceCallbacks[4])(void);
+jmp_buf gMain_RecoveryJmpBuf;
 #endif
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
@@ -139,11 +139,11 @@ void Graphics_BeginFrame(void)
     GsOT **base;
 
     if (gGraphics_bSkipDisplaySwap == 0) {
-        gLibGs_DrawEnvView[0].isbg = gGraphics_bClearBackground;
-        gLibGs_DrawEnvView[0].dtd = gGraphics_bDither;
-        gLibGs_DrawEnvView[0].r0 = gGraphics_bClearRed;
-        gLibGs_DrawEnvView[0].g0 = gGraphics_bClearGreen;
-        gLibGs_DrawEnvView[0].b0 = gGraphics_bClearBlue;
+        GsDRAWENV.isbg = gGraphics_bClearBackground;
+        GsDRAWENV.dtd = gGraphics_bDither;
+        GsDRAWENV.r0 = gGraphics_bClearRed;
+        GsDRAWENV.g0 = gGraphics_bClearGreen;
+        GsDRAWENV.b0 = gGraphics_bClearBlue;
         GsSwapDispBuff();
         if ((gGraphics_wFlags & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);

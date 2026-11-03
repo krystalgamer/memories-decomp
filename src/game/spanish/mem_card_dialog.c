@@ -11,10 +11,13 @@
 #define SAVE_DATA_LOAD_BOX_FLAGS 0x1010
 #define SAVE_DATA_LOAD_CHANNEL_FLAG 0x10
 #define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009C435
-#define MEM_CARD_DIALOG_REGIONAL_STORAGE
-/* The European zero-initialized storage at 0x800F0638-0x800F0DA0 (#2602); these
- * builds place it 0x420 higher, at 0x800F0A58. */
-u8 D_800F0638_sles_03947[0x768];
+#define MEM_CARD_DIALOG_STORAGE_ORDER
+/* The European order of the shared source's zero-initialized storage, which
+ * these builds place 0x420 higher, at 0x800F0A58; the shared source defines it
+ * in first-declaration order (#2602). */
+extern u8 gMemCardDialog_DirectoryBuffer[];
+extern u8 gMemCardDialog_FileNameBuffer[];
+extern struct MemCardWorkArea gMemCardWork_Area;
 #define GDIALOG_CHOICE_IN_DATA
 #define MEM_CARD_DIRECTORY_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
@@ -32,15 +35,15 @@ u8 gSaveData_PairSetupState;
 u8 gMemCardDialog_Outcome;
 u8 gMemCardDialog_ChannelIndex;
 u8 D_8009C31B_sles_03947;
-u32 D_8009C31C_sles_03947;
+s32 gSaveDataSequence;
 s32 gMemCardDialog_SyncCommand;
 s32 gMemCardWork_nRequestResult;
 s32 gMemCardDialog_SyncResult;
-u8 D_8009C32C_sles_03947;
+u8 D_8009B3BC;
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
 u8 gSaveData_AllowIdentityBypass;
-u8 D_8009B3C1;
+u8 gDialog_bCallbackState;
 u16 gMemCardDialog_TransferSize;
 u16 gMemCardDialog_TransferOffset;
 u8 gMemCardWork_OperationMode;
@@ -55,7 +58,7 @@ u16 D_8009C342_sles_03947;
 DisplayObject *gMemCard_pDialogObject;
 u8 gMemCardDialog_BlockCount;
 u8 gMemCardWork_bSlotIndex;
-u16 D_8009C34A_sles_03947;
+u16 D_8009B3DE;
 u8 *gMemCard_pSecondaryTransferCursor;
 u8 gMemCardDialog_StepIndex;
 u8 gMemCardDialog_OperationState;

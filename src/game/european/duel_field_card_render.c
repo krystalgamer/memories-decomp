@@ -1,8 +1,14 @@
 #include "../../types.h"
-#define DUEL_FIELD_CARD_RENDER_REGIONAL_STORAGE
-/* This build's own zero-initialized storage at 0x800EAE58-0x800EB150 (#2602); its
- * layout differs from the North American block the shared source defines. */
-u8 D_800EAE58_sles_03947[0x2F8];
+#define DUEL_FIELD_CARD_RENDER_STORAGE_ORDER
+/* This build lays out the shared source's zero-initialized storage at
+ * 0x800EAE58-0x800EB150 in a different order from the North American one;
+ * the shared source defines it in first-declaration order (#2602). */
+extern struct DuelSideState gDuel_aSideStates[];
+extern struct DuelHandSlot gDuelHand_aSlots[];
+extern struct ScreenPair gDuel_aCardSlotScreenPositions[];
+extern struct DisplayObject *gDisplayObject_apWorkSlots[];
+extern u8 gDuel_abSelectionSides[];
+extern struct DuelEffectResourceRecord gCardPreview_Resources[];
 #define DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C0AC-0x8009C1B8 (#2602); its
  * layout differs from the North American block the shared source defines. */
@@ -10,16 +16,17 @@ s16 gDuel_wViewTweenFramesRemaining;
 u16 D_8009C0AE_sles_03947;
 u32 D_8009C0B0_sles_03947;
 u32 D_8009C0B4_sles_03947;
-s8 D_8009C0B8_sles_03947;
-u8 D_8009C0B9_sles_03947;
+s8 gDuel_bBattleRemovalSlot0;
+s8 gDuel_bBattleRemovalSlot1;
 u16 D_8009C0BA_sles_03947;
 s32 gDuel_dwViewTweenDistanceStep;
-u8 D_8009C0C0_sles_03947;
+u8 gDuel_bAiSelectionCursor;
 s8 gDuel_bPresentationCursor;
-u16 D_8009C0C2_sles_03947;
-u32 D_8009C0C4_sles_03947;
+s16 gDuel_wAiHandStackPending;
+s16 gDuel_sEffectWorkCounter;
+u16 D_8009C0C6_sles_03947;
 struct DisplayObject *gDuel_pTerrainIcon;
-u32 D_8009C0CC_sles_03947;
+u8 gDuel_bFieldActionAutoCommit;
 s32 gDuel_dwFieldDimTarget;
 u32 D_8009C0D4_sles_03947;
 u32 D_8009C0D8_sles_03947;
@@ -40,14 +47,13 @@ s16 gDuel_sGroundReferenceScreenY;
 s32 gDuel_dwViewTweenReferenceZAccumulator;
 u8 *gDuel_pActiveFieldGrid;
 u16 gDuel_wTrapPresentationMode;
-s8 D_8009B218;
+s8 gDuel_bPlacementNeedsCardMoveSetup;
 u8 D_8009C103_sles_03947;
 s16 gDuel_wEquipCardId;
 u16 D_8009C106_sles_03947;
-u16 D_8009C108_sles_03947;
-u16 D_8009C10A_sles_03947;
-u16 D_8009C10C_sles_03947;
-u16 D_8009C10E_sles_03947;
+struct DisplayObject *gDuel_pActionReadyMarker;
+s8 D_8009B20A;
+u16 gDuel_wActionSubstate;
 s16 gDuel_wViewTweenReferenceZTarget;
 u16 D_8009C112_sles_03947;
 s32 gDuel_dwViewTweenReferenceZStep;
@@ -70,7 +76,7 @@ s8 gDuel_bOutroWinnerSide;
 s16 gDuel_wViewTweenHeadingTarget;
 u16 gDuel_wSceneStateFlags;
 s16 gDuel_wViewTweenOrbitAngleTarget;
-u32 D_8009C148_sles_03947;
+u8 gDuel_bAnimatedBattleRequested;
 s32 gDuel_dwViewTweenHeadingStep;
 s32 gDuel_dwViewTweenOrbitAngleStep;
 u16 gDuel_wPlacementCardId;
@@ -85,8 +91,8 @@ u16 gDuel_wOutcomeFlags;
 u8 gDuel_bWinnerSide;
 u8 gDuel_bSceneSubStep;
 u16 D_8009C166_sles_03947;
-u8 *tent_DebugEffectObject0;
-u8 *tent_DebugEffectObject1;
+u8 *gDebugEffect_pPreviewCard0;
+u8 *gDebugEffect_pPreviewCard1;
 s8 gDuelCursor_Direction;
 u8 D_8009C171_sles_03947;
 u16 D_8009C172_sles_03947;
@@ -118,7 +124,7 @@ u8 gDuel_bPendingDrawCount;
 u8 D_8009C1AD_sles_03947;
 u16 D_8009C1AE_sles_03947;
 u32 D_8009C1B0_sles_03947;
-u32 D_8009C1B4_sles_03947;
+struct DisplayObject *gDuel_pCardViewerBackground;
 
 /* SLES-03947 build of src/game/duel_field_card_render.c. The US source is included as is. */
 

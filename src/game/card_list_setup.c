@@ -6,10 +6,10 @@
 #define D_8009B118_IN_DATA
 
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "card_constants.h"
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
@@ -19,7 +19,6 @@
 #endif
 #include "../ygo_types.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 
 #ifdef VERSION_EUROPE
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
@@ -41,10 +40,10 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         *(s16 *)&p->field_30.h.counter = 0x300;
         *(s16 *)&p->field_30.h.field_32 = 0x100;
         *(u16 *)&p->w = 0x40;
-        t0 = gFile_dwTransferState_abs;
+        t0 = gFile_dwTransferState;
         *(u16 *)&p->h = 0x10;
-        gFile_dwTransferState_abs = t0 & m;
-        gFile_dwTransferState_abs = gFile_dwTransferState_abs | 0x10000;
+        gFile_dwTransferState = t0 & m;
+        gFile_dwTransferState = gFile_dwTransferState | 0x10000;
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 64 * FILE_SECTOR_SIZE;
@@ -56,7 +55,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 
     case 1:
         *(s32 *)&p->phase_size = 5 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         p->alternate_sector_destination = gFile_TransferBufferBase;
         p->sector_destination = gFile_TransferBufferBase;
         p->transfer_mode = 1;
@@ -75,15 +74,15 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
                            gText_bLanguageIndex * FILE_SECTOR_SIZE));
 
         m = 0xFFDDFFFF;
-        t1 = gFile_dwTransferState_abs;
+        t1 = gFile_dwTransferState;
         *(s16 *)&p->field_30.h.counter = 0x340;
         *(s16 *)&p->field_30.h.field_32 = 0;
         *(u16 *)&p->w = c;
         *(u16 *)&p->h = one;
-        gFile_dwTransferState_abs = t1 & m;
-        u = gFile_dwTransferState_abs;
+        gFile_dwTransferState = t1 & m;
+        u = gFile_dwTransferState;
         n = 0x10000;
-        gFile_dwTransferState_abs = u | n;
+        gFile_dwTransferState = u | n;
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 8 * FILE_SECTOR_SIZE;
@@ -95,7 +94,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 
     case 3:
         *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         p->alternate_sector_destination = gFile_TransferBufferBase;
         p->sector_destination = gFile_TransferBufferBase;
         p->transfer_mode = 1;
@@ -149,10 +148,10 @@ m0:
     *(s16 *)&p->field_30.h.counter = 0x300;
     *(s16 *)&p->field_30.h.field_32 = 0x100;
     *(u16 *)&p->w = 0x40;
-    t0 = gFile_dwTransferState_abs;
+    t0 = gFile_dwTransferState;
     *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState_abs = t0 & m;
-    gFile_dwTransferState_abs = gFile_dwTransferState_abs | 0x10000;
+    gFile_dwTransferState = t0 & m;
+    gFile_dwTransferState = gFile_dwTransferState | 0x10000;
     p->transfer_mode = 2;
     v = gFile_TransferBufferBase;
     w = 0x20000;
@@ -166,13 +165,13 @@ m1:
     m = 0xFFDDFFFF;
     *(s16 *)&p->field_30.h.counter = 0x340;
     *(u16 *)&p->w = 0x40;
-    t1 = gFile_dwTransferState_abs;
+    t1 = gFile_dwTransferState;
     *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState_abs = t1 & m;
-    u = gFile_dwTransferState_abs;
+    gFile_dwTransferState = t1 & m;
+    u = gFile_dwTransferState;
     n = 0x10000;
     p->field_30.h.field_32 = 0;
-    gFile_dwTransferState_abs = u | n;
+    gFile_dwTransferState = u | n;
     p->transfer_mode = 2;
     v = gFile_TransferBufferBase;
     w = 0x4000;
@@ -185,7 +184,7 @@ m1:
 m2:
     m2v = 0xFFDCFFFF;
     *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
-    gFile_dwTransferState_abs = gFile_dwTransferState_abs & m2v;
+    gFile_dwTransferState = gFile_dwTransferState & m2v;
     p->alternate_sector_destination = gFile_TransferBufferBase;
     p->sector_destination = gFile_TransferBufferBase;
     p->transfer_mode = 1;

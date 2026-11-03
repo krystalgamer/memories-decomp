@@ -73,7 +73,7 @@ balance, and create the modal messages used by the lifecycle. All three
 create fixed text slots through `func_80035BE4`, and the refreshers and
 flagged message path drive them through `func_80039A14`.
 
-The merged source keeps two same-symbol views of `D_801D5608`. The starchip
+The merged source keeps two same-symbol views of `gText_StagedValues`. The starchip
 renderer writes its first word through a scalar alias; the purchase dialog
 writes the price and card ID through the existing `Pair` view. Combining the
 files does not make those two uses one type.
@@ -172,7 +172,7 @@ remain in this overlay, not the resident inventory.
 ### Shop state machine
 
 The updater services text **before** testing its gates. It then waits while
-the cursor is moving or `(D_800EB12C & 0x2008) != 0x2000`; the latter reads
+the cursor is moving or `(*(u32 *)&gText_aChannels[0].flags_34 & 0x2008) != 0x2000`; the latter reads
 the slot-0 text flags for completion and pending acknowledgment. The low five
 bits of `gPassword_wShopState` choose the following states. Its `0x8000` and `0x4000`
 subflags are state-local bookkeeping, not shared campaign-flag modifiers.
@@ -191,11 +191,11 @@ sound or lower-priority input handling. Next comes repeat/new-press vertical
 input, with Up winning over Down and decimal digits wrapping 0-9. Newly
 pressed Circle then cancels, and newly pressed Cross finally attempts lookup.
 Square alone and Start are not confirmation here. These use three distinct
-volatile streams: held `D_8009B3A4`, repeat `D_8009B394`, and newly pressed
-`D_8009B398`.
+volatile streams: held `gInput_wPad1Held`, repeat `gInput_wPad1Repeat`, and newly pressed
+`gInput_wPad1Pressed`.
 
 State 1 first requests the selected card into cached slot 0. It waits for
-`((D_8009B0F4 & 0x2000030) | D_8009B134) == 0` before recreating the
+`((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0` before recreating the
 preview. Later eligible updates add 8 to preview phase `+0x21`; wrapping
 from the initialized `0x80` to zero takes sixteen such updates. State 4
 similarly advances from zero until the phase is negative as `s8`. These are
@@ -530,12 +530,12 @@ signed 8.8 fixed point, and the timer decrements. A still-active timer returns
 early; expiration snaps the rectangle, clears global tween bit `0x4000` and
 continues processing input in that same invocation.
 
-Held directions at `D_8009B3A4[0]` take priority. Horizontal movement wraps
+Held directions at `gInput_wPad1Held[0]` take priority. Horizontal movement wraps
 over 15 columns; ordinary vertical movement wraps over nine rows. The
 right-hand control block instead uses the row-transition table. Newly pressed
-Start at `D_8009B398[0] & 0x800` moves selection through the same navigation
+Start at `gInput_wPad1Pressed[0] & 0x800` moves selection through the same navigation
 path to the finish control; it does not immediately accept the name.
-Confirmation uses `D_8009B394[0] & 0xC0`, the repeat/new-press stream.
+Confirmation uses `gInput_wPad1Repeat[0] & 0xC0`, the repeat/new-press stream.
 Circle in that stream moves the caret left without erasing a backing word.
 
 The signed `9 x 15` table at `0x8016AB38` is navigation metadata, not a
@@ -610,7 +610,7 @@ initial callback; there is no fixed lifetime or X clipping.
 [`name_entry_keyboard.h`](name_entry_keyboard.h) supplies one declaration
 per function and a truthful one-argument byte-pointer callback type, included
 by definitions and installers. The glyph nodes this screen walks are the
-resident `DuelEffectEntry` records of `tent_DuelEffectEntries`, so the header consumes
+resident `DuelEffectEntry` records of `gDuelEffect_aEntries`, so the header consumes
 that type from [`duel_effect.h`](../../game/duel_effect.h) instead of
 describing the node again: `code_00` is the SJIS code and `x_0C`/`y_0E` the
 signed local position this screen searches. The text-box records the screen

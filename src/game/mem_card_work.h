@@ -35,11 +35,11 @@ typedef struct {
     u8 pad_1B;
 } MemCardWorkRoot;
 
-/* A bounded view of the existing image backing, not a new allocation.
- * Two complete slots fit before the separate directory at 0x800EFBC0.
+/* Defined in mem_card_dialog.c, directly below
+ * gMemCardDialog_DirectoryBuffer (0x800EFBC0) in the North American layout.
  * The only observed selector writer initializes zero; the byte type does
  * not make arbitrary selectors safe. See notes/memory-card-work-controller.md. */
-typedef struct {
+typedef struct MemCardWorkArea {
     MemCardWorkRoot root;
     MemCardWorkSlot slots[MEM_CARD_WORK_SLOT_CAPACITY];
 } MemCardWorkArea;
@@ -66,10 +66,6 @@ typedef char MemCardWorkRoot_offsets_must_match[
 ];
 
 extern MemCardWorkArea gMemCardWork_Area;
-/* root.blocks (gMemCardWork_Area + 0x10) under its own identity. Unsized:
- * the array view keeps MemCardWork_InitializeOperation's -G8 store out of
- * small data. Only byte zero is established. */
-extern u8 gMemCardWork_bRootBlocks[];
 /* Low nibble selects the legacy operation case; bit 0x80 is its entry latch.
  * Distinct from the shared dialog latch and the modal dialog step byte. */
 extern u8 gMemCardWork_OperationState;

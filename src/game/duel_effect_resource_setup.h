@@ -11,25 +11,24 @@
  *
  * It hands back the transfer descriptor it started, with `slot` already
  * stored in the descriptor's callback_data for CardPreview_HandleResourceTransfer to pick up, and
- * it has published the descriptor's status through D_8009B0F4 with
+ * it has published the descriptor's status through gFile_dwTransferState with
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
  * overlay's shop.c calls it too. */
 FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_id);
 
 /* Async phase callback for CardPreview_RequestResourceTransfer's card-art request. Phase 0
- * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
+ * points both buffer words at gFile_TransferBufferBase for 0x3800 bytes; the next phase
  * uploads the four rects of the gCardPreview_Resources entry whose index CardPreview_RequestResourceTransfer
  * left in callback_data. */
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 
 /* PAL language selection shared by text, artwork and localized resources. */
-#ifdef D_8009C02B_IN_DATA
-extern u8 D_8009C02B __attribute__((section(".data")));
+#ifdef TEXT_LANGUAGE_INDEX_IN_DATA
+extern u8 gText_bLanguageIndex __attribute__((section(".data")));
 #else
-extern u8 D_8009C02B;
+extern u8 gText_bLanguageIndex;
 #endif
-#define gText_bLanguageIndex D_8009C02B
 
 /* The value gText_bLanguageIndex takes at boot and wraps back to in the debug menu:
    the European release starts at 0 and asks, the single-language releases

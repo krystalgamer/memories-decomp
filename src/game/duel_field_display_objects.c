@@ -156,7 +156,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             gText_SelectedCardColorIndex = DuelField_GetGuardianStarDisplayCode(
                 source,
                 (DuelSelectionRecord *)
-                    &gDuel_abSelectionRecord2[gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE]
+                    &(gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE)[gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE]
             );
         }
     }

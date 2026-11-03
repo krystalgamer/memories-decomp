@@ -40,7 +40,6 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * so; mdec_sync.c had not.
  */
 extern u8 gMovie_bRgb24;
-extern u8 D_8009B061;
 /* Per-frame pipeline state. gMovie_bFrameDecoded is the latch the DecDCTout
  * callback raises after the frame's last strip; gMovie_bStreamEnded and
  * gMovie_bFadingOut end the stream outright or after gMovie_bCdVolume, the CD
@@ -61,14 +60,14 @@ extern u32 gMovie_dwEndSector;
  * The current LIBGS graph/display width and height each have a 16-bit RECT
  * view and a 32-bit arithmetic view. GraphicsDimension records that overlay
  * directly instead of making each consumer cast the global's address.
- * D_800FE0CC is the halfword GsGetActiveBuff returns and GsSwapDispBuff
- * updates. Movie open/stop set it to 1 before their existing graph/swap setup.
+ * gLibGs_sActiveBufferIndex (movie_handoff_state.h) is the halfword
+ * GsGetActiveBuff returns and GsSwapDispBuff updates. Movie open/stop set it
+ * to 1 before their existing graph/swap setup.
  *
  * All three keep the .data declaration forms both movie units already use.
  * These labels sit far from $gp and retail reaches them with lui/%lo.
  * The active index is SDK-owned state, not a movie-owned reset latch;
  * see notes/movie-handoff-controls.md. */
-extern s16 D_800FE0CC __attribute__((section(".data")));
 typedef union {
     u16 pixels;
     s32 word;
@@ -80,13 +79,6 @@ typedef char GraphicsDimension_size_must_be_4[
 
 extern GraphicsDimension gGraphics_CurrentWidth __attribute__((section(".data")));
 extern GraphicsDimension gGraphics_CurrentHeight __attribute__((section(".data")));
-
-/* The pending-interrupt word Movie_OnDecodeOutput tests, and clears after calling
- * StCdInterrupt, while the stream is running (gMovie_bRgb24). Four bytes, so at
- * -G8 a plain declaration would land in sdata and both accesses would come out
- * gp-relative; retail reaches it through lui %hi / %lo, which the .data
- * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
-extern s32 D_800F5D44 __attribute__((section(".data")));
 
 /* The movie work area lives at gMovie_pWorkArea + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed

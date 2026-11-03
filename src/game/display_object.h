@@ -71,7 +71,7 @@ typedef struct DisplayObject {
        to GsSortFastSprite as the ordering table; display_object_core.c indexes the
        same array -- its local tb is assigned gGraphics_apOrderingTables -- and passes the
        element to DisplayObject_SubmitPacket. ordering_tables.h shares the four-pointer
-       array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
+       array with the overlays. display_object_helpers.h's gDisplayObject_awOrderingTableDepthBases[4] is a
        parallel per-layer table indexed by the same byte, which agrees.
 
        It was tex_index until DuelStatusPosition was retired into this record;
@@ -390,7 +390,7 @@ typedef struct DisplayObject {
    The 0x70 stride is not merely asserted, it is fixed by the layout:
    gDisplayObject_aPool holds DISPLAY_OBJECT_POOL_CAPACITY (96) entries, and
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
-   D_800F2848 begins. There is no room for a larger record.
+   gViewState_Current begins. There is no room for a larger record.
 
    Yet DisplayObject_RenderTexturedGouraudQuadList walks this pool with that
    stride and then tests e[0x72] as a flag, reading a second vertex set from
@@ -496,12 +496,9 @@ extern s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT];
  * array and gDisplayObject_awListHeads directly by list key. */
 extern s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
+/* Entries from DISPLAY_OBJECT_RESERVED_CAPACITY on are the allocatable tail
+ * that DisplayObject_FindFreeGeneralSlot scans. */
 extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
-/* &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
- * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
-extern DisplayObject gDisplayObject_aGeneralSlots[
-    DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
-];
 
 /* Two counters the pool keeps beside the tables above. DisplayObject_AcquireSlot bumps
  * gDisplayObject_wAcquireCount once it has picked a slot, after reading the slot's

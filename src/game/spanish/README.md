@@ -124,7 +124,7 @@ regressions also match. Probe and comparison logs remain local under `tmp/`.
 | `ScriptImage_CreateObject` | `0x8002E2F8` | 200 |
 
 Before the existing BCD index and transfer-table selection, the request remaps
-two ids using `D_8009C02B` at `0x8009C44B`:
+two ids using `gText_bLanguageIndex` at `0x8009C44B`:
 
 | Language byte | Input `0x10` | Input `0x11` |
 |---|---|---|
@@ -170,7 +170,7 @@ only its addresses or geometry:
 | Total | | 10 | 4,200 | |
 
 The language index is `BUILD_LANGUAGE_INDEX` in `duel_effect_resource_setup.h`,
-next to `D_8009C02B`, with the European 0 as its default. The choice cursor's
+next to `gText_bLanguageIndex`, with the European 0 as its default. The choice cursor's
 store is behind `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, and it reaches
 `gInput_dwPreviousHeld` through `$at`, so the wrapper also selects that
 declaration's `.data` arm. Across all 1,363 source/profile pairs in the

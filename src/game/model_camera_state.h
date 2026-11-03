@@ -4,12 +4,6 @@
 #include "../types.h"
 #include "model.h"
 
-#ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
-extern ModelCameraMove gModel_CameraMove;
-#endif
-extern s16 gModel_wCameraFollowCountdown;
-extern s16 gModel_wCameraTargetSlot[];
-
 #ifdef MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
 extern u32 gModel_AnimatedBattleCameraEndpoint[];
 #else

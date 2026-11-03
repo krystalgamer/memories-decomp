@@ -5,20 +5,22 @@
 
 /* Duel scene-state 4, the hand navigation and card play phase, and the state
  * private to it. DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is
- * the only source in the tree that names any of the three globals below;
+ * the only source in the tree that names any of the four globals below;
  * duel_scene_update.c takes the prototype for the phase callback table.
  *
- * Every access to all three is gp-relative in retail: 5, 3 and 4 relocations,
- * none through %hi/%lo. So these are the plain scalar declarations. That the
+ * Every access to the last three is gp-relative in retail: 5, 3 and 4
+ * relocations, none through %hi/%lo. So these are the plain scalar declarations. That the
  * distinction is real rather than an artefact of the pattern is visible in
  * the same function, where gAi_Selection is reached through %hi/%lo and
  * gp-relatively never.
- *
- * A fourth byte the function uses, the scripted path's target slot at
- * 0x8009B20A, is not here: it falls inside D_8009B208[8], which
- * duel_scene_resume.h already declares, and the unit reads it as
- * D_8009B208[2].
  */
+
+/* The scripted path's target slot. Its storage is defined with the duel
+ * scene's other small state in duel_field_card_render.c, two bytes after
+ * gDuel_bBattleRemovalSlot0; it is a separate object rather than a third
+ * replay slot, since the European builds place it 0x54 bytes away from the
+ * replay pair. */
+extern s8 D_8009B20A;
 
 /* Whether the scripted path has a card to stack onto the hand. The AI step
  * clears it, and raises it when gAi_Selection.bytes[1] (ai.h)

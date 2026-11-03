@@ -14,7 +14,7 @@
 #define INPUT_PENDING_HIGH_BIT (1U << (INPUT_REPEAT_TIMER_COUNT - 1))
 
 /* Only the four bytes consumed by Input_ReadRawPads are interpreted. */
-typedef struct {
+typedef struct InputRawPadPacket {
     u8 status;
     u8 format;
     u8 buttons_hi;

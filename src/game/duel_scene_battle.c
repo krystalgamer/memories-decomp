@@ -43,10 +43,10 @@
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/rand.h"
 #include "duel_scene_state.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_side_state.h"
 #include "duel_action_lock.h"
 #include "duel_init_scene.h"
@@ -184,7 +184,7 @@ void DuelScene_UpdateBattle(void)
         if (Duel_SelectAttackTrap(gDisplayObject_apWorkSlots[0]) != 0) {
             gDuel_bAnimatedBattleRequested = 0;
         }
-        cur = (DuelSelectionRecord *)(gDuel_abSelectionRecord3 + gDuel_bActiveSide * 0x70);
+        cur = (DuelSelectionRecord *)((gDuel_abSelectionSides + 3 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
         gDuel_pActiveSelectionRecord = cur;
         DisplayObject_ReleaseIfPresent(cur->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
@@ -194,7 +194,7 @@ void DuelScene_UpdateBattle(void)
 
     switch (gDuel_bSceneSubStep & 0xF) {
     case 1:
-        if (!(gDuel_bSceneSubStep & 0x80) && ((gFile_dwTransferState_abs & 0x02000030) | gFile_dwCancelRequestState_abs) == 0) {
+        if (!(gDuel_bSceneSubStep & 0x80) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
             if (!(gDuel_bSceneSubStep & 0x40)) {
                 id = gDuel_wSelectedTrapCardId;
                 gDuel_bSceneSubStep |= 0x40;
@@ -222,7 +222,7 @@ void DuelScene_UpdateBattle(void)
                 if (!(gDuel_bSceneSubStep & 0x10)) {
                     gDuel_bSceneSubStep |= 0x10;
                     gDuel_wDisplayTransitionFlags = 0xC;
-                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord2 + gDuel_bActiveSide * 0x70);
+                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
                 } else {
                     gDuel_bSceneSubStep |= 0x20;
                 }
@@ -479,7 +479,7 @@ void DuelScene_UpdateBattle(void)
             gDuel_bSceneSubStep |= 0x80;
             SD_BGMFadeOut();
             Fade_StartOut();
-            gFade_abCurrentLevel[0] = 0xFF;
+            gFade_State.level = 0xFF;
             Fade_FillBandLevels(0xFF);
             return;
         }

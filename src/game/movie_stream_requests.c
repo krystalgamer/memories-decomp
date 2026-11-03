@@ -9,6 +9,7 @@ u8 gMovie_FileInfo[24];
 #include "movie_open_stream.h"
 #include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
+#include "file_transfer.h"
 #include "../unmatched.h"
 #include "movie_stream_requests_data.h"
 
@@ -50,7 +51,7 @@ void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 a
             i++;
         } while (i < index);
     }
-    CdIntToPos_8007E600(gMovie_dwStreamBaseLba + total, &position);
+    CdIntToPos_8007E600(gFile_anLba[FILE_INDEX_MOVIE_STR] + total, &position);
     {
         MovieStreamRange *table;
         s32 value;

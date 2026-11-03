@@ -328,37 +328,19 @@ second object to offset 4. The successful owner is one six-byte array,
 were private to `debug_effect_screen.c`, no external alias is lost. The object
 tiles the complete six-byte window and the linked executable remains exact.
 
-`initialized_data_8009af08` is blocked for a different reason: it opens with
-`runtime_gp`, which `symbols.txt` fixes at `0x8009AF08` and which the
-`%gp_rel` arithmetic elsewhere in this file uses as the `_gp` base. A C
-definition of that word would have to reproduce a symbol the addressing model
-is expressed in terms of. It also stores a pointer to
-`gFile_PrimaryTransferDescriptor`, so the range carries a relocation as well as
-plain bytes.
+`initialized_data_8009af08` opens with the watchdog counter at `0x8009AF08`,
+the `_gp` base. `main_services.c` does `cnt = gMain_nServiceResyncCountdown - 1;`,
+stores it back and resets it to `0x3C` when it goes negative, matching the
+`0x0000003C` the range is initialized with. A GP base is never decremented:
+the address carries two independent roles. `_gp` points at `0x8009AF08`
+because that is where the small-data region is centred, and the word stored
+there is a separate variable that happens to live at the base.
 
-The name deserves a note, because it looks wrong and is not. `runtime_gp` is
-also read and written as an ordinary counter: `main_services.c` does
-`cnt = runtime_gp - 1; runtime_gp = cnt;` and resets it to `0x3C` when it goes
-negative, matching the `0x0000003C` the range is initialized with, and the
-function's own comment calls it the watchdog counter. A GP base is never
-decremented, so the two readings genuinely conflict -- but the answer is that
-the address carries two independent roles rather than that either reading is
-mistaken. `_gp` points at `0x8009AF08` because that is where the small-data
-region is centred; the word stored there is a separate variable that happens
-to live at the base.
-
-The naming follows the first role, and that is load bearing outside the game
-sources: `audit_unchiga_candidates.py` looks the symbol up by name to recover
-the base, `global_usage.py` special-cases it beside the `_start`/`_end`
-boundary markers, and the GPREL16 reach test in
-`notes/research/matching-evidence.md` is expressed as ±32 KB around it. So
-`runtime_gp` should not be renamed to describe the counter, and the counter is
-not drift to be cleaned up either.
-
-That sharpens what blocks the range rather than removing the block. A source
-file taking `0x8009AF08` would have to define a watchdog counter under a name
-three tools resolve as the GP base, which is a heavier commitment than the
-twenty-eight bytes suggest.
+The word was once named `runtime_gp` after the first role. No tool resolves
+the GP base from that name: the linker uses `_gp`,
+`audit_unchiga_candidates.py` hardcodes the address, and the GPREL16 reach
+test in `notes/research/matching-evidence.md` is about the address. It is now
+defined and bound only as `gMain_nServiceResyncCountdown`.
 
 #### Who actually owned the extracted bytes
 
@@ -677,20 +659,18 @@ They are worth reading before touching a declaration, because they cover cases
 the table alone does not predict:
 
 - **Array versus scalar decides who allocates the register.** For
-  `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `gFile_abPackageStagingBuffer` and
-  `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
+  `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `D_801DD000` and
+  `gDisplay_abResourceBank1` "are arrays so `-msplit-addresses` gives them registers, while
   the scalars carry `section(.data)`" and rebuild their address per access.
 - **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
   explains that the assembler only resolves a small global gp-relative when the
   translation unit *defines* it, which is what supplies a missing load-delay
   `nop`. The same reasoning is recorded for `gGraphics_bClearBlue`/`gGraphics_bClearGreen`/`gGraphics_bClearRed`.
 - **Oversizing is deliberate.** `gModel_awSlotModelIds`, `gModelDebug_abSlotAfFlags` and `gModelDebug_abSlotGfFlags`
-  "needed sized array declarations to land in small data as `%gp_rel`", while
-  `gModel_awStageSlotModelId` needed the incomplete form so its `lui %hi` would hoist into a
-  branch delay slot.
+  "needed sized array declarations to land in small data as `%gp_rel`".
 - **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
   eight-byte aggregate is what keeps it non-small "while the four-byte
-  `D_8009B20C` remains gp-relative".
+  `D_8009B20C` remains gp-relative" (that pair is now two scalars).
 
 #### Where a shared declaration belongs
 
@@ -770,11 +750,11 @@ question rather than a thirteenth member of the batch.
 Three multi-consumer symbols show the three outcomes of the same ownership
 test. `D_8009B2A0` is created by the scene-package initializer and toggled by
 its result-screen consumer, so it lives in `campaign_scene_package.h`.
-`D_800EB184` is the four-object brightness pool and now lives in the narrow
-`display_object_brightness.h`, avoiding a declaration in the cross-module
-`display_object.h`. `gFile_nMasterXaLba` has unrelated boot-sound and file-transfer
-interpretations with no narrower owner, so its raw byte-array contract is
-genuinely homeless and lives in `unmatched.h`.
+`D_800EB184`, once named a four-object brightness pool, was an alias at
+`gText_aChannels + 0x8C`: the debug dim/restore helpers and the bust-up entry
+read text channel 1's `render_object`, now spelled
+`TEXT_CHANNEL(1)->render_object`. The former `gFile_nMasterXaLba` view is now spelled
+`gFile_anLba[FILE_INDEX_MASTER_XA]` in `file_transfer.h`.
 
 `D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is
 the next/base frontend mode; mode runners copy it into the second when they
@@ -817,7 +797,8 @@ current candidates to this single owner.
 
 Both directions come up, and only one of them is sound.
 
-Refuting works. `gGraphics_bOrderingTable3Length` was declared `[9]` by one consumer, and
+Refuting works. Byte 3 of `gGraphics_abOrderingTableLengths` (then a separate
+`gGraphics_bOrderingTable3Length` name) was declared `[9]` by one consumer, and
 `c_symbols.ld` names `D_8009B0A4` one byte later, so nine bytes would run
 through that and past `gGraphics_bActiveBuffer`. The bound was therefore an
 addressing lever rather than a size -- and that is what made it worth
@@ -891,7 +872,7 @@ collapsed: they are opposite levers, and no single spelling can serve them.
 
 This check belongs *before* any attempt to reconcile sizes, because a size
 disagreement on its own does not settle the question. #3108 settled
-`D_8009B20C` by bounding the object from two directions -- the next named
+`D_8009B20C` (since split into two scalars) by bounding the object from two directions -- the next named
 address above it, and the highest index any consumer actually reaches below --
 and then centralizing on the size that was correct rather than the largest one
 observed. That reasoning holds only while every consumer wants the same
@@ -918,32 +899,24 @@ symbol.
 #### Agreeing relocations still need a source-expression check
 
 The check above rejects a symbol when its objects disagree. An earlier
-experiment with `gAi_wBestDifference` appeared to show the converse was also
-unsafe: changing the G8 use from an array to a scalar moved the two-byte symbol
-into small data. That result was real, but the conclusion drawn from it was too
-broad. The completed loader now shows that one shared array declaration works
-for both translation units when each use spells the element access explicitly:
+experiment with the former `gAi_wBestDifference` name appeared to show the
+converse was also unsafe: changing the G8 use from an array to a scalar moved
+the two-byte symbol into small data. That result was real, but the name was
+only a link-script alias at `gAiScript_State + 0x98`, with `gAi_bBestAttacker`
+and `gAi_bBestTarget` at `+0x9A` and `+0x9B`. Both sources now read the
+`attack_best_stat`, `attack_best_slot` and `attack_best_target` members of the
+0xD4-byte `gAiScript_State` instead:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/game/ai_script_combo.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` |
-| `src/game/ai_script_find_best_attack.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/ai_script_combo.c` | `gAiScript_State.attack_best_*` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98..0x9B` |
+| `src/game/ai_script_find_best_attack.c` | `gAiScript_State.attack_best_stat` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98` |
 
-The object is still exactly one `u16`: `gAi_bBestAttacker` is the next name at
-`+2`, followed by `gAi_bBestTarget` at `+3`, and neither source indexes above
-`[0]`. The array spelling therefore remains an addressing lever rather than a
-storage-size claim. It keeps the G8 best-attack source out of small data, while
-the G0 loader naturally emits the same absolute relocation pair. In the loader,
-the `[0]` expression also preserves the measured unsigned-halfword load; its
-explicit byte-scaled destination index supplies the separate scheduling lever
-needed for the exact 60-byte function.
-
-The historical scalar experiment is useful because it proves that relocation,
-profile, declaration, and expression must be checked together. It does not
-prove that differing profiles require guarded declarations. Here, the current
-native builds establish the opposite: the flat shared `u16[]` declaration in
-`ai.h` is correct for both profiles, and both current sources retain their exact
-retail text and absolute relocations.
+The structure is larger than the G8 limit, so neither profile can select a
+small-data relocation; the old array spelling was only needed while the alias
+had a size of its own. The loader's measured unsigned loads match the `u8`
+slot members, and its explicit byte-scaled destination index remains the
+scheduling lever for the exact 60-byte function.
 
 #### A header may declare what its own source defines
 
@@ -1008,7 +981,7 @@ the same bytes. For those, the differing declarations are not drift and there
 is no canonical type to adopt: each one is faithful to what its own caller
 puts there.
 
-`D_801D5608` is the clearest example in the tree. Before Tick389, seven
+`gText_StagedValues` is the clearest example in the tree. Before Tick389, seven
 resident sources declared it a flat `s32 []`, while `duel_result_runtime.c` used
 `s32 [16][DUEL_SIDE_COUNT]`. Two overlays, `free_duel/screen_runtime.c` and
 `password/shop.c`, used the shared `Pair` from `ygo_types.h`; the password
@@ -1035,9 +1008,9 @@ explicit relocation directives (the function is generated assembly again):
 
 ```
 ".word 0x3C060000\n"
-".reloc .-4, R_MIPS_HI16, D_801D5608\n"
+".reloc .-4, R_MIPS_HI16, gText_StagedValues\n"
 ".word 0xACC20000\n"
-".reloc .-4, R_MIPS_LO16, D_801D5608\n"
+".reloc .-4, R_MIPS_LO16, gText_StagedValues\n"
 ```
 
 Its address form is fixed by that generated assembly, not by any C

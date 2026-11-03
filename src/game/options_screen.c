@@ -35,7 +35,7 @@ static u32 D_8009B38C;
 #include "text_box_runtime.h"
 #include "text_constants.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 
 /* The options screen: its text-colour and text-box setup, the layout pass
    that places its two cursor objects, the init that creates them, and the
@@ -65,7 +65,7 @@ void Options_InitTextDisplay(s32 arg0) {
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
-    TextBox_BuildBlocking(&gText_Channel1);
+    TextBox_BuildBlocking(TEXT_CHANNEL(1));
 }
 
 void Options_UpdateLayout(s32 selection) {

@@ -9,7 +9,11 @@
 #ifndef TEXT_BOX_RUNTIME_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EB0F8-0x800EB288, defined in
  * address order ahead of the headers that declare it (#2602). */
-DuelEffectChannel D_800EB0F8[4];
+DuelEffectChannel gText_aChannels[4];
+#endif
+#ifdef TEXT_BOX_RUNTIME_OWNS_BATTLE_MODELS
+#include "main_modes.h"
+AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
 #endif
 
 #include "text_channel_state.h"
@@ -23,7 +27,6 @@ DuelEffectChannel D_800EB0F8[4];
 #include "duel_effect_update_object_layout.h"
 #include "dialog_choice_state.h"
 #include "text_constants.h"
-#include "text_glyph_lookup.h"
 
 /* Regional value: the choice.flags bit that opens and closes the choice (0x8
  * -> 0x10). The European build (src/game/european/) defines its own. */

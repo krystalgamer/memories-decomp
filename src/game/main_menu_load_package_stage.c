@@ -1,14 +1,13 @@
 #define D_8009B118_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "file_package_staging.h"
-#include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
-#include "file_transfer_buffer.h"
+#include "display_asset_banks.h"
 
 #include "high_memory_addresses.h"
 
@@ -31,8 +30,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -44,8 +43,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0;
         object->w = 0x40;
         object->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
@@ -56,7 +55,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
         object->sector_destination = (s32)gFile_abPackageStagingBuffer;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->transfer_mode = 1;
         break;
 
@@ -64,7 +63,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         rect = *(RECT *)gMainMenu_PackageStageRect;
         LoadImage2(&rect, (u32 *)gFile_abPackageStagingBuffer);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gMainMenu_dwSuModuleBase;
         object->sector_destination = gMainMenu_dwSuModuleBase;
         object->transfer_mode = 1;
@@ -74,7 +73,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->alternate_sector_destination = (s32)gDisplay_abResourceBank1;
         object->sector_destination = (s32)gDisplay_abResourceBank1;
         object->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->transfer_mode = 1;
         break;
     }

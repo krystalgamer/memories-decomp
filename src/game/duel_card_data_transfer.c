@@ -2,7 +2,6 @@
 #include "card_constants.h"
 #include "duel_card_data_transfer.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 
 /* Walks the sorted card-ID boundary list while advancing through the loaded
    card-data blocks. Mode 0 initializes the current range; mode 1 advances to

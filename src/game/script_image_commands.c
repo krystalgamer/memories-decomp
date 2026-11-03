@@ -1,6 +1,7 @@
 #define D_8009B145_IN_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "campaign_flags.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -12,7 +13,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
@@ -61,8 +61,8 @@ void Script_OpShowImage(void) {
     }
 
     mask |= 0x30;
-    masked = gFile_dwTransferState_abs & mask;
-    if ((masked | gFile_dwCancelRequestState_abs) != 0) {
+    masked = gFile_dwTransferState & mask;
+    if ((masked | gFile_dwCancelRequestState) != 0) {
         return;
     }
     if (gFade_State.flags & FADE_FLAG_ACTIVE) {
@@ -117,7 +117,7 @@ void Script_OpStoryFlag(void)
         gScript_StreamCursor = cursor + 4;
         offset = cursor[2] | (next[1] << 8);
         if (Campaign_TestStoryFlag(command))
-            gScript_StreamCursor = D_801A8000 + offset;
+            gScript_StreamCursor = gFile_StagingBuffer + offset;
     }
     gScript_wCommandWord = 0;
 }

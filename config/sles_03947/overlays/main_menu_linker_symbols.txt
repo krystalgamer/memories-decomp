@@ -14,9 +14,8 @@ CardList_CreateDeckBoxStatRows = 0x80050D18;
 gMain_apFrameServiceCallbacks = 0x8009C478;
 gGraphics_bSyncVBlankTarget = 0x8009C004;
 Graphics_SubmitDrawModePacket = 0x8004D3B4;
-D_800EB224 = 0x800F055C;
-gTrade_aInventoryRowSets = 0x801A8000;
-D_8009B0D8 = 0x8009C01C;
+gFile_StagingBuffer = 0x801A8000;
+gGraphics_nBaseFrameStep = 0x8009C01C;
 gSaveData_LoadPairState = 0x8009C35A;
 gSaveData_PairSetupState = 0x8009C318;
 DisplayObject_SetResourceVariant = 0x80040534;
@@ -41,7 +40,7 @@ SaveData_UpdateDuelLoad = 0x8003FE38;
 SaveData_UpdateTradeLoad = 0x8003FDFC;
 SD_BGMPlayDefaultStep = 0x800475A0;
 rsin = 0x80086424;
-gMainMenu_DisplayResources = 0x801AF800;
+gDisplay_abResourceBank1 = 0x801AF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800429D8;
 DisplayObject_SelectOrderingTable1 = 0x80042A48;
 
@@ -49,3 +48,5 @@ gSaveData_aPairWorkspace = 0x801D1200;
 D_801D4244 = 0x801D4244;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+
+gText_aChannels = 0x800F0430;

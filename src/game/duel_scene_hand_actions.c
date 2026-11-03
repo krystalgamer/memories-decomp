@@ -8,12 +8,12 @@
  * source:
  * - The pad words are volatile: every test re-reads them.
  * - The AI selection bytes are read as elements of gAi_Selection.bytes ([1], [6] and
- *   [8]). spimdisasm names those addresses D_800EAE89, D_800EAE8E and
- *   gAi_bHandFaceDownRequested, but the symbol-plus-offset form is what puts the %hi ahead of
- *   the neighbouring constants, and the linked bytes are the same.
+ *   [8]). Byte 8 is fields.face_down, the hand face-down request; the
+ *   byte-index form is what puts the %hi ahead of the neighbouring
+ *   constants.
  * - The substate word is a scalar. sched lets a struct-member load through a
  *   pointer pass a store to a fixed scalar, which is the order of every
- *   "substate, then object flags" pair here; D_8009B20C[0] as an array element
+ *   "substate, then object flags" pair here; an array-element spelling
  *   would hold those loads back.
  * - The object's position pairs are copied as whole words. The copy that waits
  *   behind the substate store is a plain word access; the one that moves ahead
@@ -80,7 +80,6 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"
-#define SUBSTATE gDuel_wActionSubstate
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \
@@ -180,7 +179,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0x8000;
                 Ai_RefreshBoardSnapshot();
-                AiScript_Init(D_801A8000);
+                AiScript_Init(gFile_StagingBuffer);
                 return;
             }
             if (AiScript_Run() != 0) {
@@ -215,15 +214,15 @@ void DuelScene_UpdateHandActions(void)
 #endif
                     return;
                 }
-                D_8009B208[2] = value - 0xB;
+                D_8009B20A = value - 0xB;
                 gDuel_wAiSelectionStepDelay = 6;
             }
             gDuel_wAiSelectionStepDelay--;
             if ((s16)gDuel_wAiSelectionStepDelay <= 0) {
                 gDuel_wAiSelectionStepDelay = 6;
-                if ((s8)side->field_0E != D_8009B208[2]) {
+                if ((s8)side->field_0E != D_8009B20A) {
                     SD_SEPlayFull(6);
-                    if ((s8)side->field_0E > D_8009B208[2]) {
+                    if ((s8)side->field_0E > D_8009B20A) {
                         side->field_0E -= 1;
                     } else {
                         side->field_0E += 1;
@@ -313,19 +312,19 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0xC000;
                 Duel_BeginFieldPlacementSelection(side);
-                D_8009B208[2] = gAi_Selection.bytes[6] - 6;
-                if (D_8009B208[2] < 0) {
-                    D_8009B208[2] = gAi_Selection.bytes[6] - 1;
+                D_8009B20A = gAi_Selection.bytes[6] - 6;
+                if (D_8009B20A < 0) {
+                    D_8009B20A = gAi_Selection.bytes[6] - 1;
                 }
                 gDuelCursor_Direction = -1;
                 return;
             }
             if (DuelCursor_UpdateDirection(gDuel_pActiveSelectionRecord, gDuelCursor_Direction) == 0) {
-                if (gDuel_pActiveSelectionRecord->col == D_8009B208[2]) {
+                if (gDuel_pActiveSelectionRecord->col == D_8009B20A) {
                     goto confirm;
                 }
                 gDuelCursor_Direction = 0;
-                if (D_8009B208[2] < gDuel_pActiveSelectionRecord->col) {
+                if (D_8009B20A < gDuel_pActiveSelectionRecord->col) {
                     gDuelCursor_Direction = 2;
                 }
             }
@@ -398,7 +397,7 @@ void DuelScene_UpdateHandActions(void)
         } else {
             if (gInput_wPad1Held & 3) {
                 gDuelCursor_PickFlags = 0;
-                gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionRecord1);
+                gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides + 1 * DUEL_SELECTION_RECORD_SIZE);
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
@@ -633,7 +632,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_wDisplayTransitionFlags = 0xC;
             gDuel_bSceneSubStep |= 0x80;
-            gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionRecord2);
+            gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE);
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 7;
@@ -653,7 +652,6 @@ void DuelScene_UpdateHandActions(void)
     }
 }
 
-#undef gDuel_wActionSubstate
 #undef SIDE_CURSOR
 #undef HAND_CARD_INDEX
 #undef FIELD_CURSOR

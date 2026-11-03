@@ -252,7 +252,7 @@ void DebugMenu_UpdateBustUpEntry(void)
     DebugMenu_NoOpBustUpFrame();
 
     if (D_8009B2DE == 0) {
-        DisplayObject *first = gDisplayObject_apBrightnessPool[0];
+        DisplayObject *first = TEXT_CHANNEL(1)->render_object;
         DisplayObject *second = gDebugMenu_pCursorQuad;
         u16 second_flags;
 

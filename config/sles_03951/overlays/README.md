@@ -197,7 +197,7 @@ it incorrectly maps European `GsSetProjection` at `0x80085544` to `0x8004AB68`,
 whereas the Spanish calls require `0x80085748`; European `DisplayObject_Reset`
 at `0x80040514` similarly requires `0x80040714`, not `0x8008B768`.
 
-Initial linkage exposed an implicit European auto-symbol, `D_8009C02B`, absent
+Initial linkage exposed an implicit European auto-symbol, `gText_bLanguageIndex`, absent
 from the password symbol files. The Spanish linker files explicitly bind that
 shared C name to the recovered `0x8009C44B`; all six full modules then match.
 

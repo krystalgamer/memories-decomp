@@ -1103,7 +1103,7 @@ The shared header changes the member identifier, names the formerly
 unnamed u8 startup parameter and adds one offset assertion only.
 
 SD_InitState names its u8 master_xa_lba_byte from the sole main-init
-caller's gFile_nMasterXaLba[0]. The conversion to u8 still happens at
+caller's low byte of gFile_anLba[FILE_INDEX_MASTER_XA]. The conversion to u8 still happens at
 the call boundary, BEFORE the zero test: this is not a full-LBA validity
 or availability check. Keep data_source_flags=3 followed by the same
 conditional OR0xF0. No bool conversion, signedness change or new gate.
@@ -1203,7 +1203,7 @@ The pointer declarations, casts and unusual conditional base read remain.
 
 Active command `0x24` stages both offsets and filter bytes. The offsets
 are relative to `MASTER.XA`, not absolute LBAs: `File_RequestSecondarySlot`
-adds `gFile_nMasterXaLba` to the staged start. It receives the original
+adds `gFile_anLba[FILE_INDEX_MASTER_XA]` to the staged start. It receives the original
 `(u16)end - (u16)start + 0x10` assignment to signed `FileRequestSlot +0x1C`.
 The staged end therefore is not the submitted exclusive range end.
 Both halfword truncations, final narrowing and the extra sixteen sectors

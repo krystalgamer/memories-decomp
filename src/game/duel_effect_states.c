@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_effect_noop_handlers.h"
 
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
@@ -36,7 +37,6 @@
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
@@ -270,8 +270,8 @@ void DuelEffect_UpdateCardViewerState(void)
                 }
             }
         }
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             return;
         }
         bg = gDuel_pCardViewerBackground;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/rand.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -27,7 +28,6 @@
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "sound.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
@@ -312,7 +312,7 @@ request_combination:
     case 4:
         {
             DisplayObject **slots;
-            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs)
+            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState)
             return;
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;

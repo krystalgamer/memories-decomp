@@ -20,9 +20,9 @@ little-endian image word and stores that word unchanged through the
 existing unsized image-ID view. With image bit `0x8000` set it then:
 
 1. consumes one unsigned byte and publishes the stream advance;
-2. stores that byte to the same-address `Base2_8009B2AA` target-Y view;
-3. consumes one little-endian halfword and stores target X through
-   `Base2_8009B2A8`.
+2. stores that byte to `gScript_ViewportTargetY`;
+3. consumes one little-endian halfword and stores it to
+   `gScript_ViewportTargetX`.
 
 This is **Y8 then X16**. It is not the scene-script
 `Script_OpStageImage` encoding, which takes two coordinate halfwords.

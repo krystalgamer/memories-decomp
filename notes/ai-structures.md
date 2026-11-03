@@ -299,9 +299,10 @@ narrowing stores, write order, reverse clearing and inclusive combo-copy
 bounds are preserved. The twelve-byte view does not clamp malformed script
 indices or change the five-entry material scan into a twelve-entry scan.
 
-Interior address aliases are deliberate exceptions, not separate state.
-`tent_AiSelectionRandom` remains a standalone scalar for the three opcode
-accesses whose small-data relocation depends on that symbol.
+Byte 8 is `fields.face_down`, the hand face-down request (formerly the
+`tent_AiSelectionRandom`/`gAi_bHandFaceDownRequested` interior alias). It is
+unsigned because the script loader zero-extends it; the opcode setters,
+clearer and loader use the field directly.
 Bytes 7, 9 and 10 (`D_800EAE8F`, `D_800EAE91`, `D_800EAE92`) have no
 separate C names: the guardian-star load and the field opcode write them as
 `fields.zero`, `fields.field_09` and `fields.field_0A`, and the scene handlers

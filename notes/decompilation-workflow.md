@@ -490,11 +490,11 @@ knowing because a scan reports all of them as clean:
   all tried". The bias belongs to the reducer, not the spelling.
 
 - **The base is a second symbol for storage another symbol already names.**
-  `gModel_awSlot0Position` is `D_800F2C40[0].cached_position` and `D_800F56FC` is
-  `&D_800F56F0.vrx`; both headers keep the interior symbol deliberately,
-  because the matched sites reach the field through it and spelling it as an
-  offset from the enclosing object changes which symbol their relocations
-  name.
+  The former `gModel_awSlot0Position` was `gModel_aSlots[0].cached_position` and
+  `D_800F56FC` was `&gModel_RView.vrx`. Spelling them as members only changes
+  the relocation's symbol and addend, not the instruction bytes, so they were
+  removed; check the generated assembly before assuming an interior alias is
+  load-bearing.
 
 - **The width or signedness of the read does not match the named field.**
   `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is

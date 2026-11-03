@@ -7,7 +7,6 @@
 #include "display_object_core.h"
 
 #include "duel_effect.h"
-#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"

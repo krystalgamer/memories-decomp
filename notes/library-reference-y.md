@@ -7,6 +7,9 @@
 | `D_80181002` | `gLibrary_sCapturedReferenceY` | Captured reference-point Y used by the return path |
 | `D_80181012` | `gLibrary_sSampledReferenceY` | Sampled reference-point Y used while following model animation |
 
+Every image labels both names directly at these addresses. The former
+`D_` externs in `library_runtime.h` and the link aliases are gone.
+
 Both declarations remain signed `s16` scalars with the existing `.data`
 attribute. They name independent labels in the Library's fixed reused work
 window, not new resident allocations or a permanent ownership/type claim

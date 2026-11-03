@@ -46,10 +46,12 @@ typedef struct {
     /* AiScript_FindBestAttack zeroes 0x98 on entry, then keeps a running
      * maximum there (compared unsigned, stored signed) and records the pair
      * of slots that produced it: the attacking slot i at 0x9A and the target
-     * slot j at 0x9B. Nothing else in the image touches these three. */
+     * slot j at 0x9B. AiScript_LoadBestDifference, AiScript_LoadBestAttacker
+     * and AiScript_LoadBestTarget read all three back unsigned into script
+     * memory; nothing else in the image touches them. */
     u16 attack_best_stat;
-    s8 attack_best_slot;
-    s8 attack_best_target;
+    u8 attack_best_slot;
+    u8 attack_best_target;
     u8 fusion_count;
     u8 fusion_limit;
     u8 fusion_set;
@@ -85,7 +87,7 @@ typedef struct {
     /* AiScript_LoadGuardianStarChoice stores the low byte of an AI register
      * here; DuelScene_UpdateCardMove reads bit 0 as bytes[7]. */
     s8 zero;        /* 0x07 */
-    s8 random;      /* 0x08 */
+    u8 face_down;   /* 0x08 */
     /* The field-action source and target codes. DuelScene_UpdateFieldActions
      * reads them as bytes[9] and bytes[10]; AiScript_PlayFieldCard writes all three. */
     s8 field_09;    /* 0x09 */
@@ -100,26 +102,18 @@ typedef union {
 
 extern AiSelection gAi_Selection;
 
-/* Byte 0x08 of that same selection -- AiSelection.fields.random -- also carries
- * its own address-based symbol. AiScript_SetSelectionRandom and
- * AiScript_ClearSelectionRandom set and clear it, and
- * AiScript_LoadSelectionRandom copies it into gAiScript_aMemory. Those three
- * reach it as a standalone u8 rather than through the struct, and they must
- * keep doing so: the recorded attempts for AiScript_LoadSelectionRandom fail to
- * link with
- * "relocation truncated to fit: R_MIPS_GPREL16 against `tent_AiSelectionRandom'", so the
- * symbol's own small-data addressing is what those functions match on. This
- * declaration is therefore a deliberate alias of AiSelection.fields.random, not a
- * duplicate to be folded into the struct.
+/* Byte 0x08 of that same selection -- AiSelection.fields.face_down -- is the
+ * hand face-down request: Ai_SelectMagicPlay and Ai_SelectHandPlay set it to 1
+ * or rand() & 1, and
+ * the AI script opcodes set, clear and load it. Its loader zero-extends it
+ * (lbu), so the field is unsigned.
  *
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
  * gAi_Selection.bytes[8]: the symbol-plus-offset form is what orders its %hi ahead of
  * the neighbouring constants. */
-extern u8 tent_AiSelectionRandom;
 
-/* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has the
- * address-based name D_800EAE89 in the generated listings, but no source
- * declares it. Seven sites across three sources write the byte:
+/* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has no
+ * symbol of its own. Seven sites across three sources write the byte:
  * AiScript_PlayFaceUp (ai_fusion.c) stores the second of the five combo bytes as
  * gAi_Selection.bytes[1], duel_field_effects.c clears it the same way in
  * Duel_SelectEquipPair and Duel_SelectTrapPlay, and ai_turn_action.c writes
@@ -127,16 +121,6 @@ extern u8 tent_AiSelectionRandom;
  * DuelScene_UpdateHandActions is the only reader and reads the byte view too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
  * the table form is the one that reproduces the instruction order. */
-
-/* AiScript_LoadBestAttacker reads the byte recorded by
-   AiScript_FindBestAttack before copying it into the VM register file. */
-extern u8 gAi_bBestAttacker;
-extern u8 gAi_bBestTarget;
-
-/* This object is one u16. Keeping the declaration as an array prevents -G8
-   users from selecting a small-data relocation; -G0 users generate the same
-   absolute load for element zero. */
-extern u16 gAi_wBestDifference[];
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
@@ -258,8 +242,8 @@ typedef char AiSelection_value_offset_must_be_0x06[
 typedef char AiSelection_zero_offset_must_be_0x07[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, zero) == 0x07 ? 1 : -1
 ];
-typedef char AiSelection_random_offset_must_be_0x08[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, random) == 0x08 ? 1 : -1
+typedef char AiSelection_face_down_offset_must_be_0x08[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, face_down) == 0x08 ? 1 : -1
 ];
 typedef char AiSelection_field_09_offset_must_be_0x09[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_09) == 0x09 ? 1 : -1

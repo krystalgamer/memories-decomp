@@ -17,8 +17,9 @@
  *
  * The return is the channel, and it is worth having typed: dialog_transition.c
  * already declared it DuelEffectChannel * while Dialog_UpdateMessageTransition held `u8 *`
- * and reads the same record at raw +0x30 and +0x34. It casts. */
-extern u8 D_800EF6EA;
+ * and reads the same record at raw +0x30 and +0x34. It casts.
+ *
+ * The text-box index is gMemCardWork_Area.root.text_index. */
 
 DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags);
 

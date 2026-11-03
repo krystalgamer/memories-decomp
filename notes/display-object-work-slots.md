@@ -3,10 +3,12 @@
 `display_object_work_slots.h` supplies the single declaration of
 `gDisplayObject_apWorkSlots` to three matching resident translation units and the retained
 `DuelScene_UpdateExodiaResult` candidate. It is an incomplete array of `DisplayObject *`,
-not a new allocation or an object pool. The linker address and assembly-owned
-storage remain unchanged. The array is named `gDisplayObject_apWorkSlots`
+not an object pool. `duel_field_card_render.c` defines it as eight words (0x20
+bytes): both the North American and European `.bss` layouts reserve that much
+before the next variable, though only six words are used. The array is named `gDisplayObject_apWorkSlots`
 (formerly `D_800E9EF0`) for these shared scratch slots; the
-separate `D_800E9F04` word keeps its address name.
+terminator word after them (formerly the separate `D_800E9F04` label) is
+reached as `gDisplayObject_apWorkSlots[DISPLAY_OBJECT_WORK_SLOT_COUNT]`.
 
 ## Evidence and consumers
 
@@ -19,8 +21,9 @@ separate `D_800E9F04` word keeps its address name.
 
 The five-slot count describes this shared work window, not the length of the
 display-object pool. The candidate's initialization and sparkle loop both
-use that count, as does the copier. The following word, `D_800E9F04`, is
-separately cleared by the presentation and is not a sixth pointer slot.
+use that count, as does the copier. The following word at `+0x14` is
+a zero terminator cleared by the presentation (as the copier appends one),
+not a sixth display-object slot; it has no separate symbol.
 The header checks the 20-byte pointer span and every newly named object-field
 offset used by these consumers.
 

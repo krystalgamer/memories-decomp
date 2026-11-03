@@ -19,8 +19,6 @@
  * declaration. */
 extern s8 gDuel_bSide0ControllerSelector[DUEL_SIDE_COUNT] __attribute__((section(".data")));
 
-extern u8 gAi_bHandFaceDownRequested;
-
 void AiScript_SetHandFaceDownRequest(void);
 void AiScript_ClearHandFaceDownRequest(void);
 void AiScript_LoadHandFaceDownRequest(void);

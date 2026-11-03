@@ -10,7 +10,7 @@ query establish five related `ModelSlot` views and an interior byte alias:
 | `field_E1A` | `hmd_unit_count` | `u8`, `+0xE1A` |
 | `field_E1B` | `animation_sequence_count` | `u8`, `+0xE1B` |
 | `field_1E0` | `animation_sequences` | existing `ModelSlotPart *[MODEL_SLOT_PART_COUNT]`, `+0x1E0` |
-| `D_800F5694` | `gModel_bAuxiliaryLoadStep` | existing incomplete `u8[]` view of slot 2's step |
+| `D_800F5694` | `gModel_aSlots[2].load_step` | `u8`, no separate symbol |
 
 The record stays `0xE20` bytes. The active field stays a raw byte, not a
 Boolean type. Counts, pointer annotation, array extent, casts and original
@@ -60,14 +60,9 @@ assignments, and the NA native ELF independently agree. Aggregate readers
 therefore close the phase-5 producer's role: the loader advances that step,
 and the readiness query distinguishes it from the active gate.
 
-`file_transfer_steps.h` declares only `gModel_bAuxiliaryLoadStep[]`, with no
-assembler label; regional linker inputs export the canonical alias to the
-old provider. The incomplete array
-and `[0]` store remain. No allocation, extent, Boolean conversion, NA
-address pin in another region, or new overlay import is introduced.
-In particular, the store is not folded to an indexed aggregate access:
-its original independent relocation and fixed auxiliary-slot behavior stay
-exact, including unusual caller inputs.
+The store is written `gModel_aSlots[2].load_step = 1`; it is a fixed
+auxiliary-slot write, not an indexed access, and compiles to the same
+instructions as the former `gModel_bAuxiliaryLoadStep[0]` alias store.
 
 ## HMD units and animation sequences have separate counts
 
@@ -178,7 +173,7 @@ caller-domain restriction is introduced.
 In `Model_LoadMonsterMergeStage`, nonzero skip state consumes phase 13's
 one sector and phase 14's fifty sectors through the original mode-1
 skip-RAM-write path. The unflagged phase 13 writes the sequence block to
-`D_801A8000 + index * FILE_SECTOR_SIZE`. Unflagged phase 14 keeps both
+`gFile_StagingBuffer + index * FILE_SECTOR_SIZE`. Unflagged phase 14 keeps both
 descriptor destination assignments and uses mode 3 with SPU address
 `0xD810 + index * 0x19000`. This is sample audio, NOT an image upload:
 `File_TransferReadyCallback` case 3 uses `SpuSetTransferStartAddr` and

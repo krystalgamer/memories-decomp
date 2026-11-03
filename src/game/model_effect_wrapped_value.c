@@ -11,11 +11,11 @@ s32 Model_GetSlotCameraPresetYaw(s32 slot_index)
     ModelSlotCF8TailView *slot_metadata;
     s32 biased_yaw;
 
-    slot_metadata = (ModelSlotCF8TailView *)(slot_offset + (s32)&gModel_Slot0MetadataView);
+    slot_metadata = (ModelSlotCF8TailView *)(slot_offset + (s32)&gModel_aSlots[0].metadata);
     /* Retail rebuilds the alias base for the selector-byte load. */
     preset = ModelEffect_GetCoefficient(
         slot_metadata->prefix.bytes.guardian_star_options[
-            (((u8 *)&gModel_Slot0MetadataView) + slot_offset)[MODEL_SLOT_CF8_DFE_OFFSET]
+            (((u8 *)&gModel_aSlots[0].metadata) + slot_offset)[MODEL_SLOT_CF8_DFE_OFFSET]
         ] & 0x1F
     );
 

@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Scrolls the model-scene background with the view. The yaw change since the
- * snapshot at gModel_wViewYawSnapshot, wrapped the short way round a full turn, moves the
+ * snapshot (gModel_ViewSnapshot +2), wrapped the short way round a full turn, moves the
  * horizontal scroll gModel_wBackgroundScrollX by that change * 1280 / 384 modulo the
  * background texture width; the renderer divides it by 10 for the sprite x.
  * When the pitch changed, gModel_wBackgroundOffsetY is rederived from the absolute pitch:

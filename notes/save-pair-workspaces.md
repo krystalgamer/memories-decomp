@@ -7,7 +7,7 @@
 | `D_801D1200` | `gSaveData_aPairWorkspace` | Base used for the first loaded save and for two-player duel/trade workspace accesses |
 | `D_801D2200` | `gSaveData_aSecondPlayerState` | Independently labeled destination for the second loaded save |
 | `D_801D160C` | `gSaveData_aFirstPlayerNameSjis` | First save's SJIS name source at workspace offset `0x40C` |
-| `tent_TradeSaveBuffer` (`0x801D1880`) | `gSaveData_aTradeWriteStaging` | First trade write-staging window at workspace offset `0x680` |
+| `0x801D1880` (formerly `tent_TradeSaveBuffer`) | `gSaveData_aTradeWriteStaging` | First trade write-staging window at workspace offset `0x680` |
 
 All four declarations remain mutable incomplete `u8[]` views of external
 storage. The names do not introduce an allocation, a complete array bound,

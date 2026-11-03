@@ -18,6 +18,7 @@
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -32,7 +33,10 @@
 #ifndef MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B468-0x8009B498, defined in
  * address order ahead of the headers that declare it (#2602). */
-RECT gModel_ImageCopyRect;
+s16 gModel_ImageCopyRectX;
+s16 gModel_ImageCopyRectY;
+s16 gModel_ImageCopyRectW;
+s16 gModel_ImageCopyRectH;
 s16 gModel_sTextureTintRectX;
 s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
@@ -47,7 +51,10 @@ u8 gModelDebug_abSlotGfFlags[2];
 static u16 D_8009B492;
 static u32 D_8009B494;
 #else
-extern RECT gModel_ImageCopyRect;
+extern s16 gModel_ImageCopyRectX;
+extern s16 gModel_ImageCopyRectY;
+extern s16 gModel_ImageCopyRectW;
+extern s16 gModel_ImageCopyRectH;
 extern s16 gModel_sTextureTintRectX;
 extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
@@ -61,11 +68,11 @@ extern u8 gModelDebug_abSlotAfFlags[2];
 extern u8 gModelDebug_abSlotGfFlags[2];
 #endif
 
-/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
+/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F56A0, defined in
  * address order ahead of the headers that declare it (#2602). */
-ModelCameraMove D_800F2B20;
+ModelCameraMove gModel_CameraMove;
 ModelTintRequest gModel_aTintRequests[10];
-u8 D_800F2C40[0xCF8];
+ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 #include "model_slot_control.h"
 #include "model_get_frame_step.h"
@@ -103,7 +110,6 @@ u8 D_800F2C40[0xCF8];
 #include "model_slot_state_updates.h"
 #include "model_queue_relative_camera_orbit.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "high_memory_addresses.h"
 #include "model_load_words.h"
 #include "../psyq/libgs.h"
@@ -126,7 +132,6 @@ u8 D_800F2C40[0xCF8];
 #include "../unmatched.h"
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
-#include "model_distance_queries_data.h"
 #include "model_scene_controllers_data.h"
 
 void Model_StepBackgroundVramAnimation(void) {
@@ -138,7 +143,7 @@ void Model_StepBackgroundVramAnimation(void) {
     s32 n;
     s32 q;
 
-    if (gModel_bAuxiliaryActive[0] != 0) {
+    if (gModel_aSlots[2].is_active != 0) {
         k = gModel_pBackgroundRecord->selector;
         switch (k) {
         case 1:
@@ -147,19 +152,19 @@ void Model_StepBackgroundVramAnimation(void) {
             gModel_ImageCopyRectW = 0x10;
             gModel_ImageCopyRectH = 0x40;
             r = u_0 % 3;
-            gModel_ImageCopyRect.x = r * 16 + 0x2D0;
-            MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0);
+            gModel_ImageCopyRectX = r * 16 + 0x2D0;
+            MoveImage(MODEL_IMAGE_COPY_RECT, 0x2C0, 0x1C0);
             break;
         case 4:
             n = MODEL_IMAGE_COPY_FRAME_COUNT;
             u_1 = VSync(-1) / 10;
             r4 = u_1 % n;
-            gModel_ImageCopyRect.x = 0x260;
+            gModel_ImageCopyRectX = 0x260;
             q = gModel_abImageCopyFrameRows[r4];
             gModel_ImageCopyRectW = 0x20;
             gModel_ImageCopyRectH = 0x18;
             gModel_ImageCopyRectY = q * 3 * 8 + 0x180;
-            MoveImage(&gModel_ImageCopyRect, 0x220, 0x168);
+            MoveImage(MODEL_IMAGE_COPY_RECT, 0x220, 0x168);
             break;
         }
     }
@@ -806,7 +811,7 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs) {
+            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) {
                 goto check_ready;
             }
             Model_LoadMonsterMerge(
@@ -986,8 +991,8 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
     initial_slot = initial_base + slot_index;
     if (initial_slot->is_active == 0) {
         if (initial_slot->load_step == 0xFF) {
-            if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 gFile_dwCancelRequestState_abs) == 0) {
+            if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState) == 0) {
                 do {
                     t = rand() >> 8;
                     model_id = t % CARD_COUNT;
@@ -2002,7 +2007,7 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
     s32 distance_work;
     s32 distance_sample;
 
-    target_slot = gModel_wCameraTargetSlot[0];
+    target_slot = gModel_CameraMove.target.slot;
     lower_distance = 0x2BC;
     upper_distance = 0x3E8;
     zero_yaw = 0;
@@ -2246,7 +2251,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (eye_transport != 0 || mode_request <= 0) {
         if (eye_transport > 0) {
             selected_slot = eye_transport - 1;
-            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
             if (timing_work >= 0) {
                 gModel_CameraMove.eye.pair_slot = selected_slot ^ 1;
             } else {
@@ -2263,7 +2268,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (target_transport != 0 || mode_request <= 0) {
         if (target_transport > 0) {
             selected_slot = target_transport - 1;
-            target_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            target_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
             if (timing_work >= 0) {
                 gModel_CameraMove.target.pair_slot = selected_slot ^ 1;
             } else {
@@ -2442,7 +2447,7 @@ void Model_SetSlotProperties(s32 idx, ...)
         }
     } else {
         gModel_pBackgroundRecord =
-            (ModelBackgroundRecord *)&gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2];
+            (ModelBackgroundRecord *)&gModel_abBackgroundRecords[gModel_aSlots[2].model_id * 0xB2];
     }
     gModel_bSceneMode = 15;
 }

@@ -15,7 +15,7 @@ introduced.
 The actual French `File_RequestMainMenuPackage` at `0x8006B560` and
 `MainMenu_LoadPackageStage` at `0x8006B350` are defined by the selected
 `src/game/european/main_menu_load_package_stage.c` object. The request starts
-at `D_8009C02B * 136` sectors in SU. Stages 0, 1, and 2 consume 64, 32, and
+at `gText_bLanguageIndex * 136` sectors in SU. Stages 0, 1, and 2 consume 64, 32, and
 2 sectors; stage 3 loads 16 sectors through the pointer at `0x8001002C`,
 whose stored value is `0x80180000`. Stage 4 loads the following sector to
 `0x801AF800`.
@@ -28,7 +28,7 @@ whose stored value is `0x80180000`. Stage 4 loads the following sector to
 | 3 | 506 | `3ca844f9208d227f135c7579ba138955aba00a3bce01a1b65b078e7d829e7878` |
 | 4 | 642 | `7156ea148be0550e54a10e91127d6fb3b1142dfae2c7bf631dcfa12236e9d58a` |
 
-The canonical language byte `D_8009C02B` binds to French RAM `0x8009C44B`.
+The language byte `gText_bLanguageIndex` binds to French RAM `0x8009C44B`.
 Its retail storage byte is zero; the actual French `Main_Init` C owner sets
 the build default to 1. These are different observations, not competing
 initialization claims. The live options input handler wraps language
@@ -65,7 +65,7 @@ The existing exact French resident ELF and its selected objects supply
 language loader. SDK definitions remain SDK assembly, not game C.
 Fourteen resident data bindings also have real backing input sections.
 Five external resource bindings retain the accepted main-menu contract:
-`D_801A8000`, `D_801AF800`, `gSaveData_aPairWorkspace`, `gDuel_adwCardStats` at
+`gFile_StagingBuffer`, `gDisplay_abResourceBank1`, `gSaveData_aPairWorkspace`, `gDuel_adwCardStats` at
 `0x801D4244`, and `gCard_asNameSortKey` at `0x801D4D8E`.
 Initial resident backing is not proof of every later resource provider;
 only the directly traced stage-4 transfer is claimed here.

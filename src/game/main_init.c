@@ -83,7 +83,7 @@ s32 Main_Init(void)
     Movie_ResetPlaybackState();
     DuelEffect_ResetState();
     Text_InitDecimalDigitGlyphMap();
-    SD_InitState(gFile_nMasterXaLba[0]);
+    SD_InitState(*(u8 *)&gFile_anLba[FILE_INDEX_MASTER_XA]);
     VSyncCallback(Main_VBlankCB);
     Sound_InitFrontend();
     srand(RAND_BOOT_SEED);

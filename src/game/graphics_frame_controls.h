@@ -14,13 +14,7 @@ extern u8 gGraphics_FrameStepControl __attribute__((section(".data")));
 extern u8 gGraphics_FrameStepControl;
 #endif
 
-#ifdef D_8009B0D8_IN_DATA
-extern s32 gGraphics_nBaseFrameStep __attribute__((section(".data")));
-#elif defined(D_8009B0D8_IS_VOLATILE)
-extern volatile s32 gGraphics_nBaseFrameStep;
-#else
-extern s32 gGraphics_nBaseFrameStep;
-#endif
+#include "graphics_base_frame_step.h"
 
 extern u8 gGraphics_bSkipDisplaySwap;
 

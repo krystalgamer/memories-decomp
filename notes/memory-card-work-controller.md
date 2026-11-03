@@ -13,16 +13,16 @@ block byte is at `+0x10`, remaining count at `+0x12`, offset at `+0x14`,
 chunk at `+0x16`, and text index at `+0x1A`. Slot cursor, free-block count
 and directory-entry index are at `+0`, `+0xC` and `+0xD`.
 
-The existing `bss_image_after_viewport` backing covers `gMemCardWork_Area` at
-`0x800EF6D0`. A bounded two-slot view ends at `0x800EFBBC`, four bytes
-before the independently used directory buffer at `0x800EFBC0`. This is a
-capacity view of existing storage, not a claim that the runtime selects both
-slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
+`mem_card_dialog.c` defines `gMemCardWork_Area` at `0x800EF6D0`. Its two
+slots end at `0x800EFBBC`; alignment leaves four bytes before the
+directory buffer at `0x800EFBC0`. The two-slot capacity is not a claim that
+the runtime selects both slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
 is the byte store of zero at `0x8003D31C`, in `MemCardWork_InitializeOperation`. In particular,
 the selector's `u8` type does not justify 256 slots; arbitrary selectors
-remain outside the measured contract. The root's block byte and text index
-retain their existing interior identities, `gMemCardWork_bRootBlocks` and
-`D_800EF6EA`.
+remain outside the measured contract. The root's block byte is
+`gMemCardWork_Area.root.blocks`; the area is too large for small data, so the
+member store links like the former interior label. `DuelEffect_CreateChannel`
+reads the text index as `gMemCardWork_Area.root.text_index`.
 
 The initialized `gDialog_apfnTransitionSteps` view at `0x80090F88` has five
 words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
@@ -59,13 +59,13 @@ The unchanged implementation was separately reprobed: all 40 bytes match.
 ## Partial operation initialization and separate state bytes
 
 `MemCardWork_InitializeOperation` (`0x8003D300`) keeps exactly six stores
-in their original order: `gMemCardWork_bRootBlocks[0] = 1`,
+in their original order: `gMemCardWork_Area.root.blocks = 1`,
 `gMemCardWork_OperationState = 0`, `gDialog_bCallbackState = 0`,
 `gMemCardWork_wFlags = 0x8000`, `gMemCardWork_bSlotIndex = 0`, then
 `gMemCardWork_OperationMode = value`. It does not allocate or clear the
 whole `gMemCardWork_Area`, submit a request, initialize SDK events or
-establish a new active caller. The independently spelled root-block byte
-`gMemCardWork_bRootBlocks` stays an unsized array, not a new typed-member assignment.
+establish a new active caller. The root-block store goes through the work
+area member; the former `gMemCardWork_bRootBlocks` interior label is gone.
 
 The operation state remains `u8`: its low nibble selects the existing
 legacy controller case and bit `0x80` is that case's first-entry latch.
@@ -74,9 +74,9 @@ mode remains a complete raw `u8`: only bit zero selects the controller's
 header-read/header-write paths and the combined dialog opener's
 `0xD0/0xD1` channel. All other incoming bits are still stored.
 
-Neither byte is `D_8009B3C1`. That shared byte retains its transition
-dispatch nibble, transition progress flags and modal load/save/trade
-first-entry uses without a new universal semantic name or type. Likewise
+Neither byte is `gDialog_bCallbackState`. That shared byte retains its
+transition dispatch nibble, transition progress flags and modal
+load/save/trade first-entry uses without a new type. Likewise
 `tent_MemCardDialogStepState` and `gMemCard_wDialogFlags` remain the
 separate LIBMCRD modal runtime's state and flags, not work-operation state.
 

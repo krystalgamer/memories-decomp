@@ -6,7 +6,6 @@
 
 extern u8 gMainMenu_PackageStageRect[];
 extern u8 gModel_abAuxiliaryPaletteSector[];
-extern u8 gModel_bAuxiliaryLoadStep[];
 
 /* The file-transfer phase callbacks Model_LoadMonsterMerge installs
  * through File_TryRequestAsyncTransfer: Model_LoadMonsterMergeStage for duel slots,

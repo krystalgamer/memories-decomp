@@ -1,7 +1,6 @@
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#define D_800EB12C_IN_DATA
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/rand.h"
@@ -73,7 +72,7 @@ void Script_OpJumpIfDeckIncomplete(void) {
     unsigned int offset;
     gScript_StreamCursor = current + 2;
     offset = current[0] | (current[1] << 8);
-    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = D_801A8000 + offset;
+    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = gFile_StagingBuffer + offset;
     gScript_wCommandWord = 0;
 }
 
@@ -94,7 +93,7 @@ void Script_RunTick(void)
     f = gScript_EventState;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
-        if ((gText_dwChannel0State[0] & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
+        if ((*(u32 *)&gText_aChannels[0].flags_34 & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;
@@ -104,7 +103,7 @@ void Script_RunTick(void)
     }
     if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         g = gScript_EventState;
-        gScript_StreamCursor = D_801A8000 + ((u16 *)D_801A8000)[g];
+        gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[g];
         b = *gScript_StreamCursor++;
         gScript_DialogCommandLatch = 0;
         gScript_EventState = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;

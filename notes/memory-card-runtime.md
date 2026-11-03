@@ -55,7 +55,7 @@ Callers never drive `MemCardDialog_Update` directly. `MemCardDialog_Request`
 (`0x8003F758`) copies the filename into `D_800EFE18`, stages the buffer, the
 byte size and the block count, and calls `MemCardDialog_Start` (`0x8003F740`),
 which sets `MEM_CARD_DIALOG_FLAG_ACTIVE`, stores the step index and clears the
-step's first-pass byte `D_8009B3C1`. Each frame the caller then calls
+step's first-pass byte `gDialog_bCallbackState`. Each frame the caller then calls
 `MemCardDialog_Poll` (`0x8003F70C`), which runs one `MemCardDialog_Update` and
 returns `0` while `gMemCard_wDialogFlags` is still nonzero, then the outcome
 byte `gMemCardDialog_Outcome`. The update opens the box with `MemCardDialog_CreateObject`
@@ -93,7 +93,7 @@ Five existing identities complete the modal request/dispatch interface:
 `gMemCardDialog_ChannelIndex` at `0x8009B3EE`, and
 `gMemCardDialog_MessageCode` at `0x8009B3C6`. They are separate from the
 legacy request/event work operation, its mode/state bytes and workspace.
-The shared `D_8009B3C1`, tentative internal modal state and existing flag
+The shared `gDialog_bCallbackState`, tentative internal modal state and existing flag
 halfword are not retyped or given a new universal interpretation.
 
 `MemCardDialog_Start` retains exactly flag-halfword `ACTIVE`, the low
@@ -891,7 +891,7 @@ fallthrough and invalid-state behavior. Reused flag constants do not
 turn these per-case meanings into a new global enum.
 
 `gMemCardDialog_StepIndex` selects the outer modal callback. The separate
-shared `D_8009B3C1` guards each callback's initial setup. Prompted load/save
+shared `gDialog_bCallbackState` guards each callback's initial setup. Prompted load/save
 seed internal state zero, unprompted load seeds one, trade seeds zero and
 the existing regional save initializer retains its own offset/state/flag
 stores. `Start` does not reset this operation byte directly; the selected
@@ -1104,7 +1104,7 @@ message branches remain. No remaining-retries type, unified retry helper
 or new initialization is introduced.
 
 The card-number argument remains the modal producer's view of shared
-text staging at `D_801D5608 + 0x40`. Existing branches write
+text staging at `gText_StagedValues + 0x40`. Existing branches write
 `(gMemCardDialog_Port >> 4) + 1` through element zero before their text
 requests. That does not make the word permanently card-owned:
 `TextStagingValues.deck_validation.invalid_side` and the rank-row view

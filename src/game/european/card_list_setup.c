@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#define D_8009C02B_IN_DATA
+#define TEXT_LANGUAGE_INDEX_IN_DATA
 
 #define VERSION_EUROPE
 

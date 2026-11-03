@@ -106,7 +106,7 @@ old first-byte view exactly. The Japanese initializer returns its compact
 `0x60` channel through that same public channel pointer; its `field_54`
 is also one byte at `+0x54`. The local helper performs no channel stride
 arithmetic or tail access. No generic `void *` API, shared channel layout
-or separate `D_800EB15C` build alias is changed, and the field is not
+or `TEXT_CHANNEL` stride is changed, and the field is not
 assumed to remain zero merely because initialization writes it.
 
 The card-view handler's separate slot-0 `TextBox_Create` result now uses

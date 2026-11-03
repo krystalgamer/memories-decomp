@@ -16,9 +16,9 @@ physical-memory ownership guarantee is added.
 
 The main-game Library consumes the primary as a display object and retains
 its explicit mixed-width flag/attribute views. Other typed record consumers
-use the rectangle/scalar fields. The ritual controller's separate
-`gCardPreview_Resource1` halfword alias accesses only the rectangle/source-coordinate
-prefix beyond the two pointers; its measured accesses are unchanged.
+use the rectangle/scalar fields. The ritual controller
+addresses `&gCardPreview_Resources[1]` directly and accesses only the
+rectangle/source-coordinate fields beyond the two pointers.
 
 The Password overlay stores the record pointer and sets texture source
 coordinates/dimensions without accessing either object member. No overlay

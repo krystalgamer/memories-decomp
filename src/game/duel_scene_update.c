@@ -128,7 +128,7 @@ void DuelScene_Update(void)
             DuelEffectChannel *cleanup;
 
             TextBox_UpdateChannels();
-            cleanup = (DuelEffectChannel *)gText_Channel3;
+            cleanup = TEXT_CHANNEL(3);
             if (cleanup->flags_34 & 0x2000) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;

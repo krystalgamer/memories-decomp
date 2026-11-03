@@ -137,13 +137,13 @@ void AiScript_ClearTypes(void)
 
 void AiScript_SetHandFaceDownRequest(void)
 {
-    gAi_bHandFaceDownRequested = 1;
+    gAi_Selection.fields.face_down = 1;
 }
 
 #ifndef VERSION_JAPAN
 void AiScript_ClearHandFaceDownRequest(void)
 {
-    gAi_bHandFaceDownRequested = 0;
+    gAi_Selection.fields.face_down = 0;
 }
 
 void AiScript_SetUnreadFlag(void)

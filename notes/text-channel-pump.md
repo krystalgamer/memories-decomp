@@ -56,7 +56,7 @@ cursors but perform none of these per-channel operations.
 
 `TextBox_BuildStep` publishes its script word after command dispatch and
 line-wrap handling, before appending a glyph. Only nonnegative indices
-are read through `tent_GlyphLookupTable[idx].halves.upper & 7`.
+are read through `gText_aGlyphLookup[idx].halves.upper & 7`.
 The pump first stores zero for every active channel, then stores `-1`
 before pumping an incomplete channel and on batching resets. Consequently
 this is neither a choice index nor a universal last-emitted-glyph value.

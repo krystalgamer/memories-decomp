@@ -3,12 +3,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_result_load_outro_package_stage.h"
 #include "../ygo_types.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
-#include "file_transfer_buffer.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {

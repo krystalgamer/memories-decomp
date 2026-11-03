@@ -39,40 +39,9 @@ typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
     (u32)&(((TextGlyphLookupEntry *)0)->halves.upper) == 2 ? 1 : -1
 ];
 
-/* The three North American text banks the string lookup reads through.
- * The Japanese lookup selects D_801D6000 for ids with bit 15 set and
- * D_801C0000 otherwise, using a narrower bank-address mask.
- *
- * text_lookup_string.c resolves a string id by masking a bank's own address
- * with TEXT_BANK_ADDRESS_MASK and ORing a halfword read out of it, so the
- * banks are both the addressing base and the table. That is why they are
- * declared here beside the constants those expressions use, rather than in
- * unmatched.h: they have an identified owner, and that header is for symbols
- * that are still homeless.
- *
- * All three keep the incomplete-array spelling every consumer already used.
- * The arrays are real rather than decorative -- the lookup indexes them well
- * above zero, at `index - 0xD000` and `index - TEXT_GLOBAL_STRING_ID_BASE` --
- * so the spelling is not a size claim and must not be given a bound. */
-extern u16 D_801B0000[];
-extern u16 D_801C0000[];
-extern u16 D_801D5800[];
-#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
-extern u16 D_801D6000[];
-#endif
-/* The European banks: each table starts four bytes into its bank, and the
-   global strings (ids from 0x8000) sit at D_801D5804. */
-#ifdef VERSION_EUROPE
-extern u16 D_801B0004[];
-extern u16 D_801C0004[];
-extern u16 D_801D5804[];
-/* The byte string the European Text_InitDecimalDigitGlyphMap reads the ten
-   digit codes from. */
-extern u8 D_801BF870[];
-#endif
-
 /* 0x8009B32E, the string id Text_PushStagedString resolves through the regional banks
- * above. It is two bytes: D_8009B330 (duel_effect.h:368) starts at +2.
+ * above. It is two bytes: gDuelEffect_nCompactionRequested
+ * (duel_effect_entry_state.h) starts at +2.
  * North America loads it unsigned, while Japan loads it signed before
  * testing bit 15 and masking the bank index. FreeDuel_PlaceCursor stores
  * into it through a named
@@ -107,11 +76,15 @@ extern u8 gText_abColorSlots[];
  * script byte's index and masks it with 0x8FF0FFFF.
  * TextBox_UpdateChannels (text_box_runtime.c) reads bits 0-2 of halves.upper;
  * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
- * tent_GlyphLookupTableEntries, with a const that its note explains. 0x174 bytes to D_801D9174,
+ * gText_aGlyphSearchEntries, with a const that its note explains. Spelling
+ * that as gText_aGlyphLookup + 1 (cast to const, or through a const arm of
+ * this declaration) does not match: GCC 2.8.1 treats symbol+4 differently
+ * from a separate symbol, which swaps t3/t4 or adds a register move (+8
+ * bytes). The separate label is a measured exception. 0x174 bytes to D_801D9174,
  * 93 entries; the first word is zero in the image and no C unit writes the table.
  * Retail reaches it through %hi/%lo at every
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */
-extern TextGlyphLookupEntry tent_GlyphLookupTable[];
+extern TextGlyphLookupEntry gText_aGlyphLookup[];
 
 /* The decimal digit glyph map. NA/Japan initialize lookup indices from the
  * copied Shift-JIS keys; Europe decodes glyph codes from a terminated string.

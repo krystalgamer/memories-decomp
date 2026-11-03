@@ -65,7 +65,7 @@ Each RAM slot in the `gRuntime_pSharedWorkBase` arena is still `0x18C10` bytes: 
 `0x18000`, CLUT `0x400`, metadata `0x800`, then two `RECT`s. Acquisition
 uses image rectangle `(832 - side * 192, 256, 192, 256)` and CLUT
 rectangle `(clut_x, side * 2 + 240, 256, 2)`. A nonzero side selects
-`D_801AF800` rather than `D_801AF000`; it is not clamped to Boolean for
+`gDisplay_abResourceBank1` rather than `gDisplay_abResourceBank0`; it is not clamped to Boolean for
 the rectangle or request arithmetic.
 
 NA and Europe retain the unsized `extern s8

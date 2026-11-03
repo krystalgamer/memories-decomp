@@ -30,7 +30,7 @@ is preserved, not claimed as C or newly classified as handwritten assembly.
 It begins within an instruction sequence rather than at a function prologue;
 the accepted shared inventories do not list it as a function.
 Password language accesses retain the measured binding
-`D_8009C02B = 0x8009C44B`.
+`gText_bLanguageIndex = 0x8009C44B`.
 
 The combined Italian CI workflow uses `YGOFM_SLES_03950_URL`,
 `YGOFM_ITA_SU_MRG_URL` and `YGOFM_ITA_WA_MRG_URL`. The progress generator

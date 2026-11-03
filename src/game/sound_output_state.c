@@ -160,9 +160,14 @@ void SD_StartCdFade(s16 step, u8 target, s32 unused)
  * initializations and final publications, and the low-two-bit output gate.
  */
 /* A second name for g_SDValue, bound to it in each image's link_symbols.ld.
- * A volatile cast of &g_SDValue cannot replace it: the cast makes the
- * compiler build the address in a register before the volatile load, which
- * adds an instruction at every read that uses it. */
+ * Only this routine needs volatile gp-relative reloads of the pointer, and the
+ * grouped unit cannot be split, so no single-name spelling matches (measured):
+ * - a volatile cast of &g_SDValue builds the address in a register before
+ *   each load (+0x10 bytes);
+ * - the plain name lets GCC reuse one load (-4 bytes);
+ * - sound.h's G_SDVALUE_VOLATILE arm for the whole unit stops SD_SetCdPan's
+ *   reloads from filling delay slots, even after SD_StartCdFade and
+ *   SD_EnqueueCdPlay are rewritten to load the pointer once. */
 extern SDValue *volatile g_SDValue_output_level;
 
 s32 SD_MeasureCdAudioLevel(void)

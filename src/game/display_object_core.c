@@ -1,11 +1,15 @@
 #include "../types.h"
 
-#ifndef DISPLAY_OBJECT_CORE_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800EFE38-0x800F2888, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800EFE38[0x2A50];
-#else
-extern u8 D_800EFE38[0x2A50];
+#ifndef DISPLAY_OBJECT_CORE_STORAGE_ORDER
+/* Zero-initialized storage this unit owns at 0x800EFE38-0x800F2888. GCC lays
+ * it out in first-declaration order, so it is declared here in address order
+ * ahead of the headers and defined once they supply the types (#2602). A
+ * regional wrapper that lays it out differently declares its own order and
+ * defines DISPLAY_OBJECT_CORE_STORAGE_ORDER. */
+extern s16 gDisplayObject_awListHeads[];
+extern struct DisplayObject gDisplayObject_aPool[];
+extern struct ViewState gViewState_Current;
+extern s16 gDisplayObject_awListKeys[];
 #endif
 
 #ifndef DISPLAY_OBJECT_CORE_REGIONAL_SMALL_STORAGE
@@ -40,6 +44,12 @@ extern s32 gDisplayObject_fRenderRetry;
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
+#include "view_state.h"
+
+s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT];
+DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
+ViewState gViewState_Current;
+s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
 #ifndef DISPLAY_OBJECT_SPRITE_TEXTURE_U
 #define DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture) ((texture) & 0x3F0)
@@ -51,7 +61,7 @@ extern s32 gDisplayObject_fRenderRetry;
 
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
-    DisplayObject *entry = gDisplayObject_aGeneralSlots;
+    DisplayObject *entry = &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY];
     s32 i;
 
     for (i = DISPLAY_OBJECT_RESERVED_CAPACITY;
@@ -293,7 +303,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     return object;
 }
 
-/* Walks the display-object list rooted at gDisplayObject_wSpriteListHead: calls each object's
+/* Walks the display-object list rooted at gDisplayObject_awListHeads[1]: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
    origin unless bit 3 is set, and submits it through DisplayObject_SubmitPacket. With
@@ -314,7 +324,7 @@ void DisplayObject_RenderSpriteList(void) {
     s32 mode;
     s32 idx;
 
-    i = gDisplayObject_wSpriteListHead[0];
+    i = gDisplayObject_awListHeads[1];
     if (i >= 0) {
         g = (POLY_FT4 *)0x1F800344;
         p = (SpritePrim *)0x1F800320;

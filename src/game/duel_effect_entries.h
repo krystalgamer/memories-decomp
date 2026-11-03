@@ -4,6 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
+
 /* Returns the selected opaque payload byte address, or zero at the key
  * terminator. Key and payload cursors retain their distinct 2/30-byte steps. */
 u8 *Text_FindRecordById(s32 id);
@@ -24,10 +25,8 @@ void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
 /* The sixteen 4bpp pixel patterns for one nibble of glyph bits, and the
  * colour masks a channel's color_index_54 selects among. */
-extern u16 D_80090E28[16];
-extern u16 D_80090E48[];
-#define gText_awGlyphNibblePatterns D_80090E28
-#define gText_awGlyphColorMasks D_80090E48
+extern u16 gText_awGlyphNibblePatterns[16];
+extern u16 gText_awGlyphColorMasks[];
 #endif
 
 /* The lookup's original symbol remains for non-C callers. */

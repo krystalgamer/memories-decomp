@@ -45,7 +45,6 @@ extern s32 gDuel_dwFieldDimTarget;
  * value written is 0 or 1 and every read is a test against 0, so the stores
  * cannot settle a sign here -- but the loads are the unsigned form, which is
  * the spelling its one declarer chose, and it is kept verbatim. */
-extern u8 D_8009B21A;
 
 /* The attacker's and the target's record flags and stat modifiers, saved
  * when the field commits an attack or a fusion so the battle state can

@@ -26,8 +26,8 @@ gDuel_bEffectState = 0x8009B254;
 SaveData_RequestWrite = 0x8003F87C;
 TextBox_Destroy = 0x80035B7C;
 gCard_asNameSortKey = 0x801D4D8E;
-gTrade_aInventoryRowSets = 0x801A8000;
-gMainMenu_DisplayResources = 0x801AF800;
+gFile_StagingBuffer = 0x801A8000;
+gDisplay_abResourceBank1 = 0x801AF800;
 gSaveData_LoadPairState = 0x8009B3EA;
 gSaveData_PairSetupState = 0x8009B3ED;
 gDuel_adwCardStats = 0x801D4244;
@@ -86,3 +86,5 @@ MainMenu_CreateTradeReadyIndicator = 0x800610E0;
 MainMenu_CreateTradeDecisionMenu = 0x800611D0;
 
 gSaveData_aPairWorkspace = 0x801D1200;
+gText_aChannels = 0x800EB0F8;
+gGraphics_nBaseFrameStep = 0x8009B0D8;

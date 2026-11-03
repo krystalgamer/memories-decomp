@@ -28,6 +28,8 @@ options:
 
   symbol_addrs_path:
     - config/sles_03951/symbols.txt
+  reloc_addrs_path:
+    - config/sles_03951/relocations.txt
 
   gp_value: 0x8009C298
   symbol_name_format: spanish_$VRAM
@@ -496,11 +498,9 @@ segments:
       - [0xE4410, .bss, game/european/mem_card_driver]
       - [0xE46A8, .bss, game/european/model_keyframe_update]
       - [0xE4858, .bss, game/spanish/model_scene_controllers]
-      - [0xE5670, .bss, game/european/model_slot_control]
-      - [0xE56E8, .bss, game/european/model_slot_support]
-      - [0xE5748, .bss, game/model_distance_queries]
+      - [0xE73D8, .bss, game/model_distance_queries]
       - [0xE7488, .bss, game/european/model_handler_dispatch]
       - [0xE7708, .bss, game/movie_stream_requests]
       - [0xE7720, .bss, game/ai_script_vm]
-      - {start: 0xE7810, type: bin, name: spanish_raw_800f7010, linker_section_order: .bss}
+      - {start: 0xE7844, type: bin, name: spanish_raw_800f7044, linker_section_order: .bss}
   - [0x1D0800]

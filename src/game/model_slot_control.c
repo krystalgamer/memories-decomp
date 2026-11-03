@@ -1,10 +1,7 @@
 #define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
 #define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 #include "../types.h"
-
-/* Zero-initialized storage this unit owns at 0x800F3938-0x800F39B0, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800F3938[0x78];
+#define FILE_TRANSFER_WORDS_IN_DATA
 
 #include "model_get_slot_dimensions_with_minimums.h"
 #include "model.h"
@@ -63,7 +60,6 @@ u8 D_800F3938[0x78];
 #include "file_names.h"
 #include "file_transfer.h"
 #include "file_package_staging.h"
-#include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../psyq/libetc.h"
 #include "../psyq/stdio.h"
@@ -72,7 +68,6 @@ u8 D_800F3938[0x78];
 #include "model_load_step.h"
 #include "duel_load_package_stage.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
@@ -343,11 +338,11 @@ void Model_UpdateSlotControl(s32 index)
         s32 other_record;
         amount = Model_GetFrameStep();
         offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0);
+        do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&gModel_Slot0MetadataView;
+        other_record = offset + (s32)&gModel_aSlots[0].metadata;
         amount = slot->playback_speed * (amount + 1);
-        if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+        if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
@@ -424,10 +419,10 @@ no_handler:
             s32 midpoint = slot->animation_duration_rows[slot->current_animation_row].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
-                own_record = offset + (s32)&gModel_Slot0MetadataView;
+                own_record = offset + (s32)&gModel_aSlots[0].metadata;
                 offset = (index ^ 1) * MODEL_SLOT_SIZE;
-                other_record = offset + (s32)&gModel_Slot0MetadataView;
-                if ((((u8 *)&gModel_Slot0MetadataView) +
+                other_record = offset + (s32)&gModel_aSlots[0].metadata;
+                if ((((u8 *)&gModel_aSlots[0].metadata) +
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =
@@ -670,7 +665,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
                 MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
                 Model_LoadSpecialBattlePackageStage, 0, 0
             );
-            gFile_dwTransferState_abs = transfer->status_flags
+            gFile_dwTransferState = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             gModel_aSlots[slot].load_step = 0;
             return 0;
@@ -711,7 +706,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
             }
             transfer->callback_data = (void *)slot;
             transfer->position = gModel_aSlots[slot].guardian_star_selection;
-            gFile_dwTransferState_abs = transfer->status_flags
+            gFile_dwTransferState = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             gModel_aSlots[slot].load_step = 0;
         }
@@ -732,7 +727,7 @@ found:
             model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
             MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
         );
-        gFile_dwTransferState_abs = transfer->status_flags
+        gFile_dwTransferState = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
         gModel_aSlots[slot].load_step = 0;
     }
@@ -895,7 +890,7 @@ void Model_AdvanceSlotLoad(s32 index)
     case 10:
         if (slot->skip_sound_setup == 0) {
             SD_LoadSequenceBankPair(
-                index, (u32 *)(D_801A8000 + (index << 11))
+                index, (u32 *)(gFile_StagingBuffer + (index << 11))
             );
         }
         break;
@@ -966,7 +961,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         }
         transfer->sector_destination = transfer->alternate_sector_destination = (u32)payload_destination;
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
     }
@@ -975,9 +970,9 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         transfer->field_30.h.field_32 = 0x100;
         transfer->w = 0x40;
         transfer->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState &= 0xFFDDFFFF;
         transfer->phase_size = 48 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->sector_destination = (u32)gFile_TransferBufferBase;
         transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -985,7 +980,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
     case 2:
         transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
         transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
     case 3: {
@@ -1003,7 +998,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         next_sector_source += 2 * FILE_SECTOR_SIZE;
         transfer->sector_destination = transfer->alternate_sector_destination = (u32)next_sector_source;
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= transfer_clear_mask;
+        gFile_dwTransferState &= transfer_clear_mask;
         transfer->transfer_mode = 1;
         break;
     }
@@ -1019,12 +1014,12 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->h = 0x10;
             {
                 u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
-                cleared_transfer_state = gFile_dwTransferState_abs & 0xFFDDFFFF;
-                gFile_dwTransferState_abs = cleared_transfer_state;
-                do { reloaded_transfer_state = gFile_dwTransferState_abs; } while (0);
+                cleared_transfer_state = gFile_dwTransferState & 0xFFDDFFFF;
+                gFile_dwTransferState = cleared_transfer_state;
+                do { reloaded_transfer_state = gFile_dwTransferState; } while (0);
                 do { image_transfer_bit = 0x10000; } while (0);
                 transfer->field_30.h.field_32 = 0x100;
-                gFile_dwTransferState_abs = reloaded_transfer_state | image_transfer_bit;
+                gFile_dwTransferState = reloaded_transfer_state | image_transfer_bit;
             }
             transfer->transfer_mode = 2;
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
@@ -1032,8 +1027,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
@@ -1049,12 +1044,12 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->h = 0x10;
             {
                 u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
-                cleared_transfer_state = gFile_dwTransferState_abs & 0xFFDDFFFF;
-                gFile_dwTransferState_abs = cleared_transfer_state;
-                do { reloaded_transfer_state = gFile_dwTransferState_abs; } while (0);
+                cleared_transfer_state = gFile_dwTransferState & 0xFFDDFFFF;
+                gFile_dwTransferState = cleared_transfer_state;
+                do { reloaded_transfer_state = gFile_dwTransferState; } while (0);
                 do { image_transfer_bit = 0x10000; } while (0);
                 transfer->field_30.h.field_32 = 0x100;
-                gFile_dwTransferState_abs = reloaded_transfer_state | image_transfer_bit;
+                gFile_dwTransferState = reloaded_transfer_state | image_transfer_bit;
             }
             transfer->transfer_mode = 2;
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
@@ -1062,100 +1057,100 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 7:
         if (variant_selection == 0 && slot_index == 0) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 8:
         if (variant_selection == 0 && slot_index == 1) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 9:
         if (variant_selection == 1 && slot_index == 0) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 10:
         if (variant_selection == 1 && slot_index == 1) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 11:
         if (slot_index == 0) {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot0PrimaryModule;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 12:
         if (slot_index == 1) {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot1PrimaryModule;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         }
         break;
     case 13:
         if (loaded_slot->skip_sound_setup != 0) {
             transfer->phase_size = FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= 0xFFFCFFFF;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         } else {
             transfer->sector_destination = transfer->alternate_sector_destination =
-                (u32)(D_801A8000 + slot_index * FILE_SECTOR_SIZE);
+                (u32)(gFile_StagingBuffer + slot_index * FILE_SECTOR_SIZE);
             transfer->phase_size = FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= 0xFFDCFFFF;
+            gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->transfer_mode = 1;
         }
         break;
@@ -1164,8 +1159,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             u32 transfer_clear_mask;
             do { transfer_clear_mask = 0xFFFCFFFF; } while (0);
             transfer->phase_size = 50 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= transfer_clear_mask;
-            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
+            gFile_dwTransferState &= transfer_clear_mask;
+            gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             transfer->transfer_mode = 1;
         } else {
             transfer->transfer_mode = 3;
@@ -1179,7 +1174,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
     case 15:
         transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
     case 16: {
@@ -1217,7 +1212,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
    assets: each takes the descriptor plus a phase index, and each switch arm
    programs the same fields -- phase_size, the sector_destination/alternate_sector_destination source
    window, done, and the field_30 halfword pair -- while clearing and setting
-   the same bits of gFile_dwTransferState_abs.
+   the same bits of gFile_dwTransferState.
 
    Both own a .rodata jump table, and the two tables are adjacent in the image
    (0x1F84 for the six-case switch, 0x1F9C for the eleven-case one). Together
@@ -1232,7 +1227,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
     switch (stage) {
     case 0:
         transfer->phase_size = 18 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->alternate_sector_destination = gModel_AuxiliaryPayloadAddress;
         transfer->sector_destination = gModel_AuxiliaryPayloadAddress;
         transfer->transfer_mode = 1;
@@ -1243,8 +1238,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         transfer->field_30.h.field_32 = 0x100;
         transfer->w = 0x40;
         transfer->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 64 * FILE_SECTOR_SIZE;
         transfer->sector_destination = (u32)gFile_TransferBufferBase;
@@ -1255,7 +1250,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         transfer->alternate_sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
         transfer->sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
 
@@ -1268,7 +1263,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         transfer->alternate_sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
         transfer->sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
 
@@ -1282,8 +1277,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         transfer->field_30.h.field_32 = 0;
         transfer->w = 0x40;
         transfer->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 32 * FILE_SECTOR_SIZE;
         transfer->sector_destination = (u32)gFile_TransferBufferBase;
@@ -1291,7 +1286,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         break;
 
     case 5:
-        gModel_bAuxiliaryLoadStep[0] = 1;
+        gModel_aSlots[2].load_step = 1;
         break;
     }
 }
@@ -1305,7 +1300,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
     switch (stage) {
     case 0:
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->alternate_sector_destination = (s32)gRuntime_pSharedWorkBase;
         transfer->sector_destination = (s32)gRuntime_pSharedWorkBase;
         transfer->transfer_mode = 1;
@@ -1316,8 +1311,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         transfer->w = 0x40;
         transfer->field_30.h.counter = 0;
         transfer->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
         transfer->sector_destination = (u32)gFile_TransferBufferBase;
@@ -1328,7 +1323,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
         transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
         transfer->phase_size = 2 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
 
@@ -1346,7 +1341,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         texture_row_rect.h = 8;
         LoadImage2(&texture_row_rect, (u32 *)gFile_abPackageStagingBuffer);
         transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
         transfer->sector_destination = gModel_Slot0VariantModuleAddress;
         transfer->transfer_mode = 1;
@@ -1354,7 +1349,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
 
     case 4:
         transfer->phase_size = 10 * FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
         transfer->sector_destination = gModel_Slot1VariantModuleAddress;
         transfer->transfer_mode = 1;
@@ -1370,8 +1365,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         transfer->w = 0x40;
         transfer->field_30.h.field_32 = 0x100;
         transfer->h = 0x10;
-        gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        gFile_dwTransferState_abs |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 8 * FILE_SECTOR_SIZE;
         transfer->sector_destination = (u32)gFile_TransferBufferBase;
@@ -1379,10 +1374,10 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         break;
 
     case 7:
-        transfer->alternate_sector_destination = (s32)D_801A8000;
-        transfer->sector_destination = (s32)D_801A8000;
+        transfer->alternate_sector_destination = (s32)gFile_StagingBuffer;
+        transfer->sector_destination = (s32)gFile_StagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
 
@@ -1399,7 +1394,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
         transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
         break;
 
@@ -1855,7 +1850,7 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
     /* pivot_position and orbit_position are the two long triples at the head of the reference view,
        vpx..vpz and vrx..vrz: orbit_position is moved around pivot_position. */
     if (direction_scale > 0) {
-        pivot_position = (long *)gModel_ViewReferencePoint;
+        pivot_position = &gModel_RView.vrx;
         orbit_position = pivot_position - 3;
     } else {
         pivot_position = &gModel_RView.vpx;

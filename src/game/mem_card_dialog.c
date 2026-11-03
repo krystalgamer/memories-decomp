@@ -11,16 +11,15 @@
 
 #include "../types.h"
 
-#ifndef MEM_CARD_DIALOG_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800EF6D0[0x4F0];
-u8 gMemCardDialog_DirectoryBuffer[600];
-u8 gMemCardDialog_FileNameBuffer[32];
-#else
-extern u8 D_800EF6D0[0x4F0];
-extern u8 gMemCardDialog_DirectoryBuffer[600];
-extern u8 gMemCardDialog_FileNameBuffer[32];
+#ifndef MEM_CARD_DIALOG_STORAGE_ORDER
+/* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38. GCC lays
+ * it out in first-declaration order, so it is declared here in address order
+ * ahead of the headers and defined once they supply the types (#2602). A
+ * regional wrapper that lays it out differently declares its own order and
+ * defines MEM_CARD_DIALOG_STORAGE_ORDER. */
+extern struct MemCardWorkArea gMemCardWork_Area;
+extern u8 gMemCardDialog_DirectoryBuffer[];
+extern u8 gMemCardDialog_FileNameBuffer[];
 #endif
 
 #include "text_box_blocking_build.h"
@@ -31,7 +30,7 @@ extern u8 gMemCardDialog_FileNameBuffer[32];
  * address order ahead of the headers that declare it (#2602). */
 s32 gMemCardDialog_SyncStatus;
 u8 gSaveData_PairMessageCode;
-u8 D_8009B3C1;
+u8 gDialog_bCallbackState;
 u16 gMemCardDialog_TransferSize;
 u16 gMemCardDialog_TransferOffset;
 u8 gMemCardDialog_MessageCode;
@@ -65,7 +64,7 @@ static u32 D_8009B3FC;
 #else
 extern s32 gMemCardDialog_SyncStatus;
 extern u8 gSaveData_PairMessageCode;
-extern u8 D_8009B3C1;
+extern u8 gDialog_bCallbackState;
 extern u16 gMemCardDialog_TransferSize;
 extern u16 gMemCardDialog_TransferOffset;
 extern u8 gMemCardDialog_MessageCode;
@@ -102,7 +101,6 @@ extern u16 gMemCard_wDialogFlags;
 #include "../psyq/strings.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
-#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "mem_card.h"
 #include "save_data.h"
@@ -140,6 +138,10 @@ extern u16 gMemCard_wDialogFlags;
 #include "../unmatched.h"
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
+
+MemCardWorkArea gMemCardWork_Area;
+u8 gMemCardDialog_DirectoryBuffer[600];
+u8 gMemCardDialog_FileNameBuffer[32];
 
 /* Initialized data this unit owns at 0x80090F9C: the memory card dialog step table.
  *

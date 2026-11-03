@@ -6,7 +6,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
-/* The view state at D_800F2848. Three files used to declare three DIFFERENT
+/* The view state at gViewState_Current. Three files used to declare three DIFFERENT
    structs for these same bytes -- `State { u16 a..h; char rest[0x20]; }` in
    view_state_reset_defaults.c, `Obj { s16 f0, f2, f4; u8 pad[8]; s16 fE; }` in
    the former duel_init_ground_projection_reference.c (now in
@@ -41,7 +41,7 @@
 
    0x10..0x2F is a Psy-Q GsRVIEW2, and that is a call rather than an
    inference: ViewState_ApplyViewpointOffset builds a `GsRVIEW2 *` at exactly
-   `&D_800F2848 + 0x10` and hands it to GsSetRefView2, whose parameter is that
+   `&gViewState_Current + 0x10` and hands it to GsSetRefView2, whose parameter is that
    type. Its own arithmetic corroborates the member order -- it adds its
    three arguments to vrx, vry and vrz at 0x1C, 0x20 and 0x24 and writes the
    sums to vpx, vpy and vpz at 0x10, 0x14 and 0x18, which is what a reference
@@ -59,9 +59,9 @@
    where the members inside it begin, and it stays spelled as its own cast
    in that file.
 
-   There is no size assert: D_800F2848 is a single object with no stride
+   There is no size assert: gViewState_Current is a single object with no stride
    evidence, so where the record ends is not something this code can show. */
-typedef struct {
+typedef struct ViewState {
     s16 field_00;
     s16 angle;
     s16 field_04;
@@ -91,7 +91,7 @@ typedef char ViewState_super_offset_must_be_0x2C[
 ];
 #undef VIEW_STATE_OFFSET
 
-extern ViewState D_800F2848;
+extern ViewState gViewState_Current;
 
 void ViewState_ApplyOrbit(void);
 /* Address-based alias retained for the unmatched caller and its candidate. */

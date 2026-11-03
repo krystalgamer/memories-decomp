@@ -261,14 +261,12 @@ segments:
       - [0xe0638, .bss, game/display_object_core]
       - [0xe3088, .bss, game/mem_card_driver]
       - [0xe3320, .bss, game/model_scene_controllers]
-      - [0xe4138, .bss, game/model_slot_control]
-      - [0xe41b0, .bss, game/model_slot_support]
-      - [0xe4210, .bss, game/model_distance_queries]
+      - [0xe5ea0, .bss, game/model_distance_queries]
       - [0xe5f50, .bss, game/movie_stream_requests]
       - [0xe5f68, .bss, game/model_keyframe_update]
       - [0xe6118, .bss, game/model_handler_registry]
       - [0xe6398, .bss, game/ai_script_vm]
-      - [0xe6488, bin, bss_image_800f5c88]
+      - [0xe64c0, bin, bss_image_800f5cc0]
 
   - name: reserved_zero
     type: bin

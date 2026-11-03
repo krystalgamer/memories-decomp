@@ -2,7 +2,7 @@
 
 /* Zero-initialized storage this unit owns at 0x800EAF08-0x800EAFF8, defined in
  * address order ahead of the headers that declare it (#2602). */
-u8 tent_DuelEffectOccupancy[240];
+u8 gDuelEffect_aOccupancyValues[240];
 
 #include "duel_effect.h"
 #include "duel_effect_entry_state.h"

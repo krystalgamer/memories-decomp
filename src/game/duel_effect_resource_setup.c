@@ -1,8 +1,8 @@
 #define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "card_constants.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #include "display_object.h"
@@ -60,7 +60,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
         0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
         DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);
     object->callback_data = (void *)slot;
-    gFile_dwTransferState_abs =
+    gFile_dwTransferState =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return object;
 }

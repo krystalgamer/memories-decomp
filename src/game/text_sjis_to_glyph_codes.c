@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "text_constants.h"
-#include "text_glyph_lookup.h"
 #include "text_sjis_to_glyph_codes.h"
 
 void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)

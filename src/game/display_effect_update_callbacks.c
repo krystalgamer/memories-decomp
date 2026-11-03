@@ -72,7 +72,7 @@ void DisplayPositionGroup_SetPosition(
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
-   byte. The record is a MenuRecord, the element type of D_800EB010 and the
+   byte. The record is a MenuRecord, the element type of gDisplayEffect_aMenuRecords and the
    callback argument type stored by gDisplayEffect_apfnSteps.
 
    Every use goes through that local, including the two calls that want a

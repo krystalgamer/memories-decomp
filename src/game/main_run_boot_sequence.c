@@ -1,5 +1,6 @@
 #define D_8009B098_IN_DATA
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 
 /* Zero-initialized storage this unit owns at 0x8009B428-0x8009B430, defined in
  * address order ahead of the headers that declare it (#2602). */
@@ -18,7 +19,6 @@ static u32 D_8009B42C;
 #include "../psyq/libds.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "main_boot_load_stages.h"
 #include "main_run_boot_sequence.h"
 #include "graphics_constants.h"
@@ -27,7 +27,7 @@ static u32 D_8009B42C;
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -97,8 +97,8 @@ void Main_RunBootSequence(s32 mode)
         Main_RequestLanguageBootPackage(BUILD_LANGUAGE_INDEX, 0);
         Fade_WaitInitOut();
         Main_ResetFrontendRuntime();
-        while (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                gFile_dwCancelRequestState_abs) != 0) {
+        while (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState) != 0) {
             Main_AdvanceFrame();
         }
         Main_InitDebugFont();

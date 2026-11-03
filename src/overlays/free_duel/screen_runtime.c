@@ -16,6 +16,7 @@
 #include "../../game/duel_effect.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/duel_side_state.h"
+#include "../../game/duel_session_controls.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/image_transfer_rects.h"
 #include "../../game/text_constants.h"
@@ -88,7 +89,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
-    panel = D_800EB0F8;
+    panel = gText_aChannels;
     w->field_30.h.field_30 = col * 56 + 20;
     w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);
@@ -107,9 +108,9 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     if (index != 0) {
         param = 12;
         base = (SaveDataWorkspace *)gSaveData_Workspace;
-        D_801D5608[0].pair.lo =
+        gText_StagedValues[0].pair.lo =
             (s16)base->state.duelist_records[index].result.wins;
-        D_801D5608[0].pair.hi =
+        gText_StagedValues[0].pair.hi =
             (s16)base->state.duelist_records[index].result.losses;
     }
 #ifdef VERSION_EUROPE
@@ -130,7 +131,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     DisplayObject *x;
 
     x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, gDisplay_abResourceBank0);
     ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
     DisplayObject_SetDepthOffset(x, 5);
@@ -305,24 +306,24 @@ done:
 #ifdef VERSION_EUROPE
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(
-        obj, 0, 0, 0, 1, gText_bLanguageIndex, 16, 0, D_801AF000);
+        obj, 0, 0, 0, 1, gText_bLanguageIndex, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, 11);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 #endif
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, -10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, gDisplay_abResourceBank0);
     ((u8 *)&obj->field_5E)[1] = 128;
     DisplayObject_SetDepthOffset(obj, 15);
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
@@ -489,7 +490,7 @@ void FreeDuel_UpdateScreen(void)
 
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
         TextBox_UpdateChannels();
-        panel = &D_800EB15C;
+        panel = TEXT_CHANNEL(1);
         if ((panel->flags_34 & FREE_DUEL_PANEL_COMPLETE_FLAG) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
@@ -570,7 +571,7 @@ void FreeDuel_UpdateScreen(void)
             gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
                 gFreeDuel_bCursorColumn,
             0x6000, 0x6000);
-        D_8009B368 = 6;
+        gDuel_bPostDuelMainMode = 6;
         gMain_bActiveModeState = 3;
     }
 }

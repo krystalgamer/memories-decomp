@@ -1,8 +1,5 @@
-#define D_8009B0A3_IS_VOLATILE_SCALAR
 #define D_8009B142_IN_DATA_VOLATILE
-#define GRAPHICS_DRAW_ENV_IS_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
-#define GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
 /* Graphics_AdjustScreenOffset re-reads both pad words on each path and reaches them outside
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -38,7 +35,7 @@
 /* The European build places it through config/sles_03947/symbols.txt; its
    .sdata is not carved from the executable. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-s32 runtime_gp = 0x3C;
+s32 gMain_nServiceResyncCountdown = 0x3C;
 #endif
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
@@ -112,16 +109,16 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     gGraphics_bClearGreen = 1;
     gFade_bTargetBlue = 1;
     gGraphics_bClearBlue = 1;
-    gLibGs_DrawEnvView[0].isbg = 1;
-    gLibGs_DrawEnvView[0].dtd = 1;
-    gLibGs_DrawEnvView[0].r0 = 1;
-    gLibGs_DrawEnvView[0].g0 = 1;
-    gLibGs_DrawEnvView[0].b0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->isbg = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->dtd = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->r0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->g0 = 1;
+    ((volatile DRAWENV *)&GsDRAWENV)->b0 = 1;
     count = six;
-    gGraphics_abOrderingTableLengths = 2;
-    gGraphics_bOrderingTable1Length = count;
-    gGraphics_bOrderingTable2Length = 0xC;
-    gGraphics_bOrderingTable3Length = count;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[0] = 2;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[1] = count;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[2] = 0xC;
+    ((volatile u8 *)gGraphics_abOrderingTableLengths)[3] = count;
 next:
     k = 3;
     buf->ordering_tables[0].length = 2;

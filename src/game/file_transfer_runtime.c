@@ -22,7 +22,7 @@
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 /* One eight-word LBA table: the file LBAs, the movie stream base at word 3
- * and the master XA LBA at word 6 are link_symbols.ld names inside it. */
+ * and the master XA LBA at word 6. */
 s32 gFile_anLba[8];
 
 /* The loader's zero-initialized state, defined here in address order before
@@ -31,7 +31,7 @@ s32 gFile_anLba[8];
 volatile s32 gFile_ServiceReentryLatch;
 u16 gFile_RangeWaitCountdown;
 void (*gFile_RangeReadCallback)(void);
-volatile u32 D_8009B0F4;
+volatile u32 gFile_dwTransferState;
 u32 *gFile_ReadySourceCursor;
 s32 D_8009B0FC;
 volatile u16 gFile_wStepState;
@@ -41,24 +41,25 @@ void (*gFile_BeforePrimaryRequestCallback)(void);
 u8 D_8009B110;
 volatile u16 gFile_wTransferStepFlags;
 u8 gFile_ReadyEventCount;
-s32 D_8009B118;
+s32 gFile_TransferBufferBase;
 char gFile_FilterParams[1];
 void (*gFile_RangePauseCallback)(void);
 volatile u16 gFile_ServiceCallGate;
 void (*gFile_SecondaryPayloadCompleteCallback)(void);
 s32 D_8009B12C;
 s32 gFile_CommandRetryCount;
-u32 D_8009B134;
+u32 gFile_dwCancelRequestState;
 s32 gFile_ReadyDataEventCount;
 static s32 D_8009B13C;
 #else
-extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
-extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
-extern s32 gFile_anLba[8];
+/* The regional wrapper declared these in its own address order. */
+FileTransferDescriptor gFile_SecondaryTransferDescriptor;
+FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+s32 gFile_anLba[8];
 extern volatile s32 gFile_ServiceReentryLatch;
 extern u16 gFile_RangeWaitCountdown;
 extern void (*gFile_RangeReadCallback)(void);
-extern volatile u32 D_8009B0F4;
+extern volatile u32 gFile_dwTransferState;
 extern u32 *gFile_ReadySourceCursor;
 extern s32 D_8009B0FC;
 extern volatile u16 gFile_wStepState;
@@ -68,24 +69,22 @@ extern void (*gFile_BeforePrimaryRequestCallback)(void);
 extern u8 D_8009B110;
 extern volatile u16 gFile_wTransferStepFlags;
 extern u8 gFile_ReadyEventCount;
-extern s32 D_8009B118;
+extern s32 gFile_TransferBufferBase;
 extern char gFile_FilterParams[1];
 extern void (*gFile_RangePauseCallback)(void);
 extern volatile u16 gFile_ServiceCallGate;
 extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
 extern s32 D_8009B12C;
 extern s32 gFile_CommandRetryCount;
-extern u32 D_8009B134;
+extern u32 gFile_dwCancelRequestState;
 extern s32 gFile_ReadyDataEventCount;
 #endif
 
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "file_constants.h"
 #include "file_cd_helpers.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
-#include "file_transfer_buffer.h"
 
 void File_InitTransferState(s32 value)
 {
@@ -806,7 +805,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
-        start_lba = *(s32 *)gFile_nMasterXaLba + request->sector_offset;
+        start_lba = gFile_anLba[FILE_INDEX_MASTER_XA] + request->sector_offset;
         return (s32)File_RequestSecondaryRangeTransfer(
             start_lba, start_lba + range_sector_count, request->cd_filter_channel, request->cd_filter_file
         );

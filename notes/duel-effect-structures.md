@@ -19,8 +19,8 @@ entries. The following local evidence establishes the stride and extent:
 - `DuelEffect_InitEntry`, `TextBox_SetRect`, `func_8003D614`, and
   `MemCardDialog_CreateObject` independently index or advance entries by `0x64`.
 - `MemCardDialog_CreateObject` scans exactly four entries.
-- `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; linker aliases
-  such as `D_800EB15C` also land on `0x64` entry boundaries.
+- `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; the former
+  per-channel aliases (now `TEXT_CHANNEL(i)`) landed on `0x64` boundaries.
 - Target assembly, GMS pseudocode, and Unchiga's same-address sources agree on
   the `25 * u32`/100-byte indexing. GMS and reference types are treated only
   as guesses; the local matching code and target instructions are decisive.
@@ -37,7 +37,7 @@ Verified channel fields used by matching C include:
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
-| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
+| `0x51` | `state_51` | low five bits dispatch `gTextBox_apfnStateCallbacks` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
@@ -334,7 +334,7 @@ Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
 the record through `TextBoxStateCallback`, defined with the other game-owned
 text/script value types in `ygo_types.h` and declared
-`void (*)(DuelEffectChannel *)`; all eighteen entries of `D_80090E64` have
+`void (*)(DuelEffectChannel *)`; all eighteen entries of `gTextBox_apfnStateCallbacks` have
 typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
@@ -446,8 +446,8 @@ size, word alignment and both offsets. The upper halfword is not given a
 universal flags meaning merely because the channel pump reads its low
 three bits.
 
-The unsized `tent_GlyphLookupTable` base and separate const entry-1 alias
-`tent_GlyphLookupTableEntries` retain their original bindings. Encoders
+The unsized `gText_aGlyphLookup` base and separate const entry-1 label
+`gText_aGlyphSearchEntries` keep their bindings. Encoders
 and decimal lookup use the named key; the builder retains its packed-word
 mask, and the pump retains the upper-halfword kind read. The decimal
 guard stays const. Whole-word zero sentinels and Europe's key-only zero
@@ -582,7 +582,7 @@ and clears the state; otherwise the latched index dispatches through
 `gDuelEffect_apfnStateHandler`. The complete five-slot contract is documented
 in [`duel-effect-state-runtime.md`](duel-effect-state-runtime.md).
 
-That dispatcher byte is separate from `D_8009B3C1`. In the later callback
+That dispatcher byte is separate from `gDialog_bCallbackState`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
 one-shot entry latch. The matching callbacks in `dialog_transition.c`
 and the load/save callbacks in

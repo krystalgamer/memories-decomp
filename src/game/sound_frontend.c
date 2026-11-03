@@ -4,14 +4,14 @@
 /* Zero-initialized storage this unit owns at 0x8009B400-0x8009B410, defined in
  * address order ahead of the headers that declare it (#2602). */
 u32 gSD_dwCurrentBgmCommand;
-u32 D_8009B404;
+u32 gSD_dwSavedBgmCommand;
 s8 gSD_bOutputType;
 static u8 D_8009B409;
 static u16 D_8009B40A;
 static u32 D_8009B40C;
 #else
 extern u32 gSD_dwCurrentBgmCommand;
-extern u32 D_8009B404;
+extern u32 gSD_dwSavedBgmCommand;
 extern s8 gSD_bOutputType;
 #endif
 

@@ -1,4 +1,5 @@
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #define DUEL_FIELD_GRID_2D
 #define GDIALOG_CHOICE_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
@@ -49,7 +50,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_noop_handlers.h"
@@ -148,7 +148,6 @@ DuelEffectHandler
     func_800289AC,
     DuelEffect_UpdateIdentitySave,
 };
-#define gDuel_sEffectWorkCounter D_8009B20C[1]
 
 char D_8009AF40[] = "%d\n";
 
@@ -314,8 +313,8 @@ void DuelEffect_StartRitual(void)
             CardPreview_RequestResourceTransfer(1, gDuel_RitualResultCardId);
         }
     } else if (!(
-        (gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-        gFile_dwCancelRequestState_abs
+        (gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+        gFile_dwCancelRequestState
     )) {
         gDuel_wCardEffectFlags = 0;
     }
@@ -466,7 +465,7 @@ void DuelEffect_ApplyRitual(void)
         break;
     case 3: {
         u16 state = gDuel_wTrapPresentationMode;
-        DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)gCardPreview_Resource1;
+        DuelEffectResourceRecord *resource = &gCardPreview_Resources[1];
         u8 *data;
         card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
         if (!(state & 0x80)) {

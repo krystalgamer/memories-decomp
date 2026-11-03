@@ -3,11 +3,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
-#include "file_transfer_buffer.h"
 
 #ifndef OPTIONS_PACKAGE_STAGE_MODE_2_X
 #define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x100

@@ -115,7 +115,7 @@ order, especially the sound mode-three path versus image mode two.
 
 The auxiliary callback's two palette rectangles retain their separate
 stages, rows and heights. Its completion remains the independent
-gModel_bAuxiliaryLoadStep[0] store, not a new indexed-slot publication.
+gModel_aSlots[2].load_step store, not a new indexed-slot publication.
 The special callback's slot_zero and metadata_source retain the fixed
 slot-zero sound/metadata copy, command clears, comparison clears and
 load-step store. Ordinary override application is NOT added here.

@@ -6,7 +6,7 @@ existing views, without new rendering or slot-lifecycle logic:
 
 | Original | Canonical view | Unchanged representation |
 |---|---|---|
-| `D_800F569F` | `gModel_bAuxiliaryActive` | incomplete `u8[]`, read at `[0]` |
+| `D_800F569F` | `gModel_aSlots[2].is_active` | `u8`, no separate symbol |
 | `ModelBackgroundRecord.field_A8` | `texture_height_flags` | `u16`, `+0xA8` |
 | `ModelBackgroundRecord.field_AA` | `texture_u_page` | `u16`, `+0xAA` |
 

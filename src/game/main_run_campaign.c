@@ -1,12 +1,16 @@
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-
-/* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800EAE88[0x50];
-
+#include "ai.h"
 #include "scene_script.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, in
+ * address order (#2602). Each common is aligned by its size, so the slot
+ * table starts at +0x10; only three slots fit before
+ * gDebug_szEditorCaretLine, matching SceneScript_UpdateSlots' sweep. */
+AiSelection gAi_Selection;
+SceneScriptSlot gSceneScript_Slots[3];
+
 #include "duel_effect.h"
 #include "fade.h"
 #include "script_command_runner.h"

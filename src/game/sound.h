@@ -1110,7 +1110,7 @@ void SD_StopAll(void);
  * declaring it in this header "would force one spelling on every includer",
  * and that was true of a flat declaration. An arm does not: each consumer
  * selects the spelling it already had, the same way gSD_pSecondaryState above is
- * handled and D_8009B0D8 is handled in graphics_frame.h. So the symbol can
+ * handled and gGraphics_nBaseFrameStep is handled in graphics_base_frame_step.h. So the symbol can
  * live here after all, with the split preserved rather than resolved. */
 #ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 extern u32 gSD_dwCurrentBgmCommand[];
@@ -1135,12 +1135,12 @@ extern u32 gSD_dwCurrentBgmCommand;
  * copied from is u32, so the word is declared u32; s32 builds
  * byte-identical. */
 #ifdef D_8009B404_IN_DATA
-extern u32 D_8009B404[];
+extern u32 gSD_dwSavedBgmCommand[];
 #else
-extern u32 D_8009B404;
+extern u32 gSD_dwSavedBgmCommand;
 #endif
 
-/* The byte after D_8009B404, 0x8009B408. Retail loads it lb where the C
+/* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where the C
  * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
  * the save state's byte into it (save_data_payload.c:201, :204;
  * func_8003D0F4.s:19-20) and SaveData_BuildPayload copies it into an s32

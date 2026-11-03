@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "main_frame.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 
 void File_WaitForTransfers(void) {
     for (;;) {

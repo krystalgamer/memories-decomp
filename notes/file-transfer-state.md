@@ -2,14 +2,13 @@
 
 These two existing words connect descriptor setup, asynchronous CD/DS
 callbacks, the per-frame transfer service and package/game wait predicates.
-The absolute names are addressing views, not additional storage.
+Each word has one name; a translation unit selects its addressing with
+`FILE_TRANSFER_WORDS_IN_DATA`, which adds no storage.
 
-| Former identity | Canonical name | Preserved view |
+| Former identities | Canonical name | Type |
 | --- | --- | --- |
-| `D_8009B0F4` | `gFile_dwTransferState` | volatile `u32`, small-data eligible |
-| `D_8009B0F4_abs` | `gFile_dwTransferState_abs` | volatile `u32`, `.data` |
-| `D_8009B134` | `gFile_dwCancelRequestState` | nonvolatile `u32`, small-data eligible |
-| `D_8009B134_abs` | `gFile_dwCancelRequestState_abs` | nonvolatile `u32`, `.data` |
+| `D_8009B0F4`, `D_8009B0F4_abs` | `gFile_dwTransferState` | volatile `u32` |
+| `D_8009B134`, `D_8009B134_abs` | `gFile_dwCancelRequestState` | nonvolatile `u32` |
 
 ## Transfer/request state
 
@@ -62,23 +61,20 @@ values or change the retry/queue policy.
 
 ## Declaration and native identity preservation
 
-The isolated header preserves the measured distinction: transfer state is
-volatile in both views; cancellation state is not volatile in either.
-The `.data` variants stay out of small data, while the plain declarations
-retain their original eligibility. This preserves volatile
+`file_transfer.h` preserves the measured distinction: transfer state is
+volatile and cancellation state is not, in both addressing arms. A unit
+that defines `FILE_TRANSFER_WORDS_IN_DATA` before its first include sees
+`.data`-section declarations and gets absolute `%hi`/`%lo` accesses; other
+units keep small-data eligibility and gp-relative accesses. This preserves volatile
 read-modify-write order and the cancellation value held live across its
 test/update sequence.
 
-Seven root scripts add canonical aliases for both views of each physical
-word, always pointing to the original provider. Japan binds
-`D_8009B0F4`, `D_8009B134` and their `_abs` views at its own addresses.
-No guessed allocation, initializer or new storage is added. Existing
-French literal aliases and all old symbols remain.
+No link aliases remain: each region's storage carries the canonical name
+directly, and the European runtime wrapper defines both words. No guessed
+allocation or initializer is added.
 
-Regional wrappers sometimes collapse plain and absolute CPP identities.
-Those wrappers are not rewritten or treated as independent storage; actual
-source/profile artifact comparison uses the original per-context names.
-Japan builds the card-data transfer body from the shared source.
+Regional wrappers that include a header before the North American source
+repeat the selector at their top so the first include sees it.
 
 In the Japanese image `0x8009B134` holds the dialog text ID
 `gDuel_wEffectDialogTextID`, not logical cancellation state; that image

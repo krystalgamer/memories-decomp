@@ -1,5 +1,5 @@
-D_800EB0F8 = 0x800F0850;
-D_8009B0D8 = 0x8009C43C;
+gText_aChannels = 0x800F0850;
+gGraphics_nBaseFrameStep = 0x8009C43C;
 TextBox_DestroyIndex = 0x80036148;
 TextBox_CreateFlagged = 0x800361D8;
 TextBox_BuildBlocking = 0x800399F0;

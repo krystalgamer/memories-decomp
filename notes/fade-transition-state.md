@@ -102,7 +102,7 @@ produce `1`, `2`, and `2`. The byte conversion matters; a sample of `256`
 has low byte zero and produces `1`, so this is not an unbounded elapsed
 VBlank count or a saturating conversion of the full counter. The helper
 then resets `gGraphics_dwSyncVBlankCounter` to `-1`, calls `VSync(0)`, and increments
-`gGraphics_dwSyncedFrameCount`. Its separate `D_8009AFA4` override affects `gGraphics_bFrameStep`, not
+`gGraphics_dwSyncedFrameCount`. Its separate `gGraphics_FrameStepControl` override affects `gGraphics_bFrameStep`, not
 `D_8009B0D8`.
 
 The signed word is a synchronization-window counter, not a monotonic
@@ -147,11 +147,11 @@ rather than inferred from a caller's name:
 |---|---|---|
 | `Fade_InitIn` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
-| `Fade_Init` in [`fade_runtime.c`](../src/game/fade_runtime.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `D_8009B145`; no transition is armed |
+| `Fade_Init` in [`fade_runtime.c`](../src/game/fade_runtime.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `gFade_bWhiteLatch`; no transition is armed |
 
 `Fade_StartIn` and `Fade_StartOut` call `Fade_InitIn` and `Fade_InitOut`,
 then request step `8` and flag `0x01` (band mode). However, both call a color
-helper **after** that request. When `D_8009B145` is nonzero,
+helper **after** that request. When `gFade_bWhiteLatch` is nonzero,
 [`Fade_ApplyWhiteLatchToFadeIn`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
 while [`Fade_ApplyWhiteLatchToFadeOut`](../src/game/fade_runtime.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
@@ -208,7 +208,7 @@ control byte is not a simple record of fade direction.
 ### What the extra bits do
 
 `FADE_FLAG_KEEP_OVERLAY` (`0x02`) is already covered by the submission table
-above: it makes the tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
+above: it makes the tail box take its depth from `gFade_bKeepOverlayDepth` (or `0x3F` when that is zero)
 instead of the fixed `4`. That is what lets other objects sort in front of
 the cover, and `Script_OpShowImage` is the clearest use -- it creates its
 full-screen image object and only then calls `0x80015C84`, the non-blocking
@@ -253,7 +253,7 @@ reaches `0xFF` has `Fade_Update` clear both bits, and secondary-table
 suppression is only consumed at level `0` together with `KEEP_OVERLAY`. Which
 screens would use the uncalled forms remains unknown.
 
-The two colour helpers act only while the `D_8009B145` white latch is set.
+The two colour helpers act only while the `gFade_bWhiteLatch` white latch is set.
 `Fade_ApplyWhiteLatchToFadeIn` and `Fade_ApplyWhiteLatchToFadeOut` then
 overwrite the tint with white, restore step `0x0C`, replace the flag byte
 (`0x90` and `0xB0` respectively) and set the destination colour that
@@ -314,8 +314,8 @@ The coordinates below belong to the scratchpad descriptor:
 |---|---|---|---|
 | `0x00` | none | one `320x240` box at `(0,0)` | `4` |
 | `0x01` | 30 `320x8` boxes at `(0,8*i)`, `i=0..29`, depth `4` | none | not applicable |
-| `0x02` | none | one `320x240` box at `(0,0)` | `D_8009B140`, or `0x3F` if zero |
-| `0x03` | the same 30 boxes at depth `4` | one `320x8` box at `(0,240)` | `D_8009B140`, or `0x3F` if zero |
+| `0x02` | none | one `320x240` box at `(0,0)` | `gFade_bKeepOverlayDepth`, or `0x3F` if zero |
+| `0x03` | the same 30 boxes at depth `4` | one `320x8` box at `(0,240)` | `gFade_bKeepOverlayDepth`, or `0x3F` if zero |
 
 The combined `0x03` path does **not** restore height or y after the band
 loop. Its extra submission is not another full-screen cover. The resident
@@ -389,9 +389,9 @@ competing declarations:
 - `Fade_DrawOverlay` passes `&gFade_State` to `Fade_Update`, while the tail
   uses typed `gFade_State` fields; that reproduces the target's fresh address
   materialization in the exact draw-screen-fade implementation.
-- `Fade_Update` keeps its existing `FadeTransitionState *` parameter and the offset-symbol array
-  `gFade_abCurrentLevel[]`; the latter preserves absolute `%hi/%lo` addressing for the
-  final level store instead of the small-data form. Its byte definitions
+- `Fade_Update` keeps its existing `FadeTransitionState *` parameter and
+  writes the final level as `gFade_State.level`; the 0x28-byte record is
+  outside small data, so the store keeps its absolute `%hi/%lo` form. Its byte definitions
   for `gGraphics_bClearBlue`, `gGraphics_bClearGreen`, and `gGraphics_bClearRed` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
 - `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
@@ -402,9 +402,9 @@ competing declarations:
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 
-`gFade_abCurrentLevel` is an offset symbol at `+0x04`, not a same-address
-alias. The flag and step bytes at `+0x06` and `+0x07` have no names of their
-own: the scene, model, script, library and overworld consumers read
+The level, flag and step bytes at `+0x04`, `+0x06` and `+0x07` have no
+names of their own (the former `gFade_abCurrentLevel` label at `+0x04` is
+gone): the scene, model, script, library and overworld consumers read
 `gFade_State.flags` and `gFade_State.step` like the grouped fade runtime. See
 [fade-state-byte-views.md](fade-state-byte-views.md).
 

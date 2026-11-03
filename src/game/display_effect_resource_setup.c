@@ -7,6 +7,7 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_effect_has_resource_entry.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -18,7 +19,6 @@
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "util_memory.h"
 #include "display_effect_load_resource_stage.h"
 #include "display_effect_build_resource_objects.h"
@@ -27,7 +27,7 @@
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
@@ -193,8 +193,8 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             }
             slot--;
         }
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             a->state &= 0x7F;
             return;
         }
@@ -207,10 +207,10 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         if (a->slot_index != 0) {
             req->callback_data = gDisplay_abResourceBank1;
         }
-        gFile_dwTransferState_abs = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+        gFile_dwTransferState = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     } else if ((a->state & 0x40) == 0) {
-        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState_abs) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             return;
         }
         a->state |= 0x40;

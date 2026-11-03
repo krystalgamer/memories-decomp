@@ -36,7 +36,7 @@ typedef struct {
     s16 y;
 } ProjectedPair;
 
-typedef struct {
+typedef struct ScreenPair {
     s16 x;
     s16 y;
 } ScreenPair;
@@ -490,10 +490,10 @@ typedef char LibraryMotionState_size_must_be_0x48[
     sizeof(LibraryMotionState) == 0x48 ? 1 : -1
 ];
 
-/* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
+/* One text-box record, 0x64 bytes, the element type of gText_aChannels. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
-   there), and 0x20/0x24 bracket the record's slice of tent_DuelEffectEntries:
-   TextBox_BuildStep seeds both with &tent_DuelEffectEntries[entry_range_start],
+   there), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
+   TextBox_BuildStep seeds both with &gDuelEffect_aEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *root_stream;
@@ -520,9 +520,9 @@ typedef struct DuelEffectChannel {
     u8 pad_0B;
     u16 local_x;
     u16 local_y;
-    /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
+    /* The object's slot in the gDuelEffect_aOccupancyValues occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
-       tent_DuelEffectOccupancy[glyph_index] and zeroes
+       gDuelEffect_aOccupancyValues[glyph_index] and zeroes
        entry_flags when it releases the slot. */
     u8 glyph_index;
     u8 entry_flags;
@@ -555,7 +555,7 @@ typedef struct DuelEffectChannel {
     /* The glyph buffer Text_PushFormattedDecimal formats a decimal number into; it then
        pushes the buffer as the channel's next stream. */
     u8 decimal_buffer[0x0D];
-    /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
+    /* TextBox_BuildStep dispatches on the low five bits through gTextBox_apfnStateCallbacks.
        0x80 is an initialization latch used by the waiting callbacks. */
     u8 playback_state;
     /* Reloaded from glyph_delay during glyph parsing; the CD-sound wait also
@@ -1167,7 +1167,7 @@ typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
 #define FADE_TRANSITION_STATE_SIZE 0x28
 #endif
 
-typedef struct {
+typedef struct FadeTransitionState {
     u8 tint_r;
     u8 tint_g;
     u8 tint_b;
@@ -1273,12 +1273,12 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
 ];
 
 /* Two words written together as a pair. free_duel/screen_runtime.c and
- * password/shop.c formerly defined this identically to view D_801D5608, and
+ * password/shop.c formerly defined this identically to view gText_StagedValues, and
  * each writes both members at once -- the low word from a table entry and the
  * high word from the index beside it. The password writer is
  * Password_UpdateShopScreen in password/shop.c.
  *
- * game/text_staging.h owns the declaration of D_801D5608. Pair is reached
+ * game/text_staging.h owns the declaration of gText_StagedValues. Pair is reached
  * through that header's union member `pair`, not through a guarded extern
  * view of its own, and the password starchip count through its `starchips`
  * member; no guarded alias of that storage remains. Pair

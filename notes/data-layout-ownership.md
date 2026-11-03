@@ -25,9 +25,9 @@ names stay local. A unit that owns small data is compiled without MASPSX's
 `--use-comm-section` (the `_comm` profiles), which would leave its commons for
 the linker to allocate in hash order.
 
-Names that are interior bytes of an owned object are linker aliases of it
-(`gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;` in
-`link_symbols.ld`), and `bss_start` is the start of the first owned block,
+Interior bytes of an owned object are reached through the object itself
+(`gGraphics_abOrderingTableLengths[1]`), not through separate linker names,
+and `bss_start` is the start of the first owned block,
 `text_SBSS_START`.
 
 The regional executables lay these blocks out in their own orders and still
@@ -125,14 +125,12 @@ object before it.
 | `src/game/mem_card_dialog.c` | `.bss` | `0x800EF6D0`-`0x800EFE38` |
 | `src/game/display_object_core.c` | `.bss` | `0x800EFE38`-`0x800F2888` |
 | `src/game/mem_card_driver.c` | `.bss` | `0x800F2888`-`0x800F2B20` |
-| `src/game/model_scene_controllers.c` | `.bss` | `0x800F2B20`-`0x800F3938` |
-| `src/game/model_slot_control.c` | `.bss` | `0x800F3938`-`0x800F39B0` |
-| `src/game/model_slot_support.c` | `.bss` | `0x800F39B0`-`0x800F3A10` |
-| `src/game/model_distance_queries.c` | `.bss` | `0x800F3A10`-`0x800F5750` |
+| `src/game/model_scene_controllers.c` | `.bss` | `0x800F2B20`-`0x800F56A0` |
+| `src/game/model_distance_queries.c` | `.bss` | `0x800F56A0`-`0x800F5750` |
 | `src/game/movie_stream_requests.c` | `.bss` | `0x800F5750`-`0x800F5768` |
 | `src/game/model_keyframe_update.c` | `.bss` | `0x800F5768`-`0x800F5918` |
 | `src/game/model_handler_registry.c` | `.bss` | `0x800F5918`-`0x800F5B98` |
-| `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5C88` |
+| `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
 
 Bytes inside a unit's range that no code names are written as `static`
 address-named objects (`static u32 D_8009B448;`): they keep the retail
@@ -241,10 +239,10 @@ wrapper gives that build its own storage. The wrapper defines
 `<UNIT>_REGIONAL_STORAGE`, which the shared source checks around its North
 American block (declaring the same names `extern` instead), and defines the
 region's storage before including the shared source:
-- a large block is one `u8` array, named for its address and the build
-  (`D_800EB158_slpm_86398`);
-- a small block is one scalar per slot (`D_8009B368_slpm_86398`);
-- the build's names are `link_symbols.ld` aliases into that storage.
+- a large block is declared as its typed variables in that build's address
+  order (`<UNIT>_STORAGE_ORDER`), or the shared definition takes the
+  build's record type and count (`DUEL_EFFECT_ENTRY_STORAGE_TYPE`);
+- a small block is one scalar per slot (`D_8009B368_slpm_86398`).
 
 Japan's text channels (four 0x60-byte records), duel-effect entries, input
 repeat timers and model small block use this; every other Japanese zero-
@@ -276,10 +274,19 @@ The European wrappers (now including `graphics_frame`, `file_transfer_runtime`,
 `duel_effect_object_pool`, `script_command_busy`, `sorted_entry_relink`,
 `sound_frontend` and `sound_output_transition`, which all five PAL builds
 compile) give each differing block European storage:
-- `.bss` blocks are one `u8` array, as in Japan.
+- `.bss` blocks are one `u8` array, as in Japan. The exception is a block
+  holding one object whose real type fills it, such as
+  `struct FadeTransitionState gFade_State` (32 bands).
 - `.sbss` blocks reuse the shared source's typed definitions in European
   address order, with the slots between them as `D_<ADDR>_sles_03947` scalars.
-- A name stays untyped, aliased to its slot, when its type would move it:
+- A slot whose shared type has the slot's own size is defined under that
+  shared name and type, with no link alias. A struct pointer the wrapper
+  needs before any header is spelled through its tag, as in
+  `struct SortedEntry *`.
+- A name stays untyped, aliased to its slot, when its type would move it.
+  This is a measured exception: maspsx aligns `.sbss` purely by size, so a
+  byte or halfword name in a European word slot can't be given its real type.
+  The cases are:
   - when its natural alignment (8 for arrays of 8 bytes or more, which also
     needs the block itself 8-aligned; 4 for words, pointers and arrays of 4 or
     more) doesn't hold at the European address;

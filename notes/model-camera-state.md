@@ -1,6 +1,6 @@
 # Model camera transition and presentation defaults
 
-This component names five resident data views used by the model camera
+This component names the resident data used by the model camera
 transition and presentation controllers. It changes identities, not
 storage, layouts, access widths, guards or behavior.
 
@@ -12,16 +12,17 @@ storage, layouts, access widths, guards or behavior.
 flags, endpoint slot selectors, elapsed/duration and interpolation
 coordinates retain their existing definitions.
 
-`gModel_wCameraFollowCountdown`, formerly `D_800F2B22`, is the record's
-`+2` view. The setter stores twice its request under the existing guard;
-setup initializes it to 300, follow mode decrements it toward zero and
-completion may wait for it. It is not the move duration. The canonical
-declaration keeps the old signed `s16` scalar even though the record member
-is `u16`; neither side is retyped.
+The record's `follow_countdown` member (`+2`, formerly the separate
+`D_800F2B22`/`gModel_wCameraFollowCountdown` alias) is the follow countdown.
+The setter stores twice its request under the existing guard; setup
+initializes it to 300, follow mode decrements it toward zero and completion
+may wait for it. It is not the move duration.
 
-`gModel_wCameraTargetSlot`, formerly `D_800F2B4A`, is the `target.slot`
-interior view consumed by distance correction. Its `s16[]` declaration
-remains incomplete, not a new scalar or allocation.
+Distance correction reads `target.slot` (formerly the
+`D_800F2B4A`/`gModel_wCameraTargetSlot` interior alias) directly through the
+record. Both fields are plain member accesses with no separate symbols; the
+record itself is defined once, as `gModel_CameraMove`, in
+`model_scene_controllers.c`.
 
 | Image | Record | Countdown | Target slot | Record extent |
 | --- | --- | --- | --- | --- |

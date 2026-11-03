@@ -20,7 +20,7 @@ void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth
  * is 1 and the two agree. */
 void Model_SetCameraTargetSlots(s32 first, s32 second);
 
-/* Stores twice `value` into the camera move's D_800F2B22, under that same
+/* Stores twice `value` into the camera move's follow_countdown, under that same
  * guard -- written with the test inverted, so the store sits inside
  * `state != 1 || Model_GetHandlerCallbackState() != state` rather than after an early return
  * (model_effect_requests.c:73).

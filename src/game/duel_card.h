@@ -73,14 +73,6 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 extern DuelCardRecord gDuel_aCardRecords[];
 
-/* The same table, entered five records in: 0x801A7B64 is 0x8C past
- * gDuel_aCardRecords and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
- * &gDuel_aCardRecords[5]. Duel_CollectMatchingFieldCardObjects retains this alias
- * for its two-side traversal and the original relocation.
- * Duel_CollectFieldRowCardObjects selects its row through gDuel_aCardRecords
- * instead. */
-extern DuelCardRecord D_801A7B64[];
-
 /* Writes a zero-terminated list of the occupied cards' object addresses for
  * one whole row, with no filter. The row is the front row of the side
  * gDuel_bActiveSide does not select, or the row behind it when back_row is nonzero.

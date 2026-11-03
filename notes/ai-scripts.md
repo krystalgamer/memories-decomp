@@ -39,7 +39,7 @@ Each claim below carries one of these tags:
   copies sectors 187-189 to `0x801A9800`.
 * **[code]** The hand-phase state `DuelScene_UpdateHandActions`
   ([duel_scene_hand_actions.c](../src/game/duel_scene_hand_actions.c)) calls
-  `Ai_RefreshBoardSnapshot()` and then `AiScript_Init(D_801A8000)`. The field-phase
+  `Ai_RefreshBoardSnapshot()` and then `AiScript_Init(gFile_StagingBuffer)`. The field-phase
   state ([duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c))
   calls `AiScript_Init(gAiScript_abFieldScript)`. `AiScript_Init` (`0x800705D8`) sets the
   cursor to the base address, so both programs always start at offset 0. The
@@ -104,7 +104,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   progress. The AI's rolls are therefore the same consecutive draws at any
   speed.
 * **Hand phase:** a single run ends at the one `EndHand` that is reached. The
-  outcome is the selection record at `D_800EAE88` (`gAi_Selection`).
+  outcome is the selection record `gAi_Selection` (`0x800EAE88` in North America).
   `AiSelection` exposes the same storage as signed `fields` and unsigned
   `bytes`; see [the shared selection contract](ai-structures.md#aiselection):
   * bytes 0-4: the hand slots to play, a list of up to five, which is the

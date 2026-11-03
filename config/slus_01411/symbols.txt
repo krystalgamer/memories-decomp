@@ -3,7 +3,7 @@ __main = 0x80012A78; // type:func size:0x70
 ScriptImage_TransferCallback = 0x8002DDFC; // type:func
 DebugMenu_UpdateTwoPlayerDuelEntry = 0x80031000; // type:func
 text_end = 0x800906D4; // ignore:True
-runtime_gp = 0x8009AF08;
+gMain_nServiceResyncCountdown = 0x8009AF08;
 bss_start = 0x8009B090;
 bss_end = 0x800FE728;
 overlay_slots_start = 0x8013A000;
@@ -177,7 +177,7 @@ SD_CalcPitchBend = 0x8004A3BC; // type:func
 SD_VabOpenHead = 0x800496C4; // type:func
 gSD_dwCurrentBgmCommand = 0x8009B400;
 gSaveDataSequence = 0x8009B3B8;
-tent_DecimalDigitSjisKeys = 0x80010330;
+gText_DecimalDigitSjisKeys = 0x80010330;
 gMemCard_szSaveFileName = 0x80010384;
 gSD_awNotePitchTable = 0x80010834;
 gGraphics_pPacketWorkCursor = 0x800FE240;
@@ -288,9 +288,6 @@ gMemCard_aIOEventHandles = 0x800F2AE0;
 gMemCard_aHwIOEventHandles = 0x800F2AF0;
 gMemCard_szRequestPath = 0x800F2B00;
 gAiScript_aMemory = 0x800F5B98;
-gAi_wBestDifference = 0x800F5C80;
-gAi_bBestAttacker = 0x800F5C82;
-gAi_bBestTarget = 0x800F5C83;
 gDuel_aActiveCards = 0x801AB000;
 gDuel_adwCardStats = 0x801D4244;
 AiScript_ReadByte = 0x8007058C; // type:func
@@ -772,7 +769,7 @@ Duel_LoadPackageStage = 0x800171A8; // type:func
 
 // Semantic names
 gText_abColorSlots = 0x801D5708;
-tent_GlyphLookupTableEntries = 0x801D9004;
+gText_aGlyphSearchEntries = 0x801D9004;
 
 // Semantic names
 gDuel_abCardLevelAttr = 0x801D5332;
@@ -1303,7 +1300,6 @@ gModelDebug_bSelectedDigit = 0x8009AFA1; // defined:True
 gGraphics_bPacketBufferIndex = 0x8009AFA2; // defined:True
 gGraphics_bFrameStep = 0x8009AFA3; // defined:True
 gGraphics_FrameStepControl = 0x8009AFA4; // defined:True
-D_8009AFA6 = 0x8009AFA6; // defined:True
 gModel_bCurrentDrawMode = 0x8009AFE4; // defined:True
 gModel_bBlendRateActive = 0x8009AFE5; // defined:True
 gModel_wDrawTintRedGreen = 0x8009AFE6; // defined:True
@@ -1336,6 +1332,7 @@ Graphics_BeginFrame = 0x80012E5C; // type:func
 Graphics_SubmitTextureWindowPacket = 0x8005B36C; // type:func
 gGraphics_DispEnv = 0x800E9D28;
 gDuel_bAnimatedBattleRequested = 0x8009B229;
+GsDRAWENV = 0x800FE048;
 GsDISPENV = 0x800FE0A8;
 PSDOFSX = 0x800FE030;
 PSDOFSY = 0x800FE034;
@@ -1630,7 +1627,7 @@ ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
 File_ServiceTransfers = 0x80014A5C; // type:func
 SD_ConfigureTransferPhase = 0x80014B30; // type:func
-gModel_ImageCopyRect = 0x8009B468;
+gModel_ImageCopyRectX = 0x8009B468;
 Main_ClearFrameServiceCallbacks = 0x800134B4; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
@@ -1672,8 +1669,8 @@ SD_HandleSequenceControlChange = 0x8004B49C; // type:func
 SD_ApplySequenceReverbParameter = 0x8004ACE4; // type:func
 SD_SetSequenceChannelProgram = 0x8004B6E8; // type:func
 SD_SetSequenceChannelPitchBendMsb = 0x8004B70C; // type:func
-tent_DebugEffectObject0 = 0x8009B180;
-tent_DebugEffectObject1 = 0x8009B184;
+gDebugEffect_pPreviewCard0 = 0x8009B180;
+gDebugEffect_pPreviewCard1 = 0x8009B184;
 tent_DisplayObjectStreamCommandTable = 0x80090FEC;
 
 // Semantic names
@@ -2037,7 +2034,6 @@ gMemCardWork_OperationState = 0x8009B3CF;
 
 gMemCardWork_Area = 0x800EF6D0;
 
-gMemCardWork_bRootBlocks = 0x800EF6E0;
 
 gMemCardWork_wFlags = 0x8009B3CC;
 
@@ -2279,7 +2275,6 @@ gDebug_szEditorCaretLine = 0x800EAED8;
 
 gModel_bHandlerCallbackState = 0x8009B07C;
 
-gModel_Slot0MetadataView = 0x800F3938;
 
 Model_UpdateSlotControl = 0x800559D4; // type:func
 
@@ -2304,7 +2299,6 @@ gModel_DiscEffectInitialScale = 0x8001187C;
 gModel_BurstEffectInitialScale = 0x8001188C;
 gDuel_pLifePointsPanel = 0x8009B21C;
 gMain_aAnimatedBattleModels = 0x800EF658;
-gFade_abCurrentLevel = 0x800E9ECC;
 gDuel_dwFieldDimTarget = 0x8009B1BC;
 gDuel_wPendingEquipBonus = 0x8009B154;
 
@@ -2315,6 +2309,7 @@ Model_DrawFogTexturedTriangles = 0x80033DB0; // type:func
 Model_DrawFogTexturedQuads = 0x80034830; // type:func
 
 Model_SetFogDrawFlags = 0x80035668; // type:func
+gMovie_bCopyDisplayOnStop = 0x8009B061; // defined:True
 gMovie_bFrameDecoded = 0x8009B062;
 gMovie_bStreamEnded = 0x8009B063;
 gMovie_bFadingOut = 0x8009B064;
@@ -2345,7 +2340,6 @@ gDebugMenu_szMenuEditorFormat = 0x80090D28;
 gDebugMenu_szMovieEditorFormat = 0x80090D44;
 gDisplayObject_FlatLightDown = 0x80090FCC;
 gDisplayObject_FlatLightUp = 0x80090FDC;
-gMovie_dwStreamBaseLba = 0x800E9EB4;
 
 CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
 
@@ -2392,8 +2386,6 @@ Text_OpenCampaignMap = 0x80038898; // type:func
 Duel_UpdateCardToSelectionView = 0x80022674; // type:func
 
 Duel_UpdateCardToFieldView = 0x800229F4; // type:func
-gDisplayObject_wSpriteListHead = 0x800EFE3A;
-gCardPreview_Resource1 = 0x800EA128;
 
 Model_MapToWireframePrimitiveHandler = 0x8005FC1C; // type:func
 
@@ -2558,3 +2550,25 @@ AiScript_SetUnreadFlag = 0x80073464; // type:func
 AiScript_ClearUnreadFlag = 0x80073474; // type:func
 gDuel_sGroundReferenceScreenX = 0x8009B200;
 gDuel_sGroundReferenceScreenY = 0x8009B202;
+gCampaignMap_bEntryLocation = 0x8009B363;
+gDuel_aFieldCardRecords = 0x801A7B64;
+gDebugEffect_aPreviewCardRecords = 0x801A7B80;
+gDebugEffect_szOperandsFormat = 0x80010074;
+gDebugEffect_szSecondOperandMarker = 0x80010090;
+gDebugEffect_szFirstOperandMarker = 0x800100A8;
+gDuel_wCampaignSceneOnWin = 0x8009B370;
+gDuel_wCampaignSceneOnLoss = 0x8009B372;
+gDuel_wAnimatedBattleBgmCommand = 0x8009B374;
+gScript_pMenuRecord = 0x8009B274;
+gDuel_DroppedCardTextValue = 0x801D56A8;
+gText_PrimaryStringOffsets = 0x801C0000;
+gText_GlobalStringOffsets = 0x801D5800;
+gText_PrimaryStringAddressAnchor = 0x801B0000;
+gDialog_bChoiceControl = 0x8009B34C;
+gText_aCurrentPlayerNameGlyphs = 0x801B125A;
+gText_aFirstPlayerNameGlyphs = 0x801B122B;
+gText_aSecondPlayerNameGlyphs = 0x801B1238;
+gDuelEffect_nCompactionRequested = 0x8009B330;
+gLibCd_nDeferredStreamInterrupt = 0x800F5D44;
+gLibrary_sCapturedReferenceY = 0x80181002;
+gLibrary_sSampledReferenceY = 0x80181012;

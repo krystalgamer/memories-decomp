@@ -267,15 +267,15 @@ and calls that key's handler from the seven-entry
 
 Matching consumers establish these heads and pass shapes:
 
-| Key | Head address | Matching consumer | Established behavior |
+| Key | Head | Matching consumer | Established behavior |
 |---:|---:|---|---|
-| `0` | `gDisplayObject_awListHeads` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
-| `1` | `gDisplayObject_wSpriteListHead` | `DisplayObject_RenderSpriteList` | Runs the callback, then fills the scratchpad sprite primitive for each renderable slot (or, through the clip test, a semi-transparent `POLY_FT4`) and submits it. |
-| `2` | `gDisplayObject_wSpriteSheetListHead` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
-| `3` | `D_800EFE3E` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `DisplayObject_RenderSpriteStrips` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
-| `4` | `D_800EFE40` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
-| `5` | `D_800EFE42` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |
-| `6` | `D_800EFE44` | `DisplayObject_RunSecondaryCallbackList` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
+| `0` | `gDisplayObject_awListHeads[0]` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
+| `1` | `gDisplayObject_awListHeads[1]` | `DisplayObject_RenderSpriteList` | Runs the callback, then fills the scratchpad sprite primitive for each renderable slot (or, through the clip test, a semi-transparent `POLY_FT4`) and submits it. |
+| `2` | `gDisplayObject_awListHeads[2]` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
+| `3` | `gDisplayObject_awListHeads[3]` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `DisplayObject_RenderSpriteStrips` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
+| `4` | `gDisplayObject_awListHeads[4]` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
+| `5` | `gDisplayObject_awListHeads[5]` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |
+| `6` | `gDisplayObject_awListHeads[6]` | `DisplayObject_RunSecondaryCallbackList` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
 
 Every matched list walker reads the next-slot link before invoking the current
 slot's callback. The callback can therefore remove or move the current slot

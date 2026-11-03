@@ -12,7 +12,7 @@
 #include "display_object_config.h"
 #include "game_over.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
     ((DisplayObjectConfig *)(object))

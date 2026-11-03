@@ -1,25 +1,8 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
-gText_awGlyphNibblePatterns = D_80090E28;
-gText_awGlyphColorMasks = D_80090E48;
 
-gText_aChannels = gJapanese_D_800EB0F8;
-gText_Channel1 = D_800EB15C;
-gText_dwChannel0State = D_800EB12C;
 
-gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 FreeDuel_Entry = 0x80168FB4;
-
-gDuel_aFieldCardRecords = D_801A7B64;
-
-
-gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
-gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
-gDebugEffect_aPreviewCardRecords = D_801B7B80;
-gDebugEffect_szOperandsFormat = D_80010074;
-gDebugEffect_szSecondOperandMarker = D_80010090;
-gDebugEffect_szFirstOperandMarker = D_800100A8;
-
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
 func_800617E0 = Model_DrawFt4Primitives;
@@ -71,25 +54,18 @@ func_800695A4 = Model_DrawSharedTwoSidedSemiGt4Primitives;
 func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
-gModel_CameraMove = D_800F2B20;
-gModel_wCameraFollowCountdown = D_800F2B22;
-gModel_wCameraTargetSlot = 0x800F03E8;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
 
-gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80060E70 = CardList_BuildRowSetTextBoxes;
-gCardList_aRowSets = D_801A8000;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
-gViewState_Current = D_800F2848;
 
 func_8003FFD8 = SD_CdBgmPlay;
-gSD_dwSavedBgmCommand = D_8009B404;
 
 func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
@@ -99,191 +75,58 @@ func_8002C570 = Library_CheckCardInChest;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
-gDuel_bBattleRemovalSlot1 = D_8009B209;
 
-gDuel_bPostDuelMainMode = 0x8009B258;
 gDuel_bResumeFromAnimatedBattle = 0x8009B259;
 gDuel_wCampaignSceneOnWin = 0x8009B260;
 gDuel_wCampaignSceneOnLoss = 0x8009B262;
 gDuel_wAnimatedBattleBgmCommand = 0x8009B264;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPlacementNeedsCardMoveSetup = 0x8009B108;
-gDuel_bFieldActionAutoCommit = D_8009B21A;
 
-gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = 0x8009B164;
-
-gFile_dwTransferState = 0x8009AFE4;
-gFile_dwTransferState_abs = 0x8009AFE4;
-gFile_dwCancelRequestState = 0x8009B024;
-gFile_dwCancelRequestState_abs = 0x8009B024;
-
-gFile_TransferBufferBase = D_8009B118;
-
-gDisplay_abResourceBank0 = D_801AF000;
-gDisplay_abResourceBank1 = D_801AF800;
-
-
-gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
-gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
-gDebug_bEditorCaretColumn2 = tent_DebugInterfaceFieldB6;
-gDebug_bEditorLeadingLineCount = tent_DebugInterfaceFieldB8;
-gDebug_abEditorDigitCounts = tent_DebugInterfaceFieldC0;
-gDebug_bEditorDigitCount1 = tent_DebugInterfaceFieldC1;
-gDebug_bEditorDigitCount2 = tent_DebugInterfaceFieldC2;
-gDebug_bEditorRowCount = tent_DebugInterfaceFieldE0;
-gDebug_bEditorFlags = tent_DebugInterfaceFlags;
-gDebug_pszEditorFormat = tent_DebugInterfaceData;
-
-gText_StagedValues = D_801D5608;
-gDuel_DroppedCardTextValue = D_801D56A8;
-
 gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
-gFade_bKeepOverlayDepth = 0x8009B030;
-gFade_bWhiteLatch = D_8009B145;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-
-gText_PrimaryStringOffsets = D_801C0000;
-gText_GlobalStringOffsets = D_801D6000;
-
-gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
-
-gDialog_bChoiceControl = D_8009B34C;
-gDialog_bCallbackState = D_8009B3C1;
-
-gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;
 gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 
-gLibCd_nDeferredStreamInterrupt = D_800F5D44;
-gLibGs_sActiveBufferIndex = D_800FE0CC;
-gMovie_bCopyDisplayOnStop = D_8009B061;
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
-gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
-gDuelEffect_nCompactionRequested = D_8009B330;
 
-PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
-PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 
-gText_aGlyphLookup = tent_GlyphLookupTable;
-gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
-gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
 
 /* Canonical view of the retained handler-key registry. */
-gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gModel_bAuxiliaryLoadStep = D_800F5694;
-gModel_bAuxiliaryActive = D_800F569F;
-gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = 0x80090D14;
-gDuel_wActionSubstate = D_8009B20C;
-gDuel_sEffectWorkCounter = D_8009B20C + 2;
-gMain_nServiceResyncCountdown = runtime_gp;
-gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
-gText_Channel3 = 0x800EB0F8;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
-D_8009B0F4_abs = 0x8009AFE4;
-D_8009B134_abs = 0x8009B024;
-gFile_wTransferStepFlags_abs = 0x8009B002;
 
 /* Former Japanese names still used by the duel_draw_resolution.c and
  * duel_effect_states.c wrappers. */
 
-/* Names inside the small zero-initialized blocks this build's units own
- * (#2602): the blocks' start and the Japanese spellings of interior names. */
-D_8009AF80 = main_SBSS_START;
+/* The startup code clears bss from the first small zero-initialized object. */
+bss_start = main_SBSS_START;
+
+/* Names inside the small zero-initialized blocks this build's units own (#2602). */
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-tent_AiSelectionRandom = D_800EAE88 + 8;
-D_800E9F04 = D_800E9EF0 + 20;
-gAi_Selection = D_800EAE88;
-gCardPreview_Resource1 = D_800E9EF0 + 568;
-gCardPreview_Resources = D_800E9EF0 + 504;
-gDisplayObject_apWorkSlots = D_800E9EF0;
-gDuelHand_aSlots = D_800E9EF0 + 320;
-gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
-gDuel_aSideStates = D_800E9EF0 + 256;
-gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
-gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
-gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
-gDuel_abSelectionSides = D_800E9EF0 + 32;
-gFade_abCurrentLevel = gFade_State + 4;
-gFile_nMasterXaLba = gFile_anLba + 24;
-gMovie_dwStreamBaseLba = gFile_anLba + 12;
-gSceneScript_Slots = D_800EAE88 + 16;
-
-/* Names inside text_box_runtime's own storage (#2602). */
-D_800EB12C = gJapanese_D_800EB0F8 + 52;
-D_800EB15C = gJapanese_D_800EB0F8 + 96;
-gDisplayObject_apBrightnessPool = gJapanese_D_800EB0F8 + 136;
-gText_Channel3 = gJapanese_D_800EB0F8 + 288;
-
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
-tent_DuelEffectEntries = D_800EB158_slpm_86398;
-gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 
 /* Names inside input_pads's own storage (#2602). */
-gInput_abRepeatTimers = D_800ECD88_slpm_86398;
-D_800F2848 = D_800EFE38 + 10768;
-D_800F5694 = D_800F3A10 + 7300;
-D_800F3288 = gAiScript_aMemory + 24;
-gAiScript_State = D_800F5BE8;
-gAi_wBestDifference = D_800F5BE8 + 152;
-gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
-gDisplayObject_aPool = D_800EFE38 + 16;
-gDisplayObject_awListHeads = D_800EFE38;
-gDisplayObject_awListKeys = D_800EFE38 + 10816;
-gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
-gMemCardWork_Area = D_800EF6D0;
-gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
-gMemCard_aDirEntries = D_800F2888;
-gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
-gModel_RView = D_800F3A10 + 7392;
-gModel_SavedRefView = D_800F3A10 + 7424;
-gModel_Slot0MetadataView = D_800F3938;
-gModel_Slot0Scale = D_800F39B0 + 64;
-gModel_ViewReferencePoint = D_800F3A10 + 7404;
-gModel_aEffectKeys = D_800F5768 + 32;
-gModel_aPoseSnapshot = D_800F5768;
-gModel_aSlot0FlatLights = D_800F39B0;
-gModel_aSlots = D_800F2C40;
-gModel_awSlot0Position = D_800F3A10;
-gModel_awStageSlotModelId = D_800F3A10 + 7272;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
-gModel_ImageCopyRect = D_8009B368_slpm_86398;
-gModel_ImageCopyRectY = D_8009B36A_slpm_86398;
-gModel_ImageCopyRectW = D_8009B36C_slpm_86398;
-gModel_ImageCopyRectH = D_8009B36E_slpm_86398;
-gModel_sTextureTintRectX = D_8009B370_slpm_86398;
-gModel_sTextureTintRectY = D_8009B372_slpm_86398;
-gModel_sTextureTintRectW = D_8009B374_slpm_86398;
-gModel_sTextureTintRectH = D_8009B376_slpm_86398;
-gModel_wViewDistance = D_8009B378_slpm_86398;
-gModel_wViewYaw = D_8009B37A_slpm_86398;
-gModel_wViewPitch = D_8009B37C_slpm_86398;
-gModel_ViewSnapshot = D_8009B380_slpm_86398;
-gModel_wViewYawSnapshot = D_8009B382_slpm_86398;
-gModel_wViewPitchSnapshot = D_8009B384_slpm_86398;
+gDisplay_abResourceBank1 = 0x801BF800;
+gText_StagedValues = 0x801D5608;
 
 /* Names inside the initialized tables Japan's units own (#2602). */
-D_80090E28 = D_80090E0C + 28;
-D_80090E48 = D_80090E0C + 60;
 gText_apfnPrimaryCommands = gText_SecondaryCommandHandlers + 108;
 gDuelEffect_EntryHandlers = gText_SecondaryCommandHandlers + 172;
 gDialog_apfnTransitionSteps = gDisplayEffect_apfnSteps + 32;

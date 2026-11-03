@@ -10,6 +10,7 @@
 #define DUEL_SAVE_WINDOWS_AS_PAIR
 #define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "../types.h"
+#define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -30,7 +31,6 @@
 #include "trig_constants.h"
 #include "duel_init_scene.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "duel_result_load_outro_package_stage.h"
 #include "sound.h"
 #include "sound_output.h"
@@ -60,7 +60,6 @@
 #include "duel_effect.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "display_resource_banks.h"
 #include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -256,8 +255,8 @@ void DuelScene_UpdateResultOutro(void)
     switch (state) {
     case 1:
         if ((flags & 0x80) == 0) {
-            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                gFile_dwCancelRequestState_abs) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState) {
                 return;
             }
             gDuel_bSceneSubStep = flags | 0x80;
@@ -274,8 +273,8 @@ void DuelScene_UpdateResultOutro(void)
                 (s32)((u8 *)slots - 0x1800));
             SD_BGMPreload(gDuelResult_wBgmId);
         } else {
-            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                gFile_dwCancelRequestState_abs) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState) {
                 return;
             }
             gDuel_bSceneSubStep = 2;
@@ -351,8 +350,8 @@ void DuelScene_UpdateResultOutro(void)
                 }
             }
         } else {
-            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                gFile_dwCancelRequestState_abs) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState) {
                 return;
             }
             if (DisplayObject_FindAllocatedByTag(1) == 0) {

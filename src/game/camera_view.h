@@ -29,13 +29,12 @@
    and pitch triple at gModel_wViewDistance. The three-element shape is confirmed by
    Model_EvaluateKeyframeSpline, which indexes it with an eight-byte stride, and by the
    gaps the writer leaves at +6, +14 and +22, which are exactly SVECTOR's
-   pad member. */
-extern SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT];
+   pad member. The storage holds one more vector than that: the key ring
+   gModel_aEffectKeys starts at +0x20, and nothing in the image reads or
+   writes the eight bytes at +0x18. */
+extern SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT + 1];
 
 extern GsRVIEW2 gModel_RView;
-
-/* Incomplete interior view of gModel_RView.vrx/vry/vrz; no separate storage. */
-extern s32 gModel_ViewReferencePoint[];
 
 /* Advance the camera move or follow/orbit the selected model slots. */
 void Model_UpdateCamera(void);

@@ -1,12 +1,11 @@
 # Frame-service countdown and drawing-environment views
 
-The system-service and graphics-frame units expose two existing data roles
-without changing their declarations, storage or compiler-visible tokens:
+The system-service and graphics-frame units name two existing data roles:
 
-| Native identity | Canonical view | Existing representation |
+| Former identity | Canonical name | Representation |
 |---|---|---|
 | `runtime_gp` | `gMain_nServiceResyncCountdown` | signed `s32` |
-| `D_800FE048` | `gLibGs_DrawEnvView` | unsized `DRAWENV[]` transport |
+| `D_800FE048`, `gLibGs_DrawEnvView` | `GsDRAWENV` (libgs) | scalar `DRAWENV` |
 
 ## Countdown, not an inferred monitor protocol
 
@@ -23,9 +22,10 @@ heap, passive-snapshot, crash-reset or elapsed-time interpretation is added.
 In particular, the decrement-before-underflow behavior is not replaced by
 a claim that reset occurs after exactly sixty idle calls.
 
-The original initialized `runtime_gp` definition, native symbol, `.sdata`
-attribute and regional placement remain intact. The code-generation name
-is not renamed in any linker, definition or backend input.
+`main_services.c` defines the initialized word as
+`gMain_nServiceResyncCountdown` in `.sdata`, and every region binds that name
+directly; the former `runtime_gp` symbol and its link alias are gone.
+Its regional placement is unchanged.
 
 ## SDK object with a distinct game-facing view
 
@@ -35,16 +35,10 @@ The original SDK address/type evidence is recorded in
 `DRAWENV *`; the game writes the existing dither, background-clear and RGB
 bytes at their independently asserted offsets.
 
-The game accesses only element zero of its unsized array transport.
-Startup keeps its volatile arm, while frame updates keep the nonvolatile
-arm. Every byte store retains its original order and value, including
-startup's ones.
-
-The SDK header's `GsDRAWENV` is a scalar declaration, so it is not replaced
-with the incompatible array/volatile type. The separate canonical
-`gLibGs_DrawEnvView` aliases the existing game identifier after its original
-declaration arm has been selected. No SDK header, qualifier, typedef,
-storage allocation or array length is introduced.
+The game writes the libgs `GsDRAWENV` scalar directly. Startup stores
+through a volatile cast at each use, while frame updates use the plain name.
+Every byte store retains its original order and value, including startup's
+ones. No storage allocation or array length is introduced.
 The four bytes following the `0x5C` environment remain unclassified.
 
 ## Actual image providers

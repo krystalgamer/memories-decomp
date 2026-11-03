@@ -36,8 +36,8 @@ stays a three-byte array and `pad_0F` remains an uninterpreted byte.
 
 `Model_GetFlatLight` retains its legacy byte-pointer return, unsigned
 light-index fallback to zero for indices at least three, unchecked model
-index and separately relocated `gModel_aSlot0FlatLights` interior alias
-at `0x800F39B0`. It is not rewritten as a direct slot-member address.
+index, and reads `gModel_aSlots[index].flat_lights` (the former
+`gModel_aSlot0FlatLights` alias at `0x800F39B0`).
 
 The Library card-view path obtains lights two and zero through that
 accessor. Its nine direction-word stores now use the same canonical names.
@@ -71,14 +71,14 @@ instructions in multiple functions:
   its recompilation seed inventory identifies the same function family.
   Local recompilation and full-executable matching remain decisive.
 
-The extent is also locally bounded. Linker aliases `gModel_aSlot0FlatLights`,
-`gModel_Slot0Scale`, and `gModel_awSlot0Position` are respectively `+0xD70`, `+0xDB0`, and
-`+0xDD0` from the base, matching fields inside slot zero.
-`gModel_bAuxiliaryActive` (linker-aliased to native label `D_800F569F`) sits at
+The extent is also locally bounded. The former linker aliases
+`gModel_aSlot0FlatLights`, `gModel_Slot0Scale`, and `gModel_awSlot0Position`
+were respectively `+0xD70`, `+0xDB0`, and `+0xDD0` from the base, matching
+fields inside slot zero. Native label `D_800F569F` sits at
 `gModel_aSlots + 2 * 0xE20 + 0xE1F`: slot 2's `is_active`, also the last
 byte of the three-slot run. All seven actual providers agree with this
-relation; `gModel_CameraCoordinateUnit` follows immediately. The interior
-aliases retain their original native declarations and independent relocations.
+relation; `gModel_CameraCoordinateUnit` follows immediately. Readers now
+name these members directly; there are no separate interior symbols.
 
 Verified shared fields and partial arrays are:
 
@@ -267,8 +267,8 @@ remain. See [the complete producer/consumer protocol](model-slot-properties.md#c
 ### Render scale and cached coordinate-origin dimensions
 
 `ModelSlot.field_DB0` is now `render_scale`, retaining the four signed
-words of `ModelSlotS32Quad` at +0xDB0. The original scale APIs and
-`gModel_Slot0Scale` alias retain their pointer/stride construction;
+words of `ModelSlotS32Quad` at +0xDB0. The original scale APIs retain
+their pointer construction;
 nonnull setter copies all four words, null resets only the first three
 in the original order. No SDK VECTOR retyping or fourth-word clear.
 
@@ -385,8 +385,7 @@ or general camera-hold policy is asserted.
 The tail members denote the SAME bytes as ModelSlot's accepted guardian
 selection and defense position, proved by relative/absolute offset and
 width checks. MODEL_SLOT_CF8_DFE_OFFSET and MODEL_SLOT_CF8_DFF_OFFSET
-address constructions and the independent gModel_Slot0MetadataView
-relocation remain. Reset can
+address constructions remain, rooted at &gModel_aSlots[0].metadata. Reset can
 still store the auxiliary slot index two in guardian_star_selection;
 only the established property setters normalize nonnegative requests.
 The two-element arrays and getter mask add no new index validation.
@@ -485,7 +484,7 @@ normalized to zero or one and mirrored to `gModelDebug_abSlotAfFlags[index]` and
 `gModelDebug_abSlotGfFlags[index]`.
 
 Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
-`0xB2`-byte table selected by `gModel_awStageSlotModelId[0]`. Every call finishes by setting
+`0xB2`-byte table selected by `gModel_aSlots[2].model_id`. Every call finishes by setting
 `gModel_bSceneMode` to `15`. These writes establish field widths, slot bounds, and
 mirror relationships. The preceding producer trace establishes the model ID,
 guardian-star selection and defense posture. The middle words now name only
@@ -1034,9 +1033,8 @@ the same storage, without an extra copy, allocation or new access path.
 ModelSlotCF8TailView deliberately keeps its address-rooted name and
 FULL 0x108-byte extent. It reaches BEYOND the loaded 28-byte block through
 the independent guardian-star selection/defense-position bytes.
-gModel_Slot0MetadataView retains that exact type, interior label,
-relocation and slot-stride construction. The rename does not claim
-ownership of the intervening bytes or replace it with member indexing.
+Readers cast &gModel_aSlots[0].metadata plus the slot stride to that
+type. This does not claim ownership of the intervening bytes.
 The prefix values.field_08 remains opaque: its word view overlaps two
 dimension thresholds AND the guardian-star option bytes. It is not
 reclassified as a universal flags word. Other raw members stay as they are.

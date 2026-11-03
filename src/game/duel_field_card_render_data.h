@@ -9,7 +9,7 @@
 /* Active duel display-transition request/status flags. Every consumer uses
  * this same scalar view; it is not the separate view-tween frame counter.
  *
- * gDuel_wDisplayTransitionFlags is pinned by its neighbour: c_symbols.ld names D_8009B164
+ * gDuel_wDisplayTransitionFlags is pinned by its neighbour: gDuel_bQuitDialogState sits
  * two bytes later, so it has no room for an element to carry its own name.
  * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
 extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
@@ -80,7 +80,5 @@ extern DisplayObject *gDuel_pFlipRightMarker;
  * and Duel_UpdateCardUseConfirmation flips it face up or down. */
 extern DisplayObject *gDuel_pActionCard;
 extern DisplayObject *gDuel_pActionReadyMarker;
-
-extern s8 gDuel_bSide1CardViewMode[];
 
 #endif

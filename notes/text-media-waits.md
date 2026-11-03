@@ -16,7 +16,8 @@ remain unchanged.
 ## File predicate and BGM caller ABI
 
 The file wait preserves
-`(D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134_abs`,
+`(gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState`
+(both in their `.data` arm),
 with mask `0x02000030`, and clears text state only for zero. It does not
 start, cancel or service a transfer, and this predicate is not a promise
 that every possible kind of device I/O is idle. The BGM control command's
@@ -29,9 +30,9 @@ passes its effect object in `$a0`. Retain the
 do not strengthen the caller to the callee's zero-argument view. The fade
 command's high operand bit selects this state.
 
-The absolute file-state declaration views, widths and qualifiers stay
-fixed. In particular, the transfer-step `_abs` halfword remains the
-existing nonvolatile `.data` view, not the separate volatile GP view.
+The file-state declaration arms, widths and qualifiers stay fixed. In
+particular, the transfer-step halfword is read through its
+`FILE_TRANSFER_STEP_FLAGS_IN_DATA` `.data` arm, not the small-data arm.
 
 ## CD-sound producer and initialization
 

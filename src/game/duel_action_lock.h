@@ -30,37 +30,22 @@ extern u16 gDuel_wCardEffectFlags;
 extern s16 gDuel_sCardEffectIndex;
 extern s16 gDuel_wEffectCardID;
 
-/* Legacy two-halfword transport. Field sweeps and countdown work reach [1],
- * which retail addresses
- * as %gp_rel(D_8009B20C + 0x2): 23 sites, 7 lh, 5 lhu and 11 sh, three of
- * them in DuelEffect_ApplyRitual. In the other matched TUs the lhu
- * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
- * DuelEffect_ApplyStatPenalty runs it down from 0x10; the other three reset it
- * to 0 or
- * -1, advance it and index gDuel_abFieldGridCardRecordIndices by it. [0] is a
- * packed action substate in DuelScene_UpdateHandActions and
- * DuelScene_UpdateFieldActions, which both reach it as the scalar
- * gDuel_wActionSubstate below. PAL images keep the action word apart from
- * the effect-work base, so adjacency is not a shared-record contract. Four bytes,
- * the extent up to gDuel_wTrapPresentationMode, stays gp-relative at every threshold in
- * play; with [4] shared instead, an assembler -G4
- * (DuelEffect_ApplyRaigeki's until
- * #3859 found that threshold inert) takes the eight bytes out of small data
- * and the tree does not link. */
-extern s16 D_8009B20C[2];
-
-/* Semantic scalar exports. The two action handlers use gDuel_wActionSubstate
- * directly; the effect handlers keep their legacy D_8009B20C[1] views. */
+/* Two adjacent halfwords in the North American and Japanese small data,
+ * separate variables in PAL (whose action substate sits elsewhere).
+ *
+ * gDuel_wActionSubstate is the packed action substate of
+ * DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions.
+ * gDuel_sEffectWorkCounter is the field-sweep and countdown counter: retail
+ * reaches it gp-relative at 23 sites (7 lh, 5 lhu, 11 sh, three in
+ * DuelEffect_ApplyRitual); the lhu is where the source writes
+ * `*(u16 *)&gDuel_sEffectWorkCounter` for the +1 or -1. DuelEffect_ApplyStatPenalty
+ * runs it down from 0x10; the other three reset it to 0 or -1, advance it and
+ * index gDuel_abFieldGridCardRecordIndices by it. Both were once one
+ * `s16 [2]` array plus linker aliases; the scalars build identically. */
 extern u16 gDuel_wActionSubstate;
 extern s16 gDuel_sEffectWorkCounter;
 
-/* The halfword immediately past that pair, at D_8009B20C + 4 -- the extent
- * the note above measures against. It stays a separate declaration for the
- * reason recorded there: spelling the pair as [4] to cover these four bytes
- * takes eight bytes out of small data under an assembler -G4, which
- * DuelEffect_ApplyRaigeki was built at until #3859, and the tree stopped
- * linking, so
- * this address got its own scalar.
+/* The halfword immediately past the counter.
  *
  * It is the trap presentation's mode: Duel_UpdateTrapPresentation in
  * duel_battle_stats.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes

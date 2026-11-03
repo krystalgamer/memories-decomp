@@ -9,8 +9,8 @@
  * - The pad word is volatile: every test re-reads it.
  * - The side records are the DuelSelectionRecord struct, not byte views:
  *   the cursor-object loads pass the state stores only as struct members.
- *   Record 3 of the current side is gDuel_abSelectionSides + 0x54 (spimdisasm names it
- *   gDuel_abSelectionRecord3) so cse can derive one from the other, and the pick cursor is
+ *   Record 3 of the current side is gDuel_abSelectionSides + 0x54, written from
+ *   the table base so cse can derive one from the other, and the pick cursor is
  *   record 2 of the same table.
  * - The slot index row * 5 + col is a separate statement into the loop
  *   counter i wherever retail computes the sum into its own register.
@@ -139,7 +139,7 @@ void DuelScene_UpdateFieldActions(void)
     u32 f;
     s32 flags;
 
-    side = (DuelSelectionRecord *)gDuel_abSelectionRecord2 + gDuel_bActiveSide * SIDE_SIZE;
+    side = (DuelSelectionRecord *)(gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * SIDE_SIZE;
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
         if (gDuel_aSideStates[0].life_points.signed_value == 0 ||

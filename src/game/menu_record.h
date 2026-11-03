@@ -3,9 +3,9 @@
 
 #include "../types.h"
 
-/* The three 0x4C-byte records at D_800EB010. Every accessor agrees on the
+/* The three 0x4C-byte records at gDisplayEffect_aMenuRecords. Every accessor agrees on the
  * stride: Text_HandleDisplayEffectCommand indexes
- * `D_800EB010 + slot * 0x4C`, Script_OpShowMenu
+ * `gDisplayEffect_aMenuRecords + slot * 0x4C`, Script_OpShowMenu
  * selects a record with `((bit >> 7) * 0x4C)`, and DisplayEffect_ResetMenuRecords and
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
@@ -81,7 +81,7 @@ typedef struct MenuRecord {
        them to DisplayPositionGroup_SetPosition as the final x and y, and
        subtracts a cosine fraction of 0x44/0x46 from them on the way.
        DisplayEffect_FadeInRecord uses 0x40 differently -- a 0..0x80 fade ramp it steps by
-       D_8009B0D8 * 8 -- so neither reading governs and the offsets stay the
+       gGraphics_nBaseFrameStep * 8 -- so neither reading governs and the offsets stay the
        names.
 
        0x44 and 0x46 are the distance still to travel: the sweep seeds them
@@ -137,14 +137,10 @@ typedef char MenuRecord_field_4A_must_be_at_0x4A[
 
 #define MENU_RECORD_COUNT 3
 
-extern MenuRecord D_800EB010[];
-
-/* Script_OpShowMenu selects element 0 or 1 from D_800EB010 using operand bit
- * 7, arms it, then polls its display_effect_step on subsequent ticks. */
-extern MenuRecord *D_8009B274;
+extern MenuRecord gDisplayEffect_aMenuRecords[];
 
 /* The effect record Text_HandleDisplayEffectCommand last armed: it stores an element of
-   D_800EB010 here at three sites, and that is the whole of its provenance.
+   gDisplayEffect_aMenuRecords here at three sites, and that is the whole of its provenance.
    It was declared u8 * in display_effect_lifecycle.h while its readers
    walked the record by byte offset -- 0x30, 0x32, 0x33, 0x3C, 0x40, 0x42
    and 0x44. This record names every one of those, the last of them in

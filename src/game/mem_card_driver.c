@@ -1,17 +1,15 @@
 #include "../types.h"
 
-#ifndef MEM_CARD_DRIVER_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_800F2888[0x258];
-long gMemCard_aIOEventHandles[4];
-long gMemCard_aHwIOEventHandles[4];
-char gMemCard_szRequestPath[32];
-#else
-extern u8 D_800F2888[0x258];
-extern long gMemCard_aIOEventHandles[4];
-extern long gMemCard_aHwIOEventHandles[4];
-extern char gMemCard_szRequestPath[32];
+#ifndef MEM_CARD_DRIVER_STORAGE_ORDER
+/* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20. GCC lays
+ * it out in first-declaration order, so it is declared here in address order
+ * ahead of the headers and defined once they supply the types (#2602). A
+ * regional wrapper that lays it out differently declares its own order and
+ * defines MEM_CARD_DRIVER_STORAGE_ORDER. */
+extern struct DIRENTRY gMemCard_aDirEntries[];
+extern long gMemCard_aIOEventHandles[];
+extern long gMemCard_aHwIOEventHandles[];
+extern char gMemCard_szRequestPath[];
 #endif
 
 #ifndef MEM_CARD_DRIVER_REGIONAL_SMALL_STORAGE
@@ -62,6 +60,11 @@ extern volatile s32 gMemCard_nIOResult;
 #include "mem_card.h"
 #include "../unmatched.h"
 #include "mem_card_request_inputs.h"
+
+struct DIRENTRY gMemCard_aDirEntries[15];
+long gMemCard_aIOEventHandles[4];
+long gMemCard_aHwIOEventHandles[4];
+char gMemCard_szRequestPath[32];
 
 void MemCard_ClearIOEvents(long *handles)
 {

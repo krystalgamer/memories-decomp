@@ -7,12 +7,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "file_transfer_state.h"
 #include "main_boot_load_stages.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
-#include "file_transfer_buffer.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
 #include "european_text_bank_views.h"

@@ -71,7 +71,7 @@ new definitions or rewritten table expressions.
 All 21 logical native roles retain independently established addresses.
 Japan binds the depth data `D_8009AF74` at `8009AEBC`; its `8009AF74` is
 the AI source-line format `gAiScript_szSourceLineFormat`. Its fade depth
-`D_8009B140` is bound at `8009B030`. PAL fade bytes can be adjacent where NA
+`gFade_bKeepOverlayDepth` is bound at `8009B030`. PAL fade bytes can be adjacent where NA
 ones are not; no packed structure or region-independent stride follows.
 
 ## Scope and validation

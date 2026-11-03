@@ -3,7 +3,6 @@
 
 #include "card_list_rows.h"
 
-extern CardListRowSet gCardList_aRowSets[];
 void CardList_BuildRowSetTextBoxes(u16 *entries, s32 side, s32 flag, s32 ignored);
 
 #endif

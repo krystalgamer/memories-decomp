@@ -18,7 +18,7 @@
 #define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
 #define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
-/* One text/effect entry, 0x1C bytes, the element type of tent_DuelEffectEntries. The
+/* One text/effect entry, 0x1C bytes, the element type of gDuelEffect_aEntries. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
@@ -42,51 +42,24 @@
  * Two hundred and forty bytes is well over the -G8 threshold, so unlike the
  * small arrays elsewhere in this tree the bound here costs nothing: it does
  * not move the object between sections. */
-extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
+extern u8 gDuelEffect_aOccupancyValues[DUEL_EFFECT_OCCUPANCY_COUNT];
 
-extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
-extern DuelEffectChannel D_800F04F8;
-extern DuelEffectChannel D_800F055C;
-/* PAL views of pool slots 2/3; retain the password caller's native names. */
-#ifdef VERSION_EUROPE
-#define gText_Channel2View D_800F04F8
-#define gText_Channel3View D_800F055C
+/* Japan's text-box unit defines the channels as raw 0x60-byte records. */
+#ifndef TEXT_CHANNELS_JAPANESE_STORAGE
+extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 #endif
-/* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
- * DuelEffectChannel in. It stays a second name because how this address is
- * spelled is a codegen input, and two matched functions record the shape:
- * debug_menu_update.c has to hold the array base in a local, since writing
- * `&D_800EB0F8[1]` inline folds the record offset into the address and
- * drops the `addiu` retail keeps for the call argument; and
- * FreeDuel_UpdateScreen has to hold this symbol in a local, since writing
- * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
- * base instruction disappears (free_duel_functions.csv,
- * notes/overlays/matching-patterns.md). Neither of those measures the name
- * against `&D_800EB0F8[1]` -- Main_RunTwoPlayerDuelSetup passes that form directly and
- * matches -- so what is established is that the four files using this name
- * match as written; whether they would also match through the array index
- * is not measured. */
-extern DuelEffectChannel D_800EB15C;
-/* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
- * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
- * (script_command_runner.c) and Password_UpdateShopScreen
- * (overlays/password/shop.c) each load it as a
- * word and test it through TEXT_BOX_COMPLETION_MASK against
- * TEXT_BOX_FLAG_DONE; retail loads it lui/lw (func_8002FA54.s:15-16).
- * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
- * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
- * the slot-0 text flags. Both units also matched when the read was spelled
- * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name
- * is kept for the listings, the notes and the generated symbol lists that
- * carry it, not for codegen. The two units used to declare it `s32 []` and
- * `u32`; the `[]` was the -G8 placement device, which the .data arm does
- * now. */
-#ifdef D_800EB12C_IN_DATA
-extern u32 D_800EB12C[];
+/* Channel `index` of gText_aChannels. Japan's channel records are 0x60
+ * bytes rather than sizeof(DuelEffectChannel), so its units select the
+ * smaller stride (VERSION_JAPAN, or an explicit TEXT_CHANNEL_SIZE). */
+#ifndef TEXT_CHANNEL_SIZE
+#ifdef VERSION_JAPAN
+#define TEXT_CHANNEL_SIZE 0x60
 #else
-extern u32 D_800EB12C;
+#define TEXT_CHANNEL_SIZE sizeof(DuelEffectChannel)
 #endif
-extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
+#endif
+#define TEXT_CHANNEL(index) \
+    ((DuelEffectChannel *)((u8 *)gText_aChannels + (index) * TEXT_CHANNEL_SIZE))
 
 /* The selected card's encoded guardian glyph. DuelField_CreateCardInfoTextBox stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and
@@ -220,13 +193,6 @@ extern s16 gDuel_wSelectedCardID;
  */
 extern volatile s32 gText_CommandDisposition;
 
-/* The shared compaction-request word. DuelEffect_ProcessEntries clears it
- * before invoking entry handlers; DisplayObjectFade_ReleaseChannel raises it.
- * A nonzero request after that walk triggers stable active-entry compaction,
- * not a handler-walk restart or a queued next-frame guarantee.
- * See notes/entry-lifecycle-state.md. */
-extern s32 D_8009B330;
-
 /* The CD-sound command's second word, consumed as a phase-two poll budget.
  * A nonzero value arms state bit 0x40; it does not clear a preexisting bit.
  * The wait decrements it only under its original transfer-step bit test
@@ -237,11 +203,11 @@ extern s16 gText_CdSoundPollBudget;
 
 /* Per-scene state flags. Bit 0x80 is the run-once latch: every scene entry
  * point in this subsystem opens with the same
- * `if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
+ * `if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0)` test and
  * sets the bit inside, so the body runs on the first tick of a scene only.
  * dialog_transition.c's handlers additionally raise 0x20 and 0x40,
  * and the byte is cleared back to 0 when a scene is torn down. */
-extern u8 D_8009B3C1;
+extern u8 gDialog_bCallbackState;
 
 /* Raw legacy work-operation mode, also consumed by the combined dialog
  * opener. MemCardWork_InitializeOperation stores its entire u8 parameter.
@@ -284,7 +250,6 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
 #define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
 #define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
-
 
 extern u8 gDuel_bEffectHandlerFlags;
 extern u8 gDuel_bActiveEffectState;

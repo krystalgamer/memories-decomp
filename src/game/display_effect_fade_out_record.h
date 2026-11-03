@@ -5,7 +5,7 @@
 #include "menu_record.h"
 
 /* Outgoing effect step 6: initialize a secondary blend row and ramp 0x80,
- * then subtract D_8009B0D8 * 8 in the same call. A nonpositive signed result
+ * then subtract gGraphics_nBaseFrameStep * 8 in the same call. A nonpositive signed result
  * clears the step, releases grid[1] and then releases the record.
  *
  * Keep the MenuRecord callback type and explicit narrow initialization view.

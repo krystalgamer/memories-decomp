@@ -13,7 +13,7 @@
  * DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE in byte 0x13 for the phase.
  *
  *   DuelEffect_UpdateGlyphReveal  Raises byte 4, then byte 5, by 16 per elapsed frame
- *                  (D_8009B0D8), copying them into bytes 6 and 7. When byte 5
+ *                  (gGraphics_nBaseFrameStep), copying them into bytes 6 and 7. When byte 5
  *                  passes 0x7F it clears bytes 0x13 to 0x15 itself.
  *   DuelEffect_UpdateGlyphConceal  Starts the colour word at +4 at 0x80808080 and lowers
  *                  bytes 4/5, then 6/7, to zero at the same rate.

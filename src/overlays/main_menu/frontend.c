@@ -60,7 +60,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_80184558 = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 5, 0, 0, 0x1A, 1, gMainMenu_DisplayResources);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 5, 0, 0, 0x1A, 1, gDisplay_abResourceBank1);
         D_80184558->attribute |= 0x1000000;
         D_80184558->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -70,7 +70,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_8018455C = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 2, 0x1A, 1, gMainMenu_DisplayResources);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 2, 0x1A, 1, gDisplay_abResourceBank1);
         D_8018455C->attribute |= 0x1000000;
         D_8018455C->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -80,7 +80,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     gMainMenu_pStartPrompt = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 1, 0x1A, 1, gMainMenu_DisplayResources);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 1, 0x1A, 1, gDisplay_abResourceBank1);
         gMainMenu_pStartPrompt->attribute |= 0x1000000;
         gMainMenu_pStartPrompt->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -100,7 +100,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             y = (i - 5) * 32 + MAIN_MENU_ENTRY_BOTTOM_Y;
         }
         if (entry != 0) {
-            DisplayObject_ConfigureSpriteAtPositionWithResource(entry, 0xA0, y, 0, 0, 0, 0x18, 0, gMainMenu_DisplayResources);
+            DisplayObject_ConfigureSpriteAtPositionWithResource(entry, 0xA0, y, 0, 0, 0, 0x18, 0, gDisplay_abResourceBank1);
             value = i * 2 | (gMain_bMenuID != i);
             entry->attribute |= 0x1000000;
             entry->flags =
@@ -288,7 +288,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             goto ret_m1;
         }
         ent6 = gMainMenu_pStartPrompt;
-        acc = (u16)ent6->field_34.h.field_36 + (u16)D_8009B0D8;
+        acc = (u16)ent6->field_34.h.field_36 + (u16)gGraphics_nBaseFrameStep;
         ent6->field_34.h.field_36 = acc;
         if ((s16)acc >= 0xBB8) {
             return -2;
@@ -685,7 +685,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->field_30.h.field_30,
                       (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
-                      0x18, 0, gMainMenu_DisplayResources);
+                      0x18, 0, gDisplay_abResourceBank1);
         object->attribute |= 0x51000000;
         object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

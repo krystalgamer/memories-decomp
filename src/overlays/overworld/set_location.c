@@ -70,7 +70,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                 object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPositionWithResource(
                     object, entry->x, entry->y, 0, 2,
-                    entry->field_08, 0x17, 0x100, D_801AF000
+                    entry->field_08, 0x17, 0x100, gDisplay_abResourceBank0
                 );
                 DisplayObject_SetDepthOffset(object, 5);
                 *(u16 *)(object + 8) |=
@@ -113,7 +113,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
     MapLocation *entry = gCampaignMap_aLocationTable + index;
-    ViewState *camera = &D_800F2848;
+    ViewState *camera = &gViewState_Current;
 
     camera->field_04 = (u16)entry->camera_field_04;
     camera->angle = (u16)entry->camera_angle;
@@ -130,7 +130,7 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     defined(VERSION_EUROPE_CAMPAIGN_MAP_UPDATE_VIEW)
 void CampaignMap_UpdateView(void)
 {
-    ViewState *camera = &D_800F2848;
+    ViewState *camera = &gViewState_Current;
     u32 flags;
 
     SetGeomScreen(camera->projection);
@@ -156,10 +156,10 @@ void CampaignMap_UpdateView(void)
     defined(VERSION_EUROPE_CAMPAIGN_MAP_RESET_CAMERA)
 void CampaignMap_ResetCamera(void)
 {
-    ViewState *camera = &D_800F2848;
+    ViewState *camera = &gViewState_Current;
     /* A second pointer, to the view itself: storing the three reference
        coordinates through camera->view instead drops an instruction. */
-    GsRVIEW2 *view = &D_800F2848.view;
+    GsRVIEW2 *view = &gViewState_Current.view;
 
     camera->field_00 = 0x6A4;
     camera->angle = 0x640;
@@ -190,7 +190,7 @@ void CampaignMap_ResetCamera(void)
 #endif
 void CampaignMap_MoveCameraDpad(void)
 {
-    ViewState *camera = &D_800F2848;
+    ViewState *camera = &gViewState_Current;
     s32 step;
 
     if ((gInput_wPad1Held &
@@ -275,7 +275,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     record = table + gCampaignMap_Location;
     DisplayObject_ConfigureSpriteAtPositionWithResource(
         object, record->f12, record->f14, 0, 1, 0,
-        0x17, 0x100, D_801AF000
+        0x17, 0x100, gDisplay_abResourceBank0
     );
     DisplayObject_SetDepthOffset(object, 0xA);
     ((DisplayObject *)object)->flags |=
@@ -321,11 +321,11 @@ void CampaignMap_SetLocation(s32 index)
     Model_UpdateCoordinateUnitMatrix((struct _GsCOORDUNIT *)obj, (VECTOR *)colour);
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
-    SetFogNearFar(6000, 8000, D_800F2848.projection);
+    SetFogNearFar(6000, 8000, gViewState_Current.projection);
     gMain_apFrameServiceCallbacks[3] = CampaignMap_UpdateView;
     Model_SetFogDrawFlags(0);
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 96, 24, 0, 0, 0, 23, 256, gDisplay_abResourceBank0);
     ((DisplayObject *)obj)->flags =
         ((DisplayObject *)obj)->flags |
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
@@ -367,8 +367,8 @@ void CampaignMap_SetLocation(s32 index)
     defined(VERSION_EUROPE_CAMPAIGN_MAP_START_CAMERA_TWEEN)
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
-    ViewState *camera = &D_800F2848;
-    s32 *cameraLong = (s32 *)&D_800F2848;
+    ViewState *camera = &gViewState_Current;
+    s32 *cameraLong = (s32 *)&gViewState_Current;
     MapLocation *entry = gCampaignMap_aLocationTable + index;
     s32 x;
     s32 y;
@@ -423,8 +423,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
     s32 step;
     s32 timer;
     s32 quotient;
-    cam = &D_800F2848;
-    cam = &D_800F2848;
+    cam = &gViewState_Current;
+    cam = &gViewState_Current;
     flags = gCampaignMap_bTransitionFlags;
     if ((flags & 0x80) == 0) {
         marker = gCampaignMap_pLocationMarker;
@@ -620,7 +620,7 @@ void CampaignMap_UpdateLocation(void)
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             SD_BGMFadeOutWithStep(4);
         }
-        D_800F2848.field_00 = D_800F2848.field_00 - 2;
+        gViewState_Current.field_00 = gViewState_Current.field_00 - 2;
         ViewState_ApplyOrbit();
         if ((gFade_State.flags & 0x80) == 0) {
             gMain_bActiveModeState = 2;

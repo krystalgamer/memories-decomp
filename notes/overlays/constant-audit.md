@@ -152,7 +152,7 @@ are both established, and both are now matching C: the consumer is
 
    Worth recording alongside that: the overlay `|= 0x28` writes are **not**
    redundant with the configurator, they override it. In `FreeDuel_Init` the
-   preceding `DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000)` passes
+   preceding `DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, gDisplay_abResourceBank0)` passes
    texture `0`, so the configurator has just *cleared* `0x20`; the overlay
    then forces it back on. Those callers are therefore opting into the cell
    offset for objects whose texture argument did not request it.

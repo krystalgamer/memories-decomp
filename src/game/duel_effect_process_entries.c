@@ -1,14 +1,16 @@
 #include "../types.h"
 #include "duel_effect.h"
-
-#ifndef DUEL_EFFECT_PROCESS_ENTRIES_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800EB288-0x800EF668, defined in
- * address order ahead of the headers that declare it (#2602). */
-DuelEffectEntry tent_DuelEffectEntries[620];
-u16 gMain_aAnimatedBattleModels[8];
-#endif
-
 #include "duel_effect_entry_state.h"
+#include "main_modes.h"
+
+/* Zero-initialized storage this unit owns at 0x800EB288-0x800EF668 (#2602).
+ * A regional wrapper selects its own entry record and count through
+ * DUEL_EFFECT_ENTRY_STORAGE_TYPE/COUNT; the European build keeps the battle
+ * models in text_box_runtime.c instead. */
+DUEL_EFFECT_ENTRY_STORAGE_TYPE gDuelEffect_aEntries[DUEL_EFFECT_ENTRY_STORAGE_COUNT];
+#ifndef DUEL_EFFECT_PROCESS_ENTRIES_NO_BATTLE_MODELS
+AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
+#endif
 #include "duel_effect_process_entries.h"
 
 #ifndef DUEL_EFFECT_PROCESS_ENTRY_TYPE

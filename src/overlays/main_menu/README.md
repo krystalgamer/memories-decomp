@@ -57,7 +57,7 @@ the descriptor to the overlay destination stored at `0x8001002C`, whose
 retail value is `0x80180000`.
 
 The final `0x800` bytes are loaded only after the executable. The main-menu
-overlay passes `D_801AF800` throughout `frontend.c` and `value_setup.c` to the
+overlay passes `gDisplay_abResourceBank1` throughout `frontend.c` and `value_setup.c` to the
 shared display-object resource initializer, identifying this phase as the
 overlay's display-resource bank rather than executable padding.
 
@@ -288,7 +288,7 @@ The stats-mode display `gTrade_pStatsModeDisplay` (`0x801845E0`): its `frame`
 byte is a resource variant encoding four plus the two players' stats bits.
 The row rebuild passes the selected side's raw bit, including 2 for side 1,
 to the resident text/stat renderer boundary. Separately,
-`gTrade_aInventoryRowSets` retains the original `MainMenuState[]` view of
+`gFile_StagingBuffer` retains the original `MainMenuState[]` view of
 shared staging RAM at `0x801A8000`; refresh writes each row object's sort-icon
 selection through that view. Sort choice and stats flags are distinct.
 See [Trade row/display state](../../../notes/overlays/trade-row-display-state.md)

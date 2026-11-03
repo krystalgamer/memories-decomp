@@ -19,7 +19,7 @@
  * zero: thirteen word, three halfword, two byte, with func_80012DB4 in two of
  * those groups. That census is the resident one; the main_menu overlay adds a
  * nineteenth access, a halfword read at offset zero --
- * `lhu $a0, %lo(D_8009B0D8)($v0)` at
+ * `lhu $a0, %lo(gGraphics_nBaseFrameStep)($v0)` at
  * 0x80180680 in MainMenu_UpdateFrontendMenu.
  * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
  * int global emit lbu and lhu against the same symbol -- so a narrow read is
@@ -43,7 +43,8 @@
  * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
  * all.
  *
- * Two arms, for the same reason D_8009B0D8 below has them. Every consumer is
+ * Two arms, for the same reason gGraphics_nBaseFrameStep has them
+ * (graphics_base_frame_step.h). Every consumer is
  * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
  * main_run_frontend_loop.c and graphics_frame.c both carry section(".data") to escape
  * that; movie_playback_control.c takes the plain spelling and wants the
@@ -55,13 +56,7 @@ extern u8 gMovie_bPlaybackState __attribute__((section(".data")));
 extern u8 gMovie_bPlaybackState;
 #endif
 
-#ifdef D_8009B0D8_IN_DATA
-extern s32 D_8009B0D8[];
-#elif defined(D_8009B0D8_IS_VOLATILE)
-extern volatile s32 D_8009B0D8;
-#else
-extern s32 D_8009B0D8;
-#endif
+#include "graphics_base_frame_step.h"
 
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)`, so this byte is how many frames the
@@ -110,7 +105,7 @@ extern u8 gGraphics_bSyncVBlankTarget;
 /* The normalized extra-step byte Graphics_SyncFrame publishes after its
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)` wait: it stores the counter into it,
  * stores 1 if that byte is nonzero, and stores the byte plus one into
- * D_8009B0D8. Main_Init
+ * gGraphics_nBaseFrameStep. Main_Init
  * zeroes it in its init block and TextBox_UpdateChannels compares a counter against
  * it (`cnt >= gGraphics_bExtraFrameStep`) on its ordinary yield path.
  * Low-byte wrap and the separate store/read/normalization remain intentional.
@@ -270,16 +265,10 @@ extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
 extern u8 gGraphics_bActiveBuffer;
 #endif
 
-/* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
- * draw environment unsized, and retain startup's volatile byte stores.
- * See notes/graphics-frame-environments.md for the address/field evidence. */
-#ifdef GRAPHICS_DRAW_ENV_IS_VOLATILE
-extern volatile DRAWENV D_800FE048[];
-#else
-extern DRAWENV D_800FE048[];
-#endif
-/* Preserve both array/qualifier arms without conflicting with GsDRAWENV. */
-#define gLibGs_DrawEnvView D_800FE048
+/* libgs's environments passed to PutDrawEnv / PutDispEnv. Startup writes the
+ * draw environment through a volatile view at the use. See
+ * notes/graphics-frame-environments.md for the address/field evidence. */
+extern DRAWENV GsDRAWENV;
 
 extern DISPENV GsDISPENV;
 
@@ -427,19 +416,17 @@ extern DISPENV gGraphics_DispEnv;
  * same was already true of gGraphics_bExtraFrameStep above, whose volatile view in
  * main_init.c was dropped the same way.
  *
- * Their neighbour gGraphics_abOrderingTableLengths begins a four-byte state block. The defining
- * frame unit addresses the block as an array, while Main_InitHardware writes the
- * first three bytes as ordered volatile scalars. The selector keeps both
- * measured views at the owner instead of leaving private declarations in the
- * startup source. */
+ * Their neighbour gGraphics_abOrderingTableLengths holds the four ordering-table
+ * lengths. Main_InitHardware writes all four through small data in program
+ * order (volatile); the two menu runners write element 3 through the absolute
+ * %hi/%lo form, which an array of unknown size reaches at -G8, so they select
+ * the unsized view. */
 extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
 extern u8 gGraphics_bSkipDisplaySwap;
 
-#ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
-extern volatile u8 gGraphics_abOrderingTableLengths;
-extern volatile u8 gGraphics_bOrderingTable1Length;
-extern volatile u8 gGraphics_bOrderingTable2Length;
+#ifdef GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
+extern u8 gGraphics_abOrderingTableLengths[];
 #else
 extern u8 gGraphics_abOrderingTableLengths[4];
 #endif
