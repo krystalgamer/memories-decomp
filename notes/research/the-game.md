@@ -2287,7 +2287,7 @@ accept (`1`), the resident caller fades and invokes
 [`MainMenu_FinishValueSetup`](../../src/overlays/main_menu/value_setup.c)
 before distinguishing the result. That helper writes both target LP values
 through its retained pointers to `gDuel_wTwoPlayerSide0LifePoints`/`gDuel_wTwoPlayerSide1LifePoints`, and a normalized
-shared option to the low byte of `gDuel_wTwoPlayerCardViewMode`. Accept then requests the
+shared option to `gDuel_bTwoPlayerCardViewMode`. Accept then requests the
 duel path; cancel restores the previous main mode. These working-RAM writes
 do not by themselves establish a saved preference or memory-card write.
 The host's initialization branch also resets both LP values to 8000.

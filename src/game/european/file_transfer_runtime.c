@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../psyq/libcd.h"
 #define FILE_TRANSFER_RUNTIME_REGIONAL_STORAGE
 /* This build lays out the shared source's zero-initialized storage at
  * 0x800EAD78-0x800EAE28 in a different order from the North American one;
@@ -10,25 +11,25 @@ extern struct FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 /* This build's own zero-initialized storage at 0x8009C040-0x8009C098 (#2602); its
  * layout differs from the North American block the shared source defines. */
 volatile u32 gFile_dwTransferState;
-u32 D_8009C044_sles_03947;
-u32 D_8009C048_sles_03947;
-u32 D_8009C04C_sles_03947;
+volatile u16 gFile_wStepState;
+CdlFILTER gFile_FilterParams;
+u8 D_8009B108;
 void (*gFile_SecondaryPayloadCompleteCallback)(void);
-u32 D_8009C054_sles_03947;
+u8 D_8009B110;
 s32 gFile_ReadyDataEventCount;
-u32 D_8009C05C_sles_03947;
+volatile u16 gFile_wTransferStepFlags;
 s32 gFile_CommandRetryCount;
 u32 gFile_dwCancelRequestState;
 void (*gFile_RangePauseCallback)(void);
 s32 D_8009B12C;
-u32 D_8009C070_sles_03947;
+volatile u16 gFile_ServiceCallGate;
 volatile s32 gFile_ServiceReentryLatch;
-u32 D_8009C078_sles_03947;
+u16 gFile_RangeWaitCountdown;
 void (*gFile_RangeReadCallback)(void);
 s32 D_8009B0FC;
 u32 *gFile_ReadySourceCursor;
 void (*gFile_BeforePrimaryRequestCallback)(void);
-u32 D_8009C08C_sles_03947;
+u8 gFile_ReadyEventCount;
 s32 gFile_TransferBufferBase;
 char gFile_TargetLoc[4];
 

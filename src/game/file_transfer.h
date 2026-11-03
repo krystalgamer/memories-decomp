@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FILE_TRANSFER_H
 
 #include "../ygo_types.h"
+#include "../psyq/libcd.h"
 #include "file_constants.h"
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
@@ -253,9 +254,9 @@ extern u32 *gFile_ReadySourceCursor;
 extern u8 gFile_ReadyEventCount;
 extern s32 gFile_ReadyDataEventCount;
 
-/* The filter command uses pointer decay; the historical [1] bound is an
-   addressing form, not the buffer extent. */
-extern char gFile_FilterParams[1];
+/* The CdlSetfilter parameter block: File_HandleSetFilterEvent passes it to
+   DsCommand(DslSetfilter) and the sector-range path writes the channel byte. */
+extern CdlFILTER gFile_FilterParams;
 
 /* The CD callback's state word, switched on and advanced by
  * func_80013C28.c and file_transfer_runtime.c. It remains a volatile u16 and

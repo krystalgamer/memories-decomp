@@ -172,28 +172,22 @@ extern s16 gDuel_wSelectedTrapCardId;
  * so this is the plain declaration. Initial value not read. */
 extern u8 *gDuel_pActiveFieldGrid;
 
-/* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&gDuel_wTwoPlayerCardViewMode`, to
- * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
- * `u8 *toggle`), beside the two halfwords below; Duel_InitSideStates, when both
- * gDuel_bSide0ControllerSelector[0] and gDuel_bOpponentID
- * are negative, copies `*(u8 *)&gDuel_wTwoPlayerCardViewMode` into card_view_mode of both
- * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is a
- * byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39, the
- * lui/addiu pair at 0x8002DC60), so the listings do not say how
- * wide the object is; two of the three units declare the u16 and reach the
- * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
- * option as the low byte of this wider view, so that is the declaration
- * kept here and Main_Init (src/game/main_init.c) now writes the
- * byte through the same cast.
- * Initial value not read.
+/* The byte Main_RunTwoPlayerDuelSetup passes as `&gDuel_bTwoPlayerCardViewMode` to
+ * MainMenu_StartValueSetup's `u8 *toggle` parameter, beside the two halfwords
+ * below; Duel_InitSideStates, when both gDuel_bSide0ControllerSelector[0] and
+ * gDuel_bOpponentID are negative, copies it into card_view_mode of both
+ * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is
+ * a byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39,
+ * the lui/addiu pair at 0x8002DC60), and the PAL images place it at an odd
+ * address (0x8009C0F1 in SLES-03947), so it is a u8. The following halfword is
+ * separate storage. Initial value not read.
  *
- * duel_state_init.c reaches it gp-relative and takes the plain halfword;
- * main_mode_runners.c and src/game/main_init.c reach it through
- * %hi/%lo and define the .data arm. */
+ * duel_state_init.c reaches it gp-relative; main_mode_runners.c and
+ * src/game/main_init.c reach it through %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
-extern u16 gDuel_wTwoPlayerCardViewMode __attribute__((section(".data")));
+extern u8 gDuel_bTwoPlayerCardViewMode __attribute__((section(".data")));
 #else
-extern u16 gDuel_wTwoPlayerCardViewMode;
+extern u8 gDuel_bTwoPlayerCardViewMode;
 #endif
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into

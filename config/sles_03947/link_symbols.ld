@@ -135,35 +135,19 @@ g_SDValue_output_level = g_SDValue;
 bss_start = main_SBSS_START;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
-gFile_wStepState = D_8009C044_sles_03947;
-gFile_FilterParams = D_8009C048_sles_03947;
-D_8009B108 = D_8009C04C_sles_03947;
-D_8009B110 = D_8009C054_sles_03947;
-gFile_wTransferStepFlags = D_8009C05C_sles_03947;
-gFile_ServiceCallGate = D_8009C070_sles_03947;
-gFile_RangeWaitCountdown = D_8009C078_sles_03947;
-gFile_ReadyEventCount = D_8009C08C_sles_03947;
 
 /* Names inside fade_runtime's own storage (#2602). */
 
 /* Names inside duel_field_card_render's own storage (#2602). */
 gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
-gDuel_pSide0SaveData = D_8009C0D8_sles_03947;
-gDuel_pSide1SaveData = D_8009C0DC_sles_03947;
-gDuel_wTwoPlayerCardViewMode = D_8009C0F1_sles_03947;
-gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
 
 /* Names inside duel_effect_dialog_state's own storage (#2602). */
 
 /* Names inside duel_effect_object_pool's own storage (#2602). */
-gDuel_bEffectRequestStatus = D_8009C1D8_sles_03947;
 
 /* Names inside script_command_busy's own storage (#2602). */
 
 /* Names inside script_op_load_image_scene's own storage (#2602). */
-gScript_ImageOperand = D_8009C210_sles_03947;
-gCampaignSceneIndex = D_8009C218_sles_03947;
-gScript_WaitCounter = D_8009C220_sles_03947;
 
 /* Names inside debug_menu_editor_entries's own storage (#2602). */
 

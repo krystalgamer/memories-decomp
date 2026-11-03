@@ -73,7 +73,7 @@ s32 Main_Init(void)
     gGraphics_nBaseFrameStep = 1;
     gGraphics_wFlags = 0x5000;
     D_8009B0D1 = 0;
-    *(u8 *)&gDuel_wTwoPlayerCardViewMode = 1;
+    gDuel_bTwoPlayerCardViewMode = 1;
     gGraphics_pActiveFrameBuffer = p;
     gSaveData_dwVBlankCounter = t;
     Main_InitHardware(p);
