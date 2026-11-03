@@ -65,12 +65,12 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `PalOptions_DrawScrollingStrips` | 736 | Textured strips using a scratchpad `POLY_FT4`, five palette rows and signed-halfword phase; no direct caller or aligned address reference found in the checked resident/options images or five resource chunks. |
 | `PalOptions_DrawWaveSprite` | 708 | Signed language/unsigned object-selector dispatch to a 4-by-8 textured grid or one fast sprite; canonical scratchpad descriptors and two 5-by-9 word tables; runtime reachability remains unproven. |
 | `func_801686A4` | 8 | Empty language hook called conditionally by initialization at `0x801687A4`; no consumed return value. |
-| `PalOptions_Init` | 928 | Initialization called by the resident menu runner at `0x8002D8C0`; two VRAM captures, bounded comparison, full-width mode dispatch, five canonical object acquisitions and mode-specific music. |
+| `Options_Init` | 928 | Initialization called by the resident menu runner at `0x8002D8C0`; two VRAM captures, bounded comparison, full-width mode dispatch, five canonical object acquisitions and mode-specific music. |
 | `PalOptions_HandleInput` | 412 | Input handler called by update at `0x80168E6C`; output-mode changes, signed language selection, three resource pointers and confirm/cancel completion. |
 | `PalOptions_UpdateWaveTables` | 332 | Two 5-by-9 wave tables with signed phase, cosine displacement and packed grayscale; no direct caller found in the options image, so runtime reachability remains unproven. |
 | `PalOptions_RequestLanguage` | 52 | Changed-language request, called by update at `0x80168ED0`; stores the resident byte and starts the accepted boot/text loader. |
 | `PalOptions_StoreLanguageImage` | 180 | Language-image transfer called at `0x80168F28`; waits, stores VRAM, synchronizes, replaces the first staging byte, loads VRAM and synchronizes again. |
-| `PalOptions_Update` | 340 | Live menu update: low-nibble dispatch, bit-0x80 setup latch, input callback, fades, asynchronous-transfer gates, cursor update and signed completion result. |
+| `Options_Update` | 340 | Live menu update: low-nibble dispatch, bit-0x80 setup latch, input callback, fades, asynchronous-transfer gates, cursor update and signed completion result. |
 | `PalOptions_StepStripScroll` | 192 | Signed-halfword step/clamp. Distances above 32767 clamp immediately; ordinary distances advance by four or clamp. No direct options caller found; angular semantics are not asserted. |
 | `PalOptions_GetLanguage` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
 | `func_80169D78` | 452 | Unoptimized shared signed-halfword step/clamp using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |

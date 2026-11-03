@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant408_draw.h"
 
-void func_8013C02C(u8 *context)
+void SpanishModelVariant408_DrawRingLines(u8 *context)
 {
     ModelVariant408State *work = (ModelVariant408State *)context;
     SVECTOR rotation;

@@ -55,10 +55,10 @@ typedef struct {
     s16 slot, command;
 } Variant431EntryState;
 
-extern u8 D_8013DF48[];
-void func_8013BF1C(u8 *context);
-void func_8013C338(u8 *context);
-void func_8013C7C8(u8 *context);
-void func_8013D444(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant431_D2F48[];
+void FrenchModelVariant431_DrawWebs(u8 *context);
+void FrenchModelVariant431_DrawFans(u8 *context);
+void FrenchModelVariant431_DrawBands(u8 *context);
+void FrenchModelVariant431_DrawSheets(u8 *context);
+s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command);
 #endif

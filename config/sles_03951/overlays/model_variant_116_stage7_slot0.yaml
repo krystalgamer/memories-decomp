@@ -68,21 +68,21 @@ segments:
     vram: 0x8013C978
     align: 4
     subsegments:
-      - [0x1978, c, overlays/spanish_model_variant/variant475_sheets]
+      - [0x1978, c, overlays/model_variant/variant458_sheets]
   - name: quads
     type: code
     start: 0x1E34
     vram: 0x8013CE34
     align: 4
     subsegments:
-      - [0x1E34, c, overlays/spanish_model_variant/variant475_quads]
+      - [0x1E34, c, overlays/model_variant/variant458_quads]
   - name: strand
     type: code
     start: 0x21E0
     vram: 0x8013D1E0
     align: 4
     subsegments:
-      - [0x21E0, c, overlays/spanish_model_variant/variant475_strand]
+      - [0x21E0, c, overlays/model_variant/variant458_strand]
   - name: streamers
     type: code
     start: 0x2520

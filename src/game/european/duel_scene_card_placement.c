@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/duel_scene_card_placement.c. The US source is included as is. */
+/* SLES-03947 build of src/game/duel_scene_card_placement.c. */
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

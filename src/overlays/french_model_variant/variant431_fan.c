@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/variant414_fan.h"
 
-void func_8013C338(u8 *ctx)
+void FrenchModelVariant431_DrawFans(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

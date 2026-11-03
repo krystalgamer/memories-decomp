@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant464_advancing.h"
 
-void func_8013C8EC(u8 *context)
+void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

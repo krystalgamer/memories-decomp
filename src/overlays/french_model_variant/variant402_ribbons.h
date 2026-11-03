@@ -62,5 +62,5 @@ typedef struct {
     u8 unknown_50[8];
 } Family402Ribbon;
 
-void func_8013C048(u8 *context);
+void FrenchModelVariant402_DrawRibbons(u8 *context);
 #endif

@@ -1,7 +1,7 @@
 # French MODEL562 shards helper
 
-`func_8013C2CC` / `func_8017C2CC` (image offset `0x12CC`, 0x4A8 bytes) in the
-model_variant_149 and model_variant_419 stage 7 slot 0 and stage 8 slot 1
+`FrenchModelVariant562_DrawShards` at `0x8013C2CC` / `0x8017C2CC` (image offset
+`0x12CC`, 0x4A8 bytes) in the model_variant_149 and model_variant_419 stage 7 slot 0 and stage 8 slot 1
 images, and the model_variant_57 and model_variant_562 stage 9 slot 0 and
 stage 10 slot 1 images, is a two-pass shard body. Each `Variant562Shard` is
 0x74 bytes at the start of the work area. The count is at +0xC of the record

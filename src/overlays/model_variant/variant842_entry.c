@@ -8,11 +8,11 @@
  * with a fan of growing textured rays and animated sparks while the
  * ambient light dims and recovers. */
 
-static const VECTOR D_8013E664 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant842_D3664 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant842_HandleRequest(u8 *context, s32 command)
 {
     Model842State *work;
     MATRIX light;
@@ -43,13 +43,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013E664;
+    scale = gModelVariant842_D3664;
     work = (Model842State *)context;
     gt4 = &ray;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E700[command];
+        work->config = &gModelVariant842_D3700[command];
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->step[i], 0, 0, 0);
@@ -106,11 +106,11 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->spark_count[i] = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant842_D3674[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant842_D3674[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant842_D3674[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant842_D3674[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant842_D3674[4]);
         work->ring_tpage = 0xAE;
 #ifdef VERSION_FRENCH
         work->ring_clut = 0x3D28;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant405_bands.h"
 
-void func_8013C774(u8 *context)
+void SpanishModelVariant405_DrawBands(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

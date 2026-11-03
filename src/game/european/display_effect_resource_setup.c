@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/display_effect_resource_setup.c. The US source is included as is. */
+/* SLES-03947 build of src/game/display_effect_resource_setup.c. */
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

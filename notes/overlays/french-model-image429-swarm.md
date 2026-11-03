@@ -1,6 +1,7 @@
 # French header-429 image swarm helper
 
-`func_8013C33C` / `func_8017C33C` (image offset `0x133C`, 0x578 bytes)
+`FrenchModelVariant429_DrawSwarm` at `0x8013C33C` / `0x8017C33C` (image offset
+`0x133C`, 0x578 bytes)
 grows, fades and orbits six quads.
 **No release had matching C for this body before.**
 
@@ -24,3 +25,12 @@ The local view lives in `variant429_swarm.h`. The calls are covered by
 `model_variant429_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image429-swarm-attempts.csv)
 records the probe, which matched on the first build.
+
+## Names
+
+Both slots compile `variant429_swarm.c` directly. Every image binds
+`FrenchModelVariant429_DrawSwarm` at its own address in its `*_symbols.txt`: `0x133C` past the load
+base in the PAL images and 4 bytes higher in the US header-412 and Japanese
+images, which build the same source. The PAL slot-1 raw images gained a
+symbols file for this binding (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

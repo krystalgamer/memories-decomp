@@ -43,6 +43,5 @@ u8 D_8009C25F_sles_03947;
 
 #define VERSION_EUROPE
 #define DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT 0x40
-#define gDebugMenu_awNibbleMasks D_8009BEC0
 #define TEXT_LANGUAGE_INDEX_IN_DATA
 #include "../debug_menu_editor_entries.c"

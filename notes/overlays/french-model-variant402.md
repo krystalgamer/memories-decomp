@@ -2,8 +2,8 @@
 
 Four stage-7/8 images for models 6 and 551 contain an independently
 recovered 2,648-byte entry, 1,516-byte strip helper, 1,620-byte ribbons helper, 1,180-byte
-rings helper and 1,320-byte band helper. Their bodies,
-local accessed-view headers and slot-1 wrappers use the named `gcc_2_8_1_g0_split` profile,
+rings helper and 1,320-byte band helper. Their bodies
+and local accessed-view headers use the named `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81. No reference-project types or compiler claims
 were imported.
 
@@ -229,9 +229,9 @@ G32/PSXLONG policy checks.
 
 ## Entry-called band follow-up
 
-The independently recovered `func_8013CB38` compiles to all 1,320 target
-bytes with its 304-byte stack frame. The slot wrapper renames it to
-`func_8017CB38`. Actual canonical links reproduce all four complete images
+The independently recovered band helper (`FrenchModelVariant402_DrawBands`) compiles to all 1,320 target
+bytes with its 304-byte stack frame. Both slots compile it under one
+name (see [Names](#names)). Actual canonical links reproduce all four complete images
 while preserving the accepted rings C and replacing only the final
 assembly function. Bands is the sole local helper called by entry, at
 module `+0x8E0` with the captured context in `a0`; unlike rings, its
@@ -485,3 +485,14 @@ again. The 142 French, 81 Spanish, 16 progress and five US toolchain
 regressions pass without skips, alongside repository policy checks.
 Accepted Spanish442 fixture semantics, other regional code/configuration
 and shared declarations/profiles remain unchanged.
+
+## Names
+
+Both slots compile the shared sources without renaming wrappers. They define
+`FrenchModelVariant402_HandleRequest`, `FrenchModelVariant402_DrawStrip`
+(`0xA5C`), `FrenchModelVariant402_DrawRibbons` (`0x1048`),
+`FrenchModelVariant402_DrawRings` (`0x169C`), `FrenchModelVariant402_DrawBands`
+(`0x1B38`) and the data block `gFrenchModelVariant402_D2060`. The US header-385
+images (models 6 and 551) build the same sources with the palette column 512
+instead of 640. Each image binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

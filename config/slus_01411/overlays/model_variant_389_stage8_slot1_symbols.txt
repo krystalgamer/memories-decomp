@@ -1,5 +1,5 @@
-// MODEL.MRG model 389 (record 339), sector 93754, header 747, loaded at 0x8017B000; the US source variant680us_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x2AA8 defined:true
-D_8017DAAC = 0x8017DAAC; // type:u8 size:0x18 defined:true
-D_8017DAC4 = 0x8017DAC4; // type:u8 size:0x134 defined:true
-D_8017DBF8 = 0x8017DBF8; // type:u8 size:0x2408 defined:true
+// MODEL.MRG model 389 (record 339), sector 93754, header 747, loaded at 0x8017B000; the US source variant680us_entry.c.
+ModelVariant680Us_HandleRequest = 0x8017B004; // type:func size:0x2AA8 defined:true
+gModelVariant680Us_D2AAC = 0x8017DAAC; // type:u8 size:0x18 defined:true
+gModelVariant680Us_D2AC4 = 0x8017DAC4; // type:u8 size:0x134 defined:true
+gModelVariant680Us_D2BF8 = 0x8017DBF8; // type:u8 size:0x2408 defined:true

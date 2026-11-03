@@ -5,7 +5,7 @@
 /* Draws the six expanding rings of eight GsGLINE spokes each, fading the
  * spoke colour in over the first quarter turn, and advances each ring's
  * angle and cycle count. */
-void func_8013D450(u8 *ctx)
+void ModelVariant423_DrawRings(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

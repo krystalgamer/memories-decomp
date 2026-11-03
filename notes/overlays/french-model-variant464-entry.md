@@ -1,7 +1,8 @@
 # French MODEL464 loader entry
 
-`func_8013B004` / `func_8017B004` (MODEL464 family, image offset `0x4`,
-0x1364 bytes) is the loader entry of the six MODEL175/182/244 images
+`FrenchModelVariant464_HandleRequest` (`0x8013B004` / `0x8017B004`, MODEL464
+family, image offset `0x4`, 0x1364 bytes; one source for both slots, bound per
+image) is the loader entry of the six MODEL175/182/244 images
 described in [the family note](spanish-model-variant464.md). **No release had
 matching C for this body before.**
 

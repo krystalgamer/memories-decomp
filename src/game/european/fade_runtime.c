@@ -22,7 +22,7 @@ s16 gGraphics_sViewportY;
 u8 gFade_bKeepOverlayDepth;
 u8 gFade_bWhiteLatch;
 u16 D_8009C0A6_sles_03947;
-u16 D_8009C0A8;
+u16 gDuel_wAiSelectionStepDelay;
 s16 gDuel_wViewTweenDistanceTarget;
 
 /* Europe draws 32 bands over 256 lines. */

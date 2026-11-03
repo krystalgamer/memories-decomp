@@ -5,7 +5,7 @@
 #define MODEL_VARIANT402_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant402EntryState *work = (Variant402EntryState *)point;
     MATRIX unused_matrix0;
@@ -37,7 +37,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant402EntryConfig *)(D_8013D060 + 0xFC) + command;
+        work->config = (Variant402EntryConfig *)(gFrenchModelVariant402_D2060 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -54,15 +54,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT402_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT402_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D060 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D060 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D060 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x1C));
         band_page = packed >> 16;
         band_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D060 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D060 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -218,7 +218,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->part_count);
         }
         if (work->config->start <= work->frame) {
-            func_8013CB38((u8 *)point);
+            FrenchModelVariant402_DrawBands((u8 *)point);
             if (work->phase == 0) {
                 work->phase = 1;
             }
