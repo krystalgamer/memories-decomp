@@ -5,7 +5,7 @@
 /* Draws one band of five points as pairs of POLY_GT4 quads along the variant's
  * path. The radius is scaled by the word at + 0x44 of the timing record at
  * work + 0xF54, and fades in and out with that record's two phases. */
-void func_8013C22C(u8 *ctx)
+void ModelVariant397_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

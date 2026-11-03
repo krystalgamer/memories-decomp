@@ -6,7 +6,7 @@
  * In phase 0 each web shrinks from 0x1000 and fades in, in phase 1 the webs
  * are staggered behind the origin, and from phase 2 they grow to 0x2000 and
  * fade out, wrapping until the fourth phase. */
-void func_8013CE7C(u8 *ctx)
+void ModelVariant397_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

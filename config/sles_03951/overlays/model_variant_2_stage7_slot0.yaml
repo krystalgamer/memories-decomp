@@ -68,35 +68,35 @@ segments:
     vram: 0x8013C990
     align: 4
     subsegments:
-      - [0x1990, c, overlays/french_model_variant/variant414_sheets]
+      - [0x1990, c, overlays/model_variant/variant397_sheets]
   - name: helper_1E74
     type: code
     start: 0x1E74
     vram: 0x8013CE74
     align: 4
     subsegments:
-      - [0x1E74, c, overlays/french_model_variant/variant414_webs]
+      - [0x1E74, c, overlays/model_variant/variant397_webs]
   - name: helper_23E4
     type: code
     start: 0x23E4
     vram: 0x8013D3E4
     align: 4
     subsegments:
-      - [0x23E4, c, overlays/french_model_variant/variant414_spokes]
+      - [0x23E4, c, overlays/model_variant/variant397_spokes]
   - name: helper_26EC
     type: code
     start: 0x26EC
     vram: 0x8013D6EC
     align: 4
     subsegments:
-      - [0x26EC, c, overlays/french_model_variant/variant414_rings]
+      - [0x26EC, c, overlays/model_variant/variant397_rings]
   - name: helper_2A68
     type: code
     start: 0x2A68
     vram: 0x8013DA68
     align: 4
     subsegments:
-      - [0x2A68, c, overlays/french_model_variant/variant414_quad]
+      - [0x2A68, c, overlays/model_variant/variant397_quad]
   - name: unclassified_tail
     type: code
     start: 0x2DCC
