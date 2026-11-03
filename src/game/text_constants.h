@@ -39,20 +39,6 @@ typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
     (u32)&(((TextGlyphLookupEntry *)0)->halves.upper) == 2 ? 1 : -1
 ];
 
-#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
-extern u16 D_801D6000[];
-#endif
-/* The European banks: each table starts four bytes into its bank, and the
-   global strings (ids from 0x8000) sit at D_801D5804. */
-#ifdef VERSION_EUROPE
-extern u16 D_801B0004[];
-extern u16 D_801C0004[];
-extern u16 D_801D5804[];
-/* The byte string the European Text_InitDecimalDigitGlyphMap reads the ten
-   digit codes from. */
-extern u8 D_801BF870[];
-#endif
-
 /* 0x8009B32E, the string id Text_PushStagedString resolves through the regional banks
  * above. It is two bytes: gDuelEffect_nCompactionRequested
  * (duel_effect_entry_state.h) starts at +2.

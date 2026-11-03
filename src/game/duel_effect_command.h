@@ -58,7 +58,7 @@ void Text_SetPenY(DuelEffectChannel *object);
 void Text_SetOutputLimit(DuelEffectChannel *object);
 
 /* gText_SecondaryCommandHandlers entry: resolves the text bank pointer for the string id in
- * gText_StagedStringId. North America selects three banks; Japan selects D_801D6000
+ * gText_StagedStringId. North America selects three banks; Japan selects gText_GlobalStringOffsets
  * for ids with bit 15 set and gText_PrimaryStringOffsets otherwise. It hands back the slot.
  *
  * Its parameter is the DuelEffectChannel whose stream_index byte selects one of

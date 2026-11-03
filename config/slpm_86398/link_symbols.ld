@@ -92,7 +92,6 @@ gScript_pMenuRecord = 0x8009B164;
 gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
-gText_GlobalStringOffsets = D_801D6000;
 
 gGraphics_aImageTransferRects = 0x800E9C50;
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;

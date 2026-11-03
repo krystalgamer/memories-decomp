@@ -2242,3 +2242,4 @@ gSaveData_aFirstPlayerNameSjis = 0x801D160C;
 gSaveData_aPairWorkspace = 0x801D1200;
 gSaveData_aSecondPlayerState = 0x801D2200;
 gModel_abAuxiliaryPaletteSector = 0x801DD800;
+gText_GlobalStringOffsets = 0x801D6000;

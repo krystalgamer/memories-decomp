@@ -122,8 +122,6 @@ gScript_pMenuRecord = D_8009B274;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 
-gText_PrimaryStringOffsets = D_801B0004;
-gText_GlobalStringOffsets = D_801D5804;
 gSaveData_aPairWorkspace = 0x801D1200;
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
 

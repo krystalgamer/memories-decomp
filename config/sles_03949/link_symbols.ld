@@ -684,7 +684,7 @@ gAiSnapshot_aOwnCards = 0x801AB00C;
 tail_data_start = 0x801AC000;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
-D_801B0004 = 0x801B0004;
+gText_PrimaryStringOffsets = 0x801B0004;
 gText_aCurrentPlayerNameGlyphs = 0x801BF848;
 gText_DecimalDigitGlyphString = 0x801BF870;
 gText_StagedValues = 0x801BF88C;
@@ -699,7 +699,7 @@ gSaveData_aPairWorkspace = 0x801D1200;
 gDuel_adwCardStats = 0x801D4244;
 gCard_asNameSortKey = 0x801D4D8E;
 gDuel_abCardLevelAttr = 0x801D5332;
-D_801D5804 = 0x801D5804;
+gText_GlobalStringOffsets = 0x801D5804;
 gText_aGlyphLookup = 0x801D9000;
 gLibrary_aCardArtRecord = 0x801DC000;
 gFile_FilterParams = 0x8009C468;
@@ -1007,8 +1007,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 
-gText_PrimaryStringOffsets = D_801B0004;
-gText_GlobalStringOffsets = D_801D5804;
 
 
 

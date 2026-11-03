@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* The three North American text banks the string lookup reads through.
- * The Japanese lookup selects D_801D6000 for ids with bit 15 set and
+ * The Japanese lookup selects gText_GlobalStringOffsets for ids with bit 15 set and
  * gText_PrimaryStringOffsets otherwise, using a narrower bank-address mask.
  *
  * text_lookup_string.c resolves a string id by masking a bank's own address
