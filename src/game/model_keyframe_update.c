@@ -19,10 +19,12 @@
 
 /* Zero-initialized storage this unit owns at 0x800F5768-0x800F5918, defined in
  * address order ahead of the headers that declare it (#2602). */
-u8 D_800F5768[0x1B0];
-
 #include "camera_view.h"
 #include "model_keyframe_spline.h"
+
+SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT + 1];
+Key gModel_aEffectKeys[10];
+
 #include "model_transfer_flags.h"
 #include "model_effect_state.h"
 #include "model_get_slot_readiness.h"

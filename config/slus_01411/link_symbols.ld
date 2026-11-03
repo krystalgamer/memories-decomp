@@ -264,8 +264,6 @@ gModel_ViewReferencePoint = D_800F3A10 + 7404;
 gModel_SavedRefView = D_800F3A10 + 7424;
 
 /* Other names for game/model_keyframe_update's small data (#2602). */
-gModel_aPoseSnapshot = D_800F5768;
-gModel_aEffectKeys = D_800F5768 + 32;
 
 /* Other names for game/ai_script_vm's small data (#2602). */
 
