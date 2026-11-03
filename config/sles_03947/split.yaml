@@ -473,7 +473,7 @@ segments:
       - [0x082780, .data, game/display_effect_process_menu_records]
       - [0x0827B4, .data, game/european/mem_card_dialog]
       - [0x0827C8, .data, game/european/display_object_runtime]
-      - [0x082804, data, initialized_data_80092004]
+      - [0x082804, .data, game/display_object_stream_read_next_command]
       - [0x082820, .data, game/european/model_effect_state]
       - [0x0828B8, .data, game/european/movie_stream_requests]
       - [0x0828EC, data, initialized_data_800920ec]

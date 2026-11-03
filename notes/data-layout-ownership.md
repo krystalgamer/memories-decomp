@@ -295,11 +295,14 @@ their tables there:
 
 Three ranges stay in the extracted blob:
 - the 0x1C bytes after `scene_script_slots`;
-- the display-object stream command table (`0x80092004`);
 - the background-record run (`0x800920EC`-`0x800925EC`).
 
-Europe places the last two apart, where the North American build keeps them
-in one unit.
+The display-object stream command table is now owned in Europe and the
+language builds. The background records and shadow fan steps that follow it
+in the North American image are their own data-only unit,
+`model_background_records.c`, because the European builds place other
+units' tables between the two. Their European and language-build contents
+differ, so that run stays extracted there.
 
 The four language builds keep Europe's middle range `0x414` higher through
 `model_effect_state`. After it they place the background-record run, then
