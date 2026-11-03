@@ -262,6 +262,24 @@ From the display-object stream tables onward (`0x80090E9C`), Japan lays its
 tables out differently (a larger zero run, and the shadow-fan steps beside
 the model effects), so that range stays in the extracted blob.
 
+Europe's initialized tables start `0x1004` above the North American ones and
+drift as European tables grow. Its split places seventeen owners:
+- from `file_set_position_table` through `campaign_scene` (`+0x1004`);
+- `debug_menu_editor_entries` through `build_deck_draw_card_list_page`
+  (`+0x1020`);
+- `model_subdivided_effect`, `ai_script_vm` and `ai_get_hand_search_count`
+  (`+0x100C`).
+
+Two of them take a European arm in the shared source:
+- the debug menu's alternate page adds `DebugMenu_EnterCredits` and
+  `DebugMenu_UpdateLanguageEntry`;
+- the burst image records use 0x280 in the field that is 0x200 in the
+  North American build.
+
+The 0x1C bytes after `scene_script_slots` and the build-deck to
+display-object-stream range (`0x80091E20`-`0x800925F4`), where the European
+order differs, stay in the extracted blob.
+
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative
 definitions in declaration order, so this is a source difference, not a
