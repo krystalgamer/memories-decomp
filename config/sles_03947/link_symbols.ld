@@ -124,7 +124,6 @@ gCardList_aRowSets = 0x801A8000;
 func_800135FC = ViewState_ApplyAlternateOrbit;
 
 func_8003FFD8 = SD_CdBgmPlay;
-gSD_dwSavedBgmCommand = D_8009B404;
 
 func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;

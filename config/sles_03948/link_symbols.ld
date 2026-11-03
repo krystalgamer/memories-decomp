@@ -312,7 +312,7 @@ gMemCardDialog_ChannelIndex = 0x8009C73A;
 gMemCardDialog_Outcome = 0x8009C739;
 gMemCardWork_nRequestResult = 0x8009C744;
 gMemCardDialog_SyncResult = 0x8009C748;
-D_8009B404 = 0x8009C780;
+gSD_dwSavedBgmCommand = 0x8009C780;
 gDisplayObject_wUnlinkCount = 0x8009C7A4;
 gDisplayObject_wAcquireCount = 0x8009C7A6;
 gDisplayObject_fRenderRetry = 0x8009C794;
@@ -995,7 +995,6 @@ gCardList_aRowSets = D_801A8000;
 func_800135FC = ViewState_ApplyAlternateOrbit;
 
 func_8003FFD8 = SD_CdBgmPlay;
-gSD_dwSavedBgmCommand = D_8009B404;
 
 func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;

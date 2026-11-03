@@ -54,10 +54,10 @@ are not evidence of live duel-effect save/replay behavior. This naming
 change deliberately preserves that pre-existing control flow rather than
 repairing or interpreting it.
 
-The old `sound.h` stays frozen, including the `D_8009B404_IN_DATA` selector.
-The isolated canonical header mirrors its `.data`/plain `u32` declaration
-arms; both saved-word consumers retain the `.data` arm. Numeric root
-providers remain, with canonical aliases rather than new storage.
+`sound.h` holds the only declaration, with `.data`/plain `u32` arms chosen
+by the `D_8009B404_IN_DATA` selector; both saved-word consumers select the
+`.data` arm. `sound_bgm_commands.h` declares only `SD_CdBgmPlay`. The C
+definition carries the semantic name and no `D_8009B404` link alias remains.
 
 ## Native bindings and preservation
 

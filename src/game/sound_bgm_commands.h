@@ -3,12 +3,6 @@
 
 #include "../types.h"
 
-#ifdef D_8009B404_IN_DATA
-extern u32 gSD_dwSavedBgmCommand[];
-#else
-extern u32 gSD_dwSavedBgmCommand;
-#endif
-
 void SD_CdBgmPlay(u32 value);
 
 #endif

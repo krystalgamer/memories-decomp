@@ -2,7 +2,7 @@
 #define SOUND_FRONTEND_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C360-0x8009C374 (#2602); its
  * layout differs from the North American block the shared source defines. */
-u32 D_8009B404;
+u32 gSD_dwSavedBgmCommand;
 s8 gSD_bOutputType;
 u8 D_8009C365_sles_03947;
 u16 D_8009C366_sles_03947;
