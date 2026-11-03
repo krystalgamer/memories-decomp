@@ -280,6 +280,15 @@ The 0x1C bytes after `scene_script_slots` and the build-deck to
 display-object-stream range (`0x80091E20`-`0x800925F4`), where the European
 order differs, stay in the extracted blob.
 
+The four language builds keep Europe's tables:
+- `duel_field_layout` at `+0x204`;
+- every European owner from `duel_scene_update` on at `+0x414`.
+
+Their `duel_ground_projection` tables differ from Europe's, and so does the
+0x210 run after them, so that range stays in the extracted blob. German,
+Italian and Spanish now split their data image as plain data rather than one
+`.sdata`-ordered bin.
+
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative
 definitions in declaration order, so this is a source difference, not a
