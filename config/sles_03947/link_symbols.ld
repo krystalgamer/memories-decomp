@@ -118,7 +118,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
-gScript_pMenuRecord = D_8009B274;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 
@@ -167,7 +166,6 @@ gDuel_bEffectRequestStatus = D_8009C1D8_sles_03947;
 
 /* Names inside script_op_load_image_scene's own storage (#2602). */
 gScript_ImageOperand = D_8009C210_sles_03947;
-D_8009B274 = D_8009C214_sles_03947;
 gCampaignSceneIndex = D_8009C218_sles_03947;
 gScript_WaitCounter = D_8009C220_sles_03947;
 

@@ -13,7 +13,7 @@ u16 gScript_ViewportTargetX;
 u16 gScript_ViewportTargetY;
 u16 D_8009C20E_sles_03947;
 u32 D_8009C210_sles_03947;
-u32 D_8009C214_sles_03947;
+struct MenuRecord *gScript_pMenuRecord;
 u32 D_8009C218_sles_03947;
 struct DisplayObject *gScript_TransitionObject;
 u32 D_8009C220_sles_03947;
