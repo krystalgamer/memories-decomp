@@ -1,5 +1,5 @@
 // Japanese MODEL.MRG model 389 (record 339), sector 93744, header 680, loaded at 0x8013B000; the US source variant680us_entry.c; built from the US source layout of model_variant_389_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x2AA8 defined:true
-D_8013DAAC = 0x8013DAAC; // type:u8 size:0x18 defined:true
-D_8013DAC4 = 0x8013DAC4; // type:u8 size:0x134 defined:true
-D_8013DBF8 = 0x8013DBF8; // type:u8 size:0x2408 defined:true
+ModelVariant680Us_HandleRequest = 0x8013B004; // type:func size:0x2AA8 defined:true
+gModelVariant680Us_D2AAC = 0x8013DAAC; // type:u8 size:0x18 defined:true
+gModelVariant680Us_D2AC4 = 0x8013DAC4; // type:u8 size:0x134 defined:true
+gModelVariant680Us_D2BF8 = 0x8013DBF8; // type:u8 size:0x2408 defined:true
