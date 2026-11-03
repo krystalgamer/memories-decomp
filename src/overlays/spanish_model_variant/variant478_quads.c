@@ -2,7 +2,7 @@
 #include "variant478_quads.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013C898(u8 *context)
+void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */

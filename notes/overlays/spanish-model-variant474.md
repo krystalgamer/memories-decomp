@@ -21,8 +21,9 @@ physical images with headers 474/624:
 | 121 | 121 | 7/8 | 33576/33586 | 640001 | `+0x39D0` | 120..140 | 500..520 |
 | 431 | 381 | 9/10 | 105356/105366 | 640000 | `+0x399C` | 40..80 | 500..520 |
 
-Load bases are `0x8013B000` and `0x8017B000`; selected symbols remain
-`func_8013DBD8` and `func_8017DBD8`. The second source changes only the symbol.
+Load bases are `0x8013B000` and `0x8017B000`; one source,
+`SpanishModelVariant474_DrawOffsetSheets`, is bound at `0x8013DBD8` and
+`0x8017DBD8` by each image's symbols file.
 Each complete 20,480-byte image matches its own retail hash. The manifest
 retains every previously registered module and adds these four images.
 The instance CSV records physical identity and hashes.

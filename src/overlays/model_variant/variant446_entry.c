@@ -16,7 +16,7 @@
  * test is n % 2 == 1, which keeps the ribbon progress unreduced; and the
  * spoke angles are recomputed from the base while the ring angles step. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant446EntryState *work = (Variant446EntryState *)point;
     MATRIX unused_matrix0;
@@ -74,7 +74,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant446EntryConfig *)(D_8013EBF4 + 0xFC) + command;
+        work->config = (Variant446EntryConfig *)(gModelVariant446_D3BF4 + 0xFC) + command;
         for (j = 0; j < 5; j++) {
             work->parts[j] = Model_GetSlotDataEntry(work->slot, work->config->parts[j]);
         }
@@ -92,13 +92,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT446_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT446_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013EBF4 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0xC4));
         /* Reassigning packed keeps the page shift next to the first upload. */
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013EBF4 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013EBF4 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013EBF4 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -486,12 +486,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->frame && work->phase < 8) {
             if (work->phase < 6) {
-                func_8013D314((u8 *)point);
+                FrenchModelVariant463_DrawPairedSheets((u8 *)point);
             }
-            func_8013E2D8((u8 *)point);
+            FrenchModelVariant463_DrawSheets((u8 *)point);
             if (work->phase > 0) {
-                func_8013C984((u8 *)point);
-                func_8013D860((u8 *)point);
+                FrenchModelVariant463_DrawRibbons((u8 *)point);
+                FrenchModelVariant463_DrawTrailRibbons((u8 *)point);
             }
         }
         work->frame_count++;

@@ -11,7 +11,7 @@
  * are projected and swayed sideways along their screen normals by the phases
  * at +0x235C and +0x2358, and each segment is drawn as a POLY_FT4 as wide as
  * the projected offset, tapering to a point at both ends. */
-void func_8013CF58(u8 *ctx)
+void SpanishModelVariant456_DrawSprays(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

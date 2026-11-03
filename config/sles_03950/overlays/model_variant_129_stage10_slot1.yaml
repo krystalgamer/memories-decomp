@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant469_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant469_entry]
   - name: helper_1560
     type: code
     start: 0x1560
     vram: 0x8017C560
     align: 4
     subsegments:
-      - [0x1560, c, overlays/french_model_variant/variant582_arcs_slot1]
+      - [0x1560, c, overlays/french_model_variant/variant582_arcs]
   - name: helper_1B98
     type: code
     start: 0x1B98
     vram: 0x8017CB98
     align: 4
     subsegments:
-      - [0x1B98, c, overlays/french_model_variant/variant582_sheets_slot1]
+      - [0x1B98, c, overlays/french_model_variant/variant582_sheets]
   - name: helper_21F4
     type: code
     start: 0x21F4
     vram: 0x8017D1F4
     align: 4
     subsegments:
-      - [0x21F4, c, overlays/french_model_variant/variant469_ribbons_slot1]
+      - [0x21F4, c, overlays/french_model_variant/variant469_ribbons]
   - name: helper_2B30
     type: code
     start: 0x2B30
     vram: 0x8017DB30
     align: 4
     subsegments:
-      - [0x2B30, c, overlays/spanish_model_variant/variant469_sheets_slot1]
+      - [0x2B30, c, overlays/spanish_model_variant/variant469_sheets]
   - name: helper_3068
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/spanish_model_variant/variant469_rings_slot1]
+      - [0x3068, c, overlays/spanish_model_variant/variant469_rings]
   - name: unclassified_tail
     type: code
     start: 0x34BC

@@ -11,7 +11,7 @@
 #define TRAIL463_SB(k) (ribbon->sb[k])
 #endif
 
-void func_8013D860(u8 *ctx)
+void FrenchModelVariant463_DrawTrailRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -1,6 +1,6 @@
 # French MODEL469 sheets helper
 
-`func_8013DB30` / `func_8017DB30` (MODEL469 family, image offset `0x2B30`,
+`SpanishModelVariant469_DrawSheets` (`0x8013DB30` / `0x8017DB30`, MODEL469 family, image offset `0x2B30`,
 0x538 bytes) draws the primary and secondary sheet sets. **No release had
 matching C for this body before.**
 

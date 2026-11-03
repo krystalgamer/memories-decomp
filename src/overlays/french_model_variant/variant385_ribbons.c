@@ -2,7 +2,7 @@
 
 #include "variant385_ribbons.h"
 
-void func_8013CB00(u8 *ctx)
+void FrenchModelVariant385_DrawRibbonFan(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

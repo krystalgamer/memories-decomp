@@ -7,7 +7,7 @@
  * half the size at work + 0x1BEC are moved along the view by the spread and
  * drawn as two POLY_GT4 halves where the depth is positive. The size grows
  * to 0x400; only then does the sweep at work + 0x1BE8 advance by 32. */
-void func_8013D240(u8 *ctx)
+void SpanishModelVariant474_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

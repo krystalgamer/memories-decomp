@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant452_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant452_entry]
   - name: helper_1564
     type: code
     start: 0x1564
     vram: 0x8017C564
     align: 4
     subsegments:
-      - [0x1564, c, overlays/model_variant/variant452_arcs_slot1]
+      - [0x1564, c, overlays/model_variant/variant452_arcs]
   - name: helper_1b9c
     type: code
     start: 0x1B9C
     vram: 0x8017CB9C
     align: 4
     subsegments:
-      - [0x1B9C, c, overlays/model_variant/variant452_sheets_1b9c_slot1]
+      - [0x1B9C, c, overlays/model_variant/variant452_sheets_1b9c]
   - name: helper_21f0
     type: code
     start: 0x21F0
     vram: 0x8017D1F0
     align: 4
     subsegments:
-      - [0x21F0, c, overlays/model_variant/variant452_ribbons_slot1]
+      - [0x21F0, c, overlays/model_variant/variant452_ribbons]
   - name: helper_2b0c
     type: code
     start: 0x2B0C
     vram: 0x8017DB0C
     align: 4
     subsegments:
-      - [0x2B0C, c, overlays/model_variant/variant452_sheets_2b0c_slot1]
+      - [0x2B0C, c, overlays/model_variant/variant452_sheets_2b0c]
   - name: helper_3040
     type: code
     start: 0x3040
     vram: 0x8017E040
     align: 4
     subsegments:
-      - [0x3040, c, overlays/model_variant/variant452_rings_slot1]
+      - [0x3040, c, overlays/model_variant/variant452_rings]
   - name: data
     type: code
     start: 0x3494

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant463_rings.h"
 
-void func_8013E7D4(u8 *context)
+void FrenchModelVariant463_DrawRings(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */

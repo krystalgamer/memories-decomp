@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant474_funnels.h"
 
-void func_8013C738(u8 *context)
+void FrenchModelVariant474_DrawPairedFunnels(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

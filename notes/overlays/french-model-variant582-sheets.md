@@ -1,6 +1,6 @@
 # French MODEL582 sheets helper
 
-`func_8013CB98` / `func_8017CB98` (image offset `0x1B98`, 0x65C bytes)
+`FrenchModelVariant582_DrawSheets` (`0x8013CB98` / `0x8017CB98`, image offset `0x1B98`, 0x65C bytes)
 animates and draws five three-row sheets as semi-transparent `POLY_GT4`
 quads with a masking `POLY_F4`. **No release had matching C for this body
 before.**
