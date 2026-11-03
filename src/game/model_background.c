@@ -256,20 +256,22 @@ advance:
     } while (ring_angle <= 4096);
 }
 
-/* These historical COMMON definitions retain the post-mfhi delay slot.
- * The graphics state binds to its strong .sdata owner and the snapshot
- * names to existing image/layout symbols; they add no replacement storage.
- * The named profile's --use-comm-section spelling is load-bearing. */
+/* Tentative (non-extern) declarations: each merges into its strong owner
+ * (model_graphics_state.c, model_scene_controllers.c) and adds no storage.
+ * They are load-bearing: as externs MASPSX loses their small-data size and
+ * expands the accesses outside $gp, losing the post-mfhi delay slot. The yaw
+ * and pitch were declared signed here (retail loads them with lh), unlike
+ * their u16 owner. gModel_ViewSnapshot is the eight-byte copy of the
+ * distance/yaw/pitch group; the snapshot yaw and pitch are its halfwords at
+ * +2 and +4. */
 ModelBackgroundRecord *gModel_pBackgroundRecord;
 s16 gModel_wBackgroundScrollX;
 s16 gModel_wBackgroundOffsetY;
 
-ModelBytes8 gModel_wViewDistance;
+u16 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
 ModelBytes8 gModel_ViewSnapshot;
-s16 gModel_wViewYawSnapshot;
-s16 gModel_wViewPitchSnapshot;
 
 /*
  * Direct signed angle differences and the semantic absolute-value predicate
@@ -288,8 +290,8 @@ void Model_UpdateBackgroundScroll(s32 force)
     s32 background_offset_y;
     s32 texture_width;
 
-    yaw_delta = gModel_wViewYaw - gModel_wViewYawSnapshot;
-    pitch_delta = gModel_wViewPitch - gModel_wViewPitchSnapshot;
+    yaw_delta = gModel_wViewYaw - *(s16 *)&gModel_ViewSnapshot.bytes[2];
+    pitch_delta = gModel_wViewPitch - *(s16 *)&gModel_ViewSnapshot.bytes[4];
     if (__builtin_abs(yaw_delta) >= 0x801) {
         if (yaw_delta > 0) {
             yaw_delta -= MODEL_ANGLE_FULL_TURN;
@@ -342,5 +344,5 @@ clamp_pos:
 store:
         gModel_wBackgroundOffsetY = background_offset_y;
     }
-    gModel_ViewSnapshot = gModel_wViewDistance;
+    gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
 }

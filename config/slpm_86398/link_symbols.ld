@@ -258,6 +258,3 @@ gModel_sTextureTintRectH = D_8009B376_slpm_86398;
 gModel_wViewDistance = D_8009B378_slpm_86398;
 gModel_wViewYaw = D_8009B37A_slpm_86398;
 gModel_wViewPitch = D_8009B37C_slpm_86398;
-gModel_ViewSnapshot = D_8009B380_slpm_86398;
-gModel_wViewYawSnapshot = D_8009B382_slpm_86398;
-gModel_wViewPitchSnapshot = D_8009B384_slpm_86398;

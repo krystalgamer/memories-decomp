@@ -310,9 +310,6 @@ D_8009B3DE = D_8009C34A_sles_03947;
 gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
 gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
 gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;
-gModel_ViewSnapshot = D_8009C3F0_sles_03947;
-gModel_wViewYawSnapshot = D_8009C3F2_sles_03947;
-gModel_wViewPitchSnapshot = D_8009C3F4_sles_03947;
 
 /* Names inside graphics_frame's own storage (#2602). */
 gGraphics_apOrderingTables = D_8009C418_sles_03947 + 32;

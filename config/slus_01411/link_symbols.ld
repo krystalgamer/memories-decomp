@@ -283,5 +283,3 @@ g_SDValue_output_level = g_SDValue;
 gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
 gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
 gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;
-gModel_wViewYawSnapshot = gModel_ViewSnapshot + 2;
-gModel_wViewPitchSnapshot = gModel_ViewSnapshot + 4;
