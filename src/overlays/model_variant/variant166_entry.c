@@ -11,18 +11,18 @@
  * draws a frame; any other command sets the work area up and prints its
  * size. */
 
-static const VECTOR D_8013CCBC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant166_D1CBC = {4096, 4096, 4096, 0};
 
 #define SPARK_TEXTURE(n) \
     quad.tpage = work->texture[n] >> 16; \
     quad.clut = work->texture[n]; \
     SetSemiTrans(&quad, 1); \
-    setUV4(&quad, D_8013CCDC[n].px % 64 * 4, D_8013CCDC[n].py % 256, \
-        (D_8013CCDC[n].px % 64 + D_8013CCDC[n].pw) * 4, D_8013CCDC[n].py % 256, \
-        D_8013CCDC[n].px % 64 * 4, D_8013CCDC[n].py % 256 + D_8013CCDC[n].ph, \
-        (D_8013CCDC[n].px % 64 + D_8013CCDC[n].pw) * 4, D_8013CCDC[n].py % 256 + D_8013CCDC[n].ph)
+    setUV4(&quad, gModelVariant166_D1CDC[n].px % 64 * 4, gModelVariant166_D1CDC[n].py % 256, \
+        (gModelVariant166_D1CDC[n].px % 64 + gModelVariant166_D1CDC[n].pw) * 4, gModelVariant166_D1CDC[n].py % 256, \
+        gModelVariant166_D1CDC[n].px % 64 * 4, gModelVariant166_D1CDC[n].py % 256 + gModelVariant166_D1CDC[n].ph, \
+        (gModelVariant166_D1CDC[n].px % 64 + gModelVariant166_D1CDC[n].pw) * 4, gModelVariant166_D1CDC[n].py % 256 + gModelVariant166_D1CDC[n].ph)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -46,13 +46,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CCBC;
+    scale = gModelVariant166_D1CBC;
     work = (Model166State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        config = work->config = &D_8013CD68[command % 100];
+        config = work->config = &gModelVariant166_D1D68[command % 100];
         for (i = 0; i < config->count; i++) {
             a = rand() % 4096;
             b = rand() % 2048;
@@ -78,7 +78,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CCDC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant166_D1CDC[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

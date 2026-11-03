@@ -55,10 +55,10 @@ typedef struct {
     s32 elapsed;
 } Model138State;
 
-extern char D_8013E314[];
-extern GsIMAGE D_8013E328[];
-extern Model138Config D_8013E37C[];
+extern char gModelVariant138_D3314[];
+extern GsIMAGE gModelVariant138_D3328[];
+extern Model138Config gModelVariant138_D337C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant138_HandleRequest(u8 *context, s32 command);
 
 #endif
