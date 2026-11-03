@@ -95,7 +95,6 @@ gModel_wDrawTintRedGreen = D_8009BF6E;
 gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
 
-gText_aChannels = D_800EB0F8;
 gText_Channel2View = gText_aChannels + 0xC8;
 gText_Channel3View = gText_aChannels + 0x12C;
 gText_Channel1 = D_800EB15C;
@@ -384,7 +383,7 @@ D_800F0008 = D_800EBF70_sles_03947 + 16536;
 D_800F0030 = D_800EBF70_sles_03947 + 16576;
 
 /* Names inside text_box_runtime's own storage (#2602). */
-D_800EB0F8 = D_800F0430_sles_03947;
+gText_aChannels = D_800F0430_sles_03947;
 D_800EB12C = D_800F0430_sles_03947 + 52;
 D_800EB15C = D_800F0430_sles_03947 + 100;
 gDisplayObject_apBrightnessPool = D_800F0430_sles_03947 + 140;

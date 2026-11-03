@@ -8,7 +8,7 @@
  * rest as padding, so neither is a claim about the whole record. */
 
 /* Read side: a view of D_800EB15C, which duel_effect.h declares as the
- * DuelEffectChannel at D_800EB0F8[1]. Only the three values at 0x3C are
+ * DuelEffectChannel at gText_aChannels[1]. Only the three values at 0x3C are
  * named, and the view stays because the two do not agree on +0x40: this
  * function reads it unsigned (`row`, u16) and DuelEffectChannel declares
  * the same halfword `s16 field_40`. Same offset, different signedness, so

@@ -59,7 +59,7 @@ s32 func_8018019C(void)
         if (D_80180654[i].active) {
             switch (D_80180654[i].phase) {
             case 0:
-                if (DuelEffect_HasActiveEntry(&D_800EB0F8[i]) == 0) {
+                if (DuelEffect_HasActiveEntry(&gText_aChannels[i]) == 0) {
                     D_80180654[i].delay = 244;
                     D_80180654[i].phase++;
                 }
@@ -75,15 +75,15 @@ s32 func_8018019C(void)
                             D_80180654[i].phase = 16;
                         } else {
                             if (cue->flags & 1) {
-                                DuelEffect_SetEntryControlBytes(&D_800EB0F8[i], 9, 0);
+                                DuelEffect_SetEntryControlBytes(&gText_aChannels[i], 9, 0);
                             } else {
-                                DuelEffect_SetEntryControlBytes(&D_800EB0F8[i], 6, 0);
+                                DuelEffect_SetEntryControlBytes(&gText_aChannels[i], 6, 0);
                             }
                             next = D_80180654[i].cue + 1;
                             if (D_801805D0[next].clear_secondary) {
                                 for (j = 2; j < 4; j++) {
-                                    if (D_800EB0F8[j].flags_34 & 0x8000) {
-                                        DuelEffect_SetEntryControlBytes(&D_800EB0F8[j], 6, 0);
+                                    if (gText_aChannels[j].flags_34 & 0x8000) {
+                                        DuelEffect_SetEntryControlBytes(&gText_aChannels[j], 6, 0);
                                         D_80180654[j].phase++;
                                     }
                                 }
@@ -95,7 +95,7 @@ s32 func_8018019C(void)
                 }
                 break;
             case 2:
-                if (DuelEffect_HasActiveEntry(&D_800EB0F8[i]) == 0) {
+                if (DuelEffect_HasActiveEntry(&gText_aChannels[i]) == 0) {
                     if (D_80180654[i].cue) {
                         TextBox_DestroyIndex(i);
                     }

@@ -423,7 +423,7 @@ gDuel_abSelectionRecord1 = 0x800EB3AC;
 gDuel_abSelectionRecord3 = 0x800EB3E4;
 gText_DecimalDigitGlyphMap = 0x800EC290;
 D_800EB010 = 0x800EC2A8;
-D_800EB0F8 = 0x800F0850;
+gText_aChannels = 0x800F0850;
 D_800EB12C = 0x800F0884;
 D_800EB15C = 0x800F08B4;
 gDisplayObject_apBrightnessPool = 0x800F08DC;
@@ -1011,7 +1011,6 @@ gModel_wDrawTintRedGreen = D_8009BF6E;
 gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
 
-gText_aChannels = D_800EB0F8;
 gText_Channel2View = gText_aChannels + 0xC8;
 gText_Channel3View = gText_aChannels + 0x12C;
 gText_Channel1 = D_800EB15C;

@@ -3,7 +3,6 @@
 
 #include "duel_effect.h"
 
-extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectChannel gText_Channel1;
 
 /* Existing word view: channel 0's flags and string ID, not another object. */

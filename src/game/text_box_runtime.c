@@ -9,7 +9,7 @@
 #ifndef TEXT_BOX_RUNTIME_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EB0F8-0x800EB288, defined in
  * address order ahead of the headers that declare it (#2602). */
-DuelEffectChannel D_800EB0F8[4];
+DuelEffectChannel gText_aChannels[4];
 #endif
 
 #include "text_channel_state.h"

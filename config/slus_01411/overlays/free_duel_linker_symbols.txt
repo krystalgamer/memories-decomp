@@ -32,3 +32,4 @@ func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 gGraphics_aImageTransferRects = D_800E9D70;
 gMain_bActiveModeState = 0x8009B26C;
 gMain_bReturnMode = 0x8009B269;
+gText_aChannels = 0x800EB0F8;

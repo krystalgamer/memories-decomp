@@ -490,7 +490,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
     sizeof(LibraryMotionState) == 0x48 ? 1 : -1
 ];
 
-/* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
+/* One text-box record, 0x64 bytes, the element type of gText_aChannels. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
    there), and 0x20/0x24 bracket the record's slice of tent_DuelEffectEntries:
    TextBox_BuildStep seeds both with &tent_DuelEffectEntries[entry_range_start],

@@ -207,7 +207,7 @@ extern u8 gMemCard_bLoadStep;
  *               to 0, then selects the first slot lacking flags_34 0x8000;
  *               all-active input retains 0 rather than reporting failure.
  *               Selection is not a reservation, and
- *               every other use indexes D_800EB0F8 with it or hands it to
+ *               every other use indexes gText_aChannels with it or hands it to
  *               TextBox_Destroy and MemCardDialog_StepSlide.
  *   gMemCardDialog_MessageCode  The low byte of SetMessage's full-word value,
  *               stored before its two volatile flag stores raising

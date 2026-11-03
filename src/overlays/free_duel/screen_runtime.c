@@ -88,7 +88,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
-    panel = D_800EB0F8;
+    panel = gText_aChannels;
     w->field_30.h.field_30 = col * 56 + 20;
     w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);
