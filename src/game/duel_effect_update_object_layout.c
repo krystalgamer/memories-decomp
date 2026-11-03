@@ -122,12 +122,22 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
 }
 
 /* Initialized data this unit owns at 0x80090E58: one start per duel-effect channel followed
-   by the common end, then one retail padding halfword. */
+   by the common end, then one retail padding halfword. The Japanese build's
+   entry pool holds 300 entries, split 55/100/100/45. */
 u16 gDuelEffect_awEntryRangeBoundaries[] = {
+#ifdef VERSION_JAPAN
+    0,
+    55,
+    155,
+    255,
+    300,
+    0,
+#else
     0,
     255,
     415,
     575,
     DUEL_EFFECT_ENTRY_COUNT,
     0,
+#endif
 };
