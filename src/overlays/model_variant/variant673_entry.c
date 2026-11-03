@@ -9,7 +9,7 @@
  * each falling quad leaves a spinning fan of triangles where it lands. The
  * setup also prints the work-area size. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
 {
     Model673State *work;
     MATRIX ls, lw;
@@ -28,20 +28,20 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model673State));
 #ifndef VERSION_FRENCH
-        printf(D_8013CB30, sizeof(Model673State));
+        printf(gModelVariant673_D1B30, sizeof(Model673State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)work->position);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB48[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB48[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB48[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -52,17 +52,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count = 64;
             break;
         }
-        work->radius = D_8013CB9C[command].radius;
-        work->height = D_8013CB9C[command].height;
+        work->radius = gModelVariant673_D1B9C[command].radius;
+        work->height = gModelVariant673_D1B9C[command].height;
         for (i = 0; i < work->count; i++) {
             work->rising[i].duration = 0x20;
             work->rising[i].active = 0;
             work->rising[i].elapsed = 0;
             work->rising[i].mode = 1;
             work->rising[i].coord = Model_GetCameraCoordinateUnit();
-            work->rising[i].red = D_8013CB9C[command].red;
-            work->rising[i].green = D_8013CB9C[command].green;
-            work->rising[i].blue = D_8013CB9C[command].blue;
+            work->rising[i].red = gModelVariant673_D1B9C[command].red;
+            work->rising[i].green = gModelVariant673_D1B9C[command].green;
+            work->rising[i].blue = gModelVariant673_D1B9C[command].blue;
             work->rising[i].u = 0;
             work->rising[i].v = 0;
             setVector(&work->rising[i].scale, 0x1000, 0x1000, 0x1000);
@@ -80,9 +80,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->falling[i].elapsed = 0;
             work->falling[i].mode = 1;
             work->falling[i].coord = Model_GetCameraCoordinateUnit();
-            work->falling[i].red = D_8013CB9C[command].red;
-            work->falling[i].green = D_8013CB9C[command].green;
-            work->falling[i].blue = D_8013CB9C[command].blue;
+            work->falling[i].red = gModelVariant673_D1B9C[command].red;
+            work->falling[i].green = gModelVariant673_D1B9C[command].green;
+            work->falling[i].blue = gModelVariant673_D1B9C[command].blue;
             work->falling[i].u = 0;
             work->falling[i].v = 0;
             setVector(&work->falling[i].scale, 0x1000, 0x1000, 0x1000);
@@ -102,9 +102,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->fans[i].duration = 0x20;
             work->fans[i].mode = 1;
             work->fans[i].coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].red = D_8013CB9C[command].fan_red;
-            work->fans[i].green = D_8013CB9C[command].fan_green;
-            work->fans[i].blue = D_8013CB9C[command].fan_blue;
+            work->fans[i].red = gModelVariant673_D1B9C[command].fan_red;
+            work->fans[i].green = gModelVariant673_D1B9C[command].fan_green;
+            work->fans[i].blue = gModelVariant673_D1B9C[command].fan_blue;
             work->fans[i].u = 0;
             work->fans[i].v = 0x20;
             setVector(&work->fans[i].scale, 0x1000, 0x1000, 0x1000);
@@ -112,7 +112,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->fans[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->fans[i].position, 0, 0, 0);
         }
-        work->delay = D_8013CB9C[command].delay;
+        work->delay = gModelVariant673_D1B9C[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -194,9 +194,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rising[i].duration / 2 < work->rising[i].elapsed) {
                     n = (work->rising[i].duration - work->rising[i].elapsed) * 2;
                     d = work->rising[i].duration;
-                    work->rising[i].red = D_8013CB9C[work->command].red * n / d;
-                    work->rising[i].green = D_8013CB9C[work->command].green * n / d;
-                    work->rising[i].blue = D_8013CB9C[work->command].blue * n / d;
+                    work->rising[i].red = gModelVariant673_D1B9C[work->command].red * n / d;
+                    work->rising[i].green = gModelVariant673_D1B9C[work->command].green * n / d;
+                    work->rising[i].blue = gModelVariant673_D1B9C[work->command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[2];
@@ -247,9 +247,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->falling[i].elapsed < work->falling[i].duration / 2) {
                     n = work->falling[i].elapsed * 2;
                     d = work->falling[i].duration;
-                    work->falling[i].red = D_8013CB9C[work->command].red * n / d;
-                    work->falling[i].green = D_8013CB9C[work->command].green * n / d;
-                    work->falling[i].blue = D_8013CB9C[work->command].blue * n / d;
+                    work->falling[i].red = gModelVariant673_D1B9C[work->command].red * n / d;
+                    work->falling[i].green = gModelVariant673_D1B9C[work->command].green * n / d;
+                    work->falling[i].blue = gModelVariant673_D1B9C[work->command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[2];
@@ -298,9 +298,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->fans[i].duration / 2 < work->fans[i].elapsed) {
                     n = (work->fans[i].duration - work->fans[i].elapsed) * 2;
                     d = work->fans[i].duration;
-                    work->fans[i].red = D_8013CB9C[work->command].fan_red * n / d;
-                    work->fans[i].green = D_8013CB9C[work->command].fan_green * n / d;
-                    work->fans[i].blue = D_8013CB9C[work->command].fan_blue * n / d;
+                    work->fans[i].red = gModelVariant673_D1B9C[work->command].fan_red * n / d;
+                    work->fans[i].green = gModelVariant673_D1B9C[work->command].fan_green * n / d;
+                    work->fans[i].blue = gModelVariant673_D1B9C[work->command].fan_blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];

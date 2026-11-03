@@ -77,9 +77,9 @@ typedef struct {
     u8 comet_b[2][32];
 } Model813State;
 
-extern GsIMAGE D_8013CE80[5];
-extern Model813Config D_8013CF0C[];
+extern GsIMAGE gModelVariant813_D1E80[5];
+extern Model813Config gModelVariant813_D1F0C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant813_HandleRequest(u8 *context, s32 command);
 
 #endif

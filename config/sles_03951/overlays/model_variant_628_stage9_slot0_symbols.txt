@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 628 (record 578), sector 159728, header 806, loaded at 0x8013B000; the US header-789 source variant789_entry.c; built from the French source layout of french_model_variant_628_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1DB8 defined:true
-D_8013CDCC = 0x8013CDCC; // type:u8 size:0x54 defined:true
-D_8013CE20 = 0x8013CE20; // type:u8 size:0x31E0 defined:true
+ModelVariant789_HandleRequest = 0x8013B004; // type:func size:0x1DB8 defined:true
+gModelVariant789_D1DCC = 0x8013CDCC; // type:u8 size:0x54 defined:true
+gModelVariant789_D1E20 = 0x8013CE20; // type:u8 size:0x31E0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

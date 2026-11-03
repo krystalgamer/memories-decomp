@@ -4,9 +4,10 @@ Thirteen North American MODEL variant images share one entry, at `+0x4`
 and `0x135C` bytes long. No French or Spanish source reproduces it. The entry
 is new North American C in
 [`variant634_entry.c`](../../src/overlays/model_variant/variant634_entry.c),
-built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant634_entry_slot1.c`](../../src/overlays/model_variant/variant634_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+built under `gcc_2_8_1_g0_split` like the French entries, as
+`ModelVariant634_HandleRequest`. The images loaded at `0x8017B000` build the
+same file directly; each image's `*_symbols.txt` binds the entry and data
+names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -44,8 +45,12 @@ otherwise.
 The entry's `.rodata` is the work-size format string and the jump table of
 the setup's command switch, `0x34` bytes at `0x1360`. The rest of the image
 is one raw tail that starts at `0x1394`. Inside it, the layout names the two
-texture descriptors `D_8013C394` and the command table `D_8013C3CC`. The
-`0x8017B000` images use the same offsets. The resident bindings are in
+texture descriptors `gModelVariant634_D1394` and the command table
+`gModelVariant634_D13CC`. The `0x8017B000` images use the same offsets. The
+French header-651 images build the file through
+[`french_model_variant/variant651_entry.c`](../../src/overlays/french_model_variant/variant651_entry.c)
+with `VERSION_FRENCH`, and their symbols files bind both names 0x28 lower. The
+resident bindings are in
 `config/slus_01411/overlays/variant634_linker_symbols.txt`.
 
 ## Source shape

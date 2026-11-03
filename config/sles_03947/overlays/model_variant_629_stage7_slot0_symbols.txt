@@ -1,7 +1,7 @@
 // European MODEL.MRG model 629 (record 579), sector 159984, header 651, loaded at 0x8013B000; the US header-634 source variant634_entry.c; built from the French source layout of french_model_variant_629_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x134C defined:true
-D_8013C36C = 0x8013C36C; // type:u8 size:0x38 defined:true
-D_8013C3A4 = 0x8013C3A4; // type:u8 size:0x3C5C defined:true
+ModelVariant634_HandleRequest = 0x8013B004; // type:func size:0x134C defined:true
+gModelVariant634_D1394 = 0x8013C36C; // type:u8 size:0x38 defined:true
+gModelVariant634_D13CC = 0x8013C3A4; // type:u8 size:0x3C5C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

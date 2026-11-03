@@ -83,9 +83,9 @@ typedef struct {
     u8 glow[8];
 } Model774State;
 
-extern GsIMAGE D_8013E384[];
-extern Model774Config D_8013E3D8[];
+extern GsIMAGE gModelVariant774_D3384[];
+extern Model774Config gModelVariant774_D33D8[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant774_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -1,7 +1,7 @@
 // European MODEL.MRG model 441 (record 391), sector 108096, header 126, loaded at 0x8013B000; the US header-109 source variant109_entry.c; built from the French source layout of french_model_variant_441_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x351C defined:true
-D_8013E530 = 0x8013E530; // type:u8 size:0x8C defined:true
-D_8013E5BC = 0x8013E5BC; // type:u8 size:0x1A44 defined:true
+ModelVariant109_HandleRequest = 0x8013B004; // type:func size:0x351C defined:true
+gModelVariant109_D3530 = 0x8013E530; // type:u8 size:0x8C defined:true
+gModelVariant109_D35BC = 0x8013E5BC; // type:u8 size:0x1A44 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

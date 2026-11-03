@@ -7,9 +7,9 @@
  * with rays and a textured double ring while the ambient light dims and
  * recovers. */
 
-static const VECTOR D_8013E374 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant774_D3374 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant774_HandleRequest(u8 *context, s32 command)
 {
     Model774State *work;
     MATRIX light;
@@ -35,12 +35,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013E374;
+    scale = gModelVariant774_D3374;
     work = (Model774State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E3D8[command];
+        work->config = &gModelVariant774_D33D8[command];
         setVector(&work->blade[0], 0, 0, 0);
         setVector(&work->blade[1], 0, -work->config->height, 0);
         setVector(&work->blade[2], 0, 0, direction * work->config->front);
@@ -78,7 +78,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E384[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant774_D3384[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

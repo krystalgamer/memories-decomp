@@ -8,11 +8,11 @@
  * a glow with two fans of rays and coloured, fading animated sparks while
  * the ambient light dims and recovers. */
 
-static const VECTOR D_8013E938 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant793_D3938 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant793_HandleRequest(u8 *context, s32 command)
 {
     Model793State *work;
     MATRIX light;
@@ -39,12 +39,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013E938;
+    scale = gModelVariant793_D3938;
     work = (Model793State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E9B8[command];
+        work->config = &gModelVariant793_D39B8[command];
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->step[i], 0, 0, 0);
@@ -106,10 +106,10 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->spark_count[i] = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E948[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E948[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E948[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E948[3]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant793_D3948[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant793_D3948[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant793_D3948[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant793_D3948[3]);
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;
