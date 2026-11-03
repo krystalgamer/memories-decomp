@@ -2,7 +2,7 @@
 
 #include "petals.h"
 
-void func_8017BDF0(u8 *ctx)
+void ModelExodia_DrawPetals(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

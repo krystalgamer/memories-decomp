@@ -75,5 +75,5 @@ typedef struct {
 
 extern ExodiaEntryConfig gModelExodia_D17AC[];
 void ModelExodia_DrawSpokes(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command);
 #endif

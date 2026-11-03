@@ -3,6 +3,6 @@
 
 #include "../model_variant/variant418_spiral.h"
 
-void func_8017BDF0(u8 *context);
+void ModelExodia_DrawPetals(u8 *context);
 
 #endif
