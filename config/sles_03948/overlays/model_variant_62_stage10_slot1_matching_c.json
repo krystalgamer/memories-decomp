@@ -4,7 +4,7 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1AD8",
-      "source": "src/overlays/french_model_variant/variant443_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant443_entry.c"
     },
     {
       "address": "0x8017CADC",
@@ -16,31 +16,31 @@
       "address": "0x8017D3AC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5E0",
-      "source": "src/overlays/spanish_model_variant/variant443_rings_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant443_rings.c"
     },
     {
       "address": "0x8017D98C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5A0",
-      "source": "src/overlays/spanish_model_variant/variant443_mesh_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant443_mesh.c"
     },
     {
       "address": "0x8017DF2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x73C",
-      "source": "src/overlays/spanish_model_variant/variant443_sheets_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant443_sheets.c"
     },
     {
       "address": "0x8017E668",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x888",
-      "source": "src/overlays/french_model_variant/variant443_streamers_slot1.c"
+      "source": "src/overlays/french_model_variant/variant443_streamers.c"
     },
     {
       "address": "0x8017EEF0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6B8",
-      "source": "src/overlays/french_model_variant/variant443_bands_slot1.c"
+      "source": "src/overlays/french_model_variant/variant443_bands.c"
     }
   ],
   "schema": 1

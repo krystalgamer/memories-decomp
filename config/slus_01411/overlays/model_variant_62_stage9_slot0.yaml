@@ -68,35 +68,35 @@ segments:
     vram: 0x8013D36C
     align: 4
     subsegments:
-      - [0x236C, c, overlays/model_variant/variant426_rings]
+      - [0x236C, c, overlays/spanish_model_variant/variant443_rings]
   - name: helper_2954
     type: code
     start: 0x2954
     vram: 0x8013D954
     align: 4
     subsegments:
-      - [0x2954, c, overlays/model_variant/variant426_mesh]
+      - [0x2954, c, overlays/spanish_model_variant/variant443_mesh]
   - name: helper_2f00
     type: code
     start: 0x2F00
     vram: 0x8013DF00
     align: 4
     subsegments:
-      - [0x2F00, c, overlays/model_variant/variant426_sheets]
+      - [0x2F00, c, overlays/spanish_model_variant/variant443_sheets]
   - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8013E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/model_variant/variant426_streamers]
+      - [0x3640, c, overlays/french_model_variant/variant443_streamers]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
     vram: 0x8013EEE0
     align: 4
     subsegments:
-      - [0x3EE0, c, overlays/model_variant/variant426_bands]
+      - [0x3EE0, c, overlays/french_model_variant/variant443_bands]
   - name: helper_4594
     type: code
     start: 0x4594

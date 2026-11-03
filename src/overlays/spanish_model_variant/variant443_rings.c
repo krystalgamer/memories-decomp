@@ -2,7 +2,7 @@
 #include "variant443_rings.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013D3AC(u8 *context)
+void SpanishModelVariant443_DrawRings(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

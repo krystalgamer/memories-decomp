@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant426_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant426_entry]
   - name: helper_1ac4
     type: code
     start: 0x1AC4
@@ -68,35 +68,35 @@ segments:
     vram: 0x8017D36C
     align: 4
     subsegments:
-      - [0x236C, c, overlays/model_variant/variant426_rings_slot1]
+      - [0x236C, c, overlays/spanish_model_variant/variant443_rings]
   - name: helper_2954
     type: code
     start: 0x2954
     vram: 0x8017D954
     align: 4
     subsegments:
-      - [0x2954, c, overlays/model_variant/variant426_mesh_slot1]
+      - [0x2954, c, overlays/spanish_model_variant/variant443_mesh]
   - name: helper_2f00
     type: code
     start: 0x2F00
     vram: 0x8017DF00
     align: 4
     subsegments:
-      - [0x2F00, c, overlays/model_variant/variant426_sheets_slot1]
+      - [0x2F00, c, overlays/spanish_model_variant/variant443_sheets]
   - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8017E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/model_variant/variant426_streamers_slot1]
+      - [0x3640, c, overlays/french_model_variant/variant443_streamers]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
     vram: 0x8017EEE0
     align: 4
     subsegments:
-      - [0x3EE0, c, overlays/model_variant/variant426_bands_slot1]
+      - [0x3EE0, c, overlays/french_model_variant/variant443_bands]
   - name: helper_4594
     type: code
     start: 0x4594

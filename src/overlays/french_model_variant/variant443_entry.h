@@ -139,12 +139,12 @@ typedef struct {
     s16 slot, command;
 } EntryState443;
 
-extern u8 D_8013F5A8[];
+extern u8 gFrenchModelVariant443_D45A8[];
 void FrenchModelVariant443_DrawRibbons(u8 *context);
-void func_8013D3AC(u8 *context);
-void func_8013D98C(u8 *context);
-void func_8013DF2C(u8 *context);
-void func_8013E668(u8 *context);
-void func_8013EEF0(u8 *context);
+void SpanishModelVariant443_DrawRings(u8 *context);
+void SpanishModelVariant443_DrawMesh(u8 *context);
+void SpanishModelVariant443_DrawSheets(u8 *context);
+void FrenchModelVariant443_DrawStreamers(u8 *context);
+void FrenchModelVariant443_DrawBands(u8 *context);
 
 #endif

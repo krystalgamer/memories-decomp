@@ -2,7 +2,7 @@
 #include "variant443_bands.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013EEF0(u8 *context)
+void FrenchModelVariant443_DrawBands(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
