@@ -125,12 +125,12 @@ Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
 function relocations in retail order.
 
 Main menu also owns the complete loaded runtime-state prefix at
-`0x80184558-0x80185CD4`. `module_state.c` emits three consecutive typed
-objects for the frontend, value-setup, and Trade screens, including both
-722-card inventory rows. Their sizes and the consumer-supported nested
-strides are compile-time checked. `main_menu_linker_symbols.txt` preserves
-the historical interior names, including the overlapping array/scalar views
-`gMainMenu_abValueSetupChoices`/`gMainMenu_bValueSetupToggleChoice` and `gTrade_abReady`/`gTrade_bSide1Ready`. The remaining
+`0x80184558-0x80185CD4`. `module_state.c` defines every frontend, value-setup and Trade name once,
+in address order, including both 722-card inventory rows; former second
+labels are array elements. `main_menu_symbols.txt` marks them
+`// defined:True`. The only remaining binding,
+`gTrade_abCursorRow = D_80185CCA`, exists because GCC 2.8.1 cannot place a
+byte array at that 2-aligned address. The remaining
 raw asset tail begins at module offset `0x5CD4`.
 
 Password also owns `0x8016D400-0x8016D590` as separate zero-initialized

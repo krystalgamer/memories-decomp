@@ -34,7 +34,7 @@
                  the starter did on it.
      D_801845A4  same pair, same reason.
 
-   All of them, and gMainMenu_pValueSetupMainCursor, are display objects out of DisplayObject_AcquireSlot,
+   All of them, including the tween's gMainMenu_apValueSetupCursors[2], are display objects out of DisplayObject_AcquireSlot,
    and every offset any of them was reached at is a DisplayObject member:
    flags at 0x08, update at 0x24, the position pair at 0x30, the saved pair
    at 0x36/0x38, the timer at 0x60 and the two widget bytes at 0x6B/0x6C.
@@ -61,9 +61,8 @@
                  indexed [0]/[1] and [6]/[7], with the two pointers reached
                  by byte offset; the entry spelling builds byte-identically.
 
-   gMainMenu_abValueSetupChoices[2] and gMainMenu_bValueSetupToggleChoice
-   view the same byte at 0x801845BE through distinct native symbols. Input
-   writes the array; finish reads the scalar and preserves its != 1 rule.
+   gMainMenu_abValueSetupChoices[2] (0x801845BE) is the shared toggle choice.
+   Input writes it; finish reads it and preserves its != 1 rule.
    The resident caller finishes on both accept and cancel, committing both. */
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP) || \
@@ -529,7 +528,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     s32 valueB;
     s16 remaining;
 
-    widget = gMainMenu_pValueSetupMainCursor;
+    widget = gMainMenu_apValueSetupCursors[2];
     targetX = (s16)widget->field_30.h.field_30;
     targetY = (s16)widget->field_30.h.field_32;
     valueA = gMainMenu_aValueSetupEntries[0].shown;
@@ -565,7 +564,7 @@ void MainMenu_FinishValueSetup(void)
 {
     *gMainMenu_aValueSetupEntries[0].out = gMainMenu_aValueSetupEntries[0].value;
     *gMainMenu_aValueSetupEntries[1].out = gMainMenu_aValueSetupEntries[1].value;
-    *gMainMenu_pValueSetupToggle = (gMainMenu_bValueSetupToggleChoice != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
+    *gMainMenu_pValueSetupToggle = (gMainMenu_abValueSetupChoices[2] != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
     DisplayObject_ReleaseIfPresent(D_801845A0);
     D_801845A0 = 0;
     DisplayObject_ReleaseIfPresent(D_801845A4);

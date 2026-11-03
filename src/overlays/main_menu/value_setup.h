@@ -12,7 +12,6 @@
 /* Choices [0/1] belong to the two players; [2] is their shared toggle choice.
    The separate scalar names [2] at its own address. */
 extern u8 gMainMenu_abValueSetupChoices[];
-extern u8 gMainMenu_bValueSetupToggleChoice;
 
 /* gMainMenu_pValueSetupToggle points at the caller's toggle; gMainMenu_aValueSetupEntries holds
    the two values and their output pointers. The remaining symbols own the
@@ -22,7 +21,6 @@ extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
 extern DisplayObject *D_801845A0;
 extern DisplayObject *D_801845A4;
 extern DisplayObject *gMainMenu_apValueSetupCursors[];
-extern DisplayObject *gMainMenu_pValueSetupMainCursor;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);
 s32 MainMenu_UpdateValueSetup(void);

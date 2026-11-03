@@ -38,9 +38,8 @@ slot 1. The other display's visual identity remains unassigned. Existing
 allocation checks, unchecked later dereferences, input/dirty ordering,
 full-width subtraction and setter semantics are unchanged.
 
-The real initialized `gMainMenu_TradeState` in `module_state.c` owns this
-four-byte pointer at `+4`, NA `0x801845E0`; its full `0x16F8`-byte
-definition and initializer remain intact. Native Japanese addressing
+`module_state.c` defines this four-byte pointer at NA `0x801845E0` as its
+own variable. Native Japanese addressing
 binds the name at the same address; every European image binds it at
 `0x8018480C`. The canonical declaration is a plain extern bound by each
 image's main-menu symbol file (no asm label) and preserves the original private `MainMenuWidget` type, `G32`, casts and

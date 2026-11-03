@@ -82,7 +82,6 @@ gDuel_awSaTecCardDrops = 0x801792F4;
 gDuel_awRankScoreChange = 0x801798A8;
 gDuel_wCardDropID = 0x80179A14;
 gDuel_aFusionTable = 0x8017C2D8;
-gMain_bMenuID = 0x80184594;
 gDuel_aDeckCardRecords = 0x801A7E20;
 gLibrary_aPasswordCardData = 0x801A8008;
 gSaveData_Workspace = 0x801D0000;
@@ -637,7 +636,6 @@ gDuel_abTrapAttackThresholds = 0x8009AF24;
 gDuel_bWidespreadRuinAttackThreshold = 0x8009AF29;
 
 // Semantic names
-gMain_apMenuEntries = 0x80184568;
 Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 
 // Semantic names

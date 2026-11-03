@@ -68,7 +68,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         }
     }
 
-    if (gTrade_bSide1Ready != 0) {
+    if (gTrade_abReady[1] != 0) {
         MainMenu_DrawTradeColumnOverlay(1);
         ((u8 *)&obj[1]->rgb)[0] = ((u8 *)&obj[1]->rgb)[1] =
             ((u8 *)&obj[1]->rgb)[2] = 0x40;

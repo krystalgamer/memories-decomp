@@ -110,17 +110,12 @@ void MainMenu_RebuildTradeInventoryRows(s32 side);
 
 /* Trade confirmation state. gTrade_bFocusPane keeps its accepted name and
  * three-position decision selection; volatile reads remain at their use sites.
- * Both ready bytes gate the final menu. gTrade_bSide1Ready is the second byte
- * of gTrade_abReady, with its own symbol for direct accesses; array clears also
- * clear it. None of these declarations allocate separate state storage.
+ * Both gTrade_abReady bytes gate the final menu.
  *
  * gTrade_bDecisionMenuActive gates commit/resume/exit selection.
  * gTrade_bCommitRequested starts offer application and the save request.
  * gTrade_bWritePending gates polling and handling the asynchronous result.
- *
- * gTrade_bSide1CursorRow remains the separate second-byte cursor-row view. */
-extern u8 gTrade_bSide1Ready;
-extern u8 gTrade_bSide1CursorRow;
+ */
 extern u8 gTrade_bFocusPane;
 extern u8 gTrade_bDecisionMenuActive;
 extern u8 gTrade_bCommitRequested;
@@ -143,9 +138,8 @@ extern u8 gTrade_abSortMode[2];
  * `gTrade_aWorkingCards[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)gTrade_aWorkingCards`
  * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen
- * (trade_update.c) indexes `[0][...]`. Row 1 is also named on its own as
- * gTrade_aSide1WorkingCards in that source (+0xB48 = CARD_COUNT * 4), which keeps its
- * private declaration.
+ * (trade_update.c) indexes `[0][...]` and `[1][...]` (row 1, +0xB48 =
+ * CARD_COUNT * 4, once a separate label, gTrade_aSide1WorkingCards).
  * Two rows end at gTrade_aListScroll, +0x1690. */
 extern CardCountEntry gTrade_aWorkingCards[][CARD_COUNT];
 

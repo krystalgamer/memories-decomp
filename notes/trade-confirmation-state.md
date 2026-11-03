@@ -11,7 +11,6 @@ not the generic text system or the accepted three-position focus selector.
 | `0x800610E0` | `MainMenu_CreateTradeReadyIndicator` | Channel 3/template 10, side-specific text branch and sprite at side times 160 |
 | `0x800611D0` | `MainMenu_CreateTradeDecisionMenu` | Channel 3/template `0x20`, selected one of three color slots and attached cursor |
 | `0x80185CC8` | `gTrade_abReady` | Two side-ready bytes; the offers renderer reads element 0 |
-| `0x80185CC9` | `gTrade_bSide1Ready` | Separate symbol for the second ready byte, not another allocation |
 | `0x80185CCF` | `gTrade_bDecisionMenuActive` | Gates final menu navigation and decisions |
 | `0x80185CD0` | `gTrade_bCommitRequested` | Requests applying offers and starting the save |
 | `0x80185CD1` | `gTrade_bWritePending` | Gates asynchronous write-result handling |
@@ -31,9 +30,9 @@ successful-write and resume loops through the two-byte array. Preserve that
 interior symbol and relocation identity, all byte declarations, the first-byte
 scalar arm, and volatile casts at existing use sites.
 
-These are views inside existing Main Menu state. The NA bindings remain based
-on `gMainMenu_TradeState + 0x16EC/0x16ED/0x16F3/0x16F4/0x16F5`; no separate C
-storage is introduced. Every European main-menu symbol file binds the names
+In NA these are separate variables defined in `module_state.c`; the side-1
+ready byte is spelled `gTrade_abReady[1]` (formerly also labelled
+`gTrade_bSide1Ready`). Every European main-menu symbol file binds the names
 directly at `0x80185EF4/EF5/EFB/EFC/EFD`. Japan, whose main-menu state layout
 matches North America (`gTrade_abCursorRow` and `gTrade_bFocusPane` are already
 bound at `0x80185CCA`/`0x80185CCE`), binds them at the NA addresses instead of
@@ -54,7 +53,7 @@ live in `trade_confirmation_widgets.h`, which the Trade updater includes
 directly; the numeric `func_800610E0.h`/`func_800611D0.h` headers and the
 `func_800610E0`/`func_800611D0` linker aliases are gone. Each Main Menu
 import map binds the two constructors at their resident addresses and the
-five state bytes under their names (US as `gMainMenu_TradeState` offsets,
+five state bytes under their names (US as C definitions,
 Japan at the same absolute addresses, Europe at `+0x22C`), so the Trade
 header no longer bridges `D_80185CC8`-`D_80185CD1` spellings. Existing
 storage providers remain intact.
