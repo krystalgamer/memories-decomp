@@ -7,12 +7,11 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
 
 ## Backing and bounds
 
-- `gDuel_pSide0SaveData` and `gDuel_pSide1SaveData` are adjacent pointer words in the existing
-  `bss_image_after_viewport` image backing, not separate C allocations.
-  `DUEL_SAVE_WINDOWS_AS_PAIR` exposes exactly two byte pointers, eight bytes
-  on the target, preserving GP-relative indexed access. Default consumers keep
-  their scalar names. Native fixtures must allocate a real pointer pair and
-  map the second scalar identity to its second element.
+- `gDuel_pSide0SaveData` and `gDuel_pSide1SaveData` are adjacent
+  `SaveDataState *` scalars, each defined once in `duel_field_card_render.c`.
+  `DUEL_SAVE_WINDOWS_AS_PAIR` lets DuelResult declare the first as the
+  eight-byte pair it starts, preserving GP-relative indexed access and the
+  retail reload of side 0's pointer after each starchip store.
 - `Duel_InitScene` selects the two `0x1000`-byte windows beginning at
   `gSaveData_aPairWorkspace` in the no-opponent path, or the persistent state base in the
   normal path. `SaveDataState` already covers the required `0x5E4`-byte

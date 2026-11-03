@@ -118,6 +118,6 @@ Confirmed:
 
 The result-state pointer is assigned to the reused ritual-data buffer by the
 unmatched state machine. The side-indexed save pointers are now named `gDuel_pSide0SaveData` and
-`gDuel_pSide1SaveData`. Their two-entry relationship is clear, but the matching
-setup source keeps two scalar declarations: changing it to one array
-declaration has not been measured and is not required for this field contract.
+`gDuel_pSide1SaveData`, two scalars. One two-entry array was measured: it makes
+`Duel_InitScene` fold both stores onto one base register, which retail does
+not, so only the result path uses the pair view.
