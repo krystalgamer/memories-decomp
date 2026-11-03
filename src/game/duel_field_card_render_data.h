@@ -81,6 +81,4 @@ extern DisplayObject *gDuel_pFlipRightMarker;
 extern DisplayObject *gDuel_pActionCard;
 extern DisplayObject *gDuel_pActionReadyMarker;
 
-extern s8 gDuel_bSide1CardViewMode[];
-
 #endif

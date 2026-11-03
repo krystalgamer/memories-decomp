@@ -57,11 +57,11 @@ void Duel_InitSideStates(void) {
             gDuel_aSideStates[1].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
             gDuel_aSideStates[0].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
         } else {
-            gDuel_bSide1CardViewMode[0] = -1;
+            gDuel_aSideStates[1].card_view_mode = -1;
         }
     } else {
         if (gDuel_bOpponentID >= 0) {
-            gDuel_bSide1CardViewMode[0] = -1;
+            gDuel_aSideStates[1].card_view_mode = -1;
         }
     }
     gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];

@@ -210,11 +210,6 @@ Base2_8009B2AA = gScript_ViewportTargetY;
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
-gDuel_abSelectionRecord1 = gDuel_abSelectionSides + 28;
-gDuel_abSelectionRecord2 = gDuel_abSelectionSides + 56;
-gDuel_abSelectionRecord3 = gDuel_abSelectionSides + 84;
-gDuel_bSide1CardViewMode = gDuel_aSideStates + 63;
-gCardPreview_Resource1 = gCardPreview_Resources + 64;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 gAi_bHandFaceDownRequested = gAi_Selection + 8;

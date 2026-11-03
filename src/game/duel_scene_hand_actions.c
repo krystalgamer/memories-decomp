@@ -397,7 +397,7 @@ void DuelScene_UpdateHandActions(void)
         } else {
             if (gInput_wPad1Held & 3) {
                 gDuelCursor_PickFlags = 0;
-                gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionRecord1);
+                gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides + 1 * DUEL_SELECTION_RECORD_SIZE);
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
@@ -632,7 +632,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_wDisplayTransitionFlags = 0xC;
             gDuel_bSceneSubStep |= 0x80;
-            gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionRecord2);
+            gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE);
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_wSceneStateFlags = 7;

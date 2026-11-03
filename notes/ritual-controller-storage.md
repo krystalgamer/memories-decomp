@@ -23,11 +23,9 @@ identities cover `gDisplayObject_apWorkSlots`, and its interior labels; the term
 No new C allocation or linker alias is required. The next mapped label
 after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
-`gCardPreview_Resource1` is also image-backed, with no C definition. The controller
-writes the four halfwords at offsets `+8` through `+0x0E` as a `RECT`,
-and reads source coordinates at `+0x28/+0x2A`. Its owner declares a
-**22-halfword measured prefix**, ending at `0x800EA154`; it does not infer
-the total object size from the next mapped label, `gLibrary_State`.
+The controller's preview record is `gCardPreview_Resources[1]`, defined in
+`duel_field_card_render.c`. The controller writes the `RECT` at offsets
+`+8` through `+0x0E` and reads source coordinates at `+0x28/+0x2A`.
 
 ## Integer card-ID API
 
@@ -128,8 +126,8 @@ that measured word view with the pointer member changes old-GCC scheduling.
 
 ## Borrowed preview resource view
 
-The linked image resolves `gCardPreview_Resource1` exactly `0x40` bytes after
-`D_800EA0E8`, one independently verified `DuelEffectResourceRecord` stride.
+The controller uses `&gCardPreview_Resources[1]`, `0x40` bytes after the
+array base, one independently verified `DuelEffectResourceRecord` stride.
 The ritual starter requests preview resource slot 1; state 1 constructs
 the paired objects from that same slot. State 3's readback accesses match
 the resource producer and upload consumer:
@@ -140,12 +138,9 @@ the resource producer and upload consumer:
 | 6 / 7 | `0x0C` / `0x0E` | `rects[0].w` / `rects[0].h` |
 | 20 / 21 | `0x28` / `0x2A` | `src_x` / `src_y` |
 
-The local now borrows that actual record type through the original
-`gCardPreview_Resource1` address. The global remains the measured 22-halfword prefix:
-there is no new definition, global alias, array bound or allocation claim.
-The prefix ends at `0x800EA154`; the later `gLibrary_State` label is at
-`0x800EA1E8`, not at that prefix end. Neither label is used to infer an
-otherwise unproved array extent.
+The local borrows that record directly as `&gCardPreview_Resources[1]`;
+the former `gCardPreview_Resource1` link alias is gone and the generated
+instructions are unchanged.
 
 The `src_y` capture and x/width/height/y write order remain unchanged.
 `RECT`'s signed coordinate halfwords retain the original low-halfword

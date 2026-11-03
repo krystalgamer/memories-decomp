@@ -197,10 +197,6 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 gAi_bHandFaceDownRequested = gAi_Selection + 8;
-gCardPreview_Resource1 = gCardPreview_Resources + 64;
-gDuel_abSelectionRecord1 = gDuel_abSelectionSides + 28;
-gDuel_abSelectionRecord2 = gDuel_abSelectionSides + 56;
-gDuel_abSelectionRecord3 = gDuel_abSelectionSides + 84;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 

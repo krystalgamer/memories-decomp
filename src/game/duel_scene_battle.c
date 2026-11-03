@@ -184,7 +184,7 @@ void DuelScene_UpdateBattle(void)
         if (Duel_SelectAttackTrap(gDisplayObject_apWorkSlots[0]) != 0) {
             gDuel_bAnimatedBattleRequested = 0;
         }
-        cur = (DuelSelectionRecord *)(gDuel_abSelectionRecord3 + gDuel_bActiveSide * 0x70);
+        cur = (DuelSelectionRecord *)((gDuel_abSelectionSides + 3 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
         gDuel_pActiveSelectionRecord = cur;
         DisplayObject_ReleaseIfPresent(cur->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
@@ -222,7 +222,7 @@ void DuelScene_UpdateBattle(void)
                 if (!(gDuel_bSceneSubStep & 0x10)) {
                     gDuel_bSceneSubStep |= 0x10;
                     gDuel_wDisplayTransitionFlags = 0xC;
-                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord2 + gDuel_bActiveSide * 0x70);
+                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
                 } else {
                     gDuel_bSceneSubStep |= 0x20;
                 }

@@ -301,7 +301,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     s32 c;
     s32 i;
 
-    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord2 +
+    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) +
                                        gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
     gDuel_pActiveSelectionRecord->status = 0;
     gDuel_pActiveSelectionRecord->field_13 = 1;

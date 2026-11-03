@@ -465,7 +465,7 @@ void DuelEffect_ApplyRitual(void)
         break;
     case 3: {
         u16 state = gDuel_wTrapPresentationMode;
-        DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)gCardPreview_Resource1;
+        DuelEffectResourceRecord *resource = &gCardPreview_Resources[1];
         u8 *data;
         card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
         if (!(state & 0x80)) {

@@ -14,9 +14,9 @@ initialize/use these same preview resources.
 
 The initializer explicitly prepares slots 0 and 1; the viewer also uses
 slot 3. These observed indices are not an inferred array extent. The
-declaration stays `[]`. `gCardPreview_Resource1` remains its existing slot-one/prefix
-alias at one `0x40` stride; no alias, prefix size or independently owned
-Library state is widened or reinterpreted.
+declaration stays `[]`. The ritual controller names slot 1 as
+`&gCardPreview_Resources[1]`; there is no separate slot-one alias, and no
+independently owned Library state is widened or reinterpreted.
 
 | Build | Actual preview resource address |
 | --- | --- |
