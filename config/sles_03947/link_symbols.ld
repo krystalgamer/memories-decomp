@@ -172,17 +172,7 @@ gScript_WaitCounter = D_8009C220_sles_03947;
 
 /* Names inside sorted_entry_relink's own storage (#2602). */
 
-/* Names inside input_pads's own storage (#2602). */
-
 /* Names inside mem_card_dialog's own storage (#2602). */
-
-/* Names inside sound_frontend's own storage (#2602). */
-
-/* Names inside display_object_core's own storage (#2602). */
-
-/* Names inside mem_card_driver's own storage (#2602). */
-
-/* Names inside sound_output_transition's own storage (#2602). */
 
 /* Names inside model_scene_controllers's own storage (#2602). */
 

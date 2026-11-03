@@ -57,7 +57,6 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
 
 gGraphics_nBaseFrameStep = 0x8009AFC8;
-gGraphics_bSkipDisplaySwap = 0x8009AF98;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
@@ -92,7 +91,6 @@ gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-gGraphics_aImageTransferRects = 0x800E9C50;
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;
 gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 

@@ -293,9 +293,30 @@ compile) give each differing block European storage:
   independent of a `.bss` block another region already guards. A block that
   is already guarded keeps its existing macro.
 
-The French, German, Italian and Spanish builds share these wrappers. They
-don't own their zero-initialized data yet, so the European storage there is
-discarded and weakened like any other unowned section.
+The French, German, Italian and Spanish builds (SLES-03948 to SLES-03951)
+share these wrappers and one layout: Europe's owners and storage, `0x420`
+higher, with three exceptions. These builds link the movie units after the
+model units, in their `.bss` as in their text:
+- `model_scene_controllers` keeps the North American layout of its small
+  block (`0x8009C7E8`-`0x8009C818`). The four builds compile it through
+  `spanish/model_scene_controllers.c`, which defines `EUROPEAN_LANGUAGE_BUILD`
+  to leave out the European storage.
+- `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`,
+  with these builds' own storage (`D_<ADDR>_sles_03948`) in
+  `spanish/movie_frame_pipeline.c`.
+- In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
+  and `ai_script_vm` (`0x800F6F08`), so the model blocks are `0x408` above
+  Europe's.
+
+`spanish/mem_card_dialog.c`, which the four builds also share, repeats the
+European memory-card storage. Their zero-initialized data comes from units
+from `graphics_frame` (`0x8009C408`) to `0x800F7010`. German, Italian and
+Spanish fold their `initialized_image` segment into `main` the way Europe
+folds `initialized_data`.
+
+A linker assignment must not target a name that an owned section defines;
+the C definition is the root. Ownership therefore also removed those
+assignments: two in Japan and about 240 in each of the four language builds.
 
 `build_regional_baseline.py` reads each region's `split.yaml`:
 - a compiled unit listed there with a dotted data section keeps that section

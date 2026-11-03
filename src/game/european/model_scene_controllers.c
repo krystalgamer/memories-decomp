@@ -1,5 +1,6 @@
 #include "../../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
+#ifndef EUROPEAN_LANGUAGE_BUILD
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
@@ -40,6 +41,7 @@ u32 D_8009C408;
 u32 D_8009C40C_sles_03947;
 u32 D_8009C410_sles_03947;
 u32 D_8009C414_sles_03947;
+#endif
 
 /* SLES-03947..51 build of src/game/model_scene_controllers.c: the whole unit
  * in one object. The symbols below sit at other addresses in the European
