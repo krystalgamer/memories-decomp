@@ -77,11 +77,11 @@ typedef struct {
 } Model656ViewSnapshot;
 
 /* The work-size string; slot-1 images carry a nonzero pad byte after it. */
-extern char D_8013D3C8[];
+extern char gModelVariant656_D23C8[];
 extern MATRIX D_800FE168;
-extern GsIMAGE D_8013D3E0[2];
-extern Model656Command D_8013D418[];
+extern GsIMAGE gModelVariant656_D23E0[2];
+extern Model656Command gModelVariant656_D2418[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant656_HandleRequest(u8 *context, s32 command);
 
 #endif

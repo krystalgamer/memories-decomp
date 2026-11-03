@@ -52,9 +52,9 @@ typedef struct {
     u8 latch[64];
 } Model128State;
 
-extern GsIMAGE D_8013C5A8[];
-extern Model128Config D_8013C5C4[];
+extern GsIMAGE gModelVariant128_D15A8[];
+extern Model128Config gModelVariant128_D15C4[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant128_HandleRequest(u8 *context, s32 command);
 
 #endif

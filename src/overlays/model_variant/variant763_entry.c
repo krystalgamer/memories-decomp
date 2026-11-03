@@ -2,14 +2,14 @@
 #include "variant763_entry.h"
 
 /* Header 763's entry: after the delay two fans and a spray of shards flash in
- * front of the slot with a four-frame sprite, falling dots and a rolled
+ * front of the slot with an eight-frame sprite, falling dots and a rolled
  * triangle while the ambient light dims and recovers; from the ring start two
  * pulsing rings of quads spread out and every colour fades. The first drawn
  * frame returns 1 and the end returns 2. */
 
-static const VECTOR D_8013CB98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant763_D1B98 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant763_HandleRequest(u8 *context, s32 command)
 {
     Model763State *work;
     MATRIX light;
@@ -39,11 +39,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CB98;
+    scale = gModelVariant763_D1B98;
     work = (Model763State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CBE0[command];
+        work->config = &gModelVariant763_D1BE0[command];
         work->unknown_6B4 = 0;
         work->elapsed = 0;
         work->flash = 0;
@@ -90,7 +90,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&work->quad[2], -work->config->quad_half, work->config->quad_half, 0);
         setVector(&work->quad[3], work->config->quad_half, work->config->quad_half, 0);
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CBA8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant763_D1BA8[i]);
         }
         v = work->dots;
         w = work->dot_velocities;

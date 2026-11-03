@@ -51,8 +51,8 @@ typedef struct {
     s32 elapsed;
 } Model122State;
 
-extern VECTOR D_8013C840;
-extern GsIMAGE D_8013C850[];
-extern Model122Command D_8013C888[];
+extern VECTOR gModelVariant122_D1840;
+extern GsIMAGE gModelVariant122_D1850[];
+extern Model122Command gModelVariant122_D1888[];
 
 #endif

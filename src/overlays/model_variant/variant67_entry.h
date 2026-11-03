@@ -47,7 +47,7 @@ typedef struct {
     s32 elapsed;
 } Model67State;
 
-extern GsIMAGE D_8013C8E0[];
-extern Model67Command D_8013C934[];
+extern GsIMAGE gModelVariant67_D18E0[];
+extern Model67Command gModelVariant67_D1934[];
 
 #endif
