@@ -1,6 +1,5 @@
 /* Layout symbols the generated section script does not define. */
 loaded_image_end = 0x801E0000;
-D_80181000 = 0x80181000;
 
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = text_SBSS_START;
