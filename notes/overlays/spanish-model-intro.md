@@ -28,19 +28,46 @@ compiled with the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 
 These five functions cover exactly **1,484 instruction bytes**, ending at
 `0x801805D0`. Reset stores the last function's actual linked address into
-`DisplayObject.field_4C`; it is a callback, not a resident import. Address-based
-names remain in use. No inline assembly, copied instruction words or padded
+`DisplayObject.field_4C`; it is a callback, not a resident import. The functions take
+the North American credits module's names; see below. No inline assembly, copied instruction words or padded
 substitute function is used.
+
+## Identification as the PAL credits presentation
+
+The only loader is `Model_UpdateCreditsPresentation`, the credits phase of
+the resident scene controller. Its first phase requests sixteen SU.MRG
+sectors at `0x80180000` (the North American build reads its credits module
+from sector 1223 the same way) and then calls the module through the
+resident imports `func_801807B0`, `func_80181C4C(0)` and `func_80180A24`. In
+the North American image those three addresses are the credits module's
+`Credits_InitPresentation`, `Credits_StartLineGroup` and
+`Credits_UpdateLines`; every European image binds the same three imports
+(`sles_03947` in `symbols.txt`, the other four in `link_symbols.ld`) to this module's `0x80180420`, `0x80180004` and `0x8018019C`. The
+European module is therefore the PAL credits presentation, a smaller
+implementation behind the same interface, and its functions take the North
+American names by role:
+
+| Address | Name | Role |
+|---|---|---|
+| `0x80180004` | `Credits_StartLineGroup` | start cue `n` in a free primary text channel (the controller passes 0) |
+| `0x8018019C` | `Credits_UpdateLines` | per-frame poll; returns the finished byte |
+| `0x80180420` | `Credits_InitPresentation` | reset the channels and install the grid object |
+| `0x801804A0` | `Credits_IsFinished` | 16-byte read of the finished byte, the same shape as the North American `Credits_IsFinished` |
+| `0x801804B0` | `Credits_DrawGrid` | the grid object's draw callback |
+
+The bodies differ from the North American module; only the interface and
+roles are shared. The resident import declarations in
+`src/game/model_scene_imports.h` keep their address-based spelling.
 
 ## Local data and resident contracts
 
 | Symbol | Bytes | Recovered view |
 |---|---:|---|
-| `D_801805D0` | 128 | 32 four-byte text/secondary/clear/flags cue records |
-| `D_80180650` | 1 | Completion flag |
-| `D_80180654` | 24 | Four six-byte delay/phase/unused/cue/active records |
-| `D_8018066C` | 4 | Display-object pointer |
-| `D_80180670` | 4 | Unsigned frame counter |
+| `gCredits_aCues` | 128 | 32 four-byte text/secondary/clear/flags cue records |
+| `gCredits_bFinished` | 1 | Completion flag |
+| `gCredits_aChannels` | 24 | Four six-byte delay/phase/unused/cue/active records |
+| `gCredits_pGridObject` | 4 | Display-object pointer |
+| `gCredits_dwFrameCounter` | 4 | Unsigned frame counter |
 
 Each symbol has actual generated `.data` input storage. None is defined in the
 external linker bindings. These are **preserved data, not C-owned data**;
@@ -115,7 +142,7 @@ The first unchanged shared-source trial reproduced the entire French slice.
 All five functions have their exact linked addresses and sizes and occupy
 one real 1,484-byte executable C input section without gaps or assembly
 substitutes. The callback address is supplied by paired HI16/LO16 relocations
-to the actual `func_801804B0` C definition. No French source copy, wrapper,
+to the actual `Credits_DrawGrid` C definition. No French source copy, wrapper,
 type changes or compiler-profile changes are needed.
 
 All twelve imports were checked against French resident ownership, not merely
