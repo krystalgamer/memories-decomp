@@ -258,9 +258,17 @@ region's split places. Two tables take a Japanese arm in the shared source:
 - the memory-card step table's fourth entry,
   `MemCardDialog_StepAlternateSave`.
 
-From the display-object stream tables onward (`0x80090E9C`), Japan lays its
-tables out differently (a larger zero run, and the shadow-fan steps beside
-the model effects), so that range stays in the extracted blob.
+From the display-object stream tables onward (`0x80090E9C`), Japan keeps the
+North American tables but in its own order:
+- the stream command table (Japan's wrapper defines its own copy, #8729);
+- `movie_stream_requests`;
+- `model_effect_state`;
+- `model_background_records`;
+- `model_image_copy_frames`;
+- `data_80091510`.
+
+#8729 places these. Japan's game `.data` is now fully owned up to
+`ai_get_hand_search_count`.
 
 Europe's initialized tables start `0x1004` above the North American ones and
 drift as European tables grow. Its split places seventeen owners:
@@ -354,12 +362,19 @@ removed 74 more linker assignments per build.
 
 Japan's small initialized data starts `0xC0` below the North American
 `.sdata`. Like Europe, it places the movie and camera-orbit units before the
-model units. Its split places seventeen owners from `main_services`
-(`0x8009AE48`) to `ai_script_source_line_format`. Bins remain for:
-- eight bytes after `duel_field_effects`;
-- Japan's own `model_graphics_state` layout;
-- the `model_scene_controllers`/`model_debug_controller` run;
-- four bytes before `ai_script_source_line_format`.
+model units. Its split places nineteen owners from `main_services`
+(`0x8009AE48`) to `ai_script_source_line_format`. Its layout differs from the
+North American one in three places:
+- `duel_field_effects` adds a Japanese-only `"Ex %d\n"` format (`D_8009AE84`,
+  read by Japan's `duel_field_card_objects`);
+- `model_graphics_state` has no selected-digit byte and keeps the frame-step
+  control as unaligned single bytes from `0x8009AF0B`, given as Japanese
+  storage (`D_8009AF0B_slpm_86398` onward) through
+  `japanese/model_graphics_state.c`;
+- `model_scene_controllers` has no `WHY?` trace.
+
+Only `model_debug_controller`'s four bytes (`0x8009AF64`), which Japan does
+not compile, stay extracted.
 
 With every build now owning `main_services`, `main_frame` and
 `debug_effect_screen`, the shared sources define `runtime_gp`,

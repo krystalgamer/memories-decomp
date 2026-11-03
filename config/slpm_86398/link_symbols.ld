@@ -54,7 +54,6 @@ func_800695A4 = Model_DrawSharedTwoSidedSemiGt4Primitives;
 func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
-gModel_ExodiaOrbitOffset = 0x8009AF5C;
 
 gGraphics_nBaseFrameStep = 0x8009AFC8;
 
@@ -131,3 +130,4 @@ D_8009AE50 = _ramsize;
 D_8009AE54 = _stacksize;
 gJapanese_D_8009AFDC = gModel_dwSecondPassClutBits;
 gJapanese_D_8009AFE0 = gModel_dwLitColorCacheBase;
+gGraphics_FrameStepControl = D_8009AF0B_slpm_86398;
