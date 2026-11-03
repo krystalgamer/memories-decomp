@@ -34,3 +34,6 @@ gGraphics_aImageTransferRects = D_800E9D70;
 gMain_bActiveModeState = 0x8009B26C;
 gMain_bReturnMode = 0x8009B269;
 gText_aChannels = 0x800EB0F8;
+gDisplay_abResourceBank0 = 0x801AF000;
+gSaveData_Workspace = 0x801D0000;
+gText_StagedValues = 0x801D5608;

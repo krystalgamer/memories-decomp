@@ -592,7 +592,7 @@ UI and modal-save phases; it is not replaced with a local, reader helper,
 byte scene index or new context object.
 
 The confirmed-choice path still writes the retained halfword to
-`D_801D0000[(SAVE_DATA_HEADER_SIZE +
+`gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE +
 SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) / sizeof(s16)]` *before* inspecting
 the selected choice. The save case repeats that same store before
 `SaveData_RequestWrite`. Both stores remain even though their values can
@@ -1104,7 +1104,7 @@ message branches remain. No remaining-retries type, unified retry helper
 or new initialization is introduced.
 
 The card-number argument remains the modal producer's view of shared
-text staging at `D_801D5608 + 0x40`. Existing branches write
+text staging at `gText_StagedValues + 0x40`. Existing branches write
 `(gMemCardDialog_Port >> 4) + 1` through element zero before their text
 requests. That does not make the word permanently card-owned:
 `TextStagingValues.deck_validation.invalid_side` and the rank-row view

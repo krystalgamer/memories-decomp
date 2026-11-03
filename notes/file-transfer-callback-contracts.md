@@ -113,7 +113,7 @@ between the buffer-address load and the descriptor buffer stores.
 Mode one keeps the one-sector phase, composite flag clear, shared scratch
 address assignments and jump to the original done-one tail. Mode two
 retains its regional RECT stores and `LoadImage2`, then sets both buffers to
-the shared `D_801AF000` bank, loads flags, sets the next one-sector phase,
+the shared `gDisplay_abResourceBank0` bank, loads flags, sets the next one-sector phase,
 clears flags and reaches that same done-one tail. No stage is combined,
 added or reordered; unsupported modes retain the original no-op behavior.
 

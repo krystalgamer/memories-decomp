@@ -660,7 +660,7 @@ the table alone does not predict:
 
 - **Array versus scalar decides who allocates the register.** For
   `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `D_801DD000` and
-  `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
+  `gDisplay_abResourceBank1` "are arrays so `-msplit-addresses` gives them registers, while
   the scalars carry `section(.data)`" and rebuild their address per access.
 - **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
   explains that the assembler only resolves a small global gp-relative when the
@@ -981,7 +981,7 @@ the same bytes. For those, the differing declarations are not drift and there
 is no canonical type to adopt: each one is faithful to what its own caller
 puts there.
 
-`D_801D5608` is the clearest example in the tree. Before Tick389, seven
+`gText_StagedValues` is the clearest example in the tree. Before Tick389, seven
 resident sources declared it a flat `s32 []`, while `duel_result_runtime.c` used
 `s32 [16][DUEL_SIDE_COUNT]`. Two overlays, `free_duel/screen_runtime.c` and
 `password/shop.c`, used the shared `Pair` from `ygo_types.h`; the password
@@ -1008,9 +1008,9 @@ explicit relocation directives (the function is generated assembly again):
 
 ```
 ".word 0x3C060000\n"
-".reloc .-4, R_MIPS_HI16, D_801D5608\n"
+".reloc .-4, R_MIPS_HI16, gText_StagedValues\n"
 ".word 0xACC20000\n"
-".reloc .-4, R_MIPS_LO16, D_801D5608\n"
+".reloc .-4, R_MIPS_LO16, gText_StagedValues\n"
 ```
 
 Its address form is fixed by that generated assembly, not by any C

@@ -77,6 +77,6 @@ typedef char TextStagingValues_invalid_side_offset_must_be_0x40[
  * The starchip balance is the union's `starchips` member, the same word at
  * offset 0 as `library_count`. Password_RefreshStarchipDisplay stages it
  * through that member, so no separate linker alias remains. */
-extern TextStagingValues D_801D5608[];
+extern TextStagingValues gText_StagedValues[];
 
 #endif

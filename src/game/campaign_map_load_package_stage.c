@@ -10,7 +10,6 @@
 #include "campaign_flags.h"
 #include "file_constants.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"

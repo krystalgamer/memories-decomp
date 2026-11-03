@@ -27,12 +27,12 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
   image backing and before `slot_8017a000`. This is lifetime-based reuse,
   not an allocation sized from a short ritual recipe.
 - `D_801D56A8` is a separate text-staging word, beyond the existing
-  `D_801D5608` union's measured `0x80` bytes. Only element zero of its
+  `gText_StagedValues` union's measured `0x80` bytes. Only element zero of its
   `s32 []` view is established. `0x801D56A8..0x801D56AB` lies in
   `tail_data`, before the colour slots at `0x801D5708`. The gap does not
   establish a larger array. Its incomplete-array spelling retains the
   split absolute store; a scalar `.data` declaration changes code generation.
-- `D_801AF000` is an image-backed, reused display-resource bank, passed to
+- `gDisplay_abResourceBank0` is an image-backed, reused display-resource bank, passed to
   the display helper as a resource address. `display_asset_banks.h` keeps
   the existing incomplete byte-array view without inventing a full extent.
 

@@ -6,7 +6,6 @@
 #include "duel_result_load_outro_package_stage.h"
 #include "../ygo_types.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {

@@ -39,3 +39,4 @@ gRuntime_pSharedWorkBase = 0x80010000;
 PROVIDE(gFade_State = 0x800E9EC8);
 gMain_bActiveModeState = 0x8009B26C;
 gViewState_Current = 0x800F2848;
+gDisplay_abResourceBank0 = 0x801AF000;

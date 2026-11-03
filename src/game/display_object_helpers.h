@@ -80,7 +80,7 @@ void DisplayObject_ConfigureSpriteWithResource(
     void *resource
 );
 /* resource is a pointer, not an integer. Every caller passes one -- the
-   overlays pass D_801AF000 / D_801AF800, the resident callers pass a spec or
+   overlays pass gDisplay_abResourceBank0 / gDisplay_abResourceBank1, the resident callers pass a spec or
    table address -- and the function stores it straight into the object's
    0x54 word, which DisplayObject already declares void *.
    DisplayObject_ConfigureSpriteWithResource just above does the same job

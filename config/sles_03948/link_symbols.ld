@@ -439,20 +439,20 @@ D_801A7B80 = 0x801A7B80;
 D_801A8000 = 0x801A8000;
 gAiScript_abFieldScript = 0x801A9800;
 gAiSnapshot_aOwnCards = 0x801AB00C;
-D_801AF000 = 0x801AF000;
-D_801AF800 = 0x801AF800;
+gDisplay_abResourceBank0 = 0x801AF000;
+gDisplay_abResourceBank1 = 0x801AF800;
 D_801B0004 = 0x801B0004;
 D_801B122B = 0x801BF800;
 D_801B1238 = 0x801BF814;
 D_801B125A = 0x801BF848;
 gText_DecimalDigitGlyphString = 0x801BF870;
 gText_AlternateStringAddressAnchor = 0x801C0004;
-D_801D0000 = 0x801D0000;
+gSaveData_Workspace = 0x801D0000;
 D_801D1200 = 0x801D1200;
 D_801D160C = 0x801D160C;
 D_801D2200 = 0x801D2200;
 gFile_ActiveRequestSlot = 0x801D4200;
-D_801D5608 = 0x801BF88C;
+gText_StagedValues = 0x801BF88C;
 gMemCardDialog_CardNumberArg = 0x801BF8CC;
 D_801D56A8 = 0x801BF92C;
 D_801D5804 = 0x801D5804;
@@ -995,7 +995,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -1016,12 +1015,9 @@ gScript_pMenuRecord = D_8009B274;
 gFile_abPackageStagingBuffer = D_801DD000;
 gModel_abTexturePaletteStaging = D_801DE000;
 
-gDisplay_abResourceBank0 = D_801AF000;
-gDisplay_abResourceBank1 = D_801AF800;
 
 
 
-gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
 

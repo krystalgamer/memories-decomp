@@ -15,7 +15,7 @@
 #include "script_image_objects.h"
 #include "sound_output.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 #include "scene_script.h"
 #include "script_op_duel_result.h"
 #include "duel_result_load_package_stage.h"

@@ -4,8 +4,6 @@
 #include "../types.h"
 #include "text_staging.h"
 
-extern TextStagingValues gText_StagedValues[];
-
 /* The result controller stages its sign-extended dropped-card id at this
  * separate word, not inside the 0x80-byte view above. Only element zero
  * is measured. The incomplete s32 array retains the retail split absolute

@@ -27,7 +27,7 @@ static u32 D_8009B42C;
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif

@@ -10,7 +10,6 @@
 #include "main_boot_load_stages.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
 #include "european_text_bank_views.h"

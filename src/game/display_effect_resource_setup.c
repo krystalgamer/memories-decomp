@@ -27,7 +27,7 @@
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
+#include "display_asset_banks.h"
 
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 

@@ -52,13 +52,13 @@ void PalOptions_Init(s32 mode)
     } else {
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 2, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 2, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -5);
         object->flags |= 0x28;
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pLanguageSprite = (DisplayObjectConfig *)object;
         object->flags |= 0x28;
@@ -66,7 +66,7 @@ void PalOptions_Init(s32 mode)
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         object->flags |= 0x28;
         gPalOptions_pLabelSprite = (DisplayObjectConfig *)object;
@@ -77,7 +77,7 @@ void PalOptions_Init(s32 mode)
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
-            object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, D_801AF000);
+            object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pSoundTypeSprite = (DisplayObjectConfig *)object;
         object->flags |= 0x28;

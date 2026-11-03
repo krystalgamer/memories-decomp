@@ -5,7 +5,7 @@
 #include "build_deck_transition_state.h"
 
 /* Puts the build-deck screen's two counters -- chest_total and deck_total --
- * into the D_801D5608 staging pair, then opens the text box
+ * into the gText_StagedValues staging pair, then opens the text box
  * that prints them and takes its display object out of screen space. Called
  * after every add or remove, which is what refreshes the count on screen. */
 void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record);

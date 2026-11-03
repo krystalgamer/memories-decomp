@@ -8,7 +8,7 @@ It starts from accepted request-handoff master
 | Former label | Canonical C name | Unchanged storage |
 |---|---|---|
 | `D_80184560` | `gMainMenu_pStartPrompt` | Four-byte stored `DisplayObject *` at `gMainMenu_FrontendState + 8` |
-| `D_801AF800` | `gMainMenu_DisplayResources` | Existing unsized `u8[]` view of the separate `0x800`-byte SU phase |
+| `D_801AF800`, `gMainMenu_DisplayResources` | `gDisplay_abResourceBank1` | Existing unsized `u8[]` view of the separate `0x800`-byte SU phase |
 
 ## Start-input lifecycle, not a texture identification
 
@@ -53,9 +53,9 @@ variant; value setup supplies it to its separate sprite. These are the
 complete direct main-menu C consumers. No resource-record format, image
 identity or claim about other SU executable phases follows from that role.
 
-The local `display_resources.h` retains the original unsized byte array
-type; every main-menu linker symbol file binds the name directly at its
-address in place of the former `D_801AF800` label. It deliberately adds no
+The overlay uses the resident `gDisplay_abResourceBank1` declaration from
+`display_asset_banks.h`, the original unsized byte array type; every
+main-menu linker symbol file binds that name at its address. It deliberately adds no
 array bound, `const`, storage definition, copied bytes or resident alias.
 `frontend.h` declares the canonical prompt pointer with the same pointee
 and `G32`; the main-menu symbol files bind it where `D_80184560` stood.

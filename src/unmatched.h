@@ -82,16 +82,6 @@
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
 
-/* A buffer base address rather than a byte array anyone indexes: every user
- * either passes it to DisplayObject_ConfigureSpriteAtPositionWithResource or stores it into an object field, and
- * none of them read through it. DuelResult_UpdateOrbitSprite sized it [16], but nothing
- * takes its sizeof, so the bound was decorative. */
-
-/* Six consumers use this second buffer base with the same unsized-byte-array
- * spelling: three resident transfer paths and three main-menu display paths.
- * Nothing takes its sizeof. */
-extern u8 D_801AF800[];
-
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
  * contents remain unnamed, and no AI subsystem header owns them. */

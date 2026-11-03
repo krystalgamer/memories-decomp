@@ -15,7 +15,7 @@
 #include "../../game/sound.h"
 #include "ordering_tables.h"
 #include "value_setup.h"
-#include "display_resources.h"
+#include "../../game/display_asset_banks.h"
 
 /* The value-setup screen: the three lifecycle entry points
    main_mode_runners.c
@@ -115,7 +115,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A4 = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0xA, 6, 0, 0, 0xE, 5, gMainMenu_DisplayResources);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0xA, 6, 0, 0, 0xE, 5, gDisplay_abResourceBank1);
         D_801845A4->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SetDepthOffset(D_801845A4, -1);

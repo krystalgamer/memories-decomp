@@ -1273,12 +1273,12 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
 ];
 
 /* Two words written together as a pair. free_duel/screen_runtime.c and
- * password/shop.c formerly defined this identically to view D_801D5608, and
+ * password/shop.c formerly defined this identically to view gText_StagedValues, and
  * each writes both members at once -- the low word from a table entry and the
  * high word from the index beside it. The password writer is
  * Password_UpdateShopScreen in password/shop.c.
  *
- * game/text_staging.h owns the declaration of D_801D5608. Pair is reached
+ * game/text_staging.h owns the declaration of gText_StagedValues. Pair is reached
  * through that header's union member `pair`, not through a guarded extern
  * view of its own, and the password starchip count through its `starchips`
  * member; no guarded alias of that storage remains. Pair

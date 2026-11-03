@@ -181,7 +181,7 @@ Mode is stored as a byte but dispatched as the original signed 32-bit argument:
 256 follows the nonzero path. That path calls the empty hook, selects state two
 and plays `0x7370`. Zero mode acquires/configures five objects, clamps negative
 signed output modes to zero, establishes the resource/cursor pointers, resets
-phase and plays `0x7350`. `D_801AF000` remains an incomplete byte bank; the
+phase and plays `0x7350`. `gDisplay_abResourceBank0` remains an incomplete byte bank; the
 loader's 4,096-byte transfer is a measured view, not a general capacity claim.
 Canonical `FadeTransitionState` is 40 bytes; its flags are one byte at offset
 six. The active mask is `0x80`; the transfer-blocking mask is `0x02000030`.

@@ -128,7 +128,7 @@ void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
 
-    D_801D5608[0].starchips = gLibrary_dwStarchips;
+    gText_StagedValues[0].starchips = gLibrary_dwStarchips;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     func_8003B6AC(3, 1);
 #endif
@@ -485,8 +485,8 @@ void Password_UpdateShopScreen(void)
         flags2 = gPassword_wShopState;
         if ((flags2 & 0x8000) == 0) {
             gPassword_wShopState = flags2 | 0x8000;
-            D_801D5608[0].pair.lo = D_801A8000[gPassword_wCardId].price;
-            D_801D5608[0].pair.hi = gPassword_wCardId;
+            gText_StagedValues[0].pair.lo = D_801A8000[gPassword_wCardId].price;
+            gText_StagedValues[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
                     gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
@@ -536,7 +536,7 @@ void Password_UpdateShopScreen(void)
         if (step == 0) {
             step = 1;
         }
-        pool = (SaveDataWorkspace *)D_801D0000;
+        pool = (SaveDataWorkspace *)gSaveData_Workspace;
         gPassword_dwPriceRemaining -= step;
         pool->state.starchips -= step;
         if (gPassword_dwPriceRemaining == 0) {

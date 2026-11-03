@@ -243,9 +243,9 @@ typedef char SaveDataWorkspace_state_offset_must_be_0x200[
  * targets. The save-prompt halfword arm retains its base register and writes
  * both campaign_scene_index and field_5DD, unlike the byte-sized restore. */
 #ifdef SAVE_DATA_WORKSPACE_AS_HALFWORDS
-extern s16 D_801D0000[];
+extern s16 gSaveData_Workspace[];
 #else
-extern u8 D_801D0000[];
+extern u8 gSaveData_Workspace[];
 #endif
 extern u8 gLibrary_abCardChest[];
 extern u8 gSaveData_aPlayerNameSjis[];

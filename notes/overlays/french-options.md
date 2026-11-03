@@ -251,7 +251,7 @@ owner; this is not an exclusive buffer-lifetime claim or an invented common
 array bound. The comparison covers offsets `[0x60, 0x5A0)` in each saved
 rectangle, within their `0x600`-byte extents.
 
-The resource argument is the canonical incomplete byte bank `D_801AF000`
+The resource argument is the canonical incomplete byte bank `gDisplay_abResourceBank0`
 from `display_asset_banks.h`, not a display-object allocation. Its address
 and starting byte have the same real raw owner. Passing the address does
 not establish the bank's complete extent. Initializer calls reuse the

@@ -498,8 +498,8 @@ request path, not by itself evidence for every button or visibility mode.
 The constructor clears `gText_BranchSelectorA` and `gText_BranchSelectorB` on entry. For an
 occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
 the occupied-monster branch (packed type below `20`) writes
-the words at `D_801D5608 + 0` and `+4`, now expressed as
-`D_801D5608[0].card_stats.attack` and `.defense` through
+the words at `gText_StagedValues + 0` and `+4`, now expressed as
+`gText_StagedValues[0].card_stats.attack` and `.defense` through
 [`text_staging.h`](../src/game/text_staging.h): they receive the ATK and DEF returned by
 `Duel_CalcCardStats`. No opponent-dependent guardian adjustment is added
 to these two assignments.
@@ -522,7 +522,7 @@ after the data was prepared; `TextBox_Create` is still called after the
 conditional setup. Matching
 [`FreeDuel_PlaceCursor`](../src/overlays/free_duel/screen_runtime.c) reuses
 the same two words for its selected duelist's win/loss values. Interpret
-`D_801D5608` with its current caller and text-request state, not as
+`gText_StagedValues` with its current caller and text-request state, not as
 dedicated persistent ATK/DEF storage. No conclusion about hidden-card
 visibility or a complete scratch-buffer layout follows from these writes.
 

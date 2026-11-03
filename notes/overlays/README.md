@@ -1542,7 +1542,7 @@ instruction *before* a window, everything after it shifts and the window no
 longer covers the code it was chosen for. The numbers still print, they are
 still plausible, and they are measuring something else.
 
-On `func_8016A37C` a `volatile` qualifier on `D_801D0000` appeared to be the
+On `func_8016A37C` a `volatile` qualifier on `gSaveData_Workspace` appeared to be the
 first thing ever to move three of the four windows, from five, six and
 thirty-six to four, five and thirty. It adds one instruction in the case that
 precedes two of those windows, so the improvement is the shift and not a

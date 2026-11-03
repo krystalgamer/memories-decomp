@@ -40,7 +40,7 @@ SaveData_UpdateDuelLoad = 0x8003FE38;
 SaveData_UpdateTradeLoad = 0x8003FDFC;
 SD_BGMPlayDefaultStep = 0x800475A0;
 rsin = 0x80086424;
-gMainMenu_DisplayResources = 0x801AF800;
+gDisplay_abResourceBank1 = 0x801AF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800429D8;
 DisplayObject_SelectOrderingTable1 = 0x80042A48;
 

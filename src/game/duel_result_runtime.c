@@ -60,7 +60,6 @@
 #include "duel_effect.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "display_resource_banks.h"
 #include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"

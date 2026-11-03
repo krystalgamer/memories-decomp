@@ -8,7 +8,6 @@
 #include "file_transfer.h"
 #include "free_duel_load_package_stage.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"

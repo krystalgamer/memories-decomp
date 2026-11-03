@@ -73,7 +73,7 @@ balance, and create the modal messages used by the lifecycle. All three
 create fixed text slots through `func_80035BE4`, and the refreshers and
 flagged message path drive them through `func_80039A14`.
 
-The merged source keeps two same-symbol views of `D_801D5608`. The starchip
+The merged source keeps two same-symbol views of `gText_StagedValues`. The starchip
 renderer writes its first word through a scalar alias; the purchase dialog
 writes the price and card ID through the existing `Pair` view. Combining the
 files does not make those two uses one type.

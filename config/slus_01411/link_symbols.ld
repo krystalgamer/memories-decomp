@@ -80,7 +80,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -92,12 +91,9 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
 
-gDisplay_abResourceBank0 = D_801AF000;
-gDisplay_abResourceBank1 = D_801AF800;
 
 
 
-gText_StagedValues = D_801D5608;
 
 
 

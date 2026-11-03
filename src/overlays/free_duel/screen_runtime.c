@@ -107,10 +107,10 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     param = trunc;
     if (index != 0) {
         param = 12;
-        base = (SaveDataWorkspace *)D_801D0000;
-        D_801D5608[0].pair.lo =
+        base = (SaveDataWorkspace *)gSaveData_Workspace;
+        gText_StagedValues[0].pair.lo =
             (s16)base->state.duelist_records[index].result.wins;
-        D_801D5608[0].pair.hi =
+        gText_StagedValues[0].pair.hi =
             (s16)base->state.duelist_records[index].result.losses;
     }
 #ifdef VERSION_EUROPE
@@ -131,7 +131,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     DisplayObject *x;
 
     x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, gDisplay_abResourceBank0);
     ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
     DisplayObject_SetDepthOffset(x, 5);
@@ -306,24 +306,24 @@ done:
 #ifdef VERSION_EUROPE
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(
-        obj, 0, 0, 0, 1, gText_bLanguageIndex, 16, 0, D_801AF000);
+        obj, 0, 0, 0, 1, gText_bLanguageIndex, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, 11);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 #endif
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, -10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, gDisplay_abResourceBank0);
     ((u8 *)&obj->field_5E)[1] = 128;
     DisplayObject_SetDepthOffset(obj, 15);
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

@@ -57,7 +57,7 @@ the descriptor to the overlay destination stored at `0x8001002C`, whose
 retail value is `0x80180000`.
 
 The final `0x800` bytes are loaded only after the executable. The main-menu
-overlay passes `D_801AF800` throughout `frontend.c` and `value_setup.c` to the
+overlay passes `gDisplay_abResourceBank1` throughout `frontend.c` and `value_setup.c` to the
 shared display-object resource initializer, identifying this phase as the
 overlay's display-resource bank rather than executable padding.
 

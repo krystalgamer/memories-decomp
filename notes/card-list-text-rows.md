@@ -73,7 +73,7 @@ compatibility name; frozen Trade overlays keep their independently bound
 
 ## Scope boundaries
 
-The generic `D_801D5608` message-input union and separate result-card word
+The generic `gText_StagedValues` message-input union and separate result-card word
 remain untouched. They serve broader card, deck, mem-card, rank, credits
 and overlay contexts, not one card-list allocation.
 

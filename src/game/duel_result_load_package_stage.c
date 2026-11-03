@@ -5,7 +5,6 @@
 #include "file_transfer.h"
 #include "duel_result_load_package_stage.h"
 #include "../unmatched.h"
-#include "display_resource_banks.h"
 
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
