@@ -130,7 +130,6 @@ gGraphics_aImageTransferRects = 0x800E9C50;
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
-gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
 
@@ -146,9 +145,6 @@ gDuelEffect_nCompactionRequested = D_8009B330;
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
 PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 
-gText_aGlyphLookup = tent_GlyphLookupTable;
-gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
-gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
 

@@ -27,7 +27,6 @@ AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
 #include "duel_effect_update_object_layout.h"
 #include "dialog_choice_state.h"
 #include "text_constants.h"
-#include "text_glyph_lookup.h"
 
 /* Regional value: the choice.flags bit that opens and closes the choice (0x8
  * -> 0x10). The European build (src/game/european/) defines its own. */

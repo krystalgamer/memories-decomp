@@ -446,8 +446,8 @@ size, word alignment and both offsets. The upper halfword is not given a
 universal flags meaning merely because the channel pump reads its low
 three bits.
 
-The unsized `tent_GlyphLookupTable` base and separate const entry-1 alias
-`tent_GlyphLookupTableEntries` retain their original bindings. Encoders
+The unsized `gText_aGlyphLookup` base and separate const entry-1 label
+`gText_aGlyphSearchEntries` keep their bindings. Encoders
 and decimal lookup use the named key; the builder retains its packed-word
 mask, and the pump retains the upper-halfword kind read. The decimal
 guard stays const. Whole-word zero sentinels and Europe's key-only zero

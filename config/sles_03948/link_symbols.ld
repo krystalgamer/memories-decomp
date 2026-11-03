@@ -944,7 +944,7 @@ gDuelEffect_aEntries = 0x800EC390;
 gDuelEffect_EntryHandlers = 0x8009236C;
 gDuelHand_aSlots = 0x800EB2B8;
 gDuelResult_wBgmId = 0x8009C50C;
-tent_GlyphLookupTable = 0x801D9000;
+gText_aGlyphLookup = 0x801D9000;
 gMemCardDialog_BlockCount = 0x8009C768;
 gMemCardDialog_OperationState = 0x8009C771;
 gMemCardDialog_FileNameBuffer = 0x800F0CB0;
@@ -958,7 +958,7 @@ gSD_awNotePitchTable = 0x80010760;
 gSceneScript_RecordCallbacks = 0x800920C4;
 gScript_ImageOperand = 0x8009C630;
 gText_SecondaryCommandHandlers = 0x800922B8;
-tent_TradeSaveBuffer = 0x801D1880;
+gSaveData_aTradeWriteStaging = 0x801D1880;
 write = 0x80073E48;
 
 /* Semantic draw-state aliases retain the original native providers. */
@@ -1037,7 +1037,6 @@ gGraphics_aImageTransferRects = D_800E9D70;
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
-gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
 
@@ -1053,7 +1052,6 @@ gDuelEffect_nCompactionRequested = D_8009B330;
 gLibrary_sCapturedReferenceY = D_80181002;
 gLibrary_sSampledReferenceY = D_80181012;
 
-gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
 

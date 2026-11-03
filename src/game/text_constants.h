@@ -90,11 +90,15 @@ extern u8 gText_abColorSlots[];
  * script byte's index and masks it with 0x8FF0FFFF.
  * TextBox_UpdateChannels (text_box_runtime.c) reads bits 0-2 of halves.upper;
  * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
- * gText_aGlyphSearchEntries, with a const that its note explains. 0x174 bytes to D_801D9174,
+ * gText_aGlyphSearchEntries, with a const that its note explains. Spelling
+ * that as gText_aGlyphLookup + 1 (cast to const, or through a const arm of
+ * this declaration) does not match: GCC 2.8.1 treats symbol+4 differently
+ * from a separate symbol, which swaps t3/t4 or adds a register move (+8
+ * bytes). The separate label is a measured exception. 0x174 bytes to D_801D9174,
  * 93 entries; the first word is zero in the image and no C unit writes the table.
  * Retail reaches it through %hi/%lo at every
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */
-extern TextGlyphLookupEntry tent_GlyphLookupTable[];
+extern TextGlyphLookupEntry gText_aGlyphLookup[];
 
 /* The decimal digit glyph map. NA/Japan initialize lookup indices from the
  * copied Shift-JIS keys; Europe decodes glyph codes from a terminated string.

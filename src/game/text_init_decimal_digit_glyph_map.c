@@ -3,7 +3,6 @@
 #include "text_init_decimal_digit_glyph_map.h"
 #include "text_decimal_key_views.h"
 #include "text_constants.h"
-#include "text_glyph_lookup.h"
 #include "european_text_bank_views.h"
 
 /* Copies the ten two-byte Shift-JIS digit keys from gText_DecimalDigitSjisKeys

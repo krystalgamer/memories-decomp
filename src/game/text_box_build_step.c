@@ -10,7 +10,6 @@
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
-#include "text_glyph_lookup.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
 #include "display_object_core.h"

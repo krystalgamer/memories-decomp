@@ -700,7 +700,7 @@ gDuel_adwCardStats = 0x801D4244;
 gCard_asNameSortKey = 0x801D4D8E;
 gDuel_abCardLevelAttr = 0x801D5332;
 D_801D5804 = 0x801D5804;
-tent_GlyphLookupTable = 0x801D9000;
+gText_aGlyphLookup = 0x801D9000;
 gLibrary_aCardArtRecord = 0x801DC000;
 gFile_FilterParams = 0x8009C468;
 gFile_ActiveRequestSlot = 0x801D4200;
@@ -910,7 +910,7 @@ gSaveData_PairMessageCode = 0x8009C77B;
 D_801B122B = 0x801BF800;
 D_801D160C = 0x801D160C;
 D_801B1238 = 0x801BF814;
-tent_TradeSaveBuffer = 0x801D1880;
+gSaveData_aTradeWriteStaging = 0x801D1880;
 D_8009B16E = 0x8009C538;
 gDebugEffect_abPreviewState = 0x8009C2C0;
 gDebugEffect_pPreviewCard1 = 0x8009C58C;
@@ -1037,7 +1037,6 @@ gGraphics_aImageTransferRects = D_800E9D70;
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
-gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
 
@@ -1053,7 +1052,6 @@ gDuelEffect_nCompactionRequested = D_8009B330;
 gLibrary_sCapturedReferenceY = D_80181002;
 gLibrary_sSampledReferenceY = D_80181012;
 
-gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
 
