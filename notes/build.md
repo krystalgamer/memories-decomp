@@ -1204,9 +1204,8 @@ see it.
 
 The password head is now mapped without accepting those misleading sparse
 extents. [`module_state.c`](../src/overlays/password/module_state.c) owns the
-complete `0x8016D400-0x8016D590` prefix as one `0x190`-byte
-`PasswordModuleState`, whose field offsets are supported by the name-entry and
-shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
+complete `0x8016D400-0x8016D590` prefix as separate variables whose types are
+supported by the name-entry and shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
 
 `shop.c` declares `extern u8 *gPassword_apDigitCursorDecorations[]` and walks it to store **four**
 objects -- sixteen bytes -- and the overlay's own function notes describe

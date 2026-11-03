@@ -436,7 +436,6 @@ gMemCard_bDirFlags = 0x8009B44E;
 gMemCard_bRequestStep = 0x8009B44F;
 gMemCard_nIOResult = 0x8009B450;
 gFile_anLba = 0x800E9EA8;
-gPassword_abDigits = 0x8016D410;
 gDuel_awRitualData = 0x801799D8;
 gDuel_anRankScore = 0x80179A04;
 gDuel_awEquipTable = 0x8017A1D8;
@@ -1551,8 +1550,6 @@ gFile_szDiscMasterXaPath = 0x80090778;
 Duel_StepCardDataTransfer = 0x800245EC; // type:func
 gInput_bRepeatDelay = 0x8009B39C;
 gInput_bRepeatInterval = 0x8009B3A2;
-gPassword_pDigitCursorWidget = 0x8016D420;
-gPassword_nDigitIndex = 0x8016D428;
 
 // Semantic names
 PCread = 0x80073758; // type:func

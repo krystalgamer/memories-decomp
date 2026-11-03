@@ -4,8 +4,6 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 
-extern PasswordModuleState gPassword_ModuleState;
-
 extern struct DisplayObject *gNameEntry_apKeySprites[3];
 extern u8 gNameEntry_bStateFlags;
 extern s8 gNameEntry_bKeyboardColumn;

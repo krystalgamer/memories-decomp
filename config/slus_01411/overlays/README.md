@@ -27,10 +27,8 @@ and trailing module data:
 | `0x5590-0x7800` | `0x8016D590-0x8016F800` | Remaining raw module data |
 
 The first function prologue begins at `0x801680B4`. The trailing boundary is
-required by references to `gNameEntry_bStateFlags`. The first `0x190` bytes are one
-consumer-backed `PasswordModuleState`; linker aliases retain the historical
-interior symbol names used by generated assembly while the C object owns the
-storage.
+required by references to `gNameEntry_bStateFlags`. The first `0x190` bytes are
+separate C-defined variables, each bound once.
 
 Both Egypt overworld variants share one layout shape. They are separate
 modules because the resident loader picks the second package when campaign
@@ -135,13 +133,11 @@ the historical interior names, including the overlapping array/scalar views
 `gMainMenu_abValueSetupChoices`/`gMainMenu_bValueSetupToggleChoice` and `gTrade_abReady`/`gTrade_bSide1Ready`. The remaining
 raw asset tail begins at module offset `0x5CD4`.
 
-Password also owns `0x8016D400-0x8016D590` as one zero-initialized
-`PasswordModuleState`. The single object avoids treating sparse interior labels
-as object extents: for example, `gPassword_apDigitCursorDecorations` is a four-pointer array and
-`gPassword_wCardId` is a halfword even though the next generated labels are much
-farther away. `password_linker_symbols.txt` defines those historical names as
-offset aliases from `gPassword_ModuleState`; the object exports one
-section-defined owner with an exact `0x190`-byte `.data` section.
+Password also owns `0x8016D400-0x8016D590` as separate zero-initialized
+variables in `module_state.c`. Sparse labels are not object extents: for
+example, `gPassword_apDigitCursorDecorations` is a four-pointer array and
+`gPassword_wCardId` is a halfword even though the next generated labels are
+much farther away, so the unnamed bytes after them are their own `D_` arrays.
 
 Free Duel additionally maps its complete named state prefix at
 `0x80169030-0x801690A8` through `module_state.c`. The `0x78`-byte object

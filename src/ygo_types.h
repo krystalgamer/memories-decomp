@@ -790,45 +790,6 @@ typedef char PasswordCursorView_update_flags_offset_must_be_0x6C[
     YGO_TYPE_OFFSET(PasswordCursorView, updateFlags) == 0x6C ? 1 : -1
 ];
 
-typedef struct {
-    u8 flags;
-    s8 keyboardColumn;
-    u8 keyboardRow;
-    u8 resetState;
-    SelectionFrame *selectionFrame;
-    u8 glyphSequence;
-    u8 unknown409[7];
-    u8 digits[8];
-    u8 *nameBuffer;
-    u8 dialogState;
-    u8 unknown41D[3];
-    PasswordCursorView *digitCursor;
-    u16 displayedStarchips;
-    u8 savedKeyboardRow;
-    u8 unknown427;
-    s32 digitIndex;
-    s8 caretIndex;
-    u8 unknown42D[3];
-    u8 *cardCache;
-    s16 cursorTargetX;
-    s16 cursorTargetY;
-    u32 cardPrice;
-    u8 *lengthObject;
-    u8 *digitDecorations[4];
-    u8 unknown450[0x80];
-    u8 resetMode;
-    u8 unknown4D1;
-    u16 dialogId;
-    u16 keyboardFlags;
-    u16 unknown4D6;
-    PasswordCardPreviewView *cardPreview;
-    u16 cardId;
-    u8 unknown4DE[0xB2];
-} PasswordModuleState;
-
-typedef char PasswordModuleState_size_must_be_0x190[
-    sizeof(PasswordModuleState) == 0x190 ? 1 : -1
-];
 typedef char SelectionFrame_priority_offset_must_be_0x14[
     YGO_TYPE_OFFSET(SelectionFrame, priority) == 0x14 ? 1 : -1
 ];
