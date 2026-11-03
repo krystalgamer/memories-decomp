@@ -1,6 +1,4 @@
 AverageZ3 = 0x80089BF8;
-Base2_8009B2A8 = 0x8009C62A;
-Base2_8009B2AA = 0x8009C62C;
 CampaignMap_UpdateLocation = 0x80168FCC;
 CdControlB = 0x8007ED88;
 CdFlush = 0x8007E8E8;
@@ -97,7 +95,7 @@ gFile_ReadyTransferDescriptor = 0x8009C2A8;
 gDuel_awSideViewHeadings = 0x8009C2B0;
 gDebugMenu_wMessageId = 0x8009C2D8;
 gDebugMenu_wCampaignScene = 0x8009C2DA;
-D_8009AF74 = 0x8009C2F8;
+gDisplayObject_awOrderingTableDepthBases = 0x8009C2F8;
 gSD_szMidiTrackMarker = 0x8009C304;
 gModel_pBackgroundRecord = 0x8009C318;
 gModel_wProjectionDistance = 0x8009C31C;
@@ -1026,7 +1024,6 @@ gDisplay_abResourceBank1 = D_801AF800;
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
-gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
 
 
 

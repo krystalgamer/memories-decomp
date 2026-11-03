@@ -70,8 +70,7 @@ extern u8 D_801A8000[];
  * gp-relative in all four of those units.
  *
  * The text callback arm takes them absolute (.data); its signed accesses are
- * casts at the use. Base2_8009B2A8/AA are distinct linker identifiers
- * at the same addresses: they stop GCC retaining addresses across calls. */
+ * casts at the use. */
 /* Shared retained halfword: viewport commands use it as their divisor/countdown;
  * Script_OpDuelResult also stages its two-byte operand here. It is not
  * universally a duration. Text_StartViewportTween uses TextStream_ReadU16LE.
@@ -85,8 +84,6 @@ extern u8 D_801A8000[];
 extern s16 gScript_SharedOperand __attribute__((section(".data")));
 extern u16 gScript_ViewportTargetX __attribute__((section(".data")));
 extern u16 gScript_ViewportTargetY __attribute__((section(".data")));
-extern u16 Base2_8009B2A8[];
-extern u16 Base2_8009B2AA[];
 #else
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;

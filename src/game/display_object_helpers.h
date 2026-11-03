@@ -57,11 +57,7 @@ typedef struct {
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, build_deck_update.c
    and src/game/duel_effect_states.c define the arm below for that. */
-#ifdef D_8009AF74_IN_DATA
-extern volatile u16 D_8009AF74[];
-#else
-extern volatile u16 D_8009AF74[4];
-#endif
+#include "display_object_depth_bases.h"
 
 /* Returns the first allocated display object carrying the requested tag. */
 void *DisplayObject_FindAllocatedByTag(s32 value);

@@ -71,7 +71,7 @@ typedef struct DisplayObject {
        to GsSortFastSprite as the ordering table; display_object_core.c indexes the
        same array -- its local tb is assigned gGraphics_apOrderingTables -- and passes the
        element to DisplayObject_SubmitPacket. ordering_tables.h shares the four-pointer
-       array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
+       array with the overlays. display_object_helpers.h's gDisplayObject_awOrderingTableDepthBases[4] is a
        parallel per-layer table indexed by the same byte, which agrees.
 
        It was tex_index until DuelStatusPosition was retired into this record;

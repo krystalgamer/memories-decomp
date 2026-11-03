@@ -265,7 +265,7 @@ gDuel_awSideViewHeadings = 0x8009C2B0;
 gDebugMenu_szLineBreak = 0x8009C2E4;
 gSaveData_dwMaskStateLow = 0x8009C2EC;
 gSaveData_dwMaskStateHigh = 0x8009C2F0;
-D_8009AF74 = 0x8009C2F8;
+gDisplayObject_awOrderingTableDepthBases = 0x8009C2F8;
 gSD_szMidiTrackMarker = 0x8009C304;
 gModel_pCurrentEffectKey = 0x8009C30C;
 gModel_bEffectKeyCount = 0x8009C310;
@@ -453,9 +453,7 @@ gScript_SavePromptSceneOperand = 0x8009C620;
 gScript_DialogCommandLatch = 0x8009C622;
 gScript_StreamCursor = 0x8009C624;
 gScript_EventState = 0x8009C628;
-Base2_8009B2A8 = 0x8009C62A;
 gScript_ViewportTargetX = 0x8009C62A;
-Base2_8009B2AA = 0x8009C62C;
 gScript_ViewportTargetY = 0x8009C62C;
 gScript_ImageOperand = 0x8009C630;
 D_8009B274 = 0x8009C634;
@@ -1026,7 +1024,6 @@ gDisplay_abResourceBank1 = D_801AF800;
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
-gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
 
 
 

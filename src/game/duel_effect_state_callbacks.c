@@ -82,8 +82,8 @@ void Text_StageScriptImage(DuelEffectChannel *state)
         s32 value = *script;
 
         *slot = script + 1;
-        Base2_8009B2AA[0] = value;
-        Base2_8009B2A8[0] = TextStream_ReadU16LE(state);
+        gScript_ViewportTargetY = value;
+        gScript_ViewportTargetX = TextStream_ReadU16LE(state);
     }
 
     gText_ScriptDispatchGate = 5;

@@ -1,7 +1,5 @@
 loaded_image_end = 0x801E0000;
 gText_bLanguageIndex = D_8009C02B;
-Base2_8009B2A8 = gScript_ViewportTargetX;
-Base2_8009B2AA = gScript_ViewportTargetY;
 gMovie_bStreamEnded = 0x8009BEFF;
 gMovie_bFadingOut = 0x8009BF00;
 func_80069144 = Color_RgbToHsl;
@@ -155,7 +153,6 @@ gDisplay_abResourceBank1 = D_801AF800;
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
-gDisplayObject_awOrderingTableDepthBases = D_8009AF74;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 

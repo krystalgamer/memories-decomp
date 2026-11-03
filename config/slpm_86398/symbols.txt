@@ -1,6 +1,4 @@
 tail_data_start = 0x801BC000;
-Base2_8009B2A8 = 0x8009B198; // rom:0x8B998
-Base2_8009B2AA = 0x8009B19A; // rom:0x8B99A
 func_800136D4 = 0x800135C0;
 Main_ClearFrameServiceCallbacks = 0x800133A0;
 gMain_apFrameServiceCallbacks = 0x800E9C90;
@@ -471,7 +469,7 @@ GsSortSprite = 0x800830E0;
 GsSortFlipSprite = 0x80083760;
 RotAverageNclip4 = 0x800867B0;
 DivideFT4 = 0x80087E50;
-D_8009AF74 = 0x8009AEBC;
+gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
 D_8009AF76 = 0x8009AEBE;
 D_8009AF7A = 0x8009AEC2;
 MemCard_ClearIOEvents = 0x80043434;

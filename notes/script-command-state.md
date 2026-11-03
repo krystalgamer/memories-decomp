@@ -23,11 +23,10 @@ The following access forms remain intentional:
 | `duel_effect_state_callbacks.c` | `SCRIPT_STATE_TEXT_CALLBACK_VIEWS` | Unsized unsigned arrays; signed `.data` shared operand and scalar aliases |
 | `text_box_build_step.c` | `SCRIPT_STATE_COMMAND_IN_DATA` | Unsigned `.data` command scalar |
 
-`Base2_8009B2A8` and `Base2_8009B2AA` remain separate linker identifiers at
-the target halfwords' addresses. Their stores occur after calls that the
-first target-X/Y stores precede. Do not replace the Base2 identifiers
-with C macros or remove the existing scalar `asm` aliases: address retention
-and absolute versus small-data addressing are compiler inputs here.
+The text callback stores both targets through their scalar names, before
+and after its calls. The former `Base2_8009B2A8`/`Base2_8009B2AA`
+same-address linker identifiers were removed: the executable matches without
+them. Absolute versus small-data addressing is still a compiler input here.
 
 `Script_UpdateViewportTween` initializes `gScript_ViewportAccumulatorX/Y` from the
 current viewport in 16.16 form, computes `gScript_ViewportDeltaX/Y` by dividing
@@ -214,8 +213,7 @@ publication in the original order.
 The text callback arm declares the targets and `gScript_wCommandWord` as
 absolute (`.data`) `u16` scalars; `Text_StartViewportTween` reaches them
 through `*(s16 *)&` casts, so no second C name views the same object.
-`Base2_8009B2A8/AA` remain separate linker identifiers,
-including the UK's symbolic RHS bindings. Nine obsolete Japanese primary
+No `Base2_8009B2A8/AA` linker identifiers remain. Nine obsolete Japanese primary
 macros retire; no other wrapper aliases change.
 
 | Identity | NA | Japan | UK | France / Germany / Italy / Spain |
