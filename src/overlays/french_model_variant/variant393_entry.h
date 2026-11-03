@@ -46,10 +46,10 @@ typedef struct {
 
 typedef Variant337EntryProjection Variant393EntryProjection;
 
-extern u8 D_8013D3B0[];
-void func_8013BDDC(u8 *context);
-void func_8013C704(u8 *context);
-void func_8013CB8C(u8 *context);
+extern u8 gFrenchModelVariant393_D23B0[];
+void ModelVariant376_DrawRibbon(u8 *context);
+void ModelVariant376_DrawRings(u8 *context);
+void FrenchModelVariant393_DrawStreamers(u8 *context);
 typedef char Variant393EntryConfigSize[(sizeof(Variant393EntryConfig) == 0x44) ? 1 : -1];
 typedef char Variant393EntryStateSize[(sizeof(Variant393EntryState) == 0xE0C) ? 1 : -1];
 #endif

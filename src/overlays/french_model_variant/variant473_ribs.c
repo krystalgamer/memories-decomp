@@ -17,7 +17,7 @@
  * The loop increment's dead angle and the empty loop in the projection keep
  * the retail hoisting of the /5 constant and the retail projection schedule;
  * the per-point locals are scoped to the build loop for the retail slots. */
-void func_8013CFB0(u8 *ctx)
+void FrenchModelVariant473_DrawRibs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -1,6 +1,7 @@
 # French header-449 image sheet helper
 
-`func_8013BD24` / `func_8017BD24` (image offset `0xD24`, 0x51C bytes)
+`FrenchModelVariant449_DrawSheet` (formerly `func_8013BD24` / `func_8017BD24`;
+image offset `0xD24`, 0x51C bytes)
 scales, moves, draws and fades one four-quad sheet.
 **No release had matching C for this body before.**
 

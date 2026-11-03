@@ -7,7 +7,7 @@
  * 0x20-byte slots at work + 0x2C50 and grow with the timing phases; the rest sit
  * on the VECTOR table at work + 0x2D3C and follow the 0x2E8-byte objects that
  * start at ctx. */
-void func_8013C808(u8 *ctx)
+void ModelVariant443_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

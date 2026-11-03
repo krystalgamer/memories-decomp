@@ -95,6 +95,6 @@ typedef struct {
     s16 slot, command;
 } EntryState373;
 
-extern u8 D_8013EEF0[];
+extern u8 gFrenchModelVariant373_D3EF0[];
 
 #endif

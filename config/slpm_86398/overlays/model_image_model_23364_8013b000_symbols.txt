@@ -1,14 +1,14 @@
 // Japanese MODEL.MRG model 84 (record 84), sector 23364, header 404, loaded at 0x8013B000; built from the US source layout of model_variant_84_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x11D0 defined:true
-func_8013C1D4 = 0x8013C1D4; // type:func size:0x690 defined:true
-func_8013C864 = 0x8013C864; // type:func size:0xC94 defined:true
-func_8013D4F8 = 0x8013D4F8; // type:func size:0x7AC defined:true
-func_8013DCA4 = 0x8013DCA4; // type:func size:0x4E8 defined:true
-func_8013E18C = 0x8013E18C; // type:func size:0x574 defined:true
-func_8013E700 = 0x8013E700; // type:func size:0x314 defined:true
-func_8013EA14 = 0x8013EA14; // type:func size:0x380 defined:true
-func_8013ED94 = 0x8013ED94; // type:func size:0x368 defined:true
-D_8013F0FC = 0x8013F0FC; // type:u8 size:0xF04 defined:true
+ModelVariant404_HandleRequest = 0x8013B004; // type:func size:0x11D0 defined:true
+ModelVariant404_DrawRibbons = 0x8013C1D4; // type:func size:0x690 defined:true
+SpanishModelVariant421_DrawSpiral = 0x8013C864; // type:func size:0xC94 defined:true
+ModelVariant404_DrawBands = 0x8013D4F8; // type:func size:0x7AC defined:true
+ModelVariant404_DrawSheets = 0x8013DCA4; // type:func size:0x4E8 defined:true
+ModelVariant404_DrawWebs = 0x8013E18C; // type:func size:0x574 defined:true
+ModelVariant404_DrawSpokes = 0x8013E700; // type:func size:0x314 defined:true
+ModelVariant404_DrawRings = 0x8013EA14; // type:func size:0x380 defined:true
+ModelVariant404_DrawQuad = 0x8013ED94; // type:func size:0x368 defined:true
+gModelVariant404_D40FC = 0x8013F0FC; // type:u8 size:0xF04 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

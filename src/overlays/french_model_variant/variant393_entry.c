@@ -5,7 +5,7 @@
 #define MODEL_VARIANT393_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant393EntryState *work = (Variant393EntryState *)point;
     /* Retail projection inputs follow 64 bytes of unrecovered locals. */
@@ -36,7 +36,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant393EntryConfig *)(D_8013D3B0 + 0xFC) + command;
+        work->config = (Variant393EntryConfig *)(gFrenchModelVariant393_D23B0 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -70,14 +70,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT393_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT393_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0xC4));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x1C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xC4));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x8C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x1C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x38));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x54));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B0 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -281,15 +281,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                 work->direction.vy = work->target.vy - work->matrix.t[1];
                 work->direction.vz = work->target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
-                    func_8013BDDC((u8 *)point);
-                    func_8013C704((u8 *)point);
+                    ModelVariant376_DrawRibbon((u8 *)point);
+                    ModelVariant376_DrawRings((u8 *)point);
                 }
                 work->part_index++;
                 config = work->config;
             } while (work->part_index < config->count);
         }
         if (work->phase >= 3) {
-            func_8013CB8C((u8 *)point);
+            FrenchModelVariant393_DrawStreamers((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

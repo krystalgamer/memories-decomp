@@ -1,6 +1,7 @@
 # French MODEL446 rays helper
 
-`func_8013DCAC` / `func_8017DCAC` (image offset `0x2CAC`, 0xA28 bytes)
+`FrenchModelVariant446_DrawRays` (formerly `func_8013DCAC` / `func_8017DCAC`;
+image offset `0x2CAC`, 0xA28 bytes)
 builds sixteen three-point rays and draws each segment as two `POLY_GT4`
 halves. It reuses the matched MODEL425 rays body
 (`model_variant/variant425_rays.c`, also French MODEL442) and its

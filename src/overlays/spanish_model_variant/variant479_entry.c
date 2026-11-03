@@ -5,7 +5,7 @@
 #define MODEL_VARIANT479_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant479EntryState *work = (Variant479EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -36,7 +36,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant479EntryConfig *)(D_8013ED20 + 0xFC) + command;
+        work->config = (Variant479EntryConfig *)(gSpanishModelVariant479_D3D20 + 0xFC) + command;
         for (i = 0; i < 3; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -56,13 +56,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT479_CLUT_X, 244);
         strip_tpage = GetTPage(1, 1, 896, 0);
         strip_clut = GetClut(MODEL_VARIANT479_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013ED20 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013ED20 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0x8C));
         frame_page = packed >> 16;
         frame_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013ED20 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0x1C));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -308,17 +308,17 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         if (work->phase >= 3 && work->phase <= 5) {
-            func_8013E860((u8 *)point);
-            func_8013BFD0((u8 *)point);
+            SpanishModelVariant479_DrawCurtains((u8 *)point);
+            FrenchModelVariant379_DrawGrid((u8 *)point);
         }
         if (work->phase >= 2 && work->phase <= 4) {
-            func_8013CF68((u8 *)point);
+            SpanishModelVariant479_DrawRibs((u8 *)point);
         }
         if (work->phase >= 1 && work->phase <= 4) {
-            func_8013C4F8((u8 *)point);
+            SpanishModelVariant479_DrawSpiral((u8 *)point);
         }
         if (work->config->start <= work->frame && work->phase < 5) {
-            func_8013DB90((u8 *)point);
+            SpanishModelVariant479_DrawSheets((u8 *)point);
         }
         work->frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);

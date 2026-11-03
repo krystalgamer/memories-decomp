@@ -1,6 +1,7 @@
 # French MODEL437 entry
 
-The loader entry `func_8013B004` / `func_8017B004`, image offset `0x4`,
+The loader entry `FrenchModelVariant437_HandleRequest` (formerly
+`func_8013B004` / `func_8017B004`), image offset `0x4`,
 owns 3,400 bytes in MODEL103 stages 9/10. Both entries now use pure C
 with the existing `gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX 2.81).
 The four accepted helper bodies and their ownership remain unchanged.

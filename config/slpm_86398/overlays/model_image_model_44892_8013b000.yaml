@@ -58,7 +58,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant404_entry]
       - [0x11D4, c, overlays/model_variant/variant404_ribbons]
-      - [0x1864, c, overlays/model_variant/variant404_spiral]
+      - [0x1864, c, overlays/spanish_model_variant/variant421_spiral]
       - [0x24F8, c, overlays/model_variant/variant404_bands]
       - [0x2CA4, c, overlays/model_variant/variant404_sheets]
       - [0x318C, c, overlays/model_variant/variant404_webs]

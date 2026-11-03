@@ -14,7 +14,7 @@
  * The ripples at work + 0x41DC/0x41E0 advance by 850 and 128 per step, and
  * once the clock passes the fade start work + 0x4190 falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero. */
-void func_8013CF68(u8 *ctx)
+void SpanishModelVariant479_DrawRibs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

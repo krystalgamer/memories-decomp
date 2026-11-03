@@ -3,7 +3,7 @@
 
 /* Draws one ring, or two when the single flag is clear, as four POLY_GT4
  * quads each, and grows or shrinks each ring's scale through the phases. */
-void func_8013C6D8(u8 *context)
+void ModelVariant376_DrawRings(u8 *context)
 {
     ModelVariant376State *work = (ModelVariant376State *)context;
     SVECTOR rotation;

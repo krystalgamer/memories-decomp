@@ -1,12 +1,12 @@
 // Japanese MODEL.MRG model 385 (record 335), sector 92660, header 456, loaded at 0x8013B000; built from the US source layout of model_variant_385_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x104C defined:true
-func_8013C050 = 0x8013C050; // type:func size:0x564 defined:true
-func_8013C5B4 = 0x8013C5B4; // type:func size:0x9E4 defined:true
-func_8013CF98 = 0x8013CF98; // type:func size:0xC14 defined:true
-func_8013DBAC = 0x8013DBAC; // type:func size:0x4C8 defined:true
-func_8013E074 = 0x8013E074; // type:func size:0x774 defined:true
-func_8013E7E8 = 0x8013E7E8; // type:func size:0x488 defined:true
-D_8013EC70 = 0x8013EC70; // type:u8 size:0x1390 defined:true
+FrenchModelVariant473_HandleRequest = 0x8013B004; // type:func size:0x104C defined:true
+FrenchModelVariant385_DrawGrid = 0x8013C050; // type:func size:0x564 defined:true
+SpanishModelVariant473_DrawSpiral = 0x8013C5B4; // type:func size:0x9E4 defined:true
+FrenchModelVariant473_DrawRibs = 0x8013CF98; // type:func size:0xC14 defined:true
+SpanishModelVariant473_DrawSheets = 0x8013DBAC; // type:func size:0x4C8 defined:true
+FrenchModelVariant423_DrawStreamers = 0x8013E074; // type:func size:0x774 defined:true
+SpanishModelVariant473_DrawFunnels = 0x8013E7E8; // type:func size:0x488 defined:true
+gFrenchModelVariant473_D3CE4 = 0x8013EC70; // type:u8 size:0x1390 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

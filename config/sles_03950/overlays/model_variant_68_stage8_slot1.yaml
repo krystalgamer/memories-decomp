@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant424_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant424_entry]
   - name: helper_12D8
     type: code
     start: 0x12D8
     vram: 0x8017C2D8
     align: 4
     subsegments:
-      - [0x12D8, c, overlays/french_model_variant/variant424_petals_slot1]
+      - [0x12D8, c, overlays/french_model_variant/variant424_petals]
   - name: unclassified_tail
     type: code
     start: 0x18B4

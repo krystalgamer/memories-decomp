@@ -11,8 +11,9 @@ This is new decompilation, not a regional port.
 An exhaustive scan of Spanish MODEL records and stages 7 through 10 finds
 exactly MODEL379, record329, stages7/8 with headers479/629, at sectors90984
 and90994. Both select request645000. Load bases are `0x8013B000` and
-`0x8017B000`; the source symbols remain `func_8013E860` and `func_8017E860`.
-The second source changes only the symbol.
+`0x8017B000`; both slots build the same source, and each image's symbols file
+binds `SpanishModelVariant479_DrawCurtains` (formerly `func_8013E860` /
+`func_8017E860`) at its own address.
 
 | Image range | Bytes | Owner |
 |---|---|---|

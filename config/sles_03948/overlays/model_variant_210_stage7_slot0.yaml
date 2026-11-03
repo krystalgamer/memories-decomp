@@ -68,14 +68,14 @@ segments:
     vram: 0x8013C6D8
     align: 4
     subsegments:
-      - [0x16D8, c, overlays/french_model_variant/variant338_rings]
+      - [0x16D8, c, overlays/model_variant/variant321_rings]
   - name: strand
     type: code
     start: 0x1B90
     vram: 0x8013CB90
     align: 4
     subsegments:
-      - [0x1B90, c, overlays/french_model_variant/variant338_strand]
+      - [0x1B90, c, overlays/model_variant/variant321_strand]
   - name: streamers
     type: code
     start: 0x1ED4

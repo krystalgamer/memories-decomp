@@ -1,6 +1,7 @@
 # French MODEL437 ribbons helper
 
-`func_8013CB08` / `func_8017CB08` (image offset `0x1B08`, 0xACC bytes) in the
+`FrenchModelVariant437_DrawRibbons` (formerly `func_8013CB08` / `func_8017CB08`;
+image offset `0x1B08`, 0xACC bytes) in the
 model_variant_103 stage 9 slot 0 and stage 10 slot 1 images draws four
 nine-point ribbons. It is a close relative of the
 MODEL436 ribbons helper at offset `0x1AEC` of the header-707 images and uses the

@@ -54,35 +54,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant460_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant460_entry]
   - name: helper_CFC
     type: code
     start: 0xCFC
     vram: 0x8017BCFC
     align: 4
     subsegments:
-      - [0xCFC, c, overlays/french_model_variant/variant460_ribbons_slot1]
+      - [0xCFC, c, overlays/model_variant/variant443_ribbons]
   - name: helper_17EC
     type: code
     start: 0x17EC
     vram: 0x8017C7EC
     align: 4
     subsegments:
-      - [0x17EC, c, overlays/french_model_variant/variant460_sheets_slot1]
+      - [0x17EC, c, overlays/model_variant/variant443_sheets]
   - name: helper_1D74
     type: code
     start: 0x1D74
     vram: 0x8017CD74
     align: 4
     subsegments:
-      - [0x1D74, c, overlays/french_model_variant/variant460_strand_slot1]
+      - [0x1D74, c, overlays/model_variant/variant443_strand]
   - name: streamers
     type: code
     start: 0x20B4
     vram: 0x8017D0B4
     align: 4
     subsegments:
-      - [0x20B4, c, overlays/french_model_variant/variant460_streamers_slot1]
+      - [0x20B4, c, overlays/french_model_variant/variant460_streamers]
   - name: unclassified_tail
     type: code
     start: 0x28CC

@@ -9,7 +9,7 @@
  * moves to 3 at its end) and, from the configured fade start, shrinks the width
  * (phase 4 moves to 5 at zero). The view pitch, the per-ribbon turn and the
  * per-point bend of the related ribbon forms are still computed but unused. */
-void func_8013CD7C(u8 *context)
+void FrenchModelVariant425_DrawRibbon(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -54,49 +54,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant462_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant462_entry]
   - name: helper_fd4
     type: code
     start: 0xFD4
     vram: 0x8017BFD4
     align: 4
     subsegments:
-      - [0xFD4, c, overlays/model_variant/variant462_grid_slot1]
+      - [0xFD4, c, overlays/model_variant/variant462_grid]
   - name: helper_151c
     type: code
     start: 0x151C
     vram: 0x8017C51C
     align: 4
     subsegments:
-      - [0x151C, c, overlays/model_variant/variant462_spiral_slot1]
+      - [0x151C, c, overlays/model_variant/variant462_spiral]
   - name: helper_1f6c
     type: code
     start: 0x1F6C
     vram: 0x8017CF6C
     align: 4
     subsegments:
-      - [0x1F6C, c, overlays/model_variant/variant462_ribs_slot1]
+      - [0x1F6C, c, overlays/model_variant/variant462_ribs]
   - name: helper_2b58
     type: code
     start: 0x2B58
     vram: 0x8017DB58
     align: 4
     subsegments:
-      - [0x2B58, c, overlays/model_variant/variant462_sheets_slot1]
+      - [0x2B58, c, overlays/model_variant/variant462_sheets]
   - name: streamers
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/model_variant/variant462_streamers_slot1]
+      - [0x3068, c, overlays/spanish_model_variant/variant479_streamers]
   - name: helper_37dc
     type: code
     start: 0x37DC
     vram: 0x8017E7DC
     align: 4
     subsegments:
-      - [0x37DC, c, overlays/model_variant/variant462_curtains_slot1]
+      - [0x37DC, c, overlays/model_variant/variant462_curtains]
   - name: data
     type: code
     start: 0x3CBC

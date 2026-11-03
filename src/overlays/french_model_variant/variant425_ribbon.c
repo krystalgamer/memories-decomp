@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant425_ribbon.h"
 
-void func_8013CDA4(u8 *context)
+void FrenchModelVariant425_DrawRibbon(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

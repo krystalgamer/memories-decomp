@@ -54,10 +54,10 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant443_entry_slot1]
-      - [0xD00, c, overlays/model_variant/variant443_ribbons_slot1]
-      - [0x1808, c, overlays/model_variant/variant443_sheets_slot1]
-      - [0x1D84, c, overlays/model_variant/variant443_strand_slot1]
-      - [0x20C8, c, overlays/model_variant/variant443_streamers_slot1]
+      - [0x4, c, overlays/model_variant/variant443_entry]
+      - [0xD00, c, overlays/model_variant/variant443_ribbons]
+      - [0x1808, c, overlays/model_variant/variant443_sheets]
+      - [0x1D84, c, overlays/model_variant/variant443_strand]
+      - [0x20C8, c, overlays/model_variant/variant443_streamers]
       - [0x2888, data, overlays/model_variant_460_stage8_slot1/data]
   - [0x5000]

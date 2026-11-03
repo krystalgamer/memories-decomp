@@ -1,7 +1,8 @@
 # French MODEL variant 425 ribbon helper
 
-`func_8013CDA4` in the French and Spanish `model_variant_0_stage9_slot0`
-images and `func_8017CDA4` in the `model_variant_0_stage10_slot1` images
+`FrenchModelVariant425_DrawRibbon` (formerly `func_8013CDA4` / `func_8017CDA4`)
+in the French and Spanish `model_variant_0_stage9_slot0` and
+`model_variant_0_stage10_slot1` images
 (offset `0x1DA4`, 0x938 bytes) draw a single swaying ribbon.
 `french_model_variant/variant425_ribbon_slot1.c` renames the body for the
 slot-1 images.

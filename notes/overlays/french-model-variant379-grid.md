@@ -1,6 +1,7 @@
 # French MODEL379 grid helper
 
-`func_8013BFD0` / `func_8017BFD0` (image offset `0xFD0`, 0x528 bytes) scales,
+`FrenchModelVariant379_DrawGrid` (formerly `func_8013BFD0` / `func_8017BFD0`;
+image offset `0xFD0`, 0x528 bytes) scales,
 fades and draws five 9×17 point sheets as gouraud quads.
 **No release had matching C for this body before.**
 

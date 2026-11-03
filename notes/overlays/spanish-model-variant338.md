@@ -34,7 +34,7 @@ unclassified suffix** at `0x270C..0x5000` retains a real raw storage owner.
 No suffix bytes are classified as non-code merely to improve progress.
 
 The final streamer integration adds 16 instances / 33,664 bytes by selecting
-the unchanged accepted French body and slot wrapper. Both slot compilations
+the unchanged accepted French body, now built in both slots. Both slot compilations
 are independently linked in eight Spanish images each, with exact defining
 objects, executable function extents, resident-call relocations and raw
 header/suffix owners. The established entry-call path to `0x1ED4` is retained;
@@ -143,7 +143,7 @@ suffixes remained explicit at that cutoff; report refreshes are separate.
 ## Independently matched entries
 
 Accepted local French MODEL338 entry work supplies a new source lead, not
-an assumption of portability. The unchanged `variant338_entry{,_slot1}.c`
+an assumption of portability. The unchanged `variant338_entry.c`
 and private header compile to exactly 2,972 bytes in all sixteen Spanish
 images under `gcc_2_8_1_g0_split`. Two new terminal records add sixteen
 C instances / 47,552 bytes while preserving every prior attempt and all

@@ -1,6 +1,7 @@
 # French MODEL image 134622 swarm helper
 
-`func_8017C490` (image offset `0x1490`, 0x6EC bytes) in the French and
+`FrenchModelVariant468_DrawSwarm` (formerly `func_8017C490`; image offset
+`0x1490`, 0x6EC bytes) in the French and
 Spanish `model_image_model_134622_8017b000` images draws up to sixteen
 growing `POLY_FT4` quads. The loader entry reaches it.
 
@@ -25,13 +26,15 @@ probes.
 
 ## Opposite-slot image 134612
 
-The French `model_image_model_134612_8013b000` helper `func_8013C490`
+The French `model_image_model_134612_8013b000` helper (formerly `func_8013C490`)
 has the same `0x1490` offset and `0x6EC` size. Its original body differs
 from image 134622 at only two internal absolute jumps, at helper offsets
 `0xCC` and `0x538`, whose destinations move down by `0x40000`.
 
-`image134612_swarm.c` remaps only the function name and includes the
-accepted image-134622 source. The local declarations, expressions and
+Image 134612 now builds the accepted image-134622 source directly; its
+symbols file binds `FrenchModelVariant468_DrawSwarm` at `0x8013C490`, and the
+North American header-451 entry includes the same source and binds the name
+at `0x8013C494`/`0x8017C494`. The local declarations, expressions and
 `gcc_2_8_1_g0_split` profile are unchanged. The slot-0 compilation is
 exact; the [reuse ledger](french-model-image134612-swarm-attempts.csv)
 records the native probe and complete-image checks.
@@ -44,7 +47,7 @@ image 134622 retains
 The original loader-entry assembly and raw tail of image 134612 remain
 unchanged, as do the existing French and Spanish image-134622 owners.
 The Spanish `model_image_model_134612_8013b000` image (SLES-03951) is
-byte-identical and registers the same `image134612_swarm.c` wrapper
+byte-identical and builds the same `image134622_swarm.c` source
 with the same profile and region bindings. Its complete image rebuilt
 from `game/spain/DATA/MODEL.MRG` keeps SHA-256
 `eaad64467eca27fec6f107312fc2964d8cd9673c29e768899cfdaaef8ce81ccb`.

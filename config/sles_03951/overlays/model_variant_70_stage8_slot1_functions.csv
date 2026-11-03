@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
-0x8017B004,0xCF8,func_8017B004,matching_c,overlay/model_variant_70_stage8_slot1,"Unchanged shared loader entry independently matched; direct-entry reachable; readonly original-pointer home and two-helper dispatch, 208-byte frame plus both incoming argument homes, bounded packet and eight-part views, and actual 64-byte descriptors verified."
-0x8017BCFC,0xAF0,func_8017BCFC,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
-0x8017C7EC,0x588,func_8017C7EC,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
-0x8017CD74,0x340,func_8017CD74,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
-0x8017D0B4,0x818,func_8017D0B4,matching_c,overlay/model_variant_70_stage8_slot1,Unchanged accepted French streamer C; defining object and complete Spanish image exact; no direct entry-call path asserted.
+0x8017B004,0xCF8,FrenchModelVariant460_HandleRequest,matching_c,overlay/model_variant_70_stage8_slot1,"Unchanged shared loader entry independently matched; direct-entry reachable; readonly original-pointer home and two-helper dispatch, 208-byte frame plus both incoming argument homes, bounded packet and eight-part views, and actual 64-byte descriptors verified."
+0x8017BCFC,0xAF0,ModelVariant443_DrawRibbons,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
+0x8017C7EC,0x588,ModelVariant443_DrawSheets,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; direct-entry reachable.
+0x8017CD74,0x340,ModelVariant443_DrawStrand,matching_c,overlay/model_variant_70_stage8_slot1,Shared C independently matched to Spanish image; no direct entry-call path.
+0x8017D0B4,0x818,FrenchModelVariant460_DrawStreamers,matching_c,overlay/model_variant_70_stage8_slot1,Unchanged accepted French streamer C; defining object and complete Spanish image exact; no direct entry-call path asserted.

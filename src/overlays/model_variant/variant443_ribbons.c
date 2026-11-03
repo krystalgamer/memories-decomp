@@ -10,7 +10,7 @@
  * frame steps up to 16, then the view offset shrinks by step * 64 and the
  * ribbon restarts or retires. The first loop's `bend` is template code left
  * unused; it still shapes the retail code. */
-void func_8013BD00(u8 *ctx)
+void ModelVariant443_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

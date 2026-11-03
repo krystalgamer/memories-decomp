@@ -3,7 +3,7 @@
 
 /* Draws two rings of four POLY_GT4 quads each, and grows each ring's scale
  * and fades it out through the phases. */
-void func_8013C6A8(u8 *context)
+void ModelVariant321_DrawRings(u8 *context)
 {
     ModelVariant321State *work = (ModelVariant321State *)context;
     SVECTOR rotation;

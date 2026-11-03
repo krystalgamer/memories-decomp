@@ -2,9 +2,10 @@
 
 The `0x8BC` helper at image offset `0x1B9C` is first-ever game code: no release
 had matching C for its body. It sits in the same four header-449 images as the
-ribbons and bands helpers. Slot 0 owns `func_8013CB9C` from
-`variant449_streamers.c`; slot 1 owns `func_8017CB9C` through a rename-only
-wrapper.
+ribbons and bands helpers. Both slots build
+`variant449_streamers.c`; each image's symbols file binds
+`FrenchModelVariant449_DrawStreamers` (formerly `func_8013CB9C`/`func_8017CB9C`)
+at its own address.
 
 The body is the MODEL458 streamer helper in the header-449 layout:
 - three `0x274`-byte, 13-point streamers at `F3C`, directly after the band;

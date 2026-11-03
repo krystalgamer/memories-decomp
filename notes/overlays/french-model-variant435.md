@@ -107,8 +107,9 @@ registrations and all previously accepted French modules are preserved.
 ## Entry-reachable one-sheet follow-up
 
 The accepted `variant418_sheet.c` body compiles unchanged to 936 bytes under
-the French `gcc_2_8_1_g0_split` profile. Two canonical wrappers rename
-`func_8013CAA4` to `func_8013CAD4` and `func_8017CAD4`, respectively.
+the French `gcc_2_8_1_g0_split` profile. Each image's symbols file binds
+`ModelVariant418_DrawSheet` (formerly `func_8013CAA4`) at `0x8013CAD4` or
+`0x8017CAD4`.
 All 26 complete images match after actual linking with those C objects in
 place of the original assembly owner at offset `0x1AD4`. The US function's
 different instruction count and compiler profile are not adopted.
@@ -140,8 +141,9 @@ remains unclassified. General report snapshots are separate.
 ## Retained padded-band follow-up
 
 The accepted `variant418_bands.c` body compiles unchanged to 1,804 bytes
-under the same French profile. Two wrappers rename `func_8013D86C` to
-`func_8013D8A4` and `func_8017D8A4`. Actual links of all 26 complete images
+under the same French profile. Each image's symbols file binds
+`ModelVariant418_DrawBands` (formerly `func_8013D86C`) at `0x8013D8A4` or
+`0x8017D8A4`. Actual links of all 26 complete images
 replace only the assembly owner at `0x28A4..0x2FB0`, adding 46,904 C bytes.
 The band helper remains outside the entry's direct call graph.
 
@@ -187,8 +189,9 @@ inventory figures are not exhaustive runtime coverage.
 ## Entry-reachable webs follow-up
 
 The accepted `variant418_webs.c` body compiles unchanged to 988 bytes with
-the French named profile. Two wrappers rename `func_8013CE50` to
-`func_8013CE7C` and `func_8017CE7C`. Canonical preflight reproduces all 26
+the French named profile. Each image's symbols file binds
+`ModelVariant418_DrawWebs` (formerly `func_8013CE50`) at `0x8013CE7C` or
+`0x8017CE7C`. Canonical preflight reproduces all 26
 complete images (23 distinct hashes), adding 26 C instances / 25,688
 instruction bytes without adding images or changing any function boundary,
 archive slice, symbol address, resident binding or suffix owner.

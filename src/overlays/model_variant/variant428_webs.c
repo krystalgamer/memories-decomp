@@ -5,7 +5,7 @@
 /* Header 428's form of the header-397 phased webs: the records start at
  * work + 0x5D0, the lines are projected with RotTransPers3, and phase 0
  * shrinks each scale by step * 0xE0. */
-void func_8013CC94(u8 *ctx)
+void ModelVariant428_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -841,8 +841,10 @@ GCC 2.7.2 profile) rebuilt with GCC 2.8.1 at the same size. Its four helpers
 keep their French C (`variant449_sheet.c`, `_ribbons.c`, `_streamers.c` and
 `_bands.c`), the data starts at 0x2BB4 and the effect palette loads from PAL
 x = 640. The `src/overlays/french_model_variant/variant449_entry.c` wrapper
-selects those addresses and the palette, binding
-`model_variant449_entry_linker_symbols.txt`.
+selects the palette and binds `model_variant449_entry_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant432_HandleRequest`, the four
+`FrenchModelVariant449_Draw*` helpers and `gModelVariant432_D2B64` at its own
+addresses.
 
 Fifteen images under French headers 686 and 753 are the North American
 header-669 entry (`model_variant/variant669_entry.c`) without its `E_DATA`
@@ -1372,11 +1374,14 @@ leaves out the blooms helper the French images already build from
 
 Two images under French headers 468 and 618 build their loader entry from the
 North American header-451 entry (`model_variant/variant451_entry.c`) through
-`src/overlays/french_model_variant/variant468_entry{,_slot1}.c`, compiled with
+`src/overlays/french_model_variant/variant468_entry.c` in both slots, compiled with
 `gcc_2_8_1_g0_split` where the North American images need
 `gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
 leaves out the swarm helper the French images already build from
-`image134612_swarm{,_slot1}.c`, and the data label sits 8 bytes lower. The two
+`image134622_swarm.c`, and the data label sits 8 bytes lower. Each image's
+symbols file binds `ModelVariant451_HandleRequest`,
+`FrenchModelVariant468_DrawSwarm` and `gModelVariant451_D1B84` at its own
+addresses. The two
 images bind resident calls through their own
 `model_variant468_linker_symbols.txt`.
 

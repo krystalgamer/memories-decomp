@@ -54,13 +54,13 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant356_entry]
-      - [0x10A8, c, overlays/model_variant/variant356_layers]
-      - [0x1770, c, overlays/model_variant/variant356_grid]
-      - [0x1EE4, c, overlays/model_variant/variant356_points]
-      - [0x2240, c, overlays/model_variant/variant356_strip]
-      - [0x2784, c, overlays/model_variant/variant356_ribbons]
-      - [0x2E50, c, overlays/model_variant/variant356_quads]
-      - [0x33D8, c, overlays/model_variant/variant356_rays]
+      - [0x4, c, overlays/french_model_variant/variant373_entry]
+      - [0x10A8, c, overlays/french_model_variant/variant373_layers]
+      - [0x1770, c, overlays/french_model_variant/variant373_grid]
+      - [0x1EE4, c, overlays/french_model_variant/variant373_points]
+      - [0x2240, c, overlays/french_model_variant/variant373_strip]
+      - [0x2784, c, overlays/french_model_variant/variant373_ribbons]
+      - [0x2E50, c, overlays/french_model_variant/variant373_quads]
+      - [0x33D8, c, overlays/french_model_variant/variant373_rays]
       - [0x3EAC, data, overlays/model_variant_707_pos0_slot0/data]
   - [0x5000]

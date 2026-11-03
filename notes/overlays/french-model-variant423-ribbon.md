@@ -1,10 +1,11 @@
 # French MODEL variant 423 ribbon helper
 
-`func_8013CCB4` in the French and Spanish `model_variant_385_stage7_slot0`
-images and `func_8017CCB4` in the `model_variant_385_stage8_slot1` images
+`FrenchModelVariant423_DrawRibbon` (formerly `func_8013CCB4` / `func_8017CCB4`)
+in the French and Spanish `model_variant_385_stage7_slot0` and
+`model_variant_385_stage8_slot1` images
 (offset `0x1CB4`, 0x8B0 bytes) draw a single ribbon.
-`french_model_variant/variant423_ribbon_slot1.c` renames the body for the
-slot-1 images.
+Both slots build `variant423_ribbon.c`; each image's symbols file binds the
+name at its own address.
 
 - **Shape.** It is the single-ribbon body of the family 426 helper at offset
   `0x1DF0`, with these changes:

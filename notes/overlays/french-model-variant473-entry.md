@@ -1,6 +1,7 @@
 # French MODEL473 entry
 
-The loader entries `func_8013B004` / `func_8017B004`, at offset `0x4`
+The loader entries `FrenchModelVariant473_HandleRequest` (formerly
+`func_8013B004` / `func_8017B004`), at offset `0x4`
 in MODEL385 stages 9/10, now use pure C with the existing
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX 2.81).
 Each entry preserves all 4,168 instruction bytes and its 248-byte frame.

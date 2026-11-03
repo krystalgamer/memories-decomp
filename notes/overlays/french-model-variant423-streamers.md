@@ -1,7 +1,8 @@
 # French MODEL423 and MODEL473 streamers helper
 
-`func_8013DA50` / `func_8017DA50` (MODEL423 family, image offset `0x2A50`) and
-`func_8013E0A8` / `func_8017E0A8` (MODEL473 family, offset `0x30A8`) contain
+`FrenchModelVariant423_DrawStreamers`, bound per image at `0x2A50` (MODEL423
+family, formerly `func_8013DA50` / `func_8017DA50`) and `0x30A8` (MODEL473
+family, formerly `func_8013E0A8` / `func_8017E0A8`), contains
 the same 0x7C4-byte body. **No release had matching C for this body before.**
 No call from the entry was observed.
 

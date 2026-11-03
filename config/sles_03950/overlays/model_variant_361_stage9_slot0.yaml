@@ -70,42 +70,42 @@ segments:
     vram: 0x8013C7A8
     align: 4
     subsegments:
-      - [0x17A8, c, overlays/french_model_variant/variant445_sheets]
+      - [0x17A8, c, overlays/model_variant/variant428_sheets]
   - name: helper_1C8C
     type: code
     start: 0x1C8C
     vram: 0x8013CC8C
     align: 4
     subsegments:
-      - [0x1C8C, c, overlays/french_model_variant/variant445_webs]
+      - [0x1C8C, c, overlays/model_variant/variant428_webs]
   - name: helper_21F0
     type: code
     start: 0x21F0
     vram: 0x8013D1F0
     align: 4
     subsegments:
-      - [0x21F0, c, overlays/french_model_variant/variant445_spokes]
+      - [0x21F0, c, overlays/model_variant/variant428_spokes]
   - name: helper_24F8
     type: code
     start: 0x24F8
     vram: 0x8013D4F8
     align: 4
     subsegments:
-      - [0x24F8, c, overlays/french_model_variant/variant445_rings]
+      - [0x24F8, c, overlays/model_variant/variant428_rings]
   - name: helper_2874
     type: code
     start: 0x2874
     vram: 0x8013D874
     align: 4
     subsegments:
-      - [0x2874, c, overlays/french_model_variant/variant445_quad]
+      - [0x2874, c, overlays/model_variant/variant428_quad]
   - name: helper_2BD8
     type: code
     start: 0x2BD8
     vram: 0x8013DBD8
     align: 4
     subsegments:
-      - [0x2BD8, c, overlays/french_model_variant/variant445_spiral]
+      - [0x2BD8, c, overlays/model_variant/variant428_spiral]
   - name: unclassified_tail
     type: code
     start: 0x3594

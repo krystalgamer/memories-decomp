@@ -6,7 +6,7 @@
 #define MODEL_VARIANT460_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant460EntryState *work = (Variant460EntryState *)point;
     MATRIX unused_matrix0;
@@ -37,7 +37,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant460EntryConfig *)(D_8013D8CC + 0xFC) + command;
+        work->config = (Variant460EntryConfig *)(gFrenchModelVariant460_D28CC + 0xFC) + command;
         for (ring_point = 0; ring_point < 8; ring_point++) {
             work->parts[ring_point] = Model_GetSlotDataEntry(work->slot, work->config->parts[ring_point]);
         }
@@ -62,13 +62,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT460_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT460_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant460_D28CC + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D8CC + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant460_D28CC + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant460_D28CC + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant460_D28CC + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant460_D28CC + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -239,10 +239,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->phase = 4;
         }
         if (work->config->ribbon_start <= work->frame) {
-            func_8013BCFC((u8 *)point);
+            ModelVariant443_DrawRibbons((u8 *)point);
         }
         if (work->config->sheet_start <= work->frame && work->phase < 6) {
-            func_8013C7EC((u8 *)point);
+            ModelVariant443_DrawSheets((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
