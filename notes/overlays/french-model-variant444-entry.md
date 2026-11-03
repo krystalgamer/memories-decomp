@@ -23,7 +23,7 @@ are deliberately unnamed.
 Packets occupy `+0x1404` through `+0x1598`. The matrix is at `+0x15E4`,
 the copied target at `+0x1604`, the direction at `+0x160C`, the projected
 screen delta at `+0x161C`, and the selected `0x24`-byte configuration at
-`+0x164C`. Configuration records start at image data `D_8013D91C + 0xFC`.
+`+0x164C`. Configuration records start at image data `gFrenchModelVariant444_D291C + 0xFC`.
 
 The negative-command path calls sheets and funnels only when configuration
 word `+0xC` is strictly less than the unsigned animation time at `+0x163C`,
@@ -54,7 +54,9 @@ including all previously accepted helpers, and compared byte-for-byte:
 
 The shared binding file adds canonical SDK aliases at the already identified
 French resident addresses; no resident source or compiler profile changes.
-The slot-1 wrapper remaps only the entry, its three callees and its data.
+Both slots build the same source; each image's symbols file binds
+`FrenchModelVariant444_HandleRequest`, its callees and
+`gFrenchModelVariant444_D291C` at its own addresses.
 
 The [attempt ledger](french-model-variant444-entry-attempts.csv) records every
 measured source change. Fingerprints are source SHA-256 values;

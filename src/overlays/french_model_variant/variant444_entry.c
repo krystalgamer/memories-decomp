@@ -6,7 +6,7 @@
 #define MODEL_VARIANT444_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant444EntryState *work = (Variant444EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -41,7 +41,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = (Variant444EntryConfig *)(D_8013D91C + 0xFC) + command;
+        work->config = (Variant444EntryConfig *)(gFrenchModelVariant444_D291C + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -57,14 +57,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT444_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT444_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D91C + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant444_D291C + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D91C + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D91C + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant444_D291C + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant444_D291C + 0x1C));
         paged_page = packed >> 16;
         paged_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D91C + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant444_D291C + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -299,11 +299,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->sheet_start < work->frame) {
-            func_8013CDC4((u8 *)point);
-            func_8013D40C((u8 *)point);
+            SpanishModelVariant444_DrawSheets((u8 *)point);
+            SpanishModelVariant444_DrawFunnels((u8 *)point);
         }
         if (work->config->tube_start < work->frame) {
-            func_8013BDB4((u8 *)point);
+            FrenchModelVariant175_DrawTube((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
