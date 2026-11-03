@@ -1,6 +1,7 @@
 # Save workspace and chest-only card lookup
 
-`gSaveData_Workspace` names the existing resident views of `D_801D0000`.
+`gSaveData_Workspace` names the resident save workspace at `0x801D0000`
+(formerly `D_801D0000`).
 `Library_CheckCardInChest` names the matching helper at `0x8002C570`
 that reads the workspace's card-quantity byte. Neither name introduces
 storage, a new layout or a new caller.

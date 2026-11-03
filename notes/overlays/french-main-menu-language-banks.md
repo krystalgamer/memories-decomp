@@ -65,7 +65,7 @@ The existing exact French resident ELF and its selected objects supply
 language loader. SDK definitions remain SDK assembly, not game C.
 Fourteen resident data bindings also have real backing input sections.
 Five external resource bindings retain the accepted main-menu contract:
-`D_801A8000`, `D_801AF800`, `D_801D1200`, `gDuel_adwCardStats` at
+`D_801A8000`, `D_801AF800`, `gSaveData_aPairWorkspace`, `gDuel_adwCardStats` at
 `0x801D4244`, and `gCard_asNameSortKey` at `0x801D4D8E`.
 Initial resident backing is not proof of every later resource provider;
 only the directly traced stage-4 transfer is claimed here.

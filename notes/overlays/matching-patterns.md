@@ -845,7 +845,7 @@ the symbol in a local **before** the arithmetic that uses it, so the `%hi`
 is emitted ahead of it rather than after:
 
 ```c
-base = D_801D0000;              /* not &D_801D0000[index * 4] in one go */
+base = gSaveData_Workspace;              /* not &gSaveData_Workspace[index * 4] in one go */
 row = &base[index * 4];
 
 pFlag = &D_8009B32E;            /* not a bare store to the global */
