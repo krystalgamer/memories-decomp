@@ -12,7 +12,6 @@
  * The other two functions this unit defines are reached only from within it. */
 extern u8 *tent_DebugEffectObject0;
 extern u8 *tent_DebugEffectObject1;
-extern DuelCardRecord D_801A7B80[];
 
 void DuelScene_UpdateEffectPreview(void);
 

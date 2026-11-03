@@ -190,13 +190,6 @@ extern s16 gDuel_wSelectedCardID;
  */
 extern volatile s32 gText_CommandDisposition;
 
-/* The shared compaction-request word. DuelEffect_ProcessEntries clears it
- * before invoking entry handlers; DisplayObjectFade_ReleaseChannel raises it.
- * A nonzero request after that walk triggers stable active-entry compaction,
- * not a handler-walk restart or a queued next-frame guarantee.
- * See notes/entry-lifecycle-state.md. */
-extern s32 D_8009B330;
-
 /* The CD-sound command's second word, consumed as a phase-two poll budget.
  * A nonzero value arms state bit 0x40; it does not clear a preexisting bit.
  * The wait decrements it only under its original transfer-step bit test
@@ -254,7 +247,6 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
 #define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
 #define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
-
 
 extern u8 gDuel_bEffectHandlerFlags;
 extern u8 gDuel_bActiveEffectState;

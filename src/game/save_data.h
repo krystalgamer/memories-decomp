@@ -281,40 +281,6 @@ extern u32 gLibrary_dwStarchips;
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 
-/* 0x801D1200. Five functions in four units take its address and nothing
- * else: Duel_InitScene (src/game/duel_init_scene.c, `pool =
- * D_801D1200;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
- * (mem_card_dialog.c as the first argument to MemCardDialog_Request
- * and through SaveDataState casts, the second at
- * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
- * SaveData_UpdateDuelLoad (mem_card_dialog.c, the
- * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (MainMenu_RefreshTradeInventory in src/overlays/main_menu/trade_update.c, `+ slot * 0x1000`) and
- * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c, through
- * its 16-byte block view, cast at the use). The
- * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,
- * func_8003FD14.s:22-23, func_8003F8D4.s:115-116 and :136-137) and say
- * nothing about the object's width. c_symbols.ld names D_801D160C (+0x40C)
- * and tent_TradeSaveBuffer (+0x680) inside it, and the Block16 indexes above reach
- * +0x400, +0x680, +0x6D0, +0xA80, +0x1000, +0x1680 and +0x16D0; the interior
- * names keep their own declarations. Of the five units that used to declare
- * it privately, four said `u8 []` and trade_update.c `Block16 []`. */
-extern u8 D_801D1200[];
-extern u8 D_801D2200[];
-
-/* 0x801B125A. SaveData_ApplyRuntimeState passes it as the destination of
- * Text_SjisToGlyphCodes, from state->player_name_sjis
- * (save_data_payload.c:191); NameEntry_Init does the same from
- * gSaveData_aPlayerNameSjis and NameEntry_UpdateDialog does the same from
- * gNameEntry_pNameBuffer. The two name-entry paths live in
- * src/overlays/password/name_entry_runtime.c and call
- * the converter by address, as func_8003BC40. The one reader is
- * NameEntry_UpdateDialog's byte scan in name_entry_runtime.c, which runs to
- * TEXT_STRING_TERMINATOR. Every access
- * takes the address (the resident listing func_8003D0F4.s:7-8 forms it with
- * lui/addiu), so the listings do not say how wide the object is. The resident
- * unit used to declare it `u8 [16]` and the overlay paths `u8 []`. */
-extern u8 D_801B125A[];
 extern s32 gSaveDataSequence;
 /* The two words of the save-data mask state. save_data_payload.c used to
  * declare these itself, behind a SAVE_DATA_DECLARE_MASK_STATE_LOCALLY guard

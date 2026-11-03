@@ -25,6 +25,8 @@ extern u16 gDuel_wCampaignSceneOnWin;
 #endif
 extern u16 gDuel_wCampaignSceneOnLoss;
 
+/* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
+ * %hi/%lo pair into the load's own register, which is the .data form. */
 #ifdef D_8009B374_IN_DATA
 extern u16 gDuel_wAnimatedBattleBgmCommand __attribute__((section(".data")));
 #else

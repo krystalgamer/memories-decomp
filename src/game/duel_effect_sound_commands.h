@@ -5,7 +5,7 @@
 #include "duel_effect.h"
 
 /* Four gText_SecondaryCommandHandlers entries. func_80038898 reads one byte from the object's
- * current stream into D_8009B363 and puts the scene mode at 5.
+ * current stream into gCampaignMap_bEntryLocation and puts the scene mode at 5.
  *
  * func_80038888 and func_80038890 take NO argument at all -- they are defined
  * `void (void)` and their bodies are empty -- while the table's entry type is

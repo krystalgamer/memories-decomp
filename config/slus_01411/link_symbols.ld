@@ -10,23 +10,11 @@ bss_start = text_SBSS_START;
 
 /* Interior byte of the model/graphics state's four-byte A4-A7 owner. */
 
-gText_GlyphUploadScratch = D_801DA000;
-
-
-gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 DuelEffect_DispatchRequest = 0x801462B0;
 
-gDuel_aFieldCardRecords = D_801A7B64;
-
-
 gDebugEffect_pPreviewCard0 = tent_DebugEffectObject0;
 gDebugEffect_pPreviewCard1 = tent_DebugEffectObject1;
-gDebugEffect_aPreviewCardRecords = D_801A7B80;
-gDebugEffect_szOperandsFormat = D_80010074;
-gDebugEffect_szSecondOperandMarker = D_80010090;
-gDebugEffect_szFirstOperandMarker = D_800100A8;
-
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
 func_800617E0 = Model_DrawFt4Primitives;
@@ -105,10 +93,6 @@ gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009B209;
 
 gDuel_bPostDuelMainMode = D_8009B368;
-gDuel_wCampaignSceneOnWin = D_8009B370;
-gDuel_wCampaignSceneOnLoss = D_8009B372;
-gDuel_wAnimatedBattleBgmCommand = D_8009B374;
-
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
@@ -117,25 +101,18 @@ gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 gDuel_bFieldActionAutoCommit = D_8009B21A;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
-gScript_pMenuRecord = D_8009B274;
-
 gFile_dwTransferState = D_8009B0F4;
 gFile_dwTransferState_abs = D_8009B0F4;
 gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
-
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
 
 
 
 gText_StagedValues = D_801D5608;
-gDuel_DroppedCardTextValue = D_801D56A8;
-
 D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;
 gFade_bKeepOverlayDepth = D_8009B140;
 gFade_bWhiteLatch = D_8009B145;
@@ -144,41 +121,22 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gText_PrimaryStringOffsets = D_801C0000;
-gText_GlobalStringOffsets = D_801D5800;
-gText_PrimaryStringAddressAnchor = D_801B0000;
-
-
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
-gDialog_bChoiceControl = D_8009B34C;
 gDialog_bCallbackState = D_8009B3C1;
-
-gText_aCurrentPlayerNameGlyphs = D_801B125A;
-gText_aFirstPlayerNameGlyphs = D_801B122B;
-gText_aSecondPlayerNameGlyphs = D_801B1238;
-
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
 
 gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
-gDuelEffect_nCompactionRequested = D_8009B330;
-
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
 PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 
 gText_aGlyphLookup = tent_GlyphLookupTable;
-gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
 gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
 
 /* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
-
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 

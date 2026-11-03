@@ -2,7 +2,7 @@
 
 ## Choice command, layout and confirmation control
 
-`gDialog_bChoiceControl` names the existing `u8 D_8009B34C` view shared
+`gDialog_bChoiceControl` (formerly `D_8009B34C`) names the `u8` view shared
 by the text-choice producer, layout helpers, confirmation callback and
 script save prompt.
 

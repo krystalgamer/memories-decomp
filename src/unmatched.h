@@ -92,13 +92,11 @@
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
-
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
  * contents remain unnamed, and no AI subsystem header owns them. */
 extern const char gAiScript_szCheckpoint[];
 extern const char gAiScript_szCheckpointFormat[];
-
 
 /* Address-only declarations found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- into the duel scene
@@ -118,25 +116,6 @@ extern const char gAiScript_szCheckpointFormat[];
  * entries above, it is safe precisely because there are no call sites for it
  * to be wrong at, and it is what has to change if a caller is ever matched
  * and passes an argument. */
-
-/* One byte at 0x8009B363, written by four files that share nothing else.
- *
- * frontend_scene_states.c clears it, and duel_effect_sound_commands.c,
- * script_op_open_campaign_map.c and main_run_selection_menus.c each store a value into it;
- * the last also reads it back to pass to func_8016866C. Four subsystems with
- * no header above them, which is what makes this genuinely homeless rather
- * than merely undeclared.
- *
- * The array spelling is a lever, not a size. Every one of the four is
- * compiled and assembled at -G8, where a byte-sized global would otherwise be
- * reached %gp_rel, and an array is what escapes that -- the table in
- * notes/build.md, second row. All four already write the same incomplete-array
- * form, so this declaration reproduces it exactly and no arm is needed.
- *
- * It is only ever indexed at [0], in all four files, so nothing here claims
- * the object is longer than one byte. c_symbols.ld agrees: gDuel_bTerrain
- * begins at 0x8009B364, immediately after it. */
-extern u8 D_8009B363[];
 
 /* Eleven unmatched_asm functions, each with a single consumer that declared
  * it locally. Moved together rather than one per change: this header is a
@@ -166,22 +145,6 @@ extern u8 D_8009B363[];
  * (Duel_RenderFieldCard3D) has matched and is declared by
  * game/duel_field_card_render.h. */
 
-
-/* The text engine's control byte, shared with the dialog and duel-effect
- * screens. Text_HandleChoiceCommand sets it from a command nibble
- * (`c & 0xF0`), text_stream_commands.c reads it whole, and the other two test
- * it by mask -- 0x30 for the layout arm and 0x40 for the choice arm. No C
- * source defines it and the four that use it share no subsystem header, so it
- * is homeless by the rule at the top of this file.
- *
- * Script_OpSavePrompt also clears it, spelled with a .data section
- * attribute because it addresses the byte outside small data. */
-#ifdef D_8009B34C_IN_DATA
-extern u8 D_8009B34C[];
-#else
-extern u8 D_8009B34C;
-#endif
-
 /* Linker-resolved data whose matching-C consumers already share this header.
  *
  * These declarations are copied from the unanimous local spellings they
@@ -189,12 +152,8 @@ extern u8 D_8009B34C;
  * unsized arrays remain address/range views rather than guessed object sizes.
  * gMain_bModeRunnerStep is deliberately separate from the guarded frontend mode
  * bytes owned by main_mode_state.h. */
-extern u8 D_80010074[];
-extern u8 D_80010090[];
-extern u8 D_800100A8[];
 extern u8 gMain_bModeRunnerStep;
 extern s32 gGameOver_pTitleObject;
-
 
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
@@ -271,19 +230,7 @@ extern char gAiScript_szReturnUnderflowError[];
 
 #include "game/main_mode_state.h"
 
-/* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
- * %hi/%lo pair into the load's own register, which is the .data form. */
-#ifdef D_8009B374_IN_DATA
-extern u16 D_8009B374[];
-#else
-extern u16 D_8009B374;
-#endif
-
-
 extern u8 D_8018C7D8[];
-extern u8 D_801B122B[];
-extern u8 D_801B1238[];
-extern u8 D_801D160C[];
 extern u8 tent_TradeSaveBuffer[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];

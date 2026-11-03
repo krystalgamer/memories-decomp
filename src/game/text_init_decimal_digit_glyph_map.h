@@ -6,7 +6,6 @@
 #include "text_constants.h"
 
 extern TextDecimalDigitKeyBlock tent_DecimalDigitSjisKeys;
-extern const TextGlyphLookupEntry tent_GlyphLookupTableEntries[];
 
 void Text_InitDecimalDigitGlyphMap(void);
 

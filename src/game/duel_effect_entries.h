@@ -4,7 +4,6 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-extern s16 D_801DA000[];
 
 /* Returns the selected opaque payload byte address, or zero at the key
  * terminator. Key and payload cursors retain their distinct 2/30-byte steps. */

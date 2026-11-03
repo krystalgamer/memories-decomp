@@ -761,7 +761,7 @@ Duel_LoadPackageStage = 0x800171A8; // type:func
 
 // Semantic names
 gText_abColorSlots = 0x801D5708;
-tent_GlyphLookupTableEntries = 0x801D9004;
+gText_aGlyphSearchEntries = 0x801D9004;
 
 // Semantic names
 gDuel_abCardLevelAttr = 0x801D5332;
@@ -2541,3 +2541,29 @@ AiScript_SetUnreadFlag = 0x80073464; // type:func
 AiScript_ClearUnreadFlag = 0x80073474; // type:func
 gDuel_sGroundReferenceScreenX = 0x8009B200;
 gDuel_sGroundReferenceScreenY = 0x8009B202;
+gText_GlyphUploadScratch = 0x801DA000;
+gCampaignMap_bEntryLocation = 0x8009B363;
+gDuel_aFieldCardRecords = 0x801A7B64;
+gDebugEffect_aPreviewCardRecords = 0x801A7B80;
+gDebugEffect_szOperandsFormat = 0x80010074;
+gDebugEffect_szSecondOperandMarker = 0x80010090;
+gDebugEffect_szFirstOperandMarker = 0x800100A8;
+gDuel_wCampaignSceneOnWin = 0x8009B370;
+gDuel_wCampaignSceneOnLoss = 0x8009B372;
+gDuel_wAnimatedBattleBgmCommand = 0x8009B374;
+gScript_pMenuRecord = 0x8009B274;
+gFile_abPackageStagingBuffer = 0x801DD000;
+gModel_abTexturePaletteStaging = 0x801DE000;
+gDuel_DroppedCardTextValue = 0x801D56A8;
+gText_PrimaryStringOffsets = 0x801C0000;
+gText_GlobalStringOffsets = 0x801D5800;
+gText_PrimaryStringAddressAnchor = 0x801B0000;
+gSaveData_aFirstPlayerNameSjis = 0x801D160C;
+gSaveData_aPairWorkspace = 0x801D1200;
+gSaveData_aSecondPlayerState = 0x801D2200;
+gDialog_bChoiceControl = 0x8009B34C;
+gText_aCurrentPlayerNameGlyphs = 0x801B125A;
+gText_aFirstPlayerNameGlyphs = 0x801B122B;
+gText_aSecondPlayerNameGlyphs = 0x801B1238;
+gDuelEffect_nCompactionRequested = 0x8009B330;
+gModel_abAuxiliaryPaletteSector = 0x801DD800;

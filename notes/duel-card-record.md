@@ -16,7 +16,8 @@ The generated `notes/global-usage.csv` snapshot lists matching-C and
 assembly users; filter it on global address `0x801A7AD8`. The
 typed-migration inventory below separately records which matching sources
 have adopted the shared declaration. `Duel_CollectMatchingFieldCardObjects` now uses the shared
-typed C declarations directly, including the `D_801A7B64` interior alias.
+typed C declarations directly, including the `gDuel_aFieldCardRecords`
+interior view (formerly `D_801A7B64`).
 The generated report may predate a promotion until it is regenerated.
 
 ## Typed setup result and publication
@@ -56,7 +57,7 @@ argument evaluation and object-publication order are unchanged.
 Resume reconstruction uses the same local deck-entry view for its two
 occupied-field traversals, records 5-14 and 20-29. Both rebuild arguments
 read the canonical signed `deck_index` member rather than byte +0x02.
-The `D_801A7B64` interior alias, record stride, flags/stat-modifier
+The `gDuel_aFieldCardRecords` interior view, record stride, flags/stat-modifier
 snapshots and restores, helper ordering and object-flag refresh remain
 unchanged; the global data member stays opaque.
 
@@ -636,7 +637,7 @@ retains a local or raw record view. Derive that changing set from
 
 `Duel_CollectMatchingFieldCardObjects` replaces the former inline-assembly
 implementation with matching C and the shared `DuelCardRecord` view. Its
-negative-selector path retains `D_801A7B64` for the original two-side
+negative-selector path uses `gDuel_aFieldCardRecords` for the original two-side
 traversal and relocation; this is an interior view of the existing table, not
 another allocation.
 

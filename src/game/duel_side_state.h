@@ -283,7 +283,7 @@ extern u8 D_8009B368;
 #endif
 
 /* A byte the duel setup clears and Duel_InitScene tests against 1.
- * Main_StartDuel stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
+ * Main_StartDuel stores 0 beside gDuel_bOpponentID, gDuel_wCampaignSceneOnWin, gDuel_wCampaignSceneOnLoss
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
  * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two
