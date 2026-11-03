@@ -4,8 +4,6 @@ gText_awGlyphNibblePatterns = D_80090E28;
 gText_awGlyphColorMasks = D_80090E48;
 
 gText_aChannels = gJapanese_D_800EB0F8;
-gText_Channel1 = D_800EB15C;
-gText_dwChannel0State = D_800EB12C;
 
 gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
@@ -200,7 +198,6 @@ gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
-gText_Channel3 = 0x800EB0F8;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
 D_8009B0F4_abs = 0x8009AFE4;
@@ -232,10 +229,7 @@ gMovie_dwStreamBaseLba = gFile_anLba + 12;
 gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Names inside text_box_runtime's own storage (#2602). */
-D_800EB12C = gJapanese_D_800EB0F8 + 52;
-D_800EB15C = gJapanese_D_800EB0F8 + 96;
 gDisplayObject_apBrightnessPool = gJapanese_D_800EB0F8 + 136;
-gText_Channel3 = gJapanese_D_800EB0F8 + 288;
 
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */

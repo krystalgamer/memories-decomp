@@ -629,10 +629,7 @@ gText_DecimalDigitGlyphMap = 0x800EC290;
 D_800EB010 = 0x800EC2A8;
 tent_DuelEffectEntries = 0x800EC390;
 gText_aChannels = 0x800F0850;
-D_800EB12C = 0x800F0884;
-D_800EB15C = 0x800F08B4;
 gDisplayObject_apBrightnessPool = 0x800F08DC;
-D_800EB224 = 0x800F097C;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gInput_abRepeatTimers = 0x800F09F0;
 gInput_abRawPadBuffers = 0x800F0A10;
@@ -1011,11 +1008,6 @@ gModel_wDrawTintRedGreen = D_8009BF6E;
 gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
 
-gText_Channel2View = gText_aChannels + 0xC8;
-gText_Channel3View = gText_aChannels + 0x12C;
-gText_Channel1 = D_800EB15C;
-gText_Channel3 = D_800EB224;
-gText_dwChannel0State = D_800EB12C;
 
 gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;

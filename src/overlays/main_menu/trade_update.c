@@ -310,7 +310,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             (gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             other = ((gInput_wPad1Pressed[0] >> MAIN_MENU_TRADE_CANCEL_SHIFT) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+            TextBox_Destroy(TEXT_CHANNEL(3));
             gTrade_abReady[other] = 0;
             MainMenu_CreateTradeReadyIndicator(other ^ 1);
             gTrade_bDecisionMenuActive = 0;
@@ -321,11 +321,11 @@ s32 MainMenu_UpdateTradeScreen(void)
             SD_SEPlay(48, 255, 0);
             switch (gTrade_bFocusPane) {
             case 0:
-                TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+                TextBox_Destroy(TEXT_CHANNEL(3));
                 gTrade_bCommitRequested = 1;
                 break;
             case 1:
-                TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+                TextBox_Destroy(TEXT_CHANNEL(3));
                 i = 1;
                 clearFlags = gTrade_abReady + i;
                 do {
@@ -351,7 +351,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     if (gTrade_abReady[0] != 0) {
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+            TextBox_Destroy(TEXT_CHANNEL(3));
             gTrade_abReady[0] = 0;
         }
         goto check_scroll0;
@@ -494,7 +494,7 @@ player1:
     if (gTrade_abReady[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+            TextBox_Destroy(TEXT_CHANNEL(3));
             gTrade_abReady[1] = 0;
         }
         goto check_scroll1;
@@ -654,8 +654,8 @@ update:
     }
     if (gTrade_abReady[0] != 0 && gTrade_abReady[1] != 0) {
         gTrade_bFocusPane = 0;
-        TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-        TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+        TextBox_Destroy(TEXT_CHANNEL(3));
+        TextBox_Destroy(TEXT_CHANNEL(3));
         MainMenu_CreateTradeDecisionMenu(*(volatile u8 *)&gTrade_bFocusPane);
         gTrade_bDecisionMenuActive = 1;
     }

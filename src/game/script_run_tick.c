@@ -1,4 +1,3 @@
-#define D_800EB12C_IN_DATA
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/rand.h"
@@ -75,7 +74,7 @@ void Script_RunTick(void)
     f = gScript_EventState;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
-        if ((gText_dwChannel0State[0] & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
+        if ((*(u32 *)&gText_aChannels[0].flags_34 & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;

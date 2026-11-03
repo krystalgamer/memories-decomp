@@ -134,8 +134,8 @@ A constant member offset normally folds into the relocation, so seeing the
 base formed on its own and the offset left on the load is a positive signal:
 
 ```
-lui   $v0, %hi(D_800EB15C)
-addiu $a0, $v0, %lo(D_800EB15C)     # base on its own
+lui   $v0, %hi(gText_aChannels+0x64)
+addiu $a0, $v0, %lo(gText_aChannels+0x64)     # base on its own
 lhu   $v0, 0x34($a0)                # offset left on the load
 ```
 
@@ -145,12 +145,12 @@ the `jal` two instructions later, which says the base is that call's argument:
 
 ```c
 /* builds 205 against 206 -- the offset folds and the base vanishes */
-if ((*(u16 *)(D_800EB15C + 0x34) & 8) == 0) {
-    TextBox_Destroy(D_800EB15C);
+if ((*(u16 *)((u8 *)TEXT_CHANNEL(1) + 0x34) & 8) == 0) {
+    TextBox_Destroy(TEXT_CHANNEL(1));
 }
 
 /* matches */
-panel = D_800EB15C;
+panel = TEXT_CHANNEL(1);
 if ((*(u16 *)(panel + 0x34) & 8) == 0) {
     TextBox_Destroy(panel);
 }

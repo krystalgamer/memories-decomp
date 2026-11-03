@@ -489,7 +489,7 @@ void FreeDuel_UpdateScreen(void)
 
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
         TextBox_UpdateChannels();
-        panel = &D_800EB15C;
+        panel = TEXT_CHANNEL(1);
         if ((panel->flags_34 & FREE_DUEL_PANEL_COMPLETE_FLAG) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);

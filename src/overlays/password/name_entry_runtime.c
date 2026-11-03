@@ -166,7 +166,7 @@ void NameEntry_Init(void)
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 #ifdef VERSION_EUROPE
     TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
-    func_80039A14((struct DuelEffectChannel *)&D_800EB1C0);
+    func_80039A14(TEXT_CHANNEL(3));
 #else
 #ifndef VERSION_JAPAN
     func_8003B6AC(3, 1);
@@ -1229,9 +1229,9 @@ void NameEntry_UpdateDialog(void)
             return;
         }
 #ifdef VERSION_EUROPE
-        box = &gText_Channel2View;
+        box = TEXT_CHANNEL(2);
 #else
-        box = &D_800EB1C0;
+        box = TEXT_CHANNEL(2);
 #endif
         caret = (DialogCaret *)box->aux_object;
         if ((flags & 2) != 0) {
@@ -1314,7 +1314,7 @@ void NameEntry_UpdateDialog(void)
         TextBox_Create(3, 254, 112, 204, 96, 16);
 #endif
 #ifdef VERSION_EUROPE
-        func_80039A60((struct DuelEffectChannel *)&gText_Channel3View);
+        func_80039A60(TEXT_CHANNEL(3));
 #elif defined(VERSION_JAPAN)
         /* No glyph_advance_x/line_advance_y stores, and 0x60-byte channel records. */
         func_80039A60((struct DuelEffectChannel *)&(

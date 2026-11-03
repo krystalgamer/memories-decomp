@@ -13,9 +13,6 @@ bss_start = text_SBSS_START;
 
 gText_GlyphUploadScratch = D_801DA000;
 
-gText_Channel1 = D_800EB15C;
-gText_Channel3 = D_800EB224;
-gText_dwChannel0State = D_800EB12C;
 
 gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
@@ -257,11 +254,7 @@ gAi_bHandFaceDownRequested = D_800EAE88 + 8;
 gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Other names for game/text_box_runtime's small data (#2602). */
-D_800EB12C = gText_aChannels + 52;
-D_800EB15C = gText_aChannels + 100;
 gDisplayObject_apBrightnessPool = gText_aChannels + 140;
-D_800EB1C0 = gText_aChannels + 200;
-D_800EB224 = gText_aChannels + 300;
 
 /* Other names for game/input_pads's small data (#2602). */
 gInput_abRawPadBuffers = D_800EF668;

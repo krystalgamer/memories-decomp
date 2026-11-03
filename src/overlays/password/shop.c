@@ -111,7 +111,7 @@ void Password_RefreshDigitDisplay(void)
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0xC0));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&gText_Channel2View);
+    func_80039A14(TEXT_CHANNEL(2));
 #else
     boxes = gText_aChannels;
     boxes[2].glyph_advance_x = 0x10;
@@ -137,7 +137,7 @@ void Password_RefreshStarchipDisplay(void)
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0x120));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&gText_Channel3View);
+    func_80039A14(TEXT_CHANNEL(3));
 #else
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 0x10;
@@ -390,7 +390,7 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
-    if ((D_800EB12C & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
+    if ((*(u32 *)&gText_aChannels[0].flags_34 & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
         TEXT_BOX_FLAG_DONE) {
         return;
     }

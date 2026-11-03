@@ -146,7 +146,7 @@ u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT] = {
 
 void DebugMenu_UpdateCursorLayout(void)
 {
-    struct LayoutSource *source = (struct LayoutSource *)&gText_Channel1;
+    struct LayoutSource *source = (struct LayoutSource *)TEXT_CHANNEL(1);
     s32 first = source->base;
     DisplayObject *target = gDebugMenu_pCursorQuad;
     s32 index = gDebugMenu_bCursor;

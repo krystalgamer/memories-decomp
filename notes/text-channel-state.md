@@ -18,30 +18,30 @@ Moving `duel_effect.h` ahead of existing per-source selector macros can change
 old-GCC external-symbol directives even when the C instruction text looks
 unchanged; complete compiler and MASPSX output must both be preserved.
 
-`gText_Channel1` retains the separately addressed second-record view formerly
-named `D_800EB15C`. It is not replaced with an array expression: the original
-callers depend on how the base and offset reach the compiler.
+Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect.h`,
+which offsets `gText_aChannels` by `index * TEXT_CHANNEL_SIZE`. The stride is
+`sizeof(DuelEffectChannel)` (`0x64`) by default and `0x60` in Japanese units,
+selected by `VERSION_JAPAN` or an explicit `TEXT_CHANNEL_SIZE` in wrappers
+that do not define it (`japanese/duel_scene_update.c`,
+`japanese/library_card_grid.c`). The constant offset folds into the
+relocation exactly as the former per-channel names (`D_800EB15C`,
+`D_800EB1C0`, `D_800EB224`, `gText_Channel1`, `gText_Channel3`) did, so no
+separate channel symbol is defined in any image.
 
-`gText_dwChannel0State` retains the existing word view at pool offset `0x34`:
-the low halfword is the channel flags and the high halfword is its string ID.
-The existing `D_800EB12C_IN_DATA` selector still chooses the `.data`
-declaration used by `Script_RunTick`. No halfword load replaces the original
-word loads or masks.
+Channel 0's word at pool offset `0x34` (formerly the separate
+`D_800EB12C`/`gText_dwChannel0State` names) is read as
+`*(u32 *)&gText_aChannels[0].flags_34`: the low halfword is the channel flags
+and the high halfword is its string ID. No halfword load replaces the
+original word loads or masks.
 
-Each image's linker aliases refer to its original providers rather than
-allocating replacement storage. In Japan the canonical pool aliases
-`gJapanese_D_800EB0F8`, at `0x800EAFD8`, **not** the literal `D_800EB0F8`
-address. The Japanese quit path's existing assembly-named byte view still
-addresses channel 3 at that latter address. The channel-1 and channel-0-word
-aliases retain their existing native providers independently.
+In Japan the canonical pool aliases `gJapanese_D_800EB0F8`, at
+`0x800EAFD8`, **not** the literal `D_800EB0F8` address; channel 3 lands on
+that latter address (`0x800EAFD8 + 3 * 0x60`). Overlays bind only
+`gText_aChannels` itself.
 
-The PAL password imports `D_800F04F8` and `D_800F055C` were outside this
-pass's naming scope. The later
-[channel-control views](text-channel-control-views.md) identify them as
-pool elements 2/3, not standalone allocations, and provide the regional-only
-`gText_Channel2View`/`gText_Channel3View` source aliases. Existing numeric
-declarations, native bindings and overlay imports remain available. No
-historical dependency fingerprint is refreshed.
+The PAL password channel 2/3 imports (formerly `D_800F04F8`/`D_800F055C`)
+are the same pool elements; see the
+[channel-control views](text-channel-control-views.md).
 
 ## Completion acknowledgement
 

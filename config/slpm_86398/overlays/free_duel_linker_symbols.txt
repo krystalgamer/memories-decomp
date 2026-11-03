@@ -9,7 +9,6 @@ DisplayObject_StepPositionXY = 0x80042158;
 SD_SEPlayFull = 0x8003F5C0;
 DisplayObject_UpdateCommandStream = 0x80041440;
 TextBox_UpdateChannels = 0x80038E08;
-D_800EB15C = 0x800EB038;
 gInput_wPad1Held = 0x8009B294;
 gInput_wPad1Pressed = 0x8009B288;
 BuildDeck_EnterNarrowConfirmMode = 0x800339F8;

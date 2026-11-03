@@ -45,47 +45,18 @@
 extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
 
 extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
-extern DuelEffectChannel D_800F04F8;
-extern DuelEffectChannel D_800F055C;
-/* PAL views of pool slots 2/3; retain the password caller's native names. */
-#ifdef VERSION_EUROPE
-#define gText_Channel2View D_800F04F8
-#define gText_Channel3View D_800F055C
-#endif
-/* D_800EB15C is gText_aChannels[1] under its own name: 0x800EB0F8 + 0x64, one
- * DuelEffectChannel in. It stays a second name because how this address is
- * spelled is a codegen input, and two matched functions record the shape:
- * debug_menu_update.c has to hold the array base in a local, since writing
- * `&gText_aChannels[1]` inline folds the record offset into the address and
- * drops the `addiu` retail keeps for the call argument; and
- * FreeDuel_UpdateScreen has to hold this symbol in a local, since writing
- * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
- * base instruction disappears (free_duel_functions.csv,
- * notes/overlays/matching-patterns.md). Neither of those measures the name
- * against `&gText_aChannels[1]` -- Main_RunTwoPlayerDuelSetup passes that form directly and
- * matches -- so what is established is that the four files using this name
- * match as written; whether they would also match through the array index
- * is not measured. */
-extern DuelEffectChannel D_800EB15C;
-/* D_800EB12C is the word at gText_aChannels + 0x34: the flags_34 (:82) and
- * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
- * (script_run_tick.c:23) and Password_UpdateShopScreen
- * (overlays/password/shop.c) each load it as a
- * word and test it through TEXT_BOX_COMPLETION_MASK against
- * TEXT_BOX_FLAG_DONE; retail loads it lui/lw (func_8002FA54.s:15-16).
- * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
- * as `gText_aChannels[0].flags_34`, and password README.md:146-147 calls the word
- * the slot-0 text flags. Both units also matched when the read was spelled
- * `*(u32 *)&gText_aChannels[0].flags_34` (measured, one build each), so the name
- * is kept for the listings, the notes and the generated symbol lists that
- * carry it, not for codegen. The two units used to declare it `s32 []` and
- * `u32`; the `[]` was the -G8 placement device, which the .data arm does
- * now. */
-#ifdef D_800EB12C_IN_DATA
-extern u32 D_800EB12C[];
+/* Channel `index` of gText_aChannels. Japan's channel records are 0x60
+ * bytes rather than sizeof(DuelEffectChannel), so its units select the
+ * smaller stride (VERSION_JAPAN, or an explicit TEXT_CHANNEL_SIZE). */
+#ifndef TEXT_CHANNEL_SIZE
+#ifdef VERSION_JAPAN
+#define TEXT_CHANNEL_SIZE 0x60
 #else
-extern u32 D_800EB12C;
+#define TEXT_CHANNEL_SIZE sizeof(DuelEffectChannel)
 #endif
+#endif
+#define TEXT_CHANNEL(index) \
+    ((DuelEffectChannel *)((u8 *)gText_aChannels + (index) * TEXT_CHANNEL_SIZE))
 extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
 
 /* The selected card's encoded guardian glyph. DuelField_CreateCardInfoTextBox stores guardian

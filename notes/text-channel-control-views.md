@@ -42,15 +42,13 @@ changes or disappears.
 
 ## PAL channel-array views
 
-The password overlay creates channel 2, then builds the channel addressed
-through `D_800F04F8`; its channel-3 path similarly uses `D_800F055C`.
-The corresponding JP paths use pool offsets `0xC0`/`0x120` with their
-`0x60` stride, and NA uses `&boxes[2]`/`&boxes[3]`. The name-entry caret
-independently uses the PAL channel-2 import for the same existing box.
+The password overlay creates channel 2, then builds it, and its channel-3
+path destroys channel 3; the name-entry caret uses channel 2 and the PAL
+name-entry teardown destroys channel 3. These were once separate PAL imports
+(`D_800F04F8`, `D_800F055C`, and a `D_800EB1C0` bound to channel 3's
+address), but every image's addresses are pool elements:
 
-All five PAL image namespaces corroborate those roles:
-
-| Image | Actual pool | `gText_Channel2View` | `gText_Channel3View` |
+| Image | Actual pool | Channel 2 | Channel 3 |
 |---|---|---|---|
 | SLES_039.47 | `0x800F0430` | `0x800F04F8` | `0x800F055C` |
 | SLES_039.48 | `0x800F0850` | `0x800F0918` | `0x800F097C` |
@@ -58,19 +56,8 @@ All five PAL image namespaces corroborate those roles:
 | SLES_039.50 | `0x800F0850` | `0x800F0918` | `0x800F097C` |
 | SLES_039.51 | `0x800F0850` | `0x800F0918` | `0x800F097C` |
 
-The two offsets are `2 * 0x64 = 0xC8` and `3 * 0x64 = 0x12C`.
-These are array-element views, not new standalone allocations, additional
-channel slots or password-exclusive ownership. The canonical image exports
-refer to the actual `gText_aChannels` provider plus those offsets. They do
-not depend on an old password-only import being defined in the resident
-image.
-
-The `VERSION_EUROPE` header macros preserve each original scalar declaration
-and native password import. No source pointer is replaced by an array
-expression, no import is removed, and no unused canonical native imports
-are added. NA/JP array/base forms and native symbols remain untouched.
-The ten ledger records use `regional/<image>/global`, not NA addresses
-guessed from the old C identifiers.
+The offsets are `2 * 0x64 = 0xC8` and `3 * 0x64 = 0x12C`. All regions now
+write `TEXT_CHANNEL(2)`/`TEXT_CHANNEL(3)` and bind only `gText_aChannels`.
 
 ## Preservation and acceptance
 

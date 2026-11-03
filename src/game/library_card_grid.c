@@ -262,7 +262,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         gText_SelectedCardColorIndex = 4;
     }
-    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&gText_Channel1);
+    TextBox_BuildBlockingWithGlyphScratch(TEXT_CHANNEL(1));
 }
 
 s32 Library_UpdateCursorMotion(void)

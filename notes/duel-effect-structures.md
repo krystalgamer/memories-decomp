@@ -19,8 +19,8 @@ entries. The following local evidence establishes the stride and extent:
 - `DuelEffect_InitEntry`, `TextBox_SetRect`, `func_8003D614`, and
   `MemCardDialog_CreateObject` independently index or advance entries by `0x64`.
 - `MemCardDialog_CreateObject` scans exactly four entries.
-- `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; linker aliases
-  such as `D_800EB15C` also land on `0x64` entry boundaries.
+- `D_800EB288 - D_800EB0F8` is `0x190`, exactly `4 * 0x64`; the former
+  per-channel aliases (now `TEXT_CHANNEL(i)`) landed on `0x64` boundaries.
 - Target assembly, GMS pseudocode, and Unchiga's same-address sources agree on
   the `25 * u32`/100-byte indexing. GMS and reference types are treated only
   as guesses; the local matching code and target instructions are decisive.

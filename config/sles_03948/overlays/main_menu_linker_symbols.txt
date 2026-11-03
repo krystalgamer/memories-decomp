@@ -14,7 +14,6 @@ CardList_CreateDeckBoxStatRows = 0x8006B080;
 gMain_apFrameServiceCallbacks = 0x8009C898;
 gGraphics_bSyncVBlankTarget = 0x8009C424;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
-D_800EB224 = 0x800F097C;
 gTrade_aInventoryRowSets = 0x801A8000;
 D_8009B0D8 = 0x8009C43C;
 gSaveData_LoadPairState = 0x8009C77A;
@@ -51,3 +50,4 @@ D_801D4244 = 0x801D4244;
 func_8005B260 = Graphics_SubmitDrawModePacket;
 
 gSaveData_aPairWorkspace = D_801D1200;
+gText_aChannels = 0x800F0850;

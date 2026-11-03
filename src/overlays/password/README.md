@@ -172,7 +172,7 @@ remain in this overlay, not the resident inventory.
 ### Shop state machine
 
 The updater services text **before** testing its gates. It then waits while
-the cursor is moving or `(D_800EB12C & 0x2008) != 0x2000`; the latter reads
+the cursor is moving or `(*(u32 *)&gText_aChannels[0].flags_34 & 0x2008) != 0x2000`; the latter reads
 the slot-0 text flags for completion and pending acknowledgment. The low five
 bits of `gPassword_wShopState` choose the following states. Its `0x8000` and `0x4000`
 subflags are state-local bookkeeping, not shared campaign-flag modifiers.

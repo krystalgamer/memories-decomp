@@ -65,7 +65,7 @@ void Options_InitTextDisplay(s32 arg0) {
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
-    TextBox_BuildBlocking(&gText_Channel1);
+    TextBox_BuildBlocking(TEXT_CHANNEL(1));
 }
 
 void Options_UpdateLayout(s32 selection) {
