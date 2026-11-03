@@ -5,7 +5,7 @@
 #define MODEL_VARIANT431_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant431EntryState *work = (Variant431EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -38,7 +38,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant431EntryConfig *)(D_8013DF48 + 0xFC) + command;
+        work->config = (Variant431EntryConfig *)(gFrenchModelVariant431_D2F48 + 0xFC) + command;
         for (i = 0; i < 5; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -58,12 +58,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT431_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT431_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DF48 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant431_D2F48 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DF48 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DF48 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DF48 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant431_D2F48 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant431_D2F48 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant431_D2F48 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -278,16 +278,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->screen_y[i] = dy;
         }
         if (work->config->first_start <= work->frame) {
-            func_8013C338((u8 *)point);
+            FrenchModelVariant431_DrawFans((u8 *)point);
         }
         if (work->config->timings[0] <= work->frame) {
-            func_8013D444((u8 *)point);
+            FrenchModelVariant431_DrawSheets((u8 *)point);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
-            func_8013C7C8((u8 *)point);
+            FrenchModelVariant431_DrawBands((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013BF1C((u8 *)point);
+            FrenchModelVariant431_DrawWebs((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
