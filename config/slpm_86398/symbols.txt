@@ -1,4 +1,5 @@
 tail_data_start = 0x801BC000;
+bss_start = 0x8009AF80;
 func_800136D4 = 0x800135C0;
 Main_ClearFrameServiceCallbacks = 0x800133A0;
 gMain_apFrameServiceCallbacks = 0x800E9C90;

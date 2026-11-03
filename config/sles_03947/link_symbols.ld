@@ -134,8 +134,8 @@ gSaveData_aPairWorkspace = 0x801D1200;
 /* Auxiliary slot's retained load-step byte view. */
 g_SDValue_output_level = g_SDValue;
 
-/* Names inside graphics_frame's own storage (#2602). */
-bss_start = D_8009BFE8_sles_03947;
+/* The startup code clears bss from the first small zero-initialized object. */
+bss_start = main_SBSS_START;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
 gFile_wStepState = D_8009C044_sles_03947;

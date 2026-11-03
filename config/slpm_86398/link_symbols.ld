@@ -115,13 +115,11 @@ g_SDValue_output_level = g_SDValue;
 /* Former Japanese names still used by the duel_draw_resolution.c and
  * duel_effect_states.c wrappers. */
 
-/* Names inside the small zero-initialized blocks this build's units own
- * (#2602): the blocks' start and the Japanese spellings of interior names. */
-D_8009AF80 = main_SBSS_START;
+/* The startup code clears bss from the first small zero-initialized object. */
+bss_start = main_SBSS_START;
+
+/* Names inside the small zero-initialized blocks this build's units own (#2602). */
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-
-/* Names inside text_box_runtime's own storage (#2602). */
-
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
 
