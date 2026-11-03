@@ -338,8 +338,6 @@ gGraphics_aFrameBuffers = D_8009C418_sles_03947 + 280184;
 
 /* Names inside file_transfer_runtime's own storage (#2602). */
 gFile_anLba = D_800EAD78_sles_03947;
-gMovie_dwStreamBaseLba = D_800EAD78_sles_03947 + 12;
-gFile_nMasterXaLba = D_800EAD78_sles_03947 + 24;
 gFile_PrimaryTransferDescriptor = D_800EAD78_sles_03947 + 32;
 gFile_SecondaryTransferDescriptor = D_800EAD78_sles_03947 + 104;
 

@@ -220,8 +220,6 @@ gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
 gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
 gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
 gDuel_abSelectionSides = D_800E9EF0 + 32;
-gFile_nMasterXaLba = gFile_anLba + 24;
-gMovie_dwStreamBaseLba = gFile_anLba + 12;
 gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Names inside text_box_runtime's own storage (#2602). */

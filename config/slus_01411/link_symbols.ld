@@ -224,8 +224,6 @@ tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
 /* Other names for game/fade_runtime's small data (#2602). */
 
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
-gMovie_dwStreamBaseLba = gFile_anLba + 12;
-gFile_nMasterXaLba = gFile_anLba + 24;
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
 gDisplayObject_apWorkSlots = D_800E9EF0;

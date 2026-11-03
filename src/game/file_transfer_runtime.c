@@ -806,7 +806,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
-        start_lba = *(s32 *)gFile_nMasterXaLba + request->sector_offset;
+        start_lba = gFile_anLba[FILE_INDEX_MASTER_XA] + request->sector_offset;
         return (s32)File_RequestSecondaryRangeTransfer(
             start_lba, start_lba + range_sector_count, request->cd_filter_channel, request->cd_filter_file
         );

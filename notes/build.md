@@ -772,9 +772,8 @@ test. `D_8009B2A0` is created by the scene-package initializer and toggled by
 its result-screen consumer, so it lives in `campaign_scene_package.h`.
 `D_800EB184` is the four-object brightness pool and now lives in the narrow
 `display_object_brightness.h`, avoiding a declaration in the cross-module
-`display_object.h`. `gFile_nMasterXaLba` has unrelated boot-sound and file-transfer
-interpretations with no narrower owner, so its raw byte-array contract is
-genuinely homeless and lives in `unmatched.h`.
+`display_object.h`. The former `gFile_nMasterXaLba` view is now spelled
+`gFile_anLba[FILE_INDEX_MASTER_XA]` in `file_transfer.h`.
 
 `D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is
 the next/base frontend mode; mode runners copy it into the second when they

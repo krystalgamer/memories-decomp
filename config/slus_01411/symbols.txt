@@ -2336,7 +2336,6 @@ gDebugMenu_szMenuEditorFormat = 0x80090D28;
 gDebugMenu_szMovieEditorFormat = 0x80090D44;
 gDisplayObject_FlatLightDown = 0x80090FCC;
 gDisplayObject_FlatLightUp = 0x80090FDC;
-gMovie_dwStreamBaseLba = 0x800E9EB4;
 
 CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
 

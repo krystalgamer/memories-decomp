@@ -167,7 +167,12 @@ extern u8 *gFile_pScreenBankBase;
 
 /* The per-file starting sector table the transfer setup indexes by file
    number. Four sources reached it, all with this identical declaration and
-   none of them defining it, so it is still generated data. */
+   none of them defining it, so it is still generated data. Entries follow
+   gFile_apszName: the movie player seeks from MOVIE.STR's LBA, file
+   transfer starts secondary (XA) ranges from MASTER.XA's, and Main_Init
+   passes that LBA's low byte to SD_InitState. */
+#define FILE_INDEX_MOVIE_STR 3
+#define FILE_INDEX_MASTER_XA 6
 extern s32 gFile_anLba[];
 
 extern volatile u32 D_8009B0F4;
@@ -406,14 +411,5 @@ extern s32 D_8009B118 __attribute__((section(".data")));
 #else
 extern s32 D_8009B118;
 #endif
-
-/* gFile_anLba[6], the LBA File_SetPositionTable records for gFile_apszName[6]
- * (MASTER.XA). File transfer control adds it to a descriptor offset to start
- * secondary (XA) range transfers. Main_Init passes its first byte to
- * SD_InitState after Main_InitHardware has filled the position table, so
- * that argument is the LBA's low byte; what SD_InitState makes of it is not
- * interpreted here. The raw byte-array view is kept because both consumers
- * match on it. */
-extern u8 gFile_nMasterXaLba[];
 
 #endif
