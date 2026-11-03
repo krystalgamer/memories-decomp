@@ -7,8 +7,11 @@ retail byte-for-byte. This completes a family in #6460.
 
 The entry occupies `8013B004..8013C484`, or the corresponding `8017` range:
 5,248 instruction bytes, 1,312 words and a 200-byte frame. Same-slot entry
-bytes agree across the three physical models. One implementation and a slot
-wrapper use the named `gcc_2_8_1_g0_split` profile.
+bytes agree across the three physical models. One implementation, built for
+both slots, uses the named `gcc_2_8_1_g0_split` profile. Each image binds
+`FrenchModelVariant477_HandleRequest`, the two Spanish helper names and
+`gFrenchModelVariant477_D1DC0` at its own addresses (see
+[per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
 
 All native words were read before reconstruction. Local game/SDK headers and
 independently measured accesses supply the declarations. No reference-project
@@ -21,8 +24,8 @@ types, headers or compiler claims are imported.
 | `8013C484` | `4D4` | Spanish `variant477_panels.c` |
 | `8013C958` | `468` | Spanish `variant477_quads.c` |
 
-Both helper implementations, slot wrappers, profiles and inventory rows are
-unchanged. Production ELFs verify all three original-sized C owners in all
+Both helper implementations, profiles and inventory rows are unchanged.
+Production ELFs verify all three original-sized C owners in all
 six images. The panel helper requires `elapsed >= config->draw_start`;
 the quad helper independently requires `phase >= 2`. Both are directly reached.
 

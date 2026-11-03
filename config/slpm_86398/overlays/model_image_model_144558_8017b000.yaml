@@ -56,10 +56,10 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant448_entry_slot1]
-      - [0x1254, c, overlays/model_variant/variant448_radial_slot1]
-      - [0x1678, c, overlays/model_variant/variant448_fan_slot1]
-      - [0x2638, c, overlays/model_variant/variant448_orbit_slot1]
+      - [0x4, c, overlays/model_variant/variant448_entry]
+      - [0x1254, c, overlays/model_variant/variant448_radial]
+      - [0x1678, c, overlays/model_variant/variant448_fan]
+      - [0x2638, c, overlays/model_variant/variant448_orbit]
       - [0x2B58, c, overlays/model_variant/variant448_webs_slot1]
       - [0x30BC, c, overlays/model_variant/variant448_spokes_slot1]
       - [0x33C8, c, overlays/model_variant/variant448_rings_slot1]

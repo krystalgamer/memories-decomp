@@ -3,11 +3,11 @@
 4 distinct secondary images reuse the accepted
 `src/overlays/model_variant/variant448_*.c` webs, spokes, rings, quad
 bodies through 8 three-line canonical renaming wrappers.
-An independently reconstructed regional fan body and its thin slot-1
-wrapper additionally cover the entry-called helper at `0x124C`.
+An independently reconstructed regional fan body additionally covers the
+entry-called helper at `0x124C`.
 A GCC 2.8.1 rewrite of the North American header-448 fan body covers
 the entry-called companion at `0x166C`.
-The regional orbit body and its slot-1 wrapper cover `0x256C`, reusing
+The regional orbit body covers `0x256C`, reusing
 the unchanged accepted `Variant448Orbit` header after independent layout
 verification.
 Two additional wrappers select the measured `VERSION_FRENCH` branch of
@@ -144,8 +144,8 @@ This addition starts independently from accepted master `355c0d797`,
 without pending French431 work. No suitable Spanish or accepted local
 fan body was found. The standalone
 `src/overlays/french_model_variant/variant465_fan.c` reconstructs the
-complete local assembly using existing project SDK declarations, with a
-three-line `variant465_fan_slot1.c` renaming wrapper. The family-local
+complete local assembly using existing project SDK declarations; both
+slots build it directly. The family-local
 `src/overlays/french_model_variant/variant465_fan.h` owns the measured
 view, following the repository prohibition on C-file type definitions.
 Shared source, existing headers and compiler profiles remain unchanged.
@@ -257,7 +257,7 @@ the North American header-448 fan
 `variant448_fan.h`. The NA body is written around GCC 2.7.2 allocation and
 compiles to 985 instructions here, against 960 in the target, so
 `src/overlays/french_model_variant/variant465_arms.c` holds a separate
-2.8.1 body with a three-line `variant465_arms_slot1.c` renaming wrapper.
+2.8.1 body that both slots build directly.
 It uses the existing `gcc_2_8_1_g0_split` profile.
 
 The measured differences from the NA source:
@@ -481,8 +481,18 @@ pass without skips, together with the same repository policy gates.
 
 The entry at `0x4` (`0x1248` bytes) in all four images is now matching C:
 the North American header-448 entry (`model_variant/variant448_entry.c`)
-built through `french_model_variant/variant465_entry{,_slot1}.c`. The wrappers
-select the PAL palette x (640) and rename the in-image helpers and the tail
-data label to their French addresses. The family's `func_french_<address>` SDK
-placeholders take their canonical names; no bindings are added. See
-[the reuse note](french-model-usa-entry-reuse.md).
+built through `french_model_variant/variant465_entry.c`, which selects the
+PAL palette x (640). The family's `func_french_<address>` SDK placeholders take
+their canonical names. See [the reuse note](french-model-usa-entry-reuse.md).
+
+## Per-image names
+
+The shared sources define `ModelVariant448_HandleRequest`,
+`ModelVariant448_DrawRadialDisc`, `ModelVariant448_DrawFans`,
+`ModelVariant448_DrawOrbitSheets` and the data block
+`gModelVariant448_D43E4`. Both slots build the same sources; each image binds
+the names at its own addresses. Here `variant465_fan.c`, `variant465_arms.c`
+and `variant465_orbit.c` define the three helpers at `0x124C`, `0x166C` and
+`0x256C`, and the data block binds at `0x4354`, not at the North American
+`0x43E4` (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

@@ -9,7 +9,7 @@
  * through `ot` rather than `poly` keeps `poly` below the first arm loop's
  * `t` in global-allocation priority, as the retail registers require. */
 
-void func_8013C66C(u8 *ctx)
+void ModelVariant448_DrawFans(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
