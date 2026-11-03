@@ -328,7 +328,7 @@ gGraphics_dwSyncedFrameCount = 0x8009C42C;
 gGraphics_abOrderingTableLengths = 0x8009C430;
 gGraphics_bClearBackground = 0x8009C434;
 D_8009B0D4 = 0x8009C438;
-D_8009B0D8 = 0x8009C43C;
+gGraphics_nBaseFrameStep = 0x8009C43C;
 gGraphics_wFlags = 0x8009C440;
 gMain_dwFrameCounter = 0x8009C444;
 gGraphics_bSkipDisplaySwap = 0x8009C44A;
@@ -985,7 +985,6 @@ gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 
-gGraphics_nBaseFrameStep = D_8009B0D8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;

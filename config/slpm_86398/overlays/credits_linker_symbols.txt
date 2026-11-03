@@ -6,4 +6,4 @@ GsSortPoly = 0x80082F10;
 gCredits_abGlyphE056 = 0x800116E8;
 gCredits_abGlyph9B92 = 0x80011706;
 gGraphics_apOrderingTables = 0x800E9C70;
-D_8009B0D8 = 0x8009AFC8;
+gGraphics_nBaseFrameStep = 0x8009AFC8;

@@ -288,7 +288,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             goto ret_m1;
         }
         ent6 = gMainMenu_pStartPrompt;
-        acc = (u16)ent6->field_34.h.field_36 + (u16)D_8009B0D8;
+        acc = (u16)ent6->field_34.h.field_36 + (u16)gGraphics_nBaseFrameStep;
         ent6->field_34.h.field_36 = acc;
         if ((s16)acc >= 0xBB8) {
             return -2;

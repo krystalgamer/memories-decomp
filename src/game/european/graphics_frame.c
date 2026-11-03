@@ -36,7 +36,7 @@ u8 gGraphics_bClearBackground;
 u8 D_8009B0D1;
 u16 D_8009C016_sles_03947;
 s32 D_8009B0D4;
-s32 D_8009B0D8;
+s32 gGraphics_nBaseFrameStep;
 u16 gGraphics_wFlags;
 u16 D_8009C022_sles_03947;
 volatile s32 gMain_dwFrameCounter;

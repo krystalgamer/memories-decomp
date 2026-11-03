@@ -1110,7 +1110,7 @@ void SD_StopAll(void);
  * declaring it in this header "would force one spelling on every includer",
  * and that was true of a flat declaration. An arm does not: each consumer
  * selects the spelling it already had, the same way gSD_pSecondaryState above is
- * handled and D_8009B0D8 is handled in graphics_frame.h. So the symbol can
+ * handled and gGraphics_nBaseFrameStep is handled in graphics_base_frame_step.h. So the symbol can
  * live here after all, with the split preserved rather than resolved. */
 #ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 extern u32 gSD_dwCurrentBgmCommand[];

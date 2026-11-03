@@ -158,7 +158,7 @@ s32 Credits_UpdateLines(void)
             b = t / 64;
             c = t / 96;
             d = t / 128;
-            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 gCredits_aLines[i].timer = 0x98;
                 gCredits_aLines[i].state++;
@@ -173,7 +173,7 @@ s32 Credits_UpdateLines(void)
             if (gCredits_aLines[i].entries->group == 0x63) {
                 gCredits_bFinished = 1;
             } else {
-                gCredits_aLines[i].timer -= D_8009B0D8;
+                gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep;
                 if (gCredits_aLines[i].timer <= 0) {
                     gCredits_aLines[i].timer = 0x98;
                     gCredits_aLines[i].state++;
@@ -195,7 +195,7 @@ s32 Credits_UpdateLines(void)
             b2 = t2 / 64;
             c2 = t2 / 96;
             d2 = t2 / 128;
-            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 if (gCredits_aLines[i].page >= 2) {
                     gCredits_aLines[i].timer = 0x3C;
@@ -212,7 +212,7 @@ s32 Credits_UpdateLines(void)
             Credits_DrawLine(i, k - d2, k - c2, k - b2, k - a2);
             break;
         case 3:
-            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 gCredits_aLines[i].timer = 0x98;
                 gCredits_aLines[i].state = 0;
@@ -227,7 +227,7 @@ s32 Credits_UpdateLines(void)
             Credits_DrawLine(i, 0, 0, 0, 0);
             break;
         case 4:
-            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 n = gCredits_aLines[i].end->group;
                 if (n >= 0) {

@@ -5,7 +5,7 @@
 #include "menu_record.h"
 
 /* Incoming effect step 7: initialize the blend row and advance a stored
- * halfword ramp from zero by D_8009B0D8 * 8. Completion keeps the primary
+ * halfword ramp from zero by gGraphics_nBaseFrameStep * 8. Completion keeps the primary
  * row, restores its existing row attributes, releases grid[1] and clears
  * the activity-inhibit bit.
  *

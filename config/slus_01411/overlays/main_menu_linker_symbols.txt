@@ -87,3 +87,4 @@ MainMenu_CreateTradeDecisionMenu = 0x800611D0;
 
 gSaveData_aPairWorkspace = D_801D1200;
 gText_aChannels = 0x800EB0F8;
+gGraphics_nBaseFrameStep = 0x8009B0D8;

@@ -31,7 +31,7 @@ volatile s32 gGraphics_dwSyncedFrameCount;
 u8 gGraphics_bClearBackground;
 u8 D_8009B0D1;
 s32 D_8009B0D4;
-s32 D_8009B0D8;
+s32 gGraphics_nBaseFrameStep;
 static u32 D_8009B0DC;
 #else
 extern u16 gGraphics_wFlags;
@@ -54,7 +54,7 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
 extern u8 gGraphics_bClearBackground;
 extern u8 D_8009B0D1;
 extern s32 D_8009B0D4;
-extern s32 D_8009B0D8;
+extern s32 gGraphics_nBaseFrameStep;
 #endif
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

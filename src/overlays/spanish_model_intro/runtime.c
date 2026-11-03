@@ -66,7 +66,7 @@ s32 func_8018019C(void)
                 break;
             case 1:
                 if (i < 2) {
-                    D_80180654[i].delay -= (u16)D_8009B0D8;
+                    D_80180654[i].delay -= (u16)gGraphics_nBaseFrameStep;
                     if (D_80180654[i].delay <= 0) {
                         next = D_80180654[i].cue + 1;
                         cue = &D_801805D0[next];
