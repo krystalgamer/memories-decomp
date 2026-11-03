@@ -198,8 +198,7 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-gAi_bHandFaceDownRequested = D_800EAE88 + 8;
-gAi_Selection = D_800EAE88;
+gAi_bHandFaceDownRequested = gAi_Selection + 8;
 gCardPreview_Resource1 = D_800E9EF0 + 568;
 gCardPreview_Resources = D_800E9EF0 + 504;
 gDisplayObject_apWorkSlots = D_800E9EF0;
@@ -210,7 +209,6 @@ gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
 gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
 gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
 gDuel_abSelectionSides = D_800E9EF0 + 32;
-gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Names inside text_box_runtime's own storage (#2602). */
 gDisplayObject_apBrightnessPool = gJapanese_D_800EB0F8 + 136;

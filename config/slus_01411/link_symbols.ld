@@ -225,9 +225,7 @@ gCardPreview_Resources = D_800E9EF0 + 504;
 gCardPreview_Resource1 = D_800E9EF0 + 568;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
-gAi_Selection = D_800EAE88;
-gAi_bHandFaceDownRequested = D_800EAE88 + 8;
-gSceneScript_Slots = D_800EAE88 + 16;
+gAi_bHandFaceDownRequested = gAi_Selection + 8;
 
 /* Other names for game/text_box_runtime's small data (#2602). */
 gDisplayObject_apBrightnessPool = gText_aChannels + 140;

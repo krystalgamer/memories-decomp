@@ -104,7 +104,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   progress. The AI's rolls are therefore the same consecutive draws at any
   speed.
 * **Hand phase:** a single run ends at the one `EndHand` that is reached. The
-  outcome is the selection record at `D_800EAE88` (`gAi_Selection`).
+  outcome is the selection record `gAi_Selection` (`0x800EAE88` in North America).
   `AiSelection` exposes the same storage as signed `fields` and unsigned
   `bytes`; see [the shared selection contract](ai-structures.md#aiselection):
   * bytes 0-4: the hand slots to play, a list of up to five, which is the
