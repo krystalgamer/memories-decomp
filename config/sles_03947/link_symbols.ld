@@ -198,7 +198,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
@@ -325,14 +324,11 @@ gFade_State = D_800EAE28_sles_03947;
 /* Names inside duel_field_card_render's own storage (#2602). */
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
-tent_DuelEffectEntries = D_800EBF70_sles_03947;
-D_800F0004 = D_800EBF70_sles_03947 + 16532;
-D_800F0008 = D_800EBF70_sles_03947 + 16536;
-D_800F0030 = D_800EBF70_sles_03947 + 16576;
+D_800F0004 = gDuelEffect_aEntries + 16532;
+D_800F0008 = gDuelEffect_aEntries + 16536;
+D_800F0030 = gDuelEffect_aEntries + 16576;
 
 /* Names inside text_box_runtime's own storage (#2602). */
-gText_aChannels = D_800F0430_sles_03947;
-gMain_aAnimatedBattleModels = D_800F0430_sles_03947 + 400;
 
 /* Names inside input_pads's own storage (#2602). */
 

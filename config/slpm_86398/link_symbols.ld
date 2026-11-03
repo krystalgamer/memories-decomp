@@ -158,7 +158,6 @@ gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
@@ -202,8 +201,6 @@ gAi_bHandFaceDownRequested = gAi_Selection + 8;
 
 
 /* Names inside duel_effect_process_entries's own storage (#2602). */
-tent_DuelEffectEntries = D_800EB158_slpm_86398;
-gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
 
 /* Names inside input_pads's own storage (#2602). */
 D_800F3288 = gAiScript_aMemory + 24;

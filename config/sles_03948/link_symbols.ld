@@ -945,7 +945,7 @@ gDebug_abEditorDigitCounts = 0x8009C650;
 gDebug_bEditorRowCount = 0x8009C66D;
 gDebug_bEditorFlags = 0x8009C672;
 tent_DisplayObjectStreamCommandTable = 0x80092418;
-tent_DuelEffectEntries = 0x800EC390;
+gDuelEffect_aEntries = 0x800EC390;
 gDuelEffect_EntryHandlers = 0x8009236C;
 gDuelHand_aSlots = 0x800EB2B8;
 gDuelResult_wBgmId = 0x8009C50C;
@@ -1072,7 +1072,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
 gLibrary_sCapturedReferenceY = D_80181002;

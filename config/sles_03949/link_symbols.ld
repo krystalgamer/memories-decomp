@@ -613,7 +613,7 @@ D_800EAE92 = 0x800EC21A;
 gSceneScript_Slots = 0x800EC220;
 gText_DecimalDigitGlyphMap = 0x800EC290;
 D_800EB010 = 0x800EC2A8;
-tent_DuelEffectEntries = 0x800EC390;
+gDuelEffect_aEntries = 0x800EC390;
 gText_aChannels = 0x800F0850;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gInput_abRepeatTimers = 0x800F09F0;
@@ -1072,7 +1072,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
 gLibrary_sCapturedReferenceY = D_80181002;

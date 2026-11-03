@@ -18,7 +18,7 @@
 #define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
 #define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
-/* One text/effect entry, 0x1C bytes, the element type of tent_DuelEffectEntries. The
+/* One text/effect entry, 0x1C bytes, the element type of gDuelEffect_aEntries. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
@@ -57,7 +57,6 @@ extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 #endif
 #define TEXT_CHANNEL(index) \
     ((DuelEffectChannel *)((u8 *)gText_aChannels + (index) * TEXT_CHANNEL_SIZE))
-extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
 
 /* The selected card's encoded guardian glyph. DuelField_CreateCardInfoTextBox stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and

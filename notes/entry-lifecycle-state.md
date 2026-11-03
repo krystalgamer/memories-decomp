@@ -4,7 +4,7 @@
 
 | Original NA provider | Canonical view | Established role |
 |---|---|---|
-| `tent_DuelEffectEntries` (`0x800EB288`) | `gDuelEffect_aEntries` | Shared text/effect working-entry base |
+| `gDuelEffect_aEntries` (`0x800EB288`) | `gDuelEffect_aEntries` | Shared text/effect working-entry base |
 | `tent_DuelEffectOccupancy` (`0x800EAF08`) | `gDuelEffect_aOccupancyValues` | Separate tagged occupancy-value table |
 | `D_8009B330` | `gDuelEffect_nCompactionRequested` | Signed word requesting compaction after the current handler walk |
 

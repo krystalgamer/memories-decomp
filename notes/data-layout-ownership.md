@@ -239,10 +239,10 @@ wrapper gives that build its own storage. The wrapper defines
 `<UNIT>_REGIONAL_STORAGE`, which the shared source checks around its North
 American block (declaring the same names `extern` instead), and defines the
 region's storage before including the shared source:
-- a large block is one `u8` array, named for its address and the build
-  (`D_800EB158_slpm_86398`);
-- a small block is one scalar per slot (`D_8009B368_slpm_86398`);
-- the build's names are `link_symbols.ld` aliases into that storage.
+- a large block is declared as its typed variables in that build's address
+  order (`<UNIT>_STORAGE_ORDER`), or the shared definition takes the
+  build's record type and count (`DUEL_EFFECT_ENTRY_STORAGE_TYPE`);
+- a small block is one scalar per slot (`D_8009B368_slpm_86398`).
 
 Japan's text channels (four 0x60-byte records), duel-effect entries, input
 repeat timers and model small block use this; every other Japanese zero-

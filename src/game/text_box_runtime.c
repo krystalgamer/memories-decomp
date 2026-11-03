@@ -11,6 +11,10 @@
  * address order ahead of the headers that declare it (#2602). */
 DuelEffectChannel gText_aChannels[4];
 #endif
+#ifdef TEXT_BOX_RUNTIME_OWNS_BATTLE_MODELS
+#include "main_modes.h"
+AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
+#endif
 
 #include "text_channel_state.h"
 #include "duel_effect_process_entries.h"

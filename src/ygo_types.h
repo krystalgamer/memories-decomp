@@ -492,8 +492,8 @@ typedef char LibraryMotionState_size_must_be_0x48[
 
 /* One text-box record, 0x64 bytes, the element type of gText_aChannels. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
-   there), and 0x20/0x24 bracket the record's slice of tent_DuelEffectEntries:
-   TextBox_BuildStep seeds both with &tent_DuelEffectEntries[entry_range_start],
+   there), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
+   TextBox_BuildStep seeds both with &gDuelEffect_aEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *root_stream;

@@ -164,7 +164,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
 
-gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
 gDuelEffect_nCompactionRequested = D_8009B330;
 
