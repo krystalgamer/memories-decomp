@@ -302,9 +302,6 @@ D_8009B3DE = D_8009C34A_sles_03947;
 /* Names inside sound_output_transition's own storage (#2602). */
 
 /* Names inside model_scene_controllers's own storage (#2602). */
-gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
-gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
-gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;
 
 /* Names inside graphics_frame's own storage (#2602). */
 

@@ -17,7 +17,10 @@
 #define MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C3D8-0x8009C418 (#2602); its
  * layout differs from the North American block the shared source defines. */
-RECT gModel_ImageCopyRect;
+s16 gModel_ImageCopyRectX;
+s16 gModel_ImageCopyRectY;
+s16 gModel_ImageCopyRectW;
+s16 gModel_ImageCopyRectH;
 s16 gModel_sTextureTintRectX;
 s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;

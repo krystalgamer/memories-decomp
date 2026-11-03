@@ -239,6 +239,3 @@ g_SDValue_output_level = g_SDValue;
 /* Other names for game/input_pads's small data (#2602). */
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
-gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
-gModel_ImageCopyRectW = gModel_ImageCopyRect + 4;
-gModel_ImageCopyRectH = gModel_ImageCopyRect + 6;

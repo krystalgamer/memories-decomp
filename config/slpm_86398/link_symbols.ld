@@ -206,14 +206,3 @@ gAi_bHandFaceDownRequested = gAi_Selection + 8;
 gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
 
 /* Names inside model_scene_controllers's own storage (#2602). */
-gModel_ImageCopyRect = D_8009B368_slpm_86398;
-gModel_ImageCopyRectY = D_8009B36A_slpm_86398;
-gModel_ImageCopyRectW = D_8009B36C_slpm_86398;
-gModel_ImageCopyRectH = D_8009B36E_slpm_86398;
-gModel_sTextureTintRectX = D_8009B370_slpm_86398;
-gModel_sTextureTintRectY = D_8009B372_slpm_86398;
-gModel_sTextureTintRectW = D_8009B374_slpm_86398;
-gModel_sTextureTintRectH = D_8009B376_slpm_86398;
-gModel_wViewDistance = D_8009B378_slpm_86398;
-gModel_wViewYaw = D_8009B37A_slpm_86398;
-gModel_wViewPitch = D_8009B37C_slpm_86398;

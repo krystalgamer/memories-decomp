@@ -32,7 +32,10 @@
 #ifndef MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B468-0x8009B498, defined in
  * address order ahead of the headers that declare it (#2602). */
-RECT gModel_ImageCopyRect;
+s16 gModel_ImageCopyRectX;
+s16 gModel_ImageCopyRectY;
+s16 gModel_ImageCopyRectW;
+s16 gModel_ImageCopyRectH;
 s16 gModel_sTextureTintRectX;
 s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
@@ -47,7 +50,10 @@ u8 gModelDebug_abSlotGfFlags[2];
 static u16 D_8009B492;
 static u32 D_8009B494;
 #else
-extern RECT gModel_ImageCopyRect;
+extern s16 gModel_ImageCopyRectX;
+extern s16 gModel_ImageCopyRectY;
+extern s16 gModel_ImageCopyRectW;
+extern s16 gModel_ImageCopyRectH;
 extern s16 gModel_sTextureTintRectX;
 extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
@@ -146,19 +152,19 @@ void Model_StepBackgroundVramAnimation(void) {
             gModel_ImageCopyRectW = 0x10;
             gModel_ImageCopyRectH = 0x40;
             r = u_0 % 3;
-            gModel_ImageCopyRect.x = r * 16 + 0x2D0;
-            MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0);
+            gModel_ImageCopyRectX = r * 16 + 0x2D0;
+            MoveImage(MODEL_IMAGE_COPY_RECT, 0x2C0, 0x1C0);
             break;
         case 4:
             n = MODEL_IMAGE_COPY_FRAME_COUNT;
             u_1 = VSync(-1) / 10;
             r4 = u_1 % n;
-            gModel_ImageCopyRect.x = 0x260;
+            gModel_ImageCopyRectX = 0x260;
             q = gModel_abImageCopyFrameRows[r4];
             gModel_ImageCopyRectW = 0x20;
             gModel_ImageCopyRectH = 0x18;
             gModel_ImageCopyRectY = q * 3 * 8 + 0x180;
-            MoveImage(&gModel_ImageCopyRect, 0x220, 0x168);
+            MoveImage(MODEL_IMAGE_COPY_RECT, 0x220, 0x168);
             break;
         }
     }
