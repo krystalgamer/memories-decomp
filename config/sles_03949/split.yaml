@@ -477,7 +477,7 @@ segments:
       - [0x83578, data, german_raw_80092d78]
       - [0x8CA98, .sdata, game/german/main]
       - [0x8CA9D, pad]
-      - [0x8CAA0, .sdata, game/data_8009af10]
+      - [0x8CAA0, .sdata, game/european/file_transfer_runtime]
       - [0x8CAB0, .sdata, game/spanish/duel_ground_projection]
       - [0x8CAB4, .sdata, game/european/duel_battle_stats]
       - {start: 0x8CABA, type: bin, name: german_raw_8009c2ba, linker_section_order: .sdata}

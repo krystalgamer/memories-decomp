@@ -197,8 +197,6 @@ their order. Units stay data-only where the owner does not fit yet:
   forced views;
 - `model_handler_diagnostics.c`: the European builds place
   `model_debug_controller.c`'s own `.sdata`;
-- `data_8009af10.c`: it also carries the startup's `_ramsize` and
-  `_stacksize`;
 - `ai_script_source_line_format.c`: its only reader is a `-G0` unit, which
   cannot hold small data.
 

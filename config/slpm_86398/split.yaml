@@ -469,7 +469,7 @@ segments:
       - [0x82008, data, initialized_data_82008]
       - [0x8b648, .sdata, game/japanese/main]
       - [0x8b64d, pad]
-      - [0x8b650, .sdata, game/data_8009af10]
+      - [0x8b650, .sdata, game/file_transfer_runtime]
       - [0x8b660, .sdata, game/japanese/duel_ground_projection]
       - [0x8b664, .sdata, game/japanese/duel_battle_stats]
       - [0x8b66a, .sdata, game/japanese/debug_effect_screen]

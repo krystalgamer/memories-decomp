@@ -140,7 +140,7 @@ The remaining request/sector state declarations are owned by two headers:
 
 This removes twelve private global declarations and one private prototype
 across `func_80013C28.c`, `sd_init_state.c` and the two candidates.
-The existing `data_8009af10.c` owner already includes `file_transfer.h`, so
+The `.sdata` owner, then `data_8009af10.c` and now `file_transfer_runtime.c`, includes `file_transfer.h`, so
 its initialized `.sdata` pointer definition is now checked against the shared
 declaration without changing its relocation or storage. No other storage is
 converted to C. The sector callback now uses the descriptor members;

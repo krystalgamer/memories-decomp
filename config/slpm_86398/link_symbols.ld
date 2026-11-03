@@ -131,3 +131,5 @@ D_8009AE54 = _stacksize;
 gJapanese_D_8009AFDC = gModel_dwSecondPassClutBits;
 gJapanese_D_8009AFE0 = gModel_dwLitColorCacheBase;
 gGraphics_FrameStepControl = D_8009AF0B_slpm_86398;
+D_8009B118 = gFile_TransferBufferBase;
+D_8009B145 = gFade_bWhiteLatch;
