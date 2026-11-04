@@ -27,7 +27,7 @@ extern u8 gPalOptions_bState;
 void PalOptions_SetTextColorSlots(s32 selection);
 void PalOptions_PositionCursor(s32 selection);
 s32 PalOptions_EaseStripY(s32 position);
-void func_801686A4(s32 language);
+void PalOptions_NoOpLanguageHook(s32 language);
 void Options_Init(s32 mode);
 void PalOptions_HandleInput(void);
 void PalOptions_UpdateWaveTables(void);

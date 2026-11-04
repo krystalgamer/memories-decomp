@@ -46,7 +46,7 @@ void Options_Init(s32 mode)
         }
     }
     if (mode != 0) {
-        func_801686A4(gPalOptions_bLanguage);
+        PalOptions_NoOpLanguageHook(gPalOptions_bLanguage);
         gPalOptions_bState = 2;
         music = 0x7370;
     } else {
