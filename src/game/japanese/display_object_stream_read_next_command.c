@@ -1,6 +1,19 @@
 #include "../../types.h"
 #include "../model_record_tables.h"
 #include "../display_object_stream_read_next_command.h"
+#include "../display_object_stream_state.h"
+
+/* Japan's copy of the stream handler table, at 0x80090E9C; see the North
+   American unit for its contract. */
+s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const u8 *) = {
+    DisplayObjectStream_Stop,
+    DisplayObjectStream_ResetOffset,
+    DisplayObjectStream_Noop,
+    DisplayObjectStream_JumpToOffset,
+    DisplayObjectStream_ToggleFlagAndJumpToOffset,
+    DisplayObjectStream_JumpToRandomOffset,
+    DisplayObjectStream_ConfigureRotation,
+};
 
 void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
 {

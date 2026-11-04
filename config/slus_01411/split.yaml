@@ -168,6 +168,7 @@ segments:
       - [0x8179c, .data, game/mem_card_dialog]
       - [0x817b0, .data, game/display_object_runtime]
       - [0x817ec, .data, game/display_object_stream_read_next_command]
+      - [0x81808, .data, game/model_background_records]
       - [0x81d08, .data, game/model_image_copy_frames]
       - [0x81d10, .data, game/data_80091510]
       - [0x81d1c, .data, game/movie_stream_requests]

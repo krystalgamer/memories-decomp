@@ -17,7 +17,10 @@
    No shape is claimed. As halfwords these would read 0x0100, 0xFFFF,
    0xFFFF and three zeros, which looks like signed pairs, but with no
    reader there is nothing to confirm that against and the word form is
-   what the extractor labelled. */
+   what the extractor labelled.
+
+   Japan links the same unit at 0x8009148C, after model_background_records;
+   the name keeps the North American address. */
 u32 D_80091510[] = {
     0xFFFF0100,
     0x0000FFFF,
