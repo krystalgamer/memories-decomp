@@ -53,7 +53,7 @@ s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             j = Model_GetActiveSlotIndex();
-            work->texture[i] = ModelTexture_PackPageClutCopy(j, 1, &gModelVariant158_D113C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(j, 1, &gModelVariant158_aImages[i]);
         }
         work->elapsed = 0;
         work->updates = 0;

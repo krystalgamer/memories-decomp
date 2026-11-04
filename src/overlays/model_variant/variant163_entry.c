@@ -49,7 +49,7 @@ s32 ModelVariant163_HandleRequest(u8 *context, s32 command)
     work = (Model163State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant163_D244C[command];
+        config = work->config = &gModelVariant163_aConfigs[command];
         point = work->disc;
         point->vx = 0;
         point->vy = 0;
@@ -88,7 +88,7 @@ s32 ModelVariant163_HandleRequest(u8 *context, s32 command)
         work->offset.vz = 0;
         work->completed = 0;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant163_D2414[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant163_aImages[i]);
         }
         work->elapsed = -config->delay;
         return 0;

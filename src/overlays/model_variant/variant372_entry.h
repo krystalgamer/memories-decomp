@@ -114,7 +114,7 @@ typedef struct {
 
 extern Model372Path23 gModelVariant372_D1E10;
 extern Model372Path25 gModelVariant372_D1E28;
-extern GsIMAGE gModelVariant372_D1E44[];
+extern GsIMAGE gModelVariant372_aImages[];
 extern Model372Config gModelVariant372_D1F40[];
 
 void FrenchModelVariant389_DrawRibbons(u8 *context);

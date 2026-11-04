@@ -60,7 +60,7 @@ s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
             point->pad = i % 16;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant177_D1510[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant177_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

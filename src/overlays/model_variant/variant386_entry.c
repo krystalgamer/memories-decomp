@@ -90,7 +90,7 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
         }
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL386_CLUT_X, 244);
-        first = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant386_D2C54[1]);
+        first = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant386_aImages[1]);
         flat_clut[2] = first;
         flat_page = first >> 16;
         SetPolyG3(triangle);

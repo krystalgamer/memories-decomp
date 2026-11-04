@@ -38,7 +38,7 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
     work = (Model98State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant98_D168C[command];
+        config = work->config = &gModelVariant98_aConfigs[command];
         point = &work->center;
         work->center.vx = 0;
         point->vy = 0;
@@ -87,7 +87,7 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
         work->target.vy = -10;
         for (i = 0; i < 6; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant98_D15E4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant98_aImages[i]);
         }
         work->elapsed = -config->delay;
         work->toggle = 0;

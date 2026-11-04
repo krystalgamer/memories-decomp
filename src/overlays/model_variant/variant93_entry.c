@@ -37,7 +37,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
     work = (Model93State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant93_D3454[command];
+        config = work->config = &gModelVariant93_aConfigs[command];
         point = work->dome;
         setVector(point, 0, 0, side * config->radius);
         point = &work->dome[1];
@@ -105,7 +105,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant93_D3438[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant93_aImages[i]);
         }
         work->elapsed = -(s16)config->delay;
         setVector(&vertices[0], 0, 0, 0);

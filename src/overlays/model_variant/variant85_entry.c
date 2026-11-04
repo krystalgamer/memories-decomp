@@ -38,7 +38,7 @@ s32 ModelVariant85_HandleRequest(u8 *context, s32 command)
     work = (Model85State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant85_D0FA8[command];
+        config = work->config = &gModelVariant85_aConfigs[command];
         angle = work->angles;
         speed = work->speeds;
         for (i = 0; i < config->count; angle++, speed++, i++) {
@@ -63,7 +63,7 @@ s32 ModelVariant85_HandleRequest(u8 *context, s32 command)
         }
         work->hit = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant85_D0F54[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant85_aImages[i]);
         }
         work->elapsed = -config->delay;
         work->frame = 0;

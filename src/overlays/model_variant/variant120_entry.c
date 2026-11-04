@@ -55,7 +55,7 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % 64;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant120_D1274[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant120_aImages[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;
