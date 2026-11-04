@@ -304,6 +304,17 @@ symbol file. The shared sources also gained European arms:
 - `debug_menu_update` drops two unreferenced halfwords;
 - `gMainMenu_PackageStageRect` stages the package at x 0x280, y 0xD0.
 
+The four language builds keep Europe's small data 0x414 to 0x41C higher,
+except that, as in their text, they place the movie unit after the model
+units: the model units are 0x408 higher and `movie_frame_pipeline` 0x4EC
+higher. Each split places the same seventeen owners, and bins remain for:
+- `data_8009af6c`'s strings;
+- six bytes after `duel_battle_stats`;
+- two bytes after `duel_card_effects`.
+
+Their `debug_effect_screen` small data is seven bytes. Placing the owners
+removed 74 more linker assignments per build.
+
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative
 definitions in declaration order, so this is a source difference, not a
