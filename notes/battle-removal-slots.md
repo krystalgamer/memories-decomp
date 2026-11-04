@@ -68,7 +68,7 @@ distinct.
 
 NA's byte at `0x8009B20A`, two past slot 0, is the hand actions' scripted
 AI target, not another removal entry. Hand actions used to reach it as
-`D_8009B208[2]`; it is now its own `s8 D_8009B20A`, which the PAL images
+`D_8009B208[2]`; it is now its own `s8 gDuel_bAiCursorTarget`, which the PAL images
 place at `0x8009C10C` (English Europe) and `0x8009C52C` (other PAL), far
 from the removal bases `0x8009C0B8/0x8009C4D8`.
 
