@@ -56,7 +56,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant833_D4D14[command];
+        work->config = &gModelVariant833_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             work->growth[i] = 0;
             work->unknown_2BB6[i] = 0;

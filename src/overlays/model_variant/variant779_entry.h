@@ -56,8 +56,8 @@ typedef struct {
     CVECTOR colors[4][64];
 } Model779State;
 
-extern GsIMAGE gModelVariant779_D20F0[];
-extern Model779Config gModelVariant779_D2144[];
+extern GsIMAGE gModelVariant779_aImages[];
+extern Model779Config gModelVariant779_aConfigs[];
 
 s32 ModelVariant779_HandleRequest(u8 *context, s32 command);
 

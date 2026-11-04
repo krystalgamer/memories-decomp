@@ -83,8 +83,8 @@ typedef struct {
     u8 trail_level[14];
 } Model790State;
 
-extern GsIMAGE gModelVariant790_D1F2C[2];
-extern Model790Config gModelVariant790_D1F64[];
+extern GsIMAGE gModelVariant790_aImages[2];
+extern Model790Config gModelVariant790_aConfigs[];
 
 s32 ModelVariant790_HandleRequest(u8 *context, s32 command);
 

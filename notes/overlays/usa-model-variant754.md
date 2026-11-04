@@ -47,6 +47,6 @@ and every colour has faded out, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013C95C`, at `0x195C`. The
 rest of the image is one raw tail that starts at `0x196C`. Inside it, the
-layout names the three texture descriptors `gModelVariant754_D196C` and the command table
-`gModelVariant754_D19C0`. The `0x8017B000` images use the same offsets. The resident
+layout names the three texture descriptors `gModelVariant754_aImages` and the command table
+`gModelVariant754_aConfigs`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant754_linker_symbols.txt`.

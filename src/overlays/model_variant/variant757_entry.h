@@ -67,7 +67,7 @@ typedef struct {
     u16 unused_tpage, unused_clut;
 } Model757State;
 
-extern GsIMAGE gModelVariant757_D14F8[5];
-extern Model757Config gModelVariant757_D1584[];
+extern GsIMAGE gModelVariant757_aImages[5];
+extern Model757Config gModelVariant757_aConfigs[];
 
 #endif

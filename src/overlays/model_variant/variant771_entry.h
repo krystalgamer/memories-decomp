@@ -82,8 +82,8 @@ typedef struct {
     Model771Tint tint;
 } Model771State;
 
-extern GsIMAGE gModelVariant771_D1FB0[3];
-extern Model771Config gModelVariant771_D2004[];
+extern GsIMAGE gModelVariant771_aImages[3];
+extern Model771Config gModelVariant771_aConfigs[];
 
 s32 ModelVariant771_HandleRequest(u8 *context, s32 command);
 

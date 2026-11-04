@@ -71,8 +71,8 @@ typedef struct {
     CVECTOR burst_color[40];
 } Model841State;
 
-extern GsIMAGE gModelVariant841_D16E0[];
-extern Model841Config gModelVariant841_D1718[];
+extern GsIMAGE gModelVariant841_aImages[];
+extern Model841Config gModelVariant841_aConfigs[];
 
 s32 ModelVariant841_HandleRequest(u8 *context, s32 command);
 

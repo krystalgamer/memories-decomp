@@ -57,7 +57,7 @@ s32 ModelVariant832_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant832_D4E9C[command];
+        work->config = &gModelVariant832_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             work->growth[i] = 0;
             work->unknown_2BB6[i] = 0;
@@ -156,18 +156,18 @@ s32 ModelVariant832_HandleRequest(u8 *context, s32 command)
 #else
         work->clut = 0x3D20;
 #endif
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_D4D4C[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_D4D4C[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[4]);
-        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[5]);
-        work->texture[6] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[6]);
-        work->texture[7] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[7]);
-        work->texture[8] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[8]);
-        work->texture[9] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[9]);
-        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_D4D4C[10]);
-        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_D4D4C[10]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_aImages[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[4]);
+        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[5]);
+        work->texture[6] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[6]);
+        work->texture[7] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[7]);
+        work->texture[8] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[8]);
+        work->texture[9] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[9]);
+        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant832_aImages[10]);
+        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant832_aImages[10]);
         work->ambient = 0x800;
         work->launched = 0;
         work->phase = 0;

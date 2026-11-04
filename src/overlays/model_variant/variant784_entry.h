@@ -101,8 +101,8 @@ typedef struct {
     u8 glow2_b[5];
 } Model784State;
 
-extern GsIMAGE gModelVariant784_D4090[];
-extern Model784Config gModelVariant784_D411C[];
+extern GsIMAGE gModelVariant784_aImages[];
+extern Model784Config gModelVariant784_aConfigs[];
 
 s32 ModelVariant784_HandleRequest(u8 *context, s32 command);
 

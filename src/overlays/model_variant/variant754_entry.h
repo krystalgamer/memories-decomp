@@ -79,8 +79,8 @@ typedef struct {
     Model754Color color, flash;
 } Model754State;
 
-extern GsIMAGE gModelVariant754_D196C[];
-extern Model754Config gModelVariant754_D19C0[];
+extern GsIMAGE gModelVariant754_aImages[];
+extern Model754Config gModelVariant754_aConfigs[];
 
 s32 ModelVariant754_HandleRequest(u8 *context, s32 command);
 

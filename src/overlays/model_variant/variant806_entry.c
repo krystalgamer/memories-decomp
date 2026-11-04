@@ -43,7 +43,7 @@ s32 ModelVariant806_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant806_D1FD8[command];
+        work->config = &gModelVariant806_aConfigs[command];
         setVector(&work->center, 0, 0, 0);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
@@ -78,7 +78,7 @@ s32 ModelVariant806_HandleRequest(u8 *context, s32 command)
         work->length[0] = 0;
         work->length[1] = 0;
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant806_D1F68[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant806_aImages[i]);
         }
         work->ambient = 0x800;
         work->glow[0] = 0x80;

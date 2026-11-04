@@ -78,8 +78,8 @@ typedef struct {
     u8 flash;
 } Model777State;
 
-extern GsIMAGE gModelVariant777_D2440[];
-extern Model777Config gModelVariant777_D2494[];
+extern GsIMAGE gModelVariant777_aImages[];
+extern Model777Config gModelVariant777_aConfigs[];
 
 s32 ModelVariant777_HandleRequest(u8 *context, s32 command);
 

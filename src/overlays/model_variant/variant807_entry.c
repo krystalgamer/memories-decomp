@@ -50,7 +50,7 @@ s32 ModelVariant807_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant807_D2BE0[command];
+        work->config = &gModelVariant807_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             j = (rand() - rand()) % 4096;
             b = (rand() - rand()) % 4096;
@@ -75,7 +75,7 @@ s32 ModelVariant807_HandleRequest(u8 *context, s32 command)
             setVector(&work->ring[i][1], 0, 0, 0);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant807_D2BA8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant807_aImages[i]);
         }
         setVector(&work->center, 0, 0, 0);
         work->glow_r = work->config->r;

@@ -1,7 +1,7 @@
 // MODEL.MRG model 90 (record 90), sector 25020, header 766, loaded at 0x8013B000; the US source variant766_entry.c.
 ModelVariant766_HandleRequest = 0x8013B004; // type:func size:0x1834 defined:true
-gModelVariant766_D1848 = 0x8013C848; // type:u8 size:0x38 defined:true
-gModelVariant766_D1880 = 0x8013C880; // type:u8 size:0x3780 defined:true
+gModelVariant766_aImages = 0x8013C848; // type:u8 size:0x38 defined:true
+gModelVariant766_aConfigs = 0x8013C880; // type:u8 size:0x3780 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x80058F10; // type:func absolute:true

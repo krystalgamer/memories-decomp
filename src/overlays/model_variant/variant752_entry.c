@@ -35,7 +35,7 @@ s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant752_D19E4[command];
+        work->config = &gModelVariant752_aConfigs[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->sparkles[i], work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
                 work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
@@ -80,7 +80,7 @@ s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant752_D1990[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant752_aImages[i]);
         }
         return 0;
     }

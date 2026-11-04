@@ -89,8 +89,8 @@ typedef struct {
     Model838Flash flash;
 } Model838State;
 
-extern GsIMAGE gModelVariant838_D3230[];
-extern Model838Config gModelVariant838_D3284[];
+extern GsIMAGE gModelVariant838_aImages[];
+extern Model838Config gModelVariant838_aConfigs[];
 
 s32 ModelVariant838_HandleRequest(u8 *context, s32 command);
 

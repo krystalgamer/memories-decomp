@@ -1042,8 +1042,8 @@ only.
 | `gModelVariant155_D1770` | data subsegment (`variant155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C770`/`0x8017C770`; European, French, German, Italian and Spanish `0x8013C74C`/`0x8017C74C` |
 | `gModelVariant155_D17FC` | data subsegment (`variant155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C7FC`/`0x8017C7FC`; European, French, German, Italian and Spanish `0x8013C7D8`/`0x8017C7D8` |
 | `ModelVariant809_HandleRequest` | `model_variant/variant809_entry.c` | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013B004`/`0x8017B004` |
-| `gModelVariant809_D10D8` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C0D8`/`0x8017C0D8` |
-| `gModelVariant809_D1110` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C110`/`0x8017C110` |
+| `gModelVariant809_aImages` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C0D8`/`0x8017C0D8` |
+| `gModelVariant809_aConfigs` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C110`/`0x8017C110` |
 | `ModelVariant158_HandleRequest` | `model_variant/variant158_entry.c` | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013B004`/`0x8017B004` |
 | `gModelVariant158_D113C` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C13C`/`0x8017C13C` |
 | `gModelVariant158_D1174` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C174`/`0x8017C174` |
@@ -1054,8 +1054,8 @@ only.
 | `gModelVariant801_D1554` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C554`/`0x8017C554` |
 | `gModelVariant801_D158C` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C58C`/`0x8017C58C` |
 | `ModelVariant802_HandleRequest` | `model_variant/variant802_entry.c` | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013B004`/`0x8017B004` |
-| `gModelVariant802_D12DC` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2DC`/`0x8017C2DC` |
-| `gModelVariant802_D12F8` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2F8`/`0x8017C2F8` |
+| `gModelVariant802_aImages` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2DC`/`0x8017C2DC` |
+| `gModelVariant802_aConfigs` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2F8`/`0x8017C2F8` |
 
 ### Header 407: petals
 

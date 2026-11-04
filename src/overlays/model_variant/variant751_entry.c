@@ -41,7 +41,7 @@ s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant751_D1AA4[command];
+        work->config = &gModelVariant751_aConfigs[command];
         setVector(&work->pos, 0, 0, 0);
         setVector(&work->velocity, 0, 0, 0);
         work->state = 0;
@@ -73,7 +73,7 @@ s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
         }
         work->bob = 0;
         for (j = 0; j < 3; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant751_D1A50[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant751_aImages[j]);
         }
         work->ambient = 0x800;
         work->phase = 0;

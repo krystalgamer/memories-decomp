@@ -37,7 +37,7 @@ s32 ModelVariant831_HandleRequest(u8 *context, s32 command)
     work = (Model831State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &gModelVariant831_D2340[command];
+        work->config = &gModelVariant831_aConfigs[command];
         for (i = 0; i < 64; i++) {
             value = rand();
             angle = value % 4096;
@@ -62,7 +62,7 @@ s32 ModelVariant831_HandleRequest(u8 *context, s32 command)
         work->core_clut = 0x3D20;
 #endif
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant831_D22D0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant831_aImages[i]);
         }
         work->glow = 1;
         work->level = 2048;

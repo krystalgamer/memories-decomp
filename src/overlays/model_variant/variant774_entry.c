@@ -40,7 +40,7 @@ s32 ModelVariant774_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant774_D33D8[command];
+        work->config = &gModelVariant774_aConfigs[command];
         setVector(&work->blade[0], 0, 0, 0);
         setVector(&work->blade[1], 0, -work->config->height, 0);
         setVector(&work->blade[2], 0, 0, direction * work->config->front);
@@ -78,7 +78,7 @@ s32 ModelVariant774_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant774_D3384[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant774_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

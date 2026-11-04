@@ -103,8 +103,8 @@ typedef struct {
     u8 spark_b[20][16];
 } Model793State;
 
-extern GsIMAGE gModelVariant793_D3948[];
-extern Model793Config gModelVariant793_D39B8[];
+extern GsIMAGE gModelVariant793_aImages[];
+extern Model793Config gModelVariant793_aConfigs[];
 
 s32 ModelVariant793_HandleRequest(u8 *context, s32 command);
 

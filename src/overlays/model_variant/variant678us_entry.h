@@ -78,8 +78,8 @@ typedef struct {
 } Model678UsViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant678Us_D2240[11];
-extern Model678UsCommand gModelVariant678Us_D2374[];
+extern GsIMAGE gModelVariant678Us_aImages[11];
+extern Model678UsCommand gModelVariant678Us_aConfigs[];
 
 s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command);
 

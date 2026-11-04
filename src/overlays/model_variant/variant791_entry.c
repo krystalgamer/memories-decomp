@@ -47,7 +47,7 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant791_D3F3C[command];
+        work->config = &gModelVariant791_aConfigs[command];
         setVector(&work->origin, 0, 0, 0);
         setVector(&work->second_origin, 0, 0, 0);
         for (i = 0; i < work->config->count + work->config->second_count; i++) {
@@ -115,11 +115,11 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
             setVector(&work->fan[i][1], work->config->fan_outer * ccos(i * 256) / 4096, -work->config->fan_depth,
                       work->config->fan_outer * csin(i * 256) / 4096);
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_aImages[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_aImages[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_aImages[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_aImages[4]);
         work->ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;

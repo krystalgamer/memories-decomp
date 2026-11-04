@@ -10,9 +10,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL672_FADE(e, offset, value, divisor)                                      \
-    (e).color[0] = gModelVariant672_D1B6C[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant672_D1B6C[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant672_D1B6C[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant672_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant672_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant672_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
 
 s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
 {
@@ -41,13 +41,13 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_D1B18[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_D1B18[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_D1B18[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -57,17 +57,17 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->count = 64;
             break;
         }
-        work->radius = gModelVariant672_D1B6C[command].radius;
-        work->height = gModelVariant672_D1B6C[command].height;
+        work->radius = gModelVariant672_aConfigs[command].radius;
+        work->height = gModelVariant672_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->sparks[i].duration = 32;
             work->sparks[i].active = 0;
             work->sparks[i].elapsed = 0;
             work->sparks[i].mode = 1;
             work->sparks[i].coord = Model_GetCameraCoordinateUnit();
-            work->sparks[i].color[0] = gModelVariant672_D1B6C[command].color[0];
-            work->sparks[i].color[1] = gModelVariant672_D1B6C[command].color[1];
-            work->sparks[i].color[2] = gModelVariant672_D1B6C[command].color[2];
+            work->sparks[i].color[0] = gModelVariant672_aConfigs[command].color[0];
+            work->sparks[i].color[1] = gModelVariant672_aConfigs[command].color[1];
+            work->sparks[i].color[2] = gModelVariant672_aConfigs[command].color[2];
             setVector(&work->sparks[i].scale, 4096, 4096, 4096);
             value = work->radius * rsin((i << 12) / work->count) / 4096;
             sign = i % 2 * 2 - 1;
@@ -85,9 +85,9 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->flares[k].duration = 32;
             work->flares[k].mode = 1;
             work->flares[k].coord = Model_GetCameraCoordinateUnit();
-            work->flares[k].color[0] = gModelVariant672_D1B6C[command].color[3];
-            work->flares[k].color[1] = gModelVariant672_D1B6C[command].color[4];
-            work->flares[k].color[2] = gModelVariant672_D1B6C[command].color[5];
+            work->flares[k].color[0] = gModelVariant672_aConfigs[command].color[3];
+            work->flares[k].color[1] = gModelVariant672_aConfigs[command].color[4];
+            work->flares[k].color[2] = gModelVariant672_aConfigs[command].color[5];
             work->flares[k].u = 0;
             work->flares[k].v = 32;
             setVector(&work->flares[k].scale, 4096, 4096, 4096);
@@ -106,9 +106,9 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = gModelVariant672_D1B6C[command].color[0];
-            work->rings[i].color[1] = gModelVariant672_D1B6C[command].color[1];
-            work->rings[i].color[2] = gModelVariant672_D1B6C[command].color[2];
+            work->rings[i].color[0] = gModelVariant672_aConfigs[command].color[0];
+            work->rings[i].color[1] = gModelVariant672_aConfigs[command].color[1];
+            work->rings[i].color[2] = gModelVariant672_aConfigs[command].color[2];
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
@@ -116,7 +116,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
-        work->delay = gModelVariant672_D1B6C[command].delay;
+        work->delay = gModelVariant672_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }

@@ -71,8 +71,8 @@ typedef struct {
     u16 unknown_CB4;
 } Model756State;
 
-extern GsIMAGE gModelVariant756_D2010[];
-extern Model756Config gModelVariant756_D2064[];
+extern GsIMAGE gModelVariant756_aImages[];
+extern Model756Config gModelVariant756_aConfigs[];
 
 s32 ModelVariant756_HandleRequest(u8 *context, s32 command);
 

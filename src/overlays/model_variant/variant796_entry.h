@@ -98,8 +98,8 @@ typedef struct {
     u8 ray_b[28];
 } Model796State;
 
-extern GsIMAGE gModelVariant796_D382C[];
-extern Model796Config gModelVariant796_D38B8[];
+extern GsIMAGE gModelVariant796_aImages[];
+extern Model796Config gModelVariant796_aConfigs[];
 
 s32 ModelVariant796_HandleRequest(u8 *context, s32 command);
 

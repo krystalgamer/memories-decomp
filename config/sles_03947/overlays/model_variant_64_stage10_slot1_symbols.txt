@@ -1,7 +1,7 @@
 // European MODEL.MRG model 64 (record 64), sector 17874, header 942, loaded at 0x8017B000; the US header-925 source variant828_entry.c; built from the French source layout of french_model_variant_64_stage10_slot1.
 ModelVariant828_HandleRequest = 0x8017B004; // type:func size:0x1A34 defined:true
-gModelVariant828_D1A48 = 0x8017CA48; // type:u8 size:0x70 defined:true
-gModelVariant828_D1AB8 = 0x8017CAB8; // type:u8 size:0x3548 defined:true
+gModelVariant828_aImages = 0x8017CA48; // type:u8 size:0x70 defined:true
+gModelVariant828_aConfigs = 0x8017CAB8; // type:u8 size:0x3548 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

@@ -41,7 +41,7 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant782_D22C0[command];
+        work->config = &gModelVariant782_aConfigs[command];
         Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
         setVector(&work->origin, 0, -0xAF0, pos.vz);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
@@ -86,7 +86,7 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
             work->spark_frame[i] = rand() % 3;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant782_D226C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant782_aImages[i]);
         }
         work->flare_level = 0x80;
         work->dome_level = 0xC0;

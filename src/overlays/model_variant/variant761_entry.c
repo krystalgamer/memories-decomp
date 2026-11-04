@@ -37,7 +37,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant761_D1244[command];
+        work->config = &gModelVariant761_aConfigs[command];
         v = &work->beam[0];
         setVector(v, 0, -work->config->beam_height, side * work->config->beam_width);
         v = &work->beam[1];
@@ -48,7 +48,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         setVector(v, 0, work->config->beam_height, -side * work->config->beam_width);
         setVector(&work->offset, 0, 0, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant761_D11F0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant761_aImages[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&position);
         v = work->inner;

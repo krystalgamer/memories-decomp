@@ -52,7 +52,7 @@ s32 ModelVariant798_HandleRequest(u8 *context, s32 command)
     gt4 = &gt4_poly;
     direction = (slot = Model_GetActiveSlotIndex()) * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant798_D4AC8[command];
+        work->config = &gModelVariant798_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             work->u.n.pulse[i] = 0;
             setVector(&work->pos[i], 0, 0, 0);
@@ -145,7 +145,7 @@ s32 ModelVariant798_HandleRequest(u8 *context, s32 command)
         work->fan_clut = 0x3D20;
 #endif
         for (i = 0; i < 11; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant798_D4994[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant798_aImages[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

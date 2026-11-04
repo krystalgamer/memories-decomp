@@ -43,7 +43,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
     rp = &ray;
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant797_D1708[command];
+        work->config = &gModelVariant797_aConfigs[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->strikes[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -64,7 +64,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
             setVector(&work->spins[1][i], rand() % 4096, rand() % 4096, rand() % 4096);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant797_D16D0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant797_aImages[i]);
         }
         work->flare[0] = 0;
         work->flare[1] = 0;

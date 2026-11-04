@@ -41,7 +41,7 @@ s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
     work = (Model786State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant786_D1DFC[command];
+        work->config = &gModelVariant786_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             j = (rand() - rand()) % 4096;
             k = (rand() - rand()) % 4096;
@@ -72,7 +72,7 @@ s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
             setVector(&work->angle[i], 0, 0, rand() % 4096);
         }
         for (i = 0; i < 3; i++) {
-            work->view.s.texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant786_D1DA8[i]);
+            work->view.s.texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant786_aImages[i]);
         }
         work->view.s.ambient = 0x800;
         work->phase = 0;

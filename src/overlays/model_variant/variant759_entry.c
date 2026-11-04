@@ -39,7 +39,7 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant759_D1E38[command];
+        work->config = &gModelVariant759_aConfigs[command];
         v = &work->glow[0];
         setVector(v, -work->config->glow_size, -work->config->glow_size, 0);
         v = &work->glow[1];
@@ -73,7 +73,7 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         v = &work->flash[3];
         setVector(v, work->config->flash_size, work->config->flash_size, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant759_D1DE4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant759_aImages[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
         v = work->near_ring.v;

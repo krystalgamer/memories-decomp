@@ -36,7 +36,7 @@ s32 ModelVariant826_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant826_D2250[command];
+        work->config = &gModelVariant826_aConfigs[command];
         for (i = 0; i < 16; i++) {
             setVector(&work->positions[i], 0, 0, 0);
             work->r[i] = 1;
@@ -45,7 +45,7 @@ s32 ModelVariant826_HandleRequest(u8 *context, s32 command)
             work->flared[i] = 0;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant826_D2218[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant826_aImages[i]);
         }
         work->scale = 0x1000;
         work->color.c.r = 0;

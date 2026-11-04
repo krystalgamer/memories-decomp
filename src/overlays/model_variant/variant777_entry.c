@@ -41,7 +41,7 @@ s32 ModelVariant777_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant777_D2494[command];
+        work->config = &gModelVariant777_aConfigs[command];
         for (i = 0; i < 16; i++) {
             work->debris_frame[i] = 0;
             for (j = 0; j < 12; j++) {
@@ -75,7 +75,7 @@ s32 ModelVariant777_HandleRequest(u8 *context, s32 command)
             work->struck[i] = 0;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant777_D2440[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant777_aImages[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

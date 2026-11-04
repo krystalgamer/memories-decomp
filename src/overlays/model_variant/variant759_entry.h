@@ -68,8 +68,8 @@ typedef struct {
     s16 ring_count;
 } Model759State;
 
-extern GsIMAGE gModelVariant759_D1DE4[3];
-extern Model759Config gModelVariant759_D1E38[];
+extern GsIMAGE gModelVariant759_aImages[3];
+extern Model759Config gModelVariant759_aConfigs[];
 
 s32 ModelVariant759_HandleRequest(u8 *context, s32 command);
 

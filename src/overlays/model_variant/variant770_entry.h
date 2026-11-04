@@ -58,8 +58,8 @@ typedef struct {
     u16 unknown_1068;
 } Model770State;
 
-extern GsIMAGE gModelVariant770_D1A88[];
-extern Model770Config gModelVariant770_D1AC0[];
+extern GsIMAGE gModelVariant770_aImages[];
+extern Model770Config gModelVariant770_aConfigs[];
 
 s32 ModelVariant770_HandleRequest(u8 *context, s32 command);
 

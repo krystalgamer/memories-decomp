@@ -52,9 +52,9 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant837_D2FE0[command];
+        work->config = &gModelVariant837_aConfigs[command];
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant837_D2F8C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant837_aImages[i]);
         }
         work->ring_tpage = 0xAE;
 #ifdef VERSION_FRENCH

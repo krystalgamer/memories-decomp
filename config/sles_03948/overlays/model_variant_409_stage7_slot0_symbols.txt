@@ -1,7 +1,7 @@
 // MODEL.MRG model 409 (record 359), sector 99264, header 651, loaded at 0x8013B000; the US header-634 source variant634_entry.c.
 ModelVariant634_HandleRequest = 0x8013B004; // type:func size:0x134C defined:true
-gModelVariant634_D1394 = 0x8013C36C; // type:u8 size:0x38 defined:true
-gModelVariant634_D13CC = 0x8013C3A4; // type:u8 size:0x3C5C defined:true
+gModelVariant634_aImages = 0x8013C36C; // type:u8 size:0x38 defined:true
+gModelVariant634_aConfigs = 0x8013C3A4; // type:u8 size:0x3C5C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

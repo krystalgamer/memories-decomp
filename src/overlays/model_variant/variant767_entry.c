@@ -40,7 +40,7 @@ s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
     packet = &burst;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant767_D1808[command];
+        work->config = &gModelVariant767_aConfigs[command];
         for (i = 0; i < 16; i++) {
             setVector(&work->inner[i], work->config->inner_radius * ccos(i << 8) / 4096,
                 work->config->inner_radius * csin(i << 8) / 4096, 0);
@@ -87,7 +87,7 @@ s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant767_D17B4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant767_aImages[i]);
         }
         return 0;
     }

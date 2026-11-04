@@ -46,7 +46,7 @@ s32 ModelVariant785_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant785_D3D48[command];
+        work->config = &gModelVariant785_aConfigs[command];
         for (i = 0; i < work->config->count[0]; i++) {
             work->glow_r[i] = work->config->r;
             work->glow_g[i] = work->config->g;
@@ -120,7 +120,7 @@ s32 ModelVariant785_HandleRequest(u8 *context, s32 command)
             work->puff_frame[i] = 0;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant785_D3CBC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant785_aImages[i]);
         }
         work->ambient = 0x800;
         work->phase = 0;

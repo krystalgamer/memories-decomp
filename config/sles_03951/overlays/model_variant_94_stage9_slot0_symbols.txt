@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 94 (record 94), sector 26144, header 795, loaded at 0x8013B000; the US header-778 source variant778_entry.c; built from the French source layout of french_model_variant_94_stage9_slot0.
 ModelVariant778_HandleRequest = 0x8013B004; // type:func size:0x14B0 defined:true
-gModelVariant778_D14C4 = 0x8013C4C4; // type:u8 size:0x54 defined:true
-gModelVariant778_D1518 = 0x8013C518; // type:u8 size:0x3AE8 defined:true
+gModelVariant778_aImages = 0x8013C4C4; // type:u8 size:0x54 defined:true
+gModelVariant778_aConfigs = 0x8013C518; // type:u8 size:0x3AE8 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

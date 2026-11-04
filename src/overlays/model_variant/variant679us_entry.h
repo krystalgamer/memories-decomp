@@ -84,8 +84,8 @@ extern MATRIX GsIDMATRIX;
  * byte after its terminator is a nonzero alignment pad. */
 extern char gModelVariant679Us_D2120[];
 #endif
-extern GsIMAGE gModelVariant679Us_D2138[11];
-extern Model679UsCommand gModelVariant679Us_D226C[];
+extern GsIMAGE gModelVariant679Us_aImages[11];
+extern Model679UsCommand gModelVariant679Us_aConfigs[];
 
 s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command);
 
