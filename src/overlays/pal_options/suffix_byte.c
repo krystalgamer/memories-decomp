@@ -1,5 +1,9 @@
 #include "../../types.h"
-#define PalOptions_GetLanguage func_80169F3C
-#define gPalOptions_bLanguage D_8016A078
 #include "helpers.h"
-#include "language_selection.c"
+
+/* Unoptimized duplicate of PalOptions_GetLanguage (language_selection.c) over
+   its own suffix byte. No caller or reference to it is known. */
+s32 PalOptions_GetLanguageCopy(void)
+{
+    return gPalOptions_bLanguageCopy;
+}

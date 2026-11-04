@@ -73,8 +73,8 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `Options_Update` | 340 | Live menu update: low-nibble dispatch, bit-0x80 setup latch, input callback, fades, asynchronous-transfer gates, cursor update and signed completion result. |
 | `PalOptions_StepStripScroll` | 192 | Signed-halfword step/clamp. Distances above 32767 clamp immediately; ordinary distances advance by four or clamp. No direct options caller found; angular semantics are not asserted. |
 | `PalOptions_GetLanguage` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
-| `func_80169D78` | 452 | Unoptimized shared signed-halfword step/clamp using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
-| `func_80169F3C` | 56 | Unoptimized shared signed-byte accessor using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
+| `PalOptions_StepStripScrollCopy` | 452 | Unoptimized shared signed-halfword step/clamp using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
+| `PalOptions_GetLanguageCopy` | 56 | Unoptimized shared signed-byte accessor using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
 
 The negative caller observations include aligned address words for the color
 initializer, textured-strip renderer, grid renderer and accessor. They do not rule out indirect or other-module
