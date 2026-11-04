@@ -208,10 +208,13 @@ name to carry. The Psy-Q 4.6 signature catalogue (lab313ru
 `MCXCMD23`, `MCXRESI`, `MCXINIT`, `MCXMAIN` and `MCXDSR`, each match every
 regional image exactly once with relocated fields masked, and no other
 library object claims a different name at any of those addresses. Each
-image gets the same 17 names at the catalogue label offsets. Six are the
-public `libmcx.h` entry points, `McxGetApl`, `McxCardType`, `McxGetMcxInfo`,
-`McxStartCom`, `McxStopCom` and `McxSync`. The other eleven are the
-library-internal `_mcx*` routines.
+image gets the same 17 names at the catalogue label offsets. Five are
+public entry points declared in `src/psyq/libmcx.h`: `McxGetApl`, `McxCardType`,
+`McxStartCom`, `McxStopCom` and `McxSync`. `McxGetMcxInfo` is not declared in
+that header; its name comes only from the catalogue's label at `MCXCMD23` +0x2C,
+the function that directly follows `McxCardType` in the same object. The
+other eleven are the library-internal `_mcx*` routines, also named from the
+catalogue labels.
 
 The call sites agree with the catalogue. `MemCardDialog_Update` brackets
 the card session with `McxStartCom` after `MemCardStart` and `McxStopCom`
