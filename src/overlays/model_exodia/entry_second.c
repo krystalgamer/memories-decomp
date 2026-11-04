@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "entry_second.h"
 
-s32 func_8017B004(SVECTOR *point, s32 command)
+s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
 {
     ExodiaSecondEntryState *work = (ExodiaSecondEntryState *)point;
     MATRIX unused_matrix0;
@@ -199,7 +199,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             ModelExodia_DrawRings((u8 *)point);
         }
         if (work->config->petals_start <= work->frame) {
-            func_8017BDF0((u8 *)point);
+            ModelExodia_DrawPetals((u8 *)point);
         }
         if (work->config->pulse0 <= work->frame && work->frame < work->config->pulse1) {
             if (work->phase == 1) {

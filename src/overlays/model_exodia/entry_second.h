@@ -91,5 +91,5 @@ typedef struct {
 
 extern ExodiaSecondEntryConfig gModelExodia_D1D3C[];
 void func_80059B90(s16 value, s16 *out);
-s32 func_8017B004(SVECTOR *point, s32 command);
+s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command);
 #endif

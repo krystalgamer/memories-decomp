@@ -16,12 +16,12 @@ zero, while their contexts are at `0x80136000` and `0x80176000`.
 
 | Image | Function | Bytes | Ownership |
 |---|---|---:|---|
-| slot 0 | `func_8013B004` | 2140 | C entry/configuration handler |
+| slot 0 | `ModelExodia_HandleRequest` (`0x8013B004`) | 2140 | C entry/configuration handler |
 | slot 0 | `ModelExodia_DrawRing` (`0x8013B860`) | 940 | C ring helper |
 | slot 0 | `ModelExodia_DrawSpokes` (`0x8013BC0C`) | 2976 | C spoke renderer |
-| slot 1 | `func_8017B004` | 2476 | C entry/configuration handler |
+| slot 1 | `ModelExodia_HandleSecondRequest` (`0x8017B004`) | 2476 | C entry/configuration handler |
 | slot 1 | `ModelExodia_DrawRings` (`0x8017B9B0`) | 1088 | C ring helper |
-| slot 1 | `func_8017BDF0` | 2416 | C petals renderer |
+| slot 1 | `ModelExodia_DrawPetals` (`0x8017BDF0`) | 2416 | C petals renderer |
 | slot 1 | `ModelExodia_DrawBeam` (`0x8017C760`) | 1500 | C beam helper |
 
 Both complete 20,480-byte images match independently extracted French SU
