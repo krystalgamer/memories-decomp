@@ -160,3 +160,4 @@ D_8009BFD8 = gModel_szTermTrace;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
 D_800925CC = gModel_aShadowFanSteps;
+D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;

@@ -34,7 +34,10 @@
  * padding beyond their terminators; unsized initializers would omit it. */
 
 /* Directory-entry diagnostic in MemCardWork_UpdateOperation. */
+/* The European builds have no directory-entry format here. */
+#ifndef VERSION_EUROPE
 char gMemCard_szDirectoryEntryFormat[4] = "%s\n";
+#endif
 
 /* Read by MemCardDialog_UpdateSave (mem_card_dialog.c). */
 u8 gMemCardDialog_szAllFilesPattern[4] = "*";
