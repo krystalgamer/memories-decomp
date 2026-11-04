@@ -306,8 +306,8 @@ void Password_InitShopScreen(void)
         PASSWORD_CURSOR_TEXTURE_PAGE, PASSWORD_CURSOR_TEXTURE_Y
     );
     o->attribute &= ~GsROTOFF;
-    o->field_48.h.field_48 = 13;
-    o->field_48.h.field_4A = 13;
+    o->field_48.pivot.x = 13;
+    o->field_48.pivot.y = 13;
     o->attribute |= (GsALON | GsAONE);
     DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset(o, 10);
@@ -318,7 +318,7 @@ void Password_InitShopScreen(void)
     /* A non-struct store, through the union's address: as o->xy.word
        GCC lets the gPassword_pDigitCursorWidget store pass it, and the
        target copies the position first. */
-    *(u32 *)&o->xy = *(u32 *)&o->field_18;
+    *(u32 *)&o->xy = *(u32 *)&o->field_18.target.x;
     gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
     i = 0;
     do {

@@ -395,8 +395,8 @@ void DuelEffect_ApplyRitual(void)
             object->field_60 = 24;
             attribute = object->attribute;
             object_flags = object->flags;
-            object->field_44.h.field_46 = 0;
-            object->field_44.h.field_44 = 0;
+            object->field_44.scale.y = 0;
+            object->field_44.scale.x = 0;
             object->attribute = attribute & 0xF7FFFFFF;
             object->flags = object_flags | 4;
             DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
@@ -405,16 +405,16 @@ void DuelEffect_ApplyRitual(void)
             SD_SEPlayFull(0x26);
         }
         DisplayObject_StepPositionY((DisplayObjectVelocity *)object);
-        scale = (u16)object->field_44.h.field_44 + 170;
+        scale = (u16)object->field_44.scale.x + 170;
         countdown = (u16)object->field_60 - 1;
-        object->field_44.h.field_44 = scale;
-        object->field_44.h.field_46 = scale;
+        object->field_44.scale.x = scale;
+        object->field_44.scale.y = scale;
         object->field_60 = countdown;
         if ((s32)((u32)countdown << 16) <= 0) {
             s32 attribute;
             s16 object_flags;
-            object->field_44.h.field_46 = 4096;
-            object->field_44.h.field_44 = 4096;
+            object->field_44.scale.y = 4096;
+            object->field_44.scale.x = 4096;
             object->xy.h.y = DUEL_RITUAL_CARD_REST_Y;
             gDuel_wTrapPresentationMode = 2;
             attribute = object->attribute | 0x08000000;
@@ -452,11 +452,11 @@ void DuelEffect_ApplyRitual(void)
         } else {
             DisplayObject *first = gDisplayObject_apWorkSlots.slots[0];
             DisplayObject *second = gDisplayObject_apWorkSlots.slots[1];
-            value = first->field_44.h.field_44 + 128;
-            second->field_44.h.field_46 = value;
-            second->field_44.h.field_44 = value;
-            first->field_44.h.field_46 = value;
-            first->field_44.h.field_44 = value;
+            value = first->field_44.scale.x + 128;
+            second->field_44.scale.y = value;
+            second->field_44.scale.x = value;
+            first->field_44.scale.y = value;
+            first->field_44.scale.x = value;
             value = *(u8 *)&gDisplayObject_apWorkSlots.slots[0]->rgb;
             value -= 4;
             if (value < 0)

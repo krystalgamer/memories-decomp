@@ -169,7 +169,7 @@ void Duel_InitScene(void)
     DisplayObject_SelectOrderingTable1(obj);
     *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (gDuel_bActiveSide != 0) {
-        *(u16 *)&obj->field_40.h.field_40 += 16;
+        *(u16 *)&obj->field_40.clut.x += 16;
     }
     gDuel_pLifePointsPanel = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);

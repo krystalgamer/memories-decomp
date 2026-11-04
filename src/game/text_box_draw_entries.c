@@ -128,8 +128,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
-    ft4->clut = (obj->field_40.h.field_42 << 6) |
-                (((u16)obj->field_40.h.field_40 >> 4) & 0x3F);
+    ft4->clut = (obj->field_40.clut.y << 6) |
+                (((u16)obj->field_40.clut.x >> 4) & 0x3F);
     t = (obj->attribute >> 0x17) & 0x60;
     w = obj->attribute & 0x01000000;
     do {
@@ -490,8 +490,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
-    ft4->clut = (obj->field_40.h.field_42 << 6) |
-                (((u16)obj->field_40.h.field_40 >> 4) & 0x3F);
+    ft4->clut = (obj->field_40.clut.y << 6) |
+                (((u16)obj->field_40.clut.x >> 4) & 0x3F);
     t = (obj->attribute >> 0x17) & 0x60;
     w = obj->attribute & 0x01000000;
     do {

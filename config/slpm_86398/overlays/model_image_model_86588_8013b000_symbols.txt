@@ -4,5 +4,5 @@ FrenchModelVariant383_DrawRibbons = 0x8013C204; // type:func size:0x714 defined:
 FrenchModelVariant383_DrawQuads = 0x8013C918; // type:func size:0x5B0 defined:true
 ModelVariant366_DrawCones = 0x8013CEC8; // type:func size:0xA40 defined:true
 FrenchModelVariant383_DrawRays = 0x8013D908; // type:func size:0xB54 defined:true
-gModelVariant366_D345C = 0x8013E45C; // type:u8 defined:true
-gModelVariant366_D3558 = 0x8013E558; // type:u8 defined:true
+gModelVariant366_aImages = 0x8013E45C; // type:u8 defined:true
+gModelVariant366_aConfigs = 0x8013E558; // type:u8 defined:true

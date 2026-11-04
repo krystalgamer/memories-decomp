@@ -115,8 +115,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         f4 = f4 | (win->attribute & 0x08000000);
         obj->attribute = f4;
         if (DisplayObject_ProjectRotationFacing(
-                (struct DisplayObject *)obj, (s16)win->xy.h.x + (s16)win->field_18,
-                (s16)win->xy.h.y + (s16)win->field_1A, (struct ProjectionOut *)origin
+                (struct DisplayObject *)obj, (s16)win->xy.h.x + (s16)win->field_18.center.x,
+                (s16)win->xy.h.y + (s16)win->field_18.center.y, (struct ProjectionOut *)origin
             ) <= 0) {
             return;
         }
@@ -262,7 +262,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->uv.b.lo = lo;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     tile = PRM->uv.b.lo;
-    PRM->cxcy.h.cx = win->field_40.h.field_40 + tile;
+    PRM->cxcy.h.cx = win->field_40.clut.x + tile;
     PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 7;
     DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);
 }

@@ -51,7 +51,7 @@ typedef struct {
 } Model129State;
 
 extern const VECTOR gModelVariant129_D0FA0;
-extern GsIMAGE gModelVariant129_D0FB0[];
+extern GsIMAGE gModelVariant129_aImages[];
 extern Model129Config gModelVariant129_D0FE8[];
 
 s32 ModelVariant129_HandleRequest(u8 *context, s32 command);

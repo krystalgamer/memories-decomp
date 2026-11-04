@@ -183,7 +183,7 @@ extern u8 *gDuel_pActiveFieldGrid;
  * separate storage. Initial value not read.
  *
  * duel_state_init.c reaches it gp-relative; main_mode_runners.c and
- * src/game/main_init.c reach it through %hi/%lo and define the .data arm. */
+ * src/game/main.c reach it through %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
 extern u8 gDuel_bTwoPlayerCardViewMode __attribute__((section(".data")));
 #else

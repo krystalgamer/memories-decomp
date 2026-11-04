@@ -56,8 +56,8 @@ typedef struct {
 } Model138State;
 
 extern char gModelVariant138_D3314[];
-extern GsIMAGE gModelVariant138_D3328[];
-extern Model138Config gModelVariant138_D337C[];
+extern GsIMAGE gModelVariant138_aImages[];
+extern Model138Config gModelVariant138_aConfigs[];
 
 s32 ModelVariant138_HandleRequest(u8 *context, s32 command);
 

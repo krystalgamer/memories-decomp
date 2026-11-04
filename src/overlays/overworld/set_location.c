@@ -334,10 +334,10 @@ void CampaignMap_SetLocation(s32 index)
     ((DisplayObject *)obj)->xy.h.x = 160;
     ((DisplayObject *)obj)->xy.h.y = 144;
     ((DisplayObject *)obj)->field_60 = 128;
-    ((DisplayObject *)obj)->field_48.h.field_48 = 32;
-    ((DisplayObject *)obj)->field_48.h.field_4A = 192;
-    ((DisplayObject *)obj)->field_44.h.field_44 = 5120;
-    ((DisplayObject *)obj)->field_44.h.field_46 = 4096;
+    ((DisplayObject *)obj)->field_48.spotlight.inner = 32;
+    ((DisplayObject *)obj)->field_48.spotlight.outer = 192;
+    ((DisplayObject *)obj)->field_44.scale.x = 5120;
+    ((DisplayObject *)obj)->field_44.scale.y = 4096;
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
     ((DisplayObject *)obj)->field_4C = (s32)DisplayObject_RenderSpotlightMask;

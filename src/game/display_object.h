@@ -81,8 +81,28 @@ typedef struct DisplayObject {
        It was tex_index until DuelStatusPosition was retired into this record;
        that view already called it ot_index and was right. */
     u8 ot_index;                   /* 0x17 */
-    u16 field_18;                  /* 0x18 */
-    u16 field_1A;                  /* 0x1A */
+    /* Two per-kind views of one halfword pair.
+
+       center: the offset from xy to the object's centre. Every renderer
+       adds it to the draw position before the clip-test projection
+       (DisplayObject_ProjectRotationFacing and its packed sibling), and
+       DisplayObject_ConfigureScreenSprite and TextBox_RefreshDisplayObjects
+       set it to half the sprite's size.
+
+       target: a position the object moves toward. The build-deck transfer
+       icon and the password digit cursor steer toward it and finally copy
+       the pair into xy as one word; neither sets the clip-test flag, so no
+       renderer reads it as a centre for them. */
+    union {
+        struct {
+            u16 x;
+            u16 y;
+        } center;
+        struct {
+            u16 x;
+            u16 y;
+        } target;
+    } field_18;                    /* 0x18 */
     u16 field_1C;                  /* 0x1C */
     /* The display list the entry was acquired on (the `key` argument of
        DisplayObject_AcquireSlot, an index into gDisplayObject_awListHeads and
@@ -220,28 +240,50 @@ typedef struct DisplayObject {
             s16 field_3A;
         } h;
     } field_38;                    /* 0x38 */
-    /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word into the sprite
-       primitive, while DisplayObject_RenderSpriteStrips reads the two halves separately. */
+    /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word
+       into the sprite primitive's extent, and the quad renderers copy it as
+       a colour or u/v word.
+
+       size: the sprite's GsSPRITE w and h. DisplayObject_RenderSpriteStrips
+       reads w as the strip width left to draw and h as each strip's height;
+       DisplayObject_ConfigureScreenSprite stores its width and height
+       arguments here and half of each into center and pivot; and the text
+       box, Library outline and duel layout code take xy + w as the right
+       edge and xy + h as the bottom. Every halfword user reads it this way;
+       the quad readers only take the word. */
     union {
         s32 word;
         struct {
-            u16 field_3C;
-            u16 field_3E;
-        } h;
+            u16 w;
+            u16 h;
+        } size;
     } field_3C;                    /* 0x3C */
     /* 0x40 and 0x48 are the last two words display_object_config.h's separate
-       halfword view covers, and they are read both ways for the same reason
-       0x3C is: display_object_core.c clears each with one sw and the two
-       sprite emitters copy each as a word, while DisplayObject_ConfigureScreenSprite and the dialog
-       and duel layout code write the halves. The view calls 0x48/0x4A
-       half_height_2/half_width_2; the halves are left field_-named here, as
-       0x3C's are, until a caller pins the meaning. */
+       halfword view covers. display_object_core.c clears each with one sw
+       and the sprite emitters copy each as a word; the halves have one
+       reading per object kind.
+
+       clut: a sprite's GsSPRITE cx/cy. Both sprite renderers copy the word
+       into SpritePrim.cxcy; DisplayObject_ConfigureScreenSprite stores its
+       clut_x/clut_y arguments here and DisplayObject_ConfigureSpriteResource
+       derives them from its palette argument; the text-box, card and
+       portrait code pack them into a primitive's clut or step them a palette
+       at a time (x by 16, y by one row).
+
+       vertex: a Gouraud quad's vertex x/y. DisplayObject_RenderGouraudQuadList
+       copies the word into the fourth vertex (the textured renderer into the
+       third), and the text-box outline, debug editor and duel effect layout
+       code write the halves as a corner. */
     union {
         u32 word;
         struct {
-            s16 field_40;
-            s16 field_42;
-        } h;
+            s16 x;
+            s16 y;
+        } clut;
+        struct {
+            s16 x;
+            s16 y;
+        } vertex;
     } field_40;                    /* 0x40 */
     /* Read at least two different ways, so the halves are named for their
        offsets and nothing more.
@@ -270,19 +312,59 @@ typedef struct DisplayObject {
        The union itself is unaffected: it asserts that some users take the word
        and others the halves, which is true under either reading, and it is the
        same device as 0x40 and 0x48 on either side. */
+    /* The halves have two readings, one per object kind, and get a view
+       each.
+
+       scale: GsSPRITE scalex/scaley in 4.12 fixed point. The sprite
+       renderers copy the word into SpritePrim.scale, the spotlight mask,
+       projected card and clip checks read the halves as x/y scale, and the
+       pulse, zoom and fade code animates them around 0x1000. GlyphSprite in
+       ygo_types.h names the same halves scale_x/scale_y.
+
+       target: the password name-entry glyphs instead keep the position
+       they fly toward here, dividing the distance from xy by the frame
+       count and finally copying the word into xy. */
     union {
         u32 word;
         struct {
-            s16 field_44;
-            s16 field_46;
-        } h;
+            s16 x;
+            s16 y;
+        } scale;
+        struct {
+            s16 x;
+            s16 y;
+        } target;
     } field_44;                    /* 0x44 */
+    /* Three readings, one per object kind.
+
+       pivot: GsSPRITE mx/my, the rotation and scaling centre relative to
+       xy. DisplayObject_RenderSpriteList copies the word into SpritePrim.mxmy
+       and adds it to the draw position; DisplayObject_ConfigureScreenSprite
+       and the text-box, card-overlay and boot-screen code set it to half the
+       sprite's size. display_object_config.h's view calls the pair
+       half_width_2/half_height_2.
+
+       spotlight: the inner and outer radii DisplayObject_RenderSpotlightMask
+       draws its ring of quads between; the dialog transition and the
+       overworld location reveal shrink or set them.
+
+       vertex: the first vertex of a Gouraud quad's second submission, which
+       DisplayObject_RenderGouraudQuadList copies from the word; the
+       text-box outline and duel effect layout write it as a corner. */
     union {
         u32 word;
         struct {
-            s16 field_48;
-            s16 field_4A;
-        } h;
+            s16 x;
+            s16 y;
+        } pivot;
+        struct {
+            s16 inner;
+            s16 outer;
+        } spotlight;
+        struct {
+            s16 x;
+            s16 y;
+        } vertex;
     } field_48;                    /* 0x48 */
     /* Read several ways, like 0x44: 0x4C is the fifth of
        the six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
@@ -457,14 +539,14 @@ typedef char DisplayObject_update_must_be_at_0x24[
 typedef char DisplayObject_position_must_be_at_0x28[
     DISPLAY_OBJECT_OFFSET(position) == 0x28 ? 1 : -1
 ];
-typedef char DisplayObject_field_3E_must_be_at_0x3E[
-    DISPLAY_OBJECT_OFFSET(field_3C.h.field_3E) == 0x3E ? 1 : -1
+typedef char DisplayObject_size_h_must_be_at_0x3E[
+    DISPLAY_OBJECT_OFFSET(field_3C.size.h) == 0x3E ? 1 : -1
 ];
-typedef char DisplayObject_field_42_must_be_at_0x42[
-    DISPLAY_OBJECT_OFFSET(field_40.h.field_42) == 0x42 ? 1 : -1
+typedef char DisplayObject_clut_y_must_be_at_0x42[
+    DISPLAY_OBJECT_OFFSET(field_40.clut.y) == 0x42 ? 1 : -1
 ];
-typedef char DisplayObject_field_4A_must_be_at_0x4A[
-    DISPLAY_OBJECT_OFFSET(field_48.h.field_4A) == 0x4A ? 1 : -1
+typedef char DisplayObject_pivot_y_must_be_at_0x4A[
+    DISPLAY_OBJECT_OFFSET(field_48.pivot.y) == 0x4A ? 1 : -1
 ];
 typedef char DisplayObject_field_3A_must_be_at_0x3A[
     DISPLAY_OBJECT_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1

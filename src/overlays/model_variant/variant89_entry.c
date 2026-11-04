@@ -12,7 +12,7 @@
 #define MODEL89_ORDER_PAD 0x4C
 #endif
 
-static const VECTOR gModelVariant89_D240C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant89_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant89_D240C;
+    scale = gModelVariant89_UnitScale;
     {
         u8 order[15] = {0, 1, 2, 3, 11, 4, 5, 6, 7, 8, 11, 9, 10, 11, 11};
         long flag, interpolation;
@@ -52,7 +52,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
         work = (Model89State *)context;
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         if (command >= 0) {
-            config = work->config = &gModelVariant89_D2464[command];
+            config = work->config = &gModelVariant89_aConfigs[command];
             point = work->ring;
             setVector(point, 0, 0, 0);
             point++;
@@ -82,7 +82,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
                 point->vz = -direction * config->arc_radius / 3;
             }
             for (i = 0; i < 2; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant89_D242C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant89_aImages[i]);
             }
             work->elapsed = -config->delay;
             work->completed = 0;

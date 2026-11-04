@@ -49,19 +49,19 @@ typedef struct {
     u8 pad_00[0x08];
     u16 flags;
     u8 pad_0A[0x0E];
-    s16 half_height;
     s16 half_width;
+    s16 half_height;
     u8 pad_1C[0x14];
     s16 x;
     s16 y;
     u8 pad_34[0x08];
-    s16 height;
     s16 width;
+    s16 height;
     s16 clut_x;
     s16 clut_y;
     u8 pad_44[0x04];
-    s16 half_height_2;
     s16 half_width_2;
+    s16 half_height_2;
     u8 pad_4C[0x10];
     u8 texture_u;
     u8 texture_v;
@@ -84,8 +84,8 @@ struct DisplayObject *DisplayObject_ConfigureScreenSprite(
     struct DisplayObject *object,
     s32 x,
     s32 y,
-    s32 height,
     s32 width,
+    s32 height,
     s32 texture_u,
     s32 texture_v,
     s32 texture_page,

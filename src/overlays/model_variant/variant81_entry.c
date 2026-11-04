@@ -7,7 +7,7 @@
  * one after another, sweeping their quads in while they turn, and finally
  * grow and fade out; at the end the opposing slot's tint target is reset. */
 
-static const VECTOR gModelVariant81_D19B0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant81_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant81_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant81_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant81_D19B0;
+    scale = gModelVariant81_UnitScale;
     work = (Model81State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

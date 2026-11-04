@@ -210,7 +210,6 @@ DecDCToutCallback = 0x80091084;
 DecDCTvlc2 = 0x800914A8;
 DecDCTvlcBuild = 0x800917F8;
 gFile_apszName = 0x80091994;
-gGraphics_bSkipDisplaySwap = 0x8009C44A;
 gFile_ReadyDataEventCount = 0x8009C478;
 gFile_CommandRetryCount = 0x8009C480;
 gFile_RangePauseCallback = 0x8009C488;
@@ -675,3 +674,4 @@ D_italian_8009C370 = gModel_dwLitColorCacheBase;
 D_italian_8009C374 = gModel_bCurrentDrawMode;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
+D_8009B0A8 = gGraphics_bSkipDisplaySwap;

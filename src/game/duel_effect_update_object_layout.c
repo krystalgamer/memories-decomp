@@ -40,13 +40,13 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
 
     q = (DisplayObject *)p->prompt_object;
     n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x);
-    q->field_48.h.field_48 = n;
+    q->field_48.vertex.x = n;
     q->field_38.h.field_38 = n;
     q->position.h.field_28 = n;
     m = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x) +
         DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_width);
     q->field_50.h.field_50 = m;
-    q->field_40.h.field_40 = m;
+    q->field_40.vertex.x = m;
     q->xy.h.x = m;
 
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
@@ -64,10 +64,10 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->xy.h.y = v;
     v = v + DUEL_EFFECT_LAYOUT_ROW_STEP;
     w = w + 0x10;
-    q->field_40.h.field_42 = v;
+    q->field_40.vertex.y = v;
     q->field_38.h.field_3A = v;
     q->field_50.h.field_52 = w;
-    q->field_48.h.field_4A = w;
+    q->field_48.vertex.y = w;
 #else
     k = gDuelEffect_aEntries[
         gDuelEffect_awEntryRangeBoundaries[p->channel_index]
@@ -86,10 +86,10 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         q->xy.h.y = v;
         v = v + 0x10;
         w = w + 0x10;
-        q->field_40.h.field_42 = v;
+        q->field_40.vertex.y = v;
         q->field_38.h.field_3A = v;
         q->field_50.h.field_52 = w;
-        q->field_48.h.field_4A = w;
+        q->field_48.vertex.y = w;
         return;
     }
 
@@ -114,10 +114,10 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->xy.h.y = x;
     q->position.h.field_2A = x;
     x = x + 0xC;
-    q->field_40.h.field_42 = y;
+    q->field_40.vertex.y = y;
     q->field_38.h.field_3A = y;
     q->field_50.h.field_52 = x;
-    q->field_48.h.field_4A = x;
+    q->field_48.vertex.y = x;
 #endif
 }
 

@@ -8,7 +8,7 @@
  * once they have all ended. The French header-122 and 252 images build this
  * source unchanged. */
 
-static const VECTOR gModelVariant105_D1414 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant105_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
 {
@@ -33,11 +33,11 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant105_D1414;
+    scale = gModelVariant105_UnitScale;
     work = (Model105State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant105_D1440[command];
+        config = work->config = &gModelVariant105_aConfigs[command];
         point = work->spins;
         for (i = 0; i < 8; i++) {
             point->vx = 0;
@@ -62,7 +62,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant105_D1424[i]);
+            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant105_aImages[i]);
         }
         work->elapsed = -config->delay;
         return 0;

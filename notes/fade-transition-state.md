@@ -79,12 +79,12 @@ as filling from the edges toward the middle is incomplete.
 
 ### Frame-advance factor
 
-The matching [`Graphics_SyncFrame`](../src/game/graphics_frame.c) now establishes
+The matching [`Graphics_SyncFrame`](../src/game/main.c) now establishes
 the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
 GPU with `DrawSync(0)` (unless `gGraphics_wFlags & 0x8000` is set), then spins
 while the volatile counter `gGraphics_dwSyncVBlankCounter` (originally
 `D_8009B0C8`, `0x8009B0C8`) is below the byte threshold
-`gGraphics_bSyncVBlankTarget`. [`Main_VBlankCB`](../src/game/main_frame.c) increments that
+`gGraphics_bSyncVBlankTarget`. [`Main_VBlankCB`](../src/game/main.c) increments that
 counter on each callback.
 
 After the wait, the helper assigns the counter to the **byte**
@@ -125,9 +125,9 @@ clears the wait threshold `gGraphics_bSyncVBlankTarget`, but that does not force
 counter to zero or guarantee a factor of `1`. Actual GPU/render work and
 VBlank timing still determine the sample.
 
-The standard [`Main_AdvanceFrame`](../src/game/main_frame.c) pump calls
+The standard [`Main_AdvanceFrame`](../src/game/main.c) pump calls
 `Main_RunFrameServices` **before** `Graphics_SyncFrame`.
-[`Main_RunFrameServices`](../src/game/main_services.c) starts with `Fade_DrawOverlay`,
+[`Main_RunFrameServices`](../src/game/main.c) starts with `Fade_DrawOverlay`,
 so the fade reads the factor already present at draw time, not the one
 published later by that pump's sync call. A trace captured after sync must
 not attribute that newly published factor to the preceding band update
@@ -190,7 +190,7 @@ reading them as a grid is what makes the wrapper names tractable:
 
 The two remaining wrappers are not fades at all. They write the control
 byte `gFade_bOrderingTableMode`, which
-[`Graphics_BeginFrame`](../src/game/graphics_frame.c) reads before it draws
+[`Graphics_BeginFrame`](../src/game/main.c) reads before it draws
 the finished frame:
 
 - nonzero: it links ordering tables 1, 2 and 3 into table 0, or only table 1

@@ -96,8 +96,8 @@ s32 DisplayObject_ProjectRotationFacing(
     if (!(obj->attribute & GsROTOFF)) {
         VECTOR *scale = (VECTOR *)v308;
 
-        scale->vx = obj->field_44.h.field_44;
-        scale->vy = obj->field_44.h.field_46;
+        scale->vx = obj->field_44.scale.x;
+        scale->vy = obj->field_44.scale.y;
         scale->vz = ONE;
         ScaleMatrix(mtx, scale);
     }

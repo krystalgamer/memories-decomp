@@ -7,7 +7,7 @@
  * beam of quads then grows from the part towards the camera axis, and two
  * spinning squares pulse at the end. */
 
-static const VECTOR gModelVariant107Us_D22D4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant107Us_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
 {
@@ -35,7 +35,7 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant107Us_D22D4;
+    scale = gModelVariant107Us_UnitScale;
     work = (Model107UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

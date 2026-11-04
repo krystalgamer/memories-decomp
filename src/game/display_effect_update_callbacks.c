@@ -347,16 +347,16 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite(o, (s16)record->x, (s16)record->y, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
-            *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
+            *(u16 *)&o->field_40.clut.x += (idx >> 4) << 6;
             *(u8 *)&o->field_5C =
                 (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WIDTH;
             ((u8 *)&o->field_5C)[1] =
                 (idx / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
-            *(u16 *)&o->field_40.h.field_42 +=
+            *(u16 *)&o->field_40.clut.y +=
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
-            *(u16 *)&o->field_44.h.field_46 = 0;
+            *(u16 *)&o->field_44.scale.y = 0;
             o->rgb = 0;
             o->attribute |=
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
@@ -366,13 +366,13 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             *(u16 *)&o->field_60 = 0x14;
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
-        *(u16 *)&o->field_48.h.field_4A = 0;
+        *(u16 *)&o->field_48.pivot.y = 0;
         o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->xy.h.x, *(s16 *)&o->xy.h.y, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
-        *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;
-        *(u16 *)&o2->field_48.h.field_4A = 0;
+        *(u16 *)&o2->field_44.scale.y = *(u16 *)&o->field_44.scale.y;
+        *(u16 *)&o2->field_48.pivot.y = 0;
         DisplayObject_SelectOrderingTable1(o2);
         DisplayObject_SetDepthOffset(o2, -9);
         record->grid[0][1] = (s32)o2;
@@ -387,7 +387,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         o->rgb = COLOR_RGB24_NEUTRAL_GREY;
-        *(u16 *)&o->field_44.h.field_46 = 0x1000;
+        *(u16 *)&o->field_44.scale.y = 0x1000;
         DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;
         goto clear;
@@ -406,9 +406,9 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     DISPLAY_OBJECT_COLOR_BYTES(o)[1] = c;
     DISPLAY_OBJECT_COLOR_BYTES(o)[0] = c;
     idx = o->field_60 * 204 + 0x1000;
-    *(u16 *)&o2->field_44.h.field_46 = idx;
-    *(u16 *)&o->field_44.h.field_46 = idx;
+    *(u16 *)&o2->field_44.scale.y = idx;
+    *(u16 *)&o->field_44.scale.y = idx;
     q = DISPLAY_OBJECT_COLOR_BYTES(o)[0] << 5;
-    *(u16 *)&o2->field_44.h.field_44 = q;
-    *(u16 *)&o->field_44.h.field_44 = q;
+    *(u16 *)&o2->field_44.scale.x = q;
+    *(u16 *)&o->field_44.scale.x = q;
 }

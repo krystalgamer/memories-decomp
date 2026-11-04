@@ -42,7 +42,7 @@ s32 DisplayObject_ProjectPackedRotationFacing(u32 packed_rotation, s32 x, s32 y,
 
 /* The same facing test for one display object: the rotation comes from its
    field_20/21/22 bytes, field_65 goes into `out->divisions` (the packed
-   variant stores 0), and the matrix is scaled by field_44/field_46 unless
+   variant stores 0), and the matrix is scaled by field_44.scale unless
    GsROTOFF is set.
    A nonzero field_10 gates the back-face handling. A negative (code-address)
    field_10 is first called with the result, whatever its sign. Then, for any

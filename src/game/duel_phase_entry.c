@@ -295,7 +295,7 @@ void DuelScene_UpdateDrawPhase(void) {
 
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
-        *(u16 *)&gDuel_pLifePointsPanel->field_40.h.field_40 =
+        *(u16 *)&gDuel_pLifePointsPanel->field_40.clut.x =
             (gDuel_bActiveSide << 4) | DUEL_PHASE_FIELD_40_BASE;
         Duel_ClearHandSlots();
         side = gDuel_bActiveSide;

@@ -3,7 +3,7 @@
 For #6460, these four raw French MODEL.MRG images directly reuse the accepted
 local `src/overlays/model_variant/variant177_entry.c` in both slots. Each
 image's symbols file binds `ModelVariant177_HandleRequest`,
-`gModelVariant177_D1510` and `gModelVariant177_D1548` at its own addresses;
+`gModelVariant177_aImages` and `gModelVariant177_D1548` at its own addresses;
 the data lives in the raw tail. No shared C or header is changed or copied.
 The established source name is not a new claim about the raw images' header IDs.
 

@@ -120,7 +120,7 @@ typedef struct {
     u16 command;
 } Model386State;
 
-extern GsIMAGE gModelVariant386_D2C54[];
+extern GsIMAGE gModelVariant386_aImages[];
 extern Model386Config gModelVariant386_D2C8C[];
 
 void FrenchModelVariant403_DrawStrands(u8 *context);
