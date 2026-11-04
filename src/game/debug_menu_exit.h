@@ -13,4 +13,7 @@
  * function. */
 void DebugMenu_Exit(void);
 
+/* The European alternate-page step that follows DebugMenu_Exit. */
+void DebugMenu_EnterCredits(void);
+
 #endif

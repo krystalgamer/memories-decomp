@@ -72,6 +72,11 @@
 void (*gDebugMenu_apfnAlternatePageSteps[])(void) = {
     DebugMenu_ResetEntryState,
     DebugMenu_UpdateTwoPlayerDuelEntry,
+#ifdef VERSION_EUROPE
+    /* The European alternate page adds the credits and language entries. */
+    DebugMenu_EnterCredits,
+    DebugMenu_UpdateLanguageEntry,
+#endif
 };
 
 void (*gDebugMenu_apfnPrimaryPageSteps[])(void) = {
