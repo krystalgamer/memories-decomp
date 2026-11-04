@@ -1,6 +1,6 @@
 entrypoint = 0x800128CC; // type:func size:0xA0
 __main = 0x8001296C; // type:func size:0x70
-func_800129DC = 0x800129DC; // type:func size:0x68
+__do_global_dtors = 0x800129DC; // type:func size:0x68
 Main_Init = 0x80012A44; // type:func
 Main_AdvanceFrame = 0x80012C4C;
 Main_AdvanceFrames = 0x80012C84;
