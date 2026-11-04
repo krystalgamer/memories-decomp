@@ -39,6 +39,17 @@ requested records have an eight-byte stride, preserving the existing
 alignment requirement, now asserted by the key owner. The resolved fourth
 word remains opaque.
 
+`ModelEffectResolvedValues` (`model_effect_key.h`) names the three halfwords
+both writers fill from the slot's cached position. No matched C reads the
+record by member name; both writers address it by byte offset.
+
+| Offset | Former name | Name | Evidence |
+|---|---|---|---|
+| `0x0` | `field_0` | `x` | `Model_CopySlotPosition` copies `cached_position[0]`, the slot's cached X |
+| `0x2` | `field_2` | `y` | `cached_position[1]`, cached Y |
+| `0x4` | `field_4` | `z` | `cached_position[2]`, cached Z |
+| `0x6` | `field_6` | unchanged | `cached_position[3]`, a separately derived value kept opaque |
+
 ## Verification and regional boundaries
 
 The independent ILP32 witness executes the actual extracted production

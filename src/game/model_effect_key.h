@@ -6,10 +6,14 @@
 
 #define MODEL_EFFECT_KEY_OFFSET(member) ((u32)&(((Key *)0)->member))
 
+/* Model_RefreshEffectKeySlotValues and Model_CaptureKeyframePose fill a
+   resolved record through Model_CopySlotPosition for endpoint kinds 2 and 3:
+   the slot's cached X, Y and Z, then the fourth cached_position halfword,
+   which stays opaque. */
 typedef struct {
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
+    u16 x;
+    u16 y;
+    u16 z;
     u16 field_6;
 } ModelEffectResolvedValues;
 
