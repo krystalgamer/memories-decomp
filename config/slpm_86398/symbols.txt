@@ -1184,7 +1184,6 @@ gDuel_sGroundReferenceScreenX = 0x8009B0F0;
 gDuel_sGroundReferenceScreenY = 0x8009B0F2;
 DuelCard_CaptureRoundedTexture = 0x800192C8;
 StoreImage2 = 0x80080AC4;
-D_800E9D70 = 0x800E9C50;
 Duel_UpdateCardMarkerRemovalTurn = 0x80019A4C; // type:func
 DuelCard_UpdateDefenseRotation = 0x8001D088;
 DuelResult_LoadOutroPackageStage = 0x80020A2C;
