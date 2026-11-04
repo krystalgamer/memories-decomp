@@ -43,7 +43,7 @@ void FrenchModelVariant458_DrawStrands(u8 *ctx)
     s32 row;
 
     work = (Variant458StrandView *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->axis_z, work->axis_x) + 3072;
     ratan2(work->axis_y, work->axis_z);
     radius = work->size / 128;

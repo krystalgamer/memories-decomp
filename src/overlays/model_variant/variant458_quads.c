@@ -29,7 +29,7 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     sheet = (ModelVariantSheet *)(work + 0x1904);
     quads = (Variant458Quads *)work;
     poly = (POLY_FT4 *)(work + 0x2D98);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     ratan2(MODEL_VARIANT_WORD(work, 0x2F90), MODEL_VARIANT_WORD(work, 0x2F94));
     ratan2(MODEL_VARIANT_HALF(work, 0x2F9E), MODEL_VARIANT_HALF(work, 0x2F9C));

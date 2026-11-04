@@ -26,7 +26,7 @@ void SpanishModelVariant477_DrawPanels(u8 *context)
     u8 red, green, blue;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction.vy, state->direction.vz);
     ratan2(state->projected.vy, state->projected.vx);
     complete = 0;

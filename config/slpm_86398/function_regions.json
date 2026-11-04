@@ -22,7 +22,7 @@
       "end": "0x8005BD50",
       "module": "psyq/sdk",
       "status": "sdk_asm",
-      "evidence": "Sixteen-byte getter func_80058F10 matches the embedded SDK assembly entry classified in the North American inventory."
+      "evidence": "Sixteen-byte getter Graphics_GetDefaultOrderingTable matches the embedded SDK assembly entry classified in the North American inventory."
     },
     {
       "name": "game-after-sdk-getter",

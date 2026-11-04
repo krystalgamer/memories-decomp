@@ -25,7 +25,7 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0x2000) > 0) {
         ribbon = (ModelVariant336Ribbon *)work;

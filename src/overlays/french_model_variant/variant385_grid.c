@@ -22,7 +22,7 @@ void FrenchModelVariant385_DrawGrid(u8 *context)
     s32 size, count;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->axis[2], state->axis[0]);
     ratan2(state->axis[1], state->axis[2]);
     count = 0;

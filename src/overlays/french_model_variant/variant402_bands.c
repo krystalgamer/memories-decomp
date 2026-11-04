@@ -38,7 +38,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
 
     work = context;
     band = (Family402Band *)(work + BAND_WORK_0438);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
 #ifndef MODEL_VARIANT412_BANDS
     direction = -1;
 #endif

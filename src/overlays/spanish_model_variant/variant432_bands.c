@@ -19,7 +19,7 @@ void SpanishModelVariant432_DrawBands(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 3; i++, band++) {
         if (band->phase > 0) {
             size = band->phase;

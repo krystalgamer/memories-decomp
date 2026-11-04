@@ -25,7 +25,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     s32 width;
 
     work = context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
 #ifdef MODEL_VARIANT412_STRIP
     strip = (Family402Strip *)(work + STRIP_RECORD_BASE);
 #endif

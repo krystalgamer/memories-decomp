@@ -56,7 +56,7 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
 
     work = ctx;
     curtain = (ModelVariantCurtain *)(work + 0x848);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x305C), MODEL_VARIANT_WORD(work, 0x3054)) + 0x800;
     sheet = (ModelVariantSheet *)(work + 0x2568);
     poly = (POLY_GT4 *)(work + 0x2DFC);

@@ -93,7 +93,7 @@ s32 ModelVariant766_HandleRequest(u8 *context, s32 command)
         work->level = 2048;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->phase == 0) {

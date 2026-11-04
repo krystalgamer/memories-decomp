@@ -70,7 +70,7 @@ void ModelVariant443_DrawStrand(u8 *ctx)
                 line->b = 0x80;
                 if (otz >= 0) {
                     if (otz < 0x800) {
-                        GsSortLine(line, func_80058F10(), otz);
+                        GsSortLine(line, Graphics_GetDefaultOrderingTable(), otz);
                     }
                 }
             }

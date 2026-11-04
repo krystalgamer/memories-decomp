@@ -51,7 +51,7 @@ s32 ModelPrimary64_HandleRequest(u8 *context, s32 command)
     }
 
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     quad.tpage = work->textures[1] >> 16;

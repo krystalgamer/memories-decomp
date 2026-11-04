@@ -45,7 +45,7 @@ void FrenchModelVariant469_DrawRibbons(u8 *ctx)
 
     work = ctx;
     ribbon = (Variant469Ribbon *)(work + 0xA84);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
 #ifdef MODEL_VARIANT469_RIBBONS_EARLY_LEN
     len = 0x30;

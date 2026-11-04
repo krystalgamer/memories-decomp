@@ -42,7 +42,7 @@ void ModelVariant443_DrawRibbons(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2E58), MODEL_VARIANT_WORD(work, 0x2E50)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2E54), MODEL_VARIANT_WORD(work, 0x2E50));

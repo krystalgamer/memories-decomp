@@ -118,7 +118,7 @@ s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     SetPolyFT4(&quad);
     SetPolyFT4(&flash);
     SetPolyFT3(&tri);

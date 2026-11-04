@@ -139,7 +139,7 @@ Unique object signatures include GS_134 (GsGetLs), MTX_009 (ReadRotMatrix),
 CMB_00 (RotTransPers4), SMP_03 (RotTransPers3), and MTX_09 (SetRotMatrix).
 The spoke proof independently checks RotTransPers, RotMatrix, ScaleMatrix,
 GsSetLsMatrix and GsSortPoly as well. The complete 16-byte address-named
-`func_80058F10` getter matches between hash-verified French and Spanish
+`Graphics_GetDefaultOrderingTable` getter matches between hash-verified French and Spanish
 residents; its withdrawn GsGetWorkBase identification is not revived.
 Catalogue masks establish SDK identity only; game C and full-image acceptance
 compare every byte without masks. Actual call relocations use independently

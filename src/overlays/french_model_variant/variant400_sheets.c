@@ -23,7 +23,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     work = context;
     node = context;
     quad = (ModelVariantSheet *)(work + 0x1130);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x1F4C);
     for (i = 0; i < 7; i++, quad++) {
         bias = 0;

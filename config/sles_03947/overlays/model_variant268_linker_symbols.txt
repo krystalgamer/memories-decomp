@@ -29,6 +29,6 @@ SetPolyF4 = 0x80082C84;
 SetPolyFT4 = 0x80082CA4;
 SetPolyG4 = 0x80082CC4;
 SetSemiTrans = 0x80082BA4;
-func_80058F10 = 0x8005D3D4;
+Graphics_GetDefaultOrderingTable = 0x8005D3D4;
 memset = 0x8008F344;
 rand = 0x8008F504;

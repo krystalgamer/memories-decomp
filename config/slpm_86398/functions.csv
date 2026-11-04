@@ -972,7 +972,7 @@ address,size,name,status,module,notes
 0x8005BC98,0x2C,Model_GetSlotAnimationIndex,matching_c,game,
 0x8005BCC4,0x2C,Model_GetSlotAnimationFrame,matching_c,game,
 0x8005BCF0,0x50,Model_GetSlotAnimationLength,matching_c,game,
-0x8005BD40,0x10,func_80058F10,sdk_asm,psyq/sdk,
+0x8005BD40,0x10,Graphics_GetDefaultOrderingTable,sdk_asm,psyq/sdk,
 0x8005BD50,0x54,Model_GetSlotDataEntry,matching_c,game,
 0x8005BDA4,0x3C,Model_GetCurrentDataEntry,matching_c,game,
 0x8005BDE0,0x50,Model_CopySlotPosition,matching_c,game,

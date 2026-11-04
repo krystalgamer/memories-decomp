@@ -19,7 +19,7 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
     s32 extra;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     shown = 0;
     quad = &state->quad;
     for (i = 0; i < state->timing->count; i++, sheet++) {

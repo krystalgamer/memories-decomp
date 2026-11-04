@@ -40,7 +40,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     s32 half_radius;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x4298), MODEL_VARIANT_WORD(work, 0x4290)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x4294), MODEL_VARIANT_WORD(work, 0x4290)) + 0xC00;
     if (!(MODEL_VARIANT_WORD(work, 0x42A8) & 1)) {

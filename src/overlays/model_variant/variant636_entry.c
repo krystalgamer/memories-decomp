@@ -337,7 +337,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                         (work->trail[j][i].vz + work->trail[j + 1][i].vz) / 2);
                     depth = RotTransPers(&mid, &sxy, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                        GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->streaks[i].elapsed += step;
@@ -395,7 +395,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                             (work->trail[k][j].vz + work->trail[k][j + 1].vz) / 2);
                         depth = RotTransPers(&mid, &sxy, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                            GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -455,7 +455,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x0, (long *)&work->sprite.x1,
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->sprites[i][j].u += 32;
                     if (work->sprites[i][j].u == 96) {

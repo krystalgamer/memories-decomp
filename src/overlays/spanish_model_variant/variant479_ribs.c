@@ -55,7 +55,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     s32 n;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x4154), MODEL_VARIANT_WORD(work, 0x414C)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x4150), MODEL_VARIANT_WORD(work, 0x414C));
     poly = (POLY_GT4 *)(work + 0x3F48);

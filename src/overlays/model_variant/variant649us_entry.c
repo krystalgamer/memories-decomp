@@ -262,7 +262,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x0, (long *)&work->quad.x1, (long *)&work->quad.x2,
                     (long *)&work->quad.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 if (work->petals[i].duration / 2 < work->petals[i].elapsed) {
                     work->tint = ((work->petals[i].duration - work->petals[i].elapsed) << 8)
@@ -336,7 +336,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
                         &work->dome[j + 1][i + 1], (long *)&work->quad.x0, (long *)&work->quad.x1,
                         (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -415,7 +415,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
                 (long *)&work->card.x0, (long *)&work->card.x1, (long *)&work->card.x2,
                 (long *)&work->card.x3, &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->card, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->card, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             work->card_element.u += 0x20;
             if (work->card_element.u == 0x60) {
@@ -489,7 +489,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
                 depth = RotAverage3(&work->tri[0], &work->tri[1], &work->tri[2], (long *)&work->shard.x0,
                     (long *)&work->shard.x1, (long *)&work->shard.x2, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->shard, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->shards[i].elapsed += step;
                 if (work->shards[i].duration < work->shards[i].elapsed) {
@@ -536,7 +536,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
                         (long *)&work->shard.x0, (long *)&work->shard.x1, (long *)&work->shard.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->shard, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->sparks[i].elapsed += step;

@@ -44,7 +44,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
     s32 turn;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ribbon = (Variant469Ribbon *)work;
     sum = 0;
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x3348), MODEL_VARIANT_WORD(work, 0x3340)) + 0xC00;

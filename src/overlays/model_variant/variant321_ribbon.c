@@ -37,7 +37,7 @@ void ModelVariant321_DrawRibbon(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1F18), MODEL_VARIANT_WORD(work, 0x1F10)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1F14), MODEL_VARIANT_WORD(work, 0x1F10)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0x1F68) > 0) {

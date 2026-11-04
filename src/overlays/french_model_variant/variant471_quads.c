@@ -23,7 +23,7 @@ void FrenchModelVariant471_DrawQuads(u8 *context)
     u8 red, green, blue;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     i = 0;
     ratan2(state->direction.vy, state->direction.vz);

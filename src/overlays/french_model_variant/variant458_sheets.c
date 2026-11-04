@@ -21,7 +21,7 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
     s32 depth;
     SVECTOR *point;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->axis_z, work->axis_x);
     ratan2(work->axis_y, work->axis_x);
     sheet = work->sheets;

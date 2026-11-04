@@ -45,7 +45,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     u8 c3;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1B80), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1B6C), MODEL_VARIANT_WORD(work, 0x1B64)) + 0x800;

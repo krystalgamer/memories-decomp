@@ -83,7 +83,7 @@ s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     if (work->elapsed < 0) {

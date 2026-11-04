@@ -53,7 +53,7 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     SetPolyG4(&ribbon);
     SetPolyFT4(&quad);
     line.attribute = 0x50000000;

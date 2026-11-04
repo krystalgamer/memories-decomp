@@ -26,7 +26,7 @@ void FrenchModelVariant464_DrawRings(u8 *context)
     u32 tpage;
     u8 full;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     angle_y = ratan2(state->direction[2], state->direction[0]) + 2048;
     angle_x = ratan2(state->direction[1], state->direction[2]) + 2048;

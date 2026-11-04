@@ -19,6 +19,6 @@ RotTrans = 0x80086560;
 ScaleMatrix = 0x80086260;
 ccos = 0x80085510;
 csin = 0x800857A0;
-func_80058F10 = 0x8005BD40;
+Graphics_GetDefaultOrderingTable = 0x8005BD40;
 memset = 0x8008E1F0;
 rand = 0x8008E3B0;

@@ -18,7 +18,7 @@ void ModelExodia_DrawBeam(u8 *context)
     POLY_GT4 *quad;
 
     work = (ExodiaBeamState *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quad;
     angle = ratan2(work->angles.vy, work->angles.vx) + 2048;
     if (work->phase > 0) {

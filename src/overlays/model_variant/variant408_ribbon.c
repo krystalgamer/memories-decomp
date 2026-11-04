@@ -38,7 +38,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     s32 z;
 
     work = (EntryState425 *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
     poly = work->textured;

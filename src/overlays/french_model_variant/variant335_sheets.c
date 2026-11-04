@@ -25,7 +25,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
 
     work = context;
     sheet = (ModelVariantSheet *)(work + 0xABC);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x2CB0);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34));
     rotation_bias = MODEL_VARIANT_WORD(work, 0x2E74) + 3072;

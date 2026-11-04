@@ -25,7 +25,7 @@ void FrenchModelVariant582_DrawSheets(u8 *context)
     u32 page;
     u8 tone;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     yaw = ratan2(state->direction[2], state->direction[0]) + 2048;
     pitch = ratan2(state->direction[1], state->direction[2]) + 2048;

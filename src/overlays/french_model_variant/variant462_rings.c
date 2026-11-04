@@ -25,7 +25,7 @@ void FrenchModelVariant462_DrawRings(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     red = 128;
     green = 128;
     blue = 128;

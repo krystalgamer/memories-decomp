@@ -42,7 +42,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
 
     work = ctx;
     ribbon = (Model400FirstRibbon *)work;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_FT4 *)(work + 0x1F80);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x2034), MODEL_VARIANT_WORD(work, 0x202C)) + 3072;
     reach = 128;

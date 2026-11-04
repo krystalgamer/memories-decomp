@@ -21,7 +21,7 @@ void SpanishModelVariant473_DrawSheets(u8 *context)
     s32 extra;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
     /* The sixth sheet has no primary record; advance within the raw context. */
     primary_cursor = context + 0x18D8;

@@ -278,7 +278,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
                         (long *)&work->band.x2, (long *)&work->band.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->band, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->band, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -297,7 +297,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->band, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->band, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->shells[i].elapsed += step;
@@ -349,7 +349,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             if (work->sparks[i].u < 224) {
@@ -399,7 +399,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
                 (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             for (j = 0; j < 5; j++) {
                 unit.flg = 0;
@@ -432,7 +432,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             if (work->bursts[i].u < 7) {

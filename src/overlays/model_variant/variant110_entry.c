@@ -80,7 +80,7 @@ s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     SetPolyFT4(&quad);
     SetPolyG3(&fan);
     dot.attribute = 0x50000000;

@@ -60,7 +60,7 @@ s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     SetPolyG3(&triangle);
     box.w = box.h = 1;
     box.attribute = 0x50000000;

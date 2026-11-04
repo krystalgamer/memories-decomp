@@ -14,6 +14,6 @@ RotMatrixZ = 0x800885A4;
 RotTransPers = 0x80087664;
 ScaleMatrix = 0x800873F4;
 bzero = 0x8008F2D4;
-func_80058F10 = 0x8005D3D4;
+Graphics_GetDefaultOrderingTable = 0x8005D3D4;
 rcos = 0x800864F4;
 rsin = 0x80086424;

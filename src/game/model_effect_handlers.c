@@ -127,7 +127,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     }
 
     t = e->table;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     SetPolyG3(&g3);
     SetPolyG4(&g4);
     PushMatrix();
@@ -321,7 +321,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
         return 0;
     }
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     PushMatrix();
@@ -820,7 +820,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
         return 0;
     }
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     PushMatrix();

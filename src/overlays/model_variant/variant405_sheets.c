@@ -25,7 +25,7 @@ void ModelVariant405_DrawSheets(u8 *ctx)
 
     work = ctx;
     sheet = (ModelVariantSheet *)(ctx + 0x147C);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x1C84);
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;

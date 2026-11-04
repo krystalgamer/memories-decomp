@@ -224,7 +224,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                     (long *)&work->flat.x0, (long *)&work->flat.x1,
                     (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->orbs[i].spin.vx++;
                 work->orbs[i].elapsed += step;
@@ -247,7 +247,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             setRGB0(&work->fill, work->fade.red, work->fade.green, work->fade.blue);
             setXY4(&work->fill, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
                 GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
-            Graphics_SubmitDrawModePacket((u32 *)&work->fill, func_80058F10(), 0, work->fade.mode);
+            Graphics_SubmitDrawModePacket((u32 *)&work->fill, Graphics_GetDefaultOrderingTable(), 0, work->fade.mode);
             work->fade.elapsed += step;
             if (work->fade.duration < work->fade.elapsed) {
                 work->fade.active = 0;
@@ -309,7 +309,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                             (long *)&work->flat.x0, (long *)&work->flat.x1,
                             (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -343,7 +343,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                         (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                         (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     setPolyGT4(&work->shaded);
                     work->shaded.tpage = work->tpage[2];
@@ -359,7 +359,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                         (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                         (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 unit.flg = 0;
@@ -393,7 +393,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                     (long *)&work->flat.x0, (long *)&work->flat.x1,
                     (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 n = (work->bursts[i].elapsed << 12) / work->bursts[i].duration + 0x1000;
                 setVector(&work->bursts[i].scale, n, n, n);
@@ -435,7 +435,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                         (long *)&work->flat.x0, (long *)&work->flat.x1,
                         (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->bursts[i].spin.vx++;

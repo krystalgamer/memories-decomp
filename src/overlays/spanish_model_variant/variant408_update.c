@@ -20,7 +20,7 @@ void SpanishModelVariant408_DrawMesh(u8 *context)
     s32 depth;
     SVECTOR *point;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     unused = ratan2(work->view_delta.vz, work->view_delta.vx);
     unused = ratan2(work->view_delta.vy, work->view_delta.vx);
     quad = &work->quad;

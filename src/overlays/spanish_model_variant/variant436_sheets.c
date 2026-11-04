@@ -21,7 +21,7 @@ void SpanishModelVariant436_DrawSheets(u8 *context)
     s32 bias;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction[2], state->direction[0]);
     ratan2(state->direction[1], state->direction[0]);
     if ((state->frame & 1) == 0) {

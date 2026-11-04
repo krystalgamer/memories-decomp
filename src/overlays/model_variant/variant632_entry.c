@@ -328,7 +328,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                         (long *)&work->flat.x2, (long *)&work->flat.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->flares[i][j].u += 32;
                     if (work->flares[i][j].u == 128) {
@@ -385,7 +385,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                             work->dot.x1 = work->dot.x0;
                             work->dot.y1 = work->dot.y0;
                             if (flag >= 0) {
-                                GsSortLine(&work->dot, func_80058F10(), (u16)depth);
+                                GsSortLine(&work->dot, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }
@@ -470,7 +470,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->strips[i].elapsed += step;
             } else {

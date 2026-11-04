@@ -22,7 +22,7 @@ void ModelVariant425_DrawQuad(u8 *ctx)
 
     poly = (POLY_G4 *)(ctx + 0x254C);
     rec = (ModelVariantQuad *)(ctx + 0x24A0);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;
         if (MODEL_VARIANT_WORD(ctx, 0x26F4) & 1) {

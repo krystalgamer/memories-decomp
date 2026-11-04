@@ -507,7 +507,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                     (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->glows[i].u += 32;
                 if (work->glows[i].u == 0x60) {
@@ -566,7 +566,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                         (long *)&work->shard.x0, (long *)&work->shard.x1, (long *)&work->shard.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->shard, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->shards[i][j].elapsed += step;
                     if (work->shards[i][j].duration < work->shards[i][j].elapsed) {
@@ -615,7 +615,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->orbs[i][j].u += 32;
                     if (work->orbs[i][j].u == 0x60) {
@@ -683,7 +683,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                                 (long *)&work->strip.x2, (long *)&work->strip.x3,
                                 &interpolation, &flag);
                             if (flag >= 0) {
-                                GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                                GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }
@@ -737,7 +737,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                             mid.vz = (origin.vz + work->sphere[k][n].vz) / 2;
                             depth = RotTransPers(&mid, &sxy, &interpolation, &flag);
                             if (flag >= 0) {
-                                GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }

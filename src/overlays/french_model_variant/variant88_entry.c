@@ -43,7 +43,7 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->frame < 0) {
         work->frame += step;
         return 0;

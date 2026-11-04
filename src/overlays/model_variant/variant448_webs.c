@@ -34,7 +34,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
     work = ctx;
     timing = work + 0x11F0;
     web = (ModelVariantWebNarrow *)(work + 0x6F8);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
     line = (GsGLINE *)(work + 0x1A84);

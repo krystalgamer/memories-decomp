@@ -20,7 +20,7 @@ void ModelExodia_DrawRings(u8 *context)
 
     work = (ExodiaSecondRingState *)context;
     ring = work->rings;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quad;
     for (i = 0; i < 2; i++, ring++) {
         flicker = 0;

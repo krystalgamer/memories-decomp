@@ -24,7 +24,7 @@ maps to its Japanese address from `config/slpm_86398/symbols.txt`; the only
 unnamed resident symbol, `GsIDMATRIX`, sits between `GsWSMATRIX_ORG` and
 `GsIDMATRIX2` in both executables and moves with them from `0x800FE168` to
 `0x800FB858` (confirmed from the low halves in the header-628 and header-632
-images). Calls to `func_80058F10` and `Graphics_SubmitDrawModePacket` map through the
+images). Calls to `Graphics_GetDefaultOrderingTable` and `Graphics_SubmitDrawModePacket` map through the
 call targets that differ between the US and Japanese copies of each image.
 
 ## Header-141 primary images

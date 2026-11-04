@@ -18,5 +18,5 @@ RotTransPers3 = 0x80087910; // type:func absolute:true
 RotTransPers4 = 0x800879D0; // type:func absolute:true
 ScaleMatrix = 0x80087670; // type:func absolute:true
 SetRotMatrix = 0x800877B0; // type:func absolute:true
-func_80058F10 = 0x80058F10; // type:func absolute:true
+Graphics_GetDefaultOrderingTable = 0x80058F10; // type:func absolute:true
 ratan2 = 0x800899A0; // type:func absolute:true

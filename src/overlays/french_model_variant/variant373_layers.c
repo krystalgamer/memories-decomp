@@ -27,7 +27,7 @@ void FrenchModelVariant373_DrawLayers(u8 *context)
     s32 texture_v, angle, byte_offset;
 
     work = (Family373LayerView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     all_done = 1;
     GsGetActiveBuff();
     i = 0;

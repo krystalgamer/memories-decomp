@@ -41,7 +41,7 @@ void ModelVariant433_DrawCoils(u8 *context)
     s32 dx, dy;
 
     work = (Model450CoilView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
     quad = &work->packet;
     reach = 192;

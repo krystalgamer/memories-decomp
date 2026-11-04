@@ -50,7 +50,7 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
     work = ctx;
     spray = (Spray456 *)(work + 0x440);
     poly = (POLY_FT4 *)(work + 0x2204);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2308), MODEL_VARIANT_WORD(work, 0x2304));
     length = 12;

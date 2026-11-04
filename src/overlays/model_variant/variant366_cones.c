@@ -39,7 +39,7 @@ void ModelVariant366_DrawCones(u8 *context)
     s32 top;
 
     ribbon = work->ribbons;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     buff = GsGetActiveBuff();
     ratan2(work->direction.vz, work->direction.vx);
     sign = -1;

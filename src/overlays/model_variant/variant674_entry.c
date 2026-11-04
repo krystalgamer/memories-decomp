@@ -215,7 +215,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                     (long *)&work->flat.x0, (long *)&work->flat.x1,
                     (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 for (k = 0; k < 8; k++) {
                     unit.flg = 0;
@@ -261,7 +261,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                             (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
                         work->shaded.tpage = work->tpage[1];
@@ -277,7 +277,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                             (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -336,7 +336,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             (long *)&work->flat.x0, (long *)&work->flat.x1,
                             (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -384,7 +384,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                             (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
                         work->shaded.tpage = work->tpage[1];
@@ -402,7 +402,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             (long *)&work->shaded.x0, (long *)&work->shaded.x1,
                             (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->shaded, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }

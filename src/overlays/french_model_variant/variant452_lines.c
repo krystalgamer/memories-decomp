@@ -21,7 +21,7 @@ void FrenchModelVariant452_DrawLines(u8 *ctx)
     s32 depth;
     u8 r, g, b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     active = 1;
     ratan2(work->delta.vz, work->delta.vx);
     ratan2(work->delta.vy, work->delta.vx);

@@ -30,7 +30,7 @@ void ModelExodia_DrawSpokes(u8 *context)
 
     work = (ExodiaSpokeState *)context;
     quad = &work->quad;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->direction.vz, work->direction.vx) + 3072;
     for (i = 0; i < 16; i++) {
         if (!(i & 1)) {

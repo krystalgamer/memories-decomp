@@ -47,7 +47,7 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
     s32 odd;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x15CC), MODEL_VARIANT_WORD(work, 0x15C4)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x15C8), MODEL_VARIANT_WORD(work, 0x15CC)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0x163C) >= 4) {

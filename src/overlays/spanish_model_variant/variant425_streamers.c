@@ -46,7 +46,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)(work + 0x16D4);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1778), MODEL_VARIANT_WORD(work, 0x1770)) + 0xC00;
     reach = 0xC0;

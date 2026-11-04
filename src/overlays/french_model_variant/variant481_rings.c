@@ -28,7 +28,7 @@ void FrenchModelVariant481_DrawRings(u8 *context)
     s32 depth;
     u8 r0, g0, b0, r1, g1, b1;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(state->direction[2], state->direction[0]) + 2048;
     pitch = ratan2(state->direction[1], state->direction[2]);
     gauge = &state->gauge;

@@ -22,7 +22,7 @@ void FrenchModelVariant335_DrawRings(u8 *work)
     s32 tpage;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     active = GsGetActiveBuff();
     for (j = 0; j < 3; j++, ring++) {

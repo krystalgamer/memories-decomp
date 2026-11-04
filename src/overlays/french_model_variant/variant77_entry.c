@@ -128,7 +128,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
             + config->amplitude * a * ccos(work->elapsed * 24) / 4096;
         i = config->width * csin((distance << 11) / (right - left));
         setXY3(&triangle, x, (b - i) / 4096, x + step, b / 4096, x, (b + i) / 4096);
-        Graphics_SubmitDrawModePacket((u32 *)&triangle, func_80058F10(), (u16)depth, 3);
+        Graphics_SubmitDrawModePacket((u32 *)&triangle, Graphics_GetDefaultOrderingTable(), (u16)depth, 3);
     }
     velocity = work->velocities;
     for (i = 0; i < 32; i++) {
@@ -157,7 +157,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
             setUV4(&quad, a % 4 * 32, a / 4 * 32, a % 4 * 32 + 31, a / 4 * 32,
                    a % 4 * 32, a / 4 * 32 + 31, a % 4 * 32 + 31, a / 4 * 32 + 31);
             if (depth >= 0 && flag >= 0) {
-                GsSortPoly(&quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             velocity++;
         }

@@ -41,7 +41,7 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     long *projection;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34)) + 3072;
     ratan2(MODEL_VARIANT_WORD(work, 0x2E38), MODEL_VARIANT_WORD(work, 0x2E34));
     MODEL_VARIANT_WORD(work, 0x2DE8) = MODEL_VARIANT_WORD(work, 0x2DDC)

@@ -39,7 +39,7 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
 
     work = ctx;
     curtain = (ModelVariantCurtain *)(work + 0x13B4);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x19C8), MODEL_VARIANT_WORD(work, 0x19C0)) + 0x800;
     sheet = (ModelVariantSheet *)(work + 0x6A8);
     poly = (POLY_GT4 *)(work + 0x18F0);

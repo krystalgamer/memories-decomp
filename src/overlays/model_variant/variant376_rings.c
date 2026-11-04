@@ -21,7 +21,7 @@ void ModelVariant376_DrawRings(u8 *context)
     s32 pulse;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     count = 1;
     quad = &work->quad;
     if (work->single == 0) {

@@ -55,7 +55,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
     poly = (POLY_G4 *)(work + 0x2204);
     reach = 0xC0;

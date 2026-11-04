@@ -37,7 +37,7 @@ void FrenchModelVariant423_DrawFunnel(u8 *context)
     /* Retain the accepted funnel template's pointer-initialization loop notes. */
     do {
     } while (0);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     funnel = state->funnels;
     turn = ratan2(state->direction[2], state->direction[0]);
     yaw = turn + 0x800;

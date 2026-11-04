@@ -1,4 +1,4 @@
-func_80058F10 = 0x8005C018;
+Graphics_GetDefaultOrderingTable = 0x8005C018;
 RotMatrix = 0x80087CB8;
 GsGetLs = 0x80086258;
 GsSetLsMatrix = 0x80085558;

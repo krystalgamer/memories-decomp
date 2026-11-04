@@ -40,7 +40,7 @@ void SpanishModelVariant423_DrawSpiral(u8 *ctx)
     u8 c3;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x1C70);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1D7C), MODEL_VARIANT_WORD(work, 0x1D74)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0x1E0C) >= 0) {

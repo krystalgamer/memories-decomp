@@ -21,7 +21,7 @@ void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
     s32 size, depth;
     u32 page;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     active = GsGetActiveBuff();
     yaw = ratan2(state->direction.vz, state->direction.vx) + 2048;

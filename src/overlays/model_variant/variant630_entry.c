@@ -202,7 +202,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                 (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             work->orbs[i].u += 32;
             if (work->orbs[i].u == 96) {
@@ -257,7 +257,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                 (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             /* The band loop reuses k rather than a separate counter; the extra
              * uses keep retail's register choice for the spark loops. */
@@ -272,7 +272,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                     (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->band, func_80058F10(), (u16)depth, work->rings[i].mode);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->band, Graphics_GetDefaultOrderingTable(), (u16)depth, work->rings[i].mode);
                 }
             }
             work->rings[i].u += 32;
@@ -322,7 +322,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->sparks[i][k].u += 32;
                 if (work->sparks[i][k].u == 224) {

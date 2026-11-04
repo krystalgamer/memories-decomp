@@ -35,7 +35,7 @@ void ModelVariant433_DrawRibbons(u8 *context)
     s32 dx, dy;
 
     work = (Variant433RibbonView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
     pitch = ratan2(work->view_direction[1], work->view_direction[0]) + 3072;
     if (!(work->flags & 1)) {

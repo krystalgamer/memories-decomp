@@ -20,7 +20,7 @@ void ModelVariant321_DrawRings(u8 *context)
     s32 pulse;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quad;
     for (i = 0; i < 2; i++, ring++) {
         pulse = 0;

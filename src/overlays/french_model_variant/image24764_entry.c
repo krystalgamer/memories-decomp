@@ -73,7 +73,7 @@ s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
     }
 
     config = state->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     light = *(MATRIX *)Model_GetLightSourceMatrix();
     PushMatrix();
     SetPolyFT4(&quad);

@@ -114,7 +114,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     time = work->elapsed + (s16)config->delay;
     setVector(&vertices[0], 0, 0, 0);
     switch (work->camera_step) {

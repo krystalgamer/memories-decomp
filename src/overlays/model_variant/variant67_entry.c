@@ -61,7 +61,7 @@ s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     cmd = work->command;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();
         return 0;

@@ -16,7 +16,7 @@ work offsets. It reuses `Variant469Ribbon` from
 - **Last segment.** The final drawn segment (`k + 1 == count`) ends on the
   bare projected spine point `sa[count]`, with no width offsets.
 
-The ribbon pointer must be assigned after the `func_80058F10` call. Assigning
+The ribbon pointer must be assigned after the `Graphics_GetDefaultOrderingTable` call. Assigning
 it earlier keeps `work` in `s6` straight from `a0`; retail reloads it from
 the stack home after the call.
 

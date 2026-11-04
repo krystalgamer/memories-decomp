@@ -18,7 +18,7 @@ void FrenchModelVariant452_DrawSheets(u8 *ctx)
     s32 bias;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = &work->poly;
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;

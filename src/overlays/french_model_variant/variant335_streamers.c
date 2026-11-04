@@ -45,7 +45,7 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
     DVECTOR *previous;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34)) + 0xC00;
     poly = (POLY_FT4 *)(work + 0x2D68);
     reach = 0x100;

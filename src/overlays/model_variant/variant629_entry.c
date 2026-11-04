@@ -420,7 +420,7 @@ s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
                                 (long *)&work->poly.x0, (long *)&work->poly.x1,
                                 (long *)&work->poly.x2, (long *)&work->poly.x3, &interp, &flag);
                             if (flag >= 0) {
-                                GsSortPoly(&work->poly, func_80058F10(), (u16)depth);
+                                GsSortPoly(&work->poly, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }
@@ -472,7 +472,7 @@ s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
                     (long *)&work->g4.x0, (long *)&work->g4.x1,
                     (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, func_80058F10(), (u16)depth, work->b[i].f08);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].f08);
                 }
                 setPolyG4(&work->g4);
                 setRGB1(&work->g4, 0, 0, 0);
@@ -493,7 +493,7 @@ s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
                     (long *)&work->g4.x0, (long *)&work->g4.x1,
                     (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, func_80058F10(), (u16)depth, work->b[i].f08);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].f08);
                 }
                 work->b[i].f0E += step;
                 if (work->b[i].f10 < work->b[i].f0E) {
@@ -554,7 +554,7 @@ s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
                     (long *)&work->ft4.x0, (long *)&work->ft4.x1,
                     (long *)&work->ft4.x2, (long *)&work->ft4.x3, &interp, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->ft4, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->ft4, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->c[i].u += 32;
                 if (work->c[i].u == 0xE0) {

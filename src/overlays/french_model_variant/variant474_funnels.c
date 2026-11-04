@@ -25,7 +25,7 @@ void FrenchModelVariant474_DrawPairedFunnels(u8 *context)
     s16 flicker;
     u8 r, g, b, outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(state->direction[2], state->direction[0]) + 2048;
     pitch = ratan2(state->direction[1], state->direction[2]);
     trigger = &state->trigger;

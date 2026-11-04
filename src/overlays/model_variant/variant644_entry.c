@@ -323,7 +323,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -343,7 +343,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                     (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->fan, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->glows[i].elapsed += step;
@@ -392,7 +392,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                     (work->spokes[j].from.vz + work->spokes[j].to.vz) / 2);
                 depth = RotTransPers(&middle, &sxy, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                    GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->stars[i].elapsed += step;
@@ -438,7 +438,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                     RotTransPers(&work->cage[k][j].from, (long *)&work->line.x0, &interpolation, &flag);
                     depth = RotTransPers(&work->cage[k][j].to, (long *)&work->line.x1, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                        GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }

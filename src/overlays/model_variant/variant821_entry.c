@@ -111,7 +111,7 @@ s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
         return 0;
     }
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->side == 0) {

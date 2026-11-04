@@ -42,7 +42,7 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
 
     work = ctx;
     ribbon = (Variant458Ribbon *)(work + 0x1E4);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2FA8), MODEL_VARIANT_WORD(work, 0x2FA0)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2FA4), MODEL_VARIANT_WORD(work, 0x2FA0));

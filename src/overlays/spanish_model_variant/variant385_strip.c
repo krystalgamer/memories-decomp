@@ -17,7 +17,7 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
     s16 extent;
     s32 angle;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(state->projected.vy, state->projected.vx);
     polygon = &state->polygon;
     angle += 2048;

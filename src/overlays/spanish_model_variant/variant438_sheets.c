@@ -18,7 +18,7 @@ void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
     s32 pulse;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
     for (i = 0; i < 2; i++, sheet++) {
         pulse = 0;

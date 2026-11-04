@@ -21,7 +21,7 @@ void func_8013DDD4(u8 *ctx)
     s32 otz;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
     rot.vx = -MODEL_VARIANT_HALF(work, 0x2834) - 1024;
     rot.vy = 0;

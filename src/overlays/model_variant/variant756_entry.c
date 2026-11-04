@@ -104,7 +104,7 @@ s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
         work->smoke_count = 0;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->phase == 0) {

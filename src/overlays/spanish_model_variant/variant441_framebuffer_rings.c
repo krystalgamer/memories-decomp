@@ -23,7 +23,7 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
     u32 tpage;
     u8 red, green, blue;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     buffer = GsGetActiveBuff();
     angle_y = ratan2(state->direction[2], state->direction[0]) + 2048;

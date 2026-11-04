@@ -246,7 +246,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
                 (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             switch (work->flares[i].u) {
             case 0:
@@ -327,7 +327,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -374,7 +374,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
                 (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             if (work->sparks[i].u != 224) {
                 work->sparks[i].u += 32;

@@ -956,7 +956,7 @@ address,size,name,status,module,notes
 0x8005BF70,0x2C,Model_GetSlotAnimationIndex,matching_c,game,"Shared European C at 0x8005D32C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005BF9C,0x2C,Model_GetSlotAnimationFrame,matching_c,game,"Shared European C at 0x8005D358; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005BFC8,0x50,Model_GetSlotAnimationLength,matching_c,game,"Shared European C at 0x8005D384; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8005C018,0x10,func_8005C018,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x8005C018,0x10,Graphics_GetDefaultOrderingTable,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x8005C028,0x54,Model_GetSlotDataEntry,matching_c,game,"Shared European C at 0x8005D3E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C07C,0x3C,Model_GetCurrentDataEntry,matching_c,game,"Shared European C at 0x8005D438; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005C0B8,0x50,Model_CopySlotPosition,matching_c,game,"Shared European C at 0x8005D474; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

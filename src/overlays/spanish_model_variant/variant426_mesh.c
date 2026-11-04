@@ -19,7 +19,7 @@ void SpanishModelVariant426_DrawMesh(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction[2], state->direction[0]);
     ratan2(state->direction[1], state->direction[2]);
     polygon = &state->polygon;

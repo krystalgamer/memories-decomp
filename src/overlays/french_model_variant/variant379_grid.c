@@ -22,7 +22,7 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
     s32 size, count;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     count = 0;
     for (i = 0; i < 5; i++, sheet++, pulse++) {
         if (!(state->flags & 1)) {

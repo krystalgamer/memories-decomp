@@ -34,7 +34,7 @@ void SpanishModelVariant456_DrawSheets(u8 *context)
     s32 depth;
     s32 r, g, b, outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     for (i = 0; i < 8; i++, sheet++) {
         rotation.vx = 0;

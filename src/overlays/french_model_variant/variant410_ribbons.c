@@ -40,7 +40,7 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
     s32 dy;
 
     work = (Family410RibbonView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
     pitch = ratan2(work->view_direction[1], work->view_direction[0]);
     ribbon = work->ribbons;

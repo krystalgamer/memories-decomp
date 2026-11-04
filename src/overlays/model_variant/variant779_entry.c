@@ -103,7 +103,7 @@ s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
         work->elapsed = 0;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     setPolyFT4(packet);

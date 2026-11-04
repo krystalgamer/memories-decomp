@@ -19,7 +19,7 @@ void SpanishModelVariant385_DrawLines(u8 *context)
     u8 red, green, blue;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     ratan2(state->direction[2], state->direction[0]);
     ratan2(state->direction[1], state->direction[0]);

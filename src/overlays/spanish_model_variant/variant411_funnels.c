@@ -31,7 +31,7 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
     s32 depth;
     u8 r, g, b, outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sheet = &state->sheet;
     turn = ratan2(state->direction[2], state->direction[0]);
     yaw = turn + 0x800;

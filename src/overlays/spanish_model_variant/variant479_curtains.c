@@ -27,7 +27,7 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
     u8 inner_r, inner_g, inner_b;
     u8 outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
     extra = ((state->frame & 1) << 5) * state->pulse_scale / 4096;
     radius = (rsin(1300) * 256) >> 12;

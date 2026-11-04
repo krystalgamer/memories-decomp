@@ -86,7 +86,7 @@ s32 ModelVariant165_HandleRequest(u8 *context, s32 command)
     }
     config = work->config;
     point = work->positions;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     target = work->targets;
     PushMatrix();

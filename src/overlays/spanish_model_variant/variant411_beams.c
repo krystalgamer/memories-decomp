@@ -34,7 +34,7 @@ void SpanishModelVariant411_DrawBeams(u8 *context)
 
     beam = ((Beam411State *)context)->beams;
     state = (Beam411State *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(state->direction[2], state->direction[0]) + 0xC00;
     ratan2(state->direction[1], state->direction[0]);
     sheet = &state->sheet;

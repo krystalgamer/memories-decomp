@@ -20,7 +20,7 @@ void SpanishModelVariant437_DrawSheet(u8 *context)
     s32 outer_r, outer_g, outer_b;
     s32 inner_r, inner_g, inner_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction[2], state->direction[0]);
     sheet = state->sheets;
     ratan2(state->direction[1], state->direction[0]);

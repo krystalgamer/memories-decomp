@@ -22,7 +22,7 @@ void FrenchModelVariant411_DrawTube(u8 *context)
     s32 depth;
     u8 r0, g0, b0, r1, g1, b1;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
     ratan2(state->direction_b[2], state->direction_b[0]);
     ratan2(state->direction_b[1], state->direction_b[0]);

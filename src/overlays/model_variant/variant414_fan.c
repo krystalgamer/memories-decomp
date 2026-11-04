@@ -24,7 +24,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
     work = ctx;
     rec = (Variant414Fan *)(ctx + 0x13B0);
     poly = (POLY_G4 *)(ctx + 0x1610);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++, rec++) {
         bias = 0;
         if (MODEL_VARIANT_WORD(work, 0x189C) & 1) {

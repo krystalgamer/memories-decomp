@@ -32,7 +32,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
 
     work = ctx;
     trail = (Variant412Trail *)work;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(MODEL_VARIANT_HALF(work, 0x1AEA), MODEL_VARIANT_HALF(work, 0x1AE8));
     rotation.vx = 0;
     rotation.vy = 0;

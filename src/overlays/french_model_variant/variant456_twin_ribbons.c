@@ -46,7 +46,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
 
     work = ctx;
     ribbon = (TwinRibbon456 *)(work + 0xA0);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2308), MODEL_VARIANT_WORD(work, 0x2304));
     length = 48;

@@ -30,7 +30,7 @@ void ModelVariant425_DrawRibbons(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x26E0), MODEL_VARIANT_WORD(work, 0x26DC));
     ribbon = (ModelVariantRibbonShort *)(work + 0x1940);

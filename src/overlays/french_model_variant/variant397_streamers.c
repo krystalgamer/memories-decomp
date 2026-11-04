@@ -43,7 +43,7 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
     s32 dy;
 
     work = (Variant397StreamerState *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     phase = 0x5DC;
     radius = 0x80;
     poly = (POLY_G4 *)((u8 *)work + 0x18C8);

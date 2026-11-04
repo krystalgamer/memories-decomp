@@ -22,7 +22,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
     work = ctx;
     fan = (Variant465Fan *)work;
     triangle = (POLY_G3 *)(work + 0x1948);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = (POLY_G4 *)(work + 0x1964);
     rot.vx = 0;
     rot.vy = 0;

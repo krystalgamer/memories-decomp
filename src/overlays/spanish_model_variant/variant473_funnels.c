@@ -38,7 +38,7 @@ void SpanishModelVariant473_DrawFunnels(u8 *context)
 
     sheet = state->sheets;
     FIRST_OBJECT(object, state);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     funnel = state->funnels;
     turn = ratan2(state->direction[2], state->direction[0]);
     yaw = turn + 0x800;

@@ -28,7 +28,7 @@ void func_8013C70C(u8 *ctx)
 
     work = ctx;
     arm = (Variant418SpiralArm *)(work + 0x720);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x279C), MODEL_VARIANT_WORD(work, 0x2794)) + 0xC00;
     poly = (POLY_GT4 *)(work + 0x22B4);
     for (i = 0; i < 16; i++, arm++) {

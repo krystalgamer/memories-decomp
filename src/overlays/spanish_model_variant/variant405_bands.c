@@ -20,7 +20,7 @@ void SpanishModelVariant405_DrawBands(u8 *context)
     u8 inner_r, inner_g, inner_b;
     u8 outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < state->descriptor->count; i++, band++) {
         if (band->size > 0) {
             size = band->size;

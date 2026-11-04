@@ -31,7 +31,7 @@ void FrenchModelVariant562_DrawShards(u8 *ctx)
     s32 s;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     v = ratan2(*(s16 *)(work + 0x31FE), *(s16 *)(work + 0x31FC));
     poly = (POLY_GT4 *)(work + 0x2E08);
     do {

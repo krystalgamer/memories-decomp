@@ -42,7 +42,7 @@ void FrenchModelVariant443_DrawRibbons(u8 *ctx)
 
     work = ctx;
     sheet = (ModelVariantSheet *)(work + 0x2A68);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x3610), MODEL_VARIANT_WORD(work, 0x3608)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x360C), MODEL_VARIANT_WORD(work, 0x3608)) + 0xC00;
     len = sheet->size * 48 / 4096;

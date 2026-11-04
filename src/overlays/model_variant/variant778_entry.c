@@ -71,7 +71,7 @@ s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
         work->ring_count = 0;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->elapsed < work->config->glow_time) {

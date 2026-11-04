@@ -26,7 +26,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
     work = (Variant431EntryState *)ctx;
     band = work->bands;
     poly = &work->textured[0];
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     reset = 0;
     for (i = 0; i < 5; i++, band++) {
         angle = ratan2(work->screen_y[i], work->screen_x[i]) + 2048;

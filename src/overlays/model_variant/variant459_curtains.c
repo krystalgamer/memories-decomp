@@ -28,7 +28,7 @@ void func_8013D430(u8 *ctx)
 
     work = ctx;
     curtain = (Variant459Curtain *)(work + 0x1A18);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
     poly = (POLY_GT4 *)(work + 0x2704);
     i = 0;

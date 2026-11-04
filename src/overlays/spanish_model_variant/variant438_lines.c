@@ -21,7 +21,7 @@ void SpanishModelVariant438_DrawLines(u8 *context)
     s32 depth;
     s32 cycle;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     ratan2(state->direction[2], state->direction[0]);
     ratan2(state->direction[1], state->direction[0]);

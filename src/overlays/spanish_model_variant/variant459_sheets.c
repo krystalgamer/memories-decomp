@@ -19,7 +19,7 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
     s32 bias;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     for (i = 0; i < state->timing->count * 2 + 1; i++, sheet++) {
         bias = 0;

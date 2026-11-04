@@ -24,7 +24,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
     work = ctx;
     rec = (Variant324Fan *)(ctx + 0xD04);
     poly = (POLY_G4 *)(ctx + 0xD90);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;
         if (MODEL_VARIANT_WORD(work, 0xF18) & 1) {

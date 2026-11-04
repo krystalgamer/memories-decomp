@@ -39,7 +39,7 @@ void FrenchModelVariant397_DrawBeams(u8 *ctx)
 
     work = (Variant397BeamsState *)ctx;
     sheet = work->sheets;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
     done = 0;

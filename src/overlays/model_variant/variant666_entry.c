@@ -214,7 +214,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             if (ended == 1) {
                 work->sparks[work->blooms[i].cursor][i].active = ended;
@@ -281,7 +281,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 RotTransPers(&tip, (long *)&work->line.x1, &interpolation, &flag);
                 depth = RotTransPers(&mid, &sxy, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                    GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 if (work->sparks[i][j].duration / 4 < work->sparks[i][j].elapsed && work->sparks[i][j].spawned == 0) {
                     work->rings[i][j].active = 1;
@@ -336,7 +336,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                         (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->fan, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 setPolyFT4(&work->quad);
@@ -353,7 +353,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 if (work->rings[i][j].u < 224) {
                     work->rings[i][j].u += 32;

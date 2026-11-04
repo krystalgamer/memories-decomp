@@ -20,7 +20,7 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 3; i++, mesh++, companion++) {
         if (!(state->frame & 1)) {
             size = mesh->size + state->size / 32;
