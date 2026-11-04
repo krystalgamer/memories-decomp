@@ -224,6 +224,32 @@ symbolic small-data load without size information, such as a difference in how
 the original compiler emitted `.extern`. That is the open question for the
 remaining views and for the two small ranges whose readers depend on them.
 
+The pattern points at translation-unit boundaries. Retail reaches a small
+variable gp-relative only from the translation unit that defines it, and
+absolutely from every unit that declares it `extern`. The current units
+split those original translation units apart. Measured over every North
+American object, for each unit that owns small data, take the span of text
+from the owner to its furthest gp-relative reader:
+- 21 of the 23 owners have no absolute reader inside that span. Every unit
+  in the span reaches the owner's variables gp-relative, and the absolute
+  (view) readers lie outside it.
+- The two exceptions are initialized `.sdata` strings (`gDebugMenu_szLineBreak`,
+  `gModel_szWhyTrace`), char arrays that are reachable through incomplete-array
+  externs.
+
+The spans outline the original units:
+- the duel code from `duel_field_card_render`'s block through about 55 current
+  units, with `duel_ground_projection` inside it;
+- the script commands (`script_command_busy` and `script_op_load_image_scene`);
+- the debug menu (`debug_menu_update` and `debug_menu_editor_entries`);
+- the model controllers (`model_background`, `model_debug_controller` and
+  `model_scene_controllers`);
+- smaller groups, such as `graphics_frame` and its first three readers.
+
+Removing the views therefore starts with merging the current units back into
+those translation units, so that each gp-relative reader defines what it
+reads.
+
 ## Regional layouts
 
 The regional executables use the same units in the same order, so a region
