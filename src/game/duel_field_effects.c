@@ -149,7 +149,10 @@ DuelEffectHandler
     DuelEffect_UpdateIdentitySave,
 };
 
+#if !defined(VERSION_EUROPE)
+/* European builds drop the trace below, and their .sdata lacks the string. */
 char D_8009AF40[] = "%d\n";
+#endif
 
 void DuelEffect_StartSwords(void)
 {
