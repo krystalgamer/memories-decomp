@@ -17,12 +17,18 @@
  * three fields it touches are named; the gaps are padding to hold the offsets,
  * not evidence that the record ends at 0x16. */
 typedef struct {
+    /* None of the three is a scroll offset or phase. The tiler copies
+       attribute into the sprite's GsSPRITE attribute word and rgb into its
+       r/g/b word, and passes ot_depth to GsSortFastSprite as the ordering
+       table priority. They sit at the offsets DisplayObject gives its own
+       attribute, rgb and ot_depth, which fits a display object being
+       handed in, but with no caller that is not proven. */
     u8 pad_00[4];
-    s32 field_04;
+    s32 attribute;
     u8 pad_08[4];
-    s32 field_0C;
+    s32 rgb;
     u8 pad_10[4];
-    s16 field_14;
+    s16 ot_depth;
 } CheckerboardState;
 
 /* PS1 scratchpad SPRT-primitive builder, reused for every sprite drawn. This
@@ -30,21 +36,25 @@ typedef struct {
  * handed to the ordering table, so it is kept here rather than replaced with a
  * libgpu primitive. */
 typedef struct {
-    u32 field_00;
-    u16 field_04;
-    u16 field_06;
-    u32 field_08;
-    u16 field_0C;
+    /* The first 0x18 bytes of a GsSPRITE, which is what every sprite is
+       handed to GsSortFastSprite as, so the members take libgs.h's names
+       (and SpritePrim's for the packed pairs): wh packs w in its low half
+       and h in its high half, and uv's two bytes are u and v. */
+    u32 attribute;
+    u16 x;
+    u16 y;
+    u32 wh;
+    u16 tpage;
     union {
         u16 word;
         struct {
-            u8 field_0E;
-            u8 field_0F;
+            u8 u;
+            u8 v;
         } bytes;
-    } field_0E;
-    u16 field_10;
-    u16 field_12;
-    u32 field_14;
+    } uv;
+    u16 cx;
+    u16 cy;
+    u32 rgb;
 } CheckerboardSprite;
 
 void func_8003D32C(void);

@@ -30,46 +30,46 @@ void Checkerboard_DrawBackground(
     s32 flip;
     s32 mode;
     s32 x;
-    s32 field_04;
-    s32 field_0C;
+    s32 attribute;
+    s32 rgb;
 
-    field_04 = state->field_04;
-    sprite->field_08 = 0x200020;
-    sprite->field_00 = field_04;
-    field_0C = state->field_0C;
-    sprite->field_0C = 0xB;
-    sprite->field_10 = CHECKERBOARD_CLUT_X;
-    sprite->field_12 = 0xFC;
-    mode = state->field_14;
-    sprite->field_0E.word = 0x3030;
-    sprite->field_14 = field_0C;
+    attribute = state->attribute;
+    sprite->wh = 0x200020;
+    sprite->attribute = attribute;
+    rgb = state->rgb;
+    sprite->tpage = 0xB;
+    sprite->cx = CHECKERBOARD_CLUT_X;
+    sprite->cy = 0xFC;
+    mode = state->ot_depth;
+    sprite->uv.word = 0x3030;
+    sprite->rgb = rgb;
 
     flip = 0;
     y = 0;
     do {
         x = 0;
-        sprite->field_04 = flip << 5;
-        sprite->field_0E.bytes.field_0E = 0x30;
-        sprite->field_06 = y;
-        sprite->field_10 = CHECKERBOARD_CLUT_X;
+        sprite->x = flip << 5;
+        sprite->uv.bytes.u = 0x30;
+        sprite->y = y;
+        sprite->cx = CHECKERBOARD_CLUT_X;
         do {
             GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
-            sprite->field_04 =
-                sprite->field_04 + CHECKERBOARD_CELL_WIDTH;
+            sprite->x =
+                sprite->x + CHECKERBOARD_CELL_WIDTH;
         } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
         x = 0;
-        sprite->field_04 = (flip ^ 1) << 5;
-        sprite->field_0E.bytes.field_0E = 0x50;
-        sprite->field_10 = CHECKERBOARD_CLUT_X + 0x10;
+        sprite->x = (flip ^ 1) << 5;
+        sprite->uv.bytes.u = 0x50;
+        sprite->cx = CHECKERBOARD_CLUT_X + 0x10;
         do {
             GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
-            sprite->field_04 =
-                sprite->field_04 + CHECKERBOARD_CELL_WIDTH;
+            sprite->x =
+                sprite->x + CHECKERBOARD_CELL_WIDTH;
         } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
         y += CHECKERBOARD_CELL_HEIGHT;
