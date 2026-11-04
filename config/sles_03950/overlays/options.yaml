@@ -83,7 +83,7 @@ segments:
     align: 4
     subsegments:
       - [0x3E0, c, overlays/pal_options/grid]
-  - name: func_801686A4
+  - name: PalOptions_NoOpLanguageHook
     type: code
     start: 0x6A4
     vram: 0x801686A4

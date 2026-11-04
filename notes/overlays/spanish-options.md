@@ -64,7 +64,7 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `PalOptions_EaseStripY` | 84 | Quadratic displacement outside the unchanged 60..92 interval; four drawing calls at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`. |
 | `PalOptions_DrawScrollingStrips` | 736 | Textured strips using a scratchpad `POLY_FT4`, five palette rows and signed-halfword phase; no direct caller or aligned address reference found in the checked resident/options images or five resource chunks. |
 | `PalOptions_DrawWaveSprite` | 708 | Signed language/unsigned object-selector dispatch to a 4-by-8 textured grid or one fast sprite; canonical scratchpad descriptors and two 5-by-9 word tables; runtime reachability remains unproven. |
-| `func_801686A4` | 8 | Empty language hook called conditionally by initialization at `0x801687A4`; no consumed return value. |
+| `PalOptions_NoOpLanguageHook` | 8 | Empty language hook called conditionally by initialization at `0x801687A4`; no consumed return value. |
 | `Options_Init` | 928 | Initialization called by the resident menu runner at `0x8002D8C0`; two VRAM captures, bounded comparison, full-width mode dispatch, five canonical object acquisitions and mode-specific music. |
 | `PalOptions_HandleInput` | 412 | Input handler called by update at `0x80168E6C`; output-mode changes, signed language selection, three resource pointers and confirm/cancel completion. |
 | `PalOptions_UpdateWaveTables` | 332 | Two 5-by-9 wave tables with signed phase, cosine displacement and packed grayscale; no direct caller found in the options image, so runtime reachability remains unproven. |
