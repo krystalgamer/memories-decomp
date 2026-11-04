@@ -110,7 +110,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
     scene_time = work->elapsed;
     if (work->effect_started == 0) {
         work->effect_started++;
-        func_8005F7B0(30, config->count * config->spacing / 2);
+        Model_QueueCameraShake(30, config->count * config->spacing / 2);
     }
     point = work->positions;
     velocity = work->velocities;

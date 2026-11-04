@@ -263,7 +263,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
     work->growth_age++;
     PopMatrix();
     if (work->elapsed < work->config->burst_end) {
-        func_8005F7B0(32, 8);
+        Model_QueueCameraShake(32, 8);
         work->elapsed += step;
         return 1;
     }

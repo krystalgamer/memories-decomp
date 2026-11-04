@@ -70,9 +70,9 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (!work->phase_frames) {
-        func_8005F5C8(slot, 0, &rotation, -16);
+        Model_QueueCameraOrbitFromPreset(slot, 0, &rotation, -16);
     } else {
-        func_8005F5C8(slot ^ 1, 2, &rotation, -32);
+        Model_QueueCameraOrbitFromPreset(slot ^ 1, 2, &rotation, -32);
     }
     if (work->status.fields.phase == 0) {
         if (work->brightness > -512) {

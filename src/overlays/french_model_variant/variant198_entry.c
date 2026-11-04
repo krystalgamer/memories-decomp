@@ -85,7 +85,7 @@ s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
     for (j = 0; j < config->phase_count; j++) {
         time = work->elapsed - config->start_delay - j * config->phase_spacing;
         if (time >= 0 && time < config->ring_duration && work->triggered == j) {
-            func_8005F7B0(50, (s16)(config->phase_spacing / 3));
+            Model_QueueCameraShake(50, (s16)(config->phase_spacing / 3));
             work->triggered++;
         }
         if (time >= 0 && time < config->ring_duration && j > 0) {
