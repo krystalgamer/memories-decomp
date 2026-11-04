@@ -115,9 +115,9 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     MapLocation *entry = gCampaignMap_aLocationTable + index;
     ViewState *camera = &gViewState_Current;
 
-    camera->orbit_angle = (u16)entry->camera_field_04;
+    camera->orbit_angle = (u16)entry->camera_orbit_angle;
     camera->angle = (u16)entry->camera_angle;
-    camera->distance = (u16)entry->camera_field_00;
+    camera->distance = (u16)entry->camera_distance;
     camera->view.vrx = entry->view_x;
     camera->view.vrz = entry->view_z;
     ViewState_ApplyOrbit();
@@ -383,9 +383,9 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     s32 stepDist;
 
     x = camera->distance;
-    stepX = ((entry->camera_field_00 - x) << 16) / steps;
+    stepX = ((entry->camera_distance - x) << 16) / steps;
     y = camera->orbit_angle;
-    stepY = ((entry->camera_field_04 - y) << 16) / steps;
+    stepY = ((entry->camera_orbit_angle - y) << 16) / steps;
     angle = camera->angle;
     turn = (entry->camera_angle - angle) & TRIG_ANGLE_MASK;
     gCampaignMap_dwTweenYaw = (angle << 16) | 0x8000;

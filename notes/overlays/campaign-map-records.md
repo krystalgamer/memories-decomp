@@ -20,9 +20,9 @@ described below.
 | Offset | Member | Type | Live evidence |
 |---:|---|---|---|
 | `0x00` | `confirm_gate` | `u16` | `CampaignMap_PickExit` tests it before querying the first exit's story flag. Confirm is ready when this gate is zero or that query succeeds. |
-| `0x02` | `camera_field_04` | `s16` | Immediate setup stores it in `ViewState.field_04`; the tween subtracts the live signed value from it. |
+| `0x02` | `camera_orbit_angle` | `s16` | Immediate setup stores it in the view state's orbit angle (`ViewState` +0x04); the tween subtracts the live signed value from it and steps the result as `gCampaignMap_dwTweenPitch`. |
 | `0x04` | `camera_angle` | `s16` | Immediate setup writes `ViewState.angle`; the tween forms the wrapped heading difference from the same value. |
-| `0x06` | `camera_field_00` | `s16` | Immediate setup writes `ViewState.field_00`; the tween computes its signed delta. No additional physical meaning is assigned to that channel. |
+| `0x06` | `camera_distance` | `s16` | Immediate setup writes the view state's orbit distance (`ViewState` +0x00), the radius both orbit functions scale; the tween computes its signed delta and steps it as `gCampaignMap_dwTweenDistance`. |
 | `0x08` | `view_x` | `s16` | Both camera paths use it for `view.vrx`. |
 | `0x0A` | `view_z` | `s16` | Both camera paths use it for `view.vrz`. |
 | `0x0C` | `f12` | `s16` | Marker creation passes X to `DisplayObject_ConfigureSpriteAtPositionWithResource`; the transition passes it to `DisplayObject_InterpolatePositionCosine` and eventually copies it into the marker's X halfword. |
@@ -30,6 +30,19 @@ described below.
 | `0x10` | `confirm_destination` | `u8` | The ready confirm path returns this nonzero destination, otherwise returns the current location with bit `0x8000` set. |
 | `0x11` | `pad_11` | `u8` | No live access identified; preserved, not interpreted. |
 | `0x12` | `exits` | `CampaignMapExit[4]` | Shared by location-object spawning and exit selection. |
+
+`camera_orbit_angle` and `camera_distance` were `camera_field_04` and
+`camera_field_00`, named after the `ViewState` offsets they feed.
+`CampaignMap_SetCameraFromLocation` copies each straight into that field
+before `ViewState_ApplyOrbit`, and `CampaignMap_StartCameraTween` steps
+toward each through `gCampaignMap_dwTweenPitch` and
+`gCampaignMap_dwTweenDistance`. Both orbit functions use +0x00 as the
+radius and +0x04 as the second angle, and `Duel_StartViewTween` calls the
+same pair its distance and orbit-angle channels. The overworld tween
+global's "pitch" name is kept, but the member takes the neutral
+`orbit_angle` because the alternate orbit uses that angle horizontally.
+Confidence: high. The rename is spelling only: offsets, widths and
+signedness are unchanged.
 
 The signed types are constrained by arithmetic and position-argument uses,
 not just zero stores. Immediate camera setup and several marker copies

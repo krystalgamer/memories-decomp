@@ -33,16 +33,15 @@ of the two angles, so `orbit_angle` is not called pitch.
 
 | Offset | Old | New | Evidence | Confidence | Uses |
 | --- | --- | --- | --- | --- | --- |
-| `0x00` | `field_00` | `distance` | Both orbit bodies negate it as the radius they scale by `rsin`/`rcos`. `Duel_StartViewTween` and the duel view-tween step treat it as the distance channel. `Library_UpdateCardView` loads it from `Model_AdjustCameraDistanceForSlot` and uses it as the radius of its own light orbit. The overworld location table (`MapLocation.camera_field_00`), its tween (`gCampaignMap_dwTweenDistance`), the debug L1/R1 zoom and the duel intro zoom-in all set or step it before reapplying the orbit. | high | 23 accesses, 9 files |
-| `0x04` | `field_04` | `orbit_angle` | The second angle both orbit bodies pass to `rsin`/`rcos`. `Duel_StartViewTween` names it the orbit-angle channel, and every writer stores an angle: constants such as `0x100`, `0xC4` and `0x3FE`, the duel and overworld tween accumulators, pad-driven up/down steps, or `MapLocation.camera_field_04`. The overworld tween calls its copy pitch, but the alternate orbit uses it as the horizontal angle, so the name stays neutral. | high | 20 accesses, 8 files |
+| `0x00` | `field_00` | `distance` | Both orbit bodies negate it as the radius they scale by `rsin`/`rcos`. `Duel_StartViewTween` and the duel view-tween step treat it as the distance channel. `Library_UpdateCardView` loads it from `Model_AdjustCameraDistanceForSlot` and uses it as the radius of its own light orbit. The overworld location table (`MapLocation.camera_distance`), its tween (`gCampaignMap_dwTweenDistance`), the debug L1/R1 zoom and the duel intro zoom-in all set or step it before reapplying the orbit. | high | 23 accesses, 9 files |
+| `0x04` | `field_04` | `orbit_angle` | The second angle both orbit bodies pass to `rsin`/`rcos`. `Duel_StartViewTween` names it the orbit-angle channel, and every writer stores an angle: constants such as `0x100`, `0xC4` and `0x3FE`, the duel and overworld tween accumulators, pad-driven up/down steps, or `MapLocation.camera_orbit_angle`. The overworld tween calls its copy pitch, but the alternate orbit uses it as the horizontal angle, so the name stays neutral. | high | 20 accesses, 8 files |
 
 The renames are spelling only, and raw halfword views such as
 `duel_phase_entry.c`'s `w[1]`/`w[2]` keep their existing index spelling.
-`MapLocation.camera_field_00` and `camera_field_04` in `src/ygo_types.h`,
-which `CampaignMap_SetCameraFromLocation` copies straight into `distance`
-and `orbit_angle`, are left for a separate change: that header is included
-by nearly every overlay image, so renaming them puts about 14,000 images in
-scope for verification.
+`MapLocation.camera_distance` and `camera_orbit_angle` in `src/ygo_types.h`
+(formerly `camera_field_00`/`camera_field_04`) are what
+`CampaignMap_SetCameraFromLocation` copies straight into `distance` and
+`orbit_angle`.
 
 ## Two orbit conventions
 

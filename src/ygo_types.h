@@ -839,9 +839,9 @@ typedef struct {
 
 typedef struct {
     u16 confirm_gate;
-    s16 camera_field_04;
+    s16 camera_orbit_angle;
     s16 camera_angle;
-    s16 camera_field_00;
+    s16 camera_distance;
     s16 view_x;
     s16 view_z;
     s16 f12;
