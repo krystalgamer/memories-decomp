@@ -56,7 +56,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant829_D0F98[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant829_D0F98[i]);
         }
         work->brightness = 2048;
         work->status.fields.phase = 0;
@@ -88,7 +88,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
             work->brightness = 2048;
         }
     }
-    func_800595C8(2, work->brightness, work->brightness, work->brightness);
+    Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
     if (work->elapsed < work->config->startup_delay) {
         work->elapsed += step;
         return 0;

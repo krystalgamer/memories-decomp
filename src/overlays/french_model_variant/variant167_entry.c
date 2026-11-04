@@ -57,9 +57,9 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
             point->vy += vertices[0].vy;
             point->vz += vertices[0].vz;
         }
-        work->texture[0] = func_80059A50(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant167_D0EE8[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant167_D0EE8[0]);
         for (i = 1; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant167_D0EE8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant167_D0EE8[i]);
         }
         work->elapsed = 0;
         work->started = 0;
@@ -76,17 +76,17 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
     time = work->elapsed - config->delay;
     if (time >= 0 && time < config->fade_duration) {
         value = 2048 - time * 6144 / config->fade_duration;
-        func_800595C8(2, value, value, value);
+        Model_SetSlotAmbient(2, value, value, value);
     } else if (time >= config->fade_duration) {
-        func_800595C8(2, -4096, -4096, -4096);
+        Model_SetSlotAmbient(2, -4096, -4096, -4096);
     }
     time = work->elapsed - config->delay - config->particle_delay
         - config->count * config->stagger - config->particle_duration;
     if (time >= 0 && time < config->fade_duration) {
         value = -4096 + time * 6144 / config->fade_duration;
-        func_800595C8(2, value, value, value);
+        Model_SetSlotAmbient(2, value, value, value);
     } else if (time >= config->fade_duration) {
-        func_800595C8(2, 2048, 2048, 2048);
+        Model_SetSlotAmbient(2, 2048, 2048, 2048);
     }
     time = work->elapsed - config->delay;
     if (time < config->stagger * config->count + config->particle_duration

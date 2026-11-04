@@ -67,12 +67,12 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT408_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT408_CLUT_X, 244);
-        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[6]);
+        packed_texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant408_D1470[6]);
         texture = packed_texture;
         texture_page = packed_texture >> 16;
-        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[4]);
-        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[0]);
-        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[7]);
+        packed_texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant408_D1470[4]);
+        packed_texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant408_D1470[0]);
+        packed_texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant408_D1470[7]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -249,7 +249,7 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = angle;
         }
     }
-    func_800595C8(2, work->brightness, work->brightness, work->brightness);
+    Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
     if (work->state < 5) {
         if (work->brightness > 0) {
             work->brightness -= 128;

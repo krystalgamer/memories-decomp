@@ -46,7 +46,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
             velocity->vz = direction * config->speed;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant77_D0C28[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant77_D0C28[i]);
         }
         work->completed = 0;
         return 0;

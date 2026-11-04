@@ -56,7 +56,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT405_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant405_D1FBC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant405_D1FBC + 0x1C));
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
         SetPolyG3(triangle);

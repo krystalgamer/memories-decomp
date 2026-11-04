@@ -50,7 +50,7 @@ s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
                 rand() % (config->point_spread * 2) - config->point_spread);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant141_D0F70[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant141_D0F70[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

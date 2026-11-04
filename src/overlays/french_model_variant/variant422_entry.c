@@ -65,16 +65,16 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vx - work->matrix.t[0],
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
         page = packed >> 16;
         stack.texture_cluts[1] = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
         halo_page = packed >> 16;
         halo_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -330,7 +330,7 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 5) {
         if (work->tint > 0) {
             work->tint -= 128;

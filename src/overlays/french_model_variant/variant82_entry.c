@@ -31,7 +31,7 @@ s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
             setVector(point, 0, 0, 0);
             work->remaining[i] = 8;
         }
-        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, gFrenchModelVariant82_D0DF4);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gFrenchModelVariant82_D0DF4);
         work->elapsed = -config->delay;
         work->completed = 0;
         return 0;

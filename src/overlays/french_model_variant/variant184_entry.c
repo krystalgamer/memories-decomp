@@ -62,7 +62,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
                 config->inner_radius * csin(i * 4096 / 16) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant184_D0F04[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant184_D0F04[i]);
         }
         work->elapsed = 0;
         work->updates = 0;

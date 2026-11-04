@@ -46,11 +46,11 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            func_800593D0(work->slot, work->config->parts[0], work->config->vertices[0],
+            Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertices[0],
                           &work->positions[0]);
-            func_800593D0(work->slot, work->config->parts[1], work->config->vertices[1],
+            Model_TransformPartVertex(work->slot, work->config->parts[1], work->config->vertices[1],
                           &work->positions[1]);
-            func_800593D0(work->slot, work->config->parts[2], work->config->vertices[2],
+            Model_TransformPartVertex(work->slot, work->config->parts[2], work->config->vertices[2],
                           &work->positions[2]);
         } else {
             GsGetLwUnit(work->parts[0], &work->matrix);
@@ -70,14 +70,14 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT393_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT393_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xC4));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x1C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xC4));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x1C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x38));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0x54));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant393_D23B0 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -258,19 +258,19 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
                     }
                 } else {
                     if (work->part_index == 0) {
-                        func_800593D0(work->slot, config->parts[0], config->vertices[0],
+                        Model_TransformPartVertex(work->slot, config->parts[0], config->vertices[0],
                                       &work->positions[0]);
                         work->matrix.t[0] = work->positions[0].vx;
                         work->matrix.t[1] = work->positions[0].vy;
                         work->matrix.t[2] = work->positions[0].vz;
                     } else if (work->part_index == 1) {
-                        func_800593D0(work->slot, config->parts[1], config->vertices[1],
+                        Model_TransformPartVertex(work->slot, config->parts[1], config->vertices[1],
                                       &work->positions[1]);
                         work->matrix.t[0] = work->positions[1].vx;
                         work->matrix.t[1] = work->positions[1].vy;
                         work->matrix.t[2] = work->positions[1].vz;
                     } else {
-                        func_800593D0(work->slot, config->parts[2], config->vertices[2],
+                        Model_TransformPartVertex(work->slot, config->parts[2], config->vertices[2],
                                       &work->positions[2]);
                         work->matrix.t[0] = work->positions[2].vx;
                         work->matrix.t[1] = work->positions[2].vy;
@@ -299,7 +299,7 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
         if (work->tint > 0) {
             work->tint -= 128;

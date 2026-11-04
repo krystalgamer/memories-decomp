@@ -50,7 +50,7 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
             point->vz = value * csin(angle1) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant144_D0EC0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant144_D0EC0[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {

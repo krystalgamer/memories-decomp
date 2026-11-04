@@ -46,7 +46,7 @@ s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
             setVector(point, 0, 0, 0);
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelVariant111_D0D08[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant111_D0D08[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;

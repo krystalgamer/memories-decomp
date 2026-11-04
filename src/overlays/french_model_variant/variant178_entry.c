@@ -54,9 +54,9 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % config->velocity_spread * 2 - config->velocity_spread;
         }
         for (i = 1; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant178_D0D4C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant178_D0D4C[i]);
         }
-        work->texture[0] = func_80059A50(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant178_D0D4C[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant178_D0D4C[0]);
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT178_PRINT_WORK_SIZE)

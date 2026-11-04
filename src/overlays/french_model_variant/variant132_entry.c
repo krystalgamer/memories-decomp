@@ -56,7 +56,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
             point[17].vy += config->ring_height;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_D0EC8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_D0EC8[i]);
         }
         Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, work->position);
         work->position[1] = 0;

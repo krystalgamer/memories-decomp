@@ -44,7 +44,7 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            func_800593D0(work->slot, work->config->part, work->config->vertex,
+            Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -59,14 +59,14 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT338_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT338_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0xC4));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x1C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0xC4));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x1C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x38));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0x54));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant338_D270C + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -207,7 +207,7 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
             Model_CopySlotU16Values(0, (u16 *)&work->target);
         }
         if (work->config->mode == 1) {
-            func_800593D0(work->slot, work->config->part, work->config->vertex,
+            Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -246,7 +246,7 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->field_1F74, work->field_1F74, work->field_1F74);
+    Model_SetSlotAmbient(2, work->field_1F74, work->field_1F74, work->field_1F74);
     if (work->phase < 6) {
         if (work->field_1F74 > 0) {
             work->field_1F74 -= 128;

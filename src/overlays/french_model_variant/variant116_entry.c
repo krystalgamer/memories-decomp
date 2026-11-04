@@ -55,7 +55,7 @@ s32 FrenchModelVariant116_HandleRequest(u8 *context, s32 command)
             point->vz = (radius * csin(value) / 4096) * csin(elevation) / 4096;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant116_D116C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant116_D116C[i]);
         }
         work->elapsed = -config->initial_delay;
         setVector(&vertices[0], 0, 0, 0);
