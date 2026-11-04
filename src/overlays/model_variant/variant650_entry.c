@@ -65,17 +65,17 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->fan_count = 4;
             break;
         }
-        work->radius = gModelVariant650_D1B58[command].radius;
-        work->height = gModelVariant650_D1B58[command].height;
+        work->radius = gModelVariant650_aConfigs[command].radius;
+        work->height = gModelVariant650_aConfigs[command].height;
         for (i = 0; i < work->sprite_count; i++) {
             work->sprites[i].active = 0;
             work->sprites[i].elapsed = 0;
             work->sprites[i].duration = 64;
             work->sprites[i].mode = 1;
             work->sprites[i].coord = Model_GetCameraCoordinateUnit();
-            work->sprites[i].color[0] = gModelVariant650_D1B58[command].color[0];
-            work->sprites[i].color[1] = gModelVariant650_D1B58[command].color[1];
-            work->sprites[i].color[2] = gModelVariant650_D1B58[command].color[2];
+            work->sprites[i].color[0] = gModelVariant650_aConfigs[command].color[0];
+            work->sprites[i].color[1] = gModelVariant650_aConfigs[command].color[1];
+            work->sprites[i].color[2] = gModelVariant650_aConfigs[command].color[2];
             work->sprites[i].u = 0;
             work->sprites[i].v = 64;
             work->arc_x[i][0] = (i % 3 + 1) * ((i % 2) * 2 - 1);
@@ -93,9 +93,9 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->shells[i].elapsed = 0;
             work->shells[i].mode = 1;
             work->shells[i].coord = Model_GetCameraCoordinateUnit();
-            work->shells[i].color[0] = gModelVariant650_D1B58[command].color[3];
-            work->shells[i].color[1] = gModelVariant650_D1B58[command].color[4];
-            work->shells[i].color[2] = gModelVariant650_D1B58[command].color[5];
+            work->shells[i].color[0] = gModelVariant650_aConfigs[command].color[3];
+            work->shells[i].color[1] = gModelVariant650_aConfigs[command].color[4];
+            work->shells[i].color[2] = gModelVariant650_aConfigs[command].color[5];
             work->shells[i].u = 0;
             work->shells[i].v = 0;
             setVector(&work->shells[i].scale, 4096, 4096, 4096);
@@ -111,9 +111,9 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->fans[i].elapsed = 0;
             work->fans[i].mode = 1;
             work->fans[i].coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].color[0] = gModelVariant650_D1B58[command].color[3];
-            work->fans[i].color[1] = gModelVariant650_D1B58[command].color[4];
-            work->fans[i].color[2] = gModelVariant650_D1B58[command].color[5];
+            work->fans[i].color[0] = gModelVariant650_aConfigs[command].color[3];
+            work->fans[i].color[1] = gModelVariant650_aConfigs[command].color[4];
+            work->fans[i].color[2] = gModelVariant650_aConfigs[command].color[5];
             work->fans[i].u = 0;
             work->fans[i].v = 0;
             setVector(&work->fans[i].scale, 0, 0, 0);
@@ -123,7 +123,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->fans[i].position.vy -= 350;
             work->fans[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant650_D1B58[command].delay;
+        work->delay = gModelVariant650_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -284,9 +284,9 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                 if (work->shells[i].duration / 2 < work->shells[i].elapsed) {
                     value = (work->shells[i].duration - work->shells[i].elapsed) * 2;
                     duration = work->shells[i].duration;
-                    work->shells[i].color[0] = gModelVariant650_D1B58[work->command].color[3] * value / duration;
-                    work->shells[i].color[1] = gModelVariant650_D1B58[work->command].color[4] * value / duration;
-                    work->shells[i].color[2] = gModelVariant650_D1B58[work->command].color[5] * value / duration;
+                    work->shells[i].color[0] = gModelVariant650_aConfigs[work->command].color[3] * value / duration;
+                    work->shells[i].color[1] = gModelVariant650_aConfigs[work->command].color[4] * value / duration;
+                    work->shells[i].color[2] = gModelVariant650_aConfigs[work->command].color[5] * value / duration;
                 }
                 for (j = 0; j < 8; j++) {
                     for (k = 0; k < 16; k++) {
@@ -341,9 +341,9 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                 if (work->fans[i].duration / 2 < work->fans[i].elapsed) {
                     value = (work->fans[i].duration - work->fans[i].elapsed) * 2;
                     duration = work->fans[i].duration;
-                    work->fans[i].color[0] = gModelVariant650_D1B58[work->command].color[3] * value / duration;
-                    work->fans[i].color[1] = gModelVariant650_D1B58[work->command].color[4] * value / duration;
-                    work->fans[i].color[2] = gModelVariant650_D1B58[work->command].color[5] * value / duration;
+                    work->fans[i].color[0] = gModelVariant650_aConfigs[work->command].color[3] * value / duration;
+                    work->fans[i].color[1] = gModelVariant650_aConfigs[work->command].color[4] * value / duration;
+                    work->fans[i].color[2] = gModelVariant650_aConfigs[work->command].color[5] * value / duration;
                 }
                 setVector(&origin, 0, 0, 0);
                 for (j = 0; j < 16; j++) {

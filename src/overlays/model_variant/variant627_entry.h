@@ -58,7 +58,7 @@ typedef struct {
 } Model627State;
 
 extern MATRIX GsIDMATRIX;
-extern Model627Command gModelVariant627_D1384[];
+extern Model627Command gModelVariant627_aConfigs[];
 
 s32 ModelVariant627_HandleRequest(u8 *context, s32 command);
 

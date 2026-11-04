@@ -57,7 +57,7 @@ everything finished and 2 on the frames after, and 0 otherwise.
 The entry's `.rodata` is the work-size format string and the two jump tables
 of the command switches, `0x94` bytes at `0x2370`. The rest of the image is
 one raw tail that starts at `0x2404`. Inside it, the layout names the texture
-descriptor `gModelVariant654_D2404` and the command table `gModelVariant654_D2420`. The `0x8017B000`
+descriptor `gModelVariant654_D2404` and the command table `gModelVariant654_aConfigs`. The `0x8017B000`
 images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant654_linker_symbols.txt`.
 

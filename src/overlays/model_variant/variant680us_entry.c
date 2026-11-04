@@ -10,9 +10,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL680US_FADE(e, offset, value, divisor)                                     \
-    (e).color[0] = gModelVariant680Us_D2BF8[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant680Us_D2BF8[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant680Us_D2BF8[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
 
 /* Loads the camera-facing rotation of element E into UNIT. */
 #define MODEL680US_FACE(e)                                                              \
@@ -114,17 +114,17 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->cols = 8;
             break;
         }
-        work->radius = gModelVariant680Us_D2BF8[command].radius;
-        work->height = gModelVariant680Us_D2BF8[command].height;
+        work->radius = gModelVariant680Us_aConfigs[command].radius;
+        work->height = gModelVariant680Us_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->blooms[i].duration = 16;
             work->blooms[i].active = 0;
             work->blooms[i].elapsed = 0;
             work->blooms[i].mode = 1;
             work->blooms[i].coord = Model_GetCameraCoordinateUnit();
-            work->blooms[i].color[0] = gModelVariant680Us_D2BF8[command].color[0];
-            work->blooms[i].color[1] = gModelVariant680Us_D2BF8[command].color[1];
-            work->blooms[i].color[2] = gModelVariant680Us_D2BF8[command].color[2];
+            work->blooms[i].color[0] = gModelVariant680Us_aConfigs[command].color[0];
+            work->blooms[i].color[1] = gModelVariant680Us_aConfigs[command].color[1];
+            work->blooms[i].color[2] = gModelVariant680Us_aConfigs[command].color[2];
             work->blooms[i].u = 0;
             work->blooms[i].v = 0;
             setVector(&work->blooms[i].scale, 4096, 4096, 4096);
@@ -139,9 +139,9 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = gModelVariant680Us_D2BF8[command].color[3];
-            work->rings[i].color[1] = gModelVariant680Us_D2BF8[command].color[4];
-            work->rings[i].color[2] = gModelVariant680Us_D2BF8[command].color[5];
+            work->rings[i].color[0] = gModelVariant680Us_aConfigs[command].color[3];
+            work->rings[i].color[1] = gModelVariant680Us_aConfigs[command].color[4];
+            work->rings[i].color[2] = gModelVariant680Us_aConfigs[command].color[5];
             work->rings[i].u = 0;
             work->rings[i].v = 64;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
@@ -155,9 +155,9 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->bursts[i].duration = 32;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = gModelVariant680Us_D2BF8[command].color[3];
-            work->bursts[i].color[1] = gModelVariant680Us_D2BF8[command].color[4];
-            work->bursts[i].color[2] = gModelVariant680Us_D2BF8[command].color[5];
+            work->bursts[i].color[0] = gModelVariant680Us_aConfigs[command].color[3];
+            work->bursts[i].color[1] = gModelVariant680Us_aConfigs[command].color[4];
+            work->bursts[i].color[2] = gModelVariant680Us_aConfigs[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 32;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
@@ -176,9 +176,9 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].elapsed = 0;
                 work->sparks[i][j].duration = 16;
                 work->sparks[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->sparks[i][j].color[0] = gModelVariant680Us_D2BF8[command].color[0];
-                work->sparks[i][j].color[1] = gModelVariant680Us_D2BF8[command].color[1];
-                work->sparks[i][j].color[2] = gModelVariant680Us_D2BF8[command].color[2];
+                work->sparks[i][j].color[0] = gModelVariant680Us_aConfigs[command].color[0];
+                work->sparks[i][j].color[1] = gModelVariant680Us_aConfigs[command].color[1];
+                work->sparks[i][j].color[2] = gModelVariant680Us_aConfigs[command].color[2];
                 work->sparks[i][j].u = 0;
                 setVector(&work->sparks[i][j].position, 0, 0, 0);
             }
@@ -249,7 +249,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
         setVector(&work->squares[2][1], value, -value, 0);
         setVector(&work->squares[2][2], -value, value, 0);
         setVector(&work->squares[2][3], value, value, 0);
-        work->delay = gModelVariant680Us_D2BF8[command].delay;
+        work->delay = gModelVariant680Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -278,9 +278,9 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                     work->sparks[work->flags[1]][i].active = 1;
                     work->sparks[work->flags[1]][i].elapsed = 0;
                     work->sparks[work->flags[1]][i].u = (i * 5 + work->flags[1] * 3) % 8 << 5;
-                    work->sparks[work->flags[1]][i].color[0] = gModelVariant680Us_D2BF8[work->command].color[0];
-                    work->sparks[work->flags[1]][i].color[1] = gModelVariant680Us_D2BF8[work->command].color[1];
-                    work->sparks[work->flags[1]][i].color[2] = gModelVariant680Us_D2BF8[work->command].color[2];
+                    work->sparks[work->flags[1]][i].color[0] = gModelVariant680Us_aConfigs[work->command].color[0];
+                    work->sparks[work->flags[1]][i].color[1] = gModelVariant680Us_aConfigs[work->command].color[1];
+                    work->sparks[work->flags[1]][i].color[2] = gModelVariant680Us_aConfigs[work->command].color[2];
                     unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, i + 34);
                     GsGetLwUnit(&unit, &ls);
                     (work->sparks[work->flags[1]] + i)->position.vx = ls.t[0];

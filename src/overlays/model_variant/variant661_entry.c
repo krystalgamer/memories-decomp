@@ -103,8 +103,8 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             work->spark_count = 8;
             break;
         }
-        work->radius = gModelVariant661_D3E64[command].radius;
-        work->height = gModelVariant661_D3E64[command].height;
+        work->radius = gModelVariant661_aConfigs[command].radius;
+        work->height = gModelVariant661_aConfigs[command].height;
         for (i = 0; i < work->rows; i++) {
             work->streaks[i].active = 0;
             work->streaks[i].elapsed = 0;
@@ -148,9 +148,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             work->streaks[i].mode = 1;
             work->streaks[i].coord = Model_GetCameraCoordinateUnit();
-            work->streaks[i].color[0] = gModelVariant661_D3E64[command].color[0];
-            work->streaks[i].color[1] = gModelVariant661_D3E64[command].color[1];
-            work->streaks[i].color[2] = gModelVariant661_D3E64[command].color[2];
+            work->streaks[i].color[0] = gModelVariant661_aConfigs[command].color[0];
+            work->streaks[i].color[1] = gModelVariant661_aConfigs[command].color[1];
+            work->streaks[i].color[2] = gModelVariant661_aConfigs[command].color[2];
             work->streaks[i].u = 0;
             work->streaks[i].v = 0;
             work->streaks[i].done = 0;
@@ -166,9 +166,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             work->bursts[i].duration = 48;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = gModelVariant661_D3E64[command].color[3];
-            work->bursts[i].color[1] = gModelVariant661_D3E64[command].color[4];
-            work->bursts[i].color[2] = gModelVariant661_D3E64[command].color[5];
+            work->bursts[i].color[0] = gModelVariant661_aConfigs[command].color[3];
+            work->bursts[i].color[1] = gModelVariant661_aConfigs[command].color[4];
+            work->bursts[i].color[2] = gModelVariant661_aConfigs[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
@@ -201,9 +201,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].duration = 48;
                 work->sparks[i][j].mode = 1;
                 work->sparks[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->sparks[i][j].color[0] = gModelVariant661_D3E64[command].color[3];
-                work->sparks[i][j].color[1] = gModelVariant661_D3E64[command].color[4];
-                work->sparks[i][j].color[2] = gModelVariant661_D3E64[command].color[5];
+                work->sparks[i][j].color[0] = gModelVariant661_aConfigs[command].color[3];
+                work->sparks[i][j].color[1] = gModelVariant661_aConfigs[command].color[4];
+                work->sparks[i][j].color[2] = gModelVariant661_aConfigs[command].color[5];
                 work->sparks[i][j].u = 0;
                 work->sparks[i][j].v = 64;
                 setVector(&work->sparks[i][j].scale, 4096, 4096, 4096);
@@ -233,7 +233,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].position.vz += work->direction * 450;
             }
         }
-        work->delay = gModelVariant661_D3E64[command].delay;
+        work->delay = gModelVariant661_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -658,9 +658,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 duration = work->streaks[i].duration;
                 if (duration * 4 / 5 < work->streaks[i].elapsed) {
                     value = (duration - work->streaks[i].elapsed) * 5;
-                    work->streaks[i].color[0] = gModelVariant661_D3E64[work->command].color[0] * value / duration;
-                    work->streaks[i].color[1] = gModelVariant661_D3E64[work->command].color[1] * value / duration;
-                    work->streaks[i].color[2] = gModelVariant661_D3E64[work->command].color[2] * value / duration;
+                    work->streaks[i].color[0] = gModelVariant661_aConfigs[work->command].color[0] * value / duration;
+                    work->streaks[i].color[1] = gModelVariant661_aConfigs[work->command].color[1] * value / duration;
+                    work->streaks[i].color[2] = gModelVariant661_aConfigs[work->command].color[2] * value / duration;
                 }
                 for (j = 0; j < work->streaks[i].count * 2 - 1; j++) {
                     scale = j + 1;
@@ -772,9 +772,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     duration = work->bursts[i].duration;
-                    work->bursts[i].color[0] = gModelVariant661_D3E64[work->command].color[3] * value / duration;
-                    work->bursts[i].color[1] = gModelVariant661_D3E64[work->command].color[4] * value / duration;
-                    work->bursts[i].color[2] = gModelVariant661_D3E64[work->command].color[5] * value / duration;
+                    work->bursts[i].color[0] = gModelVariant661_aConfigs[work->command].color[3] * value / duration;
+                    work->bursts[i].color[1] = gModelVariant661_aConfigs[work->command].color[4] * value / duration;
+                    work->bursts[i].color[2] = gModelVariant661_aConfigs[work->command].color[5] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -841,9 +841,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                     if (work->sparks[i][j].duration / 2 < work->sparks[i][j].elapsed) {
                         value = (work->sparks[i][j].duration - work->sparks[i][j].elapsed) * 2;
                         duration = work->sparks[i][j].duration;
-                        work->sparks[i][j].color[0] = gModelVariant661_D3E64[work->command].color[3] * value / duration;
-                        work->sparks[i][j].color[1] = gModelVariant661_D3E64[work->command].color[4] * value / duration;
-                        work->sparks[i][j].color[2] = gModelVariant661_D3E64[work->command].color[5] * value / duration;
+                        work->sparks[i][j].color[0] = gModelVariant661_aConfigs[work->command].color[3] * value / duration;
+                        work->sparks[i][j].color[1] = gModelVariant661_aConfigs[work->command].color[4] * value / duration;
+                        work->sparks[i][j].color[2] = gModelVariant661_aConfigs[work->command].color[5] * value / duration;
                     }
                     for (k = 0; k < 8; k++) {
                         unit.flg = 0;

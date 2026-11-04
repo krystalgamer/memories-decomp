@@ -43,9 +43,9 @@ static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL
         for (i = 0; i < work->spark_columns; i++) {                            \
             work->sparks[work->flags[1]][i].active = 1;                        \
             work->sparks[work->flags[1]][i].elapsed = 0;                       \
-            work->sparks[work->flags[1]][i].color[0] = gModelVariant681_D3F18[work->command].color[3]; \
-            work->sparks[work->flags[1]][i].color[1] = gModelVariant681_D3F18[work->command].color[4]; \
-            work->sparks[work->flags[1]][i].color[2] = gModelVariant681_D3F18[work->command].color[5]; \
+            work->sparks[work->flags[1]][i].color[0] = gModelVariant681_aConfigs[work->command].color[3]; \
+            work->sparks[work->flags[1]][i].color[1] = gModelVariant681_aConfigs[work->command].color[4]; \
+            work->sparks[work->flags[1]][i].color[2] = gModelVariant681_aConfigs[work->command].color[5]; \
             work->sparks[work->flags[1]][i].u =                                \
                 (i * 5 + work->flags[1] * 3 + work->elapsed * 2) % 8 << 5;     \
             /* (i * 2 - 1) * 80 keeps the -80 in the induction start value. */ \
@@ -64,9 +64,9 @@ static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL
     if ((element).duration / 2 < (element).elapsed) {                          \
         value = ((element).duration - (element).elapsed) * 2;                  \
         amount = (element).duration;                                           \
-        (element).color[0] = gModelVariant681_D3F18[work->command].color[first] * value / amount; \
-        (element).color[1] = gModelVariant681_D3F18[work->command].color[first + 1] * value / amount; \
-        (element).color[2] = gModelVariant681_D3F18[work->command].color[first + 2] * value / amount; \
+        (element).color[0] = gModelVariant681_aConfigs[work->command].color[first] * value / amount; \
+        (element).color[1] = gModelVariant681_aConfigs[work->command].color[first + 1] * value / amount; \
+        (element).color[2] = gModelVariant681_aConfigs[work->command].color[first + 2] * value / amount; \
     }
 
 #define DRAW_SPRITE(page, u0, v0, u1, v1, u2, v2, u3, v3, element, a, b, c, d)   \
@@ -95,9 +95,9 @@ static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL
     (element).duration = length;                                               \
     (element).mode = 1;                                                        \
     (element).coord = Model_GetCameraCoordinateUnit();                         \
-    (element).color[0] = gModelVariant681_D3F18[command].color[first];                     \
-    (element).color[1] = gModelVariant681_D3F18[command].color[first + 1];                 \
-    (element).color[2] = gModelVariant681_D3F18[command].color[first + 2]
+    (element).color[0] = gModelVariant681_aConfigs[command].color[first];                     \
+    (element).color[1] = gModelVariant681_aConfigs[command].color[first + 1];                 \
+    (element).color[2] = gModelVariant681_aConfigs[command].color[first + 2]
 
 s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
 {
@@ -166,8 +166,8 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
             work->spark_rows = 32;
             break;
         }
-        work->radius = gModelVariant681_D3F18[command].radius;
-        work->height = gModelVariant681_D3F18[command].height;
+        work->radius = gModelVariant681_aConfigs[command].radius;
+        work->height = gModelVariant681_aConfigs[command].height;
         /* amount rather than value: it keeps value in s4 and amount in s3. */
         amount = work->radius;
         setVector(&vec, amount, 0, amount * -work->direction);
@@ -210,9 +210,9 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
             }
             work->flashes[i].mode = 1;
             work->flashes[i].coord = Model_GetCameraCoordinateUnit();
-            work->flashes[i].color[0] = gModelVariant681_D3F18[command].color[0];
-            work->flashes[i].color[1] = gModelVariant681_D3F18[command].color[1];
-            work->flashes[i].color[2] = gModelVariant681_D3F18[command].color[2];
+            work->flashes[i].color[0] = gModelVariant681_aConfigs[command].color[0];
+            work->flashes[i].color[1] = gModelVariant681_aConfigs[command].color[1];
+            work->flashes[i].color[2] = gModelVariant681_aConfigs[command].color[2];
             work->flashes[i].u = 0;
             work->flashes[i].v = 0;
             setVector(&work->flashes[i].scale, 4096, 4096, 4096);
@@ -333,7 +333,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
         setVector(&work->spark_corners[1], value, -value, 0);
         setVector(&work->spark_corners[2], -value, value, 0);
         setVector(&work->spark_corners[3], value, value, 0);
-        work->delay = gModelVariant681_D3F18[command].delay;
+        work->delay = gModelVariant681_aConfigs[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
@@ -589,9 +589,9 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     FADE(work->domes[i], 6);
                 } else {
-                    work->domes[i].color[0] = gModelVariant681_D3F18[work->command].color[6];
-                    work->domes[i].color[1] = gModelVariant681_D3F18[work->command].color[7];
-                    work->domes[i].color[2] = gModelVariant681_D3F18[work->command].color[8];
+                    work->domes[i].color[0] = gModelVariant681_aConfigs[work->command].color[6];
+                    work->domes[i].color[1] = gModelVariant681_aConfigs[work->command].color[7];
+                    work->domes[i].color[2] = gModelVariant681_aConfigs[work->command].color[8];
                 }
                 work->domes[i].v = (work->domes[i].elapsed & 0xF) * 63 / 16 - 128;
                 for (j = 0; j < 8; j++) {
@@ -617,9 +617,9 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     FADE(work->domes[i], 3);
                 } else {
-                    work->domes[i].color[0] = gModelVariant681_D3F18[work->command].color[3];
-                    work->domes[i].color[1] = gModelVariant681_D3F18[work->command].color[4];
-                    work->domes[i].color[2] = gModelVariant681_D3F18[work->command].color[5];
+                    work->domes[i].color[0] = gModelVariant681_aConfigs[work->command].color[3];
+                    work->domes[i].color[1] = gModelVariant681_aConfigs[work->command].color[4];
+                    work->domes[i].color[2] = gModelVariant681_aConfigs[work->command].color[5];
                 }
                 for (j = 0; j < 8; j++) {
                     work->domes[i].v = (work->domes[i].elapsed + j * 10) % 32 * 63 / 32 - 128;

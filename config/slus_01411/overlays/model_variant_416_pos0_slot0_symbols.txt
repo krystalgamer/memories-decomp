@@ -1,7 +1,7 @@
 // MODEL.MRG model 416 (record 366), sector 101196, header 650, loaded at 0x8013B000; the US source variant650_entry.c.
 ModelVariant650_HandleRequest = 0x8013B004; // type:func size:0x1B04 defined:true
 gModelVariant650_D1B20 = 0x8013CB20; // type:u8 size:0x38 defined:true
-gModelVariant650_D1B58 = 0x8013CB58; // type:u8 size:0x30 defined:true
+gModelVariant650_aConfigs = 0x8013CB58; // type:u8 size:0x30 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x80058F10; // type:func absolute:true

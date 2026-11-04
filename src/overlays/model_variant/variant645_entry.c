@@ -20,9 +20,9 @@
         (work)->puffs[(work)->flags[0]].duration = 32;                                           \
         (work)->puffs[(work)->flags[0]].mode = 1;                                                \
         (work)->puffs[(work)->flags[0]].coord = Model_GetCameraCoordinateUnit();                 \
-        (work)->puffs[(work)->flags[0]].color[0] = gModelVariant645_D4F14[(work)->command].color[0];         \
-        (work)->puffs[(work)->flags[0]].color[1] = gModelVariant645_D4F14[(work)->command].color[1];         \
-        (work)->puffs[(work)->flags[0]].color[2] = gModelVariant645_D4F14[(work)->command].color[2];         \
+        (work)->puffs[(work)->flags[0]].color[0] = gModelVariant645_aConfigs[(work)->command].color[0];         \
+        (work)->puffs[(work)->flags[0]].color[1] = gModelVariant645_aConfigs[(work)->command].color[1];         \
+        (work)->puffs[(work)->flags[0]].color[2] = gModelVariant645_aConfigs[(work)->command].color[2];         \
         (work)->puffs[(work)->flags[0]].u = 0;                                                   \
         (work)->puffs[(work)->flags[0]].v = 128;                                                 \
         value = 2048;                                                                            \
@@ -126,17 +126,17 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             work->halo_count = 4;
             break;
         }
-        work->radius = gModelVariant645_D4F14[command].radius;
-        work->height = gModelVariant645_D4F14[command].height;
+        work->radius = gModelVariant645_aConfigs[command].radius;
+        work->height = gModelVariant645_aConfigs[command].height;
         for (i = 0; i < work->puff_count; i++) {
             work->puffs[i].duration = 32;
             work->puffs[i].active = 0;
             work->puffs[i].elapsed = 0;
             work->puffs[i].mode = 1;
             work->puffs[i].coord = Model_GetCameraCoordinateUnit();
-            work->puffs[i].color[0] = gModelVariant645_D4F14[command].color[0];
-            work->puffs[i].color[1] = gModelVariant645_D4F14[command].color[1];
-            work->puffs[i].color[2] = gModelVariant645_D4F14[command].color[2];
+            work->puffs[i].color[0] = gModelVariant645_aConfigs[command].color[0];
+            work->puffs[i].color[1] = gModelVariant645_aConfigs[command].color[1];
+            work->puffs[i].color[2] = gModelVariant645_aConfigs[command].color[2];
             work->puffs[i].u = 0;
             work->puffs[i].v = 128;
             /* The scale goes through value so the loop hoists the constant into
@@ -153,9 +153,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             work->halos[i].elapsed = 0;
             work->halos[i].mode = 1;
             work->halos[i].coord = Model_GetCameraCoordinateUnit();
-            work->halos[i].color[0] = gModelVariant645_D4F14[command].color[3];
-            work->halos[i].color[1] = gModelVariant645_D4F14[command].color[4];
-            work->halos[i].color[2] = gModelVariant645_D4F14[command].color[5];
+            work->halos[i].color[0] = gModelVariant645_aConfigs[command].color[3];
+            work->halos[i].color[1] = gModelVariant645_aConfigs[command].color[4];
+            work->halos[i].color[2] = gModelVariant645_aConfigs[command].color[5];
             work->halos[i].u = 0;
             work->halos[i].v = 128;
             value = 2048;
@@ -181,7 +181,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             work->halos[i].position.vy -= 350;
             work->halos[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant645_D4F14[command].delay;
+        work->delay = gModelVariant645_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -563,9 +563,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 if (work->puffs[i].duration / 2 < work->puffs[i].elapsed) {
                     value = (work->puffs[i].duration - work->puffs[i].elapsed) * 2;
                     divisor = work->puffs[i].duration;
-                    work->puffs[i].color[0] = gModelVariant645_D4F14[work->command].color[0] * value / divisor;
-                    work->puffs[i].color[1] = gModelVariant645_D4F14[work->command].color[1] * value / divisor;
-                    work->puffs[i].color[2] = gModelVariant645_D4F14[work->command].color[2] * value / divisor;
+                    work->puffs[i].color[0] = gModelVariant645_aConfigs[work->command].color[0] * value / divisor;
+                    work->puffs[i].color[1] = gModelVariant645_aConfigs[work->command].color[1] * value / divisor;
+                    work->puffs[i].color[2] = gModelVariant645_aConfigs[work->command].color[2] * value / divisor;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->strip);
@@ -635,9 +635,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
                     value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
                     divisor = work->halos[i].duration;
-                    work->halos[i].color[0] = gModelVariant645_D4F14[work->command].color[3] * value / divisor;
-                    work->halos[i].color[1] = gModelVariant645_D4F14[work->command].color[4] * value / divisor;
-                    work->halos[i].color[2] = gModelVariant645_D4F14[work->command].color[5] * value / divisor;
+                    work->halos[i].color[0] = gModelVariant645_aConfigs[work->command].color[3] * value / divisor;
+                    work->halos[i].color[1] = gModelVariant645_aConfigs[work->command].color[4] * value / divisor;
+                    work->halos[i].color[2] = gModelVariant645_aConfigs[work->command].color[5] * value / divisor;
                 }
                 setVector(&here, 0, 0, 0);
                 for (k = 0; k < 32; k++) {

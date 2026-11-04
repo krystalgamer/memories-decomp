@@ -82,7 +82,7 @@ extern MATRIX GsIDMATRIX;
 /* Spark, shard/band and glow/orb texture images; the entry uploads them last
  * to first, so tpage[0] belongs to the glows and orbs. */
 extern GsIMAGE gModelVariant660Us_D3674[3];
-extern Model660UsCommand gModelVariant660Us_D36C8[];
+extern Model660UsCommand gModelVariant660Us_aConfigs[];
 
 s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command);
 

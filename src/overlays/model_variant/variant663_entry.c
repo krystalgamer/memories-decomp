@@ -14,9 +14,9 @@
     work->columns[work->flags[0]].duration = 32;                                \
     work->columns[work->flags[0]].mode = 1;                                     \
     work->columns[work->flags[0]].coord = Model_GetCameraCoordinateUnit();      \
-    work->columns[work->flags[0]].color[0] = gModelVariant663_D338C[work->command].color[0]; \
-    work->columns[work->flags[0]].color[1] = gModelVariant663_D338C[work->command].color[1]; \
-    work->columns[work->flags[0]].color[2] = gModelVariant663_D338C[work->command].color[2]; \
+    work->columns[work->flags[0]].color[0] = gModelVariant663_aConfigs[work->command].color[0]; \
+    work->columns[work->flags[0]].color[1] = gModelVariant663_aConfigs[work->command].color[1]; \
+    work->columns[work->flags[0]].color[2] = gModelVariant663_aConfigs[work->command].color[2]; \
     work->columns[work->flags[0]].u = 0;                                        \
     work->columns[work->flags[0]].v = 0x80;                                     \
     value = 0x800;                                                              \
@@ -124,17 +124,17 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->burst_count = 4;
             break;
         }
-        work->radius = gModelVariant663_D338C[command].radius;
-        work->height = gModelVariant663_D338C[command].height;
+        work->radius = gModelVariant663_aConfigs[command].radius;
+        work->height = gModelVariant663_aConfigs[command].height;
         for (i = 0; i < work->column_count; i++) {
             work->columns[i].active = 0;
             work->columns[i].elapsed = 0;
             work->columns[i].duration = 32;
             work->columns[i].mode = 1;
             work->columns[i].coord = Model_GetCameraCoordinateUnit();
-            work->columns[i].color[0] = gModelVariant663_D338C[command].color[0];
-            work->columns[i].color[1] = gModelVariant663_D338C[command].color[1];
-            work->columns[i].color[2] = gModelVariant663_D338C[command].color[2];
+            work->columns[i].color[0] = gModelVariant663_aConfigs[command].color[0];
+            work->columns[i].color[1] = gModelVariant663_aConfigs[command].color[1];
+            work->columns[i].color[2] = gModelVariant663_aConfigs[command].color[2];
             work->columns[i].u = 0;
             work->columns[i].v = 0x80;
             value = 0x800;
@@ -149,9 +149,9 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->bursts[i].duration = 48;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = gModelVariant663_D338C[command].color[3];
-            work->bursts[i].color[1] = gModelVariant663_D338C[command].color[4];
-            work->bursts[i].color[2] = gModelVariant663_D338C[command].color[5];
+            work->bursts[i].color[0] = gModelVariant663_aConfigs[command].color[3];
+            work->bursts[i].color[1] = gModelVariant663_aConfigs[command].color[4];
+            work->bursts[i].color[2] = gModelVariant663_aConfigs[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 0x80;
             value = 0x800;
@@ -172,7 +172,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->bursts[i].position.vy -= 350;
             work->bursts[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant663_D338C[command].delay;
+        work->delay = gModelVariant663_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -394,9 +394,9 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
                 if (work->columns[i].duration / 2 < work->columns[i].elapsed) {
                     value = (work->columns[i].duration - work->columns[i].elapsed) * 2;
                     n = work->columns[i].duration;
-                    work->columns[i].color[0] = gModelVariant663_D338C[work->command].color[0] * value / n;
-                    work->columns[i].color[1] = gModelVariant663_D338C[work->command].color[1] * value / n;
-                    work->columns[i].color[2] = gModelVariant663_D338C[work->command].color[2] * value / n;
+                    work->columns[i].color[0] = gModelVariant663_aConfigs[work->command].color[0] * value / n;
+                    work->columns[i].color[1] = gModelVariant663_aConfigs[work->command].color[1] * value / n;
+                    work->columns[i].color[2] = gModelVariant663_aConfigs[work->command].color[2] * value / n;
                 }
                 /* Each strip fades toward its ends: 8 - |8 - k| on the inner
                  * corners and 8 - |7 - k| on the outer ones, in eighths. */
@@ -459,9 +459,9 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     n = work->bursts[i].duration;
-                    work->bursts[i].color[0] = gModelVariant663_D338C[work->command].color[3] * value / n;
-                    work->bursts[i].color[1] = gModelVariant663_D338C[work->command].color[4] * value / n;
-                    work->bursts[i].color[2] = gModelVariant663_D338C[work->command].color[5] * value / n;
+                    work->bursts[i].color[0] = gModelVariant663_aConfigs[work->command].color[3] * value / n;
+                    work->bursts[i].color[1] = gModelVariant663_aConfigs[work->command].color[4] * value / n;
+                    work->bursts[i].color[2] = gModelVariant663_aConfigs[work->command].color[5] * value / n;
                 }
                 /* P0 becomes the burst centre shared by every ray triangle. */
                 setVector(&p0, 0, 0, 0);
