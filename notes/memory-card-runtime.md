@@ -147,10 +147,11 @@ There is no immediate-on-release result, new result enum or Boolean.
 `Poll` always pumps even if flags were initially zero; no idle/idempotence
 guard is added.
 
-The existing SDK session brackets and their regional ordering remain:
-Japan runs its additional close helper before `MemCardStop`, while Europe
-runs it afterwards. The display close phase and later flag clear are not
-moved into those SDK calls.
+The existing SDK session brackets remain. Japan and the PAL builds also
+close the PocketStation session, calling `McxStopCom` before `MemCardStop`.
+Europe once appeared to run it afterwards, but only because its bindings
+had the two addresses swapped (see `notes/psyq.md`). The display close
+phase and later flag clear are not moved into those SDK calls.
 
 ### Native identities and naming-only acceptance
 
@@ -1184,9 +1185,9 @@ stream, choice timing or save behavior is changed.
 The modal update remains the sole pump called by `MemCardDialog_Poll`.
 Polling returns zero while modal flags survive, not the outcome byte.
 Closing still destroys text, releases the display object and nulls its
-pointer before a later null-object invocation clears the flags. PAL
-session startup keeps its extra helper after `MemCardStart`; shutdown
-keeps `MemCardStop` before its regional helper. The SDK sync return,
+pointer before a later null-object invocation clears the flags. Japanese and PAL
+session startup keeps `McxStartCom` after `MemCardStart`; shutdown keeps
+`McxStopCom` before `MemCardStop`. The SDK sync return,
 command output, result output and final dialog outcome stay distinct.
 
 Both load entry steps still seed operation state zero or one and call the

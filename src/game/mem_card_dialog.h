@@ -29,12 +29,6 @@ void MemCardDialog_StepAlternateSave(void);
 void MemCardDialog_UpdateTradeSave(void);
 extern void MemCardDialog_Update(void);
 
-#ifdef VERSION_JAPAN
-/* The Japanese dialog brackets the card session with these SDK helpers. */
-void func_8008D680(void);
-void func_8008D6F0(void);
-#endif
-
 /* Selects the first inactive channel, or retains zero if all are active,
  * then creates the display object. Selection is not channel reservation. */
 void MemCardDialog_CreateObject(void);

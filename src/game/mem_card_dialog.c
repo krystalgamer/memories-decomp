@@ -103,6 +103,13 @@ extern u16 gMemCard_wDialogFlags;
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "mem_card.h"
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+/* The Japanese and PAL executables also link the PocketStation library
+ * (LIBMCX); the save dialog brackets its card session with McxStartCom and
+ * McxStopCom, and its save state 2 polls McxCardType, McxGetApl and
+ * McxSync. See notes/psyq.md. */
+#include "../psyq/libmcx.h"
+#endif
 #include "save_data.h"
 #include "save_pair_workspace.h"
 #include "text_staging.h"
@@ -736,20 +743,20 @@ void MemCardDialog_UpdateSave(void)
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
             gMemCardDialog_RetryCounter = 3;
-            func_8008D070(0);
+            McxCardType(0);
             break;
         }
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) != 0) {
             MemCardDialog_SetMessage(0xB8, 0x18);
             break;
         }
-        polled = func_8008DCB4(1, &cmds, &result);
+        polled = McxSync(1, &cmds, &result);
         if (polled != 1) {
             break;
         }
         if (result == 0) {
-            func_8008CF10(0, &apl);
-            if (func_8008DCB4(0, &cmds, &result) != polled) {
+            McxGetApl(0, &apl);
+            if (McxSync(0, &cmds, &result) != polled) {
                 MemCardDialog_SetMessage(0xBB, 0x18);
                 break;
             }
@@ -762,7 +769,7 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         if (--gMemCardDialog_RetryCounter != 0) {
-            func_8008D070(0);
+            McxCardType(0);
             break;
         }
         MemCardDialog_SetMessage(0xBB, 0x18);
@@ -1640,7 +1647,7 @@ void MemCardDialog_Update(void)
             gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
             MemCardStart();
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-            func_8008D680();
+            McxStartCom();
 #endif
             gMemCardDialog_Outcome = 2;
             MemCardDialog_CreateObject();
@@ -1674,13 +1681,10 @@ b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
     gMemCard_pDialogObject->field_60 = 0x400;
-#ifdef VERSION_JAPAN
-    func_8008D6F0();
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+    McxStopCom();
 #endif
     MemCardStop();
-#ifdef VERSION_EUROPE
-    func_8008D6F0();
-#endif
 }
 
 int MemCardDialog_Poll(void)

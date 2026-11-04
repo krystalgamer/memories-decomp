@@ -198,6 +198,42 @@ changes; each rename has a `regional/<image>/function` row in
 American function, code the North American image does not link, and
 duplicate regional copies keep their placeholders.
 
+### Regional-only LIBMCX
+
+Japan and the five PAL executables link the PocketStation library LIBMCX,
+which North America does not, so neither pass above had a North American
+name to carry. The Psy-Q 4.6 signature catalogue (lab313ru
+`psx_psyq_signatures` revision `e9e46e7e`, `LIBMCX.LIB.json` SHA-256
+`4e8f6d6d2774410706ecb86dcfd51ff92dd6704822bda39ea1ad418b3d0d6652`) names them directly. Six of its objects, `MCXCMD1`,
+`MCXCMD23`, `MCXRESI`, `MCXINIT`, `MCXMAIN` and `MCXDSR`, each match every
+regional image exactly once with relocated fields masked, and no other
+library object claims a different name at any of those addresses. Each
+image gets the same 17 names at the catalogue label offsets. Five are
+public entry points declared in `src/psyq/libmcx.h`: `McxGetApl`, `McxCardType`,
+`McxStartCom`, `McxStopCom` and `McxSync`. `McxGetMcxInfo` is not declared in
+that header; its name comes only from the catalogue's label at `MCXCMD23` +0x2C,
+the function that directly follows `McxCardType` in the same object. The
+other eleven are the library-internal `_mcx*` routines, also named from the
+catalogue labels.
+
+The call sites agree with the catalogue. `MemCardDialog_Update` brackets
+the card session with `McxStartCom` after `MemCardStart` and `McxStopCom`
+before `MemCardStop`. Save state 2 issues `McxCardType(0)` and
+`McxGetApl(0, &apl)` and waits on `McxSync(mode, &cmd, &result)`. Those are
+the `libmcx.h` contracts, so `mem_card_dialog.c` now includes that header
+for the Japanese and PAL builds instead of declaring `func_` prototypes.
+
+The PAL bindings had the two close calls swapped. `MemCardStop` was bound
+to `McxStopCom`'s address, and the placeholder `func_8008D6F0` to the real
+`MemCardStop`, so the European source spelled the order the other way
+round. All five PAL images now bind both names at their real addresses,
+and every regional build shares one `McxStopCom(); MemCardStop();` spelling.
+
+Rows inside those objects that carry only placeholder labels, such as the
+two after `McxGetApl` in `MCXCMD1`, keep their `func_` names. Each rename
+has a `regional/<image>/function` row in
+`semantic-symbol-map.csv`.
+
 ### Catalogue input contract
 
 Treat the third-party directory as untrusted input rather than partial
@@ -1771,9 +1807,11 @@ These three memory-card-adjacent headers are not interchangeable.
 separate `Mcx` device command family, and `mcgui.h` combines card metadata
 with background, controller, sound, texture, and cursor resources for
 `McGuiSave`/`McGuiLoad`. Matching memory-card dialog C includes `libmcrd.h`
-for `MemCardStart`, `MemCardSync`, and `MemCardStop`. No current game C
-includes `libmcx.h` or `mcgui.h`, so those rows document the imported header
-boundaries rather than claiming a resident function identity.
+for `MemCardStart`, `MemCardSync`, and `MemCardStop`. In the Japanese and
+PAL builds it also includes `libmcx.h` for the PocketStation calls
+described under "Regional-only LIBMCX". No current game C includes
+`mcgui.h`, so that row documents the imported header boundary rather than
+claiming a resident function identity.
 
 The real `src/psyq/libds.h` and `src/psyq/libcd.h` provide parallel record
 families. The resident file-search anchor is `DsSearchFile`; matching
