@@ -152,6 +152,11 @@ DuelEffectHandler
 #if !defined(VERSION_EUROPE)
 /* European builds drop the trace below, and their .sdata lacks the string. */
 char D_8009AF40[] = "%d\n";
+#ifdef VERSION_JAPAN
+/* A Japanese-only format beside it, read by the Japanese build's
+   duel_field_card_objects. */
+char D_8009AE84[] = "Ex %d\n";
+#endif
 #endif
 
 void DuelEffect_StartSwords(void)
