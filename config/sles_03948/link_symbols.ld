@@ -577,8 +577,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Canonical view of the retained handler-key registry. */
 
-/* Auxiliary slot's retained load-step byte view. */
-g_SDValue_output_level = g_SDValue;
 
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = main_SBSS_START;

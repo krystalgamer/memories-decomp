@@ -103,7 +103,6 @@ gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 /* Auxiliary slot's retained load-step byte view. */
 gTextBox_apfnStateCallbacks = 0x80090D14;
-g_SDValue_output_level = g_SDValue;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
 
