@@ -437,15 +437,16 @@ size.
 ## SPU decoded data, reverb, and shutdown
 
 `SD_MeasureCdAudioLevel` (grouped in `src/game/sound_output_state.c`) imports the real
-`libspu.h` interface and calls it through `g_SDValue_output_level`, a volatile
-view of the sound root that each image's `link_symbols.ld` binds to
-`g_SDValue`:
+`libspu.h` interface and reads the sound root only through `g_SDValue`:
 
 ```c
-SpuReadDecodedData(
-    &g_SDValue_output_level->decoded_data, SPU_CDONLY
-);
+decoded_half = SpuReadDecodedData(&g_SDValue->decoded_data, SPU_CDONLY);
 ```
+
+Its stores through `g_SDValue` make GCC reload the pointer after the call,
+before the loop and after it, which is the retail sequence. An earlier
+`g_SDValue_output_level` linker alias with a volatile declaration only
+reproduced those reloads; it is gone.
 
 It stores the returned half, `SPU_DECODED_FIRSTHALF` or the second half, in
 the word `decoded_half` at `+0x538`, and sums the selected half's 256 signed

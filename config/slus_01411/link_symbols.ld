@@ -150,7 +150,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 /* Other names for game/ai_script_vm's small data (#2602). */
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
-g_SDValue_output_level = g_SDValue;
 
 /* Other names for game/input_pads's small data (#2602). */
 

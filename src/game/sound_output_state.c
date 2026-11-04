@@ -140,83 +140,42 @@ void SD_StartCdFade(s16 step, u8 target, s32 unused)
 #ifndef VERSION_JAPAN
 #include "sound_mix.h"
 
-/*
- * SD_MeasureCdAudioLevel: decoded output measurement without register pins
- *
- * The 192-byte routine matches all 48 instructions under the unit's
- * gcc_2_8_1_g0 profile. The same-symbol alias below retains its measured
- * volatile pointer view while the surrounding functions keep sound.h's
- * ordinary declaration.
- *
- * Three source properties replace the historical eight register bindings and
- * compiler barrier. The volatile pointer view retains the snapshot-to-state
- * handoff; removing it loses one instruction. Returning the level directly on
- * the unmuted path gives the required return-register allocation. Finally, the
- * single-iteration level-read scope keeps the signed high-halfword read before
- * the flag read; flattening it exchanges the two words at +0x90 and +0x94.
- *
- * The routine preserves the selected CD half, all 256 signed sample squares,
- * the unsigned eight-bit shift of each square, both accumulator
- * initializations and final publications, and the low-two-bit output gate.
- */
-/* A second name for g_SDValue, bound to it in each image's link_symbols.ld.
- * Only this routine needs volatile gp-relative reloads of the pointer, and the
- * grouped unit cannot be split, so no single-name spelling matches (measured):
- * - a volatile cast of &g_SDValue builds the address in a register before
- *   each load (+0x10 bytes);
- * - the plain name lets GCC reuse one load (-4 bytes);
- * - sound.h's G_SDVALUE_VOLATILE arm for the whole unit stops SD_SetCdPan's
- *   reloads from filling delay slots, even after SD_StartCdFade and
- *   SD_EnqueueCdPlay are rewritten to load the pointer once. */
-extern SDValue *volatile g_SDValue_output_level;
-
+/* Sums the squares of the current decoded CD half into output_level and
+ * returns its high half, or 0 while the output is gated. Every access goes
+ * through g_SDValue itself: the stores through it force the reloads after the
+ * call, before the loop and after it. The loop and the readback take the
+ * pointer through `state`, which is what gives the copy before the loop and
+ * keeps the loop's register for the readback. */
 s32 SD_MeasureCdAudioLevel(void)
 {
-    s32 decoded_half = SpuReadDecodedData(
-        &g_SDValue_output_level->decoded_data, SPU_CDONLY
-    );
-    SDValue *choice_state = g_SDValue_output_level;
+    s32 decoded_half;
     s16 *sample_cursor;
     s32 sample_index;
-    SDValue *loaded_state;
-    SDValue *measurement_state;
+    s32 measured_level;
+    SDValue *state;
 
-    choice_state->decoded_half = decoded_half;
+    decoded_half = SpuReadDecodedData(&g_SDValue->decoded_data, SPU_CDONLY);
+    g_SDValue->decoded_half = decoded_half;
     if (decoded_half == SPU_DECODED_FIRSTHALF) {
-        sample_cursor = choice_state->decoded_cd_halves[0];
+        sample_cursor = g_SDValue->decoded_cd_halves[0];
     } else {
-        sample_cursor = choice_state->decoded_cd_halves[1];
+        sample_cursor = g_SDValue->decoded_cd_halves[1];
     }
-    loaded_state = g_SDValue_output_level;
-    sample_index = 0;
-    measurement_state = loaded_state;
-    measurement_state->output_level.sum = 0;
-    measurement_state->field_1550.sum = 0;
-    do {
-        s32 sample_value = *sample_cursor;
-        u32 sample_square = sample_value * sample_value;
-        measurement_state->output_level.sum += sample_square >> 8;
-        sample_index++;
-        sample_cursor++;
-    } while (sample_index < SD_MIX_SAMPLE_COUNT);
-    {
-        s32 measured_level;
-        s32 output_gate_flags;
-        s32 other_high_half;
-        measurement_state = g_SDValue_output_level;
-        do {
-            measured_level = measurement_state->output_level.halves[1];
-        } while (0);
-        output_gate_flags = measurement_state->status_flags;
-        other_high_half = measurement_state->field_1550.halves[1];
-        output_gate_flags &= 3;
-        measurement_state->output_level.sum = measured_level;
-        measurement_state->field_1550.sum = other_high_half;
-        if (!output_gate_flags) {
-            return measured_level;
-        }
-        return 0;
+    g_SDValue->output_level.sum = 0;
+    g_SDValue->field_1550.sum = 0;
+    state = g_SDValue;
+    for (sample_index = 0; sample_index < SD_MIX_SAMPLE_COUNT; sample_index++) {
+        s32 sample_value = *sample_cursor++;
+        state->output_level.sum += (u32)(sample_value * sample_value) >> 8;
     }
+    state = g_SDValue;
+    measured_level = state->output_level.halves[1];
+    state->output_level.sum = measured_level;
+    state->field_1550.sum = state->field_1550.halves[1];
+    if (!(state->status_flags & 3)) {
+        return measured_level;
+    }
+    return 0;
 }
 
 void SD_EnqueueCdStop(void)
