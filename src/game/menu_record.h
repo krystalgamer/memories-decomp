@@ -10,9 +10,8 @@
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
  * effect_id is the signed marker the walkers test for `>= 0`;
- * display_effect_step selects the gDisplayEffect_apfnSteps lifecycle handler; field_34 is
- * the halfword Script_OpShowMenu seeds with 0xD8 and
- * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
+ * display_effect_step selects the gDisplayEffect_apfnSteps lifecycle handler;
+ * x and y are the screen position the record's objects are placed at.
  */
 typedef struct MenuRecord {
     /* Four DisplayPositionGroup children arrays, packed. Each row is
@@ -51,13 +50,16 @@ typedef struct MenuRecord {
     /* Resource-variant activity/control bits, separate from the step byte. */
     u8 variant_update_flags;
     u8 display_effect_step;
-    u16 field_34;
-    /* The second half of the pair DisplayEffect_ResetRecordState seeds -- 0x34 with 0x68 and
-       this with 0xB2 -- and the pair DisplayEffect_UpdatePositionTween and DisplayEffect_FadeInRecord hand to
-       the position helpers as x and y. DisplayEffectState in
-       display_effect_lifecycle.h names the same halfword field_36 on this
-       same memory. */
-    u16 field_36;
+    /* The screen position of the record's objects. DisplayEffect_ResetRecordState
+       seeds it to (0x68, 0xB2) and Script_OpShowMenu moves x to 0xD8 for
+       the second slot; the resource setup passes the pair to
+       DisplayObject_ConfigureSpriteAtPositionWithResource and
+       DisplayObject_ConfigureScreenSprite as x and y; and
+       DisplayEffect_UpdatePositionTween eases it toward 0x40/0x42 and hands
+       it to the position helpers as x and y. DisplayEffectState in
+       display_effect_lifecycle.h names the same pair on this same memory. */
+    u16 x;
+    u16 y;
     u8 pad_38[2];
     /* Last explicit grid[0][2] request, not the live object's selector. */
     u8 requested_variant;
@@ -117,11 +119,11 @@ typedef char MenuRecord_resource_entry_index_must_be_at_0x31[
 typedef char MenuRecord_display_effect_step_must_be_at_0x33[
     MENU_RECORD_OFFSET(display_effect_step) == 0x33 ? 1 : -1
 ];
-typedef char MenuRecord_field_34_must_be_at_0x34[
-    MENU_RECORD_OFFSET(field_34) == 0x34 ? 1 : -1
+typedef char MenuRecord_x_must_be_at_0x34[
+    MENU_RECORD_OFFSET(x) == 0x34 ? 1 : -1
 ];
-typedef char MenuRecord_field_36_must_be_at_0x36[
-    MENU_RECORD_OFFSET(field_36) == 0x36 ? 1 : -1
+typedef char MenuRecord_y_must_be_at_0x36[
+    MENU_RECORD_OFFSET(y) == 0x36 ? 1 : -1
 ];
 typedef char MenuRecord_slot_index_must_be_at_0x3C[
     MENU_RECORD_OFFSET(slot_index) == 0x3C ? 1 : -1

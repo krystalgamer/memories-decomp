@@ -44,7 +44,7 @@ void Script_OpShowDialog(void)
         func_8003B6AC(0, 2);
 #endif
         box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, SCRIPT_DIALOG_BOX_HEIGHT);
-        DuelEffect_MarkObjectIfActive((MenuRecord *)box);
+        DuelEffect_MarkObjectIfActive(box);
         box->flags_34 |= SCRIPT_DIALOG_BOX_FLAG;
         if ((value & 0x8000) != 0) {
             flags = gScript_wCommandWord;

@@ -23,8 +23,13 @@ typedef struct DuelEffectResourceRecord {
     RECT rects[4];
     u16 src_x;
     u16 src_y;
-    u16 field_2C;
-    u16 field_2E;
+    /* The VRAM position of the preview's 256-entry CLUT.
+       CardPreview_HandleResourceTransfer uploads the 0x100 x 1 palette image
+       to rects[1] at (clut_x, clut_y), and CardPreview_CreateResourceObjects
+       passes the same pair to DisplayObject_ConfigureScreenSprite as its
+       clut_x and clut_y. The duel and Library setups seed it per region. */
+    u16 clut_x;
+    u16 clut_y;
     /* CardPreview_RequestResourceTransfer stores the card ID here, and the store is
      * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
      * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when

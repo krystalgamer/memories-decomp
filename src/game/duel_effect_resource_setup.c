@@ -87,7 +87,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x66, 0x60, 0, 0,
         ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
-        (s16)entry->field_2C, (s16)entry->field_2E);
+        (s16)entry->clut_x, (s16)entry->clut_y);
 
     object->xy.word = 0x001F0048;
     object->field_3C.word = 0x00100038;

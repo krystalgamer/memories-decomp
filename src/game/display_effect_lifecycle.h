@@ -10,7 +10,7 @@
  * This is a narrower view of MenuRecord in menu_record.h: the records these
  * helpers are handed are elements of gDisplayEffect_aMenuRecords, and every offset the two
  * spell in common agrees -- 0x30, 0x32, 0x33 (display_effect_step there),
- * 0x34 and now 0x36. The view stays because the helpers' own signatures are
+ * and the x/y pair at 0x34/0x36. The view stays because the helpers' own signatures are
  * written against it; what it adds over the full record is nothing, and a
  * consumer that needs the tail should take MenuRecord, as DisplayEffect_UpdatePositionTween in
  * display_effect_update_callbacks.c does. */
@@ -19,8 +19,8 @@ typedef struct {
     u8 resource_entry_index;
     u8 variant_update_flags;
     u8 state;
-    u16 field_34;
-    u16 field_36;
+    u16 x;
+    u16 y;
     u8 pad_38[0x06];
     u16 variant_countdown;
 } DisplayEffectState;

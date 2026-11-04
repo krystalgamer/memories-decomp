@@ -68,9 +68,9 @@
 #ifndef DUEL_INIT_DUELIST_DATA_FIRST_SECTOR
 #define DUEL_INIT_DUELIST_DATA_FIRST_SECTOR DUELIST_DATA_FIRST_SECTOR
 #endif
-#ifndef DUEL_INIT_RESOURCE_FIELD_2C
-#define DUEL_INIT_RESOURCE_FIELD_2C 0
-#define DUEL_INIT_RESOURCE_FIELD_2E 0xFF
+#ifndef DUEL_INIT_RESOURCE_CLUT_X
+#define DUEL_INIT_RESOURCE_CLUT_X 0
+#define DUEL_INIT_RESOURCE_CLUT_Y 0xFF
 #endif
 
 void Duel_InitScene(void)
@@ -132,13 +132,13 @@ void Duel_InitScene(void)
     DuelEffect_ClearResourceObjectPointers(0);
     pane->src_x = 0;
     pane->src_y = 256;
-    pane->field_2C = DUEL_INIT_RESOURCE_FIELD_2C;
-    pane->field_2E = DUEL_INIT_RESOURCE_FIELD_2E;
+    pane->clut_x = DUEL_INIT_RESOURCE_CLUT_X;
+    pane->clut_y = DUEL_INIT_RESOURCE_CLUT_Y;
     DuelEffect_ClearResourceObjectPointers(1);
     pane[1].src_x = 64;
     pane[1].src_y = 256;
-    pane[1].field_2C = DUEL_INIT_RESOURCE_FIELD_2C;
-    pane[1].field_2E = DUEL_INIT_RESOURCE_FIELD_2E - 1;
+    pane[1].clut_x = DUEL_INIT_RESOURCE_CLUT_X;
+    pane[1].clut_y = DUEL_INIT_RESOURCE_CLUT_Y - 1;
     Model_SetFogDrawFlags(0);
     Duel_InitModelScene();
     File_WaitForTransfers();

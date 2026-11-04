@@ -50,12 +50,12 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[1];
-    x = e->field_2C;
+    x = e->clut_x;
     image_source = gFile_TransferBufferBase + 0x2640;
     e->rects[1].w = 0x100;
     e->rects[1].h = 1;
     e->rects[1].x = x;
-    e->rects[1].y = e->field_2E;
+    e->rects[1].y = e->clut_y;
     LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[2];

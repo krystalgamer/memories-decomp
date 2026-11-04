@@ -185,6 +185,21 @@ icon loop bound and intermediate tile-byte narrowing; those are not a
 claim to execute the renderer. Existing stat-default, adjustment, life-point
 and packet-record controls remain intact.
 
+## Preview CLUT position
+
+`DuelEffectResourceRecord` +0x2C/+0x2E are now `clut_x` and `clut_y`.
+
+| Offset | Old | New | Evidence | Confidence |
+|---|---|---|---|---|
+| `0x2C` | `field_2C` | `clut_x` | `CardPreview_HandleResourceTransfer` uploads the 0x100 x 1 palette image (the preview's 256-entry CLUT) to `rects[1]` at this x. `CardPreview_CreateResourceObjects` passes it to `DisplayObject_ConfigureScreenSprite` as `clut_x`. The setups store VRAM columns: 0 or 0x280 (duel, viewer), 0x200 or 0x280 (Library), 512 or 640 (password shop). | high |
+| `0x2E` | `field_2E` | `clut_y` | The same upload's y and `DisplayObject_ConfigureScreenSprite`'s `clut_y`. The setups store VRAM rows 0xDE to 0xFF. | high |
+
+The regional macros that seed them are renamed to match:
+`DUEL_INIT_RESOURCE_FIELD_2C/2E` became `DUEL_INIT_RESOURCE_CLUT_X/Y`,
+`LIBRARY_RESOURCE_FIELD_2C` became `LIBRARY_RESOURCE_CLUT_X`, and the password
+shop's misnamed `PASSWORD_CARD_CACHE_WIDTH` became
+`PASSWORD_CARD_CACHE_CLUT_X`.
+
 ## Stored card ID versus full transfer argument
 
 Resource `field_30` is now `card_id`, retaining its original `u16` at

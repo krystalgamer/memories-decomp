@@ -34,7 +34,7 @@ void Script_OpShowMenu(void)
         o->slot_index = bit >> 7;
         o->display_effect_step = 2;
         if (bit) {
-            o->field_34 = 0xD8;
+            o->x = 0xD8;
         }
     }
 

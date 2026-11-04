@@ -951,10 +951,10 @@ void Library_MarkOwnedCards(void)
 #ifndef LIBRARY_PACKAGE_SECTOR_COUNT
 #define LIBRARY_PACKAGE_SECTOR_COUNT 0x8A
 #endif
-/* The resource record's field_2C (0x200 in the US build, 0x280 in the
+/* The resource record's clut_x (0x200 in the US build, 0x280 in the
    European one) and the y of the sprite at x 0x10 (0xD8, 0xE8). */
-#ifndef LIBRARY_RESOURCE_FIELD_2C
-#define LIBRARY_RESOURCE_FIELD_2C 0x200
+#ifndef LIBRARY_RESOURCE_CLUT_X
+#define LIBRARY_RESOURCE_CLUT_X 0x200
 #endif
 #ifndef LIBRARY_SELECTOR_SPRITE_Y
 #define LIBRARY_SELECTOR_SPRITE_Y 0xD8
@@ -987,8 +987,8 @@ void Library_InitializeScreen(void) {
     b = &gCardPreview_Resources[0];
     b->src_x = 0x100;
     b->src_y = 0x100;
-    b->field_2C = LIBRARY_RESOURCE_FIELD_2C;
-    b->field_2E = 0xF0;
+    b->clut_x = LIBRARY_RESOURCE_CLUT_X;
+    b->clut_y = 0xF0;
     do {
         *q = n + 1;
         n--;
