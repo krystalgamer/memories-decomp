@@ -4325,7 +4325,7 @@
       "address": "0x80044B48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/sd_arm_busy_callback.c"
+      "source": "src/game/sd_arm_busy_callback.c"
     },
     {
       "address": "0x80044B70",

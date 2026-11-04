@@ -859,15 +859,13 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
  * lui %hi / lw %lo at every use because they build at -G0 without split
  * addresses; they reach no small data through $gp at all.
  *
- * sd_step_active_command.c and sd_cancel_music_requests.c still define
- * G_SDVALUE_IN_DATA. They also reach no small data through $gp, but their
- * switch tables need -msplit-addresses, and at -G0 that splits g_SDValue too
- * and keeps its %hi in a saved register, which retail does not. At -G8 the
+ * sd_step_active_command.c, sd_cancel_music_requests.c and
+ * sd_arm_busy_callback.c still define G_SDVALUE_IN_DATA. They also reach no
+ * small data through $gp, but they need -msplit-addresses (for switch tables,
+ * or for SD_ArmBusyCallback's function address), and at -G0 that also splits
+ * g_SDValue, which retail does not. At -G8 the
  * compiler leaves g_SDValue as one lw macro; the attribute only drops the
- * `.extern g_SDValue, 4` line that would make MASPSX use $gp.
- *
- * sd_arm_busy_callback.c reaches the pointer through a literal address
- * instead; see that file. */
+ * `.extern g_SDValue, 4` line that would make MASPSX use $gp. */
 #ifdef G_SDVALUE_IN_DATA
 extern SDValue *g_SDValue __attribute__((section(".data")));
 #else

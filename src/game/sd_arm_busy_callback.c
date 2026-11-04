@@ -1,18 +1,13 @@
+#define G_SDVALUE_IN_DATA
+#define D_8009B128_IN_DATA
 #include "../types.h"
+#include "file_transfer.h"
 #include "sound.h"
 #include "sound_output_state.h"
 
-/* Retail reaches g_SDValue here through a literal address: the load has no
- * relocation, unlike the SD_ClearBusyFlag call beside it. Regional wrappers
- * supply their own address. */
-#ifndef SD_ARM_BUSY_SDVALUE_ADDRESS
-#define SD_ARM_BUSY_SDVALUE_ADDRESS 0x8009B45C
-#endif
-#ifndef gFile_SecondaryPayloadCompleteCallback
-#define gFile_SecondaryPayloadCompleteCallback (*(void (**)(void))0x8009B128)
-#endif
-
+/* Retail stores through both globals with the one-line macro form (lui and
+ * %lo at each use, never $gp), like the other G_SDVALUE_IN_DATA units. */
 void SD_ArmBusyCallback(void) {
-    (*(SDValue **)SD_ARM_BUSY_SDVALUE_ADDRESS)->busy = 1;
+    g_SDValue->busy = 1;
     gFile_SecondaryPayloadCompleteCallback = SD_ClearBusyFlag;
 }
