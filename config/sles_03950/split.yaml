@@ -449,13 +449,22 @@ segments:
       - [0x63F88, c, game/european/ai_script_state_ops]
       - [0x6444C, asm, generated/italian_80073c4c]
       - {start: 0x820DC, type: bin, name: italian_raw_800918dc, linker_section_order: .sdata}
+      - [0x8CAB0, .sdata, game/duel_ground_projection]
       - [0x8CAB4, .sdata, game/european/duel_battle_stats]
       - {start: 0x8CABA, type: bin, name: italian_raw_8009c2ba, linker_section_order: .sdata}
       - [0x8CAC8, .sdata, game/duel_card_effects]
       - [0x8CAD5, pad]
       - {start: 0x8CAD6, type: bin, name: italian_raw_8009c2d6, linker_section_order: .sdata}
+      - [0x8CAEC, .sdata, game/spanish/save_data_payload]
+      - {start: 0x8CAF4, type: bin, name: italian_raw_8009c2f4, linker_section_order: .sdata}
+      - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
+      - {start: 0x8CB18, type: bin, name: italian_raw_8009c318, linker_section_order: .sdata}
+      - [0x8CB3C, .sdata, game/european/model_background]
+      - [0x8CB74, .sdata, game/spanish/model_scene_controllers]
       - [0x8CB94, .sdata, game/european/model_debug_controller]
       - {start: 0x8CB98, type: bin, name: italian_raw_8009c398, linker_section_order: .sdata}
+      - [0x8CBE8, .sdata, game/spanish/movie_frame_pipeline]
+      - {start: 0x8CBFC, type: bin, name: italian_raw_8009c3fc, linker_section_order: .sdata}
       - [0x8CC08, .sbss, game/european/graphics_frame]
       - [0x8CC58, .sbss, game/european/file_set_position_table]
       - [0x8CC60, .sbss, game/european/file_transfer_runtime]

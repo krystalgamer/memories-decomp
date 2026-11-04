@@ -1205,6 +1205,7 @@ segments:
   - - 532700
     - data
     - resident_tail
+  - [0x8CAB0, .sdata, game/duel_ground_projection]
   - - 576180
     - .sdata
     - game/european/duel_battle_stats
@@ -1219,6 +1220,12 @@ segments:
     type: bin
     name: resident_tail_8cad6
     linker_section_order: .sdata
+  - [0x8CAEC, .sdata, game/spanish/save_data_payload]
+  - {start: 0x8CAF4, type: bin, name: resident_tail_8caf4, linker_section_order: .sdata}
+  - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
+  - {start: 0x8CB18, type: bin, name: resident_tail_8cb18, linker_section_order: .sdata}
+  - [0x8CB3C, .sdata, game/european/model_background]
+  - [0x8CB74, .sdata, game/spanish/model_scene_controllers]
   - - 576404
     - .sdata
     - game/european/model_debug_controller
@@ -1226,6 +1233,8 @@ segments:
     type: bin
     name: resident_tail_8cb98
     linker_section_order: .sdata
+  - [0x8CBE8, .sdata, game/spanish/movie_frame_pipeline]
+  - {start: 0x8CBFC, type: bin, name: resident_tail_8cbfc, linker_section_order: .sdata}
   - [0x8CC08, .sbss, game/european/graphics_frame]
   - [0x8CC58, .sbss, game/european/file_set_position_table]
   - [0x8CC60, .sbss, game/european/file_transfer_runtime]
