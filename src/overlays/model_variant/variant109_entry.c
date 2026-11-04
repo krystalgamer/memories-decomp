@@ -6,7 +6,7 @@
  * of quads grows towards the camera axis, two squares pulse, and a fading
  * double-sided strip of flashes follows the beam. */
 
-static const VECTOR gModelVariant109_D3520 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant109_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
 {
@@ -39,7 +39,7 @@ s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant109_D3520;
+    scale = gModelVariant109_UnitScale;
     work = (Model109State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

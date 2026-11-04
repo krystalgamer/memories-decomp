@@ -7,7 +7,7 @@
  * one of the slot's parts while their colour rises and fades, then a fixed
  * burst frame fades out at each point's starting position. */
 
-static const VECTOR gModelVariant171_D0F34 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant171_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant171_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant171_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant171_D0F34;
+    scale = gModelVariant171_UnitScale;
     work = (Model171State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

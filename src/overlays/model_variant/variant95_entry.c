@@ -10,7 +10,7 @@
  * returns 0 until the beam starts, 4 while it lasts, 1 on the first frame
  * after that and 2 later. */
 
-static const VECTOR gModelVariant95_D13E4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant95_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant95_HandleRequest(u8 *context, s32 command)
 {
@@ -37,7 +37,7 @@ s32 ModelVariant95_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant95_D13E4;
+    scale = gModelVariant95_UnitScale;
     work = (Model95State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

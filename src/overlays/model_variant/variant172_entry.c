@@ -7,7 +7,7 @@
  * sphere in front of the other slot, and then play eight frames of the texture
  * as quads at those points. */
 
-static const VECTOR gModelVariant172_D0CF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant172_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant172_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant172_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant172_D0CF8;
+    scale = gModelVariant172_UnitScale;
     work = (Model172State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

@@ -7,7 +7,7 @@
  * orbiting it, 32 sprites rise from around the opposing slot, and the light
  * is restored at the end. */
 
-static const VECTOR gModelVariant138_D3304 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant138_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
 {
@@ -37,7 +37,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant138_D3304;
+    scale = gModelVariant138_UnitScale;
     work = (Model138State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

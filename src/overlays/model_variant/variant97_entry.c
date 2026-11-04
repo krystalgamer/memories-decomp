@@ -8,7 +8,7 @@
  * fan grows there last. The return value reports the hit (1) once, the end
  * of the fan (2) or neither (0). */
 
-static const VECTOR gModelVariant97_D12E4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant97_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant97_D12E4;
+    scale = gModelVariant97_UnitScale;
     work = (Model97State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

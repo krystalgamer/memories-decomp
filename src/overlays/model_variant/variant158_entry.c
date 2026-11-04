@@ -8,7 +8,7 @@
  * draws a frame; any other command sets the work area up and prints its
  * size. */
 
-static const VECTOR gModelVariant158_D111C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant158_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
 {
@@ -31,7 +31,7 @@ s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant158_D111C;
+    scale = gModelVariant158_UnitScale;
     work = (Model158State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

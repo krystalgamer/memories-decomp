@@ -8,7 +8,7 @@
  * sparks. A negative command draws a frame; any other command builds the
  * mesh, the petal targets and the spark offsets and loads the textures. */
 
-static const VECTOR gModelVariant102_D24BC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant102_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant102_D24BC;
+    scale = gModelVariant102_UnitScale;
     work = (Model102State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     /* The spark radius and the dome ring count share this block-scoped

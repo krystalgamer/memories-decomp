@@ -8,7 +8,7 @@
  * out at the end. The return value reports the hit (1) once, the end (2),
  * 4 while sparks are still spawning, or nothing (0). */
 
-static const VECTOR gModelVariant132_D1378 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant132_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
 {
@@ -35,7 +35,7 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant132_D1378;
+    scale = gModelVariant132_UnitScale;
     work = (Model132State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
