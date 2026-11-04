@@ -128,8 +128,14 @@ at UK `0x8003C56C`, or `0x8003C76C` in France, Germany, Italy and Spain;
 each PAL symbols.txt binds the canonical name there. Its
 `void(FileTransferDescriptor *, s32)` declaration in the transfer owner
 header is the same in every region, with no assembler label. The two earlier
-wrappers keep their native `func_8003C224` and `func_8003C3C4` mappings;
-neither is claimed as another Options provider or given a screen name.
+callbacks, formerly `func_8003C224` and `func_8003C3C4`, are now
+`Frontend_LoadPackageStageVariantA` and `Frontend_LoadPackageStageVariantB`
+(UK `0x8003C224`/`0x8003C3C4`, `0x8003C424`/`0x8003C5C4` in France, Germany,
+Italy and Spain). Each spells out the same four-mode body with its own
+constants instead of re-including the Options stage behind a `#define`
+rename. No caller or address reference to either was found in the European
+executables, so neither is claimed as another Options provider or given a
+screen name.
 NA/Japan declarations and native ownership remain unchanged.
 
 The request reads the then-current language byte and queues seven
