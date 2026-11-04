@@ -4,13 +4,13 @@
 #include "sound_spatialization.h"
 #include "sound_sequence_timing.h"
 
-void SD_SetSecondarySpatialLevels(s32 arg0, s32 arg1)
+void SD_SetSecondarySpatialLevels(s32 left, s32 right)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
     s32 mode = state->sequence_state;
 
-    state->spatial_level_left = arg0 & SD_SECONDARY_LEVEL_MASK;
-    state->spatial_level_right = arg1 & SD_SECONDARY_LEVEL_MASK;
+    state->spatial_level_left = left & SD_SECONDARY_LEVEL_MASK;
+    state->spatial_level_right = right & SD_SECONDARY_LEVEL_MASK;
     if (mode != 2)
         SD_UpdateSecondaryObjectVolumes();
 }

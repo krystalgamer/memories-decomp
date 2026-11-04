@@ -9,10 +9,10 @@
 #include "sd_request_music_package_load.h"
 #include "../unmatched.h"
 
-s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
+s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
     SDValue *p = g_SDValue;
 
-    if (*p->music_track != arg0 >> 4) {
+    if (*p->music_track != command_id >> 4) {
         SDValue *q;
         SDMusicTableEntry *entry;
         s32 off;
@@ -23,7 +23,7 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
 
         q = g_SDValue;
         q->status_flags |= 2;
-        off = ((arg0 & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
+        off = ((command_id & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
         entry = (SDMusicTableEntry *)(off + (s32)q->music_table);
 
         SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->music_track,

@@ -48,18 +48,18 @@ void SD_UpdateSecondarySequence(void)
 
 #include "sound_sequence_reader.h"
 
-/* Compares arg2 bytes; returns the difference at the first mismatch. */
-s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 arg2) {
-    if (arg2 == 0) {
+/* Compares count bytes; returns the difference at the first mismatch. */
+s32 SD_CompareBytes(u8 *left, u8 *right, s32 count) {
+    if (count == 0) {
         return -1;
     }
 
-    while (--arg2 != 0 && *arg0 == *arg1) {
-        arg0++;
-        arg1++;
+    while (--count != 0 && *left == *right) {
+        left++;
+        right++;
     }
 
-    return *arg0 - *arg1;
+    return *left - *right;
 }
 
 s32 SD_ReadSequenceByte(SDSequenceTrack *reader)

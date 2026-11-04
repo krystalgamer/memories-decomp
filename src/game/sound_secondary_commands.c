@@ -12,7 +12,7 @@
 
 #define SD_SECONDARY_STATE_BYTES(state) ((u8 *)(state))
 
-void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
+void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value)
 {
     SDSecondaryState *b;
     SDSecondaryState *c;
@@ -27,15 +27,15 @@ void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
     s32 off;
 
     ok = 0;
-    id = arg0 & 0xFF;
+    id = channel & 0xFF;
     b = gSD_pSecondaryState;
     e = (SDSecondaryRecord *)b + id;
-    sel = arg1 & 0xFF;
+    sel = controller & 0xFF;
 
     switch (sel) {
     case SD_SEQUENCE_CONTROL_DATA_ENTRY:
         v = e->control_mode;
-        e->control_value = arg2;
+        e->control_value = value;
         if (v != SD_SEQUENCE_LOOP_START) {
             if (v != SD_SEQUENCE_LOOP_END) {
                 SD_ApplySequenceReverbParameter(e, id);
@@ -43,37 +43,37 @@ void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
         }
         break;
     case 7:
-        e->volume = arg2;
+        e->volume = value;
         ok = 1;
         break;
     case 0xA:
-        if (arg2 != 0) {
-            e->pan = arg2;
+        if (value != 0) {
+            e->pan = value;
         } else {
             e->pan = 1;
         }
         ok = 1;
         break;
     case 0xB:
-        e->expression = arg2;
+        e->expression = value;
         ok = 1;
         break;
     case 0x1E:
-        b->sequence_level = arg2;
+        b->sequence_level = value;
         SD_UpdateSecondaryObjectVolumes();
         break;
     case 0x30:
         e->voice_usage =
-            (e->voice_usage & 0xF) | ((arg2 & 0xF) << 4);
+            (e->voice_usage & 0xF) | ((value & 0xF) << 4);
         break;
     case 0x5B:
-        e->reverb_mode = arg2 & 0x7F;
+        e->reverb_mode = value & 0x7F;
         break;
     case SD_SEQUENCE_CONTROL_PARAMETER_SELECTOR:
-        e->parameter_selector = arg2;
+        e->parameter_selector = value;
         break;
     case SD_SEQUENCE_CONTROL_MODE:
-        e->control_mode = arg2;
+        e->control_mode = value;
         break;
 
     case 0x7F:
@@ -84,7 +84,7 @@ void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
         c = gSD_pSecondaryState;
         i = 0;
         if (c->object_count > 0) {
-            id2 = arg0 & 0xFF;
+            id2 = channel & 0xFF;
             off = id2 * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
             m = 0x180;
             do {

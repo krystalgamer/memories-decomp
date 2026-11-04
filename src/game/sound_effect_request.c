@@ -17,7 +17,7 @@
 #include "sound_sequence_state.h"
 #include "sd_reset_music_state.h"
 
-void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
+void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
 {
     SDSEPlayIdPair tags;
     s32 vol;
@@ -31,20 +31,20 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     s32 t2;
 
     /* The duplicate paths and consumed-id reuse preserve the retail copy
-       chain: GCC must not forward arg0 into the second ID snapshot. */
-    if (arg0 & 0x8000) {
-        tags.words.original = arg0;
-        pan = arg2;
-        arg0 = arg1;
+       chain: GCC must not forward sound_id into the second ID snapshot. */
+    if (sound_id & 0x8000) {
+        tags.words.original = sound_id;
+        pan = pan_value;
+        sound_id = volume;
         tags.words.copy = tags.words.original;
-        vol = arg0;
+        vol = sound_id;
         stop_value = tags.words.original;
     } else {
-        tags.words.original = arg0;
-        pan = arg2;
-        arg0 = arg1;
+        tags.words.original = sound_id;
+        pan = pan_value;
+        sound_id = volume;
         tags.words.copy = tags.words.original;
-        vol = arg0;
+        vol = sound_id;
         stop_value = tags.words.original;
     }
     if (tags.words.original & 0x8000) {
@@ -92,7 +92,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     }
 }
 
-void SD_SESetPan(s32 arg0, s32 arg1)
+void SD_SESetPan(s32 sound_id, s32 pan_value)
 {
     s32 i;
     s32 pan;
@@ -111,33 +111,33 @@ void SD_SESetPan(s32 arg0, s32 arg1)
     u32 nt;
     s32 prod;
 
-    key = arg0;
-    pan2 = arg1;
-    if (arg0 & 0x8000) {
-        SD_SetCdPan((s16)arg1);
+    key = sound_id;
+    pan2 = pan_value;
+    if (sound_id & 0x8000) {
+        SD_SetCdPan((s16)pan_value);
         return;
     }
-    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
-        off = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
-        flag = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+    if ((sound_id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+        off = (sound_id & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
+        flag = sound_id & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = 0 < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = (u8 *)g_SDValue;
         /* Keep the state base first in the sum to preserve retail's addu order. */
         pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->indirect_sound_ids);
-        arg0 = SD_PENDING_ENTRY_NONE;
-        if (pt == arg0) {
+        sound_id = SD_PENDING_ENTRY_NONE;
+        if (pt == sound_id) {
             return;
         }
         key = ((SDValue *)base)->note_index_by_id[pt];
-        if (key == arg0) {
+        if (key == sound_id) {
             return;
         }
     }
     i = 0;
-    nt = (u16)((u32)arg1 - 1);
+    nt = (u16)((u32)pan_value - 1);
     near = nt < 0x80;
-    pan = (s16)arg1;
+    pan = (s16)pan_value;
     k = 0x80;
     lo = k - pan;
     hi = pan + k;
@@ -169,28 +169,28 @@ loop:
     }
 }
 
-void SD_SESetVolume(s32 arg0, s32 arg1)
+void SD_SESetVolume(s32 sound_id, s32 volume)
 {
     s32 lo;
     s32 hi;
     s32 i;
-    u8 a1v = arg1;
+    u8 a1v = volume;
     s32 idm;
     u16 id;
     s32 ff;
 
-    id = arg0;
-    if (arg0 & 0x8000) {
+    id = sound_id;
+    if (sound_id & 0x8000) {
         SD_SetCdVolume((u8)a1v);
         return;
     }
-    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+    if ((sound_id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         SDValue *a = g_SDValue;
         u8 *table;
         u16 v;
 
-        lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
-        hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+        lo = (sound_id & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = sound_id & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         /* Keep the table base separate from the byte offset for allocation. */
         table = (u8 *)&a->indirect_sound_ids;

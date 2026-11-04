@@ -24,7 +24,7 @@
  * reader family is spelled that way: SD_ReadSequenceByte lives in
  * sound_sequence_reader.h, and the two big-endian readers and
  * SD_ReadSequenceHeader in sound_sequence_parser.h. */
-s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0);
+s32 SD_ReadSequenceEvent(SDSequenceTrack *track);
 
 /* Data-byte count per status high nibble, sixteen words read out of the
  * retail image: 0 for 0x0-0x7 and 0xF, 2 for 0x8-0xB (note off/on,

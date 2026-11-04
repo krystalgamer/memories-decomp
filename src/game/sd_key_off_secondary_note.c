@@ -12,12 +12,12 @@
  * through cc1psx's address pair.
  *
  * The 21 differences the first pure C sat at were ONE mechanism: gcc hoisted
- * arg1's per-iteration `andi` out of the call-bearing loop into a saved
+ * note's per-iteration `andi` out of the call-bearing loop into a saved
  * register. The loop is written with `goto` (label at the top, conditional
  * `goto top;` at the bottom) because gcc 2.8's loop pass runs only between
  * the LOOP_BEG/LOOP_END notes of for/while/do -- a goto loop has none, so
  * nothing is hoisted, which is what retail shows. Then, in order:
- *   29 -> 22  `a1 = arg1;` named at the top, masked at its use
+ *   29 -> 22  `a1 = note;` named at the top, masked at its use
  *   22 -> 11  `mask = 0;` written before `i = 0;`
  *   13 ->  5  `do { } while (0);` round the loop's bottom four statements
  *             (the permuter's find; it stops off/tbl rotating)
@@ -25,7 +25,7 @@
  *             gcc makes the copy itself and puts it in the guard's delay slot
  */
 
-void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
+void SD_KeyOffSecondaryNote(s32 channel, s32 note, s32 unused) {
     SDSecondaryState *base;
     s32 mask;
     s32 i;
@@ -36,12 +36,12 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
     SDSecondaryState *p;
     s32 a1;
 
-    a1 = arg1;
+    a1 = note;
     base = gSD_pSecondaryState;
     i = 0;
     mask = 0;
     if (base->object_count > 0) {
-        t1 = arg0 & 0xFF;
+        t1 = channel & 0xFF;
         tbl = gSD_adwVoiceMasks;
         off = 0;
         top:
@@ -69,7 +69,7 @@ void SD_KeyOffSecondaryNote(s32 arg0, s32 arg1, s32 unused) {
 
     {
         SDSecondaryRecord *q =
-            (SDSecondaryRecord *)gSD_pSecondaryState + (u8)arg0;
+            (SDSecondaryRecord *)gSD_pSecondaryState + (u8)channel;
         q->velocity = 0;
     }
 }

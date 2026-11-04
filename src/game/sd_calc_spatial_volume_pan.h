@@ -3,13 +3,13 @@
 
 #include "../types.h"
 
-/* Distance-to-camera fade and pan for one sound source at (arg0, arg1). The
+/* Distance-to-camera fade and pan for one sound source at (source_x, source_z). The
  * square root of the distance from the listener record at gModel_RView, minus
- * 700, sets the volume byte in *arg2 (0xFF down to 0x10). The signed
+ * 700, sets the volume byte in *volume (0xFF down to 0x10). The signed
  * projection onto the listener direction, divided by 16 and clamped to
- * +-0x7F, sets the pan in *arg3. */
+ * +-0x7F, sets the pan in *pan. */
 void SD_CalcSpatialVolumePan(
-    s32 x, s32 z, u8 *volume, u8 *pan
+    s32 source_x, s32 source_z, u8 *volume, u8 *pan
 );
 
 #endif

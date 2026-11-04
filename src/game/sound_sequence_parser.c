@@ -138,7 +138,7 @@ void SD_IgnoreSequenceEvent(u8 status)
 {
 }
 
-void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
+void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
 {
     SDSecondaryState *e;
     SDSecondaryState *f;
@@ -149,7 +149,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
     s32 t;
     s32 z;
 
-    mode = arg1 & 0xFF;
+    mode = meta_type & 0xFF;
 
     switch (mode) {
     case SD_SEQUENCE_META_END_OF_TRACK:
