@@ -210,7 +210,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->sprite_count; i++) {
             if (work->sprites[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sprites[i].scale);
                 RotMatrixZ(work->sprites[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sprites[i].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
@@ -236,7 +236,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                     work->sprites[i].u + 63, work->sprites[i].v + 96);
                 setRGB0(&work->sprite, work->sprites[i].color[0], work->sprites[i].color[1], work->sprites[i].color[2]);
                 PushMatrix();
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->sprites[i].elapsed * work->sprites[i].spin.vz, &m);
                 for (j = 0; j < 4; j++) {
                     ApplyMatrixSV(&m, &work->corners[j], &points[j]);
@@ -268,7 +268,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->shell_count; i++) {
             if (work->shells[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->shells[i].elapsed << 12) / work->shells[i].duration + 0x400;
                 setVector(&work->shells[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->shells[i].scale);
@@ -325,7 +325,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->fan_count; i++) {
             if (work->fans[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->fans[i].elapsed << 12) / work->fans[i].duration + 0x400;
                 setVector(&work->fans[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->fans[i].scale);

@@ -52,7 +52,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Image60348ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant681_D26C8[3];
 extern Image60348Config gFrenchModelVariant681_D271C[];
 

@@ -70,7 +70,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Model671ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n"; the image keeps it in data because the
  * byte after its terminator is a nonzero alignment pad. */

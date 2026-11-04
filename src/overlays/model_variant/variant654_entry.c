@@ -264,7 +264,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->rows; i++) {
                 if (work->bursts[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     n = (work->bursts[i][j].elapsed << 12) / work->bursts[i][j].duration;
                     setVector(&work->bursts[i][j].scale, n, n, n);
                     ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
@@ -321,7 +321,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->ring_count; i++) {
                 if (work->rings[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     n = (work->rings[i][j].elapsed << 12) / work->rings[i][j].duration + 0x1000;
                     setVector(&work->rings[i][j].scale, n, n, n);
                     ScaleMatrix(&unit.matrix, &work->rings[i][j].scale);
@@ -376,7 +376,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->columns; i++) {
             if (work->spheres[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->spheres[i].elapsed << 12) / work->spheres[i].duration;
                 setVector(&work->spheres[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->spheres[i].scale);

@@ -38,7 +38,7 @@ active; otherwise it returns 0.
 Two details of the C come from the retail code rather than from intent. The
 entry copies eight bytes of `Model_GetViewMetricsBuffer()` to the stack and
 never reads them. And the burst's local coordinate unit starts from a copy of
-the resident matrix at `0x800FE168` (`D_800FE168`). It is zero in the
+the resident matrix at `0x800FE168` (`GsIDMATRIX`). It is zero in the
 executable file; `GsSortSprite`, `GsSortBg` and `Gssub_make_matrix` also read
 it, so it is presumably one of the library's identity matrices filled at run
 time, but nothing here names it.
@@ -49,5 +49,5 @@ The entry's `.rodata` follows it at `0xE58`: the format string and the three
 `switch` jump tables. The rest of the image is one raw tail. The layout names
 the texture descriptor `gModelVariant647_D0F5C` and the command table `gModelVariant647_D0F78` inside
 it (the `0x8017B000` images use the same offsets). The resident bindings,
-including `D_800FE168`, are in
+including `GsIDMATRIX`, are in
 `config/slus_01411/overlays/variant647_linker_symbols.txt`.

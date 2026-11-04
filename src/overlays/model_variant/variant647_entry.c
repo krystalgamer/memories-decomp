@@ -202,7 +202,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->bursts[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 size = work->bursts[i].elapsed * 0x6000 / work->bursts[i].duration;
                 setVector(&work->bursts[i].scale, size, size, size);
                 ScaleMatrix(&unit.matrix, &work->bursts[i].scale);

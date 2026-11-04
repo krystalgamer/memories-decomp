@@ -261,7 +261,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->sprites[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sprites[i].scale);
                 RotMatrixZ(work->sprites[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sprites[i].rotation.vx - (view.u.halves[2] - 0x1000) * work->direction,
@@ -294,7 +294,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
                     work->sprites[i].u + 15, work->sprites[i].v + 15);
                 setRGB0(&work->sprite, work->sprites[i].color[0], work->sprites[i].color[1], work->sprites[i].color[2]);
                 PushMatrix();
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(work->sprites[i].elapsed * 100, &m);
                 for (j = 0; j < 4; j++) {
                     ApplyMatrixSV(&m, &work->corners[j], &points[j]);
@@ -392,7 +392,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->domes[i].elapsed << 13) / work->domes[i].duration;
                 setVector(&work->domes[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->domes[i].scale);

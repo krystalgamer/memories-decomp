@@ -111,7 +111,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 8; i++) {
             for (j = 0; j < 8; j++) {
                 PushMatrix();
-                m = D_800FE168;
+                m = GsIDMATRIX;
                 RotMatrixZ(i << 9, &m);
                 RotMatrixX((i + j) % 8 << 9, &m);
                 RotMatrixY((i + j) % 8 << 9, &m);
@@ -157,7 +157,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count; i++) {
         if (work->blooms[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             value = work->blooms[i].elapsed * 0x3000 / work->blooms[i].duration + 0x800;
             setVector(&work->blooms[i].scale, value, value, value);
             ScaleMatrix(&unit.matrix, &work->blooms[i].scale);
@@ -192,7 +192,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
                 GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
             }
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->blooms[i].scale);
             RotMatrixZ(work->blooms[i].rotation.vz, &unit.matrix);
             RotMatrixY(work->blooms[i].rotation.vy, &unit.matrix);
@@ -233,7 +233,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count; i++) {
         if (work->rings[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             value = work->rings[i].elapsed * 0x3000 / work->rings[i].duration + 0x800;
             setVector(&work->rings[i].scale, value, value, value);
             ScaleMatrix(&unit.matrix, &work->rings[i].scale);
@@ -273,7 +273,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
                 }
             }
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->rings[i].scale);
             RotMatrixZ(work->rings[i].elapsed * 10, &unit.matrix);
             RotMatrixX(work->rings[i].rotation.vx - (view.pitch - 0x1000) * work->direction, &unit.matrix);

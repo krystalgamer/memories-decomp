@@ -338,7 +338,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->dome_count; i++) {
                 if (work->domes[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->domes[i][j].scale);
                     RotMatrixZ(work->domes[i][j].rotation.vz, &unit.matrix);
                     RotMatrixX(work->domes[i][j].rotation.vx, &unit.matrix);
@@ -469,7 +469,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->copies; i++) {
             if (work->comets[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->comets[i].scale);
                 unit.matrix.t[0] = work->comets[i].position.vx;
                 /* A parabola from the launch height up to -100. The 5 * elapsed goes through
@@ -559,7 +559,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->burst_count; i++) {
                 if (work->bursts[i][k].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->bursts[i][k].scale);
                     RotMatrixY(work->bursts[i][k].rotation.vy, &unit.matrix);
                     unit.matrix.t[0] = work->bursts[i][k].position.vx;
@@ -603,7 +603,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                     }
                     PushMatrix();
                     for (l = 0; l < 9; l++) {
-                        m = D_800FE168;
+                        m = GsIDMATRIX;
                         RotMatrixY(rsin(work->bursts[i][k].elapsed * 160 + l * 500) / 15, &m);
                         for (j = 0; j < 9; j++) {
                             ApplyMatrixSV(&m, &work->cone[j][l], &work->spun[j][l]);
@@ -652,7 +652,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->copies; i++) {
             if (work->flashes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->flashes[i].scale);
                 RotMatrixZ(work->flashes[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->flashes[i].rotation.vx, &unit.matrix);

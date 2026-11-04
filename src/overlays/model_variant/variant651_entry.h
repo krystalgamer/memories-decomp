@@ -62,7 +62,7 @@ typedef struct {
     Model651Strip cones[8];
 } Model651State;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant651_D1A4C;
 extern Model651Command gModelVariant651_D1A68[];
 

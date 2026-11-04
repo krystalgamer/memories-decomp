@@ -183,7 +183,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
                 RotMatrixY(work->rings[i].rotation.vy, &unit.matrix);
                 RotMatrixZ(work->rings[i].rotation.vz, &unit.matrix);
@@ -244,7 +244,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->spark_count; i++) {
             if (work->sparks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sparks[i].scale);
                 RotMatrixZ(work->sparks[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sparks[i].rotation.vx

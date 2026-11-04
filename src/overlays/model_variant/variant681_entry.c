@@ -173,7 +173,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
         setVector(&vec, amount, 0, amount * -work->direction);
         for (i = 0; i < 5; i++) {
             PushMatrix();
-            m = D_800FE168;
+            m = GsIDMATRIX;
             switch (command) {
             case 0:
             case 3:
@@ -415,7 +415,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->flash_count; i++) {
             if (work->flashes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 /* An if/else rather than a preset 4096: it keeps the /5
                  * constant inside the loop and the scale address unshared. */
                 if (work->flashes[i].elapsed < work->flashes[i].duration / 5) {
@@ -460,7 +460,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->row_count; i++) {
                 if (work->rings[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     value = work->rings[i][j].elapsed * 0x3000 / work->rings[i][j].duration;
                     setVector(&work->rings[i][j].scale, value, value, value);
                     ScaleMatrix(&unit.matrix, &work->rings[i][j].scale);
@@ -537,7 +537,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                     FADE(work->bursts[i][j], 3);
                     for (k = 0; k < 5; k++) {
                         unit.flg = 0;
-                        unit.matrix = D_800FE168;
+                        unit.matrix = GsIDMATRIX;
                         ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
                         RotMatrixZ(work->bursts[i][j].rotation.vz, &unit.matrix);
                         RotMatrixX(work->bursts[i][j].rotation.vx - (view.pitch - 4096) * work->direction,
@@ -573,7 +573,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->row_count; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 value = (work->domes[i].elapsed << 14) / work->domes[i].duration + 0x800;
                 setVector(&work->domes[i].scale, value, value, value);
                 ScaleMatrix(&unit.matrix, &work->domes[i].scale);
@@ -624,7 +624,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 8; j++) {
                     work->domes[i].v = (work->domes[i].elapsed + j * 10) % 32 * 63 / 32 - 128;
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->domes[i].scale);
                     /* The sign and base angle reuse value and amount. */
                     value = j % 2 * 2 - 1;
@@ -690,7 +690,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                     setVector(&work->sparks[i][j].scale, value, value, value);
                     FADE(work->sparks[i][j], 3);
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sparks[i][j].scale);
                     RotMatrixZ(work->sparks[i][j].rotation.vz, &unit.matrix);
                     RotMatrixX(work->sparks[i][j].rotation.vx - (view.pitch - 4096) * work->direction,

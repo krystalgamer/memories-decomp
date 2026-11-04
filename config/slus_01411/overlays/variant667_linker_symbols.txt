@@ -1,4 +1,4 @@
-D_800FE168 = 0x800FE168;
+GsIDMATRIX = 0x800FE168;
 Graphics_SubmitDrawModePacket = 0x8005B260;
 GsGetLsUnit = 0x8008A760;
 GsGetLwUnit = 0x8008A4A0;

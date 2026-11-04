@@ -120,7 +120,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->rings[i].scale);
                 RotMatrixY(work->rings[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->rings[i].position.vx;
@@ -210,7 +210,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->line_count; i++) {
             if (work->lines[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->lines[i].scale);
                 RotMatrixZ(work->lines[i].rotation.vz, &unit.matrix);
                 RotMatrixY(work->lines[i].rotation.vy, &unit.matrix);

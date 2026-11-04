@@ -84,7 +84,7 @@ typedef struct {
     s16 unknown_00, yaw, pitch, unknown_06;
 } Model683ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n". */
 extern char gModelVariant683_D2514[];

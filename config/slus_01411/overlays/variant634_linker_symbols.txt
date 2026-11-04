@@ -1,4 +1,5 @@
 GsGetLsUnit = 0x8008A760;
+GsIDMATRIX = 0x800FE168;
 GsSetLsMatrix = 0x800855D0;
 GsSortPoly = 0x80084320;
 ModelTexture_PackPageClutCopy = 0x80059A50;

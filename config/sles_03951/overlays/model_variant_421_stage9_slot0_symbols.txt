@@ -19,4 +19,4 @@ RotMatrixY = 0x80088608; // type:func absolute:true
 RotMatrixZ = 0x800887A8; // type:func absolute:true
 GsGetLsUnit = 0x8008A6E8; // type:func absolute:true
 bzero = 0x8008F4D8; // type:func absolute:true
-D_800FE168 = 0x800FF4F0; // absolute:true
+GsIDMATRIX = 0x800FF4F0; // absolute:true

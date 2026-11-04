@@ -206,7 +206,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
         if (work->primary[i].active == 1) {
             unit.flg = 0;
             ApplyMatrixLV(&world, &work->primary[i].position, &position);
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->primary[i].scale);
             RotMatrixZ(work->primary[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->primary[i].rotation.vx
@@ -279,7 +279,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->secondary_count; i++) {
         if (work->secondary[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->secondary[i].scale);
             RotMatrixY(work->secondary[i].rotation.vy, &unit.matrix);
             unit.matrix.t[0] = work->secondary[i].position.vx;
@@ -382,7 +382,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->burst_count; i++) {
         if (work->bursts[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
             RotMatrixZ(work->bursts[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->bursts[i].rotation.vx

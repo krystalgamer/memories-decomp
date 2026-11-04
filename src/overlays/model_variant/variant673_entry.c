@@ -176,7 +176,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->rising[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->rising[i].scale);
                 RotMatrixZ(work->rising[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->rising[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * work->direction,
@@ -227,7 +227,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->falling[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = (work->falling[i].elapsed << 12) / work->falling[i].duration + 0x1000;
                 setVector(&work->falling[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->falling[i].scale);
@@ -281,7 +281,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->fans[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 n = work->fans[i].elapsed * 0x3000 / work->fans[i].duration + 0x1000;
                 setVector(&work->fans[i].scale, n, n, n);
                 ScaleMatrix(&unit.matrix, &work->fans[i].scale);

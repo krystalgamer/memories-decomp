@@ -108,7 +108,7 @@ typedef struct {
     u8 bytes[8];
 } Model665ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant665_D3504[10];
 extern Model665Command gModelVariant665_D361C[];
 

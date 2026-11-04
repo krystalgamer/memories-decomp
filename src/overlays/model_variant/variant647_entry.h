@@ -61,7 +61,7 @@ typedef struct {
     u8 bytes[8];
 } Model647ViewSnapshot;
 
-extern MATRIX D_800FE168;
+extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant647_D0F5C;
 extern Model647Command gModelVariant647_D0F78[];
 

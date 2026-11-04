@@ -167,7 +167,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count; i++) {
         if (work->orbs[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->orbs[i].scale);
             RotMatrixZ(work->orbs[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->orbs[i].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
@@ -223,7 +223,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->count; i++) {
         if (work->rings[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->rings[i].scale);
             RotMatrixZ(work->rings[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->rings[i].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
@@ -292,7 +292,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
         for (k = 0; k < work->rows; k++) {
             if (work->sparks[i][k].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sparks[i][k].scale);
                 RotMatrixZ(work->sparks[i][k].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sparks[i][k].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);

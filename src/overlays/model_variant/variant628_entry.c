@@ -214,7 +214,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->count; i++) {
             if (work->balls[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->balls[i].scale);
                 RotMatrixX(work->balls[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
                     &unit.matrix);
@@ -265,7 +265,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->spark_count; i++) {
                 if (work->sparks[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sparks[i][j].scale);
                     RotMatrixX(work->sparks[i][j].rotation.vx
                             - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
@@ -322,7 +322,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                 n = work->domes[i][j].active;
                 if (n == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->domes[i][j].scale);
                     RotMatrixY(work->domes[i][j].rotation.vy, &unit.matrix);
                     unit.matrix.t[0] = work->domes[i][j].position.vx;
@@ -378,7 +378,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                     }
                     PushMatrix();
                     for (k = 0; k < 9; k++) {
-                        m = D_800FE168;
+                        m = GsIDMATRIX;
                         RotMatrixY(rsin(work->domes[i][j].elapsed * 80 + k * 500) / 15, &m);
                         for (l = 0; l < 17; l++) {
                             ApplyMatrixSV(&m, &work->dome[l][k], &work->spun[l][k]);
@@ -446,7 +446,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->burst_count; i++) {
                 if (work->bursts[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
                     RotMatrixY(work->bursts[i][j].rotation.vy, &unit.matrix);
                     unit.matrix.t[0] = work->bursts[i][j].position.vx;

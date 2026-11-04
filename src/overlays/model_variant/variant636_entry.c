@@ -283,7 +283,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->rows; i++) {
             if (work->streaks[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->streaks[i].scale);
                 RotMatrixY(work->streaks[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->streaks[i].position.vx;
@@ -351,7 +351,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->rows; i++) {
             if (work->domes[i].active == 1) {
                 unit.flg = 0;
-                unit.matrix = D_800FE168;
+                unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->domes[i].scale);
                 RotMatrixY(work->domes[i].rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->domes[i].position.vx;
@@ -416,7 +416,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->cols; i++) {
                 if (work->sprites[i][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sprites[i][j].scale);
                     RotMatrixX(work->sprites[i][j].rotation.vx - (view.pitch - 4096) * (work->slot * 2 - 1),
                         &unit.matrix);

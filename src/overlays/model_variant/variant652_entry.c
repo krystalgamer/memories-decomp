@@ -271,7 +271,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->ring_count; i++) {
         if (work->rings[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             value = ((work->rings[i].duration - work->rings[i].elapsed) << 14) / work->rings[i].duration;
             setVector(&work->rings[i].scale, value, value, value);
             ScaleMatrix(&unit.matrix, &work->rings[i].scale);
@@ -292,7 +292,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                 work->rings[i].color[2] = gModelVariant652_D27EC[work->command].color[2] * value / duration;
             }
             setVector(&origin, 0, 0, 0);
-            m = D_800FE168;
+            m = GsIDMATRIX;
             RotMatrixZ(work->rings[i].elapsed * 10, &m);
             for (k = 0; k < 17; k++) {
                 PushMatrix();
@@ -331,7 +331,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
     for (i = 0; i < work->dome_count; i++) {
         if (work->domes[i].active == 1) {
             unit.flg = 0;
-            unit.matrix = D_800FE168;
+            unit.matrix = GsIDMATRIX;
             if (work->domes[i].elapsed < work->domes[i].duration / 8) {
                 value = (work->domes[i].elapsed << 15) / work->domes[i].duration;
             } else {
@@ -408,7 +408,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < work->spark_count; i++) {
                 if (work->sparks[i][k][j].active == 1) {
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &scale);
                     RotMatrixZ(work->sparks[i][k][j].rotation.vz, &unit.matrix);
                     RotMatrixX(work->sparks[i][k][j].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
@@ -426,7 +426,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         work->sparks[i][k][j].color[1] = gModelVariant652_D27EC[work->command].color[1] * value / duration;
                         work->sparks[i][k][j].color[2] = gModelVariant652_D27EC[work->command].color[2] * value / duration;
                     }
-                    m = D_800FE168;
+                    m = GsIDMATRIX;
                     RotMatrixZ((i + k + j) * 50 * ((i + k + j) % 2 * 2 - 1), &m);
                     for (n = 0; n < 4; n++) {
                         PushMatrix();
@@ -447,7 +447,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                     }
                     unit.flg = 0;
-                    unit.matrix = D_800FE168;
+                    unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &scale);
                     RotMatrixZ(work->sparks[i][k][j].rotation.vz, &unit.matrix);
                     RotMatrixX(work->sparks[i][k][j].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
