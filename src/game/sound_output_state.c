@@ -43,7 +43,7 @@ void SD_ResetCdPan(void)
    pattern as project_d8009b45c_reload_pointer_trick. */
 void SD_SetCdVolume(s16 level) {
     SDValue *mix_state = g_SDValue;
-    s32 scaled_input = (level + 1) * mix_state->mix_scale;
+    s32 scaled_input = (level + 1) * mix_state->s_wSD_CD_MIXER_OUT;
     s32 scaled_mix = mix_state->mix_multiplier * (scaled_input >> 8);
     s32 mix_factor = ((u32)(u16)scaled_mix) >> 3;
     CdlATV attenuation;

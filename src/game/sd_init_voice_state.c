@@ -54,16 +54,16 @@ void SD_InitVoiceState(void) {
     voice_state->value_link_request_index = 0xFFFF;
     voice_state->note_table =
         (SDNote *)(
-            (((u32)&((u16 *)0)[voice_state->note_id_count] + 0xF) & 0xFFF0) +
+            (((u32)&((u16 *)0)[voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE] + 0xF) & 0xFFF0) +
             0x801E4000);
 
     init_index = 0;
-    if (voice_state->note_id_count != 0) {
+    if (voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE != 0) {
         note_map_state = voice_state;
         do {
             note_map_state->note_index_by_id[init_index] = SD_PENDING_ENTRY_NONE;
             init_index++;
-        } while (init_index < note_map_state->note_id_count);
+        } while (init_index < note_map_state->s_stGlobalHdrSE.s_wSD_NUM_SE);
     }
 
     init_index = 0;

@@ -17,7 +17,7 @@ void SD_QueueValueLinkTransfer(s32 link_index)
     SDValueLink *entry;
 
     load_state = g_SDValue;
-    data_start_sector = (s32)(load_state->value_link_count << 3);
+    data_start_sector = (s32)(load_state->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP << 3);
     data_start_sector = (data_start_sector + SD_VALUE_LINK_BLOCK_SIZE - 1) /
            SD_VALUE_LINK_BLOCK_SIZE;
     data_start_sector = data_start_sector + 1;
