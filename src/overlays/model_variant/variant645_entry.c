@@ -605,7 +605,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->puffs[i].elapsed += step;
@@ -659,7 +659,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     setPolyG3(&work->fan);
                     red = work->halos[i].color[0];
@@ -672,7 +672,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        Graphics_SubmitDrawModePacket((u32 *)&work->fan, func_80058F10(), (u16)depth,
+                        Graphics_SubmitDrawModePacket((u32 *)&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth,
                             work->halos[i].mode);
                     }
                 }
@@ -716,7 +716,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->halos[i].elapsed += step;

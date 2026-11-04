@@ -21,7 +21,7 @@ void SpanishModelVariant426_DrawSheets(u8 *context)
     s32 x, y, z;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
     for (i = 0; i < 2; i++, sheet++) {
         extra = 0;

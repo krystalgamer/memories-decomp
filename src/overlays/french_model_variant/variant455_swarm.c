@@ -23,7 +23,7 @@ void FrenchModelVariant455_DrawSwarm(u8 *context)
     s16 radius, size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     j = 0;
     ratan2(state->direction.vy, state->direction.vz);

@@ -36,7 +36,7 @@
         (long *)&work->quad.x2, (long *)&work->quad.x3,                         \
         &interpolation, &flag);                                                         \
     if (flag >= 0) {                                                                    \
-        GsSortPoly(&work->quad, func_80058F10(), (u16)depth);                           \
+        GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);                           \
     }
 
 s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
@@ -356,7 +356,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                             (long *)&work->strip.x2, (long *)&work->strip.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -377,7 +377,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->blooms[i].elapsed += step;

@@ -53,7 +53,7 @@ reference types, headers, compiler claims or flags were imported.
 - All nine colour arrays are initialized and faded. The third RGB group is
   not read for drawing in this entry; no use was invented.
 - The SDK ordering-table getter keeps its canonical shared declaration
-  `func_80058F10`, bound to the measured French address `0x8005C018`.
+  `Graphics_GetDefaultOrderingTable`, bound to the measured French address `0x8005C018`.
 
 ## Evidence and integration
 

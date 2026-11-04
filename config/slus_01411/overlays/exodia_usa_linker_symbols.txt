@@ -1,6 +1,7 @@
 Model_GetActiveSlotIndex = 0x80058DCC;
 Model_GetFrameStep = 0x80058E1C;
 Model_GetSlotAnimationFrame = 0x80058E94;
+Graphics_GetDefaultOrderingTable = 0x80058F10;
 Model_GetSlotDataEntry = 0x80058F20;
 Model_CopySlotPosition = 0x80058FB0;
 Model_GetCameraViewBuffer = 0x800591FC;

@@ -54,7 +54,7 @@ void ModelVariant405_DrawWebs(u8 *ctx)
 
     work = ctx;
     web = (ModelVariantWebNarrow *)(work + WEBS405_RECORD(0xDD4));
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
     line = (GsGLINE *)(work + WEBS405_LINE(0x1D4C));

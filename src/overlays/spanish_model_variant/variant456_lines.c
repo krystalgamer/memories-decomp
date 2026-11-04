@@ -31,7 +31,7 @@ void SpanishModelVariant456_DrawLineGroups(u8 *context)
     control_index = 0;
     group = state->groups;
     line = &state->line;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction[2], state->direction[0]);
     ratan2(state->direction[1], state->direction[0]);
     ratan2(state->direction_a[1], state->direction_a[0]);

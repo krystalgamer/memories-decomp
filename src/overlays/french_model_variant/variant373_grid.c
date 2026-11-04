@@ -20,7 +20,7 @@ void FrenchModelVariant373_DrawGrid(u8 *context)
     s32 texture_v;
     s32 y;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->delta[2], work->delta[0]);
     ratan2(work->delta[1], work->delta[2]);
     grid = &work->grid;

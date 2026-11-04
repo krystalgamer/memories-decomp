@@ -66,7 +66,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
         work->status.fields.active = 0;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (!work->phase_frames) {

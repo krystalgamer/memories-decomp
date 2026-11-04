@@ -20,7 +20,7 @@ void func_8013D848(u8 *ctx)
     s32 otz;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     globe = (Variant476Globe *)(work + 0xFF8);
     ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
     poly = (POLY_GT4 *)(work + 0x26D0);

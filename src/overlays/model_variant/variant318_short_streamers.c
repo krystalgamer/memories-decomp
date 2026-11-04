@@ -36,7 +36,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
     s32 twist;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     streamer = (Variant458Streamer *)(work + 0x1214);
     poly = (POLY_FT4 *)(work + 0x2D18);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34)) + 0xC00;

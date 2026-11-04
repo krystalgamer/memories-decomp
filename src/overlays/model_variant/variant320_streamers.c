@@ -44,7 +44,7 @@ void func_8013C714(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0xD10), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
     poly = (POLY_G4 *)(work + 0xC6C);
     reach = 0xC0;

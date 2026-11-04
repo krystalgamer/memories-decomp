@@ -40,7 +40,7 @@ void ModelVariant405_DrawHalo(u8 *ctx)
 
     work = ctx;
     poly = (POLY_GT4 *)(work + 0x1BDC);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     halo = (Variant405Halo *)(work + 0x820);
     ratan2(MODEL_VARIANT_WORD(work, 0x1D90), MODEL_VARIANT_WORD(work, 0x1D88));
     ratan2(MODEL_VARIANT_WORD(work, 0x1D8C), MODEL_VARIANT_WORD(work, 0x1D90));

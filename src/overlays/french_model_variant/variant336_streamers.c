@@ -35,7 +35,7 @@ void FrenchModelVariant336_DrawStreamers(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_FT4 *)(work + 0x1EC0);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC)) + 0xC00;
     reach = 0x80;

@@ -31,7 +31,7 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     work = ctx;
     ring = (Variant439ScreenRing *)(work + 0xE08);
     poly = (POLY_GT4 *)(work + 0x1808);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     buff = GsGetActiveBuff();
     for (i = 0; i < 3; i++, ring++) {
         if (ring->scale > 0) {

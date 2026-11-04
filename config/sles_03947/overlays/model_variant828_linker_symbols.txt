@@ -14,6 +14,6 @@ RotAverage4 = 0x80087834;
 RotMatrix = 0x80087AB4;
 RotTrans = 0x800876F4;
 ScaleMatrix = 0x800873F4;
-func_80058F10 = 0x8005D3D4;
+Graphics_GetDefaultOrderingTable = 0x8005D3D4;
 memset = 0x8008F344;
 rand = 0x8008F504;

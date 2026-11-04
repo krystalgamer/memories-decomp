@@ -26,7 +26,7 @@ void func_8013D800(u8 *ctx)
     s32 otz;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
     ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
     grid = (Variant459Grid *)(work + 0xFF8);

@@ -19,7 +19,7 @@ void FrenchModelVariant403_DrawSheets(u8 *context)
     s32 extra;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (state->phase < 4) {
         count = state->timing->count;
     } else {

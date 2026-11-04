@@ -239,7 +239,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
                             (long *)&work->quad.x2, (long *)&work->quad.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -259,7 +259,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
                             (long *)&work->triangle.x0, (long *)&work->triangle.x1,
                             (long *)&work->triangle.x2, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->triangle, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->triangle, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }

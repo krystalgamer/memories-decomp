@@ -25,7 +25,7 @@ void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
 
     work = (Variant450QuadView *)ctx;
     group = work->groups;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quad;
     primary_base = work->primary;
     primary_index = 0;

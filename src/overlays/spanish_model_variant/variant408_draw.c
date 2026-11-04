@@ -20,7 +20,7 @@ void SpanishModelVariant408_DrawRingLines(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->view_delta.vz, work->view_delta.vx);
     angle = ratan2(work->view_delta.vy, work->view_delta.vx);
     line = &work->line;

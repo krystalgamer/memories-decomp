@@ -41,7 +41,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     s32 py, pz;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x372C), MODEL_VARIANT_WORD(work, 0x3724)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x3728), MODEL_VARIANT_WORD(work, 0x3724)) + 0xC00;
     poly = (POLY_GT4 *)(work + 0x3560);

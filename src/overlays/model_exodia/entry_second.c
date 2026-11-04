@@ -238,7 +238,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             ModelExodia_DrawBeam((u8 *)point);
         }
         if (work->config->fade_start <= work->frame) {
-            ot = func_80058F10();
+            ot = Graphics_GetDefaultOrderingTable();
             flat->r0 = work->fade;
             flat->g0 = work->fade;
             flat->b0 = work->fade;

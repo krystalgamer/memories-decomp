@@ -22,7 +22,7 @@ void FrenchModelVariant471_DrawQuadGroup(u8 *context)
     s32 depth;
     s16 progress, size;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     i = 0;
     ratan2(state->direction.vy, state->direction.vz);

@@ -87,7 +87,7 @@ s32 FrenchModelVariant143_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     PushMatrix();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     SetPolyF3(&triangle);

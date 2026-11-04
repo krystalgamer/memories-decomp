@@ -219,7 +219,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             RotTransPers(&head, (long *)&work->line.x1, &interpolation, &flag);
             depth = RotTransPers(&middle, &sxy, &interpolation, &flag);
             if (flag >= 0) {
-                GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             work->sparks[i].elapsed += step;
             if (work->sparks[i].spawned == 0
@@ -270,7 +270,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
                 (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             for (j = 0; j < 16; j++) {
                 setPolyGT3(&work->fan);
@@ -287,7 +287,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
                     (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->fan, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->flares[k].elapsed += step;
@@ -338,7 +338,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             if (work->rings[i].u < 224) {

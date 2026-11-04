@@ -40,7 +40,7 @@ void ModelVariant416_DrawWebs(u8 *ctx)
 
     work = ctx;
     web = (ModelVariantWebNarrow *)(work + 0xA80);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
     line = (GsGLINE *)(work + (0x19E4 + MODEL_VARIANT416_TAIL_OFFSET));

@@ -76,7 +76,7 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
 #endif
     } else {
         config = work->config;
-        ot = func_80058F10();
+        ot = Graphics_GetDefaultOrderingTable();
         base = *(MATRIX *)Model_GetLightSourceMatrix();
         PushMatrix();
         SetPolyFT4(&quad);

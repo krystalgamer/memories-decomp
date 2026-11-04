@@ -294,7 +294,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
                         (long *)&work->flat.x0, (long *)&work->flat.x1,
                         (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->bursts[i][j].u += 32;
                     if (work->bursts[i][j].u >= 0xE0) {
@@ -357,7 +357,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
                         (long *)&work->flat.x0, (long *)&work->flat.x1,
                         (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->rings[i][j].u += 32;
                     if (work->rings[i][j].u >= 0xE0) {
@@ -409,7 +409,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
                         RotTransPers(&work->grid[k][j], (long *)&work->line.x0, &interpolation, &flag);
                         depth = RotTransPers(&work->grid[k][j], (long *)&work->line.x1, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                            GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }

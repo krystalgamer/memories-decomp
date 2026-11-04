@@ -23,7 +23,7 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
     s32 depth;
     u8 r, g, b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     for (i = 0; i < 5; i++, sheet++) {
         depth = 0;

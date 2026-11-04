@@ -31,7 +31,7 @@ void ModelVariant324_DrawWebs(u8 *ctx)
 
     work = ctx;
     web = (ModelVariantWebNarrow *)work;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
     line = (GsGLINE *)(work + 0xEB0);

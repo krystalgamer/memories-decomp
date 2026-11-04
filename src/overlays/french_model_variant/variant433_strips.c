@@ -24,7 +24,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     s32 amount;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     angle = ratan2(MODEL_VARIANT_HALF(work, 0x1A32), MODEL_VARIANT_HALF(work, 0x1A30)) + 0x800;
     poly = (POLY_GT4 *)(work + 0x18E8);

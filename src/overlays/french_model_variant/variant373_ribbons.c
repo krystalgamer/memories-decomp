@@ -28,7 +28,7 @@ void FrenchModelVariant373_DrawRibbons(u8 *context)
     s32 dy;
 
     work = (Family373RibbonView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
     ratan2(work->view_direction[1], work->view_direction[0]);
     ribbon = work->ribbons;

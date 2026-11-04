@@ -247,7 +247,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                     (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->sprites[i].elapsed += step;
                 if (work->sprites[i].duration < work->sprites[i].elapsed) {
@@ -305,7 +305,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                             (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -355,7 +355,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
                         (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        Graphics_SubmitDrawModePacket((u32 *)&work->fan, func_80058F10(), (u16)depth,
+                        Graphics_SubmitDrawModePacket((u32 *)&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth,
                             work->fans[i].mode);
                     }
                 }

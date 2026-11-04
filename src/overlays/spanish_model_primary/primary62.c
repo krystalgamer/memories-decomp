@@ -49,7 +49,7 @@ s32 ModelPrimary62_HandleRequest(u8 *context, s32 command)
     }
 
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->delay < 0) {
         work->delay += Model_GetFrameStep();
         return 0;

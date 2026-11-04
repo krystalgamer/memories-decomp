@@ -35,7 +35,7 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
     s32 dy;
 
     work = (Variant458StreamerView *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = work->quads;
     turn = ratan2(work->axis_z, work->axis_x) + 3072;
     reach = 96;

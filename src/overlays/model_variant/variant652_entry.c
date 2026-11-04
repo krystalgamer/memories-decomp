@@ -317,7 +317,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                     (long *)&work->fan.x0, (long *)&work->fan.x1, (long *)&work->fan.x2,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->fan, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->rings[i].elapsed += step;
@@ -373,7 +373,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -444,7 +444,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     unit.flg = 0;
                     unit.matrix = GsIDMATRIX;
@@ -469,7 +469,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     work->sparks[i][k][j].u += 32;
                     if (work->sparks[i][k][j].u > 224) {
@@ -500,7 +500,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
 #else
         setXY4(&work->flash_poly, 0, 0, 320, 0, 0, 240, 320, 240);
 #endif
-        Graphics_SubmitDrawModePacket((u32 *)&work->flash_poly, func_80058F10(), 0, work->flash.mode);
+        Graphics_SubmitDrawModePacket((u32 *)&work->flash_poly, Graphics_GetDefaultOrderingTable(), 0, work->flash.mode);
         work->flash.elapsed += step;
         if (work->flash.duration < work->flash.elapsed) {
             work->flash.active = 0;

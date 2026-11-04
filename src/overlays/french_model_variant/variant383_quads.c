@@ -20,7 +20,7 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
     s32 pulse;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quads[1];
     for (i = 0; i < 1; i++, group++) {
         if (work->phase >= 8) {

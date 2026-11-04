@@ -53,7 +53,7 @@ s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();

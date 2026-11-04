@@ -42,7 +42,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
     s32 dx, dy;
 
     work = (Variant449RibbonView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ribbon = work->ribbons;
     i = 0;
     base = 0;

@@ -21,7 +21,7 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
     s32 extra;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     shown = 0;
     if (state->timing->paired == 0) {
         count = 9;

@@ -22,7 +22,7 @@ void FrenchModelVariant472_DrawMesh(u8 *context)
     u32 page;
     u8 red, green;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(state->direction[2], state->direction[0]) + 2048;
     pitch = ratan2(state->direction[1], state->direction[2]) + 2048;
     active = GsGetActiveBuff();

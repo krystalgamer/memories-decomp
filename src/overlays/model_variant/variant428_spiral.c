@@ -35,7 +35,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x156C), MODEL_VARIANT_WORD(work, 0x1564)) + 0xC00;
     poly = (POLY_GT4 *)(work + 0x1418);
     r = MODEL_VARIANT_HALF(work, 0x15A8) / 2;

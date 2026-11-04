@@ -19,7 +19,7 @@ void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
     s16 radius;
     s32 progress;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
     if ((state->frame & 1) == 0) {

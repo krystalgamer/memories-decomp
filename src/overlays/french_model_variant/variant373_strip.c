@@ -20,7 +20,7 @@ void FrenchModelVariant373_DrawStrip(u8 *context)
     s32 width;
 
     work = (Family373StripView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     strip = &work->strip;
     angle = ratan2(work->angle_delta[1], work->angle_delta[0]);
     quad = &work->quad;

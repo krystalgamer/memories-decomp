@@ -31,7 +31,7 @@ void ModelVariant425_DrawWebs(u8 *ctx)
 
     work = ctx;
     web = (ModelVariantWebSmall *)work;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC));
     line = (GsGLINE *)(work + 0x266C);

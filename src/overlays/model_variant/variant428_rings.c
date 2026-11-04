@@ -28,7 +28,7 @@ void ModelVariant428_DrawRings(u8 *ctx)
     line = (GsGLINE *)(ctx + 0x1514);
     work = ctx;
     ring = (ModelVariantRing *)(ctx + 0xDA8);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 6; i++, ring++) {
         if (ring->count > 0) {
             s = rsin(ring->angle);

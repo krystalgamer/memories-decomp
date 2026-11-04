@@ -100,7 +100,7 @@ owner with an absolute alias.
 All three layouts use locally recovered declarations and canonical SDK/game
 headers. `func_80059A50` is declared once in its owning texture-upload header
 and binds to the real Spanish function at `0x8005CB58`. The uncertain
-ordering-table getter remains `func_80058F10`, at `0x8005C018`; no SDK
+ordering-table getter remains `Graphics_GetDefaultOrderingTable`, at `0x8005C018`; no SDK
 identity is asserted for that address-based name.
 
 Production checks compare all six complete images, selected compiler entry

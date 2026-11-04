@@ -177,7 +177,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                         (long *)&work->quad.x2, (long *)&work->quad.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        Graphics_SubmitDrawModePacket((u32 *)&work->quad, func_80058F10(), (u16)depth,
+                        Graphics_SubmitDrawModePacket((u32 *)&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth,
                             work->rings[i].mode);
                     }
                     setPolyG4(&work->quad);
@@ -191,7 +191,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                         (long *)&work->quad.x2, (long *)&work->quad.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        Graphics_SubmitDrawModePacket((u32 *)&work->quad, func_80058F10(), (u16)depth,
+                        Graphics_SubmitDrawModePacket((u32 *)&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth,
                             work->rings[i].mode);
                     }
                 }
@@ -265,7 +265,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                     mid.vz = (work->spokes[j][0].vz + work->spokes[j][1].vz) / 2;
                     depth = RotTransPers(&mid, &xy, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                        GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->lines[i].elapsed += step;

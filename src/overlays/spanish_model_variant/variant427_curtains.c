@@ -22,7 +22,7 @@ void SpanishModelVariant427_DrawCurtains(u8 *context)
     u8 inner_r, inner_g, inner_b;
     u8 outer_r, outer_g, outer_b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     rsin(1300);
     for (i = 0; i < 9; i++, curtain++) {
         if (state->size > 0) {

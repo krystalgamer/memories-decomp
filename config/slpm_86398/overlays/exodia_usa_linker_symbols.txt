@@ -29,6 +29,6 @@ RotTransPers3 = 0x80086500;
 RotTransPers4 = 0x800865C0;
 ScaleMatrix = 0x80086260;
 SetRotMatrix = 0x800863A0;
-func_80058F10 = 0x8005BD40;
+Graphics_GetDefaultOrderingTable = 0x8005BD40;
 func_80059B90 = 0x8005C9C0;
 Graphics_SubmitDrawModePacket = 0x8004CFF8;

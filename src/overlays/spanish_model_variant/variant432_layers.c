@@ -20,7 +20,7 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++) {
         band = work->bands;
         for (j = 0, source = work->sources; j < 3; j++, band++, source++) {

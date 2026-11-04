@@ -33,7 +33,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1848), MODEL_VARIANT_WORD(work, 0x1840)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x1844), MODEL_VARIANT_WORD(work, 0x1840));
     ribbon = (Ribbon388 *)(work + 0x228);

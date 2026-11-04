@@ -31,7 +31,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0xC50), MODEL_VARIANT_WORD(work, 0xC48)) + 0xC00;
     arm = (Variant418SpiralArm *)(work + 0x438);
     poly = (POLY_GT4 *)(work + 0xAC0);

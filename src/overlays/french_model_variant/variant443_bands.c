@@ -24,7 +24,7 @@ void FrenchModelVariant443_DrawBands(u8 *context)
     state = (Bands443State *)context;
     sheet = state->sheets;
     quad = &state->quad;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (!(state->frame & 1)) {
         radius = state->size * (sheet->size / 256) / 1024;
     } else {

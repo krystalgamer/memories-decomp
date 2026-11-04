@@ -16,6 +16,6 @@ RotTrans = 0x80087970;
 ScaleMatrix = 0x80087670;
 SetPolyFT4 = 0x80082940;
 SetSemiTrans = 0x80082840;
-func_80058F10 = 0x80058F10;
+Graphics_GetDefaultOrderingTable = 0x80058F10;
 memset = 0x8008E3D0;
 rand = 0x8008E590;

@@ -105,7 +105,7 @@ s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     PushMatrix();
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);

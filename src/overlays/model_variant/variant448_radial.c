@@ -24,7 +24,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
     work = ctx;
     rec = (Variant448Radial *)ctx;
     tri = (POLY_G3 *)(ctx + 0x1948);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = (POLY_G4 *)(ctx + 0x1964);
     rot.vx = 0;
     rot.vy = 0;

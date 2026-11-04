@@ -74,7 +74,7 @@ s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
     }
 
     config = state->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (state->elapsed < 0) {
         state->elapsed += Model_GetFrameStep();
         return 0;

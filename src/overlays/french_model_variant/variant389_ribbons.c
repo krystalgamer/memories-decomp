@@ -37,7 +37,7 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
     s32 dx;
     s32 dy;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 0;
     sign = -1;
     yaw = ratan2(state->view_direction[2], state->view_direction[0]) + 3072;

@@ -44,7 +44,7 @@ void ModelVariant398_DrawRings(u8 *context)
     u8 red, green, blue;
 
     ring = work->screen_rings;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->direction.vz, work->direction.vx);
     heading = yaw + 0x800;
     pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;

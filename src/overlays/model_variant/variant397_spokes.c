@@ -30,7 +30,7 @@ void ModelVariant397_DrawSpokes(u8 *ctx)
     work = ctx;
     obj = ctx + 0x5FC;
     ring = (ModelVariantSpokeRing *)(ctx + 0xA8C);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 4; i++, ring++) {
         if (ring->count >= 0) {
             s = MODEL_VARIANT_WORD(obj, 0x88) * ring->angle / 1024;

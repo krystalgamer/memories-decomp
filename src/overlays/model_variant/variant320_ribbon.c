@@ -37,7 +37,7 @@ void func_8013B9A8(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0xD10), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0xD0C), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0xD6C) > 0) {

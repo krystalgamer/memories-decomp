@@ -46,7 +46,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     s32 n;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x3BCC), MODEL_VARIANT_WORD(work, 0x3BC4)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x3BC8), MODEL_VARIANT_WORD(work, 0x3BC4));
     poly = (POLY_GT4 *)(work + 0x39D0);

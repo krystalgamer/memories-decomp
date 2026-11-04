@@ -44,7 +44,7 @@ void ModelVariant445_DrawRibbons(u8 *ctx)
     s32 turn;
 
     work = (EntryState445Us *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ribbon = work->ribbons;
     sum = 0;
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

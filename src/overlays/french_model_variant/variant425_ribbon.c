@@ -26,7 +26,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     s32 n, k;
     s32 py, pz;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->target[2], work->target[0]) + 0xC00;
     ratan2(work->target[1], work->target[0]);
     poly = &work->poly;

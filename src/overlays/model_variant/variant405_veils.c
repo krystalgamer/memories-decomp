@@ -34,7 +34,7 @@ void ModelVariant405_DrawVeils(u8 *ctx)
 
     veil = (Variant405Veil *)ctx;
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     all = 1;
     buff = GsGetActiveBuff();
     poly = (POLY_GT4 *)(work + 0x1CB8);

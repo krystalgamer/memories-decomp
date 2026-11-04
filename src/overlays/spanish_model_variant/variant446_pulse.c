@@ -19,7 +19,7 @@ void SpanishModelVariant446_DrawPulse(u8 *context)
     s32 pulse;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     for (i = 0; i < 2; i++, group++) {
         pulse = 0;

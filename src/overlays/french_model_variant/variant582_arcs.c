@@ -20,7 +20,7 @@ void FrenchModelVariant582_DrawArcs(u8 *context)
     s32 count;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->axis[2], state->axis[0]);
     ratan2(state->axis[1], state->axis[0]);
     count = 0;

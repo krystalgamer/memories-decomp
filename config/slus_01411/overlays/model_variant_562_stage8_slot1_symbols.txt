@@ -20,6 +20,6 @@ SetPolyF3 = 0x800828A0; // type:func absolute:true
 SetSemiTrans = 0x80082840; // type:func absolute:true
 ccos = 0x80086920; // type:func absolute:true
 csin = 0x80086BB0; // type:func absolute:true
-func_80058F10 = 0x80058F10; // type:func absolute:true
+Graphics_GetDefaultOrderingTable = 0x80058F10; // type:func absolute:true
 rand = 0x8008E590; // type:func absolute:true
 Graphics_SubmitDrawModePacket = 0x8005B260; // type:func absolute:true

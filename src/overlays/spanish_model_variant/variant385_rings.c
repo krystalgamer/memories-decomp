@@ -37,7 +37,7 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
 
     work = ctx;
     ring = (ModelVariantCurtain *)(work + 0x98C);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     first = 1;
     pulse = work + 0x56C;
     poly = (POLY_GT4 *)(work + 0xEC8);

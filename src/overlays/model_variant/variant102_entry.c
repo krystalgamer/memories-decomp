@@ -132,7 +132,7 @@ s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
             return 0;
         }
         config = work->config;
-        ot = func_80058F10();
+        ot = Graphics_GetDefaultOrderingTable();
         if (work->elapsed < config->delay) {
             work->elapsed += Model_GetFrameStep();
             return 0;

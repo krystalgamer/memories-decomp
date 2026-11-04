@@ -42,7 +42,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
     POLY_FT4 *poly;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     i = 0;
     base = 0;

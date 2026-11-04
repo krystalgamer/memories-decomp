@@ -24,7 +24,7 @@ void FrenchModelVariant481_DrawBand(u8 *context)
     s16 rise;
 
     band = state->bands;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(state->view_delta.vz, state->view_delta.vx) + 0xC00;
     ratan2(state->view_delta.vy, state->view_delta.vx);
     side = -1;

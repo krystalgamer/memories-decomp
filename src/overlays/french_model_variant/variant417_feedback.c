@@ -24,7 +24,7 @@ void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
     s32 z;
     u32 page;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
     yaw = ratan2(state->direction.vz, state->direction.vx) + 2048;
     pitch = ratan2(state->direction.vy, state->direction.vz) + 2048;

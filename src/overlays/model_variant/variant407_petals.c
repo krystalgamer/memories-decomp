@@ -48,7 +48,7 @@ void ModelVariant407_DrawPetals(u8 *ctx)
     work = ctx;
     base = ctx;
     poly = (POLY_G4 *)(base + 0x2320);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 1;
 #if !defined(VERSION_FRENCH)
     lp = &ls;

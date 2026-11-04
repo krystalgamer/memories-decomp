@@ -19,7 +19,7 @@ header-400 build, projection and strip loops. It differs in these ways:
   spread window of the timing record at `work + 0x3634`. When it reaches 0,
   the phase moves to 3.
 
-The sheet pointer must be assigned before the `func_80058F10` call. Retail
+The sheet pointer must be assigned before the `Graphics_GetDefaultOrderingTable` call. Retail
 forms the sheet base with an `addiu` and then loads the size field at offset
 `0x88`. The origins must be read as a `VECTOR` array member of
 `Ribbons443State`. A computed `MODEL_VARIANT_WORD` offset swaps the operands

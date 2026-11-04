@@ -39,7 +39,7 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
     Ribbon474Timing *timing;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1B80), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
     pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1B7C), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
     shift = (MODEL_VARIANT_HALF(work, 0x1C34) != 0) << 11;

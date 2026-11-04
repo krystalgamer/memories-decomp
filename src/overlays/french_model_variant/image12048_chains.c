@@ -25,7 +25,7 @@ void FrenchModelVariant403_DrawChains(u8 *context)
     s32 spread;
     s32 dx, dy;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(state->target[2], state->target[0]) + 0xC00;
     ratan2(state->target[1], state->target[0]);
     for (i = 0; i < 3; i++, chain++) {

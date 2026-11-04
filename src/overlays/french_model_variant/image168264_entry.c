@@ -75,7 +75,7 @@ s32 FrenchModelVariant146_HandleRequest(u8 *context, s32 command)
     }
 
     config = state->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     light = *(MATRIX *)Model_GetLightSourceMatrix();
     if (state->elapsed < config->delay) {
         state->elapsed += Model_GetFrameStep();

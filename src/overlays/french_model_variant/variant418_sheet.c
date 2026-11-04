@@ -25,7 +25,7 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
     work = ctx;
     record = ctx + 0xF60;
     sheet = (ModelVariantSheet *)(ctx + 0x11DC);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x19B0);
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;

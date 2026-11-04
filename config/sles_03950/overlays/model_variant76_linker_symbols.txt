@@ -16,7 +16,7 @@ SetPolyF3 = 0x80082E08;
 SetSemiTrans = 0x80082DA8;
 ccos = 0x800868A8;
 csin = 0x80086B38;
-func_80058F10 = 0x8005C018;
+Graphics_GetDefaultOrderingTable = 0x8005C018;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
 rand = 0x8008F708;
 

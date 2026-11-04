@@ -38,7 +38,7 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
 
     work = context;
     quad = (ModelVariantSheet *)(work + SHEETS_OFFSET(0x1044));
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + SHEETS_OFFSET(0x25A0));
     if (SHEETS_WORD(0x26D0) % 8 == 0) {
         red = 255;

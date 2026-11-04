@@ -30,7 +30,7 @@ void FrenchModelVariant436_DrawBands(u8 *context)
     s32 progress;
 
     work = (Variant449BandView *)context;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->axis_y, work->axis_x) + 0x800;
     poly = &work->quads[1];
     if (!(work->flags & 1)) {

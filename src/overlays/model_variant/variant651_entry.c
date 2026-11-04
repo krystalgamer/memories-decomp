@@ -230,7 +230,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                         &work->ring[k + 1][1], (long *)&work->quad.x0, (long *)&work->quad.x1,
                         (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->rings[i].elapsed += step;
@@ -284,7 +284,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                                 (long *)&work->quad.x1, (long *)&work->quad.x2,
                                 (long *)&work->quad.x3, &interpolation, &flag);
                             if (flag >= 0) {
-                                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }
@@ -348,7 +348,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                         &work->outer[k + 1][1], (long *)&work->quad.x0, (long *)&work->quad.x1,
                         (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 work->cones[i].elapsed += step;

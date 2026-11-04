@@ -123,7 +123,7 @@ s32 ModelVariant788_HandleRequest(u8 *context, s32 command)
         work->box[2] = work->config->colors[0][2];
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->elapsed < work->config->start) {

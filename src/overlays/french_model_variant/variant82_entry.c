@@ -37,7 +37,7 @@ s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->elapsed < 0) {
         PushMatrix();
         /* Native delay path passes this stack matrix without initializing it. */

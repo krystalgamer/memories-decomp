@@ -243,7 +243,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->bubbles[i][j].u += 32;
                 if (work->bubbles[i][j].u >= 96) {
@@ -299,7 +299,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                     (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 value = j % 2 * 2 - 1;
                 for (k = 0; k < 16; k++) {
@@ -322,7 +322,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 for (n = 0; n < 8; n++) {
@@ -356,7 +356,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                             (long *)&work->strip.x2, (long *)&work->strip.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->strip);
                         work->strip.tpage = work->tpage[3];
@@ -373,7 +373,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                             (long *)&work->strip.x2, (long *)&work->strip.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -424,7 +424,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                         (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
                 if (work->sprays[i][j].u < 224) {

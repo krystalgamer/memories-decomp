@@ -34,7 +34,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
     arm = (Variant448SpiralArm *)(work + 0x128);
     poly = (POLY_GT4 *)(work + 0x1988);

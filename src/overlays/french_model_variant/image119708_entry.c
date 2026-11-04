@@ -81,7 +81,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
         work->live_count = 0;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->elapsed < work->config->pause_end)

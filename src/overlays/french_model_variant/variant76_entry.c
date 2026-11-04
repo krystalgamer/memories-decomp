@@ -26,7 +26,7 @@ s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
     s32 clip;
 
     side = Model_GetActiveSlotIndex() * 2 - 1;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant76_D0B98[command];

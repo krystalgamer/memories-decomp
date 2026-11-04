@@ -441,7 +441,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
             }
             for (j = 0; j < 32; j++) {
                 setPolyGT4(&work->strip);
@@ -461,7 +461,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 setPolyGT4(&work->strip);
                 work->strip.tpage = work->tpage[1];
@@ -480,7 +480,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             unit.flg = 0;
@@ -511,7 +511,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                         (long *)&work->shard.x0, (long *)&work->shard.x1,
                         (long *)&work->shard.x2, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
+                        GsSortPoly(&work->shard, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
             }
@@ -552,7 +552,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->line.y0 = y[0] + 120;
                 work->line.x1 = x[1] + 160;
                 work->line.y1 = y[1] + 120;
-                GsSortGLine(&work->line, func_80058F10(), 0xFFD);
+                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), 0xFFD);
                 work->line.attribute = 0x50000000;
                 work->line.r0 = work->bursts[i].color[0];
                 work->line.g0 = work->bursts[i].color[1];
@@ -565,7 +565,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->line.y0 = y[0] + 120;
                 work->line.x1 = x[1] * -1 + 160;
                 work->line.y1 = y[1] + 120;
-                GsSortGLine(&work->line, func_80058F10(), 0xFFD);
+                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), 0xFFD);
                 x[0] = work->bursts[i].end.vx * work->projection / value;
                 y[0] = work->bursts[i].end.vy * work->projection / value;
                 x[1] = work->bursts[i].end.vx * work->projection / duration;
@@ -574,7 +574,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->line.y0 = y[0] + 120;
                 work->line.x1 = x[1] + 160;
                 work->line.y1 = y[1] + 120;
-                GsSortGLine(&work->line, func_80058F10(), 0xFFD);
+                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), 0xFFD);
                 work->line.attribute = 0x50000000;
                 work->line.r0 = work->bursts[i].color[0];
                 work->line.g0 = work->bursts[i].color[1];
@@ -586,7 +586,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->line.y0 = y[0] + 120;
                 work->line.x1 = x[1] * -1 + 160;
                 work->line.y1 = y[1] + 120;
-                GsSortGLine(&work->line, func_80058F10(), 0xFFD);
+                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), 0xFFD);
             }
             work->bursts[i].elapsed += step;
             if (work->bursts[i].duration < work->bursts[i].elapsed) {
@@ -638,7 +638,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                         + 160;
                     work->strip.y3 = (work->sparks[i].start.vy + work->cone[j + 1].vy) * work->projection / z[3]
                         + 120;
-                    GsSortPoly(&work->strip, func_80058F10(), 0xFFC);
+                    GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), 0xFFC);
                 }
             }
             work->sparks[i].elapsed += step;
@@ -687,7 +687,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         work->sprite.y2 = v[2].vy + 120;
         work->sprite.x3 = v[3].vx + 160;
         work->sprite.y3 = v[3].vy + 120;
-        GsSortPoly(&work->sprite, func_80058F10(), 0xFFE);
+        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), 0xFFE);
         work->flash.elapsed += step;
         if (work->flash.duration < work->flash.elapsed) {
             work->flash.active = 0;

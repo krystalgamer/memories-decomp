@@ -20,7 +20,7 @@ void SpanishModelVariant417_DrawTube(u8 *context)
     s32 axis_angle;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(state->direction_b[2], state->direction_b[0]);
     ratan2(state->direction_b[1], state->direction_b[0]);
     axis_angle = ratan2(state->direction[2], state->direction[1]) + 3072;

@@ -65,7 +65,7 @@ s32 ModelVariant172_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     j = 4096;
     base = *(MATRIX *)Model_GetLightSourceMatrix();
     PushMatrix();

@@ -24,7 +24,7 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
     s32 done;
     u8 r, g, b;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     done = 0;
     quad = &work->quad;
     turn = ratan2(work->direction[1], work->direction[2]);

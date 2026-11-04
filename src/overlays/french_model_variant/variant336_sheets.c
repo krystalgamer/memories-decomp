@@ -23,7 +23,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     work = context;
     node = context;
     sheet = (ModelVariantSheet *)(work + 0xF00);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC));
     poly = (POLY_GT4 *)(work + 0x1E3C);
     for (i = 0; i < MODEL_VARIANT_WORD(work, 0x1FEC); i++, sheet++) {

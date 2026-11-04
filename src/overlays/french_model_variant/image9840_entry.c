@@ -252,7 +252,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                     (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
-                        func_80058F10(), (u16)depth, work->primary[i].mode);
+                        Graphics_GetDefaultOrderingTable(), (u16)depth, work->primary[i].mode);
                 }
                 setPolyG3(&work->triangle);
                 setRGB0(&work->triangle, 0, 0, 0);
@@ -264,7 +264,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                     (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
-                        func_80058F10(), (u16)depth, work->primary[i].mode);
+                        Graphics_GetDefaultOrderingTable(), (u16)depth, work->primary[i].mode);
                 }
             }
             work->primary[i].u++;
@@ -346,7 +346,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x1, (long *)&work->quad.x2,
                     (long *)&work->quad.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 setPolyGT4(&work->quad);
                 setSemiTrans(&work->quad, 1);
@@ -368,7 +368,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->secondary[i].elapsed += step;
@@ -422,7 +422,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                     (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
-                        func_80058F10(), (u16)depth, work->bursts[i].mode);
+                        Graphics_GetDefaultOrderingTable(), (u16)depth, work->bursts[i].mode);
                 }
             }
             work->bursts[i].elapsed += step;

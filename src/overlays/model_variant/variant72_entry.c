@@ -84,7 +84,7 @@ s32 ModelVariant72_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->elapsed < 0) {
         PushMatrix();
         point = work->points;

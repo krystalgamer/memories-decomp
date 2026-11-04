@@ -34,7 +34,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
 
     work = ctx;
     arm = (Petal388Arm *)(work + 0x1050);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x16C0);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1848), MODEL_VARIANT_WORD(work, 0x1840)) + 0xC00;
     if (MODEL_VARIANT_WORD(work, 0x1898) >= 0) {

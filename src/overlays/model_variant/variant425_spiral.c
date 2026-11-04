@@ -45,7 +45,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
 
     arm = (Variant425SpiralArm *)(ctx + 0x600);
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     spread = 0x400 - MODEL_VARIANT_WORD(work, 0x2710);
 #if defined(VERSION_FRENCH)
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC));

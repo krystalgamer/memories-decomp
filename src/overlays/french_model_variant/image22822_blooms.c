@@ -25,7 +25,7 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
     s32 depth;
     s16 angle;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     ratan2(state->direction.vy, state->direction.vz);
     ratan2(state->projected.vy, state->projected.vx);

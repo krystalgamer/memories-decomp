@@ -282,7 +282,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             &work->shell[j + 1][k + 1], (long *)&work->quad.x0, (long *)&work->quad.x1,
                             (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }
@@ -345,7 +345,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                                 (long *)&work->quad.x1, (long *)&work->quad.x2,
                                 (long *)&work->quad.x3, &interpolation, &flag);
                             if (flag >= 0) {
-                                GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                                GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }
@@ -401,7 +401,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                         depth = RotAverage3(&pos, &work->ring[j], &work->ring[j + 1], (long *)&work->tri.x0,
                             (long *)&work->tri.x1, (long *)&work->tri.x2, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->tri, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->tri, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                     if ((u16)(work->cones[l + i].duration / 20) < work->cones[l + i].elapsed
@@ -459,7 +459,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             depth = RotTransPers(&work->sphere[k][j], (long *)&work->line.x1,
                                 &interpolation, &flag);
                             if (flag >= 0) {
-                                GsSortGLine(&work->line, func_80058F10(), (u16)depth);
+                                GsSortGLine(&work->line, Graphics_GetDefaultOrderingTable(), (u16)depth);
                             }
                         }
                     }

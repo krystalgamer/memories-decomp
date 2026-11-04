@@ -79,14 +79,14 @@ static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL
     depth = RotAverage4(a, b, c, d, (long *)&work->sprite.x0, (long *)&work->sprite.x1, \
         (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
-        GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);                \
+        GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);                \
     }
 
 #define SORT_STRIP(a, b, c, d)                                                 \
     depth = RotAverage4(a, b, c, d, (long *)&work->strip.x0, (long *)&work->strip.x1, \
         (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
-        GsSortPoly(&work->strip, func_80058F10(), (u16)depth);                 \
+        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);                 \
     }
 
 #define INIT_ELEMENT(element, length, first)                                   \
@@ -610,7 +610,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                             &work->dome[k + 1][j + 1], (long *)&work->sprite.x0, (long *)&work->sprite.x1,
                             (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag);
                         if (flag >= 0) {
-                            GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
+                            GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
                 }

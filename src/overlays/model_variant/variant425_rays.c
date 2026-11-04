@@ -55,7 +55,7 @@ void ModelVariant425_DrawRays(u8 *ctx)
     u8 c3;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
     turn = ratan2(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26E4)), MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26DC))) + 0xC00;
     yaw = ratan2(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26C0)), MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26B8))) + 0x800;

@@ -27,7 +27,7 @@ void FrenchModelVariant468_DrawSwarm(u8 *context)
     s32 depth;
     s32 grow;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     ratan2(state->direction.vy, state->direction.vz);
     j = 0;

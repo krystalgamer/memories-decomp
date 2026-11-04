@@ -27,7 +27,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     s32 angle;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x2D60);
     angle = ratan2(MODEL_VARIANT_HALF(work, 0x3066), MODEL_VARIANT_HALF(work, 0x3064)) + 0x800;
     if (!(MODEL_VARIANT_WORD(work, 0x3080) & 1)) {

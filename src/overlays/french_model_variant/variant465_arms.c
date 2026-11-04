@@ -48,7 +48,7 @@ void ModelVariant448_DrawFans(u8 *ctx)
     s32 st;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     count = 0;
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
     ratan2(MODEL_VARIANT_HALF(work, 0x1AE2), MODEL_VARIANT_HALF(work, 0x1AE0));

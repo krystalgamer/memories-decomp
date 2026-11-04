@@ -24,7 +24,7 @@ void FrenchModelVariant383_DrawRays(u8 *context)
     s16 size;
     s32 dx, dy;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_direction[2], work->view_direction[0]);
     ray = work->rays;
     quad = &work->quad;

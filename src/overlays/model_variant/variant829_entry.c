@@ -61,7 +61,7 @@ s32 ModelVariant829_HandleRequest(u8 *context, s32 command)
         work->camera = 1;
         return 0;
     }
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->camera == 0) {

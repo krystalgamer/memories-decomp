@@ -26,7 +26,7 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     work = ctx;
     object = ctx + 0xBD8;
     sheet = (Variant448Orbit *)(ctx + 0x11F0);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x19BC);
     count = 0;
     for (i = 0, iangle = 0; i < 3; i++, object += 0x208, iangle = (i << 10) / 3) {

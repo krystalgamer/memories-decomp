@@ -31,7 +31,7 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
     fade_index = 0;
     group = work->groups;
     line = &work->line;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->field_4298, work->field_4290);
     ratan2(work->field_4294, work->field_4290);
     ratan2(work->field_4284, work->field_4280);

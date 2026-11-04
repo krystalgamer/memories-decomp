@@ -18,7 +18,7 @@ void SpanishModelVariant441_DrawRibbon(u8 *context)
     s32 angle;
     s16 radius;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
     if (state->phase > 0) {
         radius = state->width / 32;

@@ -16,5 +16,5 @@ ScaleMatrix = 0x800875F8;
 SetPolyFT4 = 0x80082EA8;
 SetPolyG4 = 0x80082EC8;
 SetSemiTrans = 0x80082DA8;
-func_80058F10 = 0x8005C018;
+Graphics_GetDefaultOrderingTable = 0x8005C018;
 memset = 0x8008F548;

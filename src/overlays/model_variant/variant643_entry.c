@@ -275,7 +275,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
             }
             work->cones[i].elapsed += step;
@@ -328,7 +328,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                     (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->band, func_80058F10(), (u16)depth, work->bands[i].mode);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->band, Graphics_GetDefaultOrderingTable(), (u16)depth, work->bands[i].mode);
                 }
                 setPolyG4(&work->band);
                 r = work->bands[i].color[0];
@@ -343,7 +343,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                     (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->band, func_80058F10(), (u16)depth, work->bands[i].mode);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->band, Graphics_GetDefaultOrderingTable(), (u16)depth, work->bands[i].mode);
                 }
             }
             work->bands[i].elapsed += step;
@@ -397,7 +397,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                     (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
+                    GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 work->grid[i][j].u += 32;
                 if (work->grid[i][j].u == 224) {

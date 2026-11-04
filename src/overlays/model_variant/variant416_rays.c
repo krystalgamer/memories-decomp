@@ -28,7 +28,7 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
 
     work = ctx;
     ray = (Variant416Ray *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     ratan2(MODEL_VARIANT_WORD(ctx, 0x1A3C), MODEL_VARIANT_WORD(ctx, 0x1A34));
     ratan2(MODEL_VARIANT_WORD(ctx, 0x1A38), MODEL_VARIANT_WORD(ctx, 0x1A34));
     ratan2(MODEL_VARIANT_WORD(ctx, 0x1A28), MODEL_VARIANT_WORD(ctx, 0x1A24));

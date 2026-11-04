@@ -42,7 +42,7 @@ void FrenchModelVariant463_DrawTrailRibbons(u8 *ctx)
 
     work = ctx;
     ribbon = ((TrailRibbon463Work *)work)->ribbons;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     i = 0;
     base = 0;

@@ -57,7 +57,7 @@ The entire 2056-byte frame is accounted for by real SDK primitives, matrices,
 vectors and projection buffers: 96 `SVECTOR` vertices, 96 `DVECTOR` screen
 positions, and three 96-element `u16` depth/interpolation/flag arrays. The
 SDK declarations are the project's canonical local declarations. In
-particular, the ordering-table getter uses `func_80058F10` from
+particular, the ordering-table getter uses `Graphics_GetDefaultOrderingTable` from
 `src/psyq/sdk_internal.h`, bound to the French target `0x8005C018`, as in
 the accepted French MODEL96 and MODEL40200 providers. The provisional
 private `func_8005C018` declaration was removed: the French inventory

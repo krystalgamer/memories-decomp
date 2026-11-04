@@ -31,7 +31,7 @@ void FrenchModelVariant452_DrawStreamers(u8 *ctx)
 
     streamer = (Variant452Streamer *)(ctx + 0x720);
     work = (Variant452StreamersView *)ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->delta.vz, work->delta.vx);
     sheet = &work->sheet;
     turn += 3072;

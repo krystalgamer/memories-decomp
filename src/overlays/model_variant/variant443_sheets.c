@@ -34,7 +34,7 @@ void ModelVariant443_DrawSheets(u8 *ctx)
     sheet = (ModelVariantSheetSet *)(ctx + 0x1740);
     poly = (POLY_GT4 *)(ctx + 0x2B18);
     obj = work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     rec = (u8 *)MODEL_VARIANT_WORD(obj, 0x2E7C);
     if (MODEL_VARIANT_WORD(rec, 0x24) == 0) {
         if (MODEL_VARIANT_WORD(rec, 0x28) == 0) {

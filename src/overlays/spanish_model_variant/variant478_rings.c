@@ -28,7 +28,7 @@ void SpanishModelVariant478_DrawPetalRings(u8 *context)
     s16 height;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     phase = 0;
     ratan2(state->probe_words[0], state->probe_words[1]);

@@ -26,7 +26,7 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
     work = ctx;
     companion = ctx + 0x4E0;
     sheet = (ModelVariantSheet *)(ctx + 0xA80);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x1668);
     for (i = 0; i < 6; i++, sheet++, companion += 0x120) {
         amount = 0;

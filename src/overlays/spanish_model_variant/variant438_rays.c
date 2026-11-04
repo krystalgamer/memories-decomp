@@ -22,7 +22,7 @@ void SpanishModelVariant438_DrawRays(u8 *context)
     s32 flags;
     s32 dx, dy;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     axis_angle = ratan2(state->direction_b[2], state->direction_b[0]) + 3072;
     ratan2(state->direction_b[1], state->direction_b[0]);
     tilt = ratan2(state->direction[2], state->direction[1]) + 1024;

@@ -21,7 +21,7 @@ void SpanishModelVariant469_DrawSheets(u8 *context)
     s32 extra;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     timing = state->timing;
     if (timing->paired == 0) {
         count = timing->first_count + 1;

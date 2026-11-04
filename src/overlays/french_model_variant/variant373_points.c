@@ -27,7 +27,7 @@ void FrenchModelVariant373_DrawPoints(u8 *context)
     work = (Family373PointView *)context;
     group = work->groups;
     quad = &work->quad;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     ratan2(work->view_direction[2], work->view_direction[0]);
     do {

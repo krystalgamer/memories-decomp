@@ -42,7 +42,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
 
     work = ctx;
     poly = (POLY_GT4 *)(work + 0x197C);
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(MODEL_VARIANT_HALF(work, 0x1AC6), MODEL_VARIANT_HALF(work, 0x1AC4)) + 0x800;
     if (yaw != 0) {
         lo = 0;

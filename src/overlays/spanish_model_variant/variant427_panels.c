@@ -20,7 +20,7 @@ void SpanishModelVariant427_DrawPanels(u8 *context)
     s32 x, y, z;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
     /* The byte cursor stays in the context; only the first three positions are primary records. */
     for (i = 0; i < 6; i++, sheet++, primary += sizeof(Panel427Primary)) {

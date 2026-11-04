@@ -10,7 +10,7 @@ scratch over a local 0xF8-byte unit, `Strip388Unit` in
 Measured shape:
 - screen coordinates are `long` words (x in the low half, y in `>> 16`).
   The width is `s16`;
-- the `POLY` cursor is assigned right after `func_80058F10()`, before
+- the `POLY` cursor is assigned right after `Graphics_GetDefaultOrderingTable()`, before
   `ratan2`;
 - the first timing test is written `grow_start <= time`;
 - the second strip's head (the xy loads and the otz clamp) reads through

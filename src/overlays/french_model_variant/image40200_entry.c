@@ -52,7 +52,7 @@ s32 FrenchModelVariant175_HandleRequest(u8 *context, s32 command)
 
     config = work->config;
     point = work->positions;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     light = *(MATRIX *)Model_GetLightSourceMatrix();
     PushMatrix();
     target = work->targets;

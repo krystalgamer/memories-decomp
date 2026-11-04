@@ -40,7 +40,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     s32 angle;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x16C0);
     angle = ratan2(H(0x183E), H(0x183C)) + 0x800;
     if (W(0x1898) > 0) {

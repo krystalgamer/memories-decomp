@@ -107,7 +107,7 @@ identity is inferred from the fixed entry request.
 The SDK setter was checked independently: resident `GsSetLsMatrix` at
 `0x800855D0` calls `SetRotMatrix` then `SetTransMatrix`. It is not the separate
 `GsSetLightMatrix`. Reading that SDK evidence does not make it a game naming
-candidate; SDK-owned `func_80058F10` likewise remains outside this component.
+candidate; SDK-owned `Graphics_GetDefaultOrderingTable` likewise remains outside this component.
 
 ## Native and source contracts
 

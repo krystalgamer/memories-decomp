@@ -25,7 +25,7 @@ void ModelVariant428_DrawBands(u8 *ctx)
     s16 r;
 
     work = ctx;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x1418);
     angle = ratan2(MODEL_VARIANT_HALF(work, 0x1562), MODEL_VARIANT_HALF(work, 0x1560)) + 0x800;
     if (!(MODEL_VARIANT_WORD(work, 0x157C) & 1)) {

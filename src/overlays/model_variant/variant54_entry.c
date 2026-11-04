@@ -70,7 +70,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
         return 0;
     }
     config = work->config;
-    ot = func_80058F10();
+    ot = Graphics_GetDefaultOrderingTable();
     if (work->elapsed < config->wait) {
         work->elapsed += Model_GetFrameStep();
         return 0;
@@ -126,7 +126,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
             blue = config->spark_blue * r / config->life;
             setRGB0(&quad, red, green, blue);
             if (z >= 0 && flag >= 0) {
-                GsSortPoly(&quad, func_80058F10(), z);
+                GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
             }
         }
         w++;
@@ -188,7 +188,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
                                     (long *)&strip.x2, (long *)&strip.x3, (long *)&strip.x0, (long *)&strip.x1,
                                     &interpolation, &flag);
                     if (z >= 0 && flag >= 0) {
-                        GsSortPoly(&strip, func_80058F10(), z);
+                        GsSortPoly(&strip, Graphics_GetDefaultOrderingTable(), z);
                     }
                     from.vy -= config->width;
                     to.vy -= config->width;
@@ -196,7 +196,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
                                     (long *)&strip.x2, (long *)&strip.x3, (long *)&strip.x0, (long *)&strip.x1,
                                     &interpolation, &flag);
                     if (z >= 0 && flag >= 0) {
-                        GsSortPoly(&strip, func_80058F10(), z);
+                        GsSortPoly(&strip, Graphics_GetDefaultOrderingTable(), z);
                     }
                 }
             }
@@ -236,16 +236,16 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
                     quad.y2 = strip.y2;
                     quad.x3 = strip.x2;
                     quad.y3 = strip.y2;
-                    GsSortPoly(&quad, func_80058F10(), z);
+                    GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
                     quad.x0 = strip.x1;
                     quad.x2 = strip.x1;
-                    GsSortPoly(&quad, func_80058F10(), z);
+                    GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
                     quad.y0 = strip.y1;
                     quad.y1 = strip.y1;
-                    GsSortPoly(&quad, func_80058F10(), z);
+                    GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
                     quad.x0 = strip.x0;
                     quad.x2 = strip.x0;
-                    GsSortPoly(&quad, func_80058F10(), z);
+                    GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
                 }
             }
         }
@@ -293,7 +293,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
                 quad.v3 = i * 8 + 0x47;
                 SetSemiTrans(&quad, 1);
                 if (z >= 0 && flag >= 0) {
-                    GsSortPoly(&quad, func_80058F10(), z);
+                    GsSortPoly(&quad, Graphics_GetDefaultOrderingTable(), z);
                 }
                 p += 2;
                 q = work->ring[(i + 2) % 16];
