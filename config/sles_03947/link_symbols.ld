@@ -1,6 +1,4 @@
 loaded_image_end = 0x801E0000;
-gMovie_bStreamEnded = 0x8009BEFF;
-gMovie_bFadingOut = 0x8009BF00;
 func_80069144 = Color_RgbToHsl;
 func_80069358 = Color_HslToRgb;
 func_80069620 = Color_TintBgr555Pixel;
@@ -89,8 +87,6 @@ CampaignMap_SetLocation = 0x8016866C;
 func_8006151C = Model_DrawGt3Primitives;
 func_80061A84 = Model_DrawGt4Primitives;
 
-gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
-gModel_ExodiaOrbitOffset = 0x8009BF84;
 
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
@@ -144,3 +140,17 @@ gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
 gText_StagedValues = 0x801BF88C;
+D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
+D_8009BF84 = gModel_ExodiaOrbitOffset;
+/* Names inside the small initialized data Europe's units own (#2602). */
+D_8009BE8C = _ramsize;
+D_8009BE90 = _stacksize;
+D_8009BEC0 = gDebugMenu_wCampaignScene + 2;
+D_8009BF64 = gModel_dwSecondPassClutBits;
+D_8009BF68 = gModel_dwLitColorCacheBase;
+D_8009BF6C = gModel_bCurrentDrawMode;
+D_8009BFB8 = gModel_szBackTrace;
+D_8009BFC0 = gModel_szStoneTrace;
+D_8009BFC8 = gModel_szHitTrace;
+D_8009BFD0 = gModel_szOuchTrace;
+D_8009BFD8 = gModel_szTermTrace;

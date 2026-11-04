@@ -14,6 +14,10 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
+      "source": "src/game/model_background_records.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/model_image_copy_frames.c",
       "profile": "gcc_2_8_1_g0"
     },

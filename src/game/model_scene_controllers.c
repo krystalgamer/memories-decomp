@@ -201,7 +201,11 @@ u32 gModel_AnimatedBattleCameraEndpoint[2] = {
     0x10000000,
     0x00040000,
 };
+#ifndef VERSION_JAPAN
+/* Japan prints no trace here or in Model_UpdateSlotControl, and its data
+   has no copy of the string. */
 char gModel_szWhyTrace[8] = "WHY?\n";
+#endif
 u32 gModel_ExodiaOrbitOffset[2] = {
     0xFA240000,
     0,

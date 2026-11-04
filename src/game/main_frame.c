@@ -7,7 +7,7 @@
 
 /* Small data at 0x8009AF0C: prevents a nested VBlank callback from calling
    SD_VSync while the previous call is still running. */
-#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+#ifndef VERSION_JAPAN
 u8 gMain_bSoundVSyncBusy = 0;
 #endif
 

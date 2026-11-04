@@ -226,8 +226,8 @@ void DebugMenu_Update(void) {
  * stay scalar; the masks start on a word boundary in every region. */
 u16 gDebugMenu_wMessageId = 0x0500;
 u16 gDebugMenu_wCampaignScene = 1;
+/* Two unreferenced halfwords the European build does not have. */
 #ifndef VERSION_EUROPE
-/* The European .sdata goes straight from the campaign scene to the masks. */
 static u16 sFrontendDebugValue48 = 0;
 static u16 sFrontendDebugValue4A = 1;
 #endif
