@@ -476,6 +476,7 @@ segments:
       - [0x082804, data, initialized_data_80092004]
       - [0x082820, .data, game/european/model_effect_state]
       - [0x0828B8, data, initialized_data_800920b8]
+      - [0x082DF4, .data, game/european/model_subdivided_effect]
       - [0x082EEC, .data, game/ai_script_vm]
       - [0x082FFC, .data, game/ai_get_hand_search_count]
       - [0x083164, data, initialized_data_80092964]
