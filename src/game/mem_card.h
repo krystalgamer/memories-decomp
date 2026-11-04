@@ -238,12 +238,4 @@ extern u8 gMemCardDialog_DirectoryBuffer[];
  * deck-validation/rank views. Keep this separate unsized relocation name. */
 extern s32 gMemCardDialog_CardNumberArg[];
 
-#ifdef VERSION_JAPAN
-/* Library calls only the Japanese executable has; the save dialog's state 2
- * polls them. Their prototypes are read off those call sites. */
-void func_8008D070(long chan);
-long func_8008DCB4(long mode, long *cmds, long *result);
-void func_8008CF10(long chan, long *apl);
-#endif
-
 #endif
