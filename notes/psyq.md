@@ -77,7 +77,7 @@ coverage. Declarations moved from outside the Psy-Q tree use these owners:
 | [`crt.h`](../src/psyq/crt.h) | `__main`, `__do_global_dtors` | Resident GCC/Psy-Q startup callbacks, identified from the unique `NOHEAP.OBJ` signature. |
 | [`libcd_abi_variants.h`](../src/psyq/libcd_abi_variants.h) | `CdIntToPos_8007E600`, `CdPosToInt_8007E710` | Address-qualified interfaces for the second resident copies of byte-identical LIBCD routines. |
 | [`libspu_internal.h`](../src/psyq/libspu_internal.h) | `func_80074E60` | Unidentified 32-byte LIBSPU entry immediately preceding the confirmed `_SpuInit`; the address-based name avoids inventing semantics. |
-| [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_80058F10`, `func_800862C0` | Unidentified SDK entries used by the embedded graphics getter and graphics frame setup. Their address-based names and existing ABIs are retained without assigning a library or return meaning. |
+| [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_80058F10`, `func_800862C0` | Unidentified SDK entries used by the embedded graphics getter and graphics frame setup. Their address-based names and existing ABIs are retained without assigning a library or return meaning. `func_80058F10` is `lui`/`lw`/`jr`/`nop` returning the word at `0x800E9D98`, which is `gGraphics_apOrderingTables[2]`, not the LIBGS packet work base `GsSetWorkBase` stores. No object in the Psy-Q 4.6 catalogue matches it uniquely, so the catalogue does not settle it either. |
 
 Moving a declaration does not authorize normalizing its types. Candidate
 contract hashes include the declaration source and spelling, so ownership
@@ -291,6 +291,37 @@ neither category receives a guessed function name.
 The `CdMix` and `GsSetRefView2` records explicitly leave original-library
 identity unresolved: equal packet/view layouts and identical permitted
 catalogue signatures do not discriminate their alternative exports.
+
+### Other regional-only library objects
+
+The same Psy-Q 4.6 catalogue (lab313ru `psx_psyq_signatures` revision
+`e9e46e7e`) names more regional placeholders that North America does not
+link, or whose bodies the masked-body pass could not place uniquely:
+
+| Names | Images | Evidence |
+|---|---|---|
+| `DS_init`, `DS_*_callback`, `DS_last*`, `DS_status`, `DS_shell_open`, `DS_restart`, `DS_system_active`, `parcpy`, `rescpy`, `_DsPacket2`, `DsQueueLen` | Japan | `LIBDS.LIB` `DSSYS_1.OBJ` and `DSSYS_2.OBJ` each match exactly once |
+| `PAD_dr` | Japan | `LIBAPI.LIB` `A22.OBJ` matches exactly once; `PadRead` calls it |
+| `SetVideoMode`, `GetVideoMode` | Japan (`GetVideoMode` only), PAL | `LIBETC.LIB` `VMODE.OBJ` matches exactly once; PAL `Main_Init` calls `SetVideoMode(1)`, which is `MODE_PAL` |
+| `index`, `rindex` | all six | `LIBC2.LIB` `STRINGS.OBJ` matches exactly once. `STRRCHR.OBJ` matches the `rindex` bytes too, but only `STRINGS.OBJ` supplies the `index` in front of it |
+| `__do_global_dtors`, `__main` | English Europe, French | `NOHEAP.OBJ` matches exactly once; the other images already carry these names |
+
+The four callback setters that `StUnSetRing` calls are byte-identical to
+other setters, so no catalogue match settles them. `StUnSetRing` calls
+them in a fixed order, though: data callback, ready callback, then the
+second linked copies of both. North America names those slots
+`CdDataCallback_8007E8A0`, `CdReadyCallback`, `CdDataCallback` and
+`CdReadyCallback_8007A840`, and every regional body matches its North
+American counterpart once relocated fields are masked. The regional rows
+take the same names, and each second copy carries its own image's address,
+for example `CdReadyCallback_800794E0` in Japan.
+
+Left as placeholders: the French and Spanish `0x800852A8` copy of
+`GsGetActiveBuff`, which is spelled `func_800852A8`/`func_spanish_800852A8`
+in about five hundred MODEL linker-symbol files, and every other
+byte-identical pair the catalogue reports without call-site evidence.
+Each rename has a `regional/<image>/function` row in
+`semantic-symbol-map.csv`.
 
 ### Patched LIBDS cross-reference
 
