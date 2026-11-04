@@ -1135,7 +1135,7 @@ segments:
     - game/spanish/movie_frame_pipeline
   - - 372868
     - c
-    - game/movie_stream_requests
+    - game/european/movie_stream_requests
   - - 373228
     - c
     - game/file_cd_helpers
@@ -1219,7 +1219,18 @@ segments:
   - [0x828E8, .data, game/french/debug_menu_editor_entries]
   - [0x829B0, .data, game/european/debug_menu_update]
   - [0x82A14, .data, game/european/build_deck_draw_card_list_page]
-  - [0x82A34, data, resident_tail_80092234]
+  - [0x82A34, .data, game/european/build_deck_update]
+  - [0x82A64, .data, game/european/duel_effect_update_object_layout]
+  - [0x82A70, .data, game/european/text_box_build_step]
+  - [0x82AB8, .data, game/european/duel_effect_command_table]
+  - [0x82B94, .data, game/display_effect_process_menu_records]
+  - [0x82BC8, .data, game/spanish/mem_card_dialog]
+  - [0x82BDC, .data, game/european/display_object_runtime]
+  - [0x82C18, data, resident_tail_80092418]
+  - [0x82C34, .data, game/european/model_effect_state]
+  - [0x82CCC, data, resident_tail_800924cc]
+  - [0x831CC, .data, game/model_image_copy_frames]
+  - [0x831D4, .data, game/european/movie_stream_requests]
   - [0x83208, .data, game/european/model_subdivided_effect]
   - [0x83300, .data, game/ai_script_vm]
   - [0x83410, .data, game/ai_get_hand_search_count]
@@ -1294,7 +1305,7 @@ segments:
   - [0xE4858, .bss, game/spanish/model_scene_controllers]
   - [0xE73D8, .bss, game/model_distance_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
-  - [0xE7708, .bss, game/movie_stream_requests]
+  - [0xE7708, .bss, game/european/movie_stream_requests]
   - [0xE7720, .bss, game/ai_script_vm]
   - {start: 0xE7844, type: bin, name: resident_tail_800f7044, linker_section_order: .bss}
 - - 1902592

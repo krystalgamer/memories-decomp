@@ -301,6 +301,13 @@ Three ranges stay in the extracted blob:
 Europe places the last two apart, where the North American build keeps them
 in one unit.
 
+The four language builds keep Europe's middle range `0x414` higher through
+`model_effect_state`. After it they place the background-record run, then
+`model_image_copy_frames`, then `movie_stream_requests` just before
+`model_subdivided_effect`. Their movie ranges are Europe's, so they now
+compile `european/movie_stream_requests` too. They place the same ten owners,
+each with a `data_c.json` for the European command table.
+
 The four language builds keep Europe's tables:
 - `duel_field_layout` at `+0x204`;
 - every European owner from `duel_scene_update` on at `+0x414`.
