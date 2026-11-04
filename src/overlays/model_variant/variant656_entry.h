@@ -77,7 +77,7 @@ typedef struct {
 } Model656ViewSnapshot;
 
 /* The work-size string; slot-1 images carry a nonzero pad byte after it. */
-extern char gModelVariant656_D23C8[];
+extern char gModelVariant656_szWorkSizeFormat[];
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant656_D23E0[2];
 extern Model656Command gModelVariant656_aConfigs[];

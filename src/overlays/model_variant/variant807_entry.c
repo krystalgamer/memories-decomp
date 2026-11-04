@@ -8,7 +8,7 @@
  * fragments; a flash ends it and a fading core glow remains while the light
  * comes back. */
 
-static const VECTOR gModelVariant807_D2B98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant807_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -44,7 +44,7 @@ s32 ModelVariant807_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant807_D2B98;
+    scale = gModelVariant807_UnitScale;
     memset(&origin, 0, 8);
     work = (Model807State *)context;
     slot = Model_GetActiveSlotIndex();

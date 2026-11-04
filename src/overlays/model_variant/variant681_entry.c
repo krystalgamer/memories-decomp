@@ -14,7 +14,7 @@
 #define MODEL681_STRING_PAD "\xA7"
 #endif
 #ifndef VERSION_FRENCH
-static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_PAD;
+static const char gModelVariant681_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_PAD;
 #endif
 
 #define TRACK_POINT(index, matrix)                                             \
@@ -122,7 +122,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model681State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant681_D3E20, sizeof(Model681State));
+        printf(gModelVariant681_szWorkSizeFormat, sizeof(Model681State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

@@ -9,7 +9,7 @@
  * lasts, and debris flies out. The ambient level dips during the delay and
  * comes back afterwards. */
 
-static const VECTOR gModelVariant827_D1A30 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant827_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant827_HandleRequest(u8 *context, s32 command)
 {
@@ -29,7 +29,7 @@ s32 ModelVariant827_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant827_D1A30;
+    scale = gModelVariant827_UnitScale;
     work = (Model827State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

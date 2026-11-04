@@ -7,7 +7,7 @@
  * shards appear around the opposing slot, flare to the row's colour and fade.
  * After spawning ends the tint and glow fade while the light comes back. */
 
-static const VECTOR gModelVariant826_D2208 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant826_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant826_HandleRequest(u8 *context, s32 command)
 {
@@ -31,7 +31,7 @@ s32 ModelVariant826_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant826_D2208;
+    scale = gModelVariant826_UnitScale;
     work = (Model826State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

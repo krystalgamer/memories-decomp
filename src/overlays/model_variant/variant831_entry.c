@@ -9,7 +9,7 @@
 
 #define SPARK_ABS(x) ((x) >= 0 ? (x) : -(x))
 
-static const VECTOR gModelVariant831_D22C0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant831_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant831_HandleRequest(u8 *context, s32 command)
 {
@@ -33,7 +33,7 @@ s32 ModelVariant831_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant831_D22C0;
+    scale = gModelVariant831_UnitScale;
     work = (Model831State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {

@@ -6,7 +6,7 @@
  * sprites fly out; the dome shrinks, a ring wave spreads and fades, the
  * slot's height scale recovers and animated sparks rise and fall. */
 
-static const VECTOR gModelVariant782_D225C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant782_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant782_D225C;
+    scale = gModelVariant782_UnitScale;
     work = (Model782State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

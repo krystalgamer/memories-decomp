@@ -6,7 +6,7 @@
  * rays each while the light dims; then animated strikes land on the opposing
  * slot and periodic bursts there flash and fade with sixteen double rays. */
 
-static const VECTOR gModelVariant797_D16C0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant797_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant797_D16C0;
+    scale = gModelVariant797_UnitScale;
     work = (Model797State *)context;
     slot = Model_GetActiveSlotIndex();
     fl = &flare;

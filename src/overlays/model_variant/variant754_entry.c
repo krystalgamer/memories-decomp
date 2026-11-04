@@ -9,7 +9,7 @@
  * debris, and a full-screen flash fades out when the row asks for one. The
  * ambient level dips until the burst and comes back afterwards. */
 
-static const VECTOR gModelVariant754_D195C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant754_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant754_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant754_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant754_D195C;
+    scale = gModelVariant754_UnitScale;
     work = (Model754State *)context;
     flash_packet = &screen;
     packet = &burst;

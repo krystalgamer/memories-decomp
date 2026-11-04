@@ -8,7 +8,7 @@
  * fall around it and a ring spreads out while the colour fades and the
  * light comes back. */
 
-static const VECTOR gModelVariant808_D21AC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant808_UnitScale = {4096, 4096, 4096, 0};
 
 static const Model808Shape gModelVariant808_D21BC = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
@@ -54,7 +54,7 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant808_D21AC;
+    scale = gModelVariant808_UnitScale;
     shape = gModelVariant808_D21BC;
     faces = gModelVariant808_D2214;
     work = (Model808State *)context;

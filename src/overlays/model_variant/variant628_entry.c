@@ -14,7 +14,7 @@
 #define MODEL628_STRING_PAD "&"
 #endif
 #ifndef VERSION_FRENCH
-static const char gModelVariant628_D2580[24] = "E_DATA size = %x byte\n\0" MODEL628_STRING_PAD;
+static const char gModelVariant628_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL628_STRING_PAD;
 #endif
 
 s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
@@ -40,7 +40,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model628State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant628_D2580, sizeof(Model628State));
+        printf(gModelVariant628_szWorkSizeFormat, sizeof(Model628State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

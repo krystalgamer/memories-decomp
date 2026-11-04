@@ -13,7 +13,7 @@
 #ifndef MODEL667_STRING_PAD
 #define MODEL667_STRING_PAD "\x02"
 #endif
-static const char gModelVariant667_D2DFC[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_PAD;
+static const char gModelVariant667_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_PAD;
 #endif
 
 #define TRACK_POINT(index, point)                                              \
@@ -57,7 +57,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model667State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant667_D2DFC, sizeof(Model667State));
+        printf(gModelVariant667_szWorkSizeFormat, sizeof(Model667State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

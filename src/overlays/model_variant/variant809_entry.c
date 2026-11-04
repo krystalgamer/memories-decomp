@@ -5,7 +5,7 @@
  * ambient light dims, and every period a burst of coloured spokes appears
  * there and fades out until the light recovers. */
 
-static const VECTOR gModelVariant809_D10C8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant809_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -28,7 +28,7 @@ s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant809_D10C8;
+    scale = gModelVariant809_UnitScale;
     work = (Model809State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {

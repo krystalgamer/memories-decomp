@@ -7,7 +7,7 @@
  * with rays and a textured double ring while the ambient light dims and
  * recovers. */
 
-static const VECTOR gModelVariant774_D3374 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant774_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant774_HandleRequest(u8 *context, s32 command)
 {
@@ -35,7 +35,7 @@ s32 ModelVariant774_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant774_D3374;
+    scale = gModelVariant774_UnitScale;
     work = (Model774State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

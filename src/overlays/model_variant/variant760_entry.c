@@ -6,7 +6,7 @@
  * spinning lines bursts outward, then sparks rise and scatter before every
  * spark fades out. The spark phase returns 1 and the end returns 2. */
 
-static const VECTOR gModelVariant760_D1F68 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant760_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant760_D1F68;
+    scale = gModelVariant760_UnitScale;
     memset(&center, 0, 8);
     work = (Model760State *)context;
     slot = Model_GetActiveSlotIndex();

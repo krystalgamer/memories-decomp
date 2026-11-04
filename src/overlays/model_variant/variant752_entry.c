@@ -8,7 +8,7 @@
  * fade one by one, a widening ring, a four-point star, embers and debris. The
  * ambient level dips until the burst and comes back afterwards. */
 
-static const VECTOR gModelVariant752_D1980 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant752_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
 {
@@ -29,7 +29,7 @@ s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant752_D1980;
+    scale = gModelVariant752_UnitScale;
     work = (Model752State *)context;
     packet = &burst;
     slot = Model_GetActiveSlotIndex();

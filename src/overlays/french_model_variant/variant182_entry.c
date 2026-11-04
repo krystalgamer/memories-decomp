@@ -7,7 +7,7 @@
  * and bursts into an expanding ring with a fading screen flash. The return
  * value is 0 until the burst starts, then 1 once, 0 and finally 2. */
 
-static const VECTOR gFrenchModelVariant182_D1CC8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant182_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
 {
@@ -43,7 +43,7 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant182_D1CC8;
+    scale = gFrenchModelVariant182_UnitScale;
     work = (Model182State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

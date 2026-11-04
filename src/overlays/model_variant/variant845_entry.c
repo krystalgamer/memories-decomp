@@ -9,7 +9,7 @@
  * sparks and a growing sixteen-segment shock ring while the ambient light
  * dims and recovers. Header 795's entry is the single-bolt sibling. */
 
-static const VECTOR gModelVariant845_D3ABC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant845_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -42,7 +42,7 @@ s32 ModelVariant845_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant845_D3ABC;
+    scale = gModelVariant845_UnitScale;
     work = (Model845State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

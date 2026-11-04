@@ -7,7 +7,7 @@
  * leaving a fading trail and a textured ring, and bursts into a growing glow
  * with flares and sparks while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant834_D2610 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant834_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant834_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 ModelVariant834_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant834_D2610;
+    scale = gModelVariant834_UnitScale;
     work = (Model834State *)context;
     quad = &quad_packet;
     ring = &ring_packet;

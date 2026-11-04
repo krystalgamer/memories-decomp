@@ -74,7 +74,7 @@ extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n"; the image keeps it in data because the
  * byte after its terminator is a nonzero alignment pad. */
-extern char gModelVariant643_D2298[];
+extern char gModelVariant643_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant643_D22B0[2];
 extern Model643Command gModelVariant643_aConfigs[];

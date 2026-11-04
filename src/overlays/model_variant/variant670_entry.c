@@ -12,7 +12,7 @@
 #ifndef MODEL670_STRING_PAD
 #define MODEL670_STRING_PAD "\xA6"
 #endif
-static const char gModelVariant670_D1D68[24] = "E_DATA size = %x byte\n\0" MODEL670_STRING_PAD;
+static const char gModelVariant670_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL670_STRING_PAD;
 #endif
 
 s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
@@ -34,7 +34,7 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model670State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant670_D1D68, sizeof(Model670State));
+        printf(gModelVariant670_szWorkSizeFormat, sizeof(Model670State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

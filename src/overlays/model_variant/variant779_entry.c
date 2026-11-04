@@ -8,7 +8,7 @@
  * spark or flare that grows and fades out. The first trail's fade clears the
  * green channel when the red one is spent, as retail does. */
 
-static const VECTOR gModelVariant779_D20E0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant779_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
 {
@@ -33,7 +33,7 @@ s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant779_D20E0;
+    scale = gModelVariant779_UnitScale;
     work = (Model779State *)context;
     packet = &star;
     slot = Model_GetActiveSlotIndex();

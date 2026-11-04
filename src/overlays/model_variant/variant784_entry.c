@@ -8,7 +8,7 @@
  * flash flickers there. Landed shots spray sparks and bloom into a growing
  * layered fan. The ambient light dims and recovers. */
 
-static const VECTOR gModelVariant784_D4080 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant784_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
 {
@@ -41,7 +41,7 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant784_D4080;
+    scale = gModelVariant784_UnitScale;
     work = (Model784State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

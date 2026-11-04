@@ -10,7 +10,7 @@
  * the first volley adds animated sparks and the second a growing
  * sixteen-segment shock fan, while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant791_D3EA0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant791_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -42,7 +42,7 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant791_D3EA0;
+    scale = gModelVariant791_UnitScale;
     work = (Model791State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

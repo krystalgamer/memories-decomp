@@ -10,7 +10,7 @@
  * prints the work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char gModelVariant655_D4BE0[24] = "E_DATA size = %x byte\n\0\0";
+static const char gModelVariant655_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0\0";
 #endif
 
 #define TRACK_POINT(index, point)                                              \
@@ -46,7 +46,7 @@ s32 ModelVariant655_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model655State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant655_D4BE0, sizeof(Model655State));
+        printf(gModelVariant655_szWorkSizeFormat, sizeof(Model655State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

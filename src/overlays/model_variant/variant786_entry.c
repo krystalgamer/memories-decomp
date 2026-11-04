@@ -7,7 +7,7 @@
  * ring of rising animated sprites while the ambient light dims and
  * recovers. */
 
-static const VECTOR gModelVariant786_D1D98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant786_UnitScale = {4096, 4096, 4096, 0};
 
 /* The flight step is reduced in place through its address; the bolt
  * position is read by value, which keeps it out of the address register. */
@@ -37,7 +37,7 @@ s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant786_D1D98;
+    scale = gModelVariant786_UnitScale;
     work = (Model786State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

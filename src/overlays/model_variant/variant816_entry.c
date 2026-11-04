@@ -9,7 +9,7 @@
  * debris pieces; once the last orb and comet have landed the light comes
  * back. */
 
-static const VECTOR gModelVariant816_D2B6C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant816_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant816_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant816_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant816_D2B6C;
+    scale = gModelVariant816_UnitScale;
     work = (Model816State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

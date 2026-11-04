@@ -9,7 +9,7 @@
  * back afterwards. The line depth gets its own local so the halved sum stays
  * in the argument register. */
 
-static const VECTOR gModelVariant829_D1140 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant829_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant829_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant829_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant829_D1140;
+    scale = gModelVariant829_UnitScale;
     work = (Model829State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {

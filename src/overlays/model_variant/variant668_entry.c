@@ -12,7 +12,7 @@
 #ifndef MODEL668_STRING_PAD
 #define MODEL668_STRING_PAD "\x14"
 #endif
-static const char gModelVariant668_D10C4[24] = "E_DATA size = %x byte\n\0" MODEL668_STRING_PAD;
+static const char gModelVariant668_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL668_STRING_PAD;
 #endif
 
 s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
@@ -35,7 +35,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model668State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant668_D10C4, sizeof(Model668State));
+        printf(gModelVariant668_szWorkSizeFormat, sizeof(Model668State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

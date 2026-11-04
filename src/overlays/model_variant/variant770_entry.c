@@ -8,7 +8,7 @@
  * light columns in front of the slot. The slot's ambient level dips while
  * the trails run and comes back once the second stream's burst starts. */
 
-static const VECTOR gModelVariant770_D1A78 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant770_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant770_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant770_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant770_D1A78;
+    scale = gModelVariant770_UnitScale;
     work = (Model770State *)context;
     gouraud_packet = &gouraud;
     burst_packet = &burst;

@@ -7,7 +7,7 @@
  * flare under it and sparks drift upwards; the slot is released near the
  * end while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant780_D1DE0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant780_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 #define SIGNED_BY(s, v) ((s) < 0 ? -(v) : (v))
@@ -43,7 +43,7 @@ s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant780_D1DE0;
+    scale = gModelVariant780_UnitScale;
     work = (Model780State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {

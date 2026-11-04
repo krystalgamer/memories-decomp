@@ -9,7 +9,7 @@
  * streaks and expanding sparks, flashes the screen, and sends a textured shock
  * ring out from the launch point while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant838_D3220 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant838_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant838_D3220;
+    scale = gModelVariant838_UnitScale;
     work = (Model838State *)context;
     fan = &fan_packet;
     quad = &quad_packet;

@@ -2,7 +2,7 @@
 #include "variant769_entry.h"
 #include "../../game/graphics_constants.h"
 
-static const VECTOR gModelVariant769_D2304 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant769_UnitScale = {4096, 4096, 4096, 0};
 
 /*
  * Header-769 MODEL entry: draws particles gathering into a textured orb on
@@ -36,7 +36,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant769_D2304;
+    scale = gModelVariant769_UnitScale;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model769State *)context;

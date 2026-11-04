@@ -7,7 +7,7 @@
  * textured ring and a pulsing sprite that grow and fade while the ambient
  * light dims and recovers. */
 
-static const VECTOR gModelVariant789_D1DBC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant789_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -35,7 +35,7 @@ s32 ModelVariant789_HandleRequest(u8 *context, s32 command)
     s32 otz;
 
     memset(&rot, 0, 8);
-    scale = gModelVariant789_D1DBC;
+    scale = gModelVariant789_UnitScale;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model789State *)context;
     if (command >= 0) {

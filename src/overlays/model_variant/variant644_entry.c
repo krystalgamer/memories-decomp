@@ -13,7 +13,7 @@
 #ifndef MODEL644_STRING_PAD
 #define MODEL644_STRING_PAD "<"
 #endif
-static const char gModelVariant644_D2200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_PAD;
+static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_PAD;
 #endif
 
 /* Moves every glow and star to the joint's world position. */
@@ -81,7 +81,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model644State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant644_D2200, sizeof(Model644State));
+        printf(gModelVariant644_szWorkSizeFormat, sizeof(Model644State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
