@@ -45,20 +45,20 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     if ((v & 0x40) != 0) {
         t = *(u16 *)&o->field_60 + 1;
         o->field_60 = t;
-        o->field_44.h.field_46 = (s16)t * 512;
-        o->field_44.h.field_44 = (s16)t * 512;
+        o->field_44.scale.y = (s16)t * 512;
+        o->field_44.scale.x = (s16)t * 512;
         if (o->field_60 >= 8) {
             DisplayObject_ResetVelocity(motion);
-            motion->velocity_x = ((*(s16 *)&o->field_18 - motion->x) << 8) / 12;
+            motion->velocity_x = ((*(s16 *)&o->field_18.target.x - motion->x) << 8) / 12;
             o->field_6C = o->field_6C & 0xBF;
             o->field_60 = 0xC;
-            motion->velocity_y = ((*(s16 *)&o->field_1A - motion->y) << 8) / 12;
+            motion->velocity_y = ((*(s16 *)&o->field_18.target.y - motion->y) << 8) / 12;
         }
     } else if ((v & 0x20) != 0) {
         t = *(u16 *)&o->field_60 - 1;
         o->field_60 = t;
-        o->field_44.h.field_46 = (s16)t * 512;
-        o->field_44.h.field_44 = (s16)t * 512;
+        o->field_44.scale.y = (s16)t * 512;
+        o->field_44.scale.x = (s16)t * 512;
         if (o->field_60 == 0) {
             DisplayObject_ReleaseIfPresent(o);
         }
@@ -67,7 +67,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         t = *(u16 *)&o->field_60 - 1;
         o->field_60 = t;
         if (o->field_60 <= 0) {
-            o->xy.word = *(s32 *)&o->field_18;
+            o->xy.word = *(s32 *)&o->field_18.target.x;
             o->field_60 = 8;
             o->field_6C = o->field_6C | 0x20;
         }
@@ -136,8 +136,8 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
     {
         DisplayObject *output = DISPLAY_OBJECT_VIEW(object);
         output->field_44.word = 0;
-        output->field_18 = field_18;
-        output->field_1A = arg4;
+        output->field_18.target.x = field_18;
+        output->field_18.target.y = arg4;
         output->update = (DisplayObjectCallback)BuildDeck_UpdateCardTransferIcon;
         output->flags &= 0xFFF7;
         output->attribute &= ~GsROTOFF;

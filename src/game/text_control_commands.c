@@ -309,25 +309,25 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
 void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
     DisplayObject *a = record->render_object, *b = record->aux_object;
     u16 v;
-    b->field_18 = a->field_18;
-    b->field_1A = a->field_1A;
+    b->field_18.center.x = a->field_18.center.x;
+    b->field_18.center.y = a->field_18.center.y;
     v = a->xy.h.x;
-    b->field_48.h.field_48 = v;
+    b->field_48.vertex.x = v;
     b->position.h.field_28 = v;
     b->field_38.h.field_38 = v - 8;
-    v = a->xy.h.x + a->field_3C.h.field_3C;
+    v = a->xy.h.x + a->field_3C.size.w;
     b->field_50.h.field_50 = v;
     b->xy.h.x = v;
-    b->field_40.h.field_40 = v + 8;
+    b->field_40.vertex.x = v + 8;
     v = a->xy.h.y - 8;
     b->xy.h.y = v;
     b->position.h.field_2A = v;
-    v = a->xy.h.y + a->field_48.h.field_4A;
-    b->field_40.h.field_42 = v;
+    v = a->xy.h.y + a->field_48.pivot.y;
+    b->field_40.vertex.y = v;
     b->field_38.h.field_3A = v;
-    v = a->xy.h.y + a->field_3C.h.field_3E + 8;
+    v = a->xy.h.y + a->field_3C.size.h + 8;
     b->field_50.h.field_52 = v;
-    b->field_48.h.field_4A = v;
+    b->field_48.vertex.y = v;
 }
 
 /* Regional value: the flags_34 bit under which the box rebuilds its gouraud
@@ -337,12 +337,12 @@ void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
 #define TEXT_BOX_LAYOUT_QUAD_FLAG 0x20
 #endif
 
-#ifndef TEXT_BOX_LAYOUT_WIDTH
-#define TEXT_BOX_LAYOUT_WIDTH 0x280
+#ifndef TEXT_BOX_GLYPH_CLUT_X
+#define TEXT_BOX_GLYPH_CLUT_X 0x280
 #endif
 
-#ifndef TEXT_BOX_LAYOUT_HEIGHT
-#define TEXT_BOX_LAYOUT_HEIGHT 0xE8
+#ifndef TEXT_BOX_GLYPH_CLUT_Y
+#define TEXT_BOX_GLYPH_CLUT_Y 0xE8
 #endif
 
 void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
@@ -355,8 +355,8 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     if (e == (DisplayObject *)0) {
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
         b = p->channel_index;
-        e->field_40.h.field_40 = TEXT_BOX_LAYOUT_WIDTH;
-        e->field_40.h.field_42 = TEXT_BOX_LAYOUT_HEIGHT;
+        e->field_40.clut.x = TEXT_BOX_GLYPH_CLUT_X;
+        e->field_40.clut.y = TEXT_BOX_GLYPH_CLUT_Y;
         e->field_66 = 0xA;
         f = e->flags;
         e->field_4C = (s32)TextBox_DrawEntries;
@@ -370,14 +370,14 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
 
     e->xy.h.x = (u16)p->rect_x;
     e->xy.h.y = (u16)p->rect_y;
-    e->field_3C.h.field_3C = (u16)p->rect_width;
-    e->field_3C.h.field_3E = (u16)p->rect_height;
+    e->field_3C.size.w = (u16)p->rect_width;
+    e->field_3C.size.h = (u16)p->rect_height;
     v = p->rect_width / 2;
-    e->field_18 = v;
-    e->field_48.h.field_48 = v;
+    e->field_18.center.x = v;
+    e->field_48.pivot.x = v;
     v = p->rect_height / 2;
-    e->field_1A = v;
-    e->field_48.h.field_4A = v;
+    e->field_18.center.y = v;
+    e->field_48.pivot.y = v;
 
     if ((p->flags_34 & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
         if (p->aux_object != 0) {
