@@ -1596,7 +1596,7 @@ void MemCardDialog_Update(void)
             p = TextBox_Create(
                 gMemCardDialog_ChannelIndex, gMemCardDialog_MessageCode, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30
             );
-            DuelEffect_MarkObjectIfActive((MenuRecord *)p);
+            DuelEffect_MarkObjectIfActive(p);
             p->depth_offset = 0x10;
             if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {

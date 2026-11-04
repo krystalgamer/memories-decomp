@@ -17,7 +17,7 @@
 /* The Library package's place on the European disc. */
 #define LIBRARY_PACKAGE_FIRST_SECTOR 0x233A
 #define LIBRARY_PACKAGE_SECTOR_COUNT 0x8F
-#define LIBRARY_RESOURCE_FIELD_2C 0x280
+#define LIBRARY_RESOURCE_CLUT_X 0x280
 #define LIBRARY_SELECTOR_SPRITE_Y 0xE8
 #define LIBRARY_CARD_SELECTOR_BASE 0x2E0
 #include "../library_runtime.c"

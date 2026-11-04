@@ -4,15 +4,18 @@
 #include "../types.h"
 #include "menu_record.h"
 
-/* Sets bit 0x2 in `record`'s field_34 if any gDisplayEffect_aMenuRecords record is still active
- * -- it walks that table backward and stops at the first non-negative effect_id
- * marker -- and does nothing when every marker is negative.
+struct DuelEffectChannel;
+
+/* Sets DUEL_EFFECT_MARK_OBJECT_FLAG in `channel`'s flags_34 if any
+ * gDisplayEffect_aMenuRecords record is still active -- it walks that table
+ * backward and stops at the first non-negative effect_id marker -- and does
+ * nothing when every marker is negative.
  *
- * The parameter is a MenuRecord because that is what the definition takes, and
- * the record it is handed is another element of the same table rather than a
- * separate type: Script_OpShowMenu passes a gDisplayEffect_aMenuRecords element and writes the same
- * field_34 halfword itself. Its two callers spelled it `void *`; they pass a
- * text-box channel over the same memory, and cast. */
-void DuelEffect_MarkObjectIfActive(MenuRecord *record);
+ * The parameter is the text-box channel its callers have just made: every
+ * caller passes the result of TextBox_Create or TextBox_CreateFlagged, and
+ * Script_OpShowDialog ORs its own flag into the same flags_34 right after.
+ * It used to be typed as a MenuRecord, whose 0x34 is the record's x
+ * position, not a flag word. */
+void DuelEffect_MarkObjectIfActive(struct DuelEffectChannel *channel);
 
 #endif

@@ -18,11 +18,11 @@ s32 DisplayEffect_MarkInitialized(DisplayEffectState *object)
 
 void DisplayEffect_ResetRecordState(DisplayEffectState *object)
 {
-    object->field_34 = 0x68;
+    object->x = 0x68;
     object->variant_update_flags = 0;
     object->state = 0;
     object->resource_entry_index = 0;
-    object->field_36 = 0xB2;
+    object->y = 0xB2;
     object->variant_countdown =
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }

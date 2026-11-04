@@ -279,24 +279,24 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     e->effect_id = id;
     e->slot_index = slot;
     if (slot != 0) {
-        *(s16 *)&e->field_34 = 0x178;
+        *(s16 *)&e->x = 0x178;
     } else {
-        *(s16 *)&e->field_34 = -0x38;
+        *(s16 *)&e->x = -0x38;
     }
     o->state = 6;
     gText_DisplayEffectRecord = e;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
         e->slot_index = 2;
-        *(s16 *)&e->field_34 = 0xF0;
+        *(s16 *)&e->x = 0xF0;
         e->field_40 = 0;
-        *(s16 *)&e->field_36 = 0x60;
+        *(s16 *)&e->y = 0x60;
         return;
     }
     e->display_effect_step = 2;
     e->field_40 = 3;
     if (flags & 8) {
-        *(s16 *)&e->field_34 = 0x400;
+        *(s16 *)&e->x = 0x400;
         e->field_40 = 7;
     }
     if (flags & 0x10) {

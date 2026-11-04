@@ -175,7 +175,7 @@ void Script_OpSavePrompt(void)
         }
         SAVE_PROMPT_PREPARE_BOX();
         box = TextBox_Create(3, 0x11, -0x90, 0x38, SAVE_PROMPT_SLIDE_BOX_SIZE);
-        DuelEffect_MarkObjectIfActive((MenuRecord *)box);
+        DuelEffect_MarkObjectIfActive(box);
         box->flags_34 |= SAVE_PROMPT_SLIDE_BOX_FLAGS;
         do {
             TextBox_UpdateChannels();
@@ -196,7 +196,7 @@ void Script_OpSavePrompt(void)
             gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             SAVE_PROMPT_PREPARE_BOX();
             box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
-            DuelEffect_MarkObjectIfActive((MenuRecord *)box);
+            DuelEffect_MarkObjectIfActive(box);
             box->flags_34 |= SAVE_PROMPT_CHOICE_BOX_FLAGS;
             do {
                 TextBox_UpdateChannels();

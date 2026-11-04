@@ -104,11 +104,11 @@ void DuelEffect_UpdateCardViewerState(void)
         p[3].src_y = 0x100;
         p[3].src_x = 0;
 #ifdef VERSION_EUROPE
-        p[3].field_2C = 0x280;
-        p[3].field_2E = 0xDF;
+        p[3].clut_x = 0x280;
+        p[3].clut_y = 0xDF;
 #else
-        p[3].field_2C = 0;
-        p[3].field_2E = 0xFF;
+        p[3].clut_x = 0;
+        p[3].clut_y = 0xFF;
 #endif
         CardPreview_RequestResourceTransfer(3, (s16)gDuel_wViewerCardID);
         obj = (DisplayObject *)CardPreview_CreateResourceObjects(3, -1, -1);

@@ -39,7 +39,7 @@
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
 #define PASSWORD_PREVIEW_Y 0x1E
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
-#define PASSWORD_CARD_CACHE_WIDTH 512
+#define PASSWORD_CARD_CACHE_CLUT_X 512
 #define PASSWORD_CURSOR_TEXTURE_PAGE 256
 #define PASSWORD_CURSOR_TEXTURE_Y 240
 #elif defined(VERSION_EUROPE)
@@ -48,7 +48,7 @@
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 0x10
 #define PASSWORD_PREVIEW_Y 0x14
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK 0x2010
-#define PASSWORD_CARD_CACHE_WIDTH 640
+#define PASSWORD_CARD_CACHE_CLUT_X 640
 #define PASSWORD_CURSOR_TEXTURE_PAGE 640
 #define PASSWORD_CURSOR_TEXTURE_Y 224
 #else
@@ -57,7 +57,7 @@
 #define PASSWORD_MESSAGE_BOX_WAIT_FLAG 8
 #define PASSWORD_PREVIEW_Y 0x1E
 #define PASSWORD_TEXT_BOX_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
-#define PASSWORD_CARD_CACHE_WIDTH 512
+#define PASSWORD_CARD_CACHE_CLUT_X 512
 #define PASSWORD_CURSOR_TEXTURE_PAGE 256
 #define PASSWORD_CURSOR_TEXTURE_Y 240
 #endif
@@ -289,8 +289,8 @@ void Password_InitShopScreen(void)
     cardCache = gPassword_pCardCache;
     cardCache->src_x = 320;
     cardCache->src_y = 256;
-    cardCache->field_2C = PASSWORD_CARD_CACHE_WIDTH;
-    cardCache->field_2E = 240;
+    cardCache->clut_x = PASSWORD_CARD_CACHE_CLUT_X;
+    cardCache->clut_y = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
 #ifdef VERSION_JAPAN
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 0, 31, 257);

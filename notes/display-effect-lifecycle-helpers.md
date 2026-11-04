@@ -28,11 +28,11 @@ Their actual branches, updates and call order are not changed.
 
 The reset helper retains this order:
 
-1. `field_34 = 0x68`;
+1. `x = 0x68`;
 2. `field_32 = 0`;
 3. `state = 0`;
 4. `field_31 = 0`;
-5. `field_36 = 0xB2`;
+5. `y = 0xB2`;
 6. `field_3E = (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE`.
 
 The existing constants are mask `0xFF` and base 60. Every invocation
@@ -117,3 +117,19 @@ are preserved. The combined-tree comparison aligns only that accepted
 name in the saved baseline, then reverses the five lifecycle identities;
 all whole outputs remain in the comparison and the tree gets a fresh
 clean retail gate.
+
+## Record screen position
+
+`MenuRecord` +0x34/+0x36, and the same pair in the narrower
+`DisplayEffectState` view, are now `x` and `y`.
+
+| Offset | Old | New | Evidence | Confidence |
+|---|---|---|---|---|
+| `0x34` | `field_34` | `x` | The reset above seeds it to `0x68`. `Script_OpShowMenu` and `DisplayEffect_FadeInRecord` move it to `0xD8` for the second slot. The text dialog command parks it off-screen (`-0x38`, `0x178`, `0x400`) or at `0xF0` before sliding in. Resource setup passes it as the x of `DisplayObject_ConfigureSpriteAtPositionWithResource` and `DisplayObject_ConfigureScreenSprite`. `DisplayEffect_UpdatePositionTween` eases it toward `0x40` and hands it to the position helpers as x. | high |
+| `0x36` | `field_36` | `y` | Seeded to `0xB2` by the same reset and set to `0x60` for portraits. It is the y argument at every one of those call sites, and the tween eases it toward `0x42`. | high |
+
+`DuelEffect_MarkObjectIfActive` used to take a `MenuRecord *` and OR its flag
+into `field_34`. Every caller passes a text-box channel from `TextBox_Create`
+or `TextBox_CreateFlagged`, so the parameter is now a `DuelEffectChannel *`
+and the write is to `flags_34`. That is the same u16 at the same offset, so
+the emitted code is unchanged. The callers' `(MenuRecord *)` casts are gone.

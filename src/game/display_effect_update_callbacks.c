@@ -95,8 +95,8 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         if (d >= 0) {
             r->field_48 = 0;
         }
-        r->field_44 = *(u16 *)&r->field_40 - r->field_34;
-        r->field_46 = *(u16 *)&r->field_42 - r->field_36;
+        r->field_44 = *(u16 *)&r->field_40 - r->x;
+        r->field_46 = *(u16 *)&r->field_42 - r->y;
     }
 
     t = *(u16 *)&r->field_48 + *(u16 *)&r->field_4A;
@@ -136,15 +136,15 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
     s32 i;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
-        *(s16 *)&p->field_34 = 0x68;
+        *(s16 *)&p->x = 0x68;
         p->variant_update_flags |= 0x10;
         if (p->slot_index != 0) {
-            *(s16 *)&p->field_34 = 0xD8;
+            *(s16 *)&p->x = 0xD8;
         }
         DisplayPositionGroup_SetChildPositions(
             DISPLAY_POSITION_GROUP_VIEW(p),
-            *(s16 *)&p->field_34,
-            *(s16 *)&p->field_36
+            *(s16 *)&p->x,
+            *(s16 *)&p->y
         );
         q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = q->depth_offset;
@@ -270,8 +270,8 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
         DisplayPositionGroup_SetChildPositions(
             DISPLAY_POSITION_GROUP_VIEW(p),
-            *(s16 *)&p->field_34,
-            *(s16 *)&p->field_36
+            *(s16 *)&p->x,
+            *(s16 *)&p->y
         );
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         DisplayEffect_ReleaseObjectRow((void **)p->grid[2]);
@@ -310,14 +310,14 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         dd[0] = -dd[0];
         dd[1] = w;
     }
-    y = *(s16 *)&p->field_36;
-    x = *(s16 *)&p->field_34 + dd[0];
+    y = *(s16 *)&p->y;
+    x = *(s16 *)&p->x + dd[0];
     x = (s16)x;
     DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
     DisplayPositionGroup_SetChildPositions(
         DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y
     );
-    x = *(s16 *)&p->field_34 - dd[1];
+    x = *(s16 *)&p->x - dd[1];
     x = (s16)x;
     DisplayPositionGroup_SetChildPositions(
         DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y
@@ -346,7 +346,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             id = record->effect_id;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-            DisplayObject_ConfigureScreenSprite(o, (s16)record->field_34, (s16)record->field_36, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
+            DisplayObject_ConfigureScreenSprite(o, (s16)record->x, (s16)record->y, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
             *(u8 *)&o->field_5C =
                 (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
