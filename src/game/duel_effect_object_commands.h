@@ -17,4 +17,10 @@ void Text_UnlockDuelist(DuelEffectChannel *object);
  * the channel to state 2, yielding the current text-building pass. */
 void Text_CloseChoice(DuelEffectChannel *object);
 
+#ifdef VERSION_EUROPE
+/* European only: pushes the player name's glyph codes as the next text
+ * stream (secondary text command 27). */
+void Text_PushPlayerNameStream(DuelEffectChannel *object);
+#endif
+
 #endif

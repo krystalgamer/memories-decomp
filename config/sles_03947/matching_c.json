@@ -5441,13 +5441,13 @@
       "address": "0x8005051C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
-      "source": "src/game/movie_stream_requests.c"
+      "source": "src/game/european/movie_stream_requests.c"
     },
     {
       "address": "0x800505F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8C",
-      "source": "src/game/movie_stream_requests.c"
+      "source": "src/game/european/movie_stream_requests.c"
     },
     {
       "address": "0x80050684",

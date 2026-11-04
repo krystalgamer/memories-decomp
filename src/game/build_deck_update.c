@@ -61,6 +61,9 @@ s32 gText_DecimalDivisorView[] = {
     0x000186A0,
 };
 
+/* The European build's divisor table ends with the ladder; these two do not
+ * follow it there. */
+#ifndef BUILD_DECK_DIVISOR_LADDER_ONLY
 /* Japan's text renderer expands each glyph nibble through these sixteen
  * patterns and masks the result with the channel's colour. */
 u16 gText_awGlyphNibblePatterns[16] = {
@@ -92,6 +95,7 @@ u16 gText_awGlyphColorMasks[8] = {
     0x3333,
     0x0000,
 };
+#endif
 
 /* Regional values: the confirmation boxes' y and flags (wide 0x78, 0x1028 ->
  * 0x84, 0x1050; narrow 0x60, 0x20 -> 0x6C, 0x40), the fade level (0xA0 ->

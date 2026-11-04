@@ -154,3 +154,8 @@ D_8009BFC0 = gModel_szStoneTrace;
 D_8009BFC8 = gModel_szHitTrace;
 D_8009BFD0 = gModel_szOuchTrace;
 D_8009BFD8 = gModel_szTermTrace;
+
+/* Names inside the initialized tables Europe's units own (#2602). */
+
+/* The North American name a shared command table uses for this entry. */
+func_800388D8 = Text_ApplyFadeCommand;
