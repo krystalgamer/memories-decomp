@@ -5,7 +5,7 @@
 
 #define MOVIE_STREAM_COUNT 13
 
-/* src/game/movie_stream_requests.c owns the table at 0x8009151C. */
+/* src/game/movie_pipeline.c owns the table at 0x8009151C. */
 extern MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT];
 
 #endif

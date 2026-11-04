@@ -84,8 +84,6 @@ PAIRS = [
     ),
     ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model_slot_control.c", "Model_InitSlot", '#include "model_slot_control.h"'),

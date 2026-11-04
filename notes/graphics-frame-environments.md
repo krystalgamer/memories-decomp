@@ -56,7 +56,7 @@ all 19 candidate fingerprints must still pass because this shared header has
 transitive users. The completed source move carries the startup's two selector
 macros and five typed stores in `src/game/main.c`, with
 `graphics_frame.h` visible before use. The shortened
-`movie_frame_pipeline.c` still owns `Movie_StopStream` and must retain
+`movie_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array
 declaration or erase the volatile startup view while moving these bodies.
