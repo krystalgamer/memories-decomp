@@ -1,6 +1,7 @@
 # French header-419 image quads helper
 
-`func_8013C770` / `func_8017C770` (image offset `0x1770`, 0x4DC bytes)
+`FrenchModelVariant419_DrawQuads` (formerly `func_8013C770` / `func_8017C770`;
+image offset `0x1770`, 0x4DC bytes)
 grows, fades and draws ten orbiting quads.
 **No release had matching C for this body before.**
 

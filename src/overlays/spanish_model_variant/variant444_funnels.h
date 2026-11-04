@@ -4,6 +4,6 @@
 #include "variant411_funnels.h"
 
 /* Start of the overlay data after the code; the fade start is read at +0x114. */
-extern u8 D_8013D91C[];
+extern u8 gFrenchModelVariant444_D291C[];
 
 #endif

@@ -626,11 +626,13 @@ French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also bui
 
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through
-`french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.
-The wrappers set the PAL palette x (`640` instead of `512`) and the French
-addresses: the data sit four bytes higher (`CD0C`->`CD10`, `CD44`->`CD48`), the
-swarm helper four bytes lower (`C1E0`->`C1DC`) and the quad helper eight bytes
-lower (`C778`->`C770`) than in the North American images.
+`french_model_variant/variant419_entry.c` in both slots under
+`gcc_2_8_1_g0_split`. The wrapper sets the PAL palette x (`640` instead of
+`512`); each image's symbols file binds `ModelVariant402_HandleRequest`,
+`FrenchModelVariant419_DrawSwarm`, `FrenchModelVariant419_DrawQuads`,
+`gModelVariant402_D1D0C` and `gModelVariant402_D1D44` at the French addresses:
+the data four bytes higher, the swarm helper four bytes lower and the quad
+helper eight bytes lower than in the North American images.
 The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and
 `model_variant419_linker_symbols.txt` now also binds the entry's resident calls.
 

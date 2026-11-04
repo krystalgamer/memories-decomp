@@ -11,7 +11,7 @@
  * launched toward the other slot, sixteen streaks, and two per-frame
  * helpers. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant402EntryState *work = (Variant402EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -48,7 +48,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant402EntryConfig *)D_8013CD44 + command;
+        work->config = (Variant402EntryConfig *)gModelVariant402_D1D44 + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -67,12 +67,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT402_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT402_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)D_8013CD0C);
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD0C - 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD0C - 0xA8));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gModelVariant402_D1D0C);
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant402_D1D0C - 0x38));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant402_D1D0C - 0xA8));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD0C - 0x70));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant402_D1D0C - 0x70));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -329,10 +329,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            func_8013C1E0((u8 *)point);
+            FrenchModelVariant419_DrawSwarm((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013C778((u8 *)point);
+            FrenchModelVariant419_DrawQuads((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

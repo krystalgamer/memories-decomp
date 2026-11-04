@@ -1,6 +1,7 @@
 # French MODEL443 entry
 
-The loader entries `func_8013B004` / `func_8017B004`, at image offset
+The loader entries `FrenchModelVariant443_HandleRequest` (formerly
+`func_8013B004` / `func_8017B004`), at image offset
 `0x4`, own 6,872 bytes each in MODEL62 stages 9/10. Both now use pure C
 with the existing `gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX
 2.81). The six accepted helper bodies and their ownership are unchanged.

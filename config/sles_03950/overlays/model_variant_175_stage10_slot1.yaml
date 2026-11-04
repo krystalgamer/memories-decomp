@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant444_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant444_entry]
   - name: helper_DB4
     type: code
     start: 0xDB4
     vram: 0x8017BDB4
     align: 4
     subsegments:
-      - [0xDB4, c, overlays/french_model_variant/variant175_tube_slot1]
+      - [0xDB4, c, overlays/french_model_variant/variant175_tube]
   - name: helper_14E8
     type: code
     start: 0x14E8
@@ -77,14 +77,14 @@ segments:
     vram: 0x8017CDC4
     align: 4
     subsegments:
-      - [0x1DC4, c, overlays/spanish_model_variant/variant444_sheets_slot1]
+      - [0x1DC4, c, overlays/spanish_model_variant/variant444_sheets]
   - name: helper_240C
     type: code
     start: 0x240C
     vram: 0x8017D40C
     align: 4
     subsegments:
-      - [0x240C, c, overlays/spanish_model_variant/variant444_funnels_slot1]
+      - [0x240C, c, overlays/spanish_model_variant/variant444_funnels]
   - name: unclassified_tail
     type: code
     start: 0x291C

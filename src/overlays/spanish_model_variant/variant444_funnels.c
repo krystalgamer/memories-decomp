@@ -6,7 +6,7 @@
  * outer ring of radius 128 plus the flicker, set back by 64 plus the flicker, where
  * the flicker is a 128th of the first sheet's size on odd frames. The fade start
  * is read from the overlay data after the code. */
-void func_8013D40C(u8 *context)
+void SpanishModelVariant444_DrawFunnels(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -104,8 +104,8 @@ void func_8013D40C(u8 *context)
                 }
             }
         } else if (state->timing->fade_after < state->time && funnel->size > 0) {
-            funnel->size = 4096 - (state->time - *(u32 *)(D_8013D91C + 0x114)) * 4096 /
-                                  (state->timing->fade_end - *(u32 *)(D_8013D91C + 0x114));
+            funnel->size = 4096 - (state->time - *(u32 *)(gFrenchModelVariant444_D291C + 0x114)) * 4096 /
+                                  (state->timing->fade_end - *(u32 *)(gFrenchModelVariant444_D291C + 0x114));
             if (funnel->size <= 0) {
                 funnel->size = 0;
             }

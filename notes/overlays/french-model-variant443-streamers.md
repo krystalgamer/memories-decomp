@@ -1,6 +1,7 @@
 # French MODEL443 streamers helper
 
-`func_8013E668` / `func_8017E668` (MODEL443 family, image offset `0x3668`,
+`FrenchModelVariant443_DrawStreamers` (formerly `func_8013E668` /
+`func_8017E668`; MODEL443 family, image offset `0x3668`,
 0x888 bytes) builds three thirteen-point streamers and draws them in three
 passes. **No release had matching C for this body before.** It is reachable
 from the entry.

@@ -1,12 +1,12 @@
 #include "../../types.h"
 #include "variant443_entry.h"
 
-/* The entry's data block.  D_8013F5A8 is where this module's unclassified tail
+/* The entry's data block.  gFrenchModelVariant443_D45A8 is where this module's unclassified tail
  * starts, at a helper that the module does not split out yet, 0x554 bytes
- * before the block.  The North American build points this at its own data
- * symbol. */
+ * before the block.  The North American build sets this to the bare name,
+ * which its images bind at their own data block. */
 #ifndef MODEL_VARIANT443_DATA
-#define MODEL_VARIANT443_DATA (D_8013F5A8 + 0x554)
+#define MODEL_VARIANT443_DATA (gFrenchModelVariant443_D45A8 + 0x554)
 #endif
 
 /* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
@@ -15,7 +15,7 @@
 #define MODEL_VARIANT443_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState443 *work = (EntryState443 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -512,20 +512,20 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             }
         }
         if (work->config->start <= work->elapsed) {
-            func_8013DF2C((u8 *)point);
-            func_8013E668((u8 *)point);
+            SpanishModelVariant443_DrawSheets((u8 *)point);
+            FrenchModelVariant443_DrawStreamers((u8 *)point);
             if (work->phase > 0) {
-                func_8013EEF0((u8 *)point);
+                FrenchModelVariant443_DrawBands((u8 *)point);
             }
             if (work->phase >= 2) {
                 FrenchModelVariant443_DrawRibbons((u8 *)point);
             }
         }
         if (work->phase >= 4) {
-            func_8013D98C((u8 *)point);
+            SpanishModelVariant443_DrawMesh((u8 *)point);
         }
         if (work->phase >= 5) {
-            func_8013D3AC((u8 *)point);
+            SpanishModelVariant443_DrawRings((u8 *)point);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

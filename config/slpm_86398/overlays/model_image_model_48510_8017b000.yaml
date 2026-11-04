@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant427_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant427_entry]
   - name: helper_db8
     type: code
     start: 0xDB8
     vram: 0x8017BDB8
     align: 4
     subsegments:
-      - [0xDB8, c, overlays/model_variant/variant427_tube_slot1]
+      - [0xDB8, c, overlays/model_variant/variant427_tube]
   - name: helper_14f0
     type: code
     start: 0x14F0
@@ -77,14 +77,14 @@ segments:
     vram: 0x8017CD94
     align: 4
     subsegments:
-      - [0x1D94, c, overlays/model_variant/variant427_sheets_slot1]
+      - [0x1D94, c, overlays/model_variant/variant427_sheets]
   - name: helper_23e0
     type: code
     start: 0x23E0
     vram: 0x8017D3E0
     align: 4
     subsegments:
-      - [0x23E0, c, overlays/model_variant/variant427_funnels_slot1]
+      - [0x23E0, c, overlays/model_variant/variant427_funnels]
   - name: data
     type: code
     start: 0x28F8

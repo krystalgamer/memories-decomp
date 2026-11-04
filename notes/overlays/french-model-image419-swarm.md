@@ -1,6 +1,7 @@
 # French header-419 image swarm helper
 
-`func_8013C1DC` / `func_8017C1DC` (image offset `0x11DC`, 0x594 bytes)
+`FrenchModelVariant419_DrawSwarm` (formerly `func_8013C1DC` / `func_8017C1DC`;
+image offset `0x11DC`, 0x594 bytes)
 grows, fades and orbits a swarm of 32 quads.
 **No release had matching C for this body before.**
 

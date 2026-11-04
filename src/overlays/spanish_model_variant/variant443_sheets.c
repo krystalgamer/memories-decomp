@@ -6,7 +6,7 @@
  * colour, and two at the origin and along the direction (or at the rest position
  * once the travel reaches 0x400) in a colour cycling through eight hues. The
  * sheets grow and fade over the timing record's windows as the phase advances. */
-void func_8013DF2C(u8 *context)
+void SpanishModelVariant443_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

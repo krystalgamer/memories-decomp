@@ -1,7 +1,8 @@
 # French MODEL443 three short bands
 
 MODEL62 stages 9/10 contain the independently recovered 1,720-byte helper
-at image `+0x3EF0`, `func_8013EEF0` / `func_8017EEF0`. The body and local
+at image `+0x3EF0`, `FrenchModelVariant443_DrawBands` (formerly
+`func_8013EEF0` / `func_8017EEF0`). The body and local
 views are `src/overlays/french_model_variant/variant443_bands.{c,h}`; the
 second slot changes only the function symbol. Both use the existing
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).

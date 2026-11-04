@@ -1,6 +1,7 @@
 # French MODEL175 tube helper
 
-`func_8013BDB4` / `func_8017BDB4` (MODEL175 family, image offset `0xDB4`,
+`FrenchModelVariant175_DrawTube` (formerly `func_8013BDB4` / `func_8017BDB4`;
+MODEL175 family, image offset `0xDB4`,
 0x734 bytes) builds and draws a nine-ring tube.
 **No release had matching C for this body before.**
 

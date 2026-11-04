@@ -2,7 +2,7 @@
 #include "variant443_mesh.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013D98C(u8 *context)
+void SpanishModelVariant443_DrawMesh(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

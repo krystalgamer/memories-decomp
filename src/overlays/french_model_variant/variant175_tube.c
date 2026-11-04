@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant175_tube.h"
 
-void func_8013BDB4(u8 *context)
+void FrenchModelVariant175_DrawTube(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

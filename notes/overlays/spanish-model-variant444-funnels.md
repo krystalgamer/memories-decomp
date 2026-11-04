@@ -17,12 +17,13 @@ This is the MODEL411 funnels routine (#7180) with smaller rings:
 The record offsets match MODEL411 exactly, so the source includes the accepted
 `variant411_funnels.h` through `variant444_funnels.h`. Like MODEL411, it reads
 the fade start from the overlay data that follows the code, here
-`D_8013D91C + 0x114`.
+`gFrenchModelVariant444_D291C + 0x114`.
 
 ## Integration
 
-Both modules convert the `+0x240C` helper from ASM to C. The slot-1 wrapper
-renames both the function and the data label. The MODEL444 binding list gains
+Both modules convert the `+0x240C` helper from ASM to C. Both slots build the
+same source; each image's symbols file binds `SpanishModelVariant444_DrawFunnels`
+and the data label at its own addresses. The MODEL444 binding list gains
 the SDK aliases `rcos` and `rsin`, whose addresses were already bound.
 
 ## Acceptance evidence
