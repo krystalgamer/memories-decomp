@@ -23,6 +23,10 @@ extern s8 gPalOptions_bLanguage;
 extern s32 gPalOptions_dwWavePhase;
 extern u32 gPalOptions_aWaveColors[5][9];
 extern u8 gPalOptions_bState;
+/* Storage of the unreferenced unoptimized suffix copies. */
+extern s16 gPalOptions_wStripScrollCopy;
+extern s16 gPalOptions_wStripScrollTargetCopy;
+extern s8 gPalOptions_bLanguageCopy;
 
 void PalOptions_SetTextColorSlots(s32 selection);
 void PalOptions_PositionCursor(s32 selection);
@@ -36,5 +40,7 @@ void PalOptions_StoreLanguageImage(void);
 s32 Options_Update(void);
 s32 PalOptions_StepStripScroll(void);
 s32 PalOptions_GetLanguage(void);
+s32 PalOptions_StepStripScrollCopy(void);
+s32 PalOptions_GetLanguageCopy(void);
 
 #endif

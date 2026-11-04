@@ -153,14 +153,14 @@ segments:
     align: 4
     subsegments:
       - [0x1040, data, overlays/spanish_options/unclassified_tail]
-  - name: func_80169D78
+  - name: PalOptions_StepStripScrollCopy
     type: code
     start: 0x1D78
     vram: 0x80169D78
     align: 4
     subsegments:
       - [0x1D78, c, overlays/pal_options/suffix_signed_step]
-  - name: func_80169F3C
+  - name: PalOptions_GetLanguageCopy
     type: code
     start: 0x1F3C
     vram: 0x80169F3C

@@ -39,8 +39,8 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `Options_Update` | 340 | Live update entry called by the resident menu runner. It dispatches input, coordinates fades and asynchronous language loading, updates cursor layout, and returns the signed language byte on completion or -1 while active. |
 | `PalOptions_StepStripScroll` | 192 | Signed-halfword step using two real overlay storage locations. It chooses a direction with a 32767 threshold and moves by four with a clamp. No direct options caller was found; angular semantics and runtime reachability are not asserted. |
 | `PalOptions_GetLanguage` | 16 | Signed accessor for the same overlay byte that initialization, input handling and update use as the language selection. No direct caller was found; reachability is not claimed. |
-| `func_80169D78` | 452 | Unoptimized counterpart of the signed-halfword step, reproduced by the same C body as `PalOptions_StepStripScroll`. Its current and target views are at `0x80169F88` and `0x80169FAA`. No direct caller was found; original producer and runtime reachability remain unproven. |
-| `func_80169F3C` | 56 | Unoptimized counterpart of the signed-byte accessor, reproduced by the existing accessor body with its measured byte reference at `0x8016A078`. No direct caller was found; original producer and runtime reachability remain unproven. |
+| `PalOptions_StepStripScrollCopy` | 452 | Unoptimized counterpart of the signed-halfword step, reproduced by the same C body as `PalOptions_StepStripScroll`. Its current and target views are at `0x80169F88` and `0x80169FAA`. No direct caller was found; original producer and runtime reachability remain unproven. |
+| `PalOptions_GetLanguageCopy` | 56 | Unoptimized counterpart of the signed-byte accessor, reproduced by the existing accessor body with its measured byte reference at `0x8016A078`. No direct caller was found; original producer and runtime reachability remain unproven. |
 
 The original easing and empty-hook helpers call no functions or access storage. Their arguments
 and arithmetic use the existing 32-bit primitive aliases; no speculative
@@ -160,9 +160,23 @@ the real difference store at `0x80169DB8` to frame offset eight. No subsequent
 instruction reads that slot. The shared source therefore retains the observed
 otherwise-unused local; optimization removes it from the unchanged prefix
 instructions. This is not a forced register, volatile store or fake dependency.
-The two wrappers rename only measured function and scalar addresses before
-including the shared bodies and existing header declarations. No new types,
-source-local extern declarations, compiler profiles or resident aliases are added.
+`suffix_signed_step.c` and `suffix_byte.c` now spell the two bodies out under
+their own names instead of re-including the shared sources behind `#define`
+renames. The bodies are textually identical to `signed_step.c` and
+`language_selection.c` apart from the names, and `helpers.h` declares the
+suffix storage. No new types, compiler profiles or resident aliases are added.
+
+| Address | Former name | Name |
+|---|---|---|
+| `0x80169D78` | `func_80169D78` | `PalOptions_StepStripScrollCopy` |
+| `0x80169F3C` | `func_80169F3C` | `PalOptions_GetLanguageCopy` |
+| `0x80169F88` | `D_80169F88` | `gPalOptions_wStripScrollCopy` |
+| `0x80169FAA` | `D_80169FAA` | `gPalOptions_wStripScrollTargetCopy` |
+| `0x8016A078` | `D_8016A078` | `gPalOptions_bLanguageCopy` |
+
+`Copy` marks a duplicate at its own address; it does not claim that the
+suffix is live or that its storage mirrors the active menu's values. Each
+PAL options image binds these names in its own `options_symbols.txt`.
 
 The unchanged accessor matches all 56 bytes with both existing O0 split and
 no-split profiles; production selects the split profile. The ledger retains
