@@ -6,7 +6,7 @@
  * work + 0x128) on a spiral whose radius is half the size at work + 0x1B28,
  * drawn only where the depth is positive; the size grows to 0x400. The two
  * products tested before the arms are template code with dead arms. */
-void func_8013EAB0(u8 *ctx)
+void ModelVariant448_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
