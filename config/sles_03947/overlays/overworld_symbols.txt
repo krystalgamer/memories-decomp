@@ -40,13 +40,14 @@ D_8016A274 = 0x8016A274;
 // Raw labels at the original US-address names would collide with the relocated
 // European symbols retained by the shared C source.
 D_8016A278_EuropeRaw = 0x8016A278;
-D_8016A278 = 0x8016A2A0;
+gCampaignMapAlt_aLocationTable = 0x80169E54;
+gCampaignMapAlt_pLocationMarker = 0x8016A2A0;
 D_8016A288 = 0x8016A2AC;
-D_8016A29C = 0x8016A280;
-D_8016A2B8 = 0x8016A2C0;
-D_8016A2BC = 0x8016A28C;
-D_8016A2BD = 0x8016A298;
-D_8016A2C8 = 0x8016A29A;
+gCampaignMapAlt_bTransitionFlags = 0x8016A280;
+gCampaignMapAlt_MoveState = 0x8016A2C0;
+gCampaignMapAlt_Location = 0x8016A28C;
+gCampaignMapAlt_bEnterSceneState = 0x8016A298;
+gCampaignMapAlt_LocationPrev = 0x8016A29A;
 D_8016A2C9 = 0x8016A299;
 D_8016A2C8_EuropeRaw = 0x8016A2C8;
 D_8016A2C9_EuropeRaw = 0x8016A2C9;

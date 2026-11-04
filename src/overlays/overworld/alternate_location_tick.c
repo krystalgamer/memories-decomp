@@ -8,22 +8,22 @@ void CampaignMap_UpdateAlternateLocation(void)
     if (D_800C4E68 & 4) {
         D_8016A288->f8 ^= 0x40;
     }
-    if (D_8016A29C != 0) {
+    if (gCampaignMapAlt_bTransitionFlags != 0) {
         if (func_80169230()) {
             return;
         }
-        D_8016A29C = 0;
-        func_801680E4(D_8016A2BC);
-        func_801682D0(D_8016A2BC);
-        if (D_8016A2BC >= 10) {
-            if (D_8016A278 == 0) {
-                D_8016A278 = func_80168A48(D_8016A2BC);
+        gCampaignMapAlt_bTransitionFlags = 0;
+        func_801680E4(gCampaignMapAlt_Location);
+        func_801682D0(gCampaignMapAlt_Location);
+        if (gCampaignMapAlt_Location >= 10) {
+            if (gCampaignMapAlt_pLocationMarker == 0) {
+                gCampaignMapAlt_pLocationMarker = func_80168A48(gCampaignMapAlt_Location);
             }
-            D_8016A278->f48 = D_80169E54[D_8016A2BC].a;
-            D_8016A278->f50 = D_80169E54[D_8016A2BC].b;
+            gCampaignMapAlt_pLocationMarker->f48 = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].a;
+            gCampaignMapAlt_pLocationMarker->f50 = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].b;
         } else {
-            func_80066574(D_8016A278);
-            D_8016A278 = 0;
+            func_80066574(gCampaignMapAlt_pLocationMarker);
+            gCampaignMapAlt_pLocationMarker = 0;
         }
     }
     if (D_800C4E68 & 0x100) {
@@ -33,19 +33,19 @@ void CampaignMap_UpdateAlternateLocation(void)
         func_80168624();
         return;
     }
-    if (D_8016A2BD != 0) {
-        if ((D_8016A2BD & 0x80) == 0) {
-            D_8016A2BD |= 0x80;
+    if (gCampaignMapAlt_bEnterSceneState != 0) {
+        if ((gCampaignMapAlt_bEnterSceneState & 0x80) == 0) {
+            gCampaignMapAlt_bEnterSceneState |= 0x80;
             func_80021EA4();
             D_8011464F = 2;
             func_80168040();
-            func_80066574(D_8016A278);
+            func_80066574(gCampaignMapAlt_pLocationMarker);
             func_80065BFC(4);
         }
         D_8011C410 -= 2;
         func_800158C8();
         if ((D_8011464E & 0x80) == 0) {
-            D_800C4D82 = D_8016A2BC + 32;
+            D_800C4D82 = gCampaignMapAlt_Location + 32;
             D_800C4DCC = 2;
         }
         return;
@@ -53,18 +53,18 @@ void CampaignMap_UpdateAlternateLocation(void)
     if (D_800C4E68 & 0x800) {
         D_800C4DCC = D_800C4DC9;
     }
-    D_8016A2C8 = D_8016A2BC;
+    gCampaignMapAlt_LocationPrev = gCampaignMapAlt_Location;
     r = CampaignMap_PickAlternateExit();
     if (r >= 0) {
         if (r & 0x8000) {
-            D_8016A2BD = 1;
+            gCampaignMapAlt_bEnterSceneState = 1;
         } else {
-            if ((D_8016A2BC = r) < 10) {
-                func_80066574(D_8016A278);
-                D_8016A278 = 0;
+            if ((gCampaignMapAlt_Location = r) < 10) {
+                func_80066574(gCampaignMapAlt_pLocationMarker);
+                gCampaignMapAlt_pLocationMarker = 0;
             }
             func_80168040();
-            D_8016A29C = 1;
+            gCampaignMapAlt_bTransitionFlags = 1;
             return;
         }
     }

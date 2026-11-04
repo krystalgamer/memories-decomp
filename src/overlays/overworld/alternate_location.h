@@ -10,7 +10,7 @@
    The types below are deliberately named for this family and are not shared
    with the live map helpers. The inventory rows for both functions warn
    against aliasing this family to those helpers, and the tables are distinct
-   symbols in any case: this family reads D_80169E54 and D_8016A278, the live
+   symbols in any case: this family reads gCampaignMapAlt_aLocationTable and gCampaignMapAlt_pLocationMarker, the live
    path reads gCampaignMap_aLocationTable and gCampaignMap_pSpotlight. The layouts happen
    to agree because this is a mechanical copy, which is corroboration for the
    offsets below and not a reason to merge the declarations. */
@@ -29,7 +29,7 @@ typedef struct {
     u8 pad11;
 } AlternateExit;
 
-/* An alternate location record, 66 bytes, indexed by the u8 at D_8016A2BC.
+/* An alternate location record, 66 bytes, indexed by the u8 at gCampaignMapAlt_Location.
    The 66-byte stride and the exit array at +0x12 are visible in the index
    arithmetic of CampaignMap_PickAlternateExit.
 
@@ -57,7 +57,7 @@ typedef char AlternateExit_size_must_be_12[
     sizeof(AlternateExit) == 12 ? 1 : -1
 ];
 
-/* The alternate marker/map object held in D_8016A278 and D_8016A288.
+/* The alternate marker/map object held in gCampaignMapAlt_pLocationMarker and D_8016A288.
    CampaignMap_UpdateAlternateLocation toggles bit 0x40 of `f8` and writes the
    location record's pair into `f48`/`f50`. */
 typedef struct {
@@ -71,22 +71,24 @@ typedef struct {
 /* The three symbols both sources share. The comments above already name two
  * of them while describing the layouts, so the declarations belong here too.
  *
- *   D_80169E54   The sixteen-record table defined by alternate_location.c,
- *                indexed by D_8016A2BC at the 66-byte stride above.
- *   D_8016A2BC   The current alternate location, compared against 10 by both
+ *   gCampaignMapAlt_aLocationTable
+ *                The sixteen-record table defined by alternate_location.c,
+ *                indexed by gCampaignMapAlt_Location at the 66-byte stride above.
+ *   gCampaignMapAlt_Location
+ *                The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
  *   D_800C4E68   A pad or status word; the alternate exit selector tests
  *                0x20/0xC0 in US and 0x40/0xA0 in Japan.
  *
  * The adjacent controller state is defined in alternate_state.c. */
-extern AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT];
-extern AlternateObject *D_8016A278;
+extern AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT];
+extern AlternateObject *gCampaignMapAlt_pLocationMarker;
 extern AlternateObject *D_8016A288;
-extern u8 D_8016A29C;
-extern s32 D_8016A2B8;
-extern u8 D_8016A2BC;
-extern u8 D_8016A2BD;
-extern u8 D_8016A2C8;
+extern u8 gCampaignMapAlt_bTransitionFlags;
+extern s32 gCampaignMapAlt_MoveState;
+extern u8 gCampaignMapAlt_Location;
+extern u8 gCampaignMapAlt_bEnterSceneState;
+extern u8 gCampaignMapAlt_LocationPrev;
 extern u8 D_8016A2C9;
 extern u16 D_800C4E68;
 

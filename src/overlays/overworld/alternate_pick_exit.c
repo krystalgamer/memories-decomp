@@ -16,13 +16,13 @@ s32 CampaignMap_PickAlternateExit(void)
     AlternateLocation *p;
     AlternateExit *q;
 
-    p = &D_80169E54[D_8016A2BC];
+    p = &gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location];
     q = p->exits;
-    if (D_8016A2BC >= 10) {
+    if (gCampaignMapAlt_Location >= 10) {
         if (func_8004EB9C(71) != 0) {
             if ((D_800C4E68 & ALTERNATE_EXIT_CANCEL_BUTTON) != 0) {
                 func_80065B24(48);
-                D_8016A2B8 = 24;
+                gCampaignMapAlt_MoveState = 24;
                 return 0;
             }
         }
@@ -35,12 +35,12 @@ s32 CampaignMap_PickAlternateExit(void)
         }
         if (r == 0) {
             if (p->f16 != 0) {
-                D_8016A2B8 = 24;
+                gCampaignMapAlt_MoveState = 24;
                 func_80065B24(48);
                 return p->f16;
             }
             func_80065B24(48);
-            return D_8016A2BC | 0x8000;
+            return gCampaignMapAlt_Location | 0x8000;
         }
     }
     i = 0;
@@ -50,7 +50,7 @@ s32 CampaignMap_PickAlternateExit(void)
                 goto next;
             }
             if ((D_800C4E74 & q->f6) != 0) {
-                D_8016A2B8 = q->f10;
+                gCampaignMapAlt_MoveState = q->f10;
                 func_80065B24(6);
                 return q->f9;
             }

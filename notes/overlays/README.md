@@ -661,8 +661,8 @@ lw    $v0, 0x18($fp)             # ... and reloaded on the next instruction
 addu  $a0, $v0, $zero            # redundant copies kept
 andi  $v1, $v0, 0x20             # an already-masked value masked again
 andi  $v0, $v1, 0xFFFF
-lui   $at, %hi(D_8016A2B8)       # absolute addresses through the assembler
-sw    $v0, %lo(D_8016A2B8)($at)  # temporary, 22 times
+lui   $at, %hi(gCampaignMapAlt_MoveState)       # absolute addresses through the assembler
+sw    $v0, %lo(gCampaignMapAlt_MoveState)($at)  # temporary, 22 times
 ```
 
 Confirmed by compiling a reduced version of the opening block directly: `-O0`
