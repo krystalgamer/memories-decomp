@@ -54,28 +54,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant337_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant337_entry]
   - name: helper_9A4
     type: code
     start: 0x9A4
     vram: 0x8017B9A4
     align: 4
     subsegments:
-      - [0x9A4, c, overlays/french_model_variant/variant337_ribbon_slot1]
+      - [0x9A4, c, overlays/french_model_variant/variant337_ribbon]
   - name: helper_1278
     type: code
     start: 0x1278
     vram: 0x8017C278
     align: 4
     subsegments:
-      - [0x1278, c, overlays/spanish_model_variant/variant337_rings_slot1]
+      - [0x1278, c, overlays/spanish_model_variant/variant337_rings]
   - name: streamers
     type: code
     start: 0x1738
     vram: 0x8017C738
     align: 4
     subsegments:
-      - [0x1738, c, overlays/french_model_variant/variant337_streamers_slot1]
+      - [0x1738, c, overlays/french_model_variant/variant337_streamers]
   - name: unclassified_tail
     type: code
     start: 0x1F5C

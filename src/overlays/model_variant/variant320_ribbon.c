@@ -8,7 +8,7 @@
  * offset. In phase 1 the drawn length follows the timing record's clock up to
  * 16; in phase 3 the copy's offset shrinks with it. The per-ribbon turn and the
  * coil angle of the header-321 form are still computed but unused here. */
-void func_8013B9A8(u8 *ctx)
+void ModelVariant320_DrawRibbon(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

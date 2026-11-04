@@ -1,10 +1,14 @@
 # French MODEL variant 337/487 entry, ring, ribbon and streamer helpers
 
 Six independently verified French secondary images directly reuse the accepted
-`src/overlays/spanish_model_variant/variant337_rings.c` body and existing
-`variant337_rings_slot1.c` wrapper. Two French ribbon wrappers also reuse
-the accepted North American `variant320_ribbon.c` and its existing header,
-and two streamer wrappers reuse `variant320_streamers.c` the same way.
+`src/overlays/spanish_model_variant/variant337_rings.c` body in both slots.
+The French ribbon wrapper also reuses the accepted North American
+`variant320_ribbon.c` and its existing header, and the streamer wrapper reuses
+`variant320_streamers.c` the same way; both keep only `VERSION_FRENCH`. Each
+image's symbols file binds `FrenchModelVariant337_HandleRequest`,
+`ModelVariant320_DrawRibbon`, `ModelVariant320_DrawStreamers`,
+`SpanishModelVariant337_DrawRings` and `gFrenchModelVariant337_D1F5C` at its
+own addresses.
 Each uses
 the authoritative `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 The ring helper at offset `0x1278` is 1,216 bytes and the ribbon at `0x9A4`
@@ -231,7 +235,7 @@ The default North American branch is unchanged: its preprocessed source is
 token-identical, and all six North American consumers rebuild exactly under
 their `gcc_2_7_2_cdk_g0` profile. The calibration and both terminals are in
 the attempt ledger. The six French images (110/159 stages 9/10 and 410
-stages 7/8) link exactly through the rename-only `variant337_streamers.c` and
-`variant337_streamers_slot1.c` wrappers. Configured French totals become
+stages 7/8) link exactly through the `variant337_streamers.c` wrapper in both
+slots. Configured French totals become
 4,588 matching C instances and 8,794,944 C instruction bytes. These are
 inventory totals, not exhaustive runtime coverage.

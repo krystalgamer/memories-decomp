@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant337_rings.h"
 
-void func_8013C278(u8 *context)
+void SpanishModelVariant337_DrawRings(u8 *context)
 {
     ModelVariant337State *work = (ModelVariant337State *)context;
     SVECTOR rotation;
