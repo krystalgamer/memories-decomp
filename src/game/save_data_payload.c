@@ -3,8 +3,12 @@
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
- * address order ahead of the headers that declare it (#2602). */
+ * address order ahead of the headers that declare it (#2602). The European
+ * builds keep it inside the memory card dialog's small storage block, which
+ * defines it there. */
+#ifndef SAVE_DATA_SEQUENCE_IN_MEM_CARD_DIALOG
 s32 gSaveDataSequence;
+#endif
 
 #include "save_data.h"
 #include "player_name_glyphs.h"
