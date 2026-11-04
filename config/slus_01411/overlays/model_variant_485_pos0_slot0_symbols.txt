@@ -23,4 +23,4 @@ ModelTexture_PackPageClutCopy = 0x80059A50; // type:func absolute:true
 Model_QueueCameraOrbitFromPreset = 0x8005F5C8; // type:func absolute:true
 memset = 0x8008E3D0; // type:func absolute:true
 rand = 0x8008E590; // type:func absolute:true
-func_8005B260 = 0x8005B260; // type:func absolute:true
+Graphics_SubmitDrawModePacket = 0x8005B260; // type:func absolute:true

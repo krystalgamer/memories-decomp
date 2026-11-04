@@ -41,7 +41,6 @@ ratan2 = 0x80088590;
 Square0 = 0x80088830;
 GsGetLwUnit = 0x80089090;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;
 GsGetLw = 0x80089090;
 /* variant458_strand.c's resident calls, at the current addresses (the header-552 images use model_variant552_linker_symbols.txt). */
 Strand458_RotMatrix = 0x80086920;

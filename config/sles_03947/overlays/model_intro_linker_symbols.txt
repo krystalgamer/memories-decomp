@@ -11,6 +11,4 @@ DisplayObject_AcquireSlot = 0x800401D0;
 DisplayObject_SelectOrderingTable3 = 0x80042A6C;
 Graphics_SubmitDrawModePacket = 0x8004D3B4;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;
 
-func_80039A14 = TextBox_BuildBlocking;

@@ -41,7 +41,6 @@ ratan2 = 0x800899A0;
 Square0 = 0x80089C40;
 GsGetLwUnit = 0x8008A4A0;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;
 GsGetLw = 0x8008A4A0;
 /* Header 552's strand helper (image 163 slot 1) is a leftover copy linked
  * against an earlier resident layout; these are the entry points it calls. */

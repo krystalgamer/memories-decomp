@@ -567,7 +567,7 @@ uniquely; see the [SDK evidence](../../../notes/psyq.md).
 These callers share the canonical `libgs.h` interface with `GsOT *` and an
 unsigned-halfword priority rather than maintaining local prototypes. This
 SDK entry remains assembly and is distinct from the game-owned packet helper
-`func_8005B260`. `main_menu_linker_symbols.txt` supplies its resident import;
+`Graphics_SubmitDrawModePacket`. `main_menu_linker_symbols.txt` supplies its resident import;
 it is not an additional overlay function.
 
 ## Frontend entry afterimages

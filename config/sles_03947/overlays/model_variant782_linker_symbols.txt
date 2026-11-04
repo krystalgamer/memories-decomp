@@ -25,4 +25,3 @@ gteMIMefunc = 0x80086C64;
 memset = 0x8008F344;
 rand = 0x8008F504;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

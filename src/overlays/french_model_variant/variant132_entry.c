@@ -136,7 +136,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
         GetDispEnv(&display);
         setXY4(&flat, 0, 0, display.disp.w - 1, 0,
             0, display.disp.h - 1, display.disp.w - 1, display.disp.h - 1);
-        func_8005B260((u32 *)&flat, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flat, ot, 1, 1);
     }
     setVector(&rotation, 0, 0, 0);
     for (i = 0; i < config->ring_count; i++) {
@@ -169,7 +169,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
                 depth = AverageZ4(depths[j], depths[j + 1], depths[value], depths[value + 1]);
                 flag = (flags[j] | flags[j + 1] | flags[value] | flags[value + 1]) & 0x20;
                 if (depth >= 0 && flag == 0) {
-                    func_8005B260((u32 *)&flat, ot, 1, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)&flat, ot, 1, 1);
                 }
             }
         }

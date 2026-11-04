@@ -277,7 +277,7 @@ typedef struct DisplayObject {
 
        For others it holds a second callback: display_object_runtime.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       src/game/duel_init_scene.c and func_8002ABB4.c each store a
+       src/game/duel_init_scene.c and Library_CreateFadingCardOutline.c each store a
        function's address here.
 
        Timed sprite streams instead store the frame_data byte pointer here;
@@ -354,9 +354,9 @@ typedef struct DisplayObject {
     u8 field_66;                   /* 0x66 */
     /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
        this same record, and read by text_control_commands.c. 0x68 is named just
-       below, now that func_80016784 reaches it through this record. */
+       below, now that Duel_DrawCardFrame reaches it through this record. */
     u8 field_67;                   /* 0x67 */
-    /* The card type of the duel card this object draws. func_80016784
+    /* The card type of the duel card this object draws. Duel_DrawCardFrame
        switches on it over card_constants.h's CARD_TYPE_EQUIP, CARD_TYPE_MAGIC,
        CARD_TYPE_TRAP and CARD_TYPE_RITUAL, picking the frame each spell class
        gets and falling through to the monster arm for everything else.
@@ -510,8 +510,8 @@ extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
  * Nothing else in C or in the resident listings touches either; both
  * reads are lhu, so u16. Initial value not read.
  *
- * Every retail access is gp-relative (lhu/addiu/sh in func_8004020C.s:4-8
- * and DisplayObject_AcquireSlot.s:16-20, sh $zero in func_80040390.s:10-11), so the
+ * Every retail access is gp-relative (lhu/addiu/sh in DisplayObject_Release.s:4-8
+ * and DisplayObject_AcquireSlot.s:16-20, sh $zero in DisplayObject_ResetPool.s:10-11), so the
  * plain halfword serves both the per-slot and whole-pool paths in
  * display_object_core.c. */
 extern u16 gDisplayObject_wUnlinkCount;

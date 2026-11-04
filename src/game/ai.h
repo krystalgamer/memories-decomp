@@ -15,7 +15,7 @@ typedef struct {
     s16 defense;
     u16 flags;
     s8 card_type;
-    /* AiScript_FindKiller and func_8007308C both read +0x09 and pass it
+    /* AiScript_FindKiller and AiScript_FindBestAttack both read +0x09 and pass it
      * to Duel_CalcGuardianStarMatchup; both match byte for byte. */
     s8 guardian_star;
     s8 guardian_star_2;
@@ -31,7 +31,7 @@ typedef struct {
     u8 pad10[4];
     u8 return_depth;
     u8 pad15[3];
-    /* func_80070DA8 pops `script_cursor = return_stack[--return_depth]` and
+    /* AiScript_Return pops `script_cursor = return_stack[--return_depth]` and
      * prints "ERROR:Can't Return From Routine" when the depth is already
      * zero. */
     u8 *return_stack[AI_SCRIPT_RETURN_STACK_COUNT];

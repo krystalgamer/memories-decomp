@@ -71,7 +71,7 @@ these helpers are not limited to Library flags or to story-only storage.
 
 **Local reconciliation (2026-09-08):** the `0x8002D180` row is retained as
 upstream evidence, not a recovered fusion-recipe field identity. The retail
-Exodia sequencer `func_80018FEC` stores `0x309` in `D_800EF658` at
+Exodia sequencer `DuelScene_UpdateExodiaResult` stores `0x309` in `D_800EF658` at
 `0x800193D8`, then requests main mode `1` with return mode `3`. Matching
 `Main_RunAnimatedBattle` recognizes that selector and chooses its special
 initialization/polling path; it also sets the GTE projection on every call,

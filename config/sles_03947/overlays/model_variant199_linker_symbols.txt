@@ -22,4 +22,3 @@ Graphics_SubmitDrawModePacket = 0x8004D3B4;
 memset = 0x8008F344;
 rand = 0x8008F504;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

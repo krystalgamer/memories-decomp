@@ -624,7 +624,7 @@ European targets of the bank's own `jal`s, each of which agrees with
 - `RotAverage3` `0x800877D4`;
 - `RotAverage4` `0x80087834`;
 - `GsSortPoly` `0x800840A4`;
-- `func_8005B260` `0x8004D3B4`.
+- `Graphics_SubmitDrawModePacket` `0x8004D3B4`.
 
 The bank-internal `func_80151218`, `D_8015B748` and `D_8015B7F4` keep their
 French addresses. The European bank now has **28 C functions / 4,872 bytes**
@@ -652,7 +652,7 @@ each of which agrees with `config/slpm_86398/symbols.txt`:
 - `RotAverage3` `0x80086640`;
 - `RotAverage4` `0x800866A0`;
 - `GsSortPoly` `0x80082F10`;
-- `func_8005B260` `0x8004CFF8`.
+- `Graphics_SubmitDrawModePacket` `0x8004CFF8`.
 
 The shared C names three bank-internal symbols by their French addresses.
 They are bound to the Japanese addresses decoded from the same `jal` and

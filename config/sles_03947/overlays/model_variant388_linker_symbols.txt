@@ -47,4 +47,3 @@ ratan2 = 0x80089724;
 rcos = 0x800864F4;
 rsin = 0x80086424;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

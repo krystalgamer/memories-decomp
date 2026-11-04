@@ -74,7 +74,7 @@ fingerprints and their canonical dependency contracts remain unchanged.
 ### Measured addressing boundaries
 
 The default workspace declaration is an incomplete byte array. The save
-prompt in `func_8002EE94` selects `SAVE_DATA_WORKSPACE_AS_HALFWORDS` to keep
+prompt in `Script_OpSavePrompt` selects `SAVE_DATA_WORKSPACE_AS_HALFWORDS` to keep
 its incomplete `s16` array. Its two stores use the shared header/state
 offsets but intentionally still write both bytes at `+0x7DC`. Replacing
 them with a casted scalar field store made GCC fold away the base-address

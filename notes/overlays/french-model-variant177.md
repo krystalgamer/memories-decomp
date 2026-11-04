@@ -61,7 +61,7 @@ tests signed `flag >= 0`, not `flag == 0`; the source preserves that behavior.
 The ribbon matrix chain includes MulMatrix2; the grid chain does not.
 
 A separate 320x256 POLY_F4 flash fades the third RGB triple and uses
-`func_8005B260(..., 1, 1)`. Elapsed time advances by frame step, while the
+`Graphics_SubmitDrawModePacket(..., 1, 1)`. Elapsed time advances by frame step, while the
 animation counter advances by one. Completion returns zero before the
 travel threshold, four before the final stagger threshold, two strictly
 after fade duration, and one once by incrementing the completion byte.

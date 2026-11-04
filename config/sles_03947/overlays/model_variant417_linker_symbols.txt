@@ -59,4 +59,3 @@ SetPolyGT4 = 0x80082CE4;
 SetSemiTrans = 0x80082BA4;
 SetShadeTex = 0x80082BD4;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

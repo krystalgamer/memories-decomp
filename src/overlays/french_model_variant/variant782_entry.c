@@ -165,7 +165,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
             setUV4(&quad, work->animation * 32, 96, work->animation * 32 + 31, 96,
                 work->animation * 32, 127, work->animation * 32 + 31, 127);
             if (depth >= 0) {
-                func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
+                Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 3);
             }
         }
     }
@@ -192,7 +192,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 64, 0, 87, 0, 64, 95, 87, 95);
     if (depth >= 0) {
-        func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
+        Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 3);
     }
     quad.tpage = work->texture[4] >> 16;
     quad.clut = work->texture[4];
@@ -214,7 +214,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 0, 0, 63, 0, 0, 63, 63, 63);
     if (depth >= 0) {
-        func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
+        Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 3);
     }
     position.vx -= 2 * work->config->x_offset;
     quad.tpage = work->texture[3] >> 16;
@@ -236,7 +236,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 64, 0, 87, 0, 64, 95, 87, 95);
     if (depth >= 0) {
-        func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
+        Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 3);
     }
     quad.tpage = work->texture[4] >> 16;
     quad.clut = work->texture[4];
@@ -258,7 +258,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 0, 0, 63, 0, 0, 63, 63, 63);
     if (depth >= 0) {
-        func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
+        Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 3);
     }
     work->growth_age++;
     PopMatrix();

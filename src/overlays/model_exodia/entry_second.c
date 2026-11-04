@@ -244,7 +244,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             flat->b0 = work->fade;
             setXY4(flat, 0, 0, 320, 0, 0, EXODIA_SECOND_SCREEN_HEIGHT, 320,
                    EXODIA_SECOND_SCREEN_HEIGHT);
-            func_8005B260((u32 *)flat, ot, 0, 1);
+            Graphics_SubmitDrawModePacket((u32 *)flat, ot, 0, 1);
             if (work->frame <= work->config->fade_end) {
                 work->fade = (work->frame - work->config->fade_start) * 255 /
                              (work->config->fade_end - work->config->fade_start);

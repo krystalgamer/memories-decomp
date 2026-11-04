@@ -64,7 +64,7 @@ void ModelVariant428_DrawQuad(u8 *ctx)
         poly->g3 = rec->inner[1];
         poly->b3 = rec->inner[2];
         if (v > 0) {
-            func_8005B260((u32 *)poly, ot, (u16)v, 1);
+            Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)v, 1);
         }
         if (MODEL_VARIANT_WORD(ctx, 0x15BC) == 0) {
             if (rec->size < 0x1000) {

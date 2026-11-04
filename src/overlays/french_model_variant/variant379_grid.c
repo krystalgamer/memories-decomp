@@ -69,7 +69,7 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
                                       (long *)&quad->x2, (long *)&quad->x3,
                                       &interpolation, &flag);
                 if (pulse->progress >= 1024 && depth >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)quad, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
                 }
             }
         }

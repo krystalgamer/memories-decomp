@@ -103,20 +103,20 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
             setRGB2(&gradient, red * 2 / 3, green * 2 / 3, blue * 2 / 3);
             setRGB3(&gradient, red, green, blue);
             setXY3(&gradient, 0, 0, gradient.x3 - 1, 0, 0, gradient.y3 - 1);
-            func_8005B260((u32 *)&gradient, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&gradient, ot, 1, 1);
             setXY3(&gradient, 319, 0, gradient.x3, 0, 319, gradient.y3 - 1);
-            func_8005B260((u32 *)&gradient, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&gradient, ot, 1, 1);
             setXY3(&gradient, 0, GRAPHICS_DEFAULT_HEIGHT - 1, gradient.x3 - 1, GRAPHICS_DEFAULT_HEIGHT - 1, 0, gradient.y3);
-            func_8005B260((u32 *)&gradient, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&gradient, ot, 1, 1);
             setXY3(&gradient, 319, GRAPHICS_DEFAULT_HEIGHT - 1, gradient.x3, GRAPHICS_DEFAULT_HEIGHT - 1, 319, gradient.y3);
-            func_8005B260((u32 *)&gradient, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&gradient, ot, 1, 1);
         } else {
             setRGB0(&gradient, red, green, blue);
             setRGB1(&gradient, red, green, blue);
             setRGB2(&gradient, red, green, blue);
             setRGB3(&gradient, red, green, blue);
             setXY4(&gradient, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
-            func_8005B260((u32 *)&gradient, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&gradient, ot, 1, 1);
         }
     }
     time = work->elapsed - config->main_delay;

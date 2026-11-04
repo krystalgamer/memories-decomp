@@ -71,7 +71,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * build_deck_draw_card_list_page.c reads it for lists[kind] and the three card-indexed byte
  * tables. Every global access is a %gp_rel
  * lw/sw (BuildDeck_SortCardList.s:258, BuildDeck_HasOpenDeckSlot,
- * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
+ * BuildDeck_Update.s:17/:31/:43), so the plain declaration. Initial value not
  * read.
  *
  * BuildDeck_Update still spells the two scroll-box loads as byte offsets:

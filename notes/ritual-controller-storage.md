@@ -5,7 +5,7 @@
 callee writes three tribute-object pointers and clears its result's word at
 `+0x0C`, so this output covers `[0x800E9EF8, 0x800E9F08)`. Relative to
 `gDisplayObject_apWorkSlots`, that means slots 2–4 and the terminator word at `+0x14`.
-The earlier five-slot consumer `func_80018FEC` also clears that word
+The earlier five-slot consumer `DuelScene_UpdateExodiaResult` also clears that word
 after filling the pointer slots (retail instruction at `0x8001913C`).
 
 The canonical work-slot count remains **five**, not six.

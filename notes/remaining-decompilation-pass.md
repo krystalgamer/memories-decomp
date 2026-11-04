@@ -139,7 +139,7 @@ All ten GPREL-repair histories ended the recorded campaign as deferred. The sour
 successful—the candidates compile and link—but their C structure still does
 not reproduce retail code.
 
-`func_80058938` was manually reconstructed from GMS after m2c failed on two
+`Model_QueueTintRequest` was manually reconstructed from GMS after m2c failed on two
 unaligned 32-bit copies. Pure-C `memcpy`, packed-pointer assignment, and
 packed-parameter forms all trigger a GCC `cc1` signal-11 internal compiler
 error under 2.8.1 and under the retired legacy compiler. Its six-attempt history is terminal with the

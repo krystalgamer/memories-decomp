@@ -12,7 +12,4 @@
  * gDuel_aCardRecords instead. */
 extern DuelCardRecord gDuel_aFieldCardRecords[];
 
-void Duel_UpdateCardToSelectionView(DuelCardTurnObject *object);
-void Duel_UpdateCardToFieldView(DuelCardTurnObject *object);
-
 #endif

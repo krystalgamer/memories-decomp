@@ -108,15 +108,15 @@ void Password_RefreshDigitDisplay(void)
     TextBox_Create(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
 #endif
 #ifdef VERSION_JAPAN
-    func_80039A14(
+    TextBox_BuildBlocking(
         (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0xC0));
 #elif defined(VERSION_EUROPE)
-    func_80039A14(TEXT_CHANNEL(2));
+    TextBox_BuildBlocking(TEXT_CHANNEL(2));
 #else
     boxes = gText_aChannels;
     boxes[2].glyph_advance_x = 0x10;
     boxes[2].line_advance_y = 0x10;
-    func_80039A14((struct DuelEffectChannel *)&boxes[2]);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[2]);
 #endif
 }
 #endif
@@ -134,15 +134,15 @@ void Password_RefreshStarchipDisplay(void)
 #endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
 #ifdef VERSION_JAPAN
-    func_80039A14(
+    TextBox_BuildBlocking(
         (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0x120));
 #elif defined(VERSION_EUROPE)
-    func_80039A14(TEXT_CHANNEL(3));
+    TextBox_BuildBlocking(TEXT_CHANNEL(3));
 #else
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 0x10;
     boxes[3].line_advance_y = 0x10;
-    func_80039A14((struct DuelEffectChannel *)&boxes[3]);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[3]);
 #endif
 }
 #endif
@@ -158,7 +158,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
     object->glyph_delay = 1;
     if (flags & 0xF) {
-        func_80039A14((struct DuelEffectChannel *)object);
+        TextBox_BuildBlocking((struct DuelEffectChannel *)object);
     }
     if (flags & 0x80) {
         object->flags_34 |= PASSWORD_MESSAGE_BOX_WAIT_FLAG;

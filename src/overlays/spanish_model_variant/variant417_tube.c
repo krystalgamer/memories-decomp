@@ -75,7 +75,7 @@ void SpanishModelVariant417_DrawTube(u8 *context)
                 setRGB2(quad, tube->colors[k].r, tube->colors[k].g, tube->colors[k].b);
                 setRGB3(quad, tube->colors[k+1].r, tube->colors[k+1].g, tube->colors[k+1].b);
                 if (depth >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)quad, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
                 }
             }
         }

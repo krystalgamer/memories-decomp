@@ -5,7 +5,7 @@
 
 /* Entry 1 of the frontend step table gDebugMenu_apfnAlternatePageSteps (debug_menu_update.c).
  * On entry it latches bit 0x80 of gDebugMenu_bStep and clears gSaveData_PairSetupState and
- * gSaveData_LoadPairState. It then polls func_8003FD14 until that returns non-zero, and a
+ * gSaveData_LoadPairState. It then polls SaveData_UpdateDuelLoad until that returns non-zero, and a
  * result of 1 loads the main-menu package and selects mode 0x10 before the
  * step byte is cleared. */
 void DebugMenu_UpdateTwoPlayerDuelEntry(void);

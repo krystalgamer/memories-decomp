@@ -136,7 +136,7 @@ void DuelEffect_DrawTexturedRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
@@ -153,7 +153,7 @@ void DuelEffect_DrawTexturedRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
     }
@@ -187,7 +187,7 @@ void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
@@ -203,7 +203,7 @@ void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
     }

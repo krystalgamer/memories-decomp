@@ -67,7 +67,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
             poly->g3 = rec->outer[1];
             poly->b3 = rec->outer[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)poly, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
             otz = RotTransPers4(&rec->point[j + 6], &rec->point[0],
                                 &rec->point[j + 7], &rec->point[j + 8],
@@ -86,7 +86,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
             poly->g3 = rec->outer[1];
             poly->b3 = rec->outer[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)poly, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
         if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {

@@ -74,7 +74,7 @@ was correct mechanics, `tradeLoop` is what it's *for*).
 *Trust:* reliable about WHAT the code does, silent about WHY.
 
 ### Tier 4 — placeholders
-*Style:* `func_80012B50`, `D_8009B338`.
+*Style:* `Main_Init`, `D_8009B338`.
 *Evidence:* none; the address is the name. Any `func_`/`D_` symbol is an open
 invitation — check `reference/idb_raymond_2018/idb_crossref.txt` first before
 inventing a Tier 3 name for one.

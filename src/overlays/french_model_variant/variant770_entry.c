@@ -158,7 +158,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
                     (long *)&gouraud_packet->x0, (long *)&gouraud_packet->x1,
                     (long *)&gouraud_packet->x2, (long *)&gouraud_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)gouraud_packet, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)gouraud_packet, ot, (u16)depth, 1);
                 }
                 position.vy += work->config->trail_layer_step;
             }
@@ -208,7 +208,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
                     (8 - work->sprite_frames[i]) * 32, 31,
                     (8 - work->sprite_frames[i]) * 32 + 31, 31);
                 if (depth >= 0) {
-                    func_8005B260((u32 *)textured_packet, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)textured_packet, ot, (u16)depth, 1);
                 }
                 work->sprite_frames[i]--;
             }
@@ -261,7 +261,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
                     (long *)&textured_packet->x0, (long *)&textured_packet->x1,
                     (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 if (depth >= 0) {
-                    func_8005B260((u32 *)textured_packet, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)textured_packet, ot, (u16)depth, 1);
                 }
             }
             setUV4(textured_packet, 64, 0, 127, 0, 64, 63, 127, 63);
@@ -278,7 +278,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
                     (long *)&textured_packet->x0, (long *)&textured_packet->x1,
                     (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 if (depth >= 0) {
-                    func_8005B260((u32 *)textured_packet, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)textured_packet, ot, (u16)depth, 1);
                 }
             }
             if (work->scale < 0x4000) work->scale += 4096;

@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Three-way comparator over two signed halfwords, returning 0, 1 or -1. Its
- * only consumer is the retained `func_80024734` candidate, which hands it to
+ * only consumer is the retained `Duel_RequestCombinedDeckData` candidate, which hands it to
  * qsort to order the combined deck's card ids.
  *
  * The prototype is spelled exactly as the definition writes it, const and

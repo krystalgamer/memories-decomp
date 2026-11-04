@@ -80,7 +80,7 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
                 quad->g3 = mesh->colors[k + 1].g;
                 quad->b3 = mesh->colors[k + 1].b;
                 if (depth >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)quad, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
                 }
             }
         }

@@ -19,7 +19,6 @@ SetPolyGT4 = 0x80082980;
 ccos = 0x80086920;
 csin = 0x80086BB0;
 func_80058F10 = 0x80058F10;
-func_8005B260 = 0x8005B260;
 ratan2 = 0x800899A0;
 Graphics_SubmitDrawModePacket = 0x8005B260;
 SetSemiTrans = 0x80082840;

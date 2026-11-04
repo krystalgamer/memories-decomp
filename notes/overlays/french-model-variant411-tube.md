@@ -25,7 +25,7 @@ Measured shape:
   plus 3072.
 - **Drawing:** the quads are projected with an identity rotation at the
   origin. In phase 6 and later the colours are scaled by `width / 1024`;
-  each quad is submitted through `func_8005B260` when its depth is not
+  each quad is submitted through `Graphics_SubmitDrawModePacket` when its depth is not
   negative.
 - **Progress:** before phase 2, progress follows the expansion window up to
   1024 and then moves to phase 2. After the fade start, width falls from 1024
@@ -44,8 +44,7 @@ Matching notes:
 
 The helper is registered in the French MODEL364 and MODEL452 stage 9 slot 0
 and stage 10 slot 1 images and in their byte-identical Spanish twins.
-`GsGetActiveBuff` and the `func_8005B260` alias of
-`Graphics_SubmitDrawModePacket` were added to the French and Spanish
+`GsGetActiveBuff` and `Graphics_SubmitDrawModePacket` were added to the French and Spanish
 MODEL411 binding files. All eight images rebuild exactly. The
 [attempt ledger](french-model-variant411-tube-attempts.csv) records the
 probes.

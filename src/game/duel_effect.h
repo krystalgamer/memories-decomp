@@ -127,9 +127,9 @@ extern u8 gText_BranchSelectorB;
  * or in c_symbols.ld).
  *
  * u8 because the one function that loads it, Text_ExpandSelectedCardInfo, already declared
- * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
+ * it u8 and matched, and the load is lbu (Text_ExpandSelectedCardInfo.s:20, gp-relative).
  * Retail stores it through $at in DuelField_CreateCardInfoTextBox (DuelField_CreateCardInfoTextBox.s:162-163)
- * and Library_RefreshSelectedCardText (func_8002A2F4.s:39-40, :48-49), both
+ * and Library_RefreshSelectedCardText (Library_RefreshSelectedCardText.s:39-40, :48-49), both
  * gcc_2_8_1_g8_split, so duel_field_display_objects.c and library_card_grid.c
  * define the .data arm; Text_ExpandSelectedCardInfo's candidate takes the plain byte.
  * Initial value not read. */
@@ -157,14 +157,14 @@ extern u8 gText_SelectedCardColorIndex;
  * DuelEffect_ApplyRitual assembly:379-380.
  *
  * s16 because Text_ExpandSelectedCardInfo, the only function that loads it, declared it s16
- * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
+ * when it matched; the five loads are lh (Text_ExpandSelectedCardInfo.s:27/:34/:56/:68/
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
  * gText_CurrentStreamCode at +2.
  *
  * Those five loads are %gp_rel and every C writer's sh goes through $at
  * (CardList_CreateSlotTextBox at 0x80031CD4, DuelField_CreateCardInfoTextBox.s:36-37,
  * DuelEffect_UpdateCardViewerState.s:102-103,
- * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the five
+ * Library_RefreshSelectedCardText.s:13-14 and :26-27, func_80060E70.s:61-62), so the five
  * units whose profiles are -G8 at both the compiler and maspsx --
  * duel_field_display_objects.c (DuelField_CreateCardInfoTextBox), card_list_deck_box.c,
  * library_card_grid.c, library_runtime.c (Library_UpdateCardView) and the

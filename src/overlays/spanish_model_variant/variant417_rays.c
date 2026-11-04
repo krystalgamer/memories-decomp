@@ -98,7 +98,7 @@ void SpanishModelVariant417_DrawRays(u8 *context)
             setRGB1(triangle, 255, 0, 255);
             setRGB2(triangle, 128, 128, 128);
             if (ray->depth[j] > 0) {
-                func_8005B260((u32 *)triangle, ot, (u16)ray->depth[j], 1);
+                Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)ray->depth[j], 1);
             }
         }
     }

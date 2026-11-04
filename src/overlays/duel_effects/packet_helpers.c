@@ -15,7 +15,7 @@ void DuelEffect_SubmitOffsetQuad(void *primitive, u16 flags)
     packet->y1 += gDuelEffect_DrawOffset.vy;
     packet->y2 += gDuelEffect_DrawOffset.vy;
     packet->y3 += gDuelEffect_DrawOffset.vy;
-    func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(gDuelEffect_wBasePriority + 1), flags);
+    Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(gDuelEffect_wBasePriority + 1), flags);
 }
 
 void DuelEffect_SubmitOffsetFt4(POLY_FT4 *packet, u16 mode)
@@ -29,7 +29,7 @@ void DuelEffect_SubmitOffsetFt4(POLY_FT4 *packet, u16 mode)
     packet->y2 += gDuelEffect_DrawOffset.vy;
     packet->y3 += gDuelEffect_DrawOffset.vy;
     if (mode == 1) {
-        func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
+        Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
     } else {
         setSemiTrans(packet, 0);
         GsSortPoly(packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority);
@@ -47,7 +47,7 @@ void DuelEffect_SubmitOffsetGt4(POLY_GT4 *packet, u16 mode)
     packet->y2 += gDuelEffect_DrawOffset.vy;
     packet->y3 += gDuelEffect_DrawOffset.vy;
     if (mode == 1) {
-        func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
+        Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
     } else {
         setSemiTrans(packet, 0);
         GsSortPoly(packet, gDuelEffect_pOrderingTable, (u16)(gDuelEffect_wBasePriority + 1));

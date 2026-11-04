@@ -516,7 +516,7 @@ The matched definition in `src/game/display_object_helpers.c` confirms
 it. It takes the header's default `SpritePrim *` view. Cases `1`-`3` cast the
 argument to `GsSPRITE *`. Cases `4` and `5` test `(u32)sprite & 0x04000000`
 before projecting the prepared quad, and test bit 30 before routing it through
-`func_8005B260`. Case `0` returns, and every case from `6` up builds a
+`Graphics_SubmitDrawModePacket`. Case `0` returns, and every case from `6` up builds a
 `POLY_FT4` from the sprite's fields.
 
 ## Two-phase glyph-entry transitions

@@ -24,7 +24,7 @@
  * gDialog_bChoice used to be listed here as deliberately left out: declared
  * eleven times in four ways, with the array spelling unexplained. It is no
  * longer left out -- all three spellings are arms below, the last of them
- * added for func_80024200, which was the one source still declaring it
+ * added for DuelScene_Update, which was the one source still declaring it
  * privately.
  */
 extern u8 gDialog_bChoiceEnabled;
@@ -55,7 +55,7 @@ extern s8 gDialog_bChoiceCount;
  * section attribute above rather than a claim about the object. Nine bytes
  * clears the -G8 threshold, so the reference is not small data and the
  * assembler expands it; the unit that needs it reads only [0], which is the
- * same byte the scalar arms name. func_80024200 is its one consumer and
+ * same byte the scalar arms name. DuelScene_Update is its one consumer and
  * selects GDIALOG_CHOICE_SIZED; the two arms below are untouched for the
  * five sources that use them. */
 #ifdef GDIALOG_CHOICE_SIZED

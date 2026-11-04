@@ -55,7 +55,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
             triangle->g2 = fan->middle_color[1];
             triangle->b2 = fan->middle_color[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)triangle, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)otz, 1);
             }
             otz = RotTransPers4(&fan->inner[j + 1], &fan->inner[j + 2],
                                &fan->outer[j], &fan->outer[j + 1],
@@ -74,7 +74,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
             quad->g3 = fan->outer_color[1];
             quad->b3 = fan->outer_color[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)quad, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)otz, 1);
             }
         }
         if (MODEL_VARIANT_WORD(work, 0x1B3C) == 0) {

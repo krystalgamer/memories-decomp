@@ -1,6 +1,6 @@
 # Duel-result controller caller views
 
-`func_800218F0` keeps its address name and the existing reward/display helper
+`DuelScene_UpdateResultRewards` keeps the existing reward/display helper
 interfaces. Its source ordering is measured, particularly the adjacent colour
 slot stores after the viewport and display-flag stores. Rank division remains
 signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.

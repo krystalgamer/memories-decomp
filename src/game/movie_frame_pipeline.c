@@ -132,7 +132,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
 
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then the three stages that decode and
-   present one frame. The four are contiguous and follow func_8005B85C. */
+   present one frame. The four are contiguous and follow File_RequestMainMenuPackage. */
 
 s32 Movie_StopStream(s32 arg0) {
     RECT rect;

@@ -77,7 +77,7 @@ void SpanishModelVariant423_DrawMesh(u8 *context)
                                  (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
-                func_8005B260((u32 *)polygon, ot, (u16)depth, 1);
+                Graphics_SubmitDrawModePacket((u32 *)polygon, ot, (u16)depth, 1);
             }
         }
     }

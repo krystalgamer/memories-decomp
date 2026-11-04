@@ -588,7 +588,7 @@ Together these take `Main_Init` from a body that diverges at `+0x50` to 97 of
 two-instruction address materialisation scheduled at the other end of the block,
 which is the ordinary schedule-tie-break residual.
 
-This block is the same one `func_80012DB4` needs `volatile` on, so the
+This block is the same one `Graphics_SyncFrame` needs `volatile` on, so the
 declaration is a property of these globals rather than a per-function trick.
 
 The diagnostic is worth stating on its own: **a run of stores to distinct
@@ -889,7 +889,7 @@ have been matched.
 grep -B2 '%gp_rel' tmp/splat/asm/generated/*.s
 ```
 
-The smallest are `Duel_SelectTrapByCardId` (0xA0) and `func_80012DB4` (0xA8); as with the
+The smallest are `Duel_SelectTrapByCardId` (0xA0) and `Graphics_SyncFrame` (0xA8); as with the
 jump tables, the weight is in the large ones — `func_80019D18` alone is 5,044
 bytes.
 
@@ -946,7 +946,7 @@ function's unit owns one of the globals it touches.
 > mechanism, but the conclusion drawn from them was wrong, and the functions
 > listed as blocked by it are not blocked. See
 > *Correction: the reorder-mode slot is a source-shape problem* at the end of
-> this section for what actually reaches it, and `func_80012DB4` for a function
+> this section for what actually reaches it, and `Graphics_SyncFrame` for a function
 > that was attributed to this and then matched without any tooling change.
 
 A third build-tooling blocker, alongside the jump tables and the load-delay nop,
@@ -1166,7 +1166,7 @@ bare-symbol load or store of a small undefined extern as gp-relative for the
 purposes of hazard detection.
 
 A second worked example reaches the same defect from the other side.
-`func_80012DB4` (`0x80012DB4`) has
+`Graphics_SyncFrame` (`0x80012DB4`) has
 
 ```
 lw $v0, %gp_rel(D_8009B0C8)($gp)
@@ -1186,7 +1186,7 @@ from, and in whether the source operand is gp-relative, while failing at exactly
 the same point, is worth more than either on its own: the trigger is the store
 alone.
 
-`func_80012DB4` is also worth reading for its `volatile` requirement, which is
+`Graphics_SyncFrame` is also worth reading for its `volatile` requirement, which is
 unrelated but was what its terminal history actually missed. Four of its six
 rows fail at `+0x2c` with `fbff4014 != 03004010` — `bnez` back to the loop head
 against `beqz` forward. It is a spin loop, and it only compiles that way when
@@ -1211,7 +1211,7 @@ slot, **GCC filled it**, bracketing the pair in `.set noreorder` itself. So the
 question is never "why did the assembler not fill this", it is "why did GCC
 hand the assembler a reorder-mode branch here when retail's GCC did not".
 
-`func_80012DB4` is the worked example, and it was filed as a MASPSX defect
+`Graphics_SyncFrame` is the worked example, and it was filed as a MASPSX defect
 before being matched with no tooling change at all. Two source facts moved it:
 
 - **Writing the `gGraphics_bFrameStep` selection as a ternary** rather than an
@@ -1298,7 +1298,7 @@ the safe direction.
 the fourteen and is complete. Under `gcc_2_8_1_g8_split` it builds **66
 instructions against 67**; every instruction before the gap is byte-exact, and
 everything after it is that one omission shifted by one slot. The gap is the
-familiar one, both operands gp-relative as in `func_80012DB4`:
+familiar one, both operands gp-relative as in `Graphics_SyncFrame`:
 
 ```
 lhu $v0, %gp_rel(D_8009B27C)($gp)
@@ -1515,14 +1515,14 @@ so.**
 
 | candidate | surface signature | result of defining the globals with `--use-comm-section` |
 | --- | --- | --- |
-| `func_8002EE94` | four plain small externs, residual around a `%gp_rel` store | inert: 13 differing, 349 of 359 aligned, imbalance unchanged |
+| `Script_OpSavePrompt` | four plain small externs, residual around a `%gp_rel` store | inert: 13 differing, 349 of 359 aligned, imbalance unchanged |
 | `MemCard_ProcessRequest` | nine plain small externs, `%gp_rel` store / `j` / `nop` tails | inert: 283 differing, nine instructions short, on both profiles |
 
 Both have the signature and neither moves at all. The lever fixes *addressing* -
 whether the assembler can prove a store is one gp-relative instruction - so the
 test is whether the candidate's gp-relative accesses actually differ from the
 target's. If they already agree, the declaration is not the problem, whatever
-sits next to them. `func_8002EE94`'s obstacle is store forwarding and
+sits next to them. `Script_OpSavePrompt`'s obstacle is store forwarding and
 `MemCard_ProcessRequest` was nine instructions short of a structural match in this
 experiment; neither obstacle was an
 addressing fault.
@@ -1634,7 +1634,7 @@ the register. Declaring it in the translation unit as
 extern u8 * volatile D_8009B458;
 ```
 
-reproduces all three reads, and is the same modelling `func_80049138` already
+reproduces all three reads, and is the same modelling `SD_RequestMusicPackageLoad` already
 used for `g_SDValue` under the since-removed `SDVALUE_CUSTOM_EXTERN`. The two globals are the same
 kind of thing and should be declared the same way.
 
@@ -2015,7 +2015,7 @@ the natural instinct is to reach for `volatile`, or to shorten the lifetime
 of the loaded value. Neither works, and it is worth recording the measurements
 so the same three attempts are not repeated.
 
-`func_80012DB4` sits one instruction short for exactly this reason. It reads
+`Graphics_SyncFrame` sits one instruction short for exactly this reason. It reads
 `D_8009AFA4` and later writes it, and retail forms the address twice:
 
 ```
@@ -2055,7 +2055,7 @@ about the original declarations rather than noise. A global reached
 absolutely was not a small-data object, and modelling it as a plain scalar
 costs an instruction at every access.
 
-`func_80012DB4` reaches twelve globals gp-relatively and three absolutely:
+`Graphics_SyncFrame` reaches twelve globals gp-relatively and three absolutely:
 
 ```
 lbu  $v1, %gp_rel(gGraphics_bSyncVBlankTarget)($gp)     # one instruction
@@ -2102,7 +2102,7 @@ assemble, disassemble, diff against the generated assembly - is much faster
 than a full `make match`. It is also easy to build one that is quietly wrong,
 because it fails by flattering the result rather than by erroring.
 
-Three faults found in one such harness while working `func_80012DB4`, all of
+Three faults found in one such harness while working `Graphics_SyncFrame`, all of
 which made the candidate look closer than it was:
 
 **The assembler needs `-G`.** `build_baseline.py` passes `-G{data_limit}`
@@ -2457,7 +2457,7 @@ object model through two related parent/child constructors.
 | `func_80019BD0` | Animation object field widths and callback layout |
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |
-| `func_8002ABB4` | `0x70`-byte object clone/initialization wrapper |
+| `Library_CreateFadingCardOutline` | `0x70`-byte object clone/initialization wrapper |
 | `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
 | `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
@@ -2470,7 +2470,7 @@ object model through two related parent/child constructors.
 | `func_80044DC0` | Signed 16-bit argument, four-byte stack packet, and byte-order selection |
 | `func_80049010` | Shared sequence-state cleanup |
 | `SD_VabTransBodyChunk` | Transfer ID validation, clamped read length, and accumulated byte count |
-| `func_80049CF8` | `0x28`-byte object loop and split table-base relocation |
+| `SD_MuteSecondaryVoices` | `0x28`-byte object loop and split table-base relocation |
 | `SD_StartSequenceTracks` | `0x2C`-byte record initialization and variable-length decoding |
 | `ModelTexture_PackPageClut` | Mixed signed comparisons and unsigned halfword bit extraction |
 | `func_80059000` | `0xE20` record stride and unaligned eight-byte copy |
@@ -2487,7 +2487,7 @@ histories are starting measurements rather than an exploration limit; continue
 with materially distinct hypotheses and preserve later candidates under
 `tmp/` until an exact result can be recorded.
 
-- At this snapshot, `func_8003D334` had exact size and relocations but still
+- At this snapshot, `Checkerboard_DrawBackground` had exact size and relocations but still
   differed in scratchpad-packet initialization and register scheduling. A
   later collaborator-derived C body reproduced all `0x138` bytes and
   relocations under `gcc_2_8_1_g8`.
@@ -2495,7 +2495,7 @@ with materially distinct hypotheses and preserve later candidates under
   in allocation plus one reload around signed division by `0x400`. A later
   post-terminal pass preserved the signed division expressions and store
   ordering, matching all `0x154` bytes under `gcc_2_8_1_g8_split`.
-- At this snapshot, `func_8003AAE4` matched its initialization/call prefix but
+- At this snapshot, `DisplayEffect_FadeInRecord` matched its initialization/call prefix but
   still differed in phase-register and color-replication ordering. The same
   collaborator body later matched all `0x164` bytes and relocations under
   `gcc_2_8_1_g0`.
@@ -2677,7 +2677,7 @@ placeholder is counted as though it were a mnemonic. The two totals then
 agree even when the candidate is genuinely shorter, because the padding makes
 up the difference exactly.
 
-Measured on `func_8001944C`: the histogram reported 70 against 70, while the
+Measured on `DuelCard_CaptureRoundedTexture`: the histogram reported 70 against 70, while the
 diff header reported `target=70 candidate=68`. The candidate was two
 instructions short and the metric said the lengths matched. Re-checking
 `SD_SEStop` after the fix moved it from "one `addu` allocated
@@ -2793,7 +2793,7 @@ local or an inline literal. Written inline, it is materialised at the point
 of use. Bound to a local, it is materialised at the top of the function and
 kept in a register until used.
 
-Measured on `func_8005B4D8` (0x8005B4D8, 73 instructions). The target builds
+Measured on `Graphics_SubmitMaskWritePacket` (0x8005B4D8, 73 instructions). The target builds
 `0xE1000200` and `0xE6000001` in its first five instructions, while their
 uses are eleven and twenty instructions later. Writing them inline placed
 both `lui`/`ori` pairs at the point of use; binding them to locals moved both
@@ -2819,7 +2819,7 @@ under the no-scheduling variant, line the two up, and read off the order of
 the loads, the constant materialisations and the stores. Then apply what that
 tells you and go back to ranking profiles normally.
 
-Both findings above came from that pass on `func_8005B4D8`: the constant
+Both findings above came from that pass on `Graphics_SubmitMaskWritePacket`: the constant
 hoisting was invisible under the scheduling profiles, which spread the
 `lui`/`ori` pairs through the body, and only became legible once scheduling
 was switched off on both sides.
@@ -3450,7 +3450,7 @@ the barrier was holding it:
 | `Campaign_LoadScenePackageStage` | two instructions deleted |
 | `func_8003A01C` | two instructions deleted (same global, same descriptor) |
 | `func_800580D4` | three instructions deleted (parameter only) |
-| `func_80016784` | three loads floated across scratchpad stores |
+| `Duel_DrawCardFrame` | three loads floated across scratchpad stores |
 | `func_8002A9C0` | two of fourteen reads floated; twelve free |
 
 So before converting offset casts to members, look for the two shapes that
@@ -3463,7 +3463,7 @@ must be measured.
 
 - **The barrier can also be a scratchpad record the same function is
   filling, and then one field converts and the rest do not.**
-  `func_80016784` builds two sprites in scratchpad through pointers of their
+  `Duel_DrawCardFrame` builds two sprites in scratchpad through pointers of their
   own while reading its display object's fields between the stores. Typing
   the object floated all three reads of the colour word at `0x0C` across
   those stores; retail keeps every one of them where the source puts it. The
@@ -3472,7 +3472,7 @@ must be measured.
   read in the middle of a run of stores through a differently typed pointer.
 
   Try the member-anchored cast on such a read first, but do not count on it.
-  `*(s32 *)&object->field_0C` restored the barrier in `func_80016784` and
+  `*(s32 *)&object->field_0C` restored the barrier in `Duel_DrawCardFrame` and
   still named the field. It did **not** in `func_8002A9C0`, which fills four
   scratchpad `SVECTOR`s the same way: there `*(u16 *)&o->field_30.h.field_32`
   behaves exactly like the plain member read, because taking a member's
@@ -4486,7 +4486,7 @@ prior external attempt.
 
 ## A redundant-looking store at the end of a function can force a copy earlier
 
-On `func_8001944C` the last statement before the closing call is
+On `DuelCard_CaptureRoundedTexture` the last statement before the closing call is
 `*(u16 *)buf = 0`, where `buf` holds the same address the function has been
 using since its first call. It looks like it could be spelled through the
 array name instead, and it computes the same thing either way. It cannot.
@@ -4603,7 +4603,7 @@ the scheduler did, not as a profile to ship.
 
 ## Two `%hi` materialisations: sched1 picks the order, local-alloc picks the registers
 
-`func_8001944C` sat at 15 differing positions for six canonical attempts, and
+`DuelCard_CaptureRoundedTexture` sat at 15 differing positions for six canonical attempts, and
 the recorded reason - "the two address materialisations after the loop are
 emitted in the opposite order" - was only half of it. With relocations
 resolved rather than masked the residual was six positions, and they split
@@ -4672,7 +4672,7 @@ different dress: a control that cannot distinguish "this pass did not do it"
 from "the other pass would have done it anyway". **When two passes can both
 produce an effect, disabling one proves nothing; disable them together first
 to establish that the effect is scheduling at all, then re-enable one at a
-time.** The `func_8001944C` result in this file is the shape to copy - there
+time.** The `DuelCard_CaptureRoundedTexture` result in this file is the shape to copy - there
 `-fno-schedule-insns` moved the emission order and left the hard registers
 alone, which separated two questions precisely because the passes disagreed.
 
@@ -4761,7 +4761,7 @@ Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
 --allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to a build-integrated candidate, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
-`func_80039A14` and `TextBox_Create` were checked against the current inventory
+`TextBox_BuildBlocking` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
 by the candidate-store check; its prior forms remain preserved in the cycle
 scratch directories.
@@ -4942,7 +4942,7 @@ C. And do not spend a rotation on a target whose `%hi` is held in a callee-saved
 register and reused as a base: that is the separate, still-unmatchable class
 recorded under "Screen for split addressing before starting".
 
-## 2026-09-07: `func_80039794` — load macros select the useful invariant
+## 2026-09-07: `TextBox_UpdateChannels` — load macros select the useful invariant
 
 The existing stored candidate reproduced 103/104 instructions and opcode
 distance 1 with the pinned CI compiler and
@@ -5673,7 +5673,7 @@ orderings", and it is why both entries are now bounded rather than open.
 
 ## Pin the neighbour, not the variable whose register you can see
 
-`func_8002EE94` was stuck two words from a match with retail carrying
+`Script_OpSavePrompt` was stuck two words from a match with retail carrying
 `lui $v0,%hi` in a branch delay slot and completing `addiu $s0,$v0,%lo` sixty
 instructions later, where the candidate used `$s0` for both. The candidate
 pinned `box` to `$16` because that is the register retail plainly holds it in,
@@ -5729,9 +5729,9 @@ the cause is allocation.
 
 On `Duel_InitScene` retail's tail is
 
-    lui   $v0, %hi(func_800164FC)
+    lui   $v0, %hi(Duel_DrawFieldCards)
     lw    $v1, %gp_rel(gDuel_pLifePointsPanel)
-    addiu $v0, $v0, %lo(func_800164FC)
+    addiu $v0, $v0, %lo(Duel_DrawFieldCards)
     sw    $v1, 0x50($s2)
 
 and the candidate had the `lw` first with the next symbol's `%hi` in the delay
@@ -6082,7 +6082,7 @@ were affected here:
 | entry | before | after | direction |
 | --- | --- | --- | --- |
 | `func_80046294` | 8 | 7 | a false difference |
-| `func_80015EF4` | 339 | 340 | a concealed real difference |
+| `Duel_RenderFieldCard3D` | 339 | 340 | a concealed real difference |
 | `MemCard_ProcessRequest` | 285 | 288 | three concealed real differences |
 | `func_80029934` | 230 | 231 | the note was right, the tool was wrong |
 
@@ -6117,7 +6117,7 @@ directions:
 | entry | encoding | mnemonic |
 | --- | --- | --- |
 | `func_80012E5C` | 0 | 2 |
-| `func_80029EC4` | 5 | 7 |
+| `Library_DrawCardGrid` | 5 | 7 |
 | `Model_AdvanceSlotLoad` | 24 | 22 |
 
 **In all three the durable note was right and the tool was wrong.** That is the
@@ -6262,7 +6262,7 @@ finds something is usually measuring noise:
 | `func_80046294` | 8 | 7 to **5** (a non-monotone pair) |
 | `func_800283F4` | 1 | no subset beats 2 |
 | `BuildDeck_DrawCardListPage` | 4 | no subset beats 10 across all 16 |
-| `func_80018FEC` | 1 | no subset beats 114 |
+| `DuelScene_UpdateExodiaResult` | 1 | no subset beats 114 |
 | `func_80012E5C` | 1 | no subset beats 5 |
 
 So pin configuration is exhausted as a lever on every close candidate, and what
@@ -6320,10 +6320,10 @@ A scan of every candidate makes the diagnostic concrete:
 | delta | entries |
 | --- | --- |
 | `+1` (retail has one more) | `func_80023D08`, `Model_AdvanceSlotLoad` |
-| `-1` (the build has one more) | `func_800279BC`, `func_80029EC4`, `Model_UpdateTintRequests` |
-| `0` | the six closest candidates, including `func_80018FEC` |
+| `-1` (the build has one more) | `func_800279BC`, `Library_DrawCardGrid`, `Model_UpdateTintRequests` |
+| `0` | the six closest candidates, including `DuelScene_UpdateExodiaResult` |
 
-`func_80018FEC` is the instructive row. It reads `0` and is *not* a
+`DuelScene_UpdateExodiaResult` is the instructive row. It reads `0` and is *not* a
 counter-example: it has **two** opposite decisions, one each way, which cancel in
 the count. So a zero delta means "no net delay-slot difference", not "no
 delay-slot problem" - the count is a cheap pointer, not a proof.
@@ -7326,7 +7326,7 @@ predicts the answer.
                  decrementing past zero gives -1 under s16 and 65535 under
                  u16. The u16 declarer only assigns. Resolves to s16.
 
-    D_8009B35A   func_80039794.c s16, text_box_build_step.c u16
+    D_8009B35A   TextBox_UpdateChannels.c s16, text_box_build_step.c u16
                  The s16 declarer reads it as an index; the u16 declarer only
                  assigns to it. Resolves to s16.
 

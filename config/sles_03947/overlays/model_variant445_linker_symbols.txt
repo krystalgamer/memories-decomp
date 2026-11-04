@@ -46,4 +46,3 @@ SetShadeTex = 0x80082BD4;
 Square0 = 0x800899C4;
 SquareRoot0 = 0x80086BD4;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

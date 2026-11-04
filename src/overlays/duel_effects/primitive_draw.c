@@ -74,7 +74,7 @@ void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions
         depth = RotAverage3(&positions[i], &left, &right,
             (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
             (long *)&p, (long *)&flag) - bias;
-        func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+        Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
     }
 }
 
@@ -97,7 +97,7 @@ void DuelEffect_DrawProjectedFlatQuad(u8 *color, SVECTOR *vertices, u16 flags, u
             setSemiTrans(packet, 0);
             GsSortPoly(packet, gDuelEffect_pOrderingTable, depth >> 2);
         } else {
-            func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), flags);
+            Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), flags);
         }
     }
 }

@@ -131,7 +131,7 @@ void FrenchModelVariant458_DrawStrands(u8 *ctx)
             poly->g0 = strand->color.g;
             poly->b0 = strand->color.b;
             if (strand->depth[k] >= 0 && flags[i][k] >= 0) {
-                func_8005B260((u32 *)poly, ot, (u16)strand->depth[k], 1);
+                Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)strand->depth[k], 1);
             }
         }
         if (work->state == 3 && strand->count < 8) {

@@ -170,11 +170,11 @@ extern s32 gMemCard_pRequestBuf;
 
 /* The retry budget of the current stage. Stored by MemCard_BeginRequest
  * (mem_card_driver.c, `gMemCard_bRetries = 10;`;
- * func_800440B4.s:8 `sb`) and by MemCard_DoLoadDirectory, which loads it
+ * MemCard_BeginRequest.s:8 `sb`) and by MemCard_DoLoadDirectory, which loads it
  * under u8 and matched: `v0 = gMemCard_bRetries - 1;
  * gMemCard_bRetries = (u8)v0;` in mem_card_driver.c,
  * and `gMemCard_bRetries = 0xA;`
- * (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
+ * (MemCard_DoLoadDirectory.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
  * writer spelled it char, where a store shows no sign; the gMemCard_bChannel
  * comment above records the same split. MemCard_ProcessRequest reads the byte,
  * decrements it with byte wrapping, and tests the signed result.
@@ -185,11 +185,11 @@ extern u8 gMemCard_bRetries;
 
 /* MemCard_DoLoadDirectory's sub-state: 0 _card_info, 1 _card_clear,
  * 2 _card_load. Stored by MemCard_BeginRequest (mem_card_driver.c,
- * `gMemCard_bLoadStep = 0;`; func_800440B4.s:13 `sb $zero`) and by
+ * `gMemCard_bLoadStep = 0;`; MemCard_BeginRequest.s:13 `sb $zero`) and by
  * MemCard_DoLoadDirectory, which loads it under u8 and matched:
  * `v1 = gMemCard_bLoadStep;`,
  * `gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);` and
- * `gMemCard_bLoadStep = 2;` in mem_card_driver.c (func_80044608.s lbu :5, :72; sb :75,
+ * `gMemCard_bLoadStep = 2;` in mem_card_driver.c (MemCard_DoLoadDirectory.s lbu :5, :72; sb :75,
  * :106). No function still in assembly names it. gMemCard_bRequest,
  * declared s8 above, is at +1 (c_symbols.ld:273). Every access is
  * `%gp_rel`; plain declaration. */

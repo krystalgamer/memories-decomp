@@ -116,7 +116,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
             prim->g2 = 0x80;
             prim->b2 = 0x80;
             if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
-                func_8005B260((u32 *)prim, ot, (u16)ribbon->otz[k], 1);
+                Graphics_SubmitDrawModePacket((u32 *)prim, ot, (u16)ribbon->otz[k], 1);
             }
         }
     }

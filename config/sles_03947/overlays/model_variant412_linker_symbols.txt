@@ -40,4 +40,3 @@ rcos = 0x800864F4;
 rsin = 0x80086424;
 RotTransPers3 = 0x80087694;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

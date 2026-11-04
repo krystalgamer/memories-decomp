@@ -468,9 +468,8 @@ unchanged.
 
 ## Text-record lookup result
 
-`Text_FindRecordById` exposes its existing payload cursor as `u8 *`,
-including the legacy `func_80036BCC` declaration, rather than returning
-that address through `s32`. The full-word ID parameter, big-endian key
+`Text_FindRecordById` exposes its existing payload cursor as `u8 *`
+rather than returning that address through `s32`. The full-word ID parameter, big-endian key
 assembly and zero-before-match termination remain unchanged. A match
 returns the same byte address; failure still returns zero.
 
@@ -595,7 +594,7 @@ a state-machine flag, not the unrelated `0x80` bit in
 `DuelEffectChannel` through `TextBox_Create` using the low 15 bits of its
 request value, and stamps `field_59` from the shared sequence byte minus one.
 A nonzero setup argument adds flags `0x1008`; otherwise a high request bit
-selects the alternate `func_80039A14` setup path before the channel is
+selects the alternate `TextBox_BuildBlocking` setup path before the channel is
 returned.
 
 `DuelEffect_MarkObjectIfActive` scans the separate three-entry table at

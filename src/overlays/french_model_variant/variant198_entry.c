@@ -132,7 +132,7 @@ s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
             color_numerator -= remaining;
             color_numerator /= config->flash_duration;
             setRGB0(&flash, color_numerator, color_numerator, color_numerator);
-            func_8005B260((u32 *)&flash, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
         }
     }
     setVector(&vertices[0], -config->ray_half_width, -config->ray_height, 0);

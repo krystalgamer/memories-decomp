@@ -2009,7 +2009,7 @@ includes `sound.h` and uses the shared typed global. Every accepted migration
 batch retained the exact full executable hash.
 
 Six matching-C functions containing GCC inline assembly remain unchanged and
-keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
+keep their local raw declarations: `SD_MuteSecondaryVoices`, `SD_RestoreSecondaryVoiceVolumes`,
 `SD_UpdateSecondaryObjectVolumes`, `func_8004A854`, `SD_SequenceTimerCallback`, and
 `SD_StartSequenceTracks`.
 

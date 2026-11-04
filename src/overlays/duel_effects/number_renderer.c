@@ -80,9 +80,9 @@ void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 m
             depth = adjusted - bias;
             if (depth >= 0 && flag >= 0) {
                 if (mode == 1) {
-                    func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                    Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
                 } else {
-                    func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 0);
+                    Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 0);
                 }
             }
         }

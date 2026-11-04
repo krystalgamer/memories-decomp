@@ -29,4 +29,4 @@ Model_QueueCameraShake = 0x8005F7B0; // type:func absolute:true
 gteMIMefunc = 0x80086EE0; // type:func absolute:true
 memset = 0x8008E3D0; // type:func absolute:true
 rand = 0x8008E590; // type:func absolute:true
-func_8005B260 = 0x8005B260; // type:func absolute:true
+Graphics_SubmitDrawModePacket = 0x8005B260; // type:func absolute:true
