@@ -210,8 +210,6 @@ DecDCToutCallback = 0x80091084;
 DecDCTvlc2 = 0x800914A8;
 DecDCTvlcBuild = 0x800917F8;
 gFile_apszName = 0x80091994;
-gDuel_aCardSlotGroundPositions = 0x80091AA8;
-gDuel_ExodiaCardPoses = 0x80091B20;
 gGraphics_bSkipDisplaySwap = 0x8009C44A;
 gFile_ReadyDataEventCount = 0x8009C478;
 gFile_CommandRetryCount = 0x8009C480;
@@ -519,14 +517,6 @@ FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
 func_801680F4 = 0x801680F4;
 func_80168160 = 0x80168160;
-gDuelResult_aFrenchSpriteSpecsOpponent = 0x80091B30;
-gDuelResult_aFrenchSpriteSpecsNoOpponent = 0x80091B80;
-gDuelResult_aGermanSpriteSpecsOpponent = 0x80091BD0;
-gDuelResult_aGermanSpriteSpecsNoOpponent = 0x80091C20;
-gDuelResult_aItalianSpriteSpecsOpponent = 0x80091C70;
-gDuelResult_aItalianSpriteSpecsNoOpponent = 0x80091CC0;
-gDuelResult_aSpanishSpriteSpecsOpponent = 0x80091D10;
-gDuelResult_aSpanishSpriteSpecsNoOpponent = 0x80091D60;
 gDuelResult_nOutroSpriteCount = 0x8009C2BC;
 
 /* Semantic draw-state aliases retain the original native providers. */

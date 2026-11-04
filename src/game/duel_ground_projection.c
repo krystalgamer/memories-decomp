@@ -13,6 +13,9 @@
 #include "screen_projection.h"
 #include "view_state.h"
 #include "duel_screen_tables.h"
+#ifdef DUEL_RESULT_LANGUAGE_SPRITE_TABLES
+#include "duel_result_localized_sprites.h"
+#endif
 #include "duel_init_ground_projection_reference.h"
 #include "duel_side_view_angles.h"
 #include "../unmatched.h"
@@ -98,6 +101,227 @@ DuelExodiaCardPoseTable gDuel_ExodiaCardPoses = {
     0,
 };
 
+#ifdef DUEL_RESULT_LANGUAGE_SPRITE_TABLES
+/* The four language builds carry one opponent/no-opponent pair per
+ * language (duel_result_localized_sprites.h) instead of the two tables
+ * below, each indexed by the winning side and then by up to ten specs. */
+DuelResultSpriteSpec gDuelResult_aFrenchSpriteSpecsOpponent[2][10] = {
+    {
+        { 60, 68, 6, 20 },
+        { 108, 68, 10, 20 },
+        { 150, 68, 6, 20 },
+        { 198, 68, 11, 20 },
+        { 242, 68, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 75, 68, 1, 20 },
+        { 115, 68, 2, 20 },
+        { 155, 68, 3, 20 },
+        { 200, 68, 4, 20 },
+        { 225, 68, 5, 8 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aFrenchSpriteSpecsNoOpponent[2][10] = {
+    {
+        { 136, 68, 7, 12 },
+        { 184, 68, 9, 20 },
+        { 60, 124, 6, 20 },
+        { 108, 124, 10, 20 },
+        { 150, 124, 6, 20 },
+        { 198, 124, 11, 20 },
+        { 242, 124, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 136, 68, 8, 12 },
+        { 184, 68, 9, 20 },
+        { 60, 124, 6, 20 },
+        { 108, 124, 10, 20 },
+        { 150, 124, 6, 20 },
+        { 198, 124, 11, 20 },
+        { 242, 124, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aGermanSpriteSpecsOpponent[2][10] = {
+    {
+        { 45, 68, 11, 20 },
+        { 85, 68, 2, 20 },
+        { 125, 68, 10, 20 },
+        { 169, 68, 6, 8 },
+        { 187, 68, 5, 20 },
+        { 231, 68, 5, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 78, 68, 1, 20 },
+        { 118, 68, 2, 20 },
+        { 158, 68, 3, 20 },
+        { 201, 68, 4, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 12, 20 },
+        { 0, 0, 12, 20 },
+        { 0, 0, 12, 20 },
+        { 0, 0, 12, 20 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aGermanSpriteSpecsNoOpponent[2][10] = {
+    {
+        { 136, 68, 7, 12 },
+        { 184, 68, 9, 20 },
+        { 45, 124, 11, 20 },
+        { 85, 124, 2, 20 },
+        { 125, 124, 10, 20 },
+        { 169, 124, 6, 8 },
+        { 187, 124, 5, 20 },
+        { 231, 124, 5, 20 },
+        { 0, 0, 2, 20 },
+        { 0, 0, 5, 20 },
+    },
+    {
+        { 136, 68, 8, 12 },
+        { 184, 68, 9, 20 },
+        { 45, 124, 11, 20 },
+        { 85, 124, 2, 20 },
+        { 125, 124, 10, 20 },
+        { 169, 124, 6, 8 },
+        { 187, 124, 5, 20 },
+        { 231, 124, 5, 20 },
+        { 0, 0, 2, 20 },
+        { 0, 0, 5, 20 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aItalianSpriteSpecsOpponent[2][10] = {
+    {
+        { 84, 68, 10, 20 },
+        { 118, 68, 5, 8 },
+        { 146, 68, 11, 20 },
+        { 190, 68, 13, 20 },
+        { 223, 68, 5, 8 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 71, 68, 1, 20 },
+        { 111, 68, 2, 20 },
+        { 150, 68, 3, 20 },
+        { 194, 68, 4, 20 },
+        { 236, 68, 5, 8 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aItalianSpriteSpecsNoOpponent[2][10] = {
+    {
+        { 136, 68, 7, 12 },
+        { 184, 68, 9, 20 },
+        { 84, 124, 10, 20 },
+        { 118, 124, 5, 8 },
+        { 146, 124, 11, 20 },
+        { 190, 124, 13, 20 },
+        { 223, 124, 5, 8 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 136, 68, 8, 12 },
+        { 184, 68, 9, 20 },
+        { 84, 124, 10, 20 },
+        { 118, 124, 5, 8 },
+        { 146, 124, 11, 20 },
+        { 190, 124, 13, 20 },
+        { 223, 124, 5, 8 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aSpanishSpriteSpecsOpponent[2][10] = {
+    {
+        { 80, 68, 6, 20 },
+        { 132, 68, 13, 8 },
+        { 164, 68, 5, 20 },
+        { 218, 68, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 65, 68, 4, 20 },
+        { 105, 68, 11, 8 },
+        { 123, 68, 2, 20 },
+        { 163, 68, 3, 20 },
+        { 209, 68, 1, 20 },
+        { 247, 68, 2, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+DuelResultSpriteSpec gDuelResult_aSpanishSpriteSpecsNoOpponent[2][10] = {
+    {
+        { 136, 68, 7, 12 },
+        { 184, 68, 9, 20 },
+        { 80, 124, 6, 20 },
+        { 132, 124, 13, 8 },
+        { 164, 124, 5, 20 },
+        { 218, 124, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+    {
+        { 136, 68, 8, 12 },
+        { 184, 68, 9, 20 },
+        { 80, 124, 6, 20 },
+        { 132, 124, 13, 8 },
+        { 164, 124, 5, 20 },
+        { 218, 124, 13, 20 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 0, 0 },
+    },
+};
+
+#else
 DuelResultSpriteSpec gDuelResult_aSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT] = {
     {
         { 112, 68, 1, 20 },
@@ -139,6 +363,7 @@ DuelResultSpriteSpec gDuelResult_aSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COU
         { 232, 124, 29, 8 },
     },
 };
+#endif
 
 /* Projects all duel-slot coordinates into the biased screen-position table. */
 void Duel_ProjectCardSlotScreenPositions(void)

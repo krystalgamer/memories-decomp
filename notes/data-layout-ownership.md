@@ -327,10 +327,15 @@ The four language builds keep Europe's tables:
 - `duel_field_layout` at `+0x204`;
 - every European owner from `duel_scene_update` on at `+0x414`.
 
-Their `duel_ground_projection` tables differ from Europe's, and so does the
-0x210 run after them, so that range stays in the extracted blob. German,
-Italian and Spanish now split their data image as plain data rather than one
-`.sdata`-ordered bin.
+Their `duel_ground_projection` data ends with the localized duel-result
+sprite tables instead of the two North American ones. That is one
+opponent/no-opponent pair per language, each [2][10]
+(`duel_result_localized_sprites.h`): 0x280 bytes from `0x80091B30` up to
+`duel_scene_update`. The four builds compile the unit through
+`spanish/duel_ground_projection.c`, which defines
+`DUEL_RESULT_LANGUAGE_SPRITE_TABLES`, and own its `.data` at `0x80091AA8`.
+German, Italian and Spanish now split their data image as plain data rather
+than one `.sdata`-ordered bin.
 
 Europe's small initialized data starts `0xF7C` above the North American
 `.sdata` and follows Europe's own unit order. As in its text, the camera
@@ -353,9 +358,10 @@ symbol file. The shared sources also gained European arms:
 The four language builds keep Europe's small data 0x414 to 0x41C higher,
 except that, as in their text, they place the movie unit after the model
 units: the model units are 0x408 higher and `movie_frame_pipeline` 0x4EC
-higher. Each split places the same eighteen owners, and bins remain for:
-- six bytes after `duel_battle_stats`;
-- two bytes after `duel_card_effects`.
+higher. Each split places the same eighteen owners. Only six zero bytes
+after `duel_battle_stats` (`0x8009C2BA`) stay extracted, since nothing
+identifies their owner; the two after `duel_card_effects` are alignment, as
+in the North American split.
 
 Their `debug_effect_screen` small data is seven bytes. Placing the owners
 removed 74 more linker assignments per build.
