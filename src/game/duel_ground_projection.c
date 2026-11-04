@@ -193,8 +193,8 @@ void Duel_InitGroundProjectionReference(void)
     ViewState_ResetDefaults();
     SetGeomScreen(gViewState_Current.projection);
     SetGeomOffset(0xA0, 0x6C);
-    gViewState_Current.field_00 = 0x14E;
-    gViewState_Current.field_04 = 0x3FE;
+    gViewState_Current.distance = 0x14E;
+    gViewState_Current.orbit_angle = 0x3FE;
     gViewState_Current.angle = gDuel_awSideViewHeadings[0];
     ViewState_ApplyOrbit();
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);

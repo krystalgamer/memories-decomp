@@ -34,10 +34,26 @@
    channels from the producer/consumer operations. Heading interpolation
    remains linear rather than adding new wrapping behavior.
 
-   Remaining field_NN names are retained pending complete cross-context
-   naming. Both orbit bodies use field_00 as their radial magnitude; the
-   shared field is also used by overworld code. The alternate orbit rearranges
-   the angular roles, so field_04 is not globally renamed as pitch here.
+   `distance` (0x00) is the orbit radius. ViewState_ApplyOrbit and
+   ViewState_ApplyAlternateOrbit both negate it and scale it by rcos/rsin of
+   the two angles to get the viewpoint offset; Duel_StartViewTween tweens it
+   as its distance channel; Library_UpdateCardView loads it from
+   Model_AdjustCameraDistanceForSlot; and the duel intro, the debug effect
+   screen and the overworld exit step it toward or away from the reference
+   point before reapplying the orbit.
+
+   `orbit_angle` (0x04) is the orbit's second angle, the one
+   Duel_StartViewTween tweens beside the heading. It keeps that neutral name
+   rather than pitch because the alternate orbit rearranges the angular
+   roles: ViewState_ApplyOrbit uses it for the vertical split and
+   ViewState_ApplyAlternateOrbit adds a quarter turn and uses it for the
+   horizontal one. Every writer stores an angle: a constant (0x100, 0xC4,
+   0x3FE, 0x358), a tween accumulator, a pad-driven step, or the location
+   table's camera_field_04.
+
+   field_06, field_08, field_0A and field_0C keep their offsets: the only
+   accesses are zero stores in ViewState_ResetDefaults, Library_UpdateCardView
+   and the overworld camera reset, which say nothing about their meaning.
 
    0x10..0x2F is a Psy-Q GsRVIEW2, and that is a call rather than an
    inference: ViewState_ApplyViewpointOffset builds a `GsRVIEW2 *` at exactly
@@ -62,9 +78,9 @@
    There is no size assert: gViewState_Current is a single object with no stride
    evidence, so where the record ends is not something this code can show. */
 typedef struct ViewState {
-    s16 field_00;
+    s16 distance;
     s16 angle;
-    s16 field_04;
+    s16 orbit_angle;
     s16 field_06;
     s16 field_08;
     s16 field_0A;

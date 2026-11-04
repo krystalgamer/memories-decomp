@@ -278,9 +278,9 @@ void Library_UpdateCardView(LibraryState *state)
         state->motion.model_load_phase = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
-        gViewState_Current.field_00 = 0x334;
+        gViewState_Current.distance = 0x334;
         gViewState_Current.angle = 0x400;
-        gViewState_Current.field_04 = 0xC4;
+        gViewState_Current.orbit_angle = 0xC4;
         gViewState_Current.field_0C = 0;
         gViewState_Current.view.rz = 0;
         gViewState_Current.view.super = 0;
@@ -457,9 +457,9 @@ void Library_UpdateCardView(LibraryState *state)
     case 4:
         light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 2);
         vs = &gViewState_Current;
-        a = -vs->field_00;
-        b = a * rcos(vs->field_04) / 4096;
-        c = a * rsin(vs->field_04) / 4096;
+        a = -vs->distance;
+        b = a * rcos(vs->orbit_angle) / 4096;
+        c = a * rsin(vs->orbit_angle) / 4096;
         a = b * rsin(vs->angle + 0x800) / 4096;
         b = b * rcos(vs->angle + 0x800) / 4096;
         light->direction_x = b;
@@ -491,7 +491,7 @@ void Library_UpdateCardView(LibraryState *state)
                 gViewState_Current.view.vrx = p->vx;
                 gViewState_Current.view.vry = p->vy;
                 gViewState_Current.view.vrz = p->vz;
-                gViewState_Current.field_00 = Model_AdjustCameraDistanceForSlot(0, 0x334);
+                gViewState_Current.distance = Model_AdjustCameraDistanceForSlot(0, 0x334);
                 Model_SetSlotShadowEnabled(0, 1);
                 Model_SetScreenYOverride(0);
             }

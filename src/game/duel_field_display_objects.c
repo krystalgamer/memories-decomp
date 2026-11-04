@@ -413,13 +413,13 @@ s32 Duel_UpdateDisplayTransition(void)
             y = gDuel_dwViewTweenOrbitAngleAccumulator += gDuel_dwViewTweenOrbitAngleStep;
             z = gDuel_dwViewTweenHeadingAccumulator += gDuel_dwViewTweenHeadingStep;
             w = gDuel_dwViewTweenReferenceZAccumulator += gDuel_dwViewTweenReferenceZStep;
-            view->field_00 = x >> 16;
-            view->field_04 = y >> 16;
+            view->distance = x >> 16;
+            view->orbit_angle = y >> 16;
             view->angle = z >> 16;
             view->view.vrz = w >> 16;
             if (count == 0) {
-                view->field_00 = gDuel_wViewTweenDistanceTarget;
-                view->field_04 = gDuel_wViewTweenOrbitAngleTarget;
+                view->distance = gDuel_wViewTweenDistanceTarget;
+                view->orbit_angle = gDuel_wViewTweenOrbitAngleTarget;
                 view->angle = gDuel_wViewTweenHeadingTarget;
                 view->view.vrz = gDuel_wViewTweenReferenceZTarget;
                 if (gDuel_wDisplayTransitionFlags & 1) {

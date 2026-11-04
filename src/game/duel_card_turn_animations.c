@@ -333,9 +333,9 @@ alt2:
 void Duel_StartViewTween(
     s32 frames, s32 distance, s32 orbit_angle, s32 heading, s32 target_z)
 {
-    s16 current_distance = gViewState_Current.field_00;
+    s16 current_distance = gViewState_Current.distance;
     s32 distance_step = ((distance - current_distance) << 16) / frames;
-    s16 current_orbit_angle = gViewState_Current.field_04;
+    s16 current_orbit_angle = gViewState_Current.orbit_angle;
     s32 orbit_step = ((orbit_angle - current_orbit_angle) << 16) / frames;
     s16 current_heading = gViewState_Current.angle;
     s32 heading_step = ((heading - current_heading) << 16) / frames;

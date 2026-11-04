@@ -25,17 +25,32 @@ Library's two sixteen-byte view copies remain separate cast-based views,
 not evidence for a different member layout.
 
 The layout describes observed accesses, not a proved allocation extent.
-There is still no total-size or stride assertion. The unresolved prefix
-members stay numeric: in particular, the alternate orbit changes the roles
-of the two angular fields, so `field_04` is not globally called pitch.
+There is still no total-size or stride assertion. `field_06`, `field_08`,
+`field_0A` and `field_0C` stay numeric. The alternate orbit swaps the roles
+of the two angles, so `orbit_angle` is not called pitch.
+
+## Named members: orbit distance and orbit angle
+
+| Offset | Old | New | Evidence | Confidence | Uses |
+| --- | --- | --- | --- | --- | --- |
+| `0x00` | `field_00` | `distance` | Both orbit bodies negate it as the radius they scale by `rsin`/`rcos`. `Duel_StartViewTween` and the duel view-tween step treat it as the distance channel. `Library_UpdateCardView` loads it from `Model_AdjustCameraDistanceForSlot` and uses it as the radius of its own light orbit. The overworld location table (`MapLocation.camera_field_00`), its tween (`gCampaignMap_dwTweenDistance`), the debug L1/R1 zoom and the duel intro zoom-in all set or step it before reapplying the orbit. | high | 23 accesses, 9 files |
+| `0x04` | `field_04` | `orbit_angle` | The second angle both orbit bodies pass to `rsin`/`rcos`. `Duel_StartViewTween` names it the orbit-angle channel, and every writer stores an angle: constants such as `0x100`, `0xC4` and `0x3FE`, the duel and overworld tween accumulators, pad-driven up/down steps, or `MapLocation.camera_field_04`. The overworld tween calls its copy pitch, but the alternate orbit uses it as the horizontal angle, so the name stays neutral. | high | 20 accesses, 8 files |
+
+The renames are spelling only, and raw halfword views such as
+`duel_phase_entry.c`'s `w[1]`/`w[2]` keep their existing index spelling.
+`MapLocation.camera_field_00` and `camera_field_04` in `src/ygo_types.h`,
+which `CampaignMap_SetCameraFromLocation` copies straight into `distance`
+and `orbit_angle`, are left for a separate change: that header is included
+by nearly every overlay image, so renaming them puts about 14,000 images in
+scope for verification.
 
 ## Two orbit conventions
 
 `ViewState_ApplyAlternateOrbit` names former `func_800135FC`. Both orbit
-bodies negate signed-halfword `field_00`, derive offsets with the existing
+bodies negate signed-halfword `distance`, derive offsets with the existing
 `rsin`/`rcos` fixed-point operations, and call
-`ViewState_ApplyViewpointOffset`. Using `r = -field_00`, `a = angle`,
-`b = field_04`, and `F = MODEL_FIXED_ONE`, their staged calculations are:
+`ViewState_ApplyViewpointOffset`. Using `r = -distance`, `a = angle`,
+`b = orbit_angle`, and `F = MODEL_FIXED_ONE`, their staged calculations are:
 
 | Stage | Default `ViewState_ApplyOrbit` | Alternate |
 | --- | --- | --- |

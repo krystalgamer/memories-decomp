@@ -115,9 +115,9 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     MapLocation *entry = gCampaignMap_aLocationTable + index;
     ViewState *camera = &gViewState_Current;
 
-    camera->field_04 = (u16)entry->camera_field_04;
+    camera->orbit_angle = (u16)entry->camera_field_04;
     camera->angle = (u16)entry->camera_angle;
-    camera->field_00 = (u16)entry->camera_field_00;
+    camera->distance = (u16)entry->camera_field_00;
     camera->view.vrx = entry->view_x;
     camera->view.vrz = entry->view_z;
     ViewState_ApplyOrbit();
@@ -161,9 +161,9 @@ void CampaignMap_ResetCamera(void)
        coordinates through camera->view instead drops an instruction. */
     GsRVIEW2 *view = &gViewState_Current.view;
 
-    camera->field_00 = 0x6A4;
+    camera->distance = 0x6A4;
     camera->angle = 0x640;
-    camera->field_04 = 0x180;
+    camera->orbit_angle = 0x180;
     camera->field_0C = 0;
     camera->view.rz = 0;
     camera->view.super = 0;
@@ -239,7 +239,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
                     step = -step;
                 }
-                camera->field_04 = camera->field_04 + step;
+                camera->orbit_angle = camera->orbit_angle + step;
             }
             if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
                 if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
@@ -250,7 +250,7 @@ void CampaignMap_MoveCameraDpad(void)
                 if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
                     step = -step;
                 }
-                camera->field_00 = camera->field_00 + step;
+                camera->distance = camera->distance + step;
             }
         }
         ViewState_ApplyOrbit();
@@ -382,9 +382,9 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     s32 stepPitch;
     s32 stepDist;
 
-    x = camera->field_00;
+    x = camera->distance;
     stepX = ((entry->camera_field_00 - x) << 16) / steps;
-    y = camera->field_04;
+    y = camera->orbit_angle;
     stepY = ((entry->camera_field_04 - y) << 16) / steps;
     angle = camera->angle;
     turn = (entry->camera_angle - angle) & TRIG_ANGLE_MASK;
@@ -489,8 +489,8 @@ s32 CampaignMap_UpdateLocationTransition(void)
     gCampaignMap_dwTweenRefX = gCampaignMap_dwTweenRefX + gCampaignMap_dwTweenRefXStep;
     gCampaignMap_dwTweenRefZ = gCampaignMap_dwTweenRefZ + gCampaignMap_dwTweenRefZStep;
     cam->angle = gCampaignMap_dwTweenYaw >> 16;
-    cam->field_04 = gCampaignMap_dwTweenPitch >> 16;
-    cam->field_00 = gCampaignMap_dwTweenDistance >> 16;
+    cam->orbit_angle = gCampaignMap_dwTweenPitch >> 16;
+    cam->distance = gCampaignMap_dwTweenDistance >> 16;
     cam->view.vrx = gCampaignMap_dwTweenRefX >> 16;
     cam->view.vrz = gCampaignMap_dwTweenRefZ >> 16;
     gCampaignMap_nTweenFramesLeft = gCampaignMap_nTweenFramesLeft - 1;
@@ -620,7 +620,7 @@ void CampaignMap_UpdateLocation(void)
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             SD_BGMFadeOutWithStep(4);
         }
-        gViewState_Current.field_00 = gViewState_Current.field_00 - 2;
+        gViewState_Current.distance = gViewState_Current.distance - 2;
         ViewState_ApplyOrbit();
         if ((gFade_State.flags & 0x80) == 0) {
             gMain_bActiveModeState = 2;
