@@ -530,7 +530,7 @@ void Main_RunTwoPlayerDuelSetup(void)
         gMain_bActiveModeState = gMain_bActiveModeState | 0x40;
         gDuel_wTwoPlayerSide1LifePoints = DUEL_STARTING_LIFE_POINTS;
         gDuel_wTwoPlayerSide0LifePoints = DUEL_STARTING_LIFE_POINTS;
-        MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, (u8 *)&gDuel_wTwoPlayerCardViewMode);
+        MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, &gDuel_bTwoPlayerCardViewMode);
         TextBox_CreateFlagged(
             0,
             0x25,

@@ -42,7 +42,7 @@ u8 D_8009B110;
 volatile u16 gFile_wTransferStepFlags;
 u8 gFile_ReadyEventCount;
 s32 gFile_TransferBufferBase;
-char gFile_FilterParams[1];
+CdlFILTER gFile_FilterParams;
 void (*gFile_RangePauseCallback)(void);
 volatile u16 gFile_ServiceCallGate;
 void (*gFile_SecondaryPayloadCompleteCallback)(void);
@@ -70,7 +70,7 @@ extern u8 D_8009B110;
 extern volatile u16 gFile_wTransferStepFlags;
 extern u8 gFile_ReadyEventCount;
 extern s32 gFile_TransferBufferBase;
-extern char gFile_FilterParams[1];
+extern CdlFILTER gFile_FilterParams;
 extern void (*gFile_RangePauseCallback)(void);
 extern volatile u16 gFile_ServiceCallGate;
 extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
@@ -463,7 +463,7 @@ void File_HandleSetFilterEvent(u8 event)
 {
     if (event == DslDiskError) {
         gFile_CommandRetryCount++;
-        DsCommand(DslSetfilter, (u8 *)gFile_FilterParams,
+        DsCommand(DslSetfilter, (u8 *)&gFile_FilterParams,
                   (DslCB)File_HandleSetFilterEvent, -1);
     } else if (event == DslComplete) {
         gFile_wStepState = 4;
@@ -576,7 +576,7 @@ set_state3:
             gFile_wStepState = 3;
         case 3:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x1000;
-            filter_channel = (u8 *)gFile_FilterParams + 1;
+            filter_channel = &gFile_FilterParams.chan;
             /* In sector-range mode the word at 0x38 carries the
                CdlSetfilter channel (low byte) and file (next byte). */
             *filter_channel = ((u8 *)&transfer->callback_data)[0];

@@ -135,7 +135,7 @@ The remaining request/sector state declarations are owned by two headers:
 | `file_transfer.h` | `gFile_ActiveRequestSlot` scalar request; the two slot copies take its address as bytes |
 | `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `sector_destination`/`alternate_sector_destination` buffer select, which stays an address sum |
 | `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `File_HandleReadEvent` and incremented by `File_TransferReadyCallback` |
-| `file_transfer.h` | `gFile_FilterParams[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
+| `file_transfer.h` | `CdlFILTER gFile_FilterParams`, the command `0x0D` (CdlSetfilter) parameter block; the sector-range path writes `.chan` |
 | `sound_transfer_lifecycle.h` | `gSD_pFileRequest` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 
 This removes twelve private global declarations and one private prototype

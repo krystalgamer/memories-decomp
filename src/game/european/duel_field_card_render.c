@@ -29,8 +29,8 @@ struct DisplayObject *gDuel_pTerrainIcon;
 u8 gDuel_bFieldActionAutoCommit;
 s32 gDuel_dwFieldDimTarget;
 u32 D_8009C0D4_sles_03947;
-u32 D_8009C0D8_sles_03947;
-u32 D_8009C0DC_sles_03947;
+struct SaveDataState *gDuel_pSide0SaveData;
+struct SaveDataState *gDuel_pSide1SaveData;
 struct DuelSideState *gDuel_pActiveSideState;
 u8 gDuel_bActiveSide;
 u8 D_8009C0E5_sles_03947;
@@ -40,7 +40,7 @@ u16 gDuelResult_wBgmId;
 u8 gDuel_bDrawStepCountdown;
 s8 gDuelCursor_TargetColumn;
 s8 gDuelCursor_TargetRow;
-u8 D_8009C0F1_sles_03947;
+u8 gDuel_bTwoPlayerCardViewMode;
 u16 D_8009C0F2_sles_03947;
 s16 gDuel_sGroundReferenceScreenX;
 s16 gDuel_sGroundReferenceScreenY;
@@ -123,7 +123,7 @@ s32 gDuel_dwViewTweenDistanceAccumulator;
 u8 gDuel_bPendingDrawCount;
 u8 D_8009C1AD_sles_03947;
 u16 D_8009C1AE_sles_03947;
-u32 D_8009C1B0_sles_03947;
+u8 gDuel_bActiveEffectState;
 struct DisplayObject *gDuel_pCardViewerBackground;
 
 /* SLES-03947 build of src/game/duel_field_card_render.c. The US source is included as is. */

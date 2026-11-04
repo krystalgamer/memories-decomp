@@ -562,7 +562,7 @@ source's.
 attempts all fail at `+0x50`, the head of a block of twelve stores to
 `gGraphics_wFlags`, `gMain_dwFrameCounter`, `gGraphics_bSyncVBlankTarget`, `D_8009B0C1`, `gMain_bVBlankSoundPending`,
 `D_8009B0C4`, `D_8009B0C8`, `gGraphics_dwSyncedFrameCount`, `D_8009B0D1`, `D_8009B0D8`,
-`gDuel_wTwoPlayerCardViewMode` and the pointer `D_8009B0B4`. Written plain, the block comes out
+`gDuel_bTwoPlayerCardViewMode` and the pointer `D_8009B0B4`. Written plain, the block comes out
 in an order that matches neither the source nor the target, and rewriting the
 source order does not move it — the scheduler is choosing. Declared `volatile`,
 emitted order equals source order and the block can be transcribed straight off
