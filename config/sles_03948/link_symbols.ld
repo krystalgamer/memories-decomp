@@ -51,7 +51,6 @@ gModelAnim_szSourceFileName = 0x80011778;
 gModel_DiscEffectInitialScale = 0x80011830;
 gModel_BurstEffectInitialScale = 0x80011840;
 gModel_SparkEffectInitialScale = 0x80011850;
-gGraphics_bSkipDisplaySwap = 0x8009C44A;
 gFile_ServiceReentryLatch = 0x8009C494;
 gFile_RangeReadCallback = 0x8009C49C;
 gFile_ReadySourceCursor = 0x8009C4A4;
@@ -673,3 +672,4 @@ D_8009C370 = gModel_dwLitColorCacheBase;
 D_8009C374 = gModel_bCurrentDrawMode;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
+D_8009B0A8 = gGraphics_bSkipDisplaySwap;
