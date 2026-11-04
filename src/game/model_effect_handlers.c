@@ -26,7 +26,7 @@
    from the same regional burst CLUT; the disc draws untextured Gouraud
    polygons. */
 
-s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
+s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
 {
     ModelDiscEffectState *e;
     MATRIX ls;
@@ -63,11 +63,11 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModel_DiscEffectInitialScale;
-    e = arg0;
+    e = state;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
 
-    if (arg1 >= 0) {
+    if (request >= 0) {
         e->table = &gModel_DiscEffectConfig;
         t = e->table;
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &adj);
@@ -117,9 +117,9 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
             pt->vz = v * csin(i << 7) / 32768;
             pt++;
         }
-        e->b = (arg1 % 10 + 6) * 0x11;
-        e->r = ((arg1 - arg1 % 100) / 100 + 6) * 0x11;
-        e->g = ((arg1 % 100 - arg1 % 10) / 10 + 6) * 0x11;
+        e->b = (request % 10 + 6) * 0x11;
+        e->r = ((request - request % 100) / 100 + 6) * 0x11;
+        e->g = ((request % 100 - request % 10) / 10 + 6) * 0x11;
         e->level = t->full_level;
         e->scale = 0;
         e->frame = 0;
@@ -177,7 +177,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     }
     PopMatrix();
     e->frame++;
-    if (arg1 == -2) {
+    if (request == -2) {
         e->level -= step;
     } else {
         s = e->scale + step;
@@ -222,7 +222,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
  * starts two bytes before it. */
 #define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
 
-s32 Model_UpdateBurstEffect(void *data, s32 arg1)
+s32 Model_UpdateBurstEffect(void *data, s32 request)
 {
     MATRIX ls;
     MATRIX m;
@@ -251,7 +251,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
     e = data;
     slot = Model_GetActiveSlotIndex();
 
-    if (arg1 >= 0) {
+    if (request >= 0) {
         e->table = (ModelBurstPalette *)gModel_BurstRingPaletteWords;
         e->tpage = 0xAE;
         e->clut = MODEL_BURST_CLUT;
@@ -758,7 +758,7 @@ stage_test:
 #define RAND_DROP(n) (-(rand() % 4096 * (n)) / 4096)
 #define SPARK_U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
-s32 Model_UpdateSparkEffect(void *data, s32 arg1)
+s32 Model_UpdateSparkEffect(void *data, s32 request)
 {
     MATRIX ls;
     MATRIX m;
@@ -789,7 +789,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
     e = data;
     slot = Model_GetActiveSlotIndex();
 
-    if (arg1 >= 0) {
+    if (request >= 0) {
         e->tpage = 0xAE;
         e->clut = MODEL_BURST_CLUT;
         for (i = 0; i < 32; i++) {

@@ -119,12 +119,12 @@ void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
     }
 }
 
-void Text_ContinueDisplayEffect(DuelEffectChannel *arg0) {
-    u8 v = arg0->playback_state;
+void Text_ContinueDisplayEffect(DuelEffectChannel *channel) {
+    u8 v = channel->playback_state;
     MenuRecord *p;
 
     if (!(v & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-        arg0->playback_state = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        channel->playback_state = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
 
     p = gText_DisplayEffectRecord;
@@ -134,15 +134,15 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *arg0) {
     }
 
     {
-        u8 w = arg0->playback_state;
+        u8 w = channel->playback_state;
 
         if ((w & 0x40) || p->effect_id >= 0x41) {
-            arg0->playback_state = 0;
+            channel->playback_state = 0;
 
             return;
         }
 
-        arg0->playback_state = w | 0x40;
+        channel->playback_state = w | 0x40;
     }
 
     {

@@ -5,24 +5,24 @@
 #include "text_stream_commands.h"
 
 #ifdef VERSION_EUROPE
-u8 *Text_LookupString(s32 arg0, s32 arg1)
+u8 *Text_LookupString(s32 unused_word, s32 string_id)
 {
     /* The European banks, as in TextBox_BuildStep. */
-    if (arg1 <= 0x7FFF) {
-        if (arg1 >= 0x500) {
-            arg1 -= 0x100;
+    if (string_id <= 0x7FFF) {
+        if (string_id >= 0x500) {
+            string_id -= 0x100;
             return (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) |
-                gText_PrimaryStringOffsets[arg1]);
+                gText_PrimaryStringOffsets[string_id]);
         }
-        return (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[arg1]);
+        return (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[string_id]);
     }
     return (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
-        gText_GlobalStringOffsets[arg1 - 0x8000]);
+        gText_GlobalStringOffsets[string_id - 0x8000]);
 }
 #else
-u8 *Text_LookupString(s32 arg0, s32 arg1)
+u8 *Text_LookupString(s32 unused_word, s32 string_id)
 {
-    s32 index = arg1;
+    s32 index = string_id;
 #ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
     if (index & TEXT_GLOBAL_STRING_ID_BASE)
         return (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |

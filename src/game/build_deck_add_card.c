@@ -29,22 +29,22 @@
    gcc_2_8_1_g0_split. Bounded below by the card-list text boxes, which need
    gcc_2_8_1_g0, and above by CardList_LoadSharedGraphicsStage at gcc_2_8_1_cc_g8_as_g0_split. */
 
-void BuildDeck_AddCard(s32 arg0, s32 arg1)
+void BuildDeck_AddCard(s32 base, s32 card_id)
 {
     s32 *record;
     s16 *entry;
     s32 index = 0;
     {
         s32 *base = gDuel_adwCardStats;
-        s32 record_index = arg1 - 1;
+        s32 record_index = card_id - 1;
 
         record = &base[record_index];
     }
-    entry = (s16 *)(arg0 + BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET);
+    entry = (s16 *)(base + BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET);
     do {
         if (CARD_ENTRY_BYTES(entry)[5] == 0) {
             CARD_ENTRY_BYTES(entry)[5] = 1;
-            entry[-2] = (s16)arg1;
+            entry[-2] = (s16)card_id;
             CARD_ENTRY_BYTES(entry)[2] =
                 (u8)((*record >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK);
             entry[-1] =
@@ -52,8 +52,8 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
             entry[0] =
                 (s16)(((*record >> CARD_STAT_DEFENSE_SHIFT) &
                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
-            BuildDeck_SortCardList((void *)(arg0 + BUILD_DECK_ADD_LIST_OFFSET));
-            BuildDeck_RecountDeckCards((BuildDeckTransitionState *)arg0);
+            BuildDeck_SortCardList((void *)(base + BUILD_DECK_ADD_LIST_OFFSET));
+            BuildDeck_RecountDeckCards((BuildDeckTransitionState *)base);
             return;
         }
         index++;

@@ -54,7 +54,7 @@
  * `lui $s0` / `addiu $s0,$s0` and emits it after the callback address rather
  * than before. Subscripting drops that reference and the prologue falls into
  * retail's order. */
-void Campaign_LoadScenePackage(s16 arg0)
+void Campaign_LoadScenePackage(s16 scene_index)
 {
     SceneScriptSlot *slot;
     u32 *src;
@@ -62,7 +62,7 @@ void Campaign_LoadScenePackage(s16 arg0)
     s32 i;
 
     slot = gSceneScript_Slots;
-    gScript_EventState = arg0;
+    gScript_EventState = scene_index;
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
     gCampaign_PrimaryDisplayObject = 0;

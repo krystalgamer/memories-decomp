@@ -86,7 +86,7 @@ DuelEffectRequest *DuelEffect_FindFreeRequest(void)
  * flag byte 0x80, the id at +0x18, the buffer pointer gRuntime_pSharedWorkBase + 0x3800 at
  * +0x14, two words copied from gGraphics_apOrderingTables, and the zeroed fields. Returns the
  * entry or 0 when none was free. */
-DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
+DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 {
     DuelEffectRequest *p = DuelEffect_FindFreeRequest();
 
@@ -98,7 +98,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
         q = gRuntime_pSharedWorkBase;
         p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
         t = gGraphics_apOrderingTables;
-        p->id = arg0;
+        p->id = id;
         p->phase = 0;
         p->progress = 0;
         p->buffer = q + 0x3800;

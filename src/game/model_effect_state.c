@@ -535,7 +535,7 @@ void Model_QueueCameraShake(s32 value, s32 arg)
 }
 
 void Model_QueueEffectEndpointSequences(
-    s32 count, ModelEffectEndpoint *p1, ModelEffectEndpoint *p2, s32 arg3
+    s32 count, ModelEffectEndpoint *p1, ModelEffectEndpoint *p2, s32 magnitude
 )
 {
     s8 batch_ordinal;
@@ -562,7 +562,7 @@ void Model_QueueEffectEndpointSequences(
             queue_mode,
             p1,
             p2,
-            arg3
+            magnitude
         );
 
         if (p1 != 0) {
@@ -591,10 +591,10 @@ cont:
 }
 
 void Model_ApplyEffectKeyQueueCommand(
-    s32 arg0,
-    ModelEffectEndpoint *arg1,
-    ModelEffectEndpoint *arg2,
-    s32 arg3
+    s32 mode,
+    ModelEffectEndpoint *first,
+    ModelEffectEndpoint *second,
+    s32 magnitude
 )
 {
     u8 *prepare_key_bytes;
@@ -609,16 +609,16 @@ void Model_ApplyEffectKeyQueueCommand(
         return;
     }
 
-    if (arg0 == one) {
+    if (mode == one) {
         goto m1;
     }
-    if (arg0 < 2) {
-        if (arg0 == 0) {
+    if (mode < 2) {
+        if (mode == 0) {
             goto m0;
         }
         return;
     }
-    if (arg0 == 2) {
+    if (mode == 2) {
         goto m2;
     }
     return;
@@ -627,9 +627,9 @@ m0:
     Model_RequestCameraMove(-1);
     gModel_pCurrentEffectKey = gModel_aEffectKeys;
     gModel_bEffectKeyCount = 0;
-    if (arg1 == (ModelEffectEndpoint *)0 &&
-        arg2 == (ModelEffectEndpoint *)0 &&
-        (arg3 == 0 || arg3 == 0x4000)) {
+    if (first == (ModelEffectEndpoint *)0 &&
+        second == (ModelEffectEndpoint *)0 &&
+        (magnitude == 0 || magnitude == 0x4000)) {
         return;
     }
     Model_CaptureKeyframePose(0);
@@ -639,20 +639,20 @@ m1:
     if (gModel_bEffectKeyCount < 0xA) {
         Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
         append_key_bytes = KEY_BYTES(key);
-        if (arg1 != (ModelEffectEndpoint *)0) {
-            key->requested[0] = *arg1;
+        if (first != (ModelEffectEndpoint *)0) {
+            key->requested[0] = *first;
         } else {
             key->requested[0].kind = 0;
         }
-        if (arg2 != (ModelEffectEndpoint *)0) {
-            key->requested[1] = *arg2;
+        if (second != (ModelEffectEndpoint *)0) {
+            key->requested[1] = *second;
             key->ready = 0;
         } else {
             key->requested[1].kind = 0;
             key->ready = 0;
         }
         queued_count = gModel_bEffectKeyCount;
-        key->magnitude = arg3;
+        key->magnitude = magnitude;
         key->duration = 0;
         key->progress = 0;
         gModel_bEffectKeyCount = queued_count + 1;

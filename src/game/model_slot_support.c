@@ -164,9 +164,9 @@ void Model_SetSlotDrawMode(int index, int value)
 
 /* Builds `unit`'s local matrix from a camera-relative direction vector
    (derived from gModel_wViewYaw/gModel_wViewPitch) combined with the per-slot base
-   angles on gModel_aSlots[arg0]'s own coordinate unit, then parents it. */
+   angles on gModel_aSlots[slot_index]'s own coordinate unit, then parents it. */
 void Model_BuildCameraRelativeCoordinateUnit(
-    s32 arg0,
+    s32 slot_index,
     GsCOORDUNIT *parent,
     GsCOORDUNIT *unit
 ) {
@@ -179,7 +179,7 @@ void Model_BuildCameraRelativeCoordinateUnit(
     view_angles.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
     view_angles.vz = (s16)gModel_wViewPitch;
 
-    slot = &gModel_aSlots[arg0];
+    slot = &gModel_aSlots[slot_index];
 
     packed_view_angles = view_angles;
 
@@ -208,7 +208,7 @@ void Model_BuildCameraRelativeCoordinateUnit(
    part chain is SVECTOR, `out` is the VECTOR it transforms into, and the local
    scratch is the flag pair. GsGetLwUnit and GsSetLsMatrix likewise agree that
    the 32-byte local is a MATRIX. */
-s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
+s32 Model_TransformPartVertex(s32 slot_index, s32 part, s32 vertex, VECTOR *out)
 {
     MATRIX local_to_world;
     long transform_flags[2];
@@ -217,21 +217,21 @@ s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
     u32 *primitive_words;
     SVECTOR *vertices;
 
-    slot = &gModel_aSlots[arg0];
+    slot = &gModel_aSlots[slot_index];
     /* The part's GsUNIT, reached as an integer sum: indexed as
-       &slot->hmd_units[arg1 + 1], GCC folds the +8 into the load and drops
+       &slot->hmd_units[part + 1], GCC folds the +8 into the load and drops
        the instruction retail spends on it. */
-    part_unit = (GsUNIT *)((s32)slot->hmd_units + (arg1 + 1) * (s32)sizeof(GsUNIT));
+    part_unit = (GsUNIT *)((s32)slot->hmd_units + (part + 1) * (s32)sizeof(GsUNIT));
     primitive_words = (u32 *)part_unit->primtop[1];
     vertices = (SVECTOR *)primitive_words[2];
 
     PushMatrix();
     GsGetLwUnit(
-        (GsCOORDUNIT *)slot->entries + arg1,
+        (GsCOORDUNIT *)slot->entries + part,
         &local_to_world
     );
     GsSetLsMatrix(&local_to_world);
-    RotTrans(&vertices[arg2], out, transform_flags);
+    RotTrans(&vertices[vertex], out, transform_flags);
     PopMatrix();
     return transform_flags[0];
 }

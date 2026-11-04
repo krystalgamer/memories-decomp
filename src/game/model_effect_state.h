@@ -34,13 +34,13 @@ void Model_QueueCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset
 void Model_QueueEffectEndpointPair(s32 first, s32 second, s32 arg);
 void Model_QueueCameraShake(s32 value, s32 arg);
 void Model_QueueEffectEndpointSequences(
-    s32 count, ModelEffectEndpoint *first, ModelEffectEndpoint *second, s32 arg
+    s32 count, ModelEffectEndpoint *first, ModelEffectEndpoint *second, s32 magnitude
 );
 void Model_ApplyEffectKeyQueueCommand(
     s32 mode,
     ModelEffectEndpoint *first,
     ModelEffectEndpoint *second,
-    s32 arg
+    s32 magnitude
 );
 
 #endif

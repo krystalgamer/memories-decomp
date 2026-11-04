@@ -3,9 +3,9 @@
 
 #include "../types.h"
 
-/* Writes arg0 into arg2 as arg1 decimal digits, least significant last, and
+/* Writes value into digits as digit_count decimal digits, least significant last, and
  * replaces leading zeros with TEXT_DECIMAL_BLANK_DIGIT. The buffer must hold
- * arg1 bytes; callers pass a stack array of eight. */
-void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2);
+ * digit_count bytes; callers pass a stack array of eight. */
+void Text_EncodeDecimalDigits(s32 value, s32 digit_count, u8 *digits);
 
 #endif

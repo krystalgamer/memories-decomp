@@ -6,7 +6,7 @@
 #include "graphics_frame.h"
 #include "graphics_frame_controls.h"
 
-/* If arg0's 0x10 state bit isn't set yet: marks it set, resets
+/* If object's 0x10 state bit isn't set yet: marks it set, resets
    field_58/field_5A, then walks a 3-level little-endian-u16 offset chain
    through the object's field_54 byte buffer (indexed at each level by
    field_67, field_68, field_69) to resolve a final pointer. That pointer and a
@@ -17,7 +17,7 @@
    decrements it by gGraphics_nBaseFrameStep and fires DisplayObjectStream_ReadNextCommand
    once it reaches zero or below.
 
-   arg1 and arg2 are read, not just written. The first-time path assigns
+   script and attribute are read, not just written. The first-time path assigns
    both before jumping to the call, but the cooldown path falls into the
    same call with neither assigned, so on that path they are whatever the
    caller left in $a1 and $a2. All three callers pass one argument, so on the
@@ -33,48 +33,48 @@
    single pair compiles to the same logic but gcc allocates a spare
    register (a0) for the 2nd/3rd steps instead of matching the ROM's
    plain v0/v1 reuse. */
-void DisplayObject_UpdateCommandStream(DisplayObject *arg0, s32 arg1, s32 arg2) {
+void DisplayObject_UpdateCommandStream(DisplayObject *object, s32 script, s32 attribute) {
     u8 *base;
     u8 *p;
 
-    if (!(arg0->flags & 0x10)) {
+    if (!(object->flags & 0x10)) {
         u8 *p1, *p2, *p3;
         s32 off1, off2, off3;
         s32 mask;
 
-        base = (u8 *)arg0->field_54;
-        arg0->flags = arg0->flags | 0x10;
-        arg0->field_58 = 0;
-        arg0->field_5A = 1;
+        base = (u8 *)object->field_54;
+        object->flags = object->flags | 0x10;
+        object->field_58 = 0;
+        object->field_5A = 1;
 
-        p1 = (u8 *)&((u16 *)base)[arg0->field_67];
+        p1 = (u8 *)&((u16 *)base)[object->field_67];
         off1 = p1[1] << 8;
         off1 |= p1[0];
-        p2 = (u8 *)&((u16 *)(base + off1))[arg0->field_68];
+        p2 = (u8 *)&((u16 *)(base + off1))[object->field_68];
         off2 = p2[1] << 8;
         off2 |= p2[0];
-        p3 = (u8 *)&((u16 *)(base + off2))[arg0->field_69];
+        p3 = (u8 *)&((u16 *)(base + off2))[object->field_69];
         off3 = p3[1] << 8;
         off3 |= p3[0];
         p = base + off3;
 
-        mask = arg0->attribute & 0xFF7FFFFF;
-        arg1 = (s32)p;
-        arg2 = mask;
-        arg0->attribute = mask;
-        arg0->field_50.word = (s32)p;
-        if (arg0->flags & 0x100) {
-            arg0->attribute = mask | 0x800000;
+        mask = object->attribute & 0xFF7FFFFF;
+        script = (s32)p;
+        attribute = mask;
+        object->attribute = mask;
+        object->field_50.word = (s32)p;
+        if (object->flags & 0x100) {
+            object->attribute = mask | 0x800000;
         }
         goto call_it;
     }
 
-    if (!(arg0->flags & 3) && arg0->field_5A != 0) {
-        s16 remain = (u16)arg0->field_5A - (u16)gGraphics_nBaseFrameStep;
-        arg0->field_5A = remain;
+    if (!(object->flags & 3) && object->field_5A != 0) {
+        s16 remain = (u16)object->field_5A - (u16)gGraphics_nBaseFrameStep;
+        object->field_5A = remain;
         if (remain <= 0) {
 call_it:
-            DisplayObjectStream_ReadNextCommand(arg0, arg1, arg2, arg0);
+            DisplayObjectStream_ReadNextCommand(object, script, attribute, object);
         }
     }
 }

@@ -477,7 +477,7 @@ ret:
     return gMemCard_nIOResult;
 }
 
-s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
+s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
 {
     s32 r;
     s32 fd;
@@ -487,7 +487,7 @@ s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
 
     if (gMemCard_bRequest < 0)
         return -1;
-    if (arg0 != 0) {
+    if (poll != 0) {
         if ((_card_status(gMemCard_bChannel != 0) & 0xE) != 0)
             return 0;
     } else {

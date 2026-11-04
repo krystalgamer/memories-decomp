@@ -55,7 +55,7 @@ s32 Duel_CalcGuardianStarMatchup(s32 a0, s32 a1) {
  * this is the C. Flags: default compiler, as -G0. History in docs/PARKED.txt.
  *
  * Reads a card's 32-bit record from gDuel_adwCardStats: the low 9 bits (or bits
- * 9..17 when arg1 is set) times ten, plus Duel_GetTerrainBoost's bonus for the
+ * 9..17 when is_defense is set) times ten, plus Duel_GetTerrainBoost's bonus for the
  * 5-bit field at bits 26..30, clamped to 0..9999 (negative results return
  * 0, which is why the clamp is a single `return s`).
  *
@@ -72,17 +72,17 @@ s32 Duel_CalcGuardianStarMatchup(s32 a0, s32 a1) {
  * as the residue of a macro in the original.
  */
 
-s32 Duel_GetBaseCardStat(s32 arg0, s32 arg1) {
+s32 Duel_GetBaseCardStat(s32 card_id, s32 is_defense) {
     s32 v;
     s32 s;
     s32 k;
     s32 *t;
 
-    if (arg1 != 0) {
-        v = gDuel_adwCardStats[arg0 - 1];
+    if (is_defense != 0) {
+        v = gDuel_adwCardStats[card_id - 1];
         v = v >> CARD_STAT_DEFENSE_SHIFT;
     } else {
-        v = gDuel_adwCardStats[arg0 - 1];
+        v = gDuel_adwCardStats[card_id - 1];
     }
 
     v &= CARD_STAT_VALUE_MASK;
@@ -93,7 +93,7 @@ s32 Duel_GetBaseCardStat(s32 arg0, s32 arg1) {
         }
     } while (0);
     t = gDuel_adwCardStats;
-    k = arg0 - 1;
+    k = card_id - 1;
     s += Duel_GetTerrainBoost((t[k] >> CARD_STAT_TYPE_SHIFT) &
                               CARD_STAT_TYPE_MASK);
 

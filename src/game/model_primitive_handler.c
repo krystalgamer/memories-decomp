@@ -19,7 +19,7 @@ printf("unsupported IMAGE primitive 0x%08lx.\n", v);
 #endif
 return (void*)GsU_00000000;}
 
-void *Model_GetPrimitiveHandler(u32 arg0) {
+void *Model_GetPrimitiveHandler(u32 primitive_code) {
     s32 fog_type;
     u32 plain_type;
     u32 two_sided_type;
@@ -27,7 +27,7 @@ void *Model_GetPrimitiveHandler(u32 arg0) {
     u32 two_sided_semi_type;
     u32 family_word;
 
-    family_word = arg0 & 0xFFFF0000;
+    family_word = primitive_code & 0xFFFF0000;
     if (family_word == 0x100000) {
         goto block_38;
     }
@@ -50,7 +50,7 @@ block_5:
     }
     goto block_107;
 block_8:
-    plain_type = arg0 & 0xFFFF;
+    plain_type = primitive_code & 0xFFFF;
     if (plain_type == 0x15) {
         goto block_28;
     }
@@ -113,7 +113,7 @@ block_31:
 block_32:
     return Model_DrawGt4WindowRecordPrimitives;
 block_33:
-    fog_type = arg0 & 0xFFFF;
+    fog_type = primitive_code & 0xFFFF;
     if (fog_type == 0xD) {
         goto block_36;
     }
@@ -126,7 +126,7 @@ block_36:
 block_37:
     return Model_DrawFogTexturedQuads;
 block_38:
-    two_sided_type = arg0 & 0xFFFF;
+    two_sided_type = primitive_code & 0xFFFF;
     if (two_sided_type == 0x15) {
         goto block_56;
     }
@@ -184,7 +184,7 @@ block_59:
 block_60:
     return Model_DrawTwoSidedGt4WindowRecordPrimitives;
 block_61:
-    semi_type = arg0 & 0xFFFF;
+    semi_type = primitive_code & 0xFFFF;
     if (semi_type == 0x15) {
         goto block_79;
     }
@@ -242,7 +242,7 @@ block_82:
 block_83:
     return Model_DrawSemiGt4WindowRecordPrimitives;
 block_84:
-    two_sided_semi_type = arg0 & 0xFFFF;
+    two_sided_semi_type = primitive_code & 0xFFFF;
     if (two_sided_semi_type == 0x15) {
         goto block_102;
     }
@@ -301,7 +301,7 @@ block_106:
     return Model_DrawTwoSidedSemiGt4WindowRecordPrimitives;
 block_107:
 #ifdef VERSION_EUROPE
-    printf("unsupported POLYGON primitive 0x%08lx.\n", arg0);
+    printf("unsupported POLYGON primitive 0x%08lx.\n", primitive_code);
 #endif
     return (void *)GsU_00000000;
 }
@@ -312,14 +312,14 @@ void Model_BindPrimitiveHandler(ModelHandlerObject *object)
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
 
-s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
+s32 Model_GetSharedPrimitiveHandler(s32 primitive_code) {
     u32 family_word;
     u32 primitive_type;
 
-    family_word = arg0 & 0xFFFF0000;
+    family_word = primitive_code & 0xFFFF0000;
     switch (family_word) {
     case 0x1000000:
-        primitive_type = arg0 & 0xFFFF;
+        primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
         case 0x0:
             return (s32)Model_PrepareSharedPrimitiveCaches;
@@ -334,7 +334,7 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1100000:
-        primitive_type = arg0 & 0xFFFF;
+        primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
@@ -347,7 +347,7 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1200000:
-        primitive_type = arg0 & 0xFFFF;
+        primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedSemiGt3Primitives;
@@ -360,7 +360,7 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1300000:
-        primitive_type = arg0 & 0xFFFF;
+        primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedSemiGt3Primitives;
@@ -374,7 +374,7 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         break;
     }
 #ifdef VERSION_EUROPE
-    printf("unsupported SHARED primitive 0x%08lx.\n", arg0);
+    printf("unsupported SHARED primitive 0x%08lx.\n", primitive_code);
 #endif
     return (s32)GsU_00000000;
 }

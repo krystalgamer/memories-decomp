@@ -87,12 +87,12 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
     *high = value;
 }
 
-s32 Ai_IsCardInSet(s32 arg0)
+s32 Ai_IsCardInSet(s32 index)
 {
     s32 value;
     s32 i;
 
-    value = gDuel_aActiveCards[arg0].card_id;
+    value = gDuel_aActiveCards[index].card_id;
     for (i = 0; i < AI_SCRIPT_CARD_SET_COUNT; i++) {
         if (value == gAiScript_State.card_set[i])
             return 1;
@@ -100,12 +100,12 @@ s32 Ai_IsCardInSet(s32 arg0)
     return 0;
 }
 
-s32 Ai_IsTypeInSet(s32 arg0)
+s32 Ai_IsTypeInSet(s32 index)
 {
     s32 value;
     s32 i;
 
-    value = gDuel_aActiveCards[arg0].card_type;
+    value = gDuel_aActiveCards[index].card_type;
     i = 0;
     for (; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
         if (value == gAiScript_State.type_set[i] -

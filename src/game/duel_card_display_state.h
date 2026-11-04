@@ -66,6 +66,6 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
 
 /* Duel_CreateHandCardDisplayObject calls this through an unprototyped cast
  * with the record alone, so its incoming a1/a2 values pass through. */
-DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2);
+DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 x, s32 y);
 
 #endif

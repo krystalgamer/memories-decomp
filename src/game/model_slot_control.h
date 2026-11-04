@@ -56,7 +56,7 @@ void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);
  * The layout pass below is its consumer: the unit's own note records that the
  * two are contiguous, 0x8005611C ending exactly where 0x80056250 begins, and
  * that the pass switches on the same +0xE16 the reset writes. */
-void Model_ResetSlot(s32 arg0);
+void Model_ResetSlot(s32 slot_index);
 
 /* Duel-side layout pass for one player's model slot: sums the hand's card
  * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
@@ -64,10 +64,10 @@ void Model_ResetSlot(s32 arg0);
  * sprite fields, and applies the mode-dependent horizontal offset through
  * Model_SetSlotPartSpeeds before Model_ApplyTextureTint draws it.
  *
- * arg1 is a pointer used only as a non-null gate. Both callers now take it
+ * hmd is a pointer used only as a non-null gate. Both callers now take it
  * from shared_work_base.h: the scalar gRuntime_pSharedWorkBase, rather
  * than a private integer declaration. */
-void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
+void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags);
 
 /* Starts an animation on one of the gModel_aSlots slots. `index` picks the slot,
  * at a stride of 0xE20, and `anim` picks an entry within it.

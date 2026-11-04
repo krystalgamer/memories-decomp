@@ -15,6 +15,6 @@
  * The transition record is the ModelCameraMove gModel_CameraMove, and its guarded
  * wrappers are Model_RequestCameraMove and Model_RequestCameraMoveToSlots, so
  * the request is named with that Model_ owner. */
-void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_transport, s32 timing_work);
 
 #endif

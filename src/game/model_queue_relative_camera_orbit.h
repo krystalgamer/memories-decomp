@@ -9,7 +9,7 @@
  * unsigned middle-component read. Scene controllers and the preset wrapper
  * pass the same pointer type; no integer-to-pointer forwarding is involved. */
 void Model_QueueRelativeCameraOrbit(
-    s32 arg0, s32 arg1, s32 arg2, s32 arg3, SVECTOR *offset, s32 arg5
+    s32 slot_selector, s32 distance, s32 yaw, s32 pitch, SVECTOR *offset, s32 key_magnitude
 );
 
 #endif

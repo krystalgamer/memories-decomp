@@ -7,10 +7,10 @@
 #include "model_geometry_tables.h"
 
 /* State for Model_UpdateDiscEffect, one of the four handlers in the pointer
-   table at gModel_apfnEffectHandlers. arg1 >= 0 builds a disc of 67 points: a centre at a
+   table at gModel_apfnEffectHandlers. request >= 0 builds a disc of 67 points: a centre at a
    third of the radius and two 33-point rings at the radius and at four fifths
-   of it, with the three decimal digits of arg1 turned into the centre colour.
-   Negative arg1 draws the disc as 32 Gouraud triangles and advances level
+   of it, with the three decimal digits of request turned into the centre colour.
+   Negative request draws the disc as 32 Gouraud triangles and advances level
    (-2) or scale (any other value). */
 typedef struct {
     ModelDiscEffectConfig *table;
@@ -138,8 +138,8 @@ typedef struct {
     u8 dust_b;
 } ModelSparkEffect;
 
-s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1);
-s32 Model_UpdateBurstEffect(void *data, s32 arg1);
-s32 Model_UpdateSparkEffect(void *data, s32 arg1);
+s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request);
+s32 Model_UpdateBurstEffect(void *data, s32 request);
+s32 Model_UpdateSparkEffect(void *data, s32 request);
 
 #endif
