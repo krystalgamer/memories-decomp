@@ -112,10 +112,18 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
  * there is nothing to retire. */
 
 u8 gMainMenu_PackageStageRect[8] = {
+#ifdef VERSION_EUROPE
+    /* x 640, y 208: the European strip sits beside the 256-line frame. */
+    0x80,
+    0x02,
+    0xD0,
+    0x00,
+#else
     0x00,
     0x00,
     0xF0,
     0x00,
+#endif
     0x00,
     0x01,
     0x08,

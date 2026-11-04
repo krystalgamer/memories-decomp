@@ -454,7 +454,7 @@ segments:
       - {start: 0x8CABA, type: bin, name: spanish_raw_8009c2ba, linker_section_order: .sdata}
       - [0x8CAC8, .sdata, game/duel_card_effects]
       - [0x8CAD5, pad]
-      - {start: 0x8CAD6, type: bin, name: spanish_raw_8009c2d6, linker_section_order: .sdata}
+      - [0x8CAD8, .sdata, game/european/debug_menu_update]
       - [0x8CAEC, .sdata, game/spanish/save_data_payload]
       - {start: 0x8CAF4, type: bin, name: spanish_raw_8009c2f4, linker_section_order: .sdata}
       - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
@@ -464,7 +464,8 @@ segments:
       - [0x8CB94, .sdata, game/european/model_debug_controller]
       - {start: 0x8CB98, type: bin, name: spanish_raw_8009c398, linker_section_order: .sdata}
       - [0x8CBE8, .sdata, game/spanish/movie_frame_pipeline]
-      - {start: 0x8CBFC, type: bin, name: spanish_raw_8009c3fc, linker_section_order: .sdata}
+      - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
+      - {start: 0x8CC04, type: bin, name: spanish_raw_8009c404, linker_section_order: .sdata}
       - [0x8CC08, .sbss, game/european/graphics_frame]
       - [0x8CC58, .sbss, game/european/file_set_position_table]
       - [0x8CC60, .sbss, game/european/file_transfer_runtime]

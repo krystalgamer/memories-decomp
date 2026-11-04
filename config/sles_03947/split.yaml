@@ -457,7 +457,7 @@ segments:
       - {start: 0x8C6A6, type: bin, name: initialized_data_8c6a6, linker_section_order: .sdata}
       - [0x08C6AC, .sdata, game/duel_card_effects]
       - [0x08C6B9, pad]
-      - [0x08C6BC, sdata, initialized_sdata_8009bebc]
+      - [0x08C6BC, .sdata, game/european/debug_menu_update]
       - [0x08C6D0, .sdata, game/european/save_data_payload]
       - [0x08C6D8, sdata, initialized_sdata_8009bed8]
       - [0x08C6F0, .sdata, game/model_queue_relative_camera_orbit]
@@ -467,6 +467,7 @@ segments:
       - [0x08C76C, .sdata, game/european/model_scene_controllers]
       - [0x08C78C, .sdata, game/european/model_debug_controller]
       - [0x08C790, sdata, initialized_sdata_8009bf90]
+      - [0x08C7E0, .sdata, game/european/main_menu_load_package_stage]
       - [0x8c7e8, .sbss, game/european/graphics_frame]
       - [0x8c838, .sbss, game/european/file_set_position_table]
       - [0x8c840, .sbss, game/european/file_transfer_runtime]
