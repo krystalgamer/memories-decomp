@@ -171,12 +171,12 @@ shape (point 8 pairs with point 7). Two `rsin` results are discarded by the
 original (alternating-parity sway and a phase advancing by 1300), and the
 projected word receives a packed sine displacement. The draw pass submits
 up to `count` quads, alternating the two packets with the MODEL400
-`(s16)(k % 2) == 1` increment, through `func_8005B260` with depth and flag
+`(s16)(k % 2) == 1` increment, through `Graphics_SubmitDrawModePacket` with depth and flag
 checks. State 3 grows each count by `speed` up to 8; the last strand moves
 the state to 4. Both phases and `spin` advance afterwards.
 
 The packet sort call at `0x8004D5B8` was named only by a local address alias.
-Its independently verified resident name `func_8005B260` (declared in
+Its independently verified resident name `Graphics_SubmitDrawModePacket` (declared in
 `gpu_packets.h`) replaces that alias in the shared MODEL458 linker file and in
 both Splat symbol files; the resident binding set is otherwise unchanged.
 

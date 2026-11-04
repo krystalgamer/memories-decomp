@@ -13,7 +13,7 @@
  * references in the generated assembly are inside their own object, so the
  * two records below are described entirely by this translation unit. */
 
-/* The state func_8003D334 reads its scroll offsets and phase from. Only the
+/* The state Checkerboard_DrawBackground reads its scroll offsets and phase from. Only the
  * three fields it touches are named; the gaps are padding to hold the offsets,
  * not evidence that the record ends at 0x16. */
 typedef struct {

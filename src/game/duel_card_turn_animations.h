@@ -48,7 +48,7 @@ typedef struct {
     u8 phase;
 } DuelCardTurnObject;
 
-void func_80022674(DuelCardTurnObject *p);
-void func_800229F4(DuelCardTurnObject *p);
+void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p);
+void Duel_UpdateCardToFieldView(DuelCardTurnObject *p);
 
 #endif

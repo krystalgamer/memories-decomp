@@ -29,7 +29,7 @@ void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, 
                 packet->code &= ~2;
                 GsSortPoly(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
             } else {
-                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
     }
@@ -53,7 +53,7 @@ void DuelEffect_ProjectSubmitGt4(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, 
             if (depth < 0) {
                 depth = 0;
             }
-            func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+            Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
         }
     }
 }

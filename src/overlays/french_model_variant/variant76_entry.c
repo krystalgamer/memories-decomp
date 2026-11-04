@@ -134,7 +134,7 @@ s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
                     if (work->life[i] > config->fade) {
                         GsSortPoly(&triangle, ot, (u16)depth);
                     } else {
-                        func_8005B260((u32 *)&triangle, ot, (u16)depth, 1);
+                        Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                     }
                 }
             }

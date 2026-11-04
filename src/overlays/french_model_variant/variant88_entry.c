@@ -101,7 +101,7 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
             SetSemiTrans(&quad, 0);
             if (j * config->period / config->count < work->frame &&
                 work->timers[i * config->count + j] >= 0 && depth >= 0 && flag >= 0) {
-                func_8005B260((u32 *)&quad, ot, depth & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket((u32 *)&quad, ot, depth & 0xFFFF, 1);
             }
             point++;
         }

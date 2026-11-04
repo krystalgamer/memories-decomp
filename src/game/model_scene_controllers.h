@@ -10,7 +10,7 @@
  * by byte 0xA0 of the selected background record at gModel_pBackgroundRecord (the intro
  * controller switches on the same byte, values 0 to 6). Model_UpdateScene
  * calls it every scene update, directly after the background renderer
- * func_8004DE24. Both arms build the same four-halfword RECT
+ * Model_DrawBackground. Both arms build the same four-halfword RECT
  * at gModel_ImageCopyRectX and hand it to MoveImage; they differ in the source region and
  * in how the frame is derived from VSync(-1) -- case 1 cycles three 16-pixel
  * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector

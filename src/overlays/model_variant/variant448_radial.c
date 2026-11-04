@@ -57,7 +57,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
             tri->g2 = rec->middle.g;
             tri->b2 = rec->middle.b;
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)tri, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)tri, ot, (u16)otz, 1);
             }
             otz = RotTransPers4(&rec->point[j + 1], &rec->point[j + 2],
                                 &rec->point[j + 18], &rec->point[j + 19],
@@ -76,7 +76,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
             quad->g3 = rec->edge.g;
             quad->b3 = rec->edge.b;
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)quad, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)otz, 1);
             }
         }
         if (MODEL_VARIANT_WORD(work, 0x1B3C) == 0) {

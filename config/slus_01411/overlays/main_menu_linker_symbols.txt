@@ -38,7 +38,6 @@ gGraphics_apOrderingTables = 0x800E9D90;
 
 Graphics_SubmitDrawModePacket = 0x8005B260;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;
 
 MainMenu_CreateTradeReadyIndicator = 0x800610E0;
 

@@ -90,7 +90,7 @@ extern const char gAiScript_szCheckpointFormat[];
 
 /* Address-only declarations found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- into the duel scene
- * callback table -- and none is invoked from C. func_80029EC4, the fourth of
+ * callback table -- and none is invoked from C. Library_DrawCardGrid, the fourth of
  * this class (gMain_apFrameServiceCallbacks[3], library_runtime.c), left for
  * game/library_card_grid.h when it matched.
  *
@@ -131,7 +131,7 @@ extern const char gAiScript_szCheckpointFormat[];
  * Model_UpdateExodiaPresentation.
  * Model_SeparateViewFromSlots has since
  * matched and is declared by game/model_separate_view.h. */
-/* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and func_80015EF4
+/* SD_AllocateSoundEffectVoice is now owned by sound_voice_allocator.h, and Duel_RenderFieldCard3D
  * (Duel_RenderFieldCard3D) has matched and is declared by
  * game/duel_field_card_render.h. */
 
@@ -172,7 +172,7 @@ struct DuelRitualResult;
  * records.
  *
  * Duel_InitScene installs it rather than calling it, as `gMain_apFrameServiceCallbacks[3] =
- * func_800164FC;` (src/game/duel_init_scene.c:155), so the declaration
+ * Duel_DrawFieldCards;` (src/game/duel_init_scene.c:155), so the declaration
  * has to match the definition exactly for the address to be taken. */
 
 /* gScript_apfnCommandHandlers handler: the two-axis smooth scroll stepper Script_OpViewportTween

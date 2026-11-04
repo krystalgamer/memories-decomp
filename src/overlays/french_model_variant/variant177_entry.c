@@ -213,7 +213,7 @@ s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
         green = config->flash_green * (config->flash_duration - time) / config->flash_duration;
         blue = config->flash_blue * (config->flash_duration - time) / config->flash_duration;
         setRGB0(&flash, red, green, blue);
-        func_8005B260((u32 *)&flash, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     PopMatrix();
     work->elapsed += step;

@@ -42,7 +42,7 @@ typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
 #include "duel_check_ritual.h"
 
 /* Duel_CheckRitual receives base + 8 and writes three pointers followed by
- * zero at base + 0x14 (the terminator word after the five slots). func_80018FEC
+ * zero at base + 0x14 (the terminator word after the five slots). DuelScene_UpdateExodiaResult
  * also clears that word after filling its five slots. The resident image
  * backs this complete 0x18-byte range; see notes/ritual-controller-storage.md.
  * Overlap the five-slot view with the actual, complete output subobject

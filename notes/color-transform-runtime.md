@@ -159,7 +159,7 @@ claim about the user-facing ownership of either band.
 
 ## Card-image readback
 
-Matching `func_8001944C` has a separate readback path: `StoreImage2` reads a
+Matching `DuelCard_CaptureRoundedTexture` has a separate readback path: `StoreImage2` reads a
 rectangle into `D_8015C424`, a loop sets `COLOR_BGR555_STP_MASK` on every
 halfword, twelve corner pixels are cleared to 0 (the three at each corner:
 (0, 0), (0, 1), (1, 0) and their mirrors at columns 138/139 and rows

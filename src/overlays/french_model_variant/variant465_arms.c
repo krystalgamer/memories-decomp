@@ -220,7 +220,7 @@ void ModelVariant448_DrawFans(u8 *ctx)
                     poly->g3 = c1[j + 1 + i * 2 + t * 6];
                     poly->b3 = c2[j + 1 + i * 2 + t * 6];
                     if (unit->otz[t][k][j] >= 0 && status[i][t][k] >= 0) {
-                        func_8005B260((u32 *)poly, ot, (u16)unit->otz[t][k][j], 1);
+                        Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)unit->otz[t][k][j], 1);
                     }
                 }
             }

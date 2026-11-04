@@ -90,7 +90,7 @@ void FrenchModelVariant411_DrawTube(u8 *context)
                 }
                 flag = 0;
                 if (depth >= 0) {
-                    func_8005B260((u32 *)quad, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
                 }
             }
         }

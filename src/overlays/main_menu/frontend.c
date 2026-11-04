@@ -498,7 +498,7 @@ void MainMenu_DrawFrontendBackground(void)
 #else
         flat.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-        func_8005B260((u32 *)&flat, (GsOT *)gGraphics_apOrderingTables[2], 0, 2);
+        Graphics_SubmitDrawModePacket((u32 *)&flat, (GsOT *)gGraphics_apOrderingTables[2], 0, 2);
     }
     setPolyFT4(&sprite);
     sprite.r0 = 128;
@@ -569,7 +569,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.y2 = 64;
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = 64;
-    func_8005B260((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
+    Graphics_SubmitDrawModePacket((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
 
     shade.r0 = 0;
     shade.g0 = 0;
@@ -613,7 +613,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-    func_8005B260((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
+    Graphics_SubmitDrawModePacket((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
 }
 #endif
 

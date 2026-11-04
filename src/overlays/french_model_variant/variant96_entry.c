@@ -118,7 +118,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
                 depth = AverageZ4(outer_depth[j], outer_depth[j + 1], inner_depth[j], inner_depth[j + 1]);
                 flag = (outer_flags[j] | outer_flags[j + 1] | inner_flags[j] | inner_flags[j + 1]) & 0x20;
                 if (depth >= 0 && flag == 0) {
-                    func_8005B260((u32 *)&quad, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);
                 }
             }
         }
@@ -131,7 +131,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
         setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         brightness = 255 * (config->flash_duration - time) / config->flash_duration;
         setRGB0(&flash, brightness, brightness, brightness);
-        func_8005B260((u32 *)&flash, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     PopMatrix();
     work->elapsed += Model_GetFrameStep();

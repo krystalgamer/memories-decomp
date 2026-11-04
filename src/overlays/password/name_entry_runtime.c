@@ -72,7 +72,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 #endif
     object->glyph_advance_x = 0x14;
     object->line_advance_y = 0x12;
-    func_80039A14((struct DuelEffectChannel *)object);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)object);
 }
 #endif
 
@@ -114,36 +114,36 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
     poly->y2 = y - 1;
     poly->y1 = y - 1;
     poly->y0 = y + 3;
-    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
     right = x + w;
     poly->x1 = right + 1;
     poly->x0 = right + 1;
     poly->x2 = right - 3;
-    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
     poly->y2 = y + h + 1;
     poly->y1 = y + h + 1;
     poly->y0 = y + h - 3;
-    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
     poly->x1 = xm1;
     poly->x0 = xm1;
     poly->x2 = xp3;
-    func_8005B260((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
     line->x1 = x + (w >> 1);
     line->x0 = x + (w >> 1);
     line->y0 = y + 2;
     line->y1 = 0;
-    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
     line->y0 = y + h - 2;
     line->y1 = 192;
-    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
     line->y1 = y + (h >> 1);
     line->y0 = y + (h >> 1);
     line->x0 = x + 2;
     line->x1 = 0;
-    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
     line->x0 = right - 2;
     line->x1 = 320;
-    func_8005B260((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
 }
 #endif
 
@@ -166,19 +166,19 @@ void NameEntry_Init(void)
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 #ifdef VERSION_EUROPE
     TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
-    func_80039A14(TEXT_CHANNEL(3));
+    TextBox_BuildBlocking(TEXT_CHANNEL(3));
 #else
 #ifndef VERSION_JAPAN
     func_8003B6AC(3, 1);
 #endif
     TextBox_Create(3, 254, 112, 204, 96, 16);
 #ifdef VERSION_JAPAN
-    func_80039A14((struct DuelEffectChannel *)&((JapaneseDuelEffectChannel *)gText_aChannels)[3]);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)&((JapaneseDuelEffectChannel *)gText_aChannels)[3]);
 #else
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 16;
     boxes[3].line_advance_y = 16;
-    func_80039A14((struct DuelEffectChannel *)&boxes[3]);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[3]);
     func_8003B6AC(0, 1);
 #endif
 #endif
@@ -205,7 +205,7 @@ void NameEntry_Init(void)
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->glyph_advance_x = 20;
     sprite->line_advance_y = 18;
-    func_80039A14((struct DuelEffectChannel *)sprite);
+    TextBox_BuildBlocking((struct DuelEffectChannel *)sprite);
 #endif
 #ifdef VERSION_JAPAN
     gNameEntry_bCharacterSet = 0;
@@ -1203,7 +1203,7 @@ void NameEntry_UpdateDialog(void)
             id = gNameEntry_wPendingDialogId;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
-                    func_80039A14((struct DuelEffectChannel *)box);
+                    TextBox_BuildBlocking((struct DuelEffectChannel *)box);
                     gDialog_bChoice = 0;
                 }
                 box->prompt_object = Dialog_OpenChoice(box);

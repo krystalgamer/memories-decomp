@@ -22,7 +22,7 @@ void Credits_StartLineGroup(s32 index)
             TextBox_DestroyIndex(i);
             channel = TextBox_CreateFlagged(i, text, 16, 40, 512, 256, 6);
             channel->color_index_54 = 5;
-            func_80039A14(channel);
+            TextBox_BuildBlocking(channel);
             if (cue->flags & 1) {
                 DuelEffect_SetEntryControlBytes(channel, 8, 0);
             } else {
@@ -33,7 +33,7 @@ void Credits_StartLineGroup(s32 index)
                 TextBox_DestroyIndex(i + 2);
                 channel = TextBox_CreateFlagged(i + 2, cue->secondary, 16, 40, 512, 256, 6);
                 channel->color_index_54 = 5;
-                func_80039A14(channel);
+                TextBox_BuildBlocking(channel);
                 DuelEffect_SetEntryControlBytes(channel, 5, 0);
                 DuelEffect_ProcessEntries(channel);
             }
@@ -144,7 +144,7 @@ void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
     do {
         packet->y0 = packet->y1 = i;
         i += 24;
-        func_8005B260((u32 *)packet, ot, 0, 0);
+        Graphics_SubmitDrawModePacket((u32 *)packet, ot, 0, 0);
     } while (i < 256);
     packet->y0 = 0;
     packet->y1 = 256;
@@ -153,6 +153,6 @@ void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
     do {
         packet->x0 = packet->x1 = i;
         i += 24;
-        func_8005B260((u32 *)packet, ot, 0, 0);
+        Graphics_SubmitDrawModePacket((u32 *)packet, ot, 0, 0);
     } while (i < 320);
 }

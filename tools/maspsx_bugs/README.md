@@ -14,7 +14,7 @@ against ASPSX. **The four earlier suspected faults turned out not to be one**; t
 - The **unfilled reorder-mode branch delay slot** was also faithful — ASPSX
   pads such a branch too. Where retail has a filled slot, *GCC* filled it, so
   the question is why GCC handed the assembler a reorder-mode branch at all.
-  `func_80012DB4` was filed here, then matched with no tooling change: a
+  `Graphics_SyncFrame` was filed here, then matched with no tooling change: a
   ternary instead of an `if`/`else` made GCC fill the slot, and dropping a
   `volatile` freed a call argument to sink into another. See the corrections in
   `notes/research/matching-evidence.md`.

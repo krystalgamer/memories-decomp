@@ -247,7 +247,7 @@ remain unchanged.
 base is not exclusively a card database: `Duel_RequestCombinedDeckData`
 passes it through the file-transfer descriptor's integer `position` field,
 `Duel_PopulateCombinedDeckData` copies card-image blocks from it, trap
-resolution uses scratch slots, and `func_8001944C` uses the base for GPU
+resolution uses scratch slots, and `DuelCard_CaptureRoundedTexture` uses the base for GPU
 readback. The default declaration therefore remains an incomplete byte
 array. No size or single lifetime is asserted for that raw buffer.
 
@@ -313,7 +313,7 @@ fingerprints and the complete resident executable remain unchanged.
 
 `Duel_DrawFieldCards` passes the same `DuelCardRecord *` it walks through
 both occupied field rows to `Duel_RenderFieldCard3D` (formerly
-`func_80015EF4`). The callee now takes that shared type rather than `void *`
+`Duel_RenderFieldCard3D`). The callee now takes that shared type rather than `void *`
 and the redundant `DuelCardRenderHolder` prefix. Its only record reads are
 `object` at `+0x00` and `table_index` at `+0x18`. The latter is explicitly
 cast to `s8`: retail's `>= 15` half-turn test uses a signed byte, so values

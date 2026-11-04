@@ -153,7 +153,7 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     setRGB3(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
                 }
                 if (ribbon->depth[k] >= 0 && flags[i][k] >= 0) {
-                    func_8005B260((u32 *)quad, ot, (u16)ribbon->depth[k], 1);
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)ribbon->depth[k], 1);
                 }
             }
             if (i + 1 == 9 && ribbon->progress[16] >= 1024 && work->phase == 2) {

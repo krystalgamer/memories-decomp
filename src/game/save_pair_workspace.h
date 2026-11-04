@@ -16,7 +16,7 @@
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c, through
  * its 16-byte block view, cast at the use). The
  * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,
- * func_8003FD14.s:22-23, func_8003F8D4.s:115-116 and :136-137) and say
+ * SaveData_UpdateDuelLoad.s:22-23, SaveData_UpdateLoadPair.s:115-116 and :136-137) and say
  * nothing about the object's width. The linker scripts name
  * gSaveData_aFirstPlayerNameSjis (+0x40C) and gSaveData_aTradeWriteStaging (+0x680)
  * inside it, and the Block16 indexes above reach +0x400, +0x680, +0x6D0,

@@ -10,7 +10,7 @@
  * the activity-inhibit bit.
  *
  * Before canonical names, the table privately declared address 0x8003AAE4
- * as `void func_8003AAE4(u8 *);` while the definition used MenuRecord *.
+ * as `void DisplayEffect_FadeInRecord(u8 *);` while the definition used MenuRecord *.
  * This owned header retains the definition's actual callback ABI. */
 void DisplayEffect_FadeInRecord(MenuRecord *record);
 

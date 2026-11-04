@@ -10,7 +10,7 @@
  * uses 0x08,0x50 / 0x130x0x30.
  *
  * `value`'s low fifteen bits are the string id. Bit 15 is a request to run
- * func_80039A14 on the new channel -- but only when `set_flags` is zero;
+ * TextBox_BuildBlocking on the new channel -- but only when `set_flags` is zero;
  * a non-zero `set_flags` instead sets 0x1008 in the channel's flags_34 and
  * the bit is ignored. The two arms are exclusive, which the two callers rely
  * on: one passes 0x80D4 with set_flags zero, the other 0xD0.

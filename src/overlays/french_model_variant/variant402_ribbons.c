@@ -111,7 +111,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
                 prim->b2 = 0x80;
                 if (ribbon->otz[k] > 0) {
                     if (ribbon->otz[k] < 0x800) {
-                        func_8005B260((u32 *)prim, ot, (u16)ribbon->otz[k], 1);
+                        Graphics_SubmitDrawModePacket((u32 *)prim, ot, (u16)ribbon->otz[k], 1);
                     }
                 }
             }

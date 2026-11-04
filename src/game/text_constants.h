@@ -47,7 +47,7 @@ typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
  * into it through a named
  * address local, `slot = &gText_StagedStringId;` (screen_runtime.c:129-131), and
  * DuelScene_UpdateResultRewards stores a halfword to it through $at
- * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
+ * (DuelScene_UpdateResultRewards.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
 #if defined(TEXT_STRING_ID_IN_DATA)
@@ -104,7 +104,7 @@ extern u16 gText_DecimalDigitGlyphMap[];
 /* Seeds the colour slots above for a two-choice prompt and puts the box on
  * screen: it fills the first five with 4, clears the one its argument selects,
  * marks slot 3 or slot 4 depending on that argument, then calls TextBox_Create
- * and func_80039A14.
+ * and TextBox_BuildBlocking.
  *
  * Declared here because this is the header that owns gText_abColorSlots, the
  * table it writes -- the note on that declaration already names this file as

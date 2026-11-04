@@ -86,7 +86,7 @@ row eight, point sixteen, inside the proven array. Each quad's first
 two corners use the current row color and its last two use the next.
 
 Nonnegative depth and flag permit sorting through the already declared
-`func_8005B260` (`src/game/gpu_packets.h`), with sixteen-bit priority and
+`Graphics_SubmitDrawModePacket` (`src/game/gpu_packets.h`), with sixteen-bit priority and
 fourth argument one. Its Spanish resident owner is `0x8004D5B8`.
 There is no extra positive-size draw guard.
 

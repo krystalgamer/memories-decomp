@@ -189,7 +189,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
         blue = 255 * (config->flash_duration - time);
         blue /= config->flash_duration;
         setRGB0(&flash, blue, blue, blue);
-        func_8005B260((u32 *)&flash, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     time = work->elapsed - config->burst_delay;
     if (time < 0) {

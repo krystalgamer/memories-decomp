@@ -136,7 +136,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
             setRGB2(quad, outer[i + 1][j].r, outer[i + 1][j].g, outer[i + 1][j].b);
             setRGB3(quad, outer[i + 1][j + 1].r, outer[i + 1][j + 1].g, outer[i + 1][j + 1].b);
             if (depth >= 0 && flag >= 0) {
-                func_8005B260((u32 *)quad, ot, (u16)depth, 1);
+                Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
             }
         }
     }

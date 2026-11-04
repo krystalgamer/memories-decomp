@@ -130,11 +130,11 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
                 flag = (flags[i] | flags[i + 1]) & 0x20;
             }
             if (depth >= 0 && flag == 0) {
-                func_8005B260((u32 *)&triangle, ot, (u16)depth, 1);
+                Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                 if (red == config->red) {
-                    func_8005B260((u32 *)&triangle, ot, (u16)depth, 0);
+                    Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 0);
                 } else {
-                    func_8005B260((u32 *)&triangle, ot, (u16)depth, 2);
+                    Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 2);
                 }
             }
         }
@@ -235,7 +235,7 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
         red = (config->flash_duration - time) * 255 / config->flash_duration;
         setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         setRGB0(&flash, red, red, red);
-        func_8005B260((u32 *)&flash, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     phase_time = time - 12;
     time = phase_time - config->spacing * 32;
@@ -243,7 +243,7 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
         red = (config->flash_duration - time) * 255 / config->flash_duration;
         setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         setRGB0(&flash, red, red, red);
-        func_8005B260((u32 *)&flash, ot, 1, 1);
+        Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     PopMatrix();
     work->elapsed += step;

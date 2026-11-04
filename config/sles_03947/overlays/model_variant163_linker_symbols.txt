@@ -25,4 +25,3 @@ Graphics_SubmitDrawModePacket = 0x8004D3B4;
 memset = 0x8008F344;
 ratan2 = 0x80089724;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;

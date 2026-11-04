@@ -188,7 +188,7 @@ if (D_8009B1C8->field_1F != 0) {
 }
 ```
 
-`func_8003AAE4` later passes `field_67` to `func_8003A1EC`, which uses it as
+`DisplayEffect_FadeInRecord` later passes `field_67` to `func_8003A1EC`, which uses it as
 the resource index for image lookup and display-object setup. Replacing the
 immediate byte with `0x00` or `0x01` therefore changes the selected opponent
 card image resource; it does not alter the duel's underlying card data.

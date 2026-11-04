@@ -29,7 +29,4 @@ extern u16 gText_awGlyphNibblePatterns[16];
 extern u16 gText_awGlyphColorMasks[];
 #endif
 
-/* The lookup's original symbol remains for non-C callers. */
-u8 *func_80036BCC(s32 id);
-
 #endif

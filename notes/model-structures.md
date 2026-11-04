@@ -633,7 +633,7 @@ source grouping, request order or existing test oracle is changed.
 
 ### Timed model-tint requests
 
-Matching `func_80058938` and `Model_UpdateTintRequests` establish a ten-entry request
+Matching `Model_QueueTintRequest` and `Model_UpdateTintRequests` establish a ten-entry request
 array at `D_800F2B50`, with `0x18` bytes per entry. The constructor scans from
 entry zero and fills the first record whose low active bit is clear; if all ten
 are active, it reaches the end without replacing one. It records one of model

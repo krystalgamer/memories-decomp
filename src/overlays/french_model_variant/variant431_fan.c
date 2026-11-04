@@ -65,7 +65,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
             poly->g3 = rec->outer[1];
             poly->b3 = rec->outer[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)poly, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
             otz = RotTransPers4(&rec->point[j + 6], &rec->point[0],
                                 &rec->point[j + 7], &rec->point[j + 8],
@@ -84,7 +84,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
             poly->g3 = rec->outer[1];
             poly->b3 = rec->outer[2];
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)poly, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
         if ((u32)MODEL_VARIANT_WORD(work, 0x18A0) >=

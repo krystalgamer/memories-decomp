@@ -70,7 +70,7 @@ again (#5).
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three
 create fixed text slots through `func_80035BE4`, and the refreshers and
-flagged message path drive them through `func_80039A14`.
+flagged message path drive them through `TextBox_BuildBlocking`.
 
 The merged source keeps two same-symbol views of `gText_StagedValues`. The starchip
 renderer writes its first word through a scalar alias; the purchase dialog
@@ -310,7 +310,7 @@ The lengths exclude each packet's tag word; the records occupy 24 and 20
 bytes respectively. `setLineF3` also supplies the `0x55555555` polyline
 terminator. The corner color and first callout color are green; the second
 callout color is black. These are input packet colors, not a claim about
-opaque final pixels: `func_8005B260` copies the packet and applies draw-mode
+opaque final pixels: `Graphics_SubmitDrawModePacket` copies the packet and applies draw-mode
 and semi-transparency handling.
 
 The caller uses that helper's `u32 *`, `GsOT *`, `s32`, `s32` interface.

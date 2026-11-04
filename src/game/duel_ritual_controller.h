@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* Shared ritual result id: func_8002622C and func_800262D4 retain the
+/* Shared ritual result id: DuelEffect_StartRitual and DuelEffect_ApplyRitual retain the
  * signed low halfword returned by Duel_CheckRitual. */
 extern s16 gDuel_RitualResultCardId;
 

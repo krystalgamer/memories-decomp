@@ -177,7 +177,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
             setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             brightness = 255 * (config->quad_duration - time) / config->quad_duration;
             setRGB0(&flash, brightness, brightness, brightness);
-            func_8005B260((u32 *)&flash, ot, 1, 1);
+            Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
         }
         PopMatrix();
         work->elapsed += step;

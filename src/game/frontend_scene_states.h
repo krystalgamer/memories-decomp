@@ -15,7 +15,7 @@ void DebugMenu_UpdateTitleEntry(void); /* 10 */
 void DebugMenu_UpdateMovieEntry(void); /* 13 */
 void DebugMenu_UpdateLoadEntry(void); /* 14: runs the duel effect state with gDuel_bEffectState = 3 */
 void DebugMenu_UpdateSaveEntry(void); /* 15: the same with gDuel_bEffectState = 4 */
-void DebugMenu_UpdateTradeEntry(void); /* 16: polls func_8003FCD8, then selects mode 14 */
+void DebugMenu_UpdateTradeEntry(void); /* 16: polls SaveData_UpdateTradeLoad, then selects mode 14 */
 void DebugMenu_EnterDuel(void); /* 3: arms a duel through Main_StartDuel */
 void DebugMenu_EnterDeckEditor(void); /* 8: enters narrow-confirm Build Deck */
 

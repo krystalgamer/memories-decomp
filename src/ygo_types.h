@@ -217,7 +217,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
 ];
 
 /* Eight bytes copied as one unit. Two retained candidates use this shape as
-   the source and destination of a whole-struct assignment: func_80015EF4
+   the source and destination of a whole-struct assignment: Duel_RenderFieldCard3D
    copies four rotation corners and DebugMenu_UpdateValueEditor one mask block out of
    gDebugMenu_awNibbleMasks. The matching wireframe renderer Library_DrawWireframeGlobe used it for its
    parameter block out of D_80181000 until that block was typed as the SVECTOR
@@ -231,8 +231,8 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    rather than to word loads. The three targets say so directly -- an eight-byte
    alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
    the retained targets and matching wireframe text are exactly two pairs per
-   source-level assignment: func_80015EF4.S has 8 of each for its four copies;
-   Library_DrawWireframeGlobe and func_80030294.S have 2 of each for their one. A word-element
+   source-level assignment: Duel_RenderFieldCard3D.S has 8 of each for its four copies;
+   Library_DrawWireframeGlobe and DebugMenu_UpdateValueEditor.S have 2 of each for their one. A word-element
    spelling would not reproduce them; any element narrower than a word does.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it

@@ -123,7 +123,7 @@ void FrenchModelVariant383_DrawRibbons(u8 *context)
                 triangle->g2 = colors->outer;
                 triangle->b2 = colors->outer;
                 if (ribbon->depth[j] >= 0 && flag[i][j] >= 0) {
-                    func_8005B260((u32 *)triangle, ot, (u16)ribbon->depth[j], 1);
+                    Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)ribbon->depth[j], 1);
                 }
             }
         }

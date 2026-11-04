@@ -88,7 +88,7 @@ extern u32 gSortedEntry_nSortedCount;
  * walks it through SortedEntry_Append, and bits 0-1 draw sorted entries.
  * SortedEntry_BeginCollection sets bit 2 when it opens the list and
  * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
- * clears bits 0 and 1. Only func_800220B8's debug toggle of bit 0 sets either
+ * clears bits 0 and 1. Only DebugEffect_UpdateViewControls's debug toggle of bit 0 sets either
  * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
  * not known here.  Model_SetFogDrawFlags writes the word wholesale, and all three of
  * its call sites pass 0. */

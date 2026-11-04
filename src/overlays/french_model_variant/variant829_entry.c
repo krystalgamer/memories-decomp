@@ -145,7 +145,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
                 (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
                 (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0) {
-                func_8005B260((u32 *)&quad, ot, (u16)depth, 1);
+                Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);
             }
             if (work->status.fields.active == 4) {
                 if (ABS(work->positions[i].vz) < 450) {
@@ -203,7 +203,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
                     setUV4(&quad, value * 32, 64, value * 32 + 31, 64,
                         value * 32, 127, value * 32 + 31, 127);
                     if (depth >= 0) {
-                        func_8005B260((u32 *)&quad, ot, (u16)depth, 1);
+                        Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);
                     }
                     work->cloud_offsets[i][j].vy -= 8;
                     if (work->cloud_gray[i][j] >= 16) {

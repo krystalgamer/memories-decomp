@@ -114,7 +114,7 @@ s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command)
                 setXY3(&triangle, projected[0].vx, projected[0].vy,
                        projected[j].vx, projected[j].vy, projected[j + 1].vx, projected[j + 1].vy);
                 depth = AverageZ3(depths[0], depths[j], depths[j + 1]);
-                func_8005B260((u32 *)&triangle, ot, depth & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, depth & 0xFFFF, 1);
             } else if (work->frame < i * config->interval + config->growth + config->hold + config->fade) {
                 box.x = projected[j].vx;
                 box.y = projected[j].vy;

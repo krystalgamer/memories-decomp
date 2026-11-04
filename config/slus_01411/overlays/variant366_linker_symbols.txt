@@ -32,5 +32,6 @@ RotTransPers3 = 0x80087910;
 RotTransPers4 = 0x800879D0;
 ScaleMatrix = 0x80087670;
 SetRotMatrix = 0x800877B0;
+Graphics_SubmitDrawModePacket = 0x8005B260;
 GsGetActiveBuff = 0x80085320;
 Graphics_SubmitMaskWritePacket = 0x8005B4D8;

@@ -864,7 +864,7 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
  *   SD_DropQueuedCdPlayCommands needs the two-instruction form.
  *
- *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
+ *   G_SDVALUE_VOLATILE -- SD_RequestMusicPackageLoad reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
  *   SD_FadeOutStreamAudio's local alias also refreshes it after its conditional output
@@ -1080,12 +1080,12 @@ void SD_CloseSequence(void);
 #endif
 /* Mutes active low-channel secondary objects, then sets the playback state
  * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
-void func_80049CF8(void);
+void SD_MuteSecondaryVoices(void);
 
 void SD_SetOutputType(s16);
 /* Restores cached levels for active low-channel secondary objects and sets
  * the playback state at +0x7E2 to 1, bracketed by the +0x500 guard. */
-void func_80049DD8(void);
+void SD_RestoreSecondaryVoiceVolumes(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *gSD_pSecondaryState and refreshes the object volumes unless sequence_state is
@@ -1127,7 +1127,7 @@ extern u32 gSD_dwCurrentBgmCommand;
  * it. Initial value not read.
  *
  * Every retail access is 32-bit and goes through %hi/%lo
- * (func_8002EC74.s:42-43, 58-59, 66-67; func_800386B8.s:31-32, 42-43,
+ * (Script_OpSound.s:42-43, 58-59, 66-67; DuelEffect_ProcessBgmCommand.s:31-32, 42-43,
  * 50-51), so both units define the .data arm; the `s32 []` one of them used
  * to declare, read only at `[0]`, reached that form the way the comment
  * above describes for gSD_dwCurrentBgmCommand. The plain arm is what a
@@ -1143,12 +1143,12 @@ extern u32 gSD_dwSavedBgmCommand;
 /* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where the C
  * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
  * the save state's byte into it (save_data_payload.c:201, :204;
- * func_8003D0F4.s:19-20) and SaveData_BuildPayload copies it into an s32
+ * SaveData_ApplyRuntimeState.s:19-20) and SaveData_BuildPayload copies it into an s32
  * it tests `< 0`, stores 0 when it is, and copies it into the payload
- * byte (save_data_payload.c:151, :156-157, :160; func_8003D03C.s:15-16,
+ * byte (save_data_payload.c:151, :156-157, :160; SaveData_BuildPayload.s:15-16,
  * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
  * it copies into gOptions_bOutputType and tests `< 0` (options_screen.c:103,
- * :105-106; func_8003C628.s:34-35 lbu). Sound_InitFrontend stores -1
+ * :105-106; Options_Init.s:34-35 lbu). Sound_InitFrontend stores -1
  * (sound_frontend.c:15) and Options_HandleInput stores 1 or 0
  * (options_screen.c:143, :150). Every retail access is a byte at the symbol
  * itself, the payload copies one byte, nothing in the tree reaches +1, and
@@ -1156,7 +1156,7 @@ extern u32 gSD_dwSavedBgmCommand;
  * placement lever, not a length (main_services.h:65-70 and options.h:37-38
  * say so); the four units whose listings reach it through %hi/%lo take the
  * .data arm, and sound_frontend.c, whose store is gp-relative
- * (func_8003FE80.s:12), takes the plain one. */
+ * (Sound_InitFrontend.s:12), takes the plain one. */
 #ifdef GSD_BOUTPUTTYPE_IN_DATA
 extern s8 gSD_bOutputType __attribute__((section(".data")));
 #else

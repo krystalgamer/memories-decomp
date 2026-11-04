@@ -131,7 +131,7 @@ extern u16 gScript_ImageOperand;
  * The save-prompt context at
  * gScript_SavePromptSceneOperand is declared by script_op_save_prompt.h, its actual consumer.
  * Retail reaches both gp-relative; historical listings spell the latter
- * %gp_rel(gScript_EventState + 0x2) in the listings (func_8002EE94.s:27, 324,
+ * %gp_rel(gScript_EventState + 0x2) in the listings (Script_OpSavePrompt.s:27, 324,
  * 350, 361) because nothing references its address directly, so its
  * original address-qualified name recorded a role, not a new allocation.
  * Whether it is its own object or the flag word's second element is not

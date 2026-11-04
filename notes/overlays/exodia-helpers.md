@@ -149,7 +149,7 @@ Its SDK proof also checks GetTPage, GetClut, SetShadeTex, SetPolyG3 and Square0.
 In particular, the constructor at `0x80082E48` is SetPolyG3, not SetPolyF4.
 The second entry's additional constructor at `0x80082E88` is independently
 identified as SetPolyF4 through `P16.OBJ`. Its packet-copy and vector-query
-calls use the existing `func_8005B260` and `func_80059B90` implementations
+calls use the existing `Graphics_SubmitDrawModePacket` and `func_80059B90` implementations
 at French addresses `0x8004D5B8` and `0x8005CC98`. The shared binding table now
 contains 34 resident bindings, retaining every previously accepted binding.
 

@@ -44,7 +44,7 @@ void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 b
                 DuelEffect_SubmitOffsetQuad(edge, flags);
             } else {
                 depth -= bias;
-                func_8005B260((u32 *)edge, gDuelEffect_pOrderingTable,
+                Graphics_SubmitDrawModePacket((u32 *)edge, gDuelEffect_pOrderingTable,
                     (u16)(depth >> 2), flags);
             }
         }

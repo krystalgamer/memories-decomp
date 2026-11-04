@@ -31,4 +31,3 @@ Model_GetSlotAnimationFrame = 0x8005D358;
 Model_GetFrameStep = 0x8005D2E0;
 Model_SetSlotAmbient = 0x8005DA8C;
 
-func_8005B260 = Graphics_SubmitDrawModePacket;
