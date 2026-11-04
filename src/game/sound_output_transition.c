@@ -34,24 +34,23 @@ void SD_FadeInStreamAudio(void)
     }
 }
 
-/* This function reads the sound root through a volatile pointer view. */
 void SD_FadeOutStreamAudio(void)
 {
-    SDValue *state = *(SDValue *volatile *)&g_SDValue;
+    SDValue *state = g_SDValue;
     SDValue *flags;
 
     if (state->status_flags & 0x80) {
         state->sequence_fade_step = 8;
         state->bgm_fade_target = 255;
-        state = *(SDValue *volatile *)&g_SDValue;
+        state = g_SDValue;
         state->cd_fade_target = 0;
-        flags = *(SDValue *volatile *)&g_SDValue;
+        flags = g_SDValue;
         state->cd_fade_step = -64;
         flags->status_flags &= 0xFFFB;
         return;
     }
     state->cd_fade_target = 0;
-    flags = *(SDValue *volatile *)&g_SDValue;
+    flags = g_SDValue;
     state->cd_fade_step = -64;
     flags->status_flags &= 0xFFFB;
 }

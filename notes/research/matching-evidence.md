@@ -78,6 +78,8 @@ without extra sign extension.
 alignment. It uses ordinary `gcc_2_8_1_g8_split` and the existing
 `G_SDVALUE_IN_DATA` declaration in `sound.h`: no register pins, inline
 assembly, mixed small-data threshold, local extern, or new profile is needed.
+The attribute's only effect on the compiler output is to drop the
+`.extern g_SDValue, 4` line that would make MASPSX use `$gp`.
 Earlier candidate/pin measurements below remain historical evidence.
 
 The byte-cursor control flow was corroborated by the user-provided
@@ -3214,7 +3216,7 @@ the reason was visible in what `$s0` held: `%hi(g_SDValue)`, cached once and
 reused across the calls in the tail.
 
 That followed from declaring the global as an array, `extern SDValue
-*g_SDValue[]` (sound.h's `G_SDVALUE_AGGREGATE` arm), which is not small data,
+*g_SDValue[]` (a since-removed `G_SDVALUE_AGGREGATE` arm of sound.h), which is not small data,
 so `-msplit-addresses` splits the
 address into a register and common-subexpression elimination then keeps it
 alive across calls in a callee-saved one. The target rebuilds `%hi` at each
@@ -7559,10 +7561,12 @@ The 84-byte callback at `0x800466C8` matches under the existing uniform
 global addresses. It keeps the shared `SDValue` layout and the existing
 `void(void)` callback contract installed by `SD_InitState`.
 
-The existing `G_SDVALUE_VOLATILE` view supplies the initial pointer read, the
+Reading `g_SDValue` directly supplies the initial pointer read, the
 conditional refresh after writes to `+0x1588` and `+0x1584`, and the final
-pointer capture before the `+0x0512` store and flag update. It replaces the
-retired candidate's two memory barriers; no new declaration view is needed.
+pointer capture before the `+0x0512` store and flag update: the stores
+through the pointer may alias it, so GCC reloads it. An earlier
+`G_SDVALUE_VOLATILE` view and volatile casts gave the same object and were
+removed.
 
 The two source-level exit paths intentionally repeat the final stores. GCC
 merges their machine-code tail while allocating the state pointer to `$v1`

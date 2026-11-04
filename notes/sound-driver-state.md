@@ -828,11 +828,10 @@ only variable -- but the general lesson is cheaper than six of them: when a
 type substitution moves an object, vary the ACCESS with the type held
 fixed before varying the type any further.
 
-`SD_RequestMusicPackageLoad` is a third deliberate exception and is no longer a raw
-view. The global pointer is volatile in that routine, which the unit
-selects by defining `G_SDVALUE_VOLATILE` -- an arm of `sound.h`'s own
-declaration chain rather than a suppression of it -- and `sound.h` carries
-the measurement. Its accesses are typed members (`p->music_track`,
+`SD_RequestMusicPackageLoad` is no longer a raw view or an exception. It
+once selected a volatile `G_SDVALUE_VOLATILE` declaration, but the plain
+declaration gives a byte-identical object: its reloads come from the calls
+and stores between the reads. Its accesses are typed members (`p->music_track`,
 `q->status_flags`, `q->field_1560`); the `u8 * volatile` redeclaration and
 the offset expressions this note described were removed by `98f79757`
 ("Take every g_SDValue declaration from sound.h (#2610)") and `548c78cb`

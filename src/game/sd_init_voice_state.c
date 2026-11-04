@@ -1,5 +1,4 @@
 #include "../types.h"
-#define G_SDVALUE_IN_DATA
 #include "sound.h"
 #include "../psyq/libspu.h"
 #include "sound_pending_constants.h"

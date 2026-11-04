@@ -854,53 +854,22 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
 
 #undef SD_STATE_OFFSET
 
-/* Three alternative spellings of this declaration are codegen inputs:
- * sd_drop_queued_cd_play_commands.c takes the aggregate arm; sd_request_music_package_load.c takes the volatile
- * arm; sound_output_transition.c and sound_output_state.c keep the same
- * measured views for SD_FadeOutStreamAudio and SD_MeasureCdAudioLevel through same-symbol local
- * aliases;
- * sd_queue_value_link_transfer.c, sd_step_active_command.c and sd_cancel_music_requests.c
- * take the .data arm.
+/* The sound root. sd_queue_value_link_transfer.c,
+ * sd_allocate_sound_effect_voice.c and sd_init_voice_state.c load it with
+ * lui %hi / lw %lo at every use because they build at -G0 without split
+ * addresses; they reach no small data through $gp at all.
  *
- *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
- *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
- *   SD_DropQueuedCdPlayCommands needs the two-instruction form.
+ * sd_step_active_command.c and sd_cancel_music_requests.c still define
+ * G_SDVALUE_IN_DATA. They also reach no small data through $gp, but their
+ * switch tables need -msplit-addresses, and at -G0 that splits g_SDValue too
+ * and keeps its %hi in a saved register, which retail does not. At -G8 the
+ * compiler leaves g_SDValue as one lw macro; the attribute only drops the
+ * `.extern g_SDValue, 4` line that would make MASPSX use $gp.
  *
- *   G_SDVALUE_VOLATILE -- SD_RequestMusicPackageLoad reads the pointer three times and
- *   retail reloads it each time; without the qualifier gcc commons the
- *   first read and the reloads disappear.
- *   SD_FadeOutStreamAudio's local alias also refreshes it after its conditional output
- *   setup and captures it again before clearing the output flag.
- *   SD_MeasureCdAudioLevel uses four staged pointer reads around decoded-buffer
- *   selection, accumulation, and result publication.
- *
- *   G_SDVALUE_IN_DATA -- SD_QueueValueLinkTransfer reaches the pointer three
- *   times and retail uses the bare form at every one of them: lui $a3, %hi /
- *   lw $a3, %lo at 0x80047788, again into $v1 at 0x80047804 and into $a0 at
- *   0x80047828. Placing the symbol in .data takes it out of small data at
- *   the compiler, with its real type and no assembler -G change. The unit
- *   used to spell this as a second extern of its own beside this header's,
- *   which is the same declaration twice; deleting that extern without this
- *   arm builds `rebuilt executable is 0x1d07f4 bytes, expected 0x1d0800`,
- *   twelve bytes and three instructions short, so the attribute is the
- *   mechanism and not decoration. sd_step_active_command.c and sd_cancel_music_requests.c took
- *   this same arm when their own private externs were deleted, and each was
- *   measured byte-identical with it; whether either would also build without
- *   it was not measured.
- *
- * Everything else takes the plain declaration. sd_arm_busy_callback.c also
- * sees it, but reaches the pointer through a literal address macro instead. Its
- * object shows what that buys: `lui v1, 0x800a` / `lw v1, -19364(v1)` for
- * 0x8009B45C with NO relocation, where the SD_ClearBusyFlag two
- * instructions later carries R_MIPS_HI16 and R_MIPS_LO16. The reason given
- * there is that the absolute spelling is load-bearing in that unit; that
- * claim lives in a comment in that file and is not re-measured here. */
+ * sd_arm_busy_callback.c reaches the pointer through a literal address
+ * instead; see that file. */
 #ifdef G_SDVALUE_IN_DATA
 extern SDValue *g_SDValue __attribute__((section(".data")));
-#elif defined(G_SDVALUE_AGGREGATE)
-extern SDValue *g_SDValue[];
-#elif defined(G_SDVALUE_VOLATILE)
-extern SDValue *volatile g_SDValue;
 #else
 extern SDValue *g_SDValue;
 #endif
