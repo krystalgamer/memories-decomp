@@ -1,3 +1,5 @@
+bss_start = 0x8009C408;
+gFile_PrimaryTransferDescriptor = 0x800EB1B8;
 Main_VBlankCB = 0x80012BD8; // type:func size:0x78
 Main_AdvanceFrame = 0x80012C50; // type:func size:0x38
 Main_AdvanceFrames = 0x80012C88; // type:func size:0x30

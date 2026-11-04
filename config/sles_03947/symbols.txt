@@ -790,7 +790,6 @@ gModel_wViewDistance = 0x8009C3E8;
 gModel_wViewYaw = 0x8009C3EA;
 gModel_wViewPitch = 0x8009C3EC;
 gModel_ViewSnapshot = 0x8009C3F0;
-D_800E9D70 = 0x8009C418;
 gGraphics_apOrderingTables = 0x8009C438; // size:0x10
 Script_ReadByte = 0x800300B8;
 Script_ReadU16LE = 0x800300D4;

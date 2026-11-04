@@ -711,17 +711,8 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 /* Auxiliary slot's retained load-step byte view. */
 g_SDValue_output_level = g_SDValue;
 
-/* Names inside graphics_frame's own storage (#2602). */
-D_8009B0A8 = D_8009C02A_sles_03947;
-
-/* Names inside graphics_frame's own storage (#2602). */
-D_800E9D70 = gGraphics_aImageTransferRects;
-
-/* Raw names inside this build's owned zero-initialized storage (#2602). */
-D_8009C408 = D_8009BFE8_sles_03947;
-D_8009C828 = D_8009C828_sles_03948;
-D_800EB1B8 = gFile_PrimaryTransferDescriptor;
-D_800F6F20 = gAiScript_aMemory;
+/* The startup code clears bss from the first small zero-initialized object. */
+bss_start = main_SBSS_START;
 gDebugEffect_szOperandsFormat = 0x80010060;
 gDebugEffect_szSecondOperandMarker = 0x8001007C;
 gDebugEffect_szFirstOperandMarker = 0x80010094;
