@@ -82,7 +82,7 @@ object before it.
 
 | Unit | Section | Range |
 |---|---|---|
-| `src/game/graphics_frame.c` | `.sbss` | `0x8009B090`-`0x8009B0E0` |
+| `src/game/main.c` | `.sbss` | `0x8009B090`-`0x8009B0E0` |
 | `src/game/file_set_position_table.c` | `.sbss` | `0x8009B0E0`-`0x8009B0E8` |
 | `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
 | `src/game/fade_runtime.c` | `.sbss` | `0x8009B140`-`0x8009B150` |
@@ -107,7 +107,7 @@ object before it.
 | `src/game/sound_output_transition.c` | `.sbss` | `0x8009B458`-`0x8009B468` |
 | `src/game/model_scene_controllers.c` | `.sbss` | `0x8009B468`-`0x8009B498` |
 | `src/game/movie_frame_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
-| `src/game/graphics_frame.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
+| `src/game/main.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
 | `src/game/file_set_position_table.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
 | `src/game/file_transfer_runtime.c` | `.bss` | `0x800E9E18`-`0x800E9EC8` |
 | `src/game/fade_runtime.c` | `.bss` | `0x800E9EC8`-`0x800E9EF0` |

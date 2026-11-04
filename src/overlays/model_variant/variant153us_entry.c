@@ -10,7 +10,7 @@
  * then two sheets trail towards an anchor beside it and towards a point
  * between the slots, both spin there, and a white flash closes the effect. */
 
-static const VECTOR gModelVariant153Us_D143C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant153Us_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command)
 {
@@ -39,7 +39,7 @@ s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant153Us_D143C;
+    scale = gModelVariant153Us_UnitScale;
     work = (Model153UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

@@ -223,8 +223,8 @@ void NameEntry_Init(void)
     obj->xy.h.x = 22;
     gNameEntry_wCursorTargetY = 24;
     obj->xy.h.y = 24;
-    obj->field_3C.h.field_3C = 16;
-    obj->field_3C.h.field_3E = 16;
+    obj->field_3C.size.w = 16;
+    obj->field_3C.size.h = 16;
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
@@ -235,8 +235,8 @@ void NameEntry_Init(void)
 #else
     DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
 #endif
-    obj->field_48.h.field_4A = 13;
-    obj->field_48.h.field_48 = 13;
+    obj->field_48.pivot.y = 13;
+    obj->field_48.pivot.x = 13;
     obj->attribute = obj->attribute | GsALON;
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
@@ -432,8 +432,8 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
 #else
                                   glyph->field_66,
 #endif
-                                  (u16)glyph->field_40.h.field_40,
-                                  (u16)glyph->field_40.h.field_42);
+                                  (u16)glyph->field_40.clut.x,
+                                  (u16)glyph->field_40.clut.y);
                     piece->field_6C = 3;
                     piece->update =
                         (DisplayObjectCallback)NameEntry_UpdateGlyphFragment;
@@ -461,11 +461,11 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
         object->field_6C = flags | 0x80;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
         object->field_34.h.field_36 =
-            ((object->field_44.h.field_44 -
+            ((object->field_44.target.x -
               (s16)object->xy.h.x) << 8) /
             object->field_60;
         object->field_38.h.field_38 =
-            ((object->field_44.h.field_46 -
+            ((object->field_44.target.y -
               (s16)object->xy.h.y) << 8) /
             object->field_60;
     }
@@ -497,10 +497,10 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         g->field_6C |= 0x80;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)g);
         g->field_34.h.field_36 =
-            ((g->field_44.h.field_44 - (s16)g->xy.h.x) << 8) /
+            ((g->field_44.target.x - (s16)g->xy.h.x) << 8) /
             g->field_60;
         g->field_38.h.field_38 =
-            ((g->field_44.h.field_46 - (s16)g->xy.h.y) << 8) /
+            ((g->field_44.target.y - (s16)g->xy.h.y) << 8) /
             g->field_60;
     }
     if ((g->field_6C & 0x40) != 0) {
@@ -519,8 +519,8 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         DisplayObject_ConfigureScreenSprite(o,
                       (s16)g->xy.h.x, (s16)g->xy.h.y,
 #ifdef VERSION_EUROPE
-                      (u16)g->field_3C.h.field_3C,
-                      (u16)g->field_3C.h.field_3E,
+                      (u16)g->field_3C.size.w,
+                      (u16)g->field_3C.size.h,
 #else
                       16, 16,
 #endif
@@ -529,7 +529,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 #ifdef VERSION_JAPAN
                       0x210, 0xFF);
 #else
-                      (u16)g->field_40.h.field_40, (u16)g->field_40.h.field_42);
+                      (u16)g->field_40.clut.x, (u16)g->field_40.clut.y);
 #endif
         o->rgb = 0x606060;
         o->field_60 = 6;
@@ -756,11 +756,11 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     }
     gNameEntry_bCaretPos += delta;
     object = (DisplayObject *)gNameEntry_pCaret;
-    object->field_44.h.field_44 = gNameEntry_bCaretPos * 16 + 0x6B;
+    object->field_44.target.x = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;
     object->field_60 = arg;
-    object->field_44.h.field_46 = object->xy.h.y;
+    object->field_44.target.y = object->xy.h.y;
     SD_SEPlayFull(0xC);
     return 1;
 }
@@ -1019,8 +1019,8 @@ select:
         object = NameEntry_SpawnGlyphSprite(1, node);
         object->field_60 = 8;
         object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        object->field_44.h.field_46 = 204;
-        object->field_44.h.field_44 = gNameEntry_bCaretPos * 16 + 114;
+        object->field_44.target.y = 204;
+        object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
         object->field_6C = 6;
     }
     return;
@@ -1098,13 +1098,13 @@ join:
         ((DisplayObject *)obj)->flags &= 0xFFBF;
     }
     if (work != 0) {
-        ((DisplayObject *)obj)->field_48.h.field_48 = 20;
+        ((DisplayObject *)obj)->field_48.pivot.x = 20;
         node = TextBox_GetGlyphAt(kind, gx + 20, gy);
         obj = NameEntry_SpawnGlyphSprite(kind, node);
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update =
             (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-        ((DisplayObject *)obj)->field_48.h.field_48 = 0;
+        ((DisplayObject *)obj)->field_48.pivot.x = 0;
     }
     if (kind == 1) {
         u16 *slot;
@@ -1118,8 +1118,8 @@ join:
         ((DisplayObject *)obj)->field_60 = 8;
         ((DisplayObject *)obj)->update =
             (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        ((DisplayObject *)obj)->field_44.h.field_46 = 204;
-        ((DisplayObject *)obj)->field_44.h.field_44 =
+        ((DisplayObject *)obj)->field_44.target.y = 204;
+        ((DisplayObject *)obj)->field_44.target.x =
             gNameEntry_bCaretPos * 16 + 112;
         ((DisplayObject *)obj)->field_6C = 6;
     }

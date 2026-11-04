@@ -219,8 +219,8 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
     object->field_1C = 0;
-    object->field_1A = 0;
-    object->field_18 = 0;
+    object->field_18.center.y = 0;
+    object->field_18.center.x = 0;
     /* List 4 reads only this low byte to gate a second POLY_G4 submission. */
     *(u8 *)&object->field_5A = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -245,8 +245,8 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
     object->field_1C = 0;
-    object->field_1A = 0;
-    object->field_18 = 0;
+    object->field_18.center.y = 0;
+    object->field_18.center.x = 0;
     ((u8 *)object)[0x72] = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
@@ -485,13 +485,13 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     s32 cx;
     s32 cy;
 
-    scale[0] = object->field_44.h.field_44;
-    scale[1] = object->field_44.h.field_46;
+    scale[0] = object->field_44.scale.x;
+    scale[1] = object->field_44.scale.y;
     depth = (s16)object->ot_depth;
     cx = (s16)object->xy.h.x;
     cy = (s16)object->xy.h.y;
-    inner = object->field_48.h.field_48;
-    outer = object->field_48.h.field_4A;
+    inner = object->field_48.spotlight.inner;
+    outer = object->field_48.spotlight.outer;
 
     for (i = 0; i < 4; i++) {
         *(u32 *)&poly[i].r0 = 0;

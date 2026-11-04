@@ -10,7 +10,7 @@
  * its size. The French header-172 and 302 images build this source without
  * the printf and with a 256-line flash. */
 
-static const VECTOR gModelVariant155_D1750 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant155_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant155_D1750;
+    scale = gModelVariant155_UnitScale;
     work = (Model155State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -96,7 +96,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant155_D1770[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant155_aImages[i]);
         }
         work->elapsed = 0;
         work->frame = 0;

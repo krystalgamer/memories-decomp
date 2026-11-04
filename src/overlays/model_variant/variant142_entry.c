@@ -8,7 +8,7 @@
  * slot's fan parts and the third slot's ambient light dims and recovers.
  * The return value reports the hit (1), the end (2) or a still-moving entry. */
 
-static const VECTOR gModelVariant142_D1390 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant142_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant142_D1390;
+    scale = gModelVariant142_UnitScale;
     work = (Model142State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

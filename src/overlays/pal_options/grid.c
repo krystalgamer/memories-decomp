@@ -18,8 +18,8 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     sprite->attribute = object->attribute;
     sprite->xy.h.x = object->xy.h.x;
     sprite->xy.h.y = object->xy.h.y;
-    sprite->extent.wh.w.word = object->field_3C.h.field_3C;
-    sprite->extent.wh.h = object->field_3C.h.field_3E;
+    sprite->extent.wh.w.word = object->field_3C.size.w;
+    sprite->extent.wh.h = object->field_3C.size.h;
     sprite->rgb = object->rgb;
     sprite->cxcy.word = object->field_40.word;
     sprite->uv.word = object->field_5C;

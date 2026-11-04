@@ -7,6 +7,6 @@
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default. */
 #define TEXT_BOX_LAYOUT_QUAD_FLAG 0x40
-#define TEXT_BOX_LAYOUT_HEIGHT 0xC0
+#define TEXT_BOX_GLYPH_CLUT_Y 0xC0
 
 #include "../text_control_commands.c"

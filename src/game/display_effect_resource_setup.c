@@ -120,7 +120,7 @@ void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offs
                 e->attribute = e->attribute | GsALON;
                 DisplayObject_SetDepthOffset(e, c);
                 e->rgb = COLOR_RGB24_NEUTRAL_GREY;
-                e->field_40.h.field_42 -= 1;
+                e->field_40.clut.y -= 1;
             }
         }
     } else {
@@ -130,9 +130,9 @@ void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offs
                 e->attribute = (e->attribute & ~(GsALON | GsATWO | GsAONE)) | attribute;
                 DisplayObject_SetDepthOffset(e, (s8)depth_offset);
                 if (attribute == (GsALON | GsATWO)) {
-                    e->field_40.h.field_42 = 0xFD;
+                    e->field_40.clut.y = 0xFD;
                 } else {
-                    e->field_40.h.field_42 += 1;
+                    e->field_40.clut.y += 1;
                 }
             }
         }

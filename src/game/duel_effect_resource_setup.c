@@ -38,11 +38,11 @@
 #ifndef DUEL_RESOURCE_PATH_FIELD_5E
 #define DUEL_RESOURCE_PATH_FIELD_5E 0xCE
 #endif
-#ifndef DUEL_RESOURCE_PATH_FIELD_3C
-#define DUEL_RESOURCE_PATH_FIELD_3C 0x18
+#ifndef DUEL_RESOURCE_PATH_WIDTH
+#define DUEL_RESOURCE_PATH_WIDTH 0x18
 #endif
-#ifndef DUEL_RESOURCE_PATH_FIELD_3E
-#define DUEL_RESOURCE_PATH_FIELD_3E 0xC
+#ifndef DUEL_RESOURCE_PATH_HEIGHT
+#define DUEL_RESOURCE_PATH_HEIGHT 0xC
 #endif
 #ifndef DUEL_RESOURCE_SECONDARY_X
 #define DUEL_RESOURCE_SECONDARY_X 4
@@ -157,8 +157,8 @@ path_a:
     object->xy.h.y = DUEL_RESOURCE_PATH_Y;
     DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
         DUEL_RESOURCE_PATH_FIELD_5E;
-    object->field_3C.h.field_3C = DUEL_RESOURCE_PATH_FIELD_3C;
-    object->field_3C.h.field_3E = DUEL_RESOURCE_PATH_FIELD_3E;
+    object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
+    object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
 #ifdef VERSION_EUROPE
     DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] =
         (gText_bLanguageIndex << 4) - 0x60;
@@ -200,10 +200,10 @@ shared_tail:
         object, 2, DUEL_RESOURCE_SECONDARY_X, 1, 0, variant, 0x1C,
         setup + 8);
 
-    object->field_18 = 0x46;
-    object->field_48.h.field_48 = 0x46;
-    object->field_1A = DUEL_RESOURCE_SECONDARY_Y;
-    object->field_48.h.field_4A = DUEL_RESOURCE_SECONDARY_Y;
+    object->field_18.center.x = 0x46;
+    object->field_48.pivot.x = 0x46;
+    object->field_18.center.y = DUEL_RESOURCE_SECONDARY_Y;
+    object->field_48.pivot.y = DUEL_RESOURCE_SECONDARY_Y;
     object->field_6A = (u8)variant;
     object->attribute |= 0x01000000;
     object->flags |= 8;

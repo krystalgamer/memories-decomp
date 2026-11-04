@@ -11,7 +11,7 @@
  * draws a frame; any other command sets the work area up and prints its
  * size. */
 
-static const VECTOR gModelVariant166_D1CBC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant166_UnitScale = {4096, 4096, 4096, 0};
 
 #define SPARK_TEXTURE(n) \
     quad.tpage = work->texture[n] >> 16; \
@@ -46,7 +46,7 @@ s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant166_D1CBC;
+    scale = gModelVariant166_UnitScale;
     work = (Model166State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

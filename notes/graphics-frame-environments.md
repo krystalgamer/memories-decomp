@@ -54,7 +54,7 @@ The additional semantic export aliases the same native provider.
 The resident candidates currently contain no direct environment/tint consumer;
 all 19 candidate fingerprints must still pass because this shared header has
 transitive users. The completed source move carries the startup's two selector
-macros and five typed stores in `src/game/main_services.c`, with
+macros and five typed stores in `src/game/main.c`, with
 `graphics_frame.h` visible before use. The shortened
 `movie_frame_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared

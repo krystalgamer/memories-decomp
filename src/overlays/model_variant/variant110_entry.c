@@ -7,7 +7,7 @@
  * dots grows out of the slot and a burst of sparks flies out, each over its
  * own duration. */
 
-static const VECTOR gModelVariant110_D1918 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant110_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant110_D1918;
+    scale = gModelVariant110_UnitScale;
     work = (Model110State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

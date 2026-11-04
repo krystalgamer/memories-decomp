@@ -8,7 +8,7 @@
  * an optional screen flash. A negative command draws a frame; any other
  * command sets the work area up and prints its size. */
 
-static const VECTOR gModelVariant148_D1708 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant148_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant148_D1708;
+    scale = gModelVariant148_UnitScale;
     work = (Model148State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

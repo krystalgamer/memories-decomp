@@ -1677,7 +1677,7 @@ Three functions use it. `Main_Init` establishes the
 shared `gMain_RecoveryJmpBuf` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
 `DebugMenu_Exit` (`debug_menu_leave_entries.c`) returns through `longjmp(..., 2)`. `Main_Init` remains a
-implementation in `src/game/main_init.c`, while `Main_RunGameOver` now
+implementation in `src/game/main.c`, while `Main_RunGameOver` now
 matches from `src/game/main_mode_runners.c`; `debug_menu_leave_entries.c` is the other
 matching user. The imported `longjmp`
 prototype has no compiler attribute, so `DebugMenu_Exit` repeats the compatible

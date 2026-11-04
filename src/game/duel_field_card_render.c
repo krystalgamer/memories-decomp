@@ -366,9 +366,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     sprite->r0 = a;
     RotMatrixZYX_gte(rot, lm);
     if ((obj->flags & GsROTOFF) == 0) {
-        scale->vx = obj->field_44.h.field_44;
+        scale->vx = obj->field_44.scale.x;
         scale->vy = 0x1000;
-        scale->vz = obj->field_44.h.field_46;
+        scale->vz = obj->field_44.scale.y;
         ScaleMatrix(lm, scale);
     }
 
@@ -433,7 +433,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     prim->u1 = c;
     prim->v3 = d;
     prim->v2 = d;
-    prim->clut = (((u16)obj->field_40.h.field_42 + DUEL_FIELD_CARD_CLUT_Y) << 6) | DUEL_FIELD_CARD_CLUT_X16;
+    prim->clut = (((u16)obj->field_40.clut.y + DUEL_FIELD_CARD_CLUT_Y) << 6) | DUEL_FIELD_CARD_CLUT_X16;
     setPolyGT4(prim);
     SetSemiTrans(prim, 0);
     prim->tpage = prim->tpage & 0xFF9F;

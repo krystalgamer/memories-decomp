@@ -13,7 +13,7 @@
 #include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
-/* One 0x18-byte command record of the table at gModelVariant366_D3558. */
+/* One 0x18-byte command record of the table at gModelVariant366_aConfigs. */
 typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
@@ -100,8 +100,8 @@ typedef struct {
     DVECTOR target;
 } Variant366Projection;
 
-extern GsIMAGE gModelVariant366_D345C[];
-extern Variant366Config gModelVariant366_D3558[];
+extern GsIMAGE gModelVariant366_aImages[];
+extern Variant366Config gModelVariant366_aConfigs[];
 
 s32 ModelVariant366_HandleRequest(u8 *context, s32 command);
 void FrenchModelVariant383_DrawRibbons(u8 *context);

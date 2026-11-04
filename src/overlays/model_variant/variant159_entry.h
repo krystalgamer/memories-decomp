@@ -39,7 +39,7 @@ typedef struct {
     s32 frames;
 } Model159State;
 
-extern GsIMAGE gModelVariant159_D1D94[];
+extern GsIMAGE gModelVariant159_aImages[];
 extern Model159Config gModelVariant159_D1DB0[];
 
 s32 ModelVariant159_HandleRequest(u8 *context, s32 command);

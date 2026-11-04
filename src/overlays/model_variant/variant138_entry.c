@@ -7,7 +7,7 @@
  * orbiting it, 32 sprites rise from around the opposing slot, and the light
  * is restored at the end. */
 
-static const VECTOR gModelVariant138_D3304 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant138_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
 {
@@ -37,11 +37,11 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant138_D3304;
+    scale = gModelVariant138_UnitScale;
     work = (Model138State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant138_D337C[command];
+        config = work->config = &gModelVariant138_aConfigs[command];
         point = work->lower;
         other = work->upper;
         for (i = 0; i < 17; i++) {
@@ -100,7 +100,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
         }
         /* All three words are packed from the first image. */
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant138_D3328);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant138_aImages);
         }
         work->elapsed = -config->lead;
         work->completed = 0;

@@ -25,8 +25,8 @@ typedef char DisplayObjectWorkSlots_position_offsets_must_match[
     DISPLAY_OBJECT_WORK_OFFSET(xy.h.y) == 0x32 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
-    DISPLAY_OBJECT_WORK_OFFSET(field_44.h.field_44) == 0x44 &&
-    DISPLAY_OBJECT_WORK_OFFSET(field_44.h.field_46) == 0x46 ? 1 : -1
+    DISPLAY_OBJECT_WORK_OFFSET(field_44.scale.x) == 0x44 &&
+    DISPLAY_OBJECT_WORK_OFFSET(field_44.scale.y) == 0x46 ? 1 : -1
 ];
 #undef DISPLAY_OBJECT_WORK_OFFSET
 

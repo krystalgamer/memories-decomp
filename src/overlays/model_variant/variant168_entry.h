@@ -49,7 +49,7 @@ typedef struct {
 #ifdef MODEL168_EXTERNAL_SCALE
 extern const VECTOR gModelVariant168_D118C;
 #endif
-extern GsIMAGE gModelVariant168_D11AC[];
+extern GsIMAGE gModelVariant168_aImages[];
 extern Model168Config gModelVariant168_D12A8[];
 
 s32 ModelVariant168_HandleRequest(u8 *context, s32 command);

@@ -58,7 +58,7 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
             point->vz = size * csin(elevation) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant129_D0FB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant129_aImages[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;
