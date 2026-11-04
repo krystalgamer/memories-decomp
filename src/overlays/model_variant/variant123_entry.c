@@ -8,7 +8,7 @@
  * command's slot part, cross to the other slot and fade while pushing past it.
  * The return value reports the hit (1), the end (2) or a still-moving entry. */
 
-static const VECTOR gModelVariant123_D1340 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant123_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant123_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant123_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant123_D1340;
+    scale = gModelVariant123_UnitScale;
     work = (Model123State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

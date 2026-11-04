@@ -9,7 +9,7 @@
  * where sixty sparks burst one after another. A negative command draws a
  * frame; any other command sets the work area up and prints its size. */
 
-static const VECTOR gModelVariant170_D1FC4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant170_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant170_HandleRequest(u8 *context, s32 command)
 {
@@ -38,7 +38,7 @@ s32 ModelVariant170_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant170_D1FC4;
+    scale = gModelVariant170_UnitScale;
     work = (Model170State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

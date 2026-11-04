@@ -8,7 +8,7 @@
  * any other command sets the work area up and prints its size. The French
  * header-152 and 282 images build this source without the printf. */
 
-static const VECTOR gModelVariant135_D1680 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant135_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant135_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant135_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant135_D1680;
+    scale = gModelVariant135_UnitScale;
     work = (Model135State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

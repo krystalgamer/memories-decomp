@@ -8,7 +8,7 @@
  * five parts of the model. The setup builds the rings, the random sparks,
  * the grid and its quads and the ten textures, and prints the work size. */
 
-static const VECTOR gModelVariant144_D18E4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant144_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant144_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant144_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant144_D18E4;
+    scale = gModelVariant144_UnitScale;
     work = (Model144State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

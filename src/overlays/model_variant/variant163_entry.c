@@ -10,7 +10,7 @@
  * flash. A negative command draws a frame; any other command sets the work
  * area up. */
 
-static const VECTOR gModelVariant163_D23FC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant163_UnitScale = {4096, 4096, 4096, 0};
 
 static const Model163Order gModelVariant163_D240C = {{0, 1, 2, 3, 4, 5, 6, 7}};
 
@@ -44,7 +44,7 @@ s32 ModelVariant163_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant163_D23FC;
+    scale = gModelVariant163_UnitScale;
     order = gModelVariant163_D240C;
     work = (Model163State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;

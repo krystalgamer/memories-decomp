@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant93_entry.h"
 
-static const VECTOR gModelVariant93_D340C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant93_UnitScale = {4096, 4096, 4096, 0};
 
 /* Header 93's entry: a shaded dome of 137 points spins over the command's
  * part and fades, three lightning bolts reach from the slot towards a part
@@ -33,7 +33,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant93_D340C;
+    scale = gModelVariant93_UnitScale;
     work = (Model93State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

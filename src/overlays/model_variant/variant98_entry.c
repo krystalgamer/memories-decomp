@@ -7,7 +7,7 @@
  * command draws a frame and returns 0 before the sparks start, 4 while they
  * are emitted, 1 on the first frame after that (0 later) and 2 at the end. */
 
-static const VECTOR gModelVariant98_D15D4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant98_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant98_D15D4;
+    scale = gModelVariant98_UnitScale;
     work = (Model98State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

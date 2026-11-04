@@ -8,7 +8,7 @@
  * negative command draws a frame; any other command sets the work area up and
  * prints its size. */
 
-static const VECTOR gModelVariant162Us_D1AF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant162Us_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant162Us_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant162Us_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant162Us_D1AF8;
+    scale = gModelVariant162Us_UnitScale;
     work = (Model162UsState *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

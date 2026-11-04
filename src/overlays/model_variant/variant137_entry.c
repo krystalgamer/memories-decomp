@@ -9,7 +9,7 @@
  * sets the work area up and prints its size. The French header-154 and 284
  * images build this source without the printf and with a 256-line flash. */
 
-static const VECTOR gModelVariant137_D1C14 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant137_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant137_D1C14;
+    scale = gModelVariant137_UnitScale;
     work = (Model137State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

@@ -10,7 +10,7 @@
  * and 296 images build this source without the printf and with a 256-line
  * flash. */
 
-static const VECTOR gModelVariant149_D14B4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant149_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
 {
@@ -38,7 +38,7 @@ s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant149_D14B4;
+    scale = gModelVariant149_UnitScale;
     work = (Model149State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

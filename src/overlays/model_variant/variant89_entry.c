@@ -12,7 +12,7 @@
 #define MODEL89_ORDER_PAD 0x4C
 #endif
 
-static const VECTOR gModelVariant89_D240C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant89_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant89_D240C;
+    scale = gModelVariant89_UnitScale;
     {
         u8 order[15] = {0, 1, 2, 3, 11, 4, 5, 6, 7, 8, 11, 9, 10, 11, 11};
         long flag, interpolation;

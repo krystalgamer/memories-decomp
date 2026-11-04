@@ -10,7 +10,7 @@
  * the sparks end and 0 otherwise. The French header-150 and 280 images build
  * this source with a 256-line flash. */
 
-static const VECTOR gModelVariant133_D1854 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant133_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
 {
@@ -41,7 +41,7 @@ s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant133_D1854;
+    scale = gModelVariant133_UnitScale;
     work = (Model133State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
