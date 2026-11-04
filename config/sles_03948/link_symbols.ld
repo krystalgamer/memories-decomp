@@ -58,7 +58,6 @@ gDuelResult_aFrenchSpriteSpecsNoOpponent = 0x80091B80;
 gDuelResult_aGermanSpriteSpecsOpponent = 0x80091BD0;
 gDuelResult_aGermanSpriteSpecsNoOpponent = 0x80091C20;
 gDuelResult_aItalianSpriteSpecsOpponent = 0x80091C70;
-gDebugMenu_szLanguageEditorFormat = 0x800920CC;
 gDuelResult_aItalianSpriteSpecsNoOpponent = 0x80091CC0;
 gDuelResult_aSpanishSpriteSpecsOpponent = 0x80091D10;
 gDuelResult_aSpanishSpriteSpecsNoOpponent = 0x80091D60;

@@ -129,6 +129,9 @@ extern s8 gDebugMenu_bCursor;
 
    DebugMenu_UpdateCampaignEntry uses the shared declarations of gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat;
    their names retain the original R_MIPS_HI16/R_MIPS_LO16 relocations. */
+#ifdef VERSION_EUROPE
+u8 gDebugMenu_szLanguageEditorFormat[0x1C] = "          LANGUAGE = %X\n";
+#endif
 u8 gDebugMenu_szSoundEditorFormat[0x28] = "          SE= %04X BGM=%03X XA= %03X\n";
 u8 gDebugMenu_szMessageEditorFormat[0x18] = "          MSG = %03X\n";
 u8 gDebugMenu_szCampaignEditorFormat[0x18] = "          CAMP = %02X\n";

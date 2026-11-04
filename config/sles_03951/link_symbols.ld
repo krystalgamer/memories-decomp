@@ -522,7 +522,6 @@ FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
 func_801680F4 = 0x801680F4;
 func_80168160 = 0x80168160;
-gDebugMenu_szLanguageEditorFormat = 0x800920CC;
 gDuelResult_aFrenchSpriteSpecsOpponent = 0x80091B30;
 gDuelResult_aFrenchSpriteSpecsNoOpponent = 0x80091B80;
 gDuelResult_aGermanSpriteSpecsOpponent = 0x80091BD0;

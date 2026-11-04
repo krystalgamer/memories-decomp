@@ -293,16 +293,20 @@ their tables there:
 - `european/movie_stream_requests`: six movies share one stream range.
 - `model_image_copy_frames`.
 
-Three ranges stay in the extracted blob:
-- the 0x1C bytes after `scene_script_slots`;
-- the background-record run (`0x800920EC`-`0x800925EC`).
+The 0x1C bytes after `campaign_scene` are the European debug menu's
+`"LANGUAGE = %X"` editor format, `gDebugMenu_szLanguageEditorFormat`.
+`debug_menu_editor_entries` defines it under `VERSION_EUROPE` ahead of its
+other formats, and owns its data from `0x80091CB8` (and `0x800920CC` in the
+language builds).
 
 The display-object stream command table is now owned in Europe and the
 language builds. The background records and shadow fan steps that follow it
 in the North American image are their own data-only unit,
 `model_background_records.c`, because the European builds place other
-units' tables between the two. Their European and language-build contents
-differ, so that run stays extracted there.
+units' tables between the two. In every PAL build, byte 0xAE of records 1
+and 3 is 0x80 (`MODEL_BACKGROUND_RECORD_PAL_FLAG`). The five PAL builds
+compile the unit through `european/model_background_records.c` and place
+it at `0x800920EC` (Europe) and `0x800924CC` (language builds).
 
 The four language builds keep Europe's middle range `0x414` higher through
 `model_effect_state`. After it they place the background-record run, then
