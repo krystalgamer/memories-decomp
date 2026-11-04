@@ -57,16 +57,16 @@ void SD_InitState(u8 master_xa_lba_byte)
     if (master_xa_lba_byte != 0) {
         g_SDValue->data_source_flags |= 0xF0;
     }
-    g_SDValue->cd_mix_default = 0xFF;
-    g_SDValue->secondary_mix_default = 0xD2;
+    g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT = 0xFF;
+    g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT = 0xD2;
     g_SDValue->default_bgm_step = 0xFF;
     mix_state = g_SDValue;
-    cd_default = mix_state->cd_mix_default;
-    secondary_default = mix_state->secondary_mix_default;
+    cd_default = mix_state->s_bSD_CD_MIXER_OUT_DEFAULT;
+    secondary_default = mix_state->s_bSD_SMF_MIXER_OUT_DEFAULT;
     mix_state->cd_fade_target = 0xFF;
     bgm_target_state = g_SDValue;
-    mix_state->mix_scale = cd_default;
-    mix_state->secondary_mix_scale = secondary_default;
+    mix_state->s_wSD_CD_MIXER_OUT = cd_default;
+    mix_state->s_wSD_SMF_MIXER_OUT = secondary_default;
     bgm_target_state->bgm_fade_target = 0xFF;
     SD_InitSecondaryWorkArea((s32 *)0x801E1670);
     SD_InitSpuCommonVolume();

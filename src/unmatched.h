@@ -223,8 +223,8 @@ extern char gAiScript_szReturnUnderflowError[];
 extern u8 D_8018C7D8[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
-extern u8 gSD_SeBankVolInfoTag __attribute__((section(".data")));
 extern u8 gSD_SmfBankVolInfoTag __attribute__((section(".data")));
+extern u8 gSD_CdBankVolInfoTag __attribute__((section(".data")));
 /* Retail reaches this byte gp-relative only in script_op_save_prompt.c
  * (dropping its switch grows .text by 8 bytes); every other unit uses
  * absolute addressing. */

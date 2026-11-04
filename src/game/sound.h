@@ -88,15 +88,19 @@ typedef struct {
     u16 spu_address_div16;
 } SDNote;
 
-/* The eight-byte bank header SD_UpdateBankLoad copies into the start of SDValue.
- * This packed word view is for that whole-record copy: its byte alignment is
- * what preserves the retail lwl/lwr and swl/swr sequence. */
+/* The SE bank's global header: its first eight bytes, which SD_UpdateBankLoad
+ * copies whole into the start of SDValue. The US build's trace string
+ * "g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n" gives the member and the
+ * field at +2 their original names; the others follow that style. */
 typedef struct {
-    s32 words[2];
-} __attribute__((packed)) SDBankHeaderWords;
+    u16 s_wSD_NUM_SE;
+    u16 s_wSD_NUM_SEGROUP;
+    u16 s_wSD_SE_DYNAMIC_START;
+    u16 s_wSD_RESERVED;
+} SDGlobalHdrSE;
 
-typedef char SDBankHeaderWords_size_must_be_8[
-    sizeof(SDBankHeaderWords) == 8 ? 1 : -1
+typedef char SDGlobalHdrSE_size_must_be_8[
+    sizeof(SDGlobalHdrSE) == 8 ? 1 : -1
 ];
 
 /* A 0x800-byte mixer-out bank staging buffer, viewed from its tail. The last
@@ -105,7 +109,7 @@ typedef char SDBankHeaderWords_size_must_be_8[
  *
  * The signature starts at 0x7F8, but this view starts one byte later: retail
  * tests the leading 'V' through that address's own .data symbol
- * (gSD_SeBankVolInfoTag for the SE bank, gSD_SmfBankVolInfoTag for the SMF bank) and carries the
+ * (gSD_SmfBankVolInfoTag for the SE bank, gSD_CdBankVolInfoTag for the SMF bank) and carries the
  * matching relocation, so that byte stays a symbol rather than becoming a
  * member here. */
 typedef struct {
@@ -126,14 +130,12 @@ typedef union {
 } SDLevelWord;
 
 typedef struct SDValue {
-    u16 note_id_count;
-    u16 value_link_count;
-    u16 dynamic_note_start;
-    u8 pad0006[0x36];
+    SDGlobalHdrSE s_stGlobalHdrSE;
+    u8 pad0008[0x34];
     u32 bank_load_phase;
     u16 status_flags;
-    u16 mix_scale;
-    u16 secondary_mix_scale;
+    u16 s_wSD_CD_MIXER_OUT;
+    u16 s_wSD_SMF_MIXER_OUT;
     u8 pad0046[2];
     u8 output_type;
     u8 cd_fade_target;
@@ -258,8 +260,8 @@ typedef struct SDValue {
     u8 master_xa_file_name[0x10];
     /* Cached CD/secondary mixer defaults from the "VolInfo" trailers.
        Runtime reset restores the active scales from these bytes. */
-    u8 cd_mix_default;
-    u8 secondary_mix_default;
+    u8 s_bSD_CD_MIXER_OUT_DEFAULT;
+    u8 s_bSD_SMF_MIXER_OUT_DEFAULT;
     u8 default_bgm_step;
 } SDValue;
 
@@ -558,12 +560,12 @@ typedef char SDValue_voice_allocation_offsets_must_match[
     SD_STATE_OFFSET(SDValue, voice_allocation_cursor) == 0x435 ? 1 : -1
 ];
 typedef char SDValue_secondary_mix_scale_offset_must_be_0x44[
-    SD_STATE_OFFSET(SDValue, secondary_mix_scale) == 0x44 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_wSD_SMF_MIXER_OUT) == 0x44 ? 1 : -1
 ];
 typedef char SDValue_bank_header_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, note_id_count) == 0x00 &&
-    SD_STATE_OFFSET(SDValue, value_link_count) == 0x02 &&
-    SD_STATE_OFFSET(SDValue, dynamic_note_start) == 0x04 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SE) == 0x00 &&
+    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SEGROUP) == 0x02 &&
+    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START) == 0x04 ? 1 : -1
 ];
 typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
     SD_STATE_OFFSET(SDValue, bank_load_phase) == 0x3C ? 1 : -1
@@ -588,10 +590,10 @@ typedef char SDValue_mix_multiplier_offset_must_be_0x533[
     SD_STATE_OFFSET(SDValue, mix_multiplier) == 0x533 ? 1 : -1
 ];
 typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
-    SD_STATE_OFFSET(SDValue, cd_mix_default) == 0x1649 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_CD_MIXER_OUT_DEFAULT) == 0x1649 ? 1 : -1
 ];
 typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
-    SD_STATE_OFFSET(SDValue, secondary_mix_default) == 0x164A ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_SMF_MIXER_OUT_DEFAULT) == 0x164A ? 1 : -1
 ];
 typedef char SDValue_default_bgm_step_offset_must_be_0x164B[
     SD_STATE_OFFSET(SDValue, default_bgm_step) == 0x164B ? 1 : -1

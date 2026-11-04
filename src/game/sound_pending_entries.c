@@ -11,16 +11,16 @@
    than the cached local (see project_d8009b45c_reload_pointer_trick). */
 void SD_ResetPendingEntries(void) {
     SDValue *a1 = g_SDValue;
-    s32 i = a1->dynamic_note_start;
+    s32 i = a1->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
 
     a1->value_link_request_index = SD_VALUE_LINK_INDEX_NONE;
-    if (i < a1->note_id_count) {
+    if (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE) {
         do {
             a1->note_index_by_id[i] = SD_PENDING_ENTRY_NONE;
             i++;
-        } while (i < a1->note_id_count);
+        } while (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE);
     }
-    g_SDValue->next_note_index = g_SDValue->dynamic_note_start;
+    g_SDValue->next_note_index = g_SDValue->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
     g_SDValue->next_link_spu_address =
         g_SDValue->value_links->spu_size + 0x1010;
 }

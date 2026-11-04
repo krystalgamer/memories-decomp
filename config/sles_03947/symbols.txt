@@ -2007,8 +2007,8 @@ Model_TransformPartVertex = 0x8005D894; // type:func
 Model_GetSlotScale = 0x8005D960; // type:func
 
 Model_SetSlotScale = 0x8005D984; // type:func
-gSD_SeBankVolInfoTag = 0x801E27F8;
-gSD_SmfBankVolInfoTag = 0x801E8FF8;
+gSD_SmfBankVolInfoTag = 0x801E27F8;
+gSD_CdBankVolInfoTag = 0x801E8FF8;
 gDuel_awBattleDamage = 0x8009C180;
 gDuel_abBattleOutcome = 0x8009C18C;
 gDuel_awSavedStatModifiers = 0x8009C134;

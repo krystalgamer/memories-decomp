@@ -24,8 +24,8 @@ word, size conversion, range narrowing, mask or completion behavior changes.
 | Offset | Field | Evidence |
 |---|---|---|
 | `0x0040` | `status_flags` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
-| `0x0042` | `mix_scale` | CD mix calculation uses it as a 16-bit scale. |
-| `0x0044` | `secondary_mix_scale` | Base scale multiplied by the two fade levels before publishing secondary stereo master levels. |
+| `0x0042` | `s_wSD_CD_MIXER_OUT` | CD mix calculation uses it as a 16-bit scale. |
+| `0x0044` | `s_wSD_SMF_MIXER_OUT` | Base scale multiplied by the two fade levels before publishing secondary stereo master levels. |
 | `0x0048` | `output_type` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
 | `0x004A` | `data_source_flags` | Initialization and command processing use independent bits. |
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
@@ -51,8 +51,8 @@ word, size conversion, range narrowing, mask or completion behavior changes.
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
 | `0x1618` | `busy` | Command registration tests and sets this byte. |
-| `0x1649` | `cd_mix_default` | Cached CD mixer trailer byte, seeded to `0xFF` and restored into `mix_scale` by runtime reset. |
-| `0x164A` | `secondary_mix_default` | Cached secondary mixer trailer byte, seeded to `0xD2` and restored into `secondary_mix_scale` by runtime reset. |
+| `0x1649` | `s_bSD_CD_MIXER_OUT_DEFAULT` | Cached CD mixer trailer byte, seeded to `0xFF` and restored into `s_wSD_CD_MIXER_OUT` by runtime reset. |
+| `0x164A` | `s_bSD_SMF_MIXER_OUT_DEFAULT` | Cached secondary mixer trailer byte, seeded to `0xD2` and restored into `s_wSD_SMF_MIXER_OUT` by runtime reset. |
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
@@ -253,7 +253,7 @@ lifecycle. `SD_ResetPendingEntries` resets `field_0442` to `SD_VALUE_LINK_INDEX_
 `field_0438` to the first link's second word plus `0x1010`.
 `SD_ReplaceValueLink` ignores a requested index when that entry's second word
 is zero or when the same index is already selected. Otherwise it keys off
-every voice whose `voice_ids` entry is at or above `dynamic_note_start` through
+every voice whose `voice_ids` entry is at or above `s_wSD_SE_DYNAMIC_START` through
 `SD_KeyOffDynamicVoices`, calls `SD_ResetPendingEntries`, and stores the
 accepted index in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
 path: it suppresses only a duplicate selected index, then stores the new
@@ -507,7 +507,7 @@ retain their original offsets and bounds.
 
 SD_SetCdVolume names s16 level/saved_level, mix_state, s32 scaled_input,
 scaled_mix and mix_factor, and the CdlATV attenuation packet.
-The arithmetic remains (level+1)*mix_scale, then mix_multiplier times
+The arithmetic remains (level+1)*s_wSD_CD_MIXER_OUT, then mix_multiplier times
 the original signed >>8 result, then the explicit u16-to-u32 view and
 logical >>3. Keep each channel multiply/>>7 and byte assignment, val3
 zero and the output_type choice between val1 and val2. There is no
@@ -2295,32 +2295,36 @@ names; no initialization or transfer behavior changes.
 
 ### Sound-bank header geometry and startup phases
 
-The packed eight-byte header copy in `SD_UpdateBankLoad`, the initializer,
-pending-note reset and dynamic-voice key-off establish these shared members:
+`SDValue` starts with the SE bank's eight-byte global header, which
+`SD_UpdateBankLoad` copies whole from `0x801E6800`. The US build's trace string
+`"g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n"`, printed with the field at
+`+0x0002`, gives the original member and field names. The other header fields
+follow that style; their names are inferred from use, not from retail text:
 
 | Location | Field | Established role |
 |---|---|---|
-| `SDValue +0x0000` | `note_id_count` | Number of halfword ID-map entries initialized before the aligned note-table base. |
-| `SDValue +0x0002` | `value_link_count` | Number of eight-byte link records used for the table load and source-sector calculation. |
-| `SDValue +0x0004` | `dynamic_note_start` | Shared reset/key-off boundary for sound IDs and reset value of the note-table append index. |
+| `SDValue +0x0000` | `s_stGlobalHdrSE.s_wSD_NUM_SE` | Number of halfword ID-map entries initialized before the aligned note-table base. |
+| `SDValue +0x0002` | `s_stGlobalHdrSE.s_wSD_NUM_SEGROUP` | Retail name. Number of eight-byte SE-group records used for the table load and source-sector calculation. |
+| `SDValue +0x0004` | `s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START` | Shared reset/key-off boundary for sound IDs and reset value of the note-table append index. |
+| `SDValue +0x0006` | `s_stGlobalHdrSE.s_wSD_RESERVED` | Copied with the header, never read. |
 | `SDValue +0x003C` | `bank_load_phase` | Unsigned startup bank-loader phase, separate from active-command and transfer phases. |
 
-`SD_InitVoiceState` clears ID-map entries `[0, note_id_count)` to the
+`SD_InitVoiceState` clears ID-map entries `[0, s_wSD_NUM_SE)` to the
 existing `0xFFFF` marker. It locates `note_table` after that many halfwords
 at `0x801E4000`, using the original sixteen-byte alignment expression.
 The name does not turn this ID-map extent into a separately measured
 note-table capacity or add an import-key check.
 
 `SD_UpdateBankLoad` copies the entire eight-byte header from `0x801E6800`
-with the existing packed-word assignment, then loads `value_link_count * 8`
+as one `SDGlobalHdrSE` assignment, then loads `s_wSD_NUM_SEGROUP * 8`
 bytes into `0x801E2800`. `SD_QueueValueLinkTransfer` uses the same count to
-skip `ceil(value_link_count * 8 / 0x800) + 1` source sectors before adding
+skip `ceil(s_wSD_NUM_SEGROUP * 8 / 0x800) + 1` source sectors before adding
 the selected link's `sector_offset`. The original integer operations,
 fixed bases, unsigned halfwords and unchecked masked link selection remain.
-The header's remaining two bytes are not assigned a new meaning.
+The header's last halfword is never read.
 
 `SD_ResetPendingEntries` invalidates only IDs in
-`[dynamic_note_start, note_id_count)` and resets `next_note_index` to that
+`[s_wSD_SE_DYNAMIC_START, s_wSD_NUM_SE)` and resets `next_note_index` to that
 same raw boundary. `SD_KeyOffDynamicVoices` compares each slot's sound ID,
 not its mapped note index, against it. The two domains deliberately keep
 their existing shared value; the name does not claim a count of live
@@ -2356,8 +2360,8 @@ and value-link request paths establish one connected memory lifecycle:
 `SD_InitVoiceState` keeps the link table at `0x801E2800`, ID map at
 `0x801E4000`, and its original sixteen-byte-aligned integer address
 calculation for the note-table base. `SD_ResetPendingEntries` still clears
-only the original ID range from `dynamic_note_start` to `note_id_count`, resets the
-request cache to `0xFFFF`, copies `dynamic_note_start` into the append index and
+only the original ID range from `s_wSD_SE_DYNAMIC_START` to `s_wSD_NUM_SE`, resets the
+request cache to `0xFFFF`, copies `s_wSD_SE_DYNAMIC_START` into the append index and
 sets the SPU cursor to the first link's size plus `0x1010`. These header
 roles are detailed above; no new bound or capacity check is introduced.
 
@@ -2406,9 +2410,9 @@ voice-volume submission paths establish five related fields:
 
 | Owner and offset | Field | Established role |
 |---|---|---|
-| `SDValue +0x0044` | `secondary_mix_scale` (`u16`) | Active base scale for the BGM/sequence fade product. |
-| `SDValue +0x1649` | `cd_mix_default` (`u8`) | Cached default restored into the existing CD `mix_scale`. |
-| `SDValue +0x164A` | `secondary_mix_default` (`u8`) | Cached default restored into `secondary_mix_scale`. |
+| `SDValue +0x0044` | `s_wSD_SMF_MIXER_OUT` (`u16`) | Active base scale for the BGM/sequence fade product. |
+| `SDValue +0x1649` | `s_bSD_CD_MIXER_OUT_DEFAULT` (`u8`) | Cached default restored into the existing CD `s_wSD_CD_MIXER_OUT`. |
+| `SDValue +0x164A` | `s_bSD_SMF_MIXER_OUT_DEFAULT` (`u8`) | Cached default restored into `s_wSD_SMF_MIXER_OUT`. |
 | `SDSecondaryState +0x0514` | `master_level_left` (`u16`) | Left per-voice master scale for the secondary sound engine. |
 | `SDSecondaryState +0x0516` | `master_level_right` (`u16`) | Corresponding right scale. |
 
@@ -2428,12 +2432,12 @@ already been submitted. The bank-loader stores do not themselves invoke
 `CdMix` or refresh the secondary voices. Existing refresh triggers and
 signature-failure, disabled-source and pending-transfer paths remain exact.
 
-`SD_UpdateFades` uses `secondary_mix_scale` as its existing `u16`
+`SD_UpdateFades` uses `s_wSD_SMF_MIXER_OUT` as its existing `u16`
 intermediate, multiplies by `(bgm_fade_level + 1)`, narrows and shifts
 eight, then does the same with `(sequence_fade_level + 1)`. It retains
 both zero branches and passes the narrowed result to both channels of
 `SD_SetSecondaryMasterLevels`. This path is separate from
-`SD_SetCdVolume`, which continues to combine `mix_scale`,
+`SD_SetCdVolume`, which continues to combine `s_wSD_CD_MIXER_OUT`,
 `mix_multiplier`, the requested CD level and channel-volume bytes.
 No product is widened, folded, clamped or made newly unconditional.
 
@@ -2581,7 +2585,7 @@ The names do not assert package contents beyond the existing checks.
 
 SD_QueueValueLinkTransfer names its masked link_index, data_start_sector
 calculation, registration_command and three separately reloaded state
-locals. The sector value remains ceil(value_link_count * 8 / 0x800) + 1
+locals. The sector value remains ceil(s_wSD_NUM_SEGROUP * 8 / 0x800) + 1
 before adding the entry offset. Its reused off word still changes from
 record byte offset to absolute address. Keep the two enqueue operations
 and every separate global reload; the SPU cursor still advances by the

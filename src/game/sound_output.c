@@ -26,8 +26,8 @@ void SD_ResetRuntime(void)
     s32 vab_result;
 
     mix_state = g_SDValue;
-    mix_state->mix_scale = mix_state->cd_mix_default;
-    mix_state->secondary_mix_scale = mix_state->secondary_mix_default;
+    mix_state->s_wSD_CD_MIXER_OUT = mix_state->s_bSD_CD_MIXER_OUT_DEFAULT;
+    mix_state->s_wSD_SMF_MIXER_OUT = mix_state->s_bSD_SMF_MIXER_OUT_DEFAULT;
     SD_SetCdVolume(0);
     sequence_state = g_SDValue;
     sequence_state->cd_fade_step = 0;

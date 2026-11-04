@@ -2156,8 +2156,8 @@ Text_PushFormattedDecimal = 0x80037870; // type:func
 Text_PushStagedString = 0x80037AD8; // type:func
 gModel_wProjectionDistance = 0x8009AEF4;
 gModel_SavedRefView = 0x800F2FB0;
-gSD_SeBankVolInfoTag = 0x801E27F8;
-gSD_SmfBankVolInfoTag = 0x801E8FF8;
+gSD_SmfBankVolInfoTag = 0x801E27F8;
+gSD_CdBankVolInfoTag = 0x801E8FF8;
 
 Model_SetCameraOrbitFromPreset = 0x8004ECCC; // type:func
 

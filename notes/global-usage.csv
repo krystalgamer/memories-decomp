@@ -3262,8 +3262,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801DD000,D_801DD000,D_801DD000,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"LoadImage2(&rect, (u32 *)D_801DD000); | object->value_08 = (s32)D_801DD000; | (+1 more)"
 0x801DD800,D_801DD800,D_801DD800,0x80057544,Model_LoadAuxiliaryPackageStage,matching_c,game,C,src/game/model_slot_control.c,address,8,"LoadImage2(&rect0, (u32 *)D_801DD800); | object->value_08 = (s32)(D_801DD800 - FILE_SECTOR_SIZE); | (+3 more)"
 0x801DE000,D_801DE000,D_801DE000,0x80056D7C,Model_LoadMonsterMergeStage,matching_c,game,C,src/game/model_slot_control.c,address,8,"LoadImage2(&rect1, (u32 *)D_801DE000);"
-0x801E27F8,gSD_SeBankVolInfoTag,gSD_SeBankVolInfoTag,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/sd_update_bank_load.c,read,8,if (gSD_SeBankVolInfoTag == 'V') {
-0x801E8FF8,gSD_SmfBankVolInfoTag,gSD_SmfBankVolInfoTag,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/sd_update_bank_load.c,read,8,if (gSD_SmfBankVolInfoTag == 'V') {
+0x801E27F8,gSD_SmfBankVolInfoTag,gSD_SmfBankVolInfoTag,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/sd_update_bank_load.c,read,8,if (gSD_SmfBankVolInfoTag == 'V') {
+0x801E8FF8,gSD_CdBankVolInfoTag,gSD_CdBankVolInfoTag,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/sd_update_bank_load.c,read,8,if (gSD_CdBankVolInfoTag == 'V') {
 0x8021007A,D_8021007A,D_8021007A,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,write,8,D_8021007A = 255;
 0x8021007B,D_8021007B,D_8021007B,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,write,8,D_8021007B = 255;
 0x8021007C,D_8021007C,D_8021007C,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,write,8,D_8021007C = 255;
