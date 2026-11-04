@@ -214,15 +214,15 @@ void DuelScene_UpdateHandActions(void)
 #endif
                     return;
                 }
-                D_8009B20A = value - 0xB;
+                gDuel_bAiCursorTarget = value - 0xB;
                 gDuel_wAiSelectionStepDelay = 6;
             }
             gDuel_wAiSelectionStepDelay--;
             if ((s16)gDuel_wAiSelectionStepDelay <= 0) {
                 gDuel_wAiSelectionStepDelay = 6;
-                if ((s8)side->field_0E != D_8009B20A) {
+                if ((s8)side->field_0E != gDuel_bAiCursorTarget) {
                     SD_SEPlayFull(6);
-                    if ((s8)side->field_0E > D_8009B20A) {
+                    if ((s8)side->field_0E > gDuel_bAiCursorTarget) {
                         side->field_0E -= 1;
                     } else {
                         side->field_0E += 1;
@@ -312,19 +312,19 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0xC000;
                 Duel_BeginFieldPlacementSelection(side);
-                D_8009B20A = gAi_Selection.bytes[6] - 6;
-                if (D_8009B20A < 0) {
-                    D_8009B20A = gAi_Selection.bytes[6] - 1;
+                gDuel_bAiCursorTarget = gAi_Selection.bytes[6] - 6;
+                if (gDuel_bAiCursorTarget < 0) {
+                    gDuel_bAiCursorTarget = gAi_Selection.bytes[6] - 1;
                 }
                 gDuelCursor_Direction = -1;
                 return;
             }
             if (DuelCursor_UpdateDirection(gDuel_pActiveSelectionRecord, gDuelCursor_Direction) == 0) {
-                if (gDuel_pActiveSelectionRecord->col == D_8009B20A) {
+                if (gDuel_pActiveSelectionRecord->col == gDuel_bAiCursorTarget) {
                     goto confirm;
                 }
                 gDuelCursor_Direction = 0;
-                if (D_8009B20A < gDuel_pActiveSelectionRecord->col) {
+                if (gDuel_bAiCursorTarget < gDuel_pActiveSelectionRecord->col) {
                     gDuelCursor_Direction = 2;
                 }
             }

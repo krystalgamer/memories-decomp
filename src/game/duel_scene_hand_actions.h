@@ -15,12 +15,15 @@
  * gp-relatively never.
  */
 
-/* The scripted path's target slot. Its storage is defined with the duel
+/* The scripted path's cursor target. The hand-selection step stores the
+ * selection byte minus 11 and steps the hand cursor toward it; the placement
+ * step stores the target column and steers gDuelCursor_Direction until the
+ * selection record's column equals it. Its storage is defined with the duel
  * scene's other small state in duel_field_card_render.c, two bytes after
  * gDuel_bBattleRemovalSlot0; it is a separate object rather than a third
  * replay slot, since the European builds place it 0x54 bytes away from the
  * replay pair. */
-extern s8 D_8009B20A;
+extern s8 gDuel_bAiCursorTarget;
 
 /* Whether the scripted path has a card to stack onto the hand. The AI step
  * clears it, and raises it when gAi_Selection.bytes[1] (ai.h)

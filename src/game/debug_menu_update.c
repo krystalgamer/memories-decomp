@@ -69,9 +69,15 @@
  * memory card paths, so this is not evidence that the tables are
  * frontend-only. */
 
+/* The European build's alternate page has two more entries: the credits and
+ * the language editor. */
 void (*gDebugMenu_apfnAlternatePageSteps[])(void) = {
     DebugMenu_ResetEntryState,
     DebugMenu_UpdateTwoPlayerDuelEntry,
+#ifdef VERSION_EUROPE
+    DebugMenu_EnterCredits,
+    DebugMenu_UpdateLanguageEntry,
+#endif
 };
 
 void (*gDebugMenu_apfnPrimaryPageSteps[])(void) = {

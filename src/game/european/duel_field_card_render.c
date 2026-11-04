@@ -52,7 +52,7 @@ u8 D_8009C103_sles_03947;
 s16 gDuel_wEquipCardId;
 u16 D_8009C106_sles_03947;
 struct DisplayObject *gDuel_pActionReadyMarker;
-s8 D_8009B20A;
+s8 gDuel_bAiCursorTarget;
 u16 gDuel_wActionSubstate;
 s16 gDuel_wViewTweenReferenceZTarget;
 u16 D_8009C112_sles_03947;
