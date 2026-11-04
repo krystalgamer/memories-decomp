@@ -32,11 +32,7 @@
    pad-driven screen-offset adjustment loop follow in this unit. The last
    clears the gMain_apFrameServiceCallbacks slots and gMain_pfnExtraFrameService callback that the pump runs. */
 
-/* The Japanese build places it through config/slpm_86398/symbols.txt; its
-   .sdata is not carved from the executable. */
-#ifndef VERSION_JAPAN
 s32 gMain_nServiceResyncCountdown = 0x3C;
-#endif
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in gMain_apFrameServiceCallbacks and the single gMain_pfnExtraFrameService callback if set. If
