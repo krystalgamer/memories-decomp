@@ -31,12 +31,12 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
     }
 }
 
-void DisplayObject_StartAlphaTransition(DisplayObject *arg0, u8 arg1, s16 arg2, s16 arg3)
+void DisplayObject_StartAlphaTransition(DisplayObject *object, u8 start, s16 target, s16 step)
 {
-    arg0->field_6C = 1;
-    arg0->field_20.b.rotation_y = arg1;
-    *(s16 *)&arg0->position.h.field_28 = arg2;
-    *(s16 *)&arg0->position.h.field_2A = arg3;
-    arg0->update = (DisplayObjectCallback)DisplayObject_UpdateAlphaTransition;
-    arg0->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+    object->field_6C = 1;
+    object->field_20.b.rotation_y = start;
+    *(s16 *)&object->position.h.field_28 = target;
+    *(s16 *)&object->position.h.field_2A = step;
+    object->update = (DisplayObjectCallback)DisplayObject_UpdateAlphaTransition;
+    object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
 }

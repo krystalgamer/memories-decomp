@@ -8,9 +8,9 @@ s32 (*Model_GetImagePrimitiveHandler())();
 #else
 void *Model_GetImagePrimitiveHandler(u32 value);
 #endif
-void *Model_GetPrimitiveHandler(u32 arg0);
+void *Model_GetPrimitiveHandler(u32 primitive_code);
 void Model_BindPrimitiveHandler(ModelHandlerObject *object);
-s32 Model_GetSharedPrimitiveHandler(s32 arg0);
+s32 Model_GetSharedPrimitiveHandler(s32 primitive_code);
 void Model_BindSharedPrimitiveHandler(ModelHandlerObject *object);
 
 #endif

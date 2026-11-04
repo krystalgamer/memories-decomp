@@ -64,14 +64,14 @@ ModelViewMetrics *Model_GetViewMetricsBuffer(void);
 
 void Model_UpdateViewMetrics(GsRVIEW2 *view);
 
-/* Builds a GsCOORDUNIT from an input vector: arg2 is the SVECTOR read in,
-   arg3 is the unit written out. The input follows RotTransSV's SDK type;
+/* Builds a GsCOORDUNIT from an input vector: input is the SVECTOR read in,
+   unit is the unit written out. The input follows RotTransSV's SDK type;
    the output retains its compatible tagged coordinate-unit declaration.
    model_get_slot0_offset_world_position.c is the only outside consumer
    and is the sole observed call, passing index 0 and arg1 15 with both
    pointers into one stack scratch block.
    Those two leading scalars keep their address-based names because a single
    call site fixes their values without showing what either selects. */
-void func_800580D4(s32 index, s32 arg1, SVECTOR *arg2, struct _GsCOORDUNIT *arg3);
+void func_800580D4(s32 index, s32 arg1, SVECTOR *input, struct _GsCOORDUNIT *unit);
 
 #endif

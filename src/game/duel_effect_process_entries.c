@@ -20,28 +20,28 @@ AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
 #define DUEL_EFFECT_PROCESS_RANGE_START(object) ((object)->entry_range_start)
 #endif
 
-void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
+void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
 {
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *p;
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *q;
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *s;
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *e;
 
-    p = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_begin;
+    p = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)channel->entry_begin;
     gDuelEffect_nCompactionRequested = 0;
 
     while (p->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->handler_state != 0) {
             gDuelEffect_EntryHandlers[p->handler_state & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
-                (DuelEffectEntry *)p, arg0);
+                (DuelEffectEntry *)p, channel);
         }
         p++;
     }
 
     if (gDuelEffect_nCompactionRequested != 0) {
         q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)gDuelEffect_aEntries)[
-            DUEL_EFFECT_PROCESS_RANGE_START(arg0)];
-        e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_write_cursor;
+            DUEL_EFFECT_PROCESS_RANGE_START(channel)];
+        e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)channel->entry_write_cursor;
         s = q;
         while (s != e) {
             if (s->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
@@ -50,7 +50,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
             }
             s++;
         }
-        arg0->entry_write_cursor = (DuelEffectEntry *)q;
+        channel->entry_write_cursor = (DuelEffectEntry *)q;
         q->entry_flags = 0;
     }
 }

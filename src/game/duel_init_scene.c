@@ -250,23 +250,23 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
     }
 }
 
-DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2)
+DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 x, s32 y)
 {
     DuelCardDisplayObject *p =
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     s32 *tbl;
     s32 k;
 
-    k = arg0->card_id - 1;
+    k = record->card_id - 1;
     tbl = gDuel_adwCardStats;
     p->deck_number_marker = 0;
     p->card_type = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     p->is_back_facing = 0;
     p->card_index =
-        ((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;
-    p->deck_index = ((u8 *)arg0->data)[2];
-    p->out_x = arg1;
-    p->out_y = arg2;
+        ((u32)record - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;
+    p->deck_index = ((u8 *)record->data)[2];
+    p->out_x = x;
+    p->out_y = y;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     p->field_10.callback = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
@@ -329,11 +329,11 @@ void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     }
 }
 
-DisplayObject *Duel_CreateFieldCardPanel(int arg0, int arg1)
+DisplayObject *Duel_CreateFieldCardPanel(int x, int y)
 {
     DisplayObject *object =
         DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, arg0, arg1, 0, 1, 0, 0x1F, 0x100);
+    DisplayObject_ConfigureSpriteAtPosition(object, x, y, 0, 1, 0, 0x1F, 0x100);
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -2);
     object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

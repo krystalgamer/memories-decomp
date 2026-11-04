@@ -10,7 +10,7 @@
  *
  * Each source is an optional read-only halfword card-ID list. Null retains
  * Duel_ShuffleDeck's weighted-generation path. */
-void Duel_ShuffleBothDecks(const u16 *arg0, const u16 *arg1);
+void Duel_ShuffleBothDecks(const u16 *player_deck, const u16 *opponent_deck);
 
 /* The halfword base those four lists are reached from: the player's shuffled
  * card IDs. Duel_ShuffleBothDecks is the only C source that names this base.

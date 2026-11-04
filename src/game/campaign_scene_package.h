@@ -45,7 +45,7 @@ typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
  * the header states the definition's own width.
  *
  * DebugMenu_UpdateCampaignEntry also passes a constant zero through this declaration. */
-void Campaign_LoadScenePackage(s16 arg0);
+void Campaign_LoadScenePackage(s16 scene_index);
 void Campaign_LoadScenePackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );

@@ -10,6 +10,6 @@
  * the slot record itself rather than its index, which is why the two do not
  * share a parameter shape. */
 void Model_SetSlotPartSpeeds(s32 index, s32 speed);
-void Model_SetSlotRootTransform(ModelSlot *record, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void Model_SetSlotRootTransform(ModelSlot *record, s32 translation_x, s32 translation_y, s32 translation_z, s32 yaw_request);
 
 #endif

@@ -334,37 +334,37 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
     }
 }
 #else
-void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *arg0) {
-    if (DisplayObjectFade_MarkInitialized(arg0) == 0) {
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
+    if (DisplayObjectFade_MarkInitialized(record) == 0) {
         s32 a;
         s32 b;
 
-        arg0->render_mode = 1;
-        a = arg0->local_x;
-        b = arg0->local_y;
-        arg0->field_08 = 0;
-        arg0->field_09 = 0;
-        arg0->field_0A = 0;
-        arg0->field_04 = ((s16)a >> 4) + ((s16)b >> 3) + 1;
+        record->render_mode = 1;
+        a = record->local_x;
+        b = record->local_y;
+        record->field_08 = 0;
+        record->field_09 = 0;
+        record->field_0A = 0;
+        record->field_04 = ((s16)a >> 4) + ((s16)b >> 3) + 1;
     }
 
-    if (!(arg0->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        s32 v = arg0->field_04 - 1;
+    if (!(record->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
+        s32 v = record->field_04 - 1;
 
-        arg0->field_04 = v;
+        record->field_04 = v;
 
         if ((u8)v == 0) {
-            arg0->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
+            record->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
     } else {
-        s32 v = arg0->field_08 + 4;
+        s32 v = record->field_08 + 4;
 
-        arg0->field_0A = v;
-        arg0->field_09 = v;
-        arg0->field_08 = v;
+        record->field_0A = v;
+        record->field_09 = v;
+        record->field_08 = v;
 
         if (v >= 0x40) {
-            DisplayObjectFade_ReleaseChannel(arg0);
+            DisplayObjectFade_ReleaseChannel(record);
         }
     }
 }

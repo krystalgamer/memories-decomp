@@ -21,10 +21,10 @@ typedef struct {
    they were describing happens at the store rather than at the return. */
 s32 Duel_GetCardEffectVariant(CardObject *object);
 
-/* Allocates a type 2 display object, passes arg0/arg1 to DisplayObject_ConfigureSpriteAtPosition as
+/* Allocates a type 2 display object, passes x/y to DisplayObject_ConfigureSpriteAtPosition as
    its x/y, and marks it screen space. Defined in
    duel_init_scene.c; Duel_UpdateDisplayTransition creates the field-card panel
    through it. */
-DisplayObject *Duel_CreateFieldCardPanel(int arg0, int arg1);
+DisplayObject *Duel_CreateFieldCardPanel(int x, int y);
 
 #endif
