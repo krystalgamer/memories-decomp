@@ -16,8 +16,12 @@
 #include "model.h"
 
 /* Zero-initialized storage this unit owns at 0x800F5918-0x800F5B98, defined in
- * address order ahead of the headers that declare it (#2602). */
+ * address order ahead of the headers that declare it (#2602). The regional
+ * builds split this source into one unit per function; the dispatch unit owns
+ * the array and the others use model.h's declaration. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
+#endif
 
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"
