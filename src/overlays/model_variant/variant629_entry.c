@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant629_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
 {
     Model629State *work = (Model629State *)context;
     s32 i;
@@ -28,10 +28,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->frame = 0;
-        page = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC80[1]);
+        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_D2C80[1]);
         work->tpage0 = page >> 16;
         work->clut0 = page;
-        page = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC80[0]);
+        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_D2C80[0]);
         work->tpage1 = page >> 16;
         work->clut1 = page;
         switch (command) {
@@ -53,18 +53,18 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count_b = 8;
             break;
         }
-        work->width = D_8013DCB8[command].width;
-        work->height = D_8013DCB8[command].height;
-        work->radius = D_8013DCB8[command].radius;
+        work->width = gModelVariant629_D2CB8[command].width;
+        work->height = gModelVariant629_D2CB8[command].height;
+        work->radius = gModelVariant629_D2CB8[command].radius;
         for (i = 0; i < work->count_a; i++) {
             work->a[i].f10 = 0x40;
             work->a[i].f00 = 0;
             work->a[i].f0E = 0;
             work->a[i].f08 = 1;
             work->a[i].coord = Model_GetCameraCoordinateUnit();
-            work->a[i].r = D_8013DCB8[command].color_a[0];
-            work->a[i].g = D_8013DCB8[command].color_a[1];
-            work->a[i].b = D_8013DCB8[command].color_a[2];
+            work->a[i].r = gModelVariant629_D2CB8[command].color_a[0];
+            work->a[i].g = gModelVariant629_D2CB8[command].color_a[1];
+            work->a[i].b = gModelVariant629_D2CB8[command].color_a[2];
             work->a[i].u = 0;
             work->a[i].v = 0;
             work->a[i].f0C = 0;
@@ -96,9 +96,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->b[i].f0E = 0;
             work->b[i].f08 = 1;
             work->b[i].coord = Model_GetCameraCoordinateUnit();
-            work->b[i].r = D_8013DCB8[command].color_b[0];
-            work->b[i].g = D_8013DCB8[command].color_b[1];
-            work->b[i].b = D_8013DCB8[command].color_b[2];
+            work->b[i].r = gModelVariant629_D2CB8[command].color_b[0];
+            work->b[i].g = gModelVariant629_D2CB8[command].color_b[1];
+            work->b[i].b = gModelVariant629_D2CB8[command].color_b[2];
             setVector(&work->b[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->b[i].v40, 0, 0, 0);
             setVector(&work->b[i].pos, 0, 0, 0);
@@ -110,9 +110,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->c[i].f0E = 0;
             work->c[i].f08 = 1;
             work->c[i].coord = Model_GetCameraCoordinateUnit();
-            work->c[i].r = D_8013DCB8[command].color_a[0];
-            work->c[i].g = D_8013DCB8[command].color_a[1];
-            work->c[i].b = D_8013DCB8[command].color_a[2];
+            work->c[i].r = gModelVariant629_D2CB8[command].color_a[0];
+            work->c[i].g = gModelVariant629_D2CB8[command].color_a[1];
+            work->c[i].b = gModelVariant629_D2CB8[command].color_a[2];
             work->c[i].v = 0x10;
             work->c[i].u = (i % 7) * 32;
             setVector(&work->c[i].scale, 0, 0, 0);
@@ -126,7 +126,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->c[i].pos.vz += (work->slot * 2 - 1) * 450;
             work->c[i].v50 = work->c[i].pos;
         }
-        work->duration = D_8013DCB8[command].duration;
+        work->duration = gModelVariant629_D2CB8[command].duration;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -369,18 +369,18 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->a[i].scale.vy += 0x3000 / work->a[i].f10 * step;
                 work->a[i].scale.vz += 0x3000 / work->a[i].f10 * step;
                 if (work->a[i].f10 / 2 < work->a[i].f0E) {
-                    if (D_8013DCB8[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step < work->a[i].r) {
-                        work->a[i].r -= D_8013DCB8[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step < work->a[i].r) {
+                        work->a[i].r -= gModelVariant629_D2CB8[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step;
                     } else {
                         work->a[i].r = 0;
                     }
-                    if (D_8013DCB8[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step < work->a[i].g) {
-                        work->a[i].g -= D_8013DCB8[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step < work->a[i].g) {
+                        work->a[i].g -= gModelVariant629_D2CB8[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step;
                     } else {
                         work->a[i].g = 0;
                     }
-                    if (D_8013DCB8[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step < work->a[i].b) {
-                        work->a[i].b -= D_8013DCB8[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step < work->a[i].b) {
+                        work->a[i].b -= gModelVariant629_D2CB8[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step;
                     } else {
                         work->a[i].b = 0;
                     }
@@ -527,18 +527,18 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->c[i].scale.vz = 0x1000;
                 }
                 if (work->c[i].f10 / 2 < work->c[i].f0E) {
-                    if (D_8013DCB8[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step < work->c[i].r) {
-                        work->c[i].r -= D_8013DCB8[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step < work->c[i].r) {
+                        work->c[i].r -= gModelVariant629_D2CB8[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step;
                     } else {
                         work->c[i].r = 0;
                     }
-                    if (D_8013DCB8[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step < work->c[i].g) {
-                        work->c[i].g -= D_8013DCB8[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step < work->c[i].g) {
+                        work->c[i].g -= gModelVariant629_D2CB8[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step;
                     } else {
                         work->c[i].g = 0;
                     }
-                    if (D_8013DCB8[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step < work->c[i].b) {
-                        work->c[i].b -= D_8013DCB8[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_D2CB8[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step < work->c[i].b) {
+                        work->c[i].b -= gModelVariant629_D2CB8[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step;
                     } else {
                         work->c[i].b = 0;
                     }
