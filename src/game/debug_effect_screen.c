@@ -47,9 +47,8 @@
 #define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CROSS
 #endif
 
-/* Defined here in the US build only; the Japanese and European symbol
-   files place it. */
-#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+/* The Japanese build's symbol file places it. */
+#ifndef VERSION_JAPAN
 u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] = {0};
 #endif
 #define gDebugEffect_bEditedOperand gDebugEffect_abPreviewState[0]

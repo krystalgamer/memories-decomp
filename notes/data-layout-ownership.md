@@ -289,6 +289,21 @@ Their `duel_ground_projection` tables differ from Europe's, and so does the
 Italian and Spanish now split their data image as plain data rather than one
 `.sdata`-ordered bin.
 
+Europe's small initialized data starts `0xF7C` above the North American
+`.sdata` and follows Europe's own unit order. As in its text, the camera
+orbit and movie units come before `model_graphics_state`. Its split places
+seventeen owners from `main_services` (`0x8009BE84`) to
+`main_menu_load_package_stage`, leaving only `data_8009af6c`'s European
+strings (`0x8009BED8`-`0x8009BEF0`) in the blob. Europe has no small data
+for `duel_field_effects`, `options_layout_position_data` or
+`ai_script_source_line_format`.
+
+Europe now defines `runtime_gp`, `gMain_bSoundVSyncBusy` and
+`gDebugEffect_abPreviewState` itself instead of placing them through its
+symbol file. The shared sources also gained European arms:
+- `debug_menu_update` drops two unreferenced halfwords;
+- `gMainMenu_PackageStageRect` stages the package at x 0x280, y 0xD0.
+
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative
 definitions in declaration order, so this is a source difference, not a

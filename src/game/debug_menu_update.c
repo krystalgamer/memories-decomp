@@ -226,8 +226,11 @@ void DebugMenu_Update(void) {
  * stay scalar; the masks start on a word boundary in every region. */
 u16 gDebugMenu_wMessageId = 0x0500;
 u16 gDebugMenu_wCampaignScene = 1;
+/* Two unreferenced halfwords the European build does not have. */
+#ifndef VERSION_EUROPE
 static u16 sFrontendDebugValue48 = 0;
 static u16 sFrontendDebugValue4A = 1;
+#endif
 u16 gDebugMenu_awNibbleMasks[4] = { 0x000F, 0x00F0, 0x0F00, 0xF000 };
 
 char gDebugMenu_szLineBreak[4] = "\n";

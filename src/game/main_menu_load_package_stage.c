@@ -111,11 +111,19 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
  * No linker alias covers this symbol, so unlike the two blocks after it
  * there is nothing to retire. */
 
+/* The European build stages the package at x 0x280, y 0xD0. */
 u8 gMainMenu_PackageStageRect[8] = {
+#ifdef VERSION_EUROPE
+    0x80,
+    0x02,
+    0xD0,
+    0x00,
+#else
     0x00,
     0x00,
     0xF0,
     0x00,
+#endif
     0x00,
     0x01,
     0x08,
