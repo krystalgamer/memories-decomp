@@ -81,7 +81,7 @@ Camera locals, branch order and the `cameraLong` view also remain.
 
 `MapObject` is the same existing partial display-object view, now centralized,
 not a new claim that every display object has this complete type. The
-alternate family continues to use its distinct table at `D_80169E54` and
+alternate family continues to use its distinct table at `gCampaignMapAlt_aLocationTable` and
 its separate contracts in `alternate_location.h`. Layout similarity alone
 does not establish shared ownership or interchangeable live entrypoints.
 

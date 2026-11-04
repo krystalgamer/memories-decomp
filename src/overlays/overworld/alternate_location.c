@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT] = {
+AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT] = {
     {
         0x0000, {0xE6, 0x01, 0xF8, 0x07, 0x3C, 0x06, 0xEC, 0x01, 0xDC, 0xFD},
         0, 0, 13, 0,
