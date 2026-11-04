@@ -47,10 +47,7 @@
 #define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CROSS
 #endif
 
-/* The Japanese build's symbol file places it. */
-#ifndef VERSION_JAPAN
 u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] = {0};
-#endif
 #define gDebugEffect_bEditedOperand gDebugEffect_abPreviewState[0]
 #define gDebugEffect_abOperands (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])
 #define gDebugEffect_bPage gDebugEffect_abPreviewState[DEBUG_EFFECT_PAGE_OFFSET]
