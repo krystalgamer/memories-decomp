@@ -93,8 +93,8 @@ void func_80148BA4(void *buffer, s32 phase)
                     SVECTOR *move = (SVECTOR *)((u8 *)state + i * 8 + 0xC);
                     SVECTOR *spin;
 
-                    move->vx = (state->position.vx - (s16)D_8015B7A0[i]->field_30.h.field_30) / 16;
-                    move->vy = (state->position.vy - (s16)D_8015B7A0[i]->field_30.h.field_32) / 16;
+                    move->vx = (state->position.vx - (s16)D_8015B7A0[i]->xy.h.x) / 16;
+                    move->vy = (state->position.vy - (s16)D_8015B7A0[i]->xy.h.y) / 16;
                     move->vz = (state->position.vz - D_8015B7A0[i]->field_34.h.field_34) / 16;
                     spin = (SVECTOR *)((u8 *)state + i * 8 + 0xAC);
                     spin->vx = ratan2(state->moves[i].vz, state->moves[i].vy) % 256 / 16;
@@ -303,8 +303,8 @@ void func_80148BA4(void *buffer, s32 phase)
                 DisplayObject *object = D_8015B7A0[i];
 
                 if (state->card_flags[i] == 0) {
-                    object->field_30.h.field_30 += state->moves[i].vx;
-                    object->field_30.h.field_32 += state->moves[i].vy;
+                    object->xy.h.x += state->moves[i].vx;
+                    object->xy.h.y += state->moves[i].vy;
                     object->field_34.h.field_34 += state->moves[i].vz;
                     object->field_44.h.field_44 -= 0x100;
                     object->field_44.h.field_46 -= 0x100;

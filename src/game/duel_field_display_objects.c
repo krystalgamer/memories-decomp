@@ -182,8 +182,8 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     }
     box = TextBox_Create(
         source->field_14, style,
-        (s16)source->field_00->field_30.h.field_30 + 0x10,
-        (s16)source->field_00->field_30.h.field_32 + source->text_y_offset,
+        (s16)source->field_00->xy.h.x + 0x10,
+        (s16)source->field_00->xy.h.y + source->text_y_offset,
         0x120, 0x40
     );
     box->depth_offset = *(u8 *)&source->field_00->depth_offset + 1;
@@ -316,10 +316,10 @@ s32 Duel_UpdateDisplayTransition(void)
                 if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
                         if (source->hand[i].object != 0) {
-                            source->hand[i].object->field_30.h.field_30 =
-                                o->field_30.h.field_30 + (i * 0x3C + 0xE);
-                            source->hand[i].object->field_30.h.field_32 =
-                                o->field_30.h.field_32 - 0x1C;
+                            source->hand[i].object->xy.h.x =
+                                o->xy.h.x + (i * 0x3C + 0xE);
+                            source->hand[i].object->xy.h.y =
+                                o->xy.h.y - 0x1C;
                         }
                     }
                 }
@@ -328,7 +328,7 @@ s32 Duel_UpdateDisplayTransition(void)
             if (gDuel_wDisplayTransitionFlags & 8) {
                 o = source->field_00;
                 o->position.h.field_2A = DUEL_FIELD_SCREEN_HEIGHT;
-                o->position.h.field_28 = o->field_30.h.field_30;
+                o->position.h.field_28 = o->xy.h.x;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = 0x400;
                 o->field_6C = 2;
@@ -367,7 +367,7 @@ s32 Duel_UpdateDisplayTransition(void)
             o->field_60 += 0x40;
             if (o->field_60 >= 0) {
                 o->field_6C = 0;
-                o->field_30.word = o->position.word;
+                o->xy.word = o->position.word;
             }
         }
         if ((gDuel_wDisplayTransitionFlags & 8) && o->field_6C != 0) {
@@ -395,8 +395,8 @@ s32 Duel_UpdateDisplayTransition(void)
         }
         if (moving != 0) {
             TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14),
-                           (s16)o->field_30.h.field_30 + 0x10,
-                           (s16)o->field_30.h.field_32 + source->text_y_offset);
+                           (s16)o->xy.h.x + 0x10,
+                           (s16)o->xy.h.y + source->text_y_offset);
         }
         if (gDuel_wDisplayTransitionFlags & 0x4000) {
             busy = 1;

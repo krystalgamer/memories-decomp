@@ -93,8 +93,8 @@ void DuelScene_UpdateCardMove(void)
         gDuel_bSceneSubStep = 1;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
         object->field_60 = 0;
-        if ((s16)object->field_30.h.field_30 == 0x86 ||
-            (s16)object->field_30.h.field_32 == 0x2A) {
+        if ((s16)object->xy.h.x == 0x86 ||
+            (s16)object->xy.h.y == 0x2A) {
             gDuel_bSceneSubStep = 2;
             return;
         }
@@ -109,8 +109,8 @@ void DuelScene_UpdateCardMove(void)
         if (object->field_60 < 0x800) {
             break;
         }
-        object->field_30.h.field_30 = 0x86;
-        object->field_30.h.field_32 = 0x2A;
+        object->xy.h.x = 0x86;
+        object->xy.h.y = 0x2A;
         gDuel_bSceneSubStep = 2;
         /* Fall through to the next presentation phase in the same frame. */
     case 2:
@@ -193,7 +193,7 @@ state_four:
             break;
         }
         Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(object),
-                         (s16)object->field_30.h.field_30, -0x18,
+                         (s16)object->xy.h.x, -0x18,
                          object->field_60);
         object->field_60 += 0x2A;
         if (object->field_60 < 0) {
@@ -221,8 +221,8 @@ state_four:
                 break;
             }
             request = DuelEffect_CreateRequest(0xD);
-            request->field_00 = object->field_30.h.field_30;
-            request->field_02 = object->field_30.h.field_32;
+            request->field_00 = object->xy.h.x;
+            request->field_02 = object->xy.h.y;
             z = object->field_34.h.field_34;
             request->field_12 = -gDuel_wPendingEquipBonus;
             request->field_04 = z;
@@ -259,8 +259,8 @@ void DuelHand_PositionSelectionCursor(DuelSelectionRecord *object)
 {
     DisplayObject *inner = object->cursor_object;
 
-    inner->field_30.h.field_30 = (s8)object->field_0E * 60 + 14;
-    inner->field_30.h.field_32 = DUEL_HAND_STACK_INNER_Y;
+    inner->xy.h.x = (s8)object->field_0E * 60 + 14;
+    inner->xy.h.y = DUEL_HAND_STACK_INNER_Y;
 }
 
 void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)

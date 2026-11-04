@@ -14,8 +14,8 @@ void DuelSelection_LinkDisplayObject(
 
     if (object != 0) {
         base = parent->field_00;
-        object->position.h.field_28 = object->field_30.h.field_30 - base->field_30.h.field_30;
-        object->position.h.field_2A = object->field_30.h.field_32 - base->field_30.h.field_32;
+        object->position.h.field_28 = object->xy.h.x - base->xy.h.x;
+        object->position.h.field_2A = object->xy.h.y - base->xy.h.y;
         index = parent->record_index;
         object->field_6C = 1;
         object->update =

@@ -40,25 +40,25 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
     work = buffer;
     if (phase >= 0) {
         DisplayObject_CopyWorkSlots((s32 *)gDuelEffect_CardObjectScratchWords);
-        work->center.vx = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_30.h.field_30 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->field_30.h.field_30 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->field_30.h.field_30 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[3])->field_30.h.field_30 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->field_30.h.field_30 + 120) / 5;
-        work->center.vy = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_30.h.field_32 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->field_30.h.field_32 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->field_30.h.field_32 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[3])->field_30.h.field_32 +
-                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->field_30.h.field_32 + 140) / 5;
+        work->center.vx = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->xy.h.x +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->xy.h.x +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->xy.h.x +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[3])->xy.h.x +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->xy.h.x + 120) / 5;
+        work->center.vy = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->xy.h.y +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->xy.h.y +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->xy.h.y +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[3])->xy.h.y +
+                           (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->xy.h.y + 140) / 5;
         work->center.vz = 0;
-        work->half_width = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->field_30.h.field_30 -
-                            (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->field_30.h.field_30) / 2;
-        work->half_height = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->field_30.h.field_32 -
-                             (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_30.h.field_32) / 2;
+        work->half_width = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[1])->xy.h.x -
+                            (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[4])->xy.h.x) / 2;
+        work->half_height = ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[2])->xy.h.y -
+                             (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->xy.h.y) / 2;
         for (i = 0; i < 5; i++) {
             setVector(&work->targets[i],
-                      (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 - (s16)(work->center.vx - 24),
-                      (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 - (s16)(work->center.vy - 28), 0);
+                      (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x - (s16)(work->center.vx - 24),
+                      (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y - (s16)(work->center.vy - 28), 0);
             setVector(&work->points[i], 0, 0, 0);
             setVector(&work->point_steps[i], work->targets[i].vx / 8, work->targets[i].vy / 8, 0);
         }

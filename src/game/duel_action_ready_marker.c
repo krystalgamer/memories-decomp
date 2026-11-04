@@ -19,7 +19,7 @@ DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source)
     if (object == 0) {
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(object, 4, 3, 8, 0xB, 0x1F0);
-        object->field_6A = source->field_0A;
+        object->field_6A = source->pool_index;
         DisplayObject_SetDepthOffset(object, 1);
         object->update = (DisplayObjectCallback)DisplayObject_ProjectLinkedGroundPosition;
         object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

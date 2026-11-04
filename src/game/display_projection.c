@@ -32,10 +32,10 @@ void DisplayObject_ProjectGroundPosition(DisplayObject *object)
         scratch->vz = object->position.h.field_2A;
         gte_ldv0(scratch);
         gte_rtps();
-        gte_stsxy(&object->field_30);
+        gte_stsxy(&object->xy);
     }
-    object->field_30.h.field_30 -= 0x20;
-    object->field_30.h.field_32 -= 0x1E;
+    object->xy.h.x -= 0x20;
+    object->xy.h.y -= 0x1E;
     SetGeomOffset(0, 0);
 }
 

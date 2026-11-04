@@ -342,7 +342,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             product >>= 12;
             value = (u16)eloop->field_34.h.field_36 + product;
         }
-        *(volatile s16 *)&eloop->field_30.h.field_30 = value;
+        *(volatile s16 *)&eloop->xy.h.x = value;
         if ((frame & 1) != 0) {
             MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
         }
@@ -642,7 +642,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
                 entries[i]->field_34.h.field_36 = offset;
                 entries[i]->field_38.h.field_38 = 0xA0;
             }
-            entries[i]->field_30.h.field_30 = entries[i]->field_34.h.field_36;
+            entries[i]->xy.h.x = entries[i]->field_34.h.field_36;
             entries[i]->field_60 = 0x10;
         }
     }
@@ -683,8 +683,8 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->field_30.h.field_30,
-                      (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->xy.h.x,
+                      (s16)entry->xy.h.y, 0, 0, entry->field_69,
                       0x18, 0, gDisplay_abResourceBank1);
         object->attribute |= 0x51000000;
         object->flags |=

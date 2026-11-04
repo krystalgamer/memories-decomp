@@ -52,8 +52,8 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             work->card_count = 0;
             for (i = 0; gDuelEffect_CardObjectScratchWords[i] != 0; i++) {
                 setVector(&work->card_velocities[i],
-                          (work->center.vx - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30) / 16,
-                          (work->center.vy - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32) / 16,
+                          (work->center.vx - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x) / 16,
+                          (work->center.vy - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y) / 16,
                           (work->center.vz - ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34) / 16);
                 setVector(&work->card_rotations[i],
                           (ratan2(work->card_velocities[i].vz, work->card_velocities[i].vy) % 256) / 16,
@@ -205,8 +205,8 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             }
             for (i = 0; i < work->active_cards; i++) {
                 if (work->card_states[i] == 0) {
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x += work->card_velocities[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y += work->card_velocities[i].vy;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_44 -= 256;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_46 -= 256;

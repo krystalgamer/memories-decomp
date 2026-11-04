@@ -57,7 +57,11 @@ typedef struct DisplayObject {
     s16 next;                      /* 0x02 */
     u32 attribute;                 /* 0x04 */
     u16 flags;                     /* 0x08 */
-    u8 field_0A;                   /* 0x0A */
+    /* The entry's own index in gDisplayObject_aPool. DisplayObject_AcquireSlot
+       stores it; DisplayObject_MoveToListHead links the entry back in through
+       it; Duel_GetOrCreateActionReadyMarker copies another entry's value into
+       the byte DisplayObject_ProjectLinkedGroundPosition indexes the pool by. */
+    u8 pool_index;                 /* 0x0A */
     u8 field_0B;                   /* 0x0B */
     u32 rgb;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
@@ -80,7 +84,12 @@ typedef struct DisplayObject {
     u16 field_18;                  /* 0x18 */
     u16 field_1A;                  /* 0x1A */
     u16 field_1C;                  /* 0x1C */
-    s16 field_1E;                  /* 0x1E */
+    /* The display list the entry was acquired on (the `key` argument of
+       DisplayObject_AcquireSlot, an index into gDisplayObject_awListHeads and
+       gDisplayObject_ListRenderers). DisplayObject_Release unlinks a list head
+       through it, and TextBox_SetPos tests it against 4, the Gouraud-quad
+       list, to pick a quad layout over a sprite position. */
+    s16 list_key;                  /* 0x1E */
     /* 0x20 is reached both as a word and as the byte at +0x22. Both are
        retail's: display_object_core.c clears the whole word with one sw,
        and the two sprite renderers read only the byte. Neither view is a
@@ -136,13 +145,23 @@ typedef struct DisplayObject {
             s16 field_2E;
         } h;
     } field_2C;                    /* 0x2C */
+    /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
+       and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
+       (GsSPRITE x/y) and subtract the viewport origin unless the object is
+       screen-space; DisplayObject_ProjectGroundPosition stores the projected
+       screen x/y here with gte_stsxy; DisplayObject_ConfigureScreenSprite and
+       DisplayObject_ConfigureSpriteAtPosition take it as their x/y arguments.
+       The Gouraud-quad list reads the word as its second vertex's x/y. The one
+       non-coordinate reader is DisplayObject_RenderTexturedGouraudQuadList,
+       which takes the low halfword as the first vertex's u/v; no C caller
+       acquires an object on that list (key 5). */
     union {
         struct {
-            u16 field_30;
-            u16 field_32;
+            u16 x;
+            u16 y;
         } h;
         s32 word;
-    } field_30;                    /* 0x30 */
+    } xy;                          /* 0x30 */
     /* The second of those six words, and read both ways like its
        neighbours.
 
@@ -521,7 +540,7 @@ extern u16 gDisplayObject_wAcquireCount;
  * It orbits an object around the base position it keeps at field_2C/field_2E,
  * stepping the angle at field_2A by 0x30 a frame and taking the radius from
  * field_28, which doubles as a countdown and decays by 2 each frame. When that
- * reaches zero it clears field_6C and update and snaps field_30 back to the
+ * reaches zero it clears field_6C and update and snaps xy back to the
  * base in one word. While bit 0 of gGraphics_dwSyncedFrameCount is set it also spawns a
  * companion object at the current position each frame.
  *

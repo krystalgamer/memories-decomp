@@ -314,8 +314,8 @@ m1:
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = (DisplayObject *)g->record.object;
     e = DuelEffect_CreateRequest(8);
-    e->field_00 = (s16)p->field_30.h.field_30;
-    e->field_02 = (s16)p->field_30.h.field_32;
+    e->field_00 = (s16)p->xy.h.x;
+    e->field_02 = (s16)p->xy.h.y;
     q34 = (u16 *)&p->field_34.h.field_34;
     *(d = (u16 *)&e->field_04) = *q34;
     DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);

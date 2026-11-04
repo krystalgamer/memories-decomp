@@ -337,8 +337,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->field_04 = pos->field_30.h.field_30 - 3;
-    scratch->field_06 = pos->field_30.h.field_32 - 0xD;
+    scratch->field_04 = pos->xy.h.x - 3;
+    scratch->field_06 = pos->xy.h.y - 0xD;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -346,8 +346,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         4
     );
 
-    scratch->field_04 = pos->field_30.h.field_30 + 0xE;
-    scratch->field_06 = pos->field_30.h.field_32 - 5;
+    scratch->field_04 = pos->xy.h.x + 0xE;
+    scratch->field_06 = pos->xy.h.y - 5;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -360,8 +360,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->field_04 = pos->field_30.h.field_30 - 3;
-    scratch->field_06 = pos->field_30.h.field_32 + 0xD;
+    scratch->field_04 = pos->xy.h.x - 3;
+    scratch->field_06 = pos->xy.h.y + 0xD;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -369,8 +369,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         4
     );
 
-    scratch->field_04 = pos->field_30.h.field_30 + 0xE;
-    scratch->field_06 = pos->field_30.h.field_32 + 5;
+    scratch->field_04 = pos->xy.h.x + 0xE;
+    scratch->field_06 = pos->xy.h.y + 5;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),

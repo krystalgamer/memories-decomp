@@ -115,8 +115,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         f4 = f4 | (win->attribute & 0x08000000);
         obj->attribute = f4;
         if (DisplayObject_ProjectRotationFacing(
-                (struct DisplayObject *)obj, (s16)win->field_30.h.field_30 + (s16)win->field_18,
-                (s16)win->field_30.h.field_32 + (s16)win->field_1A, (struct ProjectionOut *)origin
+                (struct DisplayObject *)obj, (s16)win->xy.h.x + (s16)win->field_18,
+                (s16)win->xy.h.y + (s16)win->field_1A, (struct ProjectionOut *)origin
             ) <= 0) {
             return;
         }
@@ -127,8 +127,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     }
 
     PRM->attribute = obj->attribute;
-    PRM->xy.h.x = win->field_30.h.field_30 + 0x13;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0x32;
+    PRM->xy.h.x = win->xy.h.x + 0x13;
+    PRM->xy.h.y = win->xy.h.y + 0x32;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
     PRM->rgb = win->rgb;
@@ -138,8 +138,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);
 
     packet->code |= 2;
-    PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
+    PRM->xy.h.x = win->xy.h.x + 0xC;
+    PRM->xy.h.y = win->xy.h.y + 0xE;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     m = 0xFEFFFFFF;
     PRM->attribute = (PRM->attribute & m) | FUNC_80028B08_FRAME_ATTRIBUTE;
@@ -169,8 +169,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     rec = &gCardPreview_Resources[obj->field_67];
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
-    PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;
-    PRM->xy.h.y = win->field_30.h.field_32 + obj->field_30.h.field_32;
+    PRM->xy.h.x = win->xy.h.x + obj->xy.h.x;
+    PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
     PRM->uv.word = obj->field_5E;
     if (obj->field_68 < 0x14) {
@@ -207,8 +207,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         Text_EncodeDecimalDigits(i, 4, buf2);
 
         PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
-        PRM->xy.h.x = win->field_30.h.field_30 + FUNC_80028B08_ATK_X;
-        PRM->xy.h.y = win->field_30.h.field_32 + FUNC_80028B08_ATK_Y;
+        PRM->xy.h.x = win->xy.h.x + FUNC_80028B08_ATK_X;
+        PRM->xy.h.y = win->xy.h.y + FUNC_80028B08_ATK_Y;
         *(u32 *)&PRM->extent = 0x000D0006;
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
@@ -221,8 +221,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        PRM->xy.h.x = win->field_30.h.field_30 + FUNC_80028B08_DEF_X;
-        PRM->xy.h.y = win->field_30.h.field_32 + FUNC_80028B08_DEF_Y;
+        PRM->xy.h.x = win->xy.h.x + FUNC_80028B08_DEF_X;
+        PRM->xy.h.y = win->xy.h.y + FUNC_80028B08_DEF_Y;
         PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
         if (rec->stat_palette_flags & 0x40) {
             PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
@@ -235,10 +235,10 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        sa = win->field_30.h.field_30;
+        sa = win->xy.h.x;
         do { sb = 0x00090009; } while (0);
         PRM->xy.h.x = sa + 0x77;
-        PRM->xy.h.y = win->field_30.h.field_32 + 0x20;
+        PRM->xy.h.y = win->xy.h.y + 0x20;
         *(u32 *)&PRM->extent = sb;
         PRM->uv.b.lo = 0;
         PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X;
@@ -255,9 +255,9 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);
     }
 
-    PRM->xy.h.x = win->field_30.h.field_30 + 0x6E;
+    PRM->xy.h.x = win->xy.h.x + 0x6E;
     *(u32 *)&PRM->extent = 0x00100010;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0xD;
+    PRM->xy.h.y = win->xy.h.y + 0xD;
     lo = rec->attribute_icon << 4;
     PRM->uv.b.lo = lo;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;

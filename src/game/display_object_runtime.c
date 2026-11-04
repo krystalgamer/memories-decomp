@@ -111,7 +111,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
         step = 2;
     }
     p->tpage = e->field_66;
-    p->xy.word = e->field_30.word;
+    p->xy.word = e->xy.word;
     p->cxcy.word = e->field_40.word;
     p->rgb = e->rgb;
     fl = e->flags;
@@ -317,7 +317,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 v = e->attribute;
                 w0 = e->position.word;
-                w1 = e->field_30.word;
+                w1 = e->xy.word;
                 w2 = e->field_38.word;
                 w3 = e->field_40.word;
                 *(s32 *)&g->x0 = w0;
@@ -442,7 +442,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 *(s32 *)&g->r1 = *(s32 *)&e->field_38;
                 *(s32 *)&g->r2 = *(s32 *)&e->field_44;
                 *(s32 *)&g->r3 = *(s32 *)&e->field_50;
-                *(u16 *)&g->u0 = *(u16 *)&e->field_30;
+                *(u16 *)&g->u0 = *(u16 *)&e->xy;
                 *(u16 *)&g->u1 = *(u16 *)&e->field_3C;
                 *(u16 *)&g->u2 = *(u16 *)&e->field_48;
                 w4 = *(u16 *)&e->field_54;
@@ -624,8 +624,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
     u16 cx;
 
     state = (SpriteSheetState *)0x1F8003A4;
-    x = (s16)object->field_30.h.field_30;
-    y = (s16)object->field_30.h.field_32;
+    x = (s16)object->xy.h.x;
+    y = (s16)object->xy.h.y;
     if ((object->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         x -= gGraphics_sViewportX;
         y -= gGraphics_sViewportY;

@@ -368,7 +368,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)&o->field_48.h.field_4A = 0;
         o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
+        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->xy.h.x, *(s16 *)&o->xy.h.y, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;

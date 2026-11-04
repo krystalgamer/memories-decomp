@@ -168,8 +168,8 @@ void DuelScene_UpdateResume(void)
     }
     ViewState_ApplyOrbit();
     obj = DuelEffect_CreateRequest(0xB);
-    obj->field_00 = card->field_30.h.field_30;
-    obj->field_02 = card->field_30.h.field_32;
+    obj->field_00 = card->xy.h.x;
+    obj->field_02 = card->xy.h.y;
     obj->field_04 = *(u16 *)&card->field_34;
     obj->phase = Duel_GetCardEffectVariant((CardObject *)card);
     DuelCard_RemoveFromField(&gDuel_aCardRecords[card->field_6A]);

@@ -47,7 +47,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_width);
     q->field_50.h.field_50 = m;
     q->field_40.h.field_40 = m;
-    q->field_30.h.field_30 = m;
+    q->xy.h.x = m;
 
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     /* The Japanese and European builds have one layout for every entry: no
@@ -61,7 +61,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     do {
         w = v;
     } while (0);
-    q->field_30.h.field_32 = v;
+    q->xy.h.y = v;
     v = v + DUEL_EFFECT_LAYOUT_ROW_STEP;
     w = w + 0x10;
     q->field_40.h.field_42 = v;
@@ -83,7 +83,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         do {
             w = v;
         } while (0);
-        q->field_30.h.field_32 = v;
+        q->xy.h.y = v;
         v = v + 0x10;
         w = w + 0x10;
         q->field_40.h.field_42 = v;
@@ -111,7 +111,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         return;
     }
 
-    q->field_30.h.field_32 = x;
+    q->xy.h.y = x;
     q->position.h.field_2A = x;
     x = x + 0xC;
     q->field_40.h.field_42 = y;

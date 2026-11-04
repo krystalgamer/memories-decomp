@@ -89,7 +89,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
         ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
         (s16)entry->field_2C, (s16)entry->field_2E);
 
-    object->field_30.word = 0x001F0048;
+    object->xy.word = 0x001F0048;
     object->field_3C.word = 0x00100038;
 #ifdef VERSION_EUROPE
     object->attribute |= 0x01000000;
@@ -113,7 +113,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     if (variant == 0x14) {
         goto disp_14;
     }
-    object->field_30.h.field_30 = DUEL_RESOURCE_DEFAULT_X;
+    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
     goto path_a;
 
 disp_ge16:
@@ -123,7 +123,7 @@ disp_ge16:
     if (variant == 0x17) {
         goto disp_17;
     }
-    object->field_30.h.field_30 = DUEL_RESOURCE_DEFAULT_X;
+    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
     goto path_a;
 
 disp_16:
@@ -154,7 +154,7 @@ disp_15:
     goto shared_tail;
 
 path_a:
-    object->field_30.h.field_32 = DUEL_RESOURCE_PATH_Y;
+    object->xy.h.y = DUEL_RESOURCE_PATH_Y;
     DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
         DUEL_RESOURCE_PATH_FIELD_5E;
     object->field_3C.h.field_3C = DUEL_RESOURCE_PATH_FIELD_3C;

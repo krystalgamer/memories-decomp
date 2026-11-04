@@ -488,8 +488,8 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     scale[0] = object->field_44.h.field_44;
     scale[1] = object->field_44.h.field_46;
     depth = (s16)object->ot_depth;
-    cx = (s16)object->field_30.h.field_30;
-    cy = (s16)object->field_30.h.field_32;
+    cx = (s16)object->xy.h.x;
+    cy = (s16)object->xy.h.y;
     inner = object->field_48.h.field_48;
     outer = object->field_48.h.field_4A;
 

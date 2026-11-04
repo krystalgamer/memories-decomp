@@ -38,9 +38,9 @@
 #include "save_data_workspace.h"
 
 #define DISPLAY_OBJECT_X_HALFWORD_INDEX \
-    ((u32)&((DisplayObject *)0)->field_30.h.field_30 / sizeof(s16))
+    ((u32)&((DisplayObject *)0)->xy.h.x / sizeof(s16))
 #define DISPLAY_OBJECT_Y_HALFWORD_INDEX \
-    ((u32)&((DisplayObject *)0)->field_30.h.field_32 / sizeof(s16))
+    ((u32)&((DisplayObject *)0)->xy.h.y / sizeof(s16))
 
 int Duel_IsPlayerDeckComplete(void)
 {
@@ -257,8 +257,8 @@ void Script_OpSavePrompt(void)
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
-                       *(s16 *)&obj->field_30.h.field_32);
+        TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
+                       *(s16 *)&obj->xy.h.y);
         return;
     }
 
@@ -266,8 +266,8 @@ void Script_OpSavePrompt(void)
         step = *(u16 *)&obj->field_60 + 0x40;
         obj->field_60 = step;
         if ((s16)step >= 0) {
-            *(s16 *)&obj->field_30.h.field_30 = 0x10;
-            *(s16 *)&obj->field_30.h.field_32 = 0x38;
+            *(s16 *)&obj->xy.h.x = 0x10;
+            *(s16 *)&obj->xy.h.y = 0x38;
             gScript_wCommandWord = flags & 0xDFFF;
             /* These reads keep the halfword-array spelling: direct member
                access costs sixteen bytes, while derived halfword indexes keep
@@ -279,8 +279,8 @@ void Script_OpSavePrompt(void)
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
-                       *(s16 *)&obj->field_30.h.field_32);
+        TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
+                       *(s16 *)&obj->xy.h.y);
         return;
     }
 

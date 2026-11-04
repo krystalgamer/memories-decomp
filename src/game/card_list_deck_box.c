@@ -69,8 +69,8 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     sp->tpage = 0xB;
     GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)&sp->w = 0x100010;
-    sp->x = obj->field_30.h.field_30 + 0x22;
-    sp->y = obj->field_30.h.field_32 - 0x18;
+    sp->x = obj->xy.h.x + 0x22;
+    sp->y = obj->xy.h.y - 0x18;
     sp->cy = 0xFB;
     i = 0;
     do {
@@ -89,10 +89,10 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
 
     if (rec->enabled != 0) {
         sp->attribute = obj->attribute;
-        sp->x = obj->field_30.h.field_30 + 0x24;
+        sp->x = obj->xy.h.x + 0x24;
         *(u32 *)&sp->w = 0x80008;
         entries = rec->card_entries;
-        sp->y = obj->field_30.h.field_32;
+        sp->y = obj->xy.h.y;
         sp->tpage = CARD_LIST_DIGIT_TPAGE;
         sp->cx = CARD_LIST_DIGIT_CX;
         sp->cy = CARD_LIST_DIGIT_CY;
@@ -104,7 +104,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
             if (id != 0) {
                 if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
-                    sp->x = obj->field_30.h.field_30 + 0x24;
+                    sp->x = obj->xy.h.x + 0x24;
                     GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
                     if (*entries & 0x8000) {
                         GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_DIM_GREY;

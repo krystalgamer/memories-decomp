@@ -42,8 +42,8 @@ void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         object->field_68 = 0;
         object->field_69 = 0;
-        object->field_30.h.field_30 = record->x;
-        object->field_30.h.field_32 = record->y;
+        object->xy.h.x = record->x;
+        object->xy.h.y = record->y;
         object->field_6A = i++;
         DisplayObject_SelectOrderingTable1(object);
         object->field_4C = (s32)CardList_RenderDeckBoxStats;

@@ -16,8 +16,8 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     SetPolyGT4((POLY_GT4 *)0x1F800344);
     sprite = (SpritePrim *)0x1F800320;
     sprite->attribute = object->attribute;
-    sprite->xy.h.x = object->field_30.h.field_30;
-    sprite->xy.h.y = object->field_30.h.field_32;
+    sprite->xy.h.x = object->xy.h.x;
+    sprite->xy.h.y = object->xy.h.y;
     sprite->extent.wh.w.word = object->field_3C.h.field_3C;
     sprite->extent.wh.h = object->field_3C.h.field_3E;
     sprite->rgb = object->rgb;

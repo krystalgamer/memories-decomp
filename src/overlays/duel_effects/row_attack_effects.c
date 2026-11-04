@@ -211,18 +211,18 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1));
-            if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
+            if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140)) {
                 work->states[0] = 1;
-            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -70 : 70)) {
                 work->states[1] = 1;
-            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 == 0) {
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x == 0) {
                 work->states[2] = 1;
-            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 70 : -70)) {
                 work->states[3] = 1;
-            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 140 : -140)) {
                 work->states[4] = 1;
             }
@@ -316,8 +316,8 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
         if (work->stage >= 2) {
             for (i = 0; i < work->active; i++) {
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->attribute |= 0x50000000;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x += work->card_velocities[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y += work->card_velocities[i].vy;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vx;

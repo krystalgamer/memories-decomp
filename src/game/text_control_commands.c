@@ -311,21 +311,21 @@ void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
     u16 v;
     b->field_18 = a->field_18;
     b->field_1A = a->field_1A;
-    v = a->field_30.h.field_30;
+    v = a->xy.h.x;
     b->field_48.h.field_48 = v;
     b->position.h.field_28 = v;
     b->field_38.h.field_38 = v - 8;
-    v = a->field_30.h.field_30 + a->field_3C.h.field_3C;
+    v = a->xy.h.x + a->field_3C.h.field_3C;
     b->field_50.h.field_50 = v;
-    b->field_30.h.field_30 = v;
+    b->xy.h.x = v;
     b->field_40.h.field_40 = v + 8;
-    v = a->field_30.h.field_32 - 8;
-    b->field_30.h.field_32 = v;
+    v = a->xy.h.y - 8;
+    b->xy.h.y = v;
     b->position.h.field_2A = v;
-    v = a->field_30.h.field_32 + a->field_48.h.field_4A;
+    v = a->xy.h.y + a->field_48.h.field_4A;
     b->field_40.h.field_42 = v;
     b->field_38.h.field_3A = v;
-    v = a->field_30.h.field_32 + a->field_3C.h.field_3E + 8;
+    v = a->xy.h.y + a->field_3C.h.field_3E + 8;
     b->field_50.h.field_52 = v;
     b->field_48.h.field_4A = v;
 }
@@ -368,8 +368,8 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     DisplayObject_SelectOrderingTable1(e);
     DisplayObject_SetDepthOffset(e, (s8)p->depth_offset);
 
-    e->field_30.h.field_30 = (u16)p->rect_x;
-    e->field_30.h.field_32 = (u16)p->rect_y;
+    e->xy.h.x = (u16)p->rect_x;
+    e->xy.h.y = (u16)p->rect_y;
     e->field_3C.h.field_3C = (u16)p->rect_width;
     e->field_3C.h.field_3E = (u16)p->rect_height;
     v = p->rect_width / 2;

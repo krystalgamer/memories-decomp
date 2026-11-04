@@ -87,7 +87,7 @@ void Script_OpDuelResult(void) {
         gSceneScript_Slots[2].object_address = 0;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 1);
-        q->field_30.word = 0x140;
+        q->xy.word = 0x140;
         q->field_38.word = 0x400000;
         q->position.word = 0;
         q->field_40.word = 0x400140;
@@ -119,7 +119,7 @@ void Script_OpDuelResult(void) {
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 0);
         color = 0xF00140;
-        q->field_30.word = 0x140;
+        q->xy.word = 0x140;
         q->field_38.word = 0xF00000;
         q->field_3C.word = 0xFFFFFF;
         q->field_44.word = 0xFFFFFF;

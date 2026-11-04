@@ -62,16 +62,16 @@
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
-    s32 relative = (s16)cursor->field_30.h.field_32 - gGraphics_sViewportY;
+    s32 relative = (s16)cursor->xy.h.y - gGraphics_sViewportY;
 
     if (relative < 0x28) {
-        gGraphics_sViewportY = (s16)cursor->field_30.h.field_32 - 0x28;
+        gGraphics_sViewportY = (s16)cursor->xy.h.y - 0x28;
     }
     if (relative >= 0x91) {
-        gGraphics_sViewportY = (s16)cursor->field_30.h.field_32 - 0x90;
+        gGraphics_sViewportY = (s16)cursor->xy.h.y - 0x90;
     }
-    gFreeDuel_pThumbWidget->field_30.h.field_32 =
-        ((s16)cursor->field_30.h.field_32 - 0x28) * 72 / 364 + 7;
+    gFreeDuel_pThumbWidget->xy.h.y =
+        ((s16)cursor->xy.h.y - 0x28) * 72 / 364 + 7;
 }
 #endif
 
@@ -90,8 +90,8 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 
     col = gFreeDuel_bCursorColumn;
     panel = gText_aChannels;
-    w->field_30.h.field_30 = col * 56 + 20;
-    w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
+    w->xy.h.x = col * 56 + 20;
+    w->xy.h.y = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);
     if (arm == 0) {
         return;
@@ -426,13 +426,13 @@ void FreeDuel_UpdateCursorTween(void)
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
-        d = (s16)widget->field_30.h.field_30;
+        d = (s16)widget->xy.h.x;
         d = tx - d;
         sx = (d << 8) / 8;
         d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
         widget->field_34.h.field_36 = sx;
-        d = (s16)widget->field_30.h.field_32;
+        d = (s16)widget->xy.h.y;
         d = ty - d;
         widget->field_38.h.field_38 = (d << 8) / 8;
     }
@@ -450,7 +450,7 @@ void FreeDuel_UpdateCursorTween(void)
         slot = FreeDuel_GetSparkleSlot();
         sparkle = FreeDuel_SpawnSparkle();
         if (sparkle != 0 && slot != 0) {
-            sparkle->field_30.word = widget->field_30.word;
+            sparkle->xy.word = widget->xy.word;
             DisplayObject_SetDepthOffset(sparkle, (s8)((u8)widget->depth_offset - 1));
             DisplayObject_UpdateCommandStream(sparkle);
             sparkle->field_4C = widget->field_4C;

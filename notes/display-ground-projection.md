@@ -17,7 +17,7 @@ the two halfwords of `object->position`: the first becomes x, the second
 becomes z, and y is explicitly zero. It selects
 `MODEL_DEFAULT_PROJECTION`, sets the geometry origin to `(160, 108)`, and
 projects through `gGraphics_LightSourceMatrix` using the official GTE RTPS macros.
-The resulting screen pair is written to `field_30` and biased by
+The resulting screen pair is written to `xy` and biased by
 `(-32, -30)`. The geometry origin is then restored to zero.
 
 The constructor `func_800234E4` in `duel_field_display_objects.c` supplies
@@ -31,7 +31,7 @@ unrestricted three-axis projection.
 `DisplayObject_ProjectLinkedGroundPosition` first copies the complete
 position word from `D_800EFE48[object->field_6A]`, then invokes the projector
 above. `Duel_GetOrCreateActionReadyMarker` supplies the link by storing
-`source->field_0A` in `field_6A` when it creates the follower object and
+`source->pool_index` in `field_6A` when it creates the follower object and
 installs this wrapper as its update callback.
 
 This establishes a linked pool-object index for this constructor/consumer

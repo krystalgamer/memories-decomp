@@ -369,10 +369,10 @@ void DuelSelection_UpdateLinkedObject(DisplayObject *object)
     if (parent == 0) {
         DisplayObject_ReleaseIfPresent(object);
     } else {
-        object->field_30.h.field_30 =
-            parent->field_30.h.field_30 + object->position.h.field_28;
-        object->field_30.h.field_32 =
-            parent->field_30.h.field_32 + object->position.h.field_2A;
+        object->xy.h.x =
+            parent->xy.h.x + object->position.h.field_28;
+        object->xy.h.y =
+            parent->xy.h.y + object->position.h.field_2A;
         if (parent->field_6C == 0) {
             object->field_6C = 0;
             object->update = 0;

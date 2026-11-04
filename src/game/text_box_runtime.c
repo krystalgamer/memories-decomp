@@ -140,25 +140,25 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
     record->rect_x = x;
     record->rect_y = y;
     if (object != 0) {
-        object->field_30.h.field_30 = x;
-        object->field_30.h.field_32 = y;
+        object->xy.h.x = x;
+        object->xy.h.y = y;
     }
     object = record->aux_object;
     if (object != 0) {
-        if (object->field_1E == 4)
+        if (object->list_key == 4)
             TextBox_UpdateOutline(record);
         else {
-            object->field_30.h.field_30 = x;
-            object->field_30.h.field_32 = y;
+            object->xy.h.x = x;
+            object->xy.h.y = y;
         }
     }
     object = record->prompt_object;
     if (object != 0) {
-        if (object->field_1E == 4)
+        if (object->list_key == 4)
             DuelEffect_UpdateObjectLayout(record);
         else {
-            object->field_30.h.field_30 = record->rect_width + x - 16;
-            object->field_30.h.field_32 = record->rect_height + y - 16;
+            object->xy.h.x = record->rect_width + x - 16;
+            object->xy.h.y = record->rect_height + y - 16;
         }
     }
 }

@@ -282,8 +282,8 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     entry = table + index;
-    ((DisplayObject *)object)->field_30.h.field_30 = (u16)entry->f12;
-    ((DisplayObject *)object)->field_30.h.field_32 = (u16)entry->f14;
+    ((DisplayObject *)object)->xy.h.x = (u16)entry->f12;
+    ((DisplayObject *)object)->xy.h.y = (u16)entry->f14;
     return object;
 }
 
@@ -331,8 +331,8 @@ void CampaignMap_SetLocation(s32 index)
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    ((DisplayObject *)obj)->field_30.h.field_30 = 160;
-    ((DisplayObject *)obj)->field_30.h.field_32 = 144;
+    ((DisplayObject *)obj)->xy.h.x = 160;
+    ((DisplayObject *)obj)->xy.h.y = 144;
     ((DisplayObject *)obj)->field_60 = 128;
     ((DisplayObject *)obj)->field_48.h.field_48 = 32;
     ((DisplayObject *)obj)->field_48.h.field_4A = 192;

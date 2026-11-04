@@ -120,8 +120,8 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     r = (struct ProjectionOut *)0x1F800398;
     ((u8 *)&o->rgb)[2] = *(u8 *)&o->field_60;
     DisplayObject_ProjectRotationFacing(o,
-                  *(s16 *)&o->field_30.h.field_30 + *(s16 *)&o->field_18,
-                  *(s16 *)&o->field_30.h.field_32 + *(s16 *)&o->field_1A,
+                  *(s16 *)&o->xy.h.x + *(s16 *)&o->field_18,
+                  *(s16 *)&o->xy.h.y + *(s16 *)&o->field_1A,
                   r);
 
     q = (LINE_F4 *)0x1F8002A0;
@@ -137,14 +137,14 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     *(s32 *)&q->r0 = z;
     q->code = 0x4C;
 
-    v = o->field_30.h.field_30 - (u16)r->x;
+    v = o->xy.h.x - (u16)r->x;
     b2->vx = v;
     b0->vx = v;
     v += o->field_3C.h.field_3C;
     b3->vx = v;
     b0[1].vx = v;
 
-    w = o->field_30.h.field_32 - (u16)r->y;
+    w = o->xy.h.y - (u16)r->y;
     b1->vy = w;
     b0->vy = w;
     e = o->field_3C.h.field_3E;
@@ -172,7 +172,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }
 
-DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->field_30.word=src->field_30.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->rgb=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
+DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->xy.word=src->xy.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->rgb=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
@@ -420,7 +420,7 @@ void Library_UpdateCardView(LibraryState *state)
             DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
             if (o->field_60 >= 0x800) {
                 o->field_20.word = 0x8000;
-                o->field_30.word = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
+                o->xy.word = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
                 o->field_44.word = 0x10001000;
                 W(rec->secondary_object, 4) &= 0x7FFFFFFF;
                 o->attribute |= 0x08000000;

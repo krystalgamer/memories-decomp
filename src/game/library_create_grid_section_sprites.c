@@ -20,7 +20,7 @@ void Library_CreateGridSectionSprites(void)
         DisplayObject_ConfigureSpriteAtPosition(object, 8, (i >> 1) * 178 + 8,
                       0, 3, i, 25, 262);
         if (i & 1)
-            object->field_30.h.field_30 = 168;
+            object->xy.h.x = 168;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable3(object);

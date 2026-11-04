@@ -67,7 +67,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         t = *(u16 *)&o->field_60 - 1;
         o->field_60 = t;
         if (o->field_60 <= 0) {
-            o->field_30.word = *(s32 *)&o->field_18;
+            o->xy.word = *(s32 *)&o->field_18;
             o->field_60 = 8;
             o->field_6C = o->field_6C | 0x20;
         }

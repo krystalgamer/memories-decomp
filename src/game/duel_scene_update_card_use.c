@@ -77,8 +77,8 @@ void DuelScene_UpdateCardUse(void)
             gDuel_bSceneSubStep = state | 0x80;
             p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
             p = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
-            p->field_30.h.field_30 = 0x5A;
-            p->field_30.h.field_32 = DUEL_CARD_USE_OBJECT_Y;
+            p->xy.h.x = 0x5A;
+            p->xy.h.y = DUEL_CARD_USE_OBJECT_Y;
             p->field_20.b.rotation_y = 0xC0;
             DisplayObject_SetDepthOffset(p, -0xA);
             p->flags =

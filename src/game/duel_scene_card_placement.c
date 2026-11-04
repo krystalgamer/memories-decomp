@@ -41,8 +41,8 @@
 #define DUEL_CARD_PLACEMENT_SCREEN_HEIGHT 240
 #endif
 
-#define PLACEMENT_PX(object) ((object)->field_30.h.field_30)
-#define PLACEMENT_PY(object) ((object)->field_30.h.field_32)
+#define PLACEMENT_PX(object) ((object)->xy.h.x)
+#define PLACEMENT_PY(object) ((object)->xy.h.y)
 #define PLACEMENT_TX(object) ((object)->position.h.field_28)
 #define PLACEMENT_TY(object) ((object)->position.h.field_2A)
 #define PLACEMENT_VX(object) ((object)->field_34.h.field_36)
@@ -293,7 +293,7 @@ request_combination:
                 gDuel_bSceneSubStep = 3;
                 return;
             }
-            object->field_30.word = slots[0]->field_30.word;
+            object->xy.word = slots[0]->xy.word;
             if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
                 gDuel_bSceneSubStep = 7;
                 gDuel_bPlacementNeedsCardMoveSetup = -1;
