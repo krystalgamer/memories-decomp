@@ -414,7 +414,7 @@ tail:
 }
 #endif
 
-/* Regional value: field_4A beside field_48 = 0xA0: half the screen height
+/* Regional value: pivot.y beside pivot.x = 0xA0: half the screen height
  * (0x78 -> 0x80). The European build (src/game/european/) defines its own. */
 #ifndef DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT
 #define DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT 0x78
@@ -442,8 +442,8 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
         a->attribute = a->attribute | (GsALON | GsAONE);
     }
 
-    b->field_48.h.field_48 = 0xA0;
-    b->field_48.h.field_4A = DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT;
+    b->field_48.pivot.x = 0xA0;
+    b->field_48.pivot.y = DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT;
     b->attribute = b->attribute & ~GsROTOFF;
 
     y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -466,10 +466,10 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
             c = hi - i;
             v = c * 0x60 + 0x1000;
             c = c | ((c << 16) | (c << 8));
-            y->field_44.h.field_46 = v;
-            y->field_44.h.field_44 = v;
-            b->field_44.h.field_46 = v;
-            b->field_44.h.field_44 = v;
+            y->field_44.scale.y = v;
+            y->field_44.scale.x = v;
+            b->field_44.scale.y = v;
+            b->field_44.scale.x = v;
             a->rgb = c;
             x->rgb = c;
         }

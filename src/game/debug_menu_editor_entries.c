@@ -162,7 +162,7 @@ void DebugMenu_UpdateCursorLayout(void)
     target->position.h.field_28 = first;
 
     second = first + source->spacing / 2 - 16;
-    target->field_40.h.field_40 = second;
+    target->field_40.vertex.x = second;
     target->xy.h.x = second;
 
     {
@@ -173,7 +173,7 @@ void DebugMenu_UpdateCursorLayout(void)
     target->xy.h.y = third;
     target->position.h.field_2A = third;
     third += 16;
-    target->field_40.h.field_42 = third;
+    target->field_40.vertex.y = third;
     target->field_38.h.field_3A = third;
 }
 

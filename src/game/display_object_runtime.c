@@ -120,16 +120,16 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
         p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
         p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
     }
-    p->extent.wh.h = e->field_3C.h.field_3E;
-    remaining = e->field_3C.h.field_3C;
+    p->extent.wh.h = e->field_3C.size.h;
+    remaining = e->field_3C.size.w;
     c->flag = p->attribute & GsROTOFF;
     mode = mode16 | 0x10000;
 
     if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
         gDisplayObject_fRenderRetry = 0;
         if (DisplayObject_ProjectRotationFacing(
-                e, (s16)p->xy.h.x + (s16)e->field_18,
-                (s16)p->xy.h.y + (s16)e->field_1A,
+                e, (s16)p->xy.h.x + (s16)e->field_18.center.x,
+                (s16)p->xy.h.y + (s16)e->field_18.center.y,
                           (struct ProjectionOut *)c->out) <= 0) {
             return;
         }
@@ -349,8 +349,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
                                       e->field_20.word,
-                                      g->x0 + (s16)e->field_18,
-                                      g->y0 + (s16)e->field_1A,
+                                      g->x0 + (s16)e->field_18.center.x,
+                                      g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
                         goto next;
                     }
@@ -467,8 +467,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
                                       e->field_20.word,
-                                      g->x0 + (s16)e->field_18,
-                                      g->y0 + (s16)e->field_1A,
+                                      g->x0 + (s16)e->field_18.center.x,
+                                      g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
                         goto next;
                     }
@@ -631,8 +631,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         y -= gGraphics_sViewportY;
     }
     work = (SpriteSheetWork *)0x1F800378;
-    work->mx = object->field_48.h.field_48;
-    work->my = object->field_48.h.field_4A;
+    work->mx = object->field_48.pivot.x;
+    work->my = object->field_48.pivot.y;
     sprite = (SpritePrim *)0x1F800320;
     work->clip = object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST;
 retry:
@@ -652,16 +652,16 @@ retry:
         tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage;
     }
     sprite->tpage = work->tpage = tpage;
-    work->cx = object->field_40.h.field_40;
-    work->cy = object->field_40.h.field_42;
+    work->cx = object->field_40.clut.x;
+    work->cy = object->field_40.clut.y;
     if (object->flags & DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET) {
         work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
         work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
     }
     sheet = (u8 *)object->field_4C;
     sprite->rotate = object->field_20.h.rotation_z * 5760;
-    GS_SPRITE_VIEW(sprite)->scalex = object->field_44.h.field_44;
-    GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;
+    GS_SPRITE_VIEW(sprite)->scalex = object->field_44.scale.x;
+    GS_SPRITE_VIEW(sprite)->scaley = object->field_44.scale.y;
     sprite->mxmy.h.y = 0;
     sprite->mxmy.h.x = 0;
     GS_SPRITE_VIEW(sprite)->r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
@@ -690,7 +690,7 @@ retry:
         setcode(quad, 0x2C);
         gDisplayObject_fRenderRetry = 0;
         if (DisplayObject_ProjectRotationFacing(
-                object, x + (s16)object->field_18, y + (s16)object->field_1A,
+                object, x + (s16)object->field_18.center.x, y + (s16)object->field_18.center.y,
                 &work->proj) <= 0) {
             return;
         }
