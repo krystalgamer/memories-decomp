@@ -4,7 +4,7 @@ The two game-owned entries are matching C through
 `src/overlays/french_model_variant/image9840_entry.c`
 (`FrenchModelVariant648_HandleRequest`), one source for both slots. Each
 image's symbols file binds the entry and its two raw-tail data names
-(`gFrenchModelVariant648_D1D54`, `gFrenchModelVariant648_D1D70`) at its own
+(`gFrenchModelVariant648_D1D54`, `gFrenchModelVariant648_aConfigs`) at its own
 addresses.
 Each entry is `0x1D50` bytes at image offset `0x4`, with the original 360-byte
 frame. Both use the named `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81.

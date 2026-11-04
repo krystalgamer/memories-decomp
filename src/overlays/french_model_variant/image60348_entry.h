@@ -54,7 +54,7 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant681_D26C8[3];
-extern Image60348Config gFrenchModelVariant681_D271C[];
+extern Image60348Config gFrenchModelVariant681_aConfigs[];
 
 s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command);
 

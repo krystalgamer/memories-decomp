@@ -1,7 +1,7 @@
 // German MODEL.MRG model 267 (record 267), sector 73882, header 739, loaded at 0x8017B000; the US header-722 source variant655_entry.c; built from the French source layout of french_model_variant_267_stage8_slot1.
 ModelVariant655_HandleRequest = 0x8017B004; // type:func size:0x4BCC defined:true
 gModelVariant655_D4D94 = 0x8017FD6C; // type:u8 size:0x38 defined:true
-gModelVariant655_D4DCC = 0x8017FDA4; // type:u8 size:0x25C defined:true
+gModelVariant655_aConfigs = 0x8017FDA4; // type:u8 size:0x25C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

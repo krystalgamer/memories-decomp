@@ -73,7 +73,7 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant662_D4534[3];
-extern Model662Command gModelVariant662_D4588[];
+extern Model662Command gModelVariant662_aConfigs[];
 
 s32 ModelVariant662_HandleRequest(u8 *context, s32 command);
 

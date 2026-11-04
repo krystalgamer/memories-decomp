@@ -62,17 +62,17 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->burst_count = 32;
             break;
         }
-        work->radius = gModelVariant628_D25EC[command].radius;
-        work->height = gModelVariant628_D25EC[command].height;
+        work->radius = gModelVariant628_aConfigs[command].radius;
+        work->height = gModelVariant628_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->balls[i].active = 0;
             work->balls[i].elapsed = 0;
             work->balls[i].duration = 0x20;
             work->balls[i].mode = 1;
             work->balls[i].coord = Model_GetCameraCoordinateUnit();
-            work->balls[i].red = gModelVariant628_D25EC[command].red;
-            work->balls[i].green = gModelVariant628_D25EC[command].green;
-            work->balls[i].blue = gModelVariant628_D25EC[command].blue;
+            work->balls[i].red = gModelVariant628_aConfigs[command].red;
+            work->balls[i].green = gModelVariant628_aConfigs[command].green;
+            work->balls[i].blue = gModelVariant628_aConfigs[command].blue;
             work->balls[i].u = 0;
             work->balls[i].v = 0x60;
             setVector(&work->balls[i].scale, 0x1000, 0x1000, 0x1000);
@@ -120,9 +120,9 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->domes[i][0].duration = 0x80;
             work->domes[i][0].mode = 1;
             work->domes[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i][0].red = gModelVariant628_D25EC[command].red;
-            work->domes[i][0].green = gModelVariant628_D25EC[command].green;
-            work->domes[i][0].blue = gModelVariant628_D25EC[command].blue;
+            work->domes[i][0].red = gModelVariant628_aConfigs[command].red;
+            work->domes[i][0].green = gModelVariant628_aConfigs[command].green;
+            work->domes[i][0].blue = gModelVariant628_aConfigs[command].blue;
             work->domes[i][0].u = 0;
             work->domes[i][0].v = 0x20;
             work->domes[i][0].stage = 0;
@@ -148,9 +148,9 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->bursts[i][0].duration = 0x30;
             work->bursts[i][0].mode = 1;
             work->bursts[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i][0].red = gModelVariant628_D25EC[command].red;
-            work->bursts[i][0].green = gModelVariant628_D25EC[command].green;
-            work->bursts[i][0].blue = gModelVariant628_D25EC[command].blue;
+            work->bursts[i][0].red = gModelVariant628_aConfigs[command].red;
+            work->bursts[i][0].green = gModelVariant628_aConfigs[command].green;
+            work->bursts[i][0].blue = gModelVariant628_aConfigs[command].blue;
             work->bursts[i][0].u = 0;
             work->bursts[i][0].v = 0x20;
             setVector(&work->bursts[i][0].rotation, 0, work->slot * 2048, 0);
@@ -162,7 +162,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                 break;
             }
         }
-        work->delay = gModelVariant628_D25EC[command].delay;
+        work->delay = gModelVariant628_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -357,19 +357,19 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                     }
                     n = work->domes[i][j].duration / 3;
                     if (work->domes[i][j].duration * 2 / 3 < work->domes[i][j].elapsed) {
-                        fade = gModelVariant628_D25EC[work->command].red / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].red / (n - 1) * step;
                         if (fade < work->domes[i][j].red) {
                             work->domes[i][j].red -= fade;
                         } else {
                             work->domes[i][j].red = 0;
                         }
-                        fade = gModelVariant628_D25EC[work->command].green / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].green / (n - 1) * step;
                         if (fade < work->domes[i][j].green) {
                             work->domes[i][j].green -= fade;
                         } else {
                             work->domes[i][j].green = 0;
                         }
-                        fade = gModelVariant628_D25EC[work->command].blue / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].blue / (n - 1) * step;
                         if (fade < work->domes[i][j].blue) {
                             work->domes[i][j].blue -= fade;
                         } else {
@@ -462,21 +462,21 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         /* Reading each colour before its fade step keeps the
                          * burst address ahead of the table lookup. */
                         color = work->bursts[i][j].red;
-                        fade = gModelVariant628_D25EC[work->command].red / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].red / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].red -= fade;
                         } else {
                             work->bursts[i][j].red = 0;
                         }
                         color = work->bursts[i][j].green;
-                        fade = gModelVariant628_D25EC[work->command].green / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].green / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].green -= fade;
                         } else {
                             work->bursts[i][j].green = 0;
                         }
                         color = work->bursts[i][j].blue;
-                        fade = gModelVariant628_D25EC[work->command].blue / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->command].blue / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].blue -= fade;
                         } else {

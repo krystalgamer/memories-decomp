@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 498 (record 448), sector 123858, header 741, loaded at 0x8017B000; the US header-724 source variant657_entry.c; built from the French source layout of french_model_variant_498_stage10_slot1.
 ModelVariant657_HandleRequest = 0x8017B004; // type:func size:0x4AE0 defined:true
 gModelVariant657_D4BC8 = 0x8017FBA0; // type:u8 size:0x54 defined:true
-gModelVariant657_D4C1C = 0x8017FBF4; // type:u8 size:0x40C defined:true
+gModelVariant657_aConfigs = 0x8017FBF4; // type:u8 size:0x40C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

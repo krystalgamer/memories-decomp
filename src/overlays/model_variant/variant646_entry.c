@@ -83,8 +83,8 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->orb_count = 2;
             break;
         }
-        work->radius = gModelVariant646_D3678[command].radius;
-        work->height = gModelVariant646_D3678[command].height;
+        work->radius = gModelVariant646_aConfigs[command].radius;
+        work->height = gModelVariant646_aConfigs[command].height;
         for (i = 0; i < work->copies; i++) {
             work->glows[i].active = 0;
             work->glows[i].elapsed = 0;
@@ -95,9 +95,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             }
             work->glows[i].mode = 1;
             work->glows[i].coord = Model_GetCameraCoordinateUnit();
-            work->glows[i].color[0] = gModelVariant646_D3678[command].color[0];
-            work->glows[i].color[1] = gModelVariant646_D3678[command].color[1];
-            work->glows[i].color[2] = gModelVariant646_D3678[command].color[2];
+            work->glows[i].color[0] = gModelVariant646_aConfigs[command].color[0];
+            work->glows[i].color[1] = gModelVariant646_aConfigs[command].color[1];
+            work->glows[i].color[2] = gModelVariant646_aConfigs[command].color[2];
             work->glows[i].u = 0;
             work->glows[i].v = 0;
             setVector(&work->glows[i].scale, 0, 0, 0);
@@ -131,9 +131,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             }
             work->shards[i][0].mode = 1;
             work->shards[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->shards[i][0].color[0] = gModelVariant646_D3678[command].color[0];
-            work->shards[i][0].color[1] = gModelVariant646_D3678[command].color[1];
-            work->shards[i][0].color[2] = gModelVariant646_D3678[command].color[2];
+            work->shards[i][0].color[0] = gModelVariant646_aConfigs[command].color[0];
+            work->shards[i][0].color[1] = gModelVariant646_aConfigs[command].color[1];
+            work->shards[i][0].color[2] = gModelVariant646_aConfigs[command].color[2];
             work->shards[i][0].u = 0;
             work->shards[i][0].v = 32;
             setVector(&work->shards[i][0].scale, 0, 0, 0);
@@ -180,9 +180,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             }
             work->orbs[i][0].mode = 1;
             work->orbs[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->orbs[i][0].color[0] = gModelVariant646_D3678[command].color[0];
-            work->orbs[i][0].color[1] = gModelVariant646_D3678[command].color[1];
-            work->orbs[i][0].color[2] = gModelVariant646_D3678[command].color[2];
+            work->orbs[i][0].color[0] = gModelVariant646_aConfigs[command].color[0];
+            work->orbs[i][0].color[1] = gModelVariant646_aConfigs[command].color[1];
+            work->orbs[i][0].color[2] = gModelVariant646_aConfigs[command].color[2];
             work->orbs[i][0].u = 0;
             work->orbs[i][0].v = 0;
             switch (command) {
@@ -230,9 +230,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->rings[i][0].elapsed = 0;
             work->rings[i][0].mode = 1;
             work->rings[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i][0].color[0] = gModelVariant646_D3678[command].color[3];
-            work->rings[i][0].color[1] = gModelVariant646_D3678[command].color[4];
-            work->rings[i][0].color[2] = gModelVariant646_D3678[command].color[5];
+            work->rings[i][0].color[0] = gModelVariant646_aConfigs[command].color[3];
+            work->rings[i][0].color[1] = gModelVariant646_aConfigs[command].color[4];
+            work->rings[i][0].color[2] = gModelVariant646_aConfigs[command].color[5];
             work->rings[i][0].u = 0;
             work->rings[i][0].v = 32;
             setVector(&work->rings[i][0].scale, 0, 0, 0);
@@ -267,9 +267,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->rays[i][0].elapsed = 0;
             work->rays[i][0].mode = 1;
             work->rays[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->rays[i][0].color[0] = gModelVariant646_D3678[command].color[3];
-            work->rays[i][0].color[1] = gModelVariant646_D3678[command].color[4];
-            work->rays[i][0].color[2] = gModelVariant646_D3678[command].color[5];
+            work->rays[i][0].color[0] = gModelVariant646_aConfigs[command].color[3];
+            work->rays[i][0].color[1] = gModelVariant646_aConfigs[command].color[4];
+            work->rays[i][0].color[2] = gModelVariant646_aConfigs[command].color[5];
             work->rays[i][0].u = 0;
             work->rays[i][0].v = 0;
             setVector(&work->rays[i][0].scale, 0, 0, 0);
@@ -298,7 +298,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                 work->rays[i][j] = work->rays[i][0];
             }
         }
-        work->delay = gModelVariant646_D3678[command].delay;
+        work->delay = gModelVariant646_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -489,9 +489,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                     value = (work->glows[i].duration - work->glows[i].elapsed) * 2;
                     /* Copying the duration first gives retail's divisor register. */
                     duration = work->glows[i].duration;
-                    work->glows[i].color[0] = gModelVariant646_D3678[work->command].color[0] * value / duration;
-                    work->glows[i].color[1] = gModelVariant646_D3678[work->command].color[1] * value / duration;
-                    work->glows[i].color[2] = gModelVariant646_D3678[work->command].color[2] * value / duration;
+                    work->glows[i].color[0] = gModelVariant646_aConfigs[work->command].color[0] * value / duration;
+                    work->glows[i].color[1] = gModelVariant646_aConfigs[work->command].color[1] * value / duration;
+                    work->glows[i].color[2] = gModelVariant646_aConfigs[work->command].color[2] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -548,9 +548,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                     if (work->shards[i][j].duration / 2 < work->shards[i][j].elapsed) {
                         value = (work->shards[i][j].duration - work->shards[i][j].elapsed) * 2;
                         duration = work->shards[i][j].duration;
-                        work->shards[i][j].color[0] = gModelVariant646_D3678[work->command].color[0] * value / duration;
-                        work->shards[i][j].color[1] = gModelVariant646_D3678[work->command].color[1] * value / duration;
-                        work->shards[i][j].color[2] = gModelVariant646_D3678[work->command].color[2] * value / duration;
+                        work->shards[i][j].color[0] = gModelVariant646_aConfigs[work->command].color[0] * value / duration;
+                        work->shards[i][j].color[1] = gModelVariant646_aConfigs[work->command].color[1] * value / duration;
+                        work->shards[i][j].color[2] = gModelVariant646_aConfigs[work->command].color[2] * value / duration;
                     }
                     setPolyGT3(&work->shard);
                     work->shard.tpage = work->tpage[1];
@@ -654,9 +654,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                     if (work->rings[i][j].duration / 2 < work->rings[i][j].elapsed) {
                         value = (work->rings[i][j].duration - work->rings[i][j].elapsed) * 2;
                         duration = work->rings[i][j].duration;
-                        work->rings[i][j].color[0] = gModelVariant646_D3678[work->command].color[3] * value / duration;
-                        work->rings[i][j].color[1] = gModelVariant646_D3678[work->command].color[4] * value / duration;
-                        work->rings[i][j].color[2] = gModelVariant646_D3678[work->command].color[5] * value / duration;
+                        work->rings[i][j].color[0] = gModelVariant646_aConfigs[work->command].color[3] * value / duration;
+                        work->rings[i][j].color[1] = gModelVariant646_aConfigs[work->command].color[4] * value / duration;
+                        work->rings[i][j].color[2] = gModelVariant646_aConfigs[work->command].color[5] * value / duration;
                     }
                     value = step * ((i % 2) * 2 - 1) * ((j % 2) * 2 - 1);
                     /* Written as k * 2 * spin, the front end folds the constant onto the
@@ -716,9 +716,9 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                     if (work->rays[i][j].duration / 2 < work->rays[i][j].elapsed) {
                         value = (work->rays[i][j].duration - work->rays[i][j].elapsed) * 2;
                         duration = work->rays[i][j].duration;
-                        work->rays[i][j].color[0] = gModelVariant646_D3678[work->command].color[3] * value / duration;
-                        work->rays[i][j].color[1] = gModelVariant646_D3678[work->command].color[4] * value / duration;
-                        work->rays[i][j].color[2] = gModelVariant646_D3678[work->command].color[5] * value / duration;
+                        work->rays[i][j].color[0] = gModelVariant646_aConfigs[work->command].color[3] * value / duration;
+                        work->rays[i][j].color[1] = gModelVariant646_aConfigs[work->command].color[4] * value / duration;
+                        work->rays[i][j].color[2] = gModelVariant646_aConfigs[work->command].color[5] * value / duration;
                     }
                     setVector(&origin, 0, 0, 0);
                     for (n = 1; n < 8; n++) {

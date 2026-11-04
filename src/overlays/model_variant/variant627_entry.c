@@ -46,18 +46,18 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                 work->line_count = 10;
             }
         }
-        work->inner = gModelVariant627_D1384[command].inner;
-        work->outer = gModelVariant627_D1384[command].outer;
-        work->height = gModelVariant627_D1384[command].height;
+        work->inner = gModelVariant627_aConfigs[command].inner;
+        work->outer = gModelVariant627_aConfigs[command].outer;
+        work->height = gModelVariant627_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
-            work->rings[i].duration = gModelVariant627_D1384[command].duration;
+            work->rings[i].duration = gModelVariant627_aConfigs[command].duration;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = gModelVariant627_D1384[command].red;
-            work->rings[i].green = gModelVariant627_D1384[command].green;
-            work->rings[i].blue = gModelVariant627_D1384[command].blue;
+            work->rings[i].red = gModelVariant627_aConfigs[command].red;
+            work->rings[i].green = gModelVariant627_aConfigs[command].green;
+            work->rings[i].blue = gModelVariant627_aConfigs[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000 - (i << 12) / work->ring_count,
@@ -73,12 +73,12 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->line_count; i++) {
             work->lines[i].active = 0;
             work->lines[i].elapsed = 0;
-            work->lines[i].duration = gModelVariant627_D1384[command].duration;
+            work->lines[i].duration = gModelVariant627_aConfigs[command].duration;
             work->lines[i].mode = 1;
             work->lines[i].coord = Model_GetCameraCoordinateUnit();
-            work->lines[i].red = gModelVariant627_D1384[command].red;
-            work->lines[i].green = gModelVariant627_D1384[command].green;
-            work->lines[i].blue = gModelVariant627_D1384[command].blue;
+            work->lines[i].red = gModelVariant627_aConfigs[command].red;
+            work->lines[i].green = gModelVariant627_aConfigs[command].green;
+            work->lines[i].blue = gModelVariant627_aConfigs[command].blue;
             setVector(&work->lines[i].scale, 0x1000 - (i << 12) / work->line_count,
                 0x1000 - (i << 12) / work->line_count, 0x1000);
             setVector(&work->lines[i].growth, 0, 0, 0);
@@ -89,7 +89,7 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                 setVector(&work->lines[i].rotation, 0, work->slot * 2048, (i << 12) / work->line_count);
             }
         }
-        work->delay = gModelVariant627_D1384[command].delay;
+        work->delay = gModelVariant627_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -130,18 +130,18 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
-                    if (gModelVariant627_D1384[work->command].red / (work->rings[i].duration / 2 - 1) * step < work->rings[i].red) {
-                        work->rings[i].red -= gModelVariant627_D1384[work->command].red / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].red / (work->rings[i].duration / 2 - 1) * step < work->rings[i].red) {
+                        work->rings[i].red -= gModelVariant627_aConfigs[work->command].red / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].red = 0;
                     }
-                    if (gModelVariant627_D1384[work->command].green / (work->rings[i].duration / 2 - 1) * step < work->rings[i].green) {
-                        work->rings[i].green -= gModelVariant627_D1384[work->command].green / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].green / (work->rings[i].duration / 2 - 1) * step < work->rings[i].green) {
+                        work->rings[i].green -= gModelVariant627_aConfigs[work->command].green / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].green = 0;
                     }
-                    if (gModelVariant627_D1384[work->command].blue / (work->rings[i].duration / 2 - 1) * step < work->rings[i].blue) {
-                        work->rings[i].blue -= gModelVariant627_D1384[work->command].blue / (work->rings[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].blue / (work->rings[i].duration / 2 - 1) * step < work->rings[i].blue) {
+                        work->rings[i].blue -= gModelVariant627_aConfigs[work->command].blue / (work->rings[i].duration / 2 - 1) * step;
                     } else {
                         work->rings[i].blue = 0;
                     }
@@ -221,18 +221,18 @@ s32 ModelVariant627_HandleRequest(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 if (work->lines[i].duration / 2 < work->lines[i].elapsed) {
-                    if (gModelVariant627_D1384[work->command].red / (work->lines[i].duration / 2 - 1) * step < work->lines[i].red) {
-                        work->lines[i].red -= gModelVariant627_D1384[work->command].red / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].red / (work->lines[i].duration / 2 - 1) * step < work->lines[i].red) {
+                        work->lines[i].red -= gModelVariant627_aConfigs[work->command].red / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].red = 0;
                     }
-                    if (gModelVariant627_D1384[work->command].green / (work->lines[i].duration / 2 - 1) * step < work->lines[i].green) {
-                        work->lines[i].green -= gModelVariant627_D1384[work->command].green / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].green / (work->lines[i].duration / 2 - 1) * step < work->lines[i].green) {
+                        work->lines[i].green -= gModelVariant627_aConfigs[work->command].green / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].green = 0;
                     }
-                    if (gModelVariant627_D1384[work->command].blue / (work->lines[i].duration / 2 - 1) * step < work->lines[i].blue) {
-                        work->lines[i].blue -= gModelVariant627_D1384[work->command].blue / (work->lines[i].duration / 2 - 1) * step;
+                    if (gModelVariant627_aConfigs[work->command].blue / (work->lines[i].duration / 2 - 1) * step < work->lines[i].blue) {
+                        work->lines[i].blue -= gModelVariant627_aConfigs[work->command].blue / (work->lines[i].duration / 2 - 1) * step;
                     } else {
                         work->lines[i].blue = 0;
                     }

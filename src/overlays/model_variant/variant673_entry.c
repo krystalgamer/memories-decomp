@@ -52,17 +52,17 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             work->count = 64;
             break;
         }
-        work->radius = gModelVariant673_D1B9C[command].radius;
-        work->height = gModelVariant673_D1B9C[command].height;
+        work->radius = gModelVariant673_aConfigs[command].radius;
+        work->height = gModelVariant673_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->rising[i].duration = 0x20;
             work->rising[i].active = 0;
             work->rising[i].elapsed = 0;
             work->rising[i].mode = 1;
             work->rising[i].coord = Model_GetCameraCoordinateUnit();
-            work->rising[i].red = gModelVariant673_D1B9C[command].red;
-            work->rising[i].green = gModelVariant673_D1B9C[command].green;
-            work->rising[i].blue = gModelVariant673_D1B9C[command].blue;
+            work->rising[i].red = gModelVariant673_aConfigs[command].red;
+            work->rising[i].green = gModelVariant673_aConfigs[command].green;
+            work->rising[i].blue = gModelVariant673_aConfigs[command].blue;
             work->rising[i].u = 0;
             work->rising[i].v = 0;
             setVector(&work->rising[i].scale, 0x1000, 0x1000, 0x1000);
@@ -80,9 +80,9 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             work->falling[i].elapsed = 0;
             work->falling[i].mode = 1;
             work->falling[i].coord = Model_GetCameraCoordinateUnit();
-            work->falling[i].red = gModelVariant673_D1B9C[command].red;
-            work->falling[i].green = gModelVariant673_D1B9C[command].green;
-            work->falling[i].blue = gModelVariant673_D1B9C[command].blue;
+            work->falling[i].red = gModelVariant673_aConfigs[command].red;
+            work->falling[i].green = gModelVariant673_aConfigs[command].green;
+            work->falling[i].blue = gModelVariant673_aConfigs[command].blue;
             work->falling[i].u = 0;
             work->falling[i].v = 0;
             setVector(&work->falling[i].scale, 0x1000, 0x1000, 0x1000);
@@ -102,9 +102,9 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             work->fans[i].duration = 0x20;
             work->fans[i].mode = 1;
             work->fans[i].coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].red = gModelVariant673_D1B9C[command].fan_red;
-            work->fans[i].green = gModelVariant673_D1B9C[command].fan_green;
-            work->fans[i].blue = gModelVariant673_D1B9C[command].fan_blue;
+            work->fans[i].red = gModelVariant673_aConfigs[command].fan_red;
+            work->fans[i].green = gModelVariant673_aConfigs[command].fan_green;
+            work->fans[i].blue = gModelVariant673_aConfigs[command].fan_blue;
             work->fans[i].u = 0;
             work->fans[i].v = 0x20;
             setVector(&work->fans[i].scale, 0x1000, 0x1000, 0x1000);
@@ -112,7 +112,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             setVector(&work->fans[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->fans[i].position, 0, 0, 0);
         }
-        work->delay = gModelVariant673_D1B9C[command].delay;
+        work->delay = gModelVariant673_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -194,9 +194,9 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                 if (work->rising[i].duration / 2 < work->rising[i].elapsed) {
                     n = (work->rising[i].duration - work->rising[i].elapsed) * 2;
                     d = work->rising[i].duration;
-                    work->rising[i].red = gModelVariant673_D1B9C[work->command].red * n / d;
-                    work->rising[i].green = gModelVariant673_D1B9C[work->command].green * n / d;
-                    work->rising[i].blue = gModelVariant673_D1B9C[work->command].blue * n / d;
+                    work->rising[i].red = gModelVariant673_aConfigs[work->command].red * n / d;
+                    work->rising[i].green = gModelVariant673_aConfigs[work->command].green * n / d;
+                    work->rising[i].blue = gModelVariant673_aConfigs[work->command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[2];
@@ -247,9 +247,9 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                 if (work->falling[i].elapsed < work->falling[i].duration / 2) {
                     n = work->falling[i].elapsed * 2;
                     d = work->falling[i].duration;
-                    work->falling[i].red = gModelVariant673_D1B9C[work->command].red * n / d;
-                    work->falling[i].green = gModelVariant673_D1B9C[work->command].green * n / d;
-                    work->falling[i].blue = gModelVariant673_D1B9C[work->command].blue * n / d;
+                    work->falling[i].red = gModelVariant673_aConfigs[work->command].red * n / d;
+                    work->falling[i].green = gModelVariant673_aConfigs[work->command].green * n / d;
+                    work->falling[i].blue = gModelVariant673_aConfigs[work->command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[2];
@@ -298,9 +298,9 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                 if (work->fans[i].duration / 2 < work->fans[i].elapsed) {
                     n = (work->fans[i].duration - work->fans[i].elapsed) * 2;
                     d = work->fans[i].duration;
-                    work->fans[i].red = gModelVariant673_D1B9C[work->command].fan_red * n / d;
-                    work->fans[i].green = gModelVariant673_D1B9C[work->command].fan_green * n / d;
-                    work->fans[i].blue = gModelVariant673_D1B9C[work->command].fan_blue * n / d;
+                    work->fans[i].red = gModelVariant673_aConfigs[work->command].fan_red * n / d;
+                    work->fans[i].green = gModelVariant673_aConfigs[work->command].fan_green * n / d;
+                    work->fans[i].blue = gModelVariant673_aConfigs[work->command].fan_blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];

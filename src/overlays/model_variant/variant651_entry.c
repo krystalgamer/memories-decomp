@@ -54,17 +54,17 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->dome_count = 0;
             break;
         }
-        work->radius = gModelVariant651_D1A68[command].radius;
-        work->height = gModelVariant651_D1A68[command].height;
+        work->radius = gModelVariant651_aConfigs[command].radius;
+        work->height = gModelVariant651_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].duration = 0x40;
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = gModelVariant651_D1A68[command].red;
-            work->rings[i].green = gModelVariant651_D1A68[command].green;
-            work->rings[i].blue = gModelVariant651_D1A68[command].blue;
+            work->rings[i].red = gModelVariant651_aConfigs[command].red;
+            work->rings[i].green = gModelVariant651_aConfigs[command].green;
+            work->rings[i].blue = gModelVariant651_aConfigs[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
@@ -78,9 +78,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->domes[i].elapsed = 0;
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].red = gModelVariant651_D1A68[command].red;
-            work->domes[i].green = gModelVariant651_D1A68[command].green;
-            work->domes[i].blue = gModelVariant651_D1A68[command].blue;
+            work->domes[i].red = gModelVariant651_aConfigs[command].red;
+            work->domes[i].green = gModelVariant651_aConfigs[command].green;
+            work->domes[i].blue = gModelVariant651_aConfigs[command].blue;
             work->domes[i].u = 0;
             work->domes[i].v = 0;
             setVector(&work->domes[i].scale, 0x1000, 0x1000, 0x1000);
@@ -94,9 +94,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->cones[i].elapsed = 0;
             work->cones[i].mode = 1;
             work->cones[i].coord = Model_GetCameraCoordinateUnit();
-            work->cones[i].red = gModelVariant651_D1A68[command].red;
-            work->cones[i].green = gModelVariant651_D1A68[command].green;
-            work->cones[i].blue = gModelVariant651_D1A68[command].blue;
+            work->cones[i].red = gModelVariant651_aConfigs[command].red;
+            work->cones[i].green = gModelVariant651_aConfigs[command].green;
+            work->cones[i].blue = gModelVariant651_aConfigs[command].blue;
             work->cones[i].u = 0;
             work->cones[i].v = 0;
             setVector(&work->cones[i].scale, 0x1000, 0x1000, 0x1000);
@@ -106,7 +106,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->cones[i].position.vy -= 350;
             work->cones[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant651_D1A68[command].delay;
+        work->delay = gModelVariant651_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -209,9 +209,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     d = work->rings[i].duration;
-                    work->rings[i].red = gModelVariant651_D1A68[work->command].red * n / d;
-                    work->rings[i].green = gModelVariant651_D1A68[work->command].green * n / d;
-                    work->rings[i].blue = gModelVariant651_D1A68[work->command].blue * n / d;
+                    work->rings[i].red = gModelVariant651_aConfigs[work->command].red * n / d;
+                    work->rings[i].green = gModelVariant651_aConfigs[work->command].green * n / d;
+                    work->rings[i].blue = gModelVariant651_aConfigs[work->command].blue * n / d;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
@@ -327,9 +327,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 if (work->cones[i].duration / 2 < work->cones[i].elapsed) {
                     n = (work->cones[i].duration - work->cones[i].elapsed) * 2;
                     d = work->cones[i].duration;
-                    work->cones[i].red = gModelVariant651_D1A68[work->command].red * n / d;
-                    work->cones[i].green = gModelVariant651_D1A68[work->command].green * n / d;
-                    work->cones[i].blue = gModelVariant651_D1A68[work->command].blue * n / d;
+                    work->cones[i].red = gModelVariant651_aConfigs[work->command].red * n / d;
+                    work->cones[i].green = gModelVariant651_aConfigs[work->command].green * n / d;
+                    work->cones[i].blue = gModelVariant651_aConfigs[work->command].blue * n / d;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);

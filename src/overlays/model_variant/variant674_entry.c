@@ -61,8 +61,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             work->count = 1;
             break;
         }
-        work->radius = gModelVariant674_D1EFC[command].radius;
-        work->height = gModelVariant674_D1EFC[command].height;
+        work->radius = gModelVariant674_aConfigs[command].radius;
+        work->height = gModelVariant674_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
@@ -73,9 +73,9 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             }
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = gModelVariant674_D1EFC[command].red;
-            work->rings[i].green = gModelVariant674_D1EFC[command].green;
-            work->rings[i].blue = gModelVariant674_D1EFC[command].blue;
+            work->rings[i].red = gModelVariant674_aConfigs[command].red;
+            work->rings[i].green = gModelVariant674_aConfigs[command].green;
+            work->rings[i].blue = gModelVariant674_aConfigs[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
@@ -97,9 +97,9 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             }
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].red = gModelVariant674_D1EFC[command].dome_red;
-            work->domes[i].green = gModelVariant674_D1EFC[command].dome_green;
-            work->domes[i].blue = gModelVariant674_D1EFC[command].dome_blue;
+            work->domes[i].red = gModelVariant674_aConfigs[command].dome_red;
+            work->domes[i].green = gModelVariant674_aConfigs[command].dome_green;
+            work->domes[i].blue = gModelVariant674_aConfigs[command].dome_blue;
             work->domes[i].u = 0;
             work->domes[i].v = 0x80;
             setVector(&work->domes[i].scale, 0x1000, 0x1000, 0x1000);
@@ -107,7 +107,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
-        work->delay = gModelVariant674_D1EFC[command].delay;
+        work->delay = gModelVariant674_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -311,13 +311,13 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = gModelVariant674_D1EFC[work->command].dome_red * n / d;
-                    work->domes[i].green = gModelVariant674_D1EFC[work->command].dome_green * n / d;
-                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].dome_blue * n / d;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->command].dome_red * n / d;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->command].dome_green * n / d;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].dome_blue * n / d;
                 } else {
-                    work->domes[i].red = gModelVariant674_D1EFC[work->command].dome_red;
-                    work->domes[i].green = gModelVariant674_D1EFC[work->command].dome_green;
-                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].dome_blue;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->command].dome_red;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->command].dome_green;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].dome_blue;
                 }
                 work->domes[i].v = work->domes[i].elapsed % 16 * 63 / 16 + 128;
                 for (k = 0; k < 8; k++) {
@@ -343,13 +343,13 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = gModelVariant674_D1EFC[work->command].red * n / d;
-                    work->domes[i].green = gModelVariant674_D1EFC[work->command].green * n / d;
-                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].blue * n / d;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->command].red * n / d;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->command].green * n / d;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].blue * n / d;
                 } else {
-                    work->domes[i].red = gModelVariant674_D1EFC[work->command].red;
-                    work->domes[i].green = gModelVariant674_D1EFC[work->command].green;
-                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].blue;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->command].red;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->command].green;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].blue;
                 }
                 for (k = 0; k < 8; k++) {
                     work->domes[i].v = (work->domes[i].elapsed + k * 10) % 32 * 63 / 32 + 128;

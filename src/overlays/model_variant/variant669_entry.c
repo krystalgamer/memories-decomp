@@ -122,17 +122,17 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             work->trail_length = 32;
             break;
         }
-        work->radius = gModelVariant669_D40B0[command].radius;
-        work->height = gModelVariant669_D40B0[command].height;
+        work->radius = gModelVariant669_aConfigs[command].radius;
+        work->height = gModelVariant669_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
             work->rings[i].duration = 32;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = gModelVariant669_D40B0[command].color[0];
-            work->rings[i].color[1] = gModelVariant669_D40B0[command].color[1];
-            work->rings[i].color[2] = gModelVariant669_D40B0[command].color[2];
+            work->rings[i].color[0] = gModelVariant669_aConfigs[command].color[0];
+            work->rings[i].color[1] = gModelVariant669_aConfigs[command].color[1];
+            work->rings[i].color[2] = gModelVariant669_aConfigs[command].color[2];
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
@@ -171,9 +171,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 work->echoes[i][j].duration = 16;
                 work->echoes[i][j].mode = 1;
                 work->echoes[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->echoes[i][j].color[0] = gModelVariant669_D40B0[command].color[0];
-                work->echoes[i][j].color[1] = gModelVariant669_D40B0[command].color[1];
-                work->echoes[i][j].color[2] = gModelVariant669_D40B0[command].color[2];
+                work->echoes[i][j].color[0] = gModelVariant669_aConfigs[command].color[0];
+                work->echoes[i][j].color[1] = gModelVariant669_aConfigs[command].color[1];
+                work->echoes[i][j].color[2] = gModelVariant669_aConfigs[command].color[2];
                 work->echoes[i][j].u = 0;
                 work->echoes[i][j].v = 0;
                 setVector(&work->echoes[i][j].scale, 4096, 4096, 4096);
@@ -192,9 +192,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             }
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = gModelVariant669_D40B0[command].color[3];
-            work->bursts[i].color[1] = gModelVariant669_D40B0[command].color[4];
-            work->bursts[i].color[2] = gModelVariant669_D40B0[command].color[5];
+            work->bursts[i].color[0] = gModelVariant669_aConfigs[command].color[3];
+            work->bursts[i].color[1] = gModelVariant669_aConfigs[command].color[4];
+            work->bursts[i].color[2] = gModelVariant669_aConfigs[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
@@ -233,9 +233,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             }
             work->streaks[i].mode = 1;
             work->streaks[i].coord = Model_GetCameraCoordinateUnit();
-            work->streaks[i].color[0] = gModelVariant669_D40B0[command].color[0];
-            work->streaks[i].color[1] = gModelVariant669_D40B0[command].color[1];
-            work->streaks[i].color[2] = gModelVariant669_D40B0[command].color[2];
+            work->streaks[i].color[0] = gModelVariant669_aConfigs[command].color[0];
+            work->streaks[i].color[1] = gModelVariant669_aConfigs[command].color[1];
+            work->streaks[i].color[2] = gModelVariant669_aConfigs[command].color[2];
             work->streaks[i].u = 0;
             work->streaks[i].v = 0;
             work->streaks[i].done = 0;
@@ -245,7 +245,7 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             setVector(&work->streaks[i].rotation, 0, 0, 0);
             setVector(&work->streaks[i].position, 0, 0, 0);
         }
-        work->delay = gModelVariant669_D40B0[command].delay;
+        work->delay = gModelVariant669_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -471,9 +471,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     value = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     amount = work->rings[i].duration;
-                    work->rings[i].color[0] = gModelVariant669_D40B0[work->command].color[0] * value / amount;
-                    work->rings[i].color[1] = gModelVariant669_D40B0[work->command].color[1] * value / amount;
-                    work->rings[i].color[2] = gModelVariant669_D40B0[work->command].color[2] * value / amount;
+                    work->rings[i].color[0] = gModelVariant669_aConfigs[work->command].color[0] * value / amount;
+                    work->rings[i].color[1] = gModelVariant669_aConfigs[work->command].color[1] * value / amount;
+                    work->rings[i].color[2] = gModelVariant669_aConfigs[work->command].color[2] * value / amount;
                 }
                 for (j = 0; j < 32; j++) {
                     setPolyFT4(&work->sprite);
@@ -506,7 +506,7 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].echo >= work->echo_count) {
                     work->rings[i].echo = 0;
                 }
-                if (work->rings[i].elapsed > gModelVariant669_D40B0[work->command].release && work->rings[i].released == 0) {
+                if (work->rings[i].elapsed > gModelVariant669_aConfigs[work->command].release && work->rings[i].released == 0) {
                     work->rings[i].released = 1;
                     work->bursts[i].active = 1;
                     setVector(&work->bursts[i].position, unit.matrix.t[0], unit.matrix.t[1], unit.matrix.t[2]);
@@ -621,9 +621,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     amount = work->bursts[i].duration;
-                    work->bursts[i].color[0] = gModelVariant669_D40B0[work->command].color[3] * value / amount;
-                    work->bursts[i].color[1] = gModelVariant669_D40B0[work->command].color[4] * value / amount;
-                    work->bursts[i].color[2] = gModelVariant669_D40B0[work->command].color[5] * value / amount;
+                    work->bursts[i].color[0] = gModelVariant669_aConfigs[work->command].color[3] * value / amount;
+                    work->bursts[i].color[1] = gModelVariant669_aConfigs[work->command].color[4] * value / amount;
+                    work->bursts[i].color[2] = gModelVariant669_aConfigs[work->command].color[5] * value / amount;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -775,9 +775,9 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 if (work->streaks[i].duration * 4 / 5 < work->streaks[i].elapsed) {
                     value = (work->streaks[i].duration - work->streaks[i].elapsed) * 5;
                     amount = work->streaks[i].duration;
-                    work->streaks[i].color[0] = gModelVariant669_D40B0[work->command].color[0] * value / amount;
-                    work->streaks[i].color[1] = gModelVariant669_D40B0[work->command].color[1] * value / amount;
-                    work->streaks[i].color[2] = gModelVariant669_D40B0[work->command].color[2] * value / amount;
+                    work->streaks[i].color[0] = gModelVariant669_aConfigs[work->command].color[0] * value / amount;
+                    work->streaks[i].color[1] = gModelVariant669_aConfigs[work->command].color[1] * value / amount;
+                    work->streaks[i].color[2] = gModelVariant669_aConfigs[work->command].color[2] * value / amount;
                 }
                 for (j = 0; j < work->streaks[i].count * 2 - 1; j++) {
                     amount = j + 1;

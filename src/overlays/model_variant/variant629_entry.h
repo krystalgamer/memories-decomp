@@ -94,7 +94,7 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant629_D2C80[2];
-extern Model629Config gModelVariant629_D2CB8[];
+extern Model629Config gModelVariant629_aConfigs[];
 
 s32 ModelVariant629_HandleRequest(u8 *context, s32 command);
 

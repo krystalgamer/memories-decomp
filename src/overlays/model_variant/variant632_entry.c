@@ -68,8 +68,8 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->copies = 1;
             break;
         }
-        work->radius = gModelVariant632_D1FE8[command].radius;
-        work->unknown_0C = gModelVariant632_D1FE8[command].unknown_04;
+        work->radius = gModelVariant632_aConfigs[command].radius;
+        work->unknown_0C = gModelVariant632_aConfigs[command].unknown_04;
         for (i = 0; i < work->flare_count; i++) {
             work->flares[i][0].active = 0;
             work->flares[i][0].elapsed = 0;
@@ -86,9 +86,9 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             }
             work->flares[i][0].mode = 1;
             work->flares[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->flares[i][0].red = gModelVariant632_D1FE8[command].red;
-            work->flares[i][0].green = gModelVariant632_D1FE8[command].green;
-            work->flares[i][0].blue = gModelVariant632_D1FE8[command].blue;
+            work->flares[i][0].red = gModelVariant632_aConfigs[command].red;
+            work->flares[i][0].green = gModelVariant632_aConfigs[command].green;
+            work->flares[i][0].blue = gModelVariant632_aConfigs[command].blue;
             work->flares[i][0].u = 0;
             work->flares[i][0].v = 16;
             setVector(&work->flares[i][0].scale, 4096, 4096, 4096);
@@ -125,9 +125,9 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->spheres[i].elapsed = 0;
             work->spheres[i].mode = 1;
             work->spheres[i].coord = Model_GetCameraCoordinateUnit();
-            work->spheres[i].red = gModelVariant632_D1FE8[command].sphere_red;
-            work->spheres[i].green = gModelVariant632_D1FE8[command].sphere_green;
-            work->spheres[i].blue = gModelVariant632_D1FE8[command].sphere_blue;
+            work->spheres[i].red = gModelVariant632_aConfigs[command].sphere_red;
+            work->spheres[i].green = gModelVariant632_aConfigs[command].sphere_green;
+            work->spheres[i].blue = gModelVariant632_aConfigs[command].sphere_blue;
             setVector(&work->spheres[i].scale, 0, 0, 0);
             setVector(&work->spheres[i].unknown_3C, 0, 0, 0);
             switch (command) {
@@ -149,15 +149,15 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->strips[i].elapsed = 0;
             work->strips[i].mode = 1;
             work->strips[i].coord = Model_GetCameraCoordinateUnit();
-            work->strips[i].red = gModelVariant632_D1FE8[command].red;
-            work->strips[i].green = gModelVariant632_D1FE8[command].green;
-            work->strips[i].blue = gModelVariant632_D1FE8[command].blue;
+            work->strips[i].red = gModelVariant632_aConfigs[command].red;
+            work->strips[i].green = gModelVariant632_aConfigs[command].green;
+            work->strips[i].blue = gModelVariant632_aConfigs[command].blue;
             setVector(&work->strips[i].scale, 4096, 4096, 4096);
             setVector(&work->strips[i].unknown_3C, 0, 0, 0);
             setVector(&work->strips[i].rotation, 0, 0, 0);
             setVector(&work->strips[i].position, 0, 0, 0);
         }
-        work->delay = gModelVariant632_D1FE8[command].delay;
+        work->delay = gModelVariant632_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -304,13 +304,13 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                     /* `* 5 << 1` keeps the 10 on the remaining time: a plain `* 10`
                      * is folded onto the colour instead. */
                     if ((u16)(work->flares[i][j].duration / 10) < work->flares[i][j].elapsed) {
-                        work->flares[i][j].red = gModelVariant632_D1FE8[work->command].red
+                        work->flares[i][j].red = gModelVariant632_aConfigs[work->command].red
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
-                        work->flares[i][j].green = gModelVariant632_D1FE8[work->command].green
+                        work->flares[i][j].green = gModelVariant632_aConfigs[work->command].green
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
-                        work->flares[i][j].blue = gModelVariant632_D1FE8[work->command].blue
+                        work->flares[i][j].blue = gModelVariant632_aConfigs[work->command].blue
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
                     }
@@ -367,11 +367,11 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                 work->spheres[i].scale.vy = (work->spheres[i].elapsed << 12) / work->spheres[i].duration;
                 work->spheres[i].scale.vz = (work->spheres[i].elapsed << 12) / work->spheres[i].duration;
                 if (work->spheres[i].duration / 2 < work->spheres[i].elapsed) {
-                    work->spheres[i].red = gModelVariant632_D1FE8[work->command].sphere_red
+                    work->spheres[i].red = gModelVariant632_aConfigs[work->command].sphere_red
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
-                    work->spheres[i].green = gModelVariant632_D1FE8[work->command].sphere_green
+                    work->spheres[i].green = gModelVariant632_aConfigs[work->command].sphere_green
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
-                    work->spheres[i].blue = gModelVariant632_D1FE8[work->command].sphere_blue
+                    work->spheres[i].blue = gModelVariant632_aConfigs[work->command].sphere_blue
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
                 }
                 for (j = 0; j < 8; j++) {

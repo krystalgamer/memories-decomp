@@ -77,7 +77,7 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant643_D2298[];
 #endif
 extern GsIMAGE gModelVariant643_D22B0[2];
-extern Model643Command gModelVariant643_D22E8[];
+extern Model643Command gModelVariant643_aConfigs[];
 
 s32 ModelVariant643_HandleRequest(u8 *context, s32 command);
 

@@ -95,7 +95,7 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant680Us_D2AAC[];
 #endif
 extern GsIMAGE gModelVariant680Us_D2AC4[11];
-extern Model680UsCommand gModelVariant680Us_D2BF8[];
+extern Model680UsCommand gModelVariant680Us_aConfigs[];
 
 s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command);
 

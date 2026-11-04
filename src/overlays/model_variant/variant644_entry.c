@@ -42,9 +42,9 @@ static const char gModelVariant644_D2200[24] = "E_DATA size = %x byte\n\0" MODEL
         work->bursts[work->flags[1]].active = 1;                                     \
         work->bursts[work->flags[1]].elapsed = 0;                                    \
         setVector(&work->bursts[work->flags[1]].scale, 0, 0, 0);                     \
-        work->bursts[work->flags[1]].color[0] = gModelVariant644_D2234[work->command].color[0];  \
-        work->bursts[work->flags[1]].color[1] = gModelVariant644_D2234[work->command].color[1];  \
-        work->bursts[work->flags[1]].color[2] = gModelVariant644_D2234[work->command].color[2];  \
+        work->bursts[work->flags[1]].color[0] = gModelVariant644_aConfigs[work->command].color[0];  \
+        work->bursts[work->flags[1]].color[1] = gModelVariant644_aConfigs[work->command].color[1];  \
+        work->bursts[work->flags[1]].color[2] = gModelVariant644_aConfigs[work->command].color[2];  \
         work->flags[1]++;                                                            \
         if (work->flags[1] >= work->count[2]) {                                      \
             work->flags[1] = 0;                                                      \
@@ -104,17 +104,17 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             work->count[2] = 32;
             break;
         }
-        work->radius = gModelVariant644_D2234[command].radius;
-        work->height = gModelVariant644_D2234[command].height;
+        work->radius = gModelVariant644_aConfigs[command].radius;
+        work->height = gModelVariant644_aConfigs[command].height;
         for (i = 0; i < work->count[0]; i++) {
             work->glows[i].active = 0;
             work->glows[i].elapsed = 0;
             work->glows[i].duration = 0;
             work->glows[i].mode = 1;
             work->glows[i].coord = Model_GetCameraCoordinateUnit();
-            work->glows[i].color[0] = gModelVariant644_D2234[command].color[0];
-            work->glows[i].color[1] = gModelVariant644_D2234[command].color[1];
-            work->glows[i].color[2] = gModelVariant644_D2234[command].color[2];
+            work->glows[i].color[0] = gModelVariant644_aConfigs[command].color[0];
+            work->glows[i].color[1] = gModelVariant644_aConfigs[command].color[1];
+            work->glows[i].color[2] = gModelVariant644_aConfigs[command].color[2];
             work->glows[i].u = 0;
             work->glows[i].v = 0;
             setVector(&work->glows[i].scale, 4096, 4096, 4096);
@@ -137,9 +137,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             work->stars[i].duration = 0;
             work->stars[i].mode = 1;
             work->stars[i].coord = Model_GetCameraCoordinateUnit();
-            work->stars[i].color[0] = gModelVariant644_D2234[command].color[0];
-            work->stars[i].color[1] = gModelVariant644_D2234[command].color[1];
-            work->stars[i].color[2] = gModelVariant644_D2234[command].color[2];
+            work->stars[i].color[0] = gModelVariant644_aConfigs[command].color[0];
+            work->stars[i].color[1] = gModelVariant644_aConfigs[command].color[1];
+            work->stars[i].color[2] = gModelVariant644_aConfigs[command].color[2];
             setVector(&work->stars[i].scale, 4096, 4096, 4096);
             setVector(&work->stars[i].unknown_40, 0, 0, 0);
             switch (command) {
@@ -160,9 +160,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             work->bursts[i].elapsed = 0;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = gModelVariant644_D2234[command].color[0];
-            work->bursts[i].color[1] = gModelVariant644_D2234[command].color[1];
-            work->bursts[i].color[2] = gModelVariant644_D2234[command].color[2];
+            work->bursts[i].color[0] = gModelVariant644_aConfigs[command].color[0];
+            work->bursts[i].color[1] = gModelVariant644_aConfigs[command].color[1];
+            work->bursts[i].color[2] = gModelVariant644_aConfigs[command].color[2];
             setVector(&work->bursts[i].scale, 0, 0, 0);
             setVector(&work->bursts[i].unknown_40, 0, 0, 0);
             setVector(&work->bursts[i].rotation, 0,
@@ -176,7 +176,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             work->bursts[i].position.vy -= 350;
             work->bursts[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant644_D2234[command].delay;
+        work->delay = gModelVariant644_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -301,9 +301,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                  * counter; VALUE holds k + 1 so it lands in retail's s0. */
                 divisor = 4;
                 value = k + 1;
-                red = gModelVariant644_D2234[work->command].color[0] * value / divisor;
-                green = gModelVariant644_D2234[work->command].color[1] * value / divisor;
-                blue = gModelVariant644_D2234[work->command].color[2] * value / divisor;
+                red = gModelVariant644_aConfigs[work->command].color[0] * value / divisor;
+                green = gModelVariant644_aConfigs[work->command].color[1] * value / divisor;
+                blue = gModelVariant644_aConfigs[work->command].color[2] * value / divisor;
                 for (j = 0; j < 8; j++) {
                     setPolyGT4(&work->strip);
                     work->strip.tpage = work->tpage[0];
@@ -420,9 +420,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                 value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                 /* The divisor is reloaded into DIVISOR, as in 659. */
                 divisor = work->bursts[i].duration;
-                work->bursts[i].color[0] = gModelVariant644_D2234[work->command].color[0] * value / divisor;
-                work->bursts[i].color[1] = gModelVariant644_D2234[work->command].color[1] * value / divisor;
-                work->bursts[i].color[2] = gModelVariant644_D2234[work->command].color[2] * value / divisor;
+                work->bursts[i].color[0] = gModelVariant644_aConfigs[work->command].color[0] * value / divisor;
+                work->bursts[i].color[1] = gModelVariant644_aConfigs[work->command].color[1] * value / divisor;
+                work->bursts[i].color[2] = gModelVariant644_aConfigs[work->command].color[2] * value / divisor;
             }
             value = work->bursts[i].elapsed * 3 * 8192 / work->bursts[i].duration;
             setVector(&work->bursts[i].scale, value, value, value);

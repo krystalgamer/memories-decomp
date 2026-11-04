@@ -81,7 +81,7 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant673_D1B30[];
 #endif
 extern GsIMAGE gModelVariant673_D1B48[3];
-extern Model673Command gModelVariant673_D1B9C[];
+extern Model673Command gModelVariant673_aConfigs[];
 
 s32 ModelVariant673_HandleRequest(u8 *context, s32 command);
 

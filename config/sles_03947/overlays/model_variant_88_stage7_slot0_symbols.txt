@@ -1,7 +1,7 @@
 // European MODEL.MRG model 88 (record 88), sector 24468, header 691, loaded at 0x8013B000; the US header-674 source variant674_entry.c; built from the French source layout of french_model_variant_88_stage7_slot0.
 ModelVariant674_HandleRequest = 0x8013B004; // type:func size:0x1E44 defined:true
 gModelVariant674_D1E70 = 0x8013CE48; // type:u8 size:0x8C defined:true
-gModelVariant674_D1EFC = 0x8013CED4; // type:u8 size:0x312C defined:true
+gModelVariant674_aConfigs = 0x8013CED4; // type:u8 size:0x312C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

@@ -60,17 +60,17 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             work->count = 96;
             work->burst_count = 1;
         }
-        work->radius = gModelVariant683_D25D4[command].radius;
-        work->height = gModelVariant683_D25D4[command].height;
+        work->radius = gModelVariant683_aConfigs[command].radius;
+        work->height = gModelVariant683_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->orbs[i].duration = 96;
             work->orbs[i].active = 0;
             work->orbs[i].elapsed = 0;
             work->orbs[i].mode = 1;
             work->orbs[i].coord = Model_GetCameraCoordinateUnit();
-            work->orbs[i].red = gModelVariant683_D25D4[command].orb[0];
-            work->orbs[i].green = gModelVariant683_D25D4[command].orb[1];
-            work->orbs[i].blue = gModelVariant683_D25D4[command].orb[2];
+            work->orbs[i].red = gModelVariant683_aConfigs[command].orb[0];
+            work->orbs[i].green = gModelVariant683_aConfigs[command].orb[1];
+            work->orbs[i].blue = gModelVariant683_aConfigs[command].orb[2];
             work->orbs[i].u = 0;
             work->orbs[i].v = 0;
             setVector(&work->orbs[i].scale, 0x1000, 0x1000, 0x1000);
@@ -87,18 +87,18 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
         work->fade.elapsed = 0;
         work->fade.mode = 1;
         work->fade.coord = Model_GetCameraCoordinateUnit();
-        work->fade.red = gModelVariant683_D25D4[command].fade[0];
-        work->fade.green = gModelVariant683_D25D4[command].fade[1];
-        work->fade.blue = gModelVariant683_D25D4[command].fade[2];
+        work->fade.red = gModelVariant683_aConfigs[command].fade[0];
+        work->fade.green = gModelVariant683_aConfigs[command].fade[1];
+        work->fade.blue = gModelVariant683_aConfigs[command].fade[2];
         for (i = 0; i < work->burst_count; i++) {
             work->bursts[i].active = 0;
             work->bursts[i].elapsed = 0;
             work->bursts[i].duration = 128;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].red = gModelVariant683_D25D4[command].burst[0];
-            work->bursts[i].green = gModelVariant683_D25D4[command].burst[1];
-            work->bursts[i].blue = gModelVariant683_D25D4[command].burst[2];
+            work->bursts[i].red = gModelVariant683_aConfigs[command].burst[0];
+            work->bursts[i].green = gModelVariant683_aConfigs[command].burst[1];
+            work->bursts[i].blue = gModelVariant683_aConfigs[command].burst[2];
             work->bursts[i].u = 0;
             work->bursts[i].v = 128;
             setVector(&work->bursts[i].scale, 0x1000, 0x1000, 0x1000);
@@ -151,7 +151,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
         setVector(&work->ray[1], n, -n, 0);
         setVector(&work->ray[2], -n, n, 0);
         setVector(&work->ray[3], n, n, 0);
-        work->delay = gModelVariant683_D25D4[command].delay;
+        work->delay = gModelVariant683_aConfigs[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
@@ -209,9 +209,9 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->orbs[i].elapsed < work->orbs[i].duration / 2) {
                     n = work->orbs[i].elapsed * 2;
                     d = work->orbs[i].duration;
-                    work->orbs[i].red = gModelVariant683_D25D4[work->command].orb[0] * n / d;
-                    work->orbs[i].green = gModelVariant683_D25D4[work->command].orb[1] * n / d;
-                    work->orbs[i].blue = gModelVariant683_D25D4[work->command].orb[2] * n / d;
+                    work->orbs[i].red = gModelVariant683_aConfigs[work->command].orb[0] * n / d;
+                    work->orbs[i].green = gModelVariant683_aConfigs[work->command].orb[1] * n / d;
+                    work->orbs[i].blue = gModelVariant683_aConfigs[work->command].orb[2] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];
@@ -239,9 +239,9 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             if (work->fade.elapsed < work->fade.duration) {
                 n = work->fade.duration - work->fade.elapsed;
                 d = work->fade.duration;
-                work->fade.red = gModelVariant683_D25D4[work->command].fade[0] * n / d;
-                work->fade.green = gModelVariant683_D25D4[work->command].fade[1] * n / d;
-                work->fade.blue = gModelVariant683_D25D4[work->command].fade[2] * n / d;
+                work->fade.red = gModelVariant683_aConfigs[work->command].fade[0] * n / d;
+                work->fade.green = gModelVariant683_aConfigs[work->command].fade[1] * n / d;
+                work->fade.blue = gModelVariant683_aConfigs[work->command].fade[2] * n / d;
             }
             setPolyF4(&work->fill);
             setRGB0(&work->fill, work->fade.red, work->fade.green, work->fade.blue);
@@ -284,13 +284,13 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].elapsed < work->bursts[i].duration / 2) {
                     n = work->bursts[i].elapsed * 2;
                     d = work->bursts[i].duration;
-                    work->bursts[i].red = gModelVariant683_D25D4[work->command].burst[0] * n / d;
-                    work->bursts[i].green = gModelVariant683_D25D4[work->command].burst[1] * n / d;
-                    work->bursts[i].blue = gModelVariant683_D25D4[work->command].burst[2] * n / d;
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0] * n / d;
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1] * n / d;
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2] * n / d;
                 } else {
-                    work->bursts[i].red = gModelVariant683_D25D4[work->command].burst[0];
-                    work->bursts[i].green = gModelVariant683_D25D4[work->command].burst[1];
-                    work->bursts[i].blue = gModelVariant683_D25D4[work->command].burst[2];
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0];
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1];
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2];
                 }
                 work->bursts[i].v = (work->bursts[i].elapsed % 16) * 63 / 16 - 128;
                 for (j = 0; j < 8; j++) {
@@ -400,13 +400,13 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     n = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     d = work->bursts[i].duration;
-                    work->bursts[i].red = gModelVariant683_D25D4[work->command].burst[0] * n / d;
-                    work->bursts[i].green = gModelVariant683_D25D4[work->command].burst[1] * n / d;
-                    work->bursts[i].blue = gModelVariant683_D25D4[work->command].burst[2] * n / d;
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0] * n / d;
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1] * n / d;
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2] * n / d;
                 } else {
-                    work->bursts[i].red = gModelVariant683_D25D4[work->command].burst[0];
-                    work->bursts[i].green = gModelVariant683_D25D4[work->command].burst[1];
-                    work->bursts[i].blue = gModelVariant683_D25D4[work->command].burst[2];
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0];
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1];
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2];
                 }
                 for (j = 0; j < 32; j++) {
                     unit.flg = 0;
