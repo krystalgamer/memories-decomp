@@ -856,7 +856,7 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
 
 /* Three alternative spellings of this declaration are codegen inputs:
  * sd_drop_queued_cd_play_commands.c takes the aggregate arm; sd_request_music_package_load.c takes the volatile
- * arm; sound_output_transition.c and sound_output_state.c keep the same
+ * arm; sound_driver.c and sound_output_state.c keep the same
  * measured views for SD_FadeOutStreamAudio and SD_MeasureCdAudioLevel through same-symbol local
  * aliases;
  * sd_queue_value_link_transfer.c, sd_step_active_command.c and sd_cancel_music_requests.c
