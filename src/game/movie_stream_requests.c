@@ -14,14 +14,24 @@ u8 gMovie_FileInfo[24];
 #include "movie_stream_requests_data.h"
 
 /* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
-   rest are reached through the running sum, which is zero for all of them. */
+   rest are reached through the running sum, which is zero for all of them.
+   The European images carry six equal ranges. */
 MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT] = {
+#ifdef VERSION_EUROPE
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+#else
     { 0x0C08, 0x012F },
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },
+#endif
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },
     { 0x0000, 0x0000 },

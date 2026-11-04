@@ -1135,7 +1135,7 @@ segments:
     - game/spanish/movie_frame_pipeline
   - - 372868
     - c
-    - game/movie_stream_requests
+    - game/european/movie_stream_requests
   - - 373228
     - c
     - game/file_cd_helpers
@@ -1280,7 +1280,7 @@ segments:
   - [0xE4858, .bss, game/spanish/model_scene_controllers]
   - [0xE73D8, .bss, game/model_distance_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
-  - [0xE7708, .bss, game/movie_stream_requests]
+  - [0xE7708, .bss, game/european/movie_stream_requests]
   - [0xE7720, .bss, game/ai_script_vm]
   - {start: 0xE7844, type: bin, name: resident_tail_800f7044, linker_section_order: .bss}
 - - 1902592
