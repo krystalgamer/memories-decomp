@@ -37,7 +37,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
     work = (Model105State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant105_D1440[command];
+        config = work->config = &gModelVariant105_aConfigs[command];
         point = work->spins;
         for (i = 0; i < 8; i++) {
             point->vx = 0;
@@ -62,7 +62,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant105_D1424[i]);
+            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant105_aImages[i]);
         }
         work->elapsed = -config->delay;
         return 0;

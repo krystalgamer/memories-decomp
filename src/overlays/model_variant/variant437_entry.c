@@ -52,7 +52,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = config = &gModelVariant437_D1988[command];
+        work->config = config = &gModelVariant437_aConfigs[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -73,14 +73,14 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT437_CLUT_X, 244);
         GetTPage(1, 1, 0x380, 0);
         GetClut(MODEL_VARIANT437_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[1]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_aImages[1]);
         /* Read before the last upload reuses packed; the scheduler sinks the
          * two reads below that call. */
         flat_tpage = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[3]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_aImages[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

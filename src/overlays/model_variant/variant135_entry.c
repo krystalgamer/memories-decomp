@@ -104,10 +104,10 @@ s32 ModelVariant135_HandleRequest(u8 *context, s32 command)
         work->quads[3][1] = &work->grid[7];
         work->quads[3][2] = &work->grid[3];
         work->quads[3][3] = &work->grid[4];
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_D16A0[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant135_D16A0[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant135_aImages[1]);
         for (i = 2; i < 10; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_D16A0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

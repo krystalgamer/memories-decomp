@@ -60,8 +60,8 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
             point->vz = 0;
             point->pad = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant132_D1388[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant132_D1388[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant132_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant132_aImages[1]);
         work->elapsed = 0;
         work->started = 0;
         return 0;

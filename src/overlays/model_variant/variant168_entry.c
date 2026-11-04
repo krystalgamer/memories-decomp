@@ -99,9 +99,9 @@ s32 ModelVariant168_HandleRequest(u8 *context, s32 command)
         tri[22] = &work->rim[3];
         tri[23] = &work->rim[6];
         for (i = 1; i < 9; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant168_D11AC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant168_aImages[i]);
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant168_D11AC[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant168_aImages[0]);
         work->elapsed = 0;
         work->completed = 0;
 #ifndef MODEL168_NO_SIZE_PRINT

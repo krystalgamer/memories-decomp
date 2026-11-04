@@ -52,7 +52,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
         work = (Model89State *)context;
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         if (command >= 0) {
-            config = work->config = &gModelVariant89_D2464[command];
+            config = work->config = &gModelVariant89_aConfigs[command];
             point = work->ring;
             setVector(point, 0, 0, 0);
             point++;
@@ -82,7 +82,7 @@ s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
                 point->vz = -direction * config->arc_radius / 3;
             }
             for (i = 0; i < 2; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant89_D242C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant89_aImages[i]);
             }
             work->elapsed = -config->delay;
             work->completed = 0;

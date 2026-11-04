@@ -41,7 +41,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
     work = (Model138State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant138_D337C[command];
+        config = work->config = &gModelVariant138_aConfigs[command];
         point = work->lower;
         other = work->upper;
         for (i = 0; i < 17; i++) {
@@ -100,7 +100,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
         }
         /* All three words are packed from the first image. */
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant138_D3328);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant138_aImages);
         }
         work->elapsed = -config->lead;
         work->completed = 0;

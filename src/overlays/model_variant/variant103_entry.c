@@ -36,7 +36,7 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
     work = (Model103State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant103_D1260[command];
+        config = work->config = &gModelVariant103_aConfigs[command];
         point = work->fan;
         point->vx = config->radius * 2 / 5;
         point->vy = config->radius * 2 / 5;
@@ -55,7 +55,7 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
             point->vz = config->radius * csin(angle) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant103_D1244[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant103_aImages[i]);
         }
         work->elapsed = -config->delay;
         return 0;

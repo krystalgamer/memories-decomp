@@ -72,7 +72,7 @@ s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
         }
         work->depth = -direction * 225;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant159_D1D94[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant159_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

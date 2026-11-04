@@ -36,7 +36,7 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
     work = (Model97State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant97_D1364[command];
+        config = work->config = &gModelVariant97_aConfigs[command];
         point = work->shards;
         for (i = 0; i < 8; point++, i++) {
             point->vx = config->shard_radius * ccos(i << 9) / 4096;
@@ -66,7 +66,7 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
             point->vz = 0;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant97_D12F4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant97_aImages[i]);
         }
         work->elapsed = -config->delay;
         work->hit = 0;

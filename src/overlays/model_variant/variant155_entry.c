@@ -96,7 +96,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant155_D1770[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant155_aImages[i]);
         }
         work->elapsed = 0;
         work->frame = 0;

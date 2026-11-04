@@ -84,7 +84,7 @@ typedef struct {
 } Variant430EntryState;
 
 /* Nine texture images followed by the command table. */
-extern GsIMAGE gModelVariant430_D17B8[];
-extern Variant430EntryConfig gModelVariant430_D18B4[];
+extern GsIMAGE gModelVariant430_aImages[];
+extern Variant430EntryConfig gModelVariant430_aConfigs[];
 void FrenchModelVariant447_DrawSwarm(u8 *context);
 #endif

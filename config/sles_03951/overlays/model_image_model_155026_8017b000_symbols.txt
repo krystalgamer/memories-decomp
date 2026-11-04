@@ -1,4 +1,4 @@
 // Spanish MODEL.MRG raw image, sector 155026, header 324, loaded at 0x8017B000; the US source variant177_entry.c, with its data in the raw tail.
 ModelVariant177_HandleRequest = 0x8017B004; // type:func size:0x14FC defined:true
-gModelVariant177_D1510 = 0x8017C510; // type:u8 size:0x38
+gModelVariant177_aImages = 0x8017C510; // type:u8 size:0x38
 gModelVariant177_D1548 = 0x8017C548; // type:u8 size:0x3AB8
