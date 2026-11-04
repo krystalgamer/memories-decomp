@@ -476,7 +476,7 @@ segments:
       - [0x082804, .data, game/display_object_stream_read_next_command]
       - [0x082820, .data, game/european/model_effect_state]
       - [0x0828B8, .data, game/european/movie_stream_requests]
-      - [0x0828EC, data, initialized_data_800920ec]
+      - [0x0828EC, .data, game/european/model_background_records]
       - [0x082DEC, .data, game/model_image_copy_frames]
       - [0x082DF4, .data, game/european/model_subdivided_effect]
       - [0x082EEC, .data, game/ai_script_vm]
