@@ -18,7 +18,7 @@ typedef struct {
     u8 secondary;
     u8 clear_secondary;
     u8 flags;
-} ModelIntroCue;
+} CreditsCue;
 
 typedef struct {
     s16 delay;
@@ -26,18 +26,18 @@ typedef struct {
     u8 field_03;
     u8 cue;
     u8 active;
-} ModelIntroChannel;
+} CreditsChannel;
 
-extern ModelIntroCue D_801805D0[32];
-extern u8 D_80180650;
-extern ModelIntroChannel D_80180654[4];
-extern DisplayObject *D_8018066C;
-extern u32 D_80180670;
+extern CreditsCue gCredits_aCues[32];
+extern u8 gCredits_bFinished;
+extern CreditsChannel gCredits_aChannels[4];
+extern DisplayObject *gCredits_pGridObject;
+extern u32 gCredits_dwFrameCounter;
 
-void func_80180004(s32 index);
-s32 func_8018019C(void);
-void func_80180420(void);
-s32 func_801804A0(void);
-void func_801804B0(DisplayObject *object, GsOT *ot);
+void Credits_StartLineGroup(s32 index);
+s32 Credits_UpdateLines(void);
+void Credits_InitPresentation(void);
+s32 Credits_IsFinished(void);
+void Credits_DrawGrid(DisplayObject *object, GsOT *ot);
 
 #endif

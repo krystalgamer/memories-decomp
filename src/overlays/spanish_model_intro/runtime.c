@@ -1,10 +1,10 @@
 #include "../../types.h"
 #include "runtime.h"
 
-void func_80180004(s32 index)
+void Credits_StartLineGroup(s32 index)
 {
-    ModelIntroCue *cue = &D_801805D0[index];
-    ModelIntroChannel *state = D_80180654;
+    CreditsCue *cue = &gCredits_aCues[index];
+    CreditsChannel *state = gCredits_aChannels;
     DuelEffectChannel *channel;
     s32 i;
     s32 text;
@@ -42,95 +42,95 @@ void func_80180004(s32 index)
     }
 }
 
-s32 func_8018019C(void)
+s32 Credits_UpdateLines(void)
 {
     s32 i;
     s32 j;
     s32 next;
-    ModelIntroCue *cue;
+    CreditsCue *cue;
 
-    D_80180670++;
-    i = (D_80180670 >> 1) & 127;
+    gCredits_dwFrameCounter++;
+    i = (gCredits_dwFrameCounter >> 1) & 127;
     if (i >= 64) {
         i = 128 - i;
     }
-    *(u8 *)&D_8018066C->rgb = i;
+    *(u8 *)&gCredits_pGridObject->rgb = i;
     for (i = 0; i < 4; i++) {
-        if (D_80180654[i].active) {
-            switch (D_80180654[i].phase) {
+        if (gCredits_aChannels[i].active) {
+            switch (gCredits_aChannels[i].phase) {
             case 0:
                 if (DuelEffect_HasActiveEntry(&gText_aChannels[i]) == 0) {
-                    D_80180654[i].delay = 244;
-                    D_80180654[i].phase++;
+                    gCredits_aChannels[i].delay = 244;
+                    gCredits_aChannels[i].phase++;
                 }
                 break;
             case 1:
                 if (i < 2) {
-                    D_80180654[i].delay -= (u16)gGraphics_nBaseFrameStep;
-                    if (D_80180654[i].delay <= 0) {
-                        next = D_80180654[i].cue + 1;
-                        cue = &D_801805D0[next];
+                    gCredits_aChannels[i].delay -= (u16)gGraphics_nBaseFrameStep;
+                    if (gCredits_aChannels[i].delay <= 0) {
+                        next = gCredits_aChannels[i].cue + 1;
+                        cue = &gCredits_aCues[next];
                         if (cue->text == 255) {
-                            D_80180650 = 1;
-                            D_80180654[i].phase = 16;
+                            gCredits_bFinished = 1;
+                            gCredits_aChannels[i].phase = 16;
                         } else {
                             if (cue->flags & 1) {
                                 DuelEffect_SetEntryControlBytes(&gText_aChannels[i], 9, 0);
                             } else {
                                 DuelEffect_SetEntryControlBytes(&gText_aChannels[i], 6, 0);
                             }
-                            next = D_80180654[i].cue + 1;
-                            if (D_801805D0[next].clear_secondary) {
+                            next = gCredits_aChannels[i].cue + 1;
+                            if (gCredits_aCues[next].clear_secondary) {
                                 for (j = 2; j < 4; j++) {
                                     if (gText_aChannels[j].flags_34 & 0x8000) {
                                         DuelEffect_SetEntryControlBytes(&gText_aChannels[j], 6, 0);
-                                        D_80180654[j].phase++;
+                                        gCredits_aChannels[j].phase++;
                                     }
                                 }
                             }
-                            func_80180004(D_80180654[i].cue + 1);
-                            D_80180654[i].phase++;
+                            Credits_StartLineGroup(gCredits_aChannels[i].cue + 1);
+                            gCredits_aChannels[i].phase++;
                         }
                     }
                 }
                 break;
             case 2:
                 if (DuelEffect_HasActiveEntry(&gText_aChannels[i]) == 0) {
-                    if (D_80180654[i].cue) {
+                    if (gCredits_aChannels[i].cue) {
                         TextBox_DestroyIndex(i);
                     }
-                    D_80180654[i].active = 0;
+                    gCredits_aChannels[i].active = 0;
                 }
                 break;
             }
         }
     }
-    return D_80180650;
+    return gCredits_bFinished;
 }
 
-void func_80180420(void)
+void Credits_InitPresentation(void)
 {
     DisplayObject *object;
     s32 i;
 
     for (i = 3; i >= 0; i--) {
-        D_80180654[i].active = 0;
+        gCredits_aChannels[i].active = 0;
     }
-    D_80180650 = 0;
+    gCredits_bFinished = 0;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable3(object);
     *(u8 *)&object->rgb = 0;
-    object->field_4C = (s32)func_801804B0;
-    D_8018066C = object;
-    D_80180670 = 0;
+    object->field_4C = (s32)Credits_DrawGrid;
+    gCredits_pGridObject = object;
+    gCredits_dwFrameCounter = 0;
 }
 
-s32 func_801804A0(void)
+s32 Credits_IsFinished(void)
 {
-    return D_80180650;
+    return gCredits_bFinished;
 }
 
-void func_801804B0(DisplayObject *object, GsOT *ot)
+void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
 {
     LINE_F2 line;
     LINE_F2 *packet = &line;
@@ -140,7 +140,7 @@ void func_801804B0(DisplayObject *object, GsOT *ot)
     packet->r0 = packet->g0 = packet->b0 = (u8)object->rgb;
     packet->x0 = 0;
     packet->x1 = 320;
-    i = D_80180670 % 24;
+    i = gCredits_dwFrameCounter % 24;
     do {
         packet->y0 = packet->y1 = i;
         i += 24;
@@ -148,7 +148,7 @@ void func_801804B0(DisplayObject *object, GsOT *ot)
     } while (i < 256);
     packet->y0 = 0;
     packet->y1 = 256;
-    i = D_80180670 % 96;
+    i = gCredits_dwFrameCounter % 96;
     i >>= 2;
     do {
         packet->x0 = packet->x1 = i;
