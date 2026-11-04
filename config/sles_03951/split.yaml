@@ -470,7 +470,7 @@ segments:
       - [0x82B94, .data, game/display_effect_process_menu_records]
       - [0x82BC8, .data, game/spanish/mem_card_dialog]
       - [0x82BDC, .data, game/european/display_object_runtime]
-      - [0x82C18, data, spanish_raw_80092418]
+      - [0x82C18, .data, game/display_object_stream_read_next_command]
       - [0x82C34, .data, game/european/model_effect_state]
       - [0x82CCC, data, spanish_raw_800924cc]
       - [0x831CC, .data, game/model_image_copy_frames]
