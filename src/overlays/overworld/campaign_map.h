@@ -27,7 +27,9 @@ extern u8 D_80169619;
  *
  *   gCampaignMap_bTransitionFlags  Read into a local, OR'd with 0x80, 0x60 and 0x40 at different
  *               points, and written back through a u8.
- *   D_8016960D  Tested whole, then for 0x80, set to 1 on entry and cleared.
+ *   gCampaignMap_bEnterSceneState  Set to 1 when the confirm path returns the
+ *               current location with bit 0x8000 (enter its scene); bit 0x80
+ *               latches the one-time fade-out setup; cleared on map entry.
  *
  * live_state.h declares them once. It also owns gCampaignMap_apExitObjects's four pointer
  * slots. The former integer view only cleared slots, while creation/release

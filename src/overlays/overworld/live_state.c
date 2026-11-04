@@ -19,7 +19,7 @@ s32 gCampaignMap_dwTweenPitchStep LIVE_STATE_DATA = 0;
 u8 *gCampaignMap_apExitObjects[CAMPAIGN_MAP_LOCATION_OBJECT_COUNT] LIVE_STATE_DATA = {0};
 s32 gCampaignMap_MoveState LIVE_STATE_DATA = 0;
 u8 gCampaignMap_Location LIVE_STATE_DATA = 0;
-u8 D_8016960D LIVE_STATE_DATA = 0;
+u8 gCampaignMap_bEnterSceneState LIVE_STATE_DATA = 0;
 s32 gCampaignMap_dwTweenDistance LIVE_STATE_DATA = 0;
 s32 gCampaignMap_dwTweenDistanceStep LIVE_STATE_DATA = 0;
 

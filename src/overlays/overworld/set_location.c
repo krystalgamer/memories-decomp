@@ -305,7 +305,7 @@ void CampaignMap_SetLocation(s32 index)
 
     gCampaignMap_Location = index;
     D_80169619 = 0;
-    D_8016960D = 0;
+    gCampaignMap_bEnterSceneState = 0;
     gCampaignMap_bTransitionFlags = 0;
     gCampaignMap_pLocationMarker = 0;
     for (i = 3; i >= 0; i--) {
@@ -611,9 +611,9 @@ void CampaignMap_UpdateLocation(void)
             gCampaignMap_pLocationMarker = 0;
         }
     }
-    if (D_8016960D != 0) {
-        if ((D_8016960D & 0x80) == 0) {
-            D_8016960D = D_8016960D | 0x80;
+    if (gCampaignMap_bEnterSceneState != 0) {
+        if ((gCampaignMap_bEnterSceneState & 0x80) == 0) {
+            gCampaignMap_bEnterSceneState = gCampaignMap_bEnterSceneState | 0x80;
             Fade_InitOut();
             gFade_State.step = 2;
             CampaignMap_ClearLocationObjects();
@@ -634,7 +634,7 @@ void CampaignMap_UpdateLocation(void)
         return;
     }
     if ((exit & 0x8000) != 0) {
-        D_8016960D = 1;
+        gCampaignMap_bEnterSceneState = 1;
         return;
     }
     gCampaignMap_Location = exit;
