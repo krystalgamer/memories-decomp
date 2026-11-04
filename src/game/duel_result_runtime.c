@@ -121,7 +121,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
                                    (s16)arg0->xy.h.y, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
                                    gDisplay_abResourceBank0);
-            slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
+            slot->field_40.clut.x = (u16)arg0->field_40.clut.x + 0x80;
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             slot->attribute |= (GsALON | GsAONE);
@@ -330,14 +330,14 @@ void DuelScene_UpdateResultOutro(void)
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
                                   gDisplay_abResourceBank0);
                     if (obj->field_69 >= 0x1A) {
-                        obj->field_40.h.field_40 =
-                            (u16)obj->field_40.h.field_40 + 0x10;
+                        obj->field_40.clut.x =
+                            (u16)obj->field_40.clut.x + 0x10;
                     }
                     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
                     obj->attribute |= (GsALON | GsAONE);
-                    obj->field_48.h.field_48 = spec->tag;
-                    obj->field_48.h.field_4A = 0x18;
+                    obj->field_48.pivot.x = spec->tag;
+                    obj->field_48.pivot.y = 0x18;
                     DisplayObject_SelectOrderingTable1(obj);
                     obj->field_2C.word = obj->xy.word;
                     obj->position.h.field_28 = (rand() & 0x3F) + 0x140;

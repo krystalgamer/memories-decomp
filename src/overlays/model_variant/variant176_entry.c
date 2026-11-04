@@ -7,13 +7,13 @@
  * the rings, the random dot and sprite velocities and the two textures, and
  * prints the work-area size. */
 
-static const VECTOR gModelVariant176_D13A4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant176_UnitScale = {4096, 4096, 4096, 0};
 /* The work-size format string; retail's sixteenth byte after the terminator is 0x0C. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL176_STRING_PAD
 #define MODEL176_STRING_PAD "\f"
 #endif
-static const char gModelVariant176_D13B4[16] = "%d (%x) Byte.\n\0" MODEL176_STRING_PAD;
+static const char gModelVariant176_szWorkSizeFormat[16] = "%d (%x) Byte.\n\0" MODEL176_STRING_PAD;
 #endif
 
 s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
@@ -43,7 +43,7 @@ s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant176_D13A4;
+    scale = gModelVariant176_UnitScale;
     work = (Model176State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();
@@ -88,7 +88,7 @@ s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
         work->elapsed = 0;
         work->unknown_B1D = 0;
 #ifndef VERSION_FRENCH
-        printf(gModelVariant176_D13B4, sizeof(Model176State), sizeof(Model176State));
+        printf(gModelVariant176_szWorkSizeFormat, sizeof(Model176State), sizeof(Model176State));
 #endif
         return 0;
     }

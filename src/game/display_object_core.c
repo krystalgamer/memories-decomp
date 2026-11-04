@@ -127,8 +127,8 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_20.word = 0;
         slot->field_10 = 0;
         slot->field_1C = 0;
-        slot->field_1A = 0;
-        slot->field_18 = 0;
+        slot->field_18.center.y = 0;
+        slot->field_18.center.x = 0;
         slot->field_66 = 0;
         slot->field_48.word = 0;
         slot->field_44.word = 0x10001000;
@@ -242,12 +242,12 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resou
     configured->field_66 = texture_config;
     *(u8 *)&configured->field_5E = texture_config >> 16;
     *((u8 *)&configured->field_5E + 1) = texture_config >> 8;
-    configured->field_40.h.field_40 = DISPLAY_OBJECT_SPRITE_TEXTURE_U(palette_config);
+    configured->field_40.clut.x = DISPLAY_OBJECT_SPRITE_TEXTURE_U(palette_config);
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
     texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(palette_config);
-    configured->field_40.h.field_42 = texture_v + (palette_config & 0xF);
+    configured->field_40.clut.y = texture_v + (palette_config & 0xF);
 #else
-    configured->field_40.h.field_42 = DISPLAY_OBJECT_SPRITE_TEXTURE_V(palette_config);
+    configured->field_40.clut.y = DISPLAY_OBJECT_SPRITE_TEXTURE_V(palette_config);
 #endif
     flags = configured->flags & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     configured->flags = flags;
@@ -271,35 +271,35 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     DisplayObject *object,
     s32 x,
     s32 y,
-    s32 height,
     s32 width,
+    s32 height,
     s32 texture_u,
     s32 texture_v,
     s32 texture_page,
     s32 clut_x,
     s32 clut_y)
 {
-    s32 half_height;
     s32 half_width;
+    s32 half_height;
 
-    object->field_3C.h.field_3C = height;
-    half_height = height / 2;
+    object->field_3C.size.w = width;
+    half_width = width / 2;
     object->xy.h.x = x;
     object->xy.h.y = y;
-    object->field_18 = half_height;
-    object->field_48.h.field_48 = half_height;
+    object->field_18.center.x = half_width;
+    object->field_48.pivot.x = half_width;
 
     object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
-    object->field_3C.h.field_3E = width;
-    half_width = width / 2;
+    object->field_3C.size.h = height;
+    half_height = height / 2;
     *(u8 *)&object->field_5C = texture_u;
     ((u8 *)&object->field_5C)[1] = texture_v;
     object->field_66 = texture_page;
-    object->field_40.h.field_40 = clut_x;
-    object->field_40.h.field_42 = clut_y;
-    object->field_1A = half_width;
-    object->field_48.h.field_4A = half_width;
+    object->field_40.clut.x = clut_x;
+    object->field_40.clut.y = clut_y;
+    object->field_18.center.y = half_height;
+    object->field_48.pivot.y = half_height;
     return object;
 }
 
@@ -362,8 +362,8 @@ void DisplayObject_RenderSpriteList(void) {
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     gDisplayObject_fRenderRetry = 0;
                     if (DisplayObject_ProjectRotationFacing(
-                            e, (s16)p->xy.h.x + (s16)e->field_18,
-                            (s16)p->xy.h.y + (s16)e->field_1A,
+                            e, (s16)p->xy.h.x + (s16)e->field_18.center.x,
+                            (s16)p->xy.h.y + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h->out) <= 0) {
                         break;
                     }

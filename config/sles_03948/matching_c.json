@@ -3,63 +3,63 @@
   "functions": [
     {
       "address": "0x80012A44",
-      "profile": "gcc_2_8_1_g8_split_no_sched1",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
-      "source": "src/game/french/main_init.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012BD8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/european/main_frame.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012C50",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/main_frame.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012C88",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/european/main_frame.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012CB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/european/graphics_frame.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012D60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x210",
-      "source": "src/game/european/graphics_frame.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80012F70",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE8",
-      "source": "src/game/european/main_services.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x80013058",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x224",
-      "source": "src/game/european/main_services.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x8001327C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x154",
-      "source": "src/game/european/main_services.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x800133D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/european/main_services.c"
+      "source": "src/game/french/main.c"
     },
     {
       "address": "0x800133FC",

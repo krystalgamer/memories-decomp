@@ -59,8 +59,8 @@ typedef union {
     DVECTOR screen[66];
 } Model85Scratch;
 
-extern GsIMAGE gModelVariant85_D0F54[];
-extern Model85Config gModelVariant85_D0FA8[];
+extern GsIMAGE gModelVariant85_aImages[];
+extern Model85Config gModelVariant85_aConfigs[];
 
 s32 ModelVariant85_HandleRequest(u8 *context, s32 command);
 

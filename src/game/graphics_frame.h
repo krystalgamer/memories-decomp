@@ -9,7 +9,7 @@
 
 /* The per-frame step multiplier. graphics_frame.c sets it to
  * gGraphics_bExtraFrameStep + 1
- * once a frame and Main_Init (src/game/main_init.c) seeds it at 1;
+ * once a frame and Main_Init (src/game/main.c) seeds it at 1;
  * every other consumer scales a motion delta by it, which is why a dropped
  * frame moves things twice as far.
  *
@@ -73,7 +73,7 @@ extern u8 gMovie_bPlaybackState;
  * the unit, and each is justified by a control build of that unit on the
  * plain arm (the PR that added this block records the five results):
  *
- *   _IS_VOLATILE -- graphics_frame.c and src/game/main_init.c
+ *   _IS_VOLATILE -- src/game/main.c
  *   _IN_DATA     -- main_run_animated_battle.c and
  *                   main_run_duel_and_library.c and main_mode_runners.c,
  *                   all at -G8: out of small
@@ -196,8 +196,8 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
  * masks its low seven bits for the Library cursor's colour ramp. Sign is not visible in any use (& 0x3F,
  * & 0x7F, << 8, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter and is not established.
  *
- * main_frame.c and src/game/main_init.c reach it gp-relative and
- * take the volatile form below; every other retail site is a lui/lw pair.
+ * src/game/main.c reaches it gp-relative and
+ * takes the volatile form below; every other retail site is a lui/lw pair.
  * volatile is measured (notes/research/matching-evidence.md:479-490):
  * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
  * forwards the stored zero and the function is one instruction short.
@@ -220,8 +220,8 @@ extern volatile s32 gMain_dwFrameCounter;
  * local, a u32 field in and out), so s32 follows gMain_dwFrameCounter and gGraphics_dwSyncVBlankCounter
  * and is not established.
  *
- * main_frame.c and src/game/main_init.c reach it gp-relative and
- * take the volatile form below; SaveData_ApplyRuntimeState stores through
+ * src/game/main.c reaches it gp-relative and
+ * takes the volatile form below; SaveData_ApplyRuntimeState stores through
  * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
@@ -241,9 +241,7 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * main_run_boot_sequence.c
  * only store to it.
  *
- * graphics_frame.c defines it (gp-relative in the target);
- * src/game/main_init.c and src/game/main_services.c reach it
- * gp-relative and take the plain form.
+ * src/game/main.c defines it and reaches it gp-relative (the plain form).
  * main_init.c used to declare it volatile with the rest of its init block;
  * on this symbol the plain form builds byte-identical (measured by the PR
  * that added this block). Main_RunBootSequence stores through $at (lui/sh) in

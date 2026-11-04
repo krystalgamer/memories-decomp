@@ -52,13 +52,13 @@ typedef struct {
     s32 elapsed;
 } Model163State;
 
-extern GsIMAGE gModelVariant163_D2414[];
+extern GsIMAGE gModelVariant163_aImages[];
 /* The atlas cell drawn by each tile. */
 typedef struct {
     u8 cell[8];
 } Model163Order;
 
-extern Model163Config gModelVariant163_D244C[];
+extern Model163Config gModelVariant163_aConfigs[];
 
 s32 ModelVariant163_HandleRequest(u8 *context, s32 command);
 

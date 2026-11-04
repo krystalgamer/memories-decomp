@@ -156,8 +156,8 @@ typedef struct {
     s16 command;
 } Variant437State;
 
-extern GsIMAGE gModelVariant437_D188C[];
-extern Variant437Config gModelVariant437_D1988[];
+extern GsIMAGE gModelVariant437_aImages[];
+extern Variant437Config gModelVariant437_aConfigs[];
 
 s32 ModelVariant437_HandleRequest(u8 *context, s32 command);
 void FrenchModelVariant454_DrawBlooms(u8 *context);

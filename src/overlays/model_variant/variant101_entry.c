@@ -6,7 +6,7 @@
  * model. The return value reports the end (2), 4 while the bursts run, 1 on
  * the first frame after them or 0 before the first burst starts. */
 
-static const VECTOR gModelVariant101_D12B8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant101_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant101_D12B8;
+    scale = gModelVariant101_UnitScale;
     work = (Model101State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

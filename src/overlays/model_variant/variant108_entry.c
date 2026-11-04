@@ -7,7 +7,7 @@
  * The return value reports the end (2), 4 while the trails run, 1 during
  * the fade or 0 before the trails start. */
 
-static const VECTOR gModelVariant108_D151C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant108_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant108_D151C;
+    scale = gModelVariant108_UnitScale;
     work = (Model108State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();

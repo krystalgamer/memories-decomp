@@ -144,13 +144,13 @@ void DuelScene_UpdateCardUse(void)
             return;
         }
         q0 = gDisplayObject_apWorkSlots[0];
-        fld = q0->field_44.h.field_44;
+        fld = q0->field_44.scale.x;
         value = fld + 0x80;
         q1 = gDisplayObject_apWorkSlots[1];
-        *(u16 *)&q1->field_44.h.field_46 = value;
-        *(u16 *)&q1->field_44.h.field_44 = value;
-        *(u16 *)&q0->field_44.h.field_46 = value;
-        *(u16 *)&q0->field_44.h.field_44 = value;
+        *(u16 *)&q1->field_44.scale.y = value;
+        *(u16 *)&q1->field_44.scale.x = value;
+        *(u16 *)&q0->field_44.scale.y = value;
+        *(u16 *)&q0->field_44.scale.x = value;
         value = *(u8 *)&gDisplayObject_apWorkSlots[0]->rgb;
         value -= 4;
         if (value < 0) {

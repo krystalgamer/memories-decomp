@@ -7,7 +7,7 @@
  * 3x3 grid of animated burst quads plays where it lands. A negative command
  * draws a frame; any other command sets the work area up. */
 
-static const VECTOR gModelVariant157_D145C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant157_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant157_HandleRequest(u8 *context, s32 command)
 {
@@ -31,7 +31,7 @@ s32 ModelVariant157_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant157_D145C;
+    scale = gModelVariant157_UnitScale;
     work = (Model157UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

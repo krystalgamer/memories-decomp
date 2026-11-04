@@ -10,7 +10,7 @@
  * size. The French header-171 and 301 images build this source without the
  * printf and with the PAL screen height. */
 
-static const VECTOR gModelVariant154_D2394 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant154_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
 {
@@ -39,7 +39,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant154_D2394;
+    scale = gModelVariant154_UnitScale;
     work = (Model154State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

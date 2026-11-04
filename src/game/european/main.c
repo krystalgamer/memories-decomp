@@ -1,4 +1,9 @@
 #include "../../types.h"
+
+/* SLES-03947 build of src/game/main.c. */
+#define VERSION_EUROPE
+/* The European display height. */
+#define GRAPHICS_DEFAULT_HEIGHT 256
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -41,7 +46,7 @@ u16 gGraphics_wFlags;
 u16 D_8009C022_sles_03947;
 volatile s32 gMain_dwFrameCounter;
 u16 D_8009C028_sles_03947;
-u8 D_8009C02A_sles_03947;
+u8 gGraphics_bSkipDisplaySwap;
 u8 gText_bLanguageIndex;
 s32 D_8009B0A4;
 void (*gMain_pfnExtraFrameService)(void);
@@ -50,6 +55,4 @@ u8 gGraphics_bActiveBuffer;
 u8 gGraphics_bDither;
 u8 D_8009C037_sles_03947;
 
-/* The European builds compile the shared unit through this wrapper so that
- * they can give it their own zero-initialized storage (#2602). */
-#include "../graphics_frame.c"
+#include "../main.c"

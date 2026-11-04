@@ -6,7 +6,7 @@
  * triangles opens and closes there and a burst sprite plays eight frames
  * of the second texture while it shrinks. */
 
-static const VECTOR gModelVariant96_D19CC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant96_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant96_D19CC;
+    scale = gModelVariant96_UnitScale;
     work = (Model96State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

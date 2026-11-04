@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant130_entry.h"
 
-static const VECTOR gModelVariant130_D0B5C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant130_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant130_HandleRequest(u8 *context, s32 command)
 {
@@ -23,7 +23,7 @@ s32 ModelVariant130_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant130_D0B5C;
+    scale = gModelVariant130_UnitScale;
     work = (Model130State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

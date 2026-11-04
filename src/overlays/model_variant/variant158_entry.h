@@ -38,7 +38,7 @@ typedef struct {
     s32 elapsed, updates;
 } Model158State;
 
-extern GsIMAGE gModelVariant158_D113C[];
+extern GsIMAGE gModelVariant158_aImages[];
 extern Model158Config gModelVariant158_D1174[];
 
 s32 ModelVariant158_HandleRequest(u8 *context, s32 command);

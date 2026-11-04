@@ -38,8 +38,8 @@ typedef struct {
     u8 completed, unknown_331[3];
 } Model180State;
 
-extern GsIMAGE gModelVariant180_D0C5C[];
-extern Model180Config gModelVariant180_D0C94[];
+extern GsIMAGE gModelVariant180_aImages[];
+extern Model180Config gModelVariant180_aConfigs[];
 
 s32 ModelVariant180_HandleRequest(u8 *context, s32 command);
 

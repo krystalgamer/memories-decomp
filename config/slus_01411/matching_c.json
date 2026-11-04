@@ -2,63 +2,63 @@
   "functions": [
     {
       "address": "0x80012B50",
-      "profile": "gcc_2_8_1_g8_split_no_sched1",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/main_init.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012CD4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/main_frame.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012D4C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/main_frame.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012D84",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/main_frame.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012DB4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/graphics_frame.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012E5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x210",
-      "source": "src/game/graphics_frame.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x8001306C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE8",
-      "source": "src/game/main_services.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80013154",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x20C",
-      "source": "src/game/main_services.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80013360",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x154",
-      "source": "src/game/main_services.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x800134B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/main_services.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x800134E0",

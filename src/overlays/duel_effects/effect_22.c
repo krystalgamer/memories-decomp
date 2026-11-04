@@ -251,8 +251,8 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             }
             if (work->card_states[2] == 1) {
                 for (i = 0; i < 3; i++) {
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_44 = 0;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_46 = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.x = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.y = 0;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                     work->stage = 1;
                 }

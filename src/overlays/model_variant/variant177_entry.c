@@ -8,7 +8,7 @@
  * cylinder around its base. A negative command draws a frame; any other
  * command sets the work area up. */
 
-static const VECTOR gModelVariant177_D1500 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant177_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant177_D1500;
+    scale = gModelVariant177_UnitScale;
     work = (Model177State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -60,7 +60,7 @@ s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
             point->pad = i % 16;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant177_D1510[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant177_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

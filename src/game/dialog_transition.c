@@ -45,8 +45,8 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         object->xy.h.x = 160;
         object->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
-        object->field_48.h.field_48 = 128;
-        object->field_48.h.field_4A = 224;
+        object->field_48.spotlight.inner = 128;
+        object->field_48.spotlight.outer = 224;
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
@@ -57,15 +57,15 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
     if (flags & 64) {
         gDialog_bCallbackState = 0;
     } else {
-        s32 x = *(u16 *)&object->field_48.h.field_48 - 8;
-        s32 y = *(u16 *)&object->field_48.h.field_4A - 8;
+        s32 x = *(u16 *)&object->field_48.spotlight.inner - 8;
+        s32 y = *(u16 *)&object->field_48.spotlight.outer - 8;
 
-        object->field_48.h.field_4A = y;
-        object->field_48.h.field_48 = x;
+        object->field_48.spotlight.outer = y;
+        object->field_48.spotlight.inner = x;
         if ((s16)x <= 0) {
             gDialog_bCallbackState = flags | 64;
-            object->field_48.h.field_48 = 0;
-            object->field_48.h.field_4A = 64;
+            object->field_48.spotlight.inner = 0;
+            object->field_48.spotlight.outer = 64;
         }
     }
 }
@@ -111,9 +111,9 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
     }
     object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (object) {
-        *(u16 *)&object->field_48.h.field_4A += 8;
-        *(u16 *)&object->field_48.h.field_48 += 8;
-        if (object->field_48.h.field_48 >= 0xC0) {
+        *(u16 *)&object->field_48.spotlight.outer += 8;
+        *(u16 *)&object->field_48.spotlight.inner += 8;
+        if (object->field_48.spotlight.inner >= 0xC0) {
             DisplayObject_ReleaseIfPresent(object);
             record->grid[0][1] = 0;
         }
@@ -138,8 +138,8 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         p->xy.h.x = 0xA0;
         p->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
-        p->field_48.h.field_48 = 0x80;
-        p->field_48.h.field_4A = 0xE0;
+        p->field_48.spotlight.inner = 0x80;
+        p->field_48.spotlight.outer = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
@@ -203,11 +203,11 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
                        *(s16 *)&p->xy.h.y);
     }
     p = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
-    p->field_48.h.field_4A = *(u16 *)&p->field_48.h.field_4A - 8;
-    p->field_48.h.field_48 = *(u16 *)&p->field_48.h.field_48 - 8;
-    if (p->field_48.h.field_48 <= 0) {
-        p->field_48.h.field_48 = 0;
-        p->field_48.h.field_4A = 0x40;
+    p->field_48.spotlight.outer = *(u16 *)&p->field_48.spotlight.outer - 8;
+    p->field_48.spotlight.inner = *(u16 *)&p->field_48.spotlight.inner - 8;
+    if (p->field_48.spotlight.inner <= 0) {
+        p->field_48.spotlight.inner = 0;
+        p->field_48.spotlight.outer = 0x40;
         if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
             g = gDialog_bCallbackState;
             r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);

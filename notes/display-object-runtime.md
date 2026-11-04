@@ -610,16 +610,43 @@ the first vertex's u/v. That renderer serves list 5, and no C caller
 acquires an object on that list, so the exception is recorded in the
 header comment rather than blocking the name.
 
+### Per-kind views
+
+Four more words have one meaning per object kind but not one meaning
+across the pool. Each is now a union whose views carry the names, so a
+caller states which kind of object it is working with. The union members
+keep their offset names. The views keep the old halves' widths and
+signedness, so every access compiles to the same instructions. This
+covers every halfword access; quad renderers still copy the whole word
+through `.word`.
+
+| Offset | Old | Views | Evidence | Confidence | Uses |
+|---|---|---|---|---|---|
+| `+0x18` | `u16 field_18`, `u16 field_1A` | `field_18.center.x/y`; `field_18.target.x/y` | **center**: every renderer adds it to the draw position before the clip-test projection, and `DisplayObject_ConfigureScreenSprite` and `TextBox_RefreshDisplayObjects` set it to half the sprite's width and height. **target**: the build-deck transfer icon and the password digit cursor steer toward it and copy it into `xy`; neither sets the clip-test flag. | high | 36 / 6 |
+| `+0x3C` | `field_3C.h.field_3C/3E` | `field_3C.size.w/h` | GsSPRITE `w`/`h`: copied whole into `SpritePrim.extent`; the strip renderer draws `w` in strips of height `h`; text boxes, Library outlines and the duel layout take `x + w` and `y + h` as the right and bottom edges. No halfword user reads it otherwise. | high | 20 |
+| `+0x40` | `field_40.h.field_40/42` | `field_40.clut.x/y`; `field_40.vertex.x/y` | **clut**: GsSPRITE `cx`/`cy`. The sprite renderers copy it to `SpritePrim.cxcy`, `DisplayObject_ConfigureScreenSprite` stores its `clut_x`/`clut_y` arguments, and the card, portrait, text-box and result code pack it into a primitive's `clut` or step it one palette (x by 16) or row (y by 1) at a time. **vertex**: a Gouraud quad's corner, which `DisplayObject_RenderGouraudQuadList` copies to its fourth vertex and the text-box outline, debug editor and duel effect layout write. | high | 30 / 8 |
+| `+0x44` | `field_44.h.field_44/46` | `field_44.scale.x/y`; `field_44.target.x/y` | **scale**: GsSPRITE `scalex`/`scaley` in 4.12, copied to `SpritePrim.scale`, read as x/y scale by the spotlight mask, projected cards and clip checks, and animated around `0x1000`. `GlyphSprite` already names the pair `scale_x`/`scale_y`. **target**: the password name-entry glyphs' flight destination, which they divide the distance to by their frame count and finally copy into `xy`. | high | 51 / 10 |
+| `+0x48` | `field_48.h.field_48/4A` | `field_48.pivot.x/y`; `field_48.spotlight.inner/outer`; `field_48.vertex.x/y` | **pivot**: GsSPRITE `mx`/`my`, copied to `SpritePrim.mxmy` and set to half the sprite's size by `DisplayObject_ConfigureScreenSprite` and the text-box, card-overlay and boot-screen code. `DisplayObjectStreamState` calls it `pivot_x`/`pivot_y`. **spotlight**: the radii `DisplayObject_RenderSpotlightMask` draws between, shrunk by the dialog transition and set by the overworld reveal. **vertex**: the first corner of a Gouraud quad's second submission. | high | 25 / 24 / 6 |
+
+`DisplayObject_ConfigureScreenSprite`'s fourth and fifth parameters were
+named `height` and `width`. That is backwards: the fourth goes to
+`size.w` and half of it to the x centre and pivot. Its callers pass the
+card preview's `0x66` x `0x60` image and the card overlay's `0x8C` x
+`0xC4` portrait card in that order. The parameters, their halves and
+`DisplayObjectConfigView`'s matching members are swapped back. The
+regional macros named for the wrong reading now say what they hold:
+`DUEL_CARD_EFFECT_OVERLAY_HEIGHT`, `DUEL_RESOURCE_PATH_WIDTH`/`_HEIGHT`,
+and `TEXT_BOX_GLYPH_CLUT_X`/`_Y` (the text box's glyph palette, formerly
+`TEXT_BOX_LAYOUT_WIDTH`/`_HEIGHT`).
+
 ### Members left at their offsets
 
 | Offset | Why it keeps its name |
 |---|---|
-| `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `display_object_property_transitions.c` (see the observed values above). |
-| `+0x40` | `cx`/`cy` (CLUT) for sprites, the fourth vertex x/y for Gouraud quads and a half-size pair in the dialog and duel layout code. |
-| `+0x60` | A per-caller countdown, phase or easing amount with no single unit or direction. |
-| `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck_card_transfer_icon.c` and a u/v for the textured-quad second submission. |
-| `+0x18`/`+0x1A`, `+0x3C`, `+0x48` | Each reads as a sprite pivot or extent in the renderers, but as quad vertices or colours for other list kinds, and `+0x3C`'s width/height order is contested between `DisplayObject_ConfigureScreenSprite` and the strip renderer. |
-| `+0x6A` | The linked object's pool index for the action-ready marker, but a card-record index for duel cards. |
+| `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `display_object_property_transitions.c` (see the observed values above). The step's units differ per caller, so no view is clearly right. |
+| `+0x60` | A per-caller countdown, phase or easing amount with no single unit or direction, even within one object kind. |
+| `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck_card_transfer_icon.c` and a u/v for the textured-quad second submission. Several of these share one object kind, so per-kind views do not separate them. |
+| `+0x6A` | The linked object's pool index for the action-ready marker, but a card-record index for duel cards. It is a single byte with no word users, so a view adds nothing over documenting both. |
 
 ## Evidence boundary
 

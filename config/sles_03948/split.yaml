@@ -196,16 +196,7 @@ segments:
     - text_128cc
   - - 12868
     - c
-    - game/french/main_init
-  - - 13272
-    - c
-    - game/european/main_frame
-  - - 13496
-    - c
-    - game/european/graphics_frame
-  - - 14192
-    - c
-    - game/european/main_services
+    - game/french/main
   - - 15356
     - c
     - game/view_state_orbit
@@ -1234,8 +1225,7 @@ segments:
   - [0x83300, .data, game/ai_script_vm]
   - [0x83410, .data, game/ai_get_hand_search_count]
   - [0x83578, data, resident_tail_80092d78]
-  - [0x8CA98, .sdata, game/european/main_services]
-  - [0x8CA9C, .sdata, game/european/main_frame]
+  - [0x8CA98, .sdata, game/french/main]
   - [0x8CA9D, pad]
   - [0x8CAA0, .sdata, game/data_8009af10]
   - [0x8CAB0, .sdata, game/spanish/duel_ground_projection]
@@ -1257,7 +1247,7 @@ segments:
   - [0x8CBE8, .sdata, game/spanish/movie_frame_pipeline]
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
   - [0x8CC04, pad]
-  - [0x8CC08, .sbss, game/european/graphics_frame]
+  - [0x8CC08, .sbss, game/french/main]
   - [0x8CC58, .sbss, game/european/file_set_position_table]
   - [0x8CC60, .sbss, game/european/file_transfer_runtime]
   - [0x8CCB8, .sbss, game/european/fade_runtime]
@@ -1282,7 +1272,7 @@ segments:
   - [0x8CFD8, .sbss, game/european/sound_output_transition]
   - [0x8CFE8, .sbss, game/spanish/model_scene_controllers]
   - [0x8D018, .sbss, game/spanish/movie_frame_pipeline]
-  - [0x8D038, .bss, game/european/graphics_frame]
+  - [0x8D038, .bss, game/french/main]
   - [0xDB970, .bss, game/european/file_set_position_table]
   - [0xDB998, .bss, game/european/file_transfer_runtime]
   - [0xDBA48, .bss, game/european/fade_runtime]

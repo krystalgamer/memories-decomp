@@ -592,9 +592,9 @@ void FreeDuel_Entry(void)
         if (phase >= 8) {
             phase = 0xF - phase;
         }
-        gFreeDuel_pCursorWidget->field_44.h.field_46 =
+        gFreeDuel_pCursorWidget->field_44.scale.y =
             phase * 48 + 0x1000;
-        gFreeDuel_pCursorWidget->field_44.h.field_44 =
+        gFreeDuel_pCursorWidget->field_44.scale.x =
             phase * 48 + 0x1000;
     }
     FreeDuel_UpdateSparkle();
