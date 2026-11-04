@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant458_strand.h"
 
 /* Header 552 keeps its strands, line and span far nearer the start of the
  * work area, reads its origin as words, advances the span by one and sorts at
@@ -65,21 +66,21 @@ void ModelVariant458_DrawStrand(u8 *ctx)
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
-        RotMatrix(&rot, &m);
-        ScaleMatrix(&m, &scale);
+        Strand458_RotMatrix(&rot, &m);
+        Strand458_ScaleMatrix(&m, &scale);
         coord.coord = m;
         coord.super = 0;
         coord.flg = 0;
-        GsGetLs(&coord, &ls);
-        GsSetLsMatrix(&ls);
+        Strand458_GsGetLs(&coord, &ls);
+        Strand458_GsSetLsMatrix(&ls);
         i = 0;
         a = i;
         do {
             for (j = 0, b = 0; j < 13; j++, b += 0x708) {
                 r = (j << 10) / 12;
-                strand->point[j].vx = rcos(a) * r >> 12;
-                strand->point[j].vy = (u32)rsin(b) >> 9;
-                strand->point[j].vz = rsin(a) * r >> 12;
+                strand->point[j].vx = Strand458_rcos(a) * r >> 12;
+                strand->point[j].vy = (u32)Strand458_rsin(b) >> 9;
+                strand->point[j].vz = Strand458_rsin(a) * r >> 12;
             }
             i++;
             a = (i << 12) / 6;
@@ -89,7 +90,7 @@ void ModelVariant458_DrawStrand(u8 *ctx)
         for (i = 0; i < 6; i++, strand++) {
             for (j = MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST); j < MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST); j++) {
                 line->attribute = 0x50000000;
-                otz = RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
+                otz = Strand458_RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
                                     &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
                                     (long *)&line->x0, (long *)&line->x1, &p, &flag);
                 line->g = 0x40;
@@ -97,7 +98,7 @@ void ModelVariant458_DrawStrand(u8 *ctx)
                 line->b = 0x80;
                 if (otz > 0) {
                     if (otz < 0x800) {
-                        GsSortLine(line, func_80058F10(), MODEL_VARIANT458_STRAND_DEPTH(otz));
+                        Strand458_GsSortLine(line, Strand458_func_80058F10(), MODEL_VARIANT458_STRAND_DEPTH(otz));
                     }
                 }
             }

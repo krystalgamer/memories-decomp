@@ -38534,7 +38534,7 @@
       "sector_count": 10,
       "sector_offset": 45198,
       "sha256": "b5ca173086728f310e10443c0b937e22dd71bfb84e45c76cf7dc9f508b8d79c1",
-      "linker_symbols": "config/slus_01411/overlays/model_variant_linker_symbols.txt"
+      "linker_symbols": "config/slus_01411/overlays/model_variant552_linker_symbols.txt"
     },
     {
       "archive": "game/DATA/MODEL.MRG",
