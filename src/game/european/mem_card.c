@@ -1,4 +1,33 @@
 #include "../../types.h"
+#define SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS 0x8009C218
+
+#define SAVE_DATA_SEQUENCE_IN_MEM_CARD_DIALOG
+
+/* SLES-03947 build of src/game/checkerboard_background.c. The US source is included as is. */
+
+/* Values that differ in the European release; the US source names each
+ * with an #ifndef default (jp_promote.REGIONAL). */
+#define CHECKERBOARD_CLUT_X 0x340
+#define CHECKERBOARD_SCREEN_HEIGHT 0x100
+
+/* SLES-03947 build of src/game/duel_effect_create_channel.c. The US source is included as is. */
+
+/* Values that differ in the European release; the US source names each
+ * with an #ifndef default (jp_promote.REGIONAL). */
+#define DUEL_EFFECT_CHANNEL_CREATE_FLAGS 0x1010
+#define DIALOG_CHOICE_ADDRESS 0x8009C2B0
+
+/* SLES-03947 build of src/game/dialog_transition.c. */
+
+#define VERSION_EUROPE
+
+/* Values that differ in the European release; the US source names each
+ * with an #ifndef default. */
+#define DIALOG_TRANSITION_SPOTLIGHT_Y 128
+#define DIALOG_TRANSITION_CHANNEL_FLAG 8
+
+#define FUNC_8003DA40_CHANNEL_FLAG 8
+
 #define MEM_CARD_DIALOG_STORAGE_ORDER
 /* This build lays out the shared source's zero-initialized storage at
  * 0x800F0638-0x800F0DA0 in a different order from the North American one;
@@ -58,7 +87,6 @@ u8 gSaveData_PairMessageCode;
 u32 D_8009C35C_sles_03947;
 
 /* SLES-03947 build of src/game/mem_card_dialog.c. */
-#define VERSION_EUROPE
 #define MEM_CARD_MESSAGE_COMPLETION_MASK 0x2010
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xB7
 
@@ -66,4 +94,5 @@ u32 D_8009C35C_sles_03947;
 #define SAVE_DATA_LOAD_BOX_FLAGS 0x1010
 #define SAVE_DATA_LOAD_CHANNEL_FLAG 0x10
 #define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009C015
-#include "../mem_card_dialog.c"
+
+#include "../mem_card.c"

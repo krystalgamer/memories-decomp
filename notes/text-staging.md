@@ -87,7 +87,7 @@ explains why these are not persistent ATK/DEF globals.
   are now matched:
   `DuelField_CreateCardInfoTextBox` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/card_list_deck_box.c`, `MemCardDialog_UpdateSave` in
-  `src/game/mem_card_dialog.c` and `Library_RefreshSelectedCardText` in
+  `src/game/mem_card.c` and `Library_RefreshSelectedCardText` in
   `src/game/library_card_grid.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The indirect text number
   reader (`func_80038148` via `TextStream_ReadU32LE`) retains its integer address
