@@ -119,7 +119,7 @@ void Model_QueueRelativeCameraOrbit(
  *
  * The block ends with three bytes no symbol names, so splat's label for
  * gModel_bHandlerCallbackState spans four bytes although the object is one -- the same way the
- * label at D_8009AF18 ran long. They are written out as padding because an
+ * label at gFile_ReadyTransferDescriptor ran long. They are written out as padding because an
  * object stopping at gModel_bHandlerCallbackState would leave the window three bytes short.
  *
  * The padding is three separate bytes rather than a u8[3], which is not a

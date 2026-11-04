@@ -77,7 +77,7 @@ The portrait-ID path uses the existing image/grid/CLUT constants. With
 zero. Both paths create the secondary blend sprite and continue the
 update in that initialization call.
 
-The source keeps both `(u16)D_8009B0D8` sites, low-halfword stores and
+The source keeps both `(u16)gGraphics_nBaseFrameStep` sites, low-halfword stores and
 signed `field_60` tests. They are not replaced with the full-word views
 used by the other ramps. The regional secondary CLUT-x macro remains
 `0x200` by default and `0x280` in Europe.

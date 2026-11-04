@@ -155,7 +155,7 @@ state, and the trailing model-scene fields.
 
 Independently addressed scalar fields retain their symbols and explicit
 `.sdata` placement. The four bytes at `0x8009AFA4..0x8009AFA7` now have one
-real `u8 D_8009AFA4[4]` owner: the frame-step override, an unclassified byte,
+real `u8 gGraphics_FrameStepControl[4]` owner: the frame-step override, an unclassified byte,
 the byte named `D_8009AFA6`, and the active-slot index used by matching
 `Model_UpdateCreditsPresentation`. The latter is not padding.
 `link_symbols.ld` preserves
@@ -172,7 +172,7 @@ Every public symbol lands at its retail offset, and the linked payload matches
 the original 36 bytes.
 
 Existing scalar compiler views are deliberately retained. `graphics_frame.c` needs
-absolute, non-volatile declarations for `gGraphics_bPacketBufferIndex`-`D_8009AFA4`, while
+absolute, non-volatile declarations for `gGraphics_bPacketBufferIndex`-`gGraphics_FrameStepControl`, while
 `Model_GetFrameStep` needs the volatile small-data view of `gGraphics_bFrameStep`.
 `MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
 the owner and scene consumer; it cannot be combined with the absolute frame

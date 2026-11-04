@@ -77,8 +77,8 @@ are preserved separately from the five recovered functions.
 The cue and state types stay local. Existing headers supply `DuelEffectChannel`,
 `DisplayObject`, `LINE_F2`, `GsOT`, text-box and packet APIs. The owning
 `text_box_lifecycle.h` now declares the existing `TextBox_DestroyIndex(s32)`.
-The canonical channel-array symbol `D_800EB0F8` binds to Spanish `0x800F0850`,
-and the canonical signed word `D_8009B0D8` binds to `0x8009C43C`; its explicit
+The canonical channel-array symbol `gText_aChannels` binds to Spanish `0x800F0850`,
+and the canonical signed word `gGraphics_nBaseFrameStep` binds to `0x8009C43C`; its explicit
 `u16` view preserves the observed halfword load. Display brightness uses only
 the low byte of the existing `DisplayObject.field_0C` word.
 
@@ -149,8 +149,8 @@ All twelve imports were checked against French resident ownership, not merely
 copied from the Spanish aliases. The ten callable bindings correspond to
 matching French resident functions; `DuelEffect_HasActiveEntry` is bound by
 name at `0x800372E0`, as in the French resident symbol file. The two data bindings agree
-with French `link_symbols.ld`: channel array `D_800EB0F8` at `0x800F0850`
-and frame-step word `D_8009B0D8` at `0x8009C43C`. Complete-image equality
+with French `link_symbols.ld`: channel array `gText_aChannels` at `0x800F0850`
+and frame-step word `gGraphics_nBaseFrameStep` at `0x8009C43C`. Complete-image equality
 also checks their actual encoded uses.
 
 Each of the five local data symbols in the table above has one real,
