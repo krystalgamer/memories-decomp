@@ -60,7 +60,7 @@ segments:
       - [0x136C, c, overlays/model_variant/variant447_rings]
       - [0x18F4, c, overlays/model_variant/variant447_advancing]
       - [0x1EB0, c, overlays/model_variant/variant447_sheets]
-      - [0x2340, c, overlays/model_variant/variant447_webs_slot1]
+      - [0x2340, c, overlays/model_variant/variant447_webs]
       - [0x285C, c, overlays/model_variant/variant447_curtains]
       - [0x2DE8, data, overlays/japanese_model_image_model_48490_8017b000/data]
   - [0x5000]

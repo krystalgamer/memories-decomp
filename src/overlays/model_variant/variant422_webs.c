@@ -13,7 +13,7 @@
 
 /* Header 422's form of the header-398 webs: a line is sorted whenever its
  * depth is positive. */
-void func_8013D36C(u8 *ctx)
+void ModelVariant422_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

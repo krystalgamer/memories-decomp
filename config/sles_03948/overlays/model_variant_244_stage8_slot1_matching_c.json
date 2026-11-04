@@ -28,7 +28,7 @@
       "address": "0x8017D320",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x518",
-      "source": "src/overlays/french_model_variant/variant464_webs_slot1.c"
+      "source": "src/overlays/french_model_variant/variant464_webs.c"
     },
     {
       "address": "0x8017D838",

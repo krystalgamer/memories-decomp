@@ -23,7 +23,7 @@ void FrenchModelVariant447_DrawRings(u8 *context)
     s32 size;
     s32 depth;
 
-    ot = func_80058F10();
+    ot = Rings447_func_80058F10();
     red = 128;
     green = 128;
     blue = 128;
@@ -39,7 +39,7 @@ void FrenchModelVariant447_DrawRings(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[0] = state->origin[0] + (Rings447_rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
             matrix.t[1] = state->origin[1];
             matrix.t[2] = state->origin[2] + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
             scale.vx = (s16)size;
@@ -50,10 +50,10 @@ void FrenchModelVariant447_DrawRings(u8 *context)
             coordinate.super = 0;
             coordinate.flg = 0;
             GsGetLs(&coordinate, &light);
-            GsSetLsMatrix(&light);
+            Rings447_GsSetLsMatrix(&light);
             ReadRotMatrix(&light);
             RotMatrix(&rotation, &light);
-            ScaleMatrix(&light, &scale);
+            Rings447_ScaleMatrix(&light, &scale);
             SetRotMatrix(&light);
             polygon->u0 = 192;
             polygon->v0 = 64;
@@ -71,7 +71,7 @@ void FrenchModelVariant447_DrawRings(u8 *context)
             polygon->g0 = green;
             polygon->b0 = blue;
             if (depth > 0) {
-                GsSortPoly(polygon, ot, (u16)depth);
+                Rings447_GsSortPoly(polygon, ot, (u16)depth);
             }
         }
         if (ring->size[i] < 4096) {

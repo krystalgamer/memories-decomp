@@ -35,4 +35,13 @@ typedef struct {
     s32 phase;
 } Rings447State;
 
+/* The rings body calls five resident routines at the stale addresses its
+ * images were built against, not the ones the header-685 entry in the same
+ * images uses. These names bind those stale addresses in the linker files. */
+GsOT *Rings447_func_80058F10(void);
+int Rings447_rcos(int a);
+void Rings447_GsSetLsMatrix(MATRIX *mp);
+MATRIX *Rings447_ScaleMatrix(MATRIX *m, VECTOR *v);
+void Rings447_GsSortPoly(void *pp, GsOT *ot, unsigned short pri);
+
 #endif
