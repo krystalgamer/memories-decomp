@@ -480,7 +480,7 @@ segments:
       - [0x083164, data, initialized_data_80092964]
       - [0x08C684, .sdata, game/european/main]
       - [0x08C689, pad]
-      - [0x08C68C, .sdata, game/data_8009af10]
+      - [0x08C68C, .sdata, game/european/file_transfer_runtime]
       - [0x08C69C, .sdata, game/duel_ground_projection]
       - [0x08C6A0, .sdata, game/european/duel_battle_stats]
       - [0x08C6A6, .sdata, game/european/debug_effect_screen]
