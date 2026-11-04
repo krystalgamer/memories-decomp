@@ -296,7 +296,6 @@ segments:
       - [0x2c2ac, c, game/japanese/options_screen]
       - [0x2c7a4, c, game/game_over]
       - [0x2c9d0, c, game/japanese/input_pads]
-      - [0x2cbbc, c, game/input_pad1_backup]
       - [0x2cc38, c, game/japanese/save_data_payload]
       - [0x2d0c4, c, game/mem_card_work_initialize_operation]
       - [0x2d0f0, c, game/checkerboard_background]

@@ -782,9 +782,6 @@ segments:
   - - 185720
     - c
     - game/european/input_pads
-  - - 186308
-    - c
-    - game/input_pad1_backup
   - - 186432
     - c
     - game/spanish/save_data_payload

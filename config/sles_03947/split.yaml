@@ -309,7 +309,6 @@ segments:
       - [0x02D0E0, c, game/european/file_request_game_over_package]
       - [0x02D144, c, game/european/game_over]
       - [0x02D378, c, game/european/input_pads]
-      - [0x02D5C4, c, game/input_pad1_backup]
       - [0x02D640, c, game/european/save_data_payload]
       - [0x02DACC, c, game/mem_card_work_initialize_operation]
       - [0x02DAF8, c, game/european/checkerboard_background]

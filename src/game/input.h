@@ -188,7 +188,7 @@ extern u16 gInput_wPad1Repeat;
 #endif
 
 /* Saved pad-1 masks used by the temporary pad-2 swap. Both the backup and the
- * restore path are in input_pad1_backup.c, which owns the COMMON definitions
+ * restore path are in input_pads.c, which defines them in its small data
  * and needs no volatile arm: the unit builds byte-identically without one. */
 extern u16 gInput_wPad1HeldBackup;
 extern u16 gInput_wPad1PressedBackup;
