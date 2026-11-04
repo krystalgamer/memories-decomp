@@ -41,7 +41,8 @@
    d /= TEXT_DECIMAL_RADIX: 1, 1, 10, 100, 1000, 10000, 100000.
 
    The glyph nibble patterns and colour masks follow it. Only Japan's text
-   renderer reads them (DuelEffect entries), but every image carries them. */
+   renderer reads them (DuelEffect entries); the North American image carries
+   them too, but the European images do not. */
 void (*gBuildDeck_apfnStepHandlers[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdatePaneTransition,
@@ -61,6 +62,7 @@ s32 gText_DecimalDivisorView[] = {
     0x000186A0,
 };
 
+#ifndef VERSION_EUROPE
 /* Japan's text renderer expands each glyph nibble through these sixteen
  * patterns and masks the result with the channel's colour. */
 u16 gText_awGlyphNibblePatterns[16] = {
@@ -92,6 +94,7 @@ u16 gText_awGlyphColorMasks[8] = {
     0x3333,
     0x0000,
 };
+#endif
 
 /* Regional values: the confirmation boxes' y and flags (wide 0x78, 0x1028 ->
  * 0x84, 0x1050; narrow 0x60, 0x20 -> 0x6C, 0x40), the fade level (0xA0 ->
