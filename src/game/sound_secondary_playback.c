@@ -26,7 +26,7 @@ int SD_OpenSequence(u8 *input, short vab_id)
     return -1;
 }
 
-void SD_PlaySequence(s32 arg0)
+void SD_PlaySequence(s32 start)
 {
     u8 one = 1;
 
@@ -39,8 +39,8 @@ void SD_PlaySequence(s32 arg0)
     gSD_pSecondaryState->sequence_read_base = gSD_pSecondaryState->sequence_source;
     SD_StartSequenceTracks();
 
-    arg0 = (u16)arg0;
-    if ((arg0 & 0xFF) == 0) {
+    start = (u16)start;
+    if ((start & 0xFF) == 0) {
         gSD_pSecondaryState->sequence_state = 4;
     } else {
         gSD_pSecondaryState->shared_track_updates_enabled = one;

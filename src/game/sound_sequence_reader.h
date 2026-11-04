@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "sound.h"
 
-s32 SD_CompareBytes(u8 *arg0, u8 *arg1, s32 count);
+s32 SD_CompareBytes(u8 *left, u8 *right, s32 count);
 s32 SD_FindMidiTrackChunk(s32 offset);
 s32 SD_ReadSequenceByte(SDSequenceTrack *reader);
 s32 SD_ReadVariableLengthValue(SDSequenceTrack *input);

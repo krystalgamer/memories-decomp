@@ -95,9 +95,9 @@ void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
  * words); the candidate's byte view and its `soff` byte offset are not
  * needed for the match.
  */
-void SD_KeyOnSecondaryNote(arg0, arg1, velocity)
-s32 arg0;
-s32 arg1;
+void SD_KeyOnSecondaryNote(channel_arg, note_arg, velocity)
+s32 channel_arg;
+s32 note_arg;
 u8 velocity;
 {
     s32 channel;
@@ -131,8 +131,8 @@ u8 velocity;
     s32 nb;
     u8 td;
 
-    channel = arg0;
-    note = arg1;
+    channel = channel_arg;
+    note = note_arg;
     hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.vab_header;
     rec = &gSD_pSecondaryState->channels[channel & 0xFF];
     program = rec->program;

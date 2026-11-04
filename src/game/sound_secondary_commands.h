@@ -20,7 +20,7 @@
  * The contiguous SD_SequenceTimerCallback is declared in
  * sound_event_runtime.h because it is installed through the SDK event ABI,
  * rather than dispatched as a sequence command. */
-void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2);
+void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value);
 void SD_SetSequenceChannelProgram(u8 index, s32 value);
 void SD_SetSequenceChannelPitchBendMsb(u8 index, s32 unused, s32 value);
 

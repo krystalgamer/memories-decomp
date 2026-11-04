@@ -32,9 +32,9 @@ void SD_AdvanceSequencePosition(s32 *value, s32 amount);
    the call, and that argument decides the caller's register allocation. */
 void SD_IgnoreSequenceEvent(u8 status);
 
-/* Meta events. `arg1` is the meta type byte the reader has already fetched;
+/* Meta events. `meta_type` is the byte the reader has already fetched;
    end-of-track and tempo are handled, the rest are skipped by length. */
-void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1);
+void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type);
 
 /* Reads the SysEx length and consumes bytes until the terminator. */
 void SD_SkipSequenceSysEx(SDSequenceTrack *input);
