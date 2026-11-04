@@ -160,14 +160,14 @@ void DebugMenu_UpdateCursorLayout(void)
 
     second = first + source->spacing / 2 - 16;
     target->field_40.h.field_40 = second;
-    target->field_30.h.field_30 = second;
+    target->xy.h.x = second;
 
     {
         s32 quotient = index / 10;
         s8 remainder = (s8)(index - quotient * 10);
         third = source->row + remainder * 16;
     }
-    target->field_30.h.field_32 = third;
+    target->xy.h.y = third;
     target->position.h.field_2A = third;
     third += 16;
     target->field_40.h.field_42 = third;

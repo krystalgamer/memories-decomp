@@ -93,7 +93,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -2);
     quad->position.word = 0xE00000;
-    quad->field_30.word = 0xE00140;
+    quad->xy.word = 0xE00140;
     quad->field_38.word = 0x1000000;
     quad->field_40.word = 0x1000140;
     quad->field_3C.word = 0x808080;
@@ -103,7 +103,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     DisplayObject_InitializeGouraudQuad(quad, 0);
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -2);
-    quad->field_30.word = 0x140;
+    quad->xy.word = 0x140;
     quad->position.word = 0;
     quad->field_38.word = 0x100000;
     quad->field_40.word = 0x100140;
@@ -341,21 +341,21 @@ void MainMenu_DrawValueSetup(void)
     } else {
         x = 220;
     }
-    mk->field_30.h.field_30 = x;
-    gMainMenu_apValueSetupCursors[2]->field_30.h.field_32 = 74;
+    mk->xy.h.x = x;
+    gMainMenu_apValueSetupCursors[2]->xy.h.y = 74;
 
     w = gMainMenu_apValueSetupCursors[0];
     if (w->update != 0 || gMainMenu_abValueSetupChoices[0] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = gMainMenu_apValueSetupCursors[0];
         if (w->update == 0) {
-            w->field_30.h.field_30 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            gMainMenu_apValueSetupCursors[0]->field_30.h.field_32 = 111;
+            w->xy.h.x = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            gMainMenu_apValueSetupCursors[0]->xy.h.y = 111;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        gMainMenu_apValueSetupCursors[0]->field_30.h.field_30 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_30;
-        gMainMenu_apValueSetupCursors[0]->field_30.h.field_32 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_32;
+        gMainMenu_apValueSetupCursors[0]->xy.h.x = gMainMenu_apValueSetupCursors[2]->xy.h.x;
+        gMainMenu_apValueSetupCursors[0]->xy.h.y = gMainMenu_apValueSetupCursors[2]->xy.h.y;
     }
 
     w = gMainMenu_apValueSetupCursors[1];
@@ -363,13 +363,13 @@ void MainMenu_DrawValueSetup(void)
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = gMainMenu_apValueSetupCursors[1];
         if (w->update == 0) {
-            w->field_30.h.field_30 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            gMainMenu_apValueSetupCursors[1]->field_30.h.field_32 = 139;
+            w->xy.h.x = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
+            gMainMenu_apValueSetupCursors[1]->xy.h.y = 139;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        gMainMenu_apValueSetupCursors[1]->field_30.h.field_30 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_30;
-        gMainMenu_apValueSetupCursors[1]->field_30.h.field_32 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_32;
+        gMainMenu_apValueSetupCursors[1]->xy.h.x = gMainMenu_apValueSetupCursors[2]->xy.h.x;
+        gMainMenu_apValueSetupCursors[1]->xy.h.y = gMainMenu_apValueSetupCursors[2]->xy.h.y;
     }
 
     setPolyG4(&bar);
@@ -529,8 +529,8 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     s16 remaining;
 
     widget = gMainMenu_apValueSetupCursors[2];
-    targetX = (s16)widget->field_30.h.field_30;
-    targetY = (s16)widget->field_30.h.field_32;
+    targetX = (s16)widget->xy.h.x;
+    targetY = (s16)widget->xy.h.y;
     valueA = gMainMenu_aValueSetupEntries[0].shown;
     valueB = gMainMenu_aValueSetupEntries[1].shown;
     if (o->field_6C == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
@@ -548,10 +548,10 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
         gMainMenu_abValueSetupChoices[o->field_6B] = o->field_6C;
         o->update = 0;
     }
-    o->field_30.h.field_30 =
+    o->xy.h.x =
         (o->field_34.h.field_36 * o->field_60) / 10 +
         (targetX * (10 - o->field_60)) / 10;
-    o->field_30.h.field_32 =
+    o->xy.h.y =
         (o->field_38.h.field_38 * o->field_60) / 10 +
         (targetY * (10 - o->field_60)) / 10;
 }
@@ -608,7 +608,7 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_60 = 0xA;
     object->field_6C = value;
     object->update = (DisplayObjectCallback)MainMenu_UpdateValueWidgetTween;
-    object->field_34.h.field_36 = object->field_30.h.field_30;
-    object->field_38.h.field_38 = object->field_30.h.field_32;
+    object->field_34.h.field_36 = object->xy.h.x;
+    object->field_38.h.field_38 = object->xy.h.y;
 }
 #endif

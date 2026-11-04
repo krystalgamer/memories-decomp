@@ -239,15 +239,15 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
 #endif
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DISPLAY_OBJECT_VIEW(label)->field_67 = 0;
-    DISPLAY_OBJECT_VIEW(label)->field_30.word =
-        DISPLAY_OBJECT_VIEW(object)->field_30.word;
+    DISPLAY_OBJECT_VIEW(label)->xy.word =
+        DISPLAY_OBJECT_VIEW(object)->xy.word;
     DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DISPLAY_OBJECT_VIEW(label)->field_67 = 1;
-    DISPLAY_OBJECT_VIEW(label)->field_30.word =
-        DISPLAY_OBJECT_VIEW(object)->field_30.word;
+    DISPLAY_OBJECT_VIEW(label)->xy.word =
+        DISPLAY_OBJECT_VIEW(object)->xy.word;
     DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
     BUILD_DECK_TRANSITION_STATE_VIEW(state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -297,7 +297,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -3);
     quad->position.word = 0xF80000;
-    quad->field_30.word = 0xF80140;
+    quad->xy.word = 0xF80140;
     quad->field_38.word = 0x1000000;
     quad->field_40.word = 0x1000140;
     quad->field_3C.word = shade;
@@ -308,7 +308,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -3);
     quad->position.word = 0;
-    quad->field_30.word = 0x140;
+    quad->xy.word = 0x140;
     quad->field_38.word = 0x80000;
     quad->field_40.word = 0x80140;
     quad->field_2C.word = shade;

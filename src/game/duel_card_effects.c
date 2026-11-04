@@ -266,8 +266,8 @@ hit:
         gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
-    p->field_00 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_30;
-    p->field_02 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_32;
+    p->field_00 = DISPLAY_OBJECT_VIEW(e->object)->xy.h.x;
+    p->field_02 = DISPLAY_OBJECT_VIEW(e->object)->xy.h.y;
     p->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(e->object)->field_34;
     p->phase = Duel_GetCardEffectVariant((CardObject *)e->object);
     DuelCard_RemoveFromField(e);
@@ -457,8 +457,8 @@ void DuelEffect_ApplyRaigeki(void) {
         if (v != 0) {
             q = DuelEffect_AllocateRequest(0xB);
             q->buffer = (u8 *)q->buffer + gDuel_sEffectWorkCounter * 0x3000;
-            q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_30;
-            q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_32;
+            q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->xy.h.x;
+            q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->xy.h.y;
             q->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(r->object)->field_34;
             q->phase = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
@@ -570,8 +570,8 @@ void DuelEffect_ApplyStatPenalty(void) {
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
         object = DuelEffect_AllocateRequest(0xD);
-        object->field_00 = (s16)card->field_30.h.field_30;
-        object->field_02 = (s16)card->field_30.h.field_32;
+        object->field_00 = (s16)card->xy.h.x;
+        object->field_02 = (s16)card->xy.h.y;
         object->field_04 = (s16)*(u16 *)&card->field_34;
         object->buffer =
             (void *)((s32)object->buffer + ((s16)gDuel_wStepCounter << 14));

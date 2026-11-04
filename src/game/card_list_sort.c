@@ -261,7 +261,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
         row = (list->first + list->cursor + 1) * CARD_LIST_SCROLL_SCALE /
               list->sort_row_count;
     }
-    list->scroll_box->field_30.h.field_32 = row + CARD_LIST_SCROLL_Y_BASE;
+    list->scroll_box->xy.h.y = row + CARD_LIST_SCROLL_Y_BASE;
 
 top:
     if (list->first != list->first_target) {
@@ -303,7 +303,7 @@ top:
     finish:
         if (sel >= 0) {
             list->cursor = sel;
-            list->cursor_box->field_30.h.field_32 =
+            list->cursor_box->xy.h.y =
                 sel * 22 + CARD_LIST_CURSOR_Y_BASE;
             SD_SEPlayFull(6);
         }
@@ -356,7 +356,7 @@ top:
                 list->cursor = 0;
             }
         }
-        list->cursor_box->field_30.h.field_32 =
+        list->cursor_box->xy.h.y =
             list->cursor * 22 + CARD_LIST_CURSOR_Y_BASE;
         if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
             return 1;

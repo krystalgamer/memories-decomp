@@ -315,10 +315,10 @@ void Password_InitShopScreen(void)
     Password_SetDigitCursorTarget((u8 *)o);
     hook = Password_UpdateDigitCursorDecoration;
     slot = gPassword_apDigitCursorDecorations;
-    /* A non-struct store, through the union's address: as o->field_30.word
+    /* A non-struct store, through the union's address: as o->xy.word
        GCC lets the gPassword_pDigitCursorWidget store pass it, and the
        target copies the position first. */
-    *(u32 *)&o->field_30 = *(u32 *)&o->field_18;
+    *(u32 *)&o->xy = *(u32 *)&o->field_18;
     gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
     i = 0;
     do {

@@ -56,7 +56,7 @@ void MainMenu_InitTradeScreen(void)
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -2);
     quad->position.word = 0xF80000;
-    quad->field_30.word = 0xF80140;
+    quad->xy.word = 0xF80140;
     quad->field_38.word = 0x1000000;
     quad->field_40.word = 0x1000140;
     quad->field_3C.word = 0x808080;
@@ -66,7 +66,7 @@ void MainMenu_InitTradeScreen(void)
     DisplayObject_InitializeGouraudQuad(quad, 0);
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -2);
-    quad->field_30.word = 0x140;
+    quad->xy.word = 0x140;
     quad->position.word = 0;
     quad->field_38.word = 0x80000;
     quad->field_40.word = 0x80140;

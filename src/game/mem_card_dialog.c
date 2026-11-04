@@ -1524,8 +1524,8 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 #else
             &gText_aChannels[saved_index],
 #endif
-            (s16)object->field_30.h.field_30,
-            (s16)object->field_30.h.field_32);
+            (s16)object->xy.h.x,
+            (s16)object->xy.h.y);
     }
 
     return object->field_6C;

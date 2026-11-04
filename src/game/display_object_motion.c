@@ -39,7 +39,7 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
     object->field_60 +=
         TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
     if (object->field_60 >= TRIG_ANGLE_HALF_TURN) {
-        object->field_30.word = object->position.word;
+        object->xy.word = object->position.word;
         object->field_20.b.rotation_z = 0;
         if (!object->field_20.b.rotation_y) {
             object->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;

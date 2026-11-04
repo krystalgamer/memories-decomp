@@ -133,17 +133,17 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         if (t->mask & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
             ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_30 =
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.x =
                 t->x1;
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_32 =
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.y =
                 t->y1;
         }
         if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
             ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_30 =
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.x =
                 t->x2;
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_32 =
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.y =
                 t->y2;
             p->entries[2].callback_control = t->callback_index;
             if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE) {

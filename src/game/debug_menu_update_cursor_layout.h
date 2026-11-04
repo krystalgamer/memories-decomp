@@ -30,7 +30,7 @@ struct LayoutSource {
  * #3388 retired that LocalRecord for
  * DisplayObject, which names both -- flags at 0x08, and the four position
  * unions whose halfword pairs are exactly the eight fields LayoutTarget
- * listed: position.h at 0x28/0x2A, field_30.h at 0x30/0x32, field_38.h at
+ * listed: position.h at 0x28/0x2A, xy.h at 0x30/0x32, field_38.h at
  * 0x38/0x3A and field_40.h at 0x40/0x42. So the overlapping witness the old
  * comment said did not exist is now in the tree, and the reason to keep a
  * separate view expired with it.

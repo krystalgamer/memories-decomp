@@ -289,8 +289,8 @@ s32 Library_UpdateCursorMotion(void)
         SD_SEPlayFull(53);
         Library_RefreshSelectedCardText((const LibraryState *)object);
     }
-    object->display_objects.by_role.render->field_30.h.field_30 = object->x;
-    object->display_objects.by_role.render->field_30.h.field_32 = object->y;
+    object->display_objects.by_role.render->xy.h.x = object->x;
+    object->display_objects.by_role.render->xy.h.y = object->y;
     return object->active;
 }
 

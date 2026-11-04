@@ -33,8 +33,8 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         c = 0x20C;
         DisplayObject_ConfigureSpriteAtPosition(
             q,
-            *(s16 *)&gDuel_pActionCard->field_30.h.field_30 - 8,
-            *(s16 *)&gDuel_pActionCard->field_30.h.field_32 + 0x1E,
+            *(s16 *)&gDuel_pActionCard->xy.h.x - 8,
+            *(s16 *)&gDuel_pActionCard->xy.h.y + 0x1E,
             3, one, 2, b, c
         );
         DisplayObject_SelectOrderingTable1(q);
@@ -59,8 +59,8 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(
             q,
-            *(s16 *)&gDuel_pActionCard->field_30.h.field_30 + 0x3C,
-            *(s16 *)&gDuel_pActionCard->field_30.h.field_32 + 0x1E,
+            *(s16 *)&gDuel_pActionCard->xy.h.x + 0x3C,
+            *(s16 *)&gDuel_pActionCard->xy.h.y + 0x1E,
             3, one, 0, b, c
         );
         DisplayObject_SelectOrderingTable1(q);

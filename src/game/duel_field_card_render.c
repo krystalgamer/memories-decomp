@@ -244,7 +244,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
 
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
-        u16 x = ((DisplayObject *)card->object)->field_30.h.field_30;
+        u16 x = ((DisplayObject *)card->object)->xy.h.x;
         volatile SVECTOR *scratch = (volatile SVECTOR *)0x1F8003E0;
 
         scratch->vy = 0;
@@ -352,8 +352,8 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     if ((s8)holder->table_index >= 0xF) {
         rot[0].vy = y + 0x800;
     }
-    lm->t[0] = (s16)obj->field_30.h.field_30;
-    a = (s16)obj->field_30.h.field_32;
+    lm->t[0] = (s16)obj->xy.h.x;
+    a = (s16)obj->xy.h.y;
     lm->t[1] = a;
     d = obj->field_34.h.field_34;
     lm->t[2] = d;

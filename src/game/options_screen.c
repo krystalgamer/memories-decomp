@@ -83,14 +83,14 @@ void Options_UpdateLayout(s32 selection) {
     b = gOptions_pSelectionCursor;
     positions.output_x[1] = 0xC8;
     v = positions.output_x[k];
-    a->field_30.h.field_32 = 0x48;
-    a->field_30.h.field_30 = v;
-    b->field_30.h.field_30 = 0x20;
-    b->field_30.h.field_32 = positions.selection.positions[selection] + 8;
+    a->xy.h.y = 0x48;
+    a->xy.h.x = v;
+    b->xy.h.x = 0x20;
+    b->xy.h.y = positions.selection.positions[selection] + 8;
     if (selection == 0) {
         a->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        b->field_30.h.field_30 = a->field_30.h.field_30 + 8;
-        b->field_30.h.field_32 = a->field_30.h.field_32 + 8;
+        b->xy.h.x = a->xy.h.x + 8;
+        b->xy.h.y = a->xy.h.y + 8;
     } else {
         a->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
     }

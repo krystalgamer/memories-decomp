@@ -382,11 +382,11 @@ void DuelEffect_ApplyRitual(void)
             s16 object_flags;
             gDuel_wTrapPresentationMode |= 0x80;
             object = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
-            object->field_30.h.field_30 = 90;
+            object->xy.h.x = 90;
             /* Negative constants go into these u16 halves through an s16
                view here and below; stored as u16, GCC materialises the
                zero-extended value (li 0xffde) where retail has li -34. */
-            *(s16 *)&object->field_30.h.field_32 = DUEL_RITUAL_CARD_START_Y;
+            *(s16 *)&object->xy.h.y = DUEL_RITUAL_CARD_START_Y;
             object->field_60 = 24;
             attribute = object->attribute;
             object_flags = object->flags;
@@ -410,7 +410,7 @@ void DuelEffect_ApplyRitual(void)
             s16 object_flags;
             object->field_44.h.field_46 = 4096;
             object->field_44.h.field_44 = 4096;
-            object->field_30.h.field_32 = DUEL_RITUAL_CARD_REST_Y;
+            object->xy.h.y = DUEL_RITUAL_CARD_REST_Y;
             gDuel_wTrapPresentationMode = 2;
             attribute = object->attribute | 0x08000000;
             object_flags = object->flags & 0xFFFB;
@@ -496,7 +496,7 @@ void DuelEffect_ApplyRitual(void)
             gDuel_bCardMoveSlot, ((DuelDeckCardRecord *)card->data)->deck_index);
         object = card->object;
         gDisplayObject_apWorkSlots.slots[0] = object;
-        *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
+        *(s16 *)&object->xy.h.y = -DUEL_RITUAL_SCREEN_HEIGHT;
         if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
             card->flags &= ~0x200;
             if (rand() & 1)
@@ -568,11 +568,11 @@ state_five:
             object->field_60 = -1024;
         }
         Widget_SlideSine((DisplayObjectPosition *)object,
-            (s16)object->field_30.h.field_30, -24, object->field_60);
+            (s16)object->xy.h.x, -24, object->field_60);
         phase = (u16)object->field_60 + 42;
         object->field_60 = phase;
         if (phase >= 0) {
-            *(s16 *)&object->field_30.h.field_32 = -24;
+            *(s16 *)&object->xy.h.y = -24;
 done:
             gDuel_wCardEffectFlags = 0;
         }

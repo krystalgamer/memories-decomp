@@ -93,7 +93,7 @@
    (field_2C/field_2E) at DUEL_RESULT_ORBIT_ANGLE_STEP per frame, with radius
    the object's field_28 (which also serves as its countdown timer -- it decays
    by 2/frame). When the timer reaches 0: clears field_6C/update, snaps the
-   current position (field_30/field_32) back to the base position in one 32-bit
+   current position (xy.h.x/xy.h.y) back to the base position in one 32-bit
    copy, and returns. Otherwise, while gGraphics_dwSyncedFrameCount's bit 0 is set, spawns a
    companion slot object at the object's current position (tagged via
    sub_table_lookup_set_flag using depth_offset-1), then advances the angle and
@@ -110,15 +110,15 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     if (timer <= 0) {
         arg0->field_6C = 0;
         arg0->update = 0;
-        arg0->field_30.word = arg0->field_2C.word;
+        arg0->xy.word = arg0->field_2C.word;
         return;
     }
 
     if (gGraphics_dwSyncedFrameCount & 1) {
         slot = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         if (slot != 0) {
-            DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->field_30.h.field_30,
-                                   (s16)arg0->field_30.h.field_32, 0,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->xy.h.x,
+                                   (s16)arg0->xy.h.y, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
                                    gDisplay_abResourceBank0);
             slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
@@ -133,11 +133,11 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
 
     angle = arg0->position.h.field_2A + DUEL_RESULT_ORBIT_ANGLE_STEP;
     arg0->position.h.field_2A = angle;
-    arg0->field_30.h.field_30 =
+    arg0->xy.h.x =
         (s16)arg0->field_2C.h.field_2C +
         rcos((s16) angle) * (s16)arg0->position.h.field_28 / ONE;
     vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
-    arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
+    arg0->xy.h.y = arg0->field_2C.h.field_2E + vy / ONE;
 }
 
 void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
@@ -235,14 +235,14 @@ void DuelScene_UpdateResultOutro(void)
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
-        obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
+        obj->position.h.field_2A = (s16)obj->xy.h.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x198;
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
         gDuel_bSceneSubStep = 1;
-        obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
+        obj->position.h.field_2A = (s16)obj->xy.h.y;
         return;
     }
 
@@ -339,7 +339,7 @@ void DuelScene_UpdateResultOutro(void)
                     obj->field_48.h.field_48 = spec->tag;
                     obj->field_48.h.field_4A = 0x18;
                     DisplayObject_SelectOrderingTable1(obj);
-                    obj->field_2C.word = obj->field_30.word;
+                    obj->field_2C.word = obj->xy.word;
                     obj->position.h.field_28 = (rand() & 0x3F) + 0x140;
                     obj->position.h.field_2A =
                         Rand_GetInterval(TRIG_ANGLE_FULL_TURN);

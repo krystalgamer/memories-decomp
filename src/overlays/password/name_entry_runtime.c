@@ -220,9 +220,9 @@ void NameEntry_Init(void)
     gNameEntry_bCaretPos = 0;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     gNameEntry_wCursorTargetX = 22;
-    obj->field_30.h.field_30 = 22;
+    obj->xy.h.x = 22;
     gNameEntry_wCursorTargetY = 24;
-    obj->field_30.h.field_32 = 24;
+    obj->xy.h.y = 24;
     obj->field_3C.h.field_3C = 16;
     obj->field_3C.h.field_3E = 16;
     DisplayObject_SelectOrderingTable1(obj);
@@ -394,7 +394,7 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     object->field_38.h.field_38 =
         DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
     DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
-    if ((s16)object->field_30.h.field_32 >= NAME_ENTRY_FRAGMENT_BOTTOM) {
+    if ((s16)object->xy.h.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
     }
 }
@@ -422,8 +422,8 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                     DisplayObject *glyph = (DisplayObject *)object;
 
                     DisplayObject_ConfigureScreenSprite(piece,
-                                  (s16)glyph->field_30.h.field_30 + dx,
-                                  (s16)glyph->field_30.h.field_32 + dy,
+                                  (s16)glyph->xy.h.x + dx,
+                                  (s16)glyph->xy.h.y + dy,
                                   4, 4,
                                   *(u8 *)&glyph->field_5C + dx,
                                   ((u8 *)&glyph->field_5C)[1] + dy,
@@ -462,11 +462,11 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
         object->field_34.h.field_36 =
             ((object->field_44.h.field_44 -
-              (s16)object->field_30.h.field_30) << 8) /
+              (s16)object->xy.h.x) << 8) /
             object->field_60;
         object->field_38.h.field_38 =
             ((object->field_44.h.field_46 -
-              (s16)object->field_30.h.field_32) << 8) /
+              (s16)object->xy.h.y) << 8) /
             object->field_60;
     }
     DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
@@ -475,7 +475,7 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
     if (remaining <= 0) {
         object->update = 0;
         object->field_6C = 0;
-        object->field_30.word = object->field_44.word;
+        object->xy.word = object->field_44.word;
     }
 }
 #endif
@@ -497,10 +497,10 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         g->field_6C |= 0x80;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)g);
         g->field_34.h.field_36 =
-            ((g->field_44.h.field_44 - (s16)g->field_30.h.field_30) << 8) /
+            ((g->field_44.h.field_44 - (s16)g->xy.h.x) << 8) /
             g->field_60;
         g->field_38.h.field_38 =
-            ((g->field_44.h.field_46 - (s16)g->field_30.h.field_32) << 8) /
+            ((g->field_44.h.field_46 - (s16)g->xy.h.y) << 8) /
             g->field_60;
     }
     if ((g->field_6C & 0x40) != 0) {
@@ -517,7 +517,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     if ((s16)n > 0) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o,
-                      (s16)g->field_30.h.field_30, (s16)g->field_30.h.field_32,
+                      (s16)g->xy.h.x, (s16)g->xy.h.y,
 #ifdef VERSION_EUROPE
                       (u16)g->field_3C.h.field_3C,
                       (u16)g->field_3C.h.field_3E,
@@ -538,10 +538,10 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         return;
     }
     g->field_6C |= 0x40;
-    /* A non-struct store, through the union's address. As g->field_30.word
+    /* A non-struct store, through the union's address. As g->xy.word
        GCC sinks it below the timer reload in the call that follows; the
        target stores the position first. */
-    *(u32 *)&g->field_30 = g->field_44.word;
+    *(u32 *)&g->xy = g->field_44.word;
     /* Keep the timer reload inside the final argument; its expression
        placement controls the retail argument-setup order. It goes through
        the parameter rather than g: with every access on g, GCC gives w and
@@ -760,7 +760,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;
     object->field_60 = arg;
-    object->field_44.h.field_46 = object->field_30.h.field_32;
+    object->field_44.h.field_46 = object->xy.h.y;
     SD_SEPlayFull(0xC);
     return 1;
 }

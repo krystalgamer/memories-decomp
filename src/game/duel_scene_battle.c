@@ -152,14 +152,14 @@ void DuelScene_UpdateBattle(void)
         o->field_2C.h.field_2C = w;
         o->field_6C = one;
         o->update = cb;
-        o->position.h.field_2A = o->field_30.h.field_32;
+        o->position.h.field_2A = o->xy.h.y;
         o = gDuel_pLifePointsPanel;
         h = 0x18;
         o->position.h.field_28 = 0x198;
         o->field_2C.h.field_2C = w;
         o->field_6C = one;
         o->update = cb;
-        o->position.h.field_2A = o->field_30.h.field_32;
+        o->position.h.field_2A = o->xy.h.y;
         o = slots[0];
         o->position.h.field_28 = 0x38;
         o->position.h.field_2A = y;
@@ -249,8 +249,8 @@ void DuelScene_UpdateBattle(void)
             o = (DisplayObject *)CardPreview_CreateResourceObjects(0, result & 0xFFFF, result >> 16);
             effects = gCardPreview_Resources;
             effects[0].stat_palette_flags |= 0x40;
-            o->field_30.h.field_30 = 0xA;
-            o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
+            o->xy.h.x = 0xA;
+            o->xy.h.y = DUEL_BATTLE_STAT_DISPLAY_Y;
             o->field_20.b.rotation_y = 0xC0;
             DisplayObject_SetDepthOffset(o, -0xA);
             o->flags = (o->flags | 4) & 0xFFBF;
@@ -274,8 +274,8 @@ void DuelScene_UpdateBattle(void)
                 o = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             }
             if (o != 0) {
-                o->field_30.h.field_30 = 0xAA;
-                o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
+                o->xy.h.x = 0xAA;
+                o->xy.h.y = DUEL_BATTLE_STAT_DISPLAY_Y;
                 o->field_20.b.rotation_y = 0xC0;
                 DisplayObject_SetDepthOffset(o, -0xA);
                 o->flags = (o->flags | 4) & 0xFFBF;
@@ -426,11 +426,11 @@ void DuelScene_UpdateBattle(void)
                         u8 t = gDuel_bSceneSubStep;
 
                         gDuelEffect_pTrackedRequest = req;
-                        pos = side->field_30.h.field_30;
+                        pos = side->xy.h.x;
                         pos += 0x46;
                         req->field_00 = pos;
                         gDuel_wStepCounter = 0;
-                        arg = side->field_30.h.field_32;
+                        arg = side->xy.h.y;
                         arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                         req->field_02 = arg;
                         pos = result - 1;
@@ -548,14 +548,14 @@ void DuelScene_UpdateBattle(void)
             side = gDisplayObject_apWorkSlots[ix + 2];
             if (!(flags & 0x80)) {
                 gDuel_bSceneSubStep = flags | 0xC0;
-                *(u32 *)&side->position = *(u32 *)&side->field_30;
+                *(u32 *)&side->position = *(u32 *)&side->xy;
                 wins = gDuel_abBattleOutcome;
                 if (wins[ix] != 0) {
                     req =
                         DuelEffect_AllocateRequest(2);
-                    req->field_00 = side->field_30.h.field_30 + 0x46;
+                    req->field_00 = side->xy.h.x + 0x46;
                     req->field_02 =
-                        side->field_30.h.field_32 +
+                        side->xy.h.y +
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                     result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
                     gDuelEffect_pTrackedRequest = req;
@@ -586,14 +586,14 @@ void DuelScene_UpdateBattle(void)
                 if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
                     f &= 0xBF;
                     gDuel_bSceneSubStep = f;
-                    *(u32 *)&side->field_30 = side->position.word;
+                    *(u32 *)&side->xy = side->position.word;
                     gDuel_wStepCounter = 0xA;
                     return;
                 }
                 if (!(f & 0x20) &&
                     gDuelEffect_pTrackedRequest->progress != 0) {
-                    side->field_30.h.field_30 = side->position.h.field_28 + ((rand() & 3) - 2);
-                    side->field_30.h.field_32 = side->position.h.field_2A + ((rand() & 3) - 2);
+                    side->xy.h.x = side->position.h.field_28 + ((rand() & 3) - 2);
+                    side->xy.h.y = side->position.h.field_2A + ((rand() & 3) - 2);
                     return;
                 }
             } else {
@@ -641,9 +641,9 @@ void DuelScene_UpdateBattle(void)
             SD_SEPlayFull(0x1B);
             req = DuelEffect_AllocateRequest(3);
             gDuelEffect_pTrackedRequest = req;
-            req->field_00 = side->field_30.h.field_30 + 0x46;
+            req->field_00 = side->xy.h.x + 0x46;
             req->field_02 =
-                side->field_30.h.field_32 +
+                side->xy.h.y +
                 DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
             if (gDuel_wSelectedTrapCardId != 0) {
                 req->phase = 1;
@@ -699,13 +699,13 @@ void DuelScene_UpdateBattle(void)
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;
             o->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlideWithRollReset;
-            o->position.h.field_2A = o->field_30.h.field_32;
+            o->position.h.field_2A = o->xy.h.y;
             o = gDuel_pLifePointsPanel;
             o->position.h.field_28 = 0x118;
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;
             o->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlideWithRollReset;
-            o->position.h.field_2A = o->field_30.h.field_32;
+            o->position.h.field_2A = o->xy.h.y;
         }
         if (!(gDuel_bSceneSubStep & 0x40)) {
             o = gDisplayObject_apWorkSlots[2];

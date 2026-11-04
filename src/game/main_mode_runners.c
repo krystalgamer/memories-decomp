@@ -324,8 +324,8 @@ void Main_RunTrade(void)
         );
         TextBox_SetPos(
             box,
-            *(s16 *)&obj->field_30.h.field_30 + 0x18,
-            *(s16 *)&obj->field_30.h.field_32 + MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
+            *(s16 *)&obj->xy.h.x + 0x18,
+            *(s16 *)&obj->xy.h.y + MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
         );
         if (obj->field_60 <= 0) {
             gMain_bModeRunnerStep = 0;

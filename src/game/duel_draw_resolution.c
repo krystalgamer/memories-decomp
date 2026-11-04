@@ -79,17 +79,17 @@ void Duel_UpdateDrawCardSlide(DisplayObject *o)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2C = 0x400 / o->field_60;
-        o->position.h.field_28 = o->field_30.h.field_30 - 0x140;
+        o->position.h.field_28 = o->xy.h.x - 0x140;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
         o->field_60 = -0x400;
     }
     Widget_SlideSine((DisplayObjectPosition *)o, (s16)o->position.h.field_28,
-                  (s16)o->field_30.h.field_32, o->field_60);
+                  (s16)o->xy.h.y, o->field_60);
     o->field_60 += o->field_2C.h.field_2C;
     if (o->field_60 >= 0) {
         o->update = 0;
         o->field_6C = 0;
-        o->field_30.h.field_30 = (s16)o->position.h.field_28;
+        o->xy.h.x = (s16)o->position.h.field_28;
     }
 }
 
@@ -252,13 +252,13 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
-        obj->position.h.field_2A = obj->field_30.h.field_32;
+        obj->position.h.field_2A = obj->xy.h.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x180;
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
-        obj->position.h.field_2A = obj->field_30.h.field_32;
+        obj->position.h.field_2A = obj->xy.h.y;
         rec = (u8 *)gDuelHand_aSlots;
 next_obj:
         obj = *(DisplayObject **)rec;
@@ -346,9 +346,9 @@ next_obj:
         k = gDuel_bPresentationCursor;
         slot = &gDisplayObject_apWorkSlots[k];
         d = *slot;
-        fx->field_00 = (s16)(d->field_30.h.field_30 + 0x1A);
+        fx->field_00 = (s16)(d->xy.h.x + 0x1A);
         d = *slot;
-        fx->field_02 = (s16)(d->field_30.h.field_32 + 0x1E);
+        fx->field_02 = (s16)(d->xy.h.y + 0x1E);
         sum = (k << 12) + 0xA000;
         anim = (s32)fx->buffer + sum;
         fx->buffer = (void *)anim;
@@ -398,8 +398,8 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     }
 
     buf = gDuel_abCardStagingBuffer;
-    gGraphics_aImageTransferRects[0].x = o->field_30.h.field_30 + xoff;
-    gGraphics_aImageTransferRects[0].y = o->field_30.h.field_32;
+    gGraphics_aImageTransferRects[0].x = o->xy.h.x + xoff;
+    gGraphics_aImageTransferRects[0].y = o->xy.h.y;
     gGraphics_aImageTransferRects[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     gGraphics_aImageTransferRects[0].h = DUEL_CARD_READBACK_HEIGHT;
     StoreImage2(&gGraphics_aImageTransferRects[0], DUEL_CARD_READBACK_WORDS(buf));

@@ -43,8 +43,8 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
     if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-        object->field_30.h.field_30 = 160;
-        object->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
+        object->xy.h.x = 160;
+        object->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
         object->field_48.h.field_48 = 128;
         object->field_48.h.field_4A = 224;
         DisplayObject_SelectOrderingTable1(object);
@@ -104,8 +104,8 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
             );
             TextBox_SetPos(
                 entry,
-                *(s16 *)&object->field_30.h.field_30,
-                *(s16 *)&object->field_30.h.field_32
+                *(s16 *)&object->xy.h.x,
+                *(s16 *)&object->xy.h.y
             );
         }
     }
@@ -136,8 +136,8 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         gDialog_bCallbackState =
             gDialog_bCallbackState | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-        p->field_30.h.field_30 = 0xA0;
-        p->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
+        p->xy.h.x = 0xA0;
+        p->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
         p->field_48.h.field_48 = 0x80;
         p->field_48.h.field_4A = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
@@ -159,8 +159,8 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         do {
             TextBox_UpdateChannels();
         } while (r->prompt_object == 0);
-        TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
-                       *(s16 *)&p->field_30.h.field_32);
+        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
+                       *(s16 *)&p->xy.h.y);
     }
     f = gDialog_bCallbackState;
     if ((f & 0x20) != 0) {
@@ -192,15 +192,15 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         v = t + 0x40;
         p->field_60 = v;
         if ((s16)v >= 0) {
-            p->field_30.h.field_30 = DIALOG_BOX_X;
+            p->xy.h.x = DIALOG_BOX_X;
             p->field_60 = 0;
-            p->field_30.h.field_32 = 0x50;
+            p->xy.h.y = 0x50;
         } else {
             Widget_SlideSine(
                 DISPLAY_OBJECT_POSITION_VIEW(p), DIALOG_BOX_X, 0x50, (s16)v);
         }
-        TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
-                       *(s16 *)&p->field_30.h.field_32);
+        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
+                       *(s16 *)&p->xy.h.y);
     }
     p = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     p->field_48.h.field_4A = *(u16 *)&p->field_48.h.field_4A - 8;
@@ -249,8 +249,8 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
             TextBox_UpdateChannels();
         } while (q->prompt_object == 0);
         TextBox_SetPos(q,
-                       *(s16 *)&e->field_30.h.field_30,
-                       *(s16 *)&e->field_30.h.field_32);
+                       *(s16 *)&e->xy.h.x,
+                       *(s16 *)&e->xy.h.y);
     }
 
     e = (DisplayObject *)record->grid[0][0];
@@ -274,8 +274,8 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
         v = *(u16 *)&e->field_60 + 0x20;
         e->field_60 = v;
         if ((s16)v >= 0) {
-            *(s16 *)&e->field_30.h.field_30 = DIALOG_BOX_X;
-            *(s16 *)&e->field_30.h.field_32 = 0x50;
+            *(s16 *)&e->xy.h.x = DIALOG_BOX_X;
+            *(s16 *)&e->xy.h.y = 0x50;
             h = q->flags_34;
             gDialog_bCallbackState = g | 0x40;
             q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
@@ -283,7 +283,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
             Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(q,
-                       *(s16 *)&e->field_30.h.field_30,
-                       *(s16 *)&e->field_30.h.field_32);
+                       *(s16 *)&e->xy.h.x,
+                       *(s16 *)&e->xy.h.y);
     }
 }

@@ -229,7 +229,7 @@ sign-extension or truncation. This does not clamp or validate coordinates.
 
 The public parameter stays an opaque `void *`. Inside the function a local
 `DisplayObject *o` views it, and the two stores go through
-`o->field_30.h.field_30` and `o->field_30.h.field_32`. The unchanged
+`o->xy.h.x` and `o->xy.h.y`. The unchanged
 `object` pointer is what gets forwarded to `DisplayObject_ConfigureSpriteResource`. No new aggregate
 layout, null check, allocation or rendering submission is introduced. The
 delegate's existing selector-byte, packed-configuration and flag writes
@@ -588,6 +588,38 @@ per-caller countdown or easing amount, with no single unit or direction.
 `+0x2C` is a colour word for the pulse widget and some other packed value
 elsewhere. No field is renamed. Duel callbacks such as
 `Duel_UpdateDrawCardSlide` were not visited on this route.
+
+## Named members: pool index, list key and draw position
+
+Three more `DisplayObject` members have one reading at every typed user,
+so they take names. The renames are spelling only: widths, signedness,
+offsets and the `+0x30` union's layout are unchanged, and every image
+still matches byte for byte. Other records' `field_0A`, `field_1E` and
+`field_30` (for example `FileTransferDescriptor.field_30`,
+`DisplayObjectSnapshot` and the private position views) are not renamed.
+
+| Offset | Old | New | Evidence | Confidence | Uses |
+|---|---|---|---|---|---|
+| `+0x0A` | `field_0A` | `pool_index` | `DisplayObject_AcquireSlot` stores the slot's own pool index; `DisplayObject_MoveToListHead` writes it into `gDisplayObject_awListKeys`, the neighbour's `previous` and the list head; `Duel_GetOrCreateActionReadyMarker` copies it into the `+0x6A` byte that `DisplayObject_ProjectLinkedGroundPosition` indexes `gDisplayObject_aPool` by | high | 5 accesses, 2 files |
+| `+0x1E` | `field_1E` | `list_key` | `DisplayObject_AcquireSlot` stores its `key` argument, the list-head and renderer-table index; `DisplayObject_Release` unlinks the list head through it; `TextBox_SetPos` compares it with 4, the Gouraud-quad list | high | 4 accesses, 2 files |
+| `+0x30` | union `field_30`, halves `h.field_30`/`h.field_32` | union `xy`, halves `h.x`/`h.y` | Both sprite renderers copy the word into `SpritePrim.xy` (`GsSPRITE` x/y) and subtract the viewport origin from its halves unless the object is screen-space; `DisplayObject_ProjectGroundPosition` stores the projected screen pair with `gte_stsxy`; `DisplayObject_ConfigureScreenSprite` and `DisplayObject_ConfigureSpriteAtPosition` store their `x`/`y` arguments; `DisplayObject_RenderGouraudQuadList` sends the word as a vertex x/y | high | about 370 accesses in about 65 files (158 `h.x`, 172 `h.y`, 33 `word`, the rest whole-union addresses) |
+
+One reader does not take `+0x30` as a coordinate:
+`DisplayObject_RenderTexturedGouraudQuadList` copies its low halfword into
+the first vertex's u/v. That renderer serves list 5, and no C caller
+acquires an object on that list, so the exception is recorded in the
+header comment rather than blocking the name.
+
+### Members left at their offsets
+
+| Offset | Why it keeps its name |
+|---|---|
+| `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `display_object_property_transitions.c` (see the observed values above). |
+| `+0x40` | `cx`/`cy` (CLUT) for sprites, the fourth vertex x/y for Gouraud quads and a half-size pair in the dialog and duel layout code. |
+| `+0x60` | A per-caller countdown, phase or easing amount with no single unit or direction. |
+| `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck_card_transfer_icon.c` and a u/v for the textured-quad second submission. |
+| `+0x18`/`+0x1A`, `+0x3C`, `+0x48` | Each reads as a sprite pivot or extent in the renderers, but as quad vertices or colours for other list kinds, and `+0x3C`'s width/height order is contested between `DisplayObject_ConfigureScreenSprite` and the strip renderer. |
+| `+0x6A` | The linked object's pool index for the action-ready marker, but a card-record index for duel cards. |
 
 ## Evidence boundary
 

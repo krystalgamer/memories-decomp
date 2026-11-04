@@ -120,8 +120,8 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_54 = tail_data_start;
         slot->field_6C = 0;
         slot->update = 0;
-        slot->field_1E = key;
-        slot->field_0A = index;
+        slot->list_key = key;
+        slot->pool_index = index;
         slot->field_0B = 0;
         slot->rgb = 0x00808080;
         slot->field_20.word = 0;
@@ -149,7 +149,7 @@ void DisplayObject_Release(DisplayObject *slot)
     gDisplayObject_wUnlinkCount++;
 
     if (first < 0) {
-        s16 index = slot->field_1E;
+        s16 index = slot->list_key;
         gDisplayObject_awListHeads[index] = second;
         if (second >= 0) {
             gDisplayObject_aPool[second].previous = -1;
@@ -172,15 +172,15 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     DisplayObject_Release(slot);
     v = gDisplayObject_awListHeads[key];
     if (v < 0) {
-        gDisplayObject_awListKeys[key] = slot->field_0A;
+        gDisplayObject_awListKeys[key] = slot->pool_index;
         slot->next = -1;
         slot->previous = -1;
     } else {
-        gDisplayObject_aPool[v].previous = slot->field_0A;
+        gDisplayObject_aPool[v].previous = slot->pool_index;
         slot->next = gDisplayObject_awListHeads[key];
     }
     slot->previous = -1;
-    gDisplayObject_awListHeads[key] = slot->field_0A;
+    gDisplayObject_awListHeads[key] = slot->pool_index;
     slot->flags = saved;
 }
 
@@ -262,8 +262,8 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 res
 {
     DisplayObject *o = object;
 
-    o->field_30.h.field_30 = x;
-    o->field_30.h.field_32 = y;
+    o->xy.h.x = x;
+    o->xy.h.y = y;
     DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
@@ -284,8 +284,8 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 
     object->field_3C.h.field_3C = height;
     half_height = height / 2;
-    object->field_30.h.field_30 = x;
-    object->field_30.h.field_32 = y;
+    object->xy.h.x = x;
+    object->xy.h.y = y;
     object->field_18 = half_height;
     object->field_48.h.field_48 = half_height;
 
@@ -346,7 +346,7 @@ void DisplayObject_RenderSpriteList(void) {
                 p->attribute = e->attribute;
                 idx = e->ot_index;
                 p->rgb = e->rgb;
-                p->xy.word = e->field_30.word;
+                p->xy.word = e->xy.word;
                 p->extent.word = e->field_3C.word;
                 p->cxcy.word = e->field_40.word;
                 p->uv.word = e->field_5C;

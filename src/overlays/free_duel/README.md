@@ -88,7 +88,7 @@ preserve those calculations. Conversely, the tween countdown retains a
 `u8` before its final `s8` conversion. These are local numeric interpretations
 of shared fields, not competing declarations of the objects.
 
-The position trail copy uses `field_30.word`, keeping the original single
+The position trail copy uses `xy.word`, keeping the original single
 word transfer while cursor placement and scrolling use the halfword members.
 The initializer and constructor write only the high byte of `field_5E`
 through `((u8 *)&object->field_5E)[1]`; this preserves the byte at `+0x5F`
@@ -224,8 +224,8 @@ cursor's offset within the visible window between `0x28` and `0x90`, pushing
 positions the scrollbar thumb with
 
 ```c
-gFreeDuel_pThumbWidget->field_30.h.field_32 =
-    ((s16)cursor->field_30.h.field_32 - 0x28) * 72 / 364 + 7;
+gFreeDuel_pThumbWidget->xy.h.y =
+    ((s16)cursor->xy.h.y - 0x28) * 72 / 364 + 7;
 ```
 
 The `364` in that expression is exactly `7 * 52` — the row pitch times

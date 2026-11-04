@@ -135,8 +135,8 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     s32 n;
     u32 attr;
 
-    x0 = (s16)obj->field_30.h.field_30;
-    y0 = (s16)obj->field_30.h.field_32;
+    x0 = (s16)obj->xy.h.x;
+    y0 = (s16)obj->xy.h.y;
     attr = obj->attribute;
 #ifdef VERSION_EUROPE
     sprite->tpage = 0xA;

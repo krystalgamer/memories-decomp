@@ -174,8 +174,8 @@ void DebugEffect_UpdatePreview(void) {
             CardPreview_RequestResourceTransfer(0, 1);
             File_WaitForTransfers();
             obj = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
-            obj->field_30.h.field_30 = 0x5A;
-            obj->field_30.h.field_32 = DEBUG_EFFECT_PAGE1_FIELD_32;
+            obj->xy.h.x = 0x5A;
+            obj->xy.h.y = DEBUG_EFFECT_PAGE1_FIELD_32;
             Main_AdvanceFrames(4);
             DuelCard_CaptureRoundedTexture(obj);
             break;

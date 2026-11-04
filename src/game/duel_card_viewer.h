@@ -44,7 +44,7 @@ extern u16 gDuel_wViewerCardID;
  * DuelEffect_UpdateCardViewerState is the consumer:
  *
  *     adj = gDuel_bCardViewerYOffset;
- *     obj->field_30.h.field_32 += adj;
+ *     obj->xy.h.y += adj;
  *     DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148,
  *                  gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
  *
