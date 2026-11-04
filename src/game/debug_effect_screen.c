@@ -84,11 +84,11 @@ void DebugEffect_UpdateViewControls(void) {
         if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
             a = 0x10;
         }
-        v = gViewState_Current.field_00 + a;
+        v = gViewState_Current.distance + a;
         if ((gInput_wPad1Repeat & PAD_BUTTON_L1) != 0) {
             v -= a * 2;
         }
-        gViewState_Current.field_00 = v;
+        gViewState_Current.distance = v;
         ViewState_ApplyOrbit();
     }
 
@@ -116,7 +116,7 @@ void DebugEffect_UpdateViewControls(void) {
                 v = 0x80;
             }
             y = b->angle;
-            x = b->field_04;
+            x = b->orbit_angle;
             if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
                 x += v;
             }
@@ -131,7 +131,7 @@ void DebugEffect_UpdateViewControls(void) {
             }
             c = &gViewState_Current;
             c->angle = y;
-            c->field_04 = x;
+            c->orbit_angle = x;
         }
         ViewState_ApplyOrbit();
     }

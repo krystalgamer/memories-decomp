@@ -190,7 +190,7 @@ void DuelScene_UpdateStartup(void)
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Duel_RequestCombinedDeckData();
-        gViewState_Current.field_00 = 0x4B0;
+        gViewState_Current.distance = 0x4B0;
         w[2] = 0x358;
         w[1] = 0x16C0;
         ViewState_ApplyOrbit();
@@ -201,11 +201,11 @@ void DuelScene_UpdateStartup(void)
 
     switch (gDuel_bSceneSubStep & 0x1F) {
     case 2:
-        gViewState_Current.field_00 -= 2;
+        gViewState_Current.distance -= 2;
         w[2] -= 2;
         w[1] -= 0x10;
         if ((s16)w[1] <= 0x400) {
-            gViewState_Current.field_00 = 0x258;
+            gViewState_Current.distance = 0x258;
             w[2] = 0x100;
             w[1] = 0x400;
             gDuel_bSceneSubStep = 3;

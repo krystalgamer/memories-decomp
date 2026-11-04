@@ -16,9 +16,9 @@ void ViewState_ResetDefaults(void)
        instruction short of retail; the original clearly had a cursor here. */
     s32 *words = (s32 *)&s->view.vpx;
 
-    s->field_00 = 0x258;
+    s->distance = 0x258;
     s->angle = 0x400;
-    s->field_04 = 0x100;
+    s->orbit_angle = 0x100;
     s->field_0C = 0;
     s->view.rz = 0;
     s->view.super = 0;
