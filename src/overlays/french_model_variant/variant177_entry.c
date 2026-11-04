@@ -45,7 +45,7 @@ s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant177_D1200[command % 100];
+        config = work->config = &gFrenchModelVariant177_aConfigs[command % 100];
         point = work->ribbon;
         origin = work->ribbon + 17;
         for (i = 0; i < 17; point++, origin++, i++) {

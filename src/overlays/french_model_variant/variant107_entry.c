@@ -34,7 +34,7 @@ s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     value = 0;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant107_D1198[command];
+        config = work->config = &gFrenchModelVariant107_aConfigs[command];
         point = work->ring;
         for (i = 0; i < 17; point++, i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;

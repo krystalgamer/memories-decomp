@@ -3,7 +3,7 @@
 Refs #6460. Both game-owned `0x2384`-byte entries are matching pure C under
 `gcc_2_8_1_g0_split` (GCC 2.8.1 and MASPSX 2.81). Both slots build the same
 source; each image's symbols file binds `FrenchModelVariant789_HandleRequest`
-and the three image-tail names (`gFrenchModelVariant789_D2388`, `_D2398`,
+and the three image-tail names (`gFrenchModelVariant789_D2388`, `_aImages`,
 `_D23D0`) at its own addresses. Both normal
 production builds reproduce the complete original 20,480-byte images. The
 four-byte headers and raw suffixes beginning at image offset `0x2388` are

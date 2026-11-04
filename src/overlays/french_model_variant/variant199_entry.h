@@ -37,7 +37,7 @@ typedef struct {
 
 extern const VECTOR gFrenchModelVariant199_D1594;
 extern GsIMAGE gFrenchModelVariant199_D15A4[];
-extern Model199Config gFrenchModelVariant199_D1630[];
+extern Model199Config gFrenchModelVariant199_aConfigs[];
 s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command);
 
 #endif

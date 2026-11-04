@@ -39,7 +39,7 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant144_D0EDC[command % 100];
+        config = work->config = &gFrenchModelVariant144_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < 64; point++, i++) {
             value = config->radius + (rand() % config->radius) / 2;

@@ -35,7 +35,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant199_D1630[command];
+        config = work->config = &gFrenchModelVariant199_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex() ^ 1, &adjustment);
         point = work->rays;
         for (i = 128; i > 0; point++, i--) {

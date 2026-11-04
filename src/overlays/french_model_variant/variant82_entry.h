@@ -29,7 +29,7 @@ typedef struct {
 } Model82State;
 
 extern GsIMAGE gFrenchModelVariant82_D0DF4[];
-extern Model82Config gFrenchModelVariant82_D0E10[];
+extern Model82Config gFrenchModelVariant82_aConfigs[];
 s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -3,7 +3,7 @@
 The header-87 entry has an exact C implementation in
 `src/overlays/french_model_variant/variant87_entry.c`. Header 217 builds the
 same source; each image's symbols file binds
-`FrenchModelVariant87_HandleRequest` and `gFrenchModelVariant87_D0A1C` at its
+`FrenchModelVariant87_HandleRequest` and `gFrenchModelVariant87_aConfigs` at its
 own addresses. The existing named
 `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX 2.81.
 

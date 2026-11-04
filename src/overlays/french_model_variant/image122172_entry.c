@@ -36,7 +36,7 @@ s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command)
     work = (Model142State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant142_D1558[command];
+        config = work->config = &gFrenchModelVariant142_aConfigs[command];
         point = work->history;
         for (i = 0; i < 96; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -49,7 +49,7 @@ s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % (config->radius * 2) - config->radius;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant142_D153C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant142_aImages[i]);
         }
         work->elapsed = 0;
         work->event = 0;

@@ -35,7 +35,7 @@ s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant173_D0FD8[command % 100];
+        config = work->config = &gFrenchModelVariant173_aConfigs[command % 100];
         point = work->offsets;
         for (i = 0; i < config->count; point++, i++) {
             value = rand() % 4096;

@@ -36,7 +36,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
     work = (Model77State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant77_D0C44[command];
+        config = work->config = &gFrenchModelVariant77_aConfigs[command];
         work->elapsed = 0;
         velocity = work->velocities;
         for (i = 0; i < 32; velocity++, i++) {

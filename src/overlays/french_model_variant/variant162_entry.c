@@ -51,7 +51,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
     {
         s32 step = Model_GetFrameStep();
         if (command >= 0) {
-            config = work->config = &gFrenchModelVariant162_D0DD8[command];
+            config = work->config = &gFrenchModelVariant162_aConfigs[command];
             point = work->points;
             for (i = 0; i < 256; point++, i++) {
                 value = config->radius * i / 256;

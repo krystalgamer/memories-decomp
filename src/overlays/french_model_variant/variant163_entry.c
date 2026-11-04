@@ -42,7 +42,7 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant163_D0EF0[command % 100];
+        config = work->config = &gFrenchModelVariant163_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < 96; point++, i++) {
             setVector(point, 0, 0, 0);

@@ -4,7 +4,7 @@ For #6460, the raw French MODEL.MRG images at sectors 16740 and 16750
 now own their loader entries in C. Each entry occupies image `+0x4..0xC44`
 (3,136 bytes); one source serves both slots, and each image's symbols file
 binds `FrenchModelVariant196_HandleRequest` and the three image-local data
-names (`gFrenchModelVariant196_D0C44`, `_D0C54`, `_D0C8C`) at its own
+names (`gFrenchModelVariant196_D0C44`, `_aImages`, `_aConfigs`) at its own
 addresses. The module header and unclassified suffix remain
 unchanged. This does not classify the remaining raw data as C.
 

@@ -34,7 +34,7 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         work->scroll = 0;
-        config = work->config = &gFrenchModelVariant167_D0F20[command % 100];
+        config = work->config = &gFrenchModelVariant167_aConfigs[command % 100];
         offset = work->offsets;
         increment = work->increments;
         for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; offset++, increment++, i++) {

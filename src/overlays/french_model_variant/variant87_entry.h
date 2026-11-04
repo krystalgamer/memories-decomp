@@ -35,7 +35,7 @@ typedef struct {
     u8 completed;
 } Family87State;
 
-extern Family87Config gFrenchModelVariant87_D0A1C[];
+extern Family87Config gFrenchModelVariant87_aConfigs[];
 s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command);
 
 #endif

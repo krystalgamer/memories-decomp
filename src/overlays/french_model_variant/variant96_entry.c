@@ -34,7 +34,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
     work = (Model96State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant96_D0C78[command];
+        config = work->config = &gFrenchModelVariant96_aConfigs[command];
         position = work->outer;
         inner = work->inner;
         for (i = 0; i <= config->segments; position++, inner++, i++) {

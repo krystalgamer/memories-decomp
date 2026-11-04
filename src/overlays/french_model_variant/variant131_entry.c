@@ -30,7 +30,7 @@ s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &gFrenchModelVariant131_D1604[command % 100];
+        work->config = &gFrenchModelVariant131_aConfigs[command % 100];
         config = work->config;
         point = work->ring;
         for (i = 0; i < 7; i++) {
