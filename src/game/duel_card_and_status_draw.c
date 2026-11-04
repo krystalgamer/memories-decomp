@@ -326,19 +326,19 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     pos = (DisplayObject *)arg0->field_50.word;
 
     scratch = SCRATCH;
-    scratch->field_00 = 0x09000000;
+    scratch->attribute = 0x09000000;
     tmp10 = DUEL_SPRITE_CLUT_CXCY;
-    scratch->field_10 = tmp10;
-    scratch->field_0C = 0x1E;
-    scratch->field_0E = 0x5800;
-    scratch->field_08 = 0x80008;
-    scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->cxcy = tmp10;
+    scratch->tpage = 0x1E;
+    scratch->uv = 0x5800;
+    scratch->wh = 0x80008;
+    scratch->rgb = DUEL_DISPLAY_COLOR_NORMAL;
     if (gDuel_bActiveSide == 0) {
-        scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->rgb = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->field_04 = pos->xy.h.x - 3;
-    scratch->field_06 = pos->xy.h.y - 0xD;
+    scratch->x = pos->xy.h.x - 3;
+    scratch->y = pos->xy.h.y - 0xD;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -346,8 +346,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         4
     );
 
-    scratch->field_04 = pos->xy.h.x + 0xE;
-    scratch->field_06 = pos->xy.h.y - 5;
+    scratch->x = pos->xy.h.x + 0xE;
+    scratch->y = pos->xy.h.y - 5;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -355,13 +355,13 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         2
     );
 
-    scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->rgb = DUEL_DISPLAY_COLOR_NORMAL;
     if (gDuel_bActiveSide != 0) {
-        scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->rgb = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->field_04 = pos->xy.h.x - 3;
-    scratch->field_06 = pos->xy.h.y + 0xD;
+    scratch->x = pos->xy.h.x - 3;
+    scratch->y = pos->xy.h.y + 0xD;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
@@ -369,8 +369,8 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
         4
     );
 
-    scratch->field_04 = pos->xy.h.x + 0xE;
-    scratch->field_06 = pos->xy.h.y + 5;
+    scratch->x = pos->xy.h.x + 0xE;
+    scratch->y = pos->xy.h.y + 5;
     Duel_DrawDecimalDigits(
         pos,
         GS_SPRITE_VIEW(scratch),
