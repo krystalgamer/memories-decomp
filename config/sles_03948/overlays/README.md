@@ -537,8 +537,8 @@ no work-size printf, so the data labels do not move.
 Nine images under French headers 646 and 713 are the North American
 header-629 entry (`model_variant/variant629_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant646_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant646_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant629_HandleRequest` and `gModelVariant629_D2C80`, `gModelVariant629_D2CB8` at its own addresses.
 
 French MODEL headers 852 (stage 7 slot 0) and 949 (stage 8 slot 1) build the header-835 entry (`ModelVariant835_HandleRequest`) from `src/overlays/model_variant/variant835_entry.c` through `src/overlays/french_model_variant/variant852_entry.c` in both slots. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
