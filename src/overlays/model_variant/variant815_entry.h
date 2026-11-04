@@ -85,8 +85,8 @@ typedef struct {
     } tint;
 } Model815State;
 
-extern GsIMAGE gModelVariant815_D1FB0[5];
-extern Model815Config gModelVariant815_D203C[];
+extern GsIMAGE gModelVariant815_aImages[5];
+extern Model815Config gModelVariant815_aConfigs[];
 
 s32 ModelVariant815_HandleRequest(u8 *context, s32 command);
 

@@ -43,7 +43,7 @@ s32 ModelVariant835_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant835_D1848[command];
+        work->config = &gModelVariant835_aConfigs[command];
         for (i = 0; i < 8; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->vel[i], 0, 0, 0);
@@ -70,7 +70,7 @@ s32 ModelVariant835_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant835_D1810[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant835_aImages[i]);
         }
         work->burst_tpage = 0xAE;
 #ifdef VERSION_FRENCH

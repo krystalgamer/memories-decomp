@@ -33,7 +33,7 @@ s32 ModelVariant815_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant815_D203C[command];
+        work->config = &gModelVariant815_aConfigs[command];
         for (i = 0; i < 48; i++) {
             setVector(&work->shards[i], work->config->spread * ((rand() - rand()) % 4096) / 4096,
                 -(work->config->spread >> 1) * (rand() % 4096) / 4096,
@@ -61,7 +61,7 @@ s32 ModelVariant815_HandleRequest(u8 *context, s32 command)
                 -(rand() % 4096 * 48) / 4096, direction * (rand() % 4096 * 48 / 4096 + 12));
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant815_D1FB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant815_aImages[i]);
         }
         work->tint.c.glow.r = 255;
         work->tint.c.glow.g = 255;

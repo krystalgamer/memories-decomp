@@ -5,8 +5,8 @@ the raw image `model_image_model_168816_8013b000`. The French and Spanish
 copies are byte-identical; both now build
 `french_model_variant/variant831_entry.c`. Their slot-1 twins
 `model_image_model_168826_8017b000` (header 928) build the same C; each
-image's symbols file binds the entry and the `gFrenchModelVariant831_D3818`
-and `gFrenchModelVariant831_D38A4` labels at its own addresses (the scale
+image's symbols file binds the entry and the `gFrenchModelVariant831_aImages`
+and `gFrenchModelVariant831_aConfigs` labels at its own addresses (the scale
 vector at `0x3808` is a C-local static).
 
 - **Base.** It is the header-792 bolt entry (`model_variant/variant792_entry.c`)

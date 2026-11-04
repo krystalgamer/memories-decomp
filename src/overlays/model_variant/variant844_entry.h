@@ -78,8 +78,8 @@ typedef struct {
     } beam_color;
 } Model844State;
 
-extern GsIMAGE gModelVariant844_D25D8[3];
-extern Model844Config gModelVariant844_D262C[];
+extern GsIMAGE gModelVariant844_aImages[3];
+extern Model844Config gModelVariant844_aConfigs[];
 
 s32 ModelVariant844_HandleRequest(u8 *context, s32 command);
 

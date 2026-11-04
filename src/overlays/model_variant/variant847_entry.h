@@ -80,8 +80,8 @@ typedef struct {
     CVECTOR glow[2];
 } Model847State;
 
-extern GsIMAGE gModelVariant847_D1E94[];
-extern Model847Config gModelVariant847_D1F04[];
+extern GsIMAGE gModelVariant847_aImages[];
+extern Model847Config gModelVariant847_aConfigs[];
 
 s32 ModelVariant847_HandleRequest(u8 *context, s32 command);
 

@@ -99,8 +99,8 @@ typedef struct {
     u8 ray_b[16];
 } Model794State;
 
-extern GsIMAGE gModelVariant794_D3864[];
-extern Model794Config gModelVariant794_D38F0[];
+extern GsIMAGE gModelVariant794_aImages[];
+extern Model794Config gModelVariant794_aConfigs[];
 
 s32 ModelVariant794_HandleRequest(u8 *context, s32 command);
 

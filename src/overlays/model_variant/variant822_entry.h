@@ -80,8 +80,8 @@ typedef struct {
     u8 b[32];
 } Model822State;
 
-extern GsIMAGE gModelVariant822_D1C00[];
-extern Model822Config gModelVariant822_D1C54[];
+extern GsIMAGE gModelVariant822_aImages[];
+extern Model822Config gModelVariant822_aConfigs[];
 
 s32 ModelVariant822_HandleRequest(u8 *context, s32 command);
 

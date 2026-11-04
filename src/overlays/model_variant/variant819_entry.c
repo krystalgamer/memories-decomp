@@ -51,7 +51,7 @@ s32 ModelVariant819_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant819_D3D8C[command];
+        work->config = &gModelVariant819_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             work->state.s.timers.split.growth[i] = 0;
             work->state.s.swell[i] = 0;
@@ -127,7 +127,7 @@ s32 ModelVariant819_HandleRequest(u8 *context, s32 command)
         work->ring_clut = 0x3D20;
 #endif
         for (i = 0; i < 7; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant819_D3CC8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant819_aImages[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

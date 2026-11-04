@@ -61,8 +61,8 @@ typedef struct {
     u8 level[8];
 } Model801State;
 
-extern GsIMAGE gModelVariant801_D1554[];
-extern Model801Config gModelVariant801_D158C[];
+extern GsIMAGE gModelVariant801_aImages[];
+extern Model801Config gModelVariant801_aConfigs[];
 
 s32 ModelVariant801_HandleRequest(u8 *context, s32 command);
 

@@ -44,7 +44,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant844_D262C[command];
+        work->config = &gModelVariant844_aConfigs[command];
         edge = work->trail_a;
         edge_b = work->trail_b;
         edge_c = work->trail_c;
@@ -100,7 +100,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
         work->clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant844_D25D8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant844_aImages[i]);
         }
         work->spark_count[0] = 0;
         work->spark_count[1] = 0;

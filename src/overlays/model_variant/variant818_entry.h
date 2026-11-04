@@ -132,8 +132,8 @@ typedef struct {
     Model818Colour flash[1];
 } Model818State;
 
-extern GsIMAGE gModelVariant818_D48A0[];
-extern Model818Config gModelVariant818_D49D4[];
+extern GsIMAGE gModelVariant818_aImages[];
+extern Model818Config gModelVariant818_aConfigs[];
 
 s32 ModelVariant818_HandleRequest(u8 *context, s32 command);
 

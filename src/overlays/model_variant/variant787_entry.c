@@ -33,12 +33,12 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant787_D1324[command];
+        work->config = &gModelVariant787_aConfigs[command];
         setVector(&work->tips[0], 0, 0, side * work->config->tip_depth);
         setVector(&work->tips[1], 0, 0, side * (3 * work->config->tip_depth) / 4);
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_D12EC[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_D12EC[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant787_D12EC[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_aImages[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant787_aImages[1]);
         work->level = 2048;
         work->phase = 0;
         work->elapsed = 0;

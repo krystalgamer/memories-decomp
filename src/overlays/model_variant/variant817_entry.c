@@ -47,7 +47,7 @@ s32 ModelVariant817_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant817_D321C[command];
+        work->config = &gModelVariant817_aConfigs[command];
         for (i = 0; i < 3; i++) {
             work->bolts.s.burst_frame[i] = 0;
             for (j = 0; j < 16; j++) {
@@ -95,7 +95,7 @@ s32 ModelVariant817_HandleRequest(u8 *context, s32 command)
             work->bolts.s.flashed[i] = 0;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant817_D31AC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant817_aImages[i]);
         }
         work->flash = 0;
         work->tint_r = 0;
