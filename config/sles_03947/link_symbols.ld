@@ -134,46 +134,11 @@ g_SDValue_output_level = g_SDValue;
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = main_SBSS_START;
 
-/* Names inside file_transfer_runtime's own storage (#2602). */
-
-/* Names inside fade_runtime's own storage (#2602). */
-
-/* Names inside duel_field_card_render's own storage (#2602). */
+/* maspsx emits `.align 3` for every sbss object of eight or more bytes, which
+ * would raise duel_field_card_render's .sbss to 8-byte alignment and move its
+ * retail start (0x8009C0AC) to 0x8009C0B0. The C storage therefore keeps two
+ * word placeholders and this two-pointer array name labels the first. */
 gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
-
-/* Names inside duel_effect_dialog_state's own storage (#2602). */
-
-/* Names inside duel_effect_object_pool's own storage (#2602). */
-
-/* Names inside script_command_busy's own storage (#2602). */
-
-/* Names inside script_op_load_image_scene's own storage (#2602). */
-
-/* Names inside debug_menu_editor_entries's own storage (#2602). */
-
-/* Names inside sorted_entry_relink's own storage (#2602). */
-
-/* Names inside mem_card_dialog's own storage (#2602). */
-
-/* Names inside model_scene_controllers's own storage (#2602). */
-
-/* Names inside graphics_frame's own storage (#2602). */
-
-/* Names inside file_transfer_runtime's own storage (#2602). */
-
-/* Names inside fade_runtime's own storage (#2602). */
-
-/* Names inside duel_field_card_render's own storage (#2602). */
-
-/* Names inside duel_effect_process_entries's own storage (#2602). */
-
-/* Names inside text_box_runtime's own storage (#2602). */
-
-/* Names inside input_pads's own storage (#2602). */
-
-/* Names inside mem_card_dialog's own storage (#2602). */
-
-/* Names inside display_object_core's own storage (#2602). */
 
 /* Names inside mem_card_driver's own storage (#2602). */
 gDisplay_abResourceBank0 = 0x801AF000;
