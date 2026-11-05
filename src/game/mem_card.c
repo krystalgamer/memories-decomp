@@ -1,15 +1,19 @@
-/* The memory-card dialog and the save-transfer runtime built on it: 22
- * contiguous functions from the low-level card controller MemCardWork_UpdateOperation
- * (0x8003DC1C) through SaveData_RequestTradeWrite. The first fifteen drive
- * the card controller and the load/save/trade dialog; the last seven
- * request, poll and apply single-player and two-player save transfers
- * through that dialog. */
+#define D_8009B0C4_IN_DATA
+#define GSD_BOUTPUTTYPE_IN_DATA
+#define D_8009AF74_IN_DATA
 #define GDIALOG_CHOICE_IN_DATA
 #define MEM_CARD_DIRECTORY_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
+ * address order ahead of the headers that declare it (#2602). The European
+ * builds keep it inside the memory card dialog's small storage block, which
+ * defines it there. */
+#ifndef SAVE_DATA_SEQUENCE_IN_MEM_CARD_DIALOG
+s32 gSaveDataSequence;
+#endif
 
 #ifndef MEM_CARD_DIALOG_STORAGE_ORDER
 /* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38. GCC lays
@@ -92,6 +96,749 @@ extern s32 gMemCardDialog_SyncResult;
 extern u8 gMemCardDialog_Port;
 extern u16 gMemCard_wDialogFlags;
 #endif
+
+#include "save_data.h"
+#include "player_name_glyphs.h"
+#include "graphics_frame.h"
+#include "sound.h"
+#include "text_sjis_to_glyph_codes.h"
+#include "util_memory.h"
+
+#define SAVE_DATA_PRIMARY_VIEW(data) ((SaveDataPrimaryIntegrity *)(data))
+#define SAVE_DATA_SECONDARY_VIEW(data) \
+    ((SaveDataSecondaryIntegrity *)((u8 *)(data) + SAVE_DATA_SECONDARY_OFFSET))
+#define SAVE_DATA_TERTIARY_VIEW(data) \
+    ((SaveDataTertiaryIntegrity *)((u8 *)(data) + SAVE_DATA_TERTIARY_OFFSET))
+
+/* SaveData_ApplyRuntimeState stores the campaign scene index through this
+ * absolute address (the literal form is what matches); a regional build names
+ * its own. */
+#ifndef SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS
+#define SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS 0x8009B27A
+#endif
+
+/* The save payload: sealing it, building it, applying it, and checking it.
+
+   Each of the three payload regions is sealed the same way - a CRC-16 over
+   the region, stored twice, then seeding the two-word mask generator from
+   that CRC and writing a run of mask words backwards from the region's last
+   mask slot. SaveData_WritePrimarySecondaryIntegrity and
+   SaveData_WriteTertiaryIntegrity write those seals, SaveData_BuildPayload
+   assembles the payload and calls both, and SaveData_ValidateIntegrity
+   replays the same three seeds and compares the stored words against the
+   generator instead of writing them. SaveData_ApplyRuntimeState is
+   BuildPayload's inverse, loading the fields BuildPayload stores back into
+   the runtime, and the last pair compares two payload states by duelist
+   code and save sequence.
+
+   The manifest used to spread this over six sources, recorded at
+   gcc_2_8_1_g8, gcc_2_8_1_g8_split and gcc_2_8_1_g8_no_split. None of those
+   differences was a boundary: every member compiles to an identical object
+   at gcc_2_8_1_g8, so the unit builds there. */
+
+u32 gSaveData_dwMaskStateLow = 0x55555555;
+u32 gSaveData_dwMaskStateHigh = 0x55555555;
+
+/* Advances the two-word save-data mask state and returns the next word. */
+u32 SaveData_NextMaskWord(void)
+{
+    u32 *state = &gSaveData_dwMaskStateLow;
+    u32 low;
+    u32 next;
+    u32 high;
+    u32 sum;
+
+    low = state[0];
+    high = state[1];
+    next = (high << 31) | (low >> 1);
+    next ^= low << 12;
+    sum = high + (low & 1);
+    high += sum;
+    state[1] = high;
+    return state[0] = next ^ (next >> 20);
+}
+
+/* CRC-16/XMODEM (poly 0x1021, zero-initialized) over data[0..len). */
+u32 SaveData_CalcCrc16(u8 *data, s32 len)
+{
+    u16 crc = 0;
+    s32 i;
+
+    i = 0;
+    if (len > 0) {
+        do {
+            s32 bit;
+
+            crc ^= data[i] << 8;
+            for (bit = 0; bit < 8; bit++) {
+                if (crc & SAVE_DATA_CRC16_HIGH_BIT) {
+                    crc = (crc << 1) ^ SAVE_DATA_CRC16_POLYNOMIAL;
+                } else {
+                    crc = crc << 1;
+                }
+            }
+            i++;
+        } while (i < len);
+    }
+    return crc;
+}
+
+void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
+{
+    s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
+    u32 seed = value & SAVE_DATA_CRC16_MASK;
+    s32 *output = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+        SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
+    s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
+
+    SAVE_DATA_PRIMARY_VIEW(data)->checksum[1] = value;
+    SAVE_DATA_PRIMARY_VIEW(data)->checksum[0] = value;
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+
+    do {
+        i--;
+        *output = SaveData_NextMaskWord();
+        output--;
+    } while (i != 0);
+
+    value = SaveData_CalcCrc16(
+        data + SAVE_DATA_SECONDARY_OFFSET,
+        SAVE_DATA_SECONDARY_LENGTH
+    );
+    seed = value & SAVE_DATA_CRC16_MASK;
+    output = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+        SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
+    i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
+
+    SAVE_DATA_SECONDARY_VIEW(data)->checksum[1] = value;
+    SAVE_DATA_SECONDARY_VIEW(data)->checksum[0] = value;
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+
+    do {
+        i--;
+        *output = SaveData_NextMaskWord();
+        output--;
+    } while (i != 0);
+}
+
+void SaveData_WriteTertiaryIntegrity(u8 *p)
+{
+    register s32 i;
+    register u32 *dst;
+    u16 v = SaveData_CalcCrc16(p + SAVE_DATA_TERTIARY_OFFSET,
+                               SAVE_DATA_TERTIARY_LENGTH);
+
+    dst = &SAVE_DATA_TERTIARY_VIEW(p)->mask_words[
+        SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
+    i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
+    SAVE_DATA_TERTIARY_VIEW(p)->checksum[1] = v;
+    SAVE_DATA_TERTIARY_VIEW(p)->checksum[0] = v;
+    {
+        u32 seed = v | (v << SAVE_DATA_CRC16_BITS);
+
+        gSaveData_dwMaskStateHigh = seed;
+        gSaveData_dwMaskStateLow = seed;
+    }
+    do {
+        --i;
+        *dst = SaveData_NextMaskWord();
+        dst--;
+    } while (i);
+}
+
+void SaveData_BuildPayload(SaveDataPayload *data)
+{
+    u8 *copy;
+    s32 output_type;
+    s32 value;
+    s32 saved_value;
+
+    Util_CopyWords(
+        data->header, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE
+    );
+
+    saved_value = gSaveData_dwVBlankCounter;
+    output_type = gSD_bOutputType;
+    data->state.field_400 = 0;
+    data->state.vblank_counter = saved_value;
+
+    if (output_type < 0) {
+        gSD_bOutputType = 0;
+    }
+
+    data->state.output_type = gSD_bOutputType;
+    copy = (u8 *)&data->state;
+    value = gSaveDataSequence + 1;
+    data->state.save_sequence = value;
+    data->duplicate.save_sequence = value;
+
+    SaveData_WritePrimarySecondaryIntegrity(copy);
+    SaveData_WriteTertiaryIntegrity(copy);
+
+    {
+        u32 i;
+
+        i = 0;
+        do {
+            *((u8 *)data + i + SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
+            i++;
+        } while (i < SAVE_DATA_RESERVED_TAIL_SIZE);
+    }
+
+    Util_CopyWords(
+        (u8 *)&data->duplicate, (u8 *)&data->state, SAVE_DATA_STATE_SIZE
+    );
+}
+
+#define gCampaignSceneIndex (*(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS)
+
+void SaveData_ApplyRuntimeState(SaveDataState *state) {
+    Text_SjisToGlyphCodes(gText_aCurrentPlayerNameGlyphs, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
+
+    /*
+     * These discarded addresses use the retail assembler-temporary form.
+     * Symbolic stores allocate ordinary registers and change exact codegen.
+     */
+    gSaveData_dwVBlankCounter = state->vblank_counter;
+    gSaveDataSequence = state->save_sequence;
+    gCampaignSceneIndex = state->campaign_scene_index;
+
+    if (gSD_bOutputType < 0) {
+        u8 output_type = state->output_type;
+
+        gSD_bOutputType = output_type;
+        SD_SetOutputType((s8)output_type);
+    }
+}
+
+s32 SaveData_ValidateIntegrity(u8 *data)
+{
+    s32 seed;
+    s32 i;
+    s32 *word;
+
+    seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) &
+           SAVE_DATA_CRC16_MASK;
+    word = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+        SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
+    i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+    do {
+        if (*word != SaveData_NextMaskWord()) {
+            return 0;
+        }
+        i--;
+        word--;
+    } while (i != 0);
+
+    seed = SaveData_CalcCrc16(
+        data + SAVE_DATA_SECONDARY_OFFSET,
+        SAVE_DATA_SECONDARY_LENGTH
+    ) & SAVE_DATA_CRC16_MASK;
+    word = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+        SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
+    i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+    do {
+        if (*word != SaveData_NextMaskWord()) {
+            return 0;
+        }
+        i--;
+        word--;
+    } while (i != 0);
+
+    seed = SaveData_CalcCrc16(
+        data + SAVE_DATA_TERTIARY_OFFSET,
+        SAVE_DATA_TERTIARY_LENGTH
+    ) & SAVE_DATA_CRC16_MASK;
+    word = (s32 *)&SAVE_DATA_TERTIARY_VIEW(data)->mask_words[
+        SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
+    i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
+    gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
+    gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
+    do {
+        if (*word != SaveData_NextMaskWord()) {
+            return 0;
+        }
+        i--;
+        word--;
+    } while (i != 0);
+
+    return 1;
+}
+
+s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
+{
+    s32 i;
+
+    if (left->duelist_code == right->duelist_code) {
+        i = 6;
+        while (--i >= 0) {
+        }
+        return 1;
+    }
+    return 0;
+}
+
+s32 SaveData_MatchesDuelistAndCurrentSequence(
+    SaveDataState *left,
+    SaveDataState *right)
+{
+    s32 result;
+
+    if (SaveData_HasSameDuelistCode(left, right)) {
+        result = gSaveDataSequence == right->save_sequence;
+    } else {
+        result = 0;
+    }
+    return result;
+}
+
+#undef gCampaignSceneIndex
+
+#include "duel_effect.h"
+#include "mem_card_work_initialize_operation.h"
+#include "mem_card_work.h"
+#include "mem_card_work_state.h"
+#include "../unmatched.h"
+
+void MemCardWork_InitializeOperation(u8 value)
+{
+    gMemCardWork_Area.root.blocks = 1;
+    gMemCardWork_OperationState = 0;
+    gDialog_bCallbackState = 0;
+    gMemCardWork_wFlags = 0x8000;
+    gMemCardWork_bSlotIndex = 0;
+    gMemCardWork_OperationMode = value;
+}
+
+#include "checkerboard_background.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+
+#define CHECKERBOARD_CELL_WIDTH 0x40
+#define CHECKERBOARD_CELL_HEIGHT 0x20
+#define CHECKERBOARD_SCREEN_WIDTH 0x140
+/* Regional values: the European build (src/game/european/) defines its own. */
+#ifndef CHECKERBOARD_SCREEN_HEIGHT
+#define CHECKERBOARD_SCREEN_HEIGHT 0xF0
+#endif
+/* GsSPRITE cx: the CLUT x of the first cell colour; the second is 0x10 on. */
+#ifndef CHECKERBOARD_CLUT_X
+#define CHECKERBOARD_CLUT_X 0x2C0
+#endif
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
+
+void func_8003D32C(void)
+{
+}
+
+/* Tiles the 320x240 background with alternating 64x32 sprite cells. */
+void Checkerboard_DrawBackground(
+    CheckerboardState *state, GsOT *ordering_table)
+{
+    CheckerboardSprite *sprite = (CheckerboardSprite *)0x1F800000;
+    s32 y;
+    s32 flip;
+    s32 mode;
+    s32 x;
+    s32 attribute;
+    s32 rgb;
+
+    attribute = state->attribute;
+    sprite->wh = 0x200020;
+    sprite->attribute = attribute;
+    rgb = state->rgb;
+    sprite->tpage = 0xB;
+    sprite->cx = CHECKERBOARD_CLUT_X;
+    sprite->cy = 0xFC;
+    mode = state->ot_depth;
+    sprite->uv.word = 0x3030;
+    sprite->rgb = rgb;
+
+    flip = 0;
+    y = 0;
+    do {
+        x = 0;
+        sprite->x = flip << 5;
+        sprite->uv.bytes.u = 0x30;
+        sprite->y = y;
+        sprite->cx = CHECKERBOARD_CLUT_X;
+        do {
+            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
+                             mode & 0xFFFF);
+            x += CHECKERBOARD_CELL_WIDTH;
+            sprite->x =
+                sprite->x + CHECKERBOARD_CELL_WIDTH;
+        } while (x < CHECKERBOARD_SCREEN_WIDTH);
+
+        x = 0;
+        sprite->x = (flip ^ 1) << 5;
+        sprite->uv.bytes.u = 0x50;
+        sprite->cx = CHECKERBOARD_CLUT_X + 0x10;
+        do {
+            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
+                             mode & 0xFFFF);
+            x += CHECKERBOARD_CELL_WIDTH;
+            sprite->x =
+                sprite->x + CHECKERBOARD_CELL_WIDTH;
+        } while (x < CHECKERBOARD_SCREEN_WIDTH);
+
+        y += CHECKERBOARD_CELL_HEIGHT;
+        flip ^= 1;
+    } while (y < CHECKERBOARD_SCREEN_HEIGHT);
+}
+
+#include "text_box_blocking_build.h"
+#include "duel_effect.h"
+#include "text_box_lifecycle.h"
+#include "text_box_runtime.h"
+#include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
+#include "duel_effect_create_channel.h"
+#include "dialog_layout.h"
+#include "mem_card_work.h"
+
+/* Regional value: the channel flags it sets (0x1008 -> 0x1010). The European
+ * build (src/game/european/) defines its own. */
+#ifndef DUEL_EFFECT_CHANNEL_CREATE_FLAGS
+#define DUEL_EFFECT_CHANNEL_CREATE_FLAGS 0x1008
+#endif
+
+#ifndef DIALOG_CHOICE_ADDRESS
+#define DIALOG_CHOICE_ADDRESS 0x8009B34D
+#endif
+
+#ifndef DUEL_EFFECT_CHANNEL_HEIGHT
+#define DUEL_EFFECT_CHANNEL_HEIGHT 0x40
+#endif
+
+#define gDialog_bChoice (*(s8 *)DIALOG_CHOICE_ADDRESS)
+
+DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
+    DuelEffectChannel *channel;
+
+    /* A symbolic store changes the retail assembler-temporary address form. */
+    gDialog_bChoice = -1;
+    channel = TextBox_Create(
+        gMemCardWork_Area.root.text_index,
+        value & 0x7FFF,
+        DIALOG_BOX_X,
+        0x50,
+        DIALOG_BOX_WIDTH,
+        DUEL_EFFECT_CHANNEL_HEIGHT
+    );
+    channel->depth_offset = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 1;
+
+    if (set_flags != 0) {
+        channel->flags_34 |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;
+    } else if (value & 0x8000) {
+        TextBox_BuildBlocking(channel);
+    }
+
+    return channel;
+}
+
+#undef gDialog_bChoice
+
+#include "../unmatched.h"
+#include "display_object.h"
+#include "display_object_interpolation.h"
+#include "display_object_core.h"
+
+#include "duel_effect.h"
+#include "text_channel_state.h"
+#include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
+#include "text_box_runtime.h"
+#include "text_box_update_channels.h"
+#include "duel_effect_create_channel.h"
+#include "dialog_transition.h"
+#include "dialog_update_message_transition.h"
+#include "dialog_layout.h"
+#include "dialog_choice.h"
+
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_POSITION_VIEW(object) \
+    ((DisplayObjectPosition *)(object))
+#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
+    ((DisplayObjectSnapshot *)(object))
+
+/* Regional values, which the European wrappers define for themselves: the
+   spotlight's centre y (120 in the US build, 128 in the European one) and
+   the channel flag Dialog_UpdateOpenTransition sets while its text box is up (4 in the US
+   build, 8 in the European one). */
+#ifndef DIALOG_TRANSITION_SPOTLIGHT_Y
+#define DIALOG_TRANSITION_SPOTLIGHT_Y 120
+#endif
+#ifndef DIALOG_TRANSITION_CHANNEL_FLAG
+#define DIALOG_TRANSITION_CHANNEL_FLAG 4
+#endif
+
+void Dialog_UpdateSpotlightContraction(MenuRecord *record)
+{
+    DisplayObject *object;
+    s32 flags;
+
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
+        object->xy.h.x = 160;
+        object->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
+        object->field_48.spotlight.inner = 128;
+        object->field_48.spotlight.outer = 224;
+        DisplayObject_SelectOrderingTable1(object);
+        DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
+        object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+        record->grid[0][1] = (s32)object;
+    }
+    flags = gDialog_bCallbackState;
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    if (flags & 64) {
+        gDialog_bCallbackState = 0;
+    } else {
+        s32 x = *(u16 *)&object->field_48.spotlight.inner - 8;
+        s32 y = *(u16 *)&object->field_48.spotlight.outer - 8;
+
+        object->field_48.spotlight.outer = y;
+        object->field_48.spotlight.inner = x;
+        if ((s16)x <= 0) {
+            gDialog_bCallbackState = flags | 64;
+            object->field_48.spotlight.inner = 0;
+            object->field_48.spotlight.outer = 64;
+        }
+    }
+}
+
+void Dialog_UpdateCloseTransition(MenuRecord *record)
+{
+    DisplayObject *object;
+    DuelEffectChannel *entry;
+
+    if (!(gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
+        object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
+        object->field_60 = 0x400;
+    }
+    /* The dialog channel's index: the byte at 0x1A, inside grid's third
+       row, which MenuRecord does not name. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    entry = (DuelEffectChannel *)((u8 *)gText_aChannels +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
+    entry = &gText_aChannels[((u8 *)record)[0x1A]];
+#endif
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+    if (object) {
+        *(u16 *)&object->field_60 -= 0x40;
+        if (object->field_60 <= 0) {
+            DisplayObject_ReleaseIfPresent(object);
+            record->grid[0][0] = 0;
+        } else {
+            Widget_SlideSine(
+                DISPLAY_OBJECT_POSITION_VIEW(object),
+                DIALOG_BOX_X,
+                -0x40,
+                object->field_60
+            );
+            TextBox_SetPos(
+                entry,
+                *(s16 *)&object->xy.h.x,
+                *(s16 *)&object->xy.h.y
+            );
+        }
+    }
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    if (object) {
+        *(u16 *)&object->field_48.spotlight.outer += 8;
+        *(u16 *)&object->field_48.spotlight.inner += 8;
+        if (object->field_48.spotlight.inner >= 0xC0) {
+            DisplayObject_ReleaseIfPresent(object);
+            record->grid[0][1] = 0;
+        }
+    }
+    if (!record->grid[0][0] && !record->grid[0][1])
+        gDialog_bCallbackState = 0;
+}
+
+void Dialog_UpdateOpenTransition(MenuRecord *record)
+{
+    DisplayObject *p;
+    DuelEffectChannel *r;
+    s32 f;
+    s32 v;
+    s32 t;
+    s32 a;
+    s32 g;
+
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState =
+            gDialog_bCallbackState | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
+        p->xy.h.x = 0xA0;
+        p->xy.h.y = DIALOG_TRANSITION_SPOTLIGHT_Y;
+        p->field_48.spotlight.inner = 0x80;
+        p->field_48.spotlight.outer = 0xE0;
+        DisplayObject_SelectOrderingTable1(p);
+        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
+        p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+        record->grid[0][1] = (s32)p;
+        p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPosition(p, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
+        p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        DisplayObject_SelectOrderingTable1(p);
+        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
+        record->grid[0][0] = (s32)p;
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(p));
+        a = gMemCardWork_OperationMode;
+        p->field_60 = -0x400;
+        r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
+        r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;
+        do {
+            TextBox_UpdateChannels();
+        } while (r->prompt_object == 0);
+        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
+                       *(s16 *)&p->xy.h.y);
+    }
+    f = gDialog_bCallbackState;
+    if ((f & 0x20) != 0) {
+        gDialog_bCallbackState = 0;
+        return;
+    }
+    /* The dialog channel's index: the byte at 0x1A, inside grid's third
+       row, which MenuRecord does not name. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    r = (DuelEffectChannel *)((u8 *)gText_aChannels +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
+    r = &gText_aChannels[((u8 *)record)[0x1A]];
+#endif
+    if ((f & 0x40) != 0) {
+        TextBox_UpdateChannels();
+        if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
+            gDialog_bCallbackState = gDialog_bCallbackState | 0x20;
+            if (gDialog_bChoice == 0) {
+                DuelEffect_CreateChannel(0x80D4, 0);
+                gDialog_bChoice = 0;
+            }
+        }
+        return;
+    }
+    p = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+    t = *(u16 *)&p->field_60;
+    if (p->field_60 < 0) {
+        v = t + 0x40;
+        p->field_60 = v;
+        if ((s16)v >= 0) {
+            p->xy.h.x = DIALOG_BOX_X;
+            p->field_60 = 0;
+            p->xy.h.y = 0x50;
+        } else {
+            Widget_SlideSine(
+                DISPLAY_OBJECT_POSITION_VIEW(p), DIALOG_BOX_X, 0x50, (s16)v);
+        }
+        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
+                       *(s16 *)&p->xy.h.y);
+    }
+    p = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    p->field_48.spotlight.outer = *(u16 *)&p->field_48.spotlight.outer - 8;
+    p->field_48.spotlight.inner = *(u16 *)&p->field_48.spotlight.inner - 8;
+    if (p->field_48.spotlight.inner <= 0) {
+        p->field_48.spotlight.inner = 0;
+        p->field_48.spotlight.outer = 0x40;
+        if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
+            g = gDialog_bCallbackState;
+            r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
+            gDialog_bCallbackState = g | 0x40;
+        }
+    }
+}
+
+/* Regional value: the flags_34 bit set and cleared on the channel (0x4 ->
+ * 0x8). The European build (src/game/european/) defines its own. */
+#ifndef FUNC_8003DA40_CHANNEL_FLAG
+#define FUNC_8003DA40_CHANNEL_FLAG 4
+#endif
+
+void Dialog_UpdateMessageTransition(MenuRecord *record)
+{
+    DisplayObject *e;
+    DuelEffectChannel *q;
+    s32 f;
+    s32 g;
+    s32 v;
+    s32 h;
+
+    f = gDialog_bCallbackState;
+    if ((f & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPosition(e, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
+        e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        DisplayObject_SelectOrderingTable1(e);
+        DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
+        record->grid[0][0] = (s32)e;
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
+        e->field_60 = -0x400;
+        q = DuelEffect_CreateChannel(0xD0, 0);
+        q->flags_34 = q->flags_34 | FUNC_8003DA40_CHANNEL_FLAG;
+        do {
+            TextBox_UpdateChannels();
+        } while (q->prompt_object == 0);
+        TextBox_SetPos(q,
+                       *(s16 *)&e->xy.h.x,
+                       *(s16 *)&e->xy.h.y);
+    }
+
+    e = (DisplayObject *)record->grid[0][0];
+    /* The dialog channel's index. It is the byte at 0x1A, inside grid's
+       third row, and dialog_transition.c reads it the same way; nothing
+       matched yet writes it, so MenuRecord has no name for it. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    q = (DuelEffectChannel *)((u8 *)gText_aChannels +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
+    q = &gText_aChannels[((u8 *)record)[0x1A]];
+#endif
+    g = gDialog_bCallbackState;
+
+    if ((g & 0x40) != 0) {
+        TextBox_UpdateChannels();
+        if ((q->flags_34 & 0x2000) != 0) {
+            gDialog_bCallbackState = 0;
+        }
+    } else {
+        v = *(u16 *)&e->field_60 + 0x20;
+        e->field_60 = v;
+        if ((s16)v >= 0) {
+            *(s16 *)&e->xy.h.x = DIALOG_BOX_X;
+            *(s16 *)&e->xy.h.y = 0x50;
+            h = q->flags_34;
+            gDialog_bCallbackState = g | 0x40;
+            q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
+        } else {
+            Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);
+        }
+        TextBox_SetPos(q,
+                       *(s16 *)&e->xy.h.x,
+                       *(s16 *)&e->xy.h.y);
+    }
+}
+
+/* The memory-card dialog and the save-transfer runtime built on it: 22
+ * contiguous functions from the low-level card controller MemCardWork_UpdateOperation
+ * (0x8003DC1C) through SaveData_RequestTradeWrite. The first fifteen drive
+ * the card controller and the load/save/trade dialog; the last seven
+ * request, poll and apply single-player and two-player save transfers
+ * through that dialog. */
 
 #include "display_object.h"
 #include "display_object_interpolation.h"
@@ -2003,4 +2750,12 @@ void SaveData_RequestTradeWrite(void)
         gMemCard_szSaveFileName,
         4
     );
+}
+
+#include "save_data.h"
+
+void SaveData_SetMaskSeed(u32 value)
+{
+    gSaveData_dwMaskStateHigh = value;
+    gSaveData_dwMaskStateLow = value;
 }

@@ -1,6 +1,6 @@
 # Checkerboard background records
 
-`Checkerboard_DrawBackground` (`0x8003D334`, `src/game/checkerboard_background.c`)
+`Checkerboard_DrawBackground` (`0x8003D334`, `src/game/mem_card.c`)
 tiles the screen with alternating sprite cells. It has no caller, so its two
 records in `src/game/checkerboard_background.h` are described only by this
 function. Every member it touches now has a name. The renames are spelling
