@@ -40,7 +40,7 @@ s32 ModelVariant147_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant147_D35DC[command];
+        config = work->config = &gModelVariant147_aConfigs[command];
         point = work->ring;
         other = work->far_ring;
         for (i = 0; i < 17; i++) {
@@ -104,7 +104,7 @@ s32 ModelVariant147_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant147_D3550[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant147_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

@@ -39,7 +39,7 @@ s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant110_D1944[command];
+        config = work->config = &gModelVariant110_aConfigs[command];
         point = work->ring;
         setVector(point, 0, 0, 0);
         point++;
@@ -73,7 +73,7 @@ s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
             point->vz = radius * csin(value) / 4096 * csin(elevation) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant110_D1928[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant110_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

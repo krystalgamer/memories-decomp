@@ -24,7 +24,7 @@ s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
     work = (Image104528State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &gFrenchModelVariant826_D1110[command];
+        work->config = &gFrenchModelVariant826_aConfigs[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->flashes[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -41,7 +41,7 @@ s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             work->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant826_D10D8[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant826_aImages[i]);
         }
         work->ambient = 2048;
         work->flash_count = 0;

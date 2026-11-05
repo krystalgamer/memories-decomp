@@ -37,7 +37,7 @@ s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        work->config = &gModelVariant158_D1174[command % 100];
+        work->config = &gModelVariant158_aConfigs[command % 100];
         config = work->config;
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         vertices[0].vy = -350;

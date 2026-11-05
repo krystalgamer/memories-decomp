@@ -37,7 +37,7 @@ s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &gModelVariant177_D1548[command % 100];
+        work->config = &gModelVariant177_aConfigs[command % 100];
         config = work->config;
         point = work->ring;
         for (i = 0; i < 7; i++) {

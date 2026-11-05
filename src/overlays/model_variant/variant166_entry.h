@@ -45,8 +45,8 @@ typedef struct {
     s32 frames;
 } Model166State;
 
-extern GsIMAGE gModelVariant166_D1CDC[];
-extern Model166Config gModelVariant166_D1D68[];
+extern GsIMAGE gModelVariant166_aImages[];
+extern Model166Config gModelVariant166_aConfigs[];
 
 s32 ModelVariant166_HandleRequest(u8 *context, s32 command);
 

@@ -51,8 +51,8 @@ typedef struct {
     Model72Config *config;
 } Model72State;
 
-extern GsIMAGE gModelVariant72_D1D78[];
-extern Model72Config gModelVariant72_D1D94[];
+extern GsIMAGE gModelVariant72_aImages[];
+extern Model72Config gModelVariant72_aConfigs[];
 
 s32 ModelVariant72_HandleRequest(u8 *context, s32 command);
 

@@ -1,7 +1,7 @@
 // MODEL.MRG model 111 (record 111), sector 30836, header 142, loaded at 0x8013B000; header-142 entry.
 ModelVariant142_HandleRequest = 0x8013B004; // type:func size:0x138C defined:true
-gModelVariant142_D13B0 = 0x8013C3B0; // type:u8 size:0xFC defined:true
-gModelVariant142_D14AC = 0x8013C4AC; // type:u8 size:0x3B54 defined:true
+gModelVariant142_aImages = 0x8013C3B0; // type:u8 size:0xFC defined:true
+gModelVariant142_aConfigs = 0x8013C4AC; // type:u8 size:0x3B54 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x80058F10; // type:func absolute:true

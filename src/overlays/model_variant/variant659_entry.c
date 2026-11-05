@@ -56,17 +56,17 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[2]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[5]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[6]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[5]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[6]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_D2320[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant659_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {

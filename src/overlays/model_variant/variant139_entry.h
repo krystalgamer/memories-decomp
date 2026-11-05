@@ -48,7 +48,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant139_D1ACC[];
 extern GsIMAGE gModelVariant139_D1B04[];
-extern Model139Config gModelVariant139_D1B74[];
+extern Model139Config gModelVariant139_aConfigs[];
 
 s32 ModelVariant139_HandleRequest(u8 *context, s32 command);
 

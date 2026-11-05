@@ -48,7 +48,7 @@ typedef struct {
 } Model155State;
 
 extern GsIMAGE gModelVariant155_aImages[];
-extern Model155Config gModelVariant155_D17FC[];
+extern Model155Config gModelVariant155_aConfigs[];
 
 s32 ModelVariant155_HandleRequest(u8 *context, s32 command);
 

@@ -10,7 +10,7 @@
  * its size. */
 
 #ifndef MODEL168_EXTERNAL_SCALE
-static const VECTOR gModelVariant168_D118C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant168_UnitScale = {4096, 4096, 4096, 0};
 #endif
 
 s32 ModelVariant168_HandleRequest(u8 *context, s32 command)
@@ -34,12 +34,12 @@ s32 ModelVariant168_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant168_D118C;
+    scale = gModelVariant168_UnitScale;
     work = (Model168State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant168_D12A8[command % 100];
+        config = work->config = &gModelVariant168_aConfigs[command % 100];
         point = work->positions;
         for (i = 0; i < 64; point++, i++) {
             setVector(point, 0, 0, 0);

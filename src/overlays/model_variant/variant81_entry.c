@@ -38,7 +38,7 @@ s32 ModelVariant81_HandleRequest(u8 *context, s32 command)
     work = (Model81State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant81_D19DC[command];
+        config = work->config = &gModelVariant81_aConfigs[command];
         for (i = 0; i < config->count; i++) {
             work->offsets[i] = config->wave_amplitude * csin(config->wave_period * i / config->segments) / 4096;
             work->angles[i] = config->twist * i / config->count;

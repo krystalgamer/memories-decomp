@@ -37,8 +37,8 @@ The entry returns 0 during the delay, 1 once on the first frame after it,
 
 The entry's `.rodata` is the unit scale vector, `0x10` bytes at `0x1918`.
 The rest of the image is one raw tail that starts at `0x1928`. Inside it,
-the layout names the texture descriptor `gModelVariant110_D1928` and the command table
-`gModelVariant110_D1944`. The `0x8017B000` images use the same offsets. The resident
+the layout names the texture descriptor `gModelVariant110_aImages` and the command table
+`gModelVariant110_aConfigs`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant110_linker_symbols.txt`.
 
 ## Source shape

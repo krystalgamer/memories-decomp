@@ -2,8 +2,8 @@
 ModelVariant153Us_HandleRequest = 0x8017B004; // type:func size:0x1424
 D_8017C428 = 0x8017C428; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-gModelVariant153Us_D145C = 0x8017C438; // type:u8 size:0x3C defined:true
-gModelVariant153Us_D1478 = 0x8017C454; // type:u8 defined:true
+gModelVariant153Us_aImages = 0x8017C438; // type:u8 size:0x3C defined:true
+gModelVariant153Us_aConfigs = 0x8017C454; // type:u8 defined:true
 D_8017C474 = 0x8017C474; // type:u8 size:0x3B8C defined:true
 GsGetLwUnit = 0x8008A428; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true

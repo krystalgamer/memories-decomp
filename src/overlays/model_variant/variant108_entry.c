@@ -39,7 +39,7 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &gModelVariant108_D1564[command];
+        work->config = &gModelVariant108_aConfigs[command];
         work->anchor.vx = 0;
         work->anchor.vy = 0;
         work->anchor.vz = 0;
@@ -47,7 +47,7 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
             work->index[i] = 0;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant108_D152C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant108_aImages[i]);
         }
         work->elapsed = 0;
         return 0;

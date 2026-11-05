@@ -41,7 +41,7 @@ s32 FrenchModelVariant146_HandleRequest(u8 *context, s32 command)
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = state->config = &gFrenchModelVariant146_D0FE8[command % 100];
+        config = state->config = &gFrenchModelVariant146_aConfigs[command % 100];
         position = state->origins;
         for (j = 0; j < 16; position++, j++) {
             setVector(position, 0, 0, 0);
@@ -61,7 +61,7 @@ s32 FrenchModelVariant146_HandleRequest(u8 *context, s32 command)
         }
         for (j = 0; j < 2; j++) {
             state->textures[j] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant146_D0FB0[j]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant146_aImages[j]);
         }
         state->phase = 2;
         state->elapsed = 0;

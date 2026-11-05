@@ -27,7 +27,7 @@ s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
     work = (Model67State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        cmd = work->command = &gModelVariant67_D1934[command];
+        cmd = work->command = &gModelVariant67_aConfigs[command];
         p = work->ribbon[0];
         for (j = 0; j < 8; j++) {
             for (i = 0; i < 16; p++, i++) {
@@ -56,7 +56,7 @@ s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
         work->elapsed = -cmd->delay;
         work->done = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant67_D18E0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant67_aImages[i]);
         }
         return 0;
     }

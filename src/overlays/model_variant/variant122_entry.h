@@ -52,7 +52,7 @@ typedef struct {
 } Model122State;
 
 extern VECTOR gModelVariant122_D1840;
-extern GsIMAGE gModelVariant122_D1850[];
-extern Model122Command gModelVariant122_D1888[];
+extern GsIMAGE gModelVariant122_aImages[];
+extern Model122Command gModelVariant122_aConfigs[];
 
 #endif

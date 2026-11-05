@@ -36,7 +36,7 @@ s32 ModelVariant157_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant157_D1540[command % 100];
+        config = work->config = &gModelVariant157_aConfigs[command % 100];
         path = work->path;
         spin = work->spin;
         index = 0;
@@ -90,7 +90,7 @@ s32 ModelVariant157_HandleRequest(u8 *context, s32 command)
         corner[3][3] = &path[4];
         work->unknown_10aa = 0;
         for (k = 0; k < 7; k++) {
-            work->texture[k] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant157_D147C[k]);
+            work->texture[k] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant157_aImages[k]);
         }
         work->elapsed = 0;
         work->frames = 0;

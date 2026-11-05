@@ -30,7 +30,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
     work = (Model54State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &gModelVariant54_D16D4[command];
+        config = work->config = &gModelVariant54_aConfigs[command];
         p = work->ring[0];
         for (i = 0; i < 17; i++) {
             p->vx = config->radius * ccos(i << 8) / 4096;

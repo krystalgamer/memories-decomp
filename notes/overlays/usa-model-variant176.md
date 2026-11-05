@@ -45,6 +45,6 @@ The entry's `.rodata` follows it at `0x13A4`: the unit scale vector, then the
 retail stores `0x0C` in the byte after its terminator, the last byte before
 the data. The C spells the string as a 16-byte array with that byte. The
 image tail starts at `0x13C4`. Inside it, the layout names the two texture
-descriptors `gModelVariant176_D13C4` and the command table `gModelVariant176_D13FC`. The
+descriptors `gModelVariant176_aImages` and the command table `gModelVariant176_aConfigs`. The
 `0x8017B000` images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant176_linker_symbols.txt`.

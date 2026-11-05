@@ -33,7 +33,7 @@ typedef struct {
     s32 elapsed;
 } Model175State;
 
-extern Model175Config gModelVariant175_D1AEC[];
+extern Model175Config gModelVariant175_aConfigs[];
 
 s32 ModelVariant175_HandleRequest(u8 *context, s32 command);
 

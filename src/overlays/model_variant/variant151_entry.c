@@ -43,7 +43,7 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant151_D0FC8[command % 100];
+        config = work->config = &gModelVariant151_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < 17; i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;
@@ -62,7 +62,7 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant151_D0F90[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant151_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

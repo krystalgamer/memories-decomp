@@ -48,13 +48,13 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
         work->tint_end.r = 0;
         work->tint_end.g = 0;
         work->tint_end.b = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {

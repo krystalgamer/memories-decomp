@@ -41,7 +41,7 @@ s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
     state = (Image5996State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = state->config = &gFrenchModelVariant102_D0FA8[command];
+        config = state->config = &gFrenchModelVariant102_aConfigs[command];
         angle = state->rotations;
         velocity = state->velocities;
         for (i = 0; i < config->triangle_count; angle++, velocity++, i++) {
@@ -66,7 +66,7 @@ s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
         state->notified = 0;
         for (i = 0; i < 3; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant102_D0F54[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant102_aImages[i]);
         }
         state->elapsed = -config->delay;
         state->tick = 0;

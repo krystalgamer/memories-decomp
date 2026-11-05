@@ -43,7 +43,7 @@ s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant174_D183C[command % 100];
+        config = work->config = &gModelVariant174_aConfigs[command % 100];
         point = work->ribbon;
         origin = work->ribbon + 17;
         for (i = 0; i < 17; point++, origin++, i++) {
@@ -84,7 +84,7 @@ s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % config->spark_spread * 2 - config->spark_spread;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant174_D17CC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant174_aImages[i]);
         }
         work->elapsed = 0;
         work->animation = 0;

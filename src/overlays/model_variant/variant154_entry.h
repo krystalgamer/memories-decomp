@@ -49,8 +49,8 @@ typedef struct {
     s32 frames;
 } Model154State;
 
-extern GsIMAGE gModelVariant154_D23B4[];
-extern Model154Config gModelVariant154_D2408[];
+extern GsIMAGE gModelVariant154_aImages[];
+extern Model154Config gModelVariant154_aConfigs[];
 
 s32 ModelVariant154_HandleRequest(u8 *context, s32 command);
 

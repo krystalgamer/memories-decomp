@@ -27,7 +27,7 @@ s32 ModelVariant130_HandleRequest(u8 *context, s32 command)
     work = (Model130State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant130_D0B88[command % 100];
+        config = work->config = &gModelVariant130_aConfigs[command % 100];
         p = work->positions;
         for (i = 0; i < config->count; i++) {
             setVector(p, 0, 0, 0);
@@ -40,7 +40,7 @@ s32 ModelVariant130_HandleRequest(u8 *context, s32 command)
             p->vz = direction * 900;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant130_D0B6C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant130_aImages[i]);
         }
         work->elapsed = 0;
         work->done = 0;

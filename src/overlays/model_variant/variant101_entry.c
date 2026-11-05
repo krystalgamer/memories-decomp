@@ -34,7 +34,7 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
     work = (Model101State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant101_D131C[command];
+        config = work->config = &gModelVariant101_aConfigs[command];
         point = work->points;
         for (i = 0; i < 128; i++) {
             point->vx = 0;
@@ -56,7 +56,7 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant101_D12C8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant101_aImages[i]);
         }
         work->completed = 0;
         work->elapsed = 0;

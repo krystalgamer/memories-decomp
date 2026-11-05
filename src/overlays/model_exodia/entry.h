@@ -73,7 +73,7 @@ typedef struct {
     DVECTOR target;
 } ExodiaEntryProjection;
 
-extern ExodiaEntryConfig gModelExodia_D17AC[];
+extern ExodiaEntryConfig gModelExodia_aConfigs[];
 void ModelExodia_DrawSpokes(u8 *context);
 s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command);
 #endif

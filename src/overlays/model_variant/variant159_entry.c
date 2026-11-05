@@ -46,7 +46,7 @@ s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant159_D1DB0[command % 100];
+        config = work->config = &gModelVariant159_aConfigs[command % 100];
         point = work->edge;
         for (i = 0; i < 17; i++) {
             point->vx = -direction * (config->width * (i << 1) / 16 - config->width);

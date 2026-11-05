@@ -41,7 +41,7 @@ s32 ModelVariant72_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant72_D1D94[command % 100];
+        config = work->config = &gModelVariant72_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < config->columns * config->rows; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -76,7 +76,7 @@ s32 ModelVariant72_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % config->spark_spread * 2 - config->spark_spread;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant72_D1D78[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant72_aImages[i]);
         }
         work->elapsed = -config->lead * 2;
         work->completed = 0;

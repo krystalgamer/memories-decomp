@@ -37,7 +37,7 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant142_D14AC[command % 100];
+        config = work->config = &gModelVariant142_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < 64; i++) {
             point->vx = 0;
@@ -84,9 +84,9 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
         point->vx = 0;
         point->vy = 0;
         point->vz = 0;
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant142_D13B0[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant142_aImages[0]);
         for (i = 1; i < 9; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant142_D13B0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant142_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

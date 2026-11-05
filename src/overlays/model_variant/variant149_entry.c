@@ -43,7 +43,7 @@ s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant149_D15EC[command % 100];
+        config = work->config = &gModelVariant149_aConfigs[command % 100];
         point = work->targets;
         for (i = 0; i < 5; i++) {
             r = rand() % config->spread / 2 + config->spread / 2;

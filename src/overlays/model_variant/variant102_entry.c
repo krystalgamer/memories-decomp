@@ -43,7 +43,7 @@ s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
         s32 value;
 
         if (command >= 0) {
-            config = work->config = &gModelVariant102_D2558[command];
+            config = work->config = &gModelVariant102_aConfigs[command];
             p = work->mesh;
             for (row = 0; row < 12; row++) {
                 for (i = 0; i < 8; i++) {
@@ -125,7 +125,7 @@ s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
                 p++;
             }
             for (row = 0; row < 5; row++) {
-                work->texture[row] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant102_D24CC[row]);
+                work->texture[row] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant102_aImages[row]);
             }
             work->elapsed = 0;
             work->completed = 0;

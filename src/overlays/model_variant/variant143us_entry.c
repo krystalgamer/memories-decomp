@@ -56,7 +56,7 @@ s32 ModelVariant143Us_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant143Us_D2D10[command];
+        config = work->config = &gModelVariant143Us_aConfigs[command];
         a = 0;
         point = work->grid;
         colour = work->colours;
@@ -146,7 +146,7 @@ s32 ModelVariant143Us_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant143Us_D2CA0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant143Us_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

@@ -44,7 +44,7 @@ s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant109_D35BC[command];
+        config = work->config = &gModelVariant109_aConfigs[command];
         point = work->directions;
         for (i = 0; i < 8; point++, i++) {
             size = rand() % 4096;
@@ -112,7 +112,7 @@ s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant109_D3530[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant109_aImages[i]);
         }
         work->elapsed = -config->lead;
         return 0;

@@ -37,7 +37,7 @@ s32 ModelVariant171_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         point = work->positions;
         start = work->starts;
-        config = work->config = &gModelVariant171_D10DC[command % 100];
+        config = work->config = &gModelVariant171_aConfigs[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         vertices[0].vy = -350;
         for (i = 0; i <= 512; i++) {
@@ -57,7 +57,7 @@ s32 ModelVariant171_HandleRequest(u8 *context, s32 command)
             start++;
         }
         for (i = 0; i < 14; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant171_D0F54[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant171_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

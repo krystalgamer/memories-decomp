@@ -28,10 +28,10 @@ s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->frame = 0;
-        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_D2C80[1]);
+        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_aImages[1]);
         work->tpage0 = page >> 16;
         work->clut0 = page;
-        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_D2C80[0]);
+        page = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant629_aImages[0]);
         work->tpage1 = page >> 16;
         work->clut1 = page;
         switch (command) {

@@ -39,7 +39,7 @@ s32 ModelVariant135_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant135_D17B8[command % 100];
+        config = work->config = &gModelVariant135_aConfigs[command % 100];
         point = work->sparks;
         for (i = 0; i < 48; i++) {
             point->vx = 0;

@@ -41,7 +41,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant137_D1C88[command % 100];
+        config = work->config = &gModelVariant137_aConfigs[command % 100];
         point = work->sparks;
         for (i = 0; i < 64; i++) {
             s = rand() % 4096;

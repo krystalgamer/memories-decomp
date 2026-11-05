@@ -70,7 +70,7 @@ typedef struct {
 } Model661ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant661_D3E2C[2];
+extern GsIMAGE gModelVariant661_aImages[2];
 extern Model661Command gModelVariant661_aConfigs[];
 
 s32 ModelVariant661_HandleRequest(u8 *context, s32 command);

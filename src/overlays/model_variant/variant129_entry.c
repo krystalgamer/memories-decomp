@@ -40,7 +40,7 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant129_D0FE8[command % 100];
+        config = work->config = &gModelVariant129_aConfigs[command % 100];
         point = work->positions;
         for (i = 0; i < 16; point++, i++) {
             setVector(point, 0, 0, 0);

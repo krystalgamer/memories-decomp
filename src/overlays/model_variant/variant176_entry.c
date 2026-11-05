@@ -48,7 +48,7 @@ s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant176_D13FC[command];
+        config = work->config = &gModelVariant176_aConfigs[command];
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             point->vx = config->outer_radius * ccos(i * 128) / 4096;
@@ -82,7 +82,7 @@ s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
             point->vz = radius * csin(size) / 4096 * csin(j) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant176_D13C4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant176_aImages[i]);
         }
         work->completed = 0;
         work->elapsed = 0;

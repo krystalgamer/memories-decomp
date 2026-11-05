@@ -55,7 +55,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant819_D12F8[command];
+        work->config = &gFrenchModelVariant819_aConfigs[command];
         Model_CopySlotPosition(slot, (u16 *)&position);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
         setVector(&work->offset, 0, 0, 0);
@@ -73,7 +73,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
             work->ages[i] = 0;
         }
         for (i = 0; i < 1; i++)
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant819_D12DC[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant819_aImages[i]);
         work->scale = 4096;
         work->ambient = 2048;
         work->phase = 0;
