@@ -607,6 +607,25 @@ Two traps make this easy to get wrong:
   `Model_InitSlot` spills `$a1` and `$a2` to the stack in its prologue and
   branches on `$a3`, and reads all four.
 
+### Common declarations for small globals a unit reads
+
+MASPSX writes `%gp_rel` only for small data the file itself has: `.sdata`,
+`.sbss` and `.comm` symbols. It never does so for an `.extern`, and the original
+ASPSX did not either. So a retail `$gp`-relative read of another unit's small
+global means the original file declared it as a C tentative definition
+(`u8 x;`, emitted as `.comm`), not `extern`. Today `as -G8` quietly makes those
+`.extern` reads `$gp`-relative instead, which is why `as` cannot yet run at a
+fixed `-G0`.
+
+A unit that reads small globals it does not own therefore repeats each one's
+declaration without `extern` after its includes, as `duel_scene_battle.c`
+already did, and builds with a `*_comm` profile. With `--use-comm-section`,
+MASPSX keeps them as real `.comm` symbols, which the linker merges with the
+owner's storage. Without it, MASPSX would allocate them as local storage that
+`export_common_symbols` then exports, creating a second definition. Units that
+also own small tentative storage cannot take a `*_comm` profile unchanged,
+because their own storage would become common too.
+
 ### The declaration spelling is the consumer's lever
 
 Ownership decides where a definition lands. For the far more common case of a

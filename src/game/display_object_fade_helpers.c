@@ -4,6 +4,10 @@
 #include "display_object_fade.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_entry_occupancy.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s32 gDuelEffect_nCompactionRequested;
 #endif
 
 /* The two helpers the display-object fade callbacks

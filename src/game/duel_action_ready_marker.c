@@ -13,6 +13,14 @@
 #include "duel_cursor_status.h"
 #include "duel_cursor_step_toward_target.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuelCursor_TargetColumn;
+u8 gDuelCursor_TargetRow;
+s8 gDuelCursor_Direction;
+u16 gDuel_wDisplayTransitionFlags;
+DisplayObject *gDuel_pActionReadyMarker;
+
 DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source)
 {
     DisplayObject *object = gDuel_pActionReadyMarker;

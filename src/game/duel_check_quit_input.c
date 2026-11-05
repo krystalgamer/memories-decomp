@@ -4,6 +4,10 @@
 #include "input.h"
 #include "duel_check_quit_input.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bQuitDialogState;
+
 int Duel_CheckQuitInput(void)
 {
     if (gDuel_bOpponentID < 0) {

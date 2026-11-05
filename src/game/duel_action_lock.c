@@ -36,6 +36,14 @@ void DuelEffect_ClearCardEffect(void)
 #include "../unmatched.h"
 #include "duel_effect_apply_terrain.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DisplayObject *gDuel_pTerrainIcon;
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+s16 gDuel_wEffectCardID;
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wCardEffectFlags;
+
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
    lays the terrain packages out differently supplies its own. */
 #ifndef DUEL_TERRAIN_EFFECT_SECTOR
