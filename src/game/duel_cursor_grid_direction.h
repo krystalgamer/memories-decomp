@@ -51,12 +51,10 @@ typedef char DuelCursor_record_offsets_must_match[
  * assigns only $a0, so `dir` arrives as whatever that function's own caller
  * left in $a1, and there is no expression duel_cursor_status.c could write for
  * it -- the call site does not compute one. The arm below preserves that
- * one-argument call while DuelCursor_ProcessHeldGridDirection, which does compute the argument, gets
+ * one-argument call through DuelCursorProcessGridDirectionAmbient, while
+ * DuelCursor_ProcessHeldGridDirection, which does compute the argument, uses
  * the real prototype. */
-#ifdef FUNC_80023D08_AMBIENT_DIRECTION_ARG
-void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o);
-#else
 void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir);
-#endif
+typedef void (*DuelCursorProcessGridDirectionAmbient)(DuelSelectionRecord *o);
 
 #endif

@@ -81,8 +81,8 @@ keeps its existing card-record alias.
 
 The isolated header declares the same `void(DisplayObject *)` definition
 views. Existing casts to the byte-pointer `DisplayObjectCallback` remain
-unchanged, as does the old `DISPLAY_OBJECT_MOTION_BYTE_CALLBACK` selector
-for the sibling API. Numeric function aliases remain available. All
+unchanged; the former `DISPLAY_OBJECT_MOTION_BYTE_CALLBACK` selector is
+gone, and the ritual controller casts the typed function like the others. Numeric function aliases remain available. All
 pre-existing headers, overlays and test modules stay byte-identical; no
 harness, C fixture, probe or case is added. Full regional and cloud/witness
 execution remains PR-side validation.

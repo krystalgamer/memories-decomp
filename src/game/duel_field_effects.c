@@ -4,7 +4,6 @@
 #define GDIALOG_CHOICE_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
-#define DISPLAY_OBJECT_MOTION_BYTE_CALLBACK
 #include "ai.h"
 #include "duel_side_state.h"
 #include "ai_controller_handoff.h"
@@ -519,7 +518,7 @@ void DuelEffect_ApplyRitual(void)
             object->position.h.field_2A = 42;
             object->field_2C.h.field_2C = 16;
             object->field_6C = 1;
-            object->update = DisplayObject_UpdateCosineSlide;
+            object->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
         } else if (!(gDuel_wTrapPresentationMode & 0x40)) {
             if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
@@ -548,7 +547,7 @@ void DuelEffect_ApplyRitual(void)
                 *(s16 *)&object->position.h.field_2A = -128;
                 object->field_2C.h.field_2C = 16;
                 object->field_6C = 1;
-                object->update = DisplayObject_UpdateCosineSlide;
+                object->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
                 card = &gDuel_aCardRecords[object->field_6A];
                 flags = card->flags & ~0x200;
                 card->flags = flags;

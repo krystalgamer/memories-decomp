@@ -1,4 +1,3 @@
-#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define GDUEL_WBGMID_IN_DATA
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
@@ -346,7 +345,7 @@ void DuelScene_UpdateDrawPhase(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                slot->object = (DisplayObject *)Duel_CreateHandCardDisplayObject(placed, y, DUEL_PHASE_HAND_CARD_Y);
+                slot->object = (DisplayObject *)((DuelCreateHandCardDisplayObjectAt)Duel_CreateHandCardDisplayObject)(placed, y, DUEL_PHASE_HAND_CARD_Y);
                 slot++;
                 y += 0x3C;
                 placed++;

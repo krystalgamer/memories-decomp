@@ -34,7 +34,6 @@
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
-#define FUNC_80024088_WIDE_DIRECTION
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "duel_scene_hand_actions.h"
@@ -319,7 +318,7 @@ void DuelScene_UpdateHandActions(void)
                 gDuelCursor_Direction = -1;
                 return;
             }
-            if (DuelCursor_UpdateDirection(gDuel_pActiveSelectionRecord, gDuelCursor_Direction) == 0) {
+            if (((DuelCursorUpdateDirectionWithDir)DuelCursor_UpdateDirection)(gDuel_pActiveSelectionRecord, gDuelCursor_Direction) == 0) {
                 if (gDuel_pActiveSelectionRecord->col == gDuel_bAiCursorTarget) {
                     goto confirm;
                 }
