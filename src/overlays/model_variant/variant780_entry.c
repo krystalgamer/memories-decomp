@@ -50,7 +50,7 @@ s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
         ring = work->ring;
         outer = work->outer;
         inner = work->inner;
-        work->config = &gModelVariant780_D1E44[command];
+        work->config = &gModelVariant780_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_SetSlotPlaybackDirection(slot ^ 1, 0);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&work->centre);
@@ -97,7 +97,7 @@ s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant780_D1DF0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant780_aImages[i]);
         }
         work->beam = 1;
         work->rise = 0;

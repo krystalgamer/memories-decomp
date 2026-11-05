@@ -62,7 +62,7 @@ typedef struct {
     u16 unused_tpage, unused_clut;
 } Model755State;
 
-extern GsIMAGE gModelVariant755_D1630[3];
-extern Model755Config gModelVariant755_D1684[];
+extern GsIMAGE gModelVariant755_aImages[3];
+extern Model755Config gModelVariant755_aConfigs[];
 
 #endif

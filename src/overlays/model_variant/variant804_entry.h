@@ -88,8 +88,8 @@ typedef struct {
     u8 spark_b[8];
 } Model804State;
 
-extern GsIMAGE gModelVariant804_D2344[3];
-extern Model804Config gModelVariant804_D2398[];
+extern GsIMAGE gModelVariant804_aImages[3];
+extern Model804Config gModelVariant804_aConfigs[];
 
 s32 ModelVariant804_HandleRequest(u8 *context, s32 command);
 

@@ -45,8 +45,8 @@ otherwise.
 The entry's `.rodata` is the work-size format string and the jump table of
 the setup's command switch, `0x34` bytes at `0x1360`. The rest of the image
 is one raw tail that starts at `0x1394`. Inside it, the layout names the two
-texture descriptors `gModelVariant634_D1394` and the command table
-`gModelVariant634_D13CC`. The `0x8017B000` images use the same offsets. The
+texture descriptors `gModelVariant634_aImages` and the command table
+`gModelVariant634_aConfigs`. The `0x8017B000` images use the same offsets. The
 French header-651 images build the file through
 [`french_model_variant/variant651_entry.c`](../../src/overlays/french_model_variant/variant651_entry.c)
 with `VERSION_FRENCH`, and their symbols files bind both names 0x28 lower. The

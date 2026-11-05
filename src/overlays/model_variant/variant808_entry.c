@@ -61,7 +61,7 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant808_D22B4[command];
+        work->config = &gModelVariant808_aConfigs[command];
         setVector(&work->center, 0, 0, 0);
         setVector(&work->velocity, 0, 0, 0);
         work->head = 0;
@@ -92,7 +92,7 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
             setVector(&work->trail[i], 0, 0, 0);
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant808_D2228[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant808_aImages[i]);
         }
         work->color.c.trail_on = 0xFF;
         work->ring_scale = 0x1000;

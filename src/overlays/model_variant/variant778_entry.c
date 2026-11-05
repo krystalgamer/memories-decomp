@@ -30,7 +30,7 @@ s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
     work = (Model778State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &gModelVariant778_D1518[command];
+        work->config = &gModelVariant778_aConfigs[command];
         point = work->smoke;
         for (i = 0; i < 25; i++) {
             setVector(point, 0, 0, 0);
@@ -60,7 +60,7 @@ s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant778_D14C4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant778_aImages[i]);
         }
         work->level = 2048;
         work->phase = 0;

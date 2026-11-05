@@ -45,7 +45,7 @@ s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant821_D39BC[command];
+        work->config = &gModelVariant821_aConfigs[command];
         for (g = 0; g < 3; g++) {
             work->head[g] = 0;
             for (i = 0; i < 10; i++) {
@@ -99,10 +99,10 @@ s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
             }
         }
         for (g = 0; g < 5; g++) {
-            work->texture[g] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_D3930[g]);
+            work->texture[g] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_aImages[g]);
         }
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant821_D3930[3]);
-        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_D3930[3]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant821_aImages[3]);
+        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant821_aImages[3]);
         work->ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;

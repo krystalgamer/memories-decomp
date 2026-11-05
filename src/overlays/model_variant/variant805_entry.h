@@ -90,8 +90,8 @@ typedef struct {
     u8 flash;
 } Model805State;
 
-extern GsIMAGE gModelVariant805_D2CAC[3];
-extern Model805Config gModelVariant805_D2D00[];
+extern GsIMAGE gModelVariant805_aImages[3];
+extern Model805Config gModelVariant805_aConfigs[];
 
 s32 ModelVariant805_HandleRequest(u8 *context, s32 command);
 

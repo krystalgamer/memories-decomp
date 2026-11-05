@@ -75,7 +75,7 @@ typedef struct {
 } Model783State;
 
 extern VECTOR gModelVariant783_UnitScale;
-extern GsIMAGE gModelVariant783_D2500[];
-extern Model783Command gModelVariant783_D2538[];
+extern GsIMAGE gModelVariant783_aImages[];
+extern Model783Command gModelVariant783_aConfigs[];
 
 #endif

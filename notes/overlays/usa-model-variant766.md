@@ -46,6 +46,6 @@ faded out, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013C838`, at `0x1838`. The
 rest of the image is one raw tail that starts at `0x1848`. Inside it, the
-layout names the two texture descriptors `gModelVariant766_D1848` and the command table
-`gModelVariant766_D1880`. The `0x8017B000` images use the same offsets. The resident
+layout names the two texture descriptors `gModelVariant766_aImages` and the command table
+`gModelVariant766_aConfigs`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant766_linker_symbols.txt`.

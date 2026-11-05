@@ -42,7 +42,7 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant760_D1FCC[command];
+        work->config = &gModelVariant760_aConfigs[command];
         v = work->ring;
         for (i = 0; i < 16; v++, i++) {
             v->vx = work->config->radius * ccos((i << 8) % 4096) / 4096;
@@ -102,7 +102,7 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
         }
         work->spark_done = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant760_D1F78[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant760_aImages[i]);
         }
         return 0;
     }

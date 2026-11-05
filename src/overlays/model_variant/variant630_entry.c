@@ -20,9 +20,9 @@ static const char gModelVariant630_D17B0[24] = "E_DATA size = %x byte\n\0" MODEL
  * life. The step is spelled out twice rather than kept in a temporary,
  * which keeps retail's register choice. */
 #define MODEL630_FADE(c)                                                                         \
-    if (gModelVariant630_D1800[work->command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
+    if (gModelVariant630_aConfigs[work->command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
         < work->rings[i].color[c]) {                                                             \
-        work->rings[i].color[c] -= gModelVariant630_D1800[work->command].color[c]                            \
+        work->rings[i].color[c] -= gModelVariant630_aConfigs[work->command].color[c]                            \
             / (work->rings[i].duration / 2 - 1) * step;                                          \
     } else {                                                                                     \
         work->rings[i].color[c] = 0;                                                             \
@@ -52,10 +52,10 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant630_D17C8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant630_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant630_D17C8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant630_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -64,17 +64,17 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
             work->rows = 3;
             break;
         }
-        work->radius = gModelVariant630_D1800[command].radius;
-        work->height = gModelVariant630_D1800[command].height;
+        work->radius = gModelVariant630_aConfigs[command].radius;
+        work->height = gModelVariant630_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->orbs[i].duration = 16;
             work->orbs[i].active = 0;
             work->orbs[i].elapsed = 0;
             work->orbs[i].mode = 1;
             work->orbs[i].coord = Model_GetCameraCoordinateUnit();
-            work->orbs[i].color[0] = gModelVariant630_D1800[command].color[0];
-            work->orbs[i].color[1] = gModelVariant630_D1800[command].color[1];
-            work->orbs[i].color[2] = gModelVariant630_D1800[command].color[2];
+            work->orbs[i].color[0] = gModelVariant630_aConfigs[command].color[0];
+            work->orbs[i].color[1] = gModelVariant630_aConfigs[command].color[1];
+            work->orbs[i].color[2] = gModelVariant630_aConfigs[command].color[2];
             work->orbs[i].u = 0;
             work->orbs[i].v = 32;
             setVector(&work->orbs[i].scale, 4096, 4096, 4096);
@@ -119,7 +119,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][k] = work->sparks[i][0];
             }
         }
-        work->delay = gModelVariant630_D1800[command].delay;
+        work->delay = gModelVariant630_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }

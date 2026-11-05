@@ -1,7 +1,7 @@
 // Italian MODEL.MRG model 254 (record 254), sector 70314, header 903, loaded at 0x8017B000; the US header-886 source variant789_entry.c; built from the French source layout of french_model_variant_254_stage10_slot1.
 ModelVariant789_HandleRequest = 0x8017B004; // type:func size:0x1DB8 defined:true
-gModelVariant789_D1DCC = 0x8017CDCC; // type:u8 size:0x54 defined:true
-gModelVariant789_D1E20 = 0x8017CE20; // type:u8 size:0x31E0 defined:true
+gModelVariant789_aImages = 0x8017CDCC; // type:u8 size:0x54 defined:true
+gModelVariant789_aConfigs = 0x8017CE20; // type:u8 size:0x31E0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

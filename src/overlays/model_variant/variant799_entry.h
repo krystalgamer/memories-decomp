@@ -110,8 +110,8 @@ typedef struct {
     Model799Colour glow[6];
 } Model799State;
 
-extern GsIMAGE gModelVariant799_D3D7C[];
-extern Model799Config gModelVariant799_D3E40[];
+extern GsIMAGE gModelVariant799_aImages[];
+extern Model799Config gModelVariant799_aConfigs[];
 
 s32 ModelVariant799_HandleRequest(u8 *context, s32 command);
 

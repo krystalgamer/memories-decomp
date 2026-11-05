@@ -75,8 +75,8 @@ typedef struct {
     Model751Color color;
 } Model751State;
 
-extern GsIMAGE gModelVariant751_D1A50[];
-extern Model751Config gModelVariant751_D1AA4[];
+extern GsIMAGE gModelVariant751_aImages[];
+extern Model751Config gModelVariant751_aConfigs[];
 
 s32 ModelVariant751_HandleRequest(u8 *context, s32 command);
 

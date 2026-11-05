@@ -95,8 +95,8 @@ typedef struct {
     } core;
 } Model806State;
 
-extern GsIMAGE gModelVariant806_D1F68[4];
-extern Model806Config gModelVariant806_D1FD8[];
+extern GsIMAGE gModelVariant806_aImages[4];
+extern Model806Config gModelVariant806_aConfigs[];
 
 s32 ModelVariant806_HandleRequest(u8 *context, s32 command);
 

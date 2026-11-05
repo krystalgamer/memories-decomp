@@ -51,7 +51,7 @@ s32 ModelVariant768_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant768_D24E4[command];
+        work->config = &gModelVariant768_aConfigs[command];
         v = &work->trails.flat[0];
         w = &work->trails.flat[32];
         x = &work->trails.flat[64];
@@ -128,7 +128,7 @@ s32 ModelVariant768_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant768_D2474[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant768_aImages[i]);
         }
         work->ring_scale = 0x1000;
         work->ambient = 0x800;

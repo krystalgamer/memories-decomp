@@ -47,7 +47,7 @@ s32 ModelVariant845_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant845_D3B58[command];
+        work->config = &gModelVariant845_aConfigs[command];
         /* The bolts start on alternating sides of the model point. */
         sign = 1;
         for (i = 0; i < work->config->count; i++) {
@@ -114,11 +114,11 @@ s32 ModelVariant845_HandleRequest(u8 *context, s32 command)
             }
             work->spark_count[i] = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant845_D3ACC[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &gModelVariant845_D3ACC[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant845_aImages[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_aImages[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &gModelVariant845_aImages[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_aImages[4]);
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;

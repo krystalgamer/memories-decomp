@@ -46,7 +46,7 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant784_D411C[command];
+        work->config = &gModelVariant784_aConfigs[command];
         for (i = 0; i < 5; i++) {
             work->tail[i] = 0;
             work->spark_count[i] = 0;
@@ -105,7 +105,7 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                       work->config->fan2_outer * ((s32)((u32)csin(i * 256 % 4096) << 1)) / 4096);
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant784_D4090[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant784_aImages[i]);
         }
         work->elapsed = 0;
         work->fired = 0;

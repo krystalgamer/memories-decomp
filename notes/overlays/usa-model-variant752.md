@@ -40,6 +40,6 @@ the last sparkle has faded out and so has the burst colour, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013C980`, at `0x1980`. The
 rest of the image is one raw tail that starts at `0x1990`. Inside it, the
-layout names the three texture descriptors `gModelVariant752_D1990` and the command table
-`gModelVariant752_D19E4`. The `0x8017B000` images use the same offsets. The resident
+layout names the three texture descriptors `gModelVariant752_aImages` and the command table
+`gModelVariant752_aConfigs`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant752_linker_symbols.txt`.

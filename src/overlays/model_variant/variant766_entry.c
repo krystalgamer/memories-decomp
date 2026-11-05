@@ -43,7 +43,7 @@ s32 ModelVariant766_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant766_D1880[command];
+        work->config = &gModelVariant766_aConfigs[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {
@@ -82,7 +82,7 @@ s32 ModelVariant766_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant766_D1848[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant766_aImages[i]);
         }
         setVector(&work->square[0], -work->config->square_size, 0, direction << 7);
         setVector(&work->square[1], work->config->square_size, 0, direction << 7);

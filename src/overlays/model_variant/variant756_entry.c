@@ -42,7 +42,7 @@ s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant756_D2064[command];
+        work->config = &gModelVariant756_aConfigs[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {
@@ -97,7 +97,7 @@ s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant756_D2010[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant756_aImages[i]);
         }
         work->burst_scale = 0;
         work->level = 2048;

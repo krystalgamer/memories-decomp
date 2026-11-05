@@ -35,7 +35,7 @@ s32 ModelVariant816_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant816_D2C08[command];
+        work->config = &gModelVariant816_aConfigs[command];
         for (i = 0; i < 1; i++) {
             for (j = 0; j < 64; j++) {
                 setVector(&work->orbs[i][j], work->config->spread * ((rand() - rand()) % 4096) / 4096,
@@ -85,7 +85,7 @@ s32 ModelVariant816_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant816_D2B7C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant816_aImages[i]);
         }
         work->orb_count = 0;
         work->comet_count = 0;

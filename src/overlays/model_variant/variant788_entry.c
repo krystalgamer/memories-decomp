@@ -57,7 +57,7 @@ s32 ModelVariant788_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant788_D23FC[command];
+        work->config = &gModelVariant788_aConfigs[command];
         Model_CopySlotPosition(slot ^ 1, (u16 *)&work->position);
         work->position.vy = 0;
         work->radius = work->config->radius;
@@ -89,7 +89,7 @@ s32 ModelVariant788_HandleRequest(u8 *context, s32 command)
                       work->dots[i].vy / work->config->dot_duration, work->dots[i].vz / work->config->dot_duration);
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant788_D23E0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant788_aImages[i]);
         }
         work->band_bottom = work->config->band_width;
         work->band_top = work->config->band_top;

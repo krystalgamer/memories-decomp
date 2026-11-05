@@ -39,7 +39,7 @@ s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant779_D2144[command];
+        work->config = &gModelVariant779_aConfigs[command];
         point = work->trail[0];
         other = work->trail[1];
         third = work->trail[2];
@@ -88,7 +88,7 @@ s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant779_D20F0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant779_aImages[i]);
         }
         work->spark_counts[0] = 0;
         work->spark_counts[1] = 0;

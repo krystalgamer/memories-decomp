@@ -74,8 +74,8 @@ typedef struct {
     s16 phase;
 } Model763State;
 
-extern GsIMAGE gModelVariant763_D1BA8[2];
-extern Model763Config gModelVariant763_D1BE0[];
+extern GsIMAGE gModelVariant763_aImages[2];
+extern Model763Config gModelVariant763_aConfigs[];
 
 s32 ModelVariant763_HandleRequest(u8 *context, s32 command);
 

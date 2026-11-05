@@ -41,7 +41,7 @@ s32 ModelVariant764_HandleRequest(u8 *context, s32 command)
     work = (Model764State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant764_D1318[command];
+        work->config = &gModelVariant764_aConfigs[command];
         v = work->inner;
         w = work->outer;
         u = work->cone;
@@ -91,7 +91,7 @@ s32 ModelVariant764_HandleRequest(u8 *context, s32 command)
         work->color[2] = work->config->b;
         work->grey = 0x80;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant764_D12FC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant764_aImages[i]);
         }
         return 0;
     }

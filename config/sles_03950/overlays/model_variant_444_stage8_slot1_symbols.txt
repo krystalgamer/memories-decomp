@@ -1,7 +1,7 @@
 // Italian MODEL.MRG model 444 (record 394), sector 108934, header 880, loaded at 0x8017B000; the US header-863 source variant766_entry.c; built from the French source layout of french_model_variant_444_stage8_slot1.
 ModelVariant766_HandleRequest = 0x8017B004; // type:func size:0x1834 defined:true
-gModelVariant766_D1848 = 0x8017C848; // type:u8 size:0x38 defined:true
-gModelVariant766_D1880 = 0x8017C880; // type:u8 size:0x3780 defined:true
+gModelVariant766_aImages = 0x8017C848; // type:u8 size:0x38 defined:true
+gModelVariant766_aConfigs = 0x8017C880; // type:u8 size:0x3780 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

@@ -120,7 +120,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant833_aImages[10];
 extern GsIMAGE gModelVariant833_aGlowImages[2];
-extern Model833Config gModelVariant833_D4D14[];
+extern Model833Config gModelVariant833_aConfigs[];
 
 s32 ModelVariant833_HandleRequest(u8 *context, s32 command);
 

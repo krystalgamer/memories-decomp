@@ -32,7 +32,7 @@ s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
     work = (Model809State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &gModelVariant809_D1110[command];
+        work->config = &gModelVariant809_aConfigs[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->sparks[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -46,7 +46,7 @@ s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant809_D10D8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant809_aImages[i]);
         }
         work->level = 2048;
         work->spark_count = 0;

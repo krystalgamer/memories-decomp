@@ -84,8 +84,8 @@ typedef struct {
     u8 spark_level;
 } Model782State;
 
-extern GsIMAGE gModelVariant782_D226C[];
-extern Model782Config gModelVariant782_D22C0[];
+extern GsIMAGE gModelVariant782_aImages[];
+extern Model782Config gModelVariant782_aConfigs[];
 
 s32 ModelVariant782_HandleRequest(u8 *context, s32 command);
 

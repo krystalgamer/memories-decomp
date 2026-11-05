@@ -74,8 +74,8 @@ typedef struct {
     Model834Color burst_color;
 } Model834State;
 
-extern GsIMAGE gModelVariant834_D2620[];
-extern Model834Config gModelVariant834_D2674[];
+extern GsIMAGE gModelVariant834_aImages[];
+extern Model834Config gModelVariant834_aConfigs[];
 
 s32 ModelVariant834_HandleRequest(u8 *context, s32 command);
 

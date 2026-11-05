@@ -73,7 +73,7 @@ typedef struct {
 } Model769State;
 
 /* Two GsIMAGE descriptors: the orb texture and the ring texture. */
-extern GsIMAGE gModelVariant769_D2314[];
-extern Model769Command gModelVariant769_D234C[];
+extern GsIMAGE gModelVariant769_aImages[];
+extern Model769Command gModelVariant769_aConfigs[];
 
 #endif

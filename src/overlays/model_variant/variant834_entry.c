@@ -35,7 +35,7 @@ s32 ModelVariant834_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant834_D2674[command];
+        work->config = &gModelVariant834_aConfigs[command];
         work->position.vx = 0;
         work->position.vy = -512;
         work->position.vz = 0;
@@ -68,7 +68,7 @@ s32 ModelVariant834_HandleRequest(u8 *context, s32 command)
         work->ring_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant834_D2620[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant834_aImages[i]);
         }
         for (i = 0; i < 64; i++) {
             setVector(&work->orbs[i], 0, 0, 0);

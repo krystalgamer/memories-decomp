@@ -42,7 +42,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
     work = (Model769State *)context;
     if (command >= 0) {
         point = work->particles;
-        work->command = &gModelVariant769_D234C[command];
+        work->command = &gModelVariant769_aConfigs[command];
         work->position.vx = 0;
         velocity = work->particle_velocities;
         work->position.vy = -work->command->height;
@@ -103,7 +103,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
         work->ring_green = work->command->ring_green;
         work->ring_blue = work->command->ring_blue;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant769_D2314[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant769_aImages[i]);
         }
         work->ambient = 0x800;
         work->elapsed = 0;

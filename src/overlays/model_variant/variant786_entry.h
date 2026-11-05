@@ -89,8 +89,8 @@ typedef struct {
 /* Halfword index of ring_frame[0][0] (byte 194) within Model786State.view.halves. */
 #define MODEL786_RING_FRAME_HALF 97
 
-extern GsIMAGE gModelVariant786_D1DA8[];
-extern Model786Config gModelVariant786_D1DFC[];
+extern GsIMAGE gModelVariant786_aImages[];
+extern Model786Config gModelVariant786_aConfigs[];
 
 s32 ModelVariant786_HandleRequest(u8 *context, s32 command);
 

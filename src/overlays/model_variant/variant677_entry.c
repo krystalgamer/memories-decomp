@@ -14,9 +14,9 @@
     if ((element).duration / 2 < (element).elapsed) {                          \
         value = ((element).duration - (element).elapsed) * 2;                  \
         amount = (element).duration;                                           \
-        (element).color[0] = gModelVariant677_D2898[work->command].color[first] * value / amount; \
-        (element).color[1] = gModelVariant677_D2898[work->command].color[first + 1] * value / amount; \
-        (element).color[2] = gModelVariant677_D2898[work->command].color[first + 2] * value / amount; \
+        (element).color[0] = gModelVariant677_aConfigs[work->command].color[first] * value / amount; \
+        (element).color[1] = gModelVariant677_aConfigs[work->command].color[first + 1] * value / amount; \
+        (element).color[2] = gModelVariant677_aConfigs[work->command].color[first + 2] * value / amount; \
     }
 
 #define DRAW_SPRITE(page, u0, v0, u1, v1, u2, v2, u3, v3, element, a, b, c, d)   \
@@ -54,9 +54,9 @@
     (element).duration = length;                                               \
     (element).mode = 1;                                                        \
     (element).coord = Model_GetCameraCoordinateUnit();                         \
-    (element).color[0] = gModelVariant677_D2898[command].color[first];                     \
-    (element).color[1] = gModelVariant677_D2898[command].color[first + 1];                 \
-    (element).color[2] = gModelVariant677_D2898[command].color[first + 2]
+    (element).color[0] = gModelVariant677_aConfigs[command].color[first];                     \
+    (element).color[1] = gModelVariant677_aConfigs[command].color[first + 1];                 \
+    (element).color[2] = gModelVariant677_aConfigs[command].color[first + 2]
 
 #define START_SPARKS(index)                                                    \
     if (work->flags[0] < work->row_count && work->elapsed >= work->flags[0] * 20) { \
@@ -103,29 +103,29 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             work->cell_v[i] = i / 4 * 64 - 128;
         }
         /* Scheduling barrier: the empty loop after the early column
-         * assignment keeps the gModelVariant677_D2764 high half ahead of the first
+         * assignment keeps the gModelVariant677_aImages high half ahead of the first
          * call's constant argument.  The assignment itself is sunk into
          * the switch below before register allocation. */
         columns = 2;
         do {
         } while (0);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[8]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[9]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[10]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[10]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_D2764[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         switch (command) {
@@ -138,8 +138,8 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             work->row_count = 5;
             break;
         }
-        work->radius = gModelVariant677_D2898[command].radius;
-        work->height = gModelVariant677_D2898[command].height;
+        work->radius = gModelVariant677_aConfigs[command].radius;
+        work->height = gModelVariant677_aConfigs[command].height;
         for (i = 0; i < 5; i++) {
             PushMatrix();
             m = GsIDMATRIX;
@@ -200,7 +200,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 setVector(&work->bursts[i][j].position, 0, 0, 0);
             }
         }
-        work->delay = gModelVariant677_D2898[command].delay;
+        work->delay = gModelVariant677_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }

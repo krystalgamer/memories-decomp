@@ -43,7 +43,7 @@ s32 ModelVariant763_HandleRequest(u8 *context, s32 command)
     work = (Model763State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant763_D1BE0[command];
+        work->config = &gModelVariant763_aConfigs[command];
         work->unknown_6B4 = 0;
         work->elapsed = 0;
         work->flash = 0;
@@ -90,7 +90,7 @@ s32 ModelVariant763_HandleRequest(u8 *context, s32 command)
         setVector(&work->quad[2], -work->config->quad_half, work->config->quad_half, 0);
         setVector(&work->quad[3], work->config->quad_half, work->config->quad_half, 0);
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant763_D1BA8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant763_aImages[i]);
         }
         v = work->dots;
         w = work->dot_velocities;

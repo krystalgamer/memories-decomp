@@ -31,7 +31,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
     work = (Model773State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->command = &gModelVariant773_D256C[command];
+        work->command = &gModelVariant773_aConfigs[command];
         pos = work->pos;
         vel = work->vel;
         /* vy and vz go through the word view so they keep their own
@@ -69,7 +69,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant773_D2518[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant773_aImages[i]);
         }
         work->state = 0;
         work->done = 0;

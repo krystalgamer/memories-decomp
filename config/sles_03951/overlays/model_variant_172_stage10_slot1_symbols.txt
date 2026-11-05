@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 172 (record 172), sector 47682, header 870, loaded at 0x8017B000; the US header-853 source variant756_entry.c; built from the French source layout of french_model_variant_172_stage10_slot1.
 ModelVariant756_HandleRequest = 0x8017B004; // type:func size:0x1FFC defined:true
-gModelVariant756_D2010 = 0x8017D010; // type:u8 size:0x54 defined:true
-gModelVariant756_D2064 = 0x8017D064; // type:u8 size:0x2F9C defined:true
+gModelVariant756_aImages = 0x8017D010; // type:u8 size:0x54 defined:true
+gModelVariant756_aConfigs = 0x8017D064; // type:u8 size:0x2F9C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

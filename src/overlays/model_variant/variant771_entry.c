@@ -49,7 +49,7 @@ s32 ModelVariant771_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant771_D2004[command];
+        work->config = &gModelVariant771_aConfigs[command];
         v = work->trail0;
         w = work->trail1;
         u = work->trail2;
@@ -63,7 +63,7 @@ s32 ModelVariant771_HandleRequest(u8 *context, s32 command)
         }
         setVector(&work->offset, 0, 0, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant771_D1FB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant771_aImages[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
         v = work->fan_a;
