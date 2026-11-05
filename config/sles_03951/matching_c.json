@@ -4550,7 +4550,7 @@
     },
     {
       "address": "0x80047910",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g0_no_split_no_strength_reduce",
       "size": "0x1BC",
       "source": "src/game/sd_init_voice_state.c"
     },
@@ -4568,7 +4568,7 @@
     },
     {
       "address": "0x80047C18",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0xDC",
       "source": "src/game/sd_queue_value_link_transfer.c"
     },
@@ -4658,7 +4658,7 @@
     },
     {
       "address": "0x80048740",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x3A8",
       "source": "src/game/sd_allocate_sound_effect_voice.c"
     },

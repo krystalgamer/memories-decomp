@@ -1,4 +1,3 @@
-#define G_SDVALUE_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"

@@ -1,4 +1,3 @@
-#define G_SDVALUE_IN_DATA
 #include "../types.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"

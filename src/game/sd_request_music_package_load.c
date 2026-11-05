@@ -1,4 +1,3 @@
-#define G_SDVALUE_VOLATILE
 #include "../types.h"
 #include "sd_reset_music_state.h"
 #include "../psyq/libspu.h"
