@@ -48,7 +48,7 @@ The four actual commands remain `588000`, selecting the 48-byte
 descriptor at `+0x386C`; its words at `+0x1C/+0x20/+0x24` are
 `60/120/360`. Entry calls veils when descriptor start is reached and halo
 when phase is at least two. The other six helpers remain retained code,
-not new entry-reachable paths. Four texture uploads and the observed
+not new entry-reachable paths. Four texture page/CLUT packs and the observed
 packet initialization, geometry, frame-step, tint and phase behavior are
 preserved.
 

@@ -28,7 +28,7 @@ State offsets are:
 
 The initialized scale vector is at `8013BF44`; three 28-byte `GsIMAGE`
 records follow at `8013BF54`. Opposite-slot data addresses add `0x40000`.
-Only the first two uploaded textures are read by this entry. Packed results
+Only the first two packed texture words are read by this entry. Packed results
 hold CLUT in the low halfword and TPAGE in the high halfword.
 
 ## Behavior

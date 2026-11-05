@@ -37,7 +37,7 @@ with three part bytes at `0x10..0x12` and unsigned sheet start at `0x18`.
 Initialization resolves all three parts and matrices. The initial target
 is `(0,-300,-450)` for slot zero or `(0,-300,450)` otherwise.
 Both page queries use `(1,1,896,0)` and palette `(640,244)`.
-Mode-one texture uploads use data offsets `0xC4`, `0x8C` and `0x1C`.
+Mode-one texture page/CLUT packs use data offsets `0xC4`, `0x8C` and `0x1C`.
 
 Mesh latitude uses `(base << 2) / 8`, advancing base by 325 per row.
 Radius is `rsin(latitude) * 384 >> 12`; height combines the latitude

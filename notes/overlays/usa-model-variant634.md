@@ -23,7 +23,7 @@ All thirteen rebuild byte-identical to retail.
 The entry belongs to the family of headers 627, 647 and 654: it clears a
 work area, prints its size, and keeps its effects in the `0x4C`-byte burst
 records of header 647. The setup command picks one of seven rows of the
-`0xC`-byte command table, uploads two textures, and sets up eight, sixteen or
+`0xC`-byte command table, packs two texture page/CLUT words, and sets up eight, sixteen or
 twenty rings and thirty-two sparks. Each ring gets the row's colour and its
 own tilt; the sparks sit in a cluster around the front of the slot, up to
 three half-radii out from its centre. The setup also fills two circles of

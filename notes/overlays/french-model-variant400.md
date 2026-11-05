@@ -245,8 +245,8 @@ overlay totals are 3,964 C instances and 5,097,516 C bytes.
 `variant400_entry.c` (both slots) is the exact
 2,692-byte loader entry with a 200-byte frame. A nonnegative command stores
 the active slot, selects the 32-byte descriptor in `gFrenchModelVariant400_aConfigs`, reads
-its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It uploads
-five textures, initializes the G3/G4 packets, two GT4 and two FT4 packets,
+its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It packs
+five texture page/CLUT words, initializes the G3/G4 packets, two GT4 and two FT4 packets,
 five 880-byte nodes, seven sheets with white/blue colours, and two columns.
 The descriptor span `end - start` is stored at `2054`, and the result
 starts at 6 on that path.

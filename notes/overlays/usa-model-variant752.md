@@ -23,7 +23,7 @@ All thirty rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x44-byte command table. Like header
 754, it gives the particles random velocities, lays out a ring of 16
-segments, copies the burst colour and uploads three textures. Each of the 64
+segments, copies the burst colour and packs three texture page/CLUT words. Each of the 64
 sparkles also starts grey with a zero scale.
 
 The camera presets, the ambient-level dip and the tint behave as in header

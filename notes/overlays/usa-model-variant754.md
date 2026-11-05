@@ -22,8 +22,8 @@ All forty-nine rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x48-byte command table. It gives 64
 smoke puffs, 8 pieces of debris and 64 embers random velocities, lays out the
-two edges of a ring of 16 segments, copies the burst colour and uploads three
-textures.
+two edges of a ring of 16 segments, copies the burst colour and packs three
+texture page/CLUT words.
 
 Each frame, the row's camera mode picks the camera preset for the elapsed
 time and queues it, and the entry lowers the slot's ambient level until the

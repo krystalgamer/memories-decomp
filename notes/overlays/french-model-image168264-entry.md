@@ -14,7 +14,7 @@ from native accesses. Configuration contains ray/particle colors, sixteen
 part identifiers, radius/width controls, timing fields and sixteen signed
 start times with a negative sentinel. State retains sixteen origins,
 64 randomized particle positions, 64 randomized ray scales, camera phase,
-two uploaded texture handles, elapsed time, notification index and tint gate.
+two packed texture page/CLUT words, elapsed time, notification index and tint gate.
 
 Each active origin draws two 64-ray Gouraud fans, then a later pass projects
 the randomized shell as 2x2 filled boxes. The second fan divides its doubled
@@ -37,7 +37,7 @@ the USA header-146 component is different.
 
 ## Native details retained
 
-- The initial active-slot query and both texture uploads remain, although
+- The initial active-slot query and both texture page/CLUT packs remain, although
   their results are unused by later rendering.
 - The delay path queries frame step again.
 - Tint descriptors initialize RGB only, preserving native uninitialized

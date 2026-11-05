@@ -23,7 +23,7 @@ The setup command takes its row of the 0x22-byte command table. It builds
 two 33-vertex rings from `ccos`/`csin`: an outer one at the row's depth, its
 sign set by the active slot, and an inner one at zero. It clears up to 128
 dots and gives each dot a random velocity. It also gives up to 32 sprites a random outward
-velocity, uploads two textures and prints the work-area size.
+velocity, packs two texture page/CLUT words and prints the work-area size.
 
 After the row's delay, three phases run, each over its own duration:
 

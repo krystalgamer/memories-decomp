@@ -34,7 +34,7 @@ Twenty-nine target-compiled constants verify the local and SDK layouts.
 Initialization builds two contiguous 17-point ribbon edges. Each sample
 uses two separate sine calls; the second edge copies the first edge's XYZ
 then replaces Y. Neither edge's unused padding is initialized. A 3x3 grid
-and four pointer-defined quads follow. Two images are uploaded in mode one,
+and four pointer-defined quads follow. Two image page/CLUT words are packed in mode one,
 then elapsed time, animation and completion are cleared.
 
 The grid pass uses texture one and four RotAverage4 calls through the

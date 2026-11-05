@@ -165,8 +165,8 @@ instances and 1,336,116 C instruction bytes, not exhaustive runtime coverage.
 ## Entry recovery
 
 The entry initializes one `0x3A4`-byte ribbon record, two `0x98`-byte rings,
-two `0x378`-byte streamer records and the existing packet views. It uploads
-five textures, reads the selected part matrix, projects its translation and
+two `0x378`-byte streamer records and the existing packet views. It packs
+five texture page/CLUT words, reads the selected part matrix, projects its translation and
 the target, dispatches the three local helpers, and updates animation/fade
 state. The entry-only views expose initialization fields that are opaque in
 the accepted renderer headers; those headers are not expanded or replaced.

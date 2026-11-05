@@ -21,7 +21,7 @@ All twenty rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x1A-byte command table and builds one
 textured blade, a quad whose outer edge is tilted by the row's depth on the
-active slot's side. It uploads one texture and sets the camera step counter to
+active slot's side. It packs one texture page/CLUT word and sets the camera step counter to
 two. Commands from 100 up also set a tint flag.
 
 After the row's delay, the entry draws the row's number of waves, each starting

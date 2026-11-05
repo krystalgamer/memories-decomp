@@ -18,7 +18,7 @@ All ten rebuild byte-identical to retail.
 ## What the entry does
 
 A setup command (`command >= 0`) selects a 0x1C-byte row of the command table
-and uploads one texture. The row holds the colour, the source part, the quad half
+and packs one texture page/CLUT word. The row holds the colour, the source part, the quad half
 size, a depth, an extra depth for the last leg, the leg duration, the spacing,
 the count and the start delay. Until the delay runs out, every quad follows the
 model part. After that, quad `i` starts `spacing * i` frames late and runs three

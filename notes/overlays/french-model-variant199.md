@@ -42,8 +42,8 @@ the command branch. It gets the opponent adjustment and constructs 128
 descending-index random rays. Preserve negation before the height
 remainder, the radius scaling order, and repeated trigonometric calls.
 It constructs a three-by-three grid, the 16-pointer quad table, and 32
-random sphere vectors. Five mode-1 texture uploads are followed by another
-upload of index 4 in mode 2: six calls, not five. Elapsed time and completion
+random sphere vectors. Five mode-1 texture page/CLUT packs are followed by another
+pack of index 4 in mode 2: six calls, not five. Elapsed time and completion
 are then cleared.
 
 Before the burst, groups of `128 / ray_group_size` rays use elapsed time

@@ -23,7 +23,7 @@ All forty-eight rebuild byte-identical to retail.
 The setup command takes its row of the 0x34-byte command table. Like header
 766, it clears the two trail edges, gives the light columns random rotations,
 and gives the sparks random velocities. It also gives random velocities to 16
-pieces of debris, 64 smoke puffs and 64 embers, and uploads three textures.
+pieces of debris, 64 smoke puffs and 64 embers, and packs three texture page/CLUT words.
 
 The trail, the ambient-level dip and the two four-point stars, the sparks and
 the light columns of the burst behave as in header 766. Once the burst starts,

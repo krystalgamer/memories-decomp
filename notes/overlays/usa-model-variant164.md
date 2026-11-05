@@ -23,7 +23,7 @@ The setup command picks a `0x24`-byte row of the command table by
 `command % 100` and keeps `command / 100` as the mode. It scatters one target
 point per particle through a sphere of random radius, copies the other slot's
 position into the gather centre at `y = -350`, and builds two 33-point circles
-(the ring radius and the glow size) for the ring. It uploads three textures.
+(the ring radius and the glow size) for the ring. It packs three texture page/CLUT words.
 Like the work-size entries in the [French-entry note](usa-model-french-entries.md),
 it prints the work-area size, 0x638 bytes, with
 `printf("%d (0x%x) Byte\n", sizeof(state), sizeof(state))`.

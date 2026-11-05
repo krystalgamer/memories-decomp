@@ -20,7 +20,7 @@ All forty-one rebuild byte-identical to retail.
 ## What the entry does
 
 The setup command clears the 0x1204-byte work area, prints its size with
-`printf("E_DATA size = %x byte\n", ...)` and uploads one texture twice. Its
+`printf("E_DATA size = %x byte\n", ...)` and packs one texture page/CLUT word twice. Its
 row of the 0xC-byte command table gives the start delay, the ring radius and
 height, and a colour. Commands 14 and 15 use two bursts and the others one.
 Each burst gets its rotation and position from the command, and the camera

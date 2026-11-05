@@ -24,7 +24,7 @@ The setup command takes its row of the 0x2A-byte command table. It clears
 four trail edges, gives every trail segment the row's trail colour, and points
 up to 16 sparks and 16 flares in random directions at the row's speed. Each
 flare also gets a star with the row's star colour and a unit scale for both
-bursts. The setup then uploads three textures.
+bursts. The setup then packs three texture page/CLUT words.
 
 Each frame the entry lowers the slot's ambient level until the second burst
 and raises it again afterwards. After the row's delay:

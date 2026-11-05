@@ -40,7 +40,7 @@ timings at `0x2C..0x44`. The first two part coordinates supply two matrices.
 The initial target is `(0,-300,-450)` in slot 0 and `(0,-300,450)` otherwise.
 
 The first page/palette queries use `(1,1,896,0)` and `(640,244)`;
-the unused second query pair remains. Five uploads use data offsets
+the unused second query pair remains. Five page/CLUT packs use data offsets
 `0xC4`, `0x8C`, `0x1C`, `0x38`, `0x54`. The first result supplies the
 flat pair and the third supplies the ring packet. The last call's real
 return overwrites the packed-result local, separating the earlier

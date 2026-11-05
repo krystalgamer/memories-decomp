@@ -35,7 +35,7 @@ Eight halfword event timestamps occupy offset 28 onward.
 ## Native behavior and lifetimes
 
 Setup clears all history XYZ values, gives each fourth halfword the negative
-history length, initializes 32 random XYZ seeds, uploads one texture, and
+history length, initializes 32 random XYZ seeds, packs one texture page/CLUT word, and
 clears elapsed time and the event index. The first history record's fourth
 halfword is the shared ring cursor, not ordinary unused vector padding.
 

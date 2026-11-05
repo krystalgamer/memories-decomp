@@ -45,8 +45,8 @@ Packed handles are unsigned words; their high halves use native unsigned
 loads. The color code bytes are not initialized.
 
 Initialization zeroes the configured number of positions, creates random
-destinations and a ring center plus 25 outer points, then uploads two
-textures. Elapsed time starts at negative initial delay. During the
+destinations and a ring center plus 25 outer points, then packs two
+texture page/CLUT words. Elapsed time starts at negative initial delay. During the
 negative-time phase, exactly 24 positions receive the active part's
 translation, even though selected descriptor counts range from 15 to 64.
 Do not substitute the configured count for this native constant.

@@ -38,7 +38,7 @@ with outer/inner RGB at `0x0`/`0x4`, part byte at `0x10`, and unsigned
 sheet start at `0x18`. The initial target is `(0,-300,-450)` in slot
 zero and `(0,-300,450)` otherwise. Both page queries use `(1,1,896,0)`
 and palette `(640,244)`; the second query results remain unused.
-Four mode-one uploads use data offsets `0xC4`, `0x8C`, `0x1C`, `0xE0`.
+Four mode-one page/CLUT packs use data offsets `0xC4`, `0x8C`, `0x1C`, `0xE0`.
 The last result supplies an additional two-FT4 family with UV rectangles
 `(0,224)..(31,255)` and `(32,224)..(63,255)`.
 

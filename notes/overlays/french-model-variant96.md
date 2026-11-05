@@ -45,7 +45,7 @@ all selected array accesses and positive divisors fit the recovered views.
 The context does not overlap the primary, secondary or variant image loads.
 
 Initialization constructs two rings, captures the active model-part
-translation, uploads one texture and starts a negative delay. The first
+translation, packs one texture page/CLUT word and starts a negative delay. The first
 nonnegative update interpolates centers toward the opposite slot, fixes its
 Y coordinate at -350, doubles its Z coordinate and recovers orientation
 with `ratan2`. Updates project both rings and draw gradient textured quads,

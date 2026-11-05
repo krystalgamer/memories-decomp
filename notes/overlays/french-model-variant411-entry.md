@@ -34,8 +34,8 @@ at `4`, unsigned sheet start at `0xC`, expansion start/end at `0x10/0x14`,
 fade start/end at `0x18/0x1C`, and signed XYZ offsets at `0x24..0x2C`.
 The initial target is `(0,-300,-450)` in slot 0 and `(0,-300,450)` otherwise.
 
-The entry retains both page/palette query pairs and five uploads at data
-offsets `0xC4`, `0x8C`, `0x1C`, `0x38`, `0x54`. The first upload supplies
+The entry retains both page/palette query pairs and five page/CLUT packs at data
+offsets `0xC4`, `0x8C`, `0x1C`, `0x38`, `0x54`. The first pack supplies
 the flat pair; the third supplies the ring packet. The final real return
 overwrites the packed local, ending the earlier snapshots. The secondary
 GT4 receives non-semitransparent, unshaded flags without invented UV/page

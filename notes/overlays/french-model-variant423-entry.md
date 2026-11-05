@@ -43,7 +43,7 @@ remain opaque.
 The signed command selects a `0x2C`-byte descriptor at suffix `+0xFC`.
 Its part index is byte `+0x10`, inner RGB is `+4`, outer RGB is `+0`,
 and unsigned sheet start is `+0x18`. The slot determines the initial target's
-z sign. Three mode-one image uploads use suffix `+0xC4`, `+0x8C` and `+0x1C`;
+z sign. Three mode-one image page/CLUT packs use suffix `+0xC4`, `+0x8C` and `+0x1C`;
 the two explicit page/CLUT queries retain their distinct results.
 
 Mesh latitude advances by the measured signed numerator sequence

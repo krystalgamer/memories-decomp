@@ -52,7 +52,7 @@ SVECTOR padding. Three random calls select each texture row, frame and
 scale (`rand() % 4096 + 2048`). A second loop generates target points around
 Y=-350 and slot-directed Z=450. A third generates radial endpoints using
 `ccos`/`csin`, signed division by 4096 and Z=`direction * (450-radius)`.
-Six images are uploaded; elapsed starts at negative descriptor delay.
+Six image page/CLUT words are packed; elapsed starts at negative descriptor delay.
 
 The negative-elapsed path preserves an unusual native behavior: it passes
 the uninitialized local base MATRIX to `GsSetLsMatrix`, obtains the active

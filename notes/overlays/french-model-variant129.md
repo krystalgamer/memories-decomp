@@ -30,7 +30,7 @@ The native POLY_G4 is 36 bytes; its surrounding stack gap is not its size.
 
 Initialization deliberately does not advance the position and velocity
 cursors inside its clearing loop. The original repeated writes are retained.
-It uploads two images, starts elapsed time at negative delay, and clears
+It packs two image page/CLUT words, starts elapsed time at negative delay, and clears
 the two state bytes. During that delay, all selected positions are copied
 from the model-part transform.
 

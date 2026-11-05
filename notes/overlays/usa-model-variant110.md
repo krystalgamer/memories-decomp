@@ -21,7 +21,7 @@ All twenty-four rebuild byte-identical to retail.
 
 The setup command picks a `0x26`-byte row of the command table. The setup
 builds the fan's inner ring and a jagged outer ring, scatters the row's dots
-and sparks over spheres of random radius, and uploads the texture.
+and sparks over spheres of random radius, and packs the texture page/CLUT word.
 
 After the row's delay, each part runs for its own duration. Two fans of
 triangles open in front of the slot and fade, and a sprite plays eight frames

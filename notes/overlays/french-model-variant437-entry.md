@@ -33,7 +33,7 @@ uses the authoritative SDK declaration instead.
 Initialization returns 6 and targets `(0,-300,-450)` in slot 0 or
 `(0,-300,450)` in slot 1. Both page/clut queries, including the unused
 second pair, remain. The first page uses `(1,2,896,0)` and palette
-`(640,244)`. Six uploads consume data offsets
+`(640,244)`. Six page/CLUT packs consume data offsets
 `0xC4`, `0x8C`, `0x1C`, `0x38`, `0x54`, `0xE0`.
 The second GT4 mirrors U127 to U64. The band has white outer and
 `(0,64,255)` inner colors; the sheet instead has gray `(8,8,8)` inner

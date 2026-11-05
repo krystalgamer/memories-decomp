@@ -36,7 +36,7 @@ at `0x10C`, origin at `0x31C`, two texture words at `0x324`, elapsed time
 at `0x32C`, completion byte at `0x330`, trigger byte at `0x331`, and two
 unidentified bytes. This is not a recovered allocator extent.
 Initialization constructs 33 outer and 33 inner ring positions and 16
-pairs of ray positions, uploads two textures in mode 1, and clears both
+pairs of ray positions, packs two texture page/CLUT words in mode 1, and clears both
 phase bytes and elapsed time.
 
 Each ring phase subtracts start delay and phase index times phase spacing

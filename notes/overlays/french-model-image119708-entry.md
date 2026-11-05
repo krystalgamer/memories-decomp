@@ -44,7 +44,7 @@ retail data; no replacement allocation or initializer was introduced.
 
 Initialization copies both slot positions, derives the rise/return velocity,
 retains the opposing-dimensions query, disperses particles around the opponent,
-and uploads the texture. Random differences and remainders stay signed.
+and packs the texture page/CLUT word. Random differences and remainders stay signed.
 The original divisors, narrowing stores, and possible division traps are not
 replaced with guards or alternative distributions.
 

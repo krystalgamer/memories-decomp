@@ -48,7 +48,7 @@ Construction uses three random samples per point:
 radius+`(rand()%radius)/2`, then two angles modulo4096. Coordinates are
 `r*cos(a)/4096*cos(b)/4096`, `r*sin(a)/4096*cos(b)/4096`,
 and `r*sin(b)/4096`, preserving every intermediate signed division.
-One image is uploaded. Elapsed/started are cleared; argument>=100 selects
+One image page/CLUT word is packed. Elapsed/started are cleared; argument>=100 selects
 the override flag.
 
 Tint windows use the slot's native animation-frame value, without inventing
