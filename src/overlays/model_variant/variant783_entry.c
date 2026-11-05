@@ -35,7 +35,7 @@ s32 ModelVariant783_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant783_D24F0;
+    scale = gModelVariant783_UnitScale;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model783State *)context;
