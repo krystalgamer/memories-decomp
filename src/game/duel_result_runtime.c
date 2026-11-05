@@ -7,7 +7,6 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_REPEAT_IN_DATA
 #define TEXT_STRING_ID_IN_DATA
-#define DUEL_SAVE_WINDOWS_AS_PAIR
 #define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
@@ -732,25 +731,25 @@ side_result:
                 /* Only the null test goes through `save`; the updates below
                    index gDuel_pSide0SaveData again each time, as retail reloads the
                    window pointer (106 differences through `save`). */
-                SaveDataState *save = gDuel_pSide0SaveData[gDuel_bWinnerSide];
+                SaveDataState *save = DUEL_SAVE_WINDOW(gDuel_bWinnerSide);
                 gDuel_wOutcomeFlags |= 0x2000;
                 if (save) {
                     if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0) {
-                        gDuel_pSide0SaveData[0]->starchips +=
+                        DUEL_SAVE_WINDOW(0)->starchips +=
                             gDuel_pResultDisplayState->starchip_prize;
-                        if (gDuel_pSide0SaveData[0]->starchips > 999999)
-                            gDuel_pSide0SaveData[0]->starchips = 999999;
+                        if (DUEL_SAVE_WINDOW(0)->starchips > 999999)
+                            DUEL_SAVE_WINDOW(0)->starchips = 999999;
                         Duel_AwardCard(gDuel_pResultDisplayState->dropped_card_id);
                     } else {
-                        value = gDuel_pSide0SaveData[gDuel_bWinnerSide]->duel_wins + 1;
-                        gDuel_pSide0SaveData[gDuel_bWinnerSide]->duel_wins = value;
+                        value = DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins + 1;
+                        DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins = value;
                         if (value >= 10000)
-                            gDuel_pSide0SaveData[gDuel_bWinnerSide]->duel_wins = 9999;
-                        value = gDuel_pSide0SaveData[gDuel_bWinnerSide ^ 1]
+                            DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins = 9999;
+                        value = DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)
                                     ->duel_losses + 1;
-                        gDuel_pSide0SaveData[gDuel_bWinnerSide ^ 1]->duel_losses = value;
+                        DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)->duel_losses = value;
                         if (value >= 10000)
-                            gDuel_pSide0SaveData[gDuel_bWinnerSide ^ 1]
+                            DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)
                                 ->duel_losses = 9999;
                     }
                 }
