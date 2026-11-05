@@ -62,17 +62,17 @@ void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
         hi = t2;
         hi = (hi != 0) << 6;
 
-        table = (u8 *)&a->indirect_sound_ids;
+        table = (u8 *)&a->s_aawSD_INDIRECT_SE_ID;
         v = *(u16 *)(table + (lo + hi));
         if (v == SD_PENDING_ENTRY_NONE) {
             return;
         }
-        n = a->note_index_by_id[v];
+        n = a->s_pwSD_SE_INDEX[v];
         if (n == SD_PENDING_ENTRY_NONE) {
             return;
         }
         /* Array indexing changes the direct-ID path's address registers. */
-        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->note_table);
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->s_pstSD_SE_TABLE);
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
@@ -80,11 +80,11 @@ void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
     } else {
         SDValue *b = g_SDValue;
 
-        n = b->note_index_by_id[tags.words.copy & 0xFFFF];
+        n = b->s_pwSD_SE_INDEX[tags.words.copy & 0xFFFF];
         if (n == SD_PENDING_ENTRY_NONE) {
             return;
         }
-        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->note_table);
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->s_pstSD_SE_TABLE);
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
@@ -124,12 +124,12 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = (u8 *)g_SDValue;
         /* Keep the state base first in the sum to preserve retail's addu order. */
-        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->indirect_sound_ids);
+        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->s_aawSD_INDIRECT_SE_ID);
         sound_id = SD_PENDING_ENTRY_NONE;
         if (pt == sound_id) {
             return;
         }
-        key = ((SDValue *)base)->note_index_by_id[pt];
+        key = ((SDValue *)base)->s_pwSD_SE_INDEX[pt];
         if (key == sound_id) {
             return;
         }
@@ -144,19 +144,19 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
 loop:
     {
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
-        v = g_SDValue->voice_ids[i];
+        v = g_SDValue->s_awSD_VOICE_SE_ID[i];
         if (v == (u16)key) {
             if (env[0] != 0) {
                 if (pan != 0) {
                     if (near) {
-                        prod = g_SDValue->note_table[v].volume;
+                        prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
                         prod *= lo;
-                        g_SDValue->voice_volume_left[i] = prod;
+                        g_SDValue->s_awSD_VOICE_VOLUME_L[i] = prod;
                     }
                     if ((u16)(pan2 + 0x80) < 0x80) {
-                        prod = g_SDValue->note_table[v].volume;
+                        prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
                         prod *= hi;
-                        g_SDValue->voice_volume_right[i] = prod;
+                        g_SDValue->s_awSD_VOICE_VOLUME_R[i] = prod;
                     }
                 }
                 SD_ApplyVoiceSlotVolume(i);
@@ -193,13 +193,13 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
         hi = sound_id & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         /* Keep the table base separate from the byte offset for allocation. */
-        table = (u8 *)&a->indirect_sound_ids;
+        table = (u8 *)&a->s_aawSD_INDIRECT_SE_ID;
         v = *(u16 *)(table + (lo + hi));
         ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {
             return;
         }
-        id = a->note_index_by_id[v];
+        id = a->s_pwSD_SE_INDEX[v];
         if (id == ff) {
             return;
         }
@@ -212,8 +212,8 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
 
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
         b = g_SDValue;
-        if (b->voice_ids[i] == idm && local != 0) {
-            b->voice_value[i] = a1v;
+        if (b->s_awSD_VOICE_SE_ID[i] == idm && local != 0) {
+            b->s_abSD_VOICE_FADE_LEVEL[i] = a1v;
             SD_ApplyVoiceSlotVolume(i);
         }
     } while (++i < SD_VOICE_SLOT_COUNT);
@@ -221,7 +221,7 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
 
 /* Sets the level and pan of every live voice playing one sound id. Bit
  * 0x8000 in `id` sets the CD volume instead; an id carrying the lookup tag is
- * first translated through the bank table at indirect_sound_ids and note_index_by_id.
+ * first translated through the bank table at s_aawSD_INDIRECT_SE_ID and s_pwSD_SE_INDEX.
  * `word` is a signed pan offset: left and right get 0x80 minus and plus it,
  * each only when it stays inside the byte range.
  *
@@ -234,7 +234,7 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
  *   $a0/$a2 and the voice loop reads the copies in $s2/$s3/$s7.
  * - The voice loop is a goto loop: retail recomputes i * 2 every pass, which
  *   loop.c would have strength-reduced in a structured loop. The one-iteration
- *   do/while around the voice_value store is the only loop weighting left.
+ *   do/while around the s_abSD_VOICE_FADE_LEVEL store is the only loop weighting left.
  *   It doubles that reference in flow's count, and without it `value` sinks
  *   below right/left/leftOk in global-alloc priority and the $s3..$s7 roles
  *   rotate.
@@ -270,13 +270,13 @@ void SD_SESetVolumePan(id, value, word)
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         /* As in SD_SESetVolume, the table base stays separate from the
            byte offset so the add keeps retail's operand order. */
-        table = (u8 *)&a->indirect_sound_ids;
+        table = (u8 *)&a->s_aawSD_INDIRECT_SE_ID;
         v = *(u16 *)(table + (lo + hi));
         ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {
             return;
         }
-        id = a->note_index_by_id[v];
+        id = a->s_pwSD_SE_INDEX[v];
         if (id == ff) {
             return;
         }
@@ -294,27 +294,27 @@ loop:
 
         SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
         b = g_SDValue;
-        vid = b->voice_ids[i];
+        vid = b->s_awSD_VOICE_SE_ID[i];
         if (vid == (id & 0xFFFF) && local != 0) {
             do {
-                b->voice_value[i] = value;
+                b->s_abSD_VOICE_FADE_LEVEL[i] = value;
             } while (0);
             if (pan != 0) {
                 if (leftOk) {
                     SDValue *c = g_SDValue;
                     s32 v;
 
-                    v = c->note_table[vid].volume;
+                    v = c->s_pstSD_SE_TABLE[vid].volume;
                     v *= left;
-                    c->voice_volume_left[i] = v;
+                    c->s_awSD_VOICE_VOLUME_L[i] = v;
                 }
                 if ((u16)(word + 0x80) < 0x80) {
                     SDValue *d = g_SDValue;
                     s32 v;
 
-                    v = d->note_table[vid].volume;
+                    v = d->s_pstSD_SE_TABLE[vid].volume;
                     v *= right;
-                    d->voice_volume_right[i] = v;
+                    d->s_awSD_VOICE_VOLUME_R[i] = v;
                 }
             }
             SD_ApplyVoiceSlotVolume(i);
@@ -335,9 +335,9 @@ void SD_FadeOutSoundEffectVoices(u16 id, u8 step)
     mask = 1;
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
         SDValue *state = g_SDValue;
-        if (state->voice_ids[i] == id &&
-            (state->voice_active_mask & mask)) {
-            state->voice_step[i] = step;
+        if (state->s_awSD_VOICE_SE_ID[i] == id &&
+            (state->s_bSD_VOICE_ACTIVE_MASK & mask)) {
+            state->s_abSD_VOICE_FADE_STEP[i] = step;
         }
     }
 }
@@ -390,23 +390,23 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
         for (j = 0; j < cur->count; j++) {
             u16 key = cur->keys[j];
             if (key != SD_PENDING_ENTRY_NONE) {
-                u16 n = g_SDValue->next_note_index;
+                u16 n = g_SDValue->s_wSD_NEXT_SE_INDEX;
                 u16 v;
 
-                g_SDValue->note_index_by_id[key] = n;
-                g_SDValue->note_table[n] = cur->data[j];
+                g_SDValue->s_pwSD_SE_INDEX[key] = n;
+                g_SDValue->s_pstSD_SE_TABLE[n] = cur->data[j];
                 e = (SDNote *)(
                     (u32)&((SDNote *)0)[n] +
-                    (u32)g_SDValue->note_table
+                    (u32)g_SDValue->s_pstSD_SE_TABLE
                 );
                 v = e->spu_address_div16;
                 e->spu_address_div16 =
                     (i != 0) ? (u16)(v + (addr_side >> 4))
                              : (u16)(v + (addr_other >> 4));
-                g_SDValue->next_note_index = g_SDValue->next_note_index + 1;
+                g_SDValue->s_wSD_NEXT_SE_INDEX = g_SDValue->s_wSD_NEXT_SE_INDEX + 1;
             }
             if (i != 0) {
-                g_SDValue->indirect_sound_ids[side][j] = key;
+                g_SDValue->s_aawSD_INDIRECT_SE_ID[side][j] = key;
             }
         }
     }
