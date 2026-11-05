@@ -46,7 +46,8 @@ typedef struct {
 
 typedef Variant337EntryProjection Variant393EntryProjection;
 
-extern u8 gFrenchModelVariant393_D23B0[];
+extern GsIMAGE gFrenchModelVariant393_aImages[9];
+extern Variant393EntryConfig gFrenchModelVariant393_aConfigs[];
 void ModelVariant376_DrawRibbon(u8 *context);
 void ModelVariant376_DrawRings(u8 *context);
 void FrenchModelVariant393_DrawStreamers(u8 *context);

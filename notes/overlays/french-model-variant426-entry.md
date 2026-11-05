@@ -5,7 +5,7 @@ offset `0x4`, 0xF20 bytes) is the loader entry of the header-426 images. These
 are the French and Spanish `model_variant_0_stage7_slot0` and
 `model_variant_0_stage8_slot1`, and all four are byte-identical. Both slots
 compile `french_model_variant/variant426_entry.c`; each image's symbol file
-binds the entry, its helpers and its data label `gFrenchModelVariant426_D3874`
+binds the entry, its helpers and its data label `gFrenchModelVariant426_aImages`/`gFrenchModelVariant426_aConfigs`
 at its own addresses.
 
 - **Base.** It is the header-425 entry (`variant425_entry.c`). The work-area

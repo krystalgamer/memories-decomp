@@ -51,7 +51,8 @@ typedef struct {
     DVECTOR target;
 } Variant338EntryProjection;
 
-extern u8 gFrenchModelVariant338_D270C[];
+extern GsIMAGE gFrenchModelVariant338_aImages[9];
+extern Variant338EntryConfig gFrenchModelVariant338_aConfigs[];
 void ModelVariant321_DrawRibbon(u8 *context);
 void ModelVariant321_DrawRings(u8 *context);
 void FrenchModelVariant338_DrawStreamers(u8 *context);

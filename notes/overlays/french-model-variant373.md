@@ -24,7 +24,7 @@ instruction bytes per slot, completing all eight closed functions in each image.
 The entry, helpers and data label are now bound per image under stable names
 (`FrenchModelVariant373_HandleRequest`, `FrenchModelVariant373_DrawLayers`,
 `_DrawGrid`, `_DrawPoints`, `_DrawStrip`, `_DrawRibbons`, `_DrawQuads`,
-`_DrawRays` and `gFrenchModelVariant373_D3EF0`); both slots build the same
+`_DrawRays` and `gFrenchModelVariant373_aImages`/`gFrenchModelVariant373_aConfigs`); both slots build the same
 sources.
 
 ## Ownership and retained scope

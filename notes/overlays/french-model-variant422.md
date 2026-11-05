@@ -474,7 +474,7 @@ bodies without renaming wrappers. They define
 (`0x1CFC`), `ModelVariant405_DrawSheets` (`0x2408`), `ModelVariant405_DrawWebs`
 (`0x28F0`), `ModelVariant405_DrawSpokes` (`0x2E44`), `ModelVariant405_DrawRings`
 (`0x3154`), `ModelVariant405_DrawQuad` (`0x34D0`) and the data block
-`gFrenchModelVariant422_D3834`. The US header-405 images (models 1 and 550)
+`gFrenchModelVariant422_aImages`/`gFrenchModelVariant422_aConfigs`. The US header-405 images (models 1 and 550)
 compile the same French entry without a selector; their helpers and data
 sit up to 0x1C bytes higher. Each image binds the names at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

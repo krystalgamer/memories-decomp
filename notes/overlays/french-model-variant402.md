@@ -492,7 +492,7 @@ Both slots compile the shared sources without renaming wrappers. They define
 `FrenchModelVariant402_HandleRequest`, `FrenchModelVariant402_DrawStrip`
 (`0xA5C`), `FrenchModelVariant402_DrawRibbons` (`0x1048`),
 `FrenchModelVariant402_DrawRings` (`0x169C`), `FrenchModelVariant402_DrawBands`
-(`0x1B38`) and the data block `gFrenchModelVariant402_D2060`. The US header-385
+(`0x1B38`) and the data block `gFrenchModelVariant402_aImages`/`gFrenchModelVariant402_aConfigs`. The US header-385
 images (models 6 and 551) build the same sources with the palette column 512
 instead of 640. Each image binds the names at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
