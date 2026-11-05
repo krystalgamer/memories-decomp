@@ -637,26 +637,5 @@ D_8009BF84 = 0x8009C38C;
 /* Names inside the small initialized data this build's units own (#2602). */
 D_spanish_8009C2A0 = _ramsize;
 D_spanish_8009C2A4 = _stacksize;
-D_spanish_8009C33C = gModel_dwPolyFt3Template;
-D_spanish_8009C340 = gModel_dwPolyFt4Template;
-D_spanish_8009C344 = gModel_dwPolyGt3Template;
-D_spanish_8009C348 = gModel_dwPolyGt4Template;
-D_spanish_8009C34C = gModel_dwPolyFt3SemiTemplate;
-D_spanish_8009C350 = gModel_dwPolyFt4SemiTemplate;
-D_spanish_8009C354 = gModel_dwPolyGt3SemiTemplate;
-D_spanish_8009C358 = gModel_dwPolyGt4SemiTemplate;
-D_spanish_8009C35C = gModel_dwLineF3Template;
-D_spanish_8009C360 = gModel_dwLineF4Template;
-D_spanish_8009C364 = gModel_dwDrawModeTemplate;
-D_spanish_8009C368 = gModel_dwTpageBlendRateBits;
-D_spanish_8009C36C = gModel_dwSecondPassClutBits;
-D_spanish_8009C370 = gModel_dwLitColorCacheBase;
-D_spanish_8009C374 = gModel_bCurrentDrawMode;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
-D_8009B0A8 = gGraphics_bSkipDisplaySwap;
-D_8009B0F4 = gFile_dwTransferState;
-D_8009B118 = gFile_TransferBufferBase;
-D_8009B134 = gFile_dwCancelRequestState;
-D_8009B140 = gFade_bKeepOverlayDepth;
-D_8009B145 = gFade_bWhiteLatch;
