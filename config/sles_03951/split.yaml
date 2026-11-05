@@ -96,7 +96,7 @@ segments:
       - [0xD04, .rodata, game/sd_step_active_command]
       - [0xE4C, .rodata, game/sd_cancel_music_requests]
       - {start: 0xF10, type: bin, name: spanish_raw_80010710, linker_section_order: .rodata}
-      - [0xF38, .rodata, game/european/sd_update_bank_load]
+      - [0xF38, .rodata, game/european/sound_driver]
       - {start: 0xF60, type: bin, name: spanish_raw_80010760, linker_section_order: .rodata}
       - [0x1BF0, .rodata, game/european/model_background]
       - {start: 0x1C14, type: bin, name: spanish_raw_80011414, linker_section_order: .rodata}
@@ -335,11 +335,7 @@ segments:
       - [0x368A4, c, game/sound_runtime]
       - [0x36F50, c, game/sd_cancel_music_requests]
       - [0x371AC, c, game/sd_drop_queued_cd_play_commands]
-      - [0x37328, c, game/european/sound_output_transition]
-      - [0x37424, c, game/sd_init_state]
-      - [0x37618, c, game/sound_state_control]
-      - [0x376C4, c, game/european/sd_update_bank_load]
-      - [0x37A78, c, game/sound_output]
+      - [0x37328, c, game/european/sound_driver]
       - [0x38110, c, game/sd_init_voice_state]
       - [0x382CC, c, game/sound_pending_entries]
       - [0x38418, c, game/sd_queue_value_link_transfer]
@@ -518,7 +514,7 @@ segments:
       - [0x8CF94, .sbss, game/european/display_object_core]
       - [0x8CFA8, .sbss, game/spanish/main_run_boot_sequence]
       - [0x8CFB0, .sbss, game/european/mem_card_driver]
-      - [0x8CFD8, .sbss, game/european/sound_output_transition]
+      - [0x8CFD8, .sbss, game/european/sound_driver]
       - [0x8CFE8, .sbss, game/spanish/model_scene_controllers]
       - [0x8D018, .sbss, game/spanish/movie_frame_pipeline]
       - [0x8D038, .bss, game/spanish/main]
