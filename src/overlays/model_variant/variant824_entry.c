@@ -9,7 +9,7 @@
  * with two fans of rays, animated sparks and a growing sixteen-segment
  * shock ring while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant824_D3AD4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant824_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -42,7 +42,7 @@ s32 ModelVariant824_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant824_D3AD4;
+    scale = gModelVariant824_UnitScale;
     work = (Model824State *)context;
     fan = &fan_poly;
     slot = Model_GetActiveSlotIndex();

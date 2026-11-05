@@ -7,7 +7,7 @@
  * eight falling shards that fade and three falling debris sprites. The
  * ambient level dips during the flight and comes back afterwards. */
 
-static const VECTOR gModelVariant820_D1B00 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant820_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant820_HandleRequest(u8 *context, s32 command)
 {
@@ -27,7 +27,7 @@ s32 ModelVariant820_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant820_D1B00;
+    scale = gModelVariant820_UnitScale;
     work = (Model820State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

@@ -7,7 +7,7 @@
  * and falling sparks and embers spill out while the ambient light dims and
  * recovers. */
 
-static const VECTOR gModelVariant815_D1FA0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant815_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant815_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 ModelVariant815_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant815_D1FA0;
+    scale = gModelVariant815_UnitScale;
     work = (Model815State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

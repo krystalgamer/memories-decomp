@@ -10,13 +10,13 @@
 
 static const VECTOR gModelVariant808_UnitScale = {4096, 4096, 4096, 0};
 
-static const Model808Shape gModelVariant808_D21BC = {{
+static const Model808Shape gModelVariant808_StarVertices = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
     {30, 210, 0, 0}, {0, 0, 0, 0}, {-420, -70, 0, 0}, {-60, -420, 0, 0},
     {380, -190, 0, 0}, {300, 300, 0, 0}, {-200, 380, 0, 0},
 }};
 
-static const Model808Faces gModelVariant808_D2214 = {{
+static const Model808Faces gModelVariant808_StarQuads = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
@@ -55,8 +55,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant808_UnitScale;
-    shape = gModelVariant808_D21BC;
-    faces = gModelVariant808_D2214;
+    shape = gModelVariant808_StarVertices;
+    faces = gModelVariant808_StarQuads;
     work = (Model808State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

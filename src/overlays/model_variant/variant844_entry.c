@@ -6,7 +6,7 @@
  * four-petal bursts open around the opposing slot before a spinning beam
  * of light rises from it; once the bursts are done the light comes back. */
 
-static const VECTOR gModelVariant844_D25C8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant844_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
 {
@@ -37,7 +37,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant844_D25C8;
+    scale = gModelVariant844_UnitScale;
     work = (Model844State *)context;
     ft = &petal;
     gt = &ray;

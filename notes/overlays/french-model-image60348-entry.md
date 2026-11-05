@@ -95,7 +95,7 @@ string sits right after the code. As a result the entry is 0x26D4 bytes and the
 tail data starts 0x28 later than in the French images. The source guards that
 call with `MODEL_IMAGE60348_WORK_SIZE_PRINTF`, in the style of
 `image9840_entry.c`. `model_variant/image60348_entry_usa.c` defines the
-string (`gModelVariant664_D26D8`) and includes the French file in both slots;
+string (`gModelVariant664_szWorkSizeFormat`) and includes the French file in both slots;
 every image's symbols file binds `FrenchModelVariant681_HandleRequest` and the
 two tail names (`gFrenchModelVariant681_aImages`, `gFrenchModelVariant681_aConfigs`)
 at its own addresses, 0x28 later in the USA and Japanese images.

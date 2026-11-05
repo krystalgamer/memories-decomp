@@ -8,7 +8,7 @@
  * wings rise until they pass the side's limit. The first wing frame returns
  * 1 and the end returns 2 once every colour has faded. */
 
-static const VECTOR gModelVariant762_D1F4C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant762_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
 {
@@ -40,7 +40,7 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant762_D1F4C;
+    scale = gModelVariant762_UnitScale;
     work = (Model762State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

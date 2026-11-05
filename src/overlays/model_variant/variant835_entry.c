@@ -8,7 +8,7 @@
  * flash and throws the command's number of animated sparks. The ambient
  * light dims while the orbs fly and recovers once they are gone. */
 
-static const VECTOR gModelVariant835_D1800 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant835_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant835_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant835_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant835_D1800;
+    scale = gModelVariant835_UnitScale;
     work = (Model835State *)context;
     poly = &ft4;
     gouraud = &g4;

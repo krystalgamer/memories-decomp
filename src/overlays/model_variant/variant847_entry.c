@@ -8,7 +8,7 @@
  * widening ring, a double star, embers, sparks and debris; the shake and an
  * optional full-screen flash mark each burst before the ambient comes back. */
 
-static const VECTOR gModelVariant847_D1E84 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant847_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant847_HandleRequest(u8 *context, s32 command)
 {
@@ -33,7 +33,7 @@ s32 ModelVariant847_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant847_D1E84;
+    scale = gModelVariant847_UnitScale;
     work = (Model847State *)context;
     flash_packet = &screen;
     packet = &burst;
