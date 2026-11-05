@@ -49,7 +49,7 @@ loops use 200 records. The native inclusive warmup loop uses 201.
 
 Every invocation clears a rotation SVECTOR, copies the unit-scale VECTOR
 and computes the direction from the active slot. Construction clears point
-xyz, sets remaining lifetimes to eight, uploads one texture, then initializes
+xyz, sets remaining lifetimes to eight, packs one texture page/CLUT word, then initializes
 elapsed to negative delay and completion to zero.
 
 During negative elapsed time, native code passes the uninitialized local

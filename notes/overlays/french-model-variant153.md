@@ -39,7 +39,7 @@ X adds twice a spread remainder minus spread, Y adds a spread remainder,
 and Z adds direction times a spread remainder. Target padding is cleared.
 Four burst offsets use independent symmetric X/Z remainders and negative
 rise height for Y; their unused padding is not initialized. Image zero is
-uploaded with mode two and images one through eight with mode one. Time
+packed with mode two and images one through eight with mode one. Time
 and completion are cleared.
 
 Runtime initializes waiting positions from the selected model part using

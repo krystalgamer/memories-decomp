@@ -46,7 +46,7 @@ with planar RGB bytes, four part bytes, four vertex halfwords and unsigned
 start at `0x38`. Initialization returns 0 and sets ambient to 2048.
 
 The first page query uses `(1,1,896,0)` and palette `(640,244)`.
-The unused second query pair remains. Five uploads use data offsets
+The unused second query pair remains. Five page/CLUT packs use data offsets
 `0x618`, `0x5E0`, `0x570`, `0x5A8`, `0x634`; the first and last results
 supply the two flat-packet families. The mesh's sixth indexed color
 (`k == 6`) is `(128,0,128)`, not another blue endpoint: its red assignment

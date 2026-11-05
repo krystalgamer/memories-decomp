@@ -32,7 +32,7 @@ records and8 particle offsets. Unused256-byte and64-byte state gaps remain
 opaque; they are not inflated into additional meaningful vector arrays.
 
 The constructor builds the ring and random spherical offsets, copies all
-four opposite-slot halfwords, clears the target Y coordinate, and uploads
+four opposite-slot halfwords, clears the target Y coordinate, and packs the page/CLUT words of
 three images with modes1,1,2. Rendering uses textures0 and2. Initial setup
 builds two16-point path rows, including the copied-and-overwritten second-row
 Y stores. The first row emits staggered billboards; a separately timed ring

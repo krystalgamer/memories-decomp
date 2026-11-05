@@ -34,7 +34,7 @@ Twenty-two target-compiled constants check local offsets and SDK sizes.
 Initialization captures frame step and creates seven pairs of ring vertices.
 The extended radius and trigonometric calls are recomputed each iteration.
 Particle positions use random radius/angle and signed Z, with animation
-counter `i % 16`. Two image records are uploaded.
+counter `i % 16`. Two image records are packed into page/CLUT words.
 
 Updates fetch the ordering table and light-source matrix before the delay
 gate. During delay, the configured model part supplies the origin, elapsed

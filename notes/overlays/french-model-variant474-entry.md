@@ -32,14 +32,14 @@ Configuration rows are `0x34` bytes in `gFrenchModelVariant474_aConfigs`: the
 part byte at `+0x10`, the trigger at `+0x18` and the fade window at
 `+0x20`/`+0x24`. The texture images sit immediately before the table as
 `gFrenchModelVariant474_aImages`, eight `GsIMAGE` records of which the entry
-uploads [1], [2], [3], [5] and [7]. In the French slot-0 image the image table
+packs [1], [2], [3], [5] and [7]. In the French slot-0 image the image table
 starts at `0x8013E8BC` (the former anonymous owner) and the configuration table
 at `0x8013E99C`.
 
 ## Source shape
 
 The setup keeps the third texture's packed word in a short-lived `packed`
-that the next upload reassigns, and copies its CLUT into a halfword
+that the next pack call reassigns, and copies its CLUT into a halfword
 `flat_texture`; otherwise the shift crosses the next call and is scheduled
 late. The mesh constructor walks `n` from 0 to 8 with `angle = n << 8`, so
 the angle reaches 2048 and its cosine goes negative; the ring and heading

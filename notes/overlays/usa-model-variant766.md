@@ -23,8 +23,8 @@ All fifty-six rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x30-byte command table. It clears the
 two trail edges, gives the light columns random rotations and the sparks random
-velocities, copies the trail, burst and flash colours, and uploads two
-textures. The flash square sits in front of the active slot.
+velocities, copies the trail, burst and flash colours, and packs two
+texture page/CLUT words. The flash square sits in front of the active slot.
 
 Each frame the entry lowers the slot's ambient level while the trail runs and
 raises it again afterwards. After the row's delay it records the positions of

@@ -41,7 +41,7 @@ rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x3C-byte command table at
 `gModelVariant464_aConfigs` (eight `GsIMAGE` records, 0xE0 bytes, precede it), aims at a point 450 units in front of or behind the
-slot, uploads five textures and builds the primitives: two funnels of two
+slot, packs five texture page/CLUT words and builds the primitives: two funnels of two
 17-point circles, a band of 33 steps, a nine-ring dome, twelve spirals, two
 sheets and two streamers.
 

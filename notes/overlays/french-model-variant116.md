@@ -36,7 +36,7 @@ local and shared layouts. Packed handles preserve signed high-half loads.
 Initialization generates 16 ring points using sine and negative cosine.
 Dots and sprites use three random calls each: azimuth, elevation and radius.
 Nested divisions and repeated trigonometric calls are retained. French
-`ccos` is `0x800868A8`; `csin` is `0x80086B38`. Three textures are uploaded;
+`ccos` is `0x800868A8`; `csin` is `0x80086B38`. Three texture page/CLUT words are packed;
 elapsed time starts at negative initial delay and the toggle starts at zero.
 The native stores clearing local `vertices[0]` before return are preserved.
 

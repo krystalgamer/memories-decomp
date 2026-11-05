@@ -42,7 +42,7 @@ declared in the component header.
 
 Initialization copies the opposing slot position, substitutes Y = -350,
 and creates spherical targets from the native three random draws per
-particle. It uploads both textures and clears the three lifecycle fields.
+particle. It packs both texture page/CLUT words and clears the three lifecycle fields.
 The otherwise unused initial active-slot query and early frame-step query
 are retained.
 

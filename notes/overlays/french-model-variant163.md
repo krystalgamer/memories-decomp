@@ -45,7 +45,7 @@ The three intervening bytes remain uninterpreted.
 
 The constructor clears96 entire vectors, including pad, crossing logical
 group boundaries within that single array. It then constructs the3x3 grid
-and two33-point rings, uploads two images, and resets elapsed/completion.
+and two33-point rings, packs two image page/CLUT words, and resets elapsed/completion.
 The grid's four pointer groups are54,55,57,58;56,55,59,58;
 62,61,59,58;60,61,57,58. Outer radius is radius+thickness and
 outer Z is `-direction * thickness`. Direction is active slot times2 minus1.

@@ -19,7 +19,7 @@ All twenty rebuild byte-identical to retail.
 
 The setup command picks a `0x1A`-byte row of the command table by
 `command % 100`. It scatters target points through a sphere of random radius
-around the other slot's `x` and `z` at `y = -350`, and uploads the texture.
+around the other slot's `x` and `z` at `y = -350`, and packs the texture page/CLUT word.
 Like the work-size entries in the [French-entry note](usa-model-french-entries.md),
 it prints the work-area size, 0x2014 bytes, with
 `printf("%d (0x%x) Byte\n", sizeof(state), sizeof(state))`. Retail fills 513

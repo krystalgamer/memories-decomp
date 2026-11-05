@@ -31,7 +31,7 @@ at `0`, 256 SVECTOR points at `4`, anchor at `0x804`, rotation at `0x80C`,
 one texture word at `0x814`, completion byte at `0x818`, unidentified bytes
 at `0x819..0x81C`, and elapsed time at `0x81C`. This is an accessed view,
 not a recovered allocator extent. Initialization creates a growing spiral
-using `radius * i / 256` and angle `i * 64`, uploads one texture in mode 1,
+using `radius * i / 256` and angle `i * 64`, packs one texture page/CLUT word in mode 1,
 and clears elapsed/completion. The active-slot call and frame-step read
 occur even during initialization.
 

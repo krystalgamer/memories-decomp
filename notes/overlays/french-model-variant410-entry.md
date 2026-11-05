@@ -35,10 +35,10 @@ as in header 337.
 
 ## Source shape
 
-The setup follows header 337, but only the first upload's packed word is kept:
-its page and CLUT are copied out before the next uploads reassign `packed`, so
+The setup follows header 337, but only the first pack call's word is kept:
+its page and CLUT are copied out before the next pack calls reassign `packed`, so
 the CLUT copy survives as its own spilled halfword and the page takes the freed
-textured-packet register. The quad packet uploads the last image again.
+textured-packet register. The quad packet packs the last image again.
 
 Each ribbon's progress row starts from a separate `base` that drops by 512 per
 ribbon, which keeps the reversed inner loop and the retail increment order.

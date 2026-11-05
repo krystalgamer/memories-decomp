@@ -31,7 +31,7 @@ Initialization returns 6 and targets `(0,-300,-450)` in slot 0 or
 `(0,-300,450)` in slot 1.
 
 Both page/clut queries, including the unused second pair, are preserved.
-The page uses `(1,1,896,0)` and palette `(640,244)`. Six texture uploads
+The page uses `(1,1,896,0)` and palette `(640,244)`. Six texture page/CLUT packs
 use data offsets `0xC4`, `0x8C`, `0x1C`, `0x38`, `0x54`, `0xE0`.
 The second GT4 runs from U64 to U127, unlike the related MODEL437 probe.
 Bands and the sheet have white outer and `(0,64,255)` inner colors;

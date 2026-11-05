@@ -33,8 +33,8 @@ bytes remain unidentified. These are measured accessed spans, not a claim
 that the entire allocator extent has been recovered.
 
 Initialization clears all four position halfwords, copies and randomizes
-opponent endpoints, creates four velocities, and uploads texture 1 before
-texture 0 with different upload modes. The frame step is read once per
+opponent endpoints, creates four velocities, and packs texture 1 before
+texture 0 with different blend modes. The frame step is read once per
 entry invocation, including initialization.
 
 The first update phase anchors delayed particles to an active model part,

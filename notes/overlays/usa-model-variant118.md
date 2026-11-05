@@ -22,7 +22,7 @@ All twenty-five rebuild byte-identical to retail.
 The setup command takes its row of the 0x20-byte command table. It clears the
 three trail positions, gives each of 64 fan triangles a random scale, and puts
 64 dots at random points of a shell around the origin, at the row's radius plus
-a random amount up to half its height. It uploads two textures and sets the camera step
+a random amount up to half its height. It packs two texture page/CLUT words and sets the camera step
 counter to two. Commands from 100 up also set a tint flag.
 
 After the row's delay, the entry runs three phases from the same start time:

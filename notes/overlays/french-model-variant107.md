@@ -29,7 +29,7 @@ near-Z values are below 450.
 destination. `SetPolyG4` at `0x80082EC8` writes packet length 8 and command 0x38;
 it is not a textured-triangle initializer. Matrix composition uses the
 established two-argument `MulMatrix2`. GPU declarations precede the SDK
-internal header. There are no texture uploads or GsIMAGE records in this
+internal header. There are no texture page/CLUT packs or GsIMAGE records in this
 classified prefix.
 
 ## Preserved behavior

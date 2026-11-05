@@ -46,7 +46,7 @@ remain opaque.
 The command selects a `0x30`-byte configuration at raw suffix `+0xFC`
 (`0x8013EA04` in slot zero). Its part index is byte `+0x10`, unsigned
 sheet start is word `+0x18`, and the target-travel interval is `+0x20/+0x24`.
-The three mode-one image uploads use suffix `+0xC4`, `+0x8C` and `+0x1C`.
+The three mode-one image page/CLUT packs use suffix `+0xC4`, `+0x8C` and `+0x1C`.
 Both explicit page/CLUT query results remain distinct.
 
 Mesh latitude uses `(base << 2) / 8` with `base += 325` in the body,

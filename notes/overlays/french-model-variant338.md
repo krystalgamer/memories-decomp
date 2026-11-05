@@ -137,13 +137,13 @@ Five experiments are preserved in the attempt ledger:
 | Experiment | Bytes / frame | Differing aligned common words per slot |
 |---|---|---:|
 | Independently recovered initial body | 2956 / 208 | 573 |
-| Ordered deltas and negation, separate upload result | 2960 / 208 | 589 |
-| Directly reused packed upload result | 2972 / 208 | 13 |
+| Ordered deltas and negation, separate packed result | 2960 / 208 | 589 |
+| Directly reused packed result | 2972 / 208 | 13 |
 | Packed/page local declaration order | 2972 / 208 | 0 |
 | Accepted shared initialization-record views | 2972 / 208 | 0 |
 
 The first texture result is split before directly reusing its variable for
-the sixth upload. Declaring that packed variable before the two page locals
+the sixth page/CLUT pack. Declaring that packed variable before the two page locals
 recovers stack offsets `0x94/0x98/0x9C`. Narrow-X/full-width-Y delta locals
 and `-(i * 16)` preserve the observed operation order. No forced registers,
 volatile barriers, inline assembly or compiler-profile changes are used.

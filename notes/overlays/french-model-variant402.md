@@ -72,7 +72,7 @@ allocation-capacity or lifetime-isolation claims.
 
 Initialization obtains three descriptor-selected parts, configures the
 polygon packets, clears the observed record fields, and initializes two
-rings and two bands. Texture-upload return lifetimes, scalar halfword
+rings and two bands. Texture page/CLUT packing return lifetimes, scalar halfword
 CLUT temporaries, full-width page values, declaration order and the
 band-scale decrement placement preserve the measured compiler allocation.
 The two unused matrix locals retain the observed stack interval.

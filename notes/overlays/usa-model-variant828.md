@@ -21,7 +21,7 @@ All thirty-five rebuild byte-identical to retail.
 
 The setup command takes its row of the 0x3C-byte command table. It gives
 every light ray a random rotation and the sparks, the debris and the embers
-random velocities, uploads four textures, copies the burst colour, and picks
+random velocities, packs four texture page/CLUT words, copies the burst colour, and picks
 one of four camera sequences at random. Three of them move the camera through
 the row's presets; the fourth leaves it alone.
 

@@ -34,7 +34,7 @@ construction; no extra target vector is invented.
 Construction zeros offsets and creates increments
 `amplitude + amplitude * csin(i * 32) / 4096`. The64 particle positions use
 three random samples and five trigonometric calls each, preserving intermediate
-signed divisions. Copied opposite-slot Y becomes-350. The two image uploads
+signed divisions. Copied opposite-slot Y becomes-350. The two image page/CLUT packs
 use modes2 and1 respectively; both packed texture high halves use `lhu`.
 
 The initial active-slot query remains even though its result is unused.

@@ -23,7 +23,7 @@ The setup command picks a `0x32`-byte row of the command table by
 `command % 100`; `command / 100` switches the sparks on. The setup clears a
 grid of up to 192 points, shades one colour per grid row from the row's
 start colour to its end colour, builds the fan's inner ring and a jagged
-outer ring, scatters 48 spark offsets, uploads the texture and sets the clock
+outer ring, scatters 48 spark offsets, packs the texture page/CLUT word and sets the clock
 to minus twice the lead time.
 
 While the clock is negative the entry only records where the row's eight

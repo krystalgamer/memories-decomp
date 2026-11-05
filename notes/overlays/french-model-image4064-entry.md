@@ -60,8 +60,8 @@ endpoint and adds native asymmetric random offsets. Four burst directions
 start at the configured negative rise. Four large rim points use quarter-turn
 angles; four smaller points use one-sixteenth radius and a half-quarter-turn
 offset. The eight explicit pointer triples retain the measured alternating
-rim connectivity. Texture indices 1 through 8 upload with mode 1; index zero
-uploads with mode 2.
+rim connectivity. Texture indices 1 through 8 are packed with mode 1; index zero
+is packed with mode 2.
 
 Before each particle's delay, its position tracks the selected active-slot
 part. During travel/fade it scales from 512 using `time * 3584 / travel`,

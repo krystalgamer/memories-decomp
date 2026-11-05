@@ -44,7 +44,7 @@ texture at `0x10C`, completion byte at `0x110` and elapsed time at `0x114`.
 Its accessed extent is separate from the primary, secondary and variant
 image loads in both slots; this is not an allocation-capacity claim.
 
-Initialization creates randomized velocities and uploads one image.
+Initialization creates randomized velocities and packs one image page/CLUT word.
 Updates follow the selected model bone, move the stored position toward its
 destination, draw a sinusoidal triangle-strip beam, then draw timed particle
 quads. The four selected configurations have positive travel and duration

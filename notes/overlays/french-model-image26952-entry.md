@@ -45,7 +45,7 @@ remain in native order.
   `ModelEffectAdjustment` and `SVECTOR` declarations. Canonical GTE types precede
   the GPU/GS headers; all primitive aliases come from `src/types.h`.
 - Preserve constructor z values `-sign * 449` and `sign * 450`, fresh active-slot
-  texture-upload calls, signed texture high halves, and the frame-step getter
+  texture page/CLUT packing calls, signed texture high halves, and the frame-step getter
   before the override setter.
 - Head and spark submission ignore the projection flag and test signed depth.
   Spark transforms omit the head's light-matrix multiplication. Trail colors

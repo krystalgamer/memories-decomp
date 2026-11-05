@@ -35,7 +35,7 @@ verify descriptor, state, vector, matrix, image and packet layouts.
 
 Initialization generates spherical offsets using three random remainders
 and native nested signed divisions. It copies the opposing slot center,
-overwrites center Y with -350, uploads all ten image descriptors with mode
+overwrites center Y with -350, packs the page/CLUT words of all ten image descriptors with mode
 two or one, and clears time, frames and completion. Rotation and position
 are cleared and direction/frame step are obtained before either command
 branch, as in the native entry.

@@ -69,7 +69,7 @@ Fresh Spanish resident linking reproduces the complete retail executable.
 All twenty-five entry imports resolve to actual sized function definitions in
 selected resident input objects; their complete final bodies equal the Spanish
 retail functions. This includes the distinct 44-byte `RotTransPers` owner,
-packet constructors, model queries and texture upload. Regionally identical
+packet constructors, model queries and texture page/CLUT packing. Regionally identical
 overlay bytes are a lead, not a substitute for this resident-owner evidence.
 
 Sixty-one fresh target-compiled constants check the entry's local declarations,

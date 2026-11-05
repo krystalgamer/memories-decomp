@@ -41,7 +41,7 @@ negative random Y. Position Y uses half the spread, while velocity Y uses
 the full speed. Only origin X/Z are added. Dot initialization uses two
 random angles; the Y and Z velocity formulas deliberately repeat the same
 sin/cos expression. It clears screens/depths, initializes lighting and
-counters, and uploads five images.
+counters, and packs the texture page/CLUT words of five images.
 
 Updates capture frame step and set override one, without a restore call
 in this entry. Phase zero lowers lighting; any positive phase raises it.

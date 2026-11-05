@@ -47,8 +47,8 @@ constructor's continuous traversal without crossing C subarray boundaries.
 The signed start-vector pad stores a circular index modulo six. Constructor
 copies preserve xyz only; other vector padding remains untouched.
 
-The constructor samples radial starts, fills their histories, uploads one
-texture and clears elapsed/completion/toggle state. Before the descriptor
+The constructor samples radial starts, fills their histories, packs one
+texture page/CLUT word and clears elapsed/completion/toggle state. Before the descriptor
 delay, the opposing slot supplies the origin with Y forced to zero.
 
 The ring alternates scale, ramps and fades its captured RGB, projects its
