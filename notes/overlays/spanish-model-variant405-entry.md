@@ -30,15 +30,35 @@ GT4s that step the packed page down in 16-pixel rows. It then initialises:
 - four eight-point spokes and two ribbons.
 
 A negative command runs one frame. It derives the view angles. Before
-record word `+0x1C` it copies the opposite slot's position into the target
-and reads part 0's matrix. Until word `+0x10` it also refreshes the aim
-origin from that matrix; the direction is always target minus origin.
+`track_end` (`+0x1C`) it copies the opposite slot's position into the target
+and reads part 0's matrix. Until `phase_start` (`+0x10`) it also refreshes the
+aim origin from that matrix; the direction is always target minus origin.
 It projects part 0 and the target for the screen delta and calls the outer
 bands `+0x1B64`, the `+0x12CC` helper and the pulses `+0xD00`.
 
-The tint goes to `Model_SetSlotAmbient`. Record words `+0x10`, `+0x14` and
-`+0x18` start phase 1 and select the draw mode (1, 2, then record `+0x0C`).
-Phases 2..6 drive the fade and the return codes.
+The tint goes to `Model_SetSlotAmbient`. `phase_start`, `second_pulse_start`
+and `all_pulses_start` start phase 1 and set the work block's `pulse_count`
+to 1, 2 and then the record's `count`. Phases 2..6 drive the fade and the
+return codes.
+
+### Config record fields
+
+The 32-byte `Variant405EntryConfig` record and one work member had
+offset-only names. Each name below follows how the matching C reads the
+member; the layout and types did not change.
+
+| Offset | Former name | Name | Evidence |
+| --- | --- | --- | --- |
+| `+0x0C` | `field_0C` | `count` | Copied into `pulse_count` at `all_pulses_start`. The bands and outer bands read the same word as `Bands405Descriptor.count`, their band-loop bound. |
+| `+0x10` | `field_10` | `phase_start` | At this frame phase 0 becomes 1 and `pulse_count` becomes 1. Until it, the aim origin follows part 0's matrix. Same role as header 456's `phase_start`. |
+| `+0x14` | `field_14` | `second_pulse_start` | At this frame `pulse_count` becomes 2. |
+| `+0x18` | `field_18` | `all_pulses_start` | At this frame `pulse_count` becomes the record's `count`. |
+| `+0x1C` | `field_1C` | `track_end` | While the frame is below it, the target copies the opposite slot and part 0's matrix is refreshed. Same role as `track_end` in headers 388, 430 and 456. |
+| work `+0x322C` | `field_322C` | `pulse_count` | The pulses (`+0xD00`) read this word as `Pulse405State.count` and draw `count * 2` groups. |
+
+The record bytes `+0x00..+0x0B` (part index and padding) and the trailing
+placeholders of the other Spanish config records are never read by matching
+C, so they keep their placeholder names.
 
 The MODEL405 binding lists gain `GetClut`, `GetTPage`, `GsGetLwUnit`,
 `RotTransPers`, `SetPolyFT4`, `SetPolyG3`, `SetPolyG4`, `SetPolyGT4`,

@@ -8,8 +8,8 @@
 typedef struct {
     u8 unknown_00[4];
     u8 parts[1], unknown_05[7];
-    s32 field_0C;
-    u32 field_10, field_14, field_18, field_1C;
+    s32 count;
+    u32 phase_start, second_pulse_start, all_pulses_start, track_end;
 } Variant405EntryConfig;
 
 typedef struct {
@@ -81,7 +81,7 @@ typedef struct {
     u32 frame_count;
     u32 frame;
     u32 animation_frame;
-    s32 step, fade, field_322C;
+    s32 step, fade, pulse_count;
     Variant405EntryConfig *config;
     u8 unknown_3234[4];
     GsCOORDUNIT *parts[1];
