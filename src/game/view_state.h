@@ -49,7 +49,7 @@
    ViewState_ApplyAlternateOrbit adds a quarter turn and uses it for the
    horizontal one. Every writer stores an angle: a constant (0x100, 0xC4,
    0x3FE, 0x358), a tween accumulator, a pad-driven step, or the location
-   table's camera_field_04.
+   table's camera_orbit_angle.
 
    field_06, field_08, field_0A and field_0C keep their offsets: the only
    accesses are zero stores in ViewState_ResetDefaults, Library_UpdateCardView
