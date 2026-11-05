@@ -71,7 +71,6 @@
 #include "duel_card_record_lifecycle.h"
 #include "duel_scene_battle.h"
 #include "duel_scene_field_actions.h"
-#define D_8009B208_AS_REPLAY_BYTES
 #include "duel_scene_resume.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"

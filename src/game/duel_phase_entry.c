@@ -153,7 +153,7 @@ void DuelScene_UpdateResume(void)
             gDuel_wSceneStateFlags = 5;
             return;
         }
-        if (gDuel_bBattleRemovalSlot0[n] >= 0) {
+        if (DUEL_BATTLE_REMOVAL_SLOT(n) >= 0) {
             break;
         }
     }
@@ -163,7 +163,7 @@ void DuelScene_UpdateResume(void)
 
         b = gDuel_abCardStagingBuffer;
         replay = (DuelCardReplayRecordBlock *)(
-            (u8 *)&((DuelCardRecord *)b)[gDuel_bBattleRemovalSlot0[n]] + replay_offset);
+            (u8 *)&((DuelCardRecord *)b)[DUEL_BATTLE_REMOVAL_SLOT(n)] + replay_offset);
         card = replay->record.object;
     }
     ViewState_ApplyOrbit();
