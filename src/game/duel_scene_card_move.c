@@ -76,7 +76,7 @@ void DuelScene_UpdateCardMove(void)
     u16 z;
     s32 slot;
 
-    object = gDisplayObject_apWorkSlots[0];
+    object = gDisplayObject_apWorkSlots.slots[0];
     if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         if (gDuel_wSceneStateFlags & 0x4000) {
@@ -184,8 +184,8 @@ state_four:
             }
             card->stat_modifier = scratch->stat_modifier;
             DisplayObject_ReleaseIfPresent(object);
-            gDisplayObject_apWorkSlots[0] = card->object;
-            object = gDisplayObject_apWorkSlots[0];
+            gDisplayObject_apWorkSlots.slots[0] = card->object;
+            object = gDisplayObject_apWorkSlots.slots[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
             DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = DUEL_CARD_OFFSCREEN_Y;
             DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));

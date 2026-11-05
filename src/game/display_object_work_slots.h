@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "duel_check_ritual.h"
 
 #define DISPLAY_OBJECT_WORK_SLOT_COUNT 5
 
@@ -31,40 +32,35 @@ typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
 #undef DISPLAY_OBJECT_WORK_OFFSET
 
 /* Shared scratch slots, not an owning object pool. Duel animation uses two,
- * the Exodia presentation uses five, and trade uses the first. Keep the
- * default incomplete array: Main_RunTrade needs split absolute addressing
- * at -G8. The word just past the five slots (+0x14) is a terminator the
- * consumers clear; card placement also reaches it as its sixth selection
- * slot; see
- * notes/card-placement-controller.md. The ritual view below does not change
- * the five-slot count used by the other consumers. */
-#ifdef DISPLAY_OBJECT_WORK_RITUAL_VIEW
-#include "duel_check_ritual.h"
+ * the Exodia presentation uses five, and trade uses the first. The word just
+ * past the five slots (+0x14) is a terminator the consumers clear; card
+ * placement also reaches it as its sixth selection slot; see
+ * notes/card-placement-controller.md. The owner reserves 0x20 bytes in every
+ * regional layout, so two more words follow the terminator.
+ *
+ * Duel_CheckRitual receives base + 8 and writes three pointers followed by
+ * zero at base + 0x14 (the terminator word after the five slots).
+ * DuelScene_UpdateExodiaResult also clears that word after filling its five
+ * slots; see notes/ritual-controller-storage.md. The ritual member overlaps
+ * the slots with that complete output subobject rather than casting slot 2
+ * to a result that overruns them. */
+#define DISPLAY_OBJECT_WORK_STORAGE_WORDS 8
 
-/* Duel_CheckRitual receives base + 8 and writes three pointers followed by
- * zero at base + 0x14 (the terminator word after the five slots). DuelScene_UpdateExodiaResult
- * also clears that word after filling its five slots. The resident image
- * backs this complete 0x18-byte range; see notes/ritual-controller-storage.md.
- * Overlap the five-slot view with the actual, complete output subobject
- * rather than casting slot 2 to a result that overruns a five-pointer array. */
-typedef union {
-    DisplayObject *slots[DISPLAY_OBJECT_WORK_SLOT_COUNT];
+typedef union DisplayObjectWorkSlots {
+    DisplayObject *slots[DISPLAY_OBJECT_WORK_STORAGE_WORDS];
     struct {
         DisplayObject *effects[2];
         DuelRitualResult result;
     } ritual;
-} DisplayObjectRitualWorkArea;
+} DisplayObjectWorkSlots;
 
-typedef char DisplayObjectRitualWorkArea_size_must_be_0x18[
-    sizeof(DisplayObjectRitualWorkArea) == 0x18 ? 1 : -1
+typedef char DisplayObjectWorkSlots_size_must_be_0x20[
+    sizeof(DisplayObjectWorkSlots) == 0x20 ? 1 : -1
 ];
-typedef char DisplayObjectRitualWorkArea_result_offset_must_be_8[
-    (u32)&((DisplayObjectRitualWorkArea *)0)->ritual.result == 8 ? 1 : -1
+typedef char DisplayObjectWorkSlots_result_offset_must_be_8[
+    (u32)&((DisplayObjectWorkSlots *)0)->ritual.result == 8 ? 1 : -1
 ];
-extern DisplayObjectRitualWorkArea gDisplayObject_apWorkSlots;
-#else
-extern DisplayObject *gDisplayObject_apWorkSlots[];
-#endif
+extern DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 
 /* Copies five pointer words and appends zero; the destination ABI is integer. */
 void DisplayObject_CopyWorkSlots(s32 *destination);

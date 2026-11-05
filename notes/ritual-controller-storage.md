@@ -8,19 +8,18 @@ callee writes three tribute-object pointers and clears its result's word at
 The earlier five-slot consumer `DuelScene_UpdateExodiaResult` also clears that word
 after filling the pointer slots (retail instruction at `0x8001913C`).
 
-The canonical work-slot count remains **five**, not six.
-`DISPLAY_OBJECT_WORK_RITUAL_VIEW` selects a 24-byte union containing the
-five-pointer view and a two-pointer prefix followed by a complete
-`DuelRitualResult`. Passing the address of that result does not overrun
-a five-pointer allocation. Native fixtures must allocate the whole union;
-an independently allocated five-pointer array is insufficient backing.
-The default incomplete-array declaration is unchanged for existing
-consumers and their measured absolute relocations.
+The canonical work-slot count remains **five**, not six. Every consumer
+declares `gDisplayObject_apWorkSlots` as the one `DisplayObjectWorkSlots`
+union in `display_object_work_slots.h`: the owner's 0x20 bytes as eight
+pointer words, overlapped by a two-pointer prefix followed by a complete
+`DuelRitualResult`. Passing the address of that result does not overrun the
+allocation. Native fixtures must allocate the whole union; an independently
+allocated five-pointer array is insufficient backing. A 0x20-byte
+aggregate is never small data at `-G8`, so the union keeps every consumer's
+absolute relocations exactly as the earlier incomplete-array spelling did.
 
-The retail resident image, through the existing `bss_image_after_viewport`
-binary-backed section, supplies the storage. Existing absolute linker
-identities cover `gDisplayObject_apWorkSlots`, and its interior labels; the terminator word has no separate symbol.
-No new C allocation or linker alias is required. The next mapped label
+`duel_field_card_render.c` defines the storage; the terminator word has no
+separate symbol. The next mapped label
 after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
 The controller's preview record is `gCardPreview_Resources[1]`, defined in

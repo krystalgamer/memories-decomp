@@ -6,7 +6,7 @@
 extern struct DuelSideState gDuel_aSideStates[];
 extern struct DuelHandSlot gDuelHand_aSlots[];
 extern struct ScreenPair gDuel_aCardSlotScreenPositions[];
-extern struct DisplayObject *gDisplayObject_apWorkSlots[];
+extern union DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 extern u8 gDuel_abSelectionSides[];
 extern struct DuelEffectResourceRecord gCardPreview_Resources[];
 #define DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE

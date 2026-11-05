@@ -240,7 +240,7 @@ void DuelScene_UpdateExodiaResult(void)
         poses = (u8 *)&gDuel_ExodiaCardPoses;
         r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
-        objs = gDisplayObject_apWorkSlots;
+        objs = gDisplayObject_apWorkSlots.slots;
         gDuel_wSceneStateFlags = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = gDuel_pTerrainIcon;
         side = gDuel_bActiveSide;
@@ -282,7 +282,7 @@ next_obj:
         if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             goto next_obj;
         }
-        gDisplayObject_apWorkSlots[DISPLAY_OBJECT_WORK_SLOT_COUNT] = 0;
+        gDisplayObject_apWorkSlots.slots[DISPLAY_OBJECT_WORK_SLOT_COUNT] = 0;
         DisplayObject_ReleaseIfPresent(
             gDuel_pActiveSelectionRecord->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
@@ -344,7 +344,7 @@ next_obj:
         gDuel_wStepCounter = 4;
         fx = DuelEffect_AllocateRequest(0);
         k = gDuel_bPresentationCursor;
-        slot = &gDisplayObject_apWorkSlots[k];
+        slot = &gDisplayObject_apWorkSlots.slots[k];
         d = *slot;
         fx->field_00 = (s16)(d->xy.h.x + 0x1A);
         d = *slot;

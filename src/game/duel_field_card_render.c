@@ -14,7 +14,7 @@
  * ahead of the headers and defined once they supply the types (#2602). A
  * regional wrapper that lays it out differently declares its own order and
  * defines DUEL_FIELD_CARD_RENDER_STORAGE_ORDER. */
-extern struct DisplayObject *gDisplayObject_apWorkSlots[];
+extern union DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 extern u8 gDuel_abSelectionSides[];
 extern struct DuelSideState gDuel_aSideStates[];
 extern struct DuelHandSlot gDuelHand_aSlots[];
@@ -204,6 +204,7 @@ extern struct DisplayObject *gDuel_pCardViewerBackground;
 #include "../ygo_types.h"
 #include "duel_side_state.h"
 #include "display_object.h"
+#include "display_object_work_slots.h"
 #include "display_projection.h"
 #include "screen_projection.h"
 #include "../psyq/libgte.h"
@@ -218,10 +219,7 @@ extern struct DisplayObject *gDuel_pCardViewerBackground;
 #include "duel_screen_tables.h"
 #include "duel_effect_resource_record.h"
 
-/* Five work slots and the terminator word DisplayObject_CopyWorkSlots
- * appends; both regional layouts reserve 0x20 bytes, so two more words
- * follow. */
-DisplayObject *gDisplayObject_apWorkSlots[8];
+DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 u8 gDuel_abSelectionSides[DUEL_SIDE_COUNT * DUEL_SELECTION_SIDE_SIZE];
 DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
 DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
