@@ -3375,15 +3375,15 @@
     },
     {
       "address": "0x8003C3BC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/input_pad1_backup.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C40C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/input_pad1_backup.c"
+      "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C438",

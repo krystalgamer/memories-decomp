@@ -308,7 +308,6 @@ segments:
       - [0x2D2E0, c, game/european/file_request_game_over_package]
       - [0x2D344, c, game/european/game_over]
       - [0x2D578, c, game/european/input_pads]
-      - [0x2D7C4, c, game/input_pad1_backup]
       - [0x2D840, c, game/spanish/save_data_payload]
       - [0x2DCCC, c, game/mem_card_work_initialize_operation]
       - [0x2DCF8, c, game/european/checkerboard_background]
@@ -477,7 +476,7 @@ segments:
       - [0x83578, data, spanish_raw_80092d78]
       - [0x8CA98, .sdata, game/spanish/main]
       - [0x8CA9D, pad]
-      - [0x8CAA0, .sdata, game/data_8009af10]
+      - [0x8CAA0, .sdata, game/european/file_transfer_runtime]
       - [0x8CAB0, .sdata, game/spanish/duel_ground_projection]
       - [0x8CAB4, .sdata, game/european/duel_battle_stats]
       - {start: 0x8CABA, type: bin, name: spanish_raw_8009c2ba, linker_section_order: .sdata}
