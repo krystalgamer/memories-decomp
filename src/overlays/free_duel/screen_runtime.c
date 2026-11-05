@@ -12,6 +12,7 @@
 #include "../../game/color_constants.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
+#include "../../game/text_box_blocking_build.h"
 #include "../../game/text_staging.h"
 #include "../../game/duel_effect.h"
 #include "../../game/duel_effect_resource_setup.h"
@@ -118,7 +119,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 #else
     TextBox_Create(0, param, 16, 204, 288, 16);
 #endif
-    func_80039A60((struct DuelEffectChannel *)panel);
+    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)panel);
 }
 
 #endif

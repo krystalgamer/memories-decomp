@@ -54,7 +54,7 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))Text_NoOpSecondary12,
     (void (*)(DuelEffectChannel *))Text_NoOpSecondary13,
     Text_OpenCampaignMap,
-    func_800388D8,
+    Text_ApplyFadeCommand,
     Text_DisableCompletionWait,
     Text_JumpBySelectorA,
     Text_JumpBySelectorB,

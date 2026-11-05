@@ -47,7 +47,7 @@ u16 gDuel_awSideViewHeadings[2] = {
    pointer arithmetic.
 
    gDuel_ExodiaCardPoses supplies the five Exodia card poses consumed by the retained
-   func_80018FEC candidate. Each card ID from 0x11 through 0x15 selects a
+   DuelScene_UpdateExodiaResult candidate. Each card ID from 0x11 through 0x15 selects a
    record, whose first byte chooses one of the five shared display-object work
    slots and whose remaining bytes become object x/y after removing the
    candidate's 0x1A/0x1E coordinate biases. The trailing byte preserves the

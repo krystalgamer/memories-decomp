@@ -185,10 +185,10 @@ void DebugMenu_Init(void)
     D_8009B2B2 = 0x80;
     gDebugMenu_bStep = 0;
     gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
-    /* The Japanese and European builds make neither the func_8003B6AC call
+    /* The Japanese and European builds make neither the DuelEffect_SetEntryRangeLayout call
        nor the two text-box field stores. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    func_8003B6AC(1, 1);
+    DuelEffect_SetEntryRangeLayout(1, 1);
 #endif
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
@@ -603,7 +603,7 @@ void DebugMenu_UpdateCampaignEntry(void)
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
             /* The Japanese and European builds make neither this call nor
                the diagnostic print. */
-            func_8003B6AC(0, 2);
+            DuelEffect_SetEntryRangeLayout(0, 2);
             printf(gDebugMenu_szCampaignValueFormat,
                    gDuelEffect_aEntries[gDuelEffect_awEntryRangeBoundaries[0]].layout_selector);
 #endif

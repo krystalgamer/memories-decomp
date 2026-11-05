@@ -393,7 +393,7 @@ Japan's small initialized data starts `0xC0` below the North American
 model units. Its split places nineteen owners from `main_services`
 (`0x8009AE48`) to `ai_script_source_line_format`. Its layout differs from the
 North American one in three places:
-- `duel_field_effects` adds a Japanese-only `"Ex %d\n"` format (`D_8009AE84`,
+- `duel_field_effects` adds a Japanese-only `"Ex %d\n"` format (`gDuel_szSelectorTraceFormat`,
   read by Japan's `duel_field_card_objects`);
 - `model_graphics_state` has no selected-digit byte and keeps the frame-step
   control as unaligned single bytes from `0x8009AF0B`, given as Japanese

@@ -18,7 +18,5 @@ void Text_NoOpSecondary13(void);
 void Text_OpenCampaignMap(DuelEffectChannel *object);
 void Text_ApplyFadeCommand(DuelEffectChannel *object);
 
-/* Compatibility symbol used by the command table. */
-void func_800388D8(DuelEffectChannel *object);
 
 #endif

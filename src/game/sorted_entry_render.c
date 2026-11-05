@@ -37,8 +37,6 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
 #include "sorted_entry.h"
 #include "gpu_packets.h"
 #include "hmd_fog_textured_drivers.h"
-#include "func_8006151C.h"
-#include "func_80061A84.h"
 #include "direct_polygon_renderers.h"
 
 /* The two HMD primitive drivers for fog-shaded textured polygons that

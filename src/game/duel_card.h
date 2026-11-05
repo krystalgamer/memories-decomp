@@ -95,7 +95,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector);
 
 #ifdef VERSION_JAPAN
 /* Japanese debug print uses this format already stored in the image. */
-extern char D_8009AE84[];
+extern char gDuel_szSelectorTraceFormat[];
 #endif
 
 /* Packed per-card attribute word, indexed by card id minus one. Callers

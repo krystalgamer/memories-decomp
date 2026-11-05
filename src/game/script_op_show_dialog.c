@@ -40,8 +40,8 @@ void Script_OpShowDialog(void)
         value = script[0] | (script[1] << 8);
         gScript_EventState |= 0x4000;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-        /* The Japanese and European builds make no func_8003B6AC call here. */
-        func_8003B6AC(0, 2);
+        /* The Japanese and European builds make no DuelEffect_SetEntryRangeLayout call here. */
+        DuelEffect_SetEntryRangeLayout(0, 2);
 #endif
         box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, SCRIPT_DIALOG_BOX_HEIGHT);
         DuelEffect_MarkObjectIfActive(box);

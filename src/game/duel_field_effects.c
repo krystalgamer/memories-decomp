@@ -151,11 +151,11 @@ DuelEffectHandler
 
 #if !defined(VERSION_EUROPE)
 /* European builds drop the trace below, and their .sdata lacks the string. */
-char D_8009AF40[] = "%d\n";
+char gDuelEffect_szDecimalTraceFormat[] = "%d\n";
 #ifdef VERSION_JAPAN
 /* A Japanese-only format beside it, read by the Japanese build's
    duel_field_card_objects. */
-char D_8009AE84[] = "Ex %d\n";
+char gDuel_szSelectorTraceFormat[] = "Ex %d\n";
 #endif
 #endif
 
@@ -596,7 +596,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
 
         object->field_04 = gDuel_aFieldGridGroundPositions[side][0].y;
 #if !defined(VERSION_EUROPE)
-        printf(D_8009AF40, (short)object->field_04);
+        printf(gDuelEffect_szDecimalTraceFormat, (short)object->field_04);
 #endif
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {

@@ -1072,7 +1072,7 @@ void Library_InitializeScreen(void) {
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     /* The Japanese and European builds make neither this call nor the two
        field stores below. */
-    func_8003B6AC(3, 1);
+    DuelEffect_SetEntryRangeLayout(3, 1);
 #endif
 #ifdef VERSION_EUROPE
     /* The European build creates the box with flags 3. */

@@ -202,7 +202,7 @@ void DebugMenu_Update(void) {
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         /* The Japanese and European builds make neither this call nor the
            two field stores below. */
-        func_8003B6AC(one, one);
+        DuelEffect_SetEntryRangeLayout(one, one);
 #endif
         gDebugMenu_bPage = gDebugMenu_bPage ^ one;
         TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0);
