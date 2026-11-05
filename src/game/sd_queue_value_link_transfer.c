@@ -27,8 +27,8 @@ void SD_QueueValueLinkTransfer(s32 link_index)
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
     registration_state = g_SDValue;
     registration_command.command = 0x51;
-    registration_command.arg0 = registration_state->s_dwSD_SEGROUP_SPU_ADDR;
-    registration_command.arg2 = 0x801E6800;
+    registration_command.args.seq_block.spu_address = registration_state->s_dwSD_SEGROUP_SPU_ADDR;
+    registration_command.args.seq_block.block_buffer = 0x801E6800;
     SD_EnqueueCommand(&registration_command);
     cursor_state = g_SDValue;
     off += (s32)cursor_state->s_pstSD_SEGROUP_TABLE;

@@ -2583,15 +2583,16 @@ witness suite is run locally.
 
 ### Queued-command payload members
 
-The queue side of the established active-payload snapshot now uses
-opcode-scoped names, without a new union or record layout:
+The queue side of the established active-payload snapshot uses
+opcode-scoped names. The argument words are grouped into one union,
+`SDCommandArgs`, at the same offsets (described below):
 
 | Original SDCommand member | Canonical member | Unchanged storage |
 |---|---|---|
 | field_0002 | value | s16 +0x02 |
-| field_0004 | arg0 | s32 +0x04 |
-| field_0008 | arg1 | s32 +0x08 |
-| field_000C | arg2 | s32 +0x0C |
+| field_0004 | args.raw.arg0 (see below) | s32 +0x04 |
+| field_0008 | args.raw.arg1 (see below) | s32 +0x08 |
+| field_000C | args.raw.arg2 (see below) | s32 +0x0C |
 | field_0010 | transfer_selector | s32 +0x10 |
 | field_0014 | transfer_sector_offset | s32 +0x14 |
 | field_001C | transfer_spu_destination | s32 +0x1C |
@@ -2606,6 +2607,41 @@ block address for command 0x51. Address-shaped words remain signed s32,
 not stored pointers. Fade preparation still reads the queue head before
 staging; 0x44/0x45 retain s_wSD_SEQ_FADE_STEP plus s_bSD_BGM_FADE_TARGET, not a
 repaired target pairing. Every cast and signed/unsigned view is unchanged.
+
+#### Per-opcode argument views
+
+The three argument words are now `SDCommandArgs args`, a union of
+per-opcode views at the same offsets, each keeping the words' `s32`
+storage. Producers and readers whose opcode is fixed use the view for it;
+the emitted code is unchanged.
+
+| Offset | `raw` (any opcode) | `fade` (0x29/0x2A/0x44/0x45, 0x48) | `cd_play` (0x21/0x24) | `seq_block` (0x51) |
+|---|---|---|---|---|
+| `+0x04` | `arg0` | `arg0` | `bank_sector_offset` | `spu_address` |
+| `+0x08` | `arg1` | `step` | `bank_tag` | `arg1` |
+| `+0x0C` | `arg2` | `arg2` | `descriptor_table` | `block_buffer` |
+
+- **fade.step**: `SD_EnqueueCdFade` (0x29) and `SD_RequestBgmPlayback`
+  (0x48) store the signed per-update step. `SD_UpdateRuntime` loads it into
+  `s_wSD_CD_FADE_STEP` (0x29/0x2A) or `s_wSD_SEQ_FADE_STEP` (0x44/0x45), and
+  `SD_StepActiveCommand`'s 0x48 arm loads the active copy into
+  `s_wSD_SEQ_FADE_STEP`. Confidence high.
+- **cd_play**: `sound_output_state.c`'s two CD-play producers store the bank's
+  base sector offset, the bank tag (0x50/0x60/0x70) and the descriptor
+  table. `SD_StepActiveCommand`'s 0x21 and 0x24 arms read the 8-byte entry at
+  `descriptor_table + value * 8` and add `bank_sector_offset` to its sectors.
+  `bank_tag` is stored but never read, so that name rests on the producer
+  alone. Confidence high, `bank_tag` medium.
+- **seq_block**: `SD_QueueValueLinkTransfer` stores the sequence-group SPU
+  address and the RAM staging block `0x801E6800`.
+  `SD_StepActiveCommand`'s 0x51 arm passes them to
+  `SD_RegisterSeqBlockNotes(block_buffer, spu_address)`. Confidence high.
+- **raw**: `SD_UpdateRuntime`'s opcode-independent copy into
+  `s_dwSD_ACTIVE_COMMAND_ARG0..2`. Those active copies stay generic, and the
+  arms above read them by offset.
+
+Address-shaped words remain `s32`, not stored pointers, and every
+cast and signed/unsigned view is unchanged.
 
 The transfer-prefixed names apply ONLY to command 0x20. The eight-word
 SDCommandTail block copy from +0x10 to s_adwSD_ACTIVE_COMMAND_TAIL remains a

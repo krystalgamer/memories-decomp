@@ -125,7 +125,7 @@ s32 SD_GetCdVolume(void)
 s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
     SDCommand command;
     command.command = 41;
-    command.arg1 = (s16) step;
+    command.args.fade.step = (s16) step;
     command.value = (s16) (u8) target;
     command.wait_for_cd_fade = (u8) wait_for_fade;
     return SD_EnqueueCommand(&command);
@@ -250,9 +250,9 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
                     SD_DropQueuedCdPlayCommands();
                     command.command = 0x24;
                     command.value = entry_index;
-                    command.arg0 = bank_sector_offset;
-                    command.arg2 = (s32)descriptor_entries;
-                    command.arg1 = bank_tag;
+                    command.args.cd_play.bank_sector_offset = bank_sector_offset;
+                    command.args.cd_play.descriptor_table = (s32)descriptor_entries;
+                    command.args.cd_play.bank_tag = bank_tag;
                     SD_EnqueueCommand(&command);
                     SD_ResetCdPan();
                 }
@@ -322,9 +322,9 @@ void SD_EnqueueCdSeek(s32 command_id)
         SD_DropQueuedCdPlayCommands();
         command.command = 0x21;
         command.value = entry_index;
-        command.arg0 = bank_sector_offset;
-        command.arg2 = (s32)descriptor_entries;
-        command.arg1 = bank_tag;
+        command.args.cd_play.bank_sector_offset = bank_sector_offset;
+        command.args.cd_play.descriptor_table = (s32)descriptor_entries;
+        command.args.cd_play.bank_tag = bank_tag;
         SD_EnqueueCommand(&command);
     }
     status_state = g_SDValue;
