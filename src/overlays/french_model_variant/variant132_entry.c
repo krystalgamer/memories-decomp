@@ -58,7 +58,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 1; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_D0EC8[i]);
         }
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, work->position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, work->position);
         work->position[1] = 0;
         work->elapsed = 0;
         work->started = 0;

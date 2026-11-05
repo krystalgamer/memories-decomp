@@ -35,8 +35,8 @@ s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant198_aConfigs[command];
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->opponent);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->opponent);
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             angle = i << 7;

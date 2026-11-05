@@ -106,7 +106,7 @@ s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
     dot.attribute = 0x50000000;
     dot.w = 1;
     dot.h = 1;
-    Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&offset);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&offset);
     offset.vy = -350;
     time = work->elapsed - config->delay;
     if (time >= 0 && time < config->dot_duration) {

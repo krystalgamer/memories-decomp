@@ -42,7 +42,7 @@ s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
             point->vy = magnitude * ccos(angle_b) / 4096;
             point->vz = magnitude * csin(value) / 4096 * csin(angle_b) / 4096;
         }
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
         work->target.vy = 0;
         work->initialized = 0;
         for (i = 0; i < 2; i++) {
@@ -178,7 +178,7 @@ s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
         setVector(&rotation, 0, 0, 0);
         point = work->offsets;
         for (i = 0; i < config->particle_count; point++, i++) {
-            Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
             addVector(&position, point);
             position.vy -= config->lift * time / config->particle_duration;
             GsSetLsMatrix(&base);

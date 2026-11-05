@@ -272,10 +272,10 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotU16Values(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->target);
             work->target.vy = 0;
         } else {
-            Model_CopySlotU16Values(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->target);
             work->target.vy = 0;
         }
         for (index = 0; index < 3; index++) {
