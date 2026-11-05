@@ -9,6 +9,12 @@
 #include "dialog_read_choice_input.h"
 #include "duel_effect.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gDialog_bChoiceCount;
+s8 gDialog_bChoice;
+u8 gDialog_bChoiceEnabled;
+
 void Dialog_HighlightChoice(DuelEffectChannel *record)
 {
     s32 value;

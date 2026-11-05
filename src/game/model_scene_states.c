@@ -19,6 +19,12 @@
 #include "../unmatched.h"
 #include "../game/model_draw_slot.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gModel_bPresentationPhase;
+u8 gModel_bSceneMode;
+u16 gModel_wPresentationBgmCommand;
+
 void Model_SetPresentationBgmCommand(s32 value)
 {
     gModel_wPresentationBgmCommand = value;

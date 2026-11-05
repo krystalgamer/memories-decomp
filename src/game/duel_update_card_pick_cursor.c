@@ -12,6 +12,12 @@
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bActiveSide;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuelCursor_PickFlags;
+
 /* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
  * (src/game/european/) defines its own. */
 #ifndef DUEL_PICK_CURSOR_FIELD_0C

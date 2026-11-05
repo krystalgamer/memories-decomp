@@ -6,6 +6,10 @@
 #include "model_slot_properties.h"
 #include "model_has_insufficient_buffer_space.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gGraphics_bPacketBufferIndex;
+
 #define MODEL_SLOT_AT_OFFSET(slots, offset) \
     ((ModelSlot *)((u8 *)(slots) + (offset)))
 
