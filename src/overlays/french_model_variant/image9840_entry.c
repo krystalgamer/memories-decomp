@@ -3,6 +3,8 @@
 #include "../../psyq/memory.h"
 #ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
 #include "../../psyq/stdio.h"
+/* variant631us_entry.c defines gModelVariant631Us_szWorkSizeFormat
+   before including this source. */
 #endif
 
 #define FADE_PRIMARY(c) \
@@ -52,7 +54,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Image9840State));
 #ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
-        printf(MODEL_IMAGE9840_WORK_SIZE_FORMAT, sizeof(Image9840State));
+        printf(gModelVariant631Us_szWorkSizeFormat, sizeof(Image9840State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

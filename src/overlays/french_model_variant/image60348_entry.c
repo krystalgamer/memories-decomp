@@ -2,6 +2,8 @@
 #include "image60348_entry.h"
 #ifdef MODEL_IMAGE60348_WORK_SIZE_PRINTF
 #include "../../psyq/stdio.h"
+/* image60348_entry_usa.c defines gModelVariant664_szWorkSizeFormat
+   before including this source. */
 #endif
 
 /* Rings drop fading echoes and release camera-facing sprite/shard/cone bursts. */
@@ -36,7 +38,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Image60348State));
 #ifdef MODEL_IMAGE60348_WORK_SIZE_PRINTF
-        printf(MODEL_IMAGE60348_WORK_SIZE_FORMAT, sizeof(Image60348State));
+        printf(gModelVariant664_szWorkSizeFormat, sizeof(Image60348State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
