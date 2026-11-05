@@ -22,17 +22,15 @@ typedef struct {
 
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
-   read them cannot drift apart. gDuel_aCardSlotGroundPositions is read as u16 halfwords by
-   debug_effect_screen.c, duel_ground_projection.c and duel_project_card_slot_screen_x.c. The
-   DuelFieldPosition arm is selected by the
-   defining unit and by duel_card_record_lifecycle.c, whose Duel_SetupFieldCardFromDeck
-   loads the pair with lh. The pair supplies ground X/Z; consumers choose
-   height independently and the shared type retains its generic x/y names. */
-#ifdef DUEL_SCREEN_TABLES_TYPED_POSITIONS
+   read them cannot drift apart. gDuel_aCardSlotGroundPositions is declared as its DuelFieldPosition pairs
+   everywhere: the defining unit duel_ground_projection.c and
+   duel_card_record_lifecycle.c, whose Duel_SetupFieldCardFromDeck loads the
+   pair with lh, read it that way. debug_effect_screen.c reads one pair's
+   members as unsigned halfwords and duel_project_card_slot_screen_x.c casts
+   to a halfword pointer. The
+   pair supplies ground X/Z; consumers choose height independently and the
+   shared type retains its generic x/y names. */
 extern DuelFieldPosition gDuel_aCardSlotGroundPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
-#else
-extern u16 gDuel_aCardSlotGroundPositions[];
-#endif
 extern ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
 extern DuelExodiaCardPoseTable gDuel_ExodiaCardPoses;
 extern DuelResultSpriteSpec gDuelResult_aSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT];

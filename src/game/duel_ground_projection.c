@@ -1,4 +1,3 @@
-#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
 /* Duel ground projection: both functions project ground-plane points through
  * the GTE at screen offset (0xA0, 0x6C) from the scratchpad vector at
  * 0x1F8003E0. Typed scratchpad stores and official Psy-Q GTE macros reproduce
