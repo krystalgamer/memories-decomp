@@ -3,16 +3,17 @@
 
 #include "../types.h"
 
-#if defined(MODEL_GRAPHICS_STATE_SCENE_BYTES)
 #if defined(MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE)
-#error scene byte view requires GP-relative addressing
-#endif
-extern u8 gGraphics_FrameStepControl[4];
-#elif defined(MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE)
 extern u8 gGraphics_FrameStepControl __attribute__((section(".data")));
 #else
 extern u8 gGraphics_FrameStepControl;
 #endif
+
+/* The three bytes after the frame-step override are separate u8 globals, not
+ * one aggregate: GCC 2.8 word-aligns struct and array definitions, yet the
+ * Japanese build has the four bytes at the unaligned 0x8009AF0B. */
+extern u8 D_8009AFA6;
+extern u8 D_8009AFA7;
 
 #include "graphics_base_frame_step.h"
 
