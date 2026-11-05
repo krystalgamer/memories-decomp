@@ -316,8 +316,13 @@ extern void (*gFile_RangePauseCallback)(void);
 #endif
 
 /* SD_ConfigureTransferPhase invokes this after its normal secondary payload
- * legs. SD_ArmBusyCallback registers through separate literal-address views. */
+ * legs. SD_ArmBusyCallback stores it through the .data arm. */
+#ifdef D_8009B128_IN_DATA
+extern void (*gFile_SecondaryPayloadCompleteCallback)(void)
+    __attribute__((section(".data")));
+#else
 extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
+#endif
 
 /* Disk-error command reissues; reset only by loader initialization. */
 extern s32 gFile_CommandRetryCount;
