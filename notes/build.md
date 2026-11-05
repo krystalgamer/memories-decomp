@@ -323,7 +323,7 @@ FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
 
 Separate definitions cannot reproduce that layout because GCC aligns the
 second object to offset 4. The successful owner is one six-byte array,
-`gDebugEffect_abPreviewState`: the old identities become elements 0, 2, and
+`gDebugEffect_PreviewState`: the old identities become elements 0, 2, and
 3, and the live page byte at `0x8009AF2E` becomes element 4. Because all views
 were private to `debug_effect_screen.c`, no external alias is lost. The object
 tiles the complete six-byte window and the linked executable remains exact.
@@ -563,7 +563,7 @@ bytes are padding to spimdisasm and it does not emit them, so a chunk can be
 shorter than the range it covers and everything after it starts too early.
 Before the final carve, `initialized_data_8009af2a` covered six bytes but
 emitted four, so a `pad` subsegment at `0x8b72e` made up the difference.
-`gDebugEffect_abPreviewState[6]` now emits the whole range and removes that
+`gDebugEffect_PreviewState[6]` now emits the whole range and removes that
 special case. A missing byte still shows up as a shifted `%gp_rel` reference,
 and the build's size check catches the rest.
 

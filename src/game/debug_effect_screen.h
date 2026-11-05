@@ -7,7 +7,7 @@
 /* The developer effect-preview screen. DuelScene_UpdateEffectPreview is the gDuel_apfnSceneStateHandler duel
  * phase entry for it: it runs the preview builder and then prints the
  * "EFFECT = %2d %2d" line with one of two divider strings, chosen by the
- * coordinate-axis byte in gDebugEffect_abPreviewState.
+ * coordinate-axis byte in gDebugEffect_PreviewState.
  *
  * The other two functions this unit defines are reached only from within it. */
 void DuelScene_UpdateEffectPreview(void);

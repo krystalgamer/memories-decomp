@@ -25,9 +25,12 @@ allocator stores it in the request's `id` at `0x18`. The second is assigned to
 `field_1A`; its effect-specific meaning is not inferred. The actual request
 position is assigned separately according to the preview page.
 
-The local aliases are consequently `gDebugEffect_bEditedOperand` and
-`gDebugEffect_abOperands`. These are only source macros over the existing
-`gDebugEffect_abPreviewState`, not new data objects. The old layout selector
+These are the `bEditedOperand` and `abOperands` members of
+`gDebugEffect_PreviewState`, a `DebugEffectPreviewState` struct (with `bPage`)
+that replaced a byte array and its `#define` element views. The operand reads
+index from `&gDebugEffect_PreviewState.abOperands[0]`: retail forms that
+address first (`addiu a0,gp,0x24`), while indexing the member array directly
+folds the `+2` into the load. The old layout selector
 `DEBUG_EFFECT_COORDINATE_OFFSET` retains its name and value for compatibility,
 as do every other selector and the historical wording in frozen headers.
 
