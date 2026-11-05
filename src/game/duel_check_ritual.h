@@ -32,14 +32,9 @@ typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
  * element type, and only the halfword view belongs to this header.
  *
  * DuelScene_UpdateResultRewards reuses the same backing for a complete
- * 0x40-byte result display record after recipe processing has ended. Its guarded view
- * below describes that bounded record, not a new allocation. */
-#ifdef DUEL_RITUAL_DATA_RESULT_VIEW
-#include "duel_result_display.h"
-extern DuelResultDisplayState gDuel_awRitualData;
-#else
+ * 0x40-byte result display record after recipe processing has ended, and
+ * casts it to DuelResultDisplayState * the same way. */
 extern u16 gDuel_awRitualData[];
-#endif
 
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 

@@ -7,7 +7,6 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_REPEAT_IN_DATA
 #define TEXT_STRING_ID_IN_DATA
-#define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
@@ -199,7 +198,7 @@ void DuelScene_UpdateResultOutro(void)
     s32 mode;
     s32 v;
 
-    slots = (DuelResultSpriteSlot *)&gDuel_awRitualData;
+    slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
 
     v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
@@ -620,7 +619,7 @@ void DuelScene_UpdateResultRewards(void)
         gDuel_wSceneStateFlags |= 0x8000;
         Fade_StartOutKeepOverlay();
         Fade_SetTargetLevel(128, 2);
-        gDuel_pResultDisplayState = &gDuel_awRitualData;
+        gDuel_pResultDisplayState = (DuelResultDisplayState *)gDuel_awRitualData;
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
         gText_BranchSelectorA = 0;

@@ -21,8 +21,8 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
   word at `+0x5E0`. The controller's narrow increment/store happens before
   its clamp; this is not a wider saturating counter.
 - The sole writer of `gDuel_pResultDisplayState` points it at `gDuel_awRitualData`,
-  `0x801799D8`. `DUEL_RITUAL_DATA_RESULT_VIEW` describes the full
-  `0x40`-byte `DuelResultDisplayState` there, including ten child pointers.
+  `0x801799D8`, casting the halfword array every unit declares to the full
+  `0x40`-byte `DuelResultDisplayState`, including ten child pointers.
   The span ends at `0x80179A18`, inside the existing `slot_80168000`
   image backing and before `slot_8017a000`. This is lifetime-based reuse,
   not an allocation sized from a short ritual recipe.
