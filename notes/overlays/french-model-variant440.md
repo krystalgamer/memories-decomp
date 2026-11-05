@@ -179,6 +179,7 @@ Both slots compile the shared sources without renaming wrappers. They define
 `variant631_bands.c`), `ModelVariant423_DrawSheets` (`0x16E0`),
 `ModelVariant423_DrawWebs` (`0x1BD4`), `ModelVariant423_DrawSpokes`
 (`0x2130`), `ModelVariant423_DrawRings` (`0x2440`), `ModelVariant423_DrawQuad`
-(`0x27BC`) and the data block `gModelVariant423_D2B38`. Each image binds them
+(`0x27BC`) and the data tables `gModelVariant423_aImages` and
+`gModelVariant423_aConfigs`. Each image binds them
 at its own addresses (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).

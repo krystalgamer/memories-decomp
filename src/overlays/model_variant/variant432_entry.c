@@ -40,7 +40,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant432EntryConfig *)(gModelVariant432_D2B64 + 0xFC) + command;
+        work->config = gModelVariant432_aConfigs + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -60,14 +60,14 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT432_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT432_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0x1C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0x38));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[1]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[3]);
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant432_D2B64 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant432_aImages[8]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
