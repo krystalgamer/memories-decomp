@@ -1,6 +1,6 @@
 // Japanese MODEL.MRG model 523 (record 473), sector 130738, header 742, loaded at 0x8017B000; the US source variant675us_entry.c; built from the US source layout of model_variant_523_stage8_slot1.
 ModelVariant675Us_HandleRequest = 0x8017B004; // type:func size:0x2ADC defined:true
-gModelVariant675Us_D2AF8 = 0x8017DAF8; // type:u8 size:0x8C defined:true
+gModelVariant675Us_aImages = 0x8017DAF8; // type:u8 size:0x8C defined:true
 gModelVariant675Us_aConfigs = 0x8017DB84; // type:u8 size:0x247C defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

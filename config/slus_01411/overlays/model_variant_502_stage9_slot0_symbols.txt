@@ -1,6 +1,6 @@
 // MODEL.MRG model 502 (record 452), sector 124952, header 676, loaded at 0x8013B000; the US source variant676us_entry.c.
 ModelVariant676Us_HandleRequest = 0x8013B004; // type:func size:0x3474 defined:true
-gModelVariant676Us_D3490 = 0x8013E490; // type:u8 size:0xA8 defined:true
+gModelVariant676Us_aImages = 0x8013E490; // type:u8 size:0xA8 defined:true
 gModelVariant676Us_aConfigs = 0x8013E538; // type:u8 size:0x20 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

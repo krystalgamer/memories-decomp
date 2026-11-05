@@ -43,7 +43,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         work->elapsed = 0;
         work->other_slot = work->slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant653_D250C);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant653_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         if (command == 0) {

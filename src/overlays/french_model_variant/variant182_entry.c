@@ -49,7 +49,7 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         p = work->offsets;
-        config = work->config = &gFrenchModelVariant182_D1D64[command % 100];
+        config = work->config = &gFrenchModelVariant182_aConfigs[command % 100];
         for (i = 0; i < config->count; i++) {
             value = rand() % 4096;
             elevation = rand() % 2048;
@@ -75,7 +75,7 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
             p++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant182_D1CD8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant182_aImages[i]);
         }
         work->elapsed = 0;
         work->frame = 0;
@@ -156,10 +156,10 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -233,10 +233,10 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -289,10 +289,10 @@ s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command)
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
-            setUV4(&quad, gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256,
-                gFrenchModelVariant182_D1CD8[i % 3].px % 64 * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph,
-                (gFrenchModelVariant182_D1CD8[i % 3].px % 64 + gFrenchModelVariant182_D1CD8[i % 3].pw) * 4, gFrenchModelVariant182_D1CD8[i % 3].py % 256 + gFrenchModelVariant182_D1CD8[i % 3].ph);
+            setUV4(&quad, gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256,
+                gFrenchModelVariant182_aImages[i % 3].px % 64 * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph,
+                (gFrenchModelVariant182_aImages[i % 3].px % 64 + gFrenchModelVariant182_aImages[i % 3].pw) * 4, gFrenchModelVariant182_aImages[i % 3].py % 256 + gFrenchModelVariant182_aImages[i % 3].ph);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }

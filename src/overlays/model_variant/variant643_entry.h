@@ -76,7 +76,7 @@ extern MATRIX GsIDMATRIX;
  * byte after its terminator is a nonzero alignment pad. */
 extern char gModelVariant643_szWorkSizeFormat[];
 #endif
-extern GsIMAGE gModelVariant643_D22B0[2];
+extern GsIMAGE gModelVariant643_aImages[2];
 extern Model643Command gModelVariant643_aConfigs[];
 
 s32 ModelVariant643_HandleRequest(u8 *context, s32 command);

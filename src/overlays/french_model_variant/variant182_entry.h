@@ -57,8 +57,8 @@ typedef struct {
     s32 frame;               /* 0x638 */
 } Model182State;
 
-extern GsIMAGE gFrenchModelVariant182_D1CD8[];
-extern Model182Config gFrenchModelVariant182_D1D64[];
+extern GsIMAGE gFrenchModelVariant182_aImages[];
+extern Model182Config gFrenchModelVariant182_aConfigs[];
 
 s32 FrenchModelVariant182_HandleRequest(u8 *context, s32 command);
 

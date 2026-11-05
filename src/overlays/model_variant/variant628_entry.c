@@ -45,13 +45,13 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_D2598[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_D2598[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_D2598[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[2]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
