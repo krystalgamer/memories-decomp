@@ -2249,3 +2249,5 @@ gModel_abAuxiliaryPaletteSector = 0x801DD800;
 gText_GlobalStringOffsets = 0x801D6000;
 gLibrary_sCapturedReferenceY = 0x80181002;
 gLibrary_sSampledReferenceY = 0x80181012;
+_ramsize = 0x8009AE50; // defined:True
+_stacksize = 0x8009AE54; // defined:True

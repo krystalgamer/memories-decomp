@@ -631,8 +631,6 @@ D_8009BF68 = 0x8009C370;
 D_8009BF74 = 0x8009C37C;
 D_8009BF84 = 0x8009C38C;
 /* Names inside the small initialized data this build's units own (#2602). */
-D_8009C2A0 = _ramsize;
-D_8009C2A4 = _stacksize;
 D_8009C33C = gModel_dwPolyFt3Template;
 D_8009C340 = gModel_dwPolyFt4Template;
 D_8009C344 = gModel_dwPolyGt3Template;

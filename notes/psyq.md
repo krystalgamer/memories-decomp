@@ -477,6 +477,15 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 | `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `0x80010000` (`gRuntime_pSharedWorkBase`); the linked callback count is zero in this executable. |
 | `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `0x80010000` (`gRuntime_pSharedWorkBase`); its linked callback count is also zero. |
 
+The two CRT words `entrypoint` reads, `_ramsize` and `_stacksize`, are C
+objects in `file_transfer_runtime.c` in every image. Each image's
+`symbols.txt` binds both names at that image's own address (North America
+`0x8009AF10`/`0x8009AF14`, Japan `0x8009AE50`/`0x8009AE54`, Europe
+`0x8009BE8C`/`0x8009BE90`, the four language builds `0x8009C2A0`/`0x8009C2A4`),
+so the CRT assembly references them by name. The earlier
+`D_8009BE8C = _ramsize;`-style aliases in the regional `link_symbols.ld` files
+are gone.
+
 The adjacent 36-byte startup metadata block is now C-owned by
 [`src/psyq/startup_data.c`](../src/psyq/startup_data.c), rather than emitted by
 the generated `initialized_data_800906e0` assembly blob. It defines the guard
@@ -489,12 +498,15 @@ literals. The compiled object's `.data` relocation table is:
 ```text
 OFFSET    TYPE       VALUE
 0000000c  R_MIPS_32  entrypoint
-00000014  R_MIPS_32  D_800906E0
+00000014  R_MIPS_32  initialized_data_start
 0000001c  R_MIPS_32  D_8009B4A8
 ```
 
-`initialized_data_start` is the C macro for `D_800906E0`, so the middle
-relocation names that symbol directly. There is no fourth relocated data word;
+`initialized_data_start` is a linker-ish CRT symbol, not a C object or a
+`#define` alias: `startup_data.h` declares it, and the North American
+`link_symbols.ld` (the only image that builds this unit) binds it to the first
+`.data` word, `D_800906E0`. The middle relocation therefore names it, and the
+linked word is the same address. There is no fourth relocated data word;
 the zero at record offset `+0x00` is a literal null value. The complete
 executable remains byte-identical.
 

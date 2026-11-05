@@ -141,8 +141,6 @@ gText_StagedValues = 0x801BF88C;
 D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
 D_8009BF84 = gModel_ExodiaOrbitOffset;
 /* Names inside the small initialized data Europe's units own (#2602). */
-D_8009BE8C = _ramsize;
-D_8009BE90 = _stacksize;
 D_8009BEC0 = gDebugMenu_wCampaignScene + 2;
 D_8009BF64 = gModel_dwSecondPassClutBits;
 D_8009BF68 = gModel_dwLitColorCacheBase;
