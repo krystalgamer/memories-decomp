@@ -55,6 +55,18 @@
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u16 gDuel_wTrapPresentationMode;
+s16 gDuel_wPendingEquipBonus;
+u8 gDuel_bCardMoveSlot;
+u8 gDuel_bSceneSubStep;
+u8 gDuel_bActiveSide;
+u16 gDuel_wSceneStateFlags;
+
 #ifndef DUEL_CARD_STAGING_CONFIRM_MASK
 #define DUEL_CARD_STAGING_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif

@@ -1609,6 +1609,18 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
 #include "model_view_coordinate_helpers.h"
 #include "model_scene_controllers_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gModel_sTextureTintRectH;
+s16 gModel_sTextureTintRectW;
+s16 gModel_sTextureTintRectY;
+s16 gModel_sTextureTintRectX;
+u16 gModel_wViewPitch;
+u16 gModel_wViewYaw;
+u16 gModel_wViewDistance;
+u8 gModel_bSceneMode;
+u8 gModel_bActiveSlotIndex;
+
 void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     GsRVIEW2 *cached_view;
     GsRVIEW2 *selected_view;

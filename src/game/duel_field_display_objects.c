@@ -38,6 +38,27 @@
 #include "sound.h"
 #include "duel_cursor_grid_direction.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gDuel_wViewTweenReferenceZTarget;
+s16 gDuel_wViewTweenHeadingTarget;
+s16 gDuel_wViewTweenOrbitAngleTarget;
+s16 gDuel_wViewTweenDistanceTarget;
+s32 gDuel_dwViewTweenReferenceZStep;
+s32 gDuel_dwViewTweenReferenceZAccumulator;
+s32 gDuel_dwViewTweenHeadingStep;
+s32 gDuel_dwViewTweenHeadingAccumulator;
+s32 gDuel_dwViewTweenOrbitAngleStep;
+s32 gDuel_dwViewTweenOrbitAngleAccumulator;
+s32 gDuel_dwViewTweenDistanceStep;
+s32 gDuel_dwViewTweenDistanceAccumulator;
+s16 gDuel_wViewTweenFramesRemaining;
+u16 gDuel_awSideViewHeadings[2];
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSideState *gDuel_pActiveSideState;
+u8 gDuel_bActiveSide;
+
 /* Regional value: the 0xF0 passed to Duel_CreateFieldCardPanel and stored in position
  * field_2A, the screen height (0xF0 -> 0x100). The European build
  * (src/game/european/) defines its own. */

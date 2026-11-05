@@ -10,6 +10,14 @@
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bActiveSide;
+DuelSideState *gDuel_pActiveSideState;
+u8 gDuel_bTwoPlayerCardViewMode;
+u16 gDuel_wTwoPlayerSide1LifePoints;
+u16 gDuel_wTwoPlayerSide0LifePoints;
+
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
 
 void Duel_InitSideStates(void) {

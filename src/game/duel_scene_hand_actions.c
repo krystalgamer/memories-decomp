@@ -79,6 +79,26 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bCardMoveSlot;
+u16 gDuel_wTrapPresentationMode;
+s8 gDuelCursor_Direction;
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wAiSelectionStepDelay;
+s8 gDuel_bAiCursorTarget;
+s16 gDuel_wAiHandStackPending;
+u8 gDuel_bAiSelectionCursor;
+u16 gDuel_wActionSubstate;
+u8 gDuelCursor_PickFlags;
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+DisplayObject *gDuel_pFlipLeftMarker;
+DisplayObject *gDuel_pFlipRightMarker;
+u16 gDuel_wSceneStateFlags;
+u8 gDuel_bActiveSide;
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \

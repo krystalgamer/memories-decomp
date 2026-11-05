@@ -14,6 +14,10 @@
 #include "../unmatched.h"
 #include "display_asset_banks.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s32 gGameOver_pTitleObject;
+
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
     ((DisplayObjectConfig *)(object))
 
