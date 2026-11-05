@@ -417,7 +417,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
  * points the music track at its buffer at 0x801EA800 with an empty header,
  * and finishes through SD_SetSequenceTickMode, SD_SetSecondaryObjectCount and
  * SD_EnableSecondarySequenceUpdates.
- * sd_init_state.c calls it once. */
+ * sound_driver.c (SD_InitState) calls it once. */
 void SD_InitSecondaryRuntime(void)
 {
     SpuReverbAttr reverb_attr;

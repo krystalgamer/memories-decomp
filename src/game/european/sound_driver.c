@@ -9,4 +9,5 @@ u32 D_8009C3C4_sles_03947;
 
 /* The European builds compile the shared unit through this wrapper so that
  * they can give it their own zero-initialized storage (#2602). */
-#include "../sound_output_transition.c"
+#define VERSION_EUROPE
+#include "../sound_driver.c"
