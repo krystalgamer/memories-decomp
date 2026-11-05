@@ -586,16 +586,7 @@ segments:
     - game/card_list_update_sort_mode
   - - 150008
     - c
-    - game/sorted_entry_append
-  - - 150192
-    - c
-    - game/hmd_fog_textured_drivers
-  - - 156312
-    - c
-    - game/european/sorted_entry_relink
-  - - 156520
-    - c
-    - game/text_render_state
+    - game/european/sorted_entry_render
   - - 156576
     - c
     - game/util_memory
@@ -1218,8 +1209,7 @@ segments:
   - [0x8CE14, .sbss, game/european/script_op_load_image_scene]
   - [0x8CE50, .sbss, game/french/debug_menu_editor_entries]
   - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
-  - [0x8CE88, .sbss, game/hmd_fog_textured_drivers]
-  - [0x8CE8C, .sbss, game/european/sorted_entry_relink]
+  - [0x8CE88, .sbss, game/european/sorted_entry_render]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
   - [0x8CF08, .sbss, game/european/input_pads]
   - [0x8CF30, .sbss, game/spanish/mem_card]
