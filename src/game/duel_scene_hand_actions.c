@@ -133,7 +133,7 @@ void DuelScene_UpdateHandActions(void)
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
         for (n = 6; n >= 0; n--) {
-            gDisplayObject_apWorkSlots[n] = 0;
+            gDisplayObject_apWorkSlots.slots[n] = 0;
         }
         gDuel_pFlipRightMarker = 0;
         gDuel_pFlipLeftMarker = 0;
@@ -291,7 +291,7 @@ void DuelScene_UpdateHandActions(void)
                 value = CARD_KIND(card_id);
                 if (value >= CARD_TYPE_MAGIC && obj->face == 0 &&
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
-                    gDisplayObject_apWorkSlots[0] = DISPLAY_OBJECT_VIEW(obj);
+                    gDisplayObject_apWorkSlots.slots[0] = DISPLAY_OBJECT_VIEW(obj);
                     gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     gDuel_bSceneSubStep = 5;
                     return;
@@ -521,7 +521,7 @@ void DuelScene_UpdateHandActions(void)
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
                     DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
                     DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
-                    gDisplayObject_apWorkSlots[0] = DISPLAY_OBJECT_VIEW(obj);
+                    gDisplayObject_apWorkSlots.slots[0] = DISPLAY_OBJECT_VIEW(obj);
                     gDuel_pFlipRightMarker = 0;
                     gDuel_pFlipLeftMarker = 0;
                     gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
@@ -572,7 +572,7 @@ void DuelScene_UpdateHandActions(void)
             confirm:
                 SD_SEPlayFull(7);
                 for (n = 6; n >= 0; n--) {
-                    gDisplayObject_apWorkSlots[n] = 0;
+                    gDisplayObject_apWorkSlots.slots[n] = 0;
                 }
                 n = gDuel_pActiveSelectionRecord->row * 5 + gDuel_pActiveSelectionRecord->col;
                 value = gDuel_abFieldGridCardRecordIndices[n + gDuel_bActiveSide * 20];
@@ -582,7 +582,7 @@ void DuelScene_UpdateHandActions(void)
                 if (card->flags & 0x8000) {
                     obj = HAND_CARD_OBJECT_VIEW(card->object);
                     i = 1;
-                    gDisplayObject_apWorkSlots[0] = DISPLAY_OBJECT_VIEW(
+                    gDisplayObject_apWorkSlots.slots[0] = DISPLAY_OBJECT_VIEW(
                         Duel_CreateCardDisplayObject(
                             card, card->screen_x, card->screen_y));
                     DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
@@ -605,7 +605,7 @@ void DuelScene_UpdateHandActions(void)
 
                     do {
                         n = 0;
-                        out = &gDisplayObject_apWorkSlots[i];
+                        out = &gDisplayObject_apWorkSlots.slots[i];
                         slot = first_slot;
                         for (;;) {
                             if (slot->selection_order == value) {
