@@ -55,9 +55,9 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
 ];
 
 /* The grey fill word. Model_SetFogDrawFlags stores 0x808080 here alongside its write
- * to gModel_dwFogDrawFlags (src/game/text_render_state.c:8), and four sites read it back:
+ * to gModel_dwFogDrawFlags (src/game/sorted_entry_render.c), and four sites read it back:
  * the two palette builders take the whole word -- Model_DrawFogTexturedTriangles and
- * Model_DrawFogTexturedQuads (src/game/hmd_fog_textured_drivers.c) each do
+ * Model_DrawFogTexturedQuads (src/game/sorted_entry_render.c) each do
  * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
  * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c).
