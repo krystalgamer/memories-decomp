@@ -28,7 +28,7 @@ s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
     work = (Model141State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant141_D0FA8[command];
+        work->config = &gFrenchModelVariant141_aConfigs[command];
         config = work->config;
         point = work->positions;
         /* Native initialization does not advance this cursor. */

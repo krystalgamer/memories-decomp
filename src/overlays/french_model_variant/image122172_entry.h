@@ -43,8 +43,8 @@ typedef struct {
 } Model142State;
 
 extern const VECTOR gFrenchModelVariant142_D152C;
-extern GsIMAGE gFrenchModelVariant142_D153C[];
-extern Model142Config gFrenchModelVariant142_D1558[];
+extern GsIMAGE gFrenchModelVariant142_aImages[];
+extern Model142Config gFrenchModelVariant142_aConfigs[];
 s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command);
 
 #endif

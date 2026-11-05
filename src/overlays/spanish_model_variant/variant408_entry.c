@@ -48,7 +48,7 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame = 0;
-        work->config = &gSpanishModelVariant408_D1550[command];
+        work->config = &gSpanishModelVariant408_aConfigs[command];
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             work->target.vx = 0;

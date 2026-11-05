@@ -8,7 +8,7 @@ contain 73 ordered direct calls to 26 resident destinations, without local
 or indirect calls. Both slots build `variant770_entry.c` (the literal is the
 static `gFrenchModelVariant770_D16E8`); each image's symbols file binds
 `FrenchModelVariant770_HandleRequest`, `gFrenchModelVariant770_D16F8` and
-`gFrenchModelVariant770_D1714` at its own addresses.
+`gFrenchModelVariant770_aConfigs` at its own addresses.
 
 All 18 complete images were independently linked from the actual C objects
 and three disjoint raw owners. Their 36 C contributions and 54 raw owners

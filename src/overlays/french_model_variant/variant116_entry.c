@@ -29,7 +29,7 @@ s32 FrenchModelVariant116_HandleRequest(u8 *context, s32 command)
     work = (Model116State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant116_D11C0[command];
+        config = work->config = &gFrenchModelVariant116_aConfigs[command];
         point = work->ring;
         for (i = 0; i < 16; point++, i++) {
             point->vx = config->ring_radius * csin(i * 256) / 4096;

@@ -38,7 +38,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        work->config = &gFrenchModelVariant184_D0F58[command % 100];
+        work->config = &gFrenchModelVariant184_aConfigs[command % 100];
         config = work->config;
         Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
         work->origin.vy = -350;

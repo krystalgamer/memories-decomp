@@ -41,7 +41,7 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant157_D1084[command % 100];
+        config = work->config = &gFrenchModelVariant157_aConfigs[command % 100];
         point = &work->origin;
         setVector(point, 0, 0, 0);
         point = work->ring;

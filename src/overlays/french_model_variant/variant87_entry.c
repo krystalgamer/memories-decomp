@@ -33,7 +33,7 @@ s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command)
     work = (Family87State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant87_D0A1C[command];
+        config = work->config = &gFrenchModelVariant87_aConfigs[command];
         point = work->points;
         point->vx = (config->radius * 2 / 3) * ccos(2560) / 4096;
         point->vy = (config->radius * 2 / 3) * csin(2560) / 4096;

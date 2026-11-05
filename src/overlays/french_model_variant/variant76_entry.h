@@ -44,7 +44,7 @@ typedef struct {
     Model76Face faces[4];
 } Model76State;
 
-extern Model76Config gFrenchModelVariant76_D0B98[];
+extern Model76Config gFrenchModelVariant76_aConfigs[];
 s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command);
 
 #endif

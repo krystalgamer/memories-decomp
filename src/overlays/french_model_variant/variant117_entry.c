@@ -25,7 +25,7 @@ s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
     work = (Model117State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant117_D1144[command];
+        config = work->config = &gFrenchModelVariant117_aConfigs[command];
         point = work->positions;
         for (i = 0; i < config->count; point++, i++) {
             setVector(point, 0, 0, 0);

@@ -6,7 +6,7 @@ The instance ledger identifies eight distinct 20,480-byte images with headers
 36 direct calls to 21 resident destinations. There are no local or indirect
 calls and no source-owned literals. Both slots build `variant76_entry.c`;
 each image's symbols file binds `FrenchModelVariant76_HandleRequest` and
-`gFrenchModelVariant76_D0B98` (the raw descriptor view) at its own addresses.
+`gFrenchModelVariant76_aConfigs` (the raw descriptor view) at its own addresses.
 
 All eight complete images were independently linked from the actual sized
 C entries and two disjoint raw owners per image. All 21 actual resident

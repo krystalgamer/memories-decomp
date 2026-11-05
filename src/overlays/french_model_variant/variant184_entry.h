@@ -32,7 +32,7 @@ typedef struct {
 } Model184State;
 
 extern GsIMAGE gFrenchModelVariant184_D0F04[];
-extern Model184Config gFrenchModelVariant184_D0F58[];
+extern Model184Config gFrenchModelVariant184_aConfigs[];
 s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command);
 
 #endif

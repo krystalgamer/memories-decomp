@@ -40,7 +40,7 @@ s32 FrenchModelVariant789_HandleRequest(u8 *context, s32 command)
     work = (Image31368State *)context;
     if (command >= 0) {
         point = work->particles;
-        work->command = &gFrenchModelVariant789_D23D0[command];
+        work->command = &gFrenchModelVariant789_aConfigs[command];
         work->position.vx = 0;
         velocity = work->particle_velocities;
         work->position.vy = 0;
@@ -101,7 +101,7 @@ s32 FrenchModelVariant789_HandleRequest(u8 *context, s32 command)
         work->ring_green = work->command->ring_green;
         work->ring_blue = work->command->ring_blue;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant789_D2398[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant789_aImages[i]);
         }
         work->ambient = 0x800;
         work->elapsed = 0;

@@ -30,7 +30,7 @@ s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
     work = (Model121State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant121_D10F0[command % 100];
+        config = work->config = &gFrenchModelVariant121_aConfigs[command % 100];
         point = work->positions;
         for (i = 0; i < config->count; point++, i++) {
             setVector(point, 0, 0, 0);

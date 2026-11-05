@@ -28,7 +28,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant829_D1008[command];
+        work->config = &gFrenchModelVariant829_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, &position.adjustment);
         for (i = 0; i < 4; i++) {
             s32 sample;

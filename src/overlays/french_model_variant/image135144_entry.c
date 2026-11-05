@@ -33,7 +33,7 @@ s32 FrenchModelVariant820_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant820_D21F0[command];
+        work->config = &gFrenchModelVariant820_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->step[i], 0, 0, 0);
@@ -67,7 +67,7 @@ s32 FrenchModelVariant820_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant820_D219C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant820_aImages[i]);
         }
         work->ambient = 2048;
         work->phase = 0;

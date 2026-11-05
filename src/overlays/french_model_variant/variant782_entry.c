@@ -29,7 +29,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant782_D154C[command];
+        work->config = &gFrenchModelVariant782_aConfigs[command];
         point = work->debris_positions;
         Model_CopySlotU16Values(slot ^ 1, (u16 *)&work->origin);
         other = work->debris_velocities;

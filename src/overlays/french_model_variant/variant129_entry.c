@@ -38,7 +38,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant129_D1030[command];
+        config = work->config = &gFrenchModelVariant129_aConfigs[command];
         point = work->positions;
         velocity = work->velocities;
         for (i = 0; i < config->count; i++) {

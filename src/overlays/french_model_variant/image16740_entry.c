@@ -41,7 +41,7 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
     state = (Image16740State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = state->config = &gFrenchModelVariant196_D0C8C[command];
+        config = state->config = &gFrenchModelVariant196_aConfigs[command];
         Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&state->translation);
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&state->origin);
         point = state->ring;
@@ -70,7 +70,7 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant196_D0C54[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant196_aImages[i]);
         }
         state->time = 0;
         state->completed = 0;

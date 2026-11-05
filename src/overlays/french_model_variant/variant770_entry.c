@@ -41,7 +41,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gFrenchModelVariant770_D1714[command];
+        work->config = &gFrenchModelVariant770_aConfigs[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {

@@ -25,7 +25,7 @@ s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
     work = (Model97State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant97_D11BC[command];
+        config = work->config = &gFrenchModelVariant97_aConfigs[command];
         point = work->ring;
         for (i = 0; i < config->ring_count; point++, i++) {
             point->vx = config->radius * ccos((i << 12) / config->ring_count) / 4096;

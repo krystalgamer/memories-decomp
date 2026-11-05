@@ -31,7 +31,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant132_D0EE4[command];
+        config = work->config = &gFrenchModelVariant132_aConfigs[command];
         point = work->path;
         for (i = 0; i < 42; point++, i++) {
             point->vx = config->radius;

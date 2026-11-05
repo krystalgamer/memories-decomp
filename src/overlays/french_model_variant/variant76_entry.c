@@ -29,7 +29,7 @@ s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
     ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gFrenchModelVariant76_D0B98[command];
+        config = work->config = &gFrenchModelVariant76_aConfigs[command];
         point = work->positions;
         velocity = work->velocities;
         rotation = work->rotations;

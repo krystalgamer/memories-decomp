@@ -70,7 +70,7 @@ typedef struct {
 } Image31368State;
 
 extern VECTOR gFrenchModelVariant789_D2388;
-extern GsIMAGE gFrenchModelVariant789_D2398[];
-extern Image31368Command gFrenchModelVariant789_D23D0[];
+extern GsIMAGE gFrenchModelVariant789_aImages[];
+extern Image31368Command gFrenchModelVariant789_aConfigs[];
 
 #endif

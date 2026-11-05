@@ -38,7 +38,7 @@ typedef struct {
 } Model167State;
 
 extern GsIMAGE gFrenchModelVariant167_D0EE8[];
-extern Model167Config gFrenchModelVariant167_D0F20[];
+extern Model167Config gFrenchModelVariant167_aConfigs[];
 s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command);
 
 #endif

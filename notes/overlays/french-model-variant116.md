@@ -8,7 +8,7 @@ contain 56 direct calls to 22 resident destinations, without local or
 indirect calls. Both slots build `variant116_entry.c` (the literal is the
 static `gFrenchModelVariant116_D115C`); each image's symbols file binds
 `FrenchModelVariant116_HandleRequest`, `gFrenchModelVariant116_D116C` and
-`gFrenchModelVariant116_D11C0` at its own addresses.
+`gFrenchModelVariant116_aConfigs` at its own addresses.
 
 All 22 complete images were independently linked from the actual C objects
 and three disjoint raw owners. Their 44 C contributions and 66 raw owners
