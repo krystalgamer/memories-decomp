@@ -144,7 +144,3 @@ gText_StagedValues = 0x801BF88C;
 
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
-D_8009B0F4 = gFile_dwTransferState;
-D_8009B118 = gFile_TransferBufferBase;
-D_8009B134 = gFile_dwCancelRequestState;
-D_8009B140 = gFade_bKeepOverlayDepth;
