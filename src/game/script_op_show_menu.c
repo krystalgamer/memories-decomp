@@ -8,6 +8,12 @@
 #include "script_state.h"
 #include "script_op_show_menu.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_wCommandWord;
+MenuRecord *gScript_pMenuRecord;
+u8 *gScript_StreamCursor;
+
 void Script_OpShowMenu(void)
 {
     MenuRecord *o;

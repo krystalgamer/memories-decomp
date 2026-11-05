@@ -37,6 +37,13 @@
 #include "main_mode_state.h"
 #include "save_data_workspace.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gCampaignSceneIndex;
+u16 gScript_wCommandWord;
+u16 gScript_SavePromptSceneOperand;
+u8 *gScript_StreamCursor;
+
 #define DISPLAY_OBJECT_X_HALFWORD_INDEX \
     ((u32)&((DisplayObject *)0)->xy.h.x / sizeof(s16))
 #define DISPLAY_OBJECT_Y_HALFWORD_INDEX \

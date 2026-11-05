@@ -4,6 +4,10 @@
 #include "../unmatched.h"
 #include "dialog_choice.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+volatile s32 gText_CommandDisposition;
+
 void Text_SetStateFromStream(DuelEffectChannel *object)
 {
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];

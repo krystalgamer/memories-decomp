@@ -1923,73 +1923,73 @@
     },
     {
       "address": "0x8002E948",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
       "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002E9C0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1EC",
       "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002EBAC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
       "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002EC34",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
       "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002ECA0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
       "source": "src/game/european/script_image_commands.c"
     },
     {
       "address": "0x8002EDDC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x30",
       "source": "src/game/script_op_open_campaign_map.c"
     },
     {
       "address": "0x8002EE0C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xFC",
       "source": "src/game/script_op_show_menu.c"
     },
     {
       "address": "0x8002EF08",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x13C",
       "source": "src/game/script_stream_commands.c"
     },
     {
       "address": "0x8002F044",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x70",
       "source": "src/game/script_stream_commands.c"
     },
     {
       "address": "0x8002F0B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x3C",
       "source": "src/game/script_stream_commands.c"
     },
     {
       "address": "0x8002F0F0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
       "source": "src/game/european/script_op_save_prompt.c"
     },
     {
       "address": "0x8002F128",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x56C",
       "source": "src/game/european/script_op_save_prompt.c"
     },
@@ -2007,7 +2007,7 @@
     },
     {
       "address": "0x8002F6A4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x80",
       "source": "src/game/script_op_fade_out.c"
     },
@@ -2019,43 +2019,43 @@
     },
     {
       "address": "0x8002F898",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2E8",
       "source": "src/game/european/script_op_duel_result.c"
     },
     {
       "address": "0x8002FB80",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1C",
       "source": "src/game/script_control_commands.c"
     },
     {
       "address": "0x8002FB9C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1C",
       "source": "src/game/script_control_commands.c"
     },
     {
       "address": "0x8002FBB8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x6C",
       "source": "src/game/script_control_commands.c"
     },
     {
       "address": "0x8002FC24",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
       "source": "src/game/european/script_command_runner.c"
     },
     {
       "address": "0x8002FC78",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
       "source": "src/game/european/script_command_runner.c"
     },
     {
       "address": "0x8002FCA4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x124",
       "source": "src/game/european/script_command_runner.c"
     },
@@ -2091,13 +2091,13 @@
     },
     {
       "address": "0x800302A4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1C",
       "source": "src/game/script_readers.c"
     },
     {
       "address": "0x800302C0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x24",
       "source": "src/game/script_readers.c"
     },
@@ -2769,7 +2769,7 @@
     },
     {
       "address": "0x80037D04",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x38",
       "source": "src/game/text_stream_commands.c"
     },

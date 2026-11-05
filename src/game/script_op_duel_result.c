@@ -22,6 +22,14 @@
 #include "campaign_scene_package.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+struct DisplayObject *gScript_TransitionObject;
+DisplayObject *gCampaign_PrimaryDisplayObject;
+u16 gScript_wCommandWord;
+u16 gScript_SharedOperand;
+u8 *gScript_StreamCursor;
 #endif
 
 /* The menu assets' first sector in WA.MRG. A regional build defines its own. */

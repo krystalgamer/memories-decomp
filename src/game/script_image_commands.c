@@ -23,6 +23,20 @@
 #include "script_flag_commands.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s32 gScript_ViewportAccumulatorY;
+s32 gScript_ViewportAccumulatorX;
+s32 gScript_ViewportDeltaY;
+s32 gScript_ViewportDeltaX;
+u16 gScript_SharedOperand;
+struct DisplayObject *gScript_TransitionObject;
+u16 gScript_wCommandWord;
+u16 gScript_ImageOperand;
+u16 gScript_ViewportTargetX;
+u16 gScript_ViewportTargetY;
+u8 *gScript_StreamCursor;
+
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 

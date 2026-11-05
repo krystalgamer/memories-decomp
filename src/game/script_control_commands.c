@@ -6,6 +6,12 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_wCommandWord;
+s16 gScript_WaitCounter;
+u8 *gScript_StreamCursor;
+
 void Script_OpGameOver(void)
 {
     gMain_bActiveModeState[0] = 12;
