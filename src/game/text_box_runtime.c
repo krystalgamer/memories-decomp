@@ -28,6 +28,11 @@ AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
 #include "dialog_choice_state.h"
 #include "text_constants.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gText_PreviousGlyphKind;
+s16 gText_PumpedGlyphIndex;
+
 /* Regional value: the choice.flags bit that opens and closes the choice (0x8
  * -> 0x10). The European build (src/game/european/) defines its own. */
 #ifndef FUNC_80039794_CHOICE_FLAG

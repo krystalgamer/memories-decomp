@@ -23,6 +23,13 @@
 #include "dialog_choice_state.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gText_PumpedGlyphIndex;
+volatile s32 gText_CommandDisposition;
+void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+u8 gText_ScriptDispatchGate;
+
 /* Initialized data this unit owns at 0x80090E64: the text-box state callback table.
  *
  * TextBox_BuildStep indexes this table with the low five bits of state byte

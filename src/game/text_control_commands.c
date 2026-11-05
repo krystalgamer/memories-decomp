@@ -54,6 +54,17 @@ MenuRecord gDisplayEffect_aMenuRecords[3];
 #include "../unmatched.h"
 #include "dialog_choice_control.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+MenuRecord *gText_DisplayEffectRecord;
+void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+u8 gDialog_bInputState;
+u8 gDialog_bChoiceEnabled;
+u8 gDialog_bChoiceControl;
+s8 gDialog_bChoiceCount;
+s8 gDialog_bChoice;
+volatile s32 gText_CommandDisposition;
+
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
 #ifndef TEXT_STREAM_CURSOR_HIGH_MASK
 #define TEXT_STREAM_CURSOR_HIGH_MASK 0xFFFF0000
