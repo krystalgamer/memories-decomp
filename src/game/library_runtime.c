@@ -73,6 +73,11 @@
 #include "display_object_projection.h"
 #include "gpu_packets.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gCardGrid_bCursorRow;
+s8 gCardGrid_bCursorColumn;
+
 /* The draw callback Library_CreateFadingCardOutline installs at 0x4C on the object it
    builds: it fades the object out over its own field_60 countdown, projects
    it, and emits a four-vertex flat polyline (one colour word, length 6)
