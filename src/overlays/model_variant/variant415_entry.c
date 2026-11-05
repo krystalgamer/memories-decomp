@@ -64,7 +64,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant415EntryConfig *)(gModelVariant415_D1F7C + 0x38) + command;
+        work->config = gModelVariant415_aConfigs + command;
         for (i = 0; i < 5; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -84,13 +84,15 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT415_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT415_CLUT_X, 244);
-        texture_word = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x1C));
+        texture_word = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant415_aImages[1]);
         bar = work->bars;
         stack.texture_cluts[0] = texture_word;
         flat_page = texture_word >> 16;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x1C));
-        i = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0xE0));
+        /* +0x8C and +0xE0 lie past the two-image table and the first config
+         * record; in every image those bytes are not GsIMAGE records. */
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant415_aImages[1]);
+        i = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0xE0));
         j = 0;
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);

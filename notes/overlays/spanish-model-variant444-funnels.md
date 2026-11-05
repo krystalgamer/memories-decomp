@@ -17,7 +17,7 @@ This is the MODEL411 funnels routine (#7180) with smaller rings:
 The record offsets match MODEL411 exactly, so the source includes the accepted
 `variant411_funnels.h` through `variant444_funnels.h`. Like MODEL411, it reads
 the fade start from the overlay data that follows the code, here
-`gFrenchModelVariant444_D291C + 0x114`.
+`gFrenchModelVariant444_aConfigs[0].fade_start` (old block + 0x114).
 
 ## Integration
 
