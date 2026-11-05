@@ -14,8 +14,9 @@ typedef struct {
     u8 unknown_07[9];
     u8 parts[3];
     u8 unknown_13[5];
-    u32 start;
-    u8 unknown_1C[0x10];
+    u32 start, grow_end;
+    u8 unknown_20[4];
+    u32 fade_start, fade_end;
 } Variant479EntryConfig;
 
 /* Header 479's 0x4208-byte loader work area: the records of the accepted

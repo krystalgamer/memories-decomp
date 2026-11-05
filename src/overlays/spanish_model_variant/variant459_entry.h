@@ -11,10 +11,11 @@ typedef struct {
     u8 parts[6], unknown_16[2];
     u16 vertices[3], unknown_1E[3];
     u16 count, spiral;
-    u8 unknown_28[4];
+    u16 limit;
+    u8 unknown_2A[2];
     s32 curtains, mode;
-    u32 start;
-    u8 unknown_38[0x10];
+    u32 start, end;
+    u8 unknown_3C[0xC];
 } Variant459EntryConfig;
 
 /* Three seventeen-point loops, two colours, a scale and a growth word. */
