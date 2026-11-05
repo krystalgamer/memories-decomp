@@ -19,6 +19,11 @@
 #include "../unmatched.h"
 #include "sound_bgm_commands.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gText_CdSoundPollBudget;
+volatile s32 gText_CommandDisposition;
+
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 {
     SD_BGMPlay((u16)TextStream_ReadU16LE(object));

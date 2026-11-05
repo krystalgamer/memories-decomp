@@ -9,6 +9,12 @@
 #ifdef VERSION_EUROPE
 #include "save_data.h"
 #include "player_name_glyphs.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+volatile s32 gText_CommandDisposition;
+u8 gText_BranchSelectorB;
+u8 gText_BranchSelectorA;
 #endif
 
 /* Regional value: the channel flag Text_DisableCompletionWait clears (8 -> 0x10). The

@@ -3,6 +3,10 @@
 #include "duel_card_layout.h"
 #include "ai_board_snapshot.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bActiveSide;
+
 void Ai_RefreshBoardSnapshot(void)
 {
     Ai_ExportSideSnapshot(gAiSnapshot_aOwnCards, gDuel_bActiveSide);

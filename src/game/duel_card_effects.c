@@ -27,6 +27,20 @@
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gDuel_wStepCounter;
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+s16 gDuel_sEffectWorkCounter;
+s16 gDuel_wMonsterRemovalZone;
+s16 gDuel_wMonsterRemovalCriterion;
+u8 gDuel_bActiveSide;
+u16 gDuel_wTrapPresentationMode;
+DuelSideState *gDuel_pActiveSideState;
+s16 gDuel_wSelectedTrapCardId;
+u16 gDuel_wCardEffectFlags;
+s16 gDuel_wEffectCardID;
+
 /* Initialized data this unit owns at 0x80090A4C. Each pair stores the card ID minus 600 and
    the monster-type selector; Crush Card instead stores its 1500-ATK threshold
    in CARD_STAT_SCALE units. */

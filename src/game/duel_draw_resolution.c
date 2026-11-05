@@ -62,6 +62,22 @@
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+s8 gDuel_bPresentationCursor;
+u16 gDuel_wStepCounter;
+u16 gDuel_wDisplayTransitionFlags;
+DisplayObject *gDuel_pLifePointsPanel;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+DisplayObject *gDuel_pTerrainIcon;
+u8 gDuel_bActiveSide;
+u8 gDuel_bWinnerSide;
+u8 gDuel_bPendingDrawCount;
+u8 gDuel_bDrawStepCountdown;
+u16 gDuel_wSceneStateFlags;
+DuelSideState *gDuel_pActiveSideState;
+
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->progress)
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
