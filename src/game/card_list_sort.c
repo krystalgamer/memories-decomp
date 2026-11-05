@@ -219,6 +219,10 @@ void BuildDeck_SortCardList(CardList *list)
 #include "sound.h"
 #include "card_list_sort_icons.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+BuildDeckTransitionState *gBuildDeck_pState;
+
 #ifndef CARD_LIST_LAST_CURSOR
 #define CARD_LIST_LAST_CURSOR 7
 #endif

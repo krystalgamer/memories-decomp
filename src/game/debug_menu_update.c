@@ -43,6 +43,14 @@
 #include "debug_menu_editor_entries.h"
 #include "frontend_debug_constants.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DisplayObject *gDebugMenu_pCursorQuad;
+u16 D_8009B2DE;
+s8 gDebugMenu_bCursor;
+u8 gDebugMenu_bPage;
+u8 gDebugMenu_bStep;
+
 /* Initialized data this unit owns at 0x80090D7C: the two step tables DebugMenu_Update
  * dispatches through.
  *

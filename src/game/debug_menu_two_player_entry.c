@@ -9,6 +9,10 @@
 #include "debug_menu_two_player_entry.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDebugMenu_bStep;
+
 void DebugMenu_UpdateTwoPlayerDuelEntry(void)
 {
     u8 flags = gDebugMenu_bStep;
