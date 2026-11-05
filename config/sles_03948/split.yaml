@@ -149,7 +149,7 @@ segments:
     - initial_data_f10
   - - 3896
     - .rodata
-    - game/european/sd_update_bank_load
+    - game/european/sound_driver
   - - 3936
     - rodata
     - initial_data_f60
@@ -865,19 +865,7 @@ segments:
     - game/sd_drop_queued_cd_play_commands
   - - 226088
     - c
-    - game/european/sound_output_transition
-  - - 226340
-    - c
-    - game/sd_init_state
-  - - 226840
-    - c
-    - game/sound_state_control
-  - - 227012
-    - c
-    - game/european/sd_update_bank_load
-  - - 227960
-    - c
-    - game/sound_output
+    - game/european/sound_driver
   - - 229648
     - c
     - game/sd_init_voice_state
@@ -1266,7 +1254,7 @@ segments:
   - [0x8CF94, .sbss, game/european/display_object_core]
   - [0x8CFA8, .sbss, game/french/main_run_boot_sequence]
   - [0x8CFB0, .sbss, game/european/mem_card_driver]
-  - [0x8CFD8, .sbss, game/european/sound_output_transition]
+  - [0x8CFD8, .sbss, game/european/sound_driver]
   - [0x8CFE8, .sbss, game/spanish/model_scene_controllers]
   - [0x8D018, .sbss, game/spanish/movie_frame_pipeline]
   - [0x8D038, .bss, game/french/main]

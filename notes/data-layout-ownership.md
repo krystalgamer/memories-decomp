@@ -104,7 +104,7 @@ object before it.
 | `src/game/display_object_core.c` | `.sbss` | `0x8009B410`-`0x8009B428` |
 | `src/game/main_run_boot_sequence.c` | `.sbss` | `0x8009B428`-`0x8009B430` |
 | `src/game/mem_card_driver.c` | `.sbss` | `0x8009B430`-`0x8009B458` |
-| `src/game/sound_output_transition.c` | `.sbss` | `0x8009B458`-`0x8009B468` |
+| `src/game/sound_driver.c` | `.sbss` | `0x8009B458`-`0x8009B468` |
 | `src/game/model_scene_controllers.c` | `.sbss` | `0x8009B468`-`0x8009B498` |
 | `src/game/movie_frame_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
 | `src/game/main.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
@@ -162,7 +162,7 @@ them reaches them through absolute or oversized views (`gCampaignSceneIndex`,
 would not use for its own small data, so their owners are units that do not
 name them and need further evidence. A `-G0` unit cannot own small data at all;
 `sound_output_state.c` is one, which is why the sound block belongs to
-`sound_output_transition.c`.
+`sound_driver.c` (formerly `sound_output_transition.c`).
 
 ## Initialized data
 

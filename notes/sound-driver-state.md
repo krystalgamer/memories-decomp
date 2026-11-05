@@ -646,7 +646,7 @@ while exact executable matching decides whether a typed field access is safe
 for a particular function.
 
 The contiguous output/control block at `0x80046DE8-0x80047458` now builds as
-`src/game/sound_output.c`. Its eighteen functions use `SDValue` and `SDCommand`
+`src/game/sound_driver.c`. Its eighteen output functions use `SDValue` and `SDCommand`
 directly, including output-type reads/writes, driver flags, CD-volume reuse,
 construction of three command variants, packed request dispatch, and
 sequence-state control.
