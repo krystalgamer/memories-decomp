@@ -20,6 +20,15 @@
 #include "duel_trap_resolution.h"
 #include "view_state_current.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gDuel_wStepCounter;
+u16 gDuel_wTrapPresentationMode;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuel_bSelectedTrapSlot;
+s16 gDuel_wSelectedTrapCardId;
+u8 gDuel_bActiveSide;
+
 /* Battle arithmetic between two duel cards, built up in address order.
 
    Duel_CalcGuardianStarBonus reads each card's active guardian star from

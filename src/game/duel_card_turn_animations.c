@@ -16,6 +16,23 @@
 #include "duel_selection_update_linked_object.h"
 #include "display_object_core.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s32 gDuel_dwViewTweenReferenceZStep;
+s32 gDuel_dwViewTweenHeadingStep;
+s32 gDuel_dwViewTweenOrbitAngleStep;
+s32 gDuel_dwViewTweenDistanceStep;
+s32 gDuel_dwViewTweenReferenceZAccumulator;
+s32 gDuel_dwViewTweenHeadingAccumulator;
+s32 gDuel_dwViewTweenOrbitAngleAccumulator;
+s32 gDuel_dwViewTweenDistanceAccumulator;
+s16 gDuel_wViewTweenReferenceZTarget;
+s16 gDuel_wViewTweenHeadingTarget;
+s16 gDuel_wViewTweenOrbitAngleTarget;
+s16 gDuel_wViewTweenDistanceTarget;
+s16 gDuel_wViewTweenFramesRemaining;
+u8 gDuel_bActiveSide;
+
 /* The mirror of Duel_UpdateCardToFieldView: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when DisplayObject_MarkInitialized says
  * the object is idle, then runs one of three mode arms -- a countdown that

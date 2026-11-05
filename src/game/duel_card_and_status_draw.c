@@ -43,6 +43,11 @@
 #include "ordering_tables.h"
 #include "duel_card_and_status_draw.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u8 gDuel_bActiveSide;
+
 /* Regional values: the screen height the frame is drawn above (0xF0 ->
  * 0x100), and the cxcy of the CLUT that the card frame and the status digits
  * both draw with on texture page 0x1E, CLUT (0x100, 0xF1) -> (0x280, 0xE1).
