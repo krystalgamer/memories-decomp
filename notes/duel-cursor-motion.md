@@ -152,8 +152,8 @@ folded into a different relocation. Side stride remains `0x70`.
 |---|---|---|
 | `D_8009B160` | `gDuelCursor_Direction` | Signed pending direction: `-1` idle, `0` right, `1` down, `2` left, `3` up. |
 | `D_8009B1D4` | `gDuelCursor_PickFlags` | Separate activation flags: `0x80` initialized, `0x40` hold, `0x20` teardown after hold. |
-| `D_8009B1D6` | `gDuelCursor_TargetColumn` | Requested grid column, unsigned in the field controller and signed in the target comparator. |
-| `D_8009B1D7` | `gDuelCursor_TargetRow` | Requested grid row with the same deliberately split byte views. |
+| `D_8009B1D6` | `gDuelCursor_TargetColumn` | Requested grid column, a signed byte (the field controller only stores it). |
+| `D_8009B1D7` | `gDuelCursor_TargetRow` | Requested grid row, a signed byte like the column. |
 
 The target step first waits for display work, then forwards the pending
 direction through `DuelCursor_UpdateDirection`. Once that status is idle,
