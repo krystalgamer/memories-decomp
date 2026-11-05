@@ -7,7 +7,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR gFrenchModelVariant173_D0EB0 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant173_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant173_D0EB0;
+    scale = gFrenchModelVariant173_UnitScale;
     work = (Model173State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -49,11 +49,11 @@ s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
         work->center.vy = -350;
         if (command < 100) {
             for (i = 0; i < 10; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant173_D0EC0[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant173_aImages[i]);
             }
         } else {
             for (i = 0; i < 10; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant173_D0EC0[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant173_aImages[i]);
             }
         }
         work->elapsed = 0;

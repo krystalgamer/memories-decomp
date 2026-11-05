@@ -8,7 +8,7 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-const VECTOR gFrenchModelVariant96_D0C4C = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant96_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
     s32 direction, i, j, angle, time, brightness;
     long depth;
 
-    scale = gFrenchModelVariant96_D0C4C;
+    scale = gFrenchModelVariant96_UnitScale;
     work = (Model96State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -53,7 +53,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
         work->prepared = 0;
         work->elapsed = -config->delay;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant96_D0C5C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant96_aImages[i]);
         }
         work->completed = 0;
         return 0;

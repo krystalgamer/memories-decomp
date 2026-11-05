@@ -13,7 +13,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR gFrenchModelVariant162_D0DAC = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant162_UnitScale = {4096, 4096, 4096, 0};
 
 #if defined(VARIANT162_PRINT_WORK_SIZE)
 /* North American retail fills the three bytes after the string with 0x18, 0x20, 0x02. */
@@ -45,7 +45,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant162_D0DAC;
+    scale = gFrenchModelVariant162_UnitScale;
     work = (Model162State *)context;
     Model_GetActiveSlotIndex();
     {
@@ -60,7 +60,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
                 point->vz = 0;
             }
             for (i = 0; i < 1; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant162_D0DBC[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant162_aImages[i]);
             }
             work->elapsed = 0;
             work->completed = 0;

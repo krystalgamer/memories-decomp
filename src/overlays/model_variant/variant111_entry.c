@@ -35,18 +35,18 @@ s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant111_D0CF8;
+    scale = gModelVariant111_UnitScale;
     work = (Model111State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant111_D0D24[command];
+        config = work->config = &gModelVariant111_aConfigs[command];
         point = work->positions;
         /* Retail zeroes the first position count times. */
         for (i = 0; i < config->count; i++) {
             setVector(point, 0, 0, 0);
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant111_D0D08[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant111_aImages[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;

@@ -6,8 +6,8 @@ stages 9/10. Each slot has one closed 3,756-byte entry, a 312-byte frame and
 a 16-byte source-owned unit-scale vector. The 939 instructions contain 45
 direct calls to 23 resident destinations, without local or indirect calls.
 Both slots build `variant173_entry.c`; each image's symbols file binds
-`FrenchModelVariant173_HandleRequest`, the literal `gFrenchModelVariant173_D0EB0`
-and the two raw storage views (`gFrenchModelVariant173_D0EC0`,
+`FrenchModelVariant173_HandleRequest`, the literal `gFrenchModelVariant173_UnitScale`
+and the two raw storage views (`gFrenchModelVariant173_aImages`,
 `gFrenchModelVariant173_aConfigs`) at its own addresses.
 
 All 12 complete images were independently linked from the actual C objects

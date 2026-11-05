@@ -6,7 +6,7 @@ initial argument 0. There are two unique 5,520-byte entry bodies, one per
 slot, followed by a 16-byte source-owned unit-scale vector. One source serves
 both slots; each image's symbols file binds
 `FrenchModelVariant199_HandleRequest` and the three data names
-(`gFrenchModelVariant199_D1594`, `_D15A4`, `_aConfigs`) at its own addresses.
+(`gFrenchModelVariant199_UnitScale`, `_D15A4`, `_aConfigs`) at its own addresses.
 
 All 1,380 instructions form one closed entry, with 66 direct calls to 23
 resident destinations and no local or indirect calls. All four complete

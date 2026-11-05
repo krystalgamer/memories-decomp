@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant782_entry.h"
 
-static const VECTOR gFrenchModelVariant782_D14B0 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant782_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
 {
@@ -24,7 +24,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant782_D14B0;
+    scale = gFrenchModelVariant782_UnitScale;
     work = (Model782State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
@@ -66,7 +66,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         work->growth_age = 0;
         work->shade = 128;
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant782_D14C0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant782_aImages[i]);
         }
         return 0;
     }

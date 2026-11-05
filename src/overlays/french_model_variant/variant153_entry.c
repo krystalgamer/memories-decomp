@@ -7,7 +7,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR gFrenchModelVariant153_D0E0C = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant153_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant153_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 FrenchModelVariant153_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant153_D0E0C;
+    scale = gFrenchModelVariant153_UnitScale;
     work = (Model153State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -53,9 +53,9 @@ s32 FrenchModelVariant153_HandleRequest(u8 *context, s32 command)
             point->vy = -config->rise_height;
             point->vz = rand() % config->burst_spread * 2 - config->burst_spread;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant153_D0E1C[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant153_aImages[0]);
         for (i = 1; i < 9; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant153_D0E1C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant153_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

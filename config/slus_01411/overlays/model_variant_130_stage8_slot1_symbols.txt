@@ -1,6 +1,6 @@
 // MODEL.MRG model 130 (record 130), sector 36070, header 214, loaded at 0x8017B000.
 FrenchModelVariant101_HandleRequest = 0x8017B004; // type:func size:0xAE0
-gFrenchModelVariant101_D0AE4 = 0x8017BAE4; // type:u32 size:0x10 defined:true
+gFrenchModelVariant101_UnitScale = 0x8017BAE4; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
 gFrenchModelVariant101_D0AF4 = 0x8017BAF4; // type:u8 size:0x1C defined:true
 gFrenchModelVariant101_D0B10 = 0x8017BB10; // type:u8 size:0x44F0 defined:true

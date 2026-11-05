@@ -75,4 +75,4 @@ No reference declarations, headers or compiler claims were imported.
 
 ## Per-image bindings
 
-One source, `french_model_variant/image26952_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant818_HandleRequest` and the raw-tail data names (`gFrenchModelVariant818_D1544`, `_D1554`, `_D158C`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.
+One source, `french_model_variant/image26952_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant818_HandleRequest` and the raw-tail data names (`gFrenchModelVariant818_UnitScale`, `_D1554`, `_D158C`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

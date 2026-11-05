@@ -4,7 +4,7 @@ Model 130's stages 7/8 have exact 2,784-byte entry functions using the named
 `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81. One implementation
 provides both entries and their 16-byte scale constants; each image's
 symbols file binds `FrenchModelVariant101_HandleRequest` and the three data
-names (`gFrenchModelVariant101_D0AE4`, `_D0AF4`, `_D0B10`) at its own
+names (`gFrenchModelVariant101_UnitScale`, `_D0AF4`, `_D0B10`) at its own
 addresses. No shared SDK headers, compiler profiles or other
 regional implementations change.
 

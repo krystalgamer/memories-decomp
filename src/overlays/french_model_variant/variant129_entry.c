@@ -2,7 +2,7 @@
 #include "variant129_entry.h"
 #include "../../game/screen_projection.h"
 
-const VECTOR gFrenchModelVariant129_D0FE8 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant129_UnitScale = {4096, 4096, 4096, 0};
 
 #define DRAW_QUAD(a, b, c, d) \
     depth = RotAverage4(&vertices[a], &vertices[b], &vertices[c], &vertices[d], \
@@ -33,7 +33,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant129_D0FE8;
+    scale = gFrenchModelVariant129_UnitScale;
     work = (Model129State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -46,7 +46,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
             setVector(velocity, 0, 0, 0);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant129_D0FF8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant129_aImages[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;

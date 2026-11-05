@@ -7,7 +7,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR gFrenchModelVariant178_D0D3C = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant178_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant178_D0D3C;
+    scale = gFrenchModelVariant178_UnitScale;
     work = (Model178State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -54,9 +54,9 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % config->velocity_spread * 2 - config->velocity_spread;
         }
         for (i = 1; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant178_D0D4C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant178_aImages[i]);
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant178_D0D4C[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant178_aImages[0]);
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT178_PRINT_WORK_SIZE)

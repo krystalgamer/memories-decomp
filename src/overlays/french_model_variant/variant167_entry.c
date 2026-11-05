@@ -7,7 +7,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR gFrenchModelVariant167_D0ED8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant167_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant167_D0ED8;
+    scale = gFrenchModelVariant167_UnitScale;
     work = (Model167State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
@@ -57,9 +57,9 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
             point->vy += vertices[0].vy;
             point->vz += vertices[0].vz;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant167_D0EE8[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant167_aImages[0]);
         for (i = 1; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant167_D0EE8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant167_aImages[i]);
         }
         work->elapsed = 0;
         work->started = 0;

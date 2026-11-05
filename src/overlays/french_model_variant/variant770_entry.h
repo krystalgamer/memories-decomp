@@ -50,7 +50,7 @@ typedef struct {
     Model770Color trail_color, burst_color;
 } Model770State;
 
-extern GsIMAGE gFrenchModelVariant770_D16F8[];
+extern GsIMAGE gFrenchModelVariant770_aImages[];
 extern Model770Config gFrenchModelVariant770_aConfigs[];
 s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command);
 

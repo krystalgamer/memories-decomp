@@ -37,7 +37,7 @@ typedef struct {
     u8 completed, unknown_695[3];
 } Model143State;
 
-extern GsIMAGE gFrenchModelVariant143_D1004[];
+extern GsIMAGE gFrenchModelVariant143_aImages[];
 extern Model143Config gFrenchModelVariant143_aConfigs[];
 s32 FrenchModelVariant143_HandleRequest(u8 *context, s32 command);
 

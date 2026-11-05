@@ -14,7 +14,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR gFrenchModelVariant163_D0EA8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant163_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
 {
@@ -37,7 +37,7 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant163_D0EA8;
+    scale = gFrenchModelVariant163_UnitScale;
     work = (Model163State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -83,7 +83,7 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
             point->vz = -direction * config->thickness;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant163_D0EB8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant163_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

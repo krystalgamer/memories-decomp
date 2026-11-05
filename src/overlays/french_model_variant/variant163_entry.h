@@ -26,7 +26,7 @@ typedef struct {
     s32 elapsed;
 } Model163State;
 
-extern GsIMAGE gFrenchModelVariant163_D0EB8[];
+extern GsIMAGE gFrenchModelVariant163_aImages[];
 extern Model163Config gFrenchModelVariant163_aConfigs[];
 s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command);
 
