@@ -8,7 +8,8 @@ manager, merge adjacent data or change queue, callback or sector behavior.
 
 `gFile_ReadyTransferDescriptor` is the existing four-byte pointer at NA
 `0x8009AF18`, initialized to `&gFile_PrimaryTransferDescriptor` in the
-`.sdata` unit `data_8009af10.c`. The two preceding boot sizing constants
+`.sdata` of `file_transfer_runtime.c`, whose functions are its only
+gp-relative readers. The two preceding boot sizing constants
 and the separate zero word at `0x8009AF1C` remain independent objects.
 The initializer, section attribute, ordering and explicit padding remain.
 

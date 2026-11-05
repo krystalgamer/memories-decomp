@@ -72,7 +72,7 @@ u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
    the gInput_dwPendingHeld word Input_UpdatePads consumes. The pad-1/pad-2
    swap pair that follows, which reads and rewrites the six pad masks
    Input_UpdatePads publishes, is Input_BackupPad1AndUsePad2 and
-   Input_RestorePad1FromBackup in src/game/input_pad1_backup.c.
+   Input_RestorePad1FromBackup at the end of this unit.
 
    The four volatile guards are the decode/publish pair's. The two repeat
    masks' guards went with the swap pair: the remaining code builds the same
@@ -211,4 +211,34 @@ void Input_UpdatePads(void)
     gInput_wPad2Pressed = newly_pressed >> INPUT_PAD_BUTTON_BITS;
     gInput_wPad1Repeat = repeat;
     gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
+}
+
+void Input_BackupPad1AndUsePad2(void)
+{
+    u16 value;
+
+    value = *(volatile u16 *)&gInput_wPad1Held;
+    gInput_wPad1HeldBackup = value;
+    value = *(volatile u16 *)&gInput_wPad1Pressed;
+    gInput_wPad1PressedBackup = value;
+    value = *(volatile u16 *)&gInput_wPad1Repeat;
+    gInput_wPad1RepeatBackup = value;
+    value = gInput_wPad2Held;
+    gInput_wPad1Held = value;
+    value = gInput_wPad2Pressed;
+    gInput_wPad1Pressed = value;
+    value = gInput_wPad2Repeat;
+    gInput_wPad1Repeat = value;
+}
+
+void Input_RestorePad1FromBackup(void)
+{
+    u16 value;
+
+    value = gInput_wPad1HeldBackup;
+    gInput_wPad1Held = value;
+    value = gInput_wPad1PressedBackup;
+    gInput_wPad1Pressed = value;
+    value = gInput_wPad1RepeatBackup;
+    gInput_wPad1Repeat = value;
 }
