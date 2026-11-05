@@ -4,7 +4,6 @@
    clearing it and was compiled with GCC 2.8.0. The format string follows the
    entry, so the tail data sits 0x28 later than in the French images. */
 #define MODEL_IMAGE60348_WORK_SIZE_PRINTF
-#define MODEL_IMAGE60348_WORK_SIZE_FORMAT gModelVariant664_szWorkSizeFormat
 
 /* The byte after the terminator is zero here; Japan's images keep a stray byte. */
 #ifndef MODEL60348_STRING_PAD

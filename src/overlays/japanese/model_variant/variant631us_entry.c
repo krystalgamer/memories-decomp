@@ -4,7 +4,6 @@
 /* The US header-631 build of the French header-648 entry adds the E_DATA
    work-size printf, which shifts the image header and command rows 0x28 later. */
 #define MODEL_IMAGE9840_WORK_SIZE_PRINTF
-#define MODEL_IMAGE9840_WORK_SIZE_FORMAT gModelVariant631Us_szWorkSizeFormat
 
 #ifndef MODEL631US_STRING_PAD
 #endif
