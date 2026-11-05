@@ -51,6 +51,6 @@ register differences. Trial 22 is the exact combined ownership above.
 Both slots build the same sources; each image's symbols file binds
 `FrenchModelVariant461_HandleRequest`, the three helpers
 (`FrenchModelVariant461_DrawRibbons`, `SpanishModelVariant461_DrawSheets`,
-`SpanishModelVariant461_DrawRing`) and `gFrenchModelVariant461_D28D4` at its
+`SpanishModelVariant461_DrawRing`) and `gFrenchModelVariant461_aImages`/`gFrenchModelVariant461_aConfigs` at its
 own addresses. Data ownership, original image layout and helper
 implementations remain unchanged.

@@ -53,7 +53,8 @@ typedef struct {
     s16 slot, command;
 } Variant460EntryState;
 
-extern u8 gFrenchModelVariant460_D28CC[];
+extern GsIMAGE gFrenchModelVariant460_aImages[9];
+extern Variant460EntryConfig gFrenchModelVariant460_aConfigs[];
 void ModelVariant443_DrawRibbons(u8 *context);
 void ModelVariant443_DrawSheets(u8 *context);
 s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command);

@@ -78,7 +78,8 @@ typedef struct {
     s16 slot, command;
 } EntryState446;
 
-extern u8 gFrenchModelVariant446_D36D4[];
+extern GsIMAGE gFrenchModelVariant446_aImages[9];
+extern EntryConfig446 gFrenchModelVariant446_aConfigs[];
 void SpanishModelVariant446_DrawLines(u8 *context);
 void SpanishModelVariant446_DrawStrip(u8 *context);
 void FrenchModelVariant446_DrawRibbons(u8 *context);

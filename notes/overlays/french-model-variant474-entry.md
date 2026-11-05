@@ -28,11 +28,13 @@ the configuration row pointer and the part. The phase word is at `0x1C1C`,
 the camera vector at `0x1C28`, the tint at `0x1C30`, the slot at `0x1C34` and
 the command at `0x1C36`.
 
-Configuration rows are `0x34` bytes at `gFrenchModelVariant474_D3980 + 0x1C`: the part byte at
-`+0x10`, the trigger at `+0x18` and the fade window at `+0x20`/`+0x24`. The
-five texture images sit immediately before the table. The old
-`D_8013E8BC` symbol is split at `0x8013E980` so the source can address the
-table directly.
+Configuration rows are `0x34` bytes in `gFrenchModelVariant474_aConfigs`: the
+part byte at `+0x10`, the trigger at `+0x18` and the fade window at
+`+0x20`/`+0x24`. The texture images sit immediately before the table as
+`gFrenchModelVariant474_aImages`, eight `GsIMAGE` records of which the entry
+uploads [1], [2], [3], [5] and [7]. In the French slot-0 image the image table
+starts at `0x8013E8BC` (the former anonymous owner) and the configuration table
+at `0x8013E99C`.
 
 ## Source shape
 
