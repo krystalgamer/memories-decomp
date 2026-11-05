@@ -1,6 +1,6 @@
 #ifndef MEMORIES_DECOMP_DUEL_MAGIC_EFFECT_FORMAT_H
 #define MEMORIES_DECOMP_DUEL_MAGIC_EFFECT_FORMAT_H
 
-extern char D_8009AF40[];
+extern char gDuelEffect_szDecimalTraceFormat[];
 
 #endif

@@ -18,6 +18,7 @@
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
+#include "../../game/text_box_blocking_build.h"
 #include "../../game/input.h"
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
@@ -100,7 +101,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
         0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80,
         CAMPAIGN_MAP_LABEL_RENDER_MODE
     );
-    func_80039A60((struct DuelEffectChannel *)object);
+    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)object);
     return object;
 }
 

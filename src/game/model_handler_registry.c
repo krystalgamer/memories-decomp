@@ -11,8 +11,6 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "func_8006151C.h"
-#include "func_80061A84.h"
 #include "model.h"
 
 /* Zero-initialized storage this unit owns at 0x800F5918-0x800F5B98, defined in

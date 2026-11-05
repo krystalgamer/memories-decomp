@@ -36,6 +36,5 @@ void TextBox_RefreshDisplayObjects(struct DuelEffectChannel *record);
 /* Requests a build and pumps the text box until it reports done. The two
    entry points differ only in the flag word they set first. */
 void TextBox_BuildBlocking(struct DuelEffectChannel *object);
-void func_80039A60(struct DuelEffectChannel *object);
 
 #endif

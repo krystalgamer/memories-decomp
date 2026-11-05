@@ -43,7 +43,7 @@ void NameEntry_UpdateDialog(void);
 
 /* Moves the name's length by `delta` and re-aims the caret, returning the new
    length. */
-s32 NameEntry_AdjustLength(s32 delta, s32 arg);
+s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames);
 
 /* The caret's slide callback, installed into a sprite's +0x24 slot by
    NameEntry_AdjustLength. */

@@ -16,6 +16,7 @@
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
+#include "../../game/text_box_blocking_build.h"
 #include "../../game/text_box_update_channels.h"
 #include "../../game/duel_effect_set_entry_range_layout.h"
 #include "../../game/gpu_packets.h"
@@ -741,7 +742,7 @@ draw:
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH) || \
     defined(VERSION_EUROPE_PASSWORD_ADJUST_LENGTH)
-s32 NameEntry_AdjustLength(s32 delta, s32 arg)
+s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
 {
     DisplayObject *object;
 
@@ -759,7 +760,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     object->field_44.target.x = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;
-    object->field_60 = arg;
+    object->field_60 = tween_frames;
     object->field_44.target.y = object->xy.h.y;
     SD_SEPlayFull(0xC);
     return 1;
@@ -1314,16 +1315,16 @@ void NameEntry_UpdateDialog(void)
         TextBox_Create(3, 254, 112, 204, 96, 16);
 #endif
 #ifdef VERSION_EUROPE
-        func_80039A60(TEXT_CHANNEL(3));
+        TextBox_BuildBlockingWithGlyphScratch(TEXT_CHANNEL(3));
 #elif defined(VERSION_JAPAN)
         /* No glyph_advance_x/line_advance_y stores, and 0x60-byte channel records. */
-        func_80039A60((struct DuelEffectChannel *)&(
+        TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&(
             (NAME_ENTRY_DIALOG_CHANNEL_TYPE *)gText_aChannels)[3]);
 #else
         panel = gText_aChannels;
         panel[3].glyph_advance_x = 16;
         panel[3].line_advance_y = 16;
-        func_80039A60((struct DuelEffectChannel *)&panel[3]);
+        TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&panel[3]);
 #endif
         NameEntry_AdjustLength(1, 6);
         return;

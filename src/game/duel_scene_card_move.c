@@ -127,11 +127,11 @@ void DuelScene_UpdateCardMove(void)
 #ifdef VERSION_JAPAN
             box = TextBox_CreateFlagged(0, 0x21, 0x50, 0x6E, 0xA0, 0x30, 0x20);
 #elif defined(VERSION_EUROPE)
-            /* The European build makes neither the func_8003B6AC call nor
+            /* The European build makes neither the DuelEffect_SetEntryRangeLayout call nor
                the two field stores, and flags the box 0x40. */
             box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x40);
 #else
-            func_8003B6AC(0, 0xB);
+            DuelEffect_SetEntryRangeLayout(0, 0xB);
             box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x20);
             box->glyph_advance_x = 8;
             box->line_advance_y = 0x10;

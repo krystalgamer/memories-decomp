@@ -60,7 +60,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
 #ifdef VERSION_JAPAN
         /* The Japanese build still carries a debug print of the selector,
            through the "Ex %d\n" string already in its image. */
-        printf(D_8009AE84, selector);
+        printf(gDuel_szSelectorTraceFormat, selector);
 #endif
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&

@@ -148,7 +148,7 @@ extern u8 gText_SelectedCardColorIndex;
  * (src/game/library_card_grid.c:232) and then, under `if (n != 0)`, stores
  * 0 when Library_GetCardFlags' result `r` (:238) has `(r & 0x80) == 0`
  * (:240-241);
- * func_80060E70 stores `id` (card_list_deck_box.c). Text_ExpandSelectedCardInfo reads it,
+ * CardList_BuildRowSetTextBoxes stores `id` (card_list_deck_box.c). Text_ExpandSelectedCardInfo reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Library_UpdateCardView (src/game/library_runtime.c) stores the
  * Library's selected card and reads it straight back as that index. Three
@@ -164,7 +164,7 @@ extern u8 gText_SelectedCardColorIndex;
  * Those five loads are %gp_rel and every C writer's sh goes through $at
  * (CardList_CreateSlotTextBox at 0x80031CD4, DuelField_CreateCardInfoTextBox.s:36-37,
  * DuelEffect_UpdateCardViewerState.s:102-103,
- * Library_RefreshSelectedCardText.s:13-14 and :26-27, func_80060E70.s:61-62), so the five
+ * Library_RefreshSelectedCardText.s:13-14 and :26-27, CardList_BuildRowSetTextBoxes.s:61-62), so the five
  * units whose profiles are -G8 at both the compiler and maspsx --
  * duel_field_display_objects.c (DuelField_CreateCardInfoTextBox), card_list_deck_box.c,
  * library_card_grid.c, library_runtime.c (Library_UpdateCardView) and the

@@ -2,8 +2,6 @@
 #define MEMORIES_DECOMP_DIRECT_POLYGON_RENDERERS_H
 
 #include "../types.h"
-#include "func_8006151C.h"
-#include "func_80061A84.h"
 
 /*
  * HMD primitive drivers: each consumes one primitive block and returns the

@@ -58,7 +58,7 @@ int Duel_IsPlayerDeckComplete(void)
 }
 
 #if defined(VERSION_JAPAN)
-/* The Japanese build makes no func_8003B6AC(0, 2) call before any of the
+/* The Japanese build makes no DuelEffect_SetEntryRangeLayout(0, 2) call before any of the
  * prompt's boxes, sizes three of them differently, and confirms with Circle
  * or Square. */
 #define SAVE_PROMPT_PREPARE_BOX()
@@ -83,7 +83,7 @@ int Duel_IsPlayerDeckComplete(void)
 #define SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG 0x10
 #define SAVE_PROMPT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #else
-#define SAVE_PROMPT_PREPARE_BOX() func_8003B6AC(0, 2)
+#define SAVE_PROMPT_PREPARE_BOX() DuelEffect_SetEntryRangeLayout(0, 2)
 #define SAVE_PROMPT_INITIAL_BOX_HEIGHT 0x30
 #define SAVE_PROMPT_SLIDE_BOX_SIZE 0x78, 0x30
 #define SAVE_PROMPT_SLIDE_BOX_FLAGS 0x24
