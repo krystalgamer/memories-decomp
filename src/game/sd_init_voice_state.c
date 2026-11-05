@@ -12,17 +12,17 @@ void SD_InitVoiceState(void) {
     s32 lookup_entry_index;
     s32 lookup_byte_offset;
 
-    g_SDValue->voice_active_mask = 0;
-    g_SDValue->voice_allocation_cursor = 0;
+    g_SDValue->s_bSD_VOICE_ACTIVE_MASK = 0;
+    g_SDValue->s_bSD_VOICE_CURSOR = 0;
 
     for (init_index = 0; init_index < SD_VOICE_SLOT_COUNT; init_index++) {
-        g_SDValue->voice_priority[init_index] = 0;
-        g_SDValue->voice_flags[init_index] = 0;
-        g_SDValue->voice_ids[init_index] = 0;
-        g_SDValue->voice_volume_left[init_index] = 0;
-        g_SDValue->voice_volume_right[init_index] = 0;
-        g_SDValue->voice_step[init_index] = 0;
-        g_SDValue->voice_timer[init_index] = 0;
+        g_SDValue->s_abSD_VOICE_PRIORITY[init_index] = 0;
+        g_SDValue->s_abSD_VOICE_FLAG[init_index] = 0;
+        g_SDValue->s_awSD_VOICE_SE_ID[init_index] = 0;
+        g_SDValue->s_awSD_VOICE_VOLUME_L[init_index] = 0;
+        g_SDValue->s_awSD_VOICE_VOLUME_R[init_index] = 0;
+        g_SDValue->s_abSD_VOICE_FADE_STEP[init_index] = 0;
+        g_SDValue->s_awSD_VOICE_TIMER[init_index] = 0;
     }
 
     SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
@@ -31,27 +31,27 @@ void SD_InitVoiceState(void) {
        pitch, middle-C sample note, linear attack and sustain with exponential
        release, and an all-bits attribute mask. */
     voice_state = g_SDValue;
-    voice_state->voice_attr.volumex.left = 0x3FFF;
-    voice_state->voice_attr.volumex.right = 0x3FFF;
-    voice_state->voice_attr.pitch = 0x1000;
-    voice_state->voice_attr.sample_note = 0x3C00;
-    voice_state->voice_attr.a_mode = 1;
-    voice_state->voice_attr.s_mode = 1;
-    voice_state->voice_attr.r_mode = 3;
-    voice_state->value_links = (SDValueLink *)0x801E2800;
-    voice_state->voice_attr.mask = 0xFFFF;
-    voice_state->voice_attr.volmode.left = 0;
-    voice_state->voice_attr.volmode.right = 0;
-    voice_state->voice_attr.ar = 0;
-    voice_state->voice_attr.dr = 0;
-    voice_state->voice_attr.sr = 0;
-    voice_state->voice_attr.rr = 0;
-    voice_state->voice_attr.sl = 0;
-    voice_state->note_index_by_id = (u16 *)0x801E4000;
-    voice_state->next_link_spu_address = 0x1010;
-    voice_state->next_note_index = 0;
-    voice_state->value_link_request_index = 0xFFFF;
-    voice_state->note_table =
+    voice_state->s_stSD_VOICE_ATTR.volumex.left = 0x3FFF;
+    voice_state->s_stSD_VOICE_ATTR.volumex.right = 0x3FFF;
+    voice_state->s_stSD_VOICE_ATTR.pitch = 0x1000;
+    voice_state->s_stSD_VOICE_ATTR.sample_note = 0x3C00;
+    voice_state->s_stSD_VOICE_ATTR.a_mode = 1;
+    voice_state->s_stSD_VOICE_ATTR.s_mode = 1;
+    voice_state->s_stSD_VOICE_ATTR.r_mode = 3;
+    voice_state->s_pstSD_SEGROUP_TABLE = (SDValueLink *)0x801E2800;
+    voice_state->s_stSD_VOICE_ATTR.mask = 0xFFFF;
+    voice_state->s_stSD_VOICE_ATTR.volmode.left = 0;
+    voice_state->s_stSD_VOICE_ATTR.volmode.right = 0;
+    voice_state->s_stSD_VOICE_ATTR.ar = 0;
+    voice_state->s_stSD_VOICE_ATTR.dr = 0;
+    voice_state->s_stSD_VOICE_ATTR.sr = 0;
+    voice_state->s_stSD_VOICE_ATTR.rr = 0;
+    voice_state->s_stSD_VOICE_ATTR.sl = 0;
+    voice_state->s_pwSD_SE_INDEX = (u16 *)0x801E4000;
+    voice_state->s_dwSD_SEGROUP_SPU_ADDR = 0x1010;
+    voice_state->s_wSD_NEXT_SE_INDEX = 0;
+    voice_state->s_wSD_SEGROUP_REQUEST = 0xFFFF;
+    voice_state->s_pstSD_SE_TABLE =
         (SDNote *)(
             (((u32)&((u16 *)0)[voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE] + 0xF) & 0xFFF0) +
             0x801E4000);
@@ -60,7 +60,7 @@ void SD_InitVoiceState(void) {
     if (voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE != 0) {
         note_map_state = voice_state;
         do {
-            note_map_state->note_index_by_id[init_index] = SD_PENDING_ENTRY_NONE;
+            note_map_state->s_pwSD_SE_INDEX[init_index] = SD_PENDING_ENTRY_NONE;
             init_index++;
         } while (init_index < note_map_state->s_stGlobalHdrSE.s_wSD_NUM_SE);
     }
@@ -73,7 +73,7 @@ void SD_InitVoiceState(void) {
         for (; lookup_entry_index < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; lookup_entry_index++) {
             /* The bank shift is already folded into lookup_byte_offset, and retail adds the
                record base to it in that order, so this keeps the byte form
-               rather than becoming lookup_state->indirect_sound_ids[init_index][lookup_entry_index]. */
+               rather than becoming lookup_state->s_aawSD_INDIRECT_SE_ID[init_index][lookup_entry_index]. */
             *(u16 *)((u8 *)lookup_state + lookup_byte_offset + SD_VOICE_LOOKUP_BYTE_OFFSET) =
                 SD_PENDING_ENTRY_NONE;
             lookup_byte_offset += 2;

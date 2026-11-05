@@ -36,6 +36,19 @@ inferred from how the code uses the member.
 | `+0x007D` | `s_bSD_ACTIVE_COMMAND_PHASE` | `active_command_phase` |
 | `+0x007E` | `s_bSD_ACTIVE_CD_FADE_WAIT` | `active_cd_fade_wait` |
 | `+0x0080` | `s_uSD_COMMAND_QUEUE` | `commands` |
+| `+0x0384` | `s_stSD_VOICE_ATTR` | `voice_attr` |
+| `+0x03C4` | `s_stSD_VOICE_VOLUME_ATTR` | `voice_volume_attr` |
+| voice arrays | `s_awSD_VOICE_SE_ID`, `s_abSD_VOICE_PRIORITY`, `s_abSD_VOICE_FLAG`, `s_awSD_VOICE_VOLUME_L`/`_R`, `s_abSD_VOICE_FADE_LEVEL`, `s_abSD_VOICE_FADE_STEP`, `s_awSD_VOICE_TIMER` | `voice_ids`, `voice_priority`, `voice_flags`, `voice_volume_left`/`right`, `voice_value`, `voice_step`, `voice_timer` |
+| `+0x0434` | `s_bSD_VOICE_ACTIVE_MASK` | `voice_active_mask` |
+| `+0x0435` | `s_bSD_VOICE_CURSOR` | `voice_allocation_cursor` |
+| `+0x0438` | `s_dwSD_SEGROUP_SPU_ADDR` | `next_link_spu_address` |
+| `+0x043C` | `s_pwSD_SE_INDEX` | `note_index_by_id` |
+| `+0x0440` | `s_wSD_NEXT_SE_INDEX` | `next_note_index` |
+| `+0x0442` | `s_wSD_SEGROUP_REQUEST` | `value_link_request_index` |
+| `+0x0444` | `s_pstSD_SE_TABLE` | `note_table` |
+| `+0x0448` | `s_pstSD_SEGROUP_TABLE` | `value_links` |
+| `+0x044C` | `s_aawSD_INDIRECT_SE_ID` | `indirect_sound_ids` |
+| `+0x04CC` | `s_dwSD_TRANSFER_HOLD` (non-zero holds command 32 in phase 0) | `field_04CC` |
 | `+0x1649` | `s_bSD_CD_MIXER_OUT_DEFAULT` | `cd_mix_default` |
 | `+0x164A` | `s_bSD_SMF_MIXER_OUT_DEFAULT` | `secondary_mix_default` |
 
@@ -45,7 +58,6 @@ byte-offset views into the command queue (`SD_UpdateRuntime` and
 `SD_CancelMusicRequests` write `(u8 *)g_SDValue + offset + 0x80`) are
 load-bearing: spelling the base as `&g_SDValue->s_uSD_COMMAND_QUEUE` or its
 `.b` array swaps the `addu` operands at each site.
-
 
 ## Staged file requests
 
@@ -67,17 +79,17 @@ word, size conversion, range narrowing, mask or completion behavior changes.
 | `0x004A` | `s_bSD_DATA_SOURCE` | Initialization and command processing use independent bits. |
 | `0x004C` | `s_wSD_NUM_COMMAND` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
-| `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
+| `0x0404` | `s_awSD_VOICE_SE_ID[4]` | Four 16-bit voice identifiers. |
 | `0x040C` | `field_040C[4]` | Per-slot byte priorities, assigned by `SD_StartSoundEffectVoice`; the allocator accepts an occupied slot when this value is no greater than the request's priority. |
-| `0x0424` | `voice_value[4]` | Four per-voice byte values reduced by `voice_step`. |
-| `0x0428` | `voice_step[4]` | Four per-voice decrement values. |
-| `0x042C` | `voice_timer[4]` | Four 16-bit countdown timers. |
-| `0x0434` | `voice_active_mask` | One bit per voice entry. |
+| `0x0424` | `s_abSD_VOICE_FADE_LEVEL[4]` | Four per-voice byte values reduced by `s_abSD_VOICE_FADE_STEP`. |
+| `0x0428` | `s_abSD_VOICE_FADE_STEP[4]` | Four per-voice decrement values. |
+| `0x042C` | `s_awSD_VOICE_TIMER[4]` | Four 16-bit countdown timers. |
+| `0x0434` | `s_bSD_VOICE_ACTIVE_MASK` | One bit per voice entry. |
 | `0x0435` | `field_0435` | Four-slot rotating allocation cursor; fallback attempts increment and mask it even after selecting a voice. |
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
-| `0x044C` | `indirect_sound_ids[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `SD_LoadSequenceBankPair`, and selected by the indirect voice-code decoders. |
+| `0x044C` | `s_aawSD_INDIRECT_SE_ID[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `SD_LoadSequenceBankPair`, and selected by the indirect voice-code decoders. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
@@ -202,7 +214,7 @@ There is no new harness or local fixture/cloud execution.
 
 `SD_CountActiveSoundEffectVoices` (`0x80047FAC`) narrows its input ID to
 `u16`, queries the envelope of each of the four sound-effect SPU voices,
-and counts only matching `voice_ids` whose observed envelope is nonzero.
+and counts only matching `s_awSD_VOICE_SE_ID` whose observed envelope is nonzero.
 This is not a count of matching stored IDs alone: a decayed voice does not
 count even if its old ID remains in the slot.
 
@@ -290,7 +302,7 @@ lifecycle. `SD_ResetPendingEntries` resets `field_0442` to `SD_VALUE_LINK_INDEX_
 `field_0438` to the first link's second word plus `0x1010`.
 `SD_ReplaceValueLink` ignores a requested index when that entry's second word
 is zero or when the same index is already selected. Otherwise it keys off
-every voice whose `voice_ids` entry is at or above `s_wSD_SE_DYNAMIC_START` through
+every voice whose `s_awSD_VOICE_SE_ID` entry is at or above `s_wSD_SE_DYNAMIC_START` through
 `SD_KeyOffDynamicVoices`, calls `SD_ResetPendingEntries`, and stores the
 accepted index in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
 path: it suppresses only a duplicate selected index, then stores the new
@@ -342,7 +354,7 @@ The names follow the complete resident call chain:
 - `mode` is the fifth argument of the allocator. Its low nibble requests a
   keyed group through `SD_KeyOffVoiceGroup`; its high nibble chooses an occurrence
   of the same sound ID. The byte is also forwarded to the voice-start
-  helper and stored in `voice_flags`. The name does not claim that every
+  helper and stored in `s_abSD_VOICE_FLAG`. The name does not claim that every
   bit is an independent Boolean or equate this byte with an SPU register.
 
 Both the direct-ID and indirect-lookup paths use the same typed entry.
@@ -402,7 +414,7 @@ changing address arithmetic, array extents, or the following fields.
 
 ### Indirect sound-ID banks and decoder stages
 
-The shared member at +0x44C is indirect_sound_ids (formerly field_044C).
+The shared member at +0x44C is s_aawSD_INDIRECT_SE_ID (formerly field_044C).
 Each u16 entry is a sound ID from SDSeqBlock.keys, not a note-table index
 or a hardware voice number. The two 32-entry banks keep their exact
 representation, offsets, extent and sentinel. SD_SEPlay now uses the
@@ -426,7 +438,7 @@ SD_LoadSequenceBankPair still rejects sides outside the existing pair,
 copies the selected input block and resets pending note registrations.
 It registers the OTHER block before the selected block, retaining each
 note's own SPU relocation base. Only the selected-block pass publishes
-keys into indirect_sound_ids[side][j], including sentinel keys.
+keys into s_aawSD_INDIRECT_SE_ID[side][j], including sentinel keys.
 The count-driven loops are unchanged: no count <= 32 guarantee, tail clear,
 new bounds or claim that every lookup entry is refreshed. The separate
 pending-input capacity remains 204, not the lookup bank's size.
@@ -436,13 +448,13 @@ The code tag selects the bank/index lookup; a missing bank result returns
 before any dependent note-index or note-table access. Consumers retain
 their DIFFERENT second stages:
 
-- SD_SEPlay maps the resolved sound ID through note_index_by_id and rejects
+- SD_SEPlay maps the resolved sound ID through s_pwSD_SE_INDEX and rejects
   its sentinel, then reads the note; allocation receives the RESOLVED
   SOUND ID, not the note index. Its direct-ID branch remains separate.
-- SD_SEStop compares the resolved sound ID directly with voice_ids,
+- SD_SEStop compares the resolved sound ID directly with s_awSD_VOICE_SE_ID,
   without the second mapping.
 - SD_SESetPan, SD_SESetVolume and SD_SESetVolumePan retain their existing
-  second mapping through note_index_by_id before matching voice_ids.
+  second mapping through s_pwSD_SE_INDEX before matching s_awSD_VOICE_SE_ID.
   Naming does not repair, unify or reinterpret that behavior.
 
 All pointer reloads, duplicate consumed-ID snapshots, casts, branch order,
@@ -712,7 +724,7 @@ two:
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
   sound-effect voice slots (#2740)") replaced it with
-  `g_SDValue->voice_ids[s0]` -- `SD_CountActiveSoundEffectVoices` in
+  `g_SDValue->s_awSD_VOICE_SE_ID[s0]` -- `SD_CountActiveSoundEffectVoices` in
   `src/game/sound_voice_selection.c`, and
   the function matches. Only the description is stale; the three-instruction
   cost it claimed was not re-measured against the current source.
@@ -768,7 +780,7 @@ The 11 are a header addition, and the evidence behind each width is of
 three different kinds -- which is worth saying plainly, because "it has a
 use in this unit" flattens them into one.
 
-  * **Five are read here**: `field_04CC`, `cd_start_sector_offset`, `cd_end_sector_offset`,
+  * **Five are read here**: `s_dwSD_TRANSFER_HOLD`, `cd_start_sector_offset`, `cd_end_sector_offset`,
     `cd_filter_channel` and `cd_filter_file`. The read's own width is the evidence.
   * **Three are only written**: `field_0532 = b >> 31`,
     `cd_request_code = 0xFFFF` and `field_157C = s_wSD_ACTIVE_COMMAND_VALUE`. What the width
@@ -2242,7 +2254,7 @@ in `SDValue.voice_priority[4]` at `+0x040C`. The fallback allocator accepts
 an occupied slot when the incoming byte is greater than or equal to that
 slot's priority. This is not the per-slot volume/gain byte.
 
-`voice_allocation_cursor` names the existing byte at `+0x0435`.
+`s_bSD_VOICE_CURSOR` names the existing byte at `+0x0435`.
 Group/occurrence selection stores the chosen slot there and returns after
 starting it. Fallback scans advance and mask the cursor after every attempted
 slot, including a successful start. It is therefore not always the last
@@ -2251,17 +2263,17 @@ equal priority remains eligible. Both initialization and runtime reset clear
 the cursor and priorities in their original order.
 
 `SD_ApplyVoiceSlotVolume` uses a separate SDK `SpuVoiceAttr` packet at
-`+0x03C4`, now `voice_volume_attr`, immediately after the existing key-on
+`+0x03C4`, now `s_stSD_VOICE_VOLUME_ATTR`, immediately after the existing key-on
 packet `voice_attr`. The four former scalar fields and following `0x34`
 padding bytes occupy exactly one `0x40`-byte SDK record, ending at the
 existing voice-ID array at `+0x0404`. Its observed fields are:
 
 | Offset | SDK member | Use |
 |---|---|---|
-| `0x03C4` | `voice_volume_attr.voice` | Conditional shift of the existing four-slot SPU mask. |
-| `0x03C8` | `voice_volume_attr.mask` | `SPU_VOICE_VOLL \| SPU_VOICE_VOLR`, not a key-on request. |
-| `0x03CC` | `voice_volume_attr.volume.left` | Low halfword of the unsigned left-volume/gain product shifted by eight. |
-| `0x03CE` | `voice_volume_attr.volume.right` | Corresponding right-volume/gain product. |
+| `0x03C4` | `s_stSD_VOICE_VOLUME_ATTR.voice` | Conditional shift of the existing four-slot SPU mask. |
+| `0x03C8` | `s_stSD_VOICE_VOLUME_ATTR.mask` | `SPU_VOICE_VOLL \| SPU_VOICE_VOLR`, not a key-on request. |
+| `0x03CC` | `s_stSD_VOICE_VOLUME_ATTR.volume.left` | Low halfword of the unsigned left-volume/gain product shifted by eight. |
+| `0x03CE` | `s_stSD_VOICE_VOLUME_ATTR.volume.right` | Corresponding right-volume/gain product. |
 
 The SDK declaration supplies unsigned 32-bit voice/mask words and signed
 16-bit volume members. The old view used signed words and unsigned volume
@@ -2347,7 +2359,7 @@ follow that style; their names are inferred from use, not from retail text:
 | `SDValue +0x003C` | `s_dwSD_BANK_LOAD_PHASE` | Unsigned startup bank-loader phase, separate from active-command and transfer phases. |
 
 `SD_InitVoiceState` clears ID-map entries `[0, s_wSD_NUM_SE)` to the
-existing `0xFFFF` marker. It locates `note_table` after that many halfwords
+existing `0xFFFF` marker. It locates `s_pstSD_SE_TABLE` after that many halfwords
 at `0x801E4000`, using the original sixteen-byte alignment expression.
 The name does not turn this ID-map extent into a separately measured
 note-table capacity or add an import-key check.
@@ -2361,7 +2373,7 @@ fixed bases, unsigned halfwords and unchecked masked link selection remain.
 The header's last halfword is never read.
 
 `SD_ResetPendingEntries` invalidates only IDs in
-`[s_wSD_SE_DYNAMIC_START, s_wSD_NUM_SE)` and resets `next_note_index` to that
+`[s_wSD_SE_DYNAMIC_START, s_wSD_NUM_SE)` and resets `s_wSD_NEXT_SE_INDEX` to that
 same raw boundary. `SD_KeyOffDynamicVoices` compares each slot's sound ID,
 not its mapped note index, against it. The two domains deliberately keep
 their existing shared value; the name does not claim a count of live
@@ -2385,12 +2397,12 @@ and value-link request paths establish one connected memory lifecycle:
 
 | Location | Field | Established role |
 |---|---|---|
-| `SDValue +0x0438` | `next_link_spu_address` | SPU destination passed to the next value-link transfer and its queued note-import command, then advanced by the selected link's raw size word. |
-| `SDValue +0x043C` | `note_index_by_id` | Halfword lookup from sound ID to note-table index, with the existing `0xFFFF` missing-entry marker. |
-| `SDValue +0x0440` | `next_note_index` | Halfword append index assigned to each imported live key, incremented only for non-sentinel input keys. |
-| `SDValue +0x0442` | `value_link_request_index` | Individual-request duplicate-suppression cache, not proof of a completed load or the last link in a list. |
-| `SDValue +0x0444` | `note_table` | Pointer to the existing eight-byte `SDNote` records. |
-| `SDValue +0x0448` | `value_links` | Pointer to the existing eight-byte `SDValueLink` records. |
+| `SDValue +0x0438` | `s_dwSD_SEGROUP_SPU_ADDR` | SPU destination passed to the next value-link transfer and its queued note-import command, then advanced by the selected link's raw size word. |
+| `SDValue +0x043C` | `s_pwSD_SE_INDEX` | Halfword lookup from sound ID to note-table index, with the existing `0xFFFF` missing-entry marker. |
+| `SDValue +0x0440` | `s_wSD_NEXT_SE_INDEX` | Halfword append index assigned to each imported live key, incremented only for non-sentinel input keys. |
+| `SDValue +0x0442` | `s_wSD_SEGROUP_REQUEST` | Individual-request duplicate-suppression cache, not proof of a completed load or the last link in a list. |
+| `SDValue +0x0444` | `s_pstSD_SE_TABLE` | Pointer to the existing eight-byte `SDNote` records. |
+| `SDValue +0x0448` | `s_pstSD_SEGROUP_TABLE` | Pointer to the existing eight-byte `SDValueLink` records. |
 | `SDNote +0x06` | `spu_address_div16` | Halfword sample address in sixteen-byte units, relocated by the importers and shifted back by playback. |
 | `SDValueLink +0x04` | `spu_size` | Raw SPU phase-size word, also used as the destination cursor increment. |
 
@@ -2429,7 +2441,7 @@ there. It therefore does not turn this cache into a last-loaded-link field.
 Existing consumers are not made artificially consistent by the new names.
 Play retains its map validation while passing the resolved sound ID to the
 allocator. Existing setters retain their returned-index comparisons; pan
-setters still read `note_table[voice_id]` directly. No extra map lookup,
+setters still read `s_pstSD_SE_TABLE[voice_id]` directly. No extra map lookup,
 comparison repair, SDK observation reordering or global-pointer caching is
 introduced. All literal shifts, sentinels, integer sums and reloads remain.
 

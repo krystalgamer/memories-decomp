@@ -384,11 +384,11 @@ void SD_ResetRuntime(void)
     music_state->music_vab_open_result = -1;
     music_state->sequence_fade_step = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
-    g_SDValue->voice_active_mask = 0;
-    g_SDValue->voice_allocation_cursor = 0;
+    g_SDValue->s_bSD_VOICE_ACTIVE_MASK = 0;
+    g_SDValue->s_bSD_VOICE_CURSOR = 0;
     for (voice_slot = 0; voice_slot < 4; voice_slot++) {
-        g_SDValue->voice_priority[voice_slot] = 0;
-        g_SDValue->voice_ids[voice_slot] = 0;
+        g_SDValue->s_abSD_VOICE_PRIORITY[voice_slot] = 0;
+        g_SDValue->s_awSD_VOICE_SE_ID[voice_slot] = 0;
     }
     command_state = g_SDValue;
     command_state->s_bSD_ACTIVE_COMMAND = 0;

@@ -30,7 +30,7 @@ void SD_StepActiveCommand(void)
             if (File_RequestSecondarySlot(0, 0) != 0) {
                 return;
             }
-            if (g_SDValue->field_04CC != 0) {
+            if (g_SDValue->s_dwSD_TRANSFER_HOLD != 0) {
                 return;
             }
             {

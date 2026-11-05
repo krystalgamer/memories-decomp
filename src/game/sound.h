@@ -185,29 +185,29 @@ typedef struct SDValue {
        `pitch`, `sample_note` 0x3C00, the three envelope rate modes and zeroed
        ADSR. Both were reaching it by offset before; the region is exactly one
        SpuVoiceAttr wide, which the assertion below pins. */
-    SpuVoiceAttr voice_attr;
+    SpuVoiceAttr s_stSD_VOICE_ATTR;
     /* Separate volume-only packet submitted by SD_ApplyVoiceSlotVolume. */
-    SpuVoiceAttr voice_volume_attr;
-    u16 voice_ids[SD_VOICE_SLOT_COUNT];
-    u8 voice_priority[SD_VOICE_SLOT_COUNT];
-    u8 voice_flags[SD_VOICE_SLOT_COUNT];
-    u16 voice_volume_left[SD_VOICE_SLOT_COUNT];
-    u16 voice_volume_right[SD_VOICE_SLOT_COUNT];
-    u8 voice_value[SD_VOICE_SLOT_COUNT];
-    u8 voice_step[SD_VOICE_SLOT_COUNT];
-    u16 voice_timer[SD_VOICE_SLOT_COUNT];
-    u8 voice_active_mask;
-    u8 voice_allocation_cursor;
+    SpuVoiceAttr s_stSD_VOICE_VOLUME_ATTR;
+    u16 s_awSD_VOICE_SE_ID[SD_VOICE_SLOT_COUNT];
+    u8 s_abSD_VOICE_PRIORITY[SD_VOICE_SLOT_COUNT];
+    u8 s_abSD_VOICE_FLAG[SD_VOICE_SLOT_COUNT];
+    u16 s_awSD_VOICE_VOLUME_L[SD_VOICE_SLOT_COUNT];
+    u16 s_awSD_VOICE_VOLUME_R[SD_VOICE_SLOT_COUNT];
+    u8 s_abSD_VOICE_FADE_LEVEL[SD_VOICE_SLOT_COUNT];
+    u8 s_abSD_VOICE_FADE_STEP[SD_VOICE_SLOT_COUNT];
+    u16 s_awSD_VOICE_TIMER[SD_VOICE_SLOT_COUNT];
+    u8 s_bSD_VOICE_ACTIVE_MASK;
+    u8 s_bSD_VOICE_CURSOR;
     u8 pad0436[2];
-    u32 next_link_spu_address;
-    u16 *note_index_by_id;
-    u16 next_note_index;
-    u16 value_link_request_index;
-    SDNote *note_table;
-    SDValueLink *value_links;
+    u32 s_dwSD_SEGROUP_SPU_ADDR;
+    u16 *s_pwSD_SE_INDEX;
+    u16 s_wSD_NEXT_SE_INDEX;
+    u16 s_wSD_SEGROUP_REQUEST;
+    SDNote *s_pstSD_SE_TABLE;
+    SDValueLink *s_pstSD_SEGROUP_TABLE;
     /* Indirect-code banks hold sound IDs, not note-table indices. */
-    u16 indirect_sound_ids[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
-    s32 field_04CC;
+    u16 s_aawSD_INDIRECT_SE_ID[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
+    s32 s_dwSD_TRANSFER_HOLD;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
     s16 cd_volume;
     s16 cd_fade_step;
@@ -492,12 +492,12 @@ typedef char SDValueLink_spu_size_must_be_at_0x04[
     SD_STATE_OFFSET(SDValueLink, spu_size) == 4 ? 1 : -1
 ];
 typedef char SDValue_note_and_link_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, next_link_spu_address) == 0x438 &&
-    SD_STATE_OFFSET(SDValue, note_index_by_id) == 0x43C &&
-    SD_STATE_OFFSET(SDValue, next_note_index) == 0x440 &&
-    SD_STATE_OFFSET(SDValue, value_link_request_index) == 0x442 &&
-    SD_STATE_OFFSET(SDValue, note_table) == 0x444 &&
-    SD_STATE_OFFSET(SDValue, value_links) == 0x448 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_dwSD_SEGROUP_SPU_ADDR) == 0x438 &&
+    SD_STATE_OFFSET(SDValue, s_pwSD_SE_INDEX) == 0x43C &&
+    SD_STATE_OFFSET(SDValue, s_wSD_NEXT_SE_INDEX) == 0x440 &&
+    SD_STATE_OFFSET(SDValue, s_wSD_SEGROUP_REQUEST) == 0x442 &&
+    SD_STATE_OFFSET(SDValue, s_pstSD_SE_TABLE) == 0x444 &&
+    SD_STATE_OFFSET(SDValue, s_pstSD_SEGROUP_TABLE) == 0x448 ? 1 : -1
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
@@ -510,7 +510,7 @@ typedef char SDCommandShiftView_must_fit_inside_SDValue[
     sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
 ];
 typedef char SDValue_lookup_bank_size_must_match_stride[
-    sizeof(((SDValue *)0)->indirect_sound_ids[0]) ==
+    sizeof(((SDValue *)0)->s_aawSD_INDIRECT_SE_ID[0]) ==
         SD_VOICE_LOOKUP_BANK_BYTE_STRIDE ? 1 : -1
 ];
 typedef char SDVoiceLookup_tag_must_fit_code_mask[
@@ -523,41 +523,41 @@ typedef char SDVoiceLookup_selector_fields_must_not_overlap[
     (SD_VOICE_LOOKUP_INDEX_MASK & SD_VOICE_LOOKUP_BANK_FLAG) == 0 ? 1 : -1
 ];
 typedef char SDValue_lookup_offset_must_be_0x44C[
-    SD_STATE_OFFSET(SDValue, indirect_sound_ids) ==
+    SD_STATE_OFFSET(SDValue, s_aawSD_INDIRECT_SE_ID) ==
         SD_VOICE_LOOKUP_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_lookup_end_must_match_extent[
-    SD_STATE_OFFSET(SDValue, indirect_sound_ids) +
-        sizeof(((SDValue *)0)->indirect_sound_ids) ==
+    SD_STATE_OFFSET(SDValue, s_aawSD_INDIRECT_SE_ID) +
+        sizeof(((SDValue *)0)->s_aawSD_INDIRECT_SE_ID) ==
         SD_VOICE_LOOKUP_END_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_commands_offset_must_be_0x80[
     SD_STATE_OFFSET(SDValue, s_uSD_COMMAND_QUEUE) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_voice_attr_offset_must_be_0x384[
-    SD_STATE_OFFSET(SDValue, voice_attr) == 0x384 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) == 0x384 ? 1 : -1
 ];
 typedef char SDValue_voice_attr_note_offset_must_be_0x39A[
-    SD_STATE_OFFSET(SDValue, voice_attr) +
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) +
         SD_STATE_OFFSET(SpuVoiceAttr, note) == 0x39A ? 1 : -1
 ];
 typedef char SDValue_voice_attr_must_end_at_voice_volume_attr[
-    SD_STATE_OFFSET(SDValue, voice_attr) + sizeof(SpuVoiceAttr) ==
-        SD_STATE_OFFSET(SDValue, voice_volume_attr) ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) + sizeof(SpuVoiceAttr) ==
+        SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR) ? 1 : -1
 ];
 typedef char SDValue_voice_volume_attr_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, voice_volume_attr.voice) == 0x3C4 &&
-    SD_STATE_OFFSET(SDValue, voice_volume_attr.mask) == 0x3C8 &&
-    SD_STATE_OFFSET(SDValue, voice_volume_attr.volume.left) == 0x3CC &&
-    SD_STATE_OFFSET(SDValue, voice_volume_attr.volume.right) == 0x3CE ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.voice) == 0x3C4 &&
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.mask) == 0x3C8 &&
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.left) == 0x3CC &&
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.right) == 0x3CE ? 1 : -1
 ];
 typedef char SDValue_voice_volume_attr_must_end_at_voice_ids[
-    SD_STATE_OFFSET(SDValue, voice_volume_attr) + sizeof(SpuVoiceAttr) ==
-        SD_STATE_OFFSET(SDValue, voice_ids) ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR) + sizeof(SpuVoiceAttr) ==
+        SD_STATE_OFFSET(SDValue, s_awSD_VOICE_SE_ID) ? 1 : -1
 ];
 typedef char SDValue_voice_allocation_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, voice_priority) == 0x40C &&
-    SD_STATE_OFFSET(SDValue, voice_allocation_cursor) == 0x435 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_abSD_VOICE_PRIORITY) == 0x40C &&
+    SD_STATE_OFFSET(SDValue, s_bSD_VOICE_CURSOR) == 0x435 ? 1 : -1
 ];
 typedef char SDValue_secondary_mix_scale_offset_must_be_0x44[
     SD_STATE_OFFSET(SDValue, s_wSD_SMF_MIXER_OUT) == 0x44 ? 1 : -1

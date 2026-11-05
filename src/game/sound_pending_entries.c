@@ -13,16 +13,16 @@ void SD_ResetPendingEntries(void) {
     SDValue *a1 = g_SDValue;
     s32 i = a1->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
 
-    a1->value_link_request_index = SD_VALUE_LINK_INDEX_NONE;
+    a1->s_wSD_SEGROUP_REQUEST = SD_VALUE_LINK_INDEX_NONE;
     if (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE) {
         do {
-            a1->note_index_by_id[i] = SD_PENDING_ENTRY_NONE;
+            a1->s_pwSD_SE_INDEX[i] = SD_PENDING_ENTRY_NONE;
             i++;
         } while (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE);
     }
-    g_SDValue->next_note_index = g_SDValue->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
-    g_SDValue->next_link_spu_address =
-        g_SDValue->value_links->spu_size + 0x1010;
+    g_SDValue->s_wSD_NEXT_SE_INDEX = g_SDValue->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
+    g_SDValue->s_dwSD_SEGROUP_SPU_ADDR =
+        g_SDValue->s_pstSD_SEGROUP_TABLE->spu_size + 0x1010;
 }
 
 /* Imports one pending-input block: each live key is bound to the next free
@@ -35,11 +35,11 @@ void SD_RegisterSeqBlockNotes(SDSeqBlock *input, u32 spu_addr) {
 
     for (i = 0; i < input->count; i++) {
         if (input->keys[i] != SD_PENDING_ENTRY_NONE) {
-            g_SDValue->note_index_by_id[input->keys[i]] = g_SDValue->next_note_index;
-            g_SDValue->note_table[g_SDValue->next_note_index] = input->data[i];
-            g_SDValue->note_table[g_SDValue->next_note_index].spu_address_div16 +=
+            g_SDValue->s_pwSD_SE_INDEX[input->keys[i]] = g_SDValue->s_wSD_NEXT_SE_INDEX;
+            g_SDValue->s_pstSD_SE_TABLE[g_SDValue->s_wSD_NEXT_SE_INDEX] = input->data[i];
+            g_SDValue->s_pstSD_SE_TABLE[g_SDValue->s_wSD_NEXT_SE_INDEX].spu_address_div16 +=
                 spu_addr >> 4;
-            g_SDValue->next_note_index++;
+            g_SDValue->s_wSD_NEXT_SE_INDEX++;
         }
     }
 }
