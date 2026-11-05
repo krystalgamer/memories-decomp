@@ -99,5 +99,5 @@ in the [instance ledger](french-model-variant373-instances.csv), with
 original-sized C `STT_FUNC` entries and all seven helper owners preserved.
 This adds8,536 C instruction bytes across the two images.
 Raw headers and `0x1110`-byte suffixes retain their existing owners.
-The canonical existing `Model_CopySlotU16Values` binding is added at
-`0x8005C0B8`; the accepted legacy alias remains unchanged.
+The `Model_CopySlotPosition` binding is added at `0x8005C0B8`. The
+former `Model_CopySlotU16Values` alias has been retired.

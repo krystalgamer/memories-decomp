@@ -35,7 +35,6 @@ rcos = 0x800864F4;
 rsin = 0x80086424;
 
 GsGetLwUnit = 0x8008A224;
-Model_CopySlotU16Values = 0x8005D474;
 GetTPage = 0x80082AE4;
 GetClut = 0x80082B24;
 SetSemiTrans = 0x80082BA4;

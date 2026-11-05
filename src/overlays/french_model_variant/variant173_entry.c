@@ -45,7 +45,7 @@ s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
             point->vy = time * ccos(j) / 4096;
             point->vz = time * ccos(value) / 4096 * csin(j) / 4096;
         }
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->center);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->center);
         work->center.vy = -350;
         if (command < 100) {
             for (i = 0; i < 10; i++) {

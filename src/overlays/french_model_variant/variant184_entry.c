@@ -40,7 +40,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
         point = work->targets;
         work->config = &gFrenchModelVariant184_aConfigs[command % 100];
         config = work->config;
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
         work->origin.vy = -350;
         for (i = 0; i < config->count; i++, point++) {
             j = rand() % 4096;

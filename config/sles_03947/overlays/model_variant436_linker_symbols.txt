@@ -10,7 +10,6 @@ SetPolyGT4 = 0x80082CE4;
 SquareRoot0 = 0x80086BD4;
 Square0 = 0x800899C4;
 GsGetLwUnit = 0x8008A224;
-Model_CopySlotU16Values = 0x8005D474;
 GsSetLsMatrix = 0x80085354;
 GsSortPoly = 0x800840A4;
 Model_CopySlotPosition = 0x8005D474;

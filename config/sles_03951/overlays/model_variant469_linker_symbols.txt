@@ -46,7 +46,6 @@ rsin = 0x80086628;
 GsSortGLine = 0x800840B8;
 RotTransPers3 = 0x80087898;
 GsGetLwUnit = 0x8008A428;
-Model_CopySlotU16Values = 0x8005C0B8;
 GetClut = 0x80082D28;
 SetPolyG3 = 0x80082E48;
 SetPolyFT4 = 0x80082EA8;

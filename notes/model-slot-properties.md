@@ -37,7 +37,8 @@ interpretation, declaration adapter or compiler flag.
 
 `ModelSlot.field_DD0` is now `cached_position`, still `s16[4]` at
 +0xDD0. `Model_CopySlotPosition` is the former `Model_CopySlotU16Values`
-at resident 0x80058FB0. Its ABI is still `(s32, u16 *)`: it copies ALL
+at resident 0x80058FB0; overlays now call and bind it by this name
+too, with no `#define` alias. Its ABI is still `(s32, u16 *)`: it copies ALL
 FOUR halfwords in 0/1/2/3 order, preserving their bit patterns. This is
 not a three-component copy or permission to retype storage as SVECTOR,
 clear its fourth word, normalize signedness or change caller extents.

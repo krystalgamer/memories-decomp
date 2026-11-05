@@ -103,7 +103,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
     setVector(&vertices[3], config->ray_size / 4, 0, 0);
     time = work->elapsed - config->burst_delay;
     if (time < 0) {
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&adjustment);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&adjustment);
         setVector(&vertices[2], -config->ray_size / 4, 0, 0);
         setVector(&vertices[3], config->ray_size / 4, 0, 0);
         point = work->rays;
@@ -193,7 +193,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
     }
     time = work->elapsed - config->burst_delay;
     if (time < 0) {
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->anchor);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->anchor);
     } else if (time < config->grid_duration) {
         s32 red, green, blue, remaining;
         quad.tpage = work->texture[3] >> 16;
