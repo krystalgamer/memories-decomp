@@ -7,7 +7,7 @@
  * a fading screen flash, then a glow and a fan of spokes appear there and
  * fade out until the light recovers. */
 
-static const VECTOR gModelVariant787_D12DC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant787_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant787_D12DC;
+    scale = gModelVariant787_UnitScale;
     work = (Model787State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;

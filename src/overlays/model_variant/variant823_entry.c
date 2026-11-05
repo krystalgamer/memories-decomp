@@ -8,7 +8,7 @@
  * that passes the far line stops, fades its head and bursts into sparks
  * while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant823_D1E9C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant823_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant823_HandleRequest(u8 *context, s32 command)
 {
@@ -37,7 +37,7 @@ s32 ModelVariant823_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant823_D1E9C;
+    scale = gModelVariant823_UnitScale;
     memset(&zero, 0, 8);
     work = (Model823State *)context;
     slot = Model_GetActiveSlotIndex();

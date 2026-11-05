@@ -17,7 +17,7 @@
 #define MODEL825_STREAK_V_BOTTOM 0xD7
 #endif
 
-static const VECTOR gModelVariant825_D3CFC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant825_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -49,7 +49,7 @@ s32 ModelVariant825_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant825_D3CFC;
+    scale = gModelVariant825_UnitScale;
     work = (Model825State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

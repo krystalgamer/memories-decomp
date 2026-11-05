@@ -9,7 +9,7 @@
  * sparks, 64 spinning semi-transparent blades and a pulsing shock fan while
  * the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant818_D4890 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant818_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -44,7 +44,7 @@ s32 ModelVariant818_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant818_D4890;
+    scale = gModelVariant818_UnitScale;
     work = (Model818State *)context;
     ft4 = &ft4_poly;
     g3 = &g3_poly;

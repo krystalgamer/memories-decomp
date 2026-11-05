@@ -8,7 +8,7 @@
  * sparks. The ambient light dims while the orbs fly and recovers once they
  * are gone. */
 
-static const VECTOR gModelVariant836_D1AC0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant836_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant836_HandleRequest(u8 *context, s32 command)
 {
@@ -38,7 +38,7 @@ s32 ModelVariant836_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant836_D1AC0;
+    scale = gModelVariant836_UnitScale;
     work = (Model836State *)context;
     poly = &ft4;
     gouraud = &g4;

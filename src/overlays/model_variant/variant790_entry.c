@@ -9,13 +9,13 @@
 
 static const VECTOR gModelVariant790_UnitScale = {4096, 4096, 4096, 0};
 
-static const Model790Shape gModelVariant790_D1EC0 = {{
+static const Model790Shape gModelVariant790_StarVertices = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
     {30, 210, 0, 0}, {0, 0, 0, 0}, {-420, -70, 0, 0}, {-60, -420, 0, 0},
     {380, -190, 0, 0}, {300, 300, 0, 0}, {-200, 380, 0, 0},
 }};
 
-static const Model790Faces gModelVariant790_D1F18 = {{
+static const Model790Faces gModelVariant790_StarQuads = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
@@ -50,8 +50,8 @@ s32 ModelVariant790_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant790_UnitScale;
-    shape = gModelVariant790_D1EC0;
-    faces = gModelVariant790_D1F18;
+    shape = gModelVariant790_StarVertices;
+    faces = gModelVariant790_StarQuads;
     work = (Model790State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

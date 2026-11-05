@@ -8,7 +8,7 @@
  * flare flash in front of the slot while the ambient light dims and
  * recovers. */
 
-static const VECTOR gModelVariant810_D2A70 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant810_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant810_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant810_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant810_D2A70;
+    scale = gModelVariant810_UnitScale;
     work = (Model810State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
