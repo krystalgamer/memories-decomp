@@ -63,8 +63,24 @@
 #include "duel_effect_resource_setup.h"
 #endif
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gDuel_wOutcomeFlags;
+SaveDataState *gDuel_pSide0SaveData;
+DuelResultDisplayState *gDuel_pResultDisplayState;
+u16 gDuel_wStepCounter;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuel_bSceneSubStep;
+DisplayObject *gDuel_pLifePointsPanel;
+u16 gDuelResult_wBgmId;
+DisplayObject *gDuel_pTerrainIcon;
+s8 gDuel_bOutroWinnerSide;
+u8 gDuel_bWinnerSide;
+u16 gDuel_wSceneStateFlags;
+
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
 #include "duel_result_localized_sprites.h"
+
 #define DUEL_RESULT_OUTRO_SPRITE_LIMIT 10
 #define DUEL_RESULT_OUTRO_ACTIVE_COUNT gDuelResult_nOutroSpriteCount
 #else

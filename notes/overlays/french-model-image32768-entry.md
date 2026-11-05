@@ -86,4 +86,4 @@ volatile controls, fabricated accesses or unused stack objects are used.
 
 ## Per-image bindings
 
-One source, `french_model_variant/image32768_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant804_HandleRequest` and the raw-tail data names (`gFrenchModelVariant804_D12DC`, `_D12EC`, `_D1324`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.
+One source, `french_model_variant/image32768_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant804_HandleRequest` and the raw-tail data names (`gFrenchModelVariant804_UnitScale`, `_D12EC`, `_D1324`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

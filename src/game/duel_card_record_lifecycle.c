@@ -13,8 +13,6 @@
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
-#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
-
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_deck_card_data.h"

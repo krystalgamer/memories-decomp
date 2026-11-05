@@ -26,6 +26,11 @@
 #include "build_deck_update_pane_transition.h"
 #include "build_deck_pane_input.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gBuildDeck_bConfirmMode;
+BuildDeckTransitionState *gBuildDeck_pState;
+
 /* Initialized data this unit owns at 0x80090DF8 and 0x80090E0C, previously a generated blob
    (#2602).
 

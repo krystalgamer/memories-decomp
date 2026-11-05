@@ -47,7 +47,7 @@ time, but nothing here names it.
 
 The entry's `.rodata` follows it at `0xE58`: the format string and the three
 `switch` jump tables. The rest of the image is one raw tail. The layout names
-the texture descriptor `gModelVariant647_D0F5C` and the command table `gModelVariant647_aConfigs` inside
+the texture descriptor `gModelVariant647_Image` and the command table `gModelVariant647_aConfigs` inside
 it (the `0x8017B000` images use the same offsets). The resident bindings,
 including `GsIDMATRIX`, are in
 `config/slus_01411/overlays/variant647_linker_symbols.txt`.

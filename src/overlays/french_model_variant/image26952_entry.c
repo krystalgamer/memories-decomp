@@ -18,7 +18,7 @@ s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
-    scale = gFrenchModelVariant818_D1544;
+    scale = gFrenchModelVariant818_UnitScale;
     state = (Image26952State *)context;
     active = Model_GetActiveSlotIndex();
     sign = active * 2 - 1;

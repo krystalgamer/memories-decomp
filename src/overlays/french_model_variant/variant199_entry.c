@@ -8,7 +8,7 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-const VECTOR gFrenchModelVariant199_D1594 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant199_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant199_D1594;
+    scale = gFrenchModelVariant199_UnitScale;
     work = (Model199State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
@@ -81,9 +81,9 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
             point->vz = radius * csin(value) / 4096 * csin(value2) / 4096;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant199_D15A4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant199_aImages[i]);
         }
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant199_D15A4[4]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant199_aImages[4]);
         work->elapsed = 0;
         work->completed = 0;
         return 0;

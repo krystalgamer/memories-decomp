@@ -20,6 +20,15 @@
 #include "model_cubic_coefficients.h"
 #include "model_get_slot_readiness.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gModel_bEffectKeyPreparationPending;
+s8 gModel_nEffectKeyBatchOrdinal;
+u8 gModel_bHandlerCallbackState;
+u8 gModel_bCameraHoldState;
+u8 gModel_bEffectKeyCount;
+Key *gModel_pCurrentEffectKey;
+
 /* Initialized data this unit owns at 0x80091550: four endpoint presets consumed in pairs by
    Model_QueueEffectEndpointPair. */
 ModelEffectEndpoint gModel_aEffectEndpoints[MODEL_EFFECT_ENDPOINT_COUNT] = {

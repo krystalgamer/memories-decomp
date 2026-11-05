@@ -12,7 +12,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-const VECTOR gFrenchModelVariant177_D119C = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant177_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
 {
@@ -40,7 +40,7 @@ s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant177_D119C;
+    scale = gFrenchModelVariant177_UnitScale;
     work = (Model177State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -80,7 +80,7 @@ s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
         face[14] = point + 7;
         face[15] = point + 4;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant177_D11AC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant177_aImages[i]);
         }
         work->elapsed = 0;
         work->animation = 0;

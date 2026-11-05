@@ -7,7 +7,7 @@ entries contain941 instructions (3,764 bytes), use a736-byte stack frame and
 make43 calls to25 resident destinations. The two functions and their16-byte
 unit vectors are C-owned; their complete20,480-byte images match without
 masking. One source serves both slots; each image's symbols file binds
-`FrenchModelVariant132_HandleRequest` and `gFrenchModelVariant132_D0EC8`/`_aConfigs`
+`FrenchModelVariant132_HandleRequest` and `gFrenchModelVariant132_aImages`/`_aConfigs`
 at its own addresses.
 
 ## Ownership and local declarations

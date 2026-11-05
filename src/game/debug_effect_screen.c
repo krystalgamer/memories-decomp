@@ -211,9 +211,9 @@ void DebugEffect_UpdatePreview(void) {
         p->phase = (&gDebugEffect_PreviewState.abOperands[0])[1];
         switch (gDebugEffect_PreviewState.bPage) {
         case 0:
-            p->field_00 = gDuel_aCardSlotGroundPositions[0xC];
+            p->field_00 = (u16)gDuel_aCardSlotGroundPositions[6].x;
             p->field_02 = -0x18;
-            p->field_04 = gDuel_aCardSlotGroundPositions[0xD];
+            p->field_04 = (u16)gDuel_aCardSlotGroundPositions[6].y;
             break;
         case 1:
             p->field_00 = 0xA0;

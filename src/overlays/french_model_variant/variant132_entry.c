@@ -2,7 +2,7 @@
 #include "variant132_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR gFrenchModelVariant132_D0EB8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant132_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
 {
@@ -26,7 +26,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant132_D0EB8;
+    scale = gFrenchModelVariant132_UnitScale;
     work = (Model132State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
@@ -56,7 +56,7 @@ s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
             point[17].vy += config->ring_height;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_D0EC8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_aImages[i]);
         }
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, work->position);
         work->position[1] = 0;

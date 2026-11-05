@@ -17,6 +17,13 @@
 #include "duel_effect.h"
 #include "widget_update_pulse_colour.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDialog_bChoiceControl;
+u8 gDialog_bChoiceEnabled;
+s8 gDialog_bChoice;
+u8 gDialog_bInputState;
+
 /* The confirm buttons. The Japanese release swaps Cross and Circle, so a
  * regional build names its own. */
 #ifndef DIALOG_UPDATE_CHOICE_CONFIRM_MASK

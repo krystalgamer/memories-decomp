@@ -31,8 +31,8 @@ typedef struct {
     s32 elapsed;
 } Model178State;
 
-extern const VECTOR gFrenchModelVariant178_D0D3C;
-extern GsIMAGE gFrenchModelVariant178_D0D4C[];
+extern const VECTOR gFrenchModelVariant178_UnitScale;
+extern GsIMAGE gFrenchModelVariant178_aImages[];
 extern Model178Config gFrenchModelVariant178_aConfigs[];
 s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command);
 

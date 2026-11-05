@@ -36,8 +36,8 @@ its size gives retail's 0x170-byte frame.
 ## Layout and bindings
 
 Each image keeps everything after the entry as one raw tail. The layout names
-three symbols inside it that the entry reads: the scale vector `gModelVariant111_D0CF8`, the
-texture descriptor `gModelVariant111_D0D08` and the command table `gModelVariant111_D0D24` (the
+three symbols inside it that the entry reads: the scale vector `gModelVariant111_UnitScale`, the
+texture descriptor `gModelVariant111_aImages` and the command table `gModelVariant111_aConfigs` (the
 `0x8017B000` images use the same offsets). The resident bindings are read from
 each image's own `jal` targets, in
 `config/slus_01411/overlays/variant111_linker_symbols.txt`, which follows the

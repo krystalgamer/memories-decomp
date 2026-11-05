@@ -6,7 +6,7 @@
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
 
-const VECTOR gFrenchModelVariant77_D0C18 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant77_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant77_D0C18;
+    scale = gFrenchModelVariant77_UnitScale;
     work = (Model77State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -46,7 +46,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
             velocity->vz = direction * config->speed;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant77_D0C28[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant77_aImages[i]);
         }
         work->completed = 0;
         return 0;

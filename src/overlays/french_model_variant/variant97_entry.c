@@ -2,7 +2,7 @@
 #include "variant97_entry.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR gFrenchModelVariant97_D1158 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant97_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
 {
@@ -21,7 +21,7 @@ s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant97_D1158;
+    scale = gFrenchModelVariant97_UnitScale;
     work = (Model97State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
@@ -46,9 +46,9 @@ s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
         work->target.vy = 0;
         work->initialized = 0;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant97_D1168[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant97_aImages[i]);
         }
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant97_D1168[2]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant97_aImages[2]);
         work->elapsed = -config->delay;
         work->completed = 0;
         return 0;

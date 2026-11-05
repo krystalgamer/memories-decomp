@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant131_entry.h"
 
-static const VECTOR gFrenchModelVariant131_D15BC = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant131_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
 {
@@ -25,7 +25,7 @@ s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant131_D15BC;
+    scale = gFrenchModelVariant131_UnitScale;
     work = (Model131State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -53,7 +53,7 @@ s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
             point->pad = i % 16;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant131_D15CC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant131_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

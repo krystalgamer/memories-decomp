@@ -9,7 +9,7 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-static const VECTOR gFrenchModelVariant144_D0EB0 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant144_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant144_D0EB0;
+    scale = gFrenchModelVariant144_UnitScale;
     work = (Model144State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -50,7 +50,7 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
             point->vz = value * csin(angle1) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant144_D0EC0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant144_aImages[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {

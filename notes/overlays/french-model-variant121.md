@@ -6,9 +6,9 @@ The instance ledger identifies 24 distinct 20,480-byte images with headers
 4,260-byte closed entry and a 16-byte source-owned unit-scale vector.
 The 1,065 instructions contain 57 direct calls to 25 resident destinations,
 with no local or indirect calls. Both slots build `variant121_entry.c` (the
-literal is the static `gFrenchModelVariant121_D10A8`); each image's symbols
+literal is the static `gFrenchModelVariant121_UnitScale`); each image's symbols
 file binds `FrenchModelVariant121_HandleRequest` and the two raw-storage views
-(`gFrenchModelVariant121_D10B8`, `gFrenchModelVariant121_aConfigs`) at its own
+(`gFrenchModelVariant121_aImages`, `gFrenchModelVariant121_aConfigs`) at its own
 addresses.
 
 All 24 complete images were independently linked from the actual C objects

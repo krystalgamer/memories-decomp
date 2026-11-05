@@ -7,7 +7,7 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR gFrenchModelVariant184_D0EF4 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant184_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant184_D0EF4;
+    scale = gFrenchModelVariant184_UnitScale;
     work = (Model184State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
@@ -62,7 +62,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
                 config->inner_radius * csin(i * 4096 / 16) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant184_D0F04[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant184_aImages[i]);
         }
         work->elapsed = 0;
         work->updates = 0;
