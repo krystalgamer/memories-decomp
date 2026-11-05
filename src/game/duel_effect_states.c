@@ -45,6 +45,17 @@
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../unmatched.h"
 #include "main_mode_state.h"
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bActiveEffectState;
+u8 gDuel_bEffectState;
+u8 gDuel_bEffectHandlerFlags;
+DuelEffectChannel *gDuel_pCardViewerTextBox;
+DisplayObject *gDuel_pCardViewerBackground;
+DisplayObject *gDuel_pCardViewerCard;
+u8 gDuel_bCardViewerYOffset;
+u16 gDuel_wViewerCardID;
+
 #ifdef VERSION_EUROPE
 #include "text_staging.h"
 #include "text_message_staging.h"
@@ -370,16 +381,6 @@ s32 DuelEffect_UpdateState(void) {
 #include "mem_card.h"
 #include "save_data.h"
 
-/* Small globals other units own, declared here as common symbols the
- * way the original read them through $gp. */
-u8 gDuel_bActiveEffectState;
-u8 gDuel_bEffectState;
-u8 gDuel_bEffectHandlerFlags;
-DuelEffectChannel *gDuel_pCardViewerTextBox;
-DisplayObject *gDuel_pCardViewerBackground;
-DisplayObject *gDuel_pCardViewerCard;
-u8 gDuel_bCardViewerYOffset;
-u16 gDuel_wViewerCardID;
 #endif
 
 void func_800289AC(void)
