@@ -23,7 +23,14 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Iterable
 
-from build_baseline import BuildError, compile_c, load_compiler_profiles, tool
+from build_baseline import (
+    LEGACY_ASSEMBLER_GP_MANIFEST,
+    BuildError,
+    compile_c,
+    legacy_assembler_gp_sources,
+    load_compiler_profiles,
+    tool,
+)
 from overlay_sources import OverlaySourceError, c_segments
 from workspace import (
     WorkspaceError,
@@ -84,6 +91,7 @@ class ObjectStore:
         self._pipeline: str | None = None
         self._profile_hashes: dict[str, str] = {}
         self._keys: dict[tuple[str, str], str] = {}
+        self._legacy_assembler_gp: frozenset[str] | None = None
 
     def pipeline_fingerprint(self) -> str:
         if self._pipeline is None:
@@ -149,6 +157,12 @@ class ObjectStore:
         source = resolve_within(self.root, segment["source"], must_exist=True)
         digest = hashlib.sha256(self.pipeline_fingerprint().encode())
         digest.update(profile_hash.encode())
+        # compile_c picks the assembler -G from the legacy list, so a list-only
+        # edit must reach the object key and, through it, module fingerprints.
+        if self._legacy_assembler_gp is None:
+            self._legacy_assembler_gp = legacy_assembler_gp_sources(self.root)
+        legacy = segment["source"] in self._legacy_assembler_gp
+        digest.update(f"legacy_assembler_gp={legacy}".encode() + b"\0")
         # compile_c names the source by absolute path, which GCC records.
         digest.update(str(source).encode() + b"\0")
         digest.update(self._preprocess(source, self.profiles[segment["profile"]]))

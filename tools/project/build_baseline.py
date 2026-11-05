@@ -148,6 +148,39 @@ def assemble_c_output(
     return output
 
 
+LEGACY_ASSEMBLER_GP_MANIFEST = "config/slus_01411/assembler_gp_legacy.json"
+
+
+def legacy_assembler_gp_sources(root: Path) -> frozenset[str]:
+    manifest = resolve_within(root, LEGACY_ASSEMBLER_GP_MANIFEST, must_exist=True)
+    with manifest.open("r", encoding="utf-8") as handle:
+        configuration = json.load(handle)
+    sources = configuration.get("sources")
+    if (
+        configuration.get("schema") != 1
+        or not isinstance(sources, list)
+        or not all(isinstance(source, str) for source in sources)
+        or sources != sorted(set(sources))
+    ):
+        raise BuildError(f"{manifest}: invalid legacy assembler source list")
+    return frozenset(sources)
+
+
+def assembler_data_limit(root: Path, source: str, data_limit: int) -> int:
+    """The -G given to the assembler for a compiled C unit.
+
+    MASPSX already rewrites the unit's own small data to $gp, and when it
+    runs the assembler itself it passes -G0, so every other reference stays
+    absolute, as with ASPSX; the compiler and MASPSX keep the profile's -G.
+    Units in the legacy list still read another unit's small data through
+    $gp and keep the profile's -G at the assembler until they are merged
+    into the unit that owns that data; see notes/build.md.
+    """
+    if source in legacy_assembler_gp_sources(root):
+        return data_limit
+    return 0
+
+
 def compile_c(
     root: Path,
     assembler: Path,
@@ -194,14 +227,8 @@ def compile_c(
     aspsx_version = profile.get("aspsx_version")
     data_limit = profile.get("data_limit")
     assembly_filter = profile.get("assembly_filter")
-    # MASPSX already rewrites the unit's own small data to $gp. When it runs
-    # the assembler itself it passes -G0, so every other reference stays
-    # absolute, as with ASPSX. Profiles that set this key assemble the same
-    # way; the compiler and MASPSX keep the profile's -G.
-    maspsx_assembler_g0 = profile.get("maspsx_assembler_g0", False)
     if (
-        not isinstance(maspsx_assembler_g0, bool)
-        or not isinstance(compiler_flags, list)
+        not isinstance(compiler_flags, list)
         or not all(isinstance(flag, str) for flag in compiler_flags)
         or not isinstance(maspsx_flags, list)
         or not all(isinstance(flag, str) for flag in maspsx_flags)
@@ -281,7 +308,7 @@ def compile_c(
         assembler,
         transformed_assembly,
         output,
-        0 if maspsx_assembler_g0 else data_limit,
+        assembler_data_limit(root, str(segment["source"]), data_limit),
     )
 
 

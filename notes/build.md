@@ -607,6 +607,23 @@ Two traps make this easy to get wrong:
   `Model_InitSlot` spills `$a1` and `$a2` to the stack in its prologue and
   branches on `$a3`, and reads all four.
 
+### The assembler runs at `-G0`
+
+MASPSX rewrites a unit's own small data to `%gp_rel` itself, and when it runs
+the assembler it passes `-G0`, as ASPSX did. So the assembler only ever saw
+`-G0`: a consumer reaches another unit's small global through `lui %hi` +
+`%lo`, and only the defining unit uses `$gp`. The build assembles every C
+unit at `-G0` for that reason; the compiler and MASPSX keep the profile's
+`-G`, and the two always agree.
+
+`config/slus_01411/assembler_gp_legacy.json` lists the units that still
+assemble at their profile's `-G`. Each one reads some other unit's small data
+through an `.extern` that only `as -G8` turns into `$gp`. A unit leaves the
+list once those reads no longer depend on the assembler: through common
+declarations, as below, or by merging it into the unit that owns the data. The profiles that gave the
+compiler, MASPSX and assembler different `-G` values are retired, and the
+`-G4`/`-G0` assembler rows below record how those units used to build.
+
 ### Common declarations for small globals a unit reads
 
 MASPSX writes `%gp_rel` only for small data the file itself has: `.sdata`,
@@ -614,8 +631,8 @@ MASPSX writes `%gp_rel` only for small data the file itself has: `.sdata`,
 ASPSX did not either. So a retail `$gp`-relative read of another unit's small
 global means the original file declared it as a C tentative definition
 (`u8 x;`, emitted as `.comm`), not `extern`. Today `as -G8` quietly makes those
-`.extern` reads `$gp`-relative instead, which is why `as` cannot yet run at a
-fixed `-G0`.
+`.extern` reads `$gp`-relative instead, which is why the units that still
+rely on it are on the legacy list above.
 
 A unit that reads small globals it does not own therefore repeats each one's
 declaration without `extern` after its includes, as `duel_scene_battle.c`

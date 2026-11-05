@@ -405,10 +405,7 @@ def profile_for_flags(flags: str) -> tuple[str, bool]:
         if "-mno-split-addresses" in tokens
         else ""
     )
-    if group == "-G0":
-        base = "gcc_2_8_1_cc_g0_as_g8"
-    else:
-        base = "gcc_2_8_1_g8"
+    base = "gcc_2_8_1_g0" if group == "-G0" else "gcc_2_8_1_g8"
     return (f"{base}_{split}" if split else base, keep_large_ori)
 
 
