@@ -31,16 +31,19 @@ extern DisplayObject *gDuel_pLifePointsPanel;
  * GP-relative address, which one two-entry array would fold into a shared
  * base register.
  *
- * DuelResult instead indexes the pair by side from gDuel_pSide0SaveData, and
- * retail reloads side 0's pointer after each starchip store. GCC 2.8 only
- * reloads when that read is an array access, so DUEL_SAVE_WINDOWS_AS_PAIR
- * declares gDuel_pSide0SaveData as the eight-byte pair it starts; the second
- * entry is gDuel_pSide1SaveData. */
-#ifdef DUEL_SAVE_WINDOWS_AS_PAIR
-extern SaveDataState *gDuel_pSide0SaveData[2];
-#else
+ * DuelResult instead indexes the pair by side, and retail reloads side 0's
+ * pointer after each starchip store. GCC 2.8 only reloads a value that a
+ * store through a structure field may alias when the read itself is a
+ * structure or array reference, so DUEL_SAVE_WINDOW reads the two adjacent
+ * pointers as the pair they are. */
 extern SaveDataState *gDuel_pSide0SaveData;
 extern SaveDataState *gDuel_pSide1SaveData;
-#endif
+
+typedef struct DuelSaveWindows {
+    SaveDataState *side[2];
+} DuelSaveWindows;
+
+#define DUEL_SAVE_WINDOW(side_index) \
+    (((DuelSaveWindows *)&gDuel_pSide0SaveData)->side[side_index])
 
 #endif
