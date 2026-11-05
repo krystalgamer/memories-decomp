@@ -8,8 +8,8 @@ physical sectors, complete hashes, commands and descriptor selectors.
 
 The shared sources define `FrenchModelVariant400_HandleRequest`,
 `FrenchModelVariant400_DrawRibbons`, `FrenchModelVariant400_DrawSheets` and
-`FrenchModelVariant400_DrawStreamers`, and the data label
-`gFrenchModelVariant400_D2748`. Each image binds them at its own addresses;
+`FrenchModelVariant400_DrawStreamers`, and the data labels
+`gFrenchModelVariant400_aImages` and `gFrenchModelVariant400_aConfigs`. Each image binds them at its own addresses;
 the North American header-383 images (models 189 and 258) and the Japanese
 images 52344/52354 and 71388/71398 build the same sources with the GCC 2.7.2
 CDK compiler (see
@@ -244,7 +244,7 @@ overlay totals are 3,964 C instances and 5,097,516 C bytes.
 
 `variant400_entry.c` (both slots) is the exact
 2,692-byte loader entry with a 200-byte frame. A nonnegative command stores
-the active slot, selects the 32-byte descriptor at `gFrenchModelVariant400_D2748 + FC`, reads
+the active slot, selects the 32-byte descriptor in `gFrenchModelVariant400_aConfigs`, reads
 its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It uploads
 five textures, initializes the G3/G4 packets, two GT4 and two FT4 packets,
 five 880-byte nodes, seven sheets with white/blue colours, and two columns.

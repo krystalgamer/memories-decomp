@@ -36,8 +36,8 @@ s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
     work = (Model101State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &((Model101Config *)gFrenchModelVariant101_D0B10)[command];
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, (GsIMAGE *)gFrenchModelVariant101_D0AF4);
+        config = work->config = &gFrenchModelVariant101_aConfigs[command];
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant101_Image);
         point = work->positions;
         velocity = work->velocities;
         screen = work->projected;

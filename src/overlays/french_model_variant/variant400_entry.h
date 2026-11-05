@@ -81,7 +81,8 @@ typedef struct {
     DVECTOR target;
 } Variant400EntryProjection;
 
-extern u8 gFrenchModelVariant400_D2748[];
+extern GsIMAGE gFrenchModelVariant400_aImages[9];
+extern Variant400EntryConfig gFrenchModelVariant400_aConfigs[];
 void FrenchModelVariant400_DrawRibbons(u8 *context);
 void FrenchModelVariant400_DrawSheets(u8 *context);
 void FrenchModelVariant400_DrawStreamers(u8 *context);

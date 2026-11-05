@@ -372,7 +372,7 @@ shorter, its two helpers keep their French C
 `src/overlays/french_model_variant/variant429_entry.c` wrapper selects the
 French build and the palette, binding
 `model_variant429_entry_linker_symbols.txt`; each image binds
-`ModelVariant412_HandleRequest`, the helpers and `gModelVariant412_D1D88` at
+`ModelVariant412_HandleRequest`, the helpers and `gModelVariant412_aImages`/`gModelVariant412_aConfigs` at
 its own addresses in its `*_symbols.txt`.
 
 Two images under French headers 430 and 580 build their loader entry from the
@@ -630,7 +630,7 @@ American header-402 entry (`model_variant/variant402_entry.c`) through
 `gcc_2_8_1_g0_split`. The wrapper sets the PAL palette x (`640` instead of
 `512`); each image's symbols file binds `ModelVariant402_HandleRequest`,
 `FrenchModelVariant419_DrawSwarm`, `FrenchModelVariant419_DrawQuads`,
-`gModelVariant402_D1D0C` and `gModelVariant402_D1D44` at the French addresses:
+`gModelVariant402_aImages` and `gModelVariant402_aConfigs` at the French addresses:
 the data four bytes higher, the swarm helper four bytes lower and the quad
 helper eight bytes lower than in the North American images.
 The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and

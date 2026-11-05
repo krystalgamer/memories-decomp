@@ -62,7 +62,8 @@ typedef struct {
     s32 rotation[3];
 } Variant336EntryState;
 
-extern u8 gFrenchModelVariant336_D23B8[];
+extern GsIMAGE gFrenchModelVariant336_aImages[9];
+extern Variant336EntryConfig gFrenchModelVariant336_aConfigs[];
 s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command);
 void FrenchModelVariant336_DrawRibbon(u8 *context);
 void FrenchModelVariant336_DrawSheets(u8 *context);
