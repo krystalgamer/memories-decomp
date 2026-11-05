@@ -4,6 +4,7 @@ from collections import Counter
 from contextlib import ExitStack, redirect_stdout
 import hashlib
 import io
+import json
 import os
 from pathlib import Path
 import sys
@@ -42,6 +43,7 @@ class WorkspaceTests(unittest.TestCase):
         )
         self.write("tools/vendor/maspsx/maspsx.py", "# maspsx fixture\n")
         self.write("tmp/splat/include/macro.inc", ".macro fixture\n.endm\n")
+        self.write_legacy_assembler_gp_sources()
         for module in (build_baseline, build_incremental):
             path = self.write(f"tools/project/{module.__name__}.py", "# fixture\n")
             self.patches.enter_context(patch.object(module, "__file__", str(path)))
@@ -55,6 +57,12 @@ class WorkspaceTests(unittest.TestCase):
                 "assembly_filter": "tools/filter.py",
             }
         }
+
+    def write_legacy_assembler_gp_sources(self, *sources: str) -> None:
+        self.write(
+            build_baseline.LEGACY_ASSEMBLER_GP_MANIFEST,
+            json.dumps({"schema": 1, "sources": sorted(sources)}),
+        )
 
     def write(self, name: str, contents: str | bytes) -> Path:
         path = self.root / name
@@ -327,6 +335,7 @@ class DependencyFingerprintTests(WorkspaceTests):
                         "maspsx_sha256": context["maspsx_sha256"],
                         "profile": "gcc281",
                         "profile_context": context["profiles"]["gcc281"],
+                        "legacy_assembler_gp": False,
                     })
                 elif component.kind == "asm":
                     value.update({
@@ -342,6 +351,23 @@ class DependencyFingerprintTests(WorkspaceTests):
         self.assertEqual(
             context["splat_include_sha256"],
             self.expected_tree_digest(),
+        )
+
+    def test_listing_a_unit_for_the_legacy_assembler_gp_changes_its_signature(self) -> None:
+        self.write("src/example.c", "int Example;\n")
+        self.write("src/other.c", "int Other;\n")
+        example = build_incremental.Component("c", "src/example.c", "example.o", "gcc281")
+        other = build_incremental.Component("c", "src/other.c", "other.o", "gcc281")
+        before = self.context()
+        self.write_legacy_assembler_gp_sources("src/example.c")
+        after = self.context()
+        self.assertNotEqual(
+            build_incremental.component_signature(self.root, example, before),
+            build_incremental.component_signature(self.root, example, after),
+        )
+        self.assertEqual(
+            build_incremental.component_signature(self.root, other, before),
+            build_incremental.component_signature(self.root, other, after),
         )
 
     def expected_tree_digest(self) -> str:

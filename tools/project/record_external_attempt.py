@@ -48,7 +48,25 @@ TERMINAL_RESULTS = {"matched", "deferred"}
 # removed from compiler_profiles.json. Validation accepts them so terminal
 # provenance stays byte-for-byte intact; recording a new row still requires a
 # profile the manifest currently defines, so these cannot be selected again.
-RETIRED_PROFILES = frozenset({"gcc_2_7_2_g0", "gcc_2_7_2_g8"})
+RETIRED_PROFILES = frozenset(
+    {
+        "gcc_2_7_2_g0",
+        "gcc_2_7_2_g8",
+        # The assembler now runs at -G0 for every unit, so profiles that gave
+        # it a different -G from the compiler and MASPSX no longer exist.
+        "gcc_2_8_1_cc_g0_as_g8",
+        "gcc_2_8_1_cc_g0_as_g8_no_split",
+        "gcc_2_8_1_cc_g0_as_g8_split",
+        "gcc_2_8_1_cc_g8_as_g0",
+        "gcc_2_8_1_cc_g8_as_g0_no_strength_reduce",
+        "gcc_2_8_1_cc_g8_as_g0_split",
+        "gcc_2_8_1_cc_g8_as_g1_split",
+        "gcc_2_8_1_cc_g8_as_g1_split_comm",
+        "gcc_2_8_1_cc_g8_as_g2_split",
+        "gcc_2_8_1_cc_g8_as_g4_no_split",
+        "gcc_2_8_1_cc_g8_as_g4_split",
+    }
+)
 MAX_ATTEMPTS = 6
 MODE_MAX_ATTEMPTS = {
     "reference_match": MAX_ATTEMPTS,
