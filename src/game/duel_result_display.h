@@ -62,8 +62,8 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  *
  * The sole writer, DuelScene_UpdateResultRewards, points it at
  * gDuel_awRitualData's reused
- * image-backed storage. The guarded view in duel_check_ritual.h covers this
- * complete record; it is not a pointer to a short recipe allocation. */
+ * image-backed storage, which spans this complete record; it is not a
+ * pointer to a short recipe allocation. */
 extern DuelResultDisplayState *gDuel_pResultDisplayState;
 
 /* Duel-result and rewards UI controller installed by the scene table. */
