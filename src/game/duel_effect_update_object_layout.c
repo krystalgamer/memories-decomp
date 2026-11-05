@@ -8,6 +8,11 @@
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gDialog_bChoice;
+u8 gDialog_bChoiceControl;
+
 #define DUEL_EFFECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
 
 /* Lays out the choice widget's six x/y pairs on the display object the

@@ -52,6 +52,25 @@
 #include "duel_card_layout.h"
 #include "duel_card_display_objects.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+SaveDataState *gDuel_pSide0SaveData;
+SaveDataState *gDuel_pSide1SaveData;
+DisplayObject *gDuel_pLifePointsPanel;
+DisplayObject *gDuel_pTerrainIcon;
+u8 *gDuel_pActiveFieldGrid;
+DuelSideState *gDuel_pActiveSideState;
+u8 gDuel_bActiveSide;
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wOutcomeFlags;
+u16 gDuel_wCardEffectFlags;
+s16 gDuel_wViewTweenFramesRemaining;
+u8 gDuelCursor_PickFlags;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuel_bQuitDialogState;
+u16 gDuel_wSceneStateFlags;
+s8 gDuel_bOutroWinnerSide;
+
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
 /* The terrain package's first sector and length. The Japanese WA.MRG gives

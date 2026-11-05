@@ -36,6 +36,16 @@
 #include "duel_result_outro.h"
 #include "duel_result_display.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gDuel_bOutroWinnerSide;
+u8 gDuel_bActiveSide;
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wSceneStateFlags;
+u16 gDuel_wOutcomeFlags;
+u8 gDuel_bQuitDialogState;
+u16 gDuel_wDisplayTransitionFlags;
+
 /* Initialized data this unit owns at 0x80090998: the duel scene's phase callback table.
  *
  * DuelScene_Update (src/game/duel_scene_update.c) materializes this address
