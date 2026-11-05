@@ -10,6 +10,13 @@
 #include "duel_field_card_render_data.h"
 #include "duel_update_card_use_confirmation.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DisplayObject *gDuel_pFlipRightMarker;
+DisplayObject *gDuel_pFlipLeftMarker;
+DisplayObject *gDuel_pActionCard;
+u8 gDuel_bConfirmFlags;
+
 /* The cancel button. The Japanese release swaps Cross and Circle, so a regional
  * build names its own. The function's combined confirm|cancel test is 0xE0 in
  * both builds and keeps its spelling. */

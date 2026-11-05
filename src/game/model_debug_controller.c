@@ -20,6 +20,16 @@
 #include "file_transfer.h"
 #include "../psyq/rand.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gModelDebug_abSlotGfFlags[2];
+u8 gModelDebug_abSlotAfFlags[2];
+u8 gModelDebug_bSelectedDigit;
+s16 gModel_awSlotModelIds[MODEL_SLOT_COUNT];
+ModelDebugDisplayState gModelDebug_Display;
+struct ModelBackgroundRecord *gModel_pBackgroundRecord;
+s8 gModel_bPresentationPhase;
+
 #ifdef VERSION_JAPAN
 #define MODEL_DEBUG_CANCEL_MASK 0x40
 /* Keep the load delay while the original data segment owns the storage. */
