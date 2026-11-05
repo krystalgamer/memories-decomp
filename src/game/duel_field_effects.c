@@ -55,6 +55,21 @@
 #include "duel_effect_dialog_state.h"
 #include "duel_effect_card_viewer_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gDuel_sCardEffectIndex;
+DisplayObject *gDuel_pCardPreviewObject;
+u8 gDuel_bCardMoveSlot;
+u16 gDuel_wTrapPresentationMode;
+s16 gDuel_wEffectCardID;
+s16 gDuel_RitualResultCardId;
+u16 gDuel_wStepCounter;
+s16 gDuel_sEffectWorkCounter;
+DuelEffectRequest *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+u8 gDuel_bActiveSide;
+u16 gDuel_wCardEffectFlags;
+
 /* Initialized data this unit owns at 0x80090A5C: two handlers per effect group, in group
    order. */
 DuelEffectHandler gDuelEffect_apfnGroupHandler

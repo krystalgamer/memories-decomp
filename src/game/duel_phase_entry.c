@@ -36,6 +36,20 @@
 #include "view_state_current.h"
 #include "duel_battle_removal_slots.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DisplayObject *gDuel_pLifePointsPanel;
+u8 gDuel_bPendingDrawCount;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuel_bSceneSubStep;
+s8 gDuel_bBattleRemovalSlot0;
+s8 gDuel_bPresentationCursor;
+u8 gDuel_bActiveSide;
+DuelSideState *gDuel_pActiveSideState;
+DuelEffectRequest *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
+u16 gDuel_wSceneStateFlags;
+
 /* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
  * field_40 (0x2E0 -> 0x360) and the y Duel_CreateHandCardDisplayObject places a hand card at
  * (0x292 -> 0x2A2). The European build (src/game/european/) defines its own. */
