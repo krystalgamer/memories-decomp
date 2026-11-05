@@ -125,8 +125,4 @@ gText_StagedValues = 0x801D5608;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
 /* Names inside the small initialized data this build's units own (#2602). */
-gJapanese_D_8009AFDC = gModel_dwSecondPassClutBits;
-gJapanese_D_8009AFE0 = gModel_dwLitColorCacheBase;
 gGraphics_FrameStepControl = D_8009AF0B_slpm_86398;
-D_8009B118 = gFile_TransferBufferBase;
-D_8009B145 = gFade_bWhiteLatch;

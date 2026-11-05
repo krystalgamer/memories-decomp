@@ -138,27 +138,9 @@ gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
 gText_StagedValues = 0x801BF88C;
-D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
-D_8009BF84 = gModel_ExodiaOrbitOffset;
 /* Names inside the small initialized data Europe's units own (#2602). */
-D_8009BEC0 = gDebugMenu_wCampaignScene + 2;
-D_8009BF64 = gModel_dwSecondPassClutBits;
-D_8009BF68 = gModel_dwLitColorCacheBase;
-D_8009BF6C = gModel_bCurrentDrawMode;
-D_8009BFB8 = gModel_szBackTrace;
-D_8009BFC0 = gModel_szStoneTrace;
-D_8009BFC8 = gModel_szHitTrace;
-D_8009BFD0 = gModel_szOuchTrace;
-D_8009BFD8 = gModel_szTermTrace;
 
 /* Names inside the initialized tables Europe's units own (#2602). */
 
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
-D_800925CC = gModel_aShadowFanSteps;
-D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;
-D_8009B0F4 = gFile_dwTransferState;
-D_8009B118 = gFile_TransferBufferBase;
-D_8009B134 = gFile_dwCancelRequestState;
-D_8009B140 = gFade_bKeepOverlayDepth;
-D_8009B145 = gFade_bWhiteLatch;
