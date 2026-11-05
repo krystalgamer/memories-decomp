@@ -3,7 +3,7 @@
 `SaveDataPrimaryIntegrity`, `SaveDataSecondaryIntegrity` and
 `SaveDataTertiaryIntegrity` in `src/game/save_data.h` describe the three
 sealed regions reached by the matched writers and validator in
-`src/game/save_data_payload.c`. They are views of those regions, not a
+`src/game/mem_card.c`. They are views of those regions, not a
 replacement for the independently named `SaveDataState` gameplay fields.
 
 Offsets below are relative to the persistent-state base, after the save
