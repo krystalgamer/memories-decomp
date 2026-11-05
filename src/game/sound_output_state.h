@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* Starts a CD-volume fade: cd_fade_step receives the signed per-update step
-   that SD_UpdateFades adds to cd_volume, and s_bSD_CD_FADE_TARGET the volume it stops
+/* Starts a CD-volume fade: s_wSD_CD_FADE_STEP receives the signed per-update step
+   that SD_UpdateFades adds to s_wSD_CD_VOLUME, and s_bSD_CD_FADE_TARGET the volume it stops
    at. The third argument is written by no path in the definition; every
    caller passes 1. */
 void SD_StartCdFade(s16 step, u8 target, s32 unused);
@@ -16,7 +16,7 @@ s32 SD_MeasureCdAudioLevel(void);
 /* Enqueues command 0x11, the CD-audio stop, when s_bSD_DATA_SOURCE bit 0x80 is set
    and none of the last three queue slots already holds one. It starts the
    fade with SD_StartCdFade(-0x20, 0, 1); the command pump then waits for the
-   CD volume to reach zero before resetting cd_request_code and the low
+   CD volume to reach zero before resetting s_wSD_CD_REQUEST_CODE and the low
    s_wSD_STATUS bits. The BGM and sound-effect stop paths call it for bit-15
    (CD) ids. */
 void SD_EnqueueCdStop(void);

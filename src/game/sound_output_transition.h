@@ -5,17 +5,17 @@
  * when a sector-range CdlReadS stream starts (state 5): starts the CD input
  * fade up to 255 by 64 per update, clears s_wSD_STATUS bits 0x1/0x2 and sets
  * 0x4. When s_wSD_STATUS 0x80 is set and its level step is not
- * negative, it also stores step -16 in sequence_fade_step and 220 in bgm_fade_target.
- * SD_UpdateFades clamps the sequence_fade_level level that sequence_fade_step steps against
- * sequence_fade_target (0xFF once a sequence starts), so that dip is undone in the same
- * update. bgm_fade_target is instead the target of the separate bgm_fade_level ramp
- * driven by bgm_fade_step (set by SD_StartBgmFade), so 220 retargets that ramp
+ * negative, it also stores step -16 in s_wSD_SEQ_FADE_STEP and 220 in s_bSD_BGM_FADE_TARGET.
+ * SD_UpdateFades clamps the s_wSD_SEQ_FADE_LEVEL level that s_wSD_SEQ_FADE_STEP steps against
+ * s_bSD_SEQ_FADE_TARGET (0xFF once a sequence starts), so that dip is undone in the same
+ * update. s_bSD_BGM_FADE_TARGET is instead the target of the separate s_wSD_BGM_FADE_LEVEL ramp
+ * driven by s_wSD_BGM_FADE_STEP (set by SD_StartBgmFade), so 220 retargets that ramp
  * if it is active. */
 void SD_FadeInStreamAudio(void);
 /* Installed in gFile_RangePauseCallback and run on the stream's pause (state 1) and end
  * (state 6): starts the CD input fade down to 0 by 64 per update and clears
  * s_wSD_STATUS bit 0x4. When s_wSD_STATUS 0x80 is set, it also stores step 8 in
- * sequence_fade_step and 255 in bgm_fade_target. */
+ * s_wSD_SEQ_FADE_STEP and 255 in s_bSD_BGM_FADE_TARGET. */
 void SD_FadeOutStreamAudio(void);
 /* SD_InitState's SPU common setup: the mask selects master volume 0x3FFF,
  * CD volume 0x7FFF and CD mix on. The packet's CD reverb field is also

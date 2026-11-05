@@ -41,32 +41,32 @@ void SD_UpdateFades(void) {
     s16 output_level;
 
     secondary_mix_changed = 0;
-    if (g_SDValue->sequence_fade_step != 0) {
-        g_SDValue->sequence_fade_level += g_SDValue->sequence_fade_step;
+    if (g_SDValue->s_wSD_SEQ_FADE_STEP != 0) {
+        g_SDValue->s_wSD_SEQ_FADE_LEVEL += g_SDValue->s_wSD_SEQ_FADE_STEP;
         secondary_mix_changed = 1;
-        if (g_SDValue->sequence_fade_level <= g_SDValue->sequence_fade_target &&
-            g_SDValue->sequence_fade_step < 0) {
-            g_SDValue->sequence_fade_step = 0;
-            g_SDValue->sequence_fade_level = g_SDValue->sequence_fade_target;
+        if (g_SDValue->s_wSD_SEQ_FADE_LEVEL <= g_SDValue->s_bSD_SEQ_FADE_TARGET &&
+            g_SDValue->s_wSD_SEQ_FADE_STEP < 0) {
+            g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+            g_SDValue->s_wSD_SEQ_FADE_LEVEL = g_SDValue->s_bSD_SEQ_FADE_TARGET;
         }
-        if (g_SDValue->sequence_fade_level >= g_SDValue->sequence_fade_target &&
-            g_SDValue->sequence_fade_step > 0) {
-            g_SDValue->sequence_fade_step = 0;
-            g_SDValue->sequence_fade_level = g_SDValue->sequence_fade_target;
+        if (g_SDValue->s_wSD_SEQ_FADE_LEVEL >= g_SDValue->s_bSD_SEQ_FADE_TARGET &&
+            g_SDValue->s_wSD_SEQ_FADE_STEP > 0) {
+            g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+            g_SDValue->s_wSD_SEQ_FADE_LEVEL = g_SDValue->s_bSD_SEQ_FADE_TARGET;
         }
     }
-    if (g_SDValue->bgm_fade_step != 0) {
-        g_SDValue->bgm_fade_level += g_SDValue->bgm_fade_step;
+    if (g_SDValue->s_wSD_BGM_FADE_STEP != 0) {
+        g_SDValue->s_wSD_BGM_FADE_LEVEL += g_SDValue->s_wSD_BGM_FADE_STEP;
         secondary_mix_changed = 1;
-        if (g_SDValue->bgm_fade_level <= g_SDValue->bgm_fade_target &&
-            g_SDValue->bgm_fade_step < 0) {
-            g_SDValue->bgm_fade_step = 0;
-            g_SDValue->bgm_fade_level = g_SDValue->bgm_fade_target;
+        if (g_SDValue->s_wSD_BGM_FADE_LEVEL <= g_SDValue->s_bSD_BGM_FADE_TARGET &&
+            g_SDValue->s_wSD_BGM_FADE_STEP < 0) {
+            g_SDValue->s_wSD_BGM_FADE_STEP = 0;
+            g_SDValue->s_wSD_BGM_FADE_LEVEL = g_SDValue->s_bSD_BGM_FADE_TARGET;
         }
-        if (g_SDValue->bgm_fade_level >= g_SDValue->bgm_fade_target &&
-            g_SDValue->bgm_fade_step > 0) {
-            g_SDValue->bgm_fade_step = 0;
-            g_SDValue->bgm_fade_level = g_SDValue->bgm_fade_target;
+        if (g_SDValue->s_wSD_BGM_FADE_LEVEL >= g_SDValue->s_bSD_BGM_FADE_TARGET &&
+            g_SDValue->s_wSD_BGM_FADE_STEP > 0) {
+            g_SDValue->s_wSD_BGM_FADE_STEP = 0;
+            g_SDValue->s_wSD_BGM_FADE_LEVEL = g_SDValue->s_bSD_BGM_FADE_TARGET;
         }
     }
     if (secondary_mix_changed) {
@@ -74,13 +74,13 @@ void SD_UpdateFades(void) {
 
         scaled_mix = g_SDValue->s_wSD_SMF_MIXER_OUT;
         if (scaled_mix) {
-            scaled_mix *= g_SDValue->bgm_fade_level + 1;
+            scaled_mix *= g_SDValue->s_wSD_BGM_FADE_LEVEL + 1;
             scaled_mix >>= 8;
         } else {
             scaled_mix = 0;
         }
         if (scaled_mix) {
-            scaled_mix *= g_SDValue->sequence_fade_level + 1;
+            scaled_mix *= g_SDValue->s_wSD_SEQ_FADE_LEVEL + 1;
             scaled_mix >>= 8;
         } else {
             scaled_mix = 0;
@@ -88,19 +88,19 @@ void SD_UpdateFades(void) {
         output_level = scaled_mix;
         SD_SetSecondaryMasterLevels(output_level, output_level);
     }
-    if (g_SDValue->cd_fade_step != 0) {
-        g_SDValue->cd_volume += g_SDValue->cd_fade_step;
-        if (g_SDValue->cd_volume <= g_SDValue->s_bSD_CD_FADE_TARGET &&
-            g_SDValue->cd_fade_step < 0) {
-            g_SDValue->cd_fade_step = 0;
-            g_SDValue->cd_volume = g_SDValue->s_bSD_CD_FADE_TARGET;
+    if (g_SDValue->s_wSD_CD_FADE_STEP != 0) {
+        g_SDValue->s_wSD_CD_VOLUME += g_SDValue->s_wSD_CD_FADE_STEP;
+        if (g_SDValue->s_wSD_CD_VOLUME <= g_SDValue->s_bSD_CD_FADE_TARGET &&
+            g_SDValue->s_wSD_CD_FADE_STEP < 0) {
+            g_SDValue->s_wSD_CD_FADE_STEP = 0;
+            g_SDValue->s_wSD_CD_VOLUME = g_SDValue->s_bSD_CD_FADE_TARGET;
         }
-        if (g_SDValue->cd_volume >= g_SDValue->s_bSD_CD_FADE_TARGET &&
-            g_SDValue->cd_fade_step > 0) {
-            g_SDValue->cd_fade_step = 0;
-            g_SDValue->cd_volume = g_SDValue->s_bSD_CD_FADE_TARGET;
+        if (g_SDValue->s_wSD_CD_VOLUME >= g_SDValue->s_bSD_CD_FADE_TARGET &&
+            g_SDValue->s_wSD_CD_FADE_STEP > 0) {
+            g_SDValue->s_wSD_CD_FADE_STEP = 0;
+            g_SDValue->s_wSD_CD_VOLUME = g_SDValue->s_bSD_CD_FADE_TARGET;
         }
-        output_level = g_SDValue->cd_volume;
+        output_level = g_SDValue->s_wSD_CD_VOLUME;
         SD_SetCdVolume(output_level);
     }
 }
@@ -117,16 +117,16 @@ void SD_UpdateRuntime(void)
     SDValue *queue_state;
     SDValue *tail_state;
 
-    SpuGetAllKeysStatus((char *)g_SDValue->voice_key_status);
+    SpuGetAllKeysStatus((char *)g_SDValue->s_abSD_VOICE_KEY_STATUS);
     state = g_SDValue;
-    key_off_mask = (state->voice_key_status[20] == 3) << SD_VOICE_SLOT_KEY_SHIFT;
-    if (state->voice_key_status[21] == 3) {
+    key_off_mask = (state->s_abSD_VOICE_KEY_STATUS[20] == 3) << SD_VOICE_SLOT_KEY_SHIFT;
+    if (state->s_abSD_VOICE_KEY_STATUS[21] == 3) {
         key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 1;
     }
-    if (state->voice_key_status[22] == 3) {
+    if (state->s_abSD_VOICE_KEY_STATUS[22] == 3) {
         key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 2;
     }
-    if (state->voice_key_status[23] == 3) {
+    if (state->s_abSD_VOICE_KEY_STATUS[23] == 3) {
         key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 3;
     }
     if (key_off_mask != 0) {
@@ -135,13 +135,13 @@ void SD_UpdateRuntime(void)
 
     state = g_SDValue;
     if ((state->s_wSD_STATUS & 0x80) != 0 &&
-        state->sequence_open_result != -1 &&
+        state->s_wSD_SEQ_ACCESS != -1 &&
         SD_PollSequenceState() != 1) {
-        SD_StopSequence(g_SDValue->sequence_open_result);
+        SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
         state = g_SDValue;
         flags_or_command = state->s_wSD_STATUS;
-        state->sequence_fade_step = -0x80;
-        state->sequence_fade_target = 0;
+        state->s_wSD_SEQ_FADE_STEP = -0x80;
+        state->s_bSD_SEQ_FADE_TARGET = 0;
         flags_or_command &= 0xFF7F;
         state->s_wSD_STATUS = flags_or_command;
     }
@@ -161,26 +161,26 @@ void SD_UpdateRuntime(void)
     flags_or_command = state->s_uSD_COMMAND_QUEUE.c[0].command;
     switch (flags_or_command) {
     case 0x44:
-        if (state->sequence_fade_step == 0) {
-            state->sequence_fade_step = (u16)command_cursor->arg1;
-            state->bgm_fade_target = (u8)command_cursor->value;
+        if (state->s_wSD_SEQ_FADE_STEP == 0) {
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x45:
-        if (state->sequence_fade_step == 0) {
-            state->sequence_fade_step = (u16)command_cursor->arg1;
-            state->bgm_fade_target = (u8)command_cursor->value;
+        if (state->s_wSD_SEQ_FADE_STEP == 0) {
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x29:
-        if (state->cd_fade_step == 0) {
-            state->cd_fade_step = (u16)command_cursor->arg1;
+        if (state->s_wSD_CD_FADE_STEP == 0) {
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->arg1;
             state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x2A:
-        if (state->cd_fade_step == 0) {
-            state->cd_fade_step = (u16)command_cursor->arg1;
+        if (state->s_wSD_CD_FADE_STEP == 0) {
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->arg1;
             state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
@@ -200,7 +200,7 @@ void SD_UpdateRuntime(void)
     tail_state = g_SDValue;
     *(SDCommandTail *)&tail_state->s_adwSD_ACTIVE_COMMAND_TAIL[0] = *(SDCommandTail *)&command_cursor->transfer_selector;
     queue_state = g_SDValue;
-    queue_state->field_15F4 = 8;
+    queue_state->s_wSD_DEQUEUE_MARK = 8;
     queue_state->s_wSD_NUM_COMMAND = queue_state->s_wSD_NUM_COMMAND - 1;
     SD_StepActiveCommand();
 

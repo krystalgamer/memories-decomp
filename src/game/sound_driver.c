@@ -28,12 +28,12 @@ void SD_FadeInStreamAudio(void)
 
     first->s_bSD_CD_FADE_TARGET = 255;
     state = g_SDValue;
-    first->cd_fade_step = 64;
+    first->s_wSD_CD_FADE_STEP = 64;
     state->s_wSD_STATUS = (state->s_wSD_STATUS & 0xFFFC) | 4;
     if ((state->s_wSD_STATUS & 0x80) &&
-        state->sequence_fade_step >= 0) {
-        state->sequence_fade_step = -16;
-        state->bgm_fade_target = 220;
+        state->s_wSD_SEQ_FADE_STEP >= 0) {
+        state->s_wSD_SEQ_FADE_STEP = -16;
+        state->s_bSD_BGM_FADE_TARGET = 220;
     }
 }
 
@@ -43,18 +43,18 @@ void SD_FadeOutStreamAudio(void)
     SDValue *flags;
 
     if (state->s_wSD_STATUS & 0x80) {
-        state->sequence_fade_step = 8;
-        state->bgm_fade_target = 255;
+        state->s_wSD_SEQ_FADE_STEP = 8;
+        state->s_bSD_BGM_FADE_TARGET = 255;
         state = g_SDValue;
         state->s_bSD_CD_FADE_TARGET = 0;
         flags = g_SDValue;
-        state->cd_fade_step = -64;
+        state->s_wSD_CD_FADE_STEP = -64;
         flags->s_wSD_STATUS &= 0xFFFB;
         return;
     }
     state->s_bSD_CD_FADE_TARGET = 0;
     flags = g_SDValue;
-    state->cd_fade_step = -64;
+    state->s_wSD_CD_FADE_STEP = -64;
     flags->s_wSD_STATUS &= 0xFFFB;
 }
 
@@ -119,11 +119,11 @@ void SD_InitState(u8 master_xa_lba_byte)
     } while (clear_cursor <= (u32 *)0x801EA7FF);
     gFile_RangeReadCallback = SD_FadeInStreamAudio;
     gFile_RangePauseCallback = SD_FadeOutStreamAudio;
-    *SD_INIT_BLOCK_11_VIEW(g_SDValue->bgm_file_name) =
+    *SD_INIT_BLOCK_11_VIEW(g_SDValue->s_szSD_BGM_FILE) =
         *SD_INIT_BLOCK_11_VIEW(gSD_szBgmFileName);
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->se_file_name) =
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_SE_FILE) =
         *SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->master_xa_file_name) =
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_MASTER_XA_FILE) =
         *SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
     g_SDValue->s_bSD_DATA_SOURCE = 3;
     if (master_xa_lba_byte != 0) {
@@ -131,7 +131,7 @@ void SD_InitState(u8 master_xa_lba_byte)
     }
     g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT = 0xFF;
     g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT = 0xD2;
-    g_SDValue->default_bgm_step = 0xFF;
+    g_SDValue->s_bSD_BGM_FADE_STEP_DEFAULT = 0xFF;
     mix_state = g_SDValue;
     cd_default = mix_state->s_bSD_CD_MIXER_OUT_DEFAULT;
     secondary_default = mix_state->s_bSD_SMF_MIXER_OUT_DEFAULT;
@@ -139,7 +139,7 @@ void SD_InitState(u8 master_xa_lba_byte)
     bgm_target_state = g_SDValue;
     mix_state->s_wSD_CD_MIXER_OUT = cd_default;
     mix_state->s_wSD_SMF_MIXER_OUT = secondary_default;
-    bgm_target_state->bgm_fade_target = 0xFF;
+    bgm_target_state->s_bSD_BGM_FADE_TARGET = 0xFF;
     SD_InitSecondaryWorkArea((s32 *)0x801E1670);
     SD_InitSpuCommonVolume();
     SD_InitBufferState();
@@ -318,9 +318,9 @@ void SD_UpdateBankLoad(void) {
 #endif
                 }
             }
-            g_SDValue->cd_descriptor_banks[0] = (u8 *)0x801E8800;
-            g_SDValue->cd_descriptor_banks[1] = (u8 *)0x801E9000;
-            g_SDValue->cd_descriptor_banks[2] = (u8 *)0x801EA000;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[0] = (u8 *)0x801E8800;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[1] = (u8 *)0x801E9000;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2] = (u8 *)0x801EA000;
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
         }
@@ -364,25 +364,25 @@ void SD_ResetRuntime(void)
     mix_state->s_wSD_SMF_MIXER_OUT = mix_state->s_bSD_SMF_MIXER_OUT_DEFAULT;
     SD_SetCdVolume(0);
     sequence_state = g_SDValue;
-    sequence_state->cd_fade_step = 0;
-    if (sequence_state->sequence_open_result != -1) {
+    sequence_state->s_wSD_CD_FADE_STEP = 0;
+    if (sequence_state->s_wSD_SEQ_ACCESS != -1) {
         if ((s16)SD_PollSequenceState() != 1) {
-            SD_StopSequence(g_SDValue->sequence_open_result);
+            SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             g_SDValue->s_wSD_STATUS &= 0xFF7F;
         }
-        SD_CloseSequence(g_SDValue->sequence_open_result);
+        SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
     }
     vab_state = g_SDValue;
-    vab_result = vab_state->music_vab_open_result;
-    vab_state->opened_sequence_command = -1;
-    vab_state->sequence_open_result = -1;
+    vab_result = vab_state->s_wSD_MUSIC_VAB_ID;
+    vab_state->s_wSD_OPEN_SEQUENCE_COMMAND = -1;
+    vab_state->s_wSD_SEQ_ACCESS = -1;
     if (vab_result != -1) {
         SD_ResetVabTransferState(vab_result);
     }
     music_state = g_SDValue;
-    music_state->opened_music_package_id = -1;
-    music_state->music_vab_open_result = -1;
-    music_state->sequence_fade_step = 0;
+    music_state->s_wSD_OPEN_MUSIC_PACKAGE = -1;
+    music_state->s_wSD_MUSIC_VAB_ID = -1;
+    music_state->s_wSD_SEQ_FADE_STEP = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->s_bSD_VOICE_ACTIVE_MASK = 0;
     g_SDValue->s_bSD_VOICE_CURSOR = 0;
@@ -427,7 +427,7 @@ void SD_SetOutputType(s16 value)
             SD_EnableSecondaryPanning();
         else
             SD_DisableSecondaryPanning();
-        SD_SetCdVolume(g_SDValue->cd_volume);
+        SD_SetCdVolume(g_SDValue->s_wSD_CD_VOLUME);
     }
 }
 
@@ -537,7 +537,7 @@ void SD_BGMPreload(s32 command_id)
 
 void SD_BGMPlayDefaultStep(u32 command_id)
 {
-    SD_BGMPlayWithStep(command_id & SD_COMMAND_VALUE_MASK, g_SDValue->default_bgm_step);
+    SD_BGMPlayWithStep(command_id & SD_COMMAND_VALUE_MASK, g_SDValue->s_bSD_BGM_FADE_STEP_DEFAULT);
 }
 
 void SD_BGMPlayWithStep(s32 command_id, s32 step)

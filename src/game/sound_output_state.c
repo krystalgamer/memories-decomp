@@ -18,17 +18,17 @@ void SD_InitBufferState(void)
     SD_ResetCdPan();
     SD_SetCdVolume(255);
     buffer_state = g_SDValue;
-    buffer_state->decoded_cd_halves[0] = buffer_state->decoded_data.cd_left;
-    buffer_state->decoded_cd_halves[1] = &buffer_state->decoded_data.cd_left[SD_MIX_SAMPLE_COUNT];
-    buffer_state->decoded_cd_halves[2] = buffer_state->decoded_data.cd_right;
-    buffer_state->cd_fade_step = 0;
-    buffer_state->decoded_cd_halves[3] = &buffer_state->decoded_data.cd_right[SD_MIX_SAMPLE_COUNT];
+    buffer_state->s_apwSD_DECODED_CD_HALF[0] = buffer_state->s_stSD_DECODED_DATA.cd_left;
+    buffer_state->s_apwSD_DECODED_CD_HALF[1] = &buffer_state->s_stSD_DECODED_DATA.cd_left[SD_MIX_SAMPLE_COUNT];
+    buffer_state->s_apwSD_DECODED_CD_HALF[2] = buffer_state->s_stSD_DECODED_DATA.cd_right;
+    buffer_state->s_wSD_CD_FADE_STEP = 0;
+    buffer_state->s_apwSD_DECODED_CD_HALF[3] = &buffer_state->s_stSD_DECODED_DATA.cd_right[SD_MIX_SAMPLE_COUNT];
 }
 
 void SD_ResetCdPan(void)
 {
-    g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
-    g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+    g_SDValue->s_abSD_CD_CHANNEL_VOLUME[0] = SD_CHANNEL_VOLUME_MAX;
+    g_SDValue->s_abSD_CD_CHANNEL_VOLUME[1] = SD_CHANNEL_VOLUME_MAX;
 }
 
 /* Sibling of SD_SetCdVolumeImmediate: builds the same 4-byte CdMix volume
@@ -44,25 +44,25 @@ void SD_ResetCdPan(void)
 void SD_SetCdVolume(s16 level) {
     SDValue *mix_state = g_SDValue;
     s32 scaled_input = (level + 1) * mix_state->s_wSD_CD_MIXER_OUT;
-    s32 scaled_mix = mix_state->mix_multiplier * (scaled_input >> 8);
+    s32 scaled_mix = mix_state->s_bSD_CD_MIX_MULTIPLIER * (scaled_input >> 8);
     s32 mix_factor = ((u32)(u16)scaled_mix) >> 3;
     CdlATV attenuation;
     s16 saved_level = level;
 
-    attenuation.val0 = (mix_factor * mix_state->channel_volume[0]) >> 7;
+    attenuation.val0 = (mix_factor * mix_state->s_abSD_CD_CHANNEL_VOLUME[0]) >> 7;
     attenuation.val3 = 0;
 
     if (mix_state->s_bSD_OUTPUT_TYPE == 0) {
         attenuation.val1 = 0;
-        attenuation.val2 = (mix_factor * mix_state->channel_volume[1]) >> 7;
+        attenuation.val2 = (mix_factor * mix_state->s_abSD_CD_CHANNEL_VOLUME[1]) >> 7;
     } else {
-        attenuation.val1 = (mix_factor * mix_state->channel_volume[1]) >> 7;
+        attenuation.val1 = (mix_factor * mix_state->s_abSD_CD_CHANNEL_VOLUME[1]) >> 7;
         attenuation.val2 = 0;
     }
 
     CdMix(&attenuation);
 
-    g_SDValue->cd_volume = saved_level;
+    g_SDValue->s_wSD_CD_VOLUME = saved_level;
 }
 
 void SD_SetCdPan(s32 pan)
@@ -70,17 +70,17 @@ void SD_SetCdPan(s32 pan)
     s16 signed_pan = pan;
 
     if ((u16)((u32)pan - 1) < SD_CHANNEL_VOLUME_MAX) {
-        g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
-        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[0] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[1] = SD_CHANNEL_VOLUME_MAX;
     } else if ((u16)((u32)pan + SD_CHANNEL_VOLUME_MAX) <
         SD_CHANNEL_VOLUME_MAX) {
-        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
-        g_SDValue->channel_volume[1] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[1] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
     } else {
-        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
-        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->s_abSD_CD_CHANNEL_VOLUME[1] = SD_CHANNEL_VOLUME_MAX;
     }
-    SD_SetCdVolume(g_SDValue->cd_volume);
+    SD_SetCdVolume(g_SDValue->s_wSD_CD_VOLUME);
 }
 
 void SD_SetCdVolumeImmediate(s32 level)
@@ -89,7 +89,7 @@ void SD_SetCdVolumeImmediate(s32 level)
     SDValue *volume_state;
     SDValue *step_state;
 
-    g_SDValue->mix_multiplier = 7;
+    g_SDValue->s_bSD_CD_MIX_MULTIPLIER = 7;
     attenuation.val0 = level;
     attenuation.val3 = 0;
     if (g_SDValue->s_bSD_OUTPUT_TYPE == 0) {
@@ -103,13 +103,13 @@ void SD_SetCdVolumeImmediate(s32 level)
     volume_state = g_SDValue;
     volume_state->s_bSD_CD_FADE_TARGET = level;
     step_state = g_SDValue;
-    volume_state->cd_volume = level;
-    step_state->cd_fade_step = 0;
+    volume_state->s_wSD_CD_VOLUME = level;
+    step_state->s_wSD_CD_FADE_STEP = 0;
 }
 
 s32 SD_GetCdVolume(void)
 {
-    return g_SDValue->cd_volume;
+    return g_SDValue->s_wSD_CD_VOLUME;
 }
 
 #include "../psyq/libspu.h"
@@ -118,7 +118,7 @@ s32 SD_GetCdVolume(void)
 #include "sound_output_state.h"
 
 /* Queues CD fade command 41: arg1 is the signed per-update step and
-   value the target volume, loaded into cd_fade_step/s_bSD_CD_FADE_TARGET when
+   value the target volume, loaded into s_wSD_CD_FADE_STEP/s_bSD_CD_FADE_TARGET when
    SD_UpdateRuntime dequeues it. wait_for_cd_fade becomes s_bSD_ACTIVE_CD_FADE_WAIT; while it is
    nonzero, SD_StepActiveCommand keeps the command active until the fade
    ends. No caller is present in the retail executable or its overlays. */
@@ -133,14 +133,14 @@ s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
 
 void SD_StartCdFade(s16 step, u8 target, s32 unused)
 {
-    g_SDValue->cd_fade_step = step;
+    g_SDValue->s_wSD_CD_FADE_STEP = step;
     g_SDValue->s_bSD_CD_FADE_TARGET = target;
 }
 
 #ifndef VERSION_JAPAN
 #include "sound_mix.h"
 
-/* Sums the squares of the current decoded CD half into output_level and
+/* Sums the squares of the current decoded CD half into s_uSD_OUTPUT_LEVEL and
  * returns its high half, or 0 while the output is gated. Every access goes
  * through g_SDValue itself: the stores through it force the reloads after the
  * call, before the loop and after it. The loop and the readback take the
@@ -154,24 +154,24 @@ s32 SD_MeasureCdAudioLevel(void)
     s32 measured_level;
     SDValue *state;
 
-    decoded_half = SpuReadDecodedData(&g_SDValue->decoded_data, SPU_CDONLY);
-    g_SDValue->decoded_half = decoded_half;
+    decoded_half = SpuReadDecodedData(&g_SDValue->s_stSD_DECODED_DATA, SPU_CDONLY);
+    g_SDValue->s_dwSD_DECODED_HALF = decoded_half;
     if (decoded_half == SPU_DECODED_FIRSTHALF) {
-        sample_cursor = g_SDValue->decoded_cd_halves[0];
+        sample_cursor = g_SDValue->s_apwSD_DECODED_CD_HALF[0];
     } else {
-        sample_cursor = g_SDValue->decoded_cd_halves[1];
+        sample_cursor = g_SDValue->s_apwSD_DECODED_CD_HALF[1];
     }
-    g_SDValue->output_level.sum = 0;
-    g_SDValue->field_1550.sum = 0;
+    g_SDValue->s_uSD_OUTPUT_LEVEL.sum = 0;
+    g_SDValue->s_uSD_OUTPUT_LEVEL_AUX.sum = 0;
     state = g_SDValue;
     for (sample_index = 0; sample_index < SD_MIX_SAMPLE_COUNT; sample_index++) {
         s32 sample_value = *sample_cursor++;
-        state->output_level.sum += (u32)(sample_value * sample_value) >> 8;
+        state->s_uSD_OUTPUT_LEVEL.sum += (u32)(sample_value * sample_value) >> 8;
     }
     state = g_SDValue;
-    measured_level = state->output_level.halves[1];
-    state->output_level.sum = measured_level;
-    state->field_1550.sum = state->field_1550.halves[1];
+    measured_level = state->s_uSD_OUTPUT_LEVEL.halves[1];
+    state->s_uSD_OUTPUT_LEVEL.sum = measured_level;
+    state->s_uSD_OUTPUT_LEVEL_AUX.sum = state->s_uSD_OUTPUT_LEVEL_AUX.halves[1];
     if (!(state->s_wSD_STATUS & 3)) {
         return measured_level;
     }
@@ -221,24 +221,24 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
     if (request_state->s_bSD_DATA_SOURCE & 0x80) {
         if ((request_state->s_bSD_DATA_SOURCE & 0x40) || entry_index <= 0x9FFF) {
             if (command_id & 0x8000) {
-                *(s16 *)&request_state->cd_request_code = command_id;
+                *(s16 *)&request_state->s_wSD_CD_REQUEST_CODE = command_id;
                 switch (command_id & 0xF000) {
                 case 0x8000:
                     entry_index = command_id + 0x8000;
-                    descriptor_bank = (u8 **)request_state->cd_descriptor_banks[1];
+                    descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
                     descriptor_entries = (u8 *)&descriptor_bank[2];
                     bank_tag = 0x50;
                     break;
                 case 0x9000:
                     entry_index = command_id + 0x7000;
-                    descriptor_bank = (u8 **)request_state->cd_descriptor_banks[0];
+                    descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
                     descriptor_entries = (u8 *)&descriptor_bank[2];
                     bank_tag = 0x60;
                     break;
                 default:
                     entry_index = entry_index + 0x6000;
                     bank_tag = 0x70;
-                    descriptor_bank = (u8 **)g_SDValue->cd_descriptor_banks[2];
+                    descriptor_bank = (u8 **)g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2];
                     descriptor_entries = (u8 *)&descriptor_bank[2];
                     break;
                 }
@@ -290,18 +290,18 @@ void SD_EnqueueCdSeek(s32 command_id)
         return;
     }
     class_or_code = command_id & 0xF000;
-    *(s16 *)&request_state->cd_request_code = command_id;
+    *(s16 *)&request_state->s_wSD_CD_REQUEST_CODE = command_id;
     switch (class_or_code) {
     case 0x8000:
         class_or_code = command_id + class_or_code;
         entry_index = class_or_code;
-        descriptor_bank = (u8 **)request_state->cd_descriptor_banks[1];
+        descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
         descriptor_entries = (u8 *)&descriptor_bank[2];
         bank_tag = 0x50;
         break;
     case 0x9000:
         entry_index = command_id + 0x7000;
-        descriptor_bank = (u8 **)request_state->cd_descriptor_banks[0];
+        descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
         descriptor_entries = (u8 *)&descriptor_bank[2];
         bank_tag = 0x60;
         break;
@@ -309,7 +309,7 @@ void SD_EnqueueCdSeek(s32 command_id)
         entry_index += 0x6000;
         bank_tag = 0x70;
         bank_state = g_SDValue;
-        descriptor_bank = (u8 **)bank_state->cd_descriptor_banks[2];
+        descriptor_bank = (u8 **)bank_state->s_apbSD_CD_DESCRIPTOR_BANK[2];
         descriptor_entries = (u8 *)&descriptor_bank[2];
         break;
     }
@@ -333,6 +333,6 @@ void SD_EnqueueCdSeek(s32 command_id)
 
 void SD_ClearBusyFlag(void)
 {
-    g_SDValue->busy = 0;
+    g_SDValue->s_bSD_BUSY = 0;
 }
 #endif

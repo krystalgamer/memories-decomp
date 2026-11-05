@@ -209,60 +209,60 @@ typedef struct SDValue {
     u16 s_aawSD_INDIRECT_SE_ID[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     s32 s_dwSD_TRANSFER_HOLD;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
-    s16 cd_volume;
-    s16 cd_fade_step;
-    u8 channel_volume[2];
+    s16 s_wSD_CD_VOLUME;
+    s16 s_wSD_CD_FADE_STEP;
+    u8 s_abSD_CD_CHANNEL_VOLUME[2];
     u8 pad0516[2];
     /* Three descriptor-table bases within the CD mixer-out bank, installed
        after its trailer check even when the signature does not match. */
-    u8 *cd_descriptor_banks[3];
+    u8 *s_apbSD_CD_DESCRIPTOR_BANK[3];
     u8 pad0524[4];
-    u32 cd_start_sector_offset;
-    u32 cd_end_sector_offset;
-    u8 cd_filter_channel;
-    u8 cd_filter_file;
-    u8 field_0532;
-    u8 mix_multiplier;
-    u16 cd_request_code;
+    u32 s_dwSD_CD_START_SECTOR;
+    u32 s_dwSD_CD_END_SECTOR;
+    u8 s_bSD_CD_FILTER_CHANNEL;
+    u8 s_bSD_CD_FILTER_FILE;
+    u8 s_bSD_CD_DESCRIPTOR_FLAG;
+    u8 s_bSD_CD_MIX_MULTIPLIER;
+    u16 s_wSD_CD_REQUEST_CODE;
     u8 pad0536[2];
-    s32 decoded_half;
-    SpuDecodedData decoded_data;
-    s16 *decoded_cd_halves[4];
-    SDLevelWord output_level;
-    SDLevelWord field_1550;
+    s32 s_dwSD_DECODED_HALF;
+    SpuDecodedData s_stSD_DECODED_DATA;
+    s16 *s_apwSD_DECODED_CD_HALF[4];
+    SDLevelWord s_uSD_OUTPUT_LEVEL;
+    SDLevelWord s_uSD_OUTPUT_LEVEL_AUX;
     u8 pad1554[0xC];
-    SDMusicTableEntry *music_table;
-    u16 *music_track;
+    SDMusicTableEntry *s_pstSD_MUSIC_TABLE;
+    u16 *s_pwSD_MUSIC_TRACK;
     u8 pad1568[0x10];
-    s16 opened_music_package_id;
-    s16 music_vab_open_result;
+    s16 s_wSD_OPEN_MUSIC_PACKAGE;
+    s16 s_wSD_MUSIC_VAB_ID;
     /* Token copied from s_wSD_ACTIVE_COMMAND_VALUE after a successful sequence open. */
-    s16 opened_sequence_command;
-    s16 sequence_open_result;
-    s16 bgm_fade_level;
-    s16 bgm_fade_step;
-    u8 bgm_fade_target;
+    s16 s_wSD_OPEN_SEQUENCE_COMMAND;
+    s16 s_wSD_SEQ_ACCESS;
+    s16 s_wSD_BGM_FADE_LEVEL;
+    s16 s_wSD_BGM_FADE_STEP;
+    u8 s_bSD_BGM_FADE_TARGET;
     u8 pad1585;
-    s16 sequence_fade_level;
-    s16 sequence_fade_step;
-    u8 sequence_fade_target;
+    s16 s_wSD_SEQ_FADE_LEVEL;
+    s16 s_wSD_SEQ_FADE_STEP;
+    u8 s_bSD_SEQ_FADE_TARGET;
     u8 pad158B[0x4D];
-    u8 voice_key_status[24];
+    u8 s_abSD_VOICE_KEY_STATUS[24];
     u8 pad15F0[4];
-    s16 field_15F4;
+    s16 s_wSD_DEQUEUE_MARK;
     u8 pad15F6[0x22];
-    u8 busy;
+    u8 s_bSD_BUSY;
     /* Filename buffers seeded by SD_InitState. SD_StepActiveCommand passes
        them separately to File_RequestSecondarySlot: s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0
        selects SE at 0x10, BGM at 0x20 and MASTER.XA at 0x40. */
-    u8 bgm_file_name[0x10];
-    u8 se_file_name[0x10];
-    u8 master_xa_file_name[0x10];
+    u8 s_szSD_BGM_FILE[0x10];
+    u8 s_szSD_SE_FILE[0x10];
+    u8 s_szSD_MASTER_XA_FILE[0x10];
     /* Cached CD/secondary mixer defaults from the "VolInfo" trailers.
        Runtime reset restores the active scales from these bytes. */
     u8 s_bSD_CD_MIXER_OUT_DEFAULT;
     u8 s_bSD_SMF_MIXER_OUT_DEFAULT;
-    u8 default_bgm_step;
+    u8 s_bSD_BGM_FADE_STEP_DEFAULT;
 } SDValue;
 
 /* SD_DropQueuedCdPlayCommands drops a queued command by copying the next 0x30-byte record
@@ -577,17 +577,17 @@ typedef char SDValue_flag_domains_layout_must_match[
     sizeof(((SDValue *)0)->s_bSD_DATA_SOURCE) == 1 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_banks_offset_must_be_0x518[
-    SD_STATE_OFFSET(SDValue, cd_descriptor_banks) == 0x518 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_apbSD_CD_DESCRIPTOR_BANK) == 0x518 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, cd_start_sector_offset) == 0x528 &&
-    SD_STATE_OFFSET(SDValue, cd_end_sector_offset) == 0x52C &&
-    SD_STATE_OFFSET(SDValue, cd_filter_channel) == 0x530 &&
-    SD_STATE_OFFSET(SDValue, cd_filter_file) == 0x531 &&
-    SD_STATE_OFFSET(SDValue, cd_request_code) == 0x534 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_dwSD_CD_START_SECTOR) == 0x528 &&
+    SD_STATE_OFFSET(SDValue, s_dwSD_CD_END_SECTOR) == 0x52C &&
+    SD_STATE_OFFSET(SDValue, s_bSD_CD_FILTER_CHANNEL) == 0x530 &&
+    SD_STATE_OFFSET(SDValue, s_bSD_CD_FILTER_FILE) == 0x531 &&
+    SD_STATE_OFFSET(SDValue, s_wSD_CD_REQUEST_CODE) == 0x534 ? 1 : -1
 ];
 typedef char SDValue_mix_multiplier_offset_must_be_0x533[
-    SD_STATE_OFFSET(SDValue, mix_multiplier) == 0x533 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_CD_MIX_MULTIPLIER) == 0x533 ? 1 : -1
 ];
 typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
     SD_STATE_OFFSET(SDValue, s_bSD_CD_MIXER_OUT_DEFAULT) == 0x1649 ? 1 : -1
@@ -596,7 +596,7 @@ typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
     SD_STATE_OFFSET(SDValue, s_bSD_SMF_MIXER_OUT_DEFAULT) == 0x164A ? 1 : -1
 ];
 typedef char SDValue_default_bgm_step_offset_must_be_0x164B[
-    SD_STATE_OFFSET(SDValue, default_bgm_step) == 0x164B ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_BGM_FADE_STEP_DEFAULT) == 0x164B ? 1 : -1
 ];
 typedef char SDValue_active_payload_layout_must_match[
     SD_STATE_OFFSET(SDValue, s_wSD_ACTIVE_COMMAND_VALUE) == 0x4E &&
@@ -612,36 +612,36 @@ typedef char SDValue_active_command_offsets_must_match[
     SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_CD_FADE_WAIT) == 0x7E ? 1 : -1
 ];
 typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
-    SD_STATE_OFFSET(SDValue, bgm_fade_level) == 0x1580 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_wSD_BGM_FADE_LEVEL) == 0x1580 ? 1 : -1
 ];
 typedef char SDValue_sequence_fade_target_offset_must_be_0x158A[
-    SD_STATE_OFFSET(SDValue, sequence_fade_target) == 0x158A ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_SEQ_FADE_TARGET) == 0x158A ? 1 : -1
 ];
 typedef char SDValue_music_package_state_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, music_table) == 0x1560 &&
-    SD_STATE_OFFSET(SDValue, opened_music_package_id) == 0x1578 &&
-    SD_STATE_OFFSET(SDValue, music_vab_open_result) == 0x157A &&
-    SD_STATE_OFFSET(SDValue, opened_sequence_command) == 0x157C &&
-    SD_STATE_OFFSET(SDValue, sequence_open_result) == 0x157E ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_pstSD_MUSIC_TABLE) == 0x1560 &&
+    SD_STATE_OFFSET(SDValue, s_wSD_OPEN_MUSIC_PACKAGE) == 0x1578 &&
+    SD_STATE_OFFSET(SDValue, s_wSD_MUSIC_VAB_ID) == 0x157A &&
+    SD_STATE_OFFSET(SDValue, s_wSD_OPEN_SEQUENCE_COMMAND) == 0x157C &&
+    SD_STATE_OFFSET(SDValue, s_wSD_SEQ_ACCESS) == 0x157E ? 1 : -1
 ];
 typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
-    SD_STATE_OFFSET(SDValue, voice_key_status[20]) == 0x15EC ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_abSD_VOICE_KEY_STATUS[20]) == 0x15EC ? 1 : -1
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
-    SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_wSD_DEQUEUE_MARK) == 0x15F4 ? 1 : -1
 ];
 typedef char SDValue_file_name_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, bgm_file_name) == 0x1619 &&
-    SD_STATE_OFFSET(SDValue, se_file_name) == 0x1629 &&
-    SD_STATE_OFFSET(SDValue, master_xa_file_name) == 0x1639 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_szSD_BGM_FILE) == 0x1619 &&
+    SD_STATE_OFFSET(SDValue, s_szSD_SE_FILE) == 0x1629 &&
+    SD_STATE_OFFSET(SDValue, s_szSD_MASTER_XA_FILE) == 0x1639 ? 1 : -1
 ];
 typedef char SDValue_file_name_sizes_must_match[
-    sizeof(((SDValue *)0)->bgm_file_name) == 0x10 &&
-    sizeof(((SDValue *)0)->se_file_name) == 0x10 &&
-    sizeof(((SDValue *)0)->master_xa_file_name) == 0x10 ? 1 : -1
+    sizeof(((SDValue *)0)->s_szSD_BGM_FILE) == 0x10 &&
+    sizeof(((SDValue *)0)->s_szSD_SE_FILE) == 0x10 &&
+    sizeof(((SDValue *)0)->s_szSD_MASTER_XA_FILE) == 0x10 ? 1 : -1
 ];
 typedef char SDValue_decoded_half_offset_must_be_0x538[
-    SD_STATE_OFFSET(SDValue, decoded_half) == 0x538 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_dwSD_DECODED_HALF) == 0x538 ? 1 : -1
 ];
 typedef char SDDecodedData_half_and_record_sizes_must_match[
     SPU_DECODEDDATA_SIZE == 2 * SD_MIX_SAMPLE_COUNT &&
@@ -649,19 +649,19 @@ typedef char SDDecodedData_half_and_record_sizes_must_match[
     sizeof(SpuDecodedData) == 0x1000 ? 1 : -1
 ];
 typedef char SDValue_decoded_data_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, decoded_data.cd_left) == 0x53C &&
-    SD_STATE_OFFSET(SDValue, decoded_data.cd_right) == 0x93C &&
-    SD_STATE_OFFSET(SDValue, decoded_data.voice1) == 0xD3C &&
-    SD_STATE_OFFSET(SDValue, decoded_data.voice3) == 0x113C ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.cd_left) == 0x53C &&
+    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.cd_right) == 0x93C &&
+    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.voice1) == 0xD3C &&
+    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.voice3) == 0x113C ? 1 : -1
 ];
 typedef char SDValue_decoded_data_must_end_at_cd_halves[
-    SD_STATE_OFFSET(SDValue, decoded_data) + sizeof(SpuDecodedData) ==
-        SD_STATE_OFFSET(SDValue, decoded_cd_halves) &&
-    SD_STATE_OFFSET(SDValue, decoded_cd_halves) == 0x153C ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA) + sizeof(SpuDecodedData) ==
+        SD_STATE_OFFSET(SDValue, s_apwSD_DECODED_CD_HALF) &&
+    SD_STATE_OFFSET(SDValue, s_apwSD_DECODED_CD_HALF) == 0x153C ? 1 : -1
 ];
 typedef char SDValue_output_level_offset_must_be_0x154C[
-    SD_STATE_OFFSET(SDValue, output_level) == 0x154C &&
-    SD_STATE_OFFSET(SDValue, field_1550) == 0x1550 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_uSD_OUTPUT_LEVEL) == 0x154C &&
+    SD_STATE_OFFSET(SDValue, s_uSD_OUTPUT_LEVEL_AUX) == 0x1550 ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
@@ -1026,7 +1026,7 @@ s32 SD_PollSequenceState(void);
 
 /* Three no-argument steps of the secondary path that every caller reaches WITH
    an argument. Each is defined `void (void)` and ignores it, but the retail
-   call sites compute g_SDValue->sequence_open_result, or a zero, into $a0 first, and it
+   call sites compute g_SDValue->s_wSD_SEQ_ACCESS, or a zero, into $a0 first, and it
    is the caller's declaration that keeps that setup alive: making a caller
    agree with the definition costs four instructions -- measured, see
    notes/research/matching-evidence.md.
@@ -1034,7 +1034,7 @@ s32 SD_PollSequenceState(void);
    SD_ResetVabTransferState's two callers pass a constant 0 and an s32 local,
    so its
    ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
-   the s16 sequence_open_result, which default-promotes to s32, so its arm can too;
+   the s16 s_wSD_SEQ_ACCESS, which default-promotes to s32, so its arm can too;
    SD_CloseSequence's two callers pass the same field and use the same promoted
    type. The defining units take the arm below and are still checked against
    their definitions. */

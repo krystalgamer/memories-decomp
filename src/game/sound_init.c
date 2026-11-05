@@ -11,7 +11,7 @@
 
 void SD_RequestBgmPlaybackDefaultStep(s32 command_id)
 {
-    SD_RequestBgmPlayback((s16)command_id, g_SDValue->default_bgm_step);
+    SD_RequestBgmPlayback((s16)command_id, g_SDValue->s_bSD_BGM_FADE_STEP_DEFAULT);
 }
 
 void SD_RequestBgmPlayback(s32 command_id, s32 step)
@@ -23,14 +23,14 @@ void SD_RequestBgmPlayback(s32 command_id, s32 step)
         SD_ResetMusicState();
         return;
     }
-    if (*g_SDValue->music_track != (signed_command >> 4))
+    if (*g_SDValue->s_pwSD_MUSIC_TRACK != (signed_command >> 4))
         SD_RequestMusicPackageLoad(signed_command, 1);
     command.command = 0x48;
     command.value = command_id;
     command.arg1 = (s16)step;
     SD_EnqueueCommand(&command);
-    g_SDValue->bgm_fade_step = step;
-    g_SDValue->bgm_fade_target = 255;
+    g_SDValue->s_wSD_BGM_FADE_STEP = step;
+    g_SDValue->s_bSD_BGM_FADE_TARGET = 255;
 }
 
 void SD_Init(void)
@@ -44,22 +44,22 @@ void SD_OpenMusicVab(void)
 {
     SDValue *open_state = g_SDValue;
 
-    if (open_state->music_vab_open_result != 0) {
-        SDMusicPackage *package = (SDMusicPackage *)open_state->music_track;
+    if (open_state->s_wSD_MUSIC_VAB_ID != 0) {
+        SDMusicPackage *package = (SDMusicPackage *)open_state->s_pwSD_MUSIC_TRACK;
         s32 vab_result =
             SD_VabOpenHead(&package->vab_header, 0, package->spu_address);
 
-        g_SDValue->music_vab_open_result = vab_result;
+        g_SDValue->s_wSD_MUSIC_VAB_ID = vab_result;
         if ((vab_result << 16) != 0) {
-            g_SDValue->opened_music_package_id = -1;
-            g_SDValue->music_vab_open_result = -1;
+            g_SDValue->s_wSD_OPEN_MUSIC_PACKAGE = -1;
+            g_SDValue->s_wSD_MUSIC_VAB_ID = -1;
             return;
         }
     }
     {
         register SDValue *publish_state = g_SDValue;
-        register u16 *package_id_ptr = publish_state->music_track;
-        publish_state->opened_music_package_id = *package_id_ptr;
+        register u16 *package_id_ptr = publish_state->s_pwSD_MUSIC_TRACK;
+        publish_state->s_wSD_OPEN_MUSIC_PACKAGE = *package_id_ptr;
     }
 }
 
@@ -67,10 +67,10 @@ void SD_SetMusicTrackBuffer(u16 *track_buffer)
 {
     SD_ResetMusicState();
     if (track_buffer != 0)
-        g_SDValue->music_track = track_buffer;
+        g_SDValue->s_pwSD_MUSIC_TRACK = track_buffer;
     else
-        g_SDValue->music_track = (u16 *)0x801EA800;
-    *g_SDValue->music_track = 0xFFFF;
+        g_SDValue->s_pwSD_MUSIC_TRACK = (u16 *)0x801EA800;
+    *g_SDValue->s_pwSD_MUSIC_TRACK = 0xFFFF;
 }
 
 void SD_ResetMusicTrackBuffer(void)
@@ -82,7 +82,7 @@ void SD_ResetMusicTrackBuffer(void)
     /* Stored through the member's address as void **: a plain member store
        (or a u16 ** cast, which fold turns back into one) picks a different
        register for the pointer and changes seven words. Measured. */
-    *(void **)&g_SDValue->music_track = default_track_buffer;
+    *(void **)&g_SDValue->s_pwSD_MUSIC_TRACK = default_track_buffer;
     default_track_buffer[0] = 0xFFFF;
 }
 
@@ -209,7 +209,7 @@ void SD_Term(void)
 /*
  * SD_VabOpenHead: opens a VAB header for the secondary sound bank
  *
- * `vab` points at a "pBAV" header; both callers pass music_track + 0x50,
+ * `vab` points at a "pBAV" header; both callers pass s_pwSD_MUSIC_TRACK + 0x50,
  * which is where every SD_BGM.DAT package keeps one. The header size is
  * (ps << 9) + 0xA20: the 0x20-byte VabHdr, 128 0x10-byte ProgAtr records,
  * ps * 16 0x20-byte VagAtr records and the 0x200-byte VAG offset table.

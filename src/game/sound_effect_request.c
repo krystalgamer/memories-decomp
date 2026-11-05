@@ -256,7 +256,7 @@ void SD_SESetVolumePan(id, value, word)
     s32 ff;
 
     if (id & 0x8000) {
-        g_SDValue->cd_volume = value;
+        g_SDValue->s_wSD_CD_VOLUME = value;
         SD_SetCdPan((s16)word);
         return;
     }
@@ -435,32 +435,32 @@ void SD_InitSecondaryRuntime(void)
     reverb_attr.depth.right = 0x7FFF;
     SpuSetReverbModeParam(&reverb_attr);
     sequence_state = g_SDValue;
-    sequence_state->sequence_fade_level = 0;
-    sequence_state->sequence_fade_step = 0;
-    sequence_state->sequence_fade_target = 0;
+    sequence_state->s_wSD_SEQ_FADE_LEVEL = 0;
+    sequence_state->s_wSD_SEQ_FADE_STEP = 0;
+    sequence_state->s_bSD_SEQ_FADE_TARGET = 0;
     bgm_state = g_SDValue;
-    bgm_state->bgm_fade_level = 0xFF;
-    bgm_state->bgm_fade_target = 0xFF;
+    bgm_state->s_wSD_BGM_FADE_LEVEL = 0xFF;
+    bgm_state->s_bSD_BGM_FADE_TARGET = 0xFF;
     music_state = g_SDValue;
-    bgm_state->bgm_fade_step = 0;
-    music_state->opened_music_package_id = -1;
-    music_state->music_vab_open_result = -1;
-    music_state->opened_sequence_command = -1;
-    music_state->sequence_open_result = -1;
-    music_state->music_track = (u16 *)0x801EA800;
-    music_state->music_table = (SDMusicTableEntry *)0x801E2000;
-    music_state->music_track[0] = 0xFFFF;
-    music_state->music_track[1] = 0;
-    *(s32 *)&music_state->music_track[2] = 0;
-    *(s32 *)&music_state->music_track[4] = 0;
-    *(s32 *)&music_state->music_track[6] = 0x40000;
+    bgm_state->s_wSD_BGM_FADE_STEP = 0;
+    music_state->s_wSD_OPEN_MUSIC_PACKAGE = -1;
+    music_state->s_wSD_MUSIC_VAB_ID = -1;
+    music_state->s_wSD_OPEN_SEQUENCE_COMMAND = -1;
+    music_state->s_wSD_SEQ_ACCESS = -1;
+    music_state->s_pwSD_MUSIC_TRACK = (u16 *)0x801EA800;
+    music_state->s_pstSD_MUSIC_TABLE = (SDMusicTableEntry *)0x801E2000;
+    music_state->s_pwSD_MUSIC_TRACK[0] = 0xFFFF;
+    music_state->s_pwSD_MUSIC_TRACK[1] = 0;
+    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[2] = 0;
+    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[4] = 0;
+    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[6] = 0x40000;
     SD_SetSequenceTickMode(2);
     SD_SetSecondaryObjectCount(0x14);
     SD_EnableSecondarySequenceUpdates();
 }
 
 /* Retires the driver's two pending requests, in the same *g_SDValue struct
-   whose bgm_fade_step/bgm_fade_target tent_SD_StartBgmFadeCopy and SD_StartBgmFade
+   whose s_wSD_BGM_FADE_STEP/s_bSD_BGM_FADE_TARGET tent_SD_StartBgmFadeCopy and SD_StartBgmFade
    write.
 
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
@@ -470,39 +470,39 @@ void SD_InitSecondaryRuntime(void)
    0x157A/0x1578 inactive. Always zeroes 0x1586/0x1588. */
 
 void SD_ResetMusicState(void) {
-    if (g_SDValue->sequence_open_result != -1) {
+    if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
         if (g_SDValue->s_wSD_STATUS & 0x80) {
-            SD_StopSequence(g_SDValue->sequence_open_result);
+            SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             g_SDValue->s_wSD_STATUS =
                 g_SDValue->s_wSD_STATUS & 0xFF7F;
         }
-        SD_CloseSequence(g_SDValue->sequence_open_result);
-        g_SDValue->sequence_open_result = -1;
+        SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
+        g_SDValue->s_wSD_SEQ_ACCESS = -1;
     }
 
-    if (g_SDValue->music_vab_open_result == 0) {
+    if (g_SDValue->s_wSD_MUSIC_VAB_ID == 0) {
         SD_ResetVabTransferState(0);
-        g_SDValue->music_vab_open_result = -1;
-        g_SDValue->opened_music_package_id = -1;
+        g_SDValue->s_wSD_MUSIC_VAB_ID = -1;
+        g_SDValue->s_wSD_OPEN_MUSIC_PACKAGE = -1;
     }
 
-    g_SDValue->sequence_fade_step = 0;
-    g_SDValue->sequence_fade_level = 0;
+    g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+    g_SDValue->s_wSD_SEQ_FADE_LEVEL = 0;
 }
 
 void tent_SD_StartBgmFadeCopy(s16 value, u8 flag)
 {
-    g_SDValue->bgm_fade_step = value;
-    g_SDValue->bgm_fade_target = flag;
+    g_SDValue->s_wSD_BGM_FADE_STEP = value;
+    g_SDValue->s_bSD_BGM_FADE_TARGET = flag;
 }
 
 void SD_StartBgmFade(s16 step, u8 target)
 {
-    g_SDValue->bgm_fade_step = step;
-    g_SDValue->bgm_fade_target = target;
+    g_SDValue->s_wSD_BGM_FADE_STEP = step;
+    g_SDValue->s_bSD_BGM_FADE_TARGET = target;
 }
 
 s32 SD_IsBgmFadeActive(void)
 {
-    return g_SDValue->bgm_fade_step != 0;
+    return g_SDValue->s_wSD_BGM_FADE_STEP != 0;
 }
