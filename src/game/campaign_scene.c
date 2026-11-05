@@ -25,6 +25,11 @@
 #include "scene_script_noop_record_callback.h"
 #include "scene_script_record_callbacks.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DisplayObject *gCampaign_PrimaryDisplayObject;
+u16 gScript_EventState;
+
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef CAMPAIGN_SCENE_PACKAGE_START_SECTOR
 #define CAMPAIGN_SCENE_PACKAGE_START_SECTOR FILE_WA_CAMPAIGN_SCENE_START_SECTOR

@@ -28,6 +28,13 @@
 #include "debug_effect_state.h"
 #include "view_state_current.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 *gDebugEffect_pPreviewCard0;
+u8 *gDebugEffect_pPreviewCard1;
+u8 D_8009B16E;
+u16 gDuel_wSceneStateFlags;
+
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
    effect on CROSS, and the HUD line that prints the two tuned values. The

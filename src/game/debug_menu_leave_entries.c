@@ -14,6 +14,11 @@
 #define GFREEDUEL_BRETURNFLAGS_IN_DATA
 #include "../overlays/free_duel/free_duel.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 D_8009B2B2;
+s8 gDebugMenu_bCursor;
+
 void DebugMenu_EnterMappedMode(void)
 {
     u8 *p = gDebugMenu_abMainModeByEntry;
