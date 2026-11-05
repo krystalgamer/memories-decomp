@@ -79,7 +79,8 @@ typedef struct {
     s16 slot, command;
 } Variant415EntryState;
 
-extern u8 gModelVariant415_D1F7C[];
+extern GsIMAGE gModelVariant415_aImages[2];
+extern Variant415EntryConfig gModelVariant415_aConfigs[];
 void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon);
 void SpanishModelVariant432_DrawSheets(u8 *context, s32 phase);
 void SpanishModelVariant432_DrawBandLayers(u8 *context);

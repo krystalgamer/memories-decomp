@@ -213,6 +213,6 @@ The shared sources define `ModelVariant415_HandleRequest`,
 `ModelVariant415_DrawRibbons`, `SpanishModelVariant432_DrawSheets` (`0x134C`),
 `SpanishModelVariant432_DrawBandLayers` (`0x169C`),
 `SpanishModelVariant432_DrawBands` (`0x1AC4`) and the data block
-`gModelVariant415_D1F7C`. Each image binds them at its own addresses (see
+`gModelVariant415_aImages`/`gModelVariant415_aConfigs`. Each image binds them at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)); the
 helper sources are compiled directly, without slot-1 wrappers.

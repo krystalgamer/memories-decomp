@@ -34,6 +34,7 @@ typedef struct {
     } shared;
 } Family88State;
 
-extern u8 gFrenchModelVariant88_D0954[];
+extern GsIMAGE gFrenchModelVariant88_aImages[1];
+extern Family88Config gFrenchModelVariant88_aConfigs[];
 s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command);
 #endif

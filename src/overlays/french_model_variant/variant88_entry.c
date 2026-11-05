@@ -26,7 +26,7 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &((Family88Config *)(gFrenchModelVariant88_D0954 + 0x1C))[command];
+        config = work->config = &gFrenchModelVariant88_aConfigs[command];
         point = work->points;
         for (i = 0; i < config->groups * config->count; i++) {
             point->vx = 0;
@@ -35,8 +35,10 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
             work->timers[i] = config->period;
             point++;
         }
+        /* Only one image precedes the config table; the second pass reads the
+         * first config bytes as a GsIMAGE, and textures[1] is reused as done. */
         for (i = 0; i < 2; i++) {
-            work->shared.textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &((GsIMAGE *)gFrenchModelVariant88_D0954)[i]);
+            work->shared.textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &gFrenchModelVariant88_aImages[i]);
         }
         work->frame = -config->delay;
         work->shared.state.done = 0;
