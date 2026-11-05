@@ -2568,3 +2568,4 @@ gDuelEffect_nCompactionRequested = 0x8009B330;
 gLibCd_nDeferredStreamInterrupt = 0x800F5D44;
 gLibrary_sCapturedReferenceY = 0x80181002;
 gLibrary_sSampledReferenceY = 0x80181012;
+gDuelEffect_aOccupancyValues = 0x800EAF08;

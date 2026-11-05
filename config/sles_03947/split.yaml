@@ -506,7 +506,7 @@ segments:
       - [0xdc4f0, .bss, game/european/duel_effect_object_pool]
       - [0xdc5f0, .bss, game/main_run_campaign]
       - [0xdc640, .bss, game/european/debug_menu_editor_entries]
-      - [0xdc670, .bss, game/european/duel_effect_command]
+      - [0xdc670, bss, duel_effect_command_commons]
       - [0xdc688, .bss, game/european/text_control_commands]
       - [0xdc770, .bss, game/european/duel_effect_process_entries]
       - [0xe0c30, .bss, game/european/text_box_runtime]

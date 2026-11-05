@@ -6,6 +6,11 @@
 #include "duel_select_trap_by_card_id.h"
 #include "duel_field_card_render_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gDuel_wSelectedTrapCardId;
+u8 gDuel_bActiveSide;
+
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    store below a single %gp_rel instruction whose load-delay slot needs the

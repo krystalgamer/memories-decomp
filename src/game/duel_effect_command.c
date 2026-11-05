@@ -16,6 +16,13 @@ u16 gText_DecimalDigitGlyphMap[12];
 #include "duel_effect_command.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gText_StagedStringId;
+u8 gText_GuardianGlyphCode;
+s16 gDuel_wSelectedCardID;
+u8 gText_SelectedCardColorIndex;
+
 #define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
 
 /* Entries 0 through 12 of the secondary text-command table gText_SecondaryCommandHandlers,
