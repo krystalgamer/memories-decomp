@@ -8,7 +8,7 @@
  * around 0x1800 on rcos in phase 3, grows to 0x4000 in phase 4 and fades out
  * in phase 5. The two ratan2 results are unused. */
 
-void func_8013D800(u8 *ctx)
+void ModelVariant459_DrawGlobe(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

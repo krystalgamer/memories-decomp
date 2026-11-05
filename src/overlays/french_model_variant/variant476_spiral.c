@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/variant418_spiral.h"
 
-void func_8013C70C(u8 *ctx)
+void FrenchModelVariant476_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant476_screen_grid.h"
 
-void func_8013DDD4(u8 *ctx)
+void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
