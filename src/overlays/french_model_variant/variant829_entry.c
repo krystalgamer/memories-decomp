@@ -3,7 +3,7 @@
 #include "../../game/model_state_setters.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR gFrenchModelVariant829_D0F88 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant829_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
 {
@@ -23,7 +23,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position.point, 0, 8);
-    scale = gFrenchModelVariant829_D0F88;
+    scale = gFrenchModelVariant829_UnitScale;
     work = (Model829State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
@@ -56,7 +56,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant829_D0F98[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant829_aImages[i]);
         }
         work->brightness = 2048;
         work->status.fields.phase = 0;

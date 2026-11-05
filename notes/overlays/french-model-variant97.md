@@ -67,4 +67,4 @@ classify the preserved suffix.
 
 ## Per-image bindings
 
-One source, `french_model_variant/variant97_entry.c`, serves both slots and the North American header-80/210 images. Each image's symbols file binds `FrenchModelVariant97_HandleRequest`, `gFrenchModelVariant97_D1168` and `gFrenchModelVariant97_aConfigs` at its own addresses; the scale vector at `0x1158` is a C-local static.
+One source, `french_model_variant/variant97_entry.c`, serves both slots and the North American header-80/210 images. Each image's symbols file binds `FrenchModelVariant97_HandleRequest`, `gFrenchModelVariant97_aImages` and `gFrenchModelVariant97_aConfigs` at its own addresses; the scale vector at `0x1158` is a C-local static.

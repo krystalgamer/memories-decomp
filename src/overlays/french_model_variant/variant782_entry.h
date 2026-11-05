@@ -41,7 +41,7 @@ typedef struct {
     u8 unknown_9AD[3];
 } Model782State;
 
-extern GsIMAGE gFrenchModelVariant782_D14C0[];
+extern GsIMAGE gFrenchModelVariant782_aImages[];
 extern Model782Config gFrenchModelVariant782_aConfigs[];
 s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command);
 

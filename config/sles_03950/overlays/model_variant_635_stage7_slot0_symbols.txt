@@ -1,7 +1,7 @@
 FrenchModelVariant153_HandleRequest = 0x8013B004; // type:func size:0xE08
-gFrenchModelVariant153_D0E0C = 0x8013BE0C; // type:u32 size:0x10 defined:true
+gFrenchModelVariant153_UnitScale = 0x8013BE0C; // type:u32 size:0x10 defined:true
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-gFrenchModelVariant153_D0E1C = 0x8013BE1C; // type:u8 size:0xFC defined:true
+gFrenchModelVariant153_aImages = 0x8013BE1C; // type:u8 size:0xFC defined:true
 gFrenchModelVariant153_aConfigs = 0x8013BF18; // type:u8 size:0x40E8 defined:true
 GsGetLwUnit = 0x8008A428; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true

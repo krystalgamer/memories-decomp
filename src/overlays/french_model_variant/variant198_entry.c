@@ -8,7 +8,7 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-const VECTOR gFrenchModelVariant198_D0D74 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant198_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant198_D0D74;
+    scale = gFrenchModelVariant198_UnitScale;
     work = (Model198State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -63,7 +63,7 @@ s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant198_D0D84[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant198_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

@@ -33,8 +33,8 @@ typedef struct {
     u8 field_332[2];
 } Model198State;
 
-extern const VECTOR gFrenchModelVariant198_D0D74;
-extern GsIMAGE gFrenchModelVariant198_D0D84[];
+extern const VECTOR gFrenchModelVariant198_UnitScale;
+extern GsIMAGE gFrenchModelVariant198_aImages[];
 extern Model198Config gFrenchModelVariant198_aConfigs[];
 s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command);
 

@@ -2,7 +2,7 @@
 #include "variant82_entry.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR gFrenchModelVariant82_D0DE4 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant82_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
 {
@@ -21,7 +21,7 @@ s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
     SVECTOR *point, *velocity;
 
     memset(&rotation, 0, 8);
-    scale = gFrenchModelVariant82_D0DE4;
+    scale = gFrenchModelVariant82_UnitScale;
     work = (Model82State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -31,7 +31,7 @@ s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
             setVector(point, 0, 0, 0);
             work->remaining[i] = 8;
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gFrenchModelVariant82_D0DF4);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gFrenchModelVariant82_aImages);
         work->elapsed = -config->delay;
         work->completed = 0;
         return 0;

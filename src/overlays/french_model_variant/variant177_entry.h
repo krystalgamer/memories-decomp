@@ -36,8 +36,8 @@ typedef struct {
     s32 elapsed, animation;
 } Model177State;
 
-extern const VECTOR gFrenchModelVariant177_D119C;
-extern GsIMAGE gFrenchModelVariant177_D11AC[];
+extern const VECTOR gFrenchModelVariant177_UnitScale;
+extern GsIMAGE gFrenchModelVariant177_aImages[];
 extern Model177Config gFrenchModelVariant177_aConfigs[];
 s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command);
 

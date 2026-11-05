@@ -33,8 +33,8 @@ typedef struct {
     s32 frames;
 } Model173State;
 
-extern const VECTOR gFrenchModelVariant173_D0EB0;
-extern GsIMAGE gFrenchModelVariant173_D0EC0[];
+extern const VECTOR gFrenchModelVariant173_UnitScale;
+extern GsIMAGE gFrenchModelVariant173_aImages[];
 extern Model173Config gFrenchModelVariant173_aConfigs[];
 s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command);
 

@@ -2,7 +2,7 @@
 #include "variant101_entry.h"
 #include "../../game/screen_projection.h"
 
-const VECTOR gFrenchModelVariant101_D0AE4 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant101_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant101_D0AE4;
+    scale = gFrenchModelVariant101_UnitScale;
     work = (Model101State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

@@ -2,7 +2,7 @@
 #include "variant121_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR gFrenchModelVariant121_D10A8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant121_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
 {
@@ -26,7 +26,7 @@ s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant121_D10A8;
+    scale = gFrenchModelVariant121_UnitScale;
     work = (Model121State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -76,7 +76,7 @@ s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             work->palette.storage.texture[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant121_D10B8[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant121_aImages[i]);
         }
         work->elapsed = -config->initial_delay;
         work->completed = 0;

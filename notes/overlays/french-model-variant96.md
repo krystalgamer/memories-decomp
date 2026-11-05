@@ -5,7 +5,7 @@ the named `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 One implementation supplies all four entries and their 16-byte scale
 constants in both slots; each image's symbols file binds
 `FrenchModelVariant96_HandleRequest` and the three data names
-(`gFrenchModelVariant96_D0C4C`, `_D0C5C`, `_aConfigs`) at its own addresses. No shared SDK declarations, compiler
+(`gFrenchModelVariant96_UnitScale`, `_D0C5C`, `_aConfigs`) at its own addresses. No shared SDK declarations, compiler
 profiles or other regional implementations change.
 
 ## Loader and ownership

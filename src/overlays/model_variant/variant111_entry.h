@@ -30,9 +30,9 @@ typedef struct {
     u8 completed, unknown_40D[3];
 } Model111State;
 
-extern const VECTOR gModelVariant111_D0CF8;
-extern GsIMAGE gModelVariant111_D0D08[];
-extern Model111Config gModelVariant111_D0D24[];
+extern const VECTOR gModelVariant111_UnitScale;
+extern GsIMAGE gModelVariant111_aImages[];
+extern Model111Config gModelVariant111_aConfigs[];
 s32 ModelVariant111_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant141_entry.h"
 
-static const VECTOR gFrenchModelVariant141_D0F60 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant141_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
 {
@@ -24,7 +24,7 @@ s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant141_D0F60;
+    scale = gFrenchModelVariant141_UnitScale;
     work = (Model141State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -50,7 +50,7 @@ s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
                 rand() % (config->point_spread * 2) - config->point_spread);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant141_D0F70[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant141_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

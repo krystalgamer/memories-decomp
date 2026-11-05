@@ -2,7 +2,7 @@
 #include "variant117_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR gFrenchModelVariant117_D108C = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant117_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
 {
@@ -21,7 +21,7 @@ s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant117_D108C;
+    scale = gFrenchModelVariant117_UnitScale;
     work = (Model117State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
@@ -47,7 +47,7 @@ s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
                 direction * (450 - config->radius));
         }
         for (i = 0; i < 6; i++) {
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant117_D109C[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant117_aImages[i]);
         }
         work->completed = 0;
         work->elapsed = -config->delay;

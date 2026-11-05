@@ -7,7 +7,7 @@
 #define VARIANT770_BURST_CLUT 0x3D28
 #endif
 
-static const VECTOR gFrenchModelVariant770_D16E8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant770_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant770_D16E8;
+    scale = gFrenchModelVariant770_UnitScale;
     work = (Model770State *)context;
     gouraud_packet = &gouraud;
     textured_packet = &quad;
@@ -74,7 +74,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
         work->burst_tpage = 0xAE;
         work->burst_clut = VARIANT770_BURST_CLUT;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant770_D16F8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant770_aImages[i]);
         }
         point = work->positions;
         other = work->velocities;
