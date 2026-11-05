@@ -6,7 +6,8 @@ stages 9/10) and the eight French images that carry the identical body
 (the same set without MODEL269). `variant388_entry.c`
 (`SpanishModelVariant388_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant388_D2E7C`) at its own
+and the descriptor tables (`gSpanishModelVariant388_aImages`,
+`gSpanishModelVariant388_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted
 C for it.
 

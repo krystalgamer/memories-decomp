@@ -6,7 +6,8 @@ MODEL263, 525 and 632 stages 9/10) and the twelve French images that carry
 the identical body at the same offsets. `variant438_entry.c`
 (`SpanishModelVariant438_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant438_D4868`) at its own
+and the descriptor tables (`gSpanishModelVariant438_aImages`,
+`gSpanishModelVariant438_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted
 C for it. With the entry in C, every game-owned function in these images is
 now C.

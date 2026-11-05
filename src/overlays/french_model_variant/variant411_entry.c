@@ -38,7 +38,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = (EntryConfig411 *)(gSpanishModelVariant411_D29B4 + 0xFC) + command;
+        work->config = gSpanishModelVariant411_aConfigs + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -52,15 +52,15 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT411_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT411_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant411_D29B4 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant411_aImages[7]);
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant411_D29B4 + 0x8C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant411_D29B4 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant411_aImages[5]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant411_aImages[1]);
         ring_page = packed >> 16;
         ring_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant411_D29B4 + 0x38));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant411_D29B4 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant411_aImages[2]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant411_aImages[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

@@ -40,7 +40,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant405EntryConfig *)(gSpanishModelVariant405_D1FBC + 0x38) + command;
+        work->config = gSpanishModelVariant405_aConfigs + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -56,7 +56,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT405_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant405_D1FBC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant405_aImages[1]);
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
         SetPolyG3(triangle);

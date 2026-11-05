@@ -33,9 +33,9 @@ The routine then:
 - Below phase 3, grows each funnel to 0x1000 over the growth window of the
   timing record at `+0x164C`.
 - From phase 3, shrinks each funnel to zero once the time passes the record's
-  `+0x18` bound. The fade start of this ramp is the word at `+0x114` in the
-  overlay data that follows the code (`gSpanishModelVariant411_D29B4 + 0x114`), not a timing
-  field. The source keeps that read as it is.
+  `+0x18` bound. The fade start of this ramp is `fade_start` of the first
+  entry config record (`gSpanishModelVariant411_aConfigs[0]`, the old data
+  block + 0x114), whatever the command, not a field of the timing record.
 - Finally, advances the ring spin at `+0x1668` by `step * 80`.
 
 ## Method

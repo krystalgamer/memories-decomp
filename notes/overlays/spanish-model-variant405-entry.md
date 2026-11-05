@@ -50,8 +50,8 @@ Both slots compile the shared sources without renaming wrappers. The images
 define `SpanishModelVariant405_HandleRequest`, `SpanishModelVariant405_DrawPulses`
 (`0xD00`), `FrenchModelVariant562_DrawShards` (`0x12CC`),
 `SpanishModelVariant405_DrawBands` (`0x1774`),
-`SpanishModelVariant405_DrawOuterBands` (`0x1B64`) and the descriptor base
-`gSpanishModelVariant405_D1FBC`. The US header-388 images build the same
+`SpanishModelVariant405_DrawOuterBands` (`0x1B64`) and the descriptor tables
+`gSpanishModelVariant405_aImages` and `gSpanishModelVariant405_aConfigs`. The US header-388 images build the same
 sources with the palette column 512 instead of 640; there and in the
 Japanese images of the same models the shards,
 bands, outer bands and data sit 4, 0x10, 0x48 and 0x8C bytes higher. Each image binds the names at its own addresses (see

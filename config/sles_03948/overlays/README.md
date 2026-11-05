@@ -1360,9 +1360,9 @@ Six images under French headers 456 and 606 build their loader entry
 `src/overlays/spanish_model_variant/variant456_entry.c` in both slots, next to
 the already-matched ribbons, sheets, lines and streamers helpers. The entry
 follows the North American header-433 entry's shape; its command rows
-(0x2C bytes) and texture images are offsets into the tail label
-`gSpanishModelVariant456_D3D00`, which each image's symbols file binds at its
-own address. The helper at image offset 0x101C builds from
+(0x2C bytes) and texture images are `gSpanishModelVariant456_aConfigs` and
+`gSpanishModelVariant456_aImages`, which each image's symbols file binds at its
+own addresses. The helper at image offset 0x101C builds from
 `french_model_variant/variant456_twin_ribbons.c` and the sprays helper at
 0x1F58 from `src/overlays/spanish_model_variant/variant456_sprays.c`.
 

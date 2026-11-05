@@ -46,7 +46,16 @@ typedef struct {
     s32 phase;
 } Funnel411State;
 
-/* Start of the overlay data after the code; the fade start is read at +0x114. */
-extern u8 gSpanishModelVariant411_D29B4[];
+/* One command record of the header-411 entry's table. The funnels read
+   the first record's fade start (old blob + 0x114) whatever the command. */
+typedef struct {
+    u8 unknown_00[4], part, unknown_05[7];
+    u32 sheet_start, expansion_start, expansion_end, fade_start, fade_end;
+    u32 field_20;
+    s32 offset[3];
+} EntryConfig411;
+
+extern GsIMAGE gSpanishModelVariant411_aImages[9];
+extern EntryConfig411 gSpanishModelVariant411_aConfigs[];
 
 #endif

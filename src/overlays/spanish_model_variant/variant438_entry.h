@@ -4,7 +4,7 @@
 #include "../../overlays/french_model_variant/variant337_entry.h"
 #include "../../game/model_get_frame_step.h"
 
-/* One 0x48-byte command record of the table at gSpanishModelVariant438_D4868 + 0xFC. */
+/* One 0x48-byte command record of the table at gSpanishModelVariant438_aConfigs. */
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4];
@@ -119,7 +119,8 @@ typedef struct {
     s16 slot, command;
 } Variant438EntryState;
 
-extern u8 gSpanishModelVariant438_D4868[];
+extern GsIMAGE gSpanishModelVariant438_aImages[9];
+extern Variant438EntryConfig gSpanishModelVariant438_aConfigs[];
 void SpanishModelVariant438_DrawWarpRings(u8 *context);
 void SpanishModelVariant438_DrawRing(u8 *context);
 void SpanishModelVariant438_DrawSpiral(u8 *context);

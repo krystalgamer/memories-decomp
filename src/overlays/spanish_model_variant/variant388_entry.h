@@ -4,7 +4,7 @@
 #include "../../overlays/french_model_variant/variant337_entry.h"
 #include "../../game/model_get_frame_step.h"
 
-/* One 0x24-byte command record of the table at gSpanishModelVariant388_D2E7C + 0xFC. */
+/* One 0x24-byte command record of the table at gSpanishModelVariant388_aConfigs. */
 typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
@@ -90,7 +90,8 @@ typedef struct {
     s16 slot, command;
 } Variant388EntryState;
 
-extern u8 gSpanishModelVariant388_D2E7C[];
+extern GsIMAGE gSpanishModelVariant388_aImages[9];
+extern Variant388EntryConfig gSpanishModelVariant388_aConfigs[];
 void FrenchModelVariant388_DrawStrips(u8 *context);
 void SpanishModelVariant388_DrawRibbonFan(u8 *context);
 void SpanishModelVariant388_DrawSheets(u8 *context);
