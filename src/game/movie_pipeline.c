@@ -1,6 +1,11 @@
 #define D_8009B142_IN_DATA
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F5750-0x800F5768, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gMovie_FileInfo[24];
+
 #include "movie_open_stream.h"
 
 #ifndef MOVIE_FRAME_PIPELINE_REGIONAL_SMALL_STORAGE
@@ -496,4 +501,170 @@ void func_8005C374(s32 first, s32 second, s32 third)
     D_8009B4A0 = first;
     D_8009B4A1 = second;
     D_8009B4A2 = third;
+}
+
+#include "file_cd_helpers.h"
+#include "file_constants.h"
+#include "movie_open_stream.h"
+#include "movie_stream_requests.h"
+#include "movie_stream_ranges.h"
+#include "file_transfer.h"
+#include "../unmatched.h"
+#include "movie_stream_requests_data.h"
+
+/* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
+   rest are reached through the running sum, which is zero for all of them. */
+MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT] = {
+#ifdef VERSION_EUROPE
+    /* The European build gives its first six movies the same range. */
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+    { 0x0D84, 0x012F },
+#else
+    { 0x0C08, 0x012F },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+#endif
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+};
+
+void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
+{
+    CdlLOC position;
+    MovieStreamRange *base;
+    MovieStreamRange *entry;
+    s32 i;
+    s32 total;
+
+    base = gMovie_aStreamRanges;
+    entry = &base[index];
+    if (entry->end_frame != 0)
+        end_frame = entry->end_frame;
+    i = 0;
+    total = 0;
+    if (index > 0) {
+        do {
+            total += base[i].sector_count;
+            i++;
+        } while (i < index);
+    }
+    CdIntToPos_8007E600(gFile_anLba[FILE_INDEX_MOVIE_STR] + total, &position);
+    {
+        MovieStreamRange *table;
+        s32 value;
+
+        value = CdPosToInt_8007E710(&position);
+        table = gMovie_aStreamRanges;
+        value += table[index].sector_count;
+        Movie_OpenStream(&position, arg1, end_frame, value, arg3, arg4);
+    }
+}
+
+s32 Movie_StartFileStream(
+    const char *path,
+    s32 start_frame,
+    s32 end_frame,
+    s32 arg3,
+    s32 arg4
+)
+{
+    CdlFILE *file = (CdlFILE *)gMovie_FileInfo;
+
+    if (File_Exists(path, file) != 0)
+        return -1;
+    return Movie_OpenStream(
+        &file->pos, start_frame, end_frame,
+        CdPosToInt_8007E710(&file->pos) +
+            ((u32)(file->size + (FILE_SECTOR_SIZE - 1)) >>
+             FILE_SECTOR_SHIFT),
+        arg3, arg4);
+}
+
+#include "file_cd_helpers.h"
+#include "movie_frame_pipeline.h"
+#include "../psyq/libds.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+
+s32 File_Exists(const char *path, CdlFILE *file)
+{
+    DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
+
+    if (result == 0 || result == (DslFILE *)-1) {
+        return -1;
+    }
+    return 0;
+}
+
+int Movie_StepPlayback(void)
+{
+    int result = Movie_DecodeAndPresentFrame();
+
+    if (result != 0) {
+        Movie_StopStream(0);
+    }
+    return result;
+}
+
+int Movie_MoveDisplayImage(int first, int second)
+{
+    DISPENV local;
+
+    GetDispEnv(&local);
+    while (IsIdleGPU(3) != 0) {}
+    while (MoveImage2(&local.disp, first, second) != 0) {}
+    return 0;
+}
+
+#include "../psyq/libpress.h"
+#include "mdec_sync.h"
+#include "movie_frame_pipeline.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libds.h"
+#include "movie_seek_and_start_read.h"
+#include "movie_on_stream_end.h"
+
+void Movie_StartFadeOut(void)
+{
+    gMovie_bFadingOut = 1;
+}
+
+s32 Movie_WaitFrameDecoded(void)
+{
+    s32 timeout = 0x800000;
+    if (gMovie_bFrameDecoded == 0) {
+        for (;;) {
+            if (--timeout <= 0) {
+                DecDCTReset(1);
+                break;
+            }
+            if (gMovie_bFrameDecoded != 0) {
+                break;
+            }
+        }
+    }
+    gMovie_bFrameDecoded = 0;
+    return 0;
+}
+
+#define CD_LOCATION_BYTES(location) ((u8 *)(location))
+#define DS_LOCATION_VIEW(location) ((DslLOC *)(location))
+
+void Movie_SeekAndStartRead(CdlLOC *loc){while(!CdControlB(CdlSetloc,CD_LOCATION_BYTES(loc),0)){}while(!CdControlB(CdlSeekP,CD_LOCATION_BYTES(loc),0)){}while(!DsRead2(DS_LOCATION_VIEW(loc),0x1E0)){} }
+
+void Movie_OnStreamEnd(void)
+{
+    gMovie_bStreamEnded = 1;
 }

@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Zero-initialized data that movie_stream_requests.c defines (#2602), for the units that
+/* Zero-initialized data that movie_pipeline.c defines (#2602), for the units that
  * reach it without the unit's other declarations. */
 
 extern u8 gMovie_FileInfo[];
