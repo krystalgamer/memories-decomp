@@ -55,7 +55,8 @@ typedef struct {
     s16 slot, command;
 } Variant431EntryState;
 
-extern u8 gFrenchModelVariant431_D2F48[];
+extern GsIMAGE gFrenchModelVariant431_aImages[9];
+extern Variant431EntryConfig gFrenchModelVariant431_aConfigs[];
 void FrenchModelVariant431_DrawWebs(u8 *context);
 void FrenchModelVariant431_DrawFans(u8 *context);
 void FrenchModelVariant431_DrawBands(u8 *context);

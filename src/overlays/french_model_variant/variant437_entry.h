@@ -84,7 +84,8 @@ typedef struct {
     s16 slot, command;
 } Variant437EntryState;
 
-extern u8 gFrenchModelVariant437_D2F30[];
+extern GsIMAGE gFrenchModelVariant437_aImages[9];
+extern Variant437EntryConfig gFrenchModelVariant437_aConfigs[];
 void SpanishModelVariant437_DrawSheet(u8 *context);
 void SpanishModelVariant437_DrawStreamers(u8 *context);
 s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command);

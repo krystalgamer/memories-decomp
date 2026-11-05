@@ -69,5 +69,6 @@ typedef struct {
     DVECTOR target;
 } Variant402EntryProjection;
 
-extern u8 gFrenchModelVariant402_D2060[];
+extern GsIMAGE gFrenchModelVariant402_aImages[9];
+extern Variant402EntryConfig gFrenchModelVariant402_aConfigs[];
 #endif

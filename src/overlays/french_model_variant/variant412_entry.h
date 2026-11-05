@@ -49,7 +49,8 @@ typedef struct {
     s16 slot, command;
 } Variant412EntryState;
 
-extern u8 gFrenchModelVariant412_D27A8[];
+extern GsIMAGE gFrenchModelVariant412_aImages[9];
+extern Variant412EntryConfig gFrenchModelVariant412_aConfigs[];
 void FrenchModelVariant412_DrawTrails(u8 *context);
 
 #endif

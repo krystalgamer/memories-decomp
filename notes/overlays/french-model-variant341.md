@@ -442,7 +442,7 @@ accepted parent. Fresh exact-head CI remains required before acceptance.
 ## Per-image names
 
 The French entry source defines `FrenchModelVariant341_HandleRequest` and
-`gFrenchModelVariant341_D2D58`; the header-324 helper sources define
+`gFrenchModelVariant341_aImages`/`gFrenchModelVariant341_aConfigs`; the header-324 helper sources define
 `ModelVariant324_DrawWebs`, `ModelVariant324_DrawFan`,
 `ModelVariant324_DrawBand`, `ModelVariant324_DrawMovingRing`,
 `ModelVariant324_DrawSpokeRings` and `ModelVariant324_DrawExpandingRings`.

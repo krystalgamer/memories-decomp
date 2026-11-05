@@ -7,7 +7,7 @@ The French ribbon wrapper also reuses the accepted North American
 `variant320_streamers.c` the same way; both keep only `VERSION_FRENCH`. Each
 image's symbols file binds `FrenchModelVariant337_HandleRequest`,
 `ModelVariant320_DrawRibbon`, `ModelVariant320_DrawStreamers`,
-`SpanishModelVariant337_DrawRings` and `gFrenchModelVariant337_D1F5C` at its
+`SpanishModelVariant337_DrawRings` and `gFrenchModelVariant337_aImages`/`gFrenchModelVariant337_aConfigs` at its
 own addresses.
 Each uses
 the authoritative `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.

@@ -523,6 +523,6 @@ Both slots compile the same sources without wrappers. They define
 `FrenchModelVariant431_DrawBands` (`0x17C8`),
 `FrenchModelVariant431_DrawSheets` (`0x2444`), `ModelVariant414_DrawSpokes`
 (`0x28C4`), `ModelVariant414_DrawRings` (`0x2BCC`) and the data block
-`gFrenchModelVariant431_D2F48`. Each image binds them at its own addresses
+`gFrenchModelVariant431_aImages`/`gFrenchModelVariant431_aConfigs`. Each image binds them at its own addresses
 (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).

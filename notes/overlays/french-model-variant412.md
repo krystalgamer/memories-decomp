@@ -285,7 +285,7 @@ the MODEL402 bodies, so they define the MODEL402 names. The images define
 `FrenchModelVariant412_HandleRequest`, `FrenchModelVariant412_DrawTrails`
 (`0xB98`), `FrenchModelVariant402_DrawStrip`, `FrenchModelVariant402_DrawRibbons`,
 `FrenchModelVariant402_DrawRings`, `FrenchModelVariant402_DrawBands` and the
-data block `gFrenchModelVariant412_D27A8`. The US header-395 images (model 10)
+data block `gFrenchModelVariant412_aImages`/`gFrenchModelVariant412_aConfigs`. The US header-395 images (model 10)
 build the same sources with the palette column 512 instead of 640. Each image
 binds the names at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

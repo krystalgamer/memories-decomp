@@ -35,7 +35,7 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig427 *)(gFrenchModelVariant427_D3ACC + 0xFC) + command;
+        work->config = gFrenchModelVariant427_aConfigs + command;
         for (index = 0; index < 3; index++) {
             work->parts[index] = Model_GetSlotDataEntry(work->slot, work->config->parts[index]);
         }
@@ -55,13 +55,13 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT427_CLUT_X, 244);
         other_tpage = GetTPage(1, 1, 896, 0);
         other_clut = GetClut(MODEL_VARIANT427_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant427_D3ACC + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant427_aImages[7]);
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant427_D3ACC + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant427_aImages[5]);
         extra_page = packed >> 16;
         extra_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant427_D3ACC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant427_aImages[1]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

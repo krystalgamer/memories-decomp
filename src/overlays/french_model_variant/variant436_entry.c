@@ -34,7 +34,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig436 *)(gFrenchModelVariant436_D2FBC + 0xFC) + command;
+        work->config = gFrenchModelVariant436_aConfigs + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -56,14 +56,14 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT436_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT436_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0x1C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0x38));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[1]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[3]);
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant436_D2FBC + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[8]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
