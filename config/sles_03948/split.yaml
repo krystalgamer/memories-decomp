@@ -125,7 +125,7 @@ segments:
     - initial_data_b04
   - - 2844
     - .rodata
-    - game/spanish/mem_card_dialog
+    - game/spanish/mem_card
   - - 3212
     - .rodata
     - game/european/display_object_helpers
@@ -784,25 +784,7 @@ segments:
     - game/european/input_pads
   - - 186432
     - c
-    - game/spanish/save_data_payload
-  - - 187596
-    - c
-    - game/mem_card_work_initialize_operation
-  - - 187640
-    - c
-    - game/european/checkerboard_background
-  - - 187960
-    - c
-    - game/spanish/duel_effect_create_channel
-  - - 188132
-    - c
-    - game/spanish/dialog_transition
-  - - 189920
-    - c
-    - game/spanish/mem_card_dialog
-  - - 199060
-    - c
-    - game/save_data_set_mask_seed
+    - game/spanish/mem_card
   - - 199076
     - c
     - game/european/sound_frontend
@@ -1199,7 +1181,7 @@ segments:
   - [0x82A70, .data, game/european/text_box_build_step]
   - [0x82AB8, .data, game/european/duel_effect_command_table]
   - [0x82B94, .data, game/display_effect_process_menu_records]
-  - [0x82BC8, .data, game/spanish/mem_card_dialog]
+  - [0x82BC8, .data, game/spanish/mem_card]
   - [0x82BDC, .data, game/european/display_object_runtime]
   - [0x82C18, .data, game/display_object_stream_read_next_command]
   - [0x82C34, .data, game/european/model_effect_state]
@@ -1221,7 +1203,7 @@ segments:
   - [0x8CAC8, .sdata, game/duel_card_effects]
   - [0x8CAD5, pad]
   - [0x8CAD8, .sdata, game/european/debug_menu_update]
-  - [0x8CAEC, .sdata, game/spanish/save_data_payload]
+  - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/data_8009af6c]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
   - [0x8CB18, .sdata, game/model_graphics_state]
@@ -1249,7 +1231,7 @@ segments:
   - [0x8CE8C, .sbss, game/european/sorted_entry_relink]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
   - [0x8CF08, .sbss, game/european/input_pads]
-  - [0x8CF30, .sbss, game/spanish/mem_card_dialog]
+  - [0x8CF30, .sbss, game/spanish/mem_card]
   - [0x8CF80, .sbss, game/european/sound_frontend]
   - [0x8CF94, .sbss, game/european/display_object_core]
   - [0x8CFA8, .sbss, game/french/main_run_boot_sequence]
@@ -1271,7 +1253,7 @@ segments:
   - [0xDCB90, .bss, game/european/duel_effect_process_entries]
   - [0xE1050, .bss, game/european/text_box_runtime]
   - [0xE11F0, .bss, game/european/input_pads]
-  - [0xE1258, .bss, game/spanish/mem_card_dialog]
+  - [0xE1258, .bss, game/spanish/mem_card]
   - [0xE19C0, .bss, game/european/display_object_core]
   - [0xE4410, .bss, game/european/mem_card_driver]
   - [0xE46A8, .bss, game/european/model_keyframe_update]
