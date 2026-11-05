@@ -63,10 +63,9 @@ extern u8 gGraphics_bPacketBufferIndex;
 extern volatile u8 gGraphics_bFrameStep;
 #endif
 
-/* gGraphics_FrameStepControl (graphics_frame_controls.h) is the four-byte
- * object at A4-A7: frame-step override, unclassified byte, the byte
- * func_80058DC0 returns, and the scene's active slot (0/1). Its consumers
- * reach the later bytes as elements of that one object. */
+/* A4-A7 are four separate bytes (graphics_frame_controls.h): the frame-step
+ * override gGraphics_FrameStepControl, unclassified D_8009AFA5, D_8009AFA6
+ * (returned by func_80058DC0) and D_8009AFA7, the credits' active slot (0/1). */
 
 s32 Model_GetActiveSlotIndex(void);
 

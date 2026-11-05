@@ -6,15 +6,13 @@
  * camera-move setup and scene reset/configuration functions.
  *
  * Every feature switch below selects a header view for the whole unit, so it
- * comes before the first include. MODEL_HANDLER_* and
- * MODEL_GRAPHICS_STATE_SCENE_BYTES select retail's split absolute addresses
- * and scene-byte views for the intro controllers;
+ * comes before the first include. MODEL_HANDLER_* select retail's split
+ * absolute addresses for the intro controllers;
  * FUNC_80058434_CALL_WITH_UNUSED_ARG is the scene setup functions' view.
  */
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
-#define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 
 #include "../types.h"
@@ -1041,7 +1039,7 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
     }
 }
 
-#define ACTIVE_SLOT gGraphics_FrameStepControl[3]
+#define ACTIVE_SLOT D_8009AFA7
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 #define MODEL_SLOT_RAW_BYTES(slot) ((u8 *)(slot))
 

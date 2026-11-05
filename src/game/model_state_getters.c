@@ -1,6 +1,5 @@
 #include "../types.h"
 #define MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE
-#define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #include "model_graphics_state.h"
 #include "graphics_frame_controls.h"
 #include "model.h"
@@ -9,7 +8,7 @@
 
 int func_80058DC0(void)
 {
-    return gGraphics_FrameStepControl[2];
+    return D_8009AFA6;
 }
 
 int Model_GetActiveSlotIndex(void)
