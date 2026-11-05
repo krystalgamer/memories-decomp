@@ -89,7 +89,7 @@ SD_PreloadBgmAndReplaceValueLink instead names its u32 packed_request:
 the high halfword goes to preload and the low halfword to value-link
 replacement, in that order. No caller or input-domain claim is added.
 
-Preload and play-with-step retain the data_source_flags bit-0x02 gate.
+Preload and play-with-step retain the s_bSD_DATA_SOURCE bit-0x02 gate.
 Their saved_command remains u16; masked_command remains the separate
 u32 used for the base comparison. Bit 0x8000 is still tested on the
 original word. The non-CD arm compares the saved low halfword with

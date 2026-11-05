@@ -17,8 +17,8 @@ void SD_ResetCdPan(void);
  * INT32_MIN (low half zero) centres. The current cd_volume is then
  * re-applied so the new balance takes effect at once. */
 void SD_SetCdPan(s32 pan);
-/* Sends the unscaled level to CdMix (val0 plus val1 or val2 by output_type),
- * then stores it as both cd_volume and the CD fade target cd_fade_target and
+/* Sends the unscaled level to CdMix (val0 plus val1 or val2 by s_bSD_OUTPUT_TYPE),
+ * then stores it as both cd_volume and the CD fade target s_bSD_CD_FADE_TARGET and
  * zeroes the fade step cd_fade_step, cancelling any CD fade. It also resets
  * mix_multiplier to 7 before the call. Movie_Play passes 0xFF, the movie
  * fade-out in Movie_DecodeAndPresentFrame passes the falling gMovie_bCdVolume, and

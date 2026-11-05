@@ -16,21 +16,21 @@ s32 SD_EnqueueCommand(SDCommand *src) {
     s32 one;
 
     capacity_state = g_SDValue;
-    capacity_count = capacity_state->command_count;
+    capacity_count = capacity_state->s_wSD_NUM_COMMAND;
     if (capacity_count >= SD_COMMAND_QUEUE_COUNT) {
         goto full;
     }
     {
-        capacity_state->commands.c[capacity_count].command = src->command;
+        capacity_state->s_uSD_COMMAND_QUEUE.c[capacity_count].command = src->command;
     }
 
     write_state = g_SDValue;
-    write_index = write_state->command_count;
-    write_state->commands.c[write_index] = *src;
+    write_index = write_state->s_wSD_NUM_COMMAND;
+    write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
 
     count_state = g_SDValue;
     one = 1;
-    count_state->command_count = count_state->command_count + one;
+    count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
     return one;
 full:
     return 0;
@@ -90,15 +90,15 @@ void SD_UpdateFades(void) {
     }
     if (g_SDValue->cd_fade_step != 0) {
         g_SDValue->cd_volume += g_SDValue->cd_fade_step;
-        if (g_SDValue->cd_volume <= g_SDValue->cd_fade_target &&
+        if (g_SDValue->cd_volume <= g_SDValue->s_bSD_CD_FADE_TARGET &&
             g_SDValue->cd_fade_step < 0) {
             g_SDValue->cd_fade_step = 0;
-            g_SDValue->cd_volume = g_SDValue->cd_fade_target;
+            g_SDValue->cd_volume = g_SDValue->s_bSD_CD_FADE_TARGET;
         }
-        if (g_SDValue->cd_volume >= g_SDValue->cd_fade_target &&
+        if (g_SDValue->cd_volume >= g_SDValue->s_bSD_CD_FADE_TARGET &&
             g_SDValue->cd_fade_step > 0) {
             g_SDValue->cd_fade_step = 0;
-            g_SDValue->cd_volume = g_SDValue->cd_fade_target;
+            g_SDValue->cd_volume = g_SDValue->s_bSD_CD_FADE_TARGET;
         }
         output_level = g_SDValue->cd_volume;
         SD_SetCdVolume(output_level);
@@ -134,31 +134,31 @@ void SD_UpdateRuntime(void)
     }
 
     state = g_SDValue;
-    if ((state->status_flags & 0x80) != 0 &&
+    if ((state->s_wSD_STATUS & 0x80) != 0 &&
         state->sequence_open_result != -1 &&
         SD_PollSequenceState() != 1) {
         SD_StopSequence(g_SDValue->sequence_open_result);
         state = g_SDValue;
-        flags_or_command = state->status_flags;
+        flags_or_command = state->s_wSD_STATUS;
         state->sequence_fade_step = -0x80;
         state->sequence_fade_target = 0;
         flags_or_command &= 0xFF7F;
-        state->status_flags = flags_or_command;
+        state->s_wSD_STATUS = flags_or_command;
     }
 
     SD_UpdateFades();
     state = g_SDValue;
-    if (state->active_command != 0) {
+    if (state->s_bSD_ACTIVE_COMMAND != 0) {
         SD_StepActiveCommand();
         return;
     }
-    if (state->command_count == 0) {
+    if (state->s_wSD_NUM_COMMAND == 0) {
         return;
     }
-    command_cursor = &state->commands.c[0];
+    command_cursor = &state->s_uSD_COMMAND_QUEUE.c[0];
     /* Separate bodies preserve equality dispatch instead of case ranges;
        cross-jumping still shares the emitted bodies. */
-    flags_or_command = state->commands.c[0].command;
+    flags_or_command = state->s_uSD_COMMAND_QUEUE.c[0].command;
     switch (flags_or_command) {
     case 0x44:
         if (state->sequence_fade_step == 0) {
@@ -175,39 +175,39 @@ void SD_UpdateRuntime(void)
     case 0x29:
         if (state->cd_fade_step == 0) {
             state->cd_fade_step = (u16)command_cursor->arg1;
-            state->cd_fade_target = (u8)command_cursor->value;
+            state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x2A:
         if (state->cd_fade_step == 0) {
             state->cd_fade_step = (u16)command_cursor->arg1;
-            state->cd_fade_target = (u8)command_cursor->value;
+            state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     }
 
     state = g_SDValue;
-    state->active_command = command_cursor->command;
-    g_SDValue->active_command_phase = 0;
+    state->s_bSD_ACTIVE_COMMAND = command_cursor->command;
+    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
     state = g_SDValue;
-    state->active_command_value = (u16)command_cursor->value;
-    state->active_command_arg0 = command_cursor->arg0;
-    state->active_command_arg1 = command_cursor->arg1;
-    state->active_command_arg2 = command_cursor->arg2;
-    state->active_cd_fade_wait = command_cursor->wait_for_cd_fade;
+    state->s_wSD_ACTIVE_COMMAND_VALUE = (u16)command_cursor->value;
+    state->s_dwSD_ACTIVE_COMMAND_ARG0 = command_cursor->arg0;
+    state->s_dwSD_ACTIVE_COMMAND_ARG1 = command_cursor->arg1;
+    state->s_dwSD_ACTIVE_COMMAND_ARG2 = command_cursor->arg2;
+    state->s_bSD_ACTIVE_CD_FADE_WAIT = command_cursor->wait_for_cd_fade;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */
     tail_state = g_SDValue;
-    *(SDCommandTail *)&tail_state->active_command_tail[0] = *(SDCommandTail *)&command_cursor->transfer_selector;
+    *(SDCommandTail *)&tail_state->s_adwSD_ACTIVE_COMMAND_TAIL[0] = *(SDCommandTail *)&command_cursor->transfer_selector;
     queue_state = g_SDValue;
     queue_state->field_15F4 = 8;
-    queue_state->command_count = queue_state->command_count - 1;
+    queue_state->s_wSD_NUM_COMMAND = queue_state->s_wSD_NUM_COMMAND - 1;
     SD_StepActiveCommand();
 
     loop_state = g_SDValue;
     command_cursor++;
     shifted_count = 0;
-    if (loop_state->command_count <= 0) {
+    if (loop_state->s_wSD_NUM_COMMAND <= 0) {
         return;
     }
     queue_byte_offset = 0;
@@ -216,12 +216,12 @@ void SD_UpdateRuntime(void)
            queue's byte view, whose ARRAY_REF keeps it; the block copy stays
            a byte-address sum, because &commands.b[queue_byte_offset] puts the offset
            first. sound.h checks the queue offset. */
-        loop_state->commands.b[queue_byte_offset] = command_cursor->command;
+        loop_state->s_uSD_COMMAND_QUEUE.b[queue_byte_offset] = command_cursor->command;
         *(SDCommand *)((u8 *)g_SDValue + queue_byte_offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
             *command_cursor;
         queue_byte_offset += sizeof(SDCommand);
         loop_state = g_SDValue;
         shifted_count += 1;
         command_cursor++;
-    } while (shifted_count < loop_state->command_count);
+    } while (shifted_count < loop_state->s_wSD_NUM_COMMAND);
 }
