@@ -46,7 +46,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
             setVector(velocity, 0, 0, 0);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant129_D0FF8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant129_D0FF8[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;

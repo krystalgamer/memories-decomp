@@ -320,7 +320,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             work->animation = frame;
         }
     }
-    func_800595C8(2, work->ambient, work->ambient, work->ambient);
+    Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     if (work->phase < 5) {
         if (work->ambient > 0) {
             work->ambient -= 128;

@@ -47,7 +47,7 @@ s32 FrenchModelVariant117_HandleRequest(u8 *context, s32 command)
                 direction * (450 - config->radius));
         }
         for (i = 0; i < 6; i++) {
-            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant117_D109C[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant117_D109C[i]);
         }
         work->completed = 0;
         work->elapsed = -config->delay;

@@ -74,7 +74,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
         work->burst_tpage = 0xAE;
         work->burst_clut = VARIANT770_BURST_CLUT;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant770_D16F8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant770_D16F8[i]);
         }
         point = work->positions;
         other = work->velocities;
@@ -118,7 +118,7 @@ s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
             work->phase = 2;
         }
     }
-    func_800595C8(2, work->level, work->level, work->level);
+    Model_SetSlotAmbient(2, work->level, work->level, work->level);
     if (work->elapsed < work->config->initial_delay) {
         work->elapsed += step;
         return 0;

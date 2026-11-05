@@ -55,7 +55,7 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
-            func_800593D0(work->slot, work->config->parts[0], work->config->vertex,
+            Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertex,
                           &work->vertex_position);
             work->matrix.t[0] = work->vertex_position.vx;
             work->matrix.t[1] = work->vertex_position.vy;
@@ -71,13 +71,13 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT418_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT418_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant418_D396C + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -281,7 +281,7 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->frame < work->config->end) {
             if (work->config->mode == 1) {
-                func_800593D0(work->slot, work->config->parts[0], work->config->vertex,
+                Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertex,
                               &work->vertex_position);
                 work->matrix.t[0] = work->vertex_position.vx;
                 work->matrix.t[1] = work->vertex_position.vy;
@@ -321,7 +321,7 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
         if (work->tint > 0) {
             work->tint -= 128;

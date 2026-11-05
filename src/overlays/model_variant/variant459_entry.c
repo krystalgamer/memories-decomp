@@ -197,16 +197,16 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT459_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x8C));
         veil_page = packed >> 16;
         veil_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x1C));
         ray_page = packed >> 16;
         ray_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -468,7 +468,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             if (work->phase < 6) {
                 ModelVariant459_DrawGlobe((u8 *)point);
                 if (work->phase >= 5) {
-                    packed2 = func_80059A50(work->slot, 2, (GsIMAGE *)(gModelVariant459_D3338 + 0));
+                    packed2 = ModelTexture_PackPageClutCopy(work->slot, 2, (GsIMAGE *)(gModelVariant459_D3338 + 0));
                     unknown_stack[31] = packed2;
                     frame = packed2 >> 16;
                     SetPolyGT4(veil);
@@ -487,7 +487,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
         if (work->tint > 0) {
             work->tint -= 128;

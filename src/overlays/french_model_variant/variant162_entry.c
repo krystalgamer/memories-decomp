@@ -60,7 +60,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
                 point->vz = 0;
             }
             for (i = 0; i < 1; i++) {
-                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant162_D0DBC[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant162_D0DBC[i]);
             }
             work->elapsed = 0;
             work->completed = 0;

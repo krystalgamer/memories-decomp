@@ -44,7 +44,7 @@ s32 ModelPrimary64_HandleRequest(u8 *context, s32 command)
         }
         PopMatrix();
         for (i = 0; i < 5; i++) {
-            work->textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelPrimary64_Images[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelPrimary64_Images[i]);
         }
         work->frame = 0;
         return 0;

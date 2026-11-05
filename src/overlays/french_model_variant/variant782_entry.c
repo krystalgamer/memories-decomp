@@ -66,7 +66,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
         work->growth_age = 0;
         work->shade = 128;
         for (i = 0; i < 5; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant782_D14C0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant782_D14C0[i]);
         }
         return 0;
     }
@@ -87,7 +87,7 @@ s32 FrenchModelVariant782_HandleRequest(u8 *context, s32 command)
             work->phase = 2;
         }
     }
-    func_800595C8(2, work->level, work->level, work->level);
+    Model_SetSlotAmbient(2, work->level, work->level, work->level);
     if (work->elapsed < work->config->initial_delay) {
         work->elapsed += step;
         return 0;

@@ -7,7 +7,7 @@
  * segment as a POLY_G4 as wide as the projected offset. Before the fifth
  * phase, a visible streamer's length follows the record at 0x43C (its word at
  * 0x88 divided by eight, clamped at zero). */
-void func_8013C714(u8 *ctx)
+void ModelVariant320_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

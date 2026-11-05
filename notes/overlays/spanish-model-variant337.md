@@ -79,7 +79,7 @@ integration conventions; the resident-only integrator is North-American-only.
 
 New accepted local French337 indexing evidence resolves the previously paused
 Spanish `0x9A4` helper without repeating its earlier compiler/source guesses.
-The existing `variant337_ribbon{,_slot1}.c` wrappers include the canonical
+The existing `variant337_ribbon.c` wrapper includes the canonical
 `variant320_ribbon.c` with its measured indexed terminal-point branch.
 Both slots compile to exactly 2,260 bytes / 304-byte frame, with zero differing
 words in all six Spanish images. No C body, header or compiler profile changes.
@@ -145,7 +145,7 @@ seven-release completion.
 ## Independently matched entries
 
 The accepted local French MODEL337 entry provides a new structural lead.
-Its unchanged `variant337_entry{,_slot1}.c` and private header compile under
+Its unchanged `variant337_entry.c` and private header compile under
 `gcc_2_8_1_g0_split` to the exact 2,464-byte Spanish entry in all six images.
 No C body, header, primitive declaration or compiler profile changes.
 Two new terminal attempt records preserve all four prior ring/ribbon records.

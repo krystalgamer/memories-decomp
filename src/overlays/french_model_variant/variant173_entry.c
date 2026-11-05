@@ -49,11 +49,11 @@ s32 FrenchModelVariant173_HandleRequest(u8 *context, s32 command)
         work->center.vy = -350;
         if (command < 100) {
             for (i = 0; i < 10; i++) {
-                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant173_D0EC0[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant173_D0EC0[i]);
             }
         } else {
             for (i = 0; i < 10; i++) {
-                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant173_D0EC0[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant173_D0EC0[i]);
             }
         }
         work->elapsed = 0;

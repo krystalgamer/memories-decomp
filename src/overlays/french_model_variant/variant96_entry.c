@@ -53,7 +53,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
         work->prepared = 0;
         work->elapsed = -config->delay;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant96_D0C5C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant96_D0C5C[i]);
         }
         work->completed = 0;
         return 0;

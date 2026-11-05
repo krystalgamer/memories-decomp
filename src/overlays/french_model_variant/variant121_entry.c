@@ -75,7 +75,7 @@ s32 FrenchModelVariant121_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->palette.storage.texture[i] = func_80059A50(
+            work->palette.storage.texture[i] = ModelTexture_PackPageClutCopy(
                 Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant121_D10B8[i]);
         }
         work->elapsed = -config->initial_delay;

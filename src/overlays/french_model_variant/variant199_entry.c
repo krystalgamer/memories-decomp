@@ -81,9 +81,9 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
             point->vz = radius * csin(value) / 4096 * csin(value2) / 4096;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant199_D15A4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant199_D15A4[i]);
         }
-        work->texture[4] = func_80059A50(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant199_D15A4[4]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant199_D15A4[4]);
         work->elapsed = 0;
         work->completed = 0;
         return 0;

@@ -43,7 +43,7 @@ s32 ModelPrimary62_HandleRequest(u8 *context, s32 command)
             point->vz = -direction * radius;
             work->frames[i] = (rand() >> 8) % 8;
         }
-        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelPrimary62_Image);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelPrimary62_Image);
         work->delay = -config->delay;
         return 0;
     }

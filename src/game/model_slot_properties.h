@@ -4,10 +4,6 @@
 #include "../psyq/libgte.h"
 #include "model.h"
 
-/* Preserve fingerprinted overlay sources while emitting canonical symbols. */
-#define func_800593D0 Model_TransformPartVertex
-#define func_800595C8 Model_SetSlotAmbient
-
 s32 Model_TransformPartVertex(s32 slot, s32 part, s32 vertex, VECTOR *out);
 ModelSlotS32Quad *Model_GetSlotScale(s32 index);
 void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source);

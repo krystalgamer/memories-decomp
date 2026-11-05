@@ -63,12 +63,12 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT428_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT428_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -319,7 +319,7 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
         if (work->tint > 0) {
             work->tint -= 128;

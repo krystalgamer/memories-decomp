@@ -80,7 +80,7 @@ s32 FrenchModelVariant177_HandleRequest(u8 *context, s32 command)
         face[14] = point + 7;
         face[15] = point + 4;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant177_D11AC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant177_D11AC[i]);
         }
         work->elapsed = 0;
         work->animation = 0;

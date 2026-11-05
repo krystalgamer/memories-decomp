@@ -36,7 +36,7 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->shared.textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 3, &((GsIMAGE *)gFrenchModelVariant88_D0954)[i]);
+            work->shared.textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &((GsIMAGE *)gFrenchModelVariant88_D0954)[i]);
         }
         work->frame = -config->delay;
         work->shared.state.done = 0;

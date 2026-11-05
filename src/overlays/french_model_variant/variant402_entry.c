@@ -54,15 +54,15 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT402_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT402_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x1C));
         band_page = packed >> 16;
         band_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant402_D2060 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -231,7 +231,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    func_800595C8(2, work->field_8BC, work->field_8BC, work->field_8BC);
+    Model_SetSlotAmbient(2, work->field_8BC, work->field_8BC, work->field_8BC);
     if (work->phase < 3) {
         if (work->field_8BC > 0) {
             work->field_8BC -= 128;

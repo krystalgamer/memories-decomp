@@ -12,9 +12,6 @@ u32 ModelTexture_PackPageClut(int side, int blend_mode, GsIMAGE *params);
 
 u32 ModelTexture_PackPageClutCopy(s32 side, s32 blend_mode, GsIMAGE *image);
 
-/* Frozen matching overlay bodies keep their original spelling. */
-#define func_80059A50 ModelTexture_PackPageClutCopy
-
 void ModelTexture_UploadTimFile(char *path, int destination_mode, int blend_mode, int pixel_x, int pixel_y,
                                 int clut_x, int clut_y);
 

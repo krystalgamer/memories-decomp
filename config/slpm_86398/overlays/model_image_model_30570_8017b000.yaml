@@ -56,9 +56,9 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant320_entry_slot1]
-      - [0x9A8, c, overlays/model_variant/variant320_ribbon_slot1]
-      - [0x1250, c, overlays/model_variant/variant320_rings_slot1]
-      - [0x1714, c, overlays/model_variant/variant320_streamers_slot1]
+      - [0x4, c, overlays/model_variant/variant320_entry]
+      - [0x9A8, c, overlays/model_variant/variant320_ribbon]
+      - [0x1250, c, overlays/spanish_model_variant/variant337_rings]
+      - [0x1714, c, overlays/model_variant/variant320_streamers]
       - [0x1F44, data, overlays/japanese_model_image_model_30570_8017b000/data]
   - [0x5000]

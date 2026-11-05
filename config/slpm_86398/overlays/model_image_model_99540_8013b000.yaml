@@ -58,7 +58,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant320_entry]
       - [0x9A8, c, overlays/model_variant/variant320_ribbon]
-      - [0x1250, c, overlays/model_variant/variant320_rings]
+      - [0x1250, c, overlays/spanish_model_variant/variant337_rings]
       - [0x1714, c, overlays/model_variant/variant320_streamers]
       - [0x1F44, data, overlays/japanese_model_image_model_99540_8013b000/data]
   - [0x5000]

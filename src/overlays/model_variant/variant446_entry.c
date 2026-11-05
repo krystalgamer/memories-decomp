@@ -92,13 +92,13 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT446_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT446_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0xC4));
         /* Reassigning packed keeps the page shift next to the first upload. */
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant446_D3BF4 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -504,7 +504,7 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     }
     setVector(&work->offset, -512, -256, 0);
     Model_QueueCameraOrbitFromPreset(work->slot, 3, &work->offset, 20);
-    func_800595C8(2, work->tint, work->tint, work->tint);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 8) {
         if (work->tint > 0) {
             work->tint -= 128;
