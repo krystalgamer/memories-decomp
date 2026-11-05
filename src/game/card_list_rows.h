@@ -43,7 +43,7 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
 
 /* The two row sets CardList_CreateDeckBoxStatRows builds, and the array
  * CardList_RenderDeckBoxStats and
- * func_80060E70 index by the display object's field_6A.
+ * CardList_BuildRowSetTextBoxes index by the display object's field_6A.
  *
  * The records live in gFile_StagingBuffer, a shared staging buffer that
  * unrelated subsystems reinterpret wholesale at different times: script
@@ -51,7 +51,5 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
  * the trade screen's state. It is declared once, as bytes, in
  * file_staging_buffer.h, and each user casts to its record type. */
 
-/* The fourth word preserves caller setup; this body does not consume it. */
-void func_80060E70(u16 *entries, s32 side, s32 flag, s32 ignored);
 
 #endif

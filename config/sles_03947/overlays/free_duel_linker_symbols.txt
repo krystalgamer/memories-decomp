@@ -32,6 +32,5 @@ gGraphics_dwSyncedFrameCount = 0x8009C00C;
 rand = 0x8008F504;
 gGraphics_sViewportY = 0x8009C0A2;
 
-func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
 gGraphics_aImageTransferRects = 0x8009C418;

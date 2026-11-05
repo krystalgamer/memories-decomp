@@ -1,4 +1,4 @@
-func_80060E70 = 0x80050B6C;
+CardList_BuildRowSetTextBoxes = 0x80050B6C;
 DisplayObject_ReleaseIfPresent = 0x80040490;
 gCard_asNameSortKey = 0x801D4D8E;
 gDuel_adwCardStats = 0x801D4244;

@@ -67,7 +67,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
         1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0x100, 3);
 #else
 #ifndef VERSION_JAPAN
-    func_8003B6AC(1, 1);
+    DuelEffect_SetEntryRangeLayout(1, 1);
 #endif
     object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
 #endif
@@ -170,7 +170,7 @@ void NameEntry_Init(void)
     TextBox_BuildBlocking(TEXT_CHANNEL(3));
 #else
 #ifndef VERSION_JAPAN
-    func_8003B6AC(3, 1);
+    DuelEffect_SetEntryRangeLayout(3, 1);
 #endif
     TextBox_Create(3, 254, 112, 204, 96, 16);
 #ifdef VERSION_JAPAN
@@ -180,7 +180,7 @@ void NameEntry_Init(void)
     boxes[3].glyph_advance_x = 16;
     boxes[3].line_advance_y = 16;
     TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[3]);
-    func_8003B6AC(0, 1);
+    DuelEffect_SetEntryRangeLayout(0, 1);
 #endif
 #endif
 
@@ -1190,8 +1190,8 @@ void NameEntry_UpdateDialog(void)
         if ((flags & 4) == 0) {
             gNameEntry_bStateFlags = flags | 4;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-            /* The Japanese and European builds make no func_8003B6AC call here. */
-            func_8003B6AC(2, 2);
+            /* The Japanese and European builds make no DuelEffect_SetEntryRangeLayout call here. */
+            DuelEffect_SetEntryRangeLayout(2, 2);
 #endif
 #ifdef VERSION_EUROPE
             box = TextBox_CreateFlagged(2, gNameEntry_wPendingDialogId & 0xFFF, 16, 248,

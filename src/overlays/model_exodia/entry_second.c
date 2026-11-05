@@ -41,7 +41,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             setVector(&work->target, 0, -300, 450);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        func_80059B90(480, (s16 *)&work->origin);
+        Model_GetSlot0OffsetWorldPosition(480, (s16 *)&work->origin);
         work->direction.vx = work->target.vx - work->matrix.t[0];
         work->direction.vy = work->target.vy - work->matrix.t[1];
         work->direction.vz = work->target.vz - work->matrix.t[2];
@@ -188,9 +188,9 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = dx;
         work->screen_delta.vy = dy;
         if (work->frame < work->config->pulse3) {
-            func_80059B90(480, (s16 *)&work->origin);
+            Model_GetSlot0OffsetWorldPosition(480, (s16 *)&work->origin);
         } else {
-            func_80059B90(0, (s16 *)&work->origin);
+            Model_GetSlot0OffsetWorldPosition(0, (s16 *)&work->origin);
         }
         work->direction.vx = work->target.vx - work->origin.vx;
         work->direction.vy = work->target.vy - work->origin.vy;

@@ -8,6 +8,7 @@
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_slot_queries.h"
+#include "../../game/model_view_coordinate_helpers.h"
 #include "../../game/camera_view.h"
 #include "../../game/gpu_packets.h"
 #include "../../psyq/libhmd.h"
@@ -90,6 +91,5 @@ typedef struct {
 } ExodiaSecondEntryProjection;
 
 extern ExodiaSecondEntryConfig gModelExodia_D1D3C[];
-void func_80059B90(s16 value, s16 *out);
 s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command);
 #endif

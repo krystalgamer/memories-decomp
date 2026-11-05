@@ -30,5 +30,5 @@ RotTransPers4 = 0x800865C0;
 ScaleMatrix = 0x80086260;
 SetRotMatrix = 0x800863A0;
 Graphics_GetDefaultOrderingTable = 0x8005BD40;
-func_80059B90 = 0x8005C9C0;
+Model_GetSlot0OffsetWorldPosition = 0x8005C9C0;
 Graphics_SubmitDrawModePacket = 0x8004CFF8;

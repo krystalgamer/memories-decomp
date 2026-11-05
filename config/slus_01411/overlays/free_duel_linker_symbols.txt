@@ -29,7 +29,6 @@ gDuel_bPostDuelMainMode = 0x8009B368;
 
 TextBox_BuildBlockingWithGlyphScratch = 0x80039A60;
 
-func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
 gGraphics_aImageTransferRects = 0x800E9D70;
 gMain_bActiveModeState = 0x8009B26C;
