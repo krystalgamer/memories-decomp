@@ -69,7 +69,7 @@ typedef struct {
     u8 ring_red, ring_green, ring_blue;
 } Image31368State;
 
-extern VECTOR gFrenchModelVariant789_D2388;
+extern VECTOR gFrenchModelVariant789_UnitScale;
 extern GsIMAGE gFrenchModelVariant789_aImages[];
 extern Image31368Command gFrenchModelVariant789_aConfigs[];
 

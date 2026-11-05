@@ -57,7 +57,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant648_D1D54);
+        texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant648_Image);
         work->tpage = texture >> 16;
         work->clut = texture;
         switch (command) {

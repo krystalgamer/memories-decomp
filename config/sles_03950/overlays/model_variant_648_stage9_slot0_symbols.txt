@@ -1,6 +1,6 @@
 // Italian MODEL.MRG model 648 (record 648), sector 165248, header 98, loaded at 0x8013B000; ribbon and cylinders; built from the French source layout of french_model_variant_648_stage9_slot0.
 ModelVariant81_HandleRequest = 0x8013B004; // type:func size:0x19AC defined:true
-gModelVariant81_D19C0 = 0x8013C9C0; // type:u8 size:0x1C defined:true
+gModelVariant81_Image = 0x8013C9C0; // type:u8 size:0x1C defined:true
 gModelVariant81_aConfigs = 0x8013C9DC; // type:u8 size:0x3624 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true

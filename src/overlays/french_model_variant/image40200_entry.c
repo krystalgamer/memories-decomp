@@ -21,7 +21,7 @@ s32 FrenchModelVariant175_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant175_D1108;
+    scale = gFrenchModelVariant175_UnitScale;
     work = (Image40200State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();

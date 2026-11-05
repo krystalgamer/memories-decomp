@@ -50,7 +50,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant819_D12CC;
+    scale = gFrenchModelVariant819_UnitScale;
     work = (Image119708State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

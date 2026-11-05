@@ -57,7 +57,7 @@ s32 ModelVariant81_HandleRequest(u8 *context, s32 command)
         for (i = 1; i < config->count; i++) {
             work->frames[i] = rand() % 5 + 2;
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant81_D19C0);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant81_Image);
         for (i = 0; i < config->segments / 2; i++) {
             work->colours[i].r = 0;
             work->colours[i].g = i * 2 * 255 / config->segments;

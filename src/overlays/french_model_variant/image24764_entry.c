@@ -32,7 +32,7 @@ s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
-    scale = gFrenchModelVariant197_D0C4C;
+    scale = gFrenchModelVariant197_UnitScale;
     state = (Image24764State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

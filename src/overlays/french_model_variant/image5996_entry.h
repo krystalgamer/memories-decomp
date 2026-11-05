@@ -52,7 +52,7 @@ typedef union {
     DVECTOR screens[66];
 } Image5996Projection;
 
-extern VECTOR gFrenchModelVariant102_D0F44;
+extern VECTOR gFrenchModelVariant102_UnitScale;
 extern GsIMAGE gFrenchModelVariant102_aImages[3];
 extern Image5996Config gFrenchModelVariant102_aConfigs[];
 

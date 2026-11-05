@@ -52,7 +52,7 @@ typedef struct {
     CVECTOR colors[4][8];
 } Image103128State;
 
-extern VECTOR gFrenchModelVariant857_D0EEC;
+extern VECTOR gFrenchModelVariant857_UnitScale;
 extern GsIMAGE gFrenchModelVariant857_aImages[2];
 extern Image103128Config gFrenchModelVariant857_aConfigs[];
 

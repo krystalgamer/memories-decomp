@@ -66,4 +66,4 @@ tricks or fabricated operations were introduced.
 
 ## Per-image bindings
 
-One source, `french_model_variant/image104528_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant826_HandleRequest` and the three raw-tail data names (`gFrenchModelVariant826_D10C8`, `_D10D8`, `_D1110`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.
+One source, `french_model_variant/image104528_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant826_HandleRequest` and the three raw-tail data names (`gFrenchModelVariant826_UnitScale`, `_D10D8`, `_D1110`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

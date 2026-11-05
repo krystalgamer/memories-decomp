@@ -33,7 +33,7 @@ s32 FrenchModelVariant857_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
-    scale = gFrenchModelVariant857_D0EEC;
+    scale = gFrenchModelVariant857_UnitScale;
     state = (Image103128State *)context;
     packet = &quad;
     gradient_packet = &gradient;

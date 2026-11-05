@@ -58,7 +58,7 @@ typedef union {
     ModelEffectAdjustment dimensions;
 } Image104528Rotation;
 
-extern VECTOR gFrenchModelVariant826_D10C8;
+extern VECTOR gFrenchModelVariant826_UnitScale;
 extern GsIMAGE gFrenchModelVariant826_aImages[2];
 extern Image104528Config gFrenchModelVariant826_aConfigs[];
 

@@ -45,7 +45,7 @@ has room for it, and without it the other locals move.
 ## Layout and bindings
 
 The entry has no `.rodata`. The rest of the image is one raw tail that starts
-at `0xA1C`. Inside it, the layout names the unit scale vector `gModelVariant119_D0A1C`,
+at `0xA1C`. Inside it, the layout names the unit scale vector `gModelVariant119_UnitScale`,
 the texture descriptor `gModelVariant119_aImages` and the command table `gModelVariant119_aConfigs`. The
 `0x8017B000` images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant119_linker_symbols.txt`.

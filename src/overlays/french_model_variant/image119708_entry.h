@@ -36,7 +36,7 @@ typedef struct {
     s32 ambient, textures[1];
 } Image119708State;
 
-extern VECTOR gFrenchModelVariant819_D12CC;
+extern VECTOR gFrenchModelVariant819_UnitScale;
 extern GsIMAGE gFrenchModelVariant819_aImages[1];
 extern Image119708Config gFrenchModelVariant819_aConfigs[];
 
