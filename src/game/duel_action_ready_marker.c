@@ -15,8 +15,8 @@
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
-u8 gDuelCursor_TargetColumn;
-u8 gDuelCursor_TargetRow;
+s8 gDuelCursor_TargetColumn;
+s8 gDuelCursor_TargetRow;
 s8 gDuelCursor_Direction;
 u16 gDuel_wDisplayTransitionFlags;
 DisplayObject *gDuel_pActionReadyMarker;
@@ -40,13 +40,13 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
     if (gDuel_wDisplayTransitionFlags != 0) { gDuelCursor_Direction = -1; return 1; }
     if (DuelCursor_UpdateDirection(cursor, gDuelCursor_Direction) != 0) { return 1; }
     gDuelCursor_Direction = -1;
-    if ((s8)gDuelCursor_TargetRow != cursor->row) {
+    if (gDuelCursor_TargetRow != cursor->row) {
         gDuelCursor_Direction = 1;
-        if ((s8)gDuelCursor_TargetRow < cursor->row) { gDuelCursor_Direction = 3; }
+        if (gDuelCursor_TargetRow < cursor->row) { gDuelCursor_Direction = 3; }
         return 1;
-    } else if ((s8)gDuelCursor_TargetColumn != cursor->col) {
+    } else if (gDuelCursor_TargetColumn != cursor->col) {
         gDuelCursor_Direction = 0;
-        if ((s8)gDuelCursor_TargetColumn < cursor->col) { gDuelCursor_Direction = 2; }
+        if (gDuelCursor_TargetColumn < cursor->col) { gDuelCursor_Direction = 2; }
         return 1;
     } else {
         return 0;
