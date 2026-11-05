@@ -1,8 +1,11 @@
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAF08-0x800EAFF8, defined in
- * address order ahead of the headers that declare it (#2602). */
+ * address order ahead of the headers that declare it (#2602). Nothing in the
+ * European builds reads it, and their images have no such storage. */
+#ifndef VERSION_EUROPE
 u8 gDuelEffect_aOccupancyValues[240];
+#endif
 
 #include "duel_effect.h"
 #include "duel_effect_entry_state.h"
