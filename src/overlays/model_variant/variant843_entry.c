@@ -8,7 +8,7 @@
  * model. Each arrival opens into a fading four-petal burst; once the last
  * of both has landed the light comes back. */
 
-static const VECTOR gModelVariant843_D1C80 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant843_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant843_HandleRequest(u8 *context, s32 command)
 {
@@ -31,7 +31,7 @@ s32 ModelVariant843_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant843_D1C80;
+    scale = gModelVariant843_UnitScale;
     work = (Model843State *)context;
     packet = &ft4;
     slot = Model_GetActiveSlotIndex();

@@ -8,7 +8,7 @@
  * opposing slot, each throwing off tumbling embers, while the ambient light
  * dims and recovers. */
 
-static const VECTOR gModelVariant806_D1F58 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant806_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -38,7 +38,7 @@ s32 ModelVariant806_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant806_D1F58;
+    scale = gModelVariant806_UnitScale;
     work = (Model806State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

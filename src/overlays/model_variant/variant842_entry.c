@@ -8,7 +8,7 @@
  * with a fan of growing textured rays and animated sparks while the
  * ambient light dims and recovers. */
 
-static const VECTOR gModelVariant842_D3664 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant842_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -43,7 +43,7 @@ s32 ModelVariant842_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant842_D3664;
+    scale = gModelVariant842_UnitScale;
     work = (Model842State *)context;
     gt4 = &ray;
     slot = Model_GetActiveSlotIndex();

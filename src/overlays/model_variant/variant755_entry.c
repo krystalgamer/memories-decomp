@@ -8,7 +8,7 @@
  * fragments that drift apart; once the last shard has burst after spawning
  * ends, the light comes back. */
 
-static const VECTOR gModelVariant755_D1620 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant755_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant755_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant755_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant755_D1620;
+    scale = gModelVariant755_UnitScale;
     work = (Model755State *)context;
     packet = &ft4;
     slot = Model_GetActiveSlotIndex();

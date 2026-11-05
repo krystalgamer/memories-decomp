@@ -7,7 +7,7 @@
  * ambient light dims. Each orb that lands opens into a growing textured
  * halo ring, a stack of fading glows and a spray of falling debris. */
 
-static const VECTOR gModelVariant781_D1DC4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant781_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
 {
@@ -32,7 +32,7 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant781_D1DC4;
+    scale = gModelVariant781_UnitScale;
     work = (Model781State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

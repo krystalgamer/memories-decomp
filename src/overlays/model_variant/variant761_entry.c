@@ -6,7 +6,7 @@
  * beam climbs upward and fades. The parts are tinted during a window, the
  * ambient level dips until the burst and the camera shakes until then. */
 
-static const VECTOR gModelVariant761_D11DC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant761_UnitScale = {4096, 4096, 4096, 0};
 static const ModelTintColor gModelVariant761_D11EC = {0x60, 0x60, 0x60, 0};
 
 s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
@@ -30,7 +30,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant761_D11DC;
+    scale = gModelVariant761_UnitScale;
     tint_start = gModelVariant761_D11EC;
     memset(&tint_end, 0, 4);
     work = (Model761State *)context;

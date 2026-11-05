@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant788_entry.h"
 
-static const VECTOR gModelVariant788_D23D0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant788_UnitScale = {4096, 4096, 4096, 0};
 
 #define FADE_IN(value, target)                                     \
     if (value < work->config->target - 15) {                       \
@@ -51,7 +51,7 @@ s32 ModelVariant788_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant788_D23D0;
+    scale = gModelVariant788_UnitScale;
     memset(&center, 0, 8);
     work = (Model788State *)context;
     slot = Model_GetActiveSlotIndex();

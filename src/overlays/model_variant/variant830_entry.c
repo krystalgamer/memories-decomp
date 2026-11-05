@@ -8,7 +8,7 @@
  * The colours fade every frame, and the entry ends once the light has come
  * back and the last spark has burnt out. */
 
-static const VECTOR gModelVariant830_D2BF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant830_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant830_HandleRequest(u8 *context, s32 command)
 {
@@ -30,7 +30,7 @@ s32 ModelVariant830_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant830_D2BF8;
+    scale = gModelVariant830_UnitScale;
     work = (Model830State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

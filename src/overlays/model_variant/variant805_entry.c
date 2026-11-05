@@ -7,7 +7,7 @@
  * arrival each flares into a glow with two fans of rays and a ring of
  * animated sprites while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant805_D2C9C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant805_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -37,7 +37,7 @@ s32 ModelVariant805_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant805_D2C9C;
+    scale = gModelVariant805_UnitScale;
     work = (Model805State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

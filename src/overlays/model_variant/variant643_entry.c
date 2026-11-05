@@ -33,7 +33,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model643State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant643_D2298, sizeof(Model643State));
+        printf(gModelVariant643_szWorkSizeFormat, sizeof(Model643State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

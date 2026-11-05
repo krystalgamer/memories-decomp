@@ -14,7 +14,7 @@
 #ifndef MODEL652_STRING_PAD
 #define MODEL652_STRING_PAD "\x9A"
 #endif
-static const char gModelVariant652_D2780[24] = "E_DATA size = %x byte\n\0" MODEL652_STRING_PAD;
+static const char gModelVariant652_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL652_STRING_PAD;
 #endif
 
 s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
@@ -40,7 +40,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model652State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant652_D2780, sizeof(Model652State));
+        printf(gModelVariant652_szWorkSizeFormat, sizeof(Model652State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

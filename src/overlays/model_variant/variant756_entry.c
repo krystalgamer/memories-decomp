@@ -7,7 +7,7 @@
  * puffs, a debris burst and a ring of embers in front of the slot. The smoke
  * texture row is taken from the second puff's frame, as retail does. */
 
-static const VECTOR gModelVariant756_D2000 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant756_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant756_D2000;
+    scale = gModelVariant756_UnitScale;
     work = (Model756State *)context;
     gouraud_packet = &gouraud;
     burst_packet = &burst;

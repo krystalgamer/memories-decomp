@@ -7,7 +7,7 @@
  * pulsing rings of quads spread out and every colour fades. The first drawn
  * frame returns 1 and the end returns 2. */
 
-static const VECTOR gModelVariant763_D1B98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant763_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant763_HandleRequest(u8 *context, s32 command)
 {
@@ -39,7 +39,7 @@ s32 ModelVariant763_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant763_D1B98;
+    scale = gModelVariant763_UnitScale;
     work = (Model763State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

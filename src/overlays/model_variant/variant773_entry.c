@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant773_entry.h"
 
-static const VECTOR gModelVariant773_D2508 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant773_UnitScale = {4096, 4096, 4096, 0};
 
 /* Header-773 MODEL entry: twelve streaking orbs with trails, ribbons and impact flashes. */
 s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
@@ -27,7 +27,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&offset, 0, 8);
-    scale = gModelVariant773_D2508;
+    scale = gModelVariant773_UnitScale;
     work = (Model773State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

@@ -10,7 +10,7 @@
  * also prints the work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char gModelVariant633_D31E0[24] = "E_DATA size = %x byte\n\0";
+static const char gModelVariant633_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0";
 #endif
 
 s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
@@ -36,7 +36,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model633State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant633_D31E0, sizeof(Model633State));
+        printf(gModelVariant633_szWorkSizeFormat, sizeof(Model633State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

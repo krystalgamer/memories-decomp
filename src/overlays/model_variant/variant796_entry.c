@@ -7,7 +7,7 @@
  * smoke puffs. On arrival it flares into a glow with two fans of rays and
  * animated sparks while the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant796_D381C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant796_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -38,7 +38,7 @@ s32 ModelVariant796_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant796_D381C;
+    scale = gModelVariant796_UnitScale;
     work = (Model796State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

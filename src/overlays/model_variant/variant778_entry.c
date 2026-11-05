@@ -6,7 +6,7 @@
  * ambient light dims; then glows swirl around the opposing slot and rings of
  * spokes expand and fade there until the light recovers. */
 
-static const VECTOR gModelVariant778_D14B4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant778_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
 {
@@ -26,7 +26,7 @@ s32 ModelVariant778_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant778_D14B4;
+    scale = gModelVariant778_UnitScale;
     work = (Model778State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {

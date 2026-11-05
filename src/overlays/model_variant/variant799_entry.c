@@ -5,7 +5,7 @@
  * model point at their own start times and fly towards a jittered point on
  * the opposing slot, shedding two sets of debris particles. */
 
-static const VECTOR gModelVariant799_D3D6C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant799_UnitScale = {4096, 4096, 4096, 0};
 
 /* Matching quirk: the shock-fan growth is indexed by "bolt - count", which
  * is always negative, so it really reads and writes the flight counters that
@@ -46,7 +46,7 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant799_D3D6C;
+    scale = gModelVariant799_UnitScale;
     work = (Model799State *)context;
     ft4p = &ft4;
     gt4p = &gt4;

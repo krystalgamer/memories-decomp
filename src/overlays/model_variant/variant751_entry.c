@@ -8,7 +8,7 @@
  * and a fountain of falling sparks while the colour fades out and the ambient
  * light dims and recovers. */
 
-static const VECTOR gModelVariant751_D1A40 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant751_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
 {
@@ -36,7 +36,7 @@ s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant751_D1A40;
+    scale = gModelVariant751_UnitScale;
     work = (Model751State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

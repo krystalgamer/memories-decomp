@@ -4,7 +4,7 @@
 /* Header 802's entry: the opposing slot glides over and back while a cloud
  * of particles rises around it, the slot scale swelling and shrinking. */
 
-static const VECTOR gModelVariant802_D12CC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant802_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -60,7 +60,7 @@ s32 ModelVariant802_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant802_D12CC;
+    scale = gModelVariant802_UnitScale;
     work = (Model802State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;

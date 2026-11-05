@@ -34,7 +34,7 @@ The pad byte after the format string's terminator is `0x01` in slot 0 and
 `0x08` in slot 1, so a compiled `.rodata` string (zero-padded by the linker
 script's 4-byte alignment) cannot reproduce it. The string therefore stays in
 the unclassified data tail and the entry prints through
-`extern char gModelVariant673_D1B30[]`; the instructions are the same `lui`/`addiu` pair a
+`extern char gModelVariant673_szWorkSizeFormat[]`; the instructions are the same `lui`/`addiu` pair a
 literal would produce.
 
 ## What the entry does

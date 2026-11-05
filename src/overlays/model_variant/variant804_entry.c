@@ -6,7 +6,7 @@
  * into a glow with two fans of rays and a burst of drifting sparks while
  * the ambient light dims and recovers. */
 
-static const VECTOR gModelVariant804_D2334 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant804_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -35,7 +35,7 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = gModelVariant804_D2334;
+    scale = gModelVariant804_UnitScale;
     work = (Model804State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

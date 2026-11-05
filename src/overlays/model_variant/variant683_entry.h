@@ -87,7 +87,7 @@ typedef struct {
 extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH
 /* "E_DATA size = %x byte\n". */
-extern char gModelVariant683_D2514[];
+extern char gModelVariant683_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant683_D252C[6];
 extern Model683Command gModelVariant683_aConfigs[];

@@ -13,7 +13,7 @@
 #ifndef MODEL630_STRING_PAD
 #define MODEL630_STRING_PAD "\xAF"
 #endif
-static const char gModelVariant630_D17B0[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
+static const char gModelVariant630_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
 #endif
 
 /* Fades channel C of ring i towards black over the second half of its
@@ -47,7 +47,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model630State));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant630_D17B0, sizeof(Model630State));
+        printf(gModelVariant630_szWorkSizeFormat, sizeof(Model630State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

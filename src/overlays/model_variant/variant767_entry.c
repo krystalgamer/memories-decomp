@@ -9,7 +9,7 @@
  * burst shaking the camera and optionally flashing the screen. The ambient
  * level dips until the second burst and comes back afterwards. */
 
-static const VECTOR gModelVariant767_D17A4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant767_UnitScale = {4096, 4096, 4096, 0};
 
 s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
 {
@@ -34,7 +34,7 @@ s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant767_D17A4;
+    scale = gModelVariant767_UnitScale;
     work = (Model767State *)context;
     flash_packet = &screen;
     packet = &burst;
