@@ -32,7 +32,7 @@ s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant142_D152C;
+    scale = gFrenchModelVariant142_UnitScale;
     work = (Model142State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {

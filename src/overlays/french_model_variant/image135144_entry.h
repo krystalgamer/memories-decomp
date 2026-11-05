@@ -52,7 +52,7 @@ typedef struct {
     u8 unknown_r[8], unknown_g[8], unknown_b[8];
 } Image135144State;
 
-extern const VECTOR gFrenchModelVariant820_D218C;
+extern const VECTOR gFrenchModelVariant820_UnitScale;
 extern GsIMAGE gFrenchModelVariant820_aImages[];
 extern Image135144Config gFrenchModelVariant820_aConfigs[];
 

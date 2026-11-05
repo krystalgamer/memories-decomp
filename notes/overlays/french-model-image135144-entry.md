@@ -87,6 +87,6 @@ US and Japanese images build this French source directly in both slots, so
 no US wrapper or selector is needed. As in the French layout, the scale
 vector at `0x218C` stays in the raw tail. Every image's symbols file binds
 `FrenchModelVariant820_HandleRequest` and the three data names
-(`gFrenchModelVariant820_D218C`, `_aImages`, `_aConfigs`) at its own addresses;
+(`gFrenchModelVariant820_UnitScale`, `_aImages`, `_aConfigs`) at its own addresses;
 the PAL images no longer take them from the per-region linker files. Both US images reproduce
 their retail SHA-256.

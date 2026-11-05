@@ -50,7 +50,7 @@ typedef struct {
     s32 tint;
 } Model129State;
 
-extern const VECTOR gModelVariant129_D0FA0;
+extern const VECTOR gModelVariant129_UnitScale;
 extern GsIMAGE gModelVariant129_aImages[];
 extern Model129Config gModelVariant129_aConfigs[];
 

@@ -45,7 +45,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant636_D1F80);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant636_Image);
         work->tpage = tex >> 16;
         work->clut = tex;
         /* Two tests rather than one &&, which the front end would fold into

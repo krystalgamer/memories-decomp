@@ -1,5 +1,5 @@
 // Spanish MODEL.MRG model 113 (record 113), sector 31378, header 886, loaded at 0x8017B000; the French header-789 entry image31368_entry.c, with its data in the raw tail.
 FrenchModelVariant789_HandleRequest = 0x8017B004; // type:func size:0x2384 defined:true
-gFrenchModelVariant789_D2388 = 0x8017D388; // type:u8 size:0x10
+gFrenchModelVariant789_UnitScale = 0x8017D388; // type:u8 size:0x10
 gFrenchModelVariant789_aImages = 0x8017D398; // type:u8 size:0x38
 gFrenchModelVariant789_aConfigs = 0x8017D3D0; // type:u8 size:0x2C30

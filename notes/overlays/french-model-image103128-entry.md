@@ -6,7 +6,7 @@ matches its original bytes with `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX
 2.81. The four-byte loader header and raw suffix beginning at `0xEEC`
 remain unchanged. One source serves both slots: each image's symbols file
 binds `FrenchModelVariant857_HandleRequest` and the three raw-tail data names
-(`gFrenchModelVariant857_D0EEC`, `_D0EFC`, `_D0F34`) at its own addresses,
+(`gFrenchModelVariant857_UnitScale`, `_D0EFC`, `_D0F34`) at its own addresses,
 replacing the per-region linker assignments.
 
 | Sector | Entry | Complete-image SHA-256 |

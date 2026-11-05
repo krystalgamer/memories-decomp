@@ -1,5 +1,5 @@
 // Spanish MODEL.MRG raw image, sector 168274, header 276, loaded at 0x8017B000; the French entry image168264_entry.c, with its data in the raw tail.
 FrenchModelVariant146_HandleRequest = 0x8017B004; // type:func size:0xF9C defined:true
-gFrenchModelVariant146_D0FA0 = 0x8017BFA0; // type:u8 size:0x10
+gFrenchModelVariant146_UnitScale = 0x8017BFA0; // type:u8 size:0x10
 gFrenchModelVariant146_aImages = 0x8017BFB0; // type:u8 size:0x38
 gFrenchModelVariant146_aConfigs = 0x8017BFE8; // type:u8 size:0x4018

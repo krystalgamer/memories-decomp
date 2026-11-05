@@ -45,7 +45,7 @@ typedef struct {
     u8 completed;
 } Image16740State;
 
-extern VECTOR gFrenchModelVariant196_D0C44;
+extern VECTOR gFrenchModelVariant196_UnitScale;
 extern GsIMAGE gFrenchModelVariant196_aImages[2];
 extern Image16740Config gFrenchModelVariant196_aConfigs[];
 

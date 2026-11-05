@@ -37,7 +37,7 @@ s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant118_D1044;
+    scale = gModelVariant118_UnitScale;
     work = (Model118State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

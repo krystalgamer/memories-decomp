@@ -33,7 +33,7 @@ s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gModelVariant122_D1840;
+    scale = gModelVariant122_UnitScale;
     work = (Model122State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     /* A nested scope gives step the last spill slot, as in the original. */

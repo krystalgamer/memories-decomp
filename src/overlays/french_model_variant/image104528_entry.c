@@ -20,7 +20,7 @@ s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation.vector, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant826_D10C8;
+    scale = gFrenchModelVariant826_UnitScale;
     work = (Image104528State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {

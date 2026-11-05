@@ -43,7 +43,7 @@ typedef struct {
     s32 updates;
 } Image40200State;
 
-extern VECTOR gFrenchModelVariant175_D1108;
+extern VECTOR gFrenchModelVariant175_UnitScale;
 extern GsIMAGE gFrenchModelVariant175_aImages[2];
 extern Image40200Config gFrenchModelVariant175_aConfigs[];
 

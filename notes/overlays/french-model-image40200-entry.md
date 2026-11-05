@@ -101,4 +101,4 @@ the source/provider correction.
 
 ## Per-image bindings
 
-One source, `french_model_variant/image40200_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant175_HandleRequest` and the raw-tail data names (`gFrenchModelVariant175_D1108`, `_aImages`, `_aConfigs`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.
+One source, `french_model_variant/image40200_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant175_HandleRequest` and the raw-tail data names (`gFrenchModelVariant175_UnitScale`, `_aImages`, `_aConfigs`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

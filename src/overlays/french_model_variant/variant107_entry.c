@@ -3,7 +3,7 @@
 #include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR gFrenchModelVariant107_D1188 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant107_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command)
 {
@@ -28,7 +28,7 @@ s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = gFrenchModelVariant107_D1188;
+    scale = gFrenchModelVariant107_UnitScale;
     work = (Model107State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();

@@ -422,7 +422,7 @@ Ten images under French headers 653 and 720 are the North American
 header-636 entry (`model_variant/variant636_entry.c`) without its `E_DATA`
 work-size printf, built through
 `src/overlays/french_model_variant/variant653_entry.c` with the data
-labels 0x28 lower. Each image's symbols file binds `ModelVariant636_HandleRequest` and `gModelVariant636_D1F80`, `gModelVariant636_aConfigs` at its own addresses.
+labels 0x28 lower. Each image's symbols file binds `ModelVariant636_HandleRequest` and `gModelVariant636_Image`, `gModelVariant636_aConfigs` at its own addresses.
 
 Six images under French headers 165 and 295 are the North American
 header-148 entry (`model_variant/variant148_entry.c`) without its work-size
@@ -1140,7 +1140,7 @@ under header 269, are the North American header-122 entry
 (`model_variant/variant122_entry.c`, wired to US headers 122 and 252) with its
 full-screen flash tile covering the 256 PAL lines instead of 240.
 `VERSION_FRENCH` selects the height, through
-`src/overlays/french_model_variant/variant139_entry.c`. Each image's symbols file binds `ModelVariant122_HandleRequest` and `gModelVariant122_D1840`, `gModelVariant122_aImages`, `gModelVariant122_aConfigs` at its own addresses.
+`src/overlays/french_model_variant/variant139_entry.c`. Each image's symbols file binds `ModelVariant122_HandleRequest` and `gModelVariant122_UnitScale`, `gModelVariant122_aImages`, `gModelVariant122_aConfigs` at its own addresses.
 
 Two images under French headers 149 and 279 are the North American
 header-132 entry (`model_variant/variant132_entry.c`) with its full-screen
