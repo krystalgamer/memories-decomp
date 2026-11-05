@@ -106,7 +106,7 @@ current music state; preload is not a promise of silence or playback.
 
 The public default-step wrapper retains its low-sixteen-bit mask; the
 direct sequenced default wrapper retains its s16 command cast. Both
-read the same existing default_bgm_step byte at +0x164B, without a new
+read the same existing s_bSD_BGM_FADE_STEP_DEFAULT byte at +0x164B, without a new
 cache, store or
 interpretation of its 0xFF initializer. The untouched frontend retains
 its bitwise class ORs and current-command publication differences.

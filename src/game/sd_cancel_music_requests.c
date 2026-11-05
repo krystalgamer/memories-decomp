@@ -76,9 +76,9 @@ after:
     }
 
     if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
-        if (g_SDValue->sequence_open_result != -1) {
+        if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
             if (SD_PollSequenceState() == 1) {
-                SD_StopSequence(g_SDValue->sequence_open_result);
+                SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             }
             g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
         }

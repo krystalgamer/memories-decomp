@@ -56,15 +56,15 @@ void SD_StepActiveCommand(void)
             switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
             case 0x10:
                 gSD_pFileRequest->file_selector = 4;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->se_file_name);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_SE_FILE);
                 break;
             case 0x20:
                 gSD_pFileRequest->file_selector = 5;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->bgm_file_name);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_BGM_FILE);
                 break;
             case 0x40:
                 gSD_pFileRequest->file_selector = 6;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->master_xa_file_name);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_MASTER_XA_FILE);
                 break;
             }
             SD_ArmBusyCallback();
@@ -75,7 +75,7 @@ void SD_StepActiveCommand(void)
         default:
             return;
         }
-        if (g_SDValue->busy != 0) {
+        if (g_SDValue->s_bSD_BUSY != 0) {
             return;
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
@@ -89,14 +89,14 @@ void SD_StepActiveCommand(void)
     case 17:
         switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
         case 0:
-            if (g_SDValue->cd_volume == 0) {
+            if (g_SDValue->s_wSD_CD_VOLUME == 0) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 1;
                 return;
             }
-            if (g_SDValue->cd_fade_step < 0) {
+            if (g_SDValue->s_wSD_CD_FADE_STEP < 0) {
                 return;
             }
-            g_SDValue->cd_fade_step = -0x20;
+            g_SDValue->s_wSD_CD_FADE_STEP = -0x20;
             g_SDValue->s_bSD_CD_FADE_TARGET = 0;
             return;
         case 1:
@@ -104,7 +104,7 @@ void SD_StepActiveCommand(void)
         default:
             return;
         }
-        g_SDValue->cd_request_code = 0xFFFF;
+        g_SDValue->s_wSD_CD_REQUEST_CODE = 0xFFFF;
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             goto clear_7d_7c;
         }
@@ -136,9 +136,9 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->spu_destination = 0;
             gSD_pFileRequest->spu_transfer_size = 0;
             gSD_pFileRequest->range_sector_count = 0;
-            gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->s_bSD_CD_FILTER_CHANNEL;
             second_word &= first_word;
-            gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
             bank_sector_offset = (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
             gSD_pFileRequest->file_selector = 6;
             second_word += bank_sector_offset;
@@ -165,27 +165,27 @@ void SD_StepActiveCommand(void)
 
             relative_start_sector = first_word & value_mask;
             value_mask &= second_word;
-            entry_state->cd_start_sector_offset = relative_start_sector;
-            entry_state->cd_filter_file = (first_word & 0x1F000000) >> 24;
-            entry_state->cd_end_sector_offset = value_mask;
-            g_SDValue->cd_filter_channel = (second_word & 0x1F000000) >> 24;
+            entry_state->s_dwSD_CD_START_SECTOR = relative_start_sector;
+            entry_state->s_bSD_CD_FILTER_FILE = (first_word & 0x1F000000) >> 24;
+            entry_state->s_dwSD_CD_END_SECTOR = value_mask;
+            g_SDValue->s_bSD_CD_FILTER_CHANNEL = (second_word & 0x1F000000) >> 24;
             second_word >>= 31;
-            g_SDValue->field_0532 = second_word;
+            g_SDValue->s_bSD_CD_DESCRIPTOR_FLAG = second_word;
             first_word >>= 29;
-            g_SDValue->mix_multiplier = first_word;
-            g_SDValue->cd_start_sector_offset =
-                g_SDValue->cd_start_sector_offset + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
-            g_SDValue->cd_end_sector_offset =
-                g_SDValue->cd_end_sector_offset + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
+            g_SDValue->s_bSD_CD_MIX_MULTIPLIER = first_word;
+            g_SDValue->s_dwSD_CD_START_SECTOR =
+                g_SDValue->s_dwSD_CD_START_SECTOR + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
+            g_SDValue->s_dwSD_CD_END_SECTOR =
+                g_SDValue->s_dwSD_CD_END_SECTOR + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
             gSD_pFileRequest->ram_destination = 0;
             gSD_pFileRequest->ram_transfer_size = 0;
             gSD_pFileRequest->spu_destination = 0;
             gSD_pFileRequest->spu_transfer_size = 0;
-            gSD_pFileRequest->range_sector_count = (u16)g_SDValue->cd_end_sector_offset
-                                   - (u16)g_SDValue->cd_start_sector_offset + 0x10;
-            gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
-            gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
-            start_sector_offset = g_SDValue->cd_start_sector_offset;
+            gSD_pFileRequest->range_sector_count = (u16)g_SDValue->s_dwSD_CD_END_SECTOR
+                                   - (u16)g_SDValue->s_dwSD_CD_START_SECTOR + 0x10;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->s_bSD_CD_FILTER_CHANNEL;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
+            start_sector_offset = g_SDValue->s_dwSD_CD_START_SECTOR;
             gSD_pFileRequest->file_selector = 6;
             gSD_pFileRequest->sector_offset = start_sector_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
@@ -194,59 +194,59 @@ void SD_StepActiveCommand(void)
 
     case 41:
     case 42:
-        if (g_SDValue->s_bSD_ACTIVE_CD_FADE_WAIT != 0 && g_SDValue->cd_fade_step != 0) {
+        if (g_SDValue->s_bSD_ACTIVE_CD_FADE_WAIT != 0 && g_SDValue->s_wSD_CD_FADE_STEP != 0) {
             return;
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
         goto clear_7d;
 
     case 72:
-        if (g_SDValue->music_vab_open_result != 0) {
-            SDMusicPackage *list = (SDMusicPackage *)g_SDValue->music_track;
+        if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
+            SDMusicPackage *list = (SDMusicPackage *)g_SDValue->s_pwSD_MUSIC_TRACK;
 
-            g_SDValue->music_vab_open_result = SD_VabOpenHead(
+            g_SDValue->s_wSD_MUSIC_VAB_ID = SD_VabOpenHead(
                 &list->vab_header, 0, list->spu_address
             );
-            if ((s16)g_SDValue->music_vab_open_result != 0) {
+            if ((s16)g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
                 return;
             }
         }
-        if (g_SDValue->sequence_open_result == 0) {
+        if (g_SDValue->s_wSD_SEQ_ACCESS == 0) {
             if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
                 SD_StopSequence(0);
                 SD_SetSecondaryMasterLevels(0, 0);
-                g_SDValue->sequence_fade_level = 0;
-                g_SDValue->sequence_fade_step = 0;
+                g_SDValue->s_wSD_SEQ_FADE_LEVEL = 0;
+                g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
                 g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
             }
-            SD_CloseSequence(g_SDValue->sequence_open_result);
-            g_SDValue->sequence_open_result = -1;
+            SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
+            g_SDValue->s_wSD_SEQ_ACCESS = -1;
         }
         {
             CommandIndexTable *l;
             u32 i;
 
             entry_state = g_SDValue;
-            l = (CommandIndexTable *)entry_state->music_track;
+            l = (CommandIndexTable *)entry_state->s_pwSD_MUSIC_TRACK;
             i = entry_state->s_wSD_ACTIVE_COMMAND_VALUE & 0xF;
 
             if (i >= l->count) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
                 return;
             }
-            g_SDValue->sequence_open_result = SD_OpenSequence(
+            g_SDValue->s_wSD_SEQ_ACCESS = SD_OpenSequence(
                 (u8 *)(
                     (u32)&((u8 (*)[16])0)[l->index_records[i][0]] + (u32)l),
-                                             entry_state->music_vab_open_result);
-            if ((s16)g_SDValue->sequence_open_result == 0) {
-                g_SDValue->opened_sequence_command = g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE;
+                                             entry_state->s_wSD_MUSIC_VAB_ID);
+            if ((s16)g_SDValue->s_wSD_SEQ_ACCESS == 0) {
+                g_SDValue->s_wSD_OPEN_SEQUENCE_COMMAND = g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE;
                 SD_PlaySequence(1, 1);
                 {
                     SDValue *sd = g_SDValue;
-                    sd->sequence_fade_target = 0xFF;
+                    sd->s_bSD_SEQ_FADE_TARGET = 0xFF;
                     sd->s_wSD_STATUS = sd->s_wSD_STATUS | 0x80;
-                    sd->sequence_fade_step = (u16)sd->s_dwSD_ACTIVE_COMMAND_ARG1;
+                    sd->s_wSD_SEQ_FADE_STEP = (u16)sd->s_dwSD_ACTIVE_COMMAND_ARG1;
                 }
             }
         }

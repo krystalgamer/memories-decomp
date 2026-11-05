@@ -8,6 +8,6 @@
 /* Retail stores through both globals with the one-line macro form (lui and
  * %lo at each use, never $gp), like the other G_SDVALUE_IN_DATA units. */
 void SD_ArmBusyCallback(void) {
-    g_SDValue->busy = 1;
+    g_SDValue->s_bSD_BUSY = 1;
     gFile_SecondaryPayloadCompleteCallback = SD_ClearBusyFlag;
 }
