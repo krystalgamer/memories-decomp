@@ -105,7 +105,7 @@ object before it.
 | `src/game/mem_card_driver.c` | `.sbss` | `0x8009B430`-`0x8009B458` |
 | `src/game/sound_driver.c` | `.sbss` | `0x8009B458`-`0x8009B468` |
 | `src/game/model_scene_controllers.c` | `.sbss` | `0x8009B468`-`0x8009B498` |
-| `src/game/movie_frame_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
+| `src/game/movie_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
 | `src/game/main.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
 | `src/game/file_set_position_table.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
 | `src/game/file_transfer_runtime.c` | `.bss` | `0x800E9E18`-`0x800E9EC8` |
@@ -126,7 +126,7 @@ object before it.
 | `src/game/mem_card_driver.c` | `.bss` | `0x800F2888`-`0x800F2B20` |
 | `src/game/model_scene_controllers.c` | `.bss` | `0x800F2B20`-`0x800F56A0` |
 | `src/game/model_distance_queries.c` | `.bss` | `0x800F56A0`-`0x800F5750` |
-| `src/game/movie_stream_requests.c` | `.bss` | `0x800F5750`-`0x800F5768` |
+| `src/game/movie_pipeline.c` | `.bss` | `0x800F5750`-`0x800F5768` |
 | `src/game/model_keyframe_update.c` | `.bss` | `0x800F5768`-`0x800F5918` |
 | `src/game/model_handler_registry.c` | `.bss` | `0x800F5918`-`0x800F5B98` |
 | `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
@@ -458,7 +458,7 @@ model units, in their `.bss` as in their text:
   to leave out the European storage.
 - `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`,
   with these builds' own storage (`D_<ADDR>_sles_03948`) in
-  `spanish/movie_frame_pipeline.c`.
+  `spanish/movie_pipeline.c`.
 - In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
   and `ai_script_vm` (`0x800F6F08`), so the model blocks are `0x408` above
   Europe's.

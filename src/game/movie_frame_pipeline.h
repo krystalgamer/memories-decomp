@@ -15,7 +15,7 @@
  * installs through DecDCToutCallback: each call uploads the decoded strip and
  * queues the next output or marks the frame complete. Its exact void(void)
  * shape is load bearing. The decode timeout is separate: Movie_WaitFrameDecoded
- * in mdec_sync.c counts down and resets the MDEC itself. */
+ * in movie_pipeline.c (formerly mdec_sync.c) counts down and resets the MDEC itself. */
 s32 Movie_StopStream(s32 arg0);
 s32 Movie_DecodeAndPresentFrame(void);
 s32 Movie_WaitAndDecodeFrame(s32 resync);
@@ -30,14 +30,14 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * Movie_OpenStream's argument and gated on, gMovie_bFadingOut is cleared on start,
  * set by Movie_StartFadeOut and read by the fade path, and gMovie_bFrameDecoded is the
  * frame-decoded latch that the DecDCTout callback Movie_OnDecodeOutput raises and
- * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
+ * movie_pipeline.c's Movie_WaitFrameDecoded waits on and clears.
  * gMovie_dwStartFrame, gMovie_dwEndFrame and gMovie_dwEndSector are the three words that follow.
  *
  * gMovie_pWorkArea is the VLC buffer -- Movie_OpenStream points it at gRuntime_pSharedWorkBase and
  * DecDCTvlcBuild is handed it -- and gMovie_StreamLoc is the stream position, copied
  * from a CdlLOC and passed on by address. This header now includes
  * psyq/libcd.h for that type rather than relying on its consumers having done
- * so; mdec_sync.c had not.
+ * so; mdec_sync.c, now part of movie_pipeline.c, had not.
  */
 extern u8 gMovie_bRgb24;
 /* Per-frame pipeline state. gMovie_bFrameDecoded is the latch the DecDCTout
