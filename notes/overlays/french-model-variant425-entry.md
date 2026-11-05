@@ -90,6 +90,16 @@ clamps at zero below phase seven; later it uses `fade << 5`.
 Phases three/four return four, phase six returns one and enters seven,
 phase seven grows fade to 64 and enters eight, and phase eight returns two.
 
+## Config field names
+
+`EntryConfig425` (the `gFrenchModelVariant425_aConfigs` records) names one
+former placeholder. Struct-member renames are recorded here, not in the
+semantic map, which has no field kind.
+
+| Offset | Old → new | Evidence | Confidence |
+|---|---|---|---|
+| `+0x1C` | `field_1C` → `ribbon_start` | `FrenchModelVariant425_DrawRibbon` (`model_variant/variant408_ribbon.c`) leaves the ribbon progress at zero until `work->elapsed` reaches this frame, then raises it to `0x400` as `(elapsed - ribbon_start) << 10 / (travel_start - ribbon_start)`; phase 2 moves to 3 when it is full. It is the start frame of the ribbon's growth, the role other families also call `ribbon_start`. | high |
+
 ## Experiments and acceptance
 
 The [ledger](french-model-variant425-entry-attempts.csv) records all four

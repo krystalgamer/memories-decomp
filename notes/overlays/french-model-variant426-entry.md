@@ -13,7 +13,8 @@ at its own addresses.
   - **Work area.** It holds four header-458 streamers, two funnels and a
     second FT4 pair (`flat2`) ahead of the matrix.
   - **Configuration.** Records are 0x34 bytes, and a new word at `+0x30`
-    gates the helper at `0x13B0`.
+    (`spiral_start`, see [Config field names](#config-field-names)) gates
+    the spiral helper at `0x13B0`.
   - **Textures.** A fourth texture page from `D_8013E874 + 0xE0` feeds
     the new FT4 pair.
   - **Mesh.** The rings drop the fixed height offset, and the row colours
@@ -31,3 +32,13 @@ at its own addresses.
 All four images rebuild exactly. The
 [attempt ledger](french-model-variant426-entry-attempts.csv) records the
 probes.
+
+## Config field names
+
+`EntryConfig426` (the `gFrenchModelVariant426_aConfigs` records) names one
+former placeholder. Struct-member renames are recorded here, not in the
+semantic map, which has no field kind.
+
+| Offset | Old → new | Evidence | Confidence |
+|---|---|---|---|
+| `+0x30` | `field_30` → `spiral_start` | `FrenchModelVariant426_HandleRequest` calls `SpanishModelVariant426_DrawSpiral` on each frame update only once `spiral_start <= work->elapsed`; it is the frame at which the spiral starts drawing. `ModelVariant409_HandleRequest` gates the same `SpanishModelVariant426_DrawSpiral` call on `EntryConfig409.spiral_start <= work->elapsed`, so the name matches that field. | high |

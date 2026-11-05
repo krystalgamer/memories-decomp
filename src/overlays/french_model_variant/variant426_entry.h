@@ -9,7 +9,7 @@ typedef struct {
     CVECTOR outer, inner;
     u8 unknown_08[8], part, unknown_11[7];
     u32 draw_start, field_1C, travel_start, travel_end, fade_start, fade_end;
-    u32 field_30;
+    u32 spiral_start;
 } EntryConfig426;
 
 typedef struct {

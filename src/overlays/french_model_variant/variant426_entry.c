@@ -305,7 +305,7 @@ s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
         if (work->phase > 0) {
             FrenchModelVariant426_DrawRibbon((u8 *)point);
         }
-        if (work->config->field_30 <= work->elapsed) {
+        if (work->config->spiral_start <= work->elapsed) {
             SpanishModelVariant426_DrawSpiral((u8 *)point);
         }
         work->frame_count++;

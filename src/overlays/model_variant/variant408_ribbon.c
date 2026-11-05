@@ -145,9 +145,9 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     }
     work->field_17FC += work->step * 384;
     work->field_1800 += work->step * 128;
-    if (work->progress < 0x400 && work->elapsed >= work->config->field_1C) {
-        work->progress = ((work->elapsed - work->config->field_1C) << 10)
-                         / (work->config->travel_start - work->config->field_1C);
+    if (work->progress < 0x400 && work->elapsed >= work->config->ribbon_start) {
+        work->progress = ((work->elapsed - work->config->ribbon_start) << 10)
+                         / (work->config->travel_start - work->config->ribbon_start);
         if (work->progress >= 0x400) {
             work->progress = 0x400;
             if (work->phase == 2) {
