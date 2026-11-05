@@ -590,13 +590,13 @@
     },
     {
       "address": "0x80017768",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps_comm",
       "size": "0xF8",
       "source": "src/game/spanish/duel_ground_projection.c"
     },
     {
       "address": "0x80017860",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps_comm",
       "size": "0xD0",
       "source": "src/game/spanish/duel_ground_projection.c"
     },
@@ -2342,13 +2342,13 @@
     },
     {
       "address": "0x80032824",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
       "size": "0x810",
       "source": "src/game/european/build_deck_init_screen.c"
     },
     {
       "address": "0x80033034",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
       "size": "0x28",
       "source": "src/game/european/build_deck_init_screen.c"
     },
@@ -2762,7 +2762,7 @@
     },
     {
       "address": "0x80037CC4",
-      "profile": "gcc_2_8_1_g8_no_sched1",
+      "profile": "gcc_2_8_1_g8_no_sched1_comm",
       "size": "0x40",
       "source": "src/game/text_extend_glyph_code.c"
     },
