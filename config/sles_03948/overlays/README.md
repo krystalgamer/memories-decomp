@@ -1384,7 +1384,8 @@ North American header-451 entry (`model_variant/variant451_entry.c`) through
 leaves out the swarm helper the French images already build from
 `image134622_swarm.c`, and the data label sits 8 bytes lower. Each image's
 symbols file binds `ModelVariant451_HandleRequest`,
-`FrenchModelVariant468_DrawSwarm` and `gModelVariant451_D1B84` at its own
+`FrenchModelVariant468_DrawSwarm`, `gModelVariant451_aImages` and
+`gModelVariant451_aConfigs` at its own
 addresses. The two
 images bind resident calls through their own
 `model_variant468_linker_symbols.txt`.

@@ -48,7 +48,7 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant380EntryConfig *)(gModelVariant380_D2970 + 0x38) + command;
+        work->config = gModelVariant380_aConfigs + command;
         for (i = 0, angle = 0; i < work->config->count;) {
             height = -2048;
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
@@ -64,10 +64,10 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
             i++;
             angle = (i << 12) / work->config->count;
         }
-        stack.texture_cluts[1] = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)gModelVariant380_D2970);
+        stack.texture_cluts[1] = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant380_aImages[0]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT380_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant380_D2970 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant380_aImages[1]);
         stack.texture_cluts[0] = packed;
         flat_page = packed >> 16;
         SetPolyG3(triangle);

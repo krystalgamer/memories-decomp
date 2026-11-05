@@ -12,7 +12,8 @@ and the band renderer is the French header-481 C,
 (see [the band note](french-model-variant481-band.md)); the US images build
 both sources directly. The same sources build both slots: the shared C
 defines `ModelVariant464_HandleRequest`, `FrenchModelVariant481_DrawBand`,
-`FrenchModelVariant481_DrawRings` and `gModelVariant464_D1E0C`, and each
+`FrenchModelVariant481_DrawRings`, `gModelVariant464_aImages` and
+`gModelVariant464_aConfigs`, and each
 image's symbols file binds those names at its own addresses.
 
 | Header | Stage | Models |
@@ -30,8 +31,8 @@ The French images at the same sectors build the same entry under
 in both slots. `VERSION_FRENCH` selects the palette column 640
 instead of 512; the code is otherwise the same apart from resident `jal`
 targets. The French band renderer is `0x8E0` bytes at `+0xE38` and builds from
-`variant481_band.c`, so the rings sit at `+0x1718` and the data label `gModelVariant464_D1E0C`
-at `0x8013CE14`.
+`variant481_band.c`, so the rings sit at `+0x1718`, the image table `gModelVariant464_aImages`
+at `0x8013CD50` and the config table `gModelVariant464_aConfigs` at `0x8013CE30`.
 The four French modules take the US names (`french_model_variant_624_pos0_slot0`,
 `_248_pos0_slot0`, `_624_stage8_slot1`, `_248_stage8_slot1`) and all four
 rebuild byte-identical to retail.
@@ -39,7 +40,7 @@ rebuild byte-identical to retail.
 ## What the entry does
 
 The setup command takes its row of the 0x3C-byte command table at
-`gModelVariant464_D1E0C + 0x1C`, aims at a point 450 units in front of or behind the
+`gModelVariant464_aConfigs` (eight `GsIMAGE` records, 0xE0 bytes, precede it), aims at a point 450 units in front of or behind the
 slot, uploads five textures and builds the primitives: two funnels of two
 17-point circles, a band of 33 steps, a nine-ring dome, twelve spirals, two
 sheets and two streamers.

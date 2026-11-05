@@ -22,7 +22,7 @@ typedef struct {
     u16 texture_cluts[2];
 } Variant380EntryStack;
 
-/* One 0x44-byte command row at gModelVariant380_D2970 + 0x38. */
+/* One 0x44-byte command row in gModelVariant380_aConfigs. */
 typedef struct {
     u8 unknown_00[8];
     s32 parts[5];
@@ -75,7 +75,8 @@ typedef struct {
     s16 slot, command;
 } Variant380EntryState;
 
-extern u8 gModelVariant380_D2970[];
+extern GsIMAGE gModelVariant380_aImages[2];
+extern Variant380EntryConfig gModelVariant380_aConfigs[];
 void FrenchModelVariant397_DrawBeams(SVECTOR *point);
 void FrenchModelVariant397_DrawSheets(SVECTOR *point);
 void FrenchModelVariant397_DrawStreamers(SVECTOR *point);

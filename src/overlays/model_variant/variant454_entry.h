@@ -76,7 +76,8 @@ typedef struct {
     s16 slot, command;
 } Variant454EntryState;
 
-extern u8 gModelVariant454_D1EFC[];
+extern GsIMAGE gModelVariant454_aImages[9];
+extern Variant454EntryConfig gModelVariant454_aConfigs[];
 void FrenchModelVariant471_DrawQuadGroup(u8 *context);
 void FrenchModelVariant471_DrawQuads(u8 *context);
 #endif
