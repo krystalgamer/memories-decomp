@@ -22,6 +22,12 @@
 #include "view_state_current.h"
 #include "duel_result_outro.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gDuel_sGroundReferenceScreenY;
+s16 gDuel_sGroundReferenceScreenX;
+u8 gDuel_bActiveSide;
+
 /* Small data at 0x8009AF20: opposing headings for the two duel sides.
    Field transitions and row movement feed the view-tween heading channel;
    Duel_InitGroundProjectionReference samples element 0 directly. */

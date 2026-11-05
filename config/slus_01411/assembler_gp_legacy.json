@@ -1,14 +1,12 @@
 {
   "schema": 1,
   "sources": [
-    "src/game/build_deck_init_screen.c",
     "src/game/debug_menu_editor_entries.c",
     "src/game/duel_effect_command.c",
     "src/game/duel_effect_entry_occupancy.c",
     "src/game/duel_effect_process_entries.c",
     "src/game/duel_effect_update_object_layout.c",
     "src/game/duel_field_effects.c",
-    "src/game/duel_ground_projection.c",
     "src/game/duel_init_scene.c",
     "src/game/duel_phase_entry.c",
     "src/game/duel_scene_battle.c",
@@ -17,7 +15,6 @@
     "src/game/duel_scene_update.c",
     "src/game/duel_scene_update_card_use.c",
     "src/game/duel_select_trap_by_card_id.c",
-    "src/game/european/build_deck_init_screen.c",
     "src/game/european/debug_menu_editor_entries.c",
     "src/game/european/duel_effect_command.c",
     "src/game/european/duel_effect_process_entries.c",
@@ -50,7 +47,6 @@
     "src/game/japanese/duel_effect_process_entries.c",
     "src/game/japanese/duel_effect_update_object_layout.c",
     "src/game/japanese/duel_field_effects.c",
-    "src/game/japanese/duel_ground_projection.c",
     "src/game/japanese/duel_init_scene.c",
     "src/game/japanese/duel_phase_entry.c",
     "src/game/japanese/duel_scene_battle.c",
@@ -83,13 +79,11 @@
     "src/game/script_op_load_image_scene.c",
     "src/game/script_op_show_dialog.c",
     "src/game/spanish/debug_menu_editor_entries.c",
-    "src/game/spanish/duel_ground_projection.c",
     "src/game/spanish/duel_result_runtime.c",
     "src/game/spanish/model_scene_controllers.c",
     "src/game/text_box_build_step.c",
     "src/game/text_box_runtime.c",
     "src/game/text_box_wrap_line.c",
-    "src/game/text_control_commands.c",
-    "src/game/text_extend_glyph_code.c"
+    "src/game/text_control_commands.c"
   ]
 }

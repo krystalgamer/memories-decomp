@@ -54,6 +54,10 @@
 #include "card_list_sort_icons.h"
 #include "build_deck_test_and_set_initialized.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+BuildDeckTransitionState *gBuildDeck_pState;
+
 #define CARD_LIST_VIEW(list) ((CardList *)(list))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define BUILD_DECK_TRANSITION_STATE_VIEW(state) \
