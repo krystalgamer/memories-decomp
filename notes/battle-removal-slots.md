@@ -40,11 +40,11 @@ tracked linker assignments, not total allocations. The two new canonical
 aliases add two reported exclusions; real object symbol sizes and complete
 compiler/MASPSX outputs still preserve the original COMMON definitions.
 
-The resume unit retains its measured `s8[8]` view under
-`gcc_2_8_1_g8_split`. The isolated header mirrors the existing
-`D_8009B208_AS_REPLAY_BYTES` selector. The consumer's actual two-slot bound
-does not authorize changing that declaration or asserting a new allocation
-extent. Old headers, source grouping and definition order are unchanged.
+Every unit declares the two bytes as the scalars above. The resume unit
+walks them by presentation cursor through `DUEL_BATTLE_REMOVAL_SLOT(n)`,
+which indexes from the address of the first; its code is identical to the
+former `s8[8]` declaration and asserts no larger allocation. Source
+grouping and definition order are unchanged.
 
 ## Storage
 

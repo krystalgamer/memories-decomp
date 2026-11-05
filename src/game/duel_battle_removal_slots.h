@@ -3,11 +3,12 @@
 
 #include "../types.h"
 
-#ifdef D_8009B208_AS_REPLAY_BYTES
+/* The two card-record indices the battle removes, -1 when unused. The
+ * phase entry walks them by presentation cursor; DUEL_BATTLE_REMOVAL_SLOT
+ * indexes the pair starting at the first. */
 extern s8 gDuel_bBattleRemovalSlot0;
 extern s8 gDuel_bBattleRemovalSlot1;
-#else
-extern s8 gDuel_bBattleRemovalSlot0[8];
-#endif
+
+#define DUEL_BATTLE_REMOVAL_SLOT(index) ((&gDuel_bBattleRemovalSlot0)[index])
 
 #endif
