@@ -41,7 +41,7 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant120_D1290[command % 100];
+        config = work->config = &gModelVariant120_aConfigs[command % 100];
         point = work->angles;
         for (i = 0; i < 16; point++, i++) {
             point->vx = 0;

@@ -43,10 +43,10 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant646_D3640[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant646_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant646_D3640[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant646_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {

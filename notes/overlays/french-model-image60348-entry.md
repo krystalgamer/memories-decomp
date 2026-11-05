@@ -97,7 +97,7 @@ call with `MODEL_IMAGE60348_WORK_SIZE_PRINTF`, in the style of
 `image9840_entry.c`. `model_variant/image60348_entry_usa.c` defines the
 string (`gModelVariant664_D26D8`) and includes the French file in both slots;
 every image's symbols file binds `FrenchModelVariant681_HandleRequest` and the
-two tail names (`gFrenchModelVariant681_D26C8`, `gFrenchModelVariant681_aConfigs`)
+two tail names (`gFrenchModelVariant681_aImages`, `gFrenchModelVariant681_aConfigs`)
 at its own addresses, 0x28 later in the USA and Japanese images.
 
 These images need GCC 2.8.0 (`gcc_2_8_0_g0_split`, the decompals/old-gcc

@@ -1,7 +1,7 @@
 // European MODEL.MRG model 228 (record 228), sector 63128, header 189, loaded at 0x8013B000; the US header-172 source variant172_entry.c; built from the French source layout of french_model_variant_228_stage9_slot0.
 ModelVariant172_HandleRequest = 0x8013B004; // type:func size:0xCE0 defined:true
-gModelVariant172_D0D18 = 0x8013BCF4; // type:u8 size:0x1C defined:true
-gModelVariant172_D0D34 = 0x8013BD10; // type:u8 size:0x42F0 defined:true
+gModelVariant172_aImages = 0x8013BCF4; // type:u8 size:0x1C defined:true
+gModelVariant172_aConfigs = 0x8013BD10; // type:u8 size:0x42F0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

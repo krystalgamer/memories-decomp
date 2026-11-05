@@ -40,7 +40,7 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant132_D13C0[command % 100];
+        config = work->config = &gModelVariant132_aConfigs[command % 100];
         point = work->ring;
         for (i = 0; i < 17; point++, i++) {
             point->vx = config->radius * ccos(i * 256) / 4096;

@@ -53,8 +53,8 @@ the rest of the burst, and 2 after it.
 
 The entry's `.rodata` is the unit scale vector and the format string, `0x20`
 bytes at `0x1E60`. The rest of the image is one raw tail that starts at
-`0x1E80`. Inside it, the layout names the texture descriptors `gModelVariant164_D1E80` and
-the command table `gModelVariant164_D1ED4`. The `0x8017B000` images use the same offsets.
+`0x1E80`. Inside it, the layout names the texture descriptors `gModelVariant164_aImages` and
+the command table `gModelVariant164_aConfigs`. The `0x8017B000` images use the same offsets.
 The resident bindings are in
 `config/slus_01411/overlays/variant164_linker_symbols.txt`.
 

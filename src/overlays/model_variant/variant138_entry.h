@@ -55,7 +55,7 @@ typedef struct {
     s32 elapsed;
 } Model138State;
 
-extern char gModelVariant138_D3314[];
+extern char gModelVariant138_szWorkSizeFormat[];
 extern GsIMAGE gModelVariant138_aImages[];
 extern Model138Config gModelVariant138_aConfigs[];
 

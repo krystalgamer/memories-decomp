@@ -52,7 +52,7 @@ typedef struct {
 
 extern const VECTOR gModelVariant129_D0FA0;
 extern GsIMAGE gModelVariant129_aImages[];
-extern Model129Config gModelVariant129_D0FE8[];
+extern Model129Config gModelVariant129_aConfigs[];
 
 s32 ModelVariant129_HandleRequest(u8 *context, s32 command);
 

@@ -40,7 +40,7 @@ s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
     work = (Model78State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant78_D28B0[command];
+        config = work->config = &gModelVariant78_aConfigs[command];
         point = work->lower;
         other = work->upper;
         for (i = 0; i < 17; i++) {
@@ -98,7 +98,7 @@ s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant78_D285C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant78_aImages[i]);
         }
         work->elapsed = -config->lead;
         work->completed = 0;

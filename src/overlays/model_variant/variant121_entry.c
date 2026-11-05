@@ -41,7 +41,7 @@ s32 ModelVariant121_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant121_D1888[command % 100];
+        config = work->config = &gModelVariant121_aConfigs[command % 100];
         point = work->points;
         for (i = 0; i < 128; point++, i++) {
             point->vx = rand() % (config->spread * 2) - config->spread;
@@ -49,7 +49,7 @@ s32 ModelVariant121_HandleRequest(u8 *context, s32 command)
             point->vz = rand() % (config->spread * 2) - config->spread;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant121_D1850[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant121_aImages[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;

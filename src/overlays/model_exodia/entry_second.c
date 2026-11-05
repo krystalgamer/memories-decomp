@@ -31,7 +31,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = &gModelExodia_D1D3C[command];
+        work->config = &gModelExodia_aSecondConfigs[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);

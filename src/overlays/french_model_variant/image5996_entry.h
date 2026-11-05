@@ -53,7 +53,7 @@ typedef union {
 } Image5996Projection;
 
 extern VECTOR gFrenchModelVariant102_D0F44;
-extern GsIMAGE gFrenchModelVariant102_D0F54[3];
-extern Image5996Config gFrenchModelVariant102_D0FA8[];
+extern GsIMAGE gFrenchModelVariant102_aImages[3];
+extern Image5996Config gFrenchModelVariant102_aConfigs[];
 
 #endif

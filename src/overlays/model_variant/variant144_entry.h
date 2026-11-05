@@ -53,9 +53,9 @@ typedef struct {
     s32 elapsed;
 } Model144State;
 
-extern char gModelVariant144_D18F4[];
-extern GsIMAGE gModelVariant144_D1908[];
-extern Model144Config gModelVariant144_D1A20[];
+extern char gModelVariant144_szWorkSizeFormat[];
+extern GsIMAGE gModelVariant144_aImages[];
+extern Model144Config gModelVariant144_aConfigs[];
 
 s32 ModelVariant144_HandleRequest(u8 *context, s32 command);
 

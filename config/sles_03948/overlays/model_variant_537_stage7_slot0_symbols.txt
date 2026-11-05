@@ -1,7 +1,7 @@
 // MODEL.MRG model 537 (record 537), sector 134592, header 188, loaded at 0x8013B000; the US header-171 source variant171_entry.c.
 ModelVariant171_HandleRequest = 0x8013B004; // type:func size:0xF1C defined:true
-gModelVariant171_D0F54 = 0x8013BF30; // type:u8 size:0x188 defined:true
-gModelVariant171_D10DC = 0x8013C0B8; // type:u8 size:0x3F48 defined:true
+gModelVariant171_aImages = 0x8013BF30; // type:u8 size:0x188 defined:true
+gModelVariant171_aConfigs = 0x8013C0B8; // type:u8 size:0x3F48 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

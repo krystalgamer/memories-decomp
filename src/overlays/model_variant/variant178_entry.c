@@ -50,7 +50,7 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         step = Model_GetFrameStep();
         if (command >= 0) {
-            work->config = &gModelVariant178_D1B60[command % 100];
+            work->config = &gModelVariant178_aConfigs[command % 100];
             config = work->config;
             point = work->grid;
             for (i = 0; i < 13; i++) {
@@ -93,7 +93,7 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
             work->offset = 0;
             Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
             for (i = 0; i < 3; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant178_D1B0C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant178_aImages[i]);
             }
             work->elapsed = 0;
             work->frames = 0;

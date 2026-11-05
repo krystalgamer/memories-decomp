@@ -35,7 +35,7 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant96_D1A14[command];
+        config = work->config = &gModelVariant96_aConfigs[command];
         point = work->trail;
         for (i = 0; i < 6; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -56,7 +56,7 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
         }
         work->head = 0;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant96_D19DC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant96_aImages[i]);
         }
         work->elapsed = -config->delay;
         return 0;

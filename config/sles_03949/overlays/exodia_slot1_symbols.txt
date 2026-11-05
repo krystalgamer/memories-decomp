@@ -3,4 +3,4 @@ ModelExodia_HandleSecondRequest = 0x8017B004; // type:func size:0x9AC
 ModelExodia_DrawRings = 0x8017B9B0; // type:func size:0x440
 ModelExodia_DrawPetals = 0x8017BDF0; // type:func size:0x970
 ModelExodia_DrawBeam = 0x8017C760; // type:func size:0x5DC
-gModelExodia_D1D3C = 0x8017CD3C; // type:u8 size:0x32C4 defined:true
+gModelExodia_aSecondConfigs = 0x8017CD3C; // type:u8 size:0x32C4 defined:true

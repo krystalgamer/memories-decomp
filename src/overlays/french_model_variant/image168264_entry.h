@@ -50,7 +50,7 @@ typedef struct {
 } Image168264State;
 
 extern VECTOR gFrenchModelVariant146_D0FA0;
-extern GsIMAGE gFrenchModelVariant146_D0FB0[2];
-extern Image168264Config gFrenchModelVariant146_D0FE8[];
+extern GsIMAGE gFrenchModelVariant146_aImages[2];
+extern Image168264Config gFrenchModelVariant146_aConfigs[];
 
 #endif

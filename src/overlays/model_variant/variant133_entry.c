@@ -46,7 +46,7 @@ s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant133_D18B8[command % 100];
+        config = work->config = &gModelVariant133_aConfigs[command % 100];
         point = work->inner;
         for (i = -4; i < 5; i++) {
             point->vx = config->radius * csin(config->arc * i / 8) / 4096;

@@ -45,7 +45,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->grid;
-        config = work->config = &gModelVariant154_D2408[command % 100];
+        config = work->config = &gModelVariant154_aConfigs[command % 100];
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 5; j++) {
                 value = config->size * 48 / 80;
@@ -95,7 +95,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
         }
         work->head = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant154_D23B4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant154_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

@@ -37,8 +37,8 @@ typedef struct {
     s32 frames;
 } Model172State;
 
-extern GsIMAGE gModelVariant172_D0D18[];
-extern Model172Config gModelVariant172_D0D34[];
+extern GsIMAGE gModelVariant172_aImages[];
+extern Model172Config gModelVariant172_aConfigs[];
 
 s32 ModelVariant172_HandleRequest(u8 *context, s32 command);
 

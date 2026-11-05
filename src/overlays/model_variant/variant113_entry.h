@@ -37,8 +37,8 @@ typedef struct {
     s32 updates;
 } Model113State;
 
-extern GsIMAGE gModelVariant113_D1384[];
-extern Model113Config gModelVariant113_D13BC[];
+extern GsIMAGE gModelVariant113_aImages[];
+extern Model113Config gModelVariant113_aConfigs[];
 
 s32 ModelVariant113_HandleRequest(u8 *context, s32 command);
 

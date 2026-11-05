@@ -75,7 +75,7 @@ typedef struct {
 } Model645Corner;
 
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant645_D4EDC[2];
+extern GsIMAGE gModelVariant645_aImages[2];
 extern Model645Command gModelVariant645_aConfigs[];
 
 s32 ModelVariant645_HandleRequest(u8 *context, s32 command);

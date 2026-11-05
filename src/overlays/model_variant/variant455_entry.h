@@ -90,7 +90,7 @@ typedef struct {
 
 /* Nine-entry GsIMAGE table (entries 1, 3, 5 and 7 are uploaded) and the
  * command table; the French image places them at 0x8013DC58/0x8013DD54. */
-extern GsIMAGE gModelVariant455_D2C34[9];
+extern GsIMAGE gModelVariant455_aImages[9];
 extern EntryConfig455 gModelVariant455_D2D30[];
 void FrenchModelVariant472_DrawBlooms(u8 *context);
 void FrenchModelVariant472_DrawMesh(u8 *context);

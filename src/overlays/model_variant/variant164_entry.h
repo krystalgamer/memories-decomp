@@ -46,8 +46,8 @@ typedef struct {
     u8 mode, unknown_635[3];
 } Model164State;
 
-extern GsIMAGE gModelVariant164_D1E80[];
-extern Model164Config gModelVariant164_D1ED4[];
+extern GsIMAGE gModelVariant164_aImages[];
+extern Model164Config gModelVariant164_aConfigs[];
 
 s32 ModelVariant164_HandleRequest(u8 *context, s32 command);
 

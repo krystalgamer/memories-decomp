@@ -53,8 +53,8 @@ typedef struct {
     s32 frames;
 } Model153UsState;
 
-extern GsIMAGE gModelVariant153Us_D145C[];
-extern Model153UsConfig gModelVariant153Us_D1478[];
+extern GsIMAGE gModelVariant153Us_aImages[];
+extern Model153UsConfig gModelVariant153Us_aConfigs[];
 
 s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command);
 

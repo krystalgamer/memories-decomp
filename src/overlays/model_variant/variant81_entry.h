@@ -57,7 +57,7 @@ typedef struct {
 } Model81State;
 
 extern GsIMAGE gModelVariant81_D19C0;
-extern Model81Config gModelVariant81_D19DC[];
+extern Model81Config gModelVariant81_aConfigs[];
 
 s32 ModelVariant81_HandleRequest(u8 *context, s32 command);
 

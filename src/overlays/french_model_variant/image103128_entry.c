@@ -40,12 +40,12 @@ s32 FrenchModelVariant857_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        state->config = &gFrenchModelVariant857_D0F34[command];
+        state->config = &gFrenchModelVariant857_aConfigs[command];
         state->tpage = 174;
         state->clut = IMAGE103128_BURST_CLUT;
         for (i = 0; i < 2; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant857_D0EFC[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant857_aImages[i]);
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 8; j++) {

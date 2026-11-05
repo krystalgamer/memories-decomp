@@ -1,6 +1,6 @@
 // Italian MODEL.MRG model 377 (record 327), sector 90432, header 686, loaded at 0x8013B000; the US header-669 source variant669_entry.c; built from the French source layout of french_model_variant_377_stage7_slot0.
 ModelVariant669_HandleRequest = 0x8013B004; // type:func size:0x3F94 defined:true
-gModelVariant669_D405C = 0x8013F034; // type:u8 size:0x54 defined:true
+gModelVariant669_aImages = 0x8013F034; // type:u8 size:0x54 defined:true
 gModelVariant669_aConfigs = 0x8013F088; // type:u8 size:0xF78 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true

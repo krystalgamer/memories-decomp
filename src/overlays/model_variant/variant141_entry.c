@@ -46,7 +46,7 @@ s32 ModelVariant141_HandleRequest(u8 *context, s32 command)
         wave = work->wave;
         delta = work->wave_step;
         work->scroll = 0;
-        config = work->config = &gModelVariant141_D3CE0[command % 100];
+        config = work->config = &gModelVariant141_aConfigs[command % 100];
         for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i++) {
             *wave = 0;
             *delta = config->wave + config->wave * csin(i * 8192 / GRAPHICS_DEFAULT_HEIGHT) / 4096;
@@ -134,7 +134,7 @@ s32 ModelVariant141_HandleRequest(u8 *context, s32 command)
             target++;
         }
         for (i = 0; i < 8; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant141_D3C00[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant141_aImages[i]);
         }
         work->elapsed = 0;
         work->frame = 0;

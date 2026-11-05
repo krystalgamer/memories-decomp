@@ -51,6 +51,6 @@ from the counter.
 
 The entry has no `.rodata`. The rest of the image is one raw tail that starts
 at `0x1044`. Inside it, the layout names the unit scale vector `gModelVariant118_D1044`,
-the two texture descriptors `gModelVariant118_D1054` and the command table `gModelVariant118_D108C`.
+the two texture descriptors `gModelVariant118_aImages` and the command table `gModelVariant118_aConfigs`.
 The `0x8017B000` images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant118_linker_symbols.txt`.

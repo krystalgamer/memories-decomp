@@ -1,5 +1,5 @@
 // French MODEL.MRG raw image, sector 40210, header 305, loaded at 0x8017B000; the French entry image40200_entry.c, with its data in the raw tail.
 FrenchModelVariant175_HandleRequest = 0x8017B004; // type:func size:0x1104 defined:true
 gFrenchModelVariant175_D1108 = 0x8017C108; // type:u8 size:0x10
-gFrenchModelVariant175_D1118 = 0x8017C118; // type:u8 size:0x38
-gFrenchModelVariant175_D1150 = 0x8017C150; // type:u8 size:0x3EB0
+gFrenchModelVariant175_aImages = 0x8017C118; // type:u8 size:0x38
+gFrenchModelVariant175_aConfigs = 0x8017C150; // type:u8 size:0x3EB0

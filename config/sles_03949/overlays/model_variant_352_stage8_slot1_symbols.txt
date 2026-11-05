@@ -1,6 +1,6 @@
 // German MODEL.MRG model 352 (record 302), sector 83542, header 746, loaded at 0x8017B000; the US header-729 source variant662_entry.c; built from the French source layout of french_model_variant_352_stage8_slot1.
 ModelVariant662_HandleRequest = 0x8017B004; // type:func size:0x44A8 defined:true
-gModelVariant662_D4534 = 0x8017F50C; // type:u8 size:0x54 defined:true
+gModelVariant662_aImages = 0x8017F50C; // type:u8 size:0x54 defined:true
 gModelVariant662_aConfigs = 0x8017F560; // type:u8 size:0xAA0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true

@@ -38,7 +38,7 @@ s32 ModelVariant119_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant119_D0A48[command % 100];
+        config = work->config = &gModelVariant119_aConfigs[command % 100];
         point = work->vertices;
         setVector(&point[0], config->length + config->half_width, -config->half_width,
             -side * config->depth);
@@ -47,7 +47,7 @@ s32 ModelVariant119_HandleRequest(u8 *context, s32 command)
         setVector(&point[2], config->length, -config->half_width, 0);
         setVector(&point[3], config->length, config->half_width, 0);
         for (j = 0; j < 1; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant119_D0A2C[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant119_aImages[j]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;

@@ -41,7 +41,7 @@ s32 ModelVariant144_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant144_D1A20[command];
+        config = work->config = &gModelVariant144_aConfigs[command];
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             point->vx = config->outer_radius * ccos(i * 128) / 4096;
@@ -89,12 +89,12 @@ s32 ModelVariant144_HandleRequest(u8 *context, s32 command)
         work->head = 0;
         work->remaining = 13;
         for (i = 0; i < 10; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant144_D1908[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant144_aImages[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH
-        printf(gModelVariant144_D18F4, sizeof(Model144State), sizeof(Model144State));
+        printf(gModelVariant144_szWorkSizeFormat, sizeof(Model144State), sizeof(Model144State));
 #endif
         return 0;
     }

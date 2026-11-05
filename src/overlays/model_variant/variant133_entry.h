@@ -52,7 +52,7 @@ typedef struct {
 } Model133State;
 
 extern GsIMAGE gModelVariant133_aImages[];
-extern Model133Config gModelVariant133_D18B8[];
+extern Model133Config gModelVariant133_aConfigs[];
 
 s32 ModelVariant133_HandleRequest(u8 *context, s32 command);
 

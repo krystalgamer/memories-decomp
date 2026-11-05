@@ -44,7 +44,7 @@ typedef struct {
 } Image40200State;
 
 extern VECTOR gFrenchModelVariant175_D1108;
-extern GsIMAGE gFrenchModelVariant175_D1118[2];
-extern Image40200Config gFrenchModelVariant175_D1150[];
+extern GsIMAGE gFrenchModelVariant175_aImages[2];
+extern Image40200Config gFrenchModelVariant175_aConfigs[];
 
 #endif

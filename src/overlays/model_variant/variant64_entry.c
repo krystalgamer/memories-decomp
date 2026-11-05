@@ -28,7 +28,7 @@ s32 ModelVariant64_HandleRequest(u8 *context, s32 command)
     work = (Model64State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &gModelVariant64_D11D4[command];
+        config = work->config = &gModelVariant64_aConfigs[command];
         p = work->outer;
         q = work->inner;
         for (i = 0; i < 33; i++) {
@@ -58,7 +58,7 @@ s32 ModelVariant64_HandleRequest(u8 *context, s32 command)
             p->vz = config->ray_radius * csin(a) / 4096;
             p++;
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant64_D11B8);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant64_aImages);
         work->stage = 0;
         work->elapsed = 0;
         return 0;

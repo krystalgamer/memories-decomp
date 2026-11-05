@@ -1,5 +1,5 @@
 // Italian MODEL.MRG model 423 (record 373), sector 103128, header 857, loaded at 0x8013B000; the French header-857 entry image103128_entry.c, with its data in the raw tail.
 FrenchModelVariant857_HandleRequest = 0x8013B004; // type:func size:0xEE8 defined:true
 gFrenchModelVariant857_D0EEC = 0x8013BEEC; // type:u8 size:0x10
-gFrenchModelVariant857_D0EFC = 0x8013BEFC; // type:u8 size:0x38
-gFrenchModelVariant857_D0F34 = 0x8013BF34; // type:u8 size:0x40CC
+gFrenchModelVariant857_aImages = 0x8013BEFC; // type:u8 size:0x38
+gFrenchModelVariant857_aConfigs = 0x8013BF34; // type:u8 size:0x40CC

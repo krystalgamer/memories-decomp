@@ -41,7 +41,7 @@ s32 ModelVariant164_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        config = work->config = &gModelVariant164_D1ED4[command % 100];
+        config = work->config = &gModelVariant164_aConfigs[command % 100];
         for (i = 0; i < config->count; i++) {
             value = rand() % 4096;
             elevation = rand() % 2048;
@@ -67,7 +67,7 @@ s32 ModelVariant164_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant164_D1E80[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant164_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

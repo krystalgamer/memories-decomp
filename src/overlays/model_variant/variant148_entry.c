@@ -43,7 +43,7 @@ s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         point = work->points;
         point->vx = 0;
-        config = work->config = &gModelVariant148_D1744[command % 100];
+        config = work->config = &gModelVariant148_aConfigs[command % 100];
         point->vy = 0;
         point->vz = -config->size / 2;
         point = &work->points[1];
@@ -80,7 +80,7 @@ s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant148_D1728[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant148_aImages[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {

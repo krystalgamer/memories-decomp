@@ -42,7 +42,7 @@ s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant118_D108C[command % 100];
+        config = work->config = &gModelVariant118_aConfigs[command % 100];
         point = work->trail;
         for (i = 0; i < 3; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -60,7 +60,7 @@ s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
             point->vz = size * csin(elevation) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant118_D1054[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant118_aImages[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;

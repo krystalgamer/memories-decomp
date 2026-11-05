@@ -27,7 +27,7 @@ s32 FrenchModelVariant175_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        config = work->config = &gFrenchModelVariant175_D1150[command % 100];
+        config = work->config = &gFrenchModelVariant175_aConfigs[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
         corners[0].vy = -350;
         for (i = 0; i < config->count; i++, point++) {
@@ -42,7 +42,7 @@ s32 FrenchModelVariant175_HandleRequest(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             work->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant175_D1118[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant175_aImages[i]);
         }
         work->elapsed = 0;
         work->updates = 0;

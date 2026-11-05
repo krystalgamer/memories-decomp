@@ -41,7 +41,7 @@ s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->mesh;
-        config = work->config = &gModelVariant139_D1B74[command % 100];
+        config = work->config = &gModelVariant139_aConfigs[command % 100];
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
                 r = config->inner_radius + (config->outer_radius - config->inner_radius) * csin(i << 7) / 4096;

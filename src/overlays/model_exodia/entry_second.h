@@ -90,6 +90,6 @@ typedef struct {
     DVECTOR target;
 } ExodiaSecondEntryProjection;
 
-extern ExodiaSecondEntryConfig gModelExodia_D1D3C[];
+extern ExodiaSecondEntryConfig gModelExodia_aSecondConfigs[];
 s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command);
 #endif

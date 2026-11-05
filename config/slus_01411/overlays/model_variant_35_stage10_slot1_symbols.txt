@@ -1,6 +1,6 @@
 // MODEL.MRG model 35 (record 35), sector 9870, header 699, loaded at 0x8017B000; the US source variant632_entry.c.
 ModelVariant632_HandleRequest = 0x8017B004; // type:func size:0x1F80 defined:true
-gModelVariant632_D1FB0 = 0x8017CFB0; // type:u8 size:0x38 defined:true
+gModelVariant632_aImages = 0x8017CFB0; // type:u8 size:0x38 defined:true
 gModelVariant632_aConfigs = 0x8017CFE8; // type:u8 size:0x3018 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

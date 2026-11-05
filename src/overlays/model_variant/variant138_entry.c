@@ -115,7 +115,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
             }
         }
 #ifndef VERSION_FRENCH
-        printf(gModelVariant138_D3314, sizeof(Model138State), sizeof(Model138State));
+        printf(gModelVariant138_szWorkSizeFormat, sizeof(Model138State), sizeof(Model138State));
 #endif
         return 0;
     }

@@ -43,7 +43,7 @@ s32 ModelVariant128_HandleRequest(u8 *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant128_D15C4[command % 100];
+        config = work->config = &gModelVariant128_aConfigs[command % 100];
         dot = work->dots;
         for (i = 0; i < 64; i++) {
             radius = config->radius + rand() % config->radius / 2;
@@ -56,7 +56,7 @@ s32 ModelVariant128_HandleRequest(u8 *context, s32 command)
             dot++;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant128_D15A8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant128_aImages[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {

@@ -2,4 +2,4 @@ D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
 ModelExodia_HandleRequest = 0x8013B004; // type:func size:0x85C
 ModelExodia_DrawRing = 0x8013B860; // type:func size:0x3AC
 ModelExodia_DrawSpokes = 0x8013BC0C; // type:func size:0xBA0
-gModelExodia_D17AC = 0x8013C7AC; // type:u8 size:0x3854 defined:true
+gModelExodia_aConfigs = 0x8013C7AC; // type:u8 size:0x3854 defined:true

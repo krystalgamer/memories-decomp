@@ -50,7 +50,7 @@ s32 ModelVariant165_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        config = work->config = &gModelVariant165_D1D88[command % 100];
+        config = work->config = &gModelVariant165_aConfigs[command % 100];
         for (i = 0; i < config->count; i++) {
             a = rand() % 4096;
             b = rand() % 2048;

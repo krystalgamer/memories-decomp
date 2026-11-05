@@ -1,7 +1,7 @@
 // German MODEL.MRG model 544 (record 494), sector 136544, header 193, loaded at 0x8013B000; the US header-176 source variant176_entry.c; built from the French source layout of french_model_variant_544_stage9_slot0.
 ModelVariant176_HandleRequest = 0x8013B004; // type:func size:0x138C defined:true
-gModelVariant176_D13C4 = 0x8013C3A0; // type:u8 size:0x38 defined:true
-gModelVariant176_D13FC = 0x8013C3D8; // type:u8 size:0x3C28 defined:true
+gModelVariant176_aImages = 0x8013C3A0; // type:u8 size:0x38 defined:true
+gModelVariant176_aConfigs = 0x8013C3D8; // type:u8 size:0x3C28 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Graphics_GetDefaultOrderingTable = 0x8005C018; // type:func absolute:true

@@ -41,7 +41,7 @@ s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
         u8 step;
         step = Model_GetFrameStep();
         if (command >= 0) {
-            cmd = work->command = &gModelVariant122_D1888[command];
+            cmd = work->command = &gModelVariant122_aConfigs[command];
             p = work->particles;
             for (i = 0; i < 64; p++, i++) {
                 j = rand() % 4096;
@@ -67,7 +67,7 @@ s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
             }
             work->done = 0;
             for (i = 0; i < 2; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant122_D1850[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant122_aImages[i]);
             }
             work->elapsed = 0;
             return 0;

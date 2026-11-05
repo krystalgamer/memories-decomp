@@ -41,8 +41,8 @@ typedef struct {
     u8 completed, unknown_431[3];
 } Model123State;
 
-extern GsIMAGE gModelVariant123_D1350[];
-extern Model123Config gModelVariant123_D1388[];
+extern GsIMAGE gModelVariant123_aImages[];
+extern Model123Config gModelVariant123_aConfigs[];
 
 s32 ModelVariant123_HandleRequest(u8 *context, s32 command);
 

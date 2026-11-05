@@ -47,7 +47,7 @@ s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command)
         work->rotation.vx = 0;
         work->rotation.vy = 0;
         work->rotation.vz = 0;
-        config = work->config = &gModelVariant153Us_D1478[command % 100];
+        config = work->config = &gModelVariant153Us_aConfigs[command % 100];
         work->spin[0] = config->spin[0];
         work->spin[1] = config->spin[1];
         work->spin[2] = config->spin[2];
@@ -72,7 +72,7 @@ s32 ModelVariant153Us_HandleRequest(u8 *context, s32 command)
         }
         work->trail_index = 0;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant153Us_D145C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant153Us_aImages[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

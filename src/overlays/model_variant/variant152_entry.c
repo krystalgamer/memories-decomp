@@ -42,7 +42,7 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &gModelVariant152_D1190[command % 100];
+        config = work->config = &gModelVariant152_aConfigs[command % 100];
         point = work->points;
         for (j = 0; j < 17; j++) {
             point->vx = config->ring_radius * ccos(j << 8) / 4096;
@@ -64,7 +64,7 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
             }
         }
         for (j = 0; j < 2; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant152_D1158[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant152_aImages[j]);
         }
         work->elapsed = 0;
         work->frames = 0;

@@ -248,10 +248,10 @@ image's address:
 |---|---|---|
 | `ModelExodia_DrawRing` | `0x8013B860` | `0x8013B864` |
 | `ModelExodia_DrawSpokes` | `0x8013BC0C` | `0x8013BC58` |
-| `gModelExodia_D17AC` | `0x8013C7AC` | `0x8013C784` |
+| `gModelExodia_aConfigs` | `0x8013C7AC` | `0x8013C784` |
 | `ModelExodia_DrawRings` | `0x8017B9B0` | `0x8017B9B4` |
 | `ModelExodia_DrawBeam` | `0x8017C760` | `0x8017C738` |
-| `gModelExodia_D1D3C` | `0x8017CD3C` | `0x8017CD08` |
+| `gModelExodia_aSecondConfigs` | `0x8017CD3C` | `0x8017CD08` |
 
 The entries index the two `gModelExodia_D` tables by configuration command;
 the symbols also start the unclassified tails, so their names keep the French
