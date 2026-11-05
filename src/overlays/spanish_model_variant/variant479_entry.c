@@ -36,7 +36,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant479EntryConfig *)(gSpanishModelVariant479_D3D20 + 0xFC) + command;
+        work->config = gSpanishModelVariant479_aConfigs + command;
         for (i = 0; i < 3; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -56,13 +56,13 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT479_CLUT_X, 244);
         strip_tpage = GetTPage(1, 1, 896, 0);
         strip_clut = GetClut(MODEL_VARIANT479_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant479_aImages[7]);
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant479_aImages[5]);
         frame_page = packed >> 16;
         frame_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant479_D3D20 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant479_aImages[1]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

@@ -6,7 +6,8 @@ eight Spanish MODEL385-family images (MODEL170 stages 7/8; MODEL406, 407 and
 at the same offsets. `variant385_entry.c`
 (`SpanishModelVariant385_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant385_D2EB4`) at its own
+and the descriptor tables (`gSpanishModelVariant385_aImages`,
+`gSpanishModelVariant385_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted C for it.
 With it, every function in these sixteen images is C.
 

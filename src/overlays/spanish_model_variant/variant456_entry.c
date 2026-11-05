@@ -44,7 +44,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant456EntryConfig *)(gSpanishModelVariant456_D3D00 + 0xFC) + command;
+        work->config = gSpanishModelVariant456_aConfigs + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -61,14 +61,14 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT456_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT456_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x1C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x38));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[1]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[3]);
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gSpanishModelVariant456_aImages[8]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

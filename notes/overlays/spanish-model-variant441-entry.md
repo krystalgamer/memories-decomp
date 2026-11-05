@@ -6,7 +6,8 @@ MODEL709 stages 9/10) and the ten French images that carry the identical
 body at the same offsets. `variant441_entry.c`
 (`SpanishModelVariant441_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant441_D4754`) at its own
+and the descriptor tables (`gSpanishModelVariant441_aImages`,
+`gSpanishModelVariant441_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted C for it.
 The helpers at `+0x2A48` and `+0x414C` remain assembly.
 

@@ -9,13 +9,6 @@
 #include "../../game/model_get_frame_step.h"
 
 typedef struct {
-    u8 unknown_00[4], part, unknown_05[7];
-    u32 sheet_start, expansion_start, expansion_end, fade_start, fade_end;
-    u32 field_20;
-    s32 offset[3];
-} EntryConfig411;
-
-typedef struct {
     SVECTOR inner[8], outer[8];
     CVECTOR colors[8], inner_color, outer_color;
     s32 size, field_AC;

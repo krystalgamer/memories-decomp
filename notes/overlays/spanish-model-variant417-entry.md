@@ -6,7 +6,8 @@ stages 7/8, MODEL535 stages 9/10) and the eight French images that carry the
 identical body at the same offsets. `variant417_entry.c`
 (`SpanishModelVariant417_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant417_D43A0`) at its own
+and the descriptor tables (`gSpanishModelVariant417_aImages`,
+`gSpanishModelVariant417_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted
 C for it. With it, every function in these sixteen images is C.
 

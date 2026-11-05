@@ -6,7 +6,8 @@ stages 7..10) and the eleven French images that carry the identical body at
 the same offsets. `variant459_entry.c`
 (`SpanishModelVariant459_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
-and the descriptor base (`gSpanishModelVariant459_D4548`) at its own
+and the descriptor tables (`gSpanishModelVariant459_aImages`,
+`gSpanishModelVariant459_aConfigs`) at its own
 addresses. This is a new decompilation; no region had accepted C for it. The
 raw `sles_03947`/`sles_03949` MODEL inventory images contain the same body
 but are generated inventories and are not wired here.
