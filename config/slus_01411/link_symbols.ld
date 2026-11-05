@@ -154,3 +154,8 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 /* Other names for game/input_pads's small data (#2602). */
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
+D_8009B0F4 = gFile_dwTransferState;
+D_8009B118 = gFile_TransferBufferBase;
+D_8009B134 = gFile_dwCancelRequestState;
+D_8009B140 = gFade_bKeepOverlayDepth;
+initialized_data_start = D_800906E0;

@@ -48,6 +48,13 @@ The low bytes are `credits_update_enabled` and `credits_exit_requested`,
 owned by the resident credits handshake described in
 [`credits-runtime-protocol.md`](credits-runtime-protocol.md), not debug
 height flags. Their names do not change the union's word or halfword views.
+
+Every image's source spells the word `D_8009B004`; there is no `#define`
+remap. Each region's `symbols.txt` binds the name at that image's own address:
+`0x8009B004` in North America, `0x8009AF64` in Japan, `0x8009BF8C` in Europe
+and `0x8009C394` in the four language builds. The European executable keeps
+an unrelated libpress word at `0x8009B004`, which its `symbols.txt` names
+`D_8009B004_sles_03947` so the two do not collide.
 The original small-data run is now three contiguous sections:
 
 | Address | Bytes | Owner |

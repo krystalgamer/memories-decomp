@@ -631,7 +631,9 @@ D_8009BF68 = 0x8009C370;
 D_8009BF74 = 0x8009C37C;
 D_8009BF84 = 0x8009C38C;
 /* Names inside the small initialized data this build's units own (#2602). */
-D_8009C2A0 = _ramsize;
-D_8009C2A4 = _stacksize;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
+D_8009B0F4 = gFile_dwTransferState;
+D_8009B118 = gFile_TransferBufferBase;
+D_8009B134 = gFile_dwCancelRequestState;
+D_8009B140 = gFade_bKeepOverlayDepth;

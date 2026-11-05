@@ -125,6 +125,5 @@ gText_StagedValues = 0x801D5608;
 /* The North American name a shared command table uses for this entry. */
 func_800388D8 = Text_ApplyFadeCommand;
 /* Names inside the small initialized data this build's units own (#2602). */
-D_8009AE50 = _ramsize;
-D_8009AE54 = _stacksize;
 gGraphics_FrameStepControl = D_8009AF0B_slpm_86398;
+D_8009B118 = gFile_TransferBufferBase;

@@ -3,8 +3,6 @@
 #include "startup_data.h"
 #include "../game/graphics_frame.h"
 
-extern void entrypoint(void);
-
 u32 D_800906E0 __attribute__((section(".data"))) = 0;
 u32 D_800906E4 __attribute__((section(".data"))) = 0;
 u32 D_800906E8[7] = {
