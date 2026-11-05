@@ -5,6 +5,11 @@
 #include "script_op_fade_out.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_wCommandWord;
+u8 *gScript_StreamCursor;
+
 void Script_OpFadeOut(void)
 {
     int command;

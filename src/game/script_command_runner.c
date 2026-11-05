@@ -27,6 +27,13 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_DialogCommandLatch;
+u16 gScript_EventState;
+u16 gScript_wCommandWord;
+u8 *gScript_StreamCursor;
+
 /* Initialized data this unit owns at 0x80090C50: the 23 scene-script command handlers.
  *
  * Script_RunTick masks the command word with 0x1F before indexing, while
