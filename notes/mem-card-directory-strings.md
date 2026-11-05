@@ -46,7 +46,7 @@ PAL bindings; unused format providers are not invented for symmetry.
 ## Initialized ownership and incomplete consumer views
 
 The NA directory-entry format and two wildcard objects remain actual
-initialized definitions in `src/game/data_8009af6c.c`: `char[4]`,
+initialized definitions in `src/game/display_object_system.c`: `char[4]`,
 `u8[4]` and `u8[4]`, each explicitly in `.sdata`. The wildcard definitions
 retain padding beyond their terminators. The directory-entry format
 already occupies four bytes including its terminator.
