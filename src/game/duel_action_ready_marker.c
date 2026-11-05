@@ -1,4 +1,3 @@
-#define FUNC_80024088_WIDE_DIRECTION
 #include "../types.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"
@@ -38,7 +37,7 @@ DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source)
 s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 {
     if (gDuel_wDisplayTransitionFlags != 0) { gDuelCursor_Direction = -1; return 1; }
-    if (DuelCursor_UpdateDirection(cursor, gDuelCursor_Direction) != 0) { return 1; }
+    if (((DuelCursorUpdateDirectionWithDir)DuelCursor_UpdateDirection)(cursor, gDuelCursor_Direction) != 0) { return 1; }
     gDuelCursor_Direction = -1;
     if (gDuelCursor_TargetRow != cursor->row) {
         gDuelCursor_Direction = 1;

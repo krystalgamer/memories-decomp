@@ -19,10 +19,9 @@ extern s8 gDuelCursor_TargetRow;
 
 s32 DuelCursor_UpdateFromInput(DuelSelectionRecord *object);
 
-#ifdef FUNC_80024088_WIDE_DIRECTION
-s32 DuelCursor_UpdateDirection(DuelSelectionRecord *cursor, s8 dir);
-#else
 s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object);
-#endif
+/* Callers that also load the direction into $a1 for the ambient
+ * DuelCursor_ProcessGridDirection argument call through this type. */
+typedef s32 (*DuelCursorUpdateDirectionWithDir)(DuelSelectionRecord *cursor, s8 dir);
 
 #endif

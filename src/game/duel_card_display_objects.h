@@ -19,21 +19,19 @@
  * position. Narrowing a call site to one argument would delete its argument
  * setup and change the image.
  *
- * So a caller that makes the three-argument call defines
- * FUNC_80018004_AMBIENT_POSITION_ARGS and gets the explicit wide declaration,
- * while the defining unit gets the real prototype and is checked against it.
+ * So a caller that makes the three-argument call goes through
+ * DuelCreateHandCardDisplayObjectAt below, while every unit sees the real
+ * prototype and the definition is checked against it.
  *
  * The return type is a card-rendering view of the shared display-pool slot.
  * Callers storing it in hand slots cast to the canonical DisplayObject;
  * duel_draw_resolution.c also uses that wider record for +0x6C. The narrow
  * return view and both measured argument-count arms below remain unchanged. */
-#ifdef FUNC_80018004_AMBIENT_POSITION_ARGS
-DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(
+DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
+/* Callers that also pass the hand position in $a1/$a2 call through this. */
+typedef DuelCardDisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
     DuelCardRecord *card, s32 x, s32 y
 );
-#else
-DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
-#endif
 
 /* Re-derives a duel card object's visual state from its own card record:
  * gDuel_aCardRecords[object->card_index] is the record, and every field this writes

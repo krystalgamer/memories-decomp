@@ -112,8 +112,8 @@ direction produces -1. Each test retains its own volatile read, so this is
 not a promise of a single input snapshot or a combined diagonal direction.
 Both helpers return void; the existing status wrappers remain separate.
 
-The address-based `FUNC_80023D08_AMBIENT_DIRECTION_ARG` switch and the
-no-expression settling call are unchanged. Naming does not normalize either
+The one-argument call through `DuelCursorProcessGridDirectionAmbient` and
+the no-expression settling call are unchanged. Naming does not normalize either
 measured argument boundary.
 
 ## Half-open selection-row bounds
@@ -173,11 +173,12 @@ getter's widened call result is not narrowed or normalized.
 ### Deliberate ABI views
 
 The record type is unified, but two argument boundaries are not rewritten:
-the target/hand callers still select `FUNC_80024088_WIDE_DIRECTION` to put
-the direction in `$a1` when calling the wrapper whose definition takes one
-record argument. That wrapper still selects
-`FUNC_80023D08_AMBIENT_DIRECTION_ARG` and supplies no second expression
-when forwarding to the two-argument grid handler. No local copy or
+the target/hand callers call through `DuelCursorUpdateDirectionWithDir` to
+put the direction in `$a1` when calling the wrapper whose definition takes
+one record argument. That wrapper calls through
+`DuelCursorProcessGridDirectionAmbient` and supplies no second expression
+when forwarding to the two-argument grid handler. Each header declares only
+the real prototype; the casts sit at the call sites. No local copy or
 synthesized direction is added. The settling handler's zero-expression
 field-info refresh remains separate and unchanged.
 

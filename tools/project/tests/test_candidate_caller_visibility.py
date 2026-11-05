@@ -369,7 +369,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
 
     def test_cursor_motion_object_and_direction_views(self) -> None:
         definition = "src/game/duel_field_display_objects.c"
-        ambient = "#define FUNC_80023D08_AMBIENT_DIRECTION_ARG\n"
+        ambient = "(DuelCursorProcessGridDirectionAmbient)"
         views = [
             ("", "DuelSelectionRecord *, s32", True),
             ("", "DuelSelectionRecord *", False),
@@ -383,7 +383,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for prefix, parameters, accepted in views:
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
-                        prefix + '#include "duel_cursor_grid_direction.h"\n'
+                        '#include "duel_cursor_grid_direction.h"\n'
                         + '#include "duel_cursor_held_grid_direction.h"\n'
                         + "DisplayObject **object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
@@ -394,7 +394,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         + "u8 *status_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->status; }\n"
                         + "void (*held_input)(DuelSelectionRecord *) = DuelCursor_ProcessHeldGridDirection;\n"
-                        + f"void (*step)({parameters}) = DuelCursor_ProcessGridDirection;\n",
+                        + f"void (*step)({parameters}) = {prefix}DuelCursor_ProcessGridDirection;\n",
                         encoding="utf-8",
                     )
                     if accepted:

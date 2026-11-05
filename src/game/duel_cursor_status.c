@@ -1,4 +1,3 @@
-#define FUNC_80023D08_AMBIENT_DIRECTION_ARG
 #include "../types.h"
 #include "duel_cursor_status.h"
 #include "duel_cursor_grid_direction.h"
@@ -7,8 +6,8 @@
 /* The two callers consume different duel_cursor_status.h contracts, and both
    reasons are deliberate.
 
-   duel_action_ready_marker.c selects FUNC_80024088_WIDE_DIRECTION and calls
-   DuelCursor_UpdateDirection with two arguments while the definition takes
+   duel_action_ready_marker.c calls DuelCursor_UpdateDirection through
+   DuelCursorUpdateDirectionWithDir with two arguments while the definition takes
    one; the second reaches $a1 and the call site's argument setup is what the
    image contains, so the one-argument prototype would remove an instruction.
 
@@ -20,7 +19,7 @@
    here preserves it widened, which is what that call site reads.
 
    DuelCursor_UpdateDirection's one-argument call to DuelCursor_ProcessGridDirection is the harder case of
-   the two, and it is now the FUNC_80023D08_AMBIENT_DIRECTION_ARG arm of
+   the two, and it is now a call through the DuelCursorProcessGridDirectionAmbient type in
    duel_cursor_grid_direction.h rather than a private declaration here. The definition
    reads dir four times, branching on its sign and on bits 0 and 1, while
    DuelCursor_UpdateDirection's prologue is subu/sw/sw/jal with the object copy in the
@@ -41,6 +40,6 @@ s32 DuelCursor_UpdateFromInput(DuelSelectionRecord *object)
 
 s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object)
 {
-    DuelCursor_ProcessGridDirection(object);
+    ((DuelCursorProcessGridDirectionAmbient)DuelCursor_ProcessGridDirection)(object);
     return object->status;
 }

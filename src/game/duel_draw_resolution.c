@@ -5,7 +5,6 @@
  * stages the five-piece presentation, and DuelCard_CaptureRoundedTexture reads a
  * drawn card back into the staging buffer. One object in every build.
  */
-#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
@@ -184,7 +183,7 @@ void DuelScene_UpdateDrawResolution(void) {
             k = a;
         }
         Duel_SetupCardRecord(k, gDuel_pActiveSideState->deck_draw_cursor);
-        p = (DisplayObject *)Duel_CreateHandCardDisplayObject(
+        p = (DisplayObject *)((DuelCreateHandCardDisplayObjectAt)Duel_CreateHandCardDisplayObject)(
             &gDuel_aCardRecords[k],
             i * 60 + 0x14E,
             DUEL_DRAW_RESOLUTION_CARD_Y

@@ -1,7 +1,6 @@
 #define GDIALOG_CHOICE_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
-#define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "duel_scene_state.h"
 #include "ai.h"
@@ -413,7 +412,7 @@ void Duel_ApplyAiHandSelection(void)
                     id = *(u8 *)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
                     Duel_SetupCardRecord(id, rec->deck_index);
-                    slot->object = (DisplayObject *)Duel_CreateHandCardDisplayObject(
+                    slot->object = (DisplayObject *)((DuelCreateHandCardDisplayObjectAt)Duel_CreateHandCardDisplayObject)(
                         (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);
