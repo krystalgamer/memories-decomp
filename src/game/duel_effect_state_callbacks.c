@@ -26,6 +26,16 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s16 gText_CdSoundPollBudget;
+u8 gText_CdSoundWaitPhase;
+u16 gText_ShakeViewportOrigin[2];
+s16 gText_WaitCounter;
+MenuRecord *gText_DisplayEffectRecord;
+u8 gText_ScriptDispatchGate;
+s8 gText_PageAdvanceHoldCountdown;
+
 void Text_BeginPageClear(DuelEffectChannel *object)
 {
     u8 flags = object->playback_state;

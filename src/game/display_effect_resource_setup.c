@@ -29,6 +29,10 @@
 #include "../unmatched.h"
 #include "display_asset_banks.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gDisplayEffect_ResourceCacheWriteSlot;
+
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
 /* Regional value: the CLUT rectangles' x (512 -> 640). The European build
