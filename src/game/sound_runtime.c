@@ -162,25 +162,25 @@ void SD_UpdateRuntime(void)
     switch (flags_or_command) {
     case 0x44:
         if (state->s_wSD_SEQ_FADE_STEP == 0) {
-            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->args.fade.step;
             state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x45:
         if (state->s_wSD_SEQ_FADE_STEP == 0) {
-            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->args.fade.step;
             state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x29:
         if (state->s_wSD_CD_FADE_STEP == 0) {
-            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->args.fade.step;
             state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
     case 0x2A:
         if (state->s_wSD_CD_FADE_STEP == 0) {
-            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->arg1;
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->args.fade.step;
             state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
@@ -191,9 +191,9 @@ void SD_UpdateRuntime(void)
     g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
     state = g_SDValue;
     state->s_wSD_ACTIVE_COMMAND_VALUE = (u16)command_cursor->value;
-    state->s_dwSD_ACTIVE_COMMAND_ARG0 = command_cursor->arg0;
-    state->s_dwSD_ACTIVE_COMMAND_ARG1 = command_cursor->arg1;
-    state->s_dwSD_ACTIVE_COMMAND_ARG2 = command_cursor->arg2;
+    state->s_dwSD_ACTIVE_COMMAND_ARG0 = command_cursor->args.raw.arg0;
+    state->s_dwSD_ACTIVE_COMMAND_ARG1 = command_cursor->args.raw.arg1;
+    state->s_dwSD_ACTIVE_COMMAND_ARG2 = command_cursor->args.raw.arg2;
     state->s_bSD_ACTIVE_CD_FADE_WAIT = command_cursor->wait_for_cd_fade;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */

@@ -28,15 +28,54 @@
 #define SD_TRANSFER_ERROR (-1)
 #define SD_TRANSFER_INCOMPLETE (-2)
 
-/* value/arg0-2 are opcode-specific. transfer_* names apply only to command
- * 0x20; the other tail words retain their existing opaque declarations. */
+/* The three argument words at +0x04..+0x0C, one view per opcode family.
+ * Every view keeps the words' s32 storage; address-shaped words stay s32.
+ *
+ * raw: the opcode-independent copy SD_UpdateRuntime makes into
+ *   s_dwSD_ACTIVE_COMMAND_ARG0..2 when it dequeues a command.
+ * fade: CD fades 0x29/0x2A, sequence fades 0x44/0x45 and BGM play 0x48.
+ *   SD_EnqueueCdFade and SD_RequestBgmPlayback store the signed per-update
+ *   step; SD_UpdateRuntime loads it into the CD or sequence fade step, and
+ *   SD_StepActiveCommand's 0x48 arm into s_wSD_SEQ_FADE_STEP.
+ * cd_play: CD play 0x21/0x24 from sound_output_state.c. SD_StepActiveCommand
+ *   adds bank_sector_offset to the descriptor's sectors and reads the
+ *   8-byte descriptor entry descriptor_table + value * 8. bank_tag (0x50,
+ *   0x60 or 0x70 by descriptor bank) is stored but never read.
+ * seq_block: sequence-block registration 0x51 from
+ *   SD_QueueValueLinkTransfer; SD_StepActiveCommand passes block_buffer
+ *   and spu_address to SD_RegisterSeqBlockNotes.
+ * Command 0x20 keeps its transfer_* words below. */
+typedef union {
+    struct {
+        s32 arg0;
+        s32 arg1;
+        s32 arg2;
+    } raw;
+    struct {
+        s32 arg0;
+        s32 step;
+        s32 arg2;
+    } fade;
+    struct {
+        s32 bank_sector_offset;
+        s32 bank_tag;
+        s32 descriptor_table;
+    } cd_play;
+    struct {
+        s32 spu_address;
+        s32 arg1;
+        s32 block_buffer;
+    } seq_block;
+} SDCommandArgs;
+
+/* value and args are opcode-specific. transfer_* names apply only to
+ * command 0x20; the other tail words retain their existing opaque
+ * declarations. */
 typedef struct {
     u8 command;
     u8 wait_for_cd_fade;
     s16 value;
-    s32 arg0;
-    s32 arg1;
-    s32 arg2;
+    SDCommandArgs args;
     s32 transfer_selector;
     s32 transfer_sector_offset;
     s32 field_0018;
@@ -449,9 +488,12 @@ typedef char SDCommand_size_must_be_0x30[
 ];
 typedef char SDCommand_payload_offsets_must_match[
     SD_STATE_OFFSET(SDCommand, value) == 0x02 &&
-    SD_STATE_OFFSET(SDCommand, arg0) == 0x04 &&
-    SD_STATE_OFFSET(SDCommand, arg1) == 0x08 &&
-    SD_STATE_OFFSET(SDCommand, arg2) == 0x0C &&
+    SD_STATE_OFFSET(SDCommand, args.raw.arg0) == 0x04 &&
+    SD_STATE_OFFSET(SDCommand, args.raw.arg1) == 0x08 &&
+    SD_STATE_OFFSET(SDCommand, args.raw.arg2) == 0x0C &&
+    SD_STATE_OFFSET(SDCommand, args.fade.step) == 0x08 &&
+    SD_STATE_OFFSET(SDCommand, args.cd_play.descriptor_table) == 0x0C &&
+    SD_STATE_OFFSET(SDCommand, args.seq_block.block_buffer) == 0x0C &&
     SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 &&
     SD_STATE_OFFSET(SDCommand, field_002C) == 0x2C ? 1 : -1
 ];
@@ -464,8 +506,8 @@ typedef char SDCommand_value_offset_must_be_0x02[
 typedef char SDCommand_cd_fade_wait_offset_must_be_0x01[
     SD_STATE_OFFSET(SDCommand, wait_for_cd_fade) == 0x01 ? 1 : -1
 ];
-typedef char SDCommand_arg0_offset_must_be_0x04[
-    SD_STATE_OFFSET(SDCommand, arg0) == 0x04 ? 1 : -1
+typedef char SDCommand_args_offset_must_be_0x04[
+    SD_STATE_OFFSET(SDCommand, args) == 0x04 ? 1 : -1
 ];
 typedef char SDCommand_transfer_selector_offset_must_be_0x10[
     SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 ? 1 : -1
