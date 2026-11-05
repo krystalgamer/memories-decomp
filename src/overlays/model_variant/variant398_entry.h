@@ -66,7 +66,8 @@ typedef struct {
     s32 phase;
 } Variant398Header441RingsState;
 
-extern u8 gModelVariant398_D2FE0[];
+extern GsIMAGE gModelVariant398_aImages[9];
+extern Variant439EntryConfig gModelVariant398_aConfigs[];
 void ModelVariant398_DrawRings(u8 *context);
 void ModelVariant398_DrawBand(u8 *context);
 void ModelVariant398_DrawSheets(u8 *context);

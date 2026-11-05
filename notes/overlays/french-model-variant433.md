@@ -490,6 +490,7 @@ Both slots compile the shared sources without renaming wrappers;
 `variant433_sheet.c`), `ModelVariant416_DrawWebs` (`0x1C64`),
 `FrenchModelVariant433_DrawRays` (`0x21CC`), `ModelVariant416_DrawSpokes`
 (`0x26C8`), `ModelVariant416_DrawRings` (`0x29D8`), `ModelVariant416_DrawQuad`
-(`0x2D54`) and the data block `gModelVariant416_D30D0`. Each image binds them
+(`0x2D54`) and the data tables `gModelVariant416_aImages` and
+`gModelVariant416_aConfigs`. Each image binds them
 at its own addresses (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).

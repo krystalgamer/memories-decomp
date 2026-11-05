@@ -674,7 +674,7 @@ palette loads from PAL x = 640. The
 `src/overlays/french_model_variant/variant463_entry.c` wrapper selects
 `VERSION_FRENCH` and the palette. Each image's symbols file binds the moved
 helpers (`FrenchModelVariant463_DrawPairedSheets`,
-`FrenchModelVariant463_DrawSheets`) and the data (`gModelVariant446_D3BF4`)
+`FrenchModelVariant463_DrawSheets`) and the data (`gModelVariant446_aImages`, `gModelVariant446_aConfigs`)
 at its own addresses, and the image links
 `model_variant463_entry_linker_symbols.txt`.
 
@@ -845,7 +845,7 @@ keep their French C (`variant449_sheet.c`, `_ribbons.c`, `_streamers.c` and
 x = 640. The `src/overlays/french_model_variant/variant449_entry.c` wrapper
 selects the palette and binds `model_variant449_entry_linker_symbols.txt`; each
 image's symbols file binds `ModelVariant432_HandleRequest`, the four
-`FrenchModelVariant449_Draw*` helpers and `gModelVariant432_D2B64` at its own
+`FrenchModelVariant449_Draw*` helpers and `gModelVariant432_aImages`/`gModelVariant432_aConfigs` at its own
 addresses.
 
 Fifteen images under French headers 686 and 753 are the North American

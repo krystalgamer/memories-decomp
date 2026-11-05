@@ -68,7 +68,8 @@ typedef struct {
     s16 slot, command;
 } Variant416EntryState;
 
-extern u8 gModelVariant416_D30D0[];
+extern GsIMAGE gModelVariant416_aImages[9];
+extern Variant416EntryConfig gModelVariant416_aConfigs[];
 void ModelVariant416_DrawBands(u8 *context);
 void ModelVariant416_DrawSheets(u8 *context);
 void ModelVariant416_DrawWebs(u8 *context);

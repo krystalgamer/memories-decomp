@@ -70,7 +70,8 @@ typedef struct {
     s16 slot, command;
 } Variant404EntryState;
 
-extern u8 gModelVariant404_D40FC[];
+extern GsIMAGE gModelVariant404_aImages[9];
+extern Variant404EntryConfig gModelVariant404_aConfigs[];
 void ModelVariant404_DrawRibbons(u8 *context);
 void SpanishModelVariant421_DrawSpiral(u8 *context);
 void ModelVariant404_DrawBands(u8 *context);

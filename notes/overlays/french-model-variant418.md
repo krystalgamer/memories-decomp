@@ -334,6 +334,6 @@ palette, `VERSION_FRENCH` or `MODEL_VARIANT418_RAYS`. They define
 `FrenchModelVariant418_DrawSheets` (`0x1760`), `ModelVariant416_DrawWebs`
 (`0x1C9C`), `FrenchModelVariant433_DrawRays` (`0x2204`),
 `ModelVariant401_DrawSpokes` (`0x272C`), `ModelVariant401_DrawRings`
-(`0x2A3C`), `ModelVariant401_DrawQuad` (`0x2DB8`) and the data block
-`gModelVariant401_D3124`. Each image binds them at its own addresses (see
+(`0x2A3C`), `ModelVariant401_DrawQuad` (`0x2DB8`) and the data tables
+`gModelVariant401_aImages` and `gModelVariant401_aConfigs`. Each image binds them at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

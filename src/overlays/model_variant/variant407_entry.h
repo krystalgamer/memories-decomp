@@ -85,6 +85,7 @@ typedef struct {
     s16 slot, command;
 } Variant407EntryState;
 
-extern u8 gModelVariant407_D18C8[];
+extern GsIMAGE gModelVariant407_aImages[9];
+extern Variant407EntryConfig gModelVariant407_aConfigs[];
 void ModelVariant407_DrawPetals(u8 *context);
 #endif

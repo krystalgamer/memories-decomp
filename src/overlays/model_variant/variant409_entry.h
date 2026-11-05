@@ -104,7 +104,8 @@ typedef struct {
 } EntryState409;
 
 /* Nine GsIMAGE records (0x1C bytes each) followed by the command table. */
-extern u8 gModelVariant409_D37A8[];
+extern GsIMAGE gModelVariant409_aImages[9];
+extern EntryConfig409 gModelVariant409_aConfigs[];
 void SpanishModelVariant426_DrawMesh(u8 *context);
 void SpanishModelVariant426_DrawSpiral(u8 *context);
 void FrenchModelVariant426_DrawRibbon(u8 *context);
