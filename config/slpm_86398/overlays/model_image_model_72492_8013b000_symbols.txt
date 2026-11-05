@@ -2,4 +2,5 @@
 ModelVariant460_HandleRequest = 0x8013B004; // type:func size:0x1484 defined:true
 SpanishModelVariant477_DrawPanels = 0x8013C488; // type:func size:0x4D8 defined:true
 SpanishModelVariant477_DrawQuadGroups = 0x8013C960; // type:func size:0x46C defined:true
-gModelVariant460_D1DCC = 0x8013CDCC; // type:u8 size:0x3234 defined:true
+gModelVariant460_aImages = 0x8013CDCC; // type:u8 size:0xFC defined:true
+gModelVariant460_aConfigs = 0x8013CEC8; // type:u8 size:0x3138 defined:true

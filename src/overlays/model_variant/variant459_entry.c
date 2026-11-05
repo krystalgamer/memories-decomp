@@ -178,7 +178,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     ray = &work->ray;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant459EntryConfig *)(gModelVariant459_D3338 + 0xFC) + command;
+        work->config = gModelVariant459_aConfigs + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -197,16 +197,16 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT459_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant459_aImages[7]);
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant459_aImages[5]);
         veil_page = packed >> 16;
         veil_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant459_aImages[1]);
         ray_page = packed >> 16;
         ray_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant459_aImages[8]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -468,7 +468,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             if (work->phase < 6) {
                 ModelVariant459_DrawGlobe((u8 *)point);
                 if (work->phase >= 5) {
-                    packed2 = ModelTexture_PackPageClutCopy(work->slot, 2, (GsIMAGE *)(gModelVariant459_D3338 + 0));
+                    packed2 = ModelTexture_PackPageClutCopy(work->slot, 2, &gModelVariant459_aImages[0]);
                     unknown_stack[31] = packed2;
                     frame = packed2 >> 16;
                     SetPolyGT4(veil);

@@ -471,6 +471,6 @@ Both slots compile the shared sources without wrappers. They define
 `FrenchModelVariant476_DrawSpiral` (`0x170C`), `ModelVariant459_DrawWebs`
 (`0x20BC`), `ModelVariant459_DrawCurtains` (`0x247C`),
 `ModelVariant459_DrawGlobe` (`0x2848`, from `variant476_globe.c`),
-`FrenchModelVariant476_DrawScreenGrid` (`0x2DD4`) and the data block
-`gModelVariant459_D3338`. Each image binds them at its own addresses (see
+`FrenchModelVariant476_DrawScreenGrid` (`0x2DD4`) and the data tables
+`gModelVariant459_aImages` and `gModelVariant459_aConfigs`. Each image binds them at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

@@ -94,7 +94,8 @@ typedef struct {
     s16 slot, command;
 } Variant433EntryState;
 
-extern u8 gModelVariant433_D39A0[];
+extern GsIMAGE gModelVariant433_aImages[9];
+extern Variant433EntryConfig gModelVariant433_aConfigs[];
 void ModelVariant433_DrawRibbons(u8 *context);
 void ModelVariant433_DrawRings(u8 *context);
 void SpanishModelVariant450_DrawQuadGroups(u8 *context);

@@ -70,7 +70,7 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant454EntryConfig *)(gModelVariant454_D1EFC + 0xFC) + command;
+        work->config = gModelVariant454_aConfigs + command;
         for (n = 0; n < 1; n++) {
             work->parts[n] = Model_GetSlotDataEntry(work->slot, work->config->parts[n]);
         }
@@ -88,15 +88,15 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT454_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT454_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant454_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant454_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant454_aImages[1]);
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant454_aImages[2]);
         glow_page = packed >> 16;
         glow_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant454_aImages[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);

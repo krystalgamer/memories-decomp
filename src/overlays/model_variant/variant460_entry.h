@@ -16,7 +16,7 @@
 #include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
-/* One 0x38-byte command record of header 460's table at gModelVariant460_D1DCC + 0xFC. */
+/* One 0x38-byte command record of header 460's table at gModelVariant460_aConfigs. */
 typedef struct {
     u8 color_a[4];
     u8 color_b[4];
@@ -129,7 +129,8 @@ typedef struct {
     s16 slot, command;
 } Variant460State;
 
-extern u8 gModelVariant460_D1DCC[];
+extern GsIMAGE gModelVariant460_aImages[9];
+extern Variant460Config gModelVariant460_aConfigs[];
 s32 ModelVariant460_HandleRequest(u8 *context, s32 command);
 void SpanishModelVariant477_DrawPanels(u8 *context);
 void SpanishModelVariant477_DrawQuadGroups(u8 *context);

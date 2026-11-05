@@ -146,6 +146,6 @@ The family's shared sources define `ModelVariant433_HandleRequest`,
 `ModelVariant433_DrawRibbons`, `ModelVariant433_DrawBands`,
 `ModelVariant433_DrawRings`, `ModelVariant433_DrawCoils`,
 `SpanishModelVariant450_DrawQuadGroups`, `SpanishModelVariant450_DrawLines`
-and the data block `gModelVariant433_D39A0`. Both slots build the same
+and the data tables `gModelVariant433_aImages` and `gModelVariant433_aConfigs`. Both slots build the same
 sources, and each image binds the names at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

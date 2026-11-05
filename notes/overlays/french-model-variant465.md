@@ -489,8 +489,8 @@ their canonical names. See [the reuse note](french-model-usa-entry-reuse.md).
 
 The shared sources define `ModelVariant448_HandleRequest`,
 `ModelVariant448_DrawRadialDisc`, `ModelVariant448_DrawFans`,
-`ModelVariant448_DrawOrbitSheets` and the data block
-`gModelVariant448_D43E4`. Both slots build the same sources; each image binds
+`ModelVariant448_DrawOrbitSheets` and the data tables
+`gModelVariant448_aImages` and `gModelVariant448_aConfigs`. Both slots build the same sources; each image binds
 the names at its own addresses. Here `variant465_fan.c`, `variant465_arms.c`
 and `variant465_orbit.c` define the three helpers at `0x124C`, `0x166C` and
 `0x256C`, and the data block binds at `0x4354`, not at the North American
