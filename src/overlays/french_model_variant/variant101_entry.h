@@ -35,8 +35,8 @@ typedef struct {
 } Model101State;
 
 extern const VECTOR gFrenchModelVariant101_UnitScale;
-extern u8 gFrenchModelVariant101_D0AF4[];
-extern u8 gFrenchModelVariant101_D0B10[];
+extern GsIMAGE gFrenchModelVariant101_Image;
+extern Model101Config gFrenchModelVariant101_aConfigs[];
 s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command);
 
 #endif
