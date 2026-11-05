@@ -40,7 +40,7 @@ s32 ModelVariant847_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant847_D1F04[command];
+        work->config = &gModelVariant847_aConfigs[command];
         for (i = 0; i < 16; i++) {
             setVector(&work->inner[i], work->config->inner_radius * ccos(i << 8) / 4096,
                 work->config->inner_radius * csin(i << 8) / 4096, 0);
@@ -95,7 +95,7 @@ s32 ModelVariant847_HandleRequest(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant847_D1E94[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant847_aImages[i]);
         }
         return 0;
     }

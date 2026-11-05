@@ -39,7 +39,7 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant801_D158C[command];
+        work->config = &gModelVariant801_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
         for (i = 0; i < work->config->count; i++) {
@@ -69,8 +69,8 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
                 copyVector(&work->trail[i][j], &work->pos[i]);
             }
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant801_D1554[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant801_D1554[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant801_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant801_aImages[1]);
         work->ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;

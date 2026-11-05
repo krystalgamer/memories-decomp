@@ -43,7 +43,7 @@ s32 ModelVariant823_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant823_D1F00[command];
+        work->config = &gModelVariant823_aConfigs[command];
         for (i = 0; i < 36; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->hit[i], 0, 0, 0);
@@ -76,7 +76,7 @@ s32 ModelVariant823_HandleRequest(u8 *context, s32 command)
                       work->config->ring_radius * csin((i * 128 - 0x300) % 4096) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant823_D1EAC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant823_aImages[i]);
         }
         work->count = 0;
         work->ambient = 0x800;

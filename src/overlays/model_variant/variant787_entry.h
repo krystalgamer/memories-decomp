@@ -59,8 +59,8 @@ typedef struct {
     u8 spoke_r, spoke_g, spoke_b;
 } Model787State;
 
-extern GsIMAGE gModelVariant787_D12EC[];
-extern Model787Config gModelVariant787_D1324[];
+extern GsIMAGE gModelVariant787_aImages[];
+extern Model787Config gModelVariant787_aConfigs[];
 
 s32 ModelVariant787_HandleRequest(u8 *context, s32 command);
 

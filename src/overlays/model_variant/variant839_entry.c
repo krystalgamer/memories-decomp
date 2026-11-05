@@ -36,7 +36,7 @@ s32 ModelVariant839_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant839_D1538[command];
+        work->config = &gModelVariant839_aConfigs[command];
         work->unused_tpage = 0xAE;
 #ifdef VERSION_FRENCH
         work->unused_clut = 0x3D28;
@@ -44,7 +44,7 @@ s32 ModelVariant839_HandleRequest(u8 *context, s32 command)
         work->unused_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant839_D14E4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant839_aImages[i]);
         }
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < 128; i++) {

@@ -48,7 +48,7 @@ s32 ModelVariant824_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant824_D3B70[command];
+        work->config = &gModelVariant824_aConfigs[command];
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->step[i], 0, 0, 0);
@@ -118,7 +118,7 @@ s32 ModelVariant824_HandleRequest(u8 *context, s32 command)
         work->fan_clut = 0x3D20;
 #endif
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant824_D3AE4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant824_aImages[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

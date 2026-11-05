@@ -50,7 +50,7 @@ typedef union {
 } Image26952Position;
 
 extern VECTOR gFrenchModelVariant818_D1544;
-extern GsIMAGE gFrenchModelVariant818_D1554[2];
-extern Image26952Config gFrenchModelVariant818_D158C[];
+extern GsIMAGE gFrenchModelVariant818_aImages[2];
+extern Image26952Config gFrenchModelVariant818_aConfigs[];
 
 #endif

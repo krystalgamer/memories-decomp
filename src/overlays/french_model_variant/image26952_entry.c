@@ -23,7 +23,7 @@ s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
     active = Model_GetActiveSlotIndex();
     sign = active * 2 - 1;
     if (command >= 0) {
-        state->config = &gFrenchModelVariant818_D158C[command];
+        state->config = &gFrenchModelVariant818_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(active ^ 1, &position.dimensions);
         Model_CopySlotPosition(active ^ 1, (u16 *)&rotation);
         for (i = 0; i < state->config->count; i++) {
@@ -58,9 +58,9 @@ s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
             }
         }
         state->textures[0] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_D1554[0]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_aImages[0]);
         state->textures[1] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_D1554[1]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_aImages[1]);
         state->ambient = 2048;
         state->stage = 0;
         state->elapsed = 0;

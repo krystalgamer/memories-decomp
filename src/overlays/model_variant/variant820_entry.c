@@ -32,7 +32,7 @@ s32 ModelVariant820_HandleRequest(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &gModelVariant820_D1B64[command];
+        work->config = &gModelVariant820_aConfigs[command];
         setVector(&work->position, 0, 0, 0);
         setVector(&work->velocity, 0, 0, 0);
         for (i = 0; i < 32; i++) {
@@ -53,9 +53,9 @@ s32 ModelVariant820_HandleRequest(u8 *context, s32 command)
                     work->config->speed * ((rand() - rand()) % 4096) / 4096);
             }
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant820_D1B10[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant820_D1B10[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant820_D1B10[2]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant820_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant820_aImages[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant820_aImages[2]);
         work->red = 0;
         work->green = 0;
         work->blue = 0;

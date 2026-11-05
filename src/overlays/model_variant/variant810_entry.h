@@ -90,8 +90,8 @@ typedef struct {
     u8 flare_b[2];
 } Model810State;
 
-extern GsIMAGE gModelVariant810_D2A80[];
-extern Model810Config gModelVariant810_D2AF0[];
+extern GsIMAGE gModelVariant810_aImages[];
+extern Model810Config gModelVariant810_aConfigs[];
 
 s32 ModelVariant810_HandleRequest(u8 *context, s32 command);
 

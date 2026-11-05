@@ -37,7 +37,7 @@ typedef struct {
 } Image32768State;
 
 extern VECTOR gFrenchModelVariant804_D12DC;
-extern GsIMAGE gFrenchModelVariant804_D12EC[2];
-extern Image32768Config gFrenchModelVariant804_D1324[];
+extern GsIMAGE gFrenchModelVariant804_aImages[2];
+extern Image32768Config gFrenchModelVariant804_aConfigs[];
 
 #endif

@@ -99,7 +99,7 @@ typedef struct {
     u8 ray_b[3];
 } Model831State;
 
-extern GsIMAGE gFrenchModelVariant831_D3818[];
-extern Model831Config gFrenchModelVariant831_D38A4[];
+extern GsIMAGE gFrenchModelVariant831_aImages[];
+extern Model831Config gFrenchModelVariant831_aConfigs[];
 
 #endif
