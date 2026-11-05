@@ -2,8 +2,10 @@
 #define FILE_TRANSFER_WORDS_IN_DATA
 
 #ifndef SCRIPT_OP_LOAD_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, defined in
- * address order ahead of the headers that declare it (#2602). */
+/* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, declared in
+ * address order ahead of the headers that declare it (#2602). The globals are
+ * common symbols; split.yaml's script_op_load_image_scene_commons subsegment
+ * allocates them at their retail addresses. */
 struct DisplayObject *gScript_TransitionObject;
 s32 gScript_ViewportAccumulatorX;
 s32 gScript_ViewportAccumulatorY;
@@ -44,6 +46,11 @@ extern u16 gScript_ViewportTargetY;
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 #include "script_op_load_image_scene.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_wCommandWord;
+u16 gScript_ImageOperand;
 
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 

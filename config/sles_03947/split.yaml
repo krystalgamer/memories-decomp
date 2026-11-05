@@ -483,7 +483,7 @@ segments:
       - [0x8c9d8, .sbss, game/european/duel_effect_object_pool]
       - {start: 0x8c9ea, type: bin, name: bss_image_8009c1ea, linker_section_order: .sbss}
       - [0x8c9f0, .sbss, game/european/script_command_busy]
-      - [0x8c9f4, .sbss, game/european/script_op_load_image_scene]
+      - [0x8c9f4, sbss, script_op_load_image_scene_commons]
       - [0x8ca30, .sbss, game/european/debug_menu_editor_entries]
       - [0x8ca60, .sbss, game/european/build_deck_draw_card_list_page]
       - [0x8ca68, .sbss, game/european/sorted_entry_render]

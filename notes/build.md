@@ -643,6 +643,17 @@ owner's storage. Without it, MASPSX would allocate them as local storage that
 also own small tentative storage cannot take a `*_comm` profile unchanged,
 because their own storage would become common too.
 
+Such a unit still takes a `*_comm` profile, and its own tentative storage
+becomes common like the rest. The storage itself comes from its `split.yaml`
+slot: the bytes those globals occupy become a splat `sbss` (or `bss`) data
+subsegment named `<unit>_commons`, whose generated assembly defines a label
+for each global from `symbols.txt`. Those definitions satisfy every unit's
+common declaration, so the linker places no common storage of its own. Any
+`static` storage the unit keeps follows as its ordinary `.sbss` subsegment.
+`script_op_load_image_scene.c` is the first unit built this way. No
+linker-script addresses are involved; every name needs a `symbols.txt` entry
+at its retail address.
+
 ### The declaration spelling is the consumer's lever
 
 Ownership decides where a definition lands. For the far more common case of a

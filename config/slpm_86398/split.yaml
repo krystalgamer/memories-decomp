@@ -476,7 +476,8 @@ segments:
       - [0x8b950, .sbss, game/japanese/duel_effect_object_pool]
       - {start: 0x8b958, type: bin, name: bss_image_8009b158, linker_section_order: .sbss}
       - [0x8b96c, .sbss, game/script_command_busy]
-      - [0x8b970, .sbss, game/script_op_load_image_scene]
+      - [0x8b970, sbss, script_op_load_image_scene_commons]
+      - [0x8b99c, .sbss, game/script_op_load_image_scene]
       - [0x8b9a0, .sbss, game/japanese/debug_menu_editor_entries]
       - [0x8b9e8, .sbss, game/japanese/build_deck_draw_card_list_page]
       - [0x8b9f0, .sbss, game/sorted_entry_render]
