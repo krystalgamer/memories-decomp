@@ -121,7 +121,7 @@ typedef struct {
 } Model386State;
 
 extern GsIMAGE gModelVariant386_aImages[];
-extern Model386Config gModelVariant386_D2C8C[];
+extern Model386Config gModelVariant386_aConfigs[];
 
 void FrenchModelVariant403_DrawStrands(u8 *context);
 void FrenchModelVariant403_DrawSheets(u8 *context);

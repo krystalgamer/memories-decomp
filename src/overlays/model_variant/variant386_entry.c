@@ -58,7 +58,7 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = gModelVariant386_D2C8C + command;
+        work->config = gModelVariant386_aConfigs + command;
         for (i = 0; i < work->config->count; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
             work->extra = Model_GetSlotDataEntry(work->slot, work->config->extra);

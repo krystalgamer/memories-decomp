@@ -618,7 +618,8 @@ North American header-372 entry (`model_variant/variant372_entry.c`) through
 `VERSION_FRENCH` moving the CLUT column from 512 to 640. Each image's symbols
 file binds `ModelVariant372_HandleRequest`, the helpers
 `FrenchModelVariant389_DrawRibbons` and `FrenchModelVariant389_DrawSheets` and
-the data labels `gModelVariant372_D1E10`, `_D1E28`, `_D1E44` and `_D1F40` at its
+the data labels `gModelVariant372_szTest1TimPath`, `_szBeamer1TimPath`,
+`_aImages` and `_aConfigs` at its
 own addresses, so the French sheets helper and data labels sit 0x3C later. The French entry compiles under
 `gcc_2_8_1_g0_split`; the North American one needs `gcc_2_7_2_cdk_g0`.
 

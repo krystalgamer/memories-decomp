@@ -112,10 +112,10 @@ typedef struct {
     u16 command;
 } Model372State;
 
-extern Model372Path23 gModelVariant372_D1E10;
-extern Model372Path25 gModelVariant372_D1E28;
+extern Model372Path23 gModelVariant372_szTest1TimPath;
+extern Model372Path25 gModelVariant372_szBeamer1TimPath;
 extern GsIMAGE gModelVariant372_aImages[];
-extern Model372Config gModelVariant372_D1F40[];
+extern Model372Config gModelVariant372_aConfigs[];
 
 void FrenchModelVariant389_DrawRibbons(u8 *context);
 void FrenchModelVariant389_DrawSheets(u8 *context);

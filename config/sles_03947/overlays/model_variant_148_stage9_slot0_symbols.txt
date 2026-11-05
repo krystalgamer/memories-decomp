@@ -1,7 +1,7 @@
 // European MODEL.MRG model 148 (record 148), sector 41048, header 71, loaded at 0x8013B000; header-71 entry matched in src/overlays/french_model_variant/variant54_entry.c; built from the French source layout of french_model_variant_148_stage9_slot0.
 ModelVariant54_HandleRequest = 0x8013B004; // type:func size:0x1644 defined:true
-gModelVariant54_D1648 = 0x8013C648; // type:u8 size:0x70 defined:true
-gModelVariant54_D16B8 = 0x8013C6B8; // type:u8 size:0x1C defined:true
+gModelVariant54_aImages = 0x8013C648; // type:u8 size:0x70 defined:true
+gModelVariant54_SparkImage = 0x8013C6B8; // type:u8 size:0x1C defined:true
 gModelVariant54_aConfigs = 0x8013C6D4; // type:u8 size:0x392C defined:true
 Graphics_SubmitDrawModePacket = 0x8004D5B8; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
