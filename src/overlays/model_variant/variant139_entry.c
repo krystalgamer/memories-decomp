@@ -98,9 +98,9 @@ s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant139_D1ACC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant139_aImages[i]);
         }
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, gModelVariant139_D1B04);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, gModelVariant139_aBeamImages);
         work->elapsed = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH

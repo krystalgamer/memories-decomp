@@ -61,9 +61,9 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
             q++;
         }
         for (i = 0; i < 4; i++) {
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant54_D1648[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant54_aImages[i]);
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, gModelVariant54_D16B8);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant54_SparkImage);
         work->head = 0;
         work->stage = 0;
         work->elapsed = 0;

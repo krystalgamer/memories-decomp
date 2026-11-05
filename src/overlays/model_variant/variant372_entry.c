@@ -68,11 +68,11 @@ s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
     quad = &work->quad;
     extra = &work->extra;
     result = 0;
-    test = gModelVariant372_D1E10;
-    beamer = gModelVariant372_D1E28;
+    test = gModelVariant372_szTest1TimPath;
+    beamer = gModelVariant372_szBeamer1TimPath;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = gModelVariant372_D1F40 + command;
+        work->config = gModelVariant372_aConfigs + command;
         for (i = 0; i < 8; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
