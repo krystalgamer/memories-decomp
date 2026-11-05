@@ -1,6 +1,6 @@
 // Japanese MODEL.MRG model 638 (record 588), sector 162468, header 681, loaded at 0x8013B000; the US source variant681_entry.c; built from the US source layout of model_variant_638_pos0_slot0.
 ModelVariant681_HandleRequest = 0x8013B004; // type:func size:0x3E1C defined:true
-gModelVariant681_D3E38 = 0x8013EE38; // type:u8 size:0xE0 defined:true
+gModelVariant681_aImages = 0x8013EE38; // type:u8 size:0xE0 defined:true
 gModelVariant681_aConfigs = 0x8013EF18; // type:u8 size:0x10E8 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

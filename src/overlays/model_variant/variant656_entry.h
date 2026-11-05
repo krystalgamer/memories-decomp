@@ -79,7 +79,7 @@ typedef struct {
 /* The work-size string; slot-1 images carry a nonzero pad byte after it. */
 extern char gModelVariant656_szWorkSizeFormat[];
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant656_D23E0[2];
+extern GsIMAGE gModelVariant656_aImages[2];
 extern Model656Command gModelVariant656_aConfigs[];
 
 s32 ModelVariant656_HandleRequest(u8 *context, s32 command);

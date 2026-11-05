@@ -41,7 +41,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant668_D10DC);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant668_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {

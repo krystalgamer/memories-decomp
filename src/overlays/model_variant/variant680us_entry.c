@@ -82,29 +82,29 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->frame_v[i] = (i / 4 << 6) - 128;
         }
         /* Scheduling barrier: the empty loop after the early corner
-         * assignment keeps the gModelVariant680Us_D2AC4 high half ahead of the first
+         * assignment keeps the gModelVariant680Us_aImages high half ahead of the first
          * call's constant argument.  The assignment itself is sunk into
          * its single use before register allocation. */
         corner = 0;
         do {
         } while (0);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[8]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[9]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_D2AC4[10]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[10]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         switch (command) {

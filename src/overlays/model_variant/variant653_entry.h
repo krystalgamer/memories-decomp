@@ -75,7 +75,7 @@ typedef struct {
 } Model653State;
 
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant653_D250C;
+extern GsIMAGE gModelVariant653_Image;
 extern Model653Command gModelVariant653_aConfigs[];
 
 s32 ModelVariant653_HandleRequest(u8 *context, s32 command);

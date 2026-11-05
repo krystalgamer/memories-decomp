@@ -66,7 +66,7 @@ typedef struct {
 } Model668ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
-extern GsIMAGE gModelVariant668_D10DC;
+extern GsIMAGE gModelVariant668_Image;
 extern Model668Command gModelVariant668_aConfigs[];
 
 s32 ModelVariant668_HandleRequest(u8 *context, s32 command);

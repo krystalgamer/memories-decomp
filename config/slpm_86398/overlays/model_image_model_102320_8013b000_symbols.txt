@@ -1,5 +1,5 @@
 // Japanese MODEL.MRG model 420 (record 420), sector 102320, header 656, loaded at 0x8013B000; the US source variant656_entry.c; built from the US source layout of model_variant_420_stage9_slot0.
 ModelVariant656_HandleRequest = 0x8013B004; // type:func size:0x23C4 defined:true
 gModelVariant656_szWorkSizeFormat = 0x8013D3C8; // type:u8 size:0x18 defined:true
-gModelVariant656_D23E0 = 0x8013D3E0; // type:u8 size:0x38 defined:true
+gModelVariant656_aImages = 0x8013D3E0; // type:u8 size:0x38 defined:true
 gModelVariant656_aConfigs = 0x8013D418; // type:u8 size:0x2BE8 defined:true

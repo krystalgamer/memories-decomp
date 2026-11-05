@@ -87,7 +87,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant644_D2218);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant644_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {

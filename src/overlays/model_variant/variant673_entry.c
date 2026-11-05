@@ -35,13 +35,13 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)work->position);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_D1B48[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant673_aImages[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {

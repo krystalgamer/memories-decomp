@@ -89,7 +89,7 @@ extern MATRIX GsIDMATRIX;
 /* "E_DATA size = %x byte\n". */
 extern char gModelVariant683_szWorkSizeFormat[];
 #endif
-extern GsIMAGE gModelVariant683_D252C[6];
+extern GsIMAGE gModelVariant683_aImages[6];
 extern Model683Command gModelVariant683_aConfigs[];
 
 s32 ModelVariant683_HandleRequest(u8 *context, s32 command);
