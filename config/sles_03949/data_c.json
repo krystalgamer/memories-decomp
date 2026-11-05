@@ -8,10 +8,6 @@
     {
       "source": "src/game/european/model_background_records.c",
       "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/european/data_8009af6c.c",
-      "profile": "gcc_2_8_1_g8"
     }
   ]
 }

@@ -55,7 +55,7 @@ absolute symbol. The matching ELF identifies it as data at `8009AF74`;
 `D_8009AF76` and `D_8009AF7A` are legacy absolute interior aliases.
 
 Its C definition is renamed in the unchanged
-`src/game/data_8009af6c.c` unit. The NA linker script therefore supplies
+`src/game/display_object_system.c` unit. The NA linker script therefore supplies
 **old `D_8009AF74` = canonical C definition**, not a canonical assignment
 that would override/collide with initialized storage. The other images
 retain **canonical = original external provider**. Fade bytes retain that

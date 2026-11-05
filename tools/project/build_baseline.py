@@ -194,8 +194,14 @@ def compile_c(
     aspsx_version = profile.get("aspsx_version")
     data_limit = profile.get("data_limit")
     assembly_filter = profile.get("assembly_filter")
+    # MASPSX already rewrites the unit's own small data to $gp. When it runs
+    # the assembler itself it passes -G0, so every other reference stays
+    # absolute, as with ASPSX. Profiles that set this key assemble the same
+    # way; the compiler and MASPSX keep the profile's -G.
+    maspsx_assembler_g0 = profile.get("maspsx_assembler_g0", False)
     if (
-        not isinstance(compiler_flags, list)
+        not isinstance(maspsx_assembler_g0, bool)
+        or not isinstance(compiler_flags, list)
         or not all(isinstance(flag, str) for flag in compiler_flags)
         or not isinstance(maspsx_flags, list)
         or not all(isinstance(flag, str) for flag in maspsx_flags)
@@ -275,7 +281,7 @@ def compile_c(
         assembler,
         transformed_assembly,
         output,
-        data_limit,
+        0 if maspsx_assembler_g0 else data_limit,
     )
 
 
