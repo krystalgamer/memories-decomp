@@ -6,8 +6,8 @@
 s32 SD_HasQueuedStreamCommand(void) {
     s32 i;
 
-    for (i = 1; i < g_SDValue->command_count; i++) {
-        s32 c = g_SDValue->commands.c[i].command;
+    for (i = 1; i < g_SDValue->s_wSD_NUM_COMMAND; i++) {
+        s32 c = g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command;
         if (c == 0x20) {
             goto found;
         }

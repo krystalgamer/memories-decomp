@@ -132,26 +132,26 @@ typedef union {
 typedef struct SDValue {
     SDGlobalHdrSE s_stGlobalHdrSE;
     u8 pad0008[0x34];
-    u32 bank_load_phase;
-    u16 status_flags;
+    u32 s_dwSD_BANK_LOAD_PHASE;
+    u16 s_wSD_STATUS;
     u16 s_wSD_CD_MIXER_OUT;
     u16 s_wSD_SMF_MIXER_OUT;
     u8 pad0046[2];
-    u8 output_type;
-    u8 cd_fade_target;
-    u8 data_source_flags;
+    u8 s_bSD_OUTPUT_TYPE;
+    u8 s_bSD_CD_FADE_TARGET;
+    u8 s_bSD_DATA_SOURCE;
     u8 pad004B;
-    s16 command_count;
+    s16 s_wSD_NUM_COMMAND;
     /* Snapshot of queue +2, +4/+8/+C and +0x10..+0x2F.
-       Payload meanings depend on active_command. */
-    u16 active_command_value;
-    u32 active_command_arg0;
-    u32 active_command_arg1;
-    u32 active_command_arg2;
-    u32 active_command_tail[8];
-    u8 active_command;
-    u8 active_command_phase;
-    u8 active_cd_fade_wait;
+       Payload meanings depend on s_bSD_ACTIVE_COMMAND. */
+    u16 s_wSD_ACTIVE_COMMAND_VALUE;
+    u32 s_dwSD_ACTIVE_COMMAND_ARG0;
+    u32 s_dwSD_ACTIVE_COMMAND_ARG1;
+    u32 s_dwSD_ACTIVE_COMMAND_ARG2;
+    u32 s_adwSD_ACTIVE_COMMAND_TAIL[8];
+    u8 s_bSD_ACTIVE_COMMAND;
+    u8 s_bSD_ACTIVE_COMMAND_PHASE;
+    u8 s_bSD_ACTIVE_CD_FADE_WAIT;
     u8 pad007F;
     /* The queue is read two ways and this union records both, which is the
        idiom display_object.h already uses eleven times.  Every dispatcher
@@ -175,7 +175,7 @@ typedef struct SDValue {
     union {
         SDCommand c[SD_COMMAND_QUEUE_COUNT];
         u8 b[SD_COMMAND_QUEUE_COUNT * 0x30];
-    } commands;
+    } s_uSD_COMMAND_QUEUE;
     u8 pad0380[4];
     /* The staged SpuVoiceAttr the driver keys voices on with. SD_StartSoundEffectVoice
        fills in the live half per sound effect -- `voice` as the key bitmask,
@@ -236,7 +236,7 @@ typedef struct SDValue {
     u8 pad1568[0x10];
     s16 opened_music_package_id;
     s16 music_vab_open_result;
-    /* Token copied from active_command_value after a successful sequence open. */
+    /* Token copied from s_wSD_ACTIVE_COMMAND_VALUE after a successful sequence open. */
     s16 opened_sequence_command;
     s16 sequence_open_result;
     s16 bgm_fade_level;
@@ -253,7 +253,7 @@ typedef struct SDValue {
     u8 pad15F6[0x22];
     u8 busy;
     /* Filename buffers seeded by SD_InitState. SD_StepActiveCommand passes
-       them separately to File_RequestSecondarySlot: active_command_tail[0] & 0xF0
+       them separately to File_RequestSecondarySlot: s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0
        selects SE at 0x10, BGM at 0x20 and MASTER.XA at 0x40. */
     u8 bgm_file_name[0x10];
     u8 se_file_name[0x10];
@@ -267,7 +267,7 @@ typedef struct SDValue {
 
 /* SD_DropQueuedCdPlayCommands drops a queued command by copying the next 0x30-byte record
    down over it. With all sixteen entries queued, the copy for the last one
-   reads the record-sized span at state+0x380, past `commands` but still
+   reads the record-sized span at state+0x380, past `s_uSD_COMMAND_QUEUE` but still
    inside SDValue (pad0380 and the start of voice_attr). This view of the
    same state spans the queue plus that one trailing record, so the read
    stays inside a declared array. The assertions below pin it to SDValue. */
@@ -504,7 +504,7 @@ typedef char SDValue_size_must_be_0x164C[
 ];
 typedef char SDCommandShiftView_queue_must_overlay_commands[
     SD_STATE_OFFSET(SDCommandShiftView, c) ==
-        SD_STATE_OFFSET(SDValue, commands) ? 1 : -1
+        SD_STATE_OFFSET(SDValue, s_uSD_COMMAND_QUEUE) ? 1 : -1
 ];
 typedef char SDCommandShiftView_must_fit_inside_SDValue[
     sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
@@ -532,7 +532,7 @@ typedef char SDValue_lookup_end_must_match_extent[
         SD_VOICE_LOOKUP_END_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_commands_offset_must_be_0x80[
-    SD_STATE_OFFSET(SDValue, commands) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_uSD_COMMAND_QUEUE) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_voice_attr_offset_must_be_0x384[
     SD_STATE_OFFSET(SDValue, voice_attr) == 0x384 ? 1 : -1
@@ -568,13 +568,13 @@ typedef char SDValue_bank_header_offsets_must_match[
     SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START) == 0x04 ? 1 : -1
 ];
 typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
-    SD_STATE_OFFSET(SDValue, bank_load_phase) == 0x3C ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_dwSD_BANK_LOAD_PHASE) == 0x3C ? 1 : -1
 ];
 typedef char SDValue_flag_domains_layout_must_match[
-    SD_STATE_OFFSET(SDValue, status_flags) == 0x40 &&
-    sizeof(((SDValue *)0)->status_flags) == 2 &&
-    SD_STATE_OFFSET(SDValue, data_source_flags) == 0x4A &&
-    sizeof(((SDValue *)0)->data_source_flags) == 1 ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_wSD_STATUS) == 0x40 &&
+    sizeof(((SDValue *)0)->s_wSD_STATUS) == 2 &&
+    SD_STATE_OFFSET(SDValue, s_bSD_DATA_SOURCE) == 0x4A &&
+    sizeof(((SDValue *)0)->s_bSD_DATA_SOURCE) == 1 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_banks_offset_must_be_0x518[
     SD_STATE_OFFSET(SDValue, cd_descriptor_banks) == 0x518 ? 1 : -1
@@ -599,17 +599,17 @@ typedef char SDValue_default_bgm_step_offset_must_be_0x164B[
     SD_STATE_OFFSET(SDValue, default_bgm_step) == 0x164B ? 1 : -1
 ];
 typedef char SDValue_active_payload_layout_must_match[
-    SD_STATE_OFFSET(SDValue, active_command_value) == 0x4E &&
-    SD_STATE_OFFSET(SDValue, active_command_arg0) == 0x50 &&
-    SD_STATE_OFFSET(SDValue, active_command_arg1) == 0x54 &&
-    SD_STATE_OFFSET(SDValue, active_command_arg2) == 0x58 &&
-    SD_STATE_OFFSET(SDValue, active_command_tail) == 0x5C &&
-    sizeof(((SDValue *)0)->active_command_tail) == sizeof(SDCommandTail) ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_wSD_ACTIVE_COMMAND_VALUE) == 0x4E &&
+    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG0) == 0x50 &&
+    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG1) == 0x54 &&
+    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG2) == 0x58 &&
+    SD_STATE_OFFSET(SDValue, s_adwSD_ACTIVE_COMMAND_TAIL) == 0x5C &&
+    sizeof(((SDValue *)0)->s_adwSD_ACTIVE_COMMAND_TAIL) == sizeof(SDCommandTail) ? 1 : -1
 ];
 typedef char SDValue_active_command_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, active_command) == 0x7C &&
-    SD_STATE_OFFSET(SDValue, active_command_phase) == 0x7D &&
-    SD_STATE_OFFSET(SDValue, active_cd_fade_wait) == 0x7E ? 1 : -1
+    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_COMMAND) == 0x7C &&
+    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_COMMAND_PHASE) == 0x7D &&
+    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_CD_FADE_WAIT) == 0x7E ? 1 : -1
 ];
 typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
     SD_STATE_OFFSET(SDValue, bgm_fade_level) == 0x1580 ? 1 : -1

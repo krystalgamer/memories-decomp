@@ -52,7 +52,7 @@ void SD_SetCdVolume(s16 level) {
     attenuation.val0 = (mix_factor * mix_state->channel_volume[0]) >> 7;
     attenuation.val3 = 0;
 
-    if (mix_state->output_type == 0) {
+    if (mix_state->s_bSD_OUTPUT_TYPE == 0) {
         attenuation.val1 = 0;
         attenuation.val2 = (mix_factor * mix_state->channel_volume[1]) >> 7;
     } else {
@@ -92,7 +92,7 @@ void SD_SetCdVolumeImmediate(s32 level)
     g_SDValue->mix_multiplier = 7;
     attenuation.val0 = level;
     attenuation.val3 = 0;
-    if (g_SDValue->output_type == 0) {
+    if (g_SDValue->s_bSD_OUTPUT_TYPE == 0) {
         attenuation.val1 = 0;
         attenuation.val2 = level;
     } else {
@@ -101,7 +101,7 @@ void SD_SetCdVolumeImmediate(s32 level)
     }
     CdMix(&attenuation);
     volume_state = g_SDValue;
-    volume_state->cd_fade_target = level;
+    volume_state->s_bSD_CD_FADE_TARGET = level;
     step_state = g_SDValue;
     volume_state->cd_volume = level;
     step_state->cd_fade_step = 0;
@@ -118,8 +118,8 @@ s32 SD_GetCdVolume(void)
 #include "sound_output_state.h"
 
 /* Queues CD fade command 41: arg1 is the signed per-update step and
-   value the target volume, loaded into cd_fade_step/cd_fade_target when
-   SD_UpdateRuntime dequeues it. wait_for_cd_fade becomes active_cd_fade_wait; while it is
+   value the target volume, loaded into cd_fade_step/s_bSD_CD_FADE_TARGET when
+   SD_UpdateRuntime dequeues it. wait_for_cd_fade becomes s_bSD_ACTIVE_CD_FADE_WAIT; while it is
    nonzero, SD_StepActiveCommand keeps the command active until the fade
    ends. No caller is present in the retail executable or its overlays. */
 s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
@@ -134,7 +134,7 @@ s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
 void SD_StartCdFade(s16 step, u8 target, s32 unused)
 {
     g_SDValue->cd_fade_step = step;
-    g_SDValue->cd_fade_target = target;
+    g_SDValue->s_bSD_CD_FADE_TARGET = target;
 }
 
 #ifndef VERSION_JAPAN
@@ -172,7 +172,7 @@ s32 SD_MeasureCdAudioLevel(void)
     measured_level = state->output_level.halves[1];
     state->output_level.sum = measured_level;
     state->field_1550.sum = state->field_1550.halves[1];
-    if (!(state->status_flags & 3)) {
+    if (!(state->s_wSD_STATUS & 3)) {
         return measured_level;
     }
     return 0;
@@ -183,16 +183,16 @@ void SD_EnqueueCdStop(void)
     SDValue *state = g_SDValue;
     s32 count;
 
-    if ((state->data_source_flags & 0x80) == 0)
+    if ((state->s_bSD_DATA_SOURCE & 0x80) == 0)
         return;
-    count = state->command_count;
-    if (state->commands.c[count].command == 0x11)
+    count = state->s_wSD_NUM_COMMAND;
+    if (state->s_uSD_COMMAND_QUEUE.c[count].command == 0x11)
         return;
     if (count > 0) {
-        if (state->commands.c[count - 1].command == 0x11)
+        if (state->s_uSD_COMMAND_QUEUE.c[count - 1].command == 0x11)
             return;
         if (count >= 2) {
-            if (state->commands.c[count - 2].command == 0x11)
+            if (state->s_uSD_COMMAND_QUEUE.c[count - 2].command == 0x11)
                 return;
         }
     }
@@ -218,8 +218,8 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
     u8 *descriptor_entries;
     SDCommand command;
 
-    if (request_state->data_source_flags & 0x80) {
-        if ((request_state->data_source_flags & 0x40) || entry_index <= 0x9FFF) {
+    if (request_state->s_bSD_DATA_SOURCE & 0x80) {
+        if ((request_state->s_bSD_DATA_SOURCE & 0x40) || entry_index <= 0x9FFF) {
             if (command_id & 0x8000) {
                 *(s16 *)&request_state->cd_request_code = command_id;
                 switch (command_id & 0xF000) {
@@ -256,7 +256,7 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
                     SD_EnqueueCommand(&command);
                     SD_ResetCdPan();
                 }
-                g_SDValue->status_flags = (g_SDValue->status_flags | 1) & 0xFFFB;
+                g_SDValue->s_wSD_STATUS = (g_SDValue->s_wSD_STATUS | 1) & 0xFFFB;
                 return 1;
             }
         }
@@ -278,10 +278,10 @@ void SD_EnqueueCdSeek(s32 command_id)
 
     request_state = g_SDValue;
     entry_index = command_id;
-    if ((request_state->data_source_flags & 0x80) == 0) {
+    if ((request_state->s_bSD_DATA_SOURCE & 0x80) == 0) {
         return;
     }
-    if ((request_state->data_source_flags & 0x40) == 0) {
+    if ((request_state->s_bSD_DATA_SOURCE & 0x40) == 0) {
         if ((u32)(entry_index & 0xFFFF) > 0x9FFF) {
             return;
         }
@@ -328,7 +328,7 @@ void SD_EnqueueCdSeek(s32 command_id)
         SD_EnqueueCommand(&command);
     }
     status_state = g_SDValue;
-    status_state->status_flags = (status_state->status_flags | 1) & 0xFFFB;
+    status_state->s_wSD_STATUS = (status_state->s_wSD_STATUS | 1) & 0xFFFB;
 }
 
 void SD_ClearBusyFlag(void)

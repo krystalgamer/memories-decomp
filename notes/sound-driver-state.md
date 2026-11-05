@@ -7,8 +7,45 @@ pointer rather than an inline structure.
 
 `src/game/sound.h` defines the currently verified `SDValue` layout through
 offset `0x164B`. Unknown regions remain explicitly padded, and uncertain fields
-retain offset-based names. The header does not claim that this is the original
-Konami type or field naming.
+retain offset-based names.
+
+## Member naming
+
+The US build's trace string `"g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n"`
+is the only surviving original member spelling. Named members follow its
+style: `s_` plus a type prefix (`b` byte, `w` halfword, `dw` word, `p`
+pointer, `st` struct, `u` union, `a` array of) and an upper-case `SD_` name.
+Only `s_stGlobalHdrSE` and `s_wSD_NUM_SEGROUP` are retail; every other name is
+inferred from how the code uses the member.
+
+| Offset | Member | Former name |
+|---|---|---|
+| `+0x0000` | `s_stGlobalHdrSE` (`s_wSD_NUM_SE`, `s_wSD_NUM_SEGROUP`, `s_wSD_SE_DYNAMIC_START`, `s_wSD_RESERVED`) | `note_id_count`, `value_link_count`, `dynamic_note_start`, `pad0006` |
+| `+0x003C` | `s_dwSD_BANK_LOAD_PHASE` | `bank_load_phase` |
+| `+0x0040` | `s_wSD_STATUS` | `status_flags` |
+| `+0x0042` | `s_wSD_CD_MIXER_OUT` | `mix_scale` |
+| `+0x0044` | `s_wSD_SMF_MIXER_OUT` | `secondary_mix_scale` |
+| `+0x0048` | `s_bSD_OUTPUT_TYPE` | `output_type` |
+| `+0x0049` | `s_bSD_CD_FADE_TARGET` | `cd_fade_target` |
+| `+0x004A` | `s_bSD_DATA_SOURCE` | `data_source_flags` |
+| `+0x004C` | `s_wSD_NUM_COMMAND` | `command_count` |
+| `+0x004E` | `s_wSD_ACTIVE_COMMAND_VALUE` | `active_command_value` |
+| `+0x0050`-`+0x0058` | `s_dwSD_ACTIVE_COMMAND_ARG0`-`ARG2` | `active_command_arg0`-`arg2` |
+| `+0x005C` | `s_adwSD_ACTIVE_COMMAND_TAIL` | `active_command_tail` |
+| `+0x007C` | `s_bSD_ACTIVE_COMMAND` | `active_command` |
+| `+0x007D` | `s_bSD_ACTIVE_COMMAND_PHASE` | `active_command_phase` |
+| `+0x007E` | `s_bSD_ACTIVE_CD_FADE_WAIT` | `active_cd_fade_wait` |
+| `+0x0080` | `s_uSD_COMMAND_QUEUE` | `commands` |
+| `+0x1649` | `s_bSD_CD_MIXER_OUT_DEFAULT` | `cd_mix_default` |
+| `+0x164A` | `s_bSD_SMF_MIXER_OUT_DEFAULT` | `secondary_mix_default` |
+
+Every game function is now matched C, and none of it names a `pad*` member
+of `SDValue`, so those bytes are unread by the game code. The two remaining
+byte-offset views into the command queue (`SD_UpdateRuntime` and
+`SD_CancelMusicRequests` write `(u8 *)g_SDValue + offset + 0x80`) are
+load-bearing: spelling the base as `&g_SDValue->s_uSD_COMMAND_QUEUE` or its
+`.b` array swaps the `addu` operands at each site.
+
 
 ## Staged file requests
 
@@ -23,12 +60,12 @@ word, size conversion, range narrowing, mask or completion behavior changes.
 
 | Offset | Field | Evidence |
 |---|---|---|
-| `0x0040` | `status_flags` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
+| `0x0040` | `s_wSD_STATUS` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
 | `0x0042` | `s_wSD_CD_MIXER_OUT` | CD mix calculation uses it as a 16-bit scale. |
 | `0x0044` | `s_wSD_SMF_MIXER_OUT` | Base scale multiplied by the two fade levels before publishing secondary stereo master levels. |
-| `0x0048` | `output_type` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
-| `0x004A` | `data_source_flags` | Initialization and command processing use independent bits. |
-| `0x004C` | `command_count` | Bounds the 16-entry command scan. |
+| `0x0048` | `s_bSD_OUTPUT_TYPE` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
+| `0x004A` | `s_bSD_DATA_SOURCE` | Initialization and command processing use independent bits. |
+| `0x004C` | `s_wSD_NUM_COMMAND` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
 | `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
 | `0x040C` | `field_040C[4]` | Per-slot byte priorities, assigned by `SD_StartSoundEffectVoice`; the allocator accepts an occupied slot when this value is no greater than the request's priority. |
@@ -65,10 +102,10 @@ flag domains in `SDValue`:
 
 | Offset | Member | Retained storage and role |
 |---|---|---|
-| `+0x0040` | `status_flags` | `u16` runtime bookkeeping returned through the existing signed-halfword status getter. |
-| `+0x004A` | `data_source_flags` | `u8` startup-bank and public request configuration, not current transfer status. |
+| `+0x0040` | `s_wSD_STATUS` | `u16` runtime bookkeeping returned through the existing signed-halfword status getter. |
+| `+0x004A` | `s_bSD_DATA_SOURCE` | `u8` startup-bank and public request configuration, not current transfer status. |
 
-`SD_GetStatusFlags` still returns `(s16)status_flags`, not a boolean or an
+`SD_GetStatusFlags` still returns `(s16)s_wSD_STATUS`, not a boolean or an
 unsigned normalized result. `SD_InitState` clears the runtime word after
 its existing subsystem initialization, and `SD_ResetRuntime` clears it
 without resetting the configuration byte.
@@ -88,7 +125,7 @@ Keep each existing clear mask and polling comparison. In particular,
 `SD_CancelMusicRequests` tests `== 1` before its stop call; these paths
 are not normalized into one interpretation of the status bit.
 `SD_MeasureCdAudioLevel` still computes/stores its measurements but returns
-zero when `status_flags & 3` is nonzero.
+zero when `s_wSD_STATUS & 3` is nonzero.
 
 The configuration bits are established by their actual gates:
 
@@ -103,7 +140,7 @@ The configuration bits are established by their actual gates:
 `Sound_InitFrontend` passes the SE, BGM and MASTER.XA LBAs to
 `SD_InitDataSourceFlags`; zero arguments clear `0x01`, `0x02` and `0x40`,
 respectively, while nonzero arguments do not set them. That initializer
-also resets `bank_load_phase` and ORs `0x0A` into the status word.
+also resets `s_dwSD_BANK_LOAD_PHASE` and ORs `0x0A` into the status word.
 The XA-zero clear is deliberately `0x40`, not the loader/wrapper `0x80`
 gate. Do not repair that difference or assign meanings to the other bits.
 
@@ -241,9 +278,9 @@ the same full-volume arguments. This effect-call maximum is distinct from
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `SD_InitDataSourceFlags`. The runtime file table
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
-`SD_InitDataSourceFlags` clears `bank_load_phase`, clears bits `0x01`, `0x02`, or `0x40` in
-`data_source_flags` when the corresponding file position is zero, and sets
-`status_flags |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
+`SD_InitDataSourceFlags` clears `s_dwSD_BANK_LOAD_PHASE`, clears bits `0x01`, `0x02`, or `0x40` in
+`s_bSD_DATA_SOURCE` when the corresponding file position is zero, and sets
+`s_wSD_STATUS |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
 `SD_GetStatusFlags` continues to expose bit `0x08`, making that bit the
 game-facing startup-busy condition.
 
@@ -452,7 +489,7 @@ It stores the returned half, `SPU_DECODED_FIRSTHALF` or the second half, in
 the word `decoded_half` at `+0x538`, and sums the selected half's 256 signed
 sample squares, each shifted right by eight, into `output_level` at `+0x154C`.
 It then publishes that sum's signed high halfword as both the new
-accumulator and the return value, unless `status_flags & 3` mutes it to zero.
+accumulator and the return value, unless `s_wSD_STATUS & 3` mutes it to zero.
 The neighbouring word `field_1550` gets the same treatment from its own high
 halfword, but nothing in C accumulates into it. Both words are `SDLevelWord`
 unions (`sum` and `halves[2]`), so the high-halfword reads stay member reads.
@@ -511,7 +548,7 @@ scaled_mix and mix_factor, and the CdlATV attenuation packet.
 The arithmetic remains (level+1)*s_wSD_CD_MIXER_OUT, then mix_multiplier times
 the original signed >>8 result, then the explicit u16-to-u32 view and
 logical >>3. Keep each channel multiply/>>7 and byte assignment, val3
-zero and the output_type choice between val1 and val2. There is no
+zero and the s_bSD_OUTPUT_TYPE choice between val1 and val2. There is no
 new clamp, rounding, saturation or normalized volume scale.
 CdMix still precedes the fresh global cd_volume store from saved_level.
 The existing explanation changes only its three local identifiers;
@@ -535,7 +572,7 @@ not the unused right-channel buffers or either decoded voice array.
 Keep both accumulator clears, all 256 signed-halfword reads, signed
 sample product assigned to u32, logical >>8 and original sum update.
 After the loop, reload state and retain the single-iteration signed
-high-halfword read BEFORE status_flags, then the separate opaque
+high-halfword read BEFORE s_wSD_STATUS, then the separate opaque
 word's high-halfword read, mask3 and both publications. Only the return
 is gated; no RMS, stereo average, division, error return or mute policy.
 other_high_half describes a view, NOT a role for field_1550: it remains
@@ -696,7 +733,7 @@ below, and the two answers are different.
 only exception left. Its private `SD` named 36 offsets. An exact pairing
 against `SDValue`, taken by compiling the header and reading `offsetof`
 rather than by matching names, put them in three buckets: 19 offsets the
-canonical already named, 6 covered by `active_command_tail[8]`, and 11 that fell
+canonical already named, 6 covered by `s_adwSD_ACTIVE_COMMAND_TAIL[8]`, and 11 that fell
 inside five padding regions -- `pad04CC`, `pad0524`, `pad0534`, `pad157C`
 and `pad1619`.
 
@@ -734,13 +771,13 @@ use in this unit" flattens them into one.
   * **Five are read here**: `field_04CC`, `cd_start_sector_offset`, `cd_end_sector_offset`,
     `cd_filter_channel` and `cd_filter_file`. The read's own width is the evidence.
   * **Three are only written**: `field_0532 = b >> 31`,
-    `cd_request_code = 0xFFFF` and `field_157C = active_command_value`. What the width
+    `cd_request_code = 0xFFFF` and `field_157C = s_wSD_ACTIVE_COMMAND_VALUE`. What the width
     rests on is the store and the private declaration this unit already
     carried, not a measured read.
   * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
     worth naming separately rather than as one 0x30 region, because the
     unit hands each of the three to `File_RequestSecondarySlot` on its own, selected by
-    `active_command_tail[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
+    `s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
     where each buffer *starts*; the 0x10 extent is the private
     declaration's, carried across, and is not proved here.
 
@@ -760,9 +797,9 @@ the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_I
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
-one at a time. Every offset the unit reads -- `status_flags` at 0x40,
-`command_count` at 0x4C, `active_command` and `active_command_phase`, `field_157E`, and
-`commands` at 0x80 -- asserts at the offset the private struct places it, and
+one at a time. Every offset the unit reads -- `s_wSD_STATUS` at 0x40,
+`s_wSD_NUM_COMMAND` at 0x4C, `s_bSD_ACTIVE_COMMAND` and `s_bSD_ACTIVE_COMMAND_PHASE`, `field_157E`, and
+`s_uSD_COMMAND_QUEUE` at 0x80 -- asserts at the offset the private struct places it, and
 the three halfword widths assert equal. Padding the private struct out to
 `SDValue`'s 0x164C changes nothing. Giving the private struct alignment 4,
 by writing its leading `u8 pad00[0x40]` as `u32 pad00[0x10]`, changes
@@ -787,7 +824,7 @@ five live fields. The claim is withdrawn.
 
 What settles it is seven assertions compiled by the target compiler rather
 than a byte count: `f7C` at 0x7C, `f7D` at 0x7D, `entries` at 0x80,
-`f157E` at 0x157E, `flags` at 0x40, `command_count` at 0x4C, and
+`f157E` at 0x157E, `flags` at 0x40, `s_wSD_NUM_COMMAND` at 0x4C, and
 `sizeof` 0x1580. All seven hold under the bytes-first spelling. Under the
 words-first spelling five of them fail to compile, which is what makes them
 a test rather than a formality.
@@ -814,7 +851,7 @@ access give two further distinct objects.
 What the original load is, and what no cast reproduces, is an `ARRAY_REF`
 of a `u8` member -- `p->entries[j]` on the private struct's byte array.
 `SDValue` had no such member at 0x80, because it declares the queue as
-`SDCommand commands[16]`. Giving it one does it: `commands` is now a union
+`SDCommand commands[16]`. Giving it one does it: `s_uSD_COMMAND_QUEUE` is now a union
 of `c` (the typed array every dispatcher uses) and `b` (the byte view this
 unit uses), which is the idiom `display_object.h` already uses eleven
 times, and `p->commands.b[j]` builds `8d64e380...` -- the object the private
@@ -832,7 +869,7 @@ fixed before varying the type any further.
 once selected a volatile `G_SDVALUE_VOLATILE` declaration, but the plain
 declaration gives a byte-identical object: its reloads come from the calls
 and stores between the reads. Its accesses are typed members (`p->music_track`,
-`q->status_flags`, `q->field_1560`); the `u8 * volatile` redeclaration and
+`q->s_wSD_STATUS`, `q->field_1560`); the `u8 * volatile` redeclaration and
 the offset expressions this note described were removed by `98f79757`
 ("Take every g_SDValue declaration from sound.h (#2610)") and `548c78cb`
 ("Reach the sound driver's state block through SDValue, not byte offsets
@@ -1105,7 +1142,7 @@ unnamed u8 startup parameter and adds one offset assertion only.
 SD_InitState names its u8 master_xa_lba_byte from the sole main-init
 caller's low byte of gFile_anLba[FILE_INDEX_MASTER_XA]. The conversion to u8 still happens at
 the call boundary, BEFORE the zero test: this is not a full-LBA validity
-or availability check. Keep data_source_flags=3 followed by the same
+or availability check. Keep s_bSD_DATA_SOURCE=3 followed by the same
 conditional OR0xF0. No bool conversion, signedness change or new gate.
 
 clear_cursor remains u32*, spanning the same literal 0x801E0000 through
@@ -1293,11 +1330,11 @@ operation-specific meaning:
 
 | Queue source | `SDValue` destination | Name |
 |---|---|---|
-| `+0x02`, signed halfword | `+0x004E`, unsigned halfword | `active_command_value` |
-| `+0x04`, signed word | `+0x0050`, unsigned word | `active_command_arg0` |
-| `+0x08`, signed word | `+0x0054`, unsigned word | `active_command_arg1` |
-| `+0x0C`, signed word | `+0x0058`, unsigned word | `active_command_arg2` |
-| `+0x10..+0x2F`, eight words | `+0x005C..+0x007B`, eight unsigned words | `active_command_tail` |
+| `+0x02`, signed halfword | `+0x004E`, unsigned halfword | `s_wSD_ACTIVE_COMMAND_VALUE` |
+| `+0x04`, signed word | `+0x0050`, unsigned word | `s_dwSD_ACTIVE_COMMAND_ARG0` |
+| `+0x08`, signed word | `+0x0054`, unsigned word | `s_dwSD_ACTIVE_COMMAND_ARG1` |
+| `+0x0C`, signed word | `+0x0058`, unsigned word | `s_dwSD_ACTIVE_COMMAND_ARG2` |
+| `+0x10..+0x2F`, eight words | `+0x005C..+0x007B`, eight unsigned words | `s_adwSD_ACTIVE_COMMAND_TAIL` |
 
 The halfword still uses the explicit `(u16)` conversion. The three word
 assignments retain the canonical unsigned storage and each consumer's
@@ -1307,7 +1344,7 @@ the same `u32[8]`, copied through `SDCommandTail` in one block assignment;
 the queue and active-state layout checks pin both ends and the copy size.
 
 Command `0x51` reads argument 2 as an `SDSeqBlock *` and argument 0 as
-the SPU base address. The callee adds `active_command_arg0 >> 4` to
+the SPU base address. The callee adds `s_dwSD_ACTIVE_COMMAND_ARG0 >> 4` to
 each copied note's `spu_address_div16`; its loop count comes from
 `SDSeqBlock::count` in the block addressed by argument 2.
 Commands `0x21` and `0x24` instead use
@@ -1340,7 +1377,7 @@ rewrite or scheduling change accompanies the names.
 
 Four names connect the queue record to its active work state without
 changing storage: `SDCommand.wait_for_cd_fade` at `+0x01` and
-`SDValue.active_command`, `active_command_phase`, `active_cd_fade_wait`
+`SDValue.active_command`, `s_bSD_ACTIVE_COMMAND_PHASE`, `s_bSD_ACTIVE_CD_FADE_WAIT`
 at `+0x7C/+0x7D/+0x7E` all remain `u8`. The record stays `0x30` bytes,
 the queue stays at `+0x80`, and its byte/record/trailing-copy views remain.
 One new record-byte assertion and the expanded active-state assertion
@@ -1368,7 +1405,7 @@ Command `0x11` uses phases zero/one around the existing CD fade-to-zero
 and queued-stream checks. Other phase values retain their early returns;
 no phase normalization, new initialization or generic completion rule.
 
-The runtime copies `wait_for_cd_fade` into `active_cd_fade_wait` without
+The runtime copies `wait_for_cd_fade` into `s_bSD_ACTIVE_CD_FADE_WAIT` without
 normalizing either byte. Only active commands `0x29/0x2A` use the wait
 byte among matched C readers: nonzero plus a nonzero current
 `cd_fade_step` retains the active command; otherwise its existing
@@ -2042,7 +2079,7 @@ without changing their types, offsets, arithmetic or ownership:
 
 | Offset | Field | Existing type and role |
 | --- | --- | --- |
-| `0x0049` | `cd_fade_target` | `u8`, endpoint for the existing `cd_volume` ramp. |
+| `0x0049` | `s_bSD_CD_FADE_TARGET` | `u8`, endpoint for the existing `cd_volume` ramp. |
 | `0x0512` | `cd_fade_step` | `s16`, signed increment applied to `cd_volume`. |
 | `0x1580` | `bgm_fade_level` | `s16`, first multiplier of the secondary master level. |
 | `0x1582` | `bgm_fade_step` | `s16`, increment set by the BGM fade setters and playback request. |
@@ -2145,7 +2182,7 @@ original declarations:
 | table entry `+0x04` | `spu_address` | Signed word passed as the SPU destination, not a CPU pointer. |
 | `SDValue +0x1578` | `opened_music_package_id` | Package's leading halfword copied by `SD_OpenMusicVab` after its VAB-open path succeeds. |
 | `SDValue +0x157A` | `music_vab_open_result` | Narrowed return from `SD_VabOpenHead`; also passed as the VAB argument to `SD_OpenSequence`. |
-| `SDValue +0x157C` | `opened_sequence_command` | `active_command_value` token copied after sequence-open returns zero. |
+| `SDValue +0x157C` | `opened_sequence_command` | `s_wSD_ACTIVE_COMMAND_VALUE` token copied after sequence-open returns zero. |
 | `SDValue +0x157E` | `sequence_open_result` | Narrowed return from `SD_OpenSequence`, tested by the stop/close paths. |
 
 `sound.h` imports the existing `SDMusicTableEntry` owner instead of retaining
@@ -2161,8 +2198,8 @@ the complete `SD_EnqueueSpuRamTransfer` command-tail and transfer path:
 
 | Wrapper argument | Queued `SDCommand` | Active `SDValue` | `FileRequestSlot` | Consumer |
 |---|---|---|---|---|
-| fourth (`a3`) | `field_0024` | `active_command_tail[5]` | `field_14` at `+0x14` | SPU phase size, transfer mode 3 |
-| fifth (`a4`) | `field_0028` | `active_command_tail[6]` | `field_18` at `+0x18` | RAM phase size, transfer mode 1 |
+| fourth (`a3`) | `field_0024` | `s_adwSD_ACTIVE_COMMAND_TAIL[5]` | `field_14` at `+0x14` | SPU phase size, transfer mode 3 |
+| fifth (`a4`) | `field_0028` | `s_adwSD_ACTIVE_COMMAND_TAIL[6]` | `field_18` at `+0x18` | RAM phase size, transfer mode 1 |
 
 `SD_EnqueueCommand` copies the complete command without rearranging its
 members. `SD_UpdateRuntime` copies the eight tail words from `+0x10`
@@ -2276,7 +2313,7 @@ capacity of each interval. Neither the string lengths nor this naming
 supplies new evidence for the retained sixteen-byte extents.
 
 In `SD_StepActiveCommand`, the three existing branches of
-`active_command_tail[0] & 0xF0` select SE at `0x10` with request file index 4,
+`s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0` select SE at `0x10` with request file index 4,
 BGM at `0x20` with index 5, and MASTER.XA at `0x40` with index 6.
 Each passes its buffer as the second argument to
 `File_RequestSecondarySlot`. The ordinary nonzero-size data-transfer path
@@ -2307,7 +2344,7 @@ follow that style; their names are inferred from use, not from retail text:
 | `SDValue +0x0002` | `s_stGlobalHdrSE.s_wSD_NUM_SEGROUP` | Retail name. Number of eight-byte SE-group records used for the table load and source-sector calculation. |
 | `SDValue +0x0004` | `s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START` | Shared reset/key-off boundary for sound IDs and reset value of the note-table append index. |
 | `SDValue +0x0006` | `s_stGlobalHdrSE.s_wSD_RESERVED` | Copied with the header, never read. |
-| `SDValue +0x003C` | `bank_load_phase` | Unsigned startup bank-loader phase, separate from active-command and transfer phases. |
+| `SDValue +0x003C` | `s_dwSD_BANK_LOAD_PHASE` | Unsigned startup bank-loader phase, separate from active-command and transfer phases. |
 
 `SD_InitVoiceState` clears ID-map entries `[0, s_wSD_NUM_SE)` to the
 existing `0xFFFF` marker. It locates `note_table` after that many halfwords
@@ -2331,7 +2368,7 @@ their existing shared value; the name does not claim a count of live
 resident notes or require a populated prefix. The first-link SPU cursor
 reset, duplicate-request behavior and importer ordering remain unchanged.
 
-`SD_InitDataSourceFlags` resets `bank_load_phase` to zero and retains all
+`SD_InitDataSourceFlags` resets `s_dwSD_BANK_LOAD_PHASE` to zero and retains all
 existing flag masks. The loader keeps cases 0 through 9, conditional jumps
 by six or two, per-arm increments, shared transfer-call block and `0x3E7`
 skip path. Its default arm clears startup-busy bit `0x08` only when the
@@ -2537,7 +2574,7 @@ staging; 0x44/0x45 retain sequence_fade_step plus bgm_fade_target, not a
 repaired target pairing. Every cast and signed/unsigned view is unchanged.
 
 The transfer-prefixed names apply ONLY to command 0x20. The eight-word
-SDCommandTail block copy from +0x10 to active_command_tail remains a
+SDCommandTail block copy from +0x10 to s_adwSD_ACTIVE_COMMAND_TAIL remains a
 single assignment; tail words two/seven stay field_0018/field_002C.
 No array conversion, new initializer, zero fill or meaning for those
 opaque words is introduced. Other opcodes still populate only their
