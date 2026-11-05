@@ -214,7 +214,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
         work->field_3244 = 1024;
         work->field_323C = 0;
         work->field_3240 = 0;
-        work->field_322C = 0;
+        work->pulse_count = 0;
         work->field_3248 = 0;
         work->field_324C = 0;
         work->frame_count = 0;
@@ -237,14 +237,14 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
         Square0(&work->view_delta, &squared);
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
-        if (work->frame < work->config->field_1C) {
+        if (work->frame < work->config->track_end) {
             if (work->slot == 0) {
                 Model_CopySlotPosition(1, (u16 *)&work->target);
             } else {
                 Model_CopySlotPosition(0, (u16 *)&work->target);
             }
             GsGetLwUnit(work->parts[0], &work->matrix);
-            if (work->frame <= work->config->field_10) {
+            if (work->frame <= work->config->phase_start) {
                 setVector(&work->origin, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
             }
             setVector(&work->direction,
@@ -287,17 +287,17 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     } else {
         work->tint = work->fade << 5;
     }
-    if (work->config->field_10 <= work->frame) {
+    if (work->config->phase_start <= work->frame) {
         if (work->phase == 0) {
             work->phase = 1;
         }
-        work->field_322C = 1;
+        work->pulse_count = 1;
     }
-    if (work->config->field_14 <= work->frame) {
-        work->field_322C = 2;
+    if (work->config->second_pulse_start <= work->frame) {
+        work->pulse_count = 2;
     }
-    if (work->config->field_18 <= work->frame) {
-        work->field_322C = work->config->field_0C;
+    if (work->config->all_pulses_start <= work->frame) {
+        work->pulse_count = work->config->count;
     }
     if (work->phase >= 2 && work->phase <= 3) {
         result = 4;
