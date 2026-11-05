@@ -22,7 +22,8 @@ u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
 No game-owned small-data blob remains. The last one, at `0x8009AF2A`, is now
-the six-byte `gDebugEffect_abPreviewState` array in
+the six-byte `gDebugEffect_PreviewState` struct (formerly the
+`gDebugEffect_abPreviewState` array) in
 `debug_effect_screen.c`. The former `0x8009AF08` watchdog word is owned by
 `main_services.c`, and the former `0x8009AF6C` blob is fully split among
 addressed data owners through `ai_script_source_line_format.c`.
@@ -96,6 +97,9 @@ object entirely:
 u8 gDebugEffect_abPreviewState[6]
     __attribute__((section(".sdata"))) = {0};
 ```
+
+(It is now `DebugEffectPreviewState gDebugEffect_PreviewState = {0};`, with the
+same six bytes and placement.)
 
 Byte 0 is the axis selector, bytes 2 and 3 are the two coordinates, and byte 4
 is the preview page. Bytes 1 and 5 are explicit unused storage. The one array

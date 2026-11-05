@@ -47,10 +47,7 @@
 #define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CROSS
 #endif
 
-u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] = {0};
-#define gDebugEffect_bEditedOperand gDebugEffect_abPreviewState[0]
-#define gDebugEffect_abOperands (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])
-#define gDebugEffect_bPage gDebugEffect_abPreviewState[DEBUG_EFFECT_PAGE_OFFSET]
+DebugEffectPreviewState gDebugEffect_PreviewState = {0};
 /* "~c0702D EFFECT = %2d %2d\n" */
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */
@@ -154,9 +151,9 @@ void DebugEffect_UpdatePreview(void) {
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
         D_8009B16E = 0;
-        gDebugEffect_bPage = 0;
-        gDebugEffect_bEditedOperand = 0;
-        gDebugEffect_abOperands[1] = 0;
+        gDebugEffect_PreviewState.bPage = 0;
+        gDebugEffect_PreviewState.bEditedOperand = 0;
+        (&gDebugEffect_PreviewState.abOperands[0])[1] = 0;
         gDebugEffect_pPreviewCard1 = 0;
         gDebugEffect_pPreviewCard0 = 0;
     }
@@ -167,7 +164,7 @@ void DebugEffect_UpdatePreview(void) {
         DisplayObject_ReleaseIfPresent(gDebugEffect_pPreviewCard1);
         gDebugEffect_pPreviewCard1 = 0;
         gDebugEffect_pPreviewCard0 = 0;
-        switch (gDebugEffect_bPage) {
+        switch (gDebugEffect_PreviewState.bPage) {
         case 0:
             break;
         case 1:
@@ -189,23 +186,23 @@ void DebugEffect_UpdatePreview(void) {
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
         gDuel_wSceneStateFlags |= 0x4000;
-        gDebugEffect_bPage++;
-        if (gDebugEffect_bPage >= 4) {
-            gDebugEffect_bPage = 0;
+        gDebugEffect_PreviewState.bPage++;
+        if (gDebugEffect_PreviewState.bPage >= 4) {
+            gDebugEffect_PreviewState.bPage = 0;
         }
     } else if (gInput_wPad1Pressed & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) {
-        gDebugEffect_bEditedOperand ^= 1;
+        gDebugEffect_PreviewState.bEditedOperand ^= 1;
     } else if (gInput_wPad1Repeat & (PAD_DIRECTION_UP | PAD_DIRECTION_DOWN)) {
-        gDebugEffect_abOperands[gDebugEffect_bEditedOperand]++;
+        (&gDebugEffect_PreviewState.abOperands[0])[gDebugEffect_PreviewState.bEditedOperand]++;
         if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
-            gDebugEffect_abOperands[gDebugEffect_bEditedOperand] -= 2;
+            (&gDebugEffect_PreviewState.abOperands[0])[gDebugEffect_PreviewState.bEditedOperand] -= 2;
         }
     } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
         p = DuelEffect_AllocateRequest(
-            gDebugEffect_abOperands[0]);
+            (&gDebugEffect_PreviewState.abOperands[0])[0]);
         D_8009B16E = (D_8009B16E + 1) & 7;
-        p->phase = gDebugEffect_abOperands[1];
-        switch (gDebugEffect_bPage) {
+        p->phase = (&gDebugEffect_PreviewState.abOperands[0])[1];
+        switch (gDebugEffect_PreviewState.bPage) {
         case 0:
             p->field_00 = gDuel_aCardSlotGroundPositions[0xC];
             p->field_02 = -0x18;
@@ -235,9 +232,9 @@ void DuelScene_UpdateEffectPreview(void) {
     DebugEffect_UpdatePreview();
     FntPrint(
         gDebugEffect_szOperandsFormat,
-        gDebugEffect_abOperands[0],
-        gDebugEffect_abOperands[1]);
-    v0 = gDebugEffect_bEditedOperand;
+        (&gDebugEffect_PreviewState.abOperands[0])[0],
+        (&gDebugEffect_PreviewState.abOperands[0])[1]);
+    v0 = gDebugEffect_PreviewState.bEditedOperand;
     if (v0 != 0) {
         FntPrint(gDebugEffect_szSecondOperandMarker);
     } else {

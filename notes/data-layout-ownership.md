@@ -372,7 +372,7 @@ for `duel_field_effects`, `options_layout_position_data` or
 `ai_script_source_line_format`.
 
 Europe now defines `runtime_gp`, `gMain_bSoundVSyncBusy` and
-`gDebugEffect_abPreviewState` itself instead of placing them through its
+`gDebugEffect_PreviewState` itself instead of placing them through its
 symbol file. The shared sources also gained European arms:
 - `debug_menu_update` drops two unreferenced halfwords;
 - `gMainMenu_PackageStageRect` stages the package at x 0x280, y 0xD0.
@@ -406,7 +406,7 @@ not compile, stay extracted.
 
 With every build now owning `main_services`, `main_frame` and
 `debug_effect_screen`, the shared sources define `runtime_gp`,
-`gMain_bSoundVSyncBusy` and `gDebugEffect_abPreviewState` unconditionally.
+`gMain_bSoundVSyncBusy` and `gDebugEffect_PreviewState` unconditionally.
 
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative

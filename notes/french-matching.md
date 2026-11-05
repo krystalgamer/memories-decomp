@@ -271,7 +271,7 @@ addends, European ELF values, French references, repeated bindings, and local
 section addresses. Two groups remain deferred:
 
 - `european/debug_effect_screen.c`: references to
-  `gDebugEffect_abPreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
+  `gDebugEffect_PreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
   a single alias cannot resolve the regional layout difference.
 - `model_background.c` (formerly `model_update_background_scroll.c`): the initial bytes at recovered `D_8009AF88` differ from
   the European storage. Its initialized-pointer ownership needs further
