@@ -150,13 +150,13 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
 #else
         work->clut = 0x3D20;
 #endif
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4BC4[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4BC4[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_aImages[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_aImages[1]);
         for (i = 2; i < 10; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_D4BC4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_aImages[i]);
         }
-        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4CDC[0]);
-        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_D4CDC[0]);
+        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_aGlowImages[0]);
+        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_aGlowImages[0]);
         work->ambient = 0x800;
         work->launched = 0;
         work->phase = 0;

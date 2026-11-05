@@ -74,7 +74,7 @@ typedef struct {
     u8 ring_red, ring_green, ring_blue;
 } Model783State;
 
-extern VECTOR gModelVariant783_D24F0;
+extern VECTOR gModelVariant783_UnitScale;
 extern GsIMAGE gModelVariant783_D2500[];
 extern Model783Command gModelVariant783_D2538[];
 
