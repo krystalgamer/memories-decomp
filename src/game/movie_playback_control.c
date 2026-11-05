@@ -11,6 +11,10 @@
 #include "movie_stream_requests.h"
 #include "sound_mix.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMovie_bPlaybackState;
+
 void Movie_Play(s32 index)
 {
     File_WaitForTransfers();

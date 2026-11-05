@@ -18,6 +18,12 @@
 #include "duel_deck_card.h"
 #include "ai_board_snapshot.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wOutcomeFlags;
+u8 gDuel_bActiveSide;
+
 /* The AI's turn-action run: spell and fusion searches feed the action pick
    through gAi_Selection, followed by the occupied and face-up field-target
    selectors and the final per-turn play decision that consumes them. All six

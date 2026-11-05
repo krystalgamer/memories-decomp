@@ -26,6 +26,12 @@
 #include "frontend_scene_states.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDebugMenu_bLastMapId;
+u16 gDebug_nSceneOrSoundID;
+u8 gDebugMenu_bStep;
+
 /* The frontend's eight contiguous scene states, in address order. They are
    the complete gcc_2_8_1_g8 run between DebugMenu_UpdateCampaignEntry and
    DebugMenu_EnterMappedMode.

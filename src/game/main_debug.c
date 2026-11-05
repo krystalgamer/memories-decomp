@@ -8,6 +8,11 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bReturnMode;
+u8 gMain_bActiveModeState;
+
 void Main_PrepareFrontendLoop(void)
 {
     Main_ResetFrontendRuntime();

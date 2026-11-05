@@ -16,6 +16,10 @@
 #include "sound.h"
 #include "main_frame.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bFrontendPhase;
+
 #ifndef MAIN_FRONTEND_CONFIRM_MASK
 #define MAIN_FRONTEND_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif

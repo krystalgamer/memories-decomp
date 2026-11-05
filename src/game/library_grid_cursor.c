@@ -11,6 +11,11 @@
 #include "library_grid_cursor.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gCardGrid_bCursorColumn;
+s8 gCardGrid_bCursorRow;
+
 s32 Library_GetGridCursorCardId(const LibraryState *state)
 {
     s32 row = gCardGrid_bCursorRow;
