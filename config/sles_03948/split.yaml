@@ -1127,6 +1127,7 @@ segments:
   - - 532700
     - data
     - resident_tail
+  - [0x8210C, .data, game/european/file_set_position_table]
   - [0x821B4, .data, game/duel_field_layout]
   - [0x822A8, .data, game/spanish/duel_ground_projection]
   - [0x825B0, .data, game/european/duel_scene_update]
