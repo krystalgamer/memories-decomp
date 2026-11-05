@@ -11,7 +11,10 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start;
-    u8 unknown_20[0x18];
+    u32 scale_end;
+    u8 unknown_24[8];
+    u32 fade_start, fade_end;
+    u8 unknown_34[4];
 } Variant452EntryConfig;
 
 /* One 0xB8-byte record whose three colour pairs the entry seeds. */

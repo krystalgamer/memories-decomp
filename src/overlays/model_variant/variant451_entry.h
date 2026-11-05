@@ -9,9 +9,10 @@ typedef struct {
     u8 unknown_0C[4], parts[3], unknown_13[9];
     s32 count;
     s32 mode;
-    u8 unknown_24[4];
+    u32 rate;
     u32 start;
-    u8 unknown_2C[0xC];
+    u32 limit;
+    u8 unknown_30[8];
     u32 origin_end;
     u32 sweep_start, sweep_end;
 } Variant451EntryConfig;

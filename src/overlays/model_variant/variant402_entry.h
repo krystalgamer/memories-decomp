@@ -6,9 +6,11 @@
 /* One 0x34-byte row of header 402's command table. */
 typedef struct {
     CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[0x0D];
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    u16 spin;
+    u8 unknown_1E[2];
     u32 start;
-    u8 unknown_24[4];
+    u32 limit;
     u32 follow_limit;
     u8 unknown_2C[8];
 } Variant402EntryConfig;

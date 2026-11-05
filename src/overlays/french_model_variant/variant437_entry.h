@@ -24,7 +24,9 @@ typedef struct {
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
     u32 start, scale_start, scale_end;
-    u8 unknown_18[0x18];
+    u8 unknown_18[4];
+    u32 move_start, move_end;
+    u8 unknown_24[0xC];
 } Variant437EntryConfig;
 
 typedef struct {

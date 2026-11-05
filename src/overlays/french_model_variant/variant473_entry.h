@@ -20,7 +20,9 @@ typedef struct {
     CVECTOR outer, inner;
     u8 unknown_08[8], part, unknown_11[7];
     u32 draw_start;
-    u8 unknown_1C[0x10];
+    u32 grow_end;
+    u8 unknown_20[4];
+    u32 fade_begin, fade_end;
 } EntryConfig473;
 
 typedef struct {

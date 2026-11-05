@@ -25,7 +25,7 @@ typedef struct {
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
     s32 start, scale_start, scale_end;
-    u8 unknown_18[0xC];
+    s32 move_start, move_end, fade_start;
 } Variant432EntryConfig;
 
 /* Four 0x380-byte ribbons at the start of the work area. */

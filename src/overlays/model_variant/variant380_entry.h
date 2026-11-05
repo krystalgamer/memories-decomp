@@ -28,9 +28,10 @@ typedef struct {
     s32 parts[5];
     u8 unknown_1C[8];
     s32 count;
-    u8 unknown_28[4];
+    s32 divisor;
     u32 start, end;
-    u8 unknown_34[0x10];
+    u32 fade_at;
+    u8 unknown_38[0xC];
 } Variant380EntryConfig;
 
 /* Up to five 0x2D4-byte beams at the start of the work area. */

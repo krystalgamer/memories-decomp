@@ -7,11 +7,12 @@
 /* The 0x4C-byte effect configuration the entry picks by command. */
 typedef struct {
     CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[5], unknown_15[0x13];
+    u8 unknown_0C[4], parts[5], unknown_15[0xB];
+    s32 first_count, paired;
     s32 use_part_points;
-    u8 unknown_2C[4];
+    s32 mode;
     u32 start;
-    u8 unknown_34[4];
+    u32 grow_end;
     u32 phase3_frame, phase5_frame, part_frame;
     u8 unknown_44[8];
 } Variant446EntryConfig;
