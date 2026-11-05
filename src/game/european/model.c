@@ -27,8 +27,8 @@ s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
 s16 gModel_sTextureTintRectH;
 u16 gModel_wViewDistance;
-u16 gModel_wViewYaw;
-u16 gModel_wViewPitch;
+s16 gModel_wViewYaw;
+s16 gModel_wViewPitch;
 u16 D_8009C3EE_sles_03947;
 ModelBytes8 gModel_ViewSnapshot;
 s16 gModel_awSlotModelIds[3];
@@ -42,8 +42,8 @@ u32 D_8009C410_sles_03947;
 u32 D_8009C414_sles_03947;
 #endif
 
-/* SLES-03947..51 build of src/game/model_scene_controllers.c: the whole unit
- * in one object. */
+/* SLES-03947..51 build of src/game/model.c. VERSION_EUROPE selects the
+ * European scene-controller and slot-control paths. */
 #define VERSION_EUROPE
 
 /* Values that differ in the European release; the US source names each
@@ -51,4 +51,17 @@ u32 D_8009C414_sles_03947;
 #define MODEL_INTRO_PACKAGE_START_SECTOR 0x6E7
 #define MODEL_TEXTURE_RESET_ROW_X 0x280
 
-#include "../model_scene_controllers.c"
+#define BACKGROUND_RENDER_CLIP_LIMIT 257
+#define MODEL_RENDER_BLEND_MODE_5_WORD 0x3C280000
+#define MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT 1
+#define MODEL_SPECIAL_BATTLE_FILE_START_SECTOR 0x5D4
+#define MODEL_AUX_FILE_START_SECTOR 0x2A8
+#define MODEL_TEXTURE_STAGE3_RECT_X(index) 0x280
+#define MODEL_TEXTURE_STAGE3_RECT_Y(index) (((index) << 4) + 0xD8)
+#define MODEL_TEXTURE_PALETTE_RECT_X 0x280
+#define MODEL_TEXTURE_TAIL_ROW_Y 0xE0
+
+/* The European executables keep a different object (libpress data) at the US
+ * debug-state word's address, so each region's symbols.txt binds D_8009B004 at
+ * its own address. */
+#include "../model.c"

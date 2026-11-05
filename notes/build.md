@@ -654,6 +654,21 @@ common declaration, so the linker places no common storage of its own. Any
 linker-script addresses are involved; every name needs a `symbols.txt` entry
 at its retail address.
 
+### Merging units that were one original file
+
+Some legacy units read small globals that sit in a neighbour's `.sbss` or
+`.sdata`. When the neighbours are contiguous in every section (`.text`,
+`.rodata`, `.sdata`, `.sbss`, `.bss`) and in the same object order in every
+image, they were one original file, and merging them makes those reads local
+`%gp_rel` accesses again. `src/game/model.c` is the first case: seven former
+units, from the data-only `model_graphics_state.c` through
+`model_slot_control.c`, are contiguous in all seven executables, and the
+merged object assembles at `-G0` byte-identically. File-scope initialized
+data lands at its definition point in GCC 2.8 output, so data that sat between
+two former units' `.rodata` (the effect-handler table and trace strings) is
+defined at that point in the merged source. Include each guarded header once:
+the first include selects its header view for the whole file anyway.
+
 ### The declaration spelling is the consumer's lever
 
 Ownership decides where a definition lands. For the far more common case of a

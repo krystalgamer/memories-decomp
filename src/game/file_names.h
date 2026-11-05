@@ -16,8 +16,8 @@ extern u8 gFile_szDiscMasterXaPath[20];
 extern u8 *gFile_apszName[8];
 
 /* Model archive paths used directly by Model_LoadMonsterMerge. */
-extern u8 gModel_szSuMrgPath[];
-extern u8 gFile_szModelMrgPath[];
+extern const u8 gModel_szSuMrgPath[];
+extern const u8 gFile_szModelMrgPath[];
 
 /* Diagnostic format used while publishing each file's sector position. */
 extern u8 gFile_szPositionFormat[4] __attribute__((section(".data")));

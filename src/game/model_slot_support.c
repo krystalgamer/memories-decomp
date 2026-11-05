@@ -20,8 +20,8 @@
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
-u16 gModel_wViewPitch;
-u16 gModel_wViewYaw;
+s16 gModel_wViewPitch;
+s16 gModel_wViewYaw;
 u16 gModel_wViewDistance;
 
 void *Model_GetSlotDataEntry(s32 index, s32 slot)

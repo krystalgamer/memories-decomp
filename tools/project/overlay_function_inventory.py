@@ -36,13 +36,12 @@ PROLOGUE = re.compile(rb"[\x00-\xff][\x80-\xff]\xbd\x27")
 RETURN = re.compile(rb"\x08\x00\xe0\x03")
 RAM_START, RAM_END = 0x80010000, 0x80200000
 LOADER_SOURCES = (
-    "src/game/model_slot_control.c",
-    "src/game/model.h", "src/game/european/model_slot_control.c",
+    "src/game/model.c",
+    "src/game/model.h", "src/game/european/model.c",
     "src/game/main_run_boot_sequence.c", "src/game/main_boot_screen.c",
     "src/game/duel_load_terrain_package.c", "src/game/duel_load_package_stage.c",
     "src/game/european/duel_load_terrain_package.c", "src/game/european/duel_load_package_stage.c",
     "src/game/japanese/duel_load_terrain_package.c", "src/game/japanese/duel_load_package_stage.c",
-    "src/game/model_scene_controllers.c", "src/game/european/model_scene_controllers.c",
     "src/game/main_menu_load_package_stage.c", "src/game/european/main_menu_load_package_stage.c",
     "src/game/name_entry_load_package_stage.c", "src/game/japanese/name_entry_load_package_stage.c",
     "src/game/european/name_entry_load_package_stage.c",
