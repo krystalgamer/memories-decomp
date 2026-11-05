@@ -159,3 +159,4 @@ D_8009B118 = gFile_TransferBufferBase;
 D_8009B134 = gFile_dwCancelRequestState;
 D_8009B140 = gFade_bKeepOverlayDepth;
 D_8009B145 = gFade_bWhiteLatch;
+initialized_data_start = D_800906E0;
