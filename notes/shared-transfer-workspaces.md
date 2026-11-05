@@ -31,7 +31,7 @@ originally called `D_800E9D70`. Callers fill rectangle coordinates and pass
 their addresses to `LoadImage`, `LoadImage2`, `StoreImage`, `StoreImage2` or
 `MoveImage`. Campaign and Free Duel portrait uploads use image/CLUT pairs;
 PAL Options uses the same two records for language-image readback and copy.
-Library's local `gStageRect` macro still selects the first record. Card-list
+Library writes the first record directly as `gGraphics_aImageTransferRects[0]`. Card-list
 code retains its existing `s16 *` view and field-store ordering.
 
 These are scratch records, not stored pointers and not an image/CLUT-specific

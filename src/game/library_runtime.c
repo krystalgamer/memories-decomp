@@ -760,8 +760,6 @@ void Library_UpdateScreen(void)
    identical object at gcc_2_8_1_g8_split, which the entry needs, so the
    unit builds there. */
 
-#define gStageRect (gGraphics_aImageTransferRects[0])
-
 #ifdef VERSION_EUROPE
 void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
@@ -792,11 +790,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        gStageRect.x = 0x380;
-        gStageRect.y = 0x160;
-        gStageRect.w = 0x40;
-        gStageRect.h = 0x10;
-        LoadImage2(&gStageRect,
+        gGraphics_aImageTransferRects[0].x = 0x380;
+        gGraphics_aImageTransferRects[0].y = 0x160;
+        gGraphics_aImageTransferRects[0].w = 0x40;
+        gGraphics_aImageTransferRects[0].h = 0x10;
+        LoadImage2(&gGraphics_aImageTransferRects[0],
                    (u32 *)(gFile_TransferBufferBase + gText_bLanguageIndex * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
@@ -806,11 +804,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 3:
-        gStageRect.x = 0x280;
-        gStageRect.y = 0xE0;
-        gStageRect.w = 0x100;
-        gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].x = 0x280;
+        gGraphics_aImageTransferRects[0].y = 0xE0;
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 0x10;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -824,11 +822,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 5:
-        gStageRect.x = 0x280;
-        gStageRect.y = 0xE6;
-        gStageRect.w = 0x100;
-        gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].x = 0x280;
+        gGraphics_aImageTransferRects[0].y = 0xE6;
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 2;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
@@ -876,11 +874,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        gStageRect.x = 0x100;
-        gStageRect.y = 0xF0;
-        gStageRect.w = 0x100;
-        gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].x = 0x100;
+        gGraphics_aImageTransferRects[0].y = 0xF0;
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 0x10;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -894,11 +892,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 4:
-        gStageRect.x = 0x100;
-        gStageRect.y = 0xF6;
-        gStageRect.w = 0x100;
-        gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].x = 0x100;
+        gGraphics_aImageTransferRects[0].y = 0xF6;
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 2;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
