@@ -10,7 +10,7 @@ The entry occupies `8013B004..8013C484`, or the corresponding `8017` range:
 bytes agree across the three physical models. One implementation, built for
 both slots, uses the named `gcc_2_8_1_g0_split` profile. Each image binds
 `FrenchModelVariant477_HandleRequest`, the two Spanish helper names and
-`gFrenchModelVariant477_D1DC0` at its own addresses (see
+`gFrenchModelVariant477_aImages`/`gFrenchModelVariant477_aConfigs` at its own addresses (see
 [per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
 
 All native words were read before reconstruction. Local game/SDK headers and

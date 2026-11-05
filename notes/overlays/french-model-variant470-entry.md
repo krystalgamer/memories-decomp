@@ -21,7 +21,7 @@ types or compiler claims.
 
 Both helpers, profiles and inventory rows are unchanged. Each image's symbols
 file binds `FrenchModelVariant470_HandleRequest`, both helpers and
-`gFrenchModelVariant470_D1ED0` at its own addresses (the North American
+`gFrenchModelVariant470_aImages`/`gFrenchModelVariant470_aConfigs` at its own addresses (the North American
 header-453 images place the helpers 4 and 8 bytes off and the data 0x14 lower).
 Production ELFs verify all three original-sized C owners in each image.
 The first helper requires `elapsed >= config->draw_start`; the second

@@ -84,7 +84,8 @@ typedef struct {
     long target;
 } Variant475EntryProjection;
 
-extern u8 gFrenchModelVariant475_D2D38[];
+extern GsIMAGE gFrenchModelVariant475_aImages[9];
+extern Variant475EntryConfig gFrenchModelVariant475_aConfigs[];
 void ModelVariant458_DrawRibbons(u8 *context);
 void ModelVariant458_DrawSheets(u8 *context);
 void ModelVariant458_DrawQuads(u8 *context);

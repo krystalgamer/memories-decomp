@@ -239,7 +239,7 @@ streamers still have no demonstrated direct entry-call path, and every
 ## Per-image names
 
 The French entry source defines `FrenchModelVariant475_HandleRequest` and
-`gFrenchModelVariant475_D2D38`. Each helper role has one name in every image of
+`gFrenchModelVariant475_aImages`/`gFrenchModelVariant475_aConfigs`. Each helper role has one name in every image of
 models 116 and 576: `ModelVariant458_DrawRibbons`, `ModelVariant458_DrawSheets`,
 `ModelVariant458_DrawQuads`, `ModelVariant458_DrawStrand` and
 `ModelVariant458_DrawStreamers`. The North American and Japanese images build

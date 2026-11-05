@@ -104,7 +104,8 @@ typedef struct {
     s16 slot, command;
 } EntryState478;
 
-extern u8 gFrenchModelVariant478_D2220[];
+extern GsIMAGE gFrenchModelVariant478_aImages[9];
+extern EntryConfig478 gFrenchModelVariant478_aConfigs[];
 void FrenchModelVariant478_DrawSwarm(u8 *context);
 void SpanishModelVariant478_DrawOrbitingQuads(u8 *context);
 void SpanishModelVariant478_DrawPetalRings(u8 *context);

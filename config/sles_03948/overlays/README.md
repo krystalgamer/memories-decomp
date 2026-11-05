@@ -1352,7 +1352,7 @@ Six images under French headers 452 and 602 build their loader entry
 `src/overlays/french_model_variant/variant452_entry.c` in both slots,
 alongside the already-matched sheets, streamers and lines helpers. The entry
 has no work-size printf; its command rows and texture images are offsets into
-the data block `gFrenchModelVariant452_D2E14`, which each image's symbols
+the data block `gFrenchModelVariant452_aImages`/`gFrenchModelVariant452_aConfigs`, which each image's symbols
 file binds 0xA30 bytes into the unclassified tail (`D_8013D3E4`).
 
 Six images under French headers 456 and 606 build their loader entry
