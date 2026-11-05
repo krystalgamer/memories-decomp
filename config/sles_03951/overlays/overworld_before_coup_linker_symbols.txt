@@ -56,5 +56,4 @@ func_800158C8 = 0x80014F48;
 func_80065BFC = 0x80065C7C;
 gRuntime_pSharedWorkBase = 0x80010000;
 
-func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 gFade_State = 0x800EB248;

@@ -7,6 +7,7 @@
 #include "trade_helpers.h"
 #include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
+#include "../../game/card_list_row_text.h"
 #include "card_tables.h"
 #include "ordering_tables.h"
 
@@ -120,7 +121,7 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
     s32 flags;
 
     flags = gTrade_pStatsModeDisplay->frame - 4;
-    func_80060E70((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side].current * 4), side,
+    CardList_BuildRowSetTextBoxes((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side].current * 4), side,
                   flags & (1 << side), flags);
 }
 #endif

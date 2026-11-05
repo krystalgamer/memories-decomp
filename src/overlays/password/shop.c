@@ -100,7 +100,7 @@ void Password_RefreshDigitDisplay(void)
     }
     *out = TEXT_STRING_TERMINATOR;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    func_8003B6AC(2, 1);
+    DuelEffect_SetEntryRangeLayout(2, 1);
 #endif
 #ifdef VERSION_EUROPE
     TextBox_CreateFlagged(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10, 3);
@@ -130,7 +130,7 @@ void Password_RefreshStarchipDisplay(void)
 
     gText_StagedValues[0].starchips = gLibrary_dwStarchips;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    func_8003B6AC(3, 1);
+    DuelEffect_SetEntryRangeLayout(3, 1);
 #endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
 #ifdef VERSION_JAPAN

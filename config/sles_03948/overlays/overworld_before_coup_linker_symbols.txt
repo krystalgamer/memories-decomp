@@ -63,5 +63,4 @@ func_80168624 = 0x80168624;
 func_80168A48 = 0x80168A48;
 func_80169230 = 0x80169230;
 
-func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 gFade_State = 0x800EB248;
