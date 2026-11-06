@@ -2002,6 +2002,7 @@ Library_LoadPackageStage = 0x8002BD4C;
 gModelDebug_bSelectedDigit = 0x8009BF29;
 gModelDebug_Display = 0x8009BF90;
 gDuel_aCardThumbnailBlocks = 0x8018C2D8;
+gDuel_CardThumbnailClutBase = 0x8018C7D8;
 gModel_awSlotModelIds = 0x8009C3F8;
 
 Model_TransformPartVertex = 0x8005D894; // type:func
