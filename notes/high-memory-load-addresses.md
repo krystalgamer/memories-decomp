@@ -254,10 +254,12 @@ The old signed-word and `void *` spellings converge on this pointer type;
 casts remain at the transfer descriptor's integer fields and other existing
 integer ABI boundaries.
 
-| Header arm | Consumers | Addressing retained |
-|---|---|---|
-| Default pointer | `Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
-| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `Movie_OpenStream`, `Model_AdvanceSlotLoad`, `Duel_InitModelScene`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | Forced `.data` declaration, not a storage definition |
+Every consumer (`Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`,
+`Main_InitFreeDuelMenu`, overworld `set_location.c`, `Campaign_LoadScenePackage`,
+`Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`,
+`FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `Movie_OpenStream`,
+`Model_AdvanceSlotLoad`, `Duel_InitModelScene`, `main_run_duel_and_library.c`,
+`main_run_selection_menus.c`) shares the one plain pointer declaration.
 
 `Duel_InitModelScene`, `Main_RunBuildDeckMenu` and `Main_RunDuel` used to read the word through an incomplete
 `HighMemoryModelAddressPrefix D_80010000[]` view (three payload bases and

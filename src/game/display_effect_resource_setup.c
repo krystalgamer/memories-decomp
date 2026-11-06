@@ -4,8 +4,6 @@
    that consults it, the child layer/attribute setup, and the VRAM page swap
    state callback that calls the builder after loading or restoring a page. */
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
-
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_effect_has_resource_entry.h"

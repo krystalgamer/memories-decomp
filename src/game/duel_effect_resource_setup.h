@@ -24,11 +24,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 
 /* PAL language selection shared by text, artwork and localized resources. */
-#ifdef TEXT_LANGUAGE_INDEX_IN_DATA
-extern u8 gText_bLanguageIndex __attribute__((section(".data")));
-#else
 extern u8 gText_bLanguageIndex;
-#endif
 
 /* The value gText_bLanguageIndex takes at boot and wraps back to in the debug menu:
    the European release starts at 0 and asks, the single-language releases

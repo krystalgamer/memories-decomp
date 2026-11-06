@@ -826,7 +826,7 @@ buffer pointers, voice arrays, flags, and late control fields directly.
 struct for the pointee, and the reason was a measurement rather than a
 preference. That is **resolved as of 2026-09-11**; the eliminations below
 are kept because they are what made the answer findable, and the answer is
-the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
+the last paragraph of this section. With `sound.h` included and its (then) `G_SDVALUE_IN_DATA`,
 `SD_POLL_SEQUENCE_STATE_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`

@@ -490,11 +490,9 @@ paths do not gain a clear. Cancelled or failed requests do not acquire a
 new reset either. Preserve the raw `u8`, full zero/nonzero tests and
 shared lifetime rather than introducing a Boolean, setter or new policy.
 
-The two original `.data`/plain declaration arms move intact from
-`mem_card.h` to `save_data.h`. Their numeric
-`D_8009B3D4_IN_DATA` selector stays unchanged: the main-menu and European
-effect writers keep their absolute views while modal readers keep their
-plain views. The ownership-only checkpoint reproduces all 940 complete
+The declaration moves from `mem_card.h` to `save_data.h` as one plain
+declaration shared by the main-menu and European effect writers and the
+modal readers. The ownership-only checkpoint reproduces all 940 complete
 compiler/MASPSX outputs raw-identically before naming.
 
 `DuelEffect_UpdateIdentitySave` names the existing state-table entry four.
@@ -731,10 +729,7 @@ Their declarations belong to `two_player_save_setup.h`, which already
 owns the duel/trade setup API, rather than the modal-card header.
 `frontend_scene_states.c` explicitly includes that owner; the other
 resident and Main Menu consumers already include it. All three identities
-remain `u8`. Both original `.data`/plain declaration arms and their
-numeric `D_8009B3EA_IN_DATA` / `D_8009B3ED_IN_DATA` selector spellings
-remain unchanged. Debug entry stores retain their absolute-addressing
-views; the shared loader keeps its plain view and Main Menu keeps G0.
+remain `u8`, each with one plain declaration.
 Ownership alone leaves all 940 complete resident compiler/MASPSX outputs
 raw-identical, before names change.
 

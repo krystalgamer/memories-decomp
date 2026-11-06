@@ -71,18 +71,10 @@ extern u32 gModel_dwFogBaseColor __attribute__((section(".data")));
 extern u32 gModel_dwFogBaseColor;
 #endif
 
-#ifdef SORTED_ENTRY_STATE_IN_DATA
-extern SortedEntry *gSortedEntry_pBase __attribute__((section(".data")));
-#else
 extern SortedEntry *gSortedEntry_pBase;
-#endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
  * compared against gSortedEntry_nCount by the walk in Duel_DrawFieldCards. */
-#ifdef SORTED_ENTRY_STATE_IN_DATA
-extern u32 gSortedEntry_nSortedCount __attribute__((section(".data")));
-#else
 extern u32 gSortedEntry_nSortedCount;
-#endif
 /* The fog-textured HMD drivers' mode word (Model_DrawFogTexturedTriangles and Model_DrawFogTexturedQuads in
  * hmd_fog_textured_drivers.c): bit 3 hands the block to another driver, bit 2
  * walks it through SortedEntry_Append, and bits 0-1 draw sorted entries.
@@ -92,15 +84,9 @@ extern u32 gSortedEntry_nSortedCount;
  * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
  * not known here.  Model_SetFogDrawFlags writes the word wholesale, and all three of
  * its call sites pass 0. */
-#if defined(SORTED_ENTRY_STATE_IN_DATA)
-extern u32 gModel_dwFogDrawFlags __attribute__((section(".data")));
-extern SortedEntry *gSortedEntry_pCursor __attribute__((section(".data")));
-extern u32 gSortedEntry_nCount __attribute__((section(".data")));
-#else
 extern u32 gModel_dwFogDrawFlags;
 extern SortedEntry *gSortedEntry_pCursor;
 extern u32 gSortedEntry_nCount;
-#endif
 
 void SortedEntry_Append(s32 dx, s32 dy, s32 dz);
 void SortedEntry_SortAndRelink(void);

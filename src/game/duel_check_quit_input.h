@@ -37,11 +37,7 @@ extern u8 gDuel_bQuitDialogState;
  *
  * Main_RunDuel takes the .data arm because its G8 build reaches the word
  * absolutely. The other two users take the plain scalar. */
-#ifdef D_8009B16C_IN_DATA
-extern u16 gDuel_wOutcomeFlags __attribute__((section(".data")));
-#else
 extern u16 gDuel_wOutcomeFlags;
-#endif
 
 /* debug_effect_screen.c's page byte. It follows gDuel_wOutcomeFlags in the
    US and Japanese images, but the European ones place it elsewhere, so it is

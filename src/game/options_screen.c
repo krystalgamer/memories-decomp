@@ -1,6 +1,5 @@
 #ifdef VERSION_JAPAN
 #endif
-#define GSD_BOUTPUTTYPE_IN_DATA
 #define D_8009AF5C_AS_BYTE_ARRAY
 #include "../types.h"
 #include "text_box_blocking_build.h"

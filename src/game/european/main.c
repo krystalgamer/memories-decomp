@@ -20,7 +20,6 @@ extern DISPENV gGraphics_DispEnv;
 static u8 D_8009C4A0_sles_03947[0x30];
 extern u8 gGraphics_abPacketBuffers[];
 extern struct GraphicsFrameBuffer gGraphics_aFrameBuffers[];
-#define D_8009B318_IN_DATA
 #define GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009BFE8-0x8009C038 (#2602); its
  * layout differs from the North American block the shared source defines. */

@@ -30,11 +30,7 @@
 
 /* Existing primary-save identity allowance. Keep its raw byte and the
  * absolute writer/plain modal-reader declaration views separate. */
-#ifdef D_8009B3D4_IN_DATA
-extern u8 gSaveData_AllowIdentityBypass __attribute__((section(".data")));
-#else
 extern u8 gSaveData_AllowIdentityBypass;
-#endif
 
 #define SAVE_DATA_CRC16_BITS 16
 #define SAVE_DATA_CRC16_MASK ((1 << SAVE_DATA_CRC16_BITS) - 1)

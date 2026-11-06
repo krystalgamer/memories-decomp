@@ -24,11 +24,9 @@ introduced. The registered function is not inlined or assumed immutable.
 All existing repeated loads, descriptor setup, common tails and state-word
 publication remain in their original order.
 
-The declaration stays `void (*)(void)`, nonvolatile, with both its
-ordinary and `.data` arms. The selector
-`D_8009B10C_IN_DATA` deliberately keeps its existing name and position.
-File-position initialization retains its measured absolute store; reset
-and request consumers retain their original small-data forms.
+The declaration stays `void (*)(void)`, nonvolatile, with one declaration.
+File-position initialization keeps its measured absolute store, as every
+unit outside the owner reaches it with `%hi`/`%lo`.
 
 | Identity | North America | Japan | UK | France / Germany / Italy / Spain |
 |---|---|---|---|---|
@@ -50,8 +48,7 @@ complete prior semantic ledger gains one evidence/caveat row.
 ## Range read and pause hooks
 
 `gFile_RangeReadCallback` and `gFile_RangePauseCallback` remain
-nonvolatile `void (*)(void)` slots. Their default/`.data` arms and the
-existing `D_8009B0F0_IN_DATA` / `D_8009B120_IN_DATA` selectors remain.
+nonvolatile `void (*)(void)` slots. Each has one declaration.
 Sound initialization still clears its own work RAM before registering
 `SD_FadeInStreamAudio` then `SD_FadeOutStreamAudio` through the absolute
 views. Loader initialization clears pause then read at the original points.

@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_EUROPE
-#define TEXT_LANGUAGE_INDEX_IN_DATA
 #define DUEL_RESOURCE_TRANSFER_POSITION(value) \
     ((value) * 8 + CARD_COUNT - 8)
 #define DUEL_RESOURCE_TRANSFER_SECTORS 8

@@ -1,4 +1,3 @@
-#define D_8009B0C8_IN_DATA
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 
@@ -186,7 +185,7 @@ void Input_UpdatePads(void)
         new_bits <<= 1;
     }
 
-    if (gGraphics_dwSyncVBlankCounter[0] != 0) {
+    if (gGraphics_dwSyncVBlankCounter != 0) {
         gInput_dwDeferredRepeat |= repeat;
         gInput_dwDeferredPressed |= newly_pressed;
     } else {

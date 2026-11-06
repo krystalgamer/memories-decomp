@@ -26,7 +26,6 @@
 #include "duel_effect_resource_setup.h"
 #endif
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 

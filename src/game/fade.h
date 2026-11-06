@@ -14,11 +14,7 @@ extern FadeTransitionState gFade_State;
  * data) and take the plain arm below. graphics_frame.c reaches it with
  * %hi/%lo and takes the .data arm. The keep-overlay depth byte beside it is
  * gFade_bKeepOverlayDepth (fade_overlay_controls.h). */
-#ifdef D_8009B141_IN_DATA
-extern u8 gFade_bOrderingTableMode __attribute__((section(".data")));
-#else
 extern u8 gFade_bOrderingTableMode;
-#endif
 
 /* The colour a fade is heading for. Fade_Update copies the three into the
  * tint at gGraphics_bClearBlue/Green/Red (graphics_frame.h) in address order, with no

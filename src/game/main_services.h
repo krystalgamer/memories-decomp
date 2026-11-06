@@ -69,11 +69,7 @@ extern s32 gMain_nServiceResyncCountdown;
    Main_ApplyMenuSelection and Main_RunMenu (main_mode_runners.c) reach them through $gp;
    script_op_save_prompt.c, script_command_runner.c and frontend_scene_states.c
    address them with %hi/%lo, outside small data, and define the .data arms. */
-#ifdef D_8009B268_IN_DATA
-extern u8 D_8009B268 __attribute__((section(".data")));
-#else
 extern u8 D_8009B268;
-#endif
 
 #include "main_menu_request.h"
 

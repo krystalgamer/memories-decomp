@@ -4,12 +4,10 @@
 #include "display_asset_banks.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#define D_800101D8_IN_DATA
 #include "file_transfer.h"
 #include "free_duel_load_package_stage.h"
 #include "../unmatched.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 

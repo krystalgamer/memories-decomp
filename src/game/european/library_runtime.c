@@ -13,7 +13,6 @@
 /* The splat name of its European address. */
 /* The language index is read through %hi/%lo, as in
  * duel_effect_resource_setup's wrapper. */
-#define TEXT_LANGUAGE_INDEX_IN_DATA
 /* The Library package's place on the European disc. */
 #define LIBRARY_PACKAGE_FIRST_SECTOR 0x233A
 #define LIBRARY_PACKAGE_SECTOR_COUNT 0x8F

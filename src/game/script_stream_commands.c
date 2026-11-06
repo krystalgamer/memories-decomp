@@ -1,5 +1,4 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
-#define D_8009B404_IN_DATA
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #include "script_command_busy.h"
@@ -37,15 +36,15 @@ void Script_OpSound(void)
             }
         } else {
             if (f & 1) {
-                SD_BGMPlay(gSD_dwSavedBgmCommand[0]);
+                SD_BGMPlay(gSD_dwSavedBgmCommand);
             }
             if (f & 2) {
                 q = gScript_StreamCursor;
                 gScript_StreamCursor = q + 2;
-                gSD_dwSavedBgmCommand[0] = q[0] | (q[1] << 8);
+                gSD_dwSavedBgmCommand = q[0] | (q[1] << 8);
             }
             if (f & 4) {
-                gSD_dwSavedBgmCommand[0] = gSD_dwCurrentBgmCommand[0];
+                gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand[0];
             }
         }
         if (f & 0x80) {

@@ -21,9 +21,8 @@ index validation, sign interpretation or ordering-table geometry is changed.
 The name identifies reference depths, not a new allocation or an inferred
 formula for every table's length.
 
-The original `D_8009AF74_IN_DATA` selector remains: the default declaration
-is volatile `u16[4]` in `.sdata`; absolute consumers select `.data`.
-Neither the volatile qualifier nor the array bound is normalized away.
+The declaration is volatile `u16[4]`. Neither the volatile qualifier nor
+the array bound is normalized away.
 
 ## Keep-overlay fade depth
 
@@ -33,8 +32,7 @@ falls back to `0x3F`. Existing callers derive overrides from table entry 1;
 others retain their direct depth values.
 
 This is not an unconditional/default fade depth or a Boolean flag.
-The byte, zero sentinel, fallback, narrowing stores and original
-`D_8009B140_IN_DATA` addressing selector remain. The existing completion
+The byte, zero sentinel, fallback, and narrowing stores remain. The existing completion
 clear remains at its original point; no new initialization clear is added.
 
 ## White transition latch
@@ -45,8 +43,8 @@ zero/nonzero value to retain the existing white/tinted transition paths.
 The existing completion/init clears remain.
 
 The name does not introduce a one-shot reset, normalized Boolean or new
-color policy. The `u8` view and `D_8009B145_IN_DATA` selector preserve the
-ordinary small-data and image-command absolute forms.
+color policy. The one `u8` declaration gives the owner's small-data form and the
+image-command absolute form.
 
 ## Initialized ownership and legacy aliases
 

@@ -4,8 +4,7 @@
 #include "../types.h"
 
 /* The block starts at 0x80010000. Its first word, gRuntime_pSharedWorkBase,
- * is declared by shared_work_base.h (plain and
- * HIGH_MEMORY_ADDRESSES_BASE_IN_DATA views), and the payload and credits
+ * is declared by shared_work_base.h, and the payload and credits
  * words by model_load_words.h. See notes/high-memory-load-addresses.md for
  * the distinct address cohorts. */
 

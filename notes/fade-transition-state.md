@@ -109,16 +109,14 @@ The signed word is a synchronization-window counter, not a monotonic
 elapsed total: initialization writes zero and the sync helper resets it
 to `-1`. `Input_UpdatePads` uses a nonzero value to accumulate deferred
 repeat/pressed masks, and zero to merge and clear them. Its current input
-publication order is unchanged. The volatile GP and plain absolute
-declaration arms, private `D_8009B0C8_IN_DATA` selector and explicit
-Japanese alias remain separate.
+publication order is unchanged. The one volatile declaration and the explicit Japanese alias remain.
 
 The normalized byte also supplies the text-channel pump's ordinary
 post-build comparison. Its local counter starts at `-1` and increments
 after each build, but completion/reset branches retain their separate
 exits or bypass of that comparison; the name is not a new hard global
-step cap. The byte, common definition, private `D_8009B0C1_IN_DATA`
-addressing selector and all seven binding addresses remain unchanged.
+step cap. The byte, common definition and all seven binding addresses remain
+unchanged.
 
 [`Main_ResetFrontendRuntime`](../src/game/main_reset_frontend_runtime.c)
 clears the wait threshold `gGraphics_bSyncVBlankTarget`, but that does not force the sampled

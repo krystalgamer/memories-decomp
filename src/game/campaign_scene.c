@@ -17,7 +17,6 @@
 #include "../psyq/libgpu.h"
 #include "campaign_create_primary_display_object.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "trig_constants.h"

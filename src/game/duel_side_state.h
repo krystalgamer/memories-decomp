@@ -184,11 +184,7 @@ extern u8 *gDuel_pActiveFieldGrid;
  *
  * duel_state_init.c reaches it gp-relative; main_mode_runners.c and
  * src/game/main.c reach it through %hi/%lo and define the .data arm. */
-#ifdef D_8009B230_IN_DATA
-extern u8 gDuel_bTwoPlayerCardViewMode __attribute__((section(".data")));
-#else
 extern u8 gDuel_bTwoPlayerCardViewMode;
-#endif
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
  * (gDuel_wTwoPlayerSide1LifePoints first, then gDuel_wTwoPlayerSide0LifePoints) and passes to MainMenu_StartValueSetup
@@ -203,16 +199,8 @@ extern u8 gDuel_bTwoPlayerCardViewMode;
  * duel_state_init.c reaches both gp-relative and takes the plain
  * declarations; main_mode_runners.c reaches both through %hi/%lo
  * defines the two .data arms, one control each. */
-#ifdef D_8009B234_IN_DATA
-extern u16 gDuel_wTwoPlayerSide0LifePoints __attribute__((section(".data")));
-#else
 extern u16 gDuel_wTwoPlayerSide0LifePoints;
-#endif
-#ifdef D_8009B236_IN_DATA
-extern u16 gDuel_wTwoPlayerSide1LifePoints __attribute__((section(".data")));
-#else
 extern u16 gDuel_wTwoPlayerSide1LifePoints;
-#endif
 
 /* The signed byte just below gDuel_bOpponentID, 0x8009B360, is declared once,
  * as gDuel_bSide0ControllerSelector in ai_controller_handoff.h. */

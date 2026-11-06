@@ -1,5 +1,4 @@
 #include "../types.h"
-#define G_SDVALUE_IN_DATA
 #define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "sound.h"

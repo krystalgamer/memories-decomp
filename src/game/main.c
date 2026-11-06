@@ -3,12 +3,9 @@
    per-frame service pump with the boot-time hardware initialization. Retail
    built these as one unit: its own small data is gp-relative from every
    function here and absolute from every other unit (#2602). */
-#define D_8009B318_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
-#define D_8009B141_IN_DATA
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #define D_8009B0D1_IS_VOLATILE
-#define D_8009B230_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define D_8009B142_IN_DATA_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
