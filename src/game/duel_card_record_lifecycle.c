@@ -14,7 +14,6 @@
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_deck_card_data.h"
 #include "../psyq/qsort.h"
 #include "card_constants.h"

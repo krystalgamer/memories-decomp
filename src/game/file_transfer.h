@@ -125,22 +125,13 @@ void File_CancelTransfers(void);
  * `gFile_dwTransferState[0]` spellings this header replaces were an addressing device
  * rather than evidence of an array.
  *
- * `volatile` is load-bearing on both arms, measured rather than assumed:
- * dropping it from the plain arm builds a 0x1D0668-byte executable and
- * dropping it from the `.data` arm builds a 0x1D071C-byte one, against the
- * retail 0x1D0800.
+ * `volatile` is load-bearing, measured rather than assumed: dropping it
+ * builds a 0x1D0668-byte executable against the retail 0x1D0800.
  *
- * One name, two addressing arms. The retail image reaches this address both
- * ways. The ready-sector callback in `file_transfer_runtime.c` uses
- * `%gp_rel(gFile_dwTransferState)($gp)` seven times, while six other generated assembly
- * files use `lui %hi` / `%lo` fifty-nine times. The form follows from whether
- * the symbol is small-data eligible in the translation unit, and no unit
- * needs both, so a unit that reaches this word (and
- * gFile_dwCancelRequestState below) absolutely defines
- * FILE_TRANSFER_WORDS_IN_DATA before its first include and gets the
- * `section(".data")` arm. Which arm a unit needs is a property of its
- * compiler profile, not of the word.
- */
+ * The retail image reaches this address both ways. The ready-sector callback
+ * in `file_transfer_runtime.c` uses `%gp_rel(gFile_dwTransferState)($gp)`
+ * seven times, while six other generated assembly files use `lui %hi` /
+ * `%lo` fifty-nine times. */
 /* The word at 0x800101D8, which holds the address 0x80168000: the base of the
  * WA_MRG screen-bank overlay slot (notes/memory-map.md) that each screen
  * package's executable phase loads into.
@@ -165,32 +156,16 @@ extern u8 *gFile_pScreenBankBase;
 #define FILE_INDEX_MASTER_XA 6
 extern s32 gFile_anLba[];
 
-#ifdef FILE_TRANSFER_WORDS_IN_DATA
-extern volatile u32 gFile_dwTransferState __attribute__((section(".data")));
-#else
 extern volatile u32 gFile_dwTransferState;
-#endif
 
 /* The transfer-step flag word. File_StepActiveTransfer sets and clears every
  * bit of it through the streaming retry state machine and reloads it after
  * each store; File_ActivateTransfer ORs in bit 0; the two readers outside
  * this family test the set and clear phases of bit 0x4000, which is set when
  * the range read advances the stepper from 5 to 6 and cleared by the 0x3FFC
- * mask when the range ends or stops. Same two forms as
- * gFile_dwTransferState above: five units reach it gp-relative, and two --
- * Text_WaitForCdSoundTransfer and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
- * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
- * which is the bare form; they define FILE_TRANSFER_STEP_FLAGS_IN_DATA to
- * select the .data arm. Measured per unit: with either of the two on the
- * small-data arm the executable links 8 bytes short (0x1d07f8 against
- * 0x1d0800), the two pairs collapsing to two gp-relative loads. volatile
- * keeps File_StepActiveTransfer's back-to-back read-modify-writes from
- * folding. */
-#ifdef FILE_TRANSFER_STEP_FLAGS_IN_DATA
-extern volatile u16 gFile_wTransferStepFlags __attribute__((section(".data")));
-#else
+ * mask when the range ends or stops. volatile keeps File_StepActiveTransfer's back-to-back read-modify-writes
+ * from folding. */
 extern volatile u16 gFile_wTransferStepFlags;
-#endif
 
 /* The loader's secondary-request word at 0x8009B134, the other half of the
  * `(gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState` predicate
@@ -205,11 +180,7 @@ extern volatile u16 gFile_wTransferStepFlags;
  * volatile makes `File_ServiceTransfers` re-load it for the 0x40 test and again for
  * the `|=`, where retail keeps one load live in `$3` across all three uses.
  */
-#ifdef FILE_TRANSFER_WORDS_IN_DATA
-extern u32 gFile_dwCancelRequestState __attribute__((section(".data")));
-#else
 extern u32 gFile_dwCancelRequestState;
-#endif
 
 /* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
  * File_SetPositionTable hands its address to File_InitTransferState
@@ -262,11 +233,10 @@ extern char gFile_TargetLoc[4];
 /* The callback the request functions run before starting a primary transfer.
  * File_SetPositionTable installs File_WaitForTransfers and
  * File_InitTransferState clears it; File_RequestAsyncTransfer and
- * File_TryRequestAsyncTransfer call it when it is set, else check the
- * blocked mask. Retail: sw %lo through $at in File_SetPositionTable, selected
- * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
- * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer is what every use
- * assigns and calls. */
+ * File_TryRequestAsyncTransfer call it when it is set, else check the blocked
+ * mask. One TU held a u32 view beside an
+ * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer
+ * is what every use assigns and calls. */
 extern void (*gFile_BeforePrimaryRequestCallback)(void);
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
@@ -276,24 +246,22 @@ extern u8 D_8009B0E0;
 extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 
-/* The two command callbacks the sound driver hangs on the loader: SD_InitState
- * installs SD_FadeInStreamAudio in gFile_RangeReadCallback and SD_FadeOutStreamAudio in
- * gFile_RangePauseCallback (both `void (void)`, sound_output_transition.h),
- * File_InitTransferState clears
- * both beside its clear of gFile_BeforePrimaryRequestCallback, and File_StepActiveTransfer's transfer
- * step runs gFile_RangePauseCallback from its state 1 and state 6 arms and gFile_RangeReadCallback from
- * state 5, each only when non-zero. As with gFile_BeforePrimaryRequestCallback, the loader owns the
- * slot and another unit registers the handler, and the pointer is what every
- * use assigns and calls: one declarer spelled them s32 and only stored 0,
- * another void * and only assigned the two functions. Retail: gp-relative sw
- * of zero in File_InitTransferState and gp-relative lw in
- * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
- * defines the .data arms below for that. Initial value not read. */
+/* The two command callbacks the sound driver hangs on the loader:
+ * SD_InitState installs SD_FadeInStreamAudio in gFile_RangeReadCallback and
+ * SD_FadeOutStreamAudio in gFile_RangePauseCallback (both `void (void)`,
+ * sound_output_transition.h), File_InitTransferState clears both beside its
+ * clear of gFile_BeforePrimaryRequestCallback, and File_StepActiveTransfer's
+ * transfer step runs gFile_RangePauseCallback from its state 1 and state 6
+ * arms and gFile_RangeReadCallback from state 5, each only when non-zero. As
+ * with gFile_BeforePrimaryRequestCallback, the loader owns the slot and
+ * another unit registers the handler, and the pointer is what every use
+ * assigns and calls: one declarer spelled them s32 and only stored 0, another
+ * void * and only assigned the two functions. Initial value not read. */
 extern void (*gFile_RangeReadCallback)(void);
 extern void (*gFile_RangePauseCallback)(void);
 
 /* SD_ConfigureTransferPhase invokes this after its normal secondary payload
- * legs. SD_ArmBusyCallback stores it through the .data arm. */
+ * legs. */
 extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
 
 /* Disk-error command reissues; reset only by loader initialization. */
@@ -333,8 +301,7 @@ extern s32 gFile_CommandRetryCount;
  * serve both. The file-state setup only clears the pair once each inside
  * File_InitTransferState, with no dependent load to hoist, so taking the
  * volatile view costs it nothing and the build is byte for byte. The stronger
- * spelling absorbs the weaker one here, and the guarded two-arm form input.h
- * and sound.h use is not needed.
+ * spelling absorbs the weaker one here.
  */
 extern volatile s32 gFile_ServiceReentryLatch;
 extern volatile u16 gFile_ServiceCallGate;
@@ -367,28 +334,12 @@ extern u8 D_8009B110;
 extern s32 D_8009B12C;
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
- * immediately after it, so no element can hide inside. Fifteen files declared
- * it identically as `extern s32 gFile_TransferBufferBase;`, which is why it moved to unmatched.h and now here, beside its definer
- * unchanged - there is no per-consumer spelling to preserve.
- *
- * It holds an address despite the s32 spelling:
- * campaign_map_load_package_stage.c passes it to LoadImage2 as (u32 *) and
- * also adds 0x800 to it. The s32 is left as-is rather than retyped, which is
- * a separate question from centralizing it.
- *
- * Six consumers do NOT take the plain arm, and both reasons are load bearing.
- * Five carry section(".data"), which is the -G8 lever that keeps the address
- * being rebuilt per access instead of resolved gp-relative, and
- * duel_load_package_stage.c additionally spells it u8 * because it does
- * pointer arithmetic on it. Those two arms are selected by
- * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
- * input.h and sound.h use, rather than by re-declaring the symbol locally. */
-#ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *gFile_TransferBufferBase __attribute__((section(".data")));
-#elif defined(D_8009B118_IN_DATA)
-extern s32 gFile_TransferBufferBase __attribute__((section(".data")));
-#else
-extern s32 gFile_TransferBufferBase;
-#endif
+ * immediately after it, so no element can hide inside. File_InitTransferState
+ * stores the transfer buffer's address into it; campaign_map_load_package_stage.c
+ * passes it to LoadImage2 as (u32 *) and adds 0x800 to it, and the PAL options
+ * overlay reads and writes its first byte. It is declared as the address it
+ * holds; every consumer, including file_transfer_runtime.c's integer uses
+ * (cast at the site), builds byte-identically with this one declaration. */
+extern u8 *gFile_TransferBufferBase;
 
 #endif

@@ -9,10 +9,8 @@
  * back. All three spell it plain u8. */
 extern u8 gSaveData_PairMessageCode;
 
-/* gSaveData_LoadPairState and gSaveData_PairSetupState are one byte each (c_symbols.ld:278 and :280);
- * no unit defines either. Six units reach them: four as a plain u8, two as
- * an unsized u8 array read only at [0], which is the same -G8 lever
- * gMemCardDialog_CardNumberArg keeps in mem_card.h.
+/* gSaveData_LoadPairState and gSaveData_PairSetupState are one byte each
+ * (c_symbols.ld:278 and :280); no unit defines either.
  *
  * gSaveData_PairSetupState: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
  * mem_card_dialog.c test bit 0x80
@@ -28,14 +26,9 @@ extern u8 gSaveData_PairMessageCode;
  * stores 10 in the same unit; the three functions above store 0.
  *
  * u8 because the grouped unit's former sources already declared it u8 and
- * matched, and the retail loads are lbu. Retail addressing:
- * DebugMenu_UpdateTradeEntry and DebugMenu_UpdateTwoPlayerDuelEntry store
- * both through lui $at (debug_menu_primary_entries.s:11-14,
- * debug_menu_two_player_entry.s:11-14), which is the .data arm; the other
- * four units are
- * gp-relative or, in the main_menu overlay, built at -G0, which is the
- * plain arm. Initial value not read. notes/fm-online.md:177-187 records the
- * gSaveData_LoadPairState store at 0x8003FAE8 and leaves its meaning unresolved. */
+ * matched, and the retail loads are lbu. Initial value not read.
+ * notes/fm-online.md:177-187 records the gSaveData_LoadPairState store at
+ * 0x8003FAE8 and leaves its meaning unresolved. */
 extern u8 gSaveData_LoadPairState;
 extern u8 gSaveData_PairSetupState;
 

@@ -5,11 +5,6 @@
  * stages the five-piece presentation, and DuelCard_CaptureRoundedTexture reads a
  * drawn card back into the staging buffer. One object in every build.
  */
-#define gDuel_bEffectRequestStatus_IN_DATA
-#define D_8009B369_IN_DATA
-#define MAIN_MODE_STATE_NEXT_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
 #include "duel_card_staging.h"
 #include "duel_draw_resolution.h"

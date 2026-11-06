@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "duel_interface_setup.h"
 #include "debug_menu_update.h"

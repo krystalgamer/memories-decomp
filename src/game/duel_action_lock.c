@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_action_lock.h"
 
 s32 DuelEffect_MarkInitialized(void)
@@ -18,9 +17,6 @@ void DuelEffect_ClearCardEffect(void)
     gDuel_wCardEffectFlags = 0;
 }
 
-/* The unit compiles at -G8 like its neighbours, and retail reaches the
- * terrain byte absolutely, so it takes duel_terrain_boost.h's .data scalar
- * rather than the small-data declaration. */
 #include "duel_effect_allocate_request.h"
 #include "duel_init_scene.h"
 #include "duel_terrain_boost.h"

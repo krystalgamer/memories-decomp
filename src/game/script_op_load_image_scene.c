@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 
 #ifndef SCRIPT_OP_LOAD_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, declared in
@@ -40,7 +39,6 @@ extern u16 gScript_ViewportTargetY;
 #include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "script_state.h"
 #include "script_image_objects.h"

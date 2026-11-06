@@ -30,7 +30,7 @@ s32 D_8009B0FC;
 u32 *gFile_ReadySourceCursor;
 void (*gFile_BeforePrimaryRequestCallback)(void);
 u8 gFile_ReadyEventCount;
-s32 gFile_TransferBufferBase;
+u8 *gFile_TransferBufferBase;
 char gFile_TargetLoc[4];
 
 /* The European builds compile the shared unit through this wrapper so that

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_effect_noop_handlers.h"
 
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
@@ -8,9 +7,6 @@
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
-#define D_8009B0C0_IN_DATA_VOLATILE
-#define GDUEL_WSELECTEDCARDID_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
@@ -38,7 +34,6 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 #include "duel_effect_card_viewer_state.h"
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../unmatched.h"
 #include "main_mode_state.h"
 /* Small globals other units own, declared here as common symbols the

@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "../../game/model_draw_slot.h"

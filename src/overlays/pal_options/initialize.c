@@ -1,5 +1,4 @@
 #include "../../types.h"
-#define D_8009B118_IS_POINTER_IN_DATA
 #include "../../unmatched.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/image_transfer_rects.h"

@@ -1,4 +1,3 @@
-#define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"

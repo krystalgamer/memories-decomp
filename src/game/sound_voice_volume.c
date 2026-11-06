@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-#define D_80011434_IS_CONST
 #include "sound.h"
 
 /* Scales one secondary object's stereo level by the two channel masters at

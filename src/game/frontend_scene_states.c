@@ -1,7 +1,4 @@
-#define GDUEL_WBGMID_IN_DATA
-#define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "secondary_scene_commands.h"
 #include "mem_card.h"
 #include "frontend_debug_state.h"
@@ -49,7 +46,7 @@ void DebugMenu_UpdateMapEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             gCampaignMap_bEntryLocation[0] = 0;
-            gMain_bActiveModeState[0] = 5;
+            gMain_bActiveModeState = 5;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -71,7 +68,7 @@ void DebugMenu_UpdateTitleEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             D_8009B268 = 1;
-            gMain_bActiveModeState[0] = 8;
+            gMain_bActiveModeState = 8;
             gMain_bRequestedMenuID = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -151,7 +148,7 @@ void DebugMenu_UpdateTradeEntry(void)
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            gMain_bActiveModeState[0] = 14;
+            gMain_bActiveModeState = 14;
         }
         gDebugMenu_bStep = 0;
     }

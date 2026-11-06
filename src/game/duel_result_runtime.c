@@ -1,12 +1,4 @@
-#define D_8009B0CC_IN_DATA
-#define D_8009B362_IN_DATA
-#define GRAPHICS_VIEWPORT_IN_DATA
-#define D_8009B34E_IN_DATA
-#define D_8009B355_IN_DATA
-#define GDUEL_WSELECTEDCARDID_IN_DATA
-#define TEXT_STRING_ID_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
 #include "display_object.h"
 #include "display_object_core.h"

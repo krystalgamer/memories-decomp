@@ -5,9 +5,7 @@
  * not agree on its width. graphics_frame.h declares gGraphics_nBaseFrameStep once, as s32,
  * and the disagreement is spelled at the use sites: DisplayEffect_FadeInRecord,
  * DisplayEffect_FadeOutRecord and DisplayEffect_CrossfadeResources read it plain, and DisplayEffect_UpdatePortraitTransition reads it
- * `(u16)` twice, which is the halfword load its retail code does. A unit that
- * needs the reload rather than a width selects that for the whole unit --
- * display_object_fade_callbacks.c defines D_8009B0D8_IS_VOLATILE. */
+ * `(u16)` twice, which is the halfword load its retail code does. */
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE
 #include "model_graphics_state.h"
 #include "graphics_frame_controls.h"
 #include "model.h"
@@ -8,7 +7,7 @@
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
-u8 gGraphics_bFrameStep;
+volatile u8 gGraphics_bFrameStep;
 u8 gModel_bActiveSlotIndex;
 u8 D_8009AFA6;
 
@@ -33,8 +32,8 @@ int Model_GetFrameStep(void)
 {
     unsigned int result = 6;
 
-    if (gGraphics_bFrameStep < 6) {
-        result = gGraphics_bFrameStep;
+    if (*(u8 *)&gGraphics_bFrameStep < 6) {
+        result = *(u8 *)&gGraphics_bFrameStep;
     }
     return result;
 }

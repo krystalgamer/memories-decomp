@@ -1,6 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define D_8009B0C0_IN_DATA
-#define D_8009B0D1_IN_DATA
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "display_object_interpolation.h"

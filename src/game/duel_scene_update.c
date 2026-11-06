@@ -1,5 +1,3 @@
-#define gDuel_bEffectRequestStatus_IN_DATA
-#define GDIALOG_CHOICE_SIZED
 #include "../types.h"
 #include "duel_side_state.h"
 #include "input.h"
@@ -142,7 +140,7 @@ void DuelScene_Update(void)
             if (cleanup->flags_34 & 0x2000) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
-                if (gDialog_bChoice[0] != 0) {
+                if (gDialog_bChoice != 0) {
                     gDuel_wOutcomeFlags |= 0x2000;
                 }
             }

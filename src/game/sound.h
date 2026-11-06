@@ -911,19 +911,15 @@ extern SDSecondaryState *gSD_pSecondaryState;
  * SD_KeyOffSecondaryObject passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.
  *
- * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with the envelope setters in sound_voice_setup.c on the plain declaration
- * their former unit compiled to 204 bytes of text instead of 200 and the executable stopped linking,
- * because .initialized_data then overlapped .text. SD_SetVoiceVolume needs it
- * too: only an unchanging table load is free of the stores through the state
- * pointer, which is what puts its right-channel master in $a1.
- * sound_voice_setup.c and sound_voice_volume.c define it.
+ * The table is const, and that is a codegen input, measured rather than
+ * assumed: with the envelope setters in sound_voice_setup.c on a plain
+ * declaration their former unit compiled to 204 bytes of text instead of 200.
+ * SD_SetVoiceVolume needs it too: only an unchanging table load is free of
+ * the stores through the state pointer, which is what puts its right-channel
+ * master in $a1. Every consumer builds byte-identically with the const
+ * declaration.
  */
-#ifdef D_80011434_IS_CONST
 extern const s32 gSD_adwVoiceMasks[20];
-#else
-extern s32 gSD_adwVoiceMasks[20];
-#endif
 
 /* Submits one secondary object's stereo level, scaled by the two channel
  * masters, as a volume-only SpuSetVoiceAttr request (sound_voice_volume.c).
@@ -1090,62 +1086,36 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
-/* gSD_dwCurrentBgmCommand, in two arms.
- *
- * The split is load bearing and the measurement stands: sound_frontend.c
- * writes it as a scalar, which -G8 reaches gp-relative, while
- * script_stream_commands.c and duel_effect_sound_commands.c read it
- * through an unsized array and `[0]`, which is not assumed small and so is
- * built from an absolute address. Giving all three the scalar form builds the
- * executable eight bytes short.
- *
- * What has changed is only the mechanism. The note here previously said
- * declaring it in this header "would force one spelling on every includer",
- * and that was true of a flat declaration. An arm does not: each consumer
- * selects the spelling it already had, the same way gSD_pSecondaryState above is
- * handled and gGraphics_nBaseFrameStep is handled in graphics_base_frame_step.h. So the symbol can
- * live here after all, with the split preserved rather than resolved. */
-#ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
-extern u32 gSD_dwCurrentBgmCommand[];
-#else
+/* sound_frontend.c reaches it gp-relative through a common declaration,
+ * while script_stream_commands.c and duel_effect_sound_commands.c reach it
+ * through an absolute address; every unit shares this one declaration. */
 extern u32 gSD_dwCurrentBgmCommand;
-#endif
 
 /* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
  * (script_stream_commands.c) and DuelEffect_ProcessBgmCommand
  * (duel_effect_sound_commands.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
  * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy
- * gSD_dwCurrentBgmCommand[0] into it under `& 4`. No other C unit touches
+ * gSD_dwCurrentBgmCommand into it under `& 4`. No other C unit touches
  * it. Initial value not read.
  *
- * Every retail access is 32-bit and goes through %hi/%lo
- * (Script_OpSound.s:42-43, 58-59, 66-67; DuelEffect_ProcessBgmCommand.s:31-32, 42-43,
- * 50-51), so both units define the .data arm; the `s32 []` one of them used
- * to declare, read only at `[0]`, reached that form the way the comment
- * above describes for gSD_dwCurrentBgmCommand. The plain arm is what a
- * control build measures. SD_BGMPlay takes a u32 and the neighbour it is
- * copied from is u32, so the word is declared u32; s32 builds
- * byte-identical. */
+ * SD_BGMPlay takes a u32 and the neighbour it is copied from is u32, so the
+ * word is declared u32; s32 builds byte-identical. */
 extern u32 gSD_dwSavedBgmCommand;
 
-/* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where the C
- * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
- * the save state's byte into it (save_data_payload.c:201, :204;
- * SaveData_ApplyRuntimeState.s:19-20) and SaveData_BuildPayload copies it into an s32
- * it tests `< 0`, stores 0 when it is, and copies it into the payload
- * byte (save_data_payload.c:151, :156-157, :160; SaveData_BuildPayload.s:15-16,
- * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
- * it copies into gOptions_bOutputType and tests `< 0` (options_screen.c:103,
- * :105-106; Options_Init.s:34-35 lbu). Sound_InitFrontend stores -1
- * (sound_frontend.c:15) and Options_HandleInput stores 1 or 0
- * (options_screen.c:143, :150). Every retail access is a byte at the symbol
- * itself, the payload copies one byte, nothing in the tree reaches +1, and
- * every declarer said s8. The `[16]` three of them used to declare was the -G8
- * placement lever, not a length (main_services.h:65-70 and options.h:37-38
- * say so); the four units whose listings reach it through %hi/%lo take the
- * .data arm, and sound_frontend.c, whose store is gp-relative
- * (Sound_InitFrontend.s:12), takes the plain one. */
+/* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where
+ * the C tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before
+ * storing the save state's byte into it (save_data_payload.c:201, :204;
+ * SaveData_ApplyRuntimeState.s:19-20) and SaveData_BuildPayload copies it
+ * into an s32 it tests `< 0`, stores 0 when it is, and copies it into the
+ * payload byte (save_data_payload.c:151, :156-157, :160;
+ * SaveData_BuildPayload.s:15-16, then :23-24 lbu for the payload copy).
+ * Options_Init reads it into an s8 it copies into gOptions_bOutputType and
+ * tests `< 0` (options_screen.c:103, :105-106; Options_Init.s:34-35 lbu).
+ * Sound_InitFrontend stores -1 (sound_frontend.c:15) and Options_HandleInput
+ * stores 1 or 0 (options_screen.c:143, :150). Every retail access is a byte
+ * at the symbol itself, the payload copies one byte, nothing in the tree
+ * reaches +1, and every declarer said s8. */
 extern s8 gSD_bOutputType;
 
 #endif

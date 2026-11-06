@@ -25,13 +25,7 @@ extern u8 gModel_bBlendRateActive;
 extern u16 gModel_wDrawTintRedGreen;
 extern u8 gModel_bDrawTintBlue;
 extern u8 gModel_bPresentationTimer;
-/* The control dispatcher needs split absolute addresses for these calls.
- * Its unknown-bound view changes no storage extent. */
-#ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 extern char gModel_szWhyTrace[];
-#else
-extern char gModel_szWhyTrace[8];
-#endif
 typedef union {
     u32 word;
     u8 bytes[4];
@@ -61,34 +55,19 @@ typedef char ModelDebugDisplayState_size_must_be_4[
 ];
 
 extern ModelDebugDisplayState gModelDebug_Display;
-#ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
-/* The debug controller uses absolute string addresses. Their definitions
- * retain eight bytes each (four for B02C); no larger backing is implied. */
+/* Defined in model.c with eight bytes each (four for the line break); declared
+ * with an unknown bound, so the debug controller reaches them through absolute
+ * addresses as retail does. */
 extern char gModelDebug_szNormalColor[];
 extern char gModelDebug_szSelectedColor[];
 extern char gModelDebug_szDigitFormat[];
 extern char gModelDebug_szVersusSeparator[];
 extern char gModelDebug_szLineBreak[];
-#else
-extern char gModelDebug_szNormalColor[8];
-extern char gModelDebug_szSelectedColor[8];
-extern char gModelDebug_szDigitFormat[8];
-extern char gModelDebug_szVersusSeparator[8];
-extern char gModelDebug_szLineBreak[4];
-#endif
-#ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 extern char gModel_szBackTrace[];
 extern char gModel_szStoneTrace[];
 extern char gModel_szHitTrace[];
 extern char gModel_szOuchTrace[];
 extern char gModel_szTermTrace[];
-#else
-extern char gModel_szBackTrace[8];
-extern char gModel_szStoneTrace[8];
-extern char gModel_szHitTrace[8];
-extern char gModel_szOuchTrace[8];
-extern char gModel_szTermTrace[8];
-#endif
 
 extern const char gModel_szContinueTrace[];
 
