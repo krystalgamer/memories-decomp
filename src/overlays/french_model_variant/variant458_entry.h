@@ -19,7 +19,7 @@
 typedef struct {
     u8 unknown_00[4], parts[7], unknown_0B[5];
     s32 draw_start, sheet_start, sheet_end;
-    u8 unknown_1C[0xC];
+    s32 move_start, move_end, fade_start;
 } EntryConfig458;
 
 typedef struct {
