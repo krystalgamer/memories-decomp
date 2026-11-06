@@ -12,7 +12,7 @@ typedef struct {
     u8 parts[3], unknown_13[5];
     u16 count, unknown_1A;
     s32 start;
-    u8 unknown_20[0xC];
+    s32 expansion_start, expansion_end, fade_start;
     s32 end;
 } Variant441EntryConfig;
 

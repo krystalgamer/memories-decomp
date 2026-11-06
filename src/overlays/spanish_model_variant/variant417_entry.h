@@ -12,7 +12,7 @@ typedef struct {
     u8 parts[3], unknown_13[5];
     u16 count, unknown_1A;
     s32 start;
-    u8 unknown_20[0x10];
+    s32 expansion_start, expansion_end, fade_start, fade_end;
     u16 size, unknown_32;
     u8 unknown_34[4];
     s32 offset[3];

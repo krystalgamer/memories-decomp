@@ -10,10 +10,11 @@ typedef struct {
     u8 unknown_0C[4];
     u8 parts[3], unknown_13[9];
     u32 start;
-    u8 unknown_20[0x10];
+    u8 unknown_20[8];
+    u32 fade_start, fade_end;
     s32 offset[3];
     u16 sheet_size, unknown_3E;
-    u8 unknown_40[4];
+    s32 radius;
     s32 size;
 } Variant438EntryConfig;
 

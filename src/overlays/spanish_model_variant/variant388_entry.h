@@ -9,10 +9,9 @@ typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
     u16 count, unknown_0E;
-    u32 sheet_start;
-    u8 unknown_14[8];
-    u32 track_end;
-    u8 unknown_20[4];
+    u32 sheet_start, grow_end;
+    u8 unknown_18[4];
+    u32 track_end, shrink_end;
 } Variant388EntryConfig;
 
 typedef struct {

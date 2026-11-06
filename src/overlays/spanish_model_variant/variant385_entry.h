@@ -9,12 +9,13 @@ typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
     u16 count, unknown_0E;
-    u8 unknown_10[4];
+    s32 width;
     s32 inner_radius, outer_radius;
     u8 unknown_1C[0xC];
     s32 size;
     u32 start;
-    u8 unknown_30[0x10];
+    u8 unknown_30[4];
+    u32 expansion_end, fade_start, fade_end;
     s32 offset[3];
 } Variant385EntryConfig;
 

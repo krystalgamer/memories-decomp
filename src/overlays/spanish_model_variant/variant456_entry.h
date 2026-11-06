@@ -10,7 +10,7 @@ typedef struct {
     CVECTOR web, color, secondary;
     u8 part, unknown_0D[7];
     u32 sheets_start, lines_start;
-    u8 unknown_1C[8];
+    u32 fade_start, fade_end;
     u32 phase_start, track_end;
 } Variant456EntryConfig;
 
