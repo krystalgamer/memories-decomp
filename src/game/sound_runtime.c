@@ -1,5 +1,4 @@
 #define SD_POLL_SEQUENCE_STATE_RETURNS_S16
-#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 #include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"

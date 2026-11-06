@@ -6,7 +6,7 @@
 #define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
     ((SDSecondaryObject *)((u8 *)(state) + (offset)))
 
-void SD_KeyOffSecondaryObject(int index)
+void SD_KeyOffSecondaryObject(s32 index)
 {
     int table_offset = index << 2;
     int object_offset = (table_offset + index) << 3;

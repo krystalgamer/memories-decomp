@@ -1,6 +1,5 @@
 #include "../../types.h"
 #ifndef EUROPEAN_LANGUAGE_BUILD
-#define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "../../psyq/libetc.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"

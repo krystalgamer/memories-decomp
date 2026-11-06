@@ -23,11 +23,9 @@ start, cancel or service a transfer, and this predicate is not a promise
 that every possible kind of device I/O is idle. The BGM control command's
 high opcode bit selects this state after its existing operation.
 
-The fade wait keeps the literal comparison with one. The current query
-reads the sound driver's fade step, but the callback deliberately still
-passes its effect object in `$a0`. Retain the
-`SD_IS_BGM_FADE_ACTIVE_IGNORES_OBJECT` declaration arm and call expression;
-do not strengthen the caller to the callee's zero-argument view. The fade
+The fade wait keeps the literal comparison with one. The query reads
+the sound driver's fade step and takes no argument; the callback's effect
+object is simply still in `$a0`. The fade
 command's high operand bit selects this state.
 
 The file-state declaration arms, widths and qualifiers stay fixed. In

@@ -26,7 +26,7 @@ int SD_OpenSequence(u8 *input, short vab_id)
     return -1;
 }
 
-void SD_PlaySequence(s32 start)
+void SD_PlaySequence(s32 start, s32 unused)
 {
     u8 one = 1;
 
@@ -77,7 +77,7 @@ void SD_PlaySequenceFastForward(s32 target)
     }
 }
 
-void SD_StopSequence(void)
+void SD_StopSequence(s32 unused)
 {
     SDSecondaryState *initial = gSD_pSecondaryState;
 
@@ -97,7 +97,7 @@ void SD_StopSequence(void)
     }
 }
 
-void SD_CloseSequence(void)
+void SD_CloseSequence(s32 unused)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
 

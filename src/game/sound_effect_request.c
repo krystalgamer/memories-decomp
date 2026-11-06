@@ -1,4 +1,3 @@
-#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 #include "sound_output_state.h"
 #include "sound.h"

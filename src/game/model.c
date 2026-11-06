@@ -5,7 +5,6 @@
  * .rodata, .sdata, .sbss and .bss are each contiguous too, so they were one
  * translation unit: each part reads the others' small data through $gp. */
 #include "../types.h"
-#define FUNC_80058434_CALL_WITH_UNUSED_ARG
 
 #include "model_record_tables.h"
 #include "model_background.h"
@@ -456,9 +455,6 @@ const char gModel_szLoadModelTraceFormat[] = "LoadModelDO(%d)=%03X\n";
  * controllers (animated battle, Exodia, Model_UpdateCreditsMonsterSlot, credits), the
  * Model_StartBattleSlotAction/Model_PlaySlotAnimationSounds pair, and the camera/view correction, tint,
  * camera-move setup and scene reset/configuration functions.
- *
- * FUNC_80058434_CALL_WITH_UNUSED_ARG, defined at the top of the file, is the
- * scene setup functions' view of Model_StepViewOrbit.
  */
 
 #include "../psyq/libetc.h"

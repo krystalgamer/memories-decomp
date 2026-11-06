@@ -487,7 +487,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
             if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                ((void (*)(DisplayObject *))DisplayObject_UpdateCommandStream)((DisplayObject *)q);
+                DisplayObject_UpdateCommandStream((DisplayObject *)q);
                 DisplayObject_RenderSpriteSheet(
                     (DisplayObject *)q, t[p->ot_index],
                     (s16)p->ot_depth
@@ -1375,23 +1375,19 @@ void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
    decrements it by gGraphics_nBaseFrameStep and fires DisplayObjectStream_ReadNextCommand
    once it reaches zero or below.
 
-   script and attribute are read, not just written. The first-time path assigns
-   both before jumping to the call, but the cooldown path falls into the
-   same call with neither assigned, so on that path they are whatever the
-   caller left in $a1 and $a2. All three callers pass one argument, so on the
-   cooldown path DisplayObjectStream_ReadNextCommand receives two values the
-   caller never supplied. That is what the retail image does. Declaring the
-   real three-argument prototype at a call site makes the call a constraint
-   violation, and passing arguments to satisfy it adds the register setup and
-   breaks the match, so all three callers select the guarded one-argument
-   declaration on purpose.
+   script and attribute are locals. The first-time path assigns both before
+   jumping to the call, but the cooldown path reaches the same call with
+   neither assigned, so there they are whatever $a1 and $a2 still hold, as in
+   the retail image.
 
    The three chain steps use separately-named pointer/offset locals
    (p1/off1, p2/off2, p3/off3) rather than one reused pair -- reusing a
    single pair compiles to the same logic but gcc allocates a spare
    register (a0) for the 2nd/3rd steps instead of matching the ROM's
    plain v0/v1 reuse. */
-void DisplayObject_UpdateCommandStream(DisplayObject *object, s32 script, s32 attribute) {
+void DisplayObject_UpdateCommandStream(DisplayObject *object) {
+    s32 script;
+    s32 attribute;
     u8 *base;
     u8 *p;
 

@@ -22,10 +22,8 @@
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
 #include "../../game/display_object_helpers.h"
-#define DISPLAY_OBJECT_RELEASE_IF_PRESENT_AMBIENT_OBJECT
 #include "../../game/display_object_core.h"
 #include "../../game/text_box_update_channels.h"
-#define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
 #include "../../game/display_object_update_command_stream.h"
 #include "../../game/main_start_duel.h"
 #include "../../game/display_object_config.h"
@@ -47,12 +45,7 @@
    One unit settles the sparkle path's types from allocation through release:
    FreeDuel_SpawnSparkle returns DisplayObject *, the pool stores those
    pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **. The cursor
-   and thumb use the same record; signed coordinate reads are explicit.
-
-   DisplayObject_ReleaseIfPresent uses display_object_core.h's guarded `void (void)` arm. The
-   sparkle updater's call passes no argument, so taking the normal
-   `void DisplayObject_ReleaseIfPresent(void *)` declaration would make the compiler set up an
-   argument retail does not. */
+   and thumb use the same record; signed coordinate reads are explicit. */
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR) || \
@@ -392,7 +385,7 @@ void FreeDuel_UpdateSparkle(void)
             timer = obj->field_60 - 1;
             obj->field_60 = timer;
             if (timer == 0) {
-                DisplayObject_ReleaseIfPresent();
+                DisplayObject_ReleaseIfPresent(obj);
                 gFreeDuel_apSparklePool[i] = 0;
             }
         }

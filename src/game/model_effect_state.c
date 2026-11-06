@@ -8,7 +8,6 @@
 #include "model_update_view_metrics.h"
 #include "model_copy_slot_position.h"
 #include "model.h"
-#define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "model_step_view_orbit.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"

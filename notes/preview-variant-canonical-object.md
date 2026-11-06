@@ -17,9 +17,7 @@ At the canonical-type checkpoint, only the parameter type and
 `source->variant` spelling changed. Preserve the `DisplayObjectConfig *object`
 narrow helper view, integer fallback `2`, negative-argument path, byte load,
 current selector comparison, setter/update/rerun order and all casts.
-The one-object `DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS`
-selection remains; no values for ambient script/attribute arguments are
-inferred.
+`DisplayObject_UpdateCommandStream` takes only the object.
 
 The same selector requests no setter/update/rerun write. A changed selector
 sets the resource variant, then updates the command stream, then writes
