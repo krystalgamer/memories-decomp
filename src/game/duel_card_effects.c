@@ -246,7 +246,7 @@ done:
         return;
     }
 
-    tb = gDuel_abFieldGridCardRecordIndices[0];
+    tb = gDuel_abFieldGridCardRecordIndices.flat;
     sp = &gDuel_wMonsterRemovalZone;
     rb = (u8 *)gDuel_aCardRecords;
     goto head;
@@ -276,7 +276,7 @@ head:
     }
 
 hit:
-    e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][
+    e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[
         gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
@@ -310,7 +310,7 @@ void DuelEffect_ApplyStopDefense(void) {
             if (gDuelEffect_pTrackedRequest->progress != 0) {
                 n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
-                c = gDuel_abFieldGridCardRecordIndices[0][gDuel_sEffectWorkCounter + n];
+                c = gDuel_abFieldGridCardRecordIndices.flat[gDuel_sEffectWorkCounter + n];
                 r = &gDuel_aCardRecords[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
@@ -392,7 +392,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
     if ((f & 0x40) != 0) {
         i = DUEL_FIELD_ROW_SIZE;
         while (1) {
-            p = (DuelCardRecord *)(gDuel_abFieldGridCardRecordIndices[0][
+            p = (DuelCardRecord *)(gDuel_abFieldGridCardRecordIndices.flat[
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ] * DUEL_CARD_RECORD_SIZE + (u8 *)gDuel_aCardRecords);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
@@ -465,7 +465,7 @@ void DuelEffect_ApplyRaigeki(void) {
         n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
         r = (DuelCardRecord *)((u8 *)gDuel_aCardRecords +
-            gDuel_abFieldGridCardRecordIndices[0][gDuel_sEffectWorkCounter + n] * DUEL_CARD_RECORD_SIZE);
+            gDuel_abFieldGridCardRecordIndices.flat[gDuel_sEffectWorkCounter + n] * DUEL_CARD_RECORD_SIZE);
         v = r->flags & 0x8000;
         gDuel_sEffectWorkCounter = *(u16 *)&gDuel_sEffectWorkCounter + 1;
         if (v != 0) {
@@ -532,7 +532,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
-            record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][
+            record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
             /* The retail code tests the two halfwords at +0x14 as one
                word; 0x90000000 selects bits 0x9000 of flags at +0x16. */
@@ -580,7 +580,7 @@ void DuelEffect_ApplyStatPenalty(void) {
 
     base_slot = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                 DUEL_FIELD_ROW_SIZE;
-    record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][(s16)gDuel_wStepCounter + base_slot]];
+    record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[(s16)gDuel_wStepCounter + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
         object = DuelEffect_AllocateRequest(0xD);

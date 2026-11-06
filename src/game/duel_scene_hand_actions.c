@@ -570,7 +570,7 @@ void DuelScene_UpdateHandActions(void)
             }
         } else if (DuelCursor_UpdateFromInput(gDuel_pActiveSelectionRecord) == 0) {
             value = Duel_GetCardViewerRequestId(
-                &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][HAND_ACTIONS_VIEWER_CELL +
+                &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[HAND_ACTIONS_VIEWER_CELL +
                                        gDuel_bActiveSide * 20]]);
             if (value != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
@@ -591,7 +591,7 @@ void DuelScene_UpdateHandActions(void)
                     gDisplayObject_apWorkSlots.slots[n] = 0;
                 }
                 n = gDuel_pActiveSelectionRecord->row * 5 + gDuel_pActiveSelectionRecord->col;
-                value = gDuel_abFieldGridCardRecordIndices[0][n + gDuel_bActiveSide * 20];
+                value = gDuel_abFieldGridCardRecordIndices.flat[n + gDuel_bActiveSide * 20];
                 card = &gDuel_aCardRecords[value];
                 gDuel_bCardMoveSlot = value;
                 i = 0;

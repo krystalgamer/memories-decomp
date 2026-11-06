@@ -30,13 +30,19 @@ typedef struct {
  * Duel_InitScene (src/game/duel_init_scene.c) and
  * DuelScene_UpdateTurnSwitch (src/game/duel_scene_battle.c) both
  * build a per-side cursor as
- * &gDuel_abFieldGridCardRecordIndices[0][gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT].
+ * &gDuel_abFieldGridCardRecordIndices.flat[gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT].
  *
- * Declared in its real shape. DuelEffect_ApplySwords indexes it [side][slot];
- * the other readers walk it flat from the first row, [0][side * 20 + slot].
- * Both are array references to the one object; casting it to u8 * instead
- * changes the operand order of the indexing addu in retail's functions. */
-extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+ * The 40 bytes are read both ways: DuelEffect_ApplySwords indexes
+ * rows[side][slot], and the other readers walk flat[side * 20 + slot]. The
+ * union gives each a correctly bounded array over the one object. Both are
+ * array references; casting the object to u8 * instead changes the operand
+ * order of the indexing addu in retail's functions. */
+typedef union DuelFieldGrid {
+    u8 flat[DUEL_SIDE_COUNT * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+    u8 rows[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+} DuelFieldGrid;
+
+extern DuelFieldGrid gDuel_abFieldGridCardRecordIndices;
 
 /* The hand table defined immediately before that grid, in the same unit:
  * duel_field_layout.c has it as

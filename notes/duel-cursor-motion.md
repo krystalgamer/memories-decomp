@@ -405,10 +405,10 @@ reach the live record. Scene initialization and turn switch retain a
 pointer to the selected 20-byte perspective. All selection arithmetic,
 byte reads, side strides and stored-pointer behavior stay unchanged.
 
-Every unit declares the real two-dimensional array. `DuelEffect_ApplySwords`
-indexes it `[side][slot]` and the flat readers index the first row,
-`[0][side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + slot]`.
-`DuelEffect_ApplyDarkPiercingLight` reads it as `[0][i + side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]`,
+Every unit declares the one `DuelFieldGrid` union. `DuelEffect_ApplySwords`
+indexes it `.rows[side][slot]` and the flat readers index the whole 40 bytes,
+`.flat[side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + slot]`.
+`DuelEffect_ApplyDarkPiercingLight` reads it as `.flat[i + side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]`,
 which gives the retail `sym(index)` addressing that its former `[side][i]`
 view produced. The Japanese symbol file binds
 `gDuel_abFieldGridCardRecordIndices` directly at `0x80090688`. Its unrelated result table at numeric `0x800907D8`, and the

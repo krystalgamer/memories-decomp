@@ -219,7 +219,7 @@ void DuelEffect_ApplySwords(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
-                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_SELECTOR_VOLATILE][slot]];
+                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.rows[DUEL_SIDE_SELECTOR_VOLATILE][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
                     0x90000000) {
                     DuelFieldEffectObject *current;
@@ -281,7 +281,7 @@ void DuelEffect_ApplyCursebreaker(void) {
            selected record uses DuelFieldPosition, with u16 member views to
            retain retail's unsigned halfword loads. */
         do {
-            grid = gDuel_abFieldGridCardRecordIndices[0];
+            grid = gDuel_abFieldGridCardRecordIndices.flat;
             base_slot = DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                         DUEL_FIELD_SIDE_ZONE_COUNT;
         } while ((s16)next == 0 && (s16)next != 0);
@@ -612,7 +612,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
             int position =
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
             DuelCardRecord *entry =
-                &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][position]];
+                &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[position]];
 
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 DuelCard_RemoveFromField(entry);

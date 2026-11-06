@@ -338,7 +338,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     }
 
     gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->row_min;
-    c = gDuel_abFieldGridCardRecordIndices[0][
+    c = gDuel_abFieldGridCardRecordIndices.flat[
         gDuel_pActiveSelectionRecord->row * DUEL_FIELD_ROW_SIZE +
         gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ];
