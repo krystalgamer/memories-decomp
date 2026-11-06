@@ -1878,3 +1878,6 @@ gScript_pMenuRecord = 0x8009C634;
 gCampaignSceneIndex = 0x8009C638;
 gScript_WaitCounter = 0x8009C640;
 D_8009C22C_sles_03947 = 0x8009C64C;
+gDisplayEffect_aMenuRecords = 0x800EC2A8;
+gText_aChannels = 0x800F0850;
+gMain_aAnimatedBattleModels = 0x800F09E0;

@@ -6,6 +6,12 @@
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+u8 gDialog_bChoiceControl;
+s8 gDialog_bChoiceCount;
+
 s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
     if (DUEL_EFFECT_SIGNED_HALFWORD(object->pen_x) >= object->rect_width) {
         object->pen_x = 0;

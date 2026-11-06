@@ -2569,3 +2569,5 @@ gLibCd_nDeferredStreamInterrupt = 0x800F5D44;
 gLibrary_sCapturedReferenceY = 0x80181002;
 gLibrary_sSampledReferenceY = 0x80181012;
 gDuelEffect_aOccupancyValues = 0x800EAF08;
+gDisplayEffect_aMenuRecords = 0x800EB010;
+gText_aChannels = 0x800EB0F8;

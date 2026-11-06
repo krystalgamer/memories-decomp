@@ -19,9 +19,6 @@
     "src/game/european/model_keyframe_update.c",
     "src/game/european/model_scene_controllers.c",
     "src/game/european/script_op_show_dialog.c",
-    "src/game/european/text_box_build_step.c",
-    "src/game/european/text_box_runtime.c",
-    "src/game/european/text_control_commands.c",
     "src/game/french/debug_menu_editor_entries.c",
     "src/game/german/debug_menu_editor_entries.c",
     "src/game/italian/debug_menu_editor_entries.c",
@@ -37,9 +34,6 @@
     "src/game/japanese/model_scene_controllers.c",
     "src/game/japanese/script_op_duel_result.c",
     "src/game/japanese/script_op_show_dialog.c",
-    "src/game/japanese/text_box_build_step.c",
-    "src/game/japanese/text_box_runtime.c",
-    "src/game/japanese/text_control_commands.c",
     "src/game/main_mode_runners.c",
     "src/game/main_run_animated_battle.c",
     "src/game/main_run_campaign.c",
@@ -53,10 +47,6 @@
     "src/game/script_op_show_dialog.c",
     "src/game/spanish/debug_menu_editor_entries.c",
     "src/game/spanish/duel_result_runtime.c",
-    "src/game/spanish/model_scene_controllers.c",
-    "src/game/text_box_build_step.c",
-    "src/game/text_box_runtime.c",
-    "src/game/text_box_wrap_line.c",
-    "src/game/text_control_commands.c"
+    "src/game/spanish/model_scene_controllers.c"
   ]
 }
