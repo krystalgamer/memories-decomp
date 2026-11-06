@@ -103,10 +103,7 @@ void Password_RefreshDigitDisplay(void)
 #else
     TextBox_Create(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
 #endif
-#ifdef VERSION_JAPAN
-    TextBox_BuildBlocking(
-        (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0xC0));
-#elif defined(VERSION_EUROPE)
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     TextBox_BuildBlocking(TEXT_CHANNEL(2));
 #else
     boxes = gText_aChannels;
@@ -129,10 +126,7 @@ void Password_RefreshStarchipDisplay(void)
     DuelEffect_SetEntryRangeLayout(3, 1);
 #endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
-#ifdef VERSION_JAPAN
-    TextBox_BuildBlocking(
-        (struct DuelEffectChannel *)((u8 *)gText_aChannels + 0x120));
-#elif defined(VERSION_EUROPE)
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     TextBox_BuildBlocking(TEXT_CHANNEL(3));
 #else
     boxes = gText_aChannels;

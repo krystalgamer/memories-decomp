@@ -54,15 +54,13 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
     register int offset = index << 1;
-#ifdef VERSION_JAPAN
-    JapaneseDuelEffectChannel *e;
-    unsigned char *range;
-    e = &((JapaneseDuelEffectChannel *)gText_aChannels)[index];
-#else
     DuelEffectChannel *e;
+#ifdef VERSION_JAPAN
+    unsigned char *range;
+#else
     unsigned short *range;
-    e = &gText_aChannels[index];
 #endif
+    e = &gText_aChannels[index];
     flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
 #ifdef VERSION_JAPAN
     e->line_advance_y = 16;

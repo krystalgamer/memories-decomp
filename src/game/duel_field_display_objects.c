@@ -249,11 +249,7 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
     source->cursor_object = object;
 }
 
-#ifndef DUEL_FIELD_DISPLAY_CHANNEL_TYPE
-#define DUEL_FIELD_DISPLAY_CHANNEL_TYPE DuelEffectChannel
-#endif
-#define DUEL_FIELD_DISPLAY_CHANNEL(index) \
-    ((DuelEffectChannel *)&((DUEL_FIELD_DISPLAY_CHANNEL_TYPE *)gText_aChannels)[index])
+#define DUEL_FIELD_DISPLAY_CHANNEL(index) (&gText_aChannels[index])
 
 /* The empty do-while loops are scheduling barriers. The first keeps the
  * gDuel_wDisplayTransitionFlags load above the entry test and `result = 0` below the view

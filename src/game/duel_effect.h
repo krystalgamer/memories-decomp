@@ -44,22 +44,8 @@
  * not move the object between sections. */
 extern u8 gDuelEffect_aOccupancyValues[DUEL_EFFECT_OCCUPANCY_COUNT];
 
-/* Japan's text-box unit defines the channels as raw 0x60-byte records. */
-#ifndef TEXT_CHANNELS_JAPANESE_STORAGE
 extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
-#endif
-/* Channel `index` of gText_aChannels. Japan's channel records are 0x60
- * bytes rather than sizeof(DuelEffectChannel), so its units select the
- * smaller stride (VERSION_JAPAN, or an explicit TEXT_CHANNEL_SIZE). */
-#ifndef TEXT_CHANNEL_SIZE
-#ifdef VERSION_JAPAN
-#define TEXT_CHANNEL_SIZE 0x60
-#else
-#define TEXT_CHANNEL_SIZE sizeof(DuelEffectChannel)
-#endif
-#endif
-#define TEXT_CHANNEL(index) \
-    ((DuelEffectChannel *)((u8 *)gText_aChannels + (index) * TEXT_CHANNEL_SIZE))
+#define TEXT_CHANNEL(index) (&gText_aChannels[index])
 
 /* The selected card's encoded guardian glyph. DuelField_CreateCardInfoTextBox stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and

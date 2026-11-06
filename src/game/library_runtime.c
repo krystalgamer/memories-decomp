@@ -233,19 +233,12 @@ DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){Display
 #ifndef LIBRARY_CARD_ZOOM_MIN_SCALE
 #define LIBRARY_CARD_ZOOM_MIN_SCALE 0xD8
 #endif
-#ifndef LIBRARY_EFFECT_CHANNEL_STRIDE
-#define LIBRARY_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
-#endif
 #ifndef LIBRARY_CARD_VIEW_CANCEL_BUTTON
 #define LIBRARY_CARD_VIEW_CANCEL_BUTTON PAD_BUTTON_CIRCLE
 #endif
 #ifndef LIBRARY_CARD_VIEW_ACTION_MASK
 #define LIBRARY_CARD_VIEW_ACTION_MASK 0x20C0
 #endif
-
-#define LIBRARY_EFFECT_CHANNEL(index) \
-    ((DuelEffectChannel *)((u8 *)gText_aChannels + \
-                           (index) * LIBRARY_EFFECT_CHANNEL_STRIDE))
 
 void Library_UpdateCardView(LibraryState *state)
 {
@@ -440,7 +433,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.display_objects.all[i]->flags &= 0xFFBF;
                 i++;
             } while (i < 9);
-            H(LIBRARY_EFFECT_CHANNEL(3)->render_object, 8) &= 0xFFBF;
+            H(TEXT_CHANNEL(3)->render_object, 8) &= 0xFFBF;
             state->motion.card_view_phase = 3;
             SD_SEPlayFull(0x31);
     case 3:
@@ -607,7 +600,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
             } while (i < 9);
-            H(LIBRARY_EFFECT_CHANNEL(3)->render_object, 8) |= 0x40;
+            H(TEXT_CHANNEL(3)->render_object, 8) |= 0x40;
             gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
             state->motion.card_view_slide_phase = 2;
@@ -651,7 +644,6 @@ void Library_UpdateCardView(LibraryState *state)
 #undef H
 #undef S
 #undef W
-#undef LIBRARY_EFFECT_CHANNEL
 
 void Library_EnterGridState(LibraryState *state)
 {

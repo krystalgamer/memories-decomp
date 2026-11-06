@@ -57,9 +57,6 @@ u16 gDuel_wViewerCardID;
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
-#ifndef DUEL_CARD_VIEWER_CHANNEL_TYPE
-#define DUEL_CARD_VIEWER_CHANNEL_TYPE DuelEffectChannel
-#endif
 #ifndef DUEL_CARD_VIEWER_SHOWN_X
 #define DUEL_CARD_VIEWER_SHOWN_X 0x94
 #endif
@@ -79,7 +76,7 @@ void DuelEffect_UpdateCardViewerState(void)
     DisplayObject *next_obj;
     s32 *stats;
     DuelEffectChannel *box;
-    DUEL_CARD_VIEWER_CHANNEL_TYPE *chan;
+    DuelEffectChannel *chan;
     DuelEffectChannel *pos_box;
     DuelEffectChannel *dead_box;
     s32 adj;
@@ -146,9 +143,9 @@ void DuelEffect_UpdateCardViewerState(void)
         stats = gDuel_adwCardStats;
 #ifdef VERSION_EUROPE
         for (; i < 3; i++) {
-            chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)((u8 *)gText_aChannels + i * 100);
+            chan = (DuelEffectChannel *)((u8 *)gText_aChannels + i * 100);
 #else
-        chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)gText_aChannels;
+        chan = gText_aChannels;
         for (; i < 3; i++, chan++) {
 #endif
             if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {

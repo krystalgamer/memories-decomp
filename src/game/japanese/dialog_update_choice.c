@@ -5,6 +5,7 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * as is. */
 
+#define VERSION_JAPAN
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
 #define DIALOG_UPDATE_CHOICE_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)

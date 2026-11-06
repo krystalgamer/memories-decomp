@@ -30,10 +30,6 @@
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
-#ifndef FUNC_80035E20_CHANNEL_TYPE
-#define FUNC_80035E20_CHANNEL_TYPE DuelEffectChannel
-#endif
-
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 #ifdef VERSION_EUROPE
 #define GLYPH_FLAGS_OFFSET (-6)
@@ -155,9 +151,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     *(u32 *)&sprites[0]->cx = obj->field_40.word;
     sprites[0]->tpage = obj->field_66;
     sprites[1]->tpage = sprites[2]->tpage = 0xB;
-    p = (u8 *)((DuelEffectChannel *)&((FUNC_80035E20_CHANNEL_TYPE *)
-                                          gText_aChannels)[obj->field_67])
-            ->entry_begin + 0x14;
+    p = (u8 *)gText_aChannels[obj->field_67].entry_begin + 0x14;
 #endif
 
     while (1) {

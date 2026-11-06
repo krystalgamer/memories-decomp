@@ -92,11 +92,7 @@ int Duel_IsPlayerDeckComplete(void)
 #define SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG 8
 #define SAVE_PROMPT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
-#ifndef SAVE_PROMPT_CHANNEL_TYPE
-#define SAVE_PROMPT_CHANNEL_TYPE DuelEffectChannel
-#endif
-#define SAVE_PROMPT_CHANNEL(index) \
-    ((DuelEffectChannel *)&((SAVE_PROMPT_CHANNEL_TYPE *)gText_aChannels)[index])
+#define SAVE_PROMPT_CHANNEL(index) (&gText_aChannels[index])
 
 /* Save-prompt dialog step for the campaign script.
  *

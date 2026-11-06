@@ -171,7 +171,7 @@ void NameEntry_Init(void)
 #endif
     TextBox_Create(3, 254, 112, 204, 96, 16);
 #ifdef VERSION_JAPAN
-    TextBox_BuildBlocking((struct DuelEffectChannel *)&((JapaneseDuelEffectChannel *)gText_aChannels)[3]);
+    TextBox_BuildBlocking(TEXT_CHANNEL(3));
 #else
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 16;
@@ -270,7 +270,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 
 #if defined(VERSION_JAPAN)
     node = (JapaneseDuelEffectEntry *)
-        ((DuelEffectChannel *)&((JapaneseDuelEffectChannel *)gText_aChannels)[index])->entry_begin;
+        gText_aChannels[index].entry_begin;
 #elif defined(VERSION_EUROPE)
     base = gText_aChannels;
     node = (EuropeanDuelEffectEntry *)base[index].entry_begin;
@@ -571,7 +571,7 @@ extern RECT gNameEntry_aGlyphVramRects[];
 void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 {
     GlyphSprite *obj;
-    NAME_ENTRY_SPAWN_CHANNEL_TYPE *p;
+    DuelEffectChannel *p;
     RECT *r;
     s32 c;
 
@@ -584,7 +584,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         r->w = 4;
         r->h = 16;
         MoveImage(r, ((c & 0xF) << 2) | 0x240, (c & 0xF0) | 0x100);
-        p = &((NAME_ENTRY_SPAWN_CHANNEL_TYPE *)gText_aChannels)[slot];
+        p = &gText_aChannels[slot];
         gNameEntry_bGlyphVramSlot = (gNameEntry_bGlyphVramSlot + 1) & 0xF;
         DisplayObject_ConfigureScreenSprite(
             obj, p->rect_x + w->x_0C, p->rect_y + w->y_0E,
@@ -1153,9 +1153,6 @@ sel_ret:
    the earlier stages. The shop display unit after them has no proven
    ownership in this lifecycle. */
 
-#ifndef NAME_ENTRY_DIALOG_CHANNEL_TYPE
-#define NAME_ENTRY_DIALOG_CHANNEL_TYPE DuelEffectChannel
-#endif
 #ifndef NAME_ENTRY_DIALOG_COMPLETION_MASK
 #define NAME_ENTRY_DIALOG_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
@@ -1314,9 +1311,8 @@ void NameEntry_UpdateDialog(void)
 #ifdef VERSION_EUROPE
         TextBox_BuildBlockingWithGlyphScratch(TEXT_CHANNEL(3));
 #elif defined(VERSION_JAPAN)
-        /* No glyph_advance_x/line_advance_y stores, and 0x60-byte channel records. */
-        TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&(
-            (NAME_ENTRY_DIALOG_CHANNEL_TYPE *)gText_aChannels)[3]);
+        /* No glyph_advance_x/line_advance_y stores. */
+        TextBox_BuildBlockingWithGlyphScratch(TEXT_CHANNEL(3));
 #else
         panel = gText_aChannels;
         panel[3].glyph_advance_x = 16;

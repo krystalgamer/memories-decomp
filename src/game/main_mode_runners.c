@@ -511,11 +511,6 @@ run_credits_scene:
 #ifndef TWO_PLAYER_SETUP_SECOND_BOX_X
 #define TWO_PLAYER_SETUP_SECOND_BOX_X 0xE
 #endif
-/* The text-box channel record; the Japanese one is 0x60 bytes. */
-#ifndef TWO_PLAYER_SETUP_CHANNEL_TYPE
-#define TWO_PLAYER_SETUP_CHANNEL_TYPE DuelEffectChannel
-#endif
-
 void Main_RunTwoPlayerDuelSetup(void)
 {
     s32 result;
@@ -555,8 +550,7 @@ void Main_RunTwoPlayerDuelSetup(void)
             0x30
         );
 #endif
-        TextBox_BuildBlocking((DuelEffectChannel *)&(
-            (TWO_PLAYER_SETUP_CHANNEL_TYPE *)gText_aChannels)[1]);
+        TextBox_BuildBlocking(&gText_aChannels[1]);
         SD_BGMPlay(0x72C0);
         Fade_WaitIn();
     }

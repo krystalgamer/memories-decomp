@@ -9,9 +9,13 @@ existing header or frozen overlay C.
 ## Native views and storage
 
 The North American pool starts at `0x800EB0F8`. The complete channel records
-remain `0x64` bytes in North America and Europe and `0x60` bytes in Japan.
-Every existing native stride, cast, field access and declaration arm remains
-unchanged.
+are `0x64` bytes in North America and Europe and `0x60` bytes in Japan.
+`DuelEffectChannel` in `src/ygo_types.h` carries both shapes: under
+`VERSION_JAPAN` its tail after `line_advance_y` is the byte-sized
+`entry_range_start`, `entry_range_count`, `output_count` and `output_limit`
+(`0x5C`-`0x5F`), and the North American/PAL `field_62`/`pad_63` do not
+exist. Every Japanese unit that touches the pool therefore defines
+`VERSION_JAPAN`, and native strides follow `sizeof(DuelEffectChannel)`.
 
 Canonical includes follow the original selector-dependent declarations.
 Moving `duel_effect.h` ahead of existing per-source selector macros can change
@@ -19,11 +23,8 @@ old-GCC external-symbol directives even when the C instruction text looks
 unchanged; complete compiler and MASPSX output must both be preserved.
 
 Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect.h`,
-which offsets `gText_aChannels` by `index * TEXT_CHANNEL_SIZE`. The stride is
-`sizeof(DuelEffectChannel)` (`0x64`) by default and `0x60` in Japanese units,
-selected by `VERSION_JAPAN` or an explicit `TEXT_CHANNEL_SIZE` in wrappers
-that do not define it (`japanese/duel_scene_update.c`,
-`japanese/library_card_grid.c`). The constant offset folds into the
+which is `&gText_aChannels[index]` with the regional record size. The
+constant offset folds into the
 relocation exactly as the former per-channel names (`D_800EB15C`,
 `D_800EB1C0`, `D_800EB224`, `gText_Channel1`, `gText_Channel3`) did, so no
 separate channel symbol is defined in any image.
@@ -34,10 +35,9 @@ Channel 0's word at pool offset `0x34` (formerly the separate
 and the high halfword is its string ID. No halfword load replaces the
 original word loads or masks.
 
-In Japan the Japanese text-box unit defines `gText_aChannels` itself, as
-`u8[0x180]` at `0x800EAFD8` (four 0x60-byte records). It does this under
-`TEXT_CHANNELS_JAPANESE_STORAGE`, which hides the shared 0x64-byte
-declaration. The literal `D_800EB0F8` address is channel 3
+Each region's text-box unit defines `gText_aChannels` through the shared
+`src/game/text_box_runtime.c` as `DuelEffectChannel[4]`; in Japan that is
+`0x180` bytes at `0x800EAFD8`. The literal `D_800EB0F8` address is channel 3
 (`0x800EAFD8 + 3 * 0x60`). Overlays bind only `gText_aChannels` itself.
 
 The PAL password channel 2/3 imports (formerly `D_800F04F8`/`D_800F055C`)
