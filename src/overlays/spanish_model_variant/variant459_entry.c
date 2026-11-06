@@ -240,21 +240,21 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                 }
             }
         }
-        work->color_30C0.r = 192;
-        work->color_30C0.g = 192;
-        work->color_30C0.b = 192;
-        work->field_30CC = 4096;
+        work->curtain_inner_color.r = 192;
+        work->curtain_inner_color.g = 192;
+        work->curtain_inner_color.b = 192;
+        work->scale = 4096;
         work->field_30CE = 1024;
-        work->color_30C4.r = 0;
-        work->color_30C4.g = 0;
-        work->color_30C4.b = 0;
-        work->field_30C8 = 0;
-        work->field_3094 = 0;
+        work->curtain_outer_color.r = 0;
+        work->curtain_outer_color.g = 0;
+        work->curtain_outer_color.b = 0;
+        work->curtain_angle = 0;
+        work->spiral_angle = 0;
         work->field_3096 = 0;
-        work->field_3098 = 0;
+        work->spiral_size = 0;
         work->field_309A = 0;
         work->field_30BC = 0;
-        work->field_30D0 = 0;
+        work->progress = 0;
         work->field_30D4 = 0;
         work->field_30D8 = 0;
         work->field_30BE = 0;
