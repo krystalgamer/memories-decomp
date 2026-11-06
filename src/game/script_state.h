@@ -13,12 +13,7 @@
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
  * Text_StartViewportTween's signed store is a cast at the use. */
-#if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS) || \
-    defined(SCRIPT_STATE_COMMAND_IN_DATA)
 extern u16 gScript_wCommandWord;
-#else
-extern u16 gScript_wCommandWord;
-#endif
 
 /* The script instruction cursor: a byte pointer walking the script stream.
  *

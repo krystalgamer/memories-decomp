@@ -1,4 +1,3 @@
-#define SCRIPT_STATE_COMMAND_IN_DATA
 #include "../types.h"
 #include "text_box_wrap_line.h"
 #include "input.h"

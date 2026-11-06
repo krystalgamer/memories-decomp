@@ -1,6 +1,5 @@
 #include "../../types.h"
 #ifndef EUROPEAN_LANGUAGE_BUILD
-#define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "../../psyq/libetc.h"
 #include "../../psyq/libgte.h"

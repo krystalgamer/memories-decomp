@@ -5,7 +5,6 @@
  * .rodata, .sdata, .sbss and .bss are each contiguous too, so they were one
  * translation unit: each part reads the others' small data through $gp. */
 #include "../types.h"
-#define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 
 #include "model_record_tables.h"
@@ -458,10 +457,8 @@ const char gModel_szLoadModelTraceFormat[] = "LoadModelDO(%d)=%03X\n";
  * Model_StartBattleSlotAction/Model_PlaySlotAnimationSounds pair, and the camera/view correction, tint,
  * camera-move setup and scene reset/configuration functions.
  *
- * Every feature switch below selects a header view for the whole unit, so it
- * comes before the first include. MODEL_HANDLER_* select retail's split
- * absolute addresses for the intro controllers;
- * FUNC_80058434_CALL_WITH_UNUSED_ARG is the scene setup functions' view.
+ * FUNC_80058434_CALL_WITH_UNUSED_ARG, defined at the top of the file, is the
+ * scene setup functions' view of Model_StepViewOrbit.
  */
 
 #include "../psyq/libetc.h"
@@ -3850,10 +3847,6 @@ void Model_DrawSlot(s32 index)
  * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
  * Model_LoadMonsterMerge through Model_LoadSpecialBattlePackageStage, and
  * Model_ControlSlotAnimation.
- *
- * Every feature switch below selects a header view for the whole unit, so it
- * comes before the first include. MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY is the
- * control step's view; the other three are the staged loader's.
  */
 
 #include "model_link_slot_animation_rows.h"

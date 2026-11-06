@@ -1,4 +1,3 @@
-#define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
 #include "text_stream_read_le.h"
 #include "../psyq/rand.h"
