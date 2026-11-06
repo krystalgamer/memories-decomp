@@ -72,8 +72,7 @@ func_8002C484 = CardGrid_GetRowY;
 
 
 gDuel_bResumeFromAnimatedBattle = 0x8009B259;
-gDuel_wCampaignSceneOnWin = 0x8009B260;
-gDuel_wCampaignSceneOnLoss = 0x8009B262;
+gDuel_awCampaignSceneByOutcome = 0x8009B260;
 gDuel_wAnimatedBattleBgmCommand = 0x8009B264;
 
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;

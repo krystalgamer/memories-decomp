@@ -44,7 +44,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         q = *p;
         v = *q++;
         *p = q;
-        gDuel_wCampaignSceneOnWin = v;
+        gDuel_awCampaignSceneByOutcome[0] = v;
     }
     {
         u8 **p;
@@ -54,7 +54,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         q = *p;
         v = *q++;
         *p = q;
-        gDuel_wCampaignSceneOnLoss = v;
+        gDuel_awCampaignSceneByOutcome[1] = v;
     }
     {
         u8 **p;

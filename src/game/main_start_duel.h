@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Arms a duel: stores side0_controller into gDuel_bSide0ControllerSelector[0], opponent_id into gDuel_bOpponentID and
- * win_scene/loss_scene into the halfwords gDuel_wCampaignSceneOnWin/gDuel_wCampaignSceneOnLoss, resets the terrain and
+ * win_scene/loss_scene into the halfwords gDuel_awCampaignSceneByOutcome[0]/gDuel_awCampaignSceneByOutcome[1], resets the terrain and
  * sets gMain_bActiveModeState to 3.
  *
  * The parameters are s32 even though every store is a byte or a halfword.
