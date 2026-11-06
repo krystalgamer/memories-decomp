@@ -1,6 +1,4 @@
 #include "../../types.h"
-#define D_8009B142_IN_DATA
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../movie_open_stream.h"
 #define MOVIE_FRAME_PIPELINE_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C818-0x8009C838 (#2602); its

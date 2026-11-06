@@ -1,4 +1,3 @@
-#define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_effect.h"
@@ -102,9 +101,7 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
         if (picked != 0) {
             /* Written as absolute literals, not through externs: these two
                are single incidental stores and the target addresses them
-               through $at, which the symbolic form does not do. The third
-               store, to gDuel_bEffectState, reaches the same $at form through the
-               .data arm duel_effect.h declares for it. */
+               through $at, which the symbolic form does not do. */
             *(u16 *) DUEL_VIEWER_CARD_ID_ADDRESS = picked;
             *(u8 *) DUEL_VIEWER_Y_OFFSET_ADDRESS = 0x14;
             gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;

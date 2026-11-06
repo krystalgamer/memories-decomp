@@ -1,17 +1,13 @@
-#define D_8009B118_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_asset_banks.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#define D_800101D8_IN_DATA
 #include "file_transfer.h"
 #include "campaign_map_load_package_stage.h"
 #include "campaign_flags.h"
 #include "file_constants.h"
 #include "../unmatched.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 

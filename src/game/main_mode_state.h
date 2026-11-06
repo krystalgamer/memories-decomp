@@ -15,9 +15,7 @@
  * initialization, and 0x80 for the main-loop reset gate. Both are declared
  * once in main_mode_controls.h; MAIN_MODE_STATE_{NEXT,ACTIVE}_{IN_DATA,
  * AS_ARRAY,AS_SCALAR} select the addressing form each caller needs. */
-#ifdef D_8009B0D1_IN_DATA
-extern u8 D_8009B0D1 __attribute__((section(".data")));
-#elif defined(D_8009B0D1_IS_VOLATILE)
+#if defined(D_8009B0D1_IS_VOLATILE)
 extern volatile u8 D_8009B0D1;
 #else
 extern u8 D_8009B0D1;

@@ -1,5 +1,3 @@
-#define D_8009B142_IN_DATA
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x800F5750-0x800F5768, defined in

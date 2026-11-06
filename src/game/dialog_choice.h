@@ -16,52 +16,38 @@
  *   gDialog_bChoiceCount    How many are offered; read into an s32 and set to
  *                           4 and 7 at different prompts.
  *
- * Script_OpSavePrompt also clears gDialog_bChoiceCount and needs the absolute
- * .data addressing, so it selects GDIALOG_CHOICE_COUNT_IN_DATA below.
- *
  * WAS NOT HERE, AND NOW IS
  *
  * gDialog_bChoice used to be listed here as deliberately left out: declared
  * eleven times in four ways, with the array spelling unexplained. It is no
  * longer left out -- all three spellings are arms below, the last of them
  * added for DuelScene_Update, which was the one source still declaring it
- * privately.
- */
+ * privately. */
 extern u8 gDialog_bChoiceEnabled;
-#ifdef GDIALOG_CHOICE_COUNT_IN_DATA
-extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
-#else
 extern s8 gDialog_bChoiceCount;
-#endif
 
 /* The selected index the other two are read against. #3149 left this out
  * because it is declared eleven times in four spellings; sorting those into
  * addressing groups, as #3154 sets out, reduces it to one question that has
  * now been measured.
  *
- * Five sources spell it `s8` with a .data section attribute and one spells it
- * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data.
- * The `[9]` source now includes this header and selects the arm by name;
- * the five .data ones still do not. The card-move presentation
- * also needs an absolute load and selects GDIALOG_CHOICE_IN_DATA here.
+ * One source spells it `s8 [9]`, the lever that keeps it out of -G8 small
+ * data at the compiler; it includes this header and selects that view by
+ * name.
  *
  * Of the five that reach it from small data, four spelled it s8 and
  * Dialog_ReadChoiceInput (dialog_choice_cursor.c) uses a u8 local. That was an abstention rather
  * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
  * assigning straight into a u8 local, so the load's signedness does not
- * survive. Taking s8 there builds byte for byte.
- */
-/* The sixth spelling is the array one, and it is a codegen input like the
- * section attribute above rather than a claim about the object. Nine bytes
+ * survive. Taking s8 there builds byte for byte. */
+/* The array spelling is a codegen input rather than a claim about the
+ * object. Nine bytes
  * clears the -G8 threshold, so the reference is not small data and the
  * assembler expands it; the unit that needs it reads only [0], which is the
  * same byte the scalar arms name. DuelScene_Update is its one consumer and
- * selects GDIALOG_CHOICE_SIZED; the two arms below are untouched for the
- * five sources that use them. */
-#ifdef GDIALOG_CHOICE_SIZED
+ * selects GDIALOG_CHOICE_SIZED; every other source uses the scalar. */
+#if defined(GDIALOG_CHOICE_SIZED)
 extern s8 gDialog_bChoice[9];
-#elif defined(GDIALOG_CHOICE_IN_DATA)
-extern s8 gDialog_bChoice __attribute__((section(".data")));
 #else
 extern s8 gDialog_bChoice;
 #endif

@@ -1,6 +1,4 @@
-#define D_8009B318_IN_DATA
 #include "../types.h"
-#define D_8009B142_IN_DATA
 #include "graphics_frame.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"

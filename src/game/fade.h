@@ -10,15 +10,9 @@
 
 extern FadeTransitionState gFade_State;
 
-/* The fade-active flag. Five of the fade family reach it through $gp (small
- * data) and take the plain arm below. graphics_frame.c reaches it with
- * %hi/%lo and takes the .data arm. The keep-overlay depth byte beside it is
+/* The fade-active flag. The keep-overlay depth byte beside it is
  * gFade_bKeepOverlayDepth (fade_overlay_controls.h). */
-#ifdef D_8009B141_IN_DATA
-extern u8 gFade_bOrderingTableMode __attribute__((section(".data")));
-#else
 extern u8 gFade_bOrderingTableMode;
-#endif
 
 /* The colour a fade is heading for. Fade_Update copies the three into the
  * tint at gGraphics_bClearBlue/Green/Red (graphics_frame.h) in address order, with no
@@ -34,9 +28,9 @@ extern u8 gFade_bOrderingTableMode;
  * source order, which is what `.data` and `volatile` give. The three fade
  * units store them gp-relative and take the plain arm. */
 #ifdef D_8009B14A_IN_DATA_VOLATILE
-extern volatile u8 gFade_bTargetBlue __attribute__((section(".data")));
-extern volatile u8 gFade_bTargetGreen __attribute__((section(".data")));
-extern volatile u8 gFade_bTargetRed __attribute__((section(".data")));
+extern volatile u8 gFade_bTargetBlue;
+extern volatile u8 gFade_bTargetGreen;
+extern volatile u8 gFade_bTargetRed;
 #else
 extern u8 gFade_bTargetBlue;
 extern u8 gFade_bTargetGreen;

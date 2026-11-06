@@ -3,7 +3,6 @@
 #include "duel_card_layout.h"
 #include "duel_display.h"
 #include "duel_grid.h"
-#define SORTED_ENTRY_STATE_IN_DATA
 #include "sorted_entry.h"
 #include "duel_card.h"
 #include "card_presentation.h"

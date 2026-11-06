@@ -899,28 +899,12 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
 /* The sound root. sd_queue_value_link_transfer.c,
  * sd_allocate_sound_effect_voice.c and sd_init_voice_state.c load it with
  * lui %hi / lw %lo at every use because they build at -G0 without split
- * addresses; they reach no small data through $gp at all.
- *
- * sd_step_active_command.c, sd_cancel_music_requests.c and
- * sd_arm_busy_callback.c still define G_SDVALUE_IN_DATA. They also reach no
- * small data through $gp, but they need -msplit-addresses (for switch tables,
- * or for SD_ArmBusyCallback's function address), and at -G0 that also splits
- * g_SDValue, which retail does not. At -G8 the
- * compiler leaves g_SDValue as one lw macro; the attribute only drops the
- * `.extern g_SDValue, 4` line that would make MASPSX use $gp. */
-#ifdef G_SDVALUE_IN_DATA
-extern SDValue *g_SDValue __attribute__((section(".data")));
-#else
+ * addresses; they reach no small data through $gp at all. */
 extern SDValue *g_SDValue;
-#endif
 
 /* Voice setup units keep the pointer outside small data for their absolute
  * loads; other resident consumers use the shared layout. */
-#ifdef D_8009B458_IN_DATA
-extern SDSecondaryState *gSD_pSecondaryState __attribute__((section(".data")));
-#else
 extern SDSecondaryState *gSD_pSecondaryState;
-#endif
 
 /* One SPU voice bit per entry.  The object at gSD_adwVoiceMasks is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
@@ -1151,27 +1135,19 @@ extern u32 gSD_dwSavedBgmCommand[];
 extern u32 gSD_dwSavedBgmCommand;
 #endif
 
-/* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where the C
- * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
- * the save state's byte into it (save_data_payload.c:201, :204;
- * SaveData_ApplyRuntimeState.s:19-20) and SaveData_BuildPayload copies it into an s32
- * it tests `< 0`, stores 0 when it is, and copies it into the payload
- * byte (save_data_payload.c:151, :156-157, :160; SaveData_BuildPayload.s:15-16,
- * then :23-24 lbu for the payload copy). Options_Init reads it into an s8
- * it copies into gOptions_bOutputType and tests `< 0` (options_screen.c:103,
- * :105-106; Options_Init.s:34-35 lbu). Sound_InitFrontend stores -1
- * (sound_frontend.c:15) and Options_HandleInput stores 1 or 0
- * (options_screen.c:143, :150). Every retail access is a byte at the symbol
- * itself, the payload copies one byte, nothing in the tree reaches +1, and
- * every declarer said s8. The `[16]` three of them used to declare was the -G8
- * placement lever, not a length (main_services.h:65-70 and options.h:37-38
- * say so); the four units whose listings reach it through %hi/%lo take the
- * .data arm, and sound_frontend.c, whose store is gp-relative
- * (Sound_InitFrontend.s:12), takes the plain one. */
-#ifdef GSD_BOUTPUTTYPE_IN_DATA
-extern s8 gSD_bOutputType __attribute__((section(".data")));
-#else
+/* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where
+ * the C tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before
+ * storing the save state's byte into it (save_data_payload.c:201, :204;
+ * SaveData_ApplyRuntimeState.s:19-20) and SaveData_BuildPayload copies it
+ * into an s32 it tests `< 0`, stores 0 when it is, and copies it into the
+ * payload byte (save_data_payload.c:151, :156-157, :160;
+ * SaveData_BuildPayload.s:15-16, then :23-24 lbu for the payload copy).
+ * Options_Init reads it into an s8 it copies into gOptions_bOutputType and
+ * tests `< 0` (options_screen.c:103, :105-106; Options_Init.s:34-35 lbu).
+ * Sound_InitFrontend stores -1 (sound_frontend.c:15) and Options_HandleInput
+ * stores 1 or 0 (options_screen.c:143, :150). Every retail access is a byte
+ * at the symbol itself, the payload copies one byte, nothing in the tree
+ * reaches +1, and every declarer said s8. */
 extern s8 gSD_bOutputType;
-#endif
 
 #endif

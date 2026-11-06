@@ -52,10 +52,7 @@ extern u8 gModel_bActiveSlotIndex;
 extern u8 gModelDebug_bSelectedDigit;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */
-#ifdef MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
-extern u8 gGraphics_bPacketBufferIndex __attribute__((section(".data")));
-extern u8 gGraphics_bFrameStep __attribute__((section(".data")));
-#elif defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
+#if defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
 extern u8 gGraphics_bPacketBufferIndex;
 extern u8 gGraphics_bFrameStep;
 #else

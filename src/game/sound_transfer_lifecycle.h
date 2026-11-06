@@ -5,11 +5,7 @@
 
 /* SD_InitState points this at 0x801E1650; SD_StepActiveCommand fills the request
    passed directly to File_RequestSecondarySlot. Its loads retain the absolute arm. */
-#ifdef SOUND_TRANSFER_REQUEST_IN_DATA
-extern FileRequestSlot *gSD_pFileRequest __attribute__((section(".data")));
-#else
 extern FileRequestSlot *gSD_pFileRequest;
-#endif
 
 /* Embedded pBAV header fields consumed by SD_VabOpenHead. This layout agrees
  * with Psy-Q libsnd's VabHdr without importing that header's unavailable

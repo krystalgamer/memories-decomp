@@ -60,29 +60,13 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
  * Model_DrawFogTexturedQuads (src/game/sorted_entry_render.c) each do
  * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
- * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c).
- *
- * That byte view is why DuelScene_UpdateFieldActions wants this symbol outside
- * small data: it defines D_8009B300_IN_DATA to take the .data arm, the same
- * arrangement the state pointers below use. */
-#ifdef D_8009B300_IN_DATA
-extern u32 gModel_dwFogBaseColor __attribute__((section(".data")));
-#else
+ * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c). */
 extern u32 gModel_dwFogBaseColor;
-#endif
 
-#ifdef SORTED_ENTRY_STATE_IN_DATA
-extern SortedEntry *gSortedEntry_pBase __attribute__((section(".data")));
-#else
 extern SortedEntry *gSortedEntry_pBase;
-#endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
  * compared against gSortedEntry_nCount by the walk in Duel_DrawFieldCards. */
-#ifdef SORTED_ENTRY_STATE_IN_DATA
-extern u32 gSortedEntry_nSortedCount __attribute__((section(".data")));
-#else
 extern u32 gSortedEntry_nSortedCount;
-#endif
 /* The fog-textured HMD drivers' mode word (Model_DrawFogTexturedTriangles and Model_DrawFogTexturedQuads in
  * hmd_fog_textured_drivers.c): bit 3 hands the block to another driver, bit 2
  * walks it through SortedEntry_Append, and bits 0-1 draw sorted entries.
@@ -92,15 +76,9 @@ extern u32 gSortedEntry_nSortedCount;
  * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
  * not known here.  Model_SetFogDrawFlags writes the word wholesale, and all three of
  * its call sites pass 0. */
-#if defined(SORTED_ENTRY_STATE_IN_DATA)
-extern u32 gModel_dwFogDrawFlags __attribute__((section(".data")));
-extern SortedEntry *gSortedEntry_pCursor __attribute__((section(".data")));
-extern u32 gSortedEntry_nCount __attribute__((section(".data")));
-#else
 extern u32 gModel_dwFogDrawFlags;
 extern SortedEntry *gSortedEntry_pCursor;
 extern u32 gSortedEntry_nCount;
-#endif
 
 void SortedEntry_Append(s32 dx, s32 dy, s32 dz);
 void SortedEntry_SortAndRelink(void);

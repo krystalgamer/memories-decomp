@@ -1,5 +1,3 @@
-#define D_8009B140_IN_DATA
-#define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"

@@ -1,6 +1,5 @@
 #define D_8009B098_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 
 /* Zero-initialized storage this unit owns at 0x8009B428-0x8009B430, defined in
  * address order ahead of the headers that declare it (#2602). */

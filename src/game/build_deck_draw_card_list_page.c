@@ -15,7 +15,6 @@ struct BuildDeckTransitionState *gBuildDeck_pState;
 #include "color_constants.h"
 #include "duel_card_stat_display.h"
 #include "build_deck_draw_sort_icons.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "build_deck_draw_card_list_page.h"
 #include "card_list_sort_icons.h"

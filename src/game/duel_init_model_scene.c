@@ -3,7 +3,6 @@
 #include "model_slot_control.h"
 #include "model_scene_controllers.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "shared_work_base.h"
 
 #ifndef DUEL_MODEL_SCENE_BUFFER_SIZE

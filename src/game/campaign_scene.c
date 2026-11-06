@@ -7,7 +7,6 @@
 #include "display_object.h"
 #include "scene_script.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "menu_record_reset.h"
@@ -17,7 +16,6 @@
 #include "../psyq/libgpu.h"
 #include "campaign_create_primary_display_object.h"
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "trig_constants.h"

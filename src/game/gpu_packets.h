@@ -10,7 +10,7 @@
 /* The packet cursor these helpers write through: a cursor into the frame's
  * scratch packet area, advanced past each packet as it is linked. It is
  * libgs.h's GsOUT_PACKET_P, and DivideFT4 also returns the advanced cursor. */
-extern u32 *gGraphics_pPacketWorkCursor __attribute__((section(".data")));
+extern u32 *gGraphics_pPacketWorkCursor;
 
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
 void Graphics_SubmitDrawModePacket(u32 *src, GsOT *ot, s32 idx, s32 flags);

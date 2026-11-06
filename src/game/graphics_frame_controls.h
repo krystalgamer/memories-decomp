@@ -3,11 +3,7 @@
 
 #include "../types.h"
 
-#if defined(MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE)
-extern u8 gGraphics_FrameStepControl __attribute__((section(".data")));
-#else
 extern u8 gGraphics_FrameStepControl;
-#endif
 
 /* The three bytes after the frame-step override are separate u8 globals, not
  * one aggregate: GCC 2.8 word-aligns struct and array definitions, yet the

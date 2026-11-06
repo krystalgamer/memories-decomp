@@ -9,7 +9,6 @@
  * typed object pointer adds an instruction for the 0x180 array offset.
  * Only the selected SpuVoiceAttr fields are initialized, as its mask requires.
  */
-#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "sound.h"
 #include "sound_secondary_voice_levels.h"

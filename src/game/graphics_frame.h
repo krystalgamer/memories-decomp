@@ -32,8 +32,7 @@
  *                   unit, and its three plain reads build the same under it
  *   _IN_DATA     -- out of small data at the compiler */
 
-/* The movie playback state byte, shared by three files that disagree about
- * how to reach it.
+/* The movie playback state byte, shared by three files.
  *
  * movie_playback_control.h describes what it means: Movie_Play sets bit
  * 0x80 when a movie starts, Movie_UpdatePlayback sets 0x40 once the stream has been
@@ -41,20 +40,8 @@
  * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
  * why it is declared here -- this is the header all three consumers already
  * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
- * all.
- *
- * Two arms, for the same reason gGraphics_nBaseFrameStep has them
- * (graphics_base_frame_step.h). Every consumer is
- * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
- * main_run_frontend_loop.c and graphics_frame.c both carry section(".data") to escape
- * that; movie_playback_control.c takes the plain spelling and wants the
- * gp-relative form. Each arm reproduces exactly what that file already
- * wrote. */
-#ifdef D_8009B318_IN_DATA
-extern u8 gMovie_bPlaybackState __attribute__((section(".data")));
-#else
+ * all. */
 extern u8 gMovie_bPlaybackState;
-#endif
 
 #include "graphics_base_frame_step.h"
 
@@ -92,11 +79,7 @@ extern u8 gMovie_bPlaybackState;
  *
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
  * plain byte. */
-#ifdef D_8009B0C0_IN_DATA_VOLATILE
-extern volatile u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
-#elif defined(D_8009B0C0_IN_DATA)
-extern u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
-#elif defined(D_8009B0C0_IS_VOLATILE)
+#if defined(D_8009B0C0_IS_VOLATILE)
 extern volatile u8 gGraphics_bSyncVBlankTarget;
 #else
 extern u8 gGraphics_bSyncVBlankTarget;
@@ -118,19 +101,8 @@ extern u8 gGraphics_bSyncVBlankTarget;
  * overrides the common symbol with its retail address through the generated
  * symbol binding. This header's plain declaration sits in front of that
  * definition
- * and does not change it.
- *
- * Graphics_SyncFrame and Main_Init reach it gp-relative (sb/lbu,
- * func_80012DB4.s:20/24/26 and func_80012B50.s:34), so they take the plain
- * byte; TextBox_UpdateChannels reaches it through %hi/%lo (func_80039794.s:50-51)
- * and defines the .data arm. main_init.c used to declare it volatile; the
- * plain form builds byte-identical (measured by the PR that added this
- * block). */
-#ifdef D_8009B0C1_IN_DATA
-extern u8 gGraphics_bExtraFrameStep __attribute__((section(".data")));
-#else
+ * and does not change it. */
 extern u8 gGraphics_bExtraFrameStep;
-#endif
 
 /* A byte Main_VBlankCB stores 1 into after bumping gMain_dwFrameCounter and
  * gSaveData_dwVBlankCounter and before bumping gGraphics_dwSyncVBlankCounter,
@@ -181,7 +153,7 @@ extern volatile s32 gGraphics_dwSyncVBlankCounter;
  * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
 #ifdef D_8009B0CC_IN_DATA
-extern s32 gGraphics_dwSyncedFrameCount __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncedFrameCount;
 #else
 extern volatile s32 gGraphics_dwSyncedFrameCount;
 #endif
@@ -205,7 +177,7 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
 #ifdef D_8009B09C_IN_DATA
-extern s32 gMain_dwFrameCounter __attribute__((section(".data")));
+extern s32 gMain_dwFrameCounter;
 #else
 extern volatile s32 gMain_dwFrameCounter;
 #endif
@@ -226,7 +198,7 @@ extern volatile s32 gMain_dwFrameCounter;
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
-extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
+extern s32 gSaveData_dwVBlankCounter;
 #else
 extern volatile s32 gSaveData_dwVBlankCounter;
 #endif
@@ -257,11 +229,7 @@ extern u16 gGraphics_wFlags;
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than
  * through the small-data base. */
-#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
-extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
-#else
 extern u8 gGraphics_bActiveBuffer;
-#endif
 
 /* libgs's environments passed to PutDrawEnv / PutDispEnv. Startup writes the
  * draw environment through a volatile view at the use. See
@@ -315,14 +283,10 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  *   _IN_DATA          -- out of small data at the compiler
  *   _IS_AGGREGATE     -- unsized array, read as [0]
  */
-#ifdef D_8009B142_IN_DATA_VOLATILE
-extern volatile u8 gGraphics_bClearBlue __attribute__((section(".data")));
-extern volatile u8 gGraphics_bClearGreen __attribute__((section(".data")));
-extern volatile u8 gGraphics_bClearRed __attribute__((section(".data")));
-#elif defined(D_8009B142_IN_DATA)
-extern u8 gGraphics_bClearBlue __attribute__((section(".data")));
-extern u8 gGraphics_bClearGreen __attribute__((section(".data")));
-extern u8 gGraphics_bClearRed __attribute__((section(".data")));
+#if defined(D_8009B142_IN_DATA_VOLATILE)
+extern volatile u8 gGraphics_bClearBlue;
+extern volatile u8 gGraphics_bClearGreen;
+extern volatile u8 gGraphics_bClearRed;
 #elif defined(D_8009B142_IS_AGGREGATE)
 extern u8 gGraphics_bClearBlue[];
 extern u8 gGraphics_bClearGreen[];
@@ -335,18 +299,9 @@ extern u8 gGraphics_bClearRed;
 
 /* Viewport scroll offset in pixels, signed: Library_UpdateGridScroll subtracts it from a
    sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
-   results have to be able to go negative.
-
-   Files that reach these through `__attribute__((section(".data")))` select
-   the guarded view below because that spelling changes how the address is
-   materialised, not just how the value reads. */
-#if defined(GRAPHICS_VIEWPORT_IN_DATA)
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-#else
+   results have to be able to go negative. */
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
-#endif
 
 /* One half of the double-buffered graphics work area. The first 0x5110 bytes
  * hold the ordering-table tags; four SDK descriptors occupy the final 0x50

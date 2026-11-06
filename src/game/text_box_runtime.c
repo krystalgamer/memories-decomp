@@ -1,4 +1,3 @@
-#define D_8009B0C1_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "input.h"

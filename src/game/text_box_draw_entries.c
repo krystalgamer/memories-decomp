@@ -25,7 +25,6 @@
 #include "display_object.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "text_box_draw_entries.h"
 

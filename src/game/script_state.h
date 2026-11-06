@@ -20,7 +20,7 @@
  */
 #if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS) || \
     defined(SCRIPT_STATE_COMMAND_IN_DATA)
-extern u16 gScript_wCommandWord __attribute__((section(".data")));
+extern u16 gScript_wCommandWord;
 #else
 extern u16 gScript_wCommandWord;
 #endif
@@ -71,9 +71,9 @@ extern u8 *gScript_StreamCursor;
  *
  * The text callback arm keeps its signed, absolute spelling. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern s16 gScript_SharedOperand __attribute__((section(".data")));
-extern u16 gScript_ViewportTargetX __attribute__((section(".data")));
-extern u16 gScript_ViewportTargetY __attribute__((section(".data")));
+extern s16 gScript_SharedOperand;
+extern u16 gScript_ViewportTargetX;
+extern u16 gScript_ViewportTargetY;
 #else
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;

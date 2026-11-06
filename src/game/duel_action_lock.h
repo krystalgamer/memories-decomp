@@ -51,10 +51,7 @@ extern s16 gDuel_sEffectWorkCounter;
  * duel_battle_stats.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
  * and stores 1, 2 and 3 itself, and duel_card_effects.c clears it to 0 at the
  * two points the effect finishes. Four further writers are still assembly,
- * all `sh $zero`.
- *
- * Unsigned: every read in the image is lhu, and all nine accesses are
- * gp-relative, so no unit needs a .data arm. */
+ * all `sh $zero`. */
 extern u16 gDuel_wTrapPresentationMode;
 
 s32 DuelEffect_MarkInitialized(void);

@@ -18,7 +18,7 @@
    placement gives: Duel_GetTerrainBoost materializes its address twice, and
    DuelEffect_ApplyTerrain and AiScript_LoadTerrain take the load at the
    assembler's expansion point. */
-extern u8 gDuel_bTerrain __attribute__((section(".data")));
+extern u8 gDuel_bTerrain;
 
 /* Attack modifier in CARD_STAT_SCALE units, one row per monster card type and
    one column per terrain. Duel_GetTerrainBoost rejects cardType >=

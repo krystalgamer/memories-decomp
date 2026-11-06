@@ -58,22 +58,15 @@ extern void (*gMain_pfnExtraFrameService)(void);
 extern s32 gMain_nServiceResyncCountdown;
 
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
-   main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, gMain_bRequestedMenuID),
-   whose parameters are (unused, menu): gMain_bRequestedMenuID
-   (main_menu_request.h) is the menu id --
-   Main_ApplyMenuSelection stores its selection argument, Script_OpSavePrompt and
-   Script_OpReturnToMenu
-   store 5, DebugMenu_UpdateTitleEntry round-trips it through gDebug_nSceneOrSoundID,
-   Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
-   request and 0 in three of Main_ApplyMenuSelection's arms. Both are bytes, read lbu.
-   Main_ApplyMenuSelection and Main_RunMenu (main_mode_runners.c) reach them through $gp;
-   script_op_save_prompt.c, script_command_runner.c and frontend_scene_states.c
-   address them with %hi/%lo, outside small data, and define the .data arms. */
-#ifdef D_8009B268_IN_DATA
-extern u8 D_8009B268 __attribute__((section(".data")));
-#else
+   main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268,
+   gMain_bRequestedMenuID), whose parameters are (unused, menu):
+   gMain_bRequestedMenuID (main_menu_request.h) is the menu id --
+   Main_ApplyMenuSelection stores its selection argument, Script_OpSavePrompt
+   and Script_OpReturnToMenu store 5, DebugMenu_UpdateTitleEntry round-trips
+   it through gDebug_nSceneOrSoundID, Main_RunGameOver stores 0 -- and
+   D_8009B268 is stored 1 beside every request and 0 in three of
+   Main_ApplyMenuSelection's arms. Both are bytes, read lbu. */
 extern u8 D_8009B268;
-#endif
 
 #include "main_menu_request.h"
 

@@ -1,7 +1,4 @@
-#define D_8009B145_IN_DATA
-#define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "campaign_flags.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -13,7 +10,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "script_state.h"

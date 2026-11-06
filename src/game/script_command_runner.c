@@ -1,6 +1,4 @@
-#define D_8009B268_IN_DATA
-#define D_8009B26D_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/rand.h"

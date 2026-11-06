@@ -1,4 +1,3 @@
-#define gDuel_bEffectRequestStatus_IN_DATA
 #define GDIALOG_CHOICE_SIZED
 #include "../types.h"
 #include "duel_side_state.h"

@@ -92,10 +92,8 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
 
 /* The side selector: 0 or 1, and the index behind both cursors this header
  * and duel_grid.h describe. Thirty-nine private declarations before this. */
-#ifdef D_8009B1D5_IS_AGGREGATE
+#if defined(D_8009B1D5_IS_AGGREGATE)
 extern u8 gDuel_bActiveSide[];
-#elif defined(D_8009B1D5_IS_ABSOLUTE_SCALAR)
-extern u8 gDuel_bActiveSide __attribute__((section(".data")));
 #else
 extern u8 gDuel_bActiveSide;
 #endif
@@ -180,15 +178,8 @@ extern u8 *gDuel_pActiveFieldGrid;
  * a byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39,
  * the lui/addiu pair at 0x8002DC60), and the PAL images place it at an odd
  * address (0x8009C0F1 in SLES-03947), so it is a u8. The following halfword is
- * separate storage. Initial value not read.
- *
- * duel_state_init.c reaches it gp-relative; main_mode_runners.c and
- * src/game/main.c reach it through %hi/%lo and define the .data arm. */
-#ifdef D_8009B230_IN_DATA
-extern u8 gDuel_bTwoPlayerCardViewMode __attribute__((section(".data")));
-#else
+ * separate storage. Initial value not read. */
 extern u8 gDuel_bTwoPlayerCardViewMode;
-#endif
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
  * (gDuel_wTwoPlayerSide1LifePoints first, then gDuel_wTwoPlayerSide0LifePoints) and passes to MainMenu_StartValueSetup
@@ -198,21 +189,9 @@ extern u8 gDuel_bTwoPlayerCardViewMode;
  * (Duel_InitSideStates.s:11-12) agrees. Duel_InitSideStates copies them into `sp[0]`
  * and `sp[1]` of its `u16 sp[DUEL_SIDE_COUNT]` when gDuel_bOpponentID is
  * negative. No other C
- * unit touches them. Initial value not read.
- *
- * duel_state_init.c reaches both gp-relative and takes the plain
- * declarations; main_mode_runners.c reaches both through %hi/%lo
- * defines the two .data arms, one control each. */
-#ifdef D_8009B234_IN_DATA
-extern u16 gDuel_wTwoPlayerSide0LifePoints __attribute__((section(".data")));
-#else
+ * unit touches them. Initial value not read. */
 extern u16 gDuel_wTwoPlayerSide0LifePoints;
-#endif
-#ifdef D_8009B236_IN_DATA
-extern u16 gDuel_wTwoPlayerSide1LifePoints __attribute__((section(".data")));
-#else
 extern u16 gDuel_wTwoPlayerSide1LifePoints;
-#endif
 
 /* The signed byte just below gDuel_bOpponentID, 0x8009B360, is declared once,
  * as gDuel_bSide0ControllerSelector in ai_controller_handoff.h. */
@@ -234,23 +213,16 @@ extern u8 gDuel_bWinnerSide;
  * the sentinel is the whole point of the field. */
 extern s8 gDuel_bOutroWinnerSide;
 
-/* The duel's outcome as a plain 0/1 byte. DuelScene_UpdateResultOutro sets it in the
- * same statement group as gDuel_bOutroWinnerSide: 0 when gDuel_bWinnerSide is 0, 1
- * otherwise. Main_RunDuel indexes its two campaign continuations with it
- * (`table[gDuel_bPlayerLost * 2]`), and the free_duel overlay's FreeDuel_Init
- * steps from the wins halfword to the losses halfword of the duelist
- * record when it is 1. Every retail access is a byte: sb through $at in
- * DuelScene_UpdateResultOutro and lui/lbu in Main_RunDuel, both in units that reach
- * other symbols through $gp, so duel_result_runtime.c and
- * src/game/main_run_duel_and_library.c define the .data arm below;
- * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
- * main_run_duel_and_library.c used to declare reached the same form; as the
- * note on gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, such a size is a threshold, not a length. */
-#ifdef D_8009B362_IN_DATA
-extern u8 gDuel_bPlayerLost __attribute__((section(".data")));
-#else
+/* The duel's outcome as a plain 0/1 byte. DuelScene_UpdateResultOutro sets it
+ * in the same statement group as gDuel_bOutroWinnerSide: 0 when
+ * gDuel_bWinnerSide is 0, 1 otherwise. Main_RunDuel indexes its two campaign
+ * continuations with it (`table[gDuel_bPlayerLost * 2]`), and the free_duel
+ * overlay's FreeDuel_Init steps from the wins halfword to the losses halfword
+ * of the duelist record when it is 1. The `u8 [9]`
+ * main_run_duel_and_library.c used to declare was, as the note on
+ * gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, a
+ * threshold, not a length. */
 extern u8 gDuel_bPlayerLost;
-#endif
 
 /* A byte the duel setup clears and Duel_InitScene tests against 1.
  * Main_StartDuel stores 0 beside gDuel_bOpponentID, gDuel_wCampaignSceneOnWin, gDuel_wCampaignSceneOnLoss
@@ -259,33 +231,15 @@ extern u8 gDuel_bPlayerLost;
  * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two
  * blocks when it is 1, and Main_RunDuel clears gMain_bModeRunnerStep only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
- * lbu and every declarer said u8. Initial value not read.
- *
- * Retail reaches it through %hi/%lo at every site and never through $gp.
- * src/game/duel_init_scene.c and src/game/main_run_duel_and_library.c reach
- * other symbols through $gp, so they define the .data arm below;
- * main_start_duel.c and src/game/text_start_campaign_duel.c compile with nothing in
- * small data and take the plain byte. src/game/duel_draw_resolution.c also
- * defines the .data arm. It used to carry a private copy of this exact
- * declaration and not include this header at all; it now includes it and
- * selects the same arm, with its candidate object fingerprint unchanged by
- * the move. Which of the two reasons above puts it on this arm is not
- * re-derived here -- the spelling it already had is what is preserved. */
+ * lbu and every declarer said u8. Initial value not read. */
 /* Declared once, as gDuel_bResumeFromAnimatedBattle, in duel_session_controls.h. */
 
-/* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
- * read it for that call, Main_StartDuel stores 0x7270, DebugMenu_EnterDuel stores
- * 0x71D0 and Text_StartCampaignDuel stores TextStream_ReadU16LE's result. lhu/sh
- * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
- * Retail reaches it through %hi/%lo at all five sites and never through $gp,
- * so duel_phase_entry.c and frontend_scene_states.c define
- * the .data arm below; main_start_duel.c and src/game/text_start_campaign_duel.c
- * compile with nothing in small data and take the plain arm. */
-#ifdef GDUEL_WBGMID_IN_DATA
-extern u16 gDuel_wBgmId __attribute__((section(".data")));
-#else
+/* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and
+ * DuelScene_UpdateStartup read it for that call, Main_StartDuel stores
+ * 0x7270, DebugMenu_EnterDuel stores 0x71D0 and Text_StartCampaignDuel stores
+ * TextStream_ReadU16LE's result. lhu/sh everywhere, two bytes wide
+ * (gFreeDuel_bTargetColumn is at 0x8009B36C). */
 extern u16 gDuel_wBgmId;
-#endif
 
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns

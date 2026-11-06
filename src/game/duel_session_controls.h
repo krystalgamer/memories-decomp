@@ -13,25 +13,12 @@
  * retail access is a byte (sb, and Main_RunDuel's lbu); no C unit defines
  * it. Initial value not read.
  *
- * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so frontend_scene_states.c, main_mode_runners.c and
- * src/game/main_run_duel_and_library.c -- units that reach other symbols through
- * $gp -- define the .data arm below; text_start_campaign_duel.c and the
- * overlay's screen_runtime.c take the plain byte. The `u8 [9]` and `u8 []`
- * two of them used to declare
- * were accessed only at [0]; as the notes on gDuel_bSide0ControllerSelector and gDuel_bPlayerLost
+ * The `u8 [9]` and `u8 []` two of them used to declare were accessed only at
+ * [0]; as the notes on gDuel_bSide0ControllerSelector and gDuel_bPlayerLost
  * say, such a size is a threshold, not a length. */
-#ifdef D_8009B368_IN_DATA
-extern u8 gDuel_bPostDuelMainMode __attribute__((section(".data")));
-#else
 extern u8 gDuel_bPostDuelMainMode;
-#endif
 
-#ifdef D_8009B369_IN_DATA
-extern u8 gDuel_bResumeFromAnimatedBattle __attribute__((section(".data")));
-#else
 extern u8 gDuel_bResumeFromAnimatedBattle;
-#endif
 
 /* The win/loss scene pair. Main_RunDuelAndLibrary indexes it by
  * gDuel_bPlayerLost through an absolute address, which cc1psx builds only for
@@ -45,10 +32,6 @@ extern u16 gDuel_wCampaignSceneOnLoss;
 
 /* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
  * %hi/%lo pair into the load's own register, which is the .data form. */
-#ifdef D_8009B374_IN_DATA
-extern u16 gDuel_wAnimatedBattleBgmCommand __attribute__((section(".data")));
-#else
 extern u16 gDuel_wAnimatedBattleBgmCommand;
-#endif
 
 #endif

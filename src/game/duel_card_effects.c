@@ -1,6 +1,4 @@
-#define gDuel_bEffectRequestStatus_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_STEP_FLAGS_IN_DATA
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
 #include "duel_select_trap_by_card_id.h"

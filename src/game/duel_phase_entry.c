@@ -1,6 +1,4 @@
-#define GDUEL_WBGMID_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_init_scene.h"
 #include "display_object.h"
 #include "duel_card.h"

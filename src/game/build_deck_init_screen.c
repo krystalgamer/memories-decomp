@@ -38,7 +38,6 @@
  *   instead -- which moves the store to another register. Spelling either of
  *   them as a member changes the object on its own.
  */
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "card_list_setup.h"

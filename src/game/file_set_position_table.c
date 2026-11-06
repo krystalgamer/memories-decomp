@@ -15,7 +15,6 @@ static u32 D_8009B0E4;
  * address order ahead of the headers that declare it (#2602). */
 SpritePrim D_800E9DF0;
 
-#define D_8009B10C_IN_DATA
 #include "file_transfer.h"
 
 /* Initialized data this unit owns at 0x80090704. The paths are padded to a word boundary

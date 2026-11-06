@@ -1,4 +1,3 @@
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "text_encode_decimal_digits.h"
 #include "../psyq/libgte.h"

@@ -1,7 +1,6 @@
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #define D_8009B404_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/rand.h"
 #include "display_object.h"
 #include "display_object_core.h"

@@ -1,15 +1,11 @@
-#define D_8009B118_IN_DATA
-#define D_8009B0C0_IN_DATA_VOLATILE
-#define GDUEL_WSELECTEDCARDID_IN_DATA
+#define D_8009B0C0_IS_VOLATILE
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_get_slot_readiness.h"
 #include "camera_view.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "library_runtime.h"

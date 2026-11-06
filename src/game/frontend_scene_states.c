@@ -1,12 +1,6 @@
-#define D_8009B268_IN_DATA
-#define D_8009B26D_IN_DATA
-#define GDUEL_WBGMID_IN_DATA
-#define GDUEL_BEFFECTSTATE_IN_DATA
-#define D_8009B368_IN_DATA
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "secondary_scene_commands.h"
 #include "mem_card.h"
 #include "frontend_debug_state.h"

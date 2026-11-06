@@ -1,10 +1,5 @@
 #define GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
-#define D_8009B0C0_IN_DATA
-#define D_8009B362_IN_DATA
-#define D_8009B369_IN_DATA
-#define D_8009B368_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define D_8009B16C_IN_DATA
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
@@ -33,7 +28,6 @@
 
 u8 gMain_bActiveModeState;
 
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../game/shared_work_base.h"
 #include "../game/main_mode_state.h"
 #include "build_deck_draw_card_list_page_data.h"

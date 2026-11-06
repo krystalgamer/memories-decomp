@@ -12,9 +12,7 @@
  * The arms reproduce each consumer's original spelling: D_8009B0D8_IN_DATA
  * forces absolute addressing in -G8 units, D_8009B0D8_IS_VOLATILE keeps the
  * reloads the matching code performs. */
-#ifdef D_8009B0D8_IN_DATA
-extern s32 gGraphics_nBaseFrameStep __attribute__((section(".data")));
-#elif defined(D_8009B0D8_IS_VOLATILE)
+#if defined(D_8009B0D8_IS_VOLATILE)
 extern volatile s32 gGraphics_nBaseFrameStep;
 #else
 extern s32 gGraphics_nBaseFrameStep;

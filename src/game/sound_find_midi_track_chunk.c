@@ -1,5 +1,4 @@
 #include "../types.h"
-#define D_8009B458_IN_DATA
 #include "sound.h"
 #include "sound_sequence_reader.h"
 

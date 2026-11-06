@@ -1,7 +1,5 @@
 #include "../../types.h"
 
-#define TEXT_LANGUAGE_INDEX_IN_DATA
-
 #define VERSION_EUROPE
 
 /* The European request: 0x51 sectors from 0x2997. */

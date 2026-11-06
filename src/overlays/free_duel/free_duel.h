@@ -10,14 +10,7 @@
  * The grid is FREE_DUEL_GRID_ROW_COUNT by FREE_DUEL_GRID_COLUMN_COUNT (see
  * card_constants.h). The cursor pair is the committed position; the target
  * pair is where the pad is steering it, clamped to the grid, and the screen
- * runtime walks the cursor toward the target.
- *
- * gFreeDuel_bReturnFlags has two spellings. The overlay reaches it through
- * the plain arm below; the resident writers main_mode_runners.c and
- * debug_menu_leave_entries.c address it with %hi/%lo and define
- * GFREEDUEL_BRETURNFLAGS_IN_DATA to take the .data arm, the same shape fade.h
- * uses for gFade_bOrderingTableMode.
- */
+ * runtime walks the cursor toward the target. */
 extern s8 gFreeDuel_bCursorColumn;
 extern s8 gFreeDuel_bCursorRow;
 extern s8 gFreeDuel_bTargetColumn;
@@ -27,11 +20,7 @@ extern s8 gFreeDuel_bTargetRow;
  * points and reads the byte back on later passes -- 0x80 once and the whole
  * byte against 0 twice -- so the overlay records the reason and acts on it
  * next time round. The two resident writers only ever clear it. */
-#ifdef GFREEDUEL_BRETURNFLAGS_IN_DATA
-extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
-#else
 extern u8 gFreeDuel_bReturnFlags;
-#endif
 
 /* Builds the duelist grid screen, uploading each available duelist's
  * portrait record from `src` to VRAM with LoadImage2 on the way.

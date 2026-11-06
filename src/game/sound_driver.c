@@ -1,5 +1,3 @@
-#define D_8009B0F0_IN_DATA
-#define D_8009B120_IN_DATA
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 
