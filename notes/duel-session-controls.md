@@ -8,8 +8,7 @@ session structure: PAL order and gaps differ from NA.
 | --- | --- | --- |
 | `D_8009B368` | `gDuel_bPostDuelMainMode` | `u8`, plain / `.data` |
 | `D_8009B369` | `gDuel_bResumeFromAnimatedBattle` | `u8`, plain / `.data` |
-| `D_8009B370` | `gDuel_wCampaignSceneOnWin` | `u16`, or incomplete `u16[]` for the indexed read |
-| `D_8009B372` | `gDuel_wCampaignSceneOnLoss` | independent `u16` |
+| `D_8009B370` | `gDuel_awCampaignSceneByOutcome` | `u16[2]`: `[0]` on a win, `[1]` on a loss |
 | `D_8009B374` | `gDuel_wAnimatedBattleBgmCommand` | `u16`, plain / `.data` |
 
 ## New entry versus model re-entry
@@ -54,10 +53,12 @@ where those operands are ignored. The sixteen-bit storage and high bits
 are preserved, not narrowed or normalized into validated scene IDs.
 
 `Main_RunDuel` reads the pair as `u16` elements indexed by
-`gDuel_bPlayerLost`. It needs an absolute address, which cc1psx builds only
-for an unknown-bound array, so `GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR` selects
-an incomplete `u16[]` there; the scalar writers keep the gp-relative `u16`.
-Both halfwords retain independent relocation providers.
+`gDuel_bPlayerLost`, so the two halfwords are one two-element array,
+`gDuel_awCampaignSceneByOutcome` (formerly `gDuel_wCampaignSceneOnWin` and
+`gDuel_wCampaignSceneOnLoss`). `Main_StartDuel` and `Text_StartCampaignDuel`
+write `[0]` and `[1]`; both build at `gcc_2_8_1_g8_split`. Their former `-G0`
+profile only reproduced the per-access address loads that `-G8` gives the
+4-byte array.
 
 ## Ordinary animated-battle BGM selection
 

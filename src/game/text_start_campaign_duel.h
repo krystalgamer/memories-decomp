@@ -5,7 +5,7 @@
 #include "duel_effect.h"
 
 /* gText_SecondaryCommandHandlers entry: arms a campaign duel from the object's script stream. It
- * takes four bytes in order -- opponent id, gDuel_wCampaignSceneOnWin, gDuel_wCampaignSceneOnLoss, terrain --
+ * takes four bytes in order -- opponent id, gDuel_awCampaignSceneByOutcome[0], gDuel_awCampaignSceneByOutcome[1], terrain --
  * then a word through TextStream_ReadU16LE for gDuel_wBgmId, picks the duel's music
  * bank from the opponent id (0x7280 for ids 9 through 16, 0x7290 for 0x11,
  * 0x72B0 for 0x26, 0x72A0 otherwise), and hands the scene to mode 3. A

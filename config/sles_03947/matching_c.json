@@ -1173,7 +1173,7 @@
     },
     {
       "address": "0x80024D40",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
       "source": "src/game/main_start_duel.c"
     },
@@ -2865,7 +2865,7 @@
     },
     {
       "address": "0x80038304",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
       "source": "src/game/text_start_campaign_duel.c"
     },

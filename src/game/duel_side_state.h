@@ -221,7 +221,7 @@ extern s8 gDuel_bOutroWinnerSide;
 extern u8 gDuel_bPlayerLost;
 
 /* A byte the duel setup clears and Duel_InitScene tests against 1.
- * Main_StartDuel stores 0 beside gDuel_bOpponentID, gDuel_wCampaignSceneOnWin, gDuel_wCampaignSceneOnLoss
+ * Main_StartDuel stores 0 beside gDuel_bOpponentID, gDuel_awCampaignSceneByOutcome[0], gDuel_awCampaignSceneByOutcome[1]
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
  * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two

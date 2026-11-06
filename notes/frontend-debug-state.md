@@ -83,8 +83,8 @@ The caret columns are signed `s8[3]` (`FrontendDebugColumns`) and the
 digit counts unsigned `u8[3]` (`FrontendDebugDigitCounts`); both stay
 inside the editor's `-G8` limit, so every store and indexed read keeps its
 gp-relative form.
-The saved sound pair is selected by `FRONTEND_DEBUG_SOUND_ROW_VIEW` in
-`DebugMenu_UpdateSoundEntry`; its four-byte size remains small data under that TU's profile.
+The saved sound pair is declared as the two-halfword `FrontendDebugSoundValues`
+everywhere; its four-byte size remains small data under the editor's profile.
 No array is a new definition, and no interior label is folded into a base
 relocation.
 

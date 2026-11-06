@@ -14,8 +14,8 @@ void Main_StartDuel(s32 side0_controller, s32 opponent_id, s32 win_scene, s32 lo
     gDuel_wAnimatedBattleBgmCommand = 0x7280;
     gDuel_bSide0ControllerSelector[0] = side0_controller;
     gDuel_bOpponentID = opponent_id;
-    gDuel_wCampaignSceneOnWin = win_scene;
-    gDuel_wCampaignSceneOnLoss = loss_scene;
+    gDuel_awCampaignSceneByOutcome[0] = win_scene;
+    gDuel_awCampaignSceneByOutcome[1] = loss_scene;
     gDuel_bTerrain = 0;
     gDuel_bResumeFromAnimatedBattle = 0;
     gMain_bActiveModeState = 3;
