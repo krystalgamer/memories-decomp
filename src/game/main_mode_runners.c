@@ -406,7 +406,7 @@ void Main_RunCredits(void)
         Fade_InitIn();
     initialize_completion:
         save_state = (SaveDataState *)gDuel_awPlayerDeck;
-        *(s16 *)&save_state->campaign_scene_index = 0x30;
+        save_state->campaign_scene.word = 0x30;
         for (flag = 0x20; flag < 0x120; flag++) {
             Library_UpdateCardUsedFlag(flag | 0x8000);
         }

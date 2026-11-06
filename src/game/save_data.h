@@ -159,8 +159,15 @@ typedef struct SaveDataState {
         SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
         (0x51C + sizeof(SaveDataDuelistRecord) * FREE_DUEL_GRID_ENTRY_COUNT)
     ];
-    u8 campaign_scene_index;
-    u8 field_5DD;
+    /* The campaign scene byte. The save prompt and the credits store a
+     * halfword here, which also covers the opaque byte after it. */
+    union {
+        s16 word;
+        struct {
+            u8 index;
+            u8 field_5DD;
+        } bytes;
+    } campaign_scene;
     u8 output_type;
     u8 pad_5DF;
     u32 starchips;
@@ -213,7 +220,7 @@ typedef char SaveDataState_duel_totals_offsets_must_match[
         ? 1 : -1
 ];
 typedef char SaveDataState_campaign_scene_index_offset_must_be_0x5DC[
-    (u32)&(((SaveDataState *)0)->campaign_scene_index) ==
+    (u32)&(((SaveDataState *)0)->campaign_scene) ==
         SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET ? 1 : -1
 ];
 typedef char SaveDataState_starchips_offset_must_be_0x5E0[
@@ -235,14 +242,7 @@ typedef char SaveDataWorkspace_state_offset_must_be_0x200[
     (u32)&(((SaveDataWorkspace *)0)->state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
 ];
 
-/* Keep the base and interior labels distinct: they are different relocation
- * targets. The save-prompt halfword arm retains its base register and writes
- * both campaign_scene_index and field_5DD, unlike the byte-sized restore. */
-#ifdef SAVE_DATA_WORKSPACE_AS_HALFWORDS
-extern s16 gSaveData_Workspace[];
-#else
 extern u8 gSaveData_Workspace[];
-#endif
 extern u8 gLibrary_abCardChest[];
 extern u8 gSaveData_aPlayerNameSjis[];
 extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
