@@ -13,7 +13,7 @@ extern u8 gGraphics_FrameStepControl;
  * one aggregate: GCC 2.8 word-aligns struct and array definitions, yet the
  * Japanese build has the four bytes at the unaligned 0x8009AF0B. */
 extern u8 D_8009AFA6;
-extern u8 D_8009AFA7;
+extern u8 gModel_bCreditsActiveSlot;
 
 #include "graphics_base_frame_step.h"
 

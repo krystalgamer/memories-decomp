@@ -220,7 +220,7 @@ extern char gAiScript_szReturnUnderflowError[];
 
 #include "game/main_mode_state.h"
 
-extern u8 D_8018C7D8[];
+extern u8 gDuel_CardThumbnailClutBase[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
 extern u8 gSD_SmfBankVolInfoTag __attribute__((section(".data")));

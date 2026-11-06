@@ -45,7 +45,7 @@ volatile u8 gGraphics_bFrameStep = 0;
 u8 gGraphics_FrameStepControl = 1;
 u8 D_8009AFA5 = 0;
 u8 D_8009AFA6 = 0;
-u8 D_8009AFA7 = 0;
+u8 gModel_bCreditsActiveSlot = 0;
 #ifdef VERSION_JAPAN
 /* The Japanese build has no selected-digit byte, so the four bytes above sit
  * unaligned at 0x8009AF0B; the rest of the block is single values. */
@@ -1440,7 +1440,6 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
     }
 }
 
-#define ACTIVE_SLOT D_8009AFA7
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 #define MODEL_SLOT_RAW_BYTES(slot) ((u8 *)(slot))
 
@@ -1493,7 +1492,7 @@ void Model_UpdateCreditsPresentation(void)
       File_WaitForTransfers();
       D_8009B004.fields.credits_exit_requested = 0;
       D_8009B004.fields.credits_update_enabled = 0;
-      ACTIVE_SLOT = 0;
+      gModel_bCreditsActiveSlot = 0;
       gModel_aSlots[0].is_active = 0;
       gModel_aSlots[1].is_active = 0;
       Model_SetSlotTintTarget(0, 2, 0, 0, 0);
@@ -1506,7 +1505,7 @@ void Model_UpdateCreditsPresentation(void)
       goto store_phase;
     case 0:
       load_check_base = gModel_aSlots;
-      active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
+      active_offset = (u32)&((ModelSlot *)0)[(u8)gModel_bCreditsActiveSlot];
       if ( MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(load_check_base) + active_offset)->is_active )
       {
         if ( (MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
@@ -1551,9 +1550,9 @@ void Model_UpdateCreditsPresentation(void)
           }
         }
         if ( !D_8009B004.fields.credits_exit_requested )
-          Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT ^ 1);
+          Model_UpdateCreditsMonsterSlot((u8)gModel_bCreditsActiveSlot ^ 1);
         active_lookup_base = gModel_aSlots;
-        active_slot_words = (s32 *)&active_lookup_base[(u8)ACTIVE_SLOT];
+        active_slot_words = (s32 *)&active_lookup_base[(u8)gModel_bCreditsActiveSlot];
         if ( !MODEL_SLOT_VIEW(active_slot_words)->active_animation_command_row )
         {
           slot_tick_count = MODEL_SLOT_VIEW(active_slot_words)->field_E15;
@@ -1583,7 +1582,7 @@ void Model_UpdateCreditsPresentation(void)
                 next_phase = 2;
                 goto set_phase_and_tick;
               }
-              peer_slot_index = (u8)ACTIVE_SLOT ^ 1;
+              peer_slot_index = (u8)gModel_bCreditsActiveSlot ^ 1;
               if ( MODEL_SLOT_VIEW(
                        MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
                        (904 * peer_slot_index) * 4)->is_active )
@@ -1595,7 +1594,7 @@ void Model_UpdateCreditsPresentation(void)
             }
             else
             {
-              Model_ControlSlotAnimation((u8)ACTIVE_SLOT, animation_row, 1);
+              Model_ControlSlotAnimation((u8)gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
           goto tick_active_slot;
@@ -1603,16 +1602,16 @@ void Model_UpdateCreditsPresentation(void)
       }
       else
       {
-        Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT);
+        Model_UpdateCreditsMonsterSlot((u8)gModel_bCreditsActiveSlot);
         if ( MODEL_SLOT_VIEW(
                  MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                 (904 * (u8)ACTIVE_SLOT) * 4)->is_active )
-          Model_RequestCameraMoveToSlots(1, -1, (u8)ACTIVE_SLOT, 30);
+                 (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active )
+          Model_RequestCameraMoveToSlots(1, -1, (u8)gModel_bCreditsActiveSlot, 30);
       }
       goto poll_module;
     case 1:
       crossfade_base = gModel_aSlots;
-      crossfade_offset = 904 * (u8)ACTIVE_SLOT;
+      crossfade_offset = 904 * (u8)gModel_bCreditsActiveSlot;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(crossfade_base) +
                 (crossfade_offset) * 4)->field_E15 & 3) == 0 )
@@ -1622,7 +1621,7 @@ void Model_UpdateCreditsPresentation(void)
             (crossfade_offset) * 4)->tint;
         incoming_color = MODEL_SLOT_VIEW(
             MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-            (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->tint;
+            (904 * ((u8)gModel_bCreditsActiveSlot ^ 1)) * 4)->tint;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1642,9 +1641,9 @@ void Model_UpdateCreditsPresentation(void)
         {
           MODEL_SLOT_VIEW(
               MODEL_SLOT_RAW_BYTES(crossfade_base) +
-              (904 * (u8)ACTIVE_SLOT) * 4)->is_active = 0;
+              (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active = 0;
           gModel_bPresentationPhase = 0;
-          ACTIVE_SLOT ^= 1u;
+          gModel_bCreditsActiveSlot ^= 1u;
         }
       }
       goto tick_active_slot;
@@ -1652,7 +1651,7 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(fade_slot_base) +
-                (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
+                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) != 0 )
         goto tick_active_slot;
       slot0_tint = fade_slot_base[0].tint;
       slot1_tint = fade_slot_base[1].tint;
@@ -1682,7 +1681,7 @@ void Model_UpdateCreditsPresentation(void)
 set_phase_and_tick:
       gModel_bPresentationPhase = next_phase;
 tick_active_slot:
-      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
       goto poll_module;
     case 3:
       SD_ResetMusicTrackBuffer();

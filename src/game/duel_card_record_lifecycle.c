@@ -237,7 +237,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
     r->y = idx + 0xE0;
     r->w = 0x40;
     r->h = 1;
-    LoadImage(r, (u32 *)(D_8018C7D8 +
+    LoadImage(r, (u32 *)(gDuel_CardThumbnailClutBase +
                         block_index * DUEL_CARD_DATA_BLOCK_SIZE));
 
     return p;

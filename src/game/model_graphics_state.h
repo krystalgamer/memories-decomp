@@ -65,7 +65,7 @@ extern volatile u8 gGraphics_bFrameStep;
 
 /* A4-A7 are four separate bytes (graphics_frame_controls.h): the frame-step
  * override gGraphics_FrameStepControl, unclassified D_8009AFA5, D_8009AFA6
- * (returned by func_80058DC0) and D_8009AFA7, the credits' active slot (0/1). */
+ * (returned by func_80058DC0) and gModel_bCreditsActiveSlot, the credits' active slot (0/1). */
 
 s32 Model_GetActiveSlotIndex(void);
 
