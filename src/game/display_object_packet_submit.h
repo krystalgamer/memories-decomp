@@ -21,25 +21,13 @@ typedef struct {
 
 /* The packet dispatcher receives a sprite pointer in the sprite renderers,
  * while the Gouraud-quad renderers pass the display object's raw attribute
- * word. The card-list renderer also preserves its named scratchpad records
- * rather than erasing them to byte pointers. All three measured five-argument
- * caller views stay behind this owning header; the definition in
- * display_object_helpers.c uses the default one and reads the first
- * argument either way, depending on the dispatch case. The card-list extra
- * is the same canonical origin/division record the dispatcher consumes;
- * its packet is the complete SDK textured quad, not only a header prefix. */
+ * word. The definition in display_object_system.c reads the packet and the
+ * extra record as bytes because their type depends on the dispatch case, so
+ * every caller passes byte pointers. For the card-list renderer the extra is
+ * the DisplayObjectPacketOrigin record the dispatcher consumes, and its
+ * packet is the complete SDK textured quad. */
 /* ot is the selected GsOT descriptor, not a depth, table index or texture.
  * Word-shaped wrapper APIs keep explicit pointer conversions at their calls. */
-#ifdef DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST
-void DisplayObject_SubmitPacket(
-    SpritePrim *sprite,
-    POLY_FT4 *packet,
-    GsOT *ot,
-    s32 mode,
-    DisplayObjectPacketOrigin *extra
-);
-#else
 void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
-#endif
 
 #endif
