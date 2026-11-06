@@ -24,7 +24,7 @@ s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpokeRing *spoke;
     ModelVariantFan *fan;
     ModelVariantWebNarrow *web;
-    Variant401EntryRecord *record;
+    ModelVariantTrail *record;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;

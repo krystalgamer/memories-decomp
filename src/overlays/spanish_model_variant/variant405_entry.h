@@ -93,11 +93,6 @@ typedef struct {
     s16 slot, command;
 } Variant405EntryState;
 
-typedef struct {
-    u8 unknown_00[60];
-    u16 texture_cluts[2];
-} Variant405EntryStack;
-
 extern GsIMAGE gSpanishModelVariant405_aImages[2];
 extern Variant405EntryConfig gSpanishModelVariant405_aConfigs[];
 void SpanishModelVariant405_DrawPulses(u8 *context);

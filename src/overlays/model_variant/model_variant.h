@@ -249,15 +249,17 @@ typedef struct {
     u8 unknown_1F8[8];
 } ModelVariantWebSmall;
 
-/* Header 397's 0x1A0-byte web: 4x6 near and far grids. */
+/* Header 397's 0x1A0-byte web: 4x6 near and far grids, a colour, three words
+ * the entry handlers clear, a scale and a done flag. */
 typedef struct {
     SVECTOR near[4][6];
     SVECTOR far[4][6];
     CVECTOR color;
-    u8 unknown_184[0x10];
+    s32 field_184, field_188, field_18C;
+    u8 unknown_190[4];
     s32 scale;
     s32 done;
-    u8 unknown_19C[4];
+    s32 field_19C;
 } ModelVariantWebNarrow;
 
 /* The same strand in a 0x84-byte record, as the header-458 images lay it out. */
@@ -330,5 +332,86 @@ typedef struct {
     CVECTOR outer[2];
     u8 unknown_60[0x1C];
 } ModelVariantSpiral;
+
+/* One 0xA8-byte trail record: nine colours, a ramp from bright to the base
+ * colour, and nine staggered start offsets (a delay or -(j * 256)) the entry
+ * handlers set per point. */
+typedef struct {
+    u8 unknown_00[0x48];
+    CVECTOR color[9];
+    s32 field_6C, field_70, field_74, field_78, offset[9], field_A0, field_A4;
+} ModelVariantTrail;
+
+/* The 0x40-byte stack block below the entry handlers' projection locals;
+ * only its last two halfwords, the texture CLUT words, are written. */
+typedef struct {
+    u8 unknown_00[60];
+    u16 texture_cluts[2];
+} ModelVariantClutStack;
+
+/* One 0x90-byte shape: an origin, inner and outer rings of five points, four
+ * corners and the inner and outer colours. */
+typedef struct {
+    SVECTOR origin, inner[5], outer[5], corners[4];
+    CVECTOR inner_color, outer_color;
+    s32 field_80, field_84, field_88;
+    u8 unknown_8C[4];
+} ModelVariantShape;
+
+/* One 0x1A8-byte curtain: three seventeen-point loops, two colours, a scale
+ * and a growth word. */
+typedef struct {
+    SVECTOR a[17], b[17], c[17];
+    u8 color_a[4], color_b[4];
+    s32 scale, growth;
+} ModelVariantTripleCurtain;
+
+/* ModelVariantSpiral in a 0x84-byte record. */
+typedef struct {
+    u8 unknown_00[0x50];
+    CVECTOR inner[2], outer[2];
+    u8 unknown_60[0x24];
+} ModelVariantSpiralWide;
+
+/* One 0x30-byte entry config: the inner, outer and web colours, the model
+ * parts, the frame the webs start at and the frame the sheet/band burst
+ * starts at. */
+typedef struct {
+    CVECTOR inner, outer, web;
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    u32 start, burst_start;
+    u8 unknown_24[0xC];
+} ModelVariantWebConfig;
+
+/* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
+ * and per quad a size, a progress word and an initialized flag. */
+typedef struct {
+    SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
+    CVECTOR color;
+    u8 unknown_3C4[0x10];
+    s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
+} ModelVariantQuadRing;
+
+/* One 0x334-byte streamer: seventeen colours the entry handlers reset to
+ * grey. */
+typedef struct {
+    u8 unknown_000[0x264];
+    CVECTOR color[17];
+    s32 field_2A8;
+    u8 unknown_2AC[0x88];
+} ModelVariantStreamer;
+
+/* Ten sprites: corner arrays v0..v3, an origin per sprite, a colour, and per
+ * sprite a scale and a done flag. */
+typedef struct {
+    SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
+    CVECTOR color;
+    s32 scale[10];
+    s32 field_1BC[10];
+    s32 field_1E4[10];
+    s32 field_20C[10];
+    s32 done[10];
+    u8 unknown_25C[0xA0];
+} ModelVariantSpriteSet;
 
 #endif

@@ -46,12 +46,6 @@ typedef struct {
 } ExodiaSecondEntryBeam;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x24];
-} ExodiaSecondEntryPetal;
-
-typedef struct {
     SVECTOR points[16];
     CVECTOR inner, outer;
     s32 scale, field_8C, field_90, field_94;
@@ -60,7 +54,7 @@ typedef struct {
 typedef struct {
     ExodiaSecondEntryBeam beams[1];
     ExodiaSecondEntryRing rings[2];
-    ExodiaSecondEntryPetal petals[12];
+    ModelVariantSpiralWide petals[12];
     POLY_F4 flat;
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -29,15 +29,6 @@ typedef struct {
 } Variant417EntryTube;
 
 typedef struct {
-    SVECTOR near[4][6];
-    SVECTOR far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, field_198, field_19C;
-} Variant417EntryWeb;
-
-typedef struct {
     u8 unknown_00[0x48];
     CVECTOR color;
     s32 scale[3];
@@ -48,12 +39,6 @@ typedef struct {
 } Variant417EntryRibbon;
 
 typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    u8 color_a[4], color_b[4];
-    s32 scale, growth;
-} Variant417EntryCurtain;
-
-typedef struct {
     SVECTOR a[8], b[8];
     CVECTOR color_a, color_b;
     s32 angle, field_8C;
@@ -62,11 +47,11 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant417EntryTube tubes[1];
-    Variant417EntryWeb webs[3];
+    ModelVariantWebNarrow webs[3];
     Variant417EntryRibbon ribbons[1];
     ModelVariantSheet sheets[2];
     u8 rays[0x360];
-    Variant417EntryCurtain curtains[5];
+    ModelVariantTripleCurtain curtains[5];
     Variant417EntrySpoke spokes[4];
     ModelVariantSpiral glows[12];
     POLY_G3 triangle;

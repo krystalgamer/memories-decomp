@@ -37,16 +37,9 @@ typedef struct {
 } Variant400EntrySheet;
 
 typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x334 - 0x2AC];
-} Variant400EntryColumn;
-
-typedef struct {
     Variant400EntryNode nodes[5];
     Variant400EntrySheet sheets[7];
-    Variant400EntryColumn columns[2];
+    ModelVariantStreamer columns[2];
     u8 unknown_1BC0[0x1ED8 - 0x1BC0];
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -18,28 +18,11 @@ typedef struct {
     s32 size;
 } Variant438EntryConfig;
 
-/* Three seventeen-point loops, two colours, a scale and a growth word. */
-typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    u8 color_a[4], color_b[4];
-    s32 scale, growth;
-} Variant438EntryCurtain;
-
 /* Two seventeen-point loops with a scale and a growth word. */
 typedef struct {
     SVECTOR a[17], b[17];
     s32 scale, growth;
 } Variant438EntryRing;
-
-/* Four rows of six near and far points, a colour and a scale. */
-typedef struct {
-    SVECTOR near[4][6];
-    SVECTOR far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, field_198, field_19C;
-} Variant438EntryWeb;
 
 /* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
 typedef struct {
@@ -72,9 +55,9 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    Variant438EntryCurtain curtains[5];
+    ModelVariantTripleCurtain curtains[5];
     Variant438EntryRing rings[1];
-    Variant438EntryWeb webs[3];
+    ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 rays[0x360];
     Variant438EntryBand bands[1];

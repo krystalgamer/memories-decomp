@@ -4,13 +4,6 @@
 #include "../french_model_variant/variant337_entry.h"
 
 typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start;
-    u8 unknown_20[0x10];
-} Variant423EntryConfig;
-
-typedef struct {
     u8 unknown_00[0xB4];
     CVECTOR ca[5], cb[5];
     VECTOR scale;
@@ -39,7 +32,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant423EntryConfig *config;
+    ModelVariantWebConfig *config;
     u32 field_F04;
     GsCOORDUNIT *parts[3];
     s16 field_F14, field_F16, field_F18, field_F1A, field_F1C, field_F1E;
@@ -51,7 +44,7 @@ typedef struct {
 } Variant423EntryState;
 
 extern GsIMAGE gModelVariant423_aImages[9];
-extern Variant423EntryConfig gModelVariant423_aConfigs[];
+extern ModelVariantWebConfig gModelVariant423_aConfigs[];
 void ModelVariant423_DrawBand(u8 *context);
 void ModelVariant423_DrawSheets(u8 *context);
 void ModelVariant423_DrawWebs(u8 *context);

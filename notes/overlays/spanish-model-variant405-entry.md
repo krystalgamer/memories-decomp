@@ -80,7 +80,7 @@ bands, outer bands and data sit 4, 0x10, 0x48 and 0x8C bytes higher. Each image 
 ## What reproduces the target
 
 - The FT4 and glyph CLUT lives in a 64-byte stack record at `sp + 0x4C`
-  (`Variant405EntryStack`), as in the header-415 entry.
+  (`ModelVariantClutStack`), as in the header-415 entry.
 - The glyph counters are zeroed and the glyph pointer is set right after
   the init `GsGetLwUnit` call. That keeps the zero in the counter's register
   for the `GetTPage` and `SetShadeTex` arguments.

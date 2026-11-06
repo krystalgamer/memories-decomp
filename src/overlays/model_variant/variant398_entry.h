@@ -34,7 +34,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant439EntryConfig *config;
+    ModelVariantWebConfig *config;
     u32 field_1950;
     GsCOORDUNIT *parts[3];
     s16 field_1960, field_1962, field_1964, field_1966;
@@ -67,7 +67,7 @@ typedef struct {
 } Variant398Header441RingsState;
 
 extern GsIMAGE gModelVariant398_aImages[9];
-extern Variant439EntryConfig gModelVariant398_aConfigs[];
+extern ModelVariantWebConfig gModelVariant398_aConfigs[];
 void ModelVariant398_DrawRings(u8 *context);
 void ModelVariant398_DrawBand(u8 *context);
 void ModelVariant398_DrawSheets(u8 *context);

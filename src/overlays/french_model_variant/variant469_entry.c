@@ -16,12 +16,12 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
     Arcs582Group *arc = work->arcs;
     EntrySheet469 *sheet = work->sheets;
     EntryRibbon469 *ribbon = work->ribbons;
-    EntryRing469 *ring = &work->ring;
+    ModelVariantQuadRing *ring = &work->ring;
     EntryBand469 *band = work->bands;
     EntryQuad469 *quad_sheet = work->quads;
     EntrySmallRing469 *ring_a = work->rings_a;
     EntrySmallRing469 *ring_b = work->rings_b;
-    EntryTrail469 *trail = work->trails;
+    ModelVariantTrail *trail = work->trails;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -246,10 +246,10 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {
-                trail->progress[j] = delay;
-                trail->colors[j].r = -64 - j * 24;
-                trail->colors[j].g = -64 - j * 24;
-                trail->colors[j].b = 255;
+                trail->offset[j] = delay;
+                trail->color[j].r = -64 - j * 24;
+                trail->color[j].g = -64 - j * 24;
+                trail->color[j].b = 255;
             }
             trail->field_6C = 0;
             trail->field_70 = 0;

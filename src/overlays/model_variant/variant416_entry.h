@@ -4,22 +4,6 @@
 #include "../french_model_variant/variant337_entry.h"
 
 typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start, burst_start;
-    u8 unknown_24[0xC];
-} Variant416EntryConfig;
-
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color[9];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 offset[9];
-    s32 field_A0, field_A4;
-} Variant416EntryRecord;
-
-typedef struct {
     u8 unknown_00[0x68];
     s32 offset[2];
     s32 field_70[2];
@@ -31,7 +15,7 @@ typedef struct {
 } Variant416EntryBand;
 
 typedef struct {
-    Variant416EntryRecord records[16];
+    ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     Variant416EntryBand bands[2];
     ModelVariantSheet sheets[3];
@@ -51,7 +35,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant416EntryConfig *config;
+    ModelVariantWebConfig *config;
     u32 field_1A64;
     GsCOORDUNIT *parts[3];
     s16 field_1A74, field_1A76, field_1A78, field_1A7A;
@@ -62,7 +46,7 @@ typedef struct {
 } Variant416EntryState;
 
 extern GsIMAGE gModelVariant416_aImages[9];
-extern Variant416EntryConfig gModelVariant416_aConfigs[];
+extern ModelVariantWebConfig gModelVariant416_aConfigs[];
 void ModelVariant416_DrawBands(u8 *context);
 void ModelVariant416_DrawSheets(u8 *context);
 void ModelVariant416_DrawWebs(u8 *context);

@@ -22,14 +22,14 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant454EntryGroup *group;
-    Variant454EntryCluster *cluster;
+    ModelVariantSpriteSet *cluster;
     Variant412EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
     ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
-    Variant412EntryRecord *record;
+    ModelVariantTrail *record;
     POLY_GT4 *textured;
     POLY_GT4 *extra;
     POLY_FT4 *flat;

@@ -36,12 +36,6 @@ typedef struct {
 } EntryGroup470;
 
 typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR colors[9];
-    s32 field_6C, field_70, field_74, field_78, progress[9], field_A0, field_A4;
-} EntryTrail470;
-
-typedef struct {
     u8 unknown_00[0x68];
     s32 progress[2];
     CVECTOR outer[2], inner[2];
@@ -64,21 +58,14 @@ typedef struct {
 } EntrySmallRing470;
 
 typedef struct {
-    SVECTOR origin, inner[5], outer[5], corners[4];
-    CVECTOR inner_color, outer_color;
-    s32 field_80, field_84, field_88;
-    u8 unknown_8C[4];
-} EntryShape470;
-
-typedef struct {
     EntryPair470 pairs[2];
     EntryGroup470 groups[1];
-    EntryTrail470 trails[16];
+    ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
     EntryBand470 bands[1];
     EntrySheet470 sheets[2];
     EntrySmallRing470 rings_a[6], rings_b[4];
-    EntryShape470 shapes[1];
+    ModelVariantShape shapes[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

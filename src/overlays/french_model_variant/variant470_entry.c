@@ -18,9 +18,9 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
     EntrySheet470 *sheet = work->sheets;
     EntrySmallRing470 *ring_a = work->rings_a;
     EntrySmallRing470 *ring_b = work->rings_b;
-    EntryShape470 *shape = work->shapes;
+    ModelVariantShape *shape = work->shapes;
     ModelVariantWebNarrow *web = work->webs;
-    EntryTrail470 *trail = work->trails;
+    ModelVariantTrail *trail = work->trails;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -250,10 +250,10 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {
-                trail->progress[j] = delay;
-                trail->colors[j].r = -64 - j * 24;
-                trail->colors[j].g = -64 - j * 24;
-                trail->colors[j].b = 255;
+                trail->offset[j] = delay;
+                trail->color[j].r = -64 - j * 24;
+                trail->color[j].g = -64 - j * 24;
+                trail->color[j].b = 255;
             }
             trail->field_6C = 0;
             trail->field_70 = 0;

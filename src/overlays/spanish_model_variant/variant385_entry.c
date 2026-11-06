@@ -12,7 +12,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant385EntryWeb *web = work->webs;
+    ModelVariantWebNarrow *web = work->webs;
     Variant385EntryTube *tube = work->tubes;
     Variant385EntrySheet *sheet = work->sheets;
     Variant385EntryCurtain *curtain = work->curtains;
@@ -134,7 +134,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
             web->color.g = 128;
             web->color.b = 128;
             web->scale = n * 4096 / 3 + 4096;
-            web->field_198 = 0;
+            web->done = 0;
             web->field_19C = 0;
         }
         for (i = 0; i < 1; i++, tube++) {

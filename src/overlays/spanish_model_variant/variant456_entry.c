@@ -23,7 +23,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
     Variant456EntryRibbon *ribbon = work->ribbons;
     Variant456EntryLine *line = work->lines;
     Variant456EntrySheet *sheet = work->sheets;
-    Variant456EntryStreamer *streamer = work->streamers;
+    ModelVariantStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->flat_extra;

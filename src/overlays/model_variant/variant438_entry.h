@@ -30,15 +30,6 @@ typedef struct {
 } Variant438EntrySwarm;
 
 typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color[9];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 offset[9];
-    s32 field_A0, field_A4;
-} Variant438EntryRecord;
-
-typedef struct {
     u8 unknown_00[0x68];
     s32 offset[2];
     CVECTOR ca[2], cb[2];
@@ -50,7 +41,7 @@ typedef struct {
 
 typedef struct {
     Variant438EntrySwarm swarm;
-    Variant438EntryRecord records[16];
+    ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     Variant438EntryBand bands[1];
     ModelVariantSheet sheets[2];

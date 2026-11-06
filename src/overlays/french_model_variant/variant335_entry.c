@@ -28,7 +28,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
     Model335EntrySheet *sheet = work->sheets;
     Variant335Ring *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;
-    Model335EntryShortStreamer *short_streamer = work->short_streamers;
+    ModelVariantStreamer *short_streamer = work->short_streamers;
     GsOT *ot = Graphics_GetDefaultOrderingTable();
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;

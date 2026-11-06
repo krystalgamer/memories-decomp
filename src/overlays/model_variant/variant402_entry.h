@@ -36,16 +36,6 @@ typedef struct {
     s32 size[32], done[32], reset[32];
 } Variant402EntrySwarm;
 
-/* One 0xA8-byte streak: nine fading colours and depths. */
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color[9];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 depth[9];
-    s32 field_A0, field_A4;
-} Variant402EntryStreak;
-
 /* One 0xA0-byte band with two depth rows. */
 typedef struct {
     u8 unknown_00[0x68];
@@ -61,7 +51,7 @@ typedef struct {
 typedef struct {
     Variant402EntryQuads quads[1];
     Variant402EntrySwarm swarm;
-    Variant402EntryStreak streaks[16];
+    ModelVariantTrail streaks[16];
     ModelVariantWebNarrow webs[3];
     Variant402EntryBand bands[1];
     ModelVariantSheet sheets[2];

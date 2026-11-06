@@ -44,19 +44,6 @@ typedef struct {
 } EntryRibbon445Us;
 
 typedef struct {
-    SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
-    CVECTOR color;
-    u8 unknown_3C4[0x10];
-    s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
-} EntryRing445Us;
-
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR colors[9];
-    s32 field_6C, field_70, field_74, field_78, progress[9], field_A0, field_A4;
-} EntryTrail445Us;
-
-typedef struct {
     u8 unknown_00[0x68];
     s32 progress[2];
     CVECTOR outer[2], inner[2];
@@ -74,15 +61,6 @@ typedef struct {
     s32 field_98;
 } EntryQuad445Us;
 
-/* ModelVariantWebNarrow with its three cleared words named. */
-typedef struct {
-    SVECTOR near[4][6], far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, done, field_19C;
-} EntryWeb445Us;
-
 typedef struct {
     SVECTOR inner[8], outer[8];
     CVECTOR inner_color, outer_color;
@@ -90,21 +68,14 @@ typedef struct {
 } EntrySmallRing445Us;
 
 typedef struct {
-    SVECTOR origin, inner[5], outer[5], corners[4];
-    CVECTOR inner_color, outer_color;
-    s32 field_80, field_84, field_88;
-    u8 unknown_8C[4];
-} EntryShape445Us;
-
-typedef struct {
     EntryRibbon445Us ribbons[5];
-    EntryRing445Us ring;
-    EntryTrail445Us trails[16];
-    EntryWeb445Us webs[3];
+    ModelVariantQuadRing ring;
+    ModelVariantTrail trails[16];
+    ModelVariantWebNarrow webs[3];
     EntryBand445Us bands[1];
     EntryQuad445Us quads[10];
     EntrySmallRing445Us rings_a[6], rings_b[4];
-    EntryShape445Us shapes[1];
+    ModelVariantShape shapes[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];

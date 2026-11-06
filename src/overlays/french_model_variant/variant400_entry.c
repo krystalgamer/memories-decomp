@@ -15,7 +15,7 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant400EntryNode *node = work->nodes;
     Variant400EntrySheet *sheet = work->sheets;
-    Variant400EntryColumn *column = work->columns;
+    ModelVariantStreamer *column = work->columns;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;

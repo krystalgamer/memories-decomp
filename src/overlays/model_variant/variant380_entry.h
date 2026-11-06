@@ -15,13 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../french_model_variant/variant337_entry.h"
 
-/* The 0x40-byte stack block below the projection locals; only its last two
- * halfwords, the texture CLUT words, are written. */
-typedef struct {
-    u8 unknown_00[60];
-    u16 texture_cluts[2];
-} Variant380EntryStack;
-
 /* One 0x44-byte command row in gModelVariant380_aConfigs. */
 typedef struct {
     u8 unknown_00[8];
