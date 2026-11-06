@@ -503,7 +503,7 @@ segments:
       - [0xE1258, .bss, game/spanish/mem_card]
       - [0xE19C0, .bss, game/european/display_object_system]
       - [0xE4410, .bss, game/european/mem_card_driver]
-      - [0xE46A8, .bss, game/european/model_keyframe_update]
+      - [0xE46A8, bss, model_keyframe_update_commons]
       - [0xE4858, .bss, game/spanish/model]
       - [0xE73D8, .bss, game/model_distance_queries]
       - [0xE7488, .bss, game/european/model_handler_dispatch]

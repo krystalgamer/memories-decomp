@@ -500,7 +500,7 @@ segments:
       - [0xddd10, .bss, game/japanese/display_object_system]
       - [0xe0760, .bss, game/mem_card_driver]
       - [0xe09f8, .bss, game/japanese/movie_pipeline]
-      - [0xe0a10, .bss, game/japanese/model_keyframe_update]
+      - [0xe0a10, bss, model_keyframe_update_commons]
       - [0xe0bc0, .bss, game/japanese/model]
       - [0xe3740, .bss, game/model_distance_queries]
       - [0xe37f0, .bss, game/japanese/model_handler_dispatch]

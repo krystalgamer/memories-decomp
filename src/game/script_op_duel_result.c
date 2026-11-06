@@ -20,6 +20,14 @@
 #include "script_op_duel_result.h"
 #include "duel_result_load_package_stage.h"
 #include "campaign_scene_package.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+struct DisplayObject *gScript_TransitionObject;
+DisplayObject *gCampaign_PrimaryDisplayObject;
+u16 gScript_wCommandWord;
+u16 gScript_SharedOperand;
+u8 *gScript_StreamCursor;
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 

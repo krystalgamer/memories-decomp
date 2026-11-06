@@ -8,6 +8,12 @@
 #include "script_op_show_dialog.h"
 #include "duel_effect_mark_object_if_active.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gScript_wCommandWord;
+u16 gScript_EventState;
+u8 *gScript_StreamCursor;
+
 /* Defined rather than declared: the assembler only resolves a small
    global gp-relative when the translation unit defines it, which is what
    makes the store below a single %gp_rel instruction whose load-delay

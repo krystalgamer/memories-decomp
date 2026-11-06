@@ -5456,25 +5456,25 @@
     },
     {
       "address": "0x80058DC0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0xC",
       "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x80058DCC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0xC",
       "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x80058DD8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x44",
       "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x80058E1C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x20",
       "source": "src/game/model_state_getters.c"
     },
@@ -6050,7 +6050,7 @@
     },
     {
       "address": "0x8005DBA4",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
       "size": "0xC64",
       "source": "src/game/model_keyframe_update.c"
     },

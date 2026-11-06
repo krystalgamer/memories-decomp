@@ -6,6 +6,12 @@
 #include "model_get_slot_readiness.h"
 #include "model_get_frame_step.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gGraphics_bFrameStep;
+u8 gModel_bActiveSlotIndex;
+u8 D_8009AFA6;
+
 int func_80058DC0(void)
 {
     return D_8009AFA6;
