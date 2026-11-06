@@ -72,10 +72,10 @@ typedef struct {
     s16 field_3764, field_3766;
     s32 width, field_376C, size, field_3774, field_3778, field_377C;
     s32 intensity, field_3784, field_3788, progress;
-    s16 field_3790, field_3792, field_3794, field_3796;
-    s32 field_3798, field_379C, field_37A0, field_37A4;
+    s16 spiral_angle, field_3792, spiral_size, field_3796;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
     CVECTOR inner, outer;
-    s32 field_37B0, field_37B4, field_37B8, field_37BC, field_37C0, phase;
+    s32 spin, ribbon_sway, field_37B8, field_37BC, field_37C0, phase;
     s32 field_37C8, field_37CC;
     u8 unknown_37D0[8];
     s32 ambient;
