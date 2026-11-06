@@ -464,6 +464,50 @@ scratchpad effects at O0/O2, with five semantic mutations rejected. The local
 retail MIPS comparison covers the same cases; geometry callees are scripted,
 not an implementation of RTPT or NCLIP arithmetic.
 
+### Library-local helpers without names
+
+Ten North American `sdk_asm` rows keep their `func_` names because the library
+gives them none. Each one sits inside a uniquely matched Psy-Q library object,
+but at a file-local helper. The
+[lab313ru catalogue](https://github.com/lab313ru/psx_psyq_signatures/tree/e9e46e7e133ef275a79bfce650924f98edb086bc)
+labels those positions `text_XXX` (a local code start) or `loc_XXX` (a
+branch target). The library objects export no symbol for them. None is a
+BIOS A0/B0/C0 stub: none loads a function number into `$t1` and jumps
+through `0xA0`, `0xB0` or `0xC0`. All are ordinary library code that calls
+other SDK functions (`DS_cw`, `DS_stop`, `CdReadyCallback` and so on).
+
+The object and offset establish provenance only, as the coverage report
+above does. A descriptive name would be a project invention, not a Psy-Q
+identity, so these stay address-based until a primary source names them.
+
+| Address | Size | Library object | Offset | Catalogue label | Catalogue |
+|---|---|---|---|---|---|
+| `0x8007BAD0` | `0xA4` | `LIBDS.LIB/DSSYS_2.OBJ` | `+0x1240` | `text_1240` | 4.7 LIBDS cross-reference |
+| `0x8007BB74` | `0xD4` | `LIBDS.LIB/DSSYS_2.OBJ` | `+0x12E4` | `text_12E4` | 4.7 LIBDS cross-reference |
+| `0x8007BC48` | `0x2C` | `LIBDS.LIB/DSSYS_2.OBJ` | `+0x13B8` | `text_13B8` | 4.7 LIBDS cross-reference |
+| `0x8007C458` | `0x88` | `LIBDS.LIB/DSSYS_1.OBJ` | `+0x7D8` | `text_7D8` | 4.7 LIBDS cross-reference |
+| `0x8007D234` | `0x9C` | `LIBDS.LIB/DSREAD.OBJ` | `+0x454` | `text_454` | 4.6 coverage report |
+| `0x8007E258` | `0x30` | `LIBDS.LIB/DSREADY.OBJ` | `+0x508` | `text_508` | 4.6 coverage report |
+| `0x80089910` | `0x8C` | `LIBGTE.LIB/DIVFT4A.OBJ` | `+0x490` | `text_490` | 4.6 coverage report |
+| `0x8008B554` | `0x2C` | `LIBCARD.LIB/PATCH.OBJ` | `+0x44` | `text_44` | 4.6 coverage report |
+| `0x8008B580` | `0x44` | `LIBCARD.LIB/PATCH.OBJ` | `+0x70` | none | 4.6 coverage report |
+| `0x8008B5C4` | `0x24` | `LIBCARD.LIB/PATCH.OBJ` | `+0xB4` | `text_B4` | 4.6 coverage report |
+
+The offsets are relative to each object's start. That start is the retail
+address of an exported label at a known offset:
+- `DSSYS_2.OBJ`: `DsQueueLen` (`0x8007BAC0`) is at `+0x1230`;
+- `DSSYS_1.OBJ`: `DS_init` (`0x8007BC80`) is at `+0x0`;
+- `DSREAD.OBJ`: `DsReadBreak` (`0x8007D214`) is at `+0x434`;
+- `DSREADY.OBJ`: `ER_active` (`0x8007E288`) is at `+0x538`;
+- `DIVFT4A.OBJ`: `RCpolyFT4` (`0x80089480`) is at `+0x0`;
+- `PATCH.OBJ`: `_patch_card_info` (`0x8008B510`) is at `+0x0`.
+
+The four DSSYS helpers match no 4.6 object uniquely, so their offsets come
+from the permitted 4.7 LIBDS catalogue. `0x8008B580` falls between
+`PATCH.OBJ`'s `loc_5C` and `loc_84` and has no catalogue label or caller. It
+looks like code that the memory-card patch routines copy into place rather
+than call.
+
 ## CRT startup routines
 
 The PS-X EXE header and [memory map](memory-map.md) place the entry point at
