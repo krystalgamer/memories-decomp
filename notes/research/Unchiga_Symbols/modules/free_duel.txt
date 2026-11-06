@@ -13,7 +13,7 @@ gFreeDuel_abGridAvailable = 0x80169030;
 gFreeDuel_pThumbWidget = 0x80169058;
 gFreeDuel_apSparklePool = 0x80169060;
 gFreeDuel_pCursorWidget = 0x801690A0;
-gFreeDuel_bScreenFlags = 0x801690A4;
+gFreeDuel_bScreenFlags = 0x801690A4; // defined:True
 // Resident return-state byte shared with the menu dispatcher.
 gFreeDuel_bReturnFlags = 0x8009B365;
 // Resident viewport origins used by generated assembly and matching C.
