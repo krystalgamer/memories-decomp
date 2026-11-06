@@ -147,9 +147,9 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             ring->field_90 = 0;
         }
         work->width = 1024;
-        work->field_C8C = 0;
+        work->petal_angle = 0;
         work->field_C8E = 0;
-        work->field_C90 = 0;
+        work->petal_radius = 0;
         work->field_C92 = 0;
         work->distance = 0;
         work->field_C9C = 0;

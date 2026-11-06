@@ -78,7 +78,7 @@ typedef struct {
     u32 field_C78;
     GsCOORDUNIT *parts[3];
     u32 field_C88;
-    s16 field_C8C, field_C8E, field_C90, field_C92, field_C94, field_C96;
+    s16 petal_angle, field_C8E, petal_radius, field_C92, field_C94, field_C96;
     s16 distance, width;
     s32 field_C9C, field_CA0, phase, field_CA8, field_CAC, field_CB0, field_CB4;
     s16 slot, command;
