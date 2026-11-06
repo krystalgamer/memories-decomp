@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a

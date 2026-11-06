@@ -38,7 +38,6 @@
  *   profile keeps the definitions common, so the linker resolves them to
  *   the retail addresses.
  */
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "duel_scene_state.h"

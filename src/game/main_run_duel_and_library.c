@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
@@ -20,7 +19,6 @@
 #include "../game/library_runtime.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
-#define D_8009B2F8_AS_ARRAY
 #define GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR
 #include "../unmatched.h"
 #include "duel_session_controls.h"
@@ -55,7 +53,7 @@ void Main_RunDuel(void)
     case 0:
         if (!(value & 0x80)) {
             gMain_bModeRunnerStep = value | 0x80;
-            gBuildDeck_bConfirmMode[0] = 0x80;
+            gBuildDeck_bConfirmMode = 0x80;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
                 (u8 *)gDuel_awPlayerDeck, 0, 0x80);

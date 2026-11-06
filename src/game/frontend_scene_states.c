@@ -1,5 +1,3 @@
-#define D_8009B3EA_IN_DATA
-#define D_8009B3ED_IN_DATA
 #include "../types.h"
 #include "secondary_scene_commands.h"
 #include "mem_card.h"
@@ -48,7 +46,7 @@ void DebugMenu_UpdateMapEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             gCampaignMap_bEntryLocation[0] = 0;
-            gMain_bActiveModeState[0] = 5;
+            gMain_bActiveModeState = 5;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -70,7 +68,7 @@ void DebugMenu_UpdateTitleEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             D_8009B268 = 1;
-            gMain_bActiveModeState[0] = 8;
+            gMain_bActiveModeState = 8;
             gMain_bRequestedMenuID = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -142,15 +140,15 @@ void DebugMenu_UpdateTradeEntry(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
-        gSaveData_PairSetupState[0] = 0;
-        gSaveData_LoadPairState[0] = 0;
+        gSaveData_PairSetupState = 0;
+        gSaveData_LoadPairState = 0;
     }
     result = SaveData_UpdateTradeLoad();
     if (result != 0) {
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            gMain_bActiveModeState[0] = 14;
+            gMain_bActiveModeState = 14;
         }
         gDebugMenu_bStep = 0;
     }

@@ -12,12 +12,7 @@
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
- *
- * The text callbacks and TextBox_BuildStep select the absolute (.data)
- * scalar; Text_StartViewportTween's signed store is a cast at the use. These
- * arms keep the measured addressing without private declarations in the
- * consumers.
- */
+ * Text_StartViewportTween's signed store is a cast at the use. */
 #if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS) || \
     defined(SCRIPT_STATE_COMMAND_IN_DATA)
 extern u16 gScript_wCommandWord;
@@ -101,14 +96,10 @@ extern struct DisplayObject *gScript_TransitionObject;
  * gScript_ViewportTargetX/Y), and Script_OpShowImage tests 0x4000.
  * Retail is sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
- * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
- * the unsized-array arm rather than a small scalar. Their optional viewport
- * form consumes one byte then one halfword, not two halfwords. */
-#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern u16 gScript_ImageOperand[];
-#else
+ * The text callbacks store TextStream_ReadU16LE's result through $at. Their
+ * optional viewport form consumes one byte then one halfword, not two
+ * halfwords. */
 extern u16 gScript_ImageOperand;
-#endif
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
  *

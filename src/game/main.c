@@ -3,7 +3,6 @@
    per-frame service pump with the boot-time hardware initialization. Retail
    built these as one unit: its own small data is gp-relative from every
    function here and absolute from every other unit (#2602). */
-#define D_8009B142_IN_DATA_VOLATILE
 #include "../types.h"
 
 #ifndef GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE

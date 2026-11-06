@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"

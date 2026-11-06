@@ -1,4 +1,3 @@
-#define D_8009B098_IN_DATA
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B428-0x8009B430, defined in
@@ -61,7 +60,7 @@ void Main_RunBootSequence(s32 mode)
     DisplayObject *first;
 
     gMain_bFrontendPhase = 0;
-    gGraphics_wFlags[0] = 0;
+    gGraphics_wFlags = 0;
     if (mode != 0) {
         Main_RequestLanguageBootPackage(gText_bLanguageIndex, 1);
         SD_ReplaceValueLink(2);
@@ -127,7 +126,7 @@ void Main_RunBootSequence(s32 mode)
             0, 1000
         );
         SetDumpFnt(display);
-        gGraphics_wFlags[0] = 0;
+        gGraphics_wFlags = 0;
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
@@ -147,7 +146,7 @@ void Main_RunBootSequence(s32 mode)
         0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 1000
     ));
-    gGraphics_wFlags[0] = 0;
+    gGraphics_wFlags = 0;
     CdFlush();
     func_801680F4();
     while (func_80168160(1) != 0) {
@@ -196,7 +195,7 @@ void Main_RunBootSequence(s32 mode)
             0, 1000
         );
         SetDumpFnt(display);
-        gGraphics_wFlags[0] = 0;
+        gGraphics_wFlags = 0;
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
@@ -215,7 +214,7 @@ void Main_RunBootSequence(s32 mode)
         0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 1000
     ));
-    gGraphics_wFlags[0] = 0;
+    gGraphics_wFlags = 0;
     CdFlush();
     first = object;
     func_801680F4();

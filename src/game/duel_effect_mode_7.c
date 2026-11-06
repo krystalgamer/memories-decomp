@@ -12,11 +12,11 @@ u8 gBuildDeck_bConfirmMode;
 void BuildDeck_EnterNarrowConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = 0;
-    gMain_bActiveModeState[0] = 7;
+    gMain_bActiveModeState = 7;
 }
 
 void BuildDeck_EnterWideConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
-    gMain_bActiveModeState[0] = 7;
+    gMain_bActiveModeState = 7;
 }

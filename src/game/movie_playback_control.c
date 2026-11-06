@@ -1,5 +1,4 @@
 #include "../types.h"
-#define D_8009B142_IS_AGGREGATE
 #include "graphics_frame.h"
 #include "file_cd_helpers.h"
 #include "file_transfer.h"
@@ -30,9 +29,9 @@ void Movie_UpdatePlayback(void)
         if ((value & 0x40) ||
             (gInput_awPadPressed[0] & PAD_BUTTON_START)) {
             gMovie_bPlaybackState = value | 0x40;
-            gGraphics_bClearRed[0] = 1;
-            gGraphics_bClearGreen[0] = 1;
-            gGraphics_bClearBlue[0] = 1;
+            gGraphics_bClearRed = 1;
+            gGraphics_bClearGreen = 1;
+            gGraphics_bClearBlue = 1;
             Movie_StartFadeOut();
         }
     } else {

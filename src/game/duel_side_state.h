@@ -92,11 +92,7 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
 
 /* The side selector: 0 or 1, and the index behind both cursors this header
  * and duel_grid.h describe. Thirty-nine private declarations before this. */
-#if defined(D_8009B1D5_IS_AGGREGATE)
-extern u8 gDuel_bActiveSide[];
-#else
 extern u8 gDuel_bActiveSide;
-#endif
 
 /* A volatile view of the same byte. Swords of Revealing Light and
  * Cursebreaker (duel_field_effects.c) reload it at every use, while the rest

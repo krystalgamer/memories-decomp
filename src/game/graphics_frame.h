@@ -101,22 +101,8 @@ extern u8 gMain_bVBlankSoundPending;
  * then resets it to -1, and Main_Init zeroes it. It is not a monotonic
  * elapsed-frame total. Input_UpdatePads accumulates deferred masks for a
  * nonzero value and merges/clears them for zero. The compare in
- * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
- *
- * Three units reach it gp-relative and take the volatile form below;
- * Input_UpdatePads reads it through a %hi/%lo pair into the load's own
- * register (func_8003CCD8.s:50-51), the bare form, and takes _IN_DATA --
- * out of small data at the compiler with its true width. The unsized
- * `u32 []` it used to declare reached the same form ("Retail
- * rematerializes this address inside the repeat loop", its comment said),
- * and the .data scalar builds byte-identical there. Both arms are
- * justified by a control build recorded in the PR that added this
- * block. */
-#ifdef D_8009B0C8_IN_DATA
-extern s32 gGraphics_dwSyncVBlankCounter[];
-#else
+ * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed. */
 extern volatile s32 gGraphics_dwSyncVBlankCounter;
-#endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
  * zeroes it, and Text_WaitWithViewportShake and DuelResult_UpdateOrbitSprite test its bit
@@ -174,17 +160,10 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * only store to it.
  *
  * src/game/main.c defines it and reaches it gp-relative (the plain form).
- * main_init.c used to declare it volatile with the rest of its init block;
- * on this symbol the plain form builds byte-identical (measured by the PR
- * that added this block). Main_RunBootSequence stores through $at (lui/sh) in
- * a unit that reaches one other symbol through $gp, so
- * main_run_boot_sequence.c
- * defines the .data arm. */
-#ifdef D_8009B098_IN_DATA
-extern u16 gGraphics_wFlags[];
-#else
+ * main_init.c used to declare it volatile with the rest of its init block; on
+ * this symbol the plain form builds byte-identical (measured by the PR that
+ * added this block). */
 extern u16 gGraphics_wFlags;
-#endif
 
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than
@@ -237,25 +216,10 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  * gp-relative and supplies the three load-delay nops in the tint copy.  That
  * function's translation unit includes this header, so it builds
  * byte-identical with the declaration below visible ahead of its definition,
- * which is the only claim made here about the two.
- *
- *   _IN_DATA_VOLATILE -- startup's ordered, absolute-address byte stores
- *   _IN_DATA          -- out of small data at the compiler
- *   _IS_AGGREGATE     -- unsized array, read as [0]
- */
-#if defined(D_8009B142_IN_DATA_VOLATILE)
-extern volatile u8 gGraphics_bClearBlue;
-extern volatile u8 gGraphics_bClearGreen;
-extern volatile u8 gGraphics_bClearRed;
-#elif defined(D_8009B142_IS_AGGREGATE)
-extern u8 gGraphics_bClearBlue[];
-extern u8 gGraphics_bClearGreen[];
-extern u8 gGraphics_bClearRed[];
-#else
+ * which is the only claim made here about the two. */
 extern u8 gGraphics_bClearBlue;
 extern u8 gGraphics_bClearGreen;
 extern u8 gGraphics_bClearRed;
-#endif
 
 /* Viewport scroll offset in pixels, signed: Library_UpdateGridScroll subtracts it from a
    sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
@@ -328,8 +292,8 @@ extern DISPENV gGraphics_DispEnv;
  * Their neighbour gGraphics_abOrderingTableLengths holds the four ordering-table
  * lengths. Main_InitHardware writes all four through small data in program
  * order (volatile); the two menu runners write element 3 through the absolute
- * %hi/%lo form, which an array of unknown size reaches at -G8, so they select
- * the unsized view. */
+ * %hi/%lo form. Every consumer builds byte-identically with the sized
+ * declaration. */
 extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
 extern u8 gGraphics_bSkipDisplaySwap;

@@ -77,7 +77,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
     gScript_ViewportTargetY = 0;
     gScript_ViewportTargetX = 0;
     result = TextStream_ReadU16LE(state);
-    gScript_ImageOperand[0] = result;
+    gScript_ImageOperand = result;
 
     if (result & SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT) {
         u8 **slot =

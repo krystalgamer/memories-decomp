@@ -4,8 +4,6 @@
  * SD_SEPlayFull or the BGM fade; then come the two empty table entries and
  * the handler that reads one byte into gCampaignMap_bEntryLocation and moves the scene mode
  * to 5. */
-#define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
-#define D_8009B404_IN_DATA
 
 #include "../types.h"
 #include "secondary_scene_commands.h"
@@ -43,13 +41,13 @@ void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
         SD_BGMPlay(TextStream_ReadU16LE(object) & 0xFFFF);
     } else {
         if (op & 1) {
-            SD_BGMPlay(gSD_dwSavedBgmCommand[0]);
+            SD_BGMPlay(gSD_dwSavedBgmCommand);
         }
         if (op & 2) {
-            gSD_dwSavedBgmCommand[0] = TextStream_ReadU16LE(object) & 0xFFFF;
+            gSD_dwSavedBgmCommand = TextStream_ReadU16LE(object) & 0xFFFF;
         }
         if (op & 4) {
-            gSD_dwSavedBgmCommand[0] = gSD_dwCurrentBgmCommand[0];
+            gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand;
         }
     }
     if (op & 0x80) {
@@ -115,6 +113,6 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 {
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
     u8 value = *(*stream)++;
-    gMain_bActiveModeState[0] = 5;
+    gMain_bActiveModeState = 5;
     gCampaignMap_bEntryLocation[0] = value;
 }

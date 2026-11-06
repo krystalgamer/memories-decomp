@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "display_object_interpolation.h"

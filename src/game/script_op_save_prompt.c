@@ -1,5 +1,4 @@
 #define SAVE_DATA_WORKSPACE_AS_HALFWORDS
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"

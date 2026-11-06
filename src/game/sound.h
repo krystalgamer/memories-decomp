@@ -1088,48 +1088,22 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
-/* gSD_dwCurrentBgmCommand, in two arms.
- *
- * The split is load bearing and the measurement stands: sound_frontend.c
- * writes it as a scalar, which -G8 reaches gp-relative, while
- * script_stream_commands.c and duel_effect_sound_commands.c read it
- * through an unsized array and `[0]`, which is not assumed small and so is
- * built from an absolute address. Giving all three the scalar form builds the
- * executable eight bytes short.
- *
- * What has changed is only the mechanism. The note here previously said
- * declaring it in this header "would force one spelling on every includer",
- * and that was true of a flat declaration. An arm does not: each consumer
- * selects the spelling it already had, the same way gSD_pSecondaryState above is
- * handled and gGraphics_nBaseFrameStep is handled in graphics_base_frame_step.h. So the symbol can
- * live here after all, with the split preserved rather than resolved. */
-#ifdef GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
-extern u32 gSD_dwCurrentBgmCommand[];
-#else
+/* sound_frontend.c reaches it gp-relative through a common declaration,
+ * while script_stream_commands.c and duel_effect_sound_commands.c reach it
+ * through an absolute address; every unit shares this one declaration. */
 extern u32 gSD_dwCurrentBgmCommand;
-#endif
 
 /* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
  * (script_stream_commands.c) and DuelEffect_ProcessBgmCommand
  * (duel_effect_sound_commands.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
  * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy
- * gSD_dwCurrentBgmCommand[0] into it under `& 4`. No other C unit touches
+ * gSD_dwCurrentBgmCommand into it under `& 4`. No other C unit touches
  * it. Initial value not read.
  *
- * Every retail access is 32-bit and goes through %hi/%lo
- * (Script_OpSound.s:42-43, 58-59, 66-67; DuelEffect_ProcessBgmCommand.s:31-32, 42-43,
- * 50-51), so both units define the .data arm; the `s32 []` one of them used
- * to declare, read only at `[0]`, reached that form the way the comment
- * above describes for gSD_dwCurrentBgmCommand. The plain arm is what a
- * control build measures. SD_BGMPlay takes a u32 and the neighbour it is
- * copied from is u32, so the word is declared u32; s32 builds
- * byte-identical. */
-#ifdef D_8009B404_IN_DATA
-extern u32 gSD_dwSavedBgmCommand[];
-#else
+ * SD_BGMPlay takes a u32 and the neighbour it is copied from is u32, so the
+ * word is declared u32; s32 builds byte-identical. */
 extern u32 gSD_dwSavedBgmCommand;
-#endif
 
 /* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where
  * the C tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before

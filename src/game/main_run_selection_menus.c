@@ -1,5 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define D_8009B2F8_AS_ARRAY
 #include "../types.h"
 #include "secondary_scene_commands.h"
 #include "../overlays/free_duel/free_duel.h"
@@ -41,7 +39,7 @@ void Main_RunBuildDeckMenu(void)
             (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
             (unsigned char *)gDuel_awPlayerDeck,
             0,
-            gBuildDeck_bConfirmMode[0]
+            gBuildDeck_bConfirmMode
         );
         Fade_WaitIn();
     } else if (BuildDeck_Update() == 0) {

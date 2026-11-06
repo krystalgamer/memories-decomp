@@ -7,7 +7,6 @@
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"

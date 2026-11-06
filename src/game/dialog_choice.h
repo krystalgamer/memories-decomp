@@ -20,9 +20,7 @@
  *
  * gDialog_bChoice used to be listed here as deliberately left out: declared
  * eleven times in four ways, with the array spelling unexplained. It is no
- * longer left out -- all three spellings are arms below, the last of them
- * added for DuelScene_Update, which was the one source still declaring it
- * privately. */
+ * longer left out: every source now shares the one declaration below. */
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoiceCount;
 
@@ -31,26 +29,14 @@ extern s8 gDialog_bChoiceCount;
  * addressing groups, as #3154 sets out, reduces it to one question that has
  * now been measured.
  *
- * One source spells it `s8 [9]`, the lever that keeps it out of -G8 small
- * data at the compiler; it includes this header and selects that view by
- * name.
- *
  * Of the five that reach it from small data, four spelled it s8 and
  * Dialog_ReadChoiceInput (dialog_choice_cursor.c) uses a u8 local. That was an abstention rather
  * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
  * assigning straight into a u8 local, so the load's signedness does not
- * survive. Taking s8 there builds byte for byte. */
-/* The array spelling is a codegen input rather than a claim about the
- * object. Nine bytes
- * clears the -G8 threshold, so the reference is not small data and the
- * assembler expands it; the unit that needs it reads only [0], which is the
- * same byte the scalar arms name. DuelScene_Update is its one consumer and
- * selects GDIALOG_CHOICE_SIZED; every other source uses the scalar. */
-#if defined(GDIALOG_CHOICE_SIZED)
-extern s8 gDialog_bChoice[9];
-#else
+ * survive. Taking s8 there builds byte for byte. DuelScene_Update's former
+ * `s8 [9]` spelling, read only at [0], builds byte-identically as the
+ * scalar now that every unit assembles at -G0. */
 extern s8 gDialog_bChoice;
-#endif
 
 /* The prompt's input state, the third member of that same shared set.
  * Text_HandleChoiceCommand arms it during setup -- 1 if the optional

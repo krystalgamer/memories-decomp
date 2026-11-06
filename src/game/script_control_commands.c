@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_NEXT_AS_ARRAY
 #include "../types.h"
 #include "script_command_busy.h"
 #include "script_state.h"
@@ -14,14 +13,14 @@ u8 *gScript_StreamCursor;
 
 void Script_OpGameOver(void)
 {
-    gMain_bActiveModeState[0] = 12;
-    gMain_bReturnMode[0] = 12;
+    gMain_bActiveModeState = 12;
+    gMain_bReturnMode = 12;
 }
 
 void Script_OpCredits(void)
 {
-    gMain_bActiveModeState[0] = 15;
-    gMain_bReturnMode[0] = 15;
+    gMain_bActiveModeState = 15;
+    gMain_bReturnMode = 15;
 }
 
 void Script_OpWait(void)
