@@ -136,10 +136,10 @@ currently enter function interiors, and one enters location-table data:
 | `0x80168624` | `CampaignMap_CreateLocationMarker + 0x9C` |
 | `0x80168040` | `CampaignMap_ClearLocationObjects + 0x3C` |
 | `0x8004EB9C` | `Model_UpdateAnimatedBattle + 0x9C`, not the current story-flag tester |
-| `0x80065B24` | `func_80065928 + 0x1FC`, not an established sound API |
-| `0x80066574` | `func_80066564 + 0x10` |
+| `0x80065B24` | `Model_DrawTwoSidedSemiFt3Primitives + 0x1FC`, not an established sound API |
+| `0x80066574` | `Model_DrawTwoSidedSemiFt3WindowRecordPrimitives + 0x10` |
 | `0x80021EA4` | `DuelScene_UpdateResultRewards + 0x5B4` |
-| `0x80065BFC` | `func_80065BCC + 0x30` |
+| `0x80065BFC` | `Model_DrawTwoSidedSemiGt3Primitives + 0x30` |
 | `0x800158C8` | `Fade_InitOut + 0x10` |
 
 Those targets are present in the actual encoded JAL instructions, not merely

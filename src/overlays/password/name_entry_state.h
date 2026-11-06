@@ -56,7 +56,7 @@
  *               starts a move, steps the frame while it is set and clears it
  *               with `&= 0xBFFF` when the eight-step tween ends.
  *
- * The first three were ALSO declared in the func_8016913C candidate, which
+ * The first three were ALSO declared in the NameEntry_UpdateKeyboard candidate, which
  * never named them anywhere else -- dead declarations rather than a second
  * opinion. */
 

@@ -69,7 +69,7 @@ again (#5).
 
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three
-create fixed text slots through `func_80035BE4`, and the refreshers and
+create fixed text slots through `TextBox_Create`, and the refreshers and
 flagged message path drive them through `TextBox_BuildBlocking`.
 
 The merged source keeps two same-symbol views of `gText_StagedValues`. The starchip
@@ -471,7 +471,7 @@ The password overlay's two text scanners now use the shared names from
 | `NameEntry_UpdateDialog` end test | `c != 0xFF` | `TEXT_STRING_TERMINATOR` |
 
 Both sites implement the same two-byte glyph rule the resident builder
-`func_80038148` already spells out with these names: a code at or above the
+`Text_PushFormattedDecimal` already spells out with these names: a code at or above the
 limit occupies two bytes, so the digit display emits a high and low byte for
 it and the dialog scanner steps an extra byte past it.
 
@@ -482,7 +482,7 @@ occurrences are deliberately left as numbers:
   That field is the fragment's Y position, so this is the 240-pixel screen
   bottom — an offscreen test, not a glyph limit.
 - `NameEntry_Init` calls
-  `func_80035BE4(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0)`, where the
+  `TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0)`, where the
   same literal appears twice with two further meanings: `textOffset + 0xF0`
   is a text-ID base, while the trailing `0x140, 0xF0` are the 320x240 box
   extents.
