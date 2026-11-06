@@ -493,7 +493,7 @@ segments:
       - [0xDBA78, .bss, game/european/duel_field_card_render]
       - [0xDBD70, .bss, game/library_create_grid_section_sprites]
       - [0xDC910, .bss, game/european/duel_effect_object_pool]
-      - [0xDCA10, .bss, game/main_run_campaign]
+      - [0xDCA10, bss, main_run_campaign_commons]
       - [0xDCA60, .bss, game/italian/debug_menu_editor_entries]
       - [0xDCA90, bss, duel_effect_command_commons]
       - [0xDCAA8, bss, text_control_commands_commons]

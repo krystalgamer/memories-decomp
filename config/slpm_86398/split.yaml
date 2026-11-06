@@ -488,7 +488,7 @@ segments:
       - [0xda5d0, .bss, game/duel_field_card_render]
       - [0xda8c8, .bss, game/library_create_grid_section_sprites]
       - [0xdb468, .bss, game/japanese/duel_effect_object_pool]
-      - [0xdb568, .bss, game/main_run_campaign]
+      - [0xdb568, bss, main_run_campaign_commons]
       - [0xdb5b8, .bss, game/japanese/debug_menu_editor_entries]
       - [0xdb5e8, bss, duel_effect_entry_occupancy_commons]
       - [0xdb6d8, bss, duel_effect_command_commons]

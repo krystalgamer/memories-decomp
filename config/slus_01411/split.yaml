@@ -239,7 +239,7 @@ segments:
       - [0xda6f0, .bss, game/duel_field_card_render]
       - [0xda9e8, .bss, game/library_create_grid_section_sprites]
       - [0xdb588, .bss, game/duel_effect_object_pool]
-      - [0xdb688, .bss, game/main_run_campaign]
+      - [0xdb688, bss, main_run_campaign_commons]
       - [0xdb6d8, .bss, game/debug_menu_editor_entries]
       - [0xdb708, bss, duel_effect_entry_occupancy_commons]
       - [0xdb7f8, bss, duel_effect_command_commons]

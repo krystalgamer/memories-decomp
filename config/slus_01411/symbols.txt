@@ -2572,3 +2572,4 @@ gDuelEffect_aOccupancyValues = 0x800EAF08;
 gDisplayEffect_aMenuRecords = 0x800EB010;
 gText_aChannels = 0x800EB0F8;
 gDuelEffect_aEntries = 0x800EB288;
+gAi_Selection = 0x800EAE88;

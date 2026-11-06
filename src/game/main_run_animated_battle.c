@@ -15,6 +15,10 @@
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bReturnMode;
+
 /* Regional value: the geometry offset y, half the screen height (0x78 ->
  * 0x80). The European build (src/game/european/) defines its own. */
 #ifndef ANIMATED_BATTLE_GEOM_OFFSET_Y

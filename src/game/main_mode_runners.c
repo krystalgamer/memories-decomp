@@ -68,6 +68,11 @@
 #include "../psyq/rand.h"
 #include "../psyq/setjmp.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bRequestedMenuID;
+u8 D_8009B268;
+
 /* Initialized data this unit owns at 0x80090B50. */
 u16 gCredits_awSecretNumbers[CREDITS_SECRET_NUMBER_COUNT][2] = {
     {0x21fa, 0x15ff},
