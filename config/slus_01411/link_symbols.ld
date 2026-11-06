@@ -66,7 +66,6 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 
 
-func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80060E70 = CardList_BuildRowSetTextBoxes;
@@ -75,10 +74,7 @@ func_800135FC = ViewState_ApplyAlternateOrbit;
 
 func_8003FFD8 = SD_CdBgmPlay;
 
-func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
-func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
-func_8002C570 = Library_CheckCardInChest;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;

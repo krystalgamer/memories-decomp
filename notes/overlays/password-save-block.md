@@ -81,7 +81,7 @@ them with a casted scalar field store made GCC fold away the base-address
 `addiu`, changed register allocation and shortened the resident image by
 four bytes; the guarded array retains the original instructions.
 
-`func_8002C570` retains its byte-offset API and two-stage base calculation.
+`Library_CheckCardInChest` (formerly `func_8002C570`) retains its byte-offset API and two-stage base calculation.
 Its displacement is now derived from the card-quantity layout, but no caller
 establishes that its argument is a bounded one-based card ID. Moving the
 one-based bias into the base pointer changed the `gSaveData_Workspace` relocation

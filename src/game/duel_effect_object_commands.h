@@ -4,7 +4,6 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-void func_800389C4(DuelEffectChannel *value);
 /* Secondary commands 0x17/0x18: index a u16 target table with independent
  * shared selectors, then patch the same post-read stream pointer's low half.
  * Producer-specific meanings and the regional high mask remain separate. */
