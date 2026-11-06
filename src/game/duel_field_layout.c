@@ -1,6 +1,3 @@
-/* duel_grid.h leaves gDuel_abFieldGridCardRecordIndices unsized for its consumers; the definition
-   states the shape the tables actually have. */
-#define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "duel_grid.h"
 #include "card_constants.h"
@@ -30,12 +27,12 @@ u8 gDuel_abHandCardRecordIndices[DUEL_SIDE_COUNT * HAND_SIZE + 2] = {
     0, 0,
 };
 
-u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {
-    {29, 28, 27, 26, 25, 24, 23, 22, 21, 20,
-     5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
-    {14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
-     20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
-};
+DuelFieldGrid gDuel_abFieldGridCardRecordIndices = {{
+    29, 28, 27, 26, 25, 24, 23, 22, 21, 20,
+    5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+    14, 13, 12, 11, 10, 9, 8, 7, 6, 5,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+}};
 
 DuelFieldPosition
     gDuel_aFieldGridGroundPositions[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] = {

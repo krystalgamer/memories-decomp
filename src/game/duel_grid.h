@@ -30,25 +30,19 @@ typedef struct {
  * Duel_InitScene (src/game/duel_init_scene.c) and
  * DuelScene_UpdateTurnSwitch (src/game/duel_scene_battle.c) both
  * build a per-side cursor as
- * gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
+ * &gDuel_abFieldGridCardRecordIndices.flat[gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT].
  *
- * Left unsized on purpose: a declared size is a -G input for this toolchain,
- * and no consumer needs the bound. */
-#ifdef DUEL_FIELD_GRID_2D
-/* duel_card_effects.c (through a cast of the flat array) and
- * DuelEffect_ApplySwords (src/game/duel_field_effects.c)
- * index it [side][slot]. That is not a spelling preference: rewriting either
- * of them to the flat index the other sixteen files use builds to the right
- * size and differs from byte 0x80025CA2.
- *
- * DuelEffect_ApplySwords shares duel_field_effects.c with
- * DuelEffect_ApplyCursebreaker and DuelEffect_ApplyHarpiesFeatherDuster, which
- * walk the grid flat, so the unit defines DUEL_FIELD_GRID_2D for the
- * [side][slot] user and casts at the flat ones. */
-extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
-#else
-extern u8 gDuel_abFieldGridCardRecordIndices[];
-#endif
+ * The 40 bytes are read both ways: DuelEffect_ApplySwords indexes
+ * rows[side][slot], and the other readers walk flat[side * 20 + slot]. The
+ * union gives each a correctly bounded array over the one object. Both are
+ * array references; casting the object to u8 * instead changes the operand
+ * order of the indexing addu in retail's functions. */
+typedef union DuelFieldGrid {
+    u8 flat[DUEL_SIDE_COUNT * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+    u8 rows[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+} DuelFieldGrid;
+
+extern DuelFieldGrid gDuel_abFieldGridCardRecordIndices;
 
 /* The hand table defined immediately before that grid, in the same unit:
  * duel_field_layout.c has it as

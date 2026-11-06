@@ -68,7 +68,7 @@ u8 gDuel_bActiveSide;
 
 s32 DuelField_GetGuardianStarDisplayCode(DuelSelectionRecord *cursor_a, DuelSelectionRecord *cursor_b)
 {
-    u8 *grid = gDuel_abFieldGridCardRecordIndices;
+    u8 *grid = gDuel_abFieldGridCardRecordIndices.flat;
     DuelCardRecord *records;
     s32 page;
     s32 offset_a;
@@ -213,7 +213,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
 
 void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source)
 {
-    u8 *table = gDuel_abFieldGridCardRecordIndices;
+    u8 *table = gDuel_abFieldGridCardRecordIndices.flat;
     s32 index =
         source->row * DUEL_FIELD_ROW_SIZE + source->col +
         gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
