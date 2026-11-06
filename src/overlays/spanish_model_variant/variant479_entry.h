@@ -51,13 +51,13 @@ typedef struct {
     u32 field_417C;
     GsCOORDUNIT *parts[3];
     s16 field_418C, field_418E;
-    s32 field_4190, field_4194, field_4198, field_419C, field_41A0;
+    s32 rib_fade, field_4194, curtain_gate, field_419C, field_41A0;
     s32 field_41A4, field_41A8, field_41AC, field_41B0, field_41B4;
-    s16 field_41B8, field_41BA, field_41BC, field_41BE;
-    s32 field_41C0, field_41C4, field_41C8, field_41CC;
+    s16 spiral_angle, field_41BA, spiral_size, field_41BE;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
     u8 color_a[4];
     u8 color_b[4];
-    s32 field_41D8, field_41DC, field_41E0, field_41E4, field_41E8;
+    s32 curtain_angle, field_41DC, field_41E0, field_41E4, field_41E8;
     s32 phase;
     s32 field_41F0, field_41F4;
     u8 unknown_41F8[8];
