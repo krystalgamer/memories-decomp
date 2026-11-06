@@ -82,7 +82,7 @@ segments:
       - [0x9BC, rodata, initial_data_09bc]
       - [0x9C0, .rodata, game/duel_field_effects]
       - [0x9D8, rodata, initial_data_0b2]
-      - [0x9E0, .rodata, game/library_runtime]
+      - [0x9E0, .rodata, game/library]
       - [0xA24, .rodata, game/main_mode_runners]
       - [0xA50, .rodata, game/debug_menu_editor_entries]
       - [0xA88, rodata, initial_data_1]
@@ -212,7 +212,7 @@ segments:
     subsegments:
       - [0x8b950, .sbss, game/duel_field_card_render]
       - [0x8ba44, .sbss, game/duel_effect_dialog_state]
-      - [0x8ba58, .sbss, game/library_card_grid]
+      - [0x8ba58, .sbss, game/library]
       - [0x8ba60, .sbss, game/duel_effect_object_pool]
       - [0x8ba68, bin, bss_image_8009b268]
       - [0x8ba7c, .sbss, game/script_command_busy]

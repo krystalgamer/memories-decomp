@@ -78,7 +78,7 @@ segments:
       - {start: 0x9BC, type: bin, name: german_raw_800101bc, linker_section_order: .rodata}
       - [0x9C0, .rodata, game/european/duel_field_effects]
       - {start: 0x9D8, type: bin, name: german_raw_800101d8, linker_section_order: .rodata}
-      - [0x9EC, .rodata, game/european/library_runtime]
+      - [0x9EC, .rodata, game/european/library]
       - [0xA34, .rodata, game/european/main_mode_runners]
       - [0xA60, .rodata, game/german/debug_menu_editor_entries]
       - [0xA98, .rodata, game/european/card_list_setup]
@@ -178,10 +178,7 @@ segments:
       - [0x19F28, c, game/library_create_grid_section_sprites]
       - [0x1A01C, c, game/duel_projection_axes]
       - [0x1A2CC, c, game/european/library_draw_wireframe_globe]
-      - [0x1A848, c, game/european/library_card_grid]
-      - [0x1AFF0, c, game/european/func_8002A660]
-      - [0x1B048, c, game/library_grid_cursor]
-      - [0x1B350, c, game/european/library_runtime]
+      - [0x1A848, c, game/european/library]
       - [0x1CDD4, c, game/duel_grid_offsets]
       - [0x1CEB0, c, game/duel_deck_lookup]
       - [0x1CF34, c, game/noop_callbacks]
@@ -468,7 +465,7 @@ segments:
       - [0x8CCB8, .sbss, game/european/fade_runtime]
       - [0x8CCCC, .sbss, game/european/duel_field_card_render]
       - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
-      - [0x8CDF0, .sbss, game/european/library_card_grid]
+      - [0x8CDF0, .sbss, game/european/library]
       - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
       - {start: 0x8CE0A, type: bin, name: german_raw_8009c60a, linker_section_order: .sbss}
       - [0x8CE10, .sbss, game/european/script_command_busy]
