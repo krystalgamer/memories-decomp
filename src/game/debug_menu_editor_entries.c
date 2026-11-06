@@ -9,32 +9,25 @@
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08, defined in
- * address order ahead of the headers that declare it (#2602). */
+/* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a
+ * common symbol split.yaml's debug_menu_editor_entries_bss_commons subsegment
+ * allocates. */
 u8 gDebug_szEditorCaretLine[48];
 
 #ifndef DEBUG_MENU_EDITOR_ENTRIES_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B2B0-0x8009B2F8, defined in
- * address order ahead of the headers that declare it (#2602). */
-static u16 D_8009B2B0;
+/* Zero-initialized storage this unit owns at 0x8009B2B0-0x8009B2F8, declared in
+ * address order ahead of the headers that declare it (#2602). The globals are
+ * common symbols; split.yaml's debug_menu_editor_entries_commons subsegment
+ * allocates them, and the bytes no global names, at their retail addresses. */
 u8 D_8009B2B2;
 s8 gDebug_abEditorCaretColumns[3];
-static u8 D_8009B2B7;
 u8 gDebug_bEditorLeadingLineCount;
-static u8 D_8009B2B9;
-static u16 D_8009B2BA;
 u8 gDebugMenu_bCampaignEditField;
-static u8 D_8009B2BD;
-static u16 D_8009B2BE;
 u8 gDebug_abEditorDigitCounts[3];
 u16 gDebug_nLastSoundID[2];
 u16 gDebug_nSceneOrSoundID;
 u16 gDebug_nEditedBgmId;
 u16 gDebug_nEditedCdSoundId;
-static u16 D_8009B2CE;
-static u32 D_8009B2D0;
-static u32 D_8009B2D4;
-static u16 D_8009B2D8;
 u16 gDebug_nLastBgmId;
 s8 gDebug_bEditorRow;
 u16 D_8009B2DE;
@@ -47,8 +40,6 @@ u8 gDebugMenu_bStep;
 u8 *gDebug_pszEditorFormat;
 u8 gDebugMenu_bPage;
 s8 gDebugMenu_bCursor;
-static u16 D_8009B2F2;
-static u32 D_8009B2F4;
 #else
 extern u8 D_8009B2B2;
 extern s8 gDebug_abEditorCaretColumns[3];
@@ -113,6 +104,11 @@ extern s8 gDebugMenu_bCursor;
 
 #define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 #include "../game/display_object.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u16 gDebugMenu_wCampaignScene;
+u16 gDebugMenu_wMessageId;
 
 /* Initialized data this unit owns at 0x80090CB4 through 0x80090D7C, previously a generated
    blob (#2602).

@@ -1,21 +1,14 @@
 {
   "schema": 1,
   "sources": [
-    "src/game/debug_menu_editor_entries.c",
-    "src/game/european/debug_menu_editor_entries.c",
     "src/game/european/model_keyframe_update.c",
     "src/game/european/script_op_show_dialog.c",
-    "src/game/french/debug_menu_editor_entries.c",
-    "src/game/german/debug_menu_editor_entries.c",
-    "src/game/italian/debug_menu_editor_entries.c",
-    "src/game/japanese/debug_menu_editor_entries.c",
     "src/game/japanese/model_keyframe_update.c",
     "src/game/japanese/script_op_duel_result.c",
     "src/game/japanese/script_op_show_dialog.c",
     "src/game/model_keyframe_update.c",
     "src/game/model_state_getters.c",
     "src/game/script_op_duel_result.c",
-    "src/game/script_op_show_dialog.c",
-    "src/game/spanish/debug_menu_editor_entries.c"
+    "src/game/script_op_show_dialog.c"
   ]
 }
