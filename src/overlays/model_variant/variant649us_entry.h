@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT649US_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/model_effect_state.h"
 #include "../../game/model_graphics_state.h"
@@ -76,12 +77,6 @@ typedef struct {
     Model649UsElement shards[32];
     Model649UsElement sparks[32];
 } Model649UsState;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model649UsViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant649Us_aImages[];

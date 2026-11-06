@@ -65,7 +65,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     Model644State *work;
     MATRIX ls, world;
     GsCOORDUNIT unit;
-    Model644ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR middle;
     long interpolation, flag, sxy;
     s32 result, step, inactive;
@@ -262,7 +262,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model644ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     switch (work->command) {
     case 0:

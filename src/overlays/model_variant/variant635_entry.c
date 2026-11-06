@@ -23,7 +23,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model635ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR vec;
     long interpolation, flag, sxy;
     s32 result, i, j, k, l, step, inactive;
@@ -332,7 +332,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model635ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (j = 0; j < work->copies; j++) {
             for (i = 0; i < work->dome_count; i++) {

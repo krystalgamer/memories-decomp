@@ -23,7 +23,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
     Image60348State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Image60348ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR point[4];
     long interpolation, flag;
     s32 result, step, inactive;
@@ -217,7 +217,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Image60348ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {

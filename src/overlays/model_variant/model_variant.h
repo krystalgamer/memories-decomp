@@ -96,6 +96,22 @@ typedef struct {
     u8 unknown_10[0x10];
 } ModelVariantAnchor;
 
+/* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer) that
+ * the header 630-683 entries and image 60348 take each frame; the entries
+ * that use it turn their sprites with the yaw at +2 and the pitch at +4. */
+typedef struct {
+    s16 unknown_00, yaw, pitch, unknown_06;
+} ModelVariantViewSnapshot;
+
+/* The same eight-byte view-metrics copy kept as bytes, as the header
+ * 628-676 entries and image 9840 lay it out: the entries that use it read
+ * the yaw at +2 and the pitch at +4 through s16 casts. Not interchangeable
+ * with ModelVariantViewSnapshot: this form is byte-aligned, which changes
+ * how GCC copies it, and each entry matches only with its own form. */
+typedef struct {
+    u8 bytes[8];
+} ModelVariantViewSnapshotBytes;
+
 /* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner
  * quad whose two colours and growing size drive a Gouraud-shaded POLY_G4. */
 typedef struct {

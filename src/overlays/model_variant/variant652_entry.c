@@ -22,7 +22,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
     Model652State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model652ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR origin;
     SVECTOR points[4];
     VECTOR center;
@@ -248,7 +248,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model652ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     switch (work->command) {
     case 0:

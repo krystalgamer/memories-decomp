@@ -22,7 +22,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
     Model634State *work;
     MATRIX ls;
     GsCOORDUNIT unit;
-    Model634ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, angle;
@@ -179,7 +179,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
         }
         inactive = 0;
         PushMatrix();
-        view = *(Model634ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {
                 unit.flg = 0;

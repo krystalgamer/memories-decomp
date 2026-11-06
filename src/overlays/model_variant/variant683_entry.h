@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT683_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -77,12 +78,6 @@ typedef struct {
     Model683Element fade;
     Model683Element bursts[3];
 } Model683State;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model683ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH

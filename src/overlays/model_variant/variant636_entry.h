@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT636_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -70,11 +71,6 @@ typedef struct {
     Model636Part domes[8];
     Model636Part sprites[16][8];
 } Model636State;
-
-/* An eight-byte copy of the view metrics; the sprites face the camera. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model636ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant636_Image;

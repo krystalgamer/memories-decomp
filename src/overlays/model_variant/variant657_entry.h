@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT657_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -62,11 +63,6 @@ typedef struct {
     Model657Part caps[3];
     Model657Part shards[8][3];
 } Model657State;
-
-/* An eight-byte copy of the view metrics; the entry reads two angles. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model657ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant657_aImages[3];

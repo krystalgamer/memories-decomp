@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_IMAGE60348_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_texture_upload.h"
@@ -47,10 +48,6 @@ typedef struct {
     /* Echo rows retain one age slot for each of the eight rings. */
     Image60348Element rings[8], echoes[16][8], bursts[8];
 } Image60348State;
-
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Image60348ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant681_aImages[3];

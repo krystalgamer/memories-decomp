@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT675US_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -76,12 +77,6 @@ typedef struct {
     Model675UsElement trails[8][16];
     Model675UsElement sparks[16];
 } Model675UsState;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    u8 bytes[8];
-} Model675UsViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant675Us_aImages[5];

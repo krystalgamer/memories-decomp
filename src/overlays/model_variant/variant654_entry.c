@@ -22,7 +22,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
     Model654State *work;
     MATRIX ls;
     GsCOORDUNIT unit;
-    Model654ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, n;
@@ -258,7 +258,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model654ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (j = 0; j < work->columns; j++) {
             for (i = 0; i < work->rows; i++) {

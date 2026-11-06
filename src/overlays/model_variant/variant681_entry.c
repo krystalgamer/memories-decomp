@@ -105,7 +105,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model681ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     VECTOR vec;
     /* Only two bytes are used; the size keeps the original frame layout. */
     u8 uv[8];
@@ -410,7 +410,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model681ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->flash_count; i++) {
             if (work->flashes[i].active == 1) {

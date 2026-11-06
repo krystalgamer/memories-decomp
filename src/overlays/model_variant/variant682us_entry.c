@@ -14,7 +14,7 @@ s32 ModelVariant682Us_HandleRequest(u8 *context, s32 command)
     Model682UsState *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model682UsViewSnapshot view;
+    ModelVariantViewSnapshot view;
     /* P1 is never used, but its slot keeps the retail stack layout. */
     SVECTOR p0, p1;
     SVECTOR pts[4][2];
@@ -201,7 +201,7 @@ s32 ModelVariant682Us_HandleRequest(u8 *context, s32 command)
             }
         }
         PushMatrix();
-        view = *(Model682UsViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->column_count; i++) {
             if (work->columns[i].active == 1) {

@@ -23,7 +23,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model628ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     SVECTOR rotation;
     SVECTOR mid[2];
     VECTOR vec;
@@ -209,7 +209,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model628ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->count; i++) {
             if (work->balls[i].active == 1) {
