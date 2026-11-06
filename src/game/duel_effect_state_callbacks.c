@@ -15,7 +15,6 @@
 #include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
-#define SD_IS_BGM_FADE_ACTIVE_IGNORES_OBJECT
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
@@ -236,7 +235,7 @@ void DuelEffect_WaitForFileTransfer(DuelEffectChannel *object)
 
 void Text_WaitForBgmFade(DuelEffectChannel *object)
 {
-    if (SD_IsBgmFadeActive(object) != 1) {
+    if (SD_IsBgmFadeActive() != 1) {
         object->playback_state = 0;
     }
 }

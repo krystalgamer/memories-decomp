@@ -31,7 +31,6 @@ Key gModel_aEffectKeys[10];
 #include "model_get_frame_step.h"
 #include "model_copy_slot_position.h"
 #include "model_update_view_metrics.h"
-#define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "model_step_view_orbit.h"
 #include "../psyq/rand.h"
 

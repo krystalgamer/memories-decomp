@@ -348,7 +348,7 @@ s16 SD_VabTransCompleted(s16 wait_mode)
     return SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 }
 
-void SD_ResetVabTransferState(void)
+void SD_ResetVabTransferState(s32 unused)
 {
     s16 *state_token_ptr = &gSD_pSecondaryState->transfer.state_token;
 

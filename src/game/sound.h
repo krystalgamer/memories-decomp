@@ -1044,29 +1044,12 @@ s16 SD_PollSequenceState(void);
 s32 SD_PollSequenceState(void);
 #endif
 
-/* Three no-argument steps of the secondary path that every caller reaches WITH
-   an argument. Each is defined `void (void)` and ignores it, but the retail
-   call sites compute g_SDValue->s_wSD_SEQ_ACCESS, or a zero, into $a0 first, and it
-   is the caller's declaration that keeps that setup alive: making a caller
-   agree with the definition costs four instructions -- measured, see
-   notes/research/matching-evidence.md.
-
-   SD_ResetVabTransferState's two callers pass a constant 0 and an s32 local,
-   so its
-   ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
-   the s16 s_wSD_SEQ_ACCESS, which default-promotes to s32, so its arm can too;
-   SD_CloseSequence's two callers pass the same field and use the same promoted
-   type. The defining units take the arm below and are still checked against
-   their definitions. */
-#ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
-void SD_ResetVabTransferState(s32 value);
-void SD_StopSequence(s32 value);
-void SD_CloseSequence(s32 value);
-#else
-void SD_ResetVabTransferState(void);
-void SD_StopSequence(void);
-void SD_CloseSequence(void);
-#endif
+/* Three secondary-path steps that take one argument they never read. Every
+   retail call site loads it into $a0 first: g_SDValue->s_wSD_SEQ_ACCESS for
+   the stop and close steps, a zero or the VAB result for the reset. */
+void SD_ResetVabTransferState(s32 unused);
+void SD_StopSequence(s32 unused);
+void SD_CloseSequence(s32 unused);
 /* Mutes active low-channel secondary objects, then sets the playback state
  * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
 void SD_MuteSecondaryVoices(void);

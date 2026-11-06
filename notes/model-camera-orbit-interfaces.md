@@ -4,8 +4,8 @@
 
 The accepted `Model_StepViewOrbit` and `Model_LockOrbitDirection` names,
 semantic source/header paths, profiles and declaration contracts are
-retained rather than renamed again. The four/five-argument
-`FUNC_80058434_CALL_WITH_UNUSED_ARG` selector belongs to the orbit step;
+retained rather than renamed again. The orbit step takes five
+arguments, the last unused;
 the lock retains its separate `int` signature and ordered guard.
 The earlier alias component preserved its then-existing camera/keyframe
 controls byte-for-byte; that is historical evidence, not a request to

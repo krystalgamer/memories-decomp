@@ -1,4 +1,3 @@
-#define FUNC_8004A7C0_CALL_WITH_UNUSED_ARG
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sd_key_off_secondary_object.h"
@@ -66,7 +65,7 @@ void SD_UpdateSecondaryObjectVoices(void) {
             if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
-                    SD_KeyOffSecondaryObject(i, b);
+                    SD_KeyOffSecondaryObject(i);
                 } else {
                     e->lifecycle_stage = b + 1;
                 }

@@ -827,7 +827,7 @@ struct for the pointee, and the reason was a measurement rather than a
 preference. That is **resolved as of 2026-09-11**; the eliminations below
 are kept because they are what made the answer findable, and the answer is
 the last paragraph of this section. With `sound.h` included and its (then) `G_SDVALUE_IN_DATA`,
-`SD_POLL_SEQUENCE_STATE_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
+`SD_POLL_SEQUENCE_STATE_RETURNS_S16` and (now retired) `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
@@ -2060,10 +2060,8 @@ The promoted caller takes its declarations from sound-owned headers.
 `SD_HasQueuedStreamCommand` retains its explicit byte mask, and
 `SD_OpenSequence` retains
 the signed-halfword store and test after the canonical word-sized result.
-`SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
-`SD_PlaySequence` caller view while its definition keeps the one-argument
-view. Native compiler controls check these declarations and reject
-incompatible views.
+`SD_PlaySequence` takes a second argument it never reads; its one caller
+loads `$a1` with 1, so the definition and declaration both carry it.
 
 The complete five-function secondary playback lifecycle now builds from
 `src/game/sound_secondary_playback.c`, covering `0x80049A64` through
