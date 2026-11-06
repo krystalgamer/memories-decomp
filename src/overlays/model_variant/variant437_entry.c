@@ -17,8 +17,8 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
     Variant437Group *group = work->groups;
     Variant437Beam *beam = &work->beam;
     Variant437Tile *tile = work->tiles;
-    Variant437Disc *disc = work->discs;
-    Variant437Disc *ring = work->rings;
+    ModelVariantRing *disc = work->discs;
+    ModelVariantRing *ring = work->rings;
     Variant437Star *star = &work->star;
     Variant437Cone *cone = work->cones;
     Variant437Ribbon *ribbon = work->ribbons;
@@ -293,14 +293,14 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&disc->outer[j], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            disc->color[0] = 64;
-            disc->color[1] = 128;
-            disc->color[2] = 255;
-            disc->glow[0] = 0;
-            disc->glow[1] = 0;
-            disc->glow[2] = 0;
+            disc->inner_color[0] = 64;
+            disc->inner_color[1] = 128;
+            disc->inner_color[2] = 255;
+            disc->outer_color[0] = 0;
+            disc->outer_color[1] = 0;
+            disc->outer_color[2] = 0;
             disc->angle = m * 1024 / 6;
-            disc->unknown8C = 0;
+            disc->count = 0;
         }
 
         for (m = 0, phase = 0; m < 4; m++, ring++, phase += 200) {
@@ -310,14 +310,14 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&ring->outer[j], (u32)rcos(angle) >> 3,
                           (u32)rsin(angle) >> 3, 0);
             }
-            ring->glow[0] = 255;
-            ring->glow[1] = 192;
-            ring->color[0] = 0;
-            ring->color[1] = 0;
-            ring->color[2] = 0;
-            ring->glow[2] = 64;
+            ring->outer_color[0] = 255;
+            ring->outer_color[1] = 192;
+            ring->inner_color[0] = 0;
+            ring->inner_color[1] = 0;
+            ring->inner_color[2] = 0;
+            ring->outer_color[2] = 64;
             ring->angle = 1024 - m * 256;
-            ring->unknown8C = 0;
+            ring->count = 0;
             unit = 4096;
         }
 

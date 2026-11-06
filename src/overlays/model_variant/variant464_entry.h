@@ -34,17 +34,11 @@ typedef struct {
     u8 unknown_75C[0x190];
 } Variant464EntryBand;
 
-/* Nine 17-point rings of a dome, each with its own colour. */
-typedef struct {
-    SVECTOR points[9][17];
-    CVECTOR color[9];
-} Variant464EntryDome;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     ModelVariantCurtain funnels[2];
     Variant464EntryBand bands[1];
-    Variant464EntryDome dome;
+    ModelVariantDome dome;
     ModelVariantSpiralWide spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];

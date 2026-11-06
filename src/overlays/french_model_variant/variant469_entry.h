@@ -30,19 +30,9 @@ typedef struct {
 } EntrySheet469;
 
 typedef struct {
-    u8 unknown_000[0x160];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s32 field_178, field_17C, count, field_184, state, length;
-    u8 unknown_190[0x58];
-    VECTOR position;
-    u8 unknown_1F8[0x58];
-} EntryRibbon469;
-
-typedef struct {
     Arcs582Group arcs[4];
     EntrySheet469 sheets[5];
-    EntryRibbon469 ribbons[5];
+    ModelVariantCountedRibbon ribbons[5];
     ModelVariantQuadRing ring;
     ModelVariantTrail trails[16];
     ModelVariantBandPair bands[1];

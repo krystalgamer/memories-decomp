@@ -93,16 +93,6 @@ typedef struct {
     u8 unknown94[4];
 } Variant437Tile;
 
-/* One 0x90-byte eight-point disc (six at work + 0x2650, four at + 0x29B0). */
-typedef struct {
-    SVECTOR inner[8];
-    SVECTOR outer[8];
-    u8 color[4];
-    u8 glow[4];
-    s32 angle;
-    s32 unknown8C;
-} Variant437Disc;
-
 /* The 0x90-byte five-point star at work + 0x2BF0. */
 typedef struct {
     SVECTOR points[11];
@@ -119,8 +109,8 @@ typedef struct {
     Variant437Cone cones[3];
     Variant437Beam beam;
     Variant437Tile tiles[2];
-    Variant437Disc discs[6];
-    Variant437Disc rings[4];
+    ModelVariantRing discs[6];
+    ModelVariantRing rings[4];
     Variant437Star star;
     POLY_G3 triangle;
     POLY_G4 quad;

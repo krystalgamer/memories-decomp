@@ -22,17 +22,7 @@ typedef struct {
 } EntryConfig461;
 
 typedef struct {
-    u8 unknown_000[0x160];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s32 field_178, field_17C, count, field_184, state, length;
-    u8 unknown_190[0x58];
-    VECTOR position;
-    u8 unknown_1F8[0x58];
-} EntryRibbon461;
-
-typedef struct {
-    EntryRibbon461 ribbons[5];
+    ModelVariantCountedRibbon ribbons[5];
     ModelVariantQuadRing ring;
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];

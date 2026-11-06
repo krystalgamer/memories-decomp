@@ -9,7 +9,7 @@ typedef struct {
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan fans[1];
     ModelVariantScreenRing screen_rings[3];
     ModelVariantCurtain curtains[4];

@@ -8,7 +8,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    Family373Grid *grid = &work->grid;
+    ModelVariantDome *grid = &work->grid;
     Family373Layer *layer = work->layers;
     EntryPointGroup373 *group = work->groups;
     EntryStrip373 *strip = work->strips;

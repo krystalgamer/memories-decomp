@@ -15,7 +15,7 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    Variant464EntryDome *dome = &work->dome;
+    ModelVariantDome *dome = &work->dome;
     ModelVariantCurtain *funnel = work->funnels;
     Variant464EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
@@ -118,9 +118,9 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
                     rsin(a) * radius >> 12);
                 j++;
             }
-            dome->color[n].b = blue;
+            dome->colors[n].b = blue;
             blue += 8;
-            dome->color[n].g = dome->color[n].r = n * 8;
+            dome->colors[n].g = dome->colors[n].r = n * 8;
             n++;
         }
         for (i = 0; i < 1; i++, band++) {

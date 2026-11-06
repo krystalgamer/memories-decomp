@@ -11,7 +11,7 @@ void FrenchModelVariant373_DrawGrid(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Family373Grid *grid;
+    ModelVariantDome *grid;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i;

@@ -23,19 +23,8 @@ typedef struct {
 } EntryConfig423;
 
 typedef struct {
-    u8 unknown_000[0x220];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
-    u8 unknown_240[0x88];
-    VECTOR position;
-    u8 unknown_2D8[0x88];
-} EntryRibbon423;
-
-typedef struct {
     ModelVariantMesh mesh;
-    EntryRibbon423 ribbons[1];
+    ModelVariantLongRibbon ribbons[1];
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[2];
