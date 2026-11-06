@@ -955,7 +955,7 @@ declared it three ways:
 The byte view was a misreading. The `u16` users only test bits `0x1000` and
 `0x2000` at offset 0, `debug_effect_screen.c` only touches byte 2, and the
 European images place that byte at an unrelated address. It is its own `u8`,
-`D_8009B16E`, which the US and Japanese layouts happen to put right after the
+`gDebugEffect_bPlacementCounter` (formerly `D_8009B16E`), which the US and Japanese layouts happen to put right after the
 flags word. The owner in `duel_field_card_render.c` now defines the two
 separately. Main_RunDuel's `.data` arm is still the open part of this
 symbol.

@@ -57,7 +57,7 @@ u16 gDuel_wActionSubstate;
 s16 gDuel_wViewTweenReferenceZTarget;
 static PADDING_VARIABLE(2);
 s32 gDuel_dwViewTweenReferenceZStep;
-u8 D_8009B16E;
+u8 gDebugEffect_bPlacementCounter;
 static PADDING_VARIABLE(1);
 static PADDING_VARIABLE(2);
 s32 gDuel_dwViewTweenHeadingAccumulator;
