@@ -6,8 +6,8 @@ handling or native code-generation identities.
 
 ## Per-channel control bytes
 
-Both `DuelEffectChannel` and the compact `JapaneseDuelEffectChannel` retain
-their existing unsigned bytes:
+Both the `0x64`-byte and the compact Japanese (`VERSION_JAPAN`) shapes of
+`DuelEffectChannel` retain their existing unsigned bytes:
 
 | Offset | Member | Evidence |
 |---|---|---|

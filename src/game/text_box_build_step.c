@@ -64,14 +64,12 @@ TextBoxStateCallback gTextBox_apfnStateCallbacks[] = {
    read-back after the store, which retail issues at every use. */
 volatile u16 gText_CurrentStreamCode;
 
-/* The glyph counter and its limit, and the buttons that skip ahead. The
-   Japanese channel record is 0x60 bytes, so both fields sit two bytes lower
-   there, and that release confirms with Circle rather than Cross. A regional
-   build supplies its own. */
+/* The glyph counter and its limit, and the buttons that skip ahead. PAL
+   views both as halfwords and the Japanese release confirms with Circle
+   rather than Cross, so a regional build supplies its own. */
 #ifndef TEXT_BOX_GLYPH_COUNT
 #define TEXT_BOX_GLYPH_COUNT(o) ((o)->output_count)
 #define TEXT_BOX_GLYPH_LIMIT(o) ((o)->output_limit)
-#define TEXT_BOX_RANGE_START(o) ((o)->entry_range_start)
 #endif
 #ifndef TEXT_BOX_ENTRY_TYPE
 #define TEXT_BOX_ENTRY_TYPE DuelEffectEntry
@@ -177,7 +175,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
-                TEXT_BOX_RANGE_START(object)];
+                object->entry_range_start];
             object->entry_begin = entry;
             object->entry_write_cursor = entry;
 #ifndef VERSION_EUROPE

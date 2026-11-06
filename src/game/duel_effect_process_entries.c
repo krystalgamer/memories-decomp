@@ -20,9 +20,6 @@ s32 gDuelEffect_nCompactionRequested;
 #ifndef DUEL_EFFECT_PROCESS_ENTRY_TYPE
 #define DUEL_EFFECT_PROCESS_ENTRY_TYPE DuelEffectEntry
 #endif
-#ifndef DUEL_EFFECT_PROCESS_RANGE_START
-#define DUEL_EFFECT_PROCESS_RANGE_START(object) ((object)->entry_range_start)
-#endif
 
 void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
 {
@@ -44,7 +41,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
 
     if (gDuelEffect_nCompactionRequested != 0) {
         q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)gDuelEffect_aEntries)[
-            DUEL_EFFECT_PROCESS_RANGE_START(channel)];
+            channel->entry_range_start];
         e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)channel->entry_write_cursor;
         s = q;
         while (s != e) {

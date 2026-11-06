@@ -1,4 +1,4 @@
 #include "../../types.h"
 
-#define TEXT_CHANNEL_SIZE 0x60
+#define VERSION_JAPAN
 #include "../library_card_grid.c"

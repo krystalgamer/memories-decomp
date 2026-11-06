@@ -490,7 +490,9 @@ typedef char LibraryMotionState_size_must_be_0x48[
     sizeof(LibraryMotionState) == 0x48 ? 1 : -1
 ];
 
-/* One text-box record, 0x64 bytes, the element type of gText_aChannels. 0x00 is the
+/* One text-box record, the element type of gText_aChannels: 0x64 bytes in
+   North America and PAL, 0x60 bytes in Japan (VERSION_JAPAN), whose entry
+   range and output counters are single bytes. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
    there), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
    TextBox_BuildStep seeds both with &gDuelEffect_aEntries[entry_range_start],
@@ -572,6 +574,14 @@ typedef struct DuelEffectChannel {
     u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
+#ifdef VERSION_JAPAN
+    /* Japan keeps the 16-bit range boundaries modulo 256 and has no
+       icon-variant byte, so its record ends at 0x60. */
+    u8 entry_range_start;
+    u8 entry_range_count;
+    u8 output_count;
+    u8 output_limit;
+#else
     u16 entry_range_start;
     u16 entry_range_count;
     /* NA byte counter/limit; PAL overlays both with one u16 pixel count.
@@ -583,11 +593,18 @@ typedef struct DuelEffectChannel {
        Keep the offset name for these distinct regional interpretations. */
     u8 field_62;
     u8 pad_63;
+#endif
 } DuelEffectChannel;
 
+#ifdef VERSION_JAPAN
+typedef char DuelEffectChannel_size_must_be_0x60[
+    sizeof(DuelEffectChannel) == 0x60 ? 1 : -1
+];
+#else
 typedef char DuelEffectChannel_size_must_be_0x64[
     sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
 ];
+#endif
 typedef char DuelEffectChannel_entry_write_cursor_offset_must_be_0x20[
     YGO_TYPE_OFFSET(DuelEffectChannel, entry_write_cursor) == 0x20 ? 1 : -1
 ];
@@ -647,9 +664,18 @@ typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
 typedef char DuelEffectChannel_entry_range_start_offset_must_be_0x5C[
     YGO_TYPE_OFFSET(DuelEffectChannel, entry_range_start) == 0x5C ? 1 : -1
 ];
+#ifdef VERSION_JAPAN
+typedef char DuelEffectChannel_output_count_offset_must_be_0x5E[
+    YGO_TYPE_OFFSET(DuelEffectChannel, output_count) == 0x5E ? 1 : -1
+];
+typedef char DuelEffectChannel_output_limit_offset_must_be_0x5F[
+    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x5F ? 1 : -1
+];
+#else
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
     YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x61 ? 1 : -1
 ];
+#endif
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
 

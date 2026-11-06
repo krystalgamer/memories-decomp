@@ -9,7 +9,6 @@
 #define LIBRARY_CARD_VIEW_BOX_HEIGHT 0xD0
 #define LIBRARY_CARD_ZOOM_Y 0
 #define LIBRARY_CARD_ZOOM_MIN_SCALE 0xD7
-#define LIBRARY_EFFECT_CHANNEL_STRIDE 100
 /* The splat name of its European address. */
 /* The language index is read through %hi/%lo, as in
  * duel_effect_resource_setup's wrapper. */

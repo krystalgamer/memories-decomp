@@ -536,10 +536,6 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
     *(u16 *)&object->output_count = 0;
     *(u16 *)&object->field_62 =
         read_operand(object) << 3;
-#elif defined(VERSION_JAPAN)
-    ((JapaneseDuelEffectChannel *)object)->output_count = 0;
-    ((JapaneseDuelEffectChannel *)object)->output_limit =
-        TextStream_ReadU16LE(object);
 #else
     object->output_count = 0;
     object->output_limit = TextStream_ReadU16LE(object);

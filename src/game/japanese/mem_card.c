@@ -4,10 +4,7 @@
 
 #define DIALOG_CHOICE_ADDRESS 0x8009B23D
 
-#define DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE 0x60
-
 /* SLPM-86398 build of src/game/mem_card_dialog.c. */
-#define MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE 0x60
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xD4
 
 /* Values used by the SaveData_* save-transfer functions. */

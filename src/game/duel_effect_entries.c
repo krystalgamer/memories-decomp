@@ -11,7 +11,6 @@
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "japanese/duel_effect_channel.h"
 #endif
 
 /* The big-endian key and payload cursors advance by 2 and 0x1E independently.
@@ -227,7 +226,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             return;
         }
         if (p->flags_34 & 0x200) {
-            r = (s16 *)(((JapaneseDuelEffectChannel *)p)->output_count * 0x88 + (u8 *)r);
+            r = (s16 *)(p->output_count * 0x88 + (u8 *)r);
         }
         q->glyph_index = v;
         DuelEffect_RasterizeGlyph(p, a, v, r + 4);

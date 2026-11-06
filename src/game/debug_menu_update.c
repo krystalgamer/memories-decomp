@@ -108,19 +108,17 @@ void (*gDebugMenu_apfnPrimaryPageSteps[])(void) = {
     DebugMenu_Exit,                  /* EXIT */
 };
 
-/* The second text box, and the cancel and confirm buttons. The Japanese
-   channel record is 0x60 bytes and that release swaps Cross for Circle, so a
-   regional build supplies its own. */
-#ifndef DEBUG_MENU_SECOND_BOX
-#define DEBUG_MENU_SECOND_BOX(boxes) (&(boxes)[1])
-#endif
+/* The cancel and confirm buttons. The Japanese release swaps Cross for
+   Circle, so a regional build supplies its own. */
 #ifndef DEBUG_MENU_CANCEL_BUTTON
 #define DEBUG_MENU_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #define DEBUG_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
 void DebugMenu_Update(void) {
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     DuelEffectChannel *boxes;
+#endif
     s32 i;
     s8 d;
     s32 one;
@@ -210,15 +208,18 @@ void DebugMenu_Update(void) {
 #endif
         gDebugMenu_bPage = gDebugMenu_bPage ^ one;
         TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0);
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         /* The array base has to stay in a local: writing `&gText_aChannels[1]`
          * directly folds the record offset into the address computation and
          * drops the `addiu` retail keeps for the call argument. */
         boxes = gText_aChannels;
-#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         boxes[1].glyph_advance_x = 0x10;
         boxes[1].line_advance_y = 0x10;
+        TextBox_BuildBlocking(&boxes[1]);
+#else
+        /* Without the field stores, retail folds the record offset. */
+        TextBox_BuildBlocking(&gText_aChannels[1]);
 #endif
-        TextBox_BuildBlocking(DEBUG_MENU_SECOND_BOX(boxes));
         return;
     }
     if ((gInput_awPadPressed[0] & DEBUG_MENU_CONFIRM_MASK) != 0) {

@@ -23,8 +23,7 @@ typedef char ChoiceView_size_must_be_8[
     sizeof(ChoiceView) == 8 ? 1 : -1
 ];
 
-/* The default cursor extent; the Japanese body keeps its explicit 0x60
- * byte advance rather than using this shared view's sizeof. */
+/* A cursor spanning one regional channel record. */
 typedef struct {
     ChoiceView choice;
     u8 pad_08[sizeof(DuelEffectChannel) - sizeof(ChoiceView)];

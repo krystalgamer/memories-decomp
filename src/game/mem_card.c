@@ -622,12 +622,7 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
-#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    entry = (DuelEffectChannel *)((u8 *)gText_aChannels +
-        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
-#else
     entry = &gText_aChannels[((u8 *)record)[0x1A]];
-#endif
     object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
@@ -708,12 +703,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
-#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    r = (DuelEffectChannel *)((u8 *)gText_aChannels +
-        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
-#else
     r = &gText_aChannels[((u8 *)record)[0x1A]];
-#endif
     if ((f & 0x40) != 0) {
         TextBox_UpdateChannels();
         if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
@@ -796,12 +786,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
     /* The dialog channel's index. It is the byte at 0x1A, inside grid's
        third row, and dialog_transition.c reads it the same way; nothing
        matched yet writes it, so MenuRecord has no name for it. */
-#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    q = (DuelEffectChannel *)((u8 *)gText_aChannels +
-        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
-#else
     q = &gText_aChannels[((u8 *)record)[0x1A]];
-#endif
     g = gDialog_bCallbackState;
 
     if ((g & 0x40) != 0) {
@@ -1019,13 +1004,7 @@ success:
     if (status >= 0)
         return;
     if (gMemCardWork_wFlags & 0x400) {
-#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-        DuelEffectChannel *text = (DuelEffectChannel *)(
-            (u8 *)gText_aChannels +
-            root->text_index * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
-#else
         DuelEffectChannel *text = &gText_aChannels[root->text_index];
-#endif
         TextBox_UpdateChannels();
         if ((*(u32 *)&text->flags_34 & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
             gMemCardWork_wFlags &= ~0x400;
@@ -2050,10 +2029,6 @@ void MemCardDialog_StepSave(void)
     MemCardDialog_UpdateSave();
 }
 
-#ifndef MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE
-#define MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
-#endif
-
 #ifndef MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xC0
 #endif
@@ -2259,12 +2234,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-#ifdef VERSION_JAPAN
-            (DuelEffectChannel *)((u8 *)gText_aChannels +
-                                  saved_index * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE),
-#else
             &gText_aChannels[saved_index],
-#endif
             (s16)object->xy.h.x,
             (s16)object->xy.h.y);
     }
@@ -2286,7 +2256,7 @@ void MemCardDialog_CreateObject(void)
             break;
         }
         p = (DuelEffectChannel *)(
-            (u8 *)p + MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE
+            (u8 *)p + sizeof(DuelEffectChannel)
         );
     }
 
@@ -2316,13 +2286,7 @@ void MemCardDialog_Update(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex
             ) == 0) {
-#ifdef VERSION_JAPAN
-            TextBox_Destroy((DuelEffectChannel *)(
-                (u8 *)gText_aChannels +
-                gMemCardDialog_ChannelIndex * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE));
-#else
             TextBox_Destroy(&gText_aChannels[gMemCardDialog_ChannelIndex]);
-#endif
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
         }
@@ -2357,13 +2321,7 @@ void MemCardDialog_Update(void)
             goto b14;
         }
         TextBox_UpdateChannels();
-#ifdef VERSION_JAPAN
-        p = (DuelEffectChannel *)(
-            (u8 *)gText_aChannels +
-            gMemCardDialog_ChannelIndex * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE);
-#else
         p = &gText_aChannels[gMemCardDialog_ChannelIndex];
-#endif
 #ifdef VERSION_EUROPE
         if ((*(s32 *)&p->flags_34 & 0x2010) !=
 #else

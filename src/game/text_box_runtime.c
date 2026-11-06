@@ -4,11 +4,10 @@
 #include "display_effect_process_menu_records.h"
 #include "duel_effect.h"
 
-#ifndef TEXT_BOX_RUNTIME_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800EB0F8-0x800EB288, defined in
- * address order ahead of the headers that declare it (#2602). */
-DuelEffectChannel gText_aChannels[4];
-#endif
+/* Zero-initialized storage this unit owns (0x800EB0F8-0x800EB288 in North
+ * America, 0x800EAFD8-0x800EB158 in Japan), defined in address order ahead of
+ * the headers that declare it (#2602). */
+DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
 #ifdef TEXT_BOX_RUNTIME_OWNS_BATTLE_MODELS
 #include "main_modes.h"
 AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
@@ -39,10 +38,6 @@ s16 gText_PumpedGlyphIndex;
 
 #ifndef DISPLAY_EFFECT_MENU_CONFIRM_MASK
 #define DISPLAY_EFFECT_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
-#endif
-
-#ifndef DISPLAY_EFFECT_MENU_CHANNEL_STRIDE
-#define DISPLAY_EFFECT_MENU_CHANNEL_STRIDE sizeof(DuelEffectChannel)
 #endif
 
 /* The retail body walks two pointers over the same four records: the record
@@ -120,10 +115,10 @@ reset:
             DuelEffect_ProcessEntries(p);
         }
         q = (ChoiceChannelCursor *)(
-            (u8 *)q + DISPLAY_EFFECT_MENU_CHANNEL_STRIDE);
+            (u8 *)q + sizeof(DuelEffectChannel));
         n--;
         p = (DuelEffectChannel *)(
-            (u8 *)p + DISPLAY_EFFECT_MENU_CHANNEL_STRIDE);
+            (u8 *)p + sizeof(DuelEffectChannel));
     } while (n != 0);
 }
 
