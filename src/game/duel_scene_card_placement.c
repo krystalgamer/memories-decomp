@@ -35,6 +35,22 @@
 #include "duel_presentation_controls.h"
 #include "display_callback_transitions.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+DisplayObject *gDuel_pCardPreviewObject;
+u16 gDuel_wTrapPresentationMode;
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wPlacementCardId;
+s16 gDuel_wPendingEquipBonus;
+s8 gDuel_bPresentationCursor;
+s8 gDuel_bPlacementNeedsCardMoveSetup;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u16 gDuel_wSceneStateFlags;
+u8 gDuel_bActiveSide;
+
 /* Regional value: the screen height a card leaves at (240 -> 256). The
  * European build (src/game/european/) defines its own. */
 #ifndef DUEL_CARD_PLACEMENT_SCREEN_HEIGHT

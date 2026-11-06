@@ -1454,3 +1454,4 @@ D_8009C22C_sles_03947 = 0x8009C64C;
 gDisplayEffect_aMenuRecords = 0x800EC2A8;
 gText_aChannels = 0x800F0850;
 gMain_aAnimatedBattleModels = 0x800F09E0;
+gDuelEffect_aEntries = 0x800EC390;

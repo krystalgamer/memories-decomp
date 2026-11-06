@@ -13,6 +13,10 @@ AnimatedBattleModelProperties gMain_aAnimatedBattleModels[2];
 #endif
 #include "duel_effect_process_entries.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s32 gDuelEffect_nCompactionRequested;
+
 #ifndef DUEL_EFFECT_PROCESS_ENTRY_TYPE
 #define DUEL_EFFECT_PROCESS_ENTRY_TYPE DuelEffectEntry
 #endif
