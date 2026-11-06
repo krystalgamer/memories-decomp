@@ -24,14 +24,6 @@ typedef struct {
 } Variant405EntryRing;
 
 typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
-    s32 field_88, field_8C, field_90;
-    u8 unknown_94[4];
-    s32 field_98;
-} Variant405EntrySheet;
-
-typedef struct {
     SVECTOR inner[17], outer[17];
     u8 outer_color[4], inner_color[4];
     s32 angle, field_11C;
@@ -59,7 +51,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant405EntryRing rings[3];
-    Variant405EntrySheet sheets[6];
+    ModelVariantSheetSet sheets[6];
     Variant405EntryCurtain outer_curtains[3];
     Variant405EntryCurtain inner_curtains[3];
     Variant405EntrySpoke spokes[4];

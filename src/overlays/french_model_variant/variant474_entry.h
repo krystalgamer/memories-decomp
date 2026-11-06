@@ -36,21 +36,13 @@ typedef struct {
     u8 unknown_3DC[0xD0];
 } Variant474EntryRibbon;
 
-/* One 0x98-byte sheet: four quads given by corner arrays and two colours. */
-typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant474EntrySheet;
-
 /* The header-474 work area shared with its helpers. */
 typedef struct {
     ModelVariantCurtain funnels[2];
     Variant474EntryRibbon ribbon;
     ModelVariantMesh mesh;
     ModelVariantSpiral spirals[12];
-    Variant474EntrySheet sheets[2];
+    ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];
     u8 unknown_1930[0x34];
     POLY_GT4 glow;

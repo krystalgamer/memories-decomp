@@ -14,19 +14,10 @@ typedef struct {
 } Variant404EntryConfig;
 
 typedef struct {
-    u8 unknown_00[0x144];
-    CVECTOR ca[9], cb[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} Variant404EntryBand;
-
-typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 unknown_AB0[0x360];
-    Variant404EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

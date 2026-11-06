@@ -4,15 +4,6 @@
 #include "variant337_entry.h"
 
 typedef struct {
-    u8 unknown_00[0x144];
-    CVECTOR ca[9], cb[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} Variant439EntryBand;
-
-typedef struct {
     SVECTOR a[17], b[17], c[17];
     CVECTOR inner, outer;
     s32 scale, count;
@@ -21,7 +12,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant439EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

@@ -3,26 +3,9 @@
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
 
-/* The entry's views of the spiral arm and ray records (the same layouts as
- * Variant425SpiralArm and Variant425Ray), with the two or three colour rows
- * the entry fills named. */
-typedef struct {
-    u8 unknown00[0x10];
-    SVECTOR a[2];
-    long sa[2];
-    s32 angle[2];
-    SVECTOR b[2];
-    long sb[2];
-    s32 width[2];
-    u8 cb[2][4];
-    u8 ca[2][4];
-    u8 unknown60[4];
-    s32 otz[2];
-    s16 ox[2];
-    s16 oy[2];
-    u8 unknown74[8];
-} Variant425EntryArm;
-
+/* The entry's view of the ray record (the same layout as Variant425Ray),
+ * with the three colour rows the entry fills named; its arm records are
+ * ModelVariantSpiralArm. */
 typedef struct {
     u8 unknown00[0x18];
     SVECTOR a[3];
@@ -47,22 +30,13 @@ typedef struct {
     u8 unknown_20[0x18];
 } Variant425EntryConfig;
 
-typedef struct {
-    u8 unknown_00[0x144];
-    CVECTOR ca[9], cb[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} Variant425EntryBand;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebSmall webs[3];
-    Variant425EntryArm arms[16];
+    ModelVariantSpiralArm arms[16];
     Variant425EntryRay rays[16];
     u8 unknown_1940[0x1CA0 - 0x1940];
-    Variant425EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

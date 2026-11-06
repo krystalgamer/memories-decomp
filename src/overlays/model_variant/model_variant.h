@@ -273,7 +273,8 @@ typedef struct {
 
 /* One 0x98-byte element of header 397's sheet array: four POLY_GT4 quads
  * given by corner arrays v0..v3, an inner colour on three corners and an
- * outer colour on the fourth, and a scale. */
+ * outer colour on the fourth, a scale and two words the entry handlers
+ * clear. */
 typedef struct {
     SVECTOR v0[4];
     SVECTOR v1[4];
@@ -282,7 +283,9 @@ typedef struct {
     u8 outer[4];
     u8 inner[4];
     s32 size;
-    u8 pad8C[0x0C];
+    s32 field_8C;
+    s32 field_90;
+    u8 unknown_94[4];
 } ModelVariantSheet;
 
 /* A 0x250-byte primary record the sheet helpers read for its active flag and
@@ -302,6 +305,19 @@ typedef struct {
     s32 size;
     u8 unknown_1D0[0xE0];
 } ModelVariantSheetPrimaryWide;
+
+/* ModelVariantSheet with its sixteen corners as one points[16] array and its
+ * colours as CVECTORs: outer is the colour of the fourth corner and inner that
+ * of the other three, as FrenchModelVariant400_DrawSheets and the header-335
+ * and 336 sheet drawers read them. (The header-337, 400 and 410 entries named
+ * the two colours the other way round; the header-410 ring drawer's
+ * Family410Ring keeps that naming.) */
+typedef struct {
+    SVECTOR points[16];
+    CVECTOR outer, inner;
+    s32 size, field_8C, field_90;
+    u8 unknown_94[4];
+} ModelVariantPointSheet;
 
 /* One 0x1C8-byte band of the bands helper: three rows of nine points, the
  * screen coordinates RotTransPers3 writes for them, two colour rows and the
@@ -349,6 +365,29 @@ typedef struct {
     s32 otz[5];
     long flag[5];
 } ModelVariantBandShort;
+
+/* The 0x1C8-byte ModelVariantBand seen from the entry handlers: the inner
+ * (ModelVariantBand's ca) and outer (cb) colour rows, set from the entry
+ * config's inner and outer colours, and the scale vector and words its pad
+ * holds. */
+typedef struct {
+    u8 unknown_00[0x144];
+    CVECTOR inner[9], outer[9];
+    VECTOR scale;
+    s16 field_19C, field_19E;
+    s32 field_1A0;
+    u8 unknown_1A4[0x24];
+} ModelVariantColorBand;
+
+/* ModelVariantColorBand in the 0x1EC-byte ModelVariantBandPadded record. */
+typedef struct {
+    u8 unknown_00[0x144];
+    CVECTOR inner[9], outer[9];
+    VECTOR scale;
+    s16 field_19C, field_19E;
+    s32 field_1A0;
+    u8 unknown_1A4[0x48];
+} ModelVariantColorBandPadded;
 
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
  * sideways, both projected, and per point the screen angle, the projected
@@ -444,7 +483,9 @@ typedef struct {
     u8 outer[4];
     u8 inner[4];
     s32 size;
-    u8 pad8C[0x0C];
+    s32 field_8C;
+    s32 field_90;
+    u8 unknown_94[4];
     s32 shown;
 } ModelVariantSheetSet;
 
@@ -692,12 +733,41 @@ typedef struct {
     u8 unknown_534[0x18];
 } ModelVariantTubeView;
 
+/* Header 398's 0x1E4-byte framebuffer ring: three rows of seventeen points, a
+ * colour per point (cycling through eight hues), a scale the drawer grows to
+ * 0x1000 and the count of times it wrapped. */
+typedef struct {
+    SVECTOR a[17], b[17], c[17];
+    CVECTOR color[17];
+    s32 scale, count;
+} ModelVariantScreenRing;
+
 /* ModelVariantSpiral in a 0x84-byte record. */
 typedef struct {
     u8 unknown_00[0x50];
     CVECTOR inner[2], outer[2];
     u8 unknown_60[0x24];
 } ModelVariantSpiralWide;
+
+/* One 0x7C-byte spiral arm: a two-point spine and a copy of it moved along
+ * the view, both projected, per point the screen angle, the projected width
+ * and its screen offset, and two colour rows. */
+typedef struct {
+    u8 unknown00[0x10];
+    SVECTOR a[2];
+    long sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    long sb[2];
+    s32 width[2];
+    u8 cb[2][4];
+    u8 ca[2][4];
+    u8 unknown60[4];
+    s32 otz[2];
+    s16 ox[2];
+    s16 oy[2];
+    u8 unknown74[8];
+} ModelVariantSpiralArm;
 
 /* One 0x30-byte entry config: the inner, outer and web colours, the model
  * parts, the frame the webs start at and the frame the sheet/band burst
@@ -826,6 +896,18 @@ typedef struct {
     s32 field_94;
     u8 unknown_98[8];
 } ModelVariantBandPair;
+
+/* One 0xB4-byte three-point band record: per point a staggered start offset
+ * and inner and outer colours, then a scale vector. */
+typedef struct {
+    u8 unknown_00[0x6C];
+    s32 offset[3];
+    CVECTOR inner[3], outer[3];
+    VECTOR scale;
+    s16 field_A0, field_A2;
+    s32 field_A4;
+    u8 unknown_A8[0xC];
+} ModelVariantBandTriple;
 
 /* A 0x4EC-byte mesh of nine rows of seventeen points and one colour per row,
  * drawn as RotTransPers4 quads between neighbouring rows. */

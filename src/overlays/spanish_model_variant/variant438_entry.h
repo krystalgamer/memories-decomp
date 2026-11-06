@@ -18,18 +18,6 @@ typedef struct {
     s32 size;
 } Variant438EntryConfig;
 
-/* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
-typedef struct {
-    u8 unknown_000[0x144];
-    CVECTOR inner[9];
-    CVECTOR outer[9];
-    s32 scale[3];
-    u8 unknown_198[4];
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} Variant438EntryBand;
-
 /* A six-point fan, five rays, four corners and two colours. */
 typedef struct {
     SVECTOR points[6];
@@ -47,7 +35,7 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 rays[0x360];
-    Variant438EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantColorRing spokes[6];
     ModelVariantColorRing petals[4];

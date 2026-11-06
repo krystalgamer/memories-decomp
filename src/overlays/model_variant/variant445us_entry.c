@@ -23,7 +23,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
     EntryRibbon445Us *ribbon = work->ribbons;
     ModelVariantQuadRing *ring = &work->ring;
     ModelVariantBandPair *band = work->bands;
-    EntryQuad445Us *quad_sheet = work->quads;
+    ModelVariantSheetSet *quad_sheet = work->quads;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
     ModelVariantShape *shape = work->shapes;
@@ -217,7 +217,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
             quad_sheet->size = 0;
             quad_sheet->field_8C = 0;
             quad_sheet->field_90 = 0;
-            quad_sheet->field_98 = 0;
+            quad_sheet->shown = 0;
         }
         near_scale = 256;
         far_scale = 192;

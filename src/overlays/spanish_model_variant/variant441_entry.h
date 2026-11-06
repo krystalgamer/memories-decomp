@@ -16,13 +16,6 @@ typedef struct {
     s32 end;
 } Variant441EntryConfig;
 
-/* Three seventeen-point loops with one colour per point. */
-typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    CVECTOR colors[17];
-    s32 scale, growth;
-} Variant441EntryHoop;
-
 /* The 0x54C-byte tube with nine fixed colours and its scale words. */
 typedef struct {
     u8 unknown_000[0x510];
@@ -45,7 +38,7 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    Variant441EntryHoop hoops[3];
+    ModelVariantScreenRing hoops[3];
     Variant441EntryTube tubes[1];
     ModelVariantWebNarrow webs[3];
     Variant441EntryRibbon ribbons[1];

@@ -55,15 +55,6 @@ typedef struct {
 } EntrySphere443;
 
 typedef struct {
-    u8 unknown_000[0x144];
-    CVECTOR inner[9], outer[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} EntryLongBand443;
-
-typedef struct {
     u8 unknown_00[0x48];
     CVECTOR inner[2], outer[2];
     VECTOR scale;
@@ -87,7 +78,7 @@ typedef struct {
     EntrySphere443 spheres[3];
     ModelVariantSpiral spirals[12];
     u8 unknown_23D8[0x360];
-    EntryLongBand443 long_bands[1];
+    ModelVariantColorBand long_bands[1];
     EntryShortBand443 bands[3];
     ModelVariantSheet sheets[5];
     ModelVariantColorRing rings_a[6], rings_b[4];

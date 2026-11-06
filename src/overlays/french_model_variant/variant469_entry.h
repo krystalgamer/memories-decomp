@@ -40,18 +40,13 @@ typedef struct {
 } EntryRibbon469;
 
 typedef struct {
-    ModelVariantSheet sheet;
-    s32 field_98;
-} EntryQuad469;
-
-typedef struct {
     Arcs582Group arcs[4];
     EntrySheet469 sheets[5];
     EntryRibbon469 ribbons[5];
     ModelVariantQuadRing ring;
     ModelVariantTrail trails[16];
     ModelVariantBandPair bands[1];
-    EntryQuad469 quads[10];
+    ModelVariantSheetSet quads[10];
     ModelVariantColorRing rings_a[6], rings_b[4];
     u8 unknown_32A0[0x90];
     POLY_G3 triangle;

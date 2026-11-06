@@ -12,7 +12,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant441EntryHoop *hoop = work->hoops;
+    ModelVariantScreenRing *hoop = work->hoops;
     ModelVariantWebNarrow *web = work->webs;
     Variant441EntryTube *tube = work->tubes;
     Variant441EntryRibbon *ribbon = work->ribbons;
@@ -126,12 +126,12 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&hoop->a[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&hoop->b[j], (u32)(rcos(angle) * 7) >> 6, (u32)(rsin(angle) * 7) >> 6, -192);
                 setVector(&hoop->c[j], (u32)(rcos(angle) * 5) >> 5, (u32)(rsin(angle) * 5) >> 5, -384);
-                hoop->colors[j].r = r;
-                hoop->colors[j].g = g;
-                hoop->colors[j].b = b;
+                hoop->color[j].r = r;
+                hoop->color[j].g = g;
+                hoop->color[j].b = b;
             }
             hoop->scale = -((n << 12) / 3);
-            hoop->growth = 0;
+            hoop->count = 0;
         }
         far_scale = 192;
         near_scale = 256;

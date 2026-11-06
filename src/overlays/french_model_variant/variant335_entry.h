@@ -21,17 +21,10 @@ typedef struct {
     u8 unknown_240[0x394 - 0x240];
 } Model335EntryRecord;
 
-typedef struct {
-    SVECTOR points[16];
-    CVECTOR outer, inner;
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-} Model335EntrySheet;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Model335EntryRecord records[3];
-    Model335EntrySheet sheets[4];
+    ModelVariantPointSheet sheets[4];
     Variant335Ring rings[3];
     ModelVariantStreamer short_streamers[6];
     Variant337EntryStreamer streamers[2];

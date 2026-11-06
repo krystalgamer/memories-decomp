@@ -20,13 +20,13 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant425EntryBand *band;
+    ModelVariantColorBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
     ModelVariantFan *fan;
     ModelVariantWebSmall *web;
-    Variant425EntryArm *arm;
+    ModelVariantSpiralArm *arm;
     Variant425EntryRay *ray;
     POLY_GT4 *textured;
     POLY_FT4 *flat;
@@ -127,12 +127,12 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         for (band_index = 0; band_index < 1; band_index++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
             for (band_point = 0; band_point < 9; band_point++) {
-                band->ca[band_point].r = work->config->inner.r;
-                band->ca[band_point].g = work->config->inner.g;
-                band->ca[band_point].b = work->config->inner.b;
-                band->cb[band_point].r = work->config->outer.r;
-                band->cb[band_point].g = work->config->outer.g;
-                band->cb[band_point].b = work->config->outer.b;
+                band->inner[band_point].r = work->config->inner.r;
+                band->inner[band_point].g = work->config->inner.g;
+                band->inner[band_point].b = work->config->inner.b;
+                band->outer[band_point].r = work->config->outer.r;
+                band->outer[band_point].g = work->config->outer.g;
+                band->outer[band_point].b = work->config->outer.b;
             }
             band->field_19C = 0;
             band->field_1A0 = 0;

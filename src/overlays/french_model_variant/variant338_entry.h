@@ -16,7 +16,7 @@ typedef struct {
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant337EntryRecord records[5];
-    Variant337EntryRing rings[2];
+    ModelVariantPointSheet rings[2];
     u8 unknown_1364[0x167C - 0x1364];
     Variant337EntryStreamer streamers[2];
     POLY_G3 triangle;

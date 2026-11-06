@@ -3,23 +3,15 @@
 #include "../../types.h"
 #include "../french_model_variant/variant439_entry.h"
 
-/* Header 398's framebuffer ring: three rows of seventeen points and a colour
- * per point, cycling through eight hues. */
-typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    CVECTOR color[17];
-    s32 scale, count;
-} Variant398EntryScreenRing;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant439EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
     ModelVariantFan fans[1];
-    Variant398EntryScreenRing screen_rings[3];
+    ModelVariantScreenRing screen_rings[3];
     ModelVariantCurtain curtains[4];
     POLY_G3 triangle;
     POLY_G4 quad;
@@ -49,7 +41,7 @@ typedef struct {
 /* Header-441 context for the same rings: the rings lead it, and the packet,
  * view and timing fields sit 0xCDC-0xD18 bytes higher than in header 398. */
 typedef struct {
-    Variant398EntryScreenRing screen_rings[3];
+    ModelVariantScreenRing screen_rings[3];
     u8 unknown_5AC[0x25D4 - 0x5AC];
     POLY_GT4 extra;
     u8 unknown_2608[0x267C - 0x2608];

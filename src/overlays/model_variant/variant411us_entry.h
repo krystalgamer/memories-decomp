@@ -24,21 +24,13 @@ typedef struct {
     s32 done[32];
 } Variant411UsEntrySwarm;
 
-/* ModelVariantSheet with its three trailing words named. */
-typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant411UsEntrySheet;
-
 typedef struct {
     ModelVariantSpriteSet trails[1];
     Variant411UsEntrySwarm swarm;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
-    Variant411UsEntrySheet sheets[2];
+    ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
     ModelVariantFan quads[1];

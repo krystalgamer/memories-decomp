@@ -44,20 +44,12 @@ typedef struct {
 } EntryRibbon445Us;
 
 typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-    s32 field_98;
-} EntryQuad445Us;
-
-typedef struct {
     EntryRibbon445Us ribbons[5];
     ModelVariantQuadRing ring;
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
-    EntryQuad445Us quads[10];
+    ModelVariantSheetSet quads[10];
     ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
     POLY_G3 triangle;

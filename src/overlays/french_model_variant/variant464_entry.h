@@ -27,19 +27,13 @@ typedef struct {
 } Variant464EntryPrimary;
 
 typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    CVECTOR color[17];
-    s32 scale, count;
-} Variant464EntryScreenRing;
-
-typedef struct {
     ModelVariantWebNarrow webs[3];
     Variant464EntryPrimary primary[5];
     ModelVariantSheetSet sheets[6];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
     ModelVariantFan fans[1];
-    Variant464EntryScreenRing screen_rings[3];
+    ModelVariantScreenRing screen_rings[3];
     ModelVariantCurtain curtains[3];
     POLY_G3 triangle;
     POLY_G4 quad;

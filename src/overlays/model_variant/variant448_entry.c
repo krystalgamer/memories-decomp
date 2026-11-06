@@ -22,7 +22,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     POLY_G3 *triangle;
     Variant448Radial *radial;
-    Variant448SpiralArm *arm;
+    ModelVariantSpiralArm *arm;
     GsRVIEW2 *view;
     Variant448FanUnit *fan;
     POLY_GT4 *textured;

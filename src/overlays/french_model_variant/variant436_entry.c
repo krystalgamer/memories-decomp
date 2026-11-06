@@ -15,7 +15,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     s32 i, j;
-    EntryRecord436 *record = work->records;
+    ModelVariantBandTriple *record = work->records;
     EntryRibbon436 *ribbon = work->ribbons;
     Sheet436 *sheet = work->sheets;
     Streamer436 *streamer = work->streamers;
@@ -117,7 +117,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
                 record->outer[j].r = 255;
                 record->outer[j].g = 255;
                 record->outer[j].b = 255;
-                record->progress[j] = 128 - j * 128;
+                record->offset[j] = 128 - j * 128;
             }
             record->field_A0 = 0;
             record->field_A4 = 0;
