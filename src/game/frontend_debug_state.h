@@ -28,11 +28,7 @@ s32 DebugMenu_UpdateValueEditor(void);
  * profile. The bounded value view is taken from this scalar label instead. */
 extern u16 gDebug_nSceneOrSoundID;
 
-#ifdef FRONTEND_DEBUG_SOUND_ROW_VIEW
 extern FrontendDebugSoundValues gDebug_nLastSoundID;
-#else
-extern u16 gDebug_nLastSoundID;
-#endif
 
 extern u8 D_8009B2B2;
 extern u8 gDebugMenu_bCampaignEditField;
