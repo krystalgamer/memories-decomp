@@ -251,9 +251,9 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
         work->field_37BC = 0;
         work->field_37C0 = 0;
         work->streamer_length = 1024;
-        work->streamer_rot_x = 0;
-        work->streamer_rot_y = 0;
-        work->streamer_rot_z = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->elapsed = 0;
         work->animation = 0;

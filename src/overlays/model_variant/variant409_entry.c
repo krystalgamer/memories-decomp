@@ -260,9 +260,9 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         work->field_217C = 0;
         work->streamer_length = 1024;
         work->travel = 0;
-        work->streamer_rot_x = 0;
-        work->streamer_rot_y = 0;
-        work->streamer_rot_z = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->progress = 0;
         work->frame_count = 0;
         work->elapsed = 0;
