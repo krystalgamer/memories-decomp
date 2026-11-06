@@ -12,6 +12,11 @@ u8 gDuelEffect_aOccupancyValues[240];
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuelEffect_OccupancyStartRow;
+u8 gDuelEffect_OccupancyStartColumn;
+
 #ifndef VERSION_EUROPE
 void DuelEffect_ClearOccupancyValue(int value)
 {

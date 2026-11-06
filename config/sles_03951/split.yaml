@@ -484,7 +484,7 @@ segments:
       - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
       - {start: 0x8CE0A, type: bin, name: spanish_raw_8009c60a, linker_section_order: .sbss}
       - [0x8CE10, .sbss, game/european/script_command_busy]
-      - [0x8CE14, .sbss, game/european/script_op_load_image_scene]
+      - [0x8CE14, sbss, script_op_load_image_scene_commons]
       - [0x8CE50, .sbss, game/spanish/debug_menu_editor_entries]
       - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
       - [0x8CE88, .sbss, game/european/sorted_entry_render]
@@ -507,7 +507,7 @@ segments:
       - [0xDC910, .bss, game/european/duel_effect_object_pool]
       - [0xDCA10, .bss, game/main_run_campaign]
       - [0xDCA60, .bss, game/spanish/debug_menu_editor_entries]
-      - [0xDCA90, .bss, game/european/duel_effect_command]
+      - [0xDCA90, bss, duel_effect_command_commons]
       - [0xDCAA8, .bss, game/european/text_control_commands]
       - [0xDCB90, .bss, game/european/duel_effect_process_entries]
       - [0xE1050, .bss, game/european/text_box_runtime]

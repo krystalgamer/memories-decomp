@@ -1,7 +1,9 @@
 #include "../../types.h"
 #define SCRIPT_OP_LOAD_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C1F4-0x8009C230 (#2602); its
- * layout differs from the North American block the shared source defines. */
+ * layout differs from the North American block the shared source defines. The
+ * globals are common symbols; split.yaml's script_op_load_image_scene_commons
+ * subsegment allocates them at their retail addresses. */
 struct DisplayObject *gCampaign_PrimaryDisplayObject;
 s32 gScript_ViewportDeltaX;
 s32 gScript_ViewportDeltaY;
