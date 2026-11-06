@@ -48,13 +48,13 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    s16 field_3368, field_336A, field_336C, field_336E;
+    s16 streamer_rotation, field_336A, field_336C, field_336E;
     s32 field_3370;
     Variant452EntryConfig *config;
     u32 field_3378;
     GsCOORDUNIT *parts[3];
     s16 field_3388, field_338A, field_338C, field_338E;
-    s32 field_3390, progress, field_3398, field_339C, field_33A0, field_33A4;
+    s32 field_3390, progress, streamer_radius, field_339C, field_33A0, field_33A4;
     s32 phase, field_33AC;
     u8 unknown_33B0[8];
     s32 tint;
