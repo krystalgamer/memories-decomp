@@ -143,7 +143,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/model_keyframe_update's small data (#2602). */
 
-/* Other names for game/ai_script_vm's small data (#2602). */
+/* Other names for game/ai_script's small data (#2602). */
 
 /* Other names for game/model's small data (former model_scene_controllers part) (#2602). */
 

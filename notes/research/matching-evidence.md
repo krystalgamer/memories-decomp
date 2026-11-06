@@ -66,9 +66,8 @@ G0 split materializes the selector separately and changes allocation.
 No register pins, inline assembly, local externs, or compiler-profile changes
 are needed.
 
-The shared `ai.h` declaration retains the existing return-width distinction:
-the definition and fusion consumers use `s8`, while the leading range helpers
-in `ai_script_opcodes.c` select `s32` to preserve their two call sites
+The shared `ai.h` declaration is the definition's `s32` return (#8857),
+which the leading range helpers in `ai_script.c` use at their two call sites
 without extra sign extension.
 
 ### Sound command filtering without register pins

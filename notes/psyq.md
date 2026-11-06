@@ -1752,7 +1752,7 @@ There is no `FILE` type or `fopen`/`fread` family, and the `getc`/`putc`
 signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
 disc and memory-card APIs. Seven matching sources include it. The `printf`
-callers are `ai_script_opcodes.c` and `ai_script_state_ops.c` for VM
+callers are `ai_script.c` and `ai_script_state_ops.c` for VM
 error/checkpoint output, `duel_field_effects.c` for the copied field
 grid y value, `sd_update_bank_load.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
@@ -1805,7 +1805,7 @@ an exact hand-written copy loop with `memcpy` or `bcopy` still requires a full
 executable match because GCC may choose different load/store sequences.
 
 The `memory.h` consumer inventory is complete at seven matching sources.
-`ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
+`ai_script.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The six `memset` consumers are
 `model_slot_support.c`, `func_8005D994.c`,
 `model_distance_queries.c`, `model_get_slot0_offset_world_position.c`, `model_effect_state.c`, and
