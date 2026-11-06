@@ -58,7 +58,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
         } else {
             turn = 0x400 - i * 360;
         }
-        for (k = 0, wave = -work->field_17FC; k < 17; k++, wave += 0x300) {
+        for (k = 0, wave = -work->ribbon_sway; k < 17; k++, wave += 0x300) {
             y = work->direction.vy * work->progress / 1024;
             z = work->direction.vz * work->progress / 1024;
             if (k == 0 || k == 16) {
@@ -143,7 +143,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
             }
         }
     }
-    work->field_17FC += work->step * 384;
+    work->ribbon_sway += work->step * 384;
     work->field_1800 += work->step * 128;
     if (work->progress < 0x400 && work->elapsed >= work->config->ribbon_start) {
         work->progress = ((work->elapsed - work->config->ribbon_start) << 10)
