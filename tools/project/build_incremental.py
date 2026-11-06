@@ -408,9 +408,6 @@ def dependency_context(
             include_directory, file_cache=file_cache
         ),
         "profiles": profile_context,
-        "legacy_assembler_gp_sources": build_baseline.legacy_assembler_gp_sources(
-            root
-        ),
     }
 
 
@@ -461,8 +458,6 @@ def component_signature(
                 "maspsx_sha256": context["maspsx_sha256"],
                 "profile": component.profile,
                 "profile_context": context["profiles"][component.profile],
-                "legacy_assembler_gp": component.source
-                in context["legacy_assembler_gp_sources"],
             }
         )
     return digest_value(value)

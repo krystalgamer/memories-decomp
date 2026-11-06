@@ -616,13 +616,17 @@ the assembler it passes `-G0`, as ASPSX did. So the assembler only ever saw
 unit at `-G0` for that reason; the compiler and MASPSX keep the profile's
 `-G`, and the two always agree.
 
-`config/slus_01411/assembler_gp_legacy.json` lists the units that still
-assemble at their profile's `-G`. Each one reads some other unit's small data
-through an `.extern` that only `as -G8` turns into `$gp`. A unit leaves the
-list once those reads no longer depend on the assembler: through common
-declarations, as below, or by merging it into the unit that owns the data. The profiles that gave the
-compiler, MASPSX and assembler different `-G` values are retired, and the
-`-G4`/`-G0` assembler rows below record how those units used to build.
+There are no exceptions. A retired legacy list once let some units assemble
+at their profile's `-G`, because they read other units' small data through an
+`.extern` that only `as -G8` turned into `$gp`. Every such read is now a
+common declaration, as below, or a read inside the merged unit that owns the
+data. The profiles that gave the compiler, MASPSX and assembler different
+`-G` values are retired too; the `-G4`/`-G0` assembler rows below record how
+those units used to build.
+
+As a consequence, a plain `extern` declaration is always reached absolutely
+(`lui %hi` + `%lo`), whatever its size, and only a common declaration or the
+unit's own storage is reached through `$gp`.
 
 ### Common declarations for small globals a unit reads
 
@@ -630,9 +634,7 @@ MASPSX writes `%gp_rel` only for small data the file itself has: `.sdata`,
 `.sbss` and `.comm` symbols. It never does so for an `.extern`, and the original
 ASPSX did not either. So a retail `$gp`-relative read of another unit's small
 global means the original file declared it as a C tentative definition
-(`u8 x;`, emitted as `.comm`), not `extern`. Today `as -G8` quietly makes those
-`.extern` reads `$gp`-relative instead, which is why the units that still
-rely on it are on the legacy list above.
+(`u8 x;`, emitted as `.comm`), not `extern`.
 
 A unit that reads small globals it does not own therefore repeats each one's
 declaration without `extern` after its includes, as `duel_scene_battle.c`
