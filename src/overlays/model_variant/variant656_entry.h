@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT656_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -13,14 +14,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
-
-/* One 0xC-byte command row: the start delay, the size and height of the
- * effect, then the ring/shell colour and the sprite colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model656Command;
 
 /* One 0x4C-byte element: a sprite, cone or dome placed through its own
  * coordinate unit. */
@@ -80,7 +73,9 @@ typedef struct {
 extern char gModelVariant656_szWorkSizeFormat[];
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant656_aImages[2];
-extern Model656Command gModelVariant656_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size and height of the
+ * effect, then the ring/shell colour and the sprite colour. */
+extern ModelVariantTwoColorCommand gModelVariant656_aConfigs[];
 
 s32 ModelVariant656_HandleRequest(u8 *context, s32 command);
 

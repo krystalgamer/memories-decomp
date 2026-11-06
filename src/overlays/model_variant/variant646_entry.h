@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the glows and
- * shells, then the glow/shard colour and the band/ray colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model646Command;
-
 /* One 0x4C-byte element: a glow, shard, orb, band ring or ray sphere placed
  * through its own coordinate unit. */
 typedef struct {
@@ -71,7 +63,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant646_aImages[2];
-extern Model646Command gModelVariant646_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the glows and
+ * shells, then the glow/shard colour and the band/ray colour. */
+extern ModelVariantTwoColorCommand gModelVariant646_aConfigs[];
 
 s32 ModelVariant646_HandleRequest(u8 *context, s32 command);
 

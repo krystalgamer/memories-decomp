@@ -17,14 +17,6 @@
 
 #include "../../game/model_copy_slot_position.h"
 
-/* One 0xC-byte command row: the start delay, the quad and dome sizes, then
- * the ribbon colour and the sprite colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model667Command;
-
 /* One 0x50-byte element: a ribbon, a sprite, a fan or a dome. */
 typedef struct {
     u8 active;
@@ -76,7 +68,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant667_aImages[3];
-extern Model667Command gModelVariant667_aConfigs[];
+/* One 0xC-byte command row: the start delay, the quad and dome sizes, then
+ * the ribbon colour and the sprite colour. */
+extern ModelVariantTwoColorCommand gModelVariant667_aConfigs[];
 
 s32 ModelVariant667_HandleRequest(u8 *context, s32 command);
 

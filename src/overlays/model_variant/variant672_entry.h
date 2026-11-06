@@ -16,14 +16,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the spark spread, the
- * flare size and two colours (sparks and rings, then flares). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model672Command;
-
 /* One 0x50-byte element: a spark streak, a flare or a ring sprite. */
 typedef struct {
     u8 active;
@@ -73,7 +65,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant672_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant672_aImages[3];
-extern Model672Command gModelVariant672_aConfigs[];
+/* One 0xC-byte command row: the start delay, the spark spread, the
+ * flare size and two colours (sparks and rings, then flares). */
+extern ModelVariantTwoColorCommand gModelVariant672_aConfigs[];
 
 s32 ModelVariant672_HandleRequest(u8 *context, s32 command);
 

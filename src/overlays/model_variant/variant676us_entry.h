@@ -14,16 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x10-byte command row: the start delay, the size of the sprites and
- * the spread of the lattice, then the flash/shard, burst and ring/wave
- * colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[9];
-    u8 unknown_0F;
-} Model676UsCommand;
-
 /* One 0x50-byte element: a flash, a shard, a burst, a ring or a wave. */
 typedef struct {
     u8 active;
@@ -79,7 +69,10 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant676Us_aImages[6];
-extern Model676UsCommand gModelVariant676Us_aConfigs[];
+/* One 0x10-byte command row: the start delay, the size of the sprites and
+ * the spread of the lattice, then the flash/shard, burst and ring/wave
+ * colours. */
+extern ModelVariantThreeColorCommand gModelVariant676Us_aConfigs[];
 
 s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command);
 

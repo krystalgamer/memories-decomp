@@ -20,14 +20,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0x0C-byte command row: the start delay, the radius, the height, then
- * the primary and the secondary colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model649UsCommand;
-
 /* One 0x4C-byte element placed through its own coordinate unit. */
 typedef struct {
     u8 active, red, green, blue;
@@ -80,7 +72,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant649Us_aImages[];
-extern Model649UsCommand gModelVariant649Us_aConfigs[];
+/* One 0x0C-byte command row: the start delay, the radius, the height, then
+ * the primary and the secondary colour. */
+extern ModelVariantTwoColorCommand gModelVariant649Us_aConfigs[];
 
 s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command);
 

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT651_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -15,14 +16,6 @@
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
-
-/* One 0xC-byte command row: the start delay, the spread radius, the rise
- * height and the strip colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, unknown_09[3];
-} Model651Command;
 
 /* One 0x4C-byte strip record. */
 typedef struct {
@@ -64,7 +57,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant651_Image;
-extern Model651Command gModelVariant651_aConfigs[];
+/* One 0xC-byte command row: the start delay, the spread radius, the rise
+ * height and the strip colour. */
+extern ModelVariantOneColorCommand gModelVariant651_aConfigs[];
 
 s32 ModelVariant651_HandleRequest(u8 *context, s32 command);
 

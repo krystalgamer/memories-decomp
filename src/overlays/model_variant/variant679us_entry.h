@@ -16,14 +16,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the effect radius, the
- * height and two colours (the shells, then the sparks and bursts). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model679UsCommand;
-
 /* One 0x4C-byte element: a shell, a spark or a burst sprite. */
 typedef struct {
     u8 active;
@@ -81,7 +73,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant679Us_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant679Us_aImages[11];
-extern Model679UsCommand gModelVariant679Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the effect radius, the
+ * height and two colours (the shells, then the sparks and bursts). */
+extern ModelVariantTwoColorCommand gModelVariant679Us_aConfigs[];
 
 s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command);
 

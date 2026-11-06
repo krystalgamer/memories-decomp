@@ -14,15 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the radius, a value the entry
- * copies but never reads, the flare and trail colour, and the sphere
- * colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, unknown_04;
-    u8 red, green, blue, sphere_red, sphere_green, sphere_blue;
-} Model632Command;
-
 /* One flare, sphere or trail strip: the 0x4C-byte burst record of header
  * 647. */
 typedef struct {
@@ -69,7 +60,10 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant632_aImages[2];
-extern Model632Command gModelVariant632_aConfigs[];
+/* One 0xC-byte command row: the start delay, the radius, a value the entry
+ * copies but never reads, the flare and trail colour, and the sphere
+ * colour. */
+extern ModelVariantSphereCommand gModelVariant632_aConfigs[];
 
 s32 ModelVariant632_HandleRequest(u8 *context, s32 command);
 

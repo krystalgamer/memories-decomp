@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the rings, then
- * the flare colour and the ring/spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model659Command;
-
 /* One 0x4C-byte element: an animated flare, a growing ring or a spark. */
 typedef struct {
     u8 active;
@@ -63,7 +55,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant659_aImages[7];
-extern Model659Command gModelVariant659_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the rings, then
+ * the flare colour and the ring/spark colour. */
+extern ModelVariantTwoColorCommand gModelVariant659_aConfigs[];
 
 s32 ModelVariant659_HandleRequest(u8 *context, s32 command);
 

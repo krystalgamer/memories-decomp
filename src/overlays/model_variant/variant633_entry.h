@@ -18,14 +18,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the trail width and height,
- * the trail colour and the spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, spark_red, spark_green, spark_blue;
-} Model633Command;
-
 /* One 0x50-byte effect record. */
 typedef struct {
     u8 active, red, green, blue;
@@ -79,7 +71,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant633_Image;
-extern Model633Command gModelVariant633_aConfigs[];
+/* One 0xC-byte command row: the start delay, the trail width and height,
+ * the trail colour and the spark colour. */
+extern ModelVariantSparkCommand gModelVariant633_aConfigs[];
 
 s32 ModelVariant633_HandleRequest(u8 *context, s32 command);
 

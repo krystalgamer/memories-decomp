@@ -65,7 +65,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             break;
         }
         work->radius = gModelVariant634_aConfigs[command].radius;
-        work->unknown_0C = gModelVariant634_aConfigs[command].unknown_04;
+        work->unknown_0C = gModelVariant634_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].duration = 48;
             work->rings[i].active = 0;

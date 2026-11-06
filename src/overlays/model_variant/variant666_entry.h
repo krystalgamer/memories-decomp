@@ -16,14 +16,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the bloom radius, the
- * spark height and two colours (blooms and sparks, then rings). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model666Command;
-
 /* One 0x54-byte element: a bloom, a spark or a ring. */
 typedef struct {
     u8 active;
@@ -75,7 +67,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant666_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant666_aImages[3];
-extern Model666Command gModelVariant666_aConfigs[];
+/* One 0xC-byte command row: the start delay, the bloom radius, the
+ * spark height and two colours (blooms and sparks, then rings). */
+extern ModelVariantTwoColorCommand gModelVariant666_aConfigs[];
 
 s32 ModelVariant666_HandleRequest(u8 *context, s32 command);
 

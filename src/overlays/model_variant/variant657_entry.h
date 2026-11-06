@@ -15,15 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x10-byte command row: the start delay, the ring radius, the band
- * height, then the ring, the band/cap and the shard colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[9];
-    u8 unknown_0F;
-} Model657Command;
-
 /* One 0x4C-byte effect part placed through a camera-relative coordinate
  * unit; the shards also keep an offset from their ring's centre. */
 typedef struct {
@@ -66,7 +57,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant657_aImages[3];
-extern Model657Command gModelVariant657_aConfigs[];
+/* One 0x10-byte command row: the start delay, the ring radius, the band
+ * height, then the ring, the band/cap and the shard colours. */
+extern ModelVariantThreeColorCommand gModelVariant657_aConfigs[];
 
 s32 ModelVariant657_HandleRequest(u8 *context, s32 command);
 

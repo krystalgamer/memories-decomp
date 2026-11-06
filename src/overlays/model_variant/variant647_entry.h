@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the ring radius and height,
- * and the colour of the bursts. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, unknown_09[3];
-} Model647Command;
-
 /* One burst: a cone of rings that grows from the camera unit while it
  * fades, drawn as quads and triangles from the shared ring vertices. */
 typedef struct {
@@ -59,7 +51,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant647_Image;
-extern Model647Command gModelVariant647_aConfigs[];
+/* One 0xC-byte command row: the start delay, the ring radius and height,
+ * and the colour of the bursts. */
+extern ModelVariantOneColorCommand gModelVariant647_aConfigs[];
 
 s32 ModelVariant647_HandleRequest(u8 *context, s32 command);
 

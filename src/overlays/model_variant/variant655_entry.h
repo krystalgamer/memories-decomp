@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the quads and
- * rings, then the streak colour and the burst/spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model655Command;
-
 /* One 0x50-byte element: a streak, a burst or a spark. */
 typedef struct {
     u8 active;
@@ -67,7 +59,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant655_aImages[2];
-extern Model655Command gModelVariant655_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the quads and
+ * rings, then the streak colour and the burst/spark colour. */
+extern ModelVariantTwoColorCommand gModelVariant655_aConfigs[];
 
 s32 ModelVariant655_HandleRequest(u8 *context, s32 command);
 

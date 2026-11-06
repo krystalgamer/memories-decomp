@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the arc radius and the sprite
- * half-size, then the streak and the sprite colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model636Command;
-
 /* One 0xC-byte flight path of a streak: the forward reach, the frame of
  * the apex, then two sideways and two vertical arc factors. */
 typedef struct {
@@ -74,7 +66,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant636_Image;
-extern Model636Command gModelVariant636_aConfigs[];
+/* One 0xC-byte command row: the start delay, the arc radius and the sprite
+ * half-size, then the streak and the sprite colours. */
+extern ModelVariantTwoColorCommand gModelVariant636_aConfigs[];
 
 s32 ModelVariant636_HandleRequest(u8 *context, s32 command);
 

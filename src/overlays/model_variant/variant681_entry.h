@@ -15,15 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x10-byte command row: the start delay, the size of the flash and the
- * height of the rings, then the flash, ring/spark and dome colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[9];
-    u8 unknown_0F;
-} Model681Command;
-
 /* One 0x4C-byte element: a flash, a ring, a burst, a dome or a spark. */
 typedef struct {
     u8 active;
@@ -76,7 +67,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant681_aImages[8];
-extern Model681Command gModelVariant681_aConfigs[];
+/* One 0x10-byte command row: the start delay, the size of the flash and the
+ * height of the rings, then the flash, ring/spark and dome colours. */
+extern ModelVariantThreeColorCommand gModelVariant681_aConfigs[];
 
 s32 ModelVariant681_HandleRequest(u8 *context, s32 command);
 
