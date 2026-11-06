@@ -605,11 +605,10 @@
       "assembly_filter": "tools/project/normalize_psyq_rtps.py",
       "allow_psyq_inline_macros": true
     },
-    "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps_comm": {
+    "gcc_2_8_1_g8_split_psyq_rtps_comm": {
       "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
       "compiler_flags": [
         "-O2",
-        "-fno-strength-reduce",
         "-G8",
         "-mel",
         "-mips1",
