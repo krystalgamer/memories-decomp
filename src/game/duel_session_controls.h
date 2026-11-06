@@ -27,11 +27,7 @@ extern u8 gDuel_bPostDuelMainMode __attribute__((section(".data")));
 extern u8 gDuel_bPostDuelMainMode;
 #endif
 
-#ifdef D_8009B369_IN_DATA
-extern u8 gDuel_bResumeFromAnimatedBattle __attribute__((section(".data")));
-#else
 extern u8 gDuel_bResumeFromAnimatedBattle;
-#endif
 
 /* The win/loss scene pair. Main_RunDuelAndLibrary indexes it by
  * gDuel_bPlayerLost through an absolute address, which cc1psx builds only for
@@ -45,10 +41,6 @@ extern u16 gDuel_wCampaignSceneOnLoss;
 
 /* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
  * %hi/%lo pair into the load's own register, which is the .data form. */
-#ifdef D_8009B374_IN_DATA
-extern u16 gDuel_wAnimatedBattleBgmCommand __attribute__((section(".data")));
-#else
 extern u16 gDuel_wAnimatedBattleBgmCommand;
-#endif
 
 #endif

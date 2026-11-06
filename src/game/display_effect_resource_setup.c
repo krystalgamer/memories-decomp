@@ -7,7 +7,6 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_effect_has_resource_entry.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

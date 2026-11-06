@@ -1,5 +1,4 @@
 #define GDIALOG_CHOICE_IN_DATA
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "duel_scene_state.h"
 #include "ai.h"

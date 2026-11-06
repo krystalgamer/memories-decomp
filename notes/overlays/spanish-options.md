@@ -166,8 +166,7 @@ resident/options images or five resource chunks. Indirect/other-module
 references remain possible; no unused-code exclusion is asserted.
 
 `D_800E9D70` is a sixteen-byte array of two rectangles, not a pointer variable.
-`D_8009B118_IS_POINTER_IN_DATA` selects the existing four-byte buffer-pointer
-declaration. Its zero initial value is not the runtime destination:
+`gFile_TransferBufferBase` is the four-byte buffer-base word. Its zero initial value is not the runtime destination:
 `File_SetPositionTable` passes `gLibrary_aCardArtRecord` to
 `File_InitTransferState`, which stores that pointer. The language-image helper
 uses 1,536 bytes for the 48-by-16 halfword rectangle, from `(0x290, 0)` to

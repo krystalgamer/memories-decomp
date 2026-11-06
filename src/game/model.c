@@ -9,9 +9,7 @@
 #define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#define FILE_TRANSFER_WORDS_IN_DATA
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
-#define D_8009B118_IS_POINTER_IN_DATA
 
 #include "model_record_tables.h"
 #include "model_background.h"

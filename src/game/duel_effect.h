@@ -67,11 +67,7 @@ extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
  * Every access is sb or lbu. Retail addresses the candidate writer through
  * $at, while the matching reader is gp-relative, so the writer selects the
  * .data declaration and the reader takes the plain declaration. */
-#ifdef D_8009B344_IN_DATA
-extern u8 gText_GuardianGlyphCode __attribute__((section(".data")));
-#else
 extern u8 gText_GuardianGlyphCode;
-#endif
 
 /* Generic text jump selector A; the field-info interpretation below is not
  * universal. Results use multiplayer mode, and the trade builder stores its
@@ -93,11 +89,7 @@ extern u8 gText_GuardianGlyphCode;
  * duel_effect_object_commands.c takes the plain byte, and so does
  * main_menu_create_trade_ready_indicator.c, whose -G0 unit stores through
  * $at either way. */
-#ifdef D_8009B34E_IN_DATA
-extern u8 gText_BranchSelectorA __attribute__((section(".data")));
-#else
 extern u8 gText_BranchSelectorA;
-#endif
 
 /* Independent generic selector B. Results use winner + 2 * multiplayer;
  * this is not universally Swords or guardian flags.
@@ -107,11 +99,7 @@ extern u8 gText_BranchSelectorA;
  * index selects.
  * Same two units, same forms (four $at stores and one lui/lbu read in
  * DuelField_CreateCardInfoTextBox, gp-relative in Text_JumpBySelectorB), same arms. */
-#ifdef D_8009B355_IN_DATA
-extern u8 gText_BranchSelectorB __attribute__((section(".data")));
-#else
 extern u8 gText_BranchSelectorB;
-#endif
 
 /* Stored by two functions and read by one. DuelField_CreateCardInfoTextBox stores
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
@@ -133,11 +121,7 @@ extern u8 gText_BranchSelectorB;
  * gcc_2_8_1_g8_split, so duel_field_display_objects.c and library_card_grid.c
  * define the .data arm; Text_ExpandSelectedCardInfo's candidate takes the plain byte.
  * Initial value not read. */
-#ifdef D_8009B320_IN_DATA
-extern u8 gText_SelectedCardColorIndex __attribute__((section(".data")));
-#else
 extern u8 gText_SelectedCardColorIndex;
-#endif
 
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
  * stores the list entry's id (card_list_text_boxes.c:19); DuelField_CreateCardInfoTextBox stores
@@ -172,11 +156,7 @@ extern u8 gText_SelectedCardColorIndex;
  * define the .data arm, and card_list_text_boxes.c, whose unit assembles
  * at -G0, takes the plain declaration.
  * Initial value not read. */
-#ifdef GDUEL_WSELECTEDCARDID_IN_DATA
-extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-#else
 extern s16 gDuel_wSelectedCardID;
-#endif
 
 /* The text command disposition. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
@@ -275,11 +255,7 @@ extern u8 gDuel_bActiveEffectState;
  * build_deck_pane_input.c, src/game/duel_effect_states.c,
  * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and
  * MainMenu_UpdateTradeScreen take the plain arm. */
-#ifdef GDUEL_BEFFECTSTATE_IN_DATA
-extern u8 gDuel_bEffectState __attribute__((section(".data")));
-#else
 extern u8 gDuel_bEffectState;
-#endif
 
 s32 DuelEffect_UpdateState(void);
 

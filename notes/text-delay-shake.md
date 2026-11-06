@@ -59,8 +59,7 @@ both random calls and stores before restoration. When the parity bit is
 clear, that random work is skipped, but snapshot, countdown and unconditional
 completion restore remain active.
 
-The unit selects the `.data` viewport arm `GRAPHICS_VIEWPORT_IN_DATA`;
-the snapshot reads the coordinates unsigned (`*(u16 *)&gGraphics_sViewportX`)
+The snapshot reads the coordinates unsigned (`*(u16 *)&gGraphics_sViewportX`)
 and the low-halfword stores go through the same cast. The origin remains an unsigned
 two-element array with plain GP addressing; it is not replaced by a signed
 coordinate pair, structure, current-viewport alias or per-channel object.

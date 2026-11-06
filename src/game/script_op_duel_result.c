@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_object_config.h"
 #include "script_command_busy.h"
 #include "../psyq/libgte.h"

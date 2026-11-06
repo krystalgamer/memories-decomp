@@ -180,11 +180,7 @@ extern volatile s32 gGraphics_dwSyncVBlankCounter;
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
  * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
-#ifdef D_8009B0CC_IN_DATA
-extern s32 gGraphics_dwSyncedFrameCount __attribute__((section(".data")));
-#else
 extern volatile s32 gGraphics_dwSyncedFrameCount;
-#endif
 
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
  * Main_Init zeroes it and reads it into a local it stores to
@@ -257,11 +253,7 @@ extern u16 gGraphics_wFlags;
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than
  * through the small-data base. */
-#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
-extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
-#else
 extern u8 gGraphics_bActiveBuffer;
-#endif
 
 /* libgs's environments passed to PutDrawEnv / PutDispEnv. Startup writes the
  * draw environment through a volatile view at the use. See
@@ -340,13 +332,8 @@ extern u8 gGraphics_bClearRed;
    Files that reach these through `__attribute__((section(".data")))` select
    the guarded view below because that spelling changes how the address is
    materialised, not just how the value reads. */
-#if defined(GRAPHICS_VIEWPORT_IN_DATA)
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-#else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
-#endif
 
 /* One half of the double-buffered graphics work area. The first 0x5110 bytes
  * hold the ordering-table tags; four SDK descriptors occupy the final 0x50

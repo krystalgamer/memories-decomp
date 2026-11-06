@@ -24,10 +24,7 @@ a two-sector allocation claim: boot callbacks also access
 `base + 2 * FILE_SECTOR_SIZE`, and preview uploads use offsets `0x2640`,
 `0x2840` and further image offsets.
 
-The new declaration header retains the original guard precedence:
-`D_8009B118_IS_POINTER_IN_DATA` selects `u8 *` with `.data`;
-otherwise `D_8009B118_IN_DATA` selects signed `s32` with `.data`;
-otherwise the declaration remains plain signed `s32`. No scalar-to-pointer
+Every unit shares the one plain signed `s32` declaration. No scalar-to-pointer
 conversion, new cast, sign change or common declaration normalization is
 introduced.
 

@@ -34,9 +34,8 @@ resets it to `0x808080`; the field-card fade reads its low byte, steps by
 eight and writes equal RGB channels. The overlay colour command publishes
 explicit packed channels.
 
-The object remains `u32`. Whole-word stores, byte-view reads and the literal
-`D_8009B300_IN_DATA` selector retain the default/forced-`.data` declarations
-and addressing behavior. No RGB structure, narrower storage, colour mask,
+The object remains `u32`. Whole-word stores and byte-view reads keep their addressing behavior through
+the one plain declaration. No RGB structure, narrower storage, colour mask,
 new validation or altered fade/reset policy is introduced.
 
 ## Japanese collision protection

@@ -1,4 +1,3 @@
-#define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_effect.h"

@@ -128,11 +128,7 @@ extern DuelEffectRequest *gDuelEffect_pTrackedRequest;
  * filler, so there is nothing for it to hoist into the slot. The unsized
  * array the unit declared privately gives cc1psx's own splittable pair
  * instead, and the lui half lands in the slot. */
-#ifdef gDuel_bEffectRequestStatus_IN_DATA
-extern u8 gDuel_bEffectRequestStatus __attribute__((section(".data")));
-#else
 extern u8 gDuel_bEffectRequestStatus;
-#endif
 
 /* Allocates a request for the given effect id, marks the pool active, and
  * returns it, or 0 when the pool is full. */

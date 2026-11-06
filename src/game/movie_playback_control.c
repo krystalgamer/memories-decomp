@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #define D_8009B142_IS_AGGREGATE
 #include "graphics_frame.h"
 #include "file_cd_helpers.h"

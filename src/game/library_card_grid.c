@@ -1,7 +1,4 @@
-#define GRAPHICS_VIEWPORT_IN_DATA
 #define D_8009B09C_IN_DATA
-#define D_8009B320_IN_DATA
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B258-0x8009B260, defined in

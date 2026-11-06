@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_action_lock.h"
 
 s32 DuelEffect_MarkInitialized(void)

@@ -246,11 +246,7 @@ extern s8 gDuel_bOutroWinnerSide;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the
  * note on gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, such a size is a threshold, not a length. */
-#ifdef D_8009B362_IN_DATA
-extern u8 gDuel_bPlayerLost __attribute__((section(".data")));
-#else
 extern u8 gDuel_bPlayerLost;
-#endif
 
 /* A byte the duel setup clears and Duel_InitScene tests against 1.
  * Main_StartDuel stores 0 beside gDuel_bOpponentID, gDuel_wCampaignSceneOnWin, gDuel_wCampaignSceneOnLoss
@@ -281,11 +277,7 @@ extern u8 gDuel_bPlayerLost;
  * so duel_phase_entry.c and frontend_scene_states.c define
  * the .data arm below; main_start_duel.c and src/game/text_start_campaign_duel.c
  * compile with nothing in small data and take the plain arm. */
-#ifdef GDUEL_WBGMID_IN_DATA
-extern u16 gDuel_wBgmId __attribute__((section(".data")));
-#else
 extern u16 gDuel_wBgmId;
-#endif
 
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns

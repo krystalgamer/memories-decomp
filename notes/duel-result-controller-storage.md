@@ -39,9 +39,8 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
 ## Addressing and declaration controls
 
 The input repeat mask is read as `gInput_awPadRepeat[0]`, the one volatile
-two-pad array every unit declares. The message id uses `TEXT_STRING_ID_IN_DATA`; its existing
-GP-relative readers keep the default declaration. Neither adds volatility
-to force ordering. The scene flags and resource-bank declarations have moved
+two-pad array every unit declares. The message id uses the plain declaration every unit shares. Neither adds
+volatility to force ordering. The scene flags and resource-bank declarations have moved
 out of `unmatched.h` into their owners, with existing consumers retaining
 compatible includes.
 

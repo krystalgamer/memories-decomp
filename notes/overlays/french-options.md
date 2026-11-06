@@ -247,9 +247,8 @@ functions and complete retail bodies are verified. The loader's declaration
 is exposed through its existing `main_run_boot_sequence.h` owner.
 
 The language-image update reuses `graphics_frame.h`'s two-element `RECT`
-array (`D_800E9D70`, French `0x8009C838`, 16 bytes) and `unmatched.h`'s
-existing `D_8009B118_IS_POINTER_IN_DATA` arm: a four-byte `u8 *`
-transfer-buffer pointer at `0x8009C4B0`. Its initial retail value is zero,
+array (`D_800E9D70`, French `0x8009C838`, 16 bytes) and the four-byte transfer-buffer base `gFile_TransferBufferBase` at
+`0x8009C4B0`. Its initial retail value is zero,
 not the runtime buffer address. Accepted `File_SetPositionTable`
 (`0x80013600`, 256 bytes) passes `gLibrary_aCardArtRecord` at `0x801DC000`
 to `File_InitTransferState` (`0x800137B4`, 92 bytes), which stores that

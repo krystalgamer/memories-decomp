@@ -3,10 +3,7 @@
    prunes recent IDs whose current chest quantity is zero. The transfer has
    four stages in NA/JP and five in Europe. */
 
-#define D_8009B118_IN_DATA
-
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"

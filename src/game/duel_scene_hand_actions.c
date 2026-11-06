@@ -28,9 +28,6 @@
  *   enclosing pass keeps loop.c from moving the miss block out of the loop.
  *   Duel_ApplyAiHandSelection next door has the same one-pass do/while.
  */
-#define GDUEL_BEFFECTSTATE_IN_DATA
-#define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
-#define GDUEL_WVIEWERCARDID_IN_DATA
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "duel_scene_hand_actions.h"

@@ -50,11 +50,7 @@ typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
  * (DuelScene_UpdateResultRewards.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
-#if defined(TEXT_STRING_ID_IN_DATA)
-extern u16 gText_StagedStringId __attribute__((section(".data")));
-#else
 extern u16 gText_StagedStringId;
-#endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
  * Text_SetColorIndex reads `gText_abColorSlots[v & 0xF]`.

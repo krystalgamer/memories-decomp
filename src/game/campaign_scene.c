@@ -7,7 +7,6 @@
 #include "display_object.h"
 #include "scene_script.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "menu_record_reset.h"

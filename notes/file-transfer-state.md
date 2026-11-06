@@ -2,8 +2,7 @@
 
 These two existing words connect descriptor setup, asynchronous CD/DS
 callbacks, the per-frame transfer service and package/game wait predicates.
-Each word has one name; a translation unit selects its addressing with
-`FILE_TRANSFER_WORDS_IN_DATA`, which adds no storage.
+Each word has one name and one declaration.
 
 | Former identities | Canonical name | Type |
 | --- | --- | --- |
@@ -62,10 +61,8 @@ values or change the retry/queue policy.
 ## Declaration and native identity preservation
 
 `file_transfer.h` preserves the measured distinction: transfer state is
-volatile and cancellation state is not, in both addressing arms. A unit
-that defines `FILE_TRANSFER_WORDS_IN_DATA` before its first include sees
-`.data`-section declarations and gets absolute `%hi`/`%lo` accesses; other
-units keep small-data eligibility and gp-relative accesses. This preserves volatile
+volatile and cancellation state is not. The defining unit reaches them
+gp-relative and every other unit through absolute `%hi`/`%lo` pairs. This preserves volatile
 read-modify-write order and the cancellation value held live across its
 test/update sequence.
 

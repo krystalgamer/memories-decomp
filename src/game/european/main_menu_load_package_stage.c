@@ -1,6 +1,4 @@
 #include "../../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
-#define D_8009B118_IN_DATA
 
 u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
     "M:/mrgSU/SU.mrg";

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_effect_noop_handlers.h"
 
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
@@ -11,7 +10,6 @@
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
 #define D_8009B0C0_IN_DATA_VOLATILE
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"

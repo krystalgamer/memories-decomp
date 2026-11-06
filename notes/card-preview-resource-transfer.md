@@ -55,9 +55,8 @@ PR validation.
 
 ## Typed byte source
 
-The callback now selects the existing
-`D_8009B118_IS_POINTER_IN_DATA` view from `unmatched.h`, already used by
-other matching transfer callbacks. `File_InitTransferState` installs the
+The callback reads the transfer-buffer base `gFile_TransferBufferBase`
+through the one declaration every unit shares. `File_InitTransferState` installs the
 buffer address; `File_SetPositionTable` supplies the known staging arena.
 No global definition, setter signature, flag alias or compiler profile
 changes.

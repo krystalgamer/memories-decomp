@@ -1,6 +1,4 @@
-#define D_8009B118_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_asset_banks.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
