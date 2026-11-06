@@ -11,7 +11,7 @@
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
 
 /* The slot data entries at ModelSlot.entries, the record root_coordinate points at
- * and the block func_800580D4 builds on the stack are all one type: libhmd's
+ * and the block Model_BuildViewRelativeCoordinateUnit builds on the stack are all one type: libhmd's
  * GsCOORDUNIT. These pin every offset the game still reaches by hand. */
 extern char ModelSlotDataEntry_must_be_a_GsCOORDUNIT[
     sizeof(GsCOORDUNIT) == MODEL_SLOT_DATA_ENTRY_SIZE ? 1 : -1

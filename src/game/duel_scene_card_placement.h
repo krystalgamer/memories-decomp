@@ -21,6 +21,5 @@ typedef char DuelPlacementCardIdCell_size_must_be_2[
 ];
 
 void DuelScene_UpdateCardPlacement(void);
-void func_80019BD0(DisplayObject *object);
 
 #endif

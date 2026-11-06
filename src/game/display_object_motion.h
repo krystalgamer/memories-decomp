@@ -6,6 +6,5 @@
 /* Callers that install this as a DisplayObjectCallback (u8 *) cast it; the
  * callback receives the same display-record address. */
 void DisplayObject_UpdateCosineSlide(DisplayObject *object);
-void func_8001ED20(DisplayObject *object);
 
 #endif
