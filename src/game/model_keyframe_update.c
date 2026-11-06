@@ -35,6 +35,15 @@ Key gModel_aEffectKeys[10];
 #include "model_step_view_orbit.h"
 #include "../psyq/rand.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+s8 gModel_nEffectKeyBatchOrdinal;
+u8 gModel_bHandlerCallbackState;
+u8 gModel_bCameraHoldState;
+u8 gModel_bEffectKeyPreparationPending;
+Key *gModel_pCurrentEffectKey;
+u8 gModel_bEffectKeyCount;
+
 #define LIMIT(v, n) ((v) > 0 ? ((v) < (n) ? (v) : (n)) : \
     ((v) > -(n) ? (v) : -(n)))
 #define KEY_VIEW(key) ((Key *)(key))

@@ -502,7 +502,7 @@ segments:
       - [0xe0e38, .bss, game/european/mem_card]
       - [0xe15a0, .bss, game/european/display_object_system]
       - [0xe3ff0, .bss, game/european/mem_card_driver]
-      - [0xe4288, .bss, game/european/model_keyframe_update]
+      - [0xe4288, bss, model_keyframe_update_commons]
       - [0xe4438, .bss, game/european/movie_pipeline]
       - [0xe4450, .bss, game/european/model]
       - [0xe6fd0, .bss, game/model_distance_queries]

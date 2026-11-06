@@ -253,7 +253,7 @@ segments:
       - [0xe3320, .bss, game/model]
       - [0xe5ea0, .bss, game/model_distance_queries]
       - [0xe5f50, .bss, game/movie_pipeline]
-      - [0xe5f68, .bss, game/model_keyframe_update]
+      - [0xe5f68, bss, model_keyframe_update_commons]
       - [0xe6118, .bss, game/model_handler_registry]
       - [0xe6398, .bss, game/ai_script_vm]
       - [0xe64c0, bin, bss_image_800f5cc0]
