@@ -46,15 +46,10 @@ its low byte here. `DIRENTRY` is the actual SDK type, with size `40` and
 sector-head field at `+0x20`; the controller does not substitute a private
 directory-record approximation.
 
-`MemCard_FindLoadedEntry` is an unusual existing binary ABI. Its matching C
-definition is **void**, calls `MemCard_FindEntry`, and returns without
-overwriting the index in MIPS `$v0`. The controller consumes that index.
-`MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW` explicitly selects the returning
-caller declaration; the definition retains the default void declaration.
-This is not a normal ISO C return guarantee. Native behavior tests must
-model the measured returning ABI with a returning stub, not call the void
-implementation and assume the host leaves its return register intact.
-The unchanged implementation was separately reprobed: all 40 bytes match.
+`MemCard_FindLoadedEntry` returns `MemCard_FindEntry`'s index for the loaded
+directory, and the controller branches on its sign. Earlier it was defined
+`void` with a returning caller-only declaration; the `s32` definition that
+returns the call's result compiles to the same 40 bytes.
 
 ## Partial operation initialization and separate state bytes
 

@@ -363,7 +363,7 @@ void SD_ResetRuntime(void)
     sequence_state = g_SDValue;
     sequence_state->s_wSD_CD_FADE_STEP = 0;
     if (sequence_state->s_wSD_SEQ_ACCESS != -1) {
-        if ((s16)SD_PollSequenceState() != 1) {
+        if (SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             g_SDValue->s_wSD_STATUS &= 0xFF7F;
         }

@@ -264,13 +264,7 @@ extern AiActiveCard gDuel_aActiveCards[];
 void AiScript_Init(u8 *script);
 s32 AiScript_Run(void);
 s32 Ai_IsCardInSets(s32 mode, s32 index);
-/* The range callers need the widened declaration to avoid an extra pair of
- * sign-extension instructions at each call; the definition returns s8. */
-#ifdef AI_GET_HAND_SEARCH_COUNT_RETURNS_S32
 s32 Ai_GetHandSearchCount(void);
-#else
-s8 Ai_GetHandSearchCount(void);
-#endif
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high);
 void Ai_GetCardRange(s32 kind, s32 *low, s32 *high);
 /* The singular pair, next to the plural above and defined in the same unit:

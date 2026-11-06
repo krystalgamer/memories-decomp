@@ -7156,6 +7156,11 @@ Widening that declaration to the definition's `s32` -- which is what
 Eight bytes. The `s16` forces the value to be narrowed before the comparison,
 and the `sll`/`sra` pair that does it is retail's.
 
+The disagreement was later resolved the other way: the function returns the
+`s16` `sequence_state` halfword, and defining it `s16` leaves its own object
+unchanged, so every caller and the definition now share one `s16`
+declaration.
+
 That last one is worth putting beside `Duel_GetCardEffectVariant`, where the identical
 `s16`-against-`int` disagreement is free. The difference is not the types, it
 is what the caller does with the value: `Duel_GetCardEffectVariant`'s three callers all

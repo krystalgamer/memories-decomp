@@ -313,11 +313,9 @@ register.
 
 The configured search count is used by the zone decoder and both fusion
 searches. The existing table contains values from five through twenty,
-so the hand window can include the next remaining-deck cards. The getter's
-definition remains `s8`; the zone decoder keeps its existing caller-specific
-`s32` declaration under `AI_GET_HAND_SEARCH_COUNT_RETURNS_S32`, which avoids
-the additional sign-extension instructions documented in the original
-matching evidence. Neither the signed opponent selector nor the table values,
+so the hand window can include the next remaining-deck cards. The getter
+returns the signed table byte as `s32`; its `lb` already sign-extends, so
+the zone decoder and both fusion searches share one declaration. Neither the signed opponent selector nor the table values,
 window bounds or narrowing is changed.
 
 `AI_CARD_STATE_EMPTY`, `AI_CARD_STATE_FACE_UP` and

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #include "sound.h"
 
 #define STATE_BYTES ((u8 *)g_SDValue)

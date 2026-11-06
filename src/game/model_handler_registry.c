@@ -21,7 +21,6 @@
 ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
 #endif
 
-#define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "direct_polygon_renderers.h"
@@ -360,7 +359,7 @@ void Model_ProcessType2Unit(
         } while (record_index < record_count);
     }
 
-    Model_GetImagePrimitiveHandler(unit->type)(scratch);
+    Model_GetImagePrimitiveHandler(unit->type)((GsARGUNIT *)scratch);
     DrawSync(0);
     *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
 }

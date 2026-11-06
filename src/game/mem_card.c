@@ -1,4 +1,3 @@
-#define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
