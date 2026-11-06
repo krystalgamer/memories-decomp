@@ -6,27 +6,6 @@
 #include "../spanish_model_variant/variant444_funnels.h"
 
 typedef struct {
-    u8 unknown_000[0x510];
-    CVECTOR color[9];
-    VECTOR scale;
-    s16 field_544, field_546;
-    s32 field_548;
-} Variant444EntryTube;
-
-typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR color[8], inner_color, outer_color;
-    s32 angle, count;
-} Variant444EntrySpoke;
-
-typedef struct {
-    u8 unknown_000[0xD8];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    u8 unknown_0F0[0x3C];
-} Variant444EntryBeam;
-
-typedef struct {
     u8 unknown_00[0x40];
     CVECTOR color_40, color_44;
     s32 field_48;
@@ -35,11 +14,11 @@ typedef struct {
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant444EntryTube tubes[1];
+    ModelVariantTubeView tubes[1];
     ModelVariantSheet sheets[2];
     Funnel411 funnels[2];
-    Variant444EntrySpoke spokes[4];
-    Variant444EntryBeam beams[2];
+    ModelVariantSpokeColorRing spokes[4];
+    ModelVariantBeam beams[2];
     Variant444EntryColorRecord records[16];
     POLY_G3 triangle;
     POLY_G4 quad;

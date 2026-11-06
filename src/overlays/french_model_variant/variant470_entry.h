@@ -29,13 +29,6 @@ typedef struct {
 } EntryPair470;
 
 typedef struct {
-    SVECTOR a[10], b[10], c[10], d[10], positions[10];
-    CVECTOR color;
-    s32 size[10], angle[10], done[10], field_20C[10], initialized[10];
-    u8 unknown_25C[0xA0];
-} EntryGroup470;
-
-typedef struct {
     SVECTOR points[4][4];
     CVECTOR inner, outer;
     VECTOR scale;
@@ -43,7 +36,7 @@ typedef struct {
 
 typedef struct {
     EntryPair470 pairs[2];
-    EntryGroup470 groups[1];
+    ModelVariantQuadGroup groups[1];
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];

@@ -49,7 +49,7 @@ typedef union {
 } EntryPackets373;
 
 typedef struct {
-    Family373Grid grid;
+    ModelVariantDome grid;
     Family373Layer layers[5];
     EntryPointGroup373 groups[3];
     EntryStrip373 strips[1];

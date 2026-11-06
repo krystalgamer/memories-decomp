@@ -15,7 +15,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Arcs582Group *arc = work->arcs;
     EntrySheet469 *sheet = work->sheets;
-    EntryRibbon469 *ribbon = work->ribbons;
+    ModelVariantCountedRibbon *ribbon = work->ribbons;
     ModelVariantQuadRing *ring = &work->ring;
     ModelVariantBandPair *band = work->bands;
     ModelVariantSheetSet *quad_sheet = work->quads;

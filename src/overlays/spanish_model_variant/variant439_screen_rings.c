@@ -17,7 +17,7 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     long flag;
     u8 *work;
     GsOT *ot;
-    Variant439ScreenRing *ring;
+    ModelVariantTwoToneScreenRing *ring;
     POLY_GT4 *poly;
     s32 i;
     s32 j;
@@ -29,7 +29,7 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     s32 size;
 
     work = ctx;
-    ring = (Variant439ScreenRing *)(work + 0xE08);
+    ring = (ModelVariantTwoToneScreenRing *)(work + 0xE08);
     poly = (POLY_GT4 *)(work + 0x1808);
     ot = Graphics_GetDefaultOrderingTable();
     buff = GsGetActiveBuff();

@@ -54,8 +54,8 @@ is two, ring count six and spoke count four. These accessed views do not
 establish whole-context allocation or additional runtime paths.
 
 Seventy-one target-compiled constants independently verify local
-`ModelVariantQuad`, `ModelVariantRing`, `ModelVariantSpokeRing` and
-`ModelVariantSheet` layouts, plus `SVECTOR`, `VECTOR`, `MATRIX`,
+`ModelVariantQuad`, `ModelVariantRing` (which now also covers the former
+`ModelVariantSpokeRing`) and `ModelVariantSheet` layouts, plus `SVECTOR`, `VECTOR`, `MATRIX`,
 stored-pointer-bearing `GsCOORDINATE2`, `GsGLINE`, `POLY_G4`, `POLY_GT4`
 and four-byte target `long`/`s32`.
 

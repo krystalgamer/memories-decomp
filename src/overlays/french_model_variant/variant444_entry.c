@@ -13,12 +13,12 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant444EntryTube *tube = work->tubes;
+    ModelVariantTubeView *tube = work->tubes;
     Variant444EntryColorRecord *record = work->records;
     ModelVariantSheet *sheet = work->sheets;
     Funnel411 *funnel = work->funnels;
-    Variant444EntrySpoke *spoke = work->spokes;
-    Variant444EntryBeam *beam = work->beams;
+    ModelVariantSpokeColorRing *spoke = work->spokes;
+    ModelVariantBeam *beam = work->beams;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -130,9 +130,9 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
                 } else {
                     r = 0; g = 0; b = 128;
                 }
-                tube->color[j].r = r;
-                tube->color[j].g = g;
-                tube->color[j].b = b;
+                tube->colors[j].r = r;
+                tube->colors[j].g = g;
+                tube->colors[j].b = b;
             }
             tube->field_544 = 0;
             tube->field_548 = 0;
@@ -221,9 +221,9 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
                 } else {
                     r = 255; g = 0; b = 128;
                 }
-                spoke->color[n].r = r;
-                spoke->color[n].g = g;
-                spoke->color[n].b = b;
+                spoke->colors[n].r = r;
+                spoke->colors[n].g = g;
+                spoke->colors[n].b = b;
             }
             spoke->inner_color.r = 64;
             spoke->inner_color.g = 128;

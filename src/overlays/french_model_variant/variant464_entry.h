@@ -31,7 +31,7 @@ typedef struct {
     Variant464EntryPrimary primary[5];
     ModelVariantSheetSet sheets[6];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan fans[1];
     ModelVariantScreenRing screen_rings[3];
     ModelVariantCurtain curtains[3];
