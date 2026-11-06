@@ -8,7 +8,7 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start, end;
-    u8 unknown_24[4];
+    u32 limit;
     u32 track_end;
     u8 unknown_2C[8];
 } Variant430EntryConfig;

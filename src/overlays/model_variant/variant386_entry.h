@@ -22,7 +22,7 @@ typedef struct {
     s32 extra;
     u8 unknown_20[8];
     s32 count;
-    s32 field_2C;
+    s32 divisor;
     u32 sheet_start;
     u32 shrink_start;
     u32 shrink_end;

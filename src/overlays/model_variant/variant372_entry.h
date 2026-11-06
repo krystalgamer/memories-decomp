@@ -37,7 +37,7 @@ typedef struct {
     s32 offset[3];
     u32 sheet_start;
     u32 ribbon_start;
-    u32 field_34, field_38, field_3C, field_40;
+    u32 fade_begin, fade_end, field_3C, field_40;
 } Model372Config;
 
 typedef struct {

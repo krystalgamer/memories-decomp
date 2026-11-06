@@ -18,7 +18,7 @@ typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
     u16 count, unknown_0E;
-    u8 unknown_10[4];
+    u32 duration;
     u32 end;
 } Variant366Config;
 
