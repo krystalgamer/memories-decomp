@@ -17,15 +17,25 @@
 -- WHAT IS WATCHED
 --   * Read and Write breakpoints over the 0x24-byte sprite and over the byte.
 --     Each access is printed at once: vsync count, game frame (control hits),
---     time, phase, pc, ra, kind, field/offset and, for writes, old -> new.
+--     time, phase, pc, ra, kind and the accessed address and width that
+--     PCSX-Redux hands the callback. Those two are the ground truth. The
+--     instruction at pc is decoded too, but its address, and for a store its
+--     new value, are attached only when they agree with the callback's
+--     address and width ("decode=ok"); otherwise the row says
+--     "decode=mismatch" or "decode=none" and keeps only the callback's
+--     address.
 --     Phase "init" is a pc inside File_SetPositionTable, "pre-init" is an
 --     access after a reset but before File_SetPositionTable ran (the startup
 --     bss clear), "post-init" is everything else: the accesses that matter.
---     At most 4 rows per pc and kind and 200 rows in total are printed; every
---     access is still counted per pc in the final table.
+--     Output is bounded: at most 4 rows per pc and kind, 200 rows in total
+--     (live and in the document), and 64 distinct pc/kind pairs in the final
+--     table; everything beyond is still counted in aggregate.
 --   * An Exec breakpoint on File_SetPositionTable marks the boot init.
---   * Control: an Exec breakpoint on Main_RunFrameServices (0x8001306C), so
---     silence counts as negative evidence only if the control fired.
+--   * Control: an Exec breakpoint on Main_RunFrameServices (0x8001306C).
+--   Silence counts as negative evidence only for a qualified capture: a
+--   reset was observed, File_SetPositionTable then ran, the control fired
+--   after it, the US signature words matched, no callback failed and the
+--   full window ran. Anything less is reported as inconclusive.
 --   * Every vsync the sprite and the byte are re-read and every change is
 --     printed field by field.
 --   The script survives a console reset: it clears its state on reset and
@@ -132,6 +142,7 @@ local WINDOW_FRAMES = 180 * FPS
 local MAX_ROWS = 200
 local MAX_ROWS_PER_PC = 4
 local MAX_CHANGE_ROWS = 100
+local MAX_PCS = 64
 
 -- SpritePrim (src/ygo_types.h), GsSPRITE layout.
 local FIELDS = {
@@ -181,9 +192,9 @@ end
 -- Capture state, cleared on reset.
 local vsyncs, controlHits = 0, 0
 local rows, dropped, suppressed, changeRows = {}, 0, 0, 0
-local perPc, pcOrder = {}, {}
+local perPc, pcOrder, untracked = {}, {}, 0
 local counts = {}
-local initEntries, initEntryRa = 0, nil
+local initEntries, initEntryRa, controlAfterInit = 0, nil, 0
 local resetSeen = false
 local snapshot = nil
 local callbackError = nil
@@ -202,10 +213,11 @@ breakpoints_file_position_sprite_watch = {}
 local function resetCaptureState()
     vsyncs, controlHits = 0, 0
     rows, dropped, suppressed, changeRows = {}, 0, 0, 0
-    perPc, pcOrder = {}, {}
+    perPc, pcOrder, untracked = {}, {}, 0
     counts = {['pre-init'] = 0, init = 0, ['post-init'] = 0,
-              read = 0, write = 0, post_read = 0, post_write = 0}
-    initEntries, initEntryRa = 0, nil
+              read = 0, write = 0, post_read = 0, post_write = 0,
+              decode_mismatch = 0, no_address = 0}
+    initEntries, initEntryRa, controlAfterInit = 0, nil, 0
     snapshot = nil
     callbackError = nil
 end
@@ -216,9 +228,18 @@ local function stamp()
                          vsyncs / FPS)
 end
 
+-- The row budget bounds the console as well as the document.
 local function live(text)
-    print(text)
-    if #rows < MAX_ROWS then rows[#rows + 1] = text else dropped = dropped + 1 end
+    if #rows < MAX_ROWS then
+        rows[#rows + 1] = text
+        print(text)
+        if #rows == MAX_ROWS then
+            print(SCRIPT_NAME .. ': row budget of ' .. MAX_ROWS .. ' reached; '
+                  .. 'further rows are only counted')
+        end
+    else
+        dropped = dropped + 1
+    end
 end
 
 local function functionName(pc)
@@ -276,13 +297,21 @@ local function onAccess(kind, target, bpAddress, bpWidth)
     local regs = PCSX.getRegisters()
     local pc = tonumber(regs.pc) or 0
     local ra = tonumber(regs.GPR and regs.GPR.n and regs.GPR.n.ra) or 0
+    local addr = type(bpAddress) == 'number' and bpAddress or nil
+    local width = tonumber(bpWidth)
     local d = decode(regs, pc)
-    local addr, width = nil, nil
-    if d ~= nil then
-        addr, width = d.addr, d.width
-    elseif type(bpAddress) == 'number' then
-        addr, width = bpAddress, tonumber(bpWidth) or 1
+    local decodeNote
+    if d == nil then
+        decodeNote = 'decode=none'
+    elseif addr ~= nil and d.addr == addr and d.width == width then
+        decodeNote = 'decode=ok'
+    else
+        decodeNote = string.format('decode=mismatch(0x%08X/%d)', d.addr,
+                                   d.width)
+        counts.decode_mismatch = counts.decode_mismatch + 1
+        d = nil
     end
+    if addr == nil then counts.no_address = counts.no_address + 1 end
     local phase = phaseOf(pc)
     counts[phase] = counts[phase] + 1
     counts[kind] = counts[kind] + 1
@@ -290,35 +319,41 @@ local function onAccess(kind, target, bpAddress, bpWidth)
         counts['post_' .. kind] = counts['post_' .. kind] + 1
     end
 
-    local key = string.format('%s pc=0x%08X', kind, pc)
-    local entry = perPc[key]
-    if entry == nil then
-        entry = {count = 0, firstVs = vsyncs, firstFrame = controlHits,
-                 ra = ra, phase = phase, target = target,
-                 where = addr and describe(addr) or target, changed = 0}
-        perPc[key] = entry
-        pcOrder[#pcOrder + 1] = key
-    end
-    entry.count = entry.count + 1
-    entry.lastVs = vsyncs
-
     local detail
+    local changed = false
     if addr == nil then
-        detail = 'at=undecoded'
+        detail = 'at=unknown(callback gave no address) ' .. decodeNote
     else
+        width = width or 1
         detail = string.format('at=%s width=%d', describe(addr), width)
         if kind == 'write' then
             local old = readLE(addr, width)
             local new = d and d.value
             detail = detail .. string.format(' %s -> %s', hexw(old, width),
                                              new and hexw(new, width) or '??')
-            if new ~= nil and old ~= nil and new ~= old then
-                entry.changed = entry.changed + 1
-            end
+            changed = new ~= nil and old ~= nil and new ~= old
         else
             detail = detail .. ' value=' .. hexw(readLE(addr, width), width)
         end
+        detail = detail .. ' ' .. decodeNote
     end
+
+    local key = string.format('%s pc=0x%08X', kind, pc)
+    local entry = perPc[key]
+    if entry == nil then
+        if #pcOrder >= MAX_PCS then
+            untracked = untracked + 1
+            return
+        end
+        entry = {count = 0, firstVs = vsyncs, firstFrame = controlHits,
+                 ra = ra, phase = phase, target = target,
+                 where = addr and describe(addr) or 'unknown', changed = 0}
+        perPc[key] = entry
+        pcOrder[#pcOrder + 1] = key
+    end
+    entry.count = entry.count + 1
+    entry.lastVs = vsyncs
+    if changed then entry.changed = entry.changed + 1 end
     if entry.count > MAX_ROWS_PER_PC then
         suppressed = suppressed + 1
         return
@@ -383,18 +418,39 @@ local function pollChanges()
     snapshot = now
 end
 
+local SIGNATURES = {CONTROL, INIT, INIT_BYTE_STORE}
+
 local function signatureLines()
-    local lines = {}
-    for _, s in ipairs({CONTROL, INIT, INIT_BYTE_STORE}) do
-        local word = u32(s[1])
+    local lines, ok = {}, true
+    for _, sig in ipairs(SIGNATURES) do
+        local word = u32(sig[1])
+        if word ~= sig[2] then ok = false end
         lines[#lines + 1] = string.format('signature %s 0x%08X expected '
-            .. '0x%08X read %s %s', s[3], s[1], s[2], hexw(word, 4),
-            word == s[2] and 'ok' or 'MISMATCH')
+            .. '0x%08X read %s %s', sig[3], sig[1], sig[2], hexw(word, 4),
+            word == sig[2] and 'ok' or 'MISMATCH')
     end
-    return lines
+    return lines, ok
 end
 
-local function verdict()
+-- Every reason the capture cannot support a negative result.
+local function qualificationGaps(windowDone)
+    local _, signaturesOk = signatureLines()
+    local gaps = {}
+    if not windowDone then gaps[#gaps + 1] = 'window did not complete' end
+    if callbackError ~= nil then gaps[#gaps + 1] = 'a callback failed' end
+    if not signaturesOk then gaps[#gaps + 1] = 'US signature mismatch' end
+    if not resetSeen then
+        gaps[#gaps + 1] = 'no reset observed after arming'
+    elseif initEntries == 0 then
+        gaps[#gaps + 1] = 'File_SetPositionTable not entered after the reset'
+    end
+    if controlAfterInit == 0 then
+        gaps[#gaps + 1] = 'no Main_RunFrameServices control after the init'
+    end
+    return gaps
+end
+
+local function verdict(gaps)
     local later = counts.post_read + counts.post_write
     if controlHits == 0 and counts.read + counts.write == 0
         and initEntries == 0 then
@@ -402,24 +458,32 @@ local function verdict()
             .. 'the setup failed (debugger off, dynarec still running, or '
             .. 'breakpoints lost after a reset without a reinstall line); '
             .. 'silence is not evidence'
-    elseif controlHits == 0 then
-        return 'the control never fired although watch breakpoints did; '
-            .. 'the run is incomplete, compare the signature lines'
+    elseif #gaps > 0 then
+        local text = 'inconclusive: ' .. table.concat(gaps, '; ')
+        if later > 0 then
+            text = text .. string.format('; post-init accesses were still '
+                .. 'seen (reads=%d writes=%d) but are not tied to a '
+                .. 'confirmed boot init', counts.post_read, counts.post_write)
+        else
+            text = text .. '; silence here is not evidence'
+        end
+        return text
     elseif later == 0 then
         return string.format('no CPU read or write of D_800E9DF0 or '
             .. 'D_8009B0E0 after File_SetPositionTable during %d control '
-            .. 'frames: negative evidence that neither is used on this '
-            .. 'route', controlHits)
+            .. 'frames of a qualified capture: negative evidence that '
+            .. 'neither is used on this route', controlAfterInit)
     end
     local pcs = 0
     for _, key in ipairs(pcOrder) do
         if perPc[key].phase == 'post-init' then pcs = pcs + 1 end
     end
     return string.format('post-init accesses observed: reads=%d writes=%d '
-        .. 'from %d pc/kind pairs', counts.post_read, counts.post_write, pcs)
+        .. 'from %d tracked pc/kind pairs (+%d accesses from untracked pcs)',
+        counts.post_read, counts.post_write, pcs, untracked)
 end
 
-local function finish(reason)
+local function finish(reason, windowDone)
     if done then return end
     done = true
     for _, bp in ipairs(breakpoints_file_position_sprite_watch) do
@@ -449,14 +513,22 @@ local function finish(reason)
                         counts.read, counts.write, counts['pre-init'],
                         counts.init, counts['post-init'], counts.post_read,
                         counts.post_write, dropped, suppressed))
+    print(string.format('bounds: rows=%d/%d tracked_pcs=%d/%d '
+                        .. 'untracked_pc_accesses=%d decode_mismatch=%d '
+                        .. 'no_callback_address=%d', #rows, MAX_ROWS,
+                        #pcOrder, MAX_PCS, untracked, counts.decode_mismatch,
+                        counts.no_address))
     if initEntries == 0 then
         print('boot_init: NOT observed; arm the script, then soft-reset to '
               .. 'capture File_SetPositionTable')
     else
         print('boot_init: observed')
     end
-    print('verdict: ' .. verdict())
-    for _, line in ipairs(signatureLines()) do print(line) end
+    local gaps = qualificationGaps(windowDone == true)
+    print('qualified: ' .. (#gaps == 0 and 'yes'
+                            or ('no (' .. table.concat(gaps, '; ') .. ')')))
+    print('verdict: ' .. verdict(gaps))
+    for _, line in ipairs((signatureLines())) do print(line) end
     print('final: ' .. formatSnapshot(takeSnapshot()))
     if callbackError ~= nil then print('callback_error: ' .. callbackError) end
     print('')
@@ -497,6 +569,7 @@ local function installBreakpoints(note)
     breakpoints_file_position_sprite_watch = {}
     add(CONTROL[1], 'Exec', 4, 'control ' .. CONTROL[3], function()
         controlHits = controlHits + 1
+        if initEntries > 0 then controlAfterInit = controlAfterInit + 1 end
     end)
     add(INIT[1], 'Exec', 4, INIT[3], function()
         initEntries = initEntries + 1
@@ -533,7 +606,8 @@ local function poll()
     end
     pollChanges()
     if vsyncs >= WINDOW_FRAMES then
-        finish(string.format('%d-second window ended', WINDOW_FRAMES / FPS))
+        finish(string.format('%d-second window ended', WINDOW_FRAMES / FPS),
+               true)
     end
 end
 
@@ -571,7 +645,9 @@ listeners_file_position_sprite_watch = {
 installBreakpoints('installed')
 snapshot = takeSnapshot()
 print(SCRIPT_NAME .. ': now ' .. formatSnapshot(snapshot))
-for _, line in ipairs(signatureLines()) do print(SCRIPT_NAME .. ': ' .. line) end
+for _, line in ipairs((signatureLines())) do
+    print(SCRIPT_NAME .. ': ' .. line)
+end
 print(SCRIPT_NAME .. ': armed. Route: soft-reset the console now; let it '
       .. 'boot to the title, press Start, open the Library and go back, then '
       .. 'open the Free Duel menu. During every disc load watch the '

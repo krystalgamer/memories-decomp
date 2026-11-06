@@ -83,24 +83,36 @@ local function capture()
         registers.pc = address
         self:fire('Exec', address, address, 4, 'exec')
     end
-    -- One load or store at pc through base register 4 (+imm), value in r5.
-    function t:access(name, pc, address, ra, value, raw)
-        local base = address - 0x10
+    -- One load or store at pc through base register 4 (+0x10), value in
+    -- r5. The callback gets `address` (nil when it is false); the
+    -- instruction decodes to `decoded`, which defaults to the same address.
+    function t:access(name, pc, address, ra, value, raw, decoded)
+        local target = decoded or address
         word(pc, raw or (OP[name] * 0x4000000 + 4 * 0x200000 + 5 * 0x10000
                          + 0x10))
-        r[4], r[5], r[31] = base, value or 0, ra or 0
+        r[4], r[5], r[31] = target - 0x10, value or 0, ra or 0
         registers.pc = pc
         local store = name:sub(1, 1) == 's'
-        local bpAddr = (address >= SPRITE and address < SPRITE + 0x24)
+        local where = address or target
+        local bpAddr = (where >= SPRITE and where < SPRITE + 0x24)
             and SPRITE or BYTE
-        self:fire(store and 'Write' or 'Read', bpAddr, address, WIDTH[name],
-                  'mem')
-        if store then
+        self:fire(store and 'Write' or 'Read', bpAddr, address or nil,
+                  address and WIDTH[name] or nil, 'mem')
+        if store and address then
             for k = 0, WIDTH[name] - 1 do
                 memory[address + k - RAM_BASE] =
                     math.floor((value or 0) / 2 ^ (8 * k)) % 0x100
             end
         end
+    end
+    function t:word(address, value) word(address, value) end
+    -- Lines printed so far that are rows (they start with a stamp).
+    function t:rowLines()
+        local n = 0
+        for _, line in ipairs(output) do
+            if line:sub(1, 3) == 'vs=' then n = n + 1 end
+        end
+        return n
     end
     function t:allDisabled()
         for _, bp in pairs(breakpoints) do
@@ -121,6 +133,15 @@ local function finished(t)
     t:frames(WINDOW + 1)
     assert(t:countOf('==== TRACE RESULT =====') == 1, 'document printed once')
     assert(t:countOf('--- end of trace') == 1)
+end
+
+-- Arm, reset, run the boot init, and start live control frames.
+local function booted()
+    local t = capture()
+    t:reset()
+    t:exec(INIT, 0x80012abc)
+    for _ = 1, 5 do t:exec(CONTROL) end
+    return t
 end
 
 -- Arm, reset, boot init, a later read, a later byte write, window end.
@@ -144,18 +165,21 @@ do
     t:access('sb', 0x80013770, BYTE, 0, 0, 0xa38001d8)
     t:access('sw', 0x80013774, SPRITE + 0x14, 0, 0x808080)
     assert(t:has('sprite init write pc=0x80013750(File_SetPositionTable) '
-                 .. 'ra=0x00000000 at=sprite+0x04(x) width=2 0000 -> 0120'))
-    assert(t:has('byte init write pc=0x80013770(File_SetPositionTable)'))
+                 .. 'ra=0x00000000 at=sprite+0x04(x) width=2 0000 -> 0120 '
+                 .. 'decode=ok'))
+    assert(t:has('byte init write pc=0x80013770(File_SetPositionTable) '
+                 .. 'ra=0x00000000 at=D_8009B0E0 width=1 00 -> 00 decode=ok'))
     t:frames(1)
     assert(t:has('change attribute 00000000->08000000 x 0000->0120 '
                  .. 'y 0000->00D0 r 00->80 g 00->80 b 00->80'))
     for _ = 1, 5 do t:exec(CONTROL) end
     t:access('lhu', 0x80020000, SPRITE + 4, 0x80020100)
     assert(t:has('vs=4 f=5 t=   0.1s sprite post-init read pc=0x80020000(?) '
-                 .. 'ra=0x80020100 at=sprite+0x04(x) width=2 value=0120'))
+                 .. 'ra=0x80020100 at=sprite+0x04(x) width=2 value=0120 '
+                 .. 'decode=ok'))
     t:access('sb', 0x80021000, BYTE, 0x80021100, 1)
     assert(t:has('byte post-init write pc=0x80021000(?) ra=0x80021100 '
-                 .. 'at=D_8009B0E0 width=1 00 -> 01'))
+                 .. 'at=D_8009B0E0 width=1 00 -> 01 decode=ok'))
     t:frames(1)
     assert(t:has('change D_8009B0E0 00->01'))
     t:frames(WINDOW - 6)
@@ -166,8 +190,9 @@ do
     assert(t:has('accesses: reads=1 writes=7 pre-init=1 init=5 post-init=2 '
                  .. '(post-init reads=1 writes=1)'))
     assert(t:has('boot_init: observed'))
+    assert(t:has('qualified: yes'))
     assert(t:has('verdict: post-init accesses observed: reads=1 writes=1 '
-                 .. 'from 2 pc/kind pairs'))
+                 .. 'from 2 tracked pc/kind pairs (+0 accesses'))
     assert(t:has('signature File_SetPositionTable sb 0x80013770 expected '
                  .. '0xA38001D8 read A38001D8 ok'))
     assert(t:has('pc write pc=0x80021000 byte post-init count=1 changed=1'))
@@ -176,36 +201,137 @@ do
     finished(t)
 end
 
--- Bounded output: repeats of one pc stop after four rows, and the total
--- stops at 200 rows while every pc is still counted.
+-- The callback's address is the ground truth. A decoded instruction that
+-- disagrees is named but never substituted, and its store value is dropped;
+-- a callback without an address is reported as unknown.
 do
-    local t = capture()
-    t:exec(CONTROL)
-    for _ = 1, 50 do t:access('lw', 0x80030000, SPRITE + 0x1c, 0x80030100) end
-    assert(t:countOf('sprite post-init read pc=0x80030000') == 4)
-    for i = 1, 250 do
-        t:access('lbu', 0x80040000 + 4 * i, BYTE, 0x80040800)
-    end
+    local t = booted()
+    t:access('lhu', 0x80070000, SPRITE + 4, 0, 0, nil, SPRITE + 0x20)
+    assert(t:has('sprite post-init read pc=0x80070000(?) ra=0x00000000 '
+                 .. 'at=sprite+0x04(x) width=2 value=0000 '
+                 .. 'decode=mismatch(0x800E9E10/2)'))
+    t:access('sb', 0x80070004, BYTE, 0, 7, nil, BYTE + 0x40)
+    assert(t:has('byte post-init write pc=0x80070004(?) ra=0x00000000 '
+                 .. 'at=D_8009B0E0 width=1 00 -> ?? decode=mismatch'))
+    t:access('lw', 0x80070008, SPRITE + 8, 0, 0, 0x00000000)
+    assert(t:has('pc=0x80070008(?) ra=0x00000000 at=sprite+0x08(w) '
+                 .. 'width=4 value=00000000 decode=none'))
+    t:access('lw', 0x8007000c, false, 0, 0, nil, SPRITE + 0x10)
+    assert(t:has('pc=0x8007000C(?) ra=0x00000000 '
+                 .. 'at=unknown(callback gave no address) decode=mismatch'))
     t:frames(WINDOW)
-    assert(t:has('repeat_rows_suppressed=46'))
-    assert(t:has('pc read pc=0x80030000 sprite post-init count=50'))
-    assert(t:has('pc read pc=0x800403E8 byte post-init count=1'))
-    assert(t:has('dropped_rows=54'))
-    assert(t:has('verdict: post-init accesses observed: reads=300 writes=0 '
-                 .. 'from 251 pc/kind pairs'))
+    assert(t:has('decode_mismatch=3 no_callback_address=1'))
+    assert(t:has('pc read pc=0x8007000C sprite post-init count=1 changed=0')
+           and t:has('at=unknown'))
     finished(t)
 end
 
--- Control fired, nothing touched either symbol: negative evidence, and the
--- missing boot init is named.
+-- Bounded output: repeats of one pc stop after four rows, the console and
+-- the document both stop at 200 rows, and the per-pc table at 64 pairs
+-- while the aggregate counts stay exact.
+do
+    local t = booted()
+    local before = t:rowLines()
+    for _ = 1, 50 do t:access('lw', 0x80030000, SPRITE + 0x1c, 0x80030100) end
+    assert(t:countOf('sprite post-init read pc=0x80030000') == 4)
+    for _ = 1, 4 do
+        for i = 1, 250 do
+            t:access('lbu', 0x80040000 + 4 * i, BYTE, 0x80040800)
+        end
+    end
+    assert(t:rowLines() - before == 200 - before,
+           'live rows stop at the budget')
+    assert(t:countOf('row budget of 200 reached') == 1)
+    t:frames(WINDOW)
+    assert(t:rowLines() == 400, 'two copies of 200 rows: live and document')
+    local tableLines = t:countOf('pc read pc=') + t:countOf('pc write pc=')
+    assert(tableLines == 64, 'final table capped: ' .. tableLines)
+    assert(t:has('accesses: reads=1050 writes=0'))
+    assert(t:has('bounds: rows=200/200 tracked_pcs=64/64 '
+                 .. 'untracked_pc_accesses=748'))
+    assert(t:has('repeat_rows_suppressed=46'))
+    assert(t:has('pc read pc=0x80030000 sprite post-init count=50'))
+    assert(t:has('pc read pc=0x800400FC byte post-init count=4'))
+    assert(not t:has('pc read pc=0x80040100 '))
+    assert(t:has('verdict: post-init accesses observed: reads=1050 writes=0 '
+                 .. 'from 64 tracked pc/kind pairs (+748 accesses'))
+    finished(t)
+end
+
+-- A qualified capture with no access at all is negative evidence.
+do
+    local t = booted()
+    t:frames(WINDOW)
+    assert(t:has('qualified: yes'))
+    assert(t:has('verdict: no CPU read or write of D_800E9DF0 or D_8009B0E0 '
+                 .. 'after File_SetPositionTable during 5 control frames of '
+                 .. 'a qualified capture'))
+    finished(t)
+end
+
+-- Control alone, without a reset or the init: inconclusive.
 do
     local t = capture()
     for _ = 1, 30 do t:exec(CONTROL) end
     t:frames(WINDOW)
-    assert(t:has('verdict: no CPU read or write of D_800E9DF0 or D_8009B0E0 '
-                 .. 'after File_SetPositionTable during 30 control frames'))
     assert(t:has('boot_init: NOT observed; arm the script, then soft-reset'))
-    assert(t:has('execution_breakpoint=observed'))
+    assert(t:has('verdict: inconclusive: no reset observed after arming; '
+                 .. 'no Main_RunFrameServices control after the init; '
+                 .. 'silence here is not evidence'))
+    assert(not t:has('negative evidence'))
+    finished(t)
+end
+
+-- A reset without the init, and accesses seen anyway: still inconclusive.
+do
+    local t = capture()
+    t:reset()
+    for _ = 1, 30 do t:exec(CONTROL) end
+    t:access('lbu', 0x80080000, BYTE, 0)
+    t:frames(WINDOW)
+    assert(t:has('qualified: no (File_SetPositionTable not entered after '
+                 .. 'the reset; no Main_RunFrameServices control after the '
+                 .. 'init)'))
+    assert(t:has('verdict: inconclusive: File_SetPositionTable not entered '
+                 .. 'after the reset'))
+    assert(t:has('byte pre-init read pc=0x80080000'))
+    finished(t)
+end
+
+-- The init ran but the control never fired after it: inconclusive.
+do
+    local t = capture()
+    t:reset()
+    t:exec(CONTROL)
+    t:exec(INIT, 0x80012abc)
+    t:frames(WINDOW)
+    assert(t:has('verdict: inconclusive: no Main_RunFrameServices control '
+                 .. 'after the init; silence here is not evidence'))
+    finished(t)
+end
+
+-- Mismatched US signature words: inconclusive, even with silence.
+do
+    local t = booted()
+    t:word(0x80013770, 0xa38001e0)
+    t:frames(WINDOW)
+    assert(t:has('signature File_SetPositionTable sb 0x80013770 expected '
+                 .. '0xA38001D8 read A38001E0 MISMATCH'))
+    assert(t:has('verdict: inconclusive: US signature mismatch; silence '
+                 .. 'here is not evidence'))
+    finished(t)
+end
+
+-- An early callback failure ends the trace and voids silence.
+do
+    local t = booted()
+    PCSX.getRegisters = function() error('boom') end
+    t:access('lw', 0x80060004, SPRITE + 8, 0)
+    t:frames(1)
+    assert(t:has('status: callback error'))
+    assert(t:has('callback_error: '))
+    assert(t:has('verdict: inconclusive: window did not complete; a callback '
+                 .. 'failed; silence here is not evidence'))
     finished(t)
 end
 
@@ -227,32 +353,17 @@ do
     t:access('lhu', 0x80050000, SPRITE + 4, 0)
     t:reset(false)
     assert(t:installed() == 0)
-    assert(t:has('breakpoints: lost at reset') == false)
     t:frames(1)
     assert(t:has('6 breakpoints reinstalled at the first vsync after reset'))
     assert(t:installed() == 6)
+    t:exec(INIT, 0x80012abc)
     t:exec(CONTROL)
     t:frames(WINDOW)
     assert(t:has('breakpoints: reinstalled at the first vsync after reset'))
     assert(t:has('control_hits: 1 resets: 1'))
     assert(t:has('accesses: reads=0 writes=0'))
     assert(not t:has('pc read pc=0x80050000'))
-    finished(t)
-end
-
--- An access whose pc does not hold a load or store falls back to the
--- breakpoint's own address, and a callback error ends the trace.
-do
-    local t = capture()
-    t:exec(CONTROL)
-    t:access('lw', 0x80060000, SPRITE + 8, 0, 0, 0x00000000)
-    assert(t:has('pc=0x80060000(?) ra=0x00000000 at=sprite+0x08(w) '
-                 .. 'width=4 value=00000000'))
-    PCSX.getRegisters = function() error('boom') end
-    t:access('lw', 0x80060004, SPRITE + 8, 0)
-    t:frames(1)
-    assert(t:has('status: callback error'))
-    assert(t:has('callback_error: '))
+    assert(t:has('qualified: yes'))
     finished(t)
 end
 
