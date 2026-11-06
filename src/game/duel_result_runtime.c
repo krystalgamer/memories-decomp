@@ -1,4 +1,3 @@
-#define D_8009B0CC_IN_DATA
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "display_object.h"

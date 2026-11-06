@@ -1,4 +1,3 @@
-#define D_8009B0C0_IS_VOLATILE
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "../psyq/libgte.h"

@@ -1,4 +1,3 @@
-#define D_8009B0C4_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #include "../types.h"
 

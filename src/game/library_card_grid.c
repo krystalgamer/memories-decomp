@@ -1,4 +1,3 @@
-#define D_8009B09C_IN_DATA
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B258-0x8009B260, defined in
@@ -63,8 +62,7 @@ u32 Library_GetCardFlags(const LibraryState *base, s32 index)
 
    - Under -G8 the viewport scalars and gMain_dwFrameCounter are small data, so their
      loads stay one unsplit instruction through sched2 and the assembler
-     expands each into an adjacent lui/load pair in one register. The two
-     IN_DATA macros above keep them absolute rather than gp-relative. The
+     expands each into an adjacent lui/load pair in one register. The
      ordering table is read as gGraphics_apOrderingTables[3]: the 16-byte array is not small
      data, so that address stays split and reload stores the pointer to its
      stack slot through the dying %hi register ($v0) instead of $t1.

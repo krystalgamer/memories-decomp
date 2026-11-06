@@ -1,5 +1,4 @@
 #include "../types.h"
-#define MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE
 #include "model_graphics_state.h"
 #include "graphics_frame_controls.h"
 #include "model.h"

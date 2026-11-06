@@ -1,4 +1,3 @@
-#define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 

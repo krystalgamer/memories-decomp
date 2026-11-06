@@ -57,28 +57,17 @@ extern u8 *gScript_StreamCursor;
  * and Script_UpdateViewportTween interpolates the viewport towards them,
  * reading them signed for the delta (`*(s16 *)&gScript_ViewportTargetX`, retail lh)
  * and unsigned for the final copy (retail lhu). Retail reaches them
- * gp-relative in all four of those units.
- *
- * The text callback arm takes them absolute (.data); its signed accesses are
- * casts at the use. */
+ * gp-relative in all four of those units. */
 /* Shared retained halfword: viewport commands use it as their divisor/countdown;
  * Script_OpDuelResult also stages its two-byte operand here. It is not
  * universally a duration. Text_StartViewportTween uses TextStream_ReadU16LE.
  *
- * The default-arm consumers read it unsigned except one site, which takes it as
- * `*(s16 *)&gScript_SharedOperand` to read the signed divisor. That cast stays
- * at the use, so the declaration here remains the existing plain u16.
- *
- * The text callback arm keeps its signed, absolute spelling. */
-#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern s16 gScript_SharedOperand;
-extern u16 gScript_ViewportTargetX;
-extern u16 gScript_ViewportTargetY;
-#else
+ * Consumers read it unsigned except where a site takes it as
+ * `*(s16 *)&gScript_SharedOperand` to read the signed divisor; that cast
+ * stays at the use, so the declaration is the plain u16. */
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;
 extern u16 gScript_ViewportTargetY;
-#endif
 
 /* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-invocation
  * deltas. The intervening command latch and stream pointer are independent

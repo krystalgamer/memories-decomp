@@ -6,8 +6,6 @@
  * translation unit: each part reads the others' small data through $gp. */
 #include "../types.h"
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
-#define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
-#define MODEL_HANDLER_OFFSET_ABSOLUTE
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #define D_8009B118_IS_POINTER_IN_DATA
 

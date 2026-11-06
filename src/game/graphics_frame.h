@@ -23,14 +23,9 @@
  * 0x80180680 in MainMenu_UpdateFrontendMenu.
  * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
  * int global emit lbu and lhu against the same symbol -- so a narrow read is
- * written as a cast at the site, not as a declaration.
- *
- * The two arms left select addressing and ordering, which a cast cannot:
- *
- *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded;
- *                   display_object_fade_callbacks.c takes it for the whole
- *                   unit, and its three plain reads build the same under it
- *   _IN_DATA     -- out of small data at the compiler */
+ * written as a cast at the site, not as a declaration. Every consumer builds
+ * byte-identically with the one plain declaration in
+ * graphics_base_frame_step.h. */
 
 /* The movie playback state byte, shared by three files.
  *
@@ -56,34 +51,15 @@ extern u8 gMovie_bPlaybackState;
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
  * re-reads it each iteration); every other retail site is a bare store
- * through $at (`lui $at,%hi` / `sb ...,%lo(...)($at)`). The arms follow
- * the unit, and each is justified by a control build of that unit on the
- * plain arm (the PR that added this block records the five results):
+ * through $at (`lui $at,%hi` / `sb ...,%lo(...)($at)`).
  *
- *   _IS_VOLATILE -- src/game/main.c
- *   _IN_DATA     -- main_run_animated_battle.c and
- *                   main_run_duel_and_library.c and main_mode_runners.c,
- *                   all at -G8: out of small
- *                   data at the compiler, with its true width
- *   _IN_DATA_VOLATILE -- src/game/duel_effect_states.c: the same .data view,
- *                   volatile. reorg treats a volatile reference as
- *                   conflicting with everything, so the delay-slot search
- *                   of the call after the store stops at the store; with
- *                   the plain byte that call takes its own `li a0,3` and
- *                   the unit differs from retail in two instructions.
- *                   src/game/library_runtime.c takes it for Library_UpdateCardView,
- *                   whose close path clears the byte right before
- *                   DisplayObject_SetResourceVariant: retail leaves that
- *                   call's delay slot empty, and the plain .data byte lets
- *                   the call take its own `li a1,2`
- *
- * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
- * plain byte. */
-#if defined(D_8009B0C0_IS_VOLATILE)
+ * Every consumer builds byte-identically with the one volatile declaration.
+ * It is load-bearing in src/game/duel_effect_states.c and
+ * src/game/library_runtime.c: reorg treats a volatile reference as
+ * conflicting with everything, so the delay-slot search of the call after
+ * the store stops at the store, and retail leaves those calls' delay slots
+ * empty (with a plain byte they take their own `li a0,3` / `li a1,2`). */
 extern volatile u8 gGraphics_bSyncVBlankTarget;
-#else
-extern u8 gGraphics_bSyncVBlankTarget;
-#endif
 
 /* The normalized extra-step byte Graphics_SyncFrame publishes after its
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)` wait: it stores the counter into it,
@@ -146,17 +122,12 @@ extern volatile s32 gGraphics_dwSyncVBlankCounter;
  * zeroes it, and Text_WaitWithViewportShake and DuelResult_UpdateOrbitSprite test its bit
  * 0. The free_duel overlay's screen_runtime.c reads its low seven bits.
  * Retail reaches it gp-relative in Main_Init and graphics_frame.c and through
- * a lui/lw pair in the other two, which is the .data arm.
- * volatile is measured: without it Main_Init's zeroing store sinks below the
+ * a lui/lw pair in the other two. volatile is measured: without it Main_Init's zeroing store sinks below the
  * volatile gGraphics_dwSyncVBlankCounter store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
  * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
-#ifdef D_8009B0CC_IN_DATA
-extern s32 gGraphics_dwSyncedFrameCount;
-#else
 extern volatile s32 gGraphics_dwSyncedFrameCount;
-#endif
 
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
  * Main_Init zeroes it and reads it into a local it stores to
@@ -172,15 +143,9 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
  * takes the volatile form below; every other retail site is a lui/lw pair.
  * volatile is measured (notes/research/matching-evidence.md:479-490):
  * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
- * forwards the stored zero and the function is one instruction short.
- * build_deck_update.c and library_card_grid.c (-G8) define the .data arm;
- * widget_update_pulse_colour.c (-G0) and the password overlay's
- * name_entry_main.c take the plain form. */
-#ifdef D_8009B09C_IN_DATA
-extern s32 gMain_dwFrameCounter;
-#else
+ * forwards the stored zero and the function is one instruction short. Every
+ * other consumer builds byte-identically with the volatile declaration. */
 extern volatile s32 gMain_dwFrameCounter;
-#endif
 
 /* The active VBlank counter persisted in the save block. Main_VBlankCB ticks it beside
  * gMain_dwFrameCounter; Main_Init stores into it, at the end of its block, the value
@@ -192,16 +157,11 @@ extern volatile s32 gMain_dwFrameCounter;
  * local, a u32 field in and out), so s32 follows gMain_dwFrameCounter and gGraphics_dwSyncVBlankCounter
  * and is not established.
  *
- * src/game/main.c reaches it gp-relative and
- * takes the volatile form below; SaveData_ApplyRuntimeState stores through
- * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
- * while reaching another symbol through $gp, so save_data_payload.c, which
- * holds both, defines the .data arm. */
-#ifdef D_8009B0C4_IN_DATA
-extern s32 gSaveData_dwVBlankCounter;
-#else
+ * src/game/main.c reaches it gp-relative; SaveData_ApplyRuntimeState stores
+ * through $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw
+ * pair. Every consumer builds byte-identically with the volatile
+ * declaration. */
 extern volatile s32 gSaveData_dwVBlankCounter;
-#endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
  * is set; Graphics_BeginFrame calls PutDispEnv only when bit 0x2000 is set;
@@ -326,11 +286,7 @@ typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
  */
 extern GraphicsFrameBuffer gGraphics_aFrameBuffers[];
 
-#ifdef GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
-extern GraphicsFrameBuffer *volatile gGraphics_pActiveFrameBuffer;
-#else
 extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
-#endif
 
 /* The other half of that pair, the one the comment above refers to:
  *
@@ -378,11 +334,7 @@ extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
 extern u8 gGraphics_bSkipDisplaySwap;
 
-#ifdef GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
-extern u8 gGraphics_abOrderingTableLengths[];
-#else
 extern u8 gGraphics_abOrderingTableLengths[4];
-#endif
 
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);

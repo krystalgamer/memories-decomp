@@ -1,6 +1,5 @@
 #include "../../types.h"
 #define D_8009AF4C_IS_AGGREGATE
-#define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define DEBUG_MENU_EDITOR_ENTRIES_REGIONAL_SMALL_STORAGE
 /* This build's own zero-initialized storage at 0x8009C230-0x8009C260 (#2602); its

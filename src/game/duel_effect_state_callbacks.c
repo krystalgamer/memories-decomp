@@ -1,4 +1,3 @@
-#define D_8009B0CC_IN_DATA
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
 #include "text_stream_read_le.h"

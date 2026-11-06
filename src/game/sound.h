@@ -913,19 +913,15 @@ extern SDSecondaryState *gSD_pSecondaryState;
  * SD_KeyOffSecondaryObject passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.
  *
- * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with the envelope setters in sound_voice_setup.c on the plain declaration
- * their former unit compiled to 204 bytes of text instead of 200 and the executable stopped linking,
- * because .initialized_data then overlapped .text. SD_SetVoiceVolume needs it
- * too: only an unchanging table load is free of the stores through the state
- * pointer, which is what puts its right-channel master in $a1.
- * sound_voice_setup.c and sound_voice_volume.c define it.
+ * The table is const, and that is a codegen input, measured rather than
+ * assumed: with the envelope setters in sound_voice_setup.c on a plain
+ * declaration their former unit compiled to 204 bytes of text instead of 200.
+ * SD_SetVoiceVolume needs it too: only an unchanging table load is free of
+ * the stores through the state pointer, which is what puts its right-channel
+ * master in $a1. Every consumer builds byte-identically with the const
+ * declaration.
  */
-#ifdef D_80011434_IS_CONST
 extern const s32 gSD_adwVoiceMasks[20];
-#else
-extern s32 gSD_adwVoiceMasks[20];
-#endif
 
 /* Submits one secondary object's stereo level, scaled by the two channel
  * masters, as a volume-only SpuSetVoiceAttr request (sound_voice_volume.c).

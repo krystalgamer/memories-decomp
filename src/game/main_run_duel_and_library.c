@@ -1,4 +1,3 @@
-#define GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
