@@ -7,7 +7,9 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start;
-    u8 unknown_20[0x10];
+    u32 grow_end;
+    u8 unknown_24[4];
+    u32 fade_begin, fade_end;
     u32 times[4];
     s32 count;
     u8 unknown_44[4];
