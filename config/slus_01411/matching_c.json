@@ -4076,15 +4076,15 @@
     },
     {
       "address": "0x80043960",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/main_run_boot_sequence.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043BCC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/main_run_frontend_loop.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043D48",

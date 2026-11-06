@@ -438,7 +438,7 @@ offset.
 #### Startup phase and enable-code sites
 
 Matching
-[`Main_RunBootSequence`](../../src/game/main_run_boot_sequence.c) requests WA
+[`Main_RunBootSequence`](../../src/game/main_boot_frontend.c) requests WA
 `[5776, 5830)`. Callback
 [`Main_LoadBootPackageStage`](../../src/game/main_boot_screen.c)
 assigns consecutive phase sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`;

@@ -775,10 +775,7 @@ segments:
     - game/european/main_boot_screen
   - - 214396
     - c
-    - game/french/main_run_boot_sequence
-  - - 215172
-    - c
-    - game/european/main_run_frontend_loop
+    - game/french/main_boot_frontend
   - - 215556
     - c
     - game/european/mem_card_driver
@@ -1169,7 +1166,7 @@ segments:
   - [0x8CF30, .sbss, game/spanish/mem_card]
   - [0x8CF80, .sbss, game/european/sound_frontend]
   - [0x8CF94, .sbss, game/european/display_object_system]
-  - [0x8CFA8, .sbss, game/french/main_run_boot_sequence]
+  - [0x8CFA8, .sbss, game/french/main_boot_frontend]
   - [0x8CFB0, .sbss, game/european/mem_card_driver]
   - [0x8CFD8, .sbss, game/european/sound_driver]
   - [0x8CFE8, .sbss, game/spanish/model]

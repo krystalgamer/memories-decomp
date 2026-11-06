@@ -4077,15 +4077,15 @@
     },
     {
       "address": "0x80042FD0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x2E8",
-      "source": "src/game/japanese/main_run_boot_sequence.c"
+      "source": "src/game/japanese/main_boot_frontend.c"
     },
     {
       "address": "0x800432B8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/japanese/main_run_frontend_loop.c"
+      "source": "src/game/japanese/main_boot_frontend.c"
     },
     {
       "address": "0x80043434",
