@@ -27,8 +27,8 @@ typedef struct {
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a gDuel_aCardRecords record index. The shape is not a guess --
- * Duel_InitScene (src/game/duel_init_scene.c) and
- * DuelScene_UpdateTurnSwitch (src/game/duel_scene_battle.c) both
+ * Duel_InitScene (src/game/duel_scene.c) and
+ * DuelScene_UpdateTurnSwitch (src/game/duel_scene.c) both
  * build a per-side cursor as
  * &gDuel_abFieldGridCardRecordIndices.flat[gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT].
  *
@@ -55,10 +55,10 @@ extern DuelFieldGrid gDuel_abFieldGridCardRecordIndices;
  * holds. The trailing two bytes pad to the next table.
  *
  * Left unsized for the same reason as the grid, and because all three readers
- * want the flat view: duel_draw_resolution.c reads
+ * want the flat view: duel_scene.c reads
  * gDuel_abHandCardRecordIndices[i + gDuel_bActiveSide * HAND_SIZE], the hand-action
  * controller indexes its selected hand slot, and Duel_ApplyAiHandSelection
- * (duel_scene_card_move.c) takes the base pointer. */
+ * (duel_scene.c) takes the base pointer. */
 extern u8 gDuel_abHandCardRecordIndices[];
 
 /* The ground-plane position of every field slot, defined with initialisers in

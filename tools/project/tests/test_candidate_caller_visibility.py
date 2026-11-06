@@ -45,21 +45,12 @@ PAIRS = [
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_projection.h"'),
-    ("src/game/duel_draw_field_cards.c", "Duel_DrawProjectedFieldCardFrame", '#include "display_projection.h"'),
     ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/debug_effect_screen.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_scene_update_card_use.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_field_effects.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_scene_card_placement.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_scene_battle.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
     ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/debug_effect_screen.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_scene_update_card_use.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_field_effects.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_scene_card_placement.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_scene_battle.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
+    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
     ("src/game/library.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
+    ("src/game/duel_scene.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
+    ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
     ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview_objects.h"'),
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "sound.h"'),
     ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
@@ -68,17 +59,15 @@ PAIRS = [
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/sd_update_secondary_object_voices.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),
-    ("src/game/duel_scene_card_move.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/debug_menu_editor_entries.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/duel_result_runtime.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
-    ("src/game/duel_result_runtime.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
-    ("src/game/duel_field_effects.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
-    ("src/game/duel_action_lock.c", "SD_SEPlayFull", '#include "sound.h"'),
-    ("src/game/duel_scene_field_actions.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
-    ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "duel_cursor_step_toward_target.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
+    ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
+    ("src/game/duel_scene.c", "SD_SEPlayFull", '#include "sound.h"'),
+    ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
     (
-        "src/game/duel_action_lock.c",
+        "src/game/duel_scene.c",
         "DisplayObject_SetResourceVariant",
         '#include "display_object_config.h"',
     ),
@@ -91,11 +80,6 @@ PAIRS = [
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
-    ("src/game/duel_scene_update.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
-    ("src/game/duel_field_display_objects.c", "Duel_CreateFieldCardPanel", '#include "duel_card_object_helpers.h"'),
-    ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
-    ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "duel_hand_position_selection_cursor.h"'),
-    ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "duel_hand_selection_cursor.h"'),
     ("src/game/build_deck_draw_card_list_page.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/build_deck_draw_card_list_page.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
@@ -291,7 +275,19 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         '#include "duel_selection_layout.h"\n'
                     )
                 shadow = None
-                if "model_slot_control.h" in include:
+                shadow_name = "model_slot_control.h"
+                if text.count(include + "\n") > 1:
+                    # A grouped unit repeats the owner include; removing one
+                    # copy hides nothing, so shadow the owner with a copy
+                    # that loses only the callee's declaration.
+                    shadow_name = re.search(r'"([^"]+)"', include).group(1)
+                    owner = (REPOSITORY / Path(source).parent / shadow_name).read_text()
+                    shadow, count = re.subn(
+                        rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$", "", owner, count=1
+                    )
+                    self.assertEqual(count, 1)
+                    replacement = include + "\n"
+                elif "model_slot_control.h" in include:
                     # The unit needs the rest of its own header; shadow it
                     # with a copy that loses only the callee's declaration.
                     owner = (REPOSITORY / "src/game/model_slot_control.h").read_text()
@@ -305,7 +301,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     probe = Path(directory) / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
                     if shadow is not None:
-                        (probe.parent / "model_slot_control.h").write_text(
+                        (probe.parent / shadow_name).write_text(
                             shadow, encoding="utf-8"
                         )
                     probe.write_text(
@@ -367,7 +363,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertIn("Model_FindBranchingChildCoord", found)
 
     def test_cursor_motion_object_and_direction_views(self) -> None:
-        definition = "src/game/duel_field_display_objects.c"
+        definition = "src/game/duel_scene.c"
         ambient = "(DuelCursorProcessGridDirectionAmbient)"
         views = [
             ("", "DuelSelectionRecord *, s32", True),
@@ -414,7 +410,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                             )
 
     def test_active_selection_global_has_one_record_view(self) -> None:
-        definition = "src/game/duel_phase_entry.c"
+        definition = "src/game/duel_scene.c"
         views = [
             ("DuelSelectionRecord", True),
             ("DuelHandSlot", False),
@@ -452,7 +448,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                             )
 
     def test_hand_slot_has_canonical_display_object_pointers(self) -> None:
-        definition = "src/game/duel_scene_card_move.c"
+        definition = "src/game/duel_scene.c"
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "hand.c"
             for member in ("object", "order_marker"):

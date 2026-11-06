@@ -89,7 +89,7 @@ consecutive `D_` names as possible interior elements.
 
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
-is using. `duel_scene_card_move.c` reaches the deck records like this (in
+is using. `duel_scene.c` reaches the deck records like this (in
 `func_8001BAF0`):
 
 ```c
@@ -110,7 +110,7 @@ type. Grepping for the destination's name finds nothing.
 Subtracting addresses is therefore a cheap identity test that no name search
 can do. Two more instances are confirmed:
 
-- `duel_result_runtime.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
+- `duel_scene.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
 - `SD_MeasureCdAudioLevel` (`src/game/sound_output_state.c`) reads `state + 0x40` where `state` is `g_SDValue`.
@@ -134,7 +134,7 @@ Restricting to symbols declared as arrays, whose name decays to an address,
 removes all nine.
 
 **The address is usually copied to a local first.** With that restriction the
-same scan returns *zero* — including for `duel_scene_card_move.c`, the case the scan
+same scan returns *zero* — including for `duel_scene.c`, the case the scan
 was written for, because `gDuel_aActiveCards` and `0x31E0` are on separate
 lines. A zero there measured the reach of the scan rather than the state of the
 tree. One hop of alias tracking, recording locals assigned an array symbol's

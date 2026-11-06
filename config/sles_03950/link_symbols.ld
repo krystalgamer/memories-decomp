@@ -207,8 +207,6 @@ DecDCToutCallback = 0x80091084;
 DecDCTvlc2 = 0x800914A8;
 DecDCTvlcBuild = 0x800917F8;
 gFile_apszName = 0x80091994;
-gDuel_wViewTweenDistanceTarget = 0x8009C4CA;
-gDuel_apSwordsEffectObjects = 0x8009C4D0;
 gMain_bActiveModeState = 0x8009C60A;
 gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B268 = 0x8009C60C;
@@ -485,7 +483,6 @@ FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
 func_801680F4 = 0x801680F4;
 func_80168160 = 0x80168160;
-gDuelResult_nOutroSpriteCount = 0x8009C2BC;
 
 /* Semantic draw-state aliases retain the original native providers. */
 

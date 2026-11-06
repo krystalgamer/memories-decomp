@@ -9,8 +9,8 @@ two independent working-word roles:
 | `0x8009B20E` | `s16 gDuel_sEffectWorkCounter` | Mixed sweep/index/copy-offset/countdown work |
 
 Each is one C-defined scalar under that name in every image. The North
-American and Japanese storage (`duel_field_card_render.c`) defines them as
-two adjacent halfwords; the UK block (`european/duel_field_card_render.c`)
+American and Japanese storage (`duel_scene.c`) defines them as
+two adjacent halfwords; the UK block (`european/duel_scene.c`)
 defines them at their own addresses; the other PAL images bind them to
 absolute addresses. They were formerly one `s16 D_8009B20C[2]` array plus
 linker aliases (and PAL `gEuropean_D_8009B20C`/`D_8009C10E` names);

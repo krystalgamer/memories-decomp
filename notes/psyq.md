@@ -447,7 +447,7 @@ and the unused header is gone.
 | Address | Identity | Blocker |
 |---|---|---|
 | `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching `DisplayObject_ProjectPackedRotationFacing` and `DisplayObject_ProjectRotationFacing` in [`display_object_projection_checks.c`](../src/game/display_object_system.c) both use the canonical three-vector declaration. A residual pointer in `$a3` is not evidence of a fourth SDK input. |
-| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | Matching [`Duel_RenderFieldCard3D`](../src/game/duel_field_card_render.c) calls `NormalClip` through the canonical three-`long` declaration in `libgte.h`, passing the first three projected `POLY_GT4` vertex words. |
+| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | Matching [`Duel_RenderFieldCard3D`](../src/game/duel_scene.c) calls `NormalClip` through the canonical three-`long` declaration in `libgte.h`, passing the first three projected `POLY_GT4` vertex words. |
 
 The verified 52-byte routine at `0x80089CF0` reads vector data through
 `$a0`, `$a1`, and `$a2`, never `$a3`. It executes RTPT, AVSZ3, and then NCLIP.
@@ -1441,7 +1441,7 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 
 Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
-migrations include `duel_card_record_lifecycle.c`, `card_preview_handle_resource_transfer.c`,
+migrations include `duel_scene.c`, `card_preview_handle_resource_transfer.c`,
 `file_cd_helpers.c`, `model_slot_control.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `MainMenu_DrawValueSetup` in `value_setup.c` (formerly
@@ -1527,7 +1527,7 @@ without changing how the function pointer is installed.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
-callers, `duel_card_record_lifecycle.c` and `card_preview_handle_resource_transfer.c`, use that interface.
+callers, `duel_scene.c` and `card_preview_handle_resource_transfer.c`, use that interface.
 `model_slot_control.c` likewise uses the shared `LoadImage2` prototype while
 retaining rectangle-compatible local storage. Other image-transfer callers
 may retain local record views where an SDK structure changes exact code
@@ -1753,7 +1753,7 @@ signatures use integer handles rather than stream pointers. It must not be
 substituted for the debugger-host file service in `libsn.h` or the retail
 disc and memory-card APIs. Seven matching sources include it. The `printf`
 callers are `ai_script.c` and `ai_script_state_ops.c` for VM
-error/checkpoint output, `duel_field_effects.c` for the copied field
+error/checkpoint output, `duel_scene.c` for the copied field
 grid y value, `sd_update_bank_load.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
 `mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request
@@ -1776,7 +1776,7 @@ more than once. `convert.h` declares decimal and base-selectable integer
 parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. Four matching sources call qsort through it:
-[`duel_card_record_lifecycle.c`](../src/game/duel_card_record_lifecycle.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
+[`duel_scene.c`](../src/game/duel_scene.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `build_deck_input.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; the main-menu overlay's
@@ -2154,7 +2154,7 @@ The existing C sources expose several useful starting points:
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_controllers.c` and `model_scene_services.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `model_slot_support.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
-| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_boot_frontend.c` (`FntLoad`), `model_slot_support.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `model_slot_support.c` (`RotMatrixYXZ_gte`), `model_scene_controllers.c` (`RotMatrix_gte`), `model_slot_support.c` (`RotTrans`), matching `DisplayObject_ProjectPackedRotationFacing` and the retained `DisplayObject_ProjectRotationFacing` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and matching [`Duel_RenderFieldCard3D`](../src/game/duel_field_card_render.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
+| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_boot_frontend.c` (`FntLoad`), `model_slot_support.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `model_slot_support.c` (`RotMatrixYXZ_gte`), `model_scene_controllers.c` (`RotMatrix_gte`), `model_slot_support.c` (`RotTrans`), matching `DisplayObject_ProjectPackedRotationFacing` and the retained `DisplayObject_ProjectRotationFacing` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and matching [`Duel_RenderFieldCard3D`](../src/game/duel_scene.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `SD_MeasureCdAudioLevel` (now grouped in `src/game/sound_output_state.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in the candidates `SD_UpdateSecondaryObjectPitch` and `SD_SetVoiceVolume` (formerly in `sound_voice_setup.c` and `sound_voice_volume.c`), and in `SD_ApplyVoiceSlotVolume` (grouped in `sound_voice_selection.c`), `SD_MuteSecondaryVoices` and `SD_RestoreSecondaryVoiceVolumes` (formerly in `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `sound_output_transition.c`: `SD_InitSpuCommonVolume` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |

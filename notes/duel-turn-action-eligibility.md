@@ -21,7 +21,7 @@ scene, input, sound, and transfer state are excluded.
 ### Placement starts unused
 
 Matching
-[`Duel_SetupCardRecord`](../src/game/duel_card_record_lifecycle.c) constructs a
+[`Duel_SetupCardRecord`](../src/game/duel_scene.c) constructs a
 field record by assigning:
 
 ```c
@@ -59,7 +59,7 @@ to the field-action filters.
 ### The next draw phase clears used
 
 Matching `DuelScene_UpdateDrawPhase` in
-[`duel_phase_entry.c`](../src/game/duel_phase_entry.c) scans all 30 field
+[`duel_scene.c`](../src/game/duel_scene.c) scans all 30 field
 records at the next draw-phase entry. It clears
 `DUEL_CARD_FLAG_USED_THIS_TURN` on occupied records while preserving their
 other flags. Unoccupied records have their complete flag word cleared.
@@ -118,7 +118,7 @@ record only when:
 ```
 
 An accepted position change installs `func_8001D240` on the card object.
-Matching [`duel_scene_hand_actions.c`](../src/game/duel_scene_hand_actions.c) toggles only
+Matching [`duel_scene.c`](../src/game/duel_scene.c) toggles only
 `DUEL_CARD_FLAG_DEFENSE_POSITION`; it does not set the used bit.
 
 Consequently:
@@ -131,7 +131,7 @@ Consequently:
 ## Visible feedback and resulting rules
 
 Matching
-[`Duel_ApplyCardObjectFlags`](../src/game/duel_init_scene.c)
+[`Duel_ApplyCardObjectFlags`](../src/game/duel_scene.c)
 maps `DUEL_CARD_FLAG_USED_THIS_TURN` to the dimmed card colour. The visible
 dim state therefore reflects the same record bit used by attack and
 position-change eligibility, rather than a separate UI-only status.

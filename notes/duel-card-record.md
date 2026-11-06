@@ -279,7 +279,7 @@ record fields and the three staging-view offsets.
 
 Every C consumer of this family uses the shared header: nine matching
 resident translation units when this change landed, including the Exodia
-result, which now shares `src/game/duel_draw_resolution.c` with the draw
+result, which now shares `src/game/duel_scene.c` with the draw
 unit. This removes
 12 private declaration sites (including the candidate and the draw unit's
 same-symbol alias). The matching-resident headerless inventory decreases
@@ -440,7 +440,7 @@ Corroboration agrees without defining the shared type:
 
 ## Stat computation and comparison
 
-Matching [`Duel_CalcCardStats`](../src/game/duel_card_and_status_draw.c) uses
+Matching [`Duel_CalcCardStats`](../src/game/duel_scene.c) uses
 signed halfword views of `attack`, `defense`, `stat_modifier`, and
 `terrain_modifier`. It independently clamps
 `attack + stat_modifier + terrain_modifier` and
@@ -448,16 +448,16 @@ signed halfword views of `attack`, `defense`, `stat_modifier`, and
 the low halfword and DEF in the high halfword. The modifiers are summed
 before that clamp, not applied through separate saturation steps.
 
-[`Duel_CalcGuardianStarBonus`](../src/game/duel_battle_stats.c)
+[`Duel_CalcGuardianStarBonus`](../src/game/duel_scene.c)
 chooses each record's first or second packed star using
 `DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2`. For valid star IDs, the cycle helper
 returns `+500`, `-500`, or zero relative to the left record. A null right
 record returns zero without a matchup.
 
-The [battle-stat helpers](../src/game/duel_battle_stats.c) add that signed
+The [battle-stat helpers](../src/game/duel_scene.c) add that signed
 result to the selected left pre-matchup stat, then apply only an upper
 limit of `9999`. Matching
-[`func_8001EFD4`](../src/game/duel_battle_stats.c) compares that adjusted left
+[`func_8001EFD4`](../src/game/duel_scene.c) compares that adjusted left
 value against the right pre-matchup ATK or DEF; each position flag chooses
 which stat its side contributes. It does not also apply a guardian
 adjustment to the right value.
@@ -489,10 +489,10 @@ presentation, or outcome branch.
 ## Card-information text payload
 
 Matching
-[`DuelField_RefreshCursorCardInfo`](../src/game/duel_field_display_objects.c) maps the
+[`DuelField_RefreshCursorCardInfo`](../src/game/duel_scene.c) maps the
 source's row/column through the active side's `D_800907D8` field view and
 passes the resulting card-record index to
-[`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). This is a field-card text
+[`DuelField_CreateCardInfoTextBox`](../src/game/duel_scene.c). This is a field-card text
 request path, not by itself evidence for every button or visibility mode.
 
 The constructor clears `gText_BranchSelectorA` and `gText_BranchSelectorB` on entry. For an
@@ -511,7 +511,7 @@ variants; their full scripts and user-visible meanings are not decoded
 by this constructor alone.
 
 When source byte `+0x17` is `3` and `gText_BranchSelectorA` is nonzero, a separate
-call to [`DuelField_GetGuardianStarDisplayCode`](../src/game/duel_field_display_objects.c)
+call to [`DuelField_GetGuardianStarDisplayCode`](../src/game/duel_scene.c)
 supplies `gText_SelectedCardColorIndex`. That helper maps its guardian comparison to `4`
 for neutral, `1` for negative, or `6` for positive. The selector is
 separate from the two pre-matchup stat words, not an extra term in them.
@@ -530,7 +530,7 @@ visibility or a complete scratch-buffer layout follows from these writes.
 
 The value editor's shared option has a confirmed resident consumer, even
 though its visible caption remains unassigned. Matching
-[`Duel_InitSideStates`](../src/game/duel_state_init.c) first clears
+[`Duel_InitSideStates`](../src/game/duel_scene.c) first clears
 `DuelSideState.card_view_mode` at byte `+0x1F` of both `D_800E9FF0` side
 records. These are `0x20`-byte records, not the `0x1C`-byte card records
 described above:
@@ -548,9 +548,9 @@ The remaining negative-opponent/nonnegative-`gDuel_bSide0ControllerSelector[0]` 
 cleared. Do not collapse these branches into a universal two-player copy.
 
 The initializer points `D_8009B1C8` at the active side record; the matching
-[turn-switch helper](../src/game/duel_scene_battle.c) refreshes that pointer
+[turn-switch helper](../src/game/duel_scene.c) refreshes that pointer
 when changing sides. Matching
-[`Duel_CreateHandCardDisplayObject`](../src/game/duel_init_scene.c) reads `card_view_mode`
+[`Duel_CreateHandCardDisplayObject`](../src/game/duel_scene.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
 
 | Active-side value | Post-construction operation |
@@ -567,7 +567,7 @@ distinct storage and must not be conflated with the
 [Millennium Eye tutorial's resource-index edits](modding-tutorial-evidence.md#millennium-eye-opponent-card-display).
 
 The same active-side byte also gates a text-selector override in
-[`DuelField_CreateCardInfoTextBox`](../src/game/duel_field_display_objects.c). For an occupied field
+[`DuelField_CreateCardInfoTextBox`](../src/game/duel_scene.c). For an occupied field
 record on the acting side, zero forces `gText_BranchSelectorA = 2`, including after
 the face-down path selected `3`. A nonzero byte leaves that override
 disabled; this does not decode what either text variant displays.

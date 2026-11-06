@@ -479,919 +479,919 @@
       "address": "0x80015D18",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF8",
-      "source": "src/game/european/duel_field_card_render.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80015E10",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x608",
-      "source": "src/game/european/duel_field_card_render.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016418",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x27C",
-      "source": "src/game/european/duel_draw_field_cards.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016694",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xC",
-      "source": "src/game/display_object_set_resource_variant_from_sign.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800166A0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x580",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016C20",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016C48",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xB0",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016CF8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x94",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016D8C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x19C",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016F28",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016F50",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x94",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80016FE4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x68",
-      "source": "src/game/european/duel_card_and_status_draw.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001704C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x78",
-      "source": "src/game/view_state_reset_defaults.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800170C4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x43C",
-      "source": "src/game/european/duel_load_package_stage.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017500",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x44",
-      "source": "src/game/european/duel_init_model_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017544",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x130",
-      "source": "src/game/duel_state_init.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017674",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x38",
-      "source": "src/game/duel_state_init.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800176AC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x84",
-      "source": "src/game/duel_state_init.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017730",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x38",
-      "source": "src/game/duel_state_init.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017768",
-      "profile": "gcc_2_8_1_g8_split_psyq_rtps_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF8",
-      "source": "src/game/spanish/duel_ground_projection.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017860",
-      "profile": "gcc_2_8_1_g8_split_psyq_rtps_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xD0",
-      "source": "src/game/spanish/duel_ground_projection.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017930",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/european/duel_load_terrain_package.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001798C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x3B8",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017D44",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x88",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017DCC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xC8",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017E94",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x100",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80017F94",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x7C",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018010",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xD0",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800180E0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x9C",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001817C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x70",
-      "source": "src/game/european/duel_init_scene.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800181EC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x3AC",
-      "source": "src/game/european/duel_phase_entry.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018598",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x384",
-      "source": "src/game/european/duel_phase_entry.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001891C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x2A8",
-      "source": "src/game/european/duel_phase_entry.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018BC4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xC4",
-      "source": "src/game/european/duel_draw_resolution.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018C88",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xBC",
-      "source": "src/game/european/duel_draw_resolution.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018D44",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x238",
-      "source": "src/game/european/duel_draw_resolution.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80018F7C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x460",
-      "source": "src/game/european/duel_draw_resolution.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800193DC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x118",
-      "source": "src/game/european/duel_draw_resolution.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800194F4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA4",
-      "source": "src/game/european/duel_create_card_effect_overlay.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019598",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x400",
-      "source": "src/game/european/duel_scene_update_card_use.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019998",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x58",
-      "source": "src/game/duel_card_checks.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800199F0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xCC",
-      "source": "src/game/duel_card_checks.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019ABC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x74",
-      "source": "src/game/display_object_alpha_transition.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019B30",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x30",
-      "source": "src/game/display_object_alpha_transition.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019B60",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF8",
-      "source": "src/game/duel_update_card_marker_removal_turn.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019C58",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x50",
-      "source": "src/game/duel_mark_created_card_known.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80019CA8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x13B4",
-      "source": "src/game/european/duel_scene_card_placement.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B05C",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA4",
-      "source": "src/game/duel_project_card_slot_screen_x.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B100",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5F4",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B6F4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x2C",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B720",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x10C",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B82C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x80",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001B8AC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1B8",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001BA64",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x258",
-      "source": "src/game/european/duel_scene_card_move.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001BCBC",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x40",
-      "source": "src/game/duel_check_quit_input.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001BCFC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x14A4",
-      "source": "src/game/european/duel_scene_hand_actions.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D1A0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x104",
-      "source": "src/game/european/duel_scene_hand_actions.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D2A4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x80",
-      "source": "src/game/display_object_property_transitions.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D324",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x154",
-      "source": "src/game/display_object_property_transitions.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D478",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x9C",
-      "source": "src/game/duel_action_ready_marker.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D514",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xBC",
-      "source": "src/game/duel_action_ready_marker.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001D5D0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1600",
-      "source": "src/game/european/duel_scene_field_actions.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EBD0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xB0",
-      "source": "src/game/display_object_motion.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EC80",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x124",
-      "source": "src/game/display_object_motion.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EDA4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xD8",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EE7C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EED8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001EF34",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xFC",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001F030",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x294",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001F2C4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1F8",
-      "source": "src/game/european/duel_battle_stats.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8001F4BC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1378",
-      "source": "src/game/european/duel_scene_battle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80020834",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xB4",
-      "source": "src/game/european/duel_scene_battle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800208E8",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x25C",
-      "source": "src/game/duel_update_card_use_confirmation.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80020B44",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x16C",
-      "source": "src/game/european/duel_result_load_outro_package_stage.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80020CB0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x19C",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80020E4C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x64",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80020EB0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x688",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80021538",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xDC",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80021614",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x40",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80021654",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x278",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800218CC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x84",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80021950",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800219AC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x7C8",
-      "source": "src/game/spanish/duel_result_runtime.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80022174",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x23C",
-      "source": "src/game/spanish/debug_effect_screen.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800223B0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x324",
-      "source": "src/game/spanish/debug_effect_screen.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800226D4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/spanish/debug_effect_screen.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80022730",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x380",
-      "source": "src/game/duel_card_turn_animations.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80022AB0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x3A0",
-      "source": "src/game/duel_card_turn_animations.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80022E50",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x158",
-      "source": "src/game/duel_card_turn_animations.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80022FA8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xAC",
-      "source": "src/game/duel_card_turn_animations.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80023054",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x58",
-      "source": "src/game/display_parent_links.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800230AC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
-      "source": "src/game/display_parent_links.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002314C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xB4",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80023200",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x348",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80023548",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x58",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800235A0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xDC",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002367C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x748",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80023DC4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x2B4",
-      "source": "src/game/european/duel_field_display_objects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024078",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA4",
-      "source": "src/game/duel_cursor_held_grid_direction.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002411C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/duel_cursor_status.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024144",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/duel_cursor_status.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002416C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x150",
-      "source": "src/game/spanish/duel_update_card_pick_cursor.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800242BC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x188",
-      "source": "src/game/european/duel_scene_update.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024444",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x6C",
-      "source": "src/game/european/duel_scene_update.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800244B0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1AC",
-      "source": "src/game/european/duel_scene_update.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002465C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x4C",
-      "source": "src/game/european/duel_scene_update.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800246A8",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x118",
-      "source": "src/game/duel_card_data_transfer.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800247C0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x30",
-      "source": "src/game/util_compare_s16.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800247F0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF0",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800248E0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xF0",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800249D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x40",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024A10",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024A38",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x64",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024A9C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x23C",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024CD8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x118",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024DF0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x94",
-      "source": "src/game/duel_card_record_lifecycle.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024E84",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/main_start_duel.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024EE0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x28",
-      "source": "src/game/european/duel_action_lock.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024F08",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xC",
-      "source": "src/game/european/duel_action_lock.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80024F14",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1C4",
-      "source": "src/game/european/duel_action_lock.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800250D8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
-      "source": "src/game/duel_select_trap_by_card_id.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025178",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x194",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002530C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x130",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x8002543C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x270",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800256AC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1A4",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025850",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1CC",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025A1C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1BC",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025BD8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xC4",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025C9C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x144",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025DE0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1B0",
-      "source": "src/game/duel_card_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025F90",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x5C",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80025FEC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x194",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026180",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x15C",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800262DC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA8",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026384",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x758",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026ADC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xE0",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026BBC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x70",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026C2C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x68",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026C94",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x60",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026CF4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xAC",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026DA0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xB0",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80026E50",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x298",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800270E8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xCC",
-      "source": "src/game/european/duel_field_effects.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800271B4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xFC",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800272B0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x2E0",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80027590",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x284",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80027814",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x114",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80027928",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x11C",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80027A44",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x43C",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80027E80",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x428",
-      "source": "src/game/ai_turn_action.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800282A8",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x40",
-      "source": "src/game/duel_card_state_helpers.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x800282E8",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x1C",
-      "source": "src/game/duel_card_state_helpers.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80028304",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x6C",
-      "source": "src/game/duel_card_get_guardian_star.c"
+      "source": "src/game/spanish/duel_scene.c"
     },
     {
       "address": "0x80028370",

@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* Duel small data that duel_field_card_render.c defines (#2602), for the
+/* Duel small data that duel_scene.c defines (#2602), for the
  * units that reach it without the render prototypes. */
 /* Active duel display-transition request/status flags. Every consumer uses
  * this same scalar view; it is not the separate view-tween frame counter.

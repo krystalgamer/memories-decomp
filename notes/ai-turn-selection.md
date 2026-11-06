@@ -1,9 +1,9 @@
 # AI turn-selection API and battle comparison
 
 This is one static contract for the six-function run in
-[`ai_turn_action.c`](../src/game/ai_turn_action.c), its
+[`duel_scene.c`](../src/game/duel_scene.c), its
 [`shared API`](../src/game/ai_turn_action.h), and the battle-strength helper
-in [`duel_battle_stats.c`](../src/game/duel_battle_stats.c). Names describe
+in [`duel_scene.c`](../src/game/duel_scene.c). Names describe
 the matching code, not recovered original symbols or a claim that every
 entry is called during normal play.
 
@@ -86,7 +86,7 @@ result is neither a symmetric ordering nor a normalized `-1/0/1` value;
 the tie rule must not be repaired into equality.
 
 Both AI target scans require a positive result. The three calls from
-[`DuelScene_UpdateBattle`](../src/game/duel_scene_battle.c) also preserve
+[`DuelScene_UpdateBattle`](../src/game/duel_scene.c) also preserve
 their separate consumers: resolution uses the sign and magnitude for side
 markers and life-point deltas, model presentation distinguishes `-1` from
 other results, and direct-attack presentation passes a null right operand.

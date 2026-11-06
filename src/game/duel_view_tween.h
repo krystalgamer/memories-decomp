@@ -20,7 +20,7 @@ void Duel_StartViewTween(
  * view. Both compile to the same gp-relative halfword access. */
 extern s16 gDuel_wViewTweenFramesRemaining;
 
-/* State that Duel_UpdateDisplayTransition (duel_field_display_objects.c) uses to advance
+/* State that Duel_UpdateDisplayTransition (duel_scene.c) uses to advance
  * the tween.
  *
  * The four target halfwords are distance, orbit angle, heading and target Z. The four

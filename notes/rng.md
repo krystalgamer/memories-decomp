@@ -80,7 +80,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `Rand_GetInterval` (`0x800358FC`) | Returns `rand() % divisor` |
 | `AiScript_JumpRandom` (`0x80070C60`) | Chooses whether a scripted branch is taken |
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
-| `duel_result_runtime.c` | Selects post-duel rewards |
+| `duel_scene.c` | Selects post-duel rewards |
 | `NameEntry_BuildStarterDeck` | Builds the new-game starter deck from seven weighted rows |
 | `main_mode_runners.c` | Advances randomness while the main menu runs |
 
@@ -96,7 +96,7 @@ the callee's random-number consumption.
 
 ### Duel-start shuffle stream consumption
 
-Matching [`Duel_ShuffleDeck`](../src/game/duel_scene_update.c) first prepares 40
+Matching [`Duel_ShuffleDeck`](../src/game/duel_scene.c) first prepares 40
 card IDs and initializes its permutation bytes to `0..39`. A non-null source
 is copied without RNG calls. After preparation, the function performs
 `DUEL_DECK_SHUFFLE_SWAP_COUNT = DECK_SIZE * 4` (`160`) iterations. Each
@@ -127,7 +127,7 @@ by the 320 swap-stage calls; the total is not fixed across different outcomes.
 ### Reward-card stream consumption
 
 Each completed call to matching
-[`Duel_SelectCardDrop`](../src/game/duel_result_runtime.c) consumes exactly one
+[`Duel_SelectCardDrop`](../src/game/duel_scene.c) consumes exactly one
 `rand()` value, whether it returns a card ID or zero. Its argument is a
 rank-pool selector (`0` S/A POW, `1` B/C/D,
 `2` S/A TEC), not an opponent ID; the rows are `0x5B4` bytes apart.

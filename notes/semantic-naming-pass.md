@@ -191,7 +191,7 @@ established.
 
 The former `0x80071510`, `0x80073448`, and `0x80073458` entries are no longer
 deferred. All three access byte `0x08` of the shared `AiSelection` record:
-`ai_turn_action.c` writes `rand() & 1` there while choosing an action, the two
+`duel_scene.c` writes `rand() & 1` there while choosing an action, the two
 state opcodes set and clear it, and the load opcode copies it into the VM
 register selected by its stream operand. They are therefore named as the
 load/set/clear `SelectionRandom` family without assigning a narrower gameplay

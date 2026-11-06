@@ -1,10 +1,10 @@
 # Field information, selection records and linked hand objects
 
 This contract joins the five functions in
-[`duel_field_display_objects.c`](../src/game/duel_field_display_objects.c)
+[`duel_scene.c`](../src/game/duel_scene.c)
 with the two
-[`parent-link helpers`](../src/game/display_parent_links.c) and the existing
-[`linked-object callback`](../src/game/duel_card_turn_animations.c).
+[`parent-link helpers`](../src/game/duel_scene.c) and the existing
+[`linked-object callback`](../src/game/duel_scene.c).
 All claims describe the matching C and its real producer/caller chain, not a
 new runtime capture.
 

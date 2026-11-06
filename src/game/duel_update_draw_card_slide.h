@@ -9,7 +9,7 @@
  * minus 0x140, takes its step from the phase value it was given (0x400 /
  * field_60), and starts the phase at -0x400. Each frame then eases it through
  * Widget_SlideSine. When the phase reaches zero it snaps to the target and
- * clears its update hook and field_6C. duel_draw_resolution.c installs it by
+ * clears its update hook and field_6C. duel_scene.c installs it by
  * address. */
 void Duel_UpdateDrawCardSlide(DisplayObject *object);
 

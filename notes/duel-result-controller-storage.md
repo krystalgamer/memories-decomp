@@ -8,7 +8,7 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
 ## Backing and bounds
 
 - `gDuel_pSide0SaveData` and `gDuel_pSide1SaveData` are adjacent
-  `SaveDataState *` scalars, each defined once in `duel_field_card_render.c`.
+  `SaveDataState *` scalars, each defined once in `duel_scene.c`.
   Every unit declares them that way. DuelResult reads them through
   `DUEL_SAVE_WINDOW(side)`, a `DuelSaveWindows` structure reference starting
   at the first, which keeps GP-relative indexed access and the retail reload

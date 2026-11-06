@@ -45,6 +45,6 @@ The function's two locals that held the copied words are renamed to match:
 
 `DuelStatusDigitPacket` in `src/ygo_types.h` is the same `GsSPRITE` prefix,
 used by `Duel_DrawLifePointsAndDeckCounts`. It is left for a separate change.
-Its only user, `duel_card_and_status_draw.c`, edits the same lines as an open
+Its only user, `duel_scene.c`, edits the same lines as an open
 pull request, and `ygo_types.h` puts every overlay image in scope for
 verification.

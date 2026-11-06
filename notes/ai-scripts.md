@@ -34,13 +34,13 @@ Each claim below carries one of these tags:
   `WA_MRG.MRG` sector `0x16C6 + gDuel_bTerrain * 0xEB`
   ([runtime-loader.md](overlays/runtime-loader.md#seven-235-sector-wa-records)).
   Phase 8 of `Duel_LoadPackageStage`
-  ([duel_load_package_stage.c](../src/game/duel_load_package_stage.c))
+  ([duel_scene.c](../src/game/duel_scene.c))
   copies relative sectors 184-186 (`0x1800` bytes) to `0x801A8000`. Phase 9
   copies sectors 187-189 to `0x801A9800`.
 * **[code]** The hand-phase state `DuelScene_UpdateHandActions`
-  ([duel_scene_hand_actions.c](../src/game/duel_scene_hand_actions.c)) calls
+  ([duel_scene.c](../src/game/duel_scene.c)) calls
   `Ai_RefreshBoardSnapshot()` and then `AiScript_Init(gFile_StagingBuffer)`. The field-phase
-  state ([duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c))
+  state ([duel_scene.c](../src/game/duel_scene.c))
   calls `AiScript_Init(gAiScript_abFieldScript)`. `AiScript_Init` (`0x800705D8`) sets the
   cursor to the base address, so both programs always start at offset 0. The
   program is **not** chosen per duelist: there is one **hand script** and one
@@ -125,7 +125,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   When `c = 0`, `[10]` becomes `slot` only if `slot >= 6` and `a == 1`, which
   means activating the magic or trap card itself. Otherwise `[10]` becomes 0.
   **[code]** When the caller in
-  [duel_scene_field_actions.c](../src/game/duel_scene_field_actions.c) finds
+  [duel_scene.c](../src/game/duel_scene.c) finds
   `[10] == [11] == 0`, it sets the used-this-turn flag (`0x4000`) on that
   card. It then returns to state 2 with the `0x80` "initialised" bit clear.
   **[inferred]** That makes the next pass call `Ai_RefreshBoardSnapshot` and

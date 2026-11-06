@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* The card-effect flag word. duel_action_lock.c owns the initialization bit:
+/* The card-effect flag word. duel_scene.c owns the initialization bit:
  * DuelEffect_MarkInitialized sets bit 0x80 the first time it is asked and
  * DuelEffect_ClearCardEffect clears the whole word.
  * DuelEffect_StartCardEffect starts an effect by writing
@@ -48,8 +48,8 @@ extern s16 gDuel_sEffectWorkCounter;
 /* The halfword immediately past the counter.
  *
  * It is the trap presentation's mode: Duel_UpdateTrapPresentation in
- * duel_battle_stats.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
- * and stores 1, 2 and 3 itself, and duel_card_effects.c clears it to 0 at the
+ * duel_scene.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
+ * and stores 1, 2 and 3 itself, and duel_scene.c clears it to 0 at the
  * two points the effect finishes. Four further writers are still assembly,
  * all `sh $zero`. */
 extern u16 gDuel_wTrapPresentationMode;

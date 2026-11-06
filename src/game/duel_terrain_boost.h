@@ -23,7 +23,7 @@ extern u8 gDuel_bTerrain;
 /* Attack modifier in CARD_STAT_SCALE units, one row per monster card type and
    one column per terrain. Duel_GetTerrainBoost rejects cardType >=
    CARD_TYPE_MAGIC before indexing, so only the monster types have rows.
-   src/game/duel_card_record_lifecycle.c owns the table at 0x800909D4. */
+   src/game/duel_scene.c owns the table at 0x800909D4. */
 extern s8 gDuel_aTerrainBoost[CARD_TYPE_MAGIC][DUEL_TERRAIN_COUNT];
 
 /* Returns the attack/defence adjustment the active terrain gives a card of
