@@ -1,5 +1,4 @@
 #include "../types.h"
-#define AI_GET_HAND_SEARCH_COUNT_RETURNS_S32
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
 #include "ai.h"

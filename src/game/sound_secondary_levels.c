@@ -25,7 +25,7 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right)
         SD_UpdateSecondaryObjectVolumes();
 }
 
-s32 SD_PollSequenceState(void)
+s16 SD_PollSequenceState(void)
 {
     s32 value;
 

@@ -1,4 +1,3 @@
-#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #include "../types.h"
 #include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"

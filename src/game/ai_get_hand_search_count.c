@@ -47,7 +47,7 @@ AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT] = {
     {{15, 20, 10, 3, 3, 5, 5, 50, 25}},
 };
 
-s8 Ai_GetHandSearchCount(void)
+s32 Ai_GetHandSearchCount(void)
 {
     return gDuel_aOpponentData[gDuel_bOpponentID].values[
         AI_OPPONENT_HAND_SEARCH_COUNT_FIELD];

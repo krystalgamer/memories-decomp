@@ -1028,21 +1028,8 @@ s32 SD_OpenSequence(u8 *input, s16 vab_id);
    It is the only writer of that 3, and SD_ProcessSequenceTracks stops
    advancing once the halfword leaves 1 without ever updating it, so a
    finished sequence stays marked playing until this is called.
-   notes/sound-driver-state.md tabulates the halfword's values. Its two callers disagree about
-   the return width and the narrower one is right to: SD_UpdateRuntime
-   (src/game/sound_runtime.c) compares
-   the result rather than storing it, so the narrowing has to be materialised
-   and the sll/sra pair it produces is retail's -- widening that caller to the
-   definition's s32 drops eight bytes. sound_output.c takes the definition's
-   spelling and casts at the use. Contrast Duel_GetCardEffectVariant, where the same
-   s16-against-int disagreement is free because every caller stores the result
-   into a 16-bit field and the sh truncates anyway. See
-   notes/research/matching-evidence.md. */
-#ifdef SD_POLL_SEQUENCE_STATE_RETURNS_S16
+   notes/sound-driver-state.md tabulates the halfword's values. */
 s16 SD_PollSequenceState(void);
-#else
-s32 SD_PollSequenceState(void);
-#endif
 
 /* Three secondary-path steps that take one argument they never read. Every
    retail call site loads it into $a0 first: g_SDValue->s_wSD_SEQ_ACCESS for

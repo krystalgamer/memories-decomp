@@ -665,10 +665,7 @@ finish:
     return 1;
 }
 
-/* Declared void, which is how it matched, but the index MemCard_FindEntry
- * returns is still in $v0 on the way out and the one caller, MemCardWork_UpdateOperation,
- * branches on its sign. */
-void MemCard_FindLoadedEntry(u8 *name)
+s32 MemCard_FindLoadedEntry(u8 *name)
 {
-    MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);
+    return MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);
 }
