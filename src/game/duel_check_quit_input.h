@@ -38,9 +38,11 @@ extern u8 gDuel_bQuitDialogState;
  * The other two users take the plain scalar. */
 extern u16 gDuel_wOutcomeFlags;
 
-/* debug_effect_screen.c's page byte. It follows gDuel_wOutcomeFlags in the
-   US and Japanese images, but the European ones place it elsewhere, so it is
-   its own variable rather than a byte of the flags word. */
-extern u8 D_8009B16E;
+/* debug_effect_screen.c's placement counter: DebugEffect_UpdatePreview zeroes
+   it on first entry and steps it modulo 8 on each placement; nothing else reads
+   it. It follows gDuel_wOutcomeFlags in the US and Japanese images, but the
+   European ones place it elsewhere, so it is its own variable rather than a
+   byte of the flags word. */
+extern u8 gDebugEffect_bPlacementCounter;
 
 #endif

@@ -28,7 +28,7 @@
  * way the original read them through $gp. */
 u8 *gDebugEffect_pPreviewCard0;
 u8 *gDebugEffect_pPreviewCard1;
-u8 D_8009B16E;
+u8 gDebugEffect_bPlacementCounter;
 u16 gDuel_wSceneStateFlags;
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
@@ -153,7 +153,7 @@ void DebugEffect_UpdatePreview(void) {
     }
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
-        D_8009B16E = 0;
+        gDebugEffect_bPlacementCounter = 0;
         gDebugEffect_PreviewState.bPage = 0;
         gDebugEffect_PreviewState.bEditedOperand = 0;
         (&gDebugEffect_PreviewState.abOperands[0])[1] = 0;
@@ -203,7 +203,7 @@ void DebugEffect_UpdatePreview(void) {
     } else if (gInput_awPadPressed[0] & DEBUG_EFFECT_PLACE_BUTTON) {
         p = DuelEffect_AllocateRequest(
             (&gDebugEffect_PreviewState.abOperands[0])[0]);
-        D_8009B16E = (D_8009B16E + 1) & 7;
+        gDebugEffect_bPlacementCounter = (gDebugEffect_bPlacementCounter + 1) & 7;
         p->phase = (&gDebugEffect_PreviewState.abOperands[0])[1];
         switch (gDebugEffect_PreviewState.bPage) {
         case 0:
