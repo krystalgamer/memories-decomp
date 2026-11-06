@@ -24,7 +24,7 @@ at its own addresses.
   - **Runtime.** It copies the other slot's position without the
     travel adjustment and calls the header-426 helpers.
 - **Views.** `variant426_entry.h` reuses the header-425 entry views and adds
-  `EntryConfig426` and `EntryState426`.
+  `ModelVariantSpiralConfig` and `EntryState426`.
 - **Bindings.** Both regions' `model_variant426_linker_symbols.txt` gain
   the named texture, primitive, `GsGetLwUnit`, `Square0` and `SquareRoot0`
   bindings used by the C entry.
@@ -35,10 +35,10 @@ probes.
 
 ## Config field names
 
-`EntryConfig426` (the `gFrenchModelVariant426_aConfigs` records) names one
+`ModelVariantSpiralConfig` (the `gFrenchModelVariant426_aConfigs` records) names one
 former placeholder. Struct-member renames are recorded here, not in the
 semantic map, which has no field kind.
 
 | Offset | Old → new | Evidence | Confidence |
 |---|---|---|---|
-| `+0x30` | `field_30` → `spiral_start` | `FrenchModelVariant426_HandleRequest` calls `SpanishModelVariant426_DrawSpiral` on each frame update only once `spiral_start <= work->elapsed`; it is the frame at which the spiral starts drawing. `ModelVariant409_HandleRequest` gates the same `SpanishModelVariant426_DrawSpiral` call on `EntryConfig409.spiral_start <= work->elapsed`, so the name matches that field. | high |
+| `+0x30` | `field_30` → `spiral_start` | `FrenchModelVariant426_HandleRequest` calls `SpanishModelVariant426_DrawSpiral` on each frame update only once `spiral_start <= work->elapsed`; it is the frame at which the spiral starts drawing. `ModelVariant409_HandleRequest` gates the same `SpanishModelVariant426_DrawSpiral` call on `ModelVariantSpiralConfig.spiral_start <= work->elapsed`, so the name matches that field. | high |

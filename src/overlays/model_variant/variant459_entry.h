@@ -19,15 +19,8 @@ typedef struct {
 } Variant459EntryConfig;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x24];
-} Variant459EntryGlow;
-
-typedef struct {
     ModelVariantWeb webs[3];
-    Variant459EntryGlow glows[16];
+    ModelVariantSpiralWide glows[16];
     ModelVariantSheet sheet;
     ModelVariantMesh grid;
     Variant476ScreenGrid screen_grid;

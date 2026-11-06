@@ -12,7 +12,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    EntryRay446 *ray = work->rays;
+    ModelVariantRay *ray = work->rays;
     EntryLines446 *lines = work->lines;
     EntryStrip446 *strip = work->strips;
     EntryPulse446 *pulse = work->pulses;

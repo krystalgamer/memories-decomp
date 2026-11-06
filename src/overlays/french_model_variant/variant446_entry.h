@@ -17,12 +17,6 @@ typedef struct {
 } EntryConfig446;
 
 typedef struct {
-    u8 unknown_00[0x78];
-    CVECTOR inner[3], outer[3];
-    u8 unknown_90[0x28];
-} EntryRay446;
-
-typedef struct {
     SVECTOR points[2][4][6];
     CVECTOR color;
     VECTOR direction;
@@ -42,7 +36,7 @@ typedef struct {
 } EntryPulse446;
 
 typedef struct {
-    EntryRay446 rays[16];
+    ModelVariantRay rays[16];
     EntryLines446 lines[3];
     EntryStrip446 strips[1];
     EntryPulse446 pulses[2];

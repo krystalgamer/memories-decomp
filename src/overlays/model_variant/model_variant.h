@@ -107,6 +107,19 @@ typedef struct {
     s32 done[32];
 } ModelVariantSwarmGroupShort;
 
+/* A 0x714-byte swarm of 32 sprites: corner arrays v0..v3, an origin per
+ * sprite, a colour, and per sprite a scale and a done flag (drawn, for
+ * instance, by FrenchModelVariant430_DrawSwarm). */
+typedef struct {
+    SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
+    CVECTOR color;
+    u8 unknown_504[0x10];
+    s32 scale[32];
+    s32 field_594[32];
+    s32 field_614[32];
+    s32 done[32];
+} ModelVariantSwarm;
+
 /* A 0x20-byte anchor whose position becomes the translation of a sheet,
  * ribbon or quad-pair matrix. */
 typedef struct {
@@ -311,15 +324,24 @@ typedef struct {
 /* ModelVariantSheet with its sixteen corners as one points[16] array and its
  * colours as CVECTORs: outer is the colour of the fourth corner and inner that
  * of the other three, as FrenchModelVariant400_DrawSheets and the header-335
- * and 336 sheet drawers read them. (The header-337, 400 and 410 entries named
- * the two colours the other way round; the header-410 ring drawer's
- * Family410Ring keeps that naming.) */
+ * and 336 sheet drawers read them. (The header-337, 400 and 410 entries and
+ * the Exodia entries named the two colours the other way round; the
+ * header-410 ring drawer's Family410Ring and the Exodia ring drawers'
+ * ExodiaRing keep that naming.) */
 typedef struct {
     SVECTOR points[16];
     CVECTOR outer, inner;
     s32 size, field_8C, field_90;
     u8 unknown_94[4];
 } ModelVariantPointSheet;
+
+/* One 0x98-byte sheet: a 4x4 grid of points, inner and outer colours and a
+ * scale vector. */
+typedef struct {
+    SVECTOR points[4][4];
+    CVECTOR inner, outer;
+    VECTOR scale;
+} ModelVariantScaledSheet;
 
 /* One 0x1C8-byte band of the bands helper: three rows of nine points, the
  * screen coordinates RotTransPers3 writes for them, two colour rows and the
@@ -489,6 +511,17 @@ typedef struct {
     VECTOR position;
     u8 unknown_1F8[0x58];
 } ModelVariantCountedRibbon;
+
+/* A 0x6C-byte ribbon record: a colour and three scale words. */
+typedef struct {
+    u8 unknown_00[0x48];
+    CVECTOR color;
+    s32 scale[3];
+    u8 unknown_58[4];
+    s16 field_5C, field_5E;
+    s32 field_60;
+    u8 unknown_64[8];
+} ModelVariantShortRibbon;
 
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
@@ -755,6 +788,14 @@ typedef struct {
     u8 unknown_60[0x1C];
 } ModelVariantSpiral;
 
+/* One 0xB8-byte record whose three inner and three outer colours the entry
+ * seeds as ModelVariantSpiral's are (inner grey, outer the bright colour). */
+typedef struct {
+    u8 unknown_00[0x78];
+    CVECTOR inner[3], outer[3];
+    u8 unknown_90[0x28];
+} ModelVariantRay;
+
 /* One 0xA8-byte trail record: nine colours, a ramp from bright to the base
  * colour, and nine staggered start offsets (a delay or -(j * 256)) the entry
  * handlers set per point. */
@@ -936,6 +977,49 @@ typedef struct {
     u8 red, green, blue, spark_red, spark_green, spark_blue;
 } ModelVariantSparkCommand;
 
+/* One 0x34-byte entry config: outer and inner colours, the model part, and
+ * the frames the drawing, ribbon, travel, fade and spiral phases start or
+ * end at. */
+typedef struct {
+    CVECTOR outer, inner;
+    u8 unknown_08[8], part, unknown_11[7];
+    u32 draw_start, ribbon_start, travel_start, travel_end, fade_start, fade_end;
+    u32 spiral_start;
+} ModelVariantSpiralConfig;
+
+/* One 0x40-byte entry config: outer, inner and web colours, the model parts,
+ * the first count and paired flag, and the frames the phases start or end
+ * at. */
+typedef struct {
+    CVECTOR outer, inner, web_color;
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    s32 first_count, paired;
+    u32 draw_start, grow_end, field_2C, phase3_end, matrix_end;
+    u8 unknown_38[8];
+} ModelVariantGrowConfig;
+
+/* One 0x38-byte entry config: outer, inner and web colours, two model parts,
+ * a limit and the frames the drawing, matrix and move phases start or end
+ * at. */
+typedef struct {
+    CVECTOR outer, inner, web_color;
+    u8 unknown_0C[4], parts[2], unknown_12[0xA];
+    u32 draw_start, limit, field_24, field_28, matrix_end, move_start, move_end;
+} ModelVariantMoveConfig;
+
+/* One 0x38-byte entry config: ModelVariantWebConfig's colours, parts and start
+ * frame, a limit, and the frames the origin and sweep phases end or start
+ * at. */
+typedef struct {
+    CVECTOR inner, outer, web;
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    u32 start;
+    u32 limit;
+    u8 unknown_24[8];
+    u32 origin_end;
+    u32 sweep_start, sweep_end;
+} ModelVariantSweepConfig;
+
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
  * and per quad a size, a progress word and an initialized flag. */
 typedef struct {
@@ -1066,6 +1150,21 @@ typedef struct {
     s32 field_A4;
     u8 unknown_A8[0xC];
 } ModelVariantBandTriple;
+
+/* A 0xA0-byte pair of shaded sprites sharing one scale: per sprite a
+ * staggered start offset (-(k * 768)) and the entry config's two colours,
+ * then the scale vector and two rotation halfwords. ModelVariantBandPair is
+ * the same record with CVECTOR colours. */
+typedef struct {
+    u8 unknown_00[0x68];
+    s32 offset[2];
+    u8 inner[2][4];
+    u8 outer[2][4];
+    VECTOR scale;
+    s16 rx, ry;
+    s32 field_94;
+    u8 unknown_98[8];
+} ModelVariantBeamPair;
 
 /* Nine 17-point rings of a dome, each with its own colour (ModelVariantMesh
  * with CVECTOR colours). */
