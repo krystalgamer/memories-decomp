@@ -180,7 +180,7 @@ struct DuelRitualResult;
  * deltas from the distance to the target over the remaining frame count, then
  * advances both accumulators, publishes their high halves as the camera
  * position, and snaps to the target when the counter runs out. */
-/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (debug_menu_update.c):
+/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (debug_menu.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
 /* One step of the card list's cursor and paging input.

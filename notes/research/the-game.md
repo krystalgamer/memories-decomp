@@ -250,7 +250,7 @@ an ordinary table slot: resident `Main_ApplyMenuSelection` accepts normal result
 when they are below `0x0B`.
 
 Static resident code establishes the hidden Debug Menu's input layout, but not
-the labels visible beside it. [`DebugMenu_Update`](../../src/game/debug_menu_update.c)
+the labels visible beside it. [`DebugMenu_Update`](../../src/game/debug_menu.c)
 maintains a selection from 0 through 19 as two columns of ten: left/right
 subtracts/adds 10, while up/down wraps independently within the selected
 column. Circle first moves the cursor to entry 19; pressing Circle there

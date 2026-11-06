@@ -14,7 +14,7 @@
 void DebugMenu_Exit(void);
 
 /* The European alternate debug page's credits step, defined beside
- * DebugMenu_Exit in debug_menu_leave_entries.c. */
+ * DebugMenu_Exit in debug_menu.c. */
 void DebugMenu_EnterCredits(void);
 
 #endif

@@ -50,15 +50,15 @@ extern u8 gDebugMenu_szLanguageEditorFormat[0x1C];
 extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
 
 /* DebugMenu_EnterMappedMode reads it as the index into gDebugMenu_abMainModeByEntry (`s32 i =
-   gDebugMenu_bCursor;` at debug_menu_leave_entries.c:21, `v = p[i];` at :25);
+   gDebugMenu_bCursor;` at debug_menu.c:70, `v = p[i];` at :74);
    DebugMenu_UpdateCursorLayout reads it as `s32 index = gDebugMenu_bCursor;`.
    DebugMenu_Update
    is the only C writer: it adds 0xA when the sum is below 0x14
-   (debug_menu_update.c:44-46), subtracts 0xA when the difference is not negative
-   (:48-50), steps it by -1 with wraps to 0x13 and 9 (:54-65) and by +1 with
-   wraps to 0xA and 0 (:70-81), stores 0x13 (:89-90) and stores
-   `gDebugMenu_bCursor + 1` into gDebugMenu_bStep (:112). s8 because all three units
-   declared it s8 when they matched and :48 tests `gDebugMenu_bCursor - 0xA >= 0`;
+   (debug_menu.c:224-228), subtracts 0xA when the difference is not negative
+   (:230-233), steps it by -1 with wraps to 0x13 and 9 (:236-251) and by +1 with
+   wraps to 0xA and 0 (:252-267), stores 0x13 (:271-273) and stores
+   `gDebugMenu_bCursor + 1` into gDebugMenu_bStep (:304). s8 because all three units
+   declared it s8 when they matched and :230 tests `gDebugMenu_bCursor - 0xA >= 0`;
    retail loads it lb at debug_menu_mapped_mode.s:5 and debug_menu_update.s:59/:68/:82/
    :109/:141, and every access is %gp_rel, so this is the plain declaration.
    No prototype takes &gDebugMenu_bCursor. Initial value not read. */

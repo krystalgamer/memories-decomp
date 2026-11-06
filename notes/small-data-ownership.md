@@ -143,7 +143,7 @@ attributes produced the same assembly.
 The exact spelling is eight ordered `u16` scalars. GCC emits `.align 1` for
 each scalar, so the three public boundary names land at the retail offsets
 and the unnamed continuation values remain local to
-`debug_menu_update.c`. The resulting `.sdata` section is exactly 16
+`debug_menu.c`. The resulting `.sdata` section is exactly 16
 bytes with two-byte alignment, and the complete executable matches.
 
 `gDebugMenu_wMessageId` and `gDebugMenu_wCampaignScene` remain relocation targets in `DebugMenu_UpdateCampaignEntry`,

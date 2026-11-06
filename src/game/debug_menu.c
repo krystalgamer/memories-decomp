@@ -1,11 +1,33 @@
-/* The debug menu's per-frame update and its bust-up entry step, in address
-   order. DebugMenu_Update runs the active step from the primary or alternate
-   page table. Otherwise it prints the menu and handles the pad: the
-   directions move the cursor, Select flips the page and rebuilds the second
-   text box, and confirm selects the step under the cursor. DebugMenu_UpdateBustUpEntry is entry 6 of the primary page table;
+#include "../types.h"
+
+/* The debug menu's leave entries, two-player duel entry and per-frame
+   update, in address order. DebugMenu_EnterMappedMode and DebugMenu_Exit
+   leave the menu (the European build adds DebugMenu_EnterCredits after
+   them); DebugMenu_UpdateTwoPlayerDuelEntry and DebugMenu_ResetEntryState
+   run the two-player load step. DebugMenu_Update runs the active step from
+   the primary or alternate page table. Otherwise it prints the menu and
+   handles the pad: the directions move the cursor, Select flips the page
+   and rebuilds the second text box, and confirm selects the step under the
+   cursor. DebugMenu_UpdateBustUpEntry is entry 6 of the primary page table;
    the empty DebugMenu_NoOpBustUpFrame before it (absent from the European
    image) is the per-frame call it makes. */
-#include "../types.h"
+
+#include "frontend_debug_tables.h"
+#include "frontend_debug_state.h"
+#include "debug_menu_mapped_mode.h"
+#include "../psyq/setjmp.h"
+#include "display_object_core.h"
+#include "fade.h"
+#include "duel_effect_reset_state.h"
+#include "main_services.h"
+#include "debug_menu_exit.h"
+#include "../unmatched.h"
+#include "main_mode_state.h"
+#include "../overlays/free_duel/free_duel.h"
+#include "two_player_save_setup.h"
+#include "mem_card.h"
+#include "file_transfer.h"
+#include "debug_menu_two_player_entry.h"
 #include "text_box_blocking_build.h"
 #include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
@@ -16,7 +38,6 @@
 #include "display_object_brightness.h"
 #include "display_object_layout.h"
 #include "campaign_scene_package.h"
-#include "frontend_debug_state.h"
 #include "debug_menu_update.h"
 #include "debug_font_format_data.h"
 #include "duel_effect.h"
@@ -26,26 +47,83 @@
 #include "input.h"
 #include "text_box_lifecycle.h"
 #include "frontend_step_tables.h"
-#include "frontend_debug_tables.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "debug_menu_update_cursor_layout.h"
 #include "text_box_runtime.h"
-#include "../unmatched.h"
-#include "debug_menu_mapped_mode.h"
-#include "debug_menu_exit.h"
-#include "debug_menu_two_player_entry.h"
 #include "frontend_scene_states.h"
 #include "debug_menu_editor_entries.h"
 #include "frontend_debug_constants.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
+u8 D_8009B2B2;
 DisplayObject *gDebugMenu_pCursorQuad;
 u16 D_8009B2DE;
 s8 gDebugMenu_bCursor;
 u8 gDebugMenu_bPage;
 u8 gDebugMenu_bStep;
+
+void DebugMenu_EnterMappedMode(void)
+{
+    u8 *p = gDebugMenu_abMainModeByEntry;
+    s32 i = gDebugMenu_bCursor;
+    u8 v;
+
+    gFreeDuel_bReturnFlags = 0;
+    v = p[i];
+    D_8009B2B2 = 0;
+    gMain_bActiveModeState = v;
+}
+
+/* The imported prototype lacks noreturn; retail has no epilogue after this call. */
+
+void DebugMenu_Exit(void)
+{
+    Fade_WaitInitOut();
+    DisplayObject_Reset();
+    DuelEffect_ResetState();
+    longjmp(gMain_RecoveryJmpBuf, 2);
+}
+
+#ifdef VERSION_EUROPE
+/* A European-only debug-menu handler, which follows DebugMenu_Exit in the
+   image. The European alternate-page step table holds it at element 2,
+   between DebugMenu_UpdateTwoPlayerDuelEntry and
+   DebugMenu_UpdateLanguageEntry. It sets both gMain_bActiveModeState and
+   gMain_bReturnMode to 15, MAIN_MODE_CREDITS. */
+void DebugMenu_EnterCredits(void)
+{
+    gMain_bActiveModeState = 15;
+    gMain_bReturnMode = 15;
+}
+#endif
+
+void DebugMenu_UpdateTwoPlayerDuelEntry(void)
+{
+    u8 flags = gDebugMenu_bStep;
+    s32 result;
+
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gSaveData_PairSetupState = 0;
+        gSaveData_LoadPairState = 0;
+    }
+    result = SaveData_UpdateDuelLoad();
+    if (result != 0) {
+        if (result == 1) {
+            File_RequestMainMenuPackage();
+            File_WaitForTransfers();
+            gMain_bActiveModeState = 0x10;
+        }
+        gDebugMenu_bStep = 0;
+    }
+}
+
+void DebugMenu_ResetEntryState(void)
+{
+    gDebugMenu_bStep = 0;
+}
 
 /* Initialized data this unit owns at 0x80090D7C: the two step tables DebugMenu_Update
  * dispatches through.
@@ -67,7 +145,7 @@ u8 gDebugMenu_bStep;
  *
  * What this does NOT claim: the tables are attributed to the frontend
  * because their entries live in frontend_scene_states.c,
- * debug_menu_leave_entries.c and
+ * debug_menu.c and
  * their neighbours in the 0x80030000 range, not because anything in the tree
  * names them. The state byte they index, gDebugMenu_bStep, is also written by the
  * memory card paths, so this is not evidence that the tables are

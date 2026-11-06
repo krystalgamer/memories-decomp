@@ -469,13 +469,7 @@ segments:
     - game/frontend_scene_states
   - - 137864
     - c
-    - game/european/debug_menu_leave_entries
-  - - 137988
-    - c
-    - game/european/debug_menu_two_player_entry
-  - - 138120
-    - c
-    - game/european/debug_menu_update
+    - game/european/debug_menu
   - - 138816
     - c
     - game/european/build_deck_card_transfer_icon
@@ -991,7 +985,7 @@ segments:
   - [0x827C0, .data, game/european/script_image_rebuild]
   - [0x82868, .data, game/european/script_runtime]
   - [0x828CC, .data, game/french/debug_menu_editor_entries]
-  - [0x829B0, .data, game/european/debug_menu_update]
+  - [0x829B0, .data, game/european/debug_menu]
   - [0x82A14, .data, game/european/build_deck_draw_card_list_page]
   - [0x82A34, .data, game/european/build_deck_input]
   - [0x82A64, .data, game/european/duel_effect_update_object_layout]
@@ -1017,7 +1011,7 @@ segments:
   - [0x8CAC7, pad]
   - [0x8CAC8, .sdata, game/duel_card_effects]
   - [0x8CAD5, pad]
-  - [0x8CAD8, .sdata, game/european/debug_menu_update]
+  - [0x8CAD8, .sdata, game/european/debug_menu]
   - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/display_object_system]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]

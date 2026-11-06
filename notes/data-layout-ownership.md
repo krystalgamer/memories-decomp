@@ -236,7 +236,7 @@ The spans outline the original units:
 - the duel code from `duel_field_card_render`'s block through about 55 current
   units, with `duel_ground_projection` inside it;
 - the script commands (`script_command_busy` and `script_op_load_image_scene`);
-- the debug menu (`debug_menu_update` and `debug_menu_editor_entries`);
+- the debug menu (`debug_menu` and `debug_menu_editor_entries`);
 - the model controllers (`model_background`, `model_debug_controller` and
   `model_scene_controllers`);
 - smaller groups, such as `graphics_frame` and its first three readers.
@@ -373,7 +373,7 @@ for `duel_field_effects`, `options_layout_position_data` or
 Europe now defines `runtime_gp`, `gMain_bSoundVSyncBusy` and
 `gDebugEffect_PreviewState` itself instead of placing them through its
 symbol file. The shared sources also gained European arms:
-- `debug_menu_update` drops two unreferenced halfwords;
+- `debug_menu` drops two unreferenced halfwords;
 - `gMainMenu_PackageStageRect` stages the package at x 0x280, y 0xD0.
 
 The four language builds keep Europe's small data 0x414 to 0x41C higher,
