@@ -337,8 +337,8 @@ non-strict relation, not stable sorting or evidence of uniform shuffling.
 The RNG calls and their effects must remain intact.
 
 The name key is the signed `s16` table `gCard_asNameSortKey`
-(`D_801D4D8E`), indexed by ID minus one, not a string comparison.
-`gDuel_adwCardStats` (`D_801D4244`) supplies packed **base** values:
+(`0x801D4D8E`), indexed by ID minus one, not a string comparison.
+`gDuel_adwCardStats` (`0x801D4244`) supplies packed **base** values:
 ATK is `(stats & 0x1FF) * 10`, DEF is `((stats >> 9) & 0x1FF) * 10`,
 and type is `(stats >> 26) & 0x1F`; see
 [`notes/card-catalog.md`](../../../notes/card-catalog.md).
