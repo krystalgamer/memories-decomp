@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import contextlib
 import io
-import json
 from pathlib import Path
 import sys
 import tempfile
@@ -54,12 +53,6 @@ class OverlayObjectStoreTests(unittest.TestCase):
         patcher = patch.object(overlay_objects, "compile_c", self.fake_compile)
         patcher.start()
         self.addCleanup(patcher.stop)
-        self.write_legacy_list()
-
-    def write_legacy_list(self, *sources: str) -> None:
-        path = self.root / overlay_objects.LEGACY_ASSEMBLER_GP_MANIFEST
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"schema": 1, "sources": sorted(sources)}))
 
     def fake_compile(self, root, assembler, segment, profiles, *, object_directory, asm_directory):
         self.compiled.append(f"{segment['source']}:{segment['profile']}")
@@ -93,36 +86,6 @@ class OverlayObjectStoreTests(unittest.TestCase):
         self.preprocessed["src/a.c"] = b"a with edited header"
         store = overlay_objects.ObjectStore(self.root)
         self.assertEqual(store.ensure([segment], 1)["compiled"], 1)
-
-    def test_legacy_list_edit_rekeys_and_refingerprints_only_listed_units(self) -> None:
-        a, b = self.segment("src/a.c", "g8"), self.segment("src/b.c", "g8")
-        store = overlay_objects.ObjectStore(self.root)
-        self.assertEqual(store.ensure([a, b], 2)["compiled"], 2)
-        before = {name: store.key(seg) for name, seg in (("a", a), ("b", b))}
-        self.write_legacy_list("src/a.c")
-        store = overlay_objects.ObjectStore(self.root)
-        self.assertNotEqual(store.key(a), before["a"])
-        self.assertEqual(store.key(b), before["b"])
-        self.assertEqual(store.ensure([a, b], 2)["compiled"], 1)
-
-        layout = self.root / "config/r/m.yaml"
-        layout.parent.mkdir(parents=True, exist_ok=True)
-        layout.write_text("segments: []\n")
-        modules = [{"name": "m", "layout": "config/r/m.yaml", "sha256": "1"},
-                   {"name": "n", "layout": "config/r/n.yaml", "sha256": "2"}]
-        (self.root / "config/r/n.yaml").write_text("segments: []\n")
-
-        def fingerprints() -> dict[str, str]:
-            with patch.object(overlay_build, "pipeline_fingerprint", lambda root: "tools"), \
-                    patch.object(overlay_build, "c_segments", lambda root, path:
-                                 [a] if path.name == "m.yaml" else [b]):
-                return overlay_build.module_fingerprints(self.root, modules, 1)
-
-        listed = fingerprints()
-        self.write_legacy_list()
-        unlisted = fingerprints()
-        self.assertNotEqual(listed["m"], unlisted["m"])
-        self.assertEqual(listed["n"], unlisted["n"])
 
     def test_compile_driver_changes_recompile_units(self) -> None:
         for relative in overlay_objects.PIPELINE_FILES:

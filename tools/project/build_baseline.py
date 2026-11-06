@@ -128,8 +128,12 @@ def assemble_c_output(
     assembler: Path,
     source: Path,
     output: Path,
-    data_limit: int,
 ) -> Path:
+    """Assemble MASPSX output at -G0, as MASPSX's own assembler run does.
+
+    MASPSX already rewrote the unit's own small data to $gp, so every other
+    reference stays absolute, as with ASPSX; see notes/build.md.
+    """
     output.parent.mkdir(parents=True, exist_ok=True)
     run(
         root,
@@ -137,7 +141,7 @@ def assemble_c_output(
             str(assembler),
             "-EL",
             "-mips1",
-            f"-G{data_limit}",
+            "-G0",
             *assembler_compatibility_flags(),
             "-o",
             str(output),
@@ -146,39 +150,6 @@ def assemble_c_output(
     )
     normalize_text_alignment(root, output)
     return output
-
-
-LEGACY_ASSEMBLER_GP_MANIFEST = "config/slus_01411/assembler_gp_legacy.json"
-
-
-def legacy_assembler_gp_sources(root: Path) -> frozenset[str]:
-    manifest = resolve_within(root, LEGACY_ASSEMBLER_GP_MANIFEST, must_exist=True)
-    with manifest.open("r", encoding="utf-8") as handle:
-        configuration = json.load(handle)
-    sources = configuration.get("sources")
-    if (
-        configuration.get("schema") != 1
-        or not isinstance(sources, list)
-        or not all(isinstance(source, str) for source in sources)
-        or sources != sorted(set(sources))
-    ):
-        raise BuildError(f"{manifest}: invalid legacy assembler source list")
-    return frozenset(sources)
-
-
-def assembler_data_limit(root: Path, source: str, data_limit: int) -> int:
-    """The -G given to the assembler for a compiled C unit.
-
-    MASPSX already rewrites the unit's own small data to $gp, and when it
-    runs the assembler itself it passes -G0, so every other reference stays
-    absolute, as with ASPSX; the compiler and MASPSX keep the profile's -G.
-    Units in the legacy list still read another unit's small data through
-    $gp and keep the profile's -G at the assembler until they are merged
-    into the unit that owns that data; see notes/build.md.
-    """
-    if source in legacy_assembler_gp_sources(root):
-        return data_limit
-    return 0
 
 
 def compile_c(
@@ -308,7 +279,6 @@ def compile_c(
         assembler,
         transformed_assembly,
         output,
-        assembler_data_limit(root, str(segment["source"]), data_limit),
     )
 
 
