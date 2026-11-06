@@ -195,7 +195,7 @@ int Ai_FindFavorableFieldTarget(DuelCardRecord *source)
     do {
         int position =
             slot + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-        DuelCardRecord *entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[position]];
+        DuelCardRecord *entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][position]];
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
@@ -207,7 +207,7 @@ int Ai_FindFavorableFieldTarget(DuelCardRecord *source)
     } while (slot < DUEL_FIELD_SIDE_ZONE_COUNT);
 
     if (count == 0)
-        return gDuel_abFieldGridCardRecordIndices[
+        return gDuel_abFieldGridCardRecordIndices[0][
             gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     return -1;
@@ -220,7 +220,7 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
     DuelCardRecord *entry = 0;
 
     for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
-        u8 row = gDuel_abFieldGridCardRecordIndices[
+        u8 row = gDuel_abFieldGridCardRecordIndices[0][
             i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
         ];
         entry = &gDuel_aCardRecords[row];
@@ -238,7 +238,7 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
     }
 
     if (found == 0) {
-        return gDuel_abFieldGridCardRecordIndices[
+        return gDuel_abFieldGridCardRecordIndices[0][
             gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     }
@@ -341,7 +341,7 @@ no_equip:
         slot = 0xA;
     }
 walk:
-    grid = gDuel_abFieldGridCardRecordIndices;
+    grid = gDuel_abFieldGridCardRecordIndices[0];
     out = &gAi_Selection.fields;
     recs = gDuel_aCardRecords;
     scanbase = &gDuel_aCardRecords[5];

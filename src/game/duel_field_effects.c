@@ -1,6 +1,5 @@
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
-#define DUEL_FIELD_GRID_2D
 #define GDIALOG_CHOICE_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "ai.h"
@@ -277,14 +276,12 @@ void DuelEffect_ApplyCursebreaker(void) {
     gDuel_sEffectWorkCounter = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
-           selected by DUEL_FIELD_GRID_2D. The cast is the one
-           place the two spellings meet. The single-pass loop preserves the
+           below, while sibling DuelEffect_ApplySwords indexes it [side][slot]. The single-pass loop preserves the
            retail grid and side register allocation under GCC 2.8.1. The
            selected record uses DuelFieldPosition, with u16 member views to
            retain retail's unsigned halfword loads. */
         do {
-            grid = (u8 *)gDuel_abFieldGridCardRecordIndices;
+            grid = gDuel_abFieldGridCardRecordIndices[0];
             base_slot = DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                         DUEL_FIELD_SIDE_ZONE_COUNT;
         } while ((s16)next == 0 && (s16)next != 0);
@@ -615,7 +612,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
             int position =
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
             DuelCardRecord *entry =
-                &gDuel_aCardRecords[((u8 *)gDuel_abFieldGridCardRecordIndices)[position]];
+                &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][position]];
 
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 DuelCard_RemoveFromField(entry);

@@ -120,9 +120,9 @@ u8 gDuel_bActiveSide;
 #define SEL_REC3 ((DuelSelectionRecord *)(gDuel_abSelectionSides + 0x54))
 #define FIELD_CURSOR (((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2])
 /* Grid card, two spellings: the [side][slot] form and the flat form. */
-#define GRID_CARD(s) (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
+#define GRID_CARD(s) (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
 #define GRID_CARD_FLAT(s) \
-    (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
+    (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
 #define BANK(i, o) (big = 0x48000, H(pw + (i) * 0x1C + big, (o)))
 #define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
@@ -330,7 +330,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (gInput_awPadPressed[0] & 0xC) {
             r = side->row;
-            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[r * 5 + side->col + gDuel_bActiveSide * 20]];
+            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][r * 5 + side->col + gDuel_bActiveSide * 20]];
             if (r == 2 && DuelCard_CanActThisTurn(card) != 0) {
                 o = card->object;
                 DISPLAY_OBJECT_VIEW(o)->update =
@@ -364,7 +364,7 @@ void DuelScene_UpdateFieldActions(void)
             }
         attack:
             i = side->row * 5 + side->col;
-            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
             if ((W(card, 0x14) & 0xC8000000) == 0x80000000) {
                 SD_SEPlayFull(7);
                 DisplayObject_ReleaseIfPresent(gDuel_pActionReadyMarker);
@@ -511,7 +511,7 @@ void DuelScene_UpdateFieldActions(void)
             i = 5;
             a = 1;
             for (n = 0; n < 5; n++, i++) {
-                pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+                pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
                 if (pick->flags & 0x8000) {
                     a = 0;
                     break;
@@ -519,7 +519,7 @@ void DuelScene_UpdateFieldActions(void)
             }
         }
         i = side->row * 5 + side->col;
-        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
         if (a == 0 && !(pick->flags & 0x8000)) {
             SD_SEPlayFull(9);
             return;
@@ -529,7 +529,7 @@ void DuelScene_UpdateFieldActions(void)
             gDisplayObject_apWorkSlots.slots[n] = 0;
         }
         i = FIELD_CURSOR.row * 5 + FIELD_CURSOR.col;
-        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
         gDuel_awSavedRecordFlags[0] = pick->flags;
         gDuel_awSavedStatModifiers[0] = H(pick, 0x12);
         o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
@@ -538,7 +538,7 @@ void DuelScene_UpdateFieldActions(void)
         d = pick->card_id;
         DuelCard_DeactivateRecord(pick);
         i = side->row * 5 + side->col;
-        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+        pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
         if (a == 0) {
             gDuel_awSavedRecordFlags[1] = pick->flags;
             gDuel_awSavedStatModifiers[1] = H(pick, 0x12);
@@ -557,7 +557,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             i = side->row * 5 + side->col;
-            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
+            card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[0][i + gDuel_bActiveSide * 20]];
             o = (u8 *)Duel_CreateCardDisplayObject(card, card->screen_x, card->screen_y);
             card->flags &= 0x7FFF;
             if (card->flags & 0x1000) {

@@ -1,6 +1,3 @@
-/* duel_grid.h leaves gDuel_abFieldGridCardRecordIndices unsized for its consumers; the definition
-   states the shape the tables actually have. */
-#define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "duel_grid.h"
 #include "card_constants.h"
