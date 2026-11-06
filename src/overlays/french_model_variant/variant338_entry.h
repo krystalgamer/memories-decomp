@@ -45,12 +45,6 @@ typedef struct {
     s16 slot, command;
 } Variant338EntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant338EntryProjection;
-
 extern GsIMAGE gFrenchModelVariant338_aImages[9];
 extern Variant338EntryConfig gFrenchModelVariant338_aConfigs[];
 void ModelVariant321_DrawRibbon(u8 *context);

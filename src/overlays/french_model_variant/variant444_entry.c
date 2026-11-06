@@ -12,7 +12,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant444EntryTube *tube = work->tubes;
     Variant444EntryColorRecord *record = work->records;
     ModelVariantSheet *sheet = work->sheets;

@@ -23,11 +23,6 @@ typedef struct {
 } EntryConfig423;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection423;
-
-typedef struct {
     u8 unknown_000[0x220];
     CVECTOR colors[2];
     VECTOR scale;
@@ -39,15 +34,9 @@ typedef struct {
 } EntryRibbon423;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x1C];
-} EntrySpiral423;
-
-typedef struct {
     Mesh423Rows mesh;
     EntryRibbon423 ribbons[1];
-    EntrySpiral423 spirals[12];
+    ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[2];
     Funnel423 funnels[5];

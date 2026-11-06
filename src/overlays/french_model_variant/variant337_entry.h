@@ -73,10 +73,4 @@ typedef struct {
     s16 slot, command;
 } Variant337EntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant337EntryProjection;
-
 #endif

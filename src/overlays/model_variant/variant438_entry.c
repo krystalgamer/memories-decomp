@@ -24,13 +24,13 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant438EntrySwarm *swarm;
     Variant438EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant438EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     Variant438EntryRecord *record;
     POLY_GT4 *textured;

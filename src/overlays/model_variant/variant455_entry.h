@@ -51,12 +51,6 @@ typedef struct {
 } EntryFan455;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection455;
-
-typedef struct {
     EntryBloom455 blooms[8];
     EntryDisc455 discs[1];
     EntryFan455 fans[12];

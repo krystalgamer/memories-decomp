@@ -41,13 +41,6 @@ typedef struct {
     s32 scale, field_198, field_19C;
 } Variant438EntryWeb;
 
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x1C];
-} Variant438EntryGlow;
-
 /* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
 typedef struct {
     u8 unknown_000[0x144];
@@ -82,7 +75,7 @@ typedef struct {
     Variant438EntryCurtain curtains[5];
     Variant438EntryRing rings[1];
     Variant438EntryWeb webs[3];
-    Variant438EntryGlow glows[12];
+    ModelVariantSpiral glows[12];
     u8 rays[0x360];
     Variant438EntryBand bands[1];
     ModelVariantSheet sheets[2];

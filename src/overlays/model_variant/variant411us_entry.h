@@ -55,13 +55,6 @@ typedef struct {
     u8 unknown_98[8];
 } Variant411UsEntryBand;
 
-typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant411UsEntryQuad;
-
 /* ModelVariantSheet with its three trailing words named. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
@@ -88,7 +81,7 @@ typedef struct {
     Variant411UsEntrySheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant411UsEntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

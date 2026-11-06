@@ -44,8 +44,6 @@ typedef struct {
     s16 slot, command;
 } Variant393EntryState;
 
-typedef Variant337EntryProjection Variant393EntryProjection;
-
 extern GsIMAGE gFrenchModelVariant393_aImages[9];
 extern Variant393EntryConfig gFrenchModelVariant393_aConfigs[];
 void ModelVariant376_DrawRibbon(u8 *context);

@@ -11,7 +11,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant385EntryWeb *web = work->webs;
     Variant385EntryTube *tube = work->tubes;
     Variant385EntrySheet *sheet = work->sheets;

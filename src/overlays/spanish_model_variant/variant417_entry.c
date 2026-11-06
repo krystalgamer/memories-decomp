@@ -11,14 +11,14 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant417EntryWeb *web = work->webs;
     Variant417EntryTube *tube = work->tubes;
     Variant417EntryRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant417EntryCurtain *curtain = work->curtains;
     Variant417EntrySpoke *spoke = work->spokes;
-    Variant417EntryGlow *glow = work->glows;
+    ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;

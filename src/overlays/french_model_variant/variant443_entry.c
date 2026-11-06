@@ -22,13 +22,13 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     s16 screen_x[3], screen_y[3];
     VECTOR squared;
-    EntryProjection443 projection;
+    ModelVariantProjection projection;
     EntryRibbon443 *ribbon = work->ribbons;
     EntryFramebufferRing443 *ring = work->rings;
     EntryMesh443 *mesh = work->meshes;
     Streamer443 *streamer = work->streamers;
     EntryShortBand443 *band = work->bands;
-    EntrySpiral443 *spiral = work->spirals;
+    ModelVariantSpiral *spiral = work->spirals;
     ModelVariantSheet *sheet = work->sheets;
     EntrySphere443 *sphere = work->spheres;
     EntryLongBand443 *long_band = work->long_bands;

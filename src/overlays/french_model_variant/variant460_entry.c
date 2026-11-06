@@ -13,7 +13,7 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant460EntryRecord *record = work->records;
     ModelVariantSheetSet *sheet = work->sheets;
     Variant337EntryStreamer *streamer = work->streamers;

@@ -12,7 +12,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection469 projection;
+    ModelVariantProjection projection;
     Arcs582Group *arc = work->arcs;
     EntrySheet469 *sheet = work->sheets;
     EntryRibbon469 *ribbon = work->ribbons;

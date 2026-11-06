@@ -55,12 +55,6 @@ typedef struct {
 } EntrySphere443;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x1C];
-} EntrySpiral443;
-
-typedef struct {
     u8 unknown_000[0x144];
     CVECTOR inner[9], outer[9];
     VECTOR scale;
@@ -92,18 +86,12 @@ typedef struct {
 } EntryShape443;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection443;
-
-typedef struct {
     EntryRibbon443 ribbons[3];
     EntryFramebufferRing443 rings[5];
     EntryMesh443 meshes[1];
     Streamer443 streamers[3];
     EntrySphere443 spheres[3];
-    EntrySpiral443 spirals[12];
+    ModelVariantSpiral spirals[12];
     u8 unknown_23D8[0x360];
     EntryLongBand443 long_bands[1];
     EntryShortBand443 bands[3];

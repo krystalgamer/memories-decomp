@@ -19,7 +19,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant432EntryProjection projection;
+    ModelVariantProjection projection;
     Variant432EntryRecord *record = work->records;
     Variant432EntryRibbon *ribbon = work->ribbons;
     Sheet437 *sheet = work->sheets;

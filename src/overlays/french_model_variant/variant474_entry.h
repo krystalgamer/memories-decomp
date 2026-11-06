@@ -44,14 +44,6 @@ typedef struct {
     s32 field_114;
 } Variant474EntryFunnel;
 
-/* One 0x7C-byte spiral record: two inner and two outer colours. */
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x1C];
-} Variant474EntrySpiral;
-
 /* One 0x98-byte sheet: four quads given by corner arrays and two colours. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
@@ -79,7 +71,7 @@ typedef struct {
     Variant474EntryFunnel funnels[2];
     Variant474EntryRibbon ribbon;
     Variant474EntryMesh mesh;
-    Variant474EntrySpiral spirals[12];
+    ModelVariantSpiral spirals[12];
     Variant474EntrySheet sheets[2];
     Variant474EntryStreamer streamers[2];
     u8 unknown_1930[0x34];

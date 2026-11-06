@@ -11,7 +11,7 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
     EntryState470 *work = (EntryState470 *)point;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection470 projection;
+    ModelVariantProjection projection;
     EntryPair470 *pair;
     EntryGroup470 *group;
     EntryBand470 *band = work->bands;

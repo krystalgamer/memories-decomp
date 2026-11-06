@@ -12,7 +12,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant402EntryProjection projection;
+    ModelVariantProjection projection;
     Variant402EntryRecord *record = work->records;
     Variant402EntryRing *ring = work->rings;
     Family402Band *band = work->bands;

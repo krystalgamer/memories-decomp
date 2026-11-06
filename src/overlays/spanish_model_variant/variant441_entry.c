@@ -11,7 +11,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant441EntryHoop *hoop = work->hoops;
     Variant441EntryWeb *web = work->webs;
     Variant441EntryTube *tube = work->tubes;
@@ -19,7 +19,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     Variant441EntryCurtain *curtain = work->curtains;
     Variant441EntrySpoke *spoke = work->spokes;
-    Variant441EntryGlow *glow = work->glows;
+    ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;

@@ -1,6 +1,7 @@
 #ifndef FRENCH_SPECIAL_ENTRY_H
 #define FRENCH_SPECIAL_ENTRY_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "ring.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
@@ -66,12 +67,6 @@ typedef struct {
     s32 grown, field_4E0, field_4E4, field_4E8, field_4EC;
     s16 slot, command;
 } ExodiaEntryState;
-
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} ExodiaEntryProjection;
 
 extern ExodiaEntryConfig gModelExodia_aConfigs[];
 void ModelExodia_DrawSpokes(u8 *context);

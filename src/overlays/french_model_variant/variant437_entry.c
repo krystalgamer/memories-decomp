@@ -13,7 +13,7 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant437EntryProjection projection;
+    ModelVariantProjection projection;
     Variant437EntryRecord *record = work->records;
     Variant437EntryRibbon *ribbon = work->ribbons;
     Sheet437 *sheet = work->sheets;

@@ -11,7 +11,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant402EntryProjection projection;
+    ModelVariantProjection projection;
     Tube411 *tube = work->tubes;
     Beam411 *beam = work->beams;
     ModelVariantSheet *sheet = work->sheets;

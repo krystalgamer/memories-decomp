@@ -19,7 +19,7 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant410EntryProjection projection;
+    ModelVariantProjection projection;
     Variant410EntryQuads *quads;
     Variant410EntryRibbon *ribbon = work->ribbons;
     Variant410EntryRing *ring = work->rings;

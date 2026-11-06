@@ -26,7 +26,7 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
     Variant380EntryStack stack;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant380EntryBeam *beam = work->beams;
     ModelVariantSheetSet *sheet = work->sheets;
     Variant337EntryStreamer *streamer = work->streamers;

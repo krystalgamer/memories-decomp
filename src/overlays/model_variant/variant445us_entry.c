@@ -19,7 +19,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection445Us projection;
+    ModelVariantProjection projection;
     EntryRibbon445Us *ribbon = work->ribbons;
     EntryRing445Us *ring = &work->ring;
     EntryBand445Us *band = work->bands;

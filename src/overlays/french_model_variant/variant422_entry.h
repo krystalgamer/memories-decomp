@@ -27,13 +27,6 @@ typedef struct {
     u8 unknown_1A4[0x24];
 } Variant422EntryBand;
 
-typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant422EntryQuad;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant405Veil veils[5];
@@ -43,7 +36,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant422EntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_GT4 halo_poly;
     POLY_G3 triangle;
     POLY_G4 quad;

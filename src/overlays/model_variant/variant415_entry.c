@@ -19,7 +19,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     Variant415EntryStack stack;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     u32 frame;
     Variant415EntryRibbon *ribbon;
     GsRVIEW2 *view;

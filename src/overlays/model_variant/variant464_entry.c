@@ -14,7 +14,7 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant464EntryProjection projection;
+    ModelVariantPackedProjection projection;
     Variant464EntryDome *dome = &work->dome;
     Variant464EntryFunnel *funnel = work->funnels;
     Variant464EntryBand *band = work->bands;

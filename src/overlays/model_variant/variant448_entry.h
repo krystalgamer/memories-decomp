@@ -17,13 +17,6 @@ typedef struct {
     u8 unknown_20[0x14];
 } Variant448EntryConfig;
 
-typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant448EntryQuad;
-
 /* Header 448's work area: one radial record, twelve spiral arms, three webs,
  * three fan units, one orbit, six rings, four spoke rings and one quad, then
  * the packets the helpers draw and the entry's own state. */
@@ -35,7 +28,7 @@ typedef struct {
     Variant448Orbit orbit[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant448EntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

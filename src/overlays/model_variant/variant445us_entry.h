@@ -97,12 +97,6 @@ typedef struct {
 } EntryShape445Us;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection445Us;
-
-typedef struct {
     EntryRibbon445Us ribbons[5];
     EntryRing445Us ring;
     EntryTrail445Us trails[16];

@@ -21,7 +21,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     u16 unknown_stack[32];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant476ScreenGrid *grid_b;
     Variant459Curtain *curtain;
     ModelVariantSheet *sheet;

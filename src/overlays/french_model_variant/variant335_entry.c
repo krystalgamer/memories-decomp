@@ -23,7 +23,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Model335EntryRecord *record = work->records;
     Model335EntrySheet *sheet = work->sheets;
     Variant335Ring *ring = work->rings;

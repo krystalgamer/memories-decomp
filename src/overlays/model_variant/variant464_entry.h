@@ -21,11 +21,6 @@ typedef struct {
     u8 unknown_28[0xC];
 } Variant464EntryConfig;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} Variant464EntryProjection;
-
 /* Two 17-point circles, the outer one raised by 64. */
 typedef struct {
     SVECTOR inner[17], outer[17];

@@ -23,7 +23,7 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     ModelVariantSheetSet *sheet;
     Variant446EntryRibbon *trail;
     ModelVariantSheetSet *panel;
@@ -31,7 +31,7 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     Variant446EntryBand *band;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant446EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     Variant446EntryRecord *record;
     POLY_G3 *triangle;

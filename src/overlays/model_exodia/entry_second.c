@@ -8,7 +8,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    ExodiaSecondEntryProjection projection;
+    ModelVariantProjection projection;
     ExodiaSecondEntryBeam *beam = work->beams;
     ExodiaSecondEntryRing *ring = work->rings;
     ExodiaSecondEntryPetal *colors = work->petals;

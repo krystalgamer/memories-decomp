@@ -11,7 +11,7 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant341EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;

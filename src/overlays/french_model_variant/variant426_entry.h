@@ -15,7 +15,7 @@ typedef struct {
 typedef struct {
     Mesh425Rows mesh;
     EntryRibbon425 ribbons[1];
-    EntrySpiral425 spirals[12];
+    ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[4];
     Funnel423 funnels[2];

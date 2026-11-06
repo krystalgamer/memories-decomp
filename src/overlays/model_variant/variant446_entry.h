@@ -62,13 +62,6 @@ typedef struct {
     u8 unknown_98[8];
 } Variant446EntryBand;
 
-typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant446EntryQuad;
-
 /* Header 446's 0x4AC4-byte work area. */
 typedef struct {
     Variant446EntryRibbon ribbons[5];
@@ -81,7 +74,7 @@ typedef struct {
     Variant446EntryBand bands[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant446EntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

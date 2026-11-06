@@ -74,12 +74,6 @@ typedef struct {
 } EntrySmallRing469;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection469;
-
-typedef struct {
     Arcs582Group arcs[4];
     EntrySheet469 sheets[5];
     EntryRibbon469 ribbons[5];

@@ -20,13 +20,6 @@ typedef struct {
 } Variant439EntryBand;
 
 typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant439EntryFan;
-
-typedef struct {
     SVECTOR a[17], b[17], c[17];
     CVECTOR inner, outer;
     s32 scale, count;
@@ -39,7 +32,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant439EntryFan fans[1];
+    ModelVariantFan fans[1];
     Variant439EntryScreenRing screen_rings[3];
     ModelVariantCurtain curtains[4];
     POLY_G3 triangle;

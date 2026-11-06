@@ -25,11 +25,6 @@ typedef struct {
 } EntryTextureStack373;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection373;
-
-typedef struct {
     SVECTOR points[16], corners[4], rotation;
     s32 scale;
     u8 unknown_AC[8];

@@ -56,13 +56,6 @@ typedef struct {
 } Variant412EntryBand;
 
 typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant412EntryQuad;
-
-typedef struct {
     Variant412EntryTrail trails[1];
     Variant412EntryFlares flares;
     Variant412EntryRecord records[16];
@@ -71,7 +64,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant412EntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

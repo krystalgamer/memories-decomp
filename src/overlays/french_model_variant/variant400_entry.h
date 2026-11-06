@@ -75,12 +75,6 @@ typedef struct {
     s16 slot, command;
 } Variant400EntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant400EntryProjection;
-
 extern GsIMAGE gFrenchModelVariant400_aImages[9];
 extern Variant400EntryConfig gFrenchModelVariant400_aConfigs[];
 void FrenchModelVariant400_DrawRibbons(u8 *context);

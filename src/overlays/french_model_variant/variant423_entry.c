@@ -11,13 +11,13 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection423 projection;
+    ModelVariantPackedProjection projection;
     Mesh423Rows *mesh = &work->mesh;
     Funnel423 *funnel = work->funnels;
     EntryRibbon423 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;
-    EntrySpiral423 *spiral = work->spirals;
+    ModelVariantSpiral *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *funnel_packet = &work->funnel_packet;
     POLY_G3 *triangle = &work->triangle;
