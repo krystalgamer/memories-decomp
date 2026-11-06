@@ -5,10 +5,6 @@
    text box, and confirm selects the step under the cursor. DebugMenu_UpdateBustUpEntry is entry 6 of the primary page table;
    the empty DebugMenu_NoOpBustUpFrame before it (absent from the European
    image) is the per-frame call it makes. */
-
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "display_effect_update_menu_record.h"
@@ -146,9 +142,9 @@ void DebugMenu_Update(void) {
     for (; i < 0x16; i++) {
         FntPrint(gDebugMenu_szLineBreak);
     }
-    if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) != 0) {
                 if (gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT <
                     DEBUG_MENU_ENTRY_COUNT) {
                     gDebugMenu_bCursor =
@@ -161,7 +157,7 @@ void DebugMenu_Update(void) {
                 }
             }
         }
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
             t = (u8)gDebugMenu_bCursor;
             if (gDebugMenu_bCursor >= DEBUG_MENU_COLUMN_ENTRY_COUNT) {
                 d = t - 1;
@@ -177,7 +173,7 @@ void DebugMenu_Update(void) {
                 }
             }
         }
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
             t = (u8)gDebugMenu_bCursor;
             if (gDebugMenu_bCursor >= DEBUG_MENU_COLUMN_ENTRY_COUNT) {
                 d = t + 1;
@@ -195,7 +191,7 @@ void DebugMenu_Update(void) {
         }
         DebugMenu_UpdateCursorLayout();
     }
-    if ((gInput_wPad1Pressed & DEBUG_MENU_CANCEL_BUTTON) != 0) {
+    if ((gInput_awPadPressed[0] & DEBUG_MENU_CANCEL_BUTTON) != 0) {
         k = DEBUG_MENU_ENTRY_EXIT;
         if (gDebugMenu_bCursor != k) {
             gDebugMenu_bCursor = k;
@@ -205,7 +201,7 @@ void DebugMenu_Update(void) {
         gDebugMenu_bStep = 0x14;
         return;
     }
-    if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
         one = 1;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         /* The Japanese and European builds make neither this call nor the
@@ -225,7 +221,7 @@ void DebugMenu_Update(void) {
         TextBox_BuildBlocking(DEBUG_MENU_SECOND_BOX(boxes));
         return;
     }
-    if ((gInput_wPad1Pressed & DEBUG_MENU_CONFIRM_MASK) != 0) {
+    if ((gInput_awPadPressed[0] & DEBUG_MENU_CONFIRM_MASK) != 0) {
         gDebugMenu_bStep = gDebugMenu_bCursor + 1;
     }
 }

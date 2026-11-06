@@ -1,6 +1,3 @@
-#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -77,60 +74,60 @@ void DebugEffect_UpdateViewControls(void) {
     s32 x;
     s32 y;
 
-    if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
         gModel_dwFogDrawFlags = gModel_dwFogDrawFlags ^ 1;
     }
 
     b = &gViewState_Current;
 
-    if ((gInput_wPad1Repeat & PAD_BUTTON_L1_R1_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
         a = 2;
-        if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
+        if ((gInput_awPadHeld[0] & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
             a = 0x10;
         }
         v = gViewState_Current.distance + a;
-        if ((gInput_wPad1Repeat & PAD_BUTTON_L1) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_BUTTON_L1) != 0) {
             v -= a * 2;
         }
         gViewState_Current.distance = v;
         ViewState_ApplyOrbit();
     }
 
-    if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
-        if ((gInput_wPad1Held & PAD_BUTTON_TRIANGLE) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_BUTTON_TRIANGLE) != 0) {
             a = 2;
-            if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
                 a = 0x10;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) != 0) {
                 b->view.vrx = b->view.vrx + a;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
                 b->view.vrz = b->view.vrz - a;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_LEFT) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) != 0) {
                 b->view.vrx = b->view.vrx - a;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 b->view.vrz = b->view.vrz + a;
             }
         } else {
             v = 0x20;
-            if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_MOVE_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & DEBUG_EFFECT_FAST_MOVE_BUTTON) != 0) {
                 v = 0x80;
             }
             y = b->angle;
             x = b->orbit_angle;
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 x += v;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
                 x -= v;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) != 0) {
                 y -= v;
             }
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_LEFT) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) != 0) {
                 y += v;
             }
             c = &gViewState_Current;
@@ -152,7 +149,7 @@ void DebugEffect_UpdatePreview(void) {
     DisplayObject *obj;
     DuelEffectRequest *p;
 
-    if (gInput_wPad1Held & PAD_BUTTON_START) {
+    if (gInput_awPadHeld[0] & PAD_BUTTON_START) {
         DebugEffect_UpdateViewControls();
     }
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
@@ -191,20 +188,20 @@ void DebugEffect_UpdatePreview(void) {
             gDebugEffect_pPreviewCard1 = (u8 *)Duel_CreateCardDisplayObject(&gDebugEffect_aPreviewCardRecords[1], 0xB0, 0x52);
             break;
         }
-    } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
+    } else if (gInput_awPadPressed[0] & PAD_BUTTON_SELECT) {
         gDuel_wSceneStateFlags |= 0x4000;
         gDebugEffect_PreviewState.bPage++;
         if (gDebugEffect_PreviewState.bPage >= 4) {
             gDebugEffect_PreviewState.bPage = 0;
         }
-    } else if (gInput_wPad1Pressed & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) {
+    } else if (gInput_awPadPressed[0] & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) {
         gDebugEffect_PreviewState.bEditedOperand ^= 1;
-    } else if (gInput_wPad1Repeat & (PAD_DIRECTION_UP | PAD_DIRECTION_DOWN)) {
+    } else if (gInput_awPadRepeat[0] & (PAD_DIRECTION_UP | PAD_DIRECTION_DOWN)) {
         (&gDebugEffect_PreviewState.abOperands[0])[gDebugEffect_PreviewState.bEditedOperand]++;
-        if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) {
             (&gDebugEffect_PreviewState.abOperands[0])[gDebugEffect_PreviewState.bEditedOperand] -= 2;
         }
-    } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
+    } else if (gInput_awPadPressed[0] & DEBUG_EFFECT_PLACE_BUTTON) {
         p = DuelEffect_AllocateRequest(
             (&gDebugEffect_PreviewState.abOperands[0])[0]);
         D_8009B16E = (D_8009B16E + 1) & 7;

@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "rand_get_interval.h"
@@ -103,7 +102,7 @@ s32 GameOver_Update(void)
             return result;
         }
 
-        tail_bits = gInput_wPad1Pressed;
+        tail_bits = *(u16 *)&gInput_awPadPressed[0];
         tail_bits &= PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK;
         if (tail_bits) {
             result = 0;

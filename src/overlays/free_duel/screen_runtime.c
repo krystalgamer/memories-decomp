@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IS_VOLATILE
-#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
@@ -510,34 +508,34 @@ void FreeDuel_UpdateScreen(void)
         return;
     }
 
-    if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
-        if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+    if ((gInput_awPadHeld[0] & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) != 0) {
             if (++gFreeDuel_bTargetColumn >= FREE_DUEL_GRID_COLUMN_COUNT) {
                 gFreeDuel_bTargetColumn = FREE_DUEL_GRID_COLUMN_COUNT - 1;
             }
         }
-        if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) != 0) {
             if (--gFreeDuel_bTargetColumn < 0) {
                 gFreeDuel_bTargetColumn = 0;
             }
         }
-        if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) != 0) {
             if (++gFreeDuel_bTargetRow >= FREE_DUEL_GRID_ROW_COUNT) {
                 gFreeDuel_bTargetRow = FREE_DUEL_GRID_ROW_COUNT - 1;
             }
         }
-        if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
             if (--gFreeDuel_bTargetRow <= 0) {
                 gFreeDuel_bTargetRow = 0;
             }
         }
     } else {
-        if ((gInput_wPad1Pressed & FREE_DUEL_CANCEL_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & FREE_DUEL_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(8);
             gMain_bActiveModeState = 8;
             return;
         }
-        if ((gInput_wPad1Pressed & FREE_DUEL_CONFIRM_BUTTONS) == 0) {
+        if ((gInput_awPadPressed[0] & FREE_DUEL_CONFIRM_BUTTONS) == 0) {
             return;
         }
         if (gFreeDuel_abGridAvailable[

@@ -84,8 +84,7 @@ each complete archive image. Every function had a real section-defined
 owner, including the then-assembly input-handler callee.
 
 The input handler matched on its second experiment: a meaningful selection
-scalar restores the initial lifetime, and the existing
-`GINPUT_PAD1_REPEAT_IS_VOLATILE` declaration arm preserves the two measured
+scalar restores the initial lifetime, and the volatile `gInput_awPadRepeat` array preserves the two measured
 halfword reads at `0x80168AF8` and `0x80168B0C`. The ordinary scalar had
 commoned the latter read. This does not introduce a new shared input type.
 The table update matched on its sixth experiment. Its height store from

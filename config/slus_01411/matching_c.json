@@ -1064,7 +1064,7 @@
     },
     {
       "address": "0x80023FBC",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0xA4",
       "source": "src/game/duel_cursor_held_grid_direction.c"
     },
@@ -2366,25 +2366,25 @@
     },
     {
       "address": "0x80033500",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x3C",
       "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x8003353C",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1B4",
       "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x800336F0",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1F4",
       "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x800338E4",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0xB4",
       "source": "src/game/build_deck_pane_input.c"
     },
@@ -4052,25 +4052,25 @@
     },
     {
       "address": "0x80043328",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1CC",
       "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x800434F4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x168",
       "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x8004365C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x25C",
       "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x800438B8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0xA8",
       "source": "src/game/main_boot_screen.c"
     },

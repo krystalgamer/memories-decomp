@@ -2,7 +2,6 @@
 #define FILE_TRANSFER_WORDS_IN_DATA
 #define DUEL_FIELD_GRID_2D
 #define GDIALOG_CHOICE_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "ai.h"
 #include "duel_side_state.h"
@@ -556,7 +555,7 @@ void DuelEffect_ApplyRitual(void)
             }
         } else if (!(gDuel_wTrapPresentationMode & 0x20)) {
             if (!Dialog_ReadChoiceInput(gText_aChannels) &&
-                (gInput_wPad1Pressed & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
+                (gInput_awPadPressed[0] & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
                 SD_SEPlayFull(7);
                 object->position.h.field_28 = 134;
                 *(s16 *)&object->position.h.field_2A = -128;

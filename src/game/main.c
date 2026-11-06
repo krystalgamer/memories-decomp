@@ -12,8 +12,6 @@
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define D_8009B142_IN_DATA_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "../types.h"
 
 #ifndef GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE
@@ -471,24 +469,24 @@ void Graphics_AdjustScreenOffset(void)
 
     Main_AdvanceFrame();
     r = origin;
-    while ((gInput_wPad1Pressed & PAD_BUTTON_START) == 0) {
+    while ((gInput_awPadPressed[0] & PAD_BUTTON_START) == 0) {
         s32 step;
 
-        if (gInput_wPad1Held & PAD_DIRECTION_MASK) {
+        if (gInput_awPadHeld[0] & PAD_DIRECTION_MASK) {
             step = 2;
-            if (gInput_wPad1Held & MAIN_SCREEN_ADJUST_BUTTON) {
+            if (gInput_awPadHeld[0] & MAIN_SCREEN_ADJUST_BUTTON) {
                 step = 4;
             }
-            if (gInput_wPad1Held & PAD_DIRECTION_RIGHT) {
+            if (gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) {
                 r->x += step;
             }
-            if (gInput_wPad1Held & PAD_DIRECTION_LEFT) {
+            if (gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) {
                 r->x -= step;
             }
-            if (gInput_wPad1Held & PAD_DIRECTION_UP) {
+            if (gInput_awPadHeld[0] & PAD_DIRECTION_UP) {
                 r->y -= step;
             }
-            if (gInput_wPad1Held & PAD_DIRECTION_DOWN) {
+            if (gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) {
                 r->y += step;
             }
         }

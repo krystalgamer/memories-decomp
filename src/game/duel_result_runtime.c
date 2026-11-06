@@ -1,11 +1,9 @@
 #define D_8009B0CC_IN_DATA
 #define D_8009B362_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GRAPHICS_VIEWPORT_IN_DATA
 #define D_8009B34E_IN_DATA
 #define D_8009B355_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
-#define GINPUT_PAD1_REPEAT_IN_DATA
 #define TEXT_STRING_ID_IN_DATA
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
@@ -385,7 +383,7 @@ void DuelScene_UpdateResultOutro(void)
             timer = gDuel_wStepCounter - 1;
             gDuel_wStepCounter = timer;
             if ((s16)timer > 0) {
-                if ((gInput_wPad1Pressed &
+                if ((gInput_awPadPressed[0] &
                      (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                     if ((SD_GetStatusFlags() & 0x80) != 0) {
                         return;
@@ -773,9 +771,9 @@ side_result:
                 }
             }
         }
-    } else if (gInput_wPad1Repeat & 0xA000) {
+    } else if (gInput_awPadRepeat[0] & 0xA000) {
         gDuel_pResultDisplayState->page_index++;
-        if (gInput_wPad1Repeat & 0x8000) {
+        if (gInput_awPadRepeat[0] & 0x8000) {
             page = gDuel_pResultDisplayState->page_index - 2;
             gDuel_pResultDisplayState->page_index = page;
             if (page < 0)
@@ -786,7 +784,7 @@ side_result:
         SD_SEPlayFull(6);
 show_page:
         Duel_ShowResultPage((s8)gDuel_pResultDisplayState->page_index);
-    } else if (gInput_wPad1Pressed & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
+    } else if (gInput_awPadPressed[0] & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
         Fade_SetTargetLevel(0, 6);
         SD_SEPlayFull(0x30);

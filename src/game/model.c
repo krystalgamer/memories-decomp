@@ -10,10 +10,6 @@
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #define FILE_TRANSFER_WORDS_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#define GINPUT_PAD2_PRESSED_IN_DATA
-#define GINPUT_PAD1_HELD_IN_DATA
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #define D_8009B118_IS_POINTER_IN_DATA
 
@@ -2883,8 +2879,8 @@ s32 ModelDebug_UpdateController(void)
         return 1;
     if (gModel_bPresentationPhase >= 40)
         return 0;
-    if ((gInput_wPad1Pressed & MODEL_DEBUG_CANCEL_MASK) ||
-        (gInput_wPad2Pressed & MODEL_DEBUG_CANCEL_MASK)) {
+    if ((gInput_awPadPressed[0] & MODEL_DEBUG_CANCEL_MASK) ||
+        (gInput_awPadPressed[1] & MODEL_DEBUG_CANCEL_MASK)) {
         gModel_bPresentationPhase = 40;
         return 0;
     }
@@ -2949,7 +2945,7 @@ s32 ModelDebug_UpdateController(void)
             Model_SetSlotShadowEnabled(1, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
     }
 #ifndef VERSION_JAPAN
-    if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))
+    if ((gInput_awPadHeld[0] & 0x100) && (gInput_awPadPressed[1] & 0x100))
         gModelDebug_Display.display_enabled ^= 1;
     if (!gModelDebug_Display.display_enabled)
         return 0;
@@ -2975,23 +2971,23 @@ s32 ModelDebug_UpdateController(void)
         reload++;
         gModel_awSlotModelIds[2] = (rand() >> 8) % 7;
     }
-    if (gInput_wPad1Pressed & 0x10)
+    if (gInput_awPadPressed[0] & 0x10)
         reload++;
-    if (gInput_wPad1Repeat & 0x900) {
-        if (gInput_wPad1Repeat & 0x100)
+    if (gInput_awPadRepeat[0] & 0x900) {
+        if (gInput_awPadRepeat[0] & 0x100)
             gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 6) % 7;
         else
             gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 8) % 7;
     }
-    if (gInput_wPad1Repeat & 0xA000) {
-        if (gInput_wPad1Repeat & 0x8000)
+    if (gInput_awPadRepeat[0] & 0xA000) {
+        if (gInput_awPadRepeat[0] & 0x8000)
             gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 5) % 6;
         else
             gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 7) % 6;
     }
-    if (gInput_wPad1Held & 0x80) {
-        if (gInput_wPad1Repeat & 0x5000) {
-            if (gInput_wPad1Repeat & 0x1000)
+    if (gInput_awPadHeld[0] & 0x80) {
+        if (gInput_awPadRepeat[0] & 0x5000) {
+            if (gInput_awPadRepeat[0] & 0x1000)
                 D_8009B004.halfwords[1] -= 10;
             else
                 D_8009B004.halfwords[1] += 10;
@@ -3012,7 +3008,7 @@ s32 ModelDebug_UpdateController(void)
                 Model_UpdateCoordinateUnitMatrix(stage->root_coordinate, 0);
             }
         }
-    } else if (gInput_wPad1Repeat & 0x5000) {
+    } else if (gInput_awPadRepeat[0] & 0x5000) {
         s32 side = gModelDebug_bSelectedDigit >= 3u;
         u16 *number = (u16 *)&gModel_awSlotModelIds[side];
         s32 digits[3] = {
@@ -3021,7 +3017,7 @@ s32 ModelDebug_UpdateController(void)
             (u16)(*number % 10u)
         };
 
-        if (gInput_wPad1Repeat & 0x1000) {
+        if (gInput_awPadRepeat[0] & 0x1000) {
             digits[(u8)(gModelDebug_bSelectedDigit % 3u)] =
                 (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 11) % 10;
         } else {
@@ -3030,13 +3026,13 @@ s32 ModelDebug_UpdateController(void)
         }
         gModel_awSlotModelIds[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
     }
-    if (gInput_wPad1Pressed & 4)
+    if (gInput_awPadPressed[0] & 4)
         gModelDebug_abSlotAfFlags[0] ^= 1;
-    if (gInput_wPad1Pressed & 1)
+    if (gInput_awPadPressed[0] & 1)
         gModelDebug_abSlotGfFlags[0] ^= 1;
-    if (gInput_wPad1Pressed & 8)
+    if (gInput_awPadPressed[0] & 8)
         gModelDebug_abSlotAfFlags[1] ^= 1;
-    if (gInput_wPad1Pressed & 2)
+    if (gInput_awPadPressed[0] & 2)
         gModelDebug_abSlotGfFlags[1] ^= 1;
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));

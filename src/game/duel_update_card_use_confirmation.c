@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -99,20 +97,20 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         return 0;
     }
 
-    if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
         *(u16 *)&q->field_60 = 0x10;
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) != 0) {
             q->field_60 = -0x10;
         }
         gDuel_bConfirmFlags = gDuel_bConfirmFlags | 0x40;
         return 0;
     }
 
-    if ((gInput_wPad1Pressed &
+    if ((gInput_awPadPressed[0] &
          (PAD_BUTTON_CONFIRM_MASK | PAD_BUTTON_CANCEL)) != 0) {
         DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
         DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
-        if ((gInput_wPad1Pressed & FUNC_80020988_CANCEL_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & FUNC_80020988_CANCEL_BUTTON) != 0) {
             return -1;
         }
         if (q->field_20.b.rotation_y == 0) {

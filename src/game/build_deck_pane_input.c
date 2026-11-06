@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_HELD_IS_VOLATILE
-#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
 #include "build_deck_test_and_set_initialized.h"
 #include "card_list_sort.h"
@@ -68,7 +66,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
         return;
     }
 
-    if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) != 0) {
         r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
@@ -78,20 +76,20 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
         return;
     }
 
-    if (gInput_wPad1Held == PAD_DIRECTION_LEFT) {
+    if (gInput_awPadHeld[0] == PAD_DIRECTION_LEFT) {
         state->state = 1;
         state->viewport_target_x = 0;
         state->next_state = 2;
         return;
     }
 
-    if ((gInput_wPad1Pressed & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
+    if ((gInput_awPadPressed[0] & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
         state->state = 4;
         state->next_state = 3;
         return;
     }
 
-    if ((gInput_wPad1Repeat & BUILD_DECK_PANE_CONFIRM_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & BUILD_DECK_PANE_CONFIRM_MASK) != 0) {
         r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             SD_SEPlayFull(7);
@@ -119,7 +117,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         return;
     }
 
-    if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) != 0) {
         r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
@@ -129,20 +127,20 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         return;
     }
 
-    if (gInput_wPad1Held == PAD_DIRECTION_RIGHT) {
+    if (gInput_awPadHeld[0] == PAD_DIRECTION_RIGHT) {
         state->viewport_target_x = 0x140;
         state->state = 1;
         state->next_state = 3;
         return;
     }
 
-    if ((gInput_wPad1Pressed & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
+    if ((gInput_awPadPressed[0] & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
         state->state = 4;
         state->next_state = 2;
         return;
     }
 
-    if ((gInput_wPad1Repeat & BUILD_DECK_PANE_CONFIRM_MASK) == 0) {
+    if ((gInput_awPadRepeat[0] & BUILD_DECK_PANE_CONFIRM_MASK) == 0) {
         return;
     }
 

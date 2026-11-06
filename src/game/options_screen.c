@@ -1,6 +1,4 @@
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #ifdef VERSION_JAPAN
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #endif
 #define GSD_BOUTPUTTYPE_IN_DATA
 #define D_8009AF5C_AS_BYTE_ARRAY
@@ -168,10 +166,10 @@ void Options_HandleInput(void)
     s32 value;
 
 #ifdef VERSION_JAPAN
-    if (gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) {
+    if (gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) {
         s32 selection = gOptions_bSelection;
 
-        if (gInput_wPad1Repeat & PAD_DIRECTION_UP) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_UP) {
             selection--;
             if (selection < 0) {
                 return;
@@ -191,8 +189,8 @@ void Options_HandleInput(void)
 #endif
 
     if (gOptions_bSelection == 0 &&
-        (gInput_wPad1Pressed & PAD_DIRECTION_HORIZONTAL_MASK)) {
-        if (gInput_wPad1Pressed & PAD_DIRECTION_RIGHT) {
+        (gInput_awPadPressed[0] & PAD_DIRECTION_HORIZONTAL_MASK)) {
+        if (gInput_awPadPressed[0] & PAD_DIRECTION_RIGHT) {
             if (gOptions_bOutputType != 0) {
                 return;
             }
@@ -218,13 +216,13 @@ void Options_HandleInput(void)
     }
 
     if (gOptions_bSelection != 0 &&
-        (gInput_wPad1Pressed & OPTIONS_CONFIRM_MASK)) {
+        (gInput_awPadPressed[0] & OPTIONS_CONFIRM_MASK)) {
         SD_SEPlayFull(7);
         gOptions_bState = (u8)gOptions_bSelection + 1;
         return;
     }
 
-    if (gInput_wPad1Pressed & OPTIONS_CANCEL_BUTTON) {
+    if (gInput_awPadPressed[0] & OPTIONS_CANCEL_BUTTON) {
         gOptions_bState = 0;
         SD_SEPlayFull(8);
     }

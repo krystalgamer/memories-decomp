@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IN_DATA
-#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #define MAIN_MODE_STATE_NEXT_AS_ARRAY
 #include "../types.h"
 #include "../unmatched.h"
@@ -68,7 +66,7 @@ void Library_UpdateGridCursor(LibraryState *state)
     s32 distance;
 
     if (Library_UpdateCursorMotion() == 0) {
-        if ((gInput_wPad1Pressed & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
             card_id = Library_GetGridCursorCardId(state);
             if ((Library_GetCardFlags(state, card_id) &
                  LIBRARY_CARD_FLAG_KNOWN) != 0) {
@@ -77,19 +75,19 @@ void Library_UpdateGridCursor(LibraryState *state)
                 return;
             }
         }
-        if ((gInput_wPad1Pressed & LIBRARY_GRID_CANCEL_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & LIBRARY_GRID_CANCEL_BUTTON) != 0) {
             gMain_bActiveModeState[0] = gMain_bReturnMode[0];
             return;
         }
-        if ((gInput_wPad1Held & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
+        if ((gInput_awPadHeld[0] & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
             column = gCardGrid_bCursorColumn;
             row = gCardGrid_bCursorRow;
             frames = 6;
-            if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_BUTTON_SQUARE) != 0) {
                 frames = 2;
             }
-            if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_BUTTON_R1) != 0) {
                     row += 0xA;
                     if (row >= 0x28) {
                         row = 0x27;
@@ -107,8 +105,8 @@ void Library_UpdateGridCursor(LibraryState *state)
                     frames = (gCardGrid_bCursorRow - row) * 2;
                 }
             } else {
-                if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-                    if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                    if ((gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) != 0) {
                         column += 1;
                         if (column >= 0x14) {
                             column = 0x13;
@@ -131,8 +129,8 @@ wrap_delay:
                         }
                     }
                 }
-                if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-                    if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                    if ((gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) != 0) {
                         row += 1;
                         if (row >= 0x28) {
                             row = 0x27;

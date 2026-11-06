@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
@@ -194,61 +193,61 @@ void CampaignMap_MoveCameraDpad(void)
     ViewState *camera = &gViewState_Current;
     s32 step;
 
-    if ((gInput_wPad1Held &
+    if ((gInput_awPadHeld[0] &
          (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
-        if ((gInput_wPad1Held & PAD_BUTTON_TRIGGER_MASK) != 0) {
-            if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_BUTTON_TRIGGER_MASK) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) != 0) {
                     step = -step;
                 }
                 camera->view.vrx = camera->view.vrx + step;
             }
-            if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) != 0) {
                     step = -step;
                 }
                 camera->view.vrz = camera->view.vrz + step;
             }
         } else {
-            if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) != 0) {
                     step = -step;
                 }
                 camera->angle = camera->angle + step;
             }
-            if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
                 }
-                if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) != 0) {
                     step = -step;
                 }
                 camera->orbit_angle = camera->orbit_angle + step;
             }
-            if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
-                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
+                if ((gInput_awPadHeld[0] & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 20;
                 } else {
                     step = 4;
                 }
-                if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
+                if ((gInput_awPadHeld[0] & PAD_BUTTON_R1) != 0) {
                     step = -step;
                 }
                 camera->distance = camera->distance + step;
@@ -539,13 +538,13 @@ s32 CampaignMap_PickExit(void)
     exits = record->exits;
     if (gCampaignMap_Location >= 10) {
         if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0 &&
-            (gInput_wPad1Pressed & CAMPAIGN_MAP_CANCEL_BUTTON) != 0) {
+            (gInput_awPadPressed[0] & CAMPAIGN_MAP_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(48);
             gCampaignMap_MoveState = 24;
             return 0;
         }
     }
-    if ((gInput_wPad1Pressed & CAMPAIGN_MAP_CONFIRM_BUTTON_MASK) != 0) {
+    if ((gInput_awPadPressed[0] & CAMPAIGN_MAP_CONFIRM_BUTTON_MASK) != 0) {
         ready = record->confirm_gate;
         if (ready != 0) {
             if (Campaign_TestStoryFlag(exits->story_flag) != 0) {
@@ -566,7 +565,7 @@ s32 CampaignMap_PickExit(void)
         if (exits->destination != 16) {
             if (exits->story_flag == 0 ||
                 Campaign_TestStoryFlag(exits->story_flag) != 0) {
-                if ((gInput_wPad1Held & exits->input_mask) != 0) {
+                if ((gInput_awPadHeld[0] & exits->input_mask) != 0) {
                     gCampaignMap_MoveState = exits->move_steps;
                     SD_SEPlayFull(6);
                     return exits->destination;

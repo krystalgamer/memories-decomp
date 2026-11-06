@@ -1,5 +1,3 @@
-#define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define D_8009B0C0_IN_DATA
 #define D_8009B368_IN_DATA
@@ -311,7 +309,7 @@ void Main_RunTrade(void)
     obj = gDisplayObject_apWorkSlots.slots[0];
     switch (gMain_bModeRunnerStep) {
     case 1:
-        if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
+        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
             DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             obj->field_60 = 0x400;

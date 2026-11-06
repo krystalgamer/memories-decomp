@@ -1,6 +1,5 @@
 #define GDIALOG_CHOICE_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "duel_scene_state.h"
 #include "ai.h"
@@ -163,7 +162,7 @@ state_four:
             break;
         }
         if (!Dialog_ReadChoiceInput(gText_aChannels) &&
-            (gInput_wPad1Pressed & DUEL_CARD_STAGING_CONFIRM_MASK)) {
+            (gInput_awPadPressed[0] & DUEL_CARD_STAGING_CONFIRM_MASK)) {
             SD_SEPlayFull(7);
             gDuel_bSceneSubStep |= 0x10;
         }

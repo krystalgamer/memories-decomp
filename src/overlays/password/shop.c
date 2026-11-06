@@ -1,6 +1,3 @@
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
-#define GINPUT_PAD1_PRESSED_IS_VOLATILE
-#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
@@ -397,8 +394,8 @@ void Password_UpdateShopScreen(void)
     state = gPassword_wShopState & 0x1F;
     switch (state) {
     case 0:
-        if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-            if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) != 0) {
                 index = gPassword_nDigitIndex + 1;
                 gPassword_nDigitIndex = index;
                 if (index >= 8) {
@@ -420,9 +417,9 @@ void Password_UpdateShopScreen(void)
             cursor->updateFlags |= 0x40;
             return;
         }
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             step = gPassword_abDigits[gPassword_nDigitIndex];
-            if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 step = step + 1;
                 if (step >= 10) {
                     step = 0;
@@ -438,14 +435,14 @@ void Password_UpdateShopScreen(void)
             Password_RefreshDigitDisplay();
             return;
         }
-        if ((gInput_wPad1Pressed & PASSWORD_SHOP_CANCEL_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & PASSWORD_SHOP_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(8);
             SD_BGMFadeOut();
             Fade_WaitOut();
             gMain_bActiveModeState = gMain_bReturnMode;
             return;
         }
-        if ((gInput_wPad1Pressed & PASSWORD_SHOP_CONFIRM_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & PASSWORD_SHOP_CONFIRM_BUTTON) != 0) {
             card = Password_LookupCardID();
             gPassword_wCardId = card;
             if (card == 0) {

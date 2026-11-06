@@ -4,7 +4,6 @@
 #define GDIALOG_CHOICE_IN_DATA
 #define MEM_CARD_DIRECTORY_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
@@ -2541,8 +2540,8 @@ void SaveData_RequestOptionsWrite(void)
 /* MATCH 2026-09-06, first-day function from the m2c draft (257 instructions,
  * the memory-card save state machine: format, load, verify, retry). Jump
  * table on the mode nibble, so only the full build proves it. Levers, in
- * order: the scalar arm for gSaveData_LoadPairState; gInput_wPad1Pressed on its .data
- * VOLATILE arm (retail reloads it for the second bit test and reads it bare);
+ * order: the scalar arm for gSaveData_LoadPairState; gInput_awPadPressed[0]
+ * volatile (retail reloads it for the second bit test);
  * the call arguments gMemCardDialog_ChannelIndex and gSaveData_PairMessageCode hoisted into locals BEFORE the
  * +0x60 store that precedes the sprite call (-6 -> -1); ONE name for the
  * sprite pointer in cases 0 and 0xA, which is what puts it in $s0 (its live
@@ -2580,11 +2579,11 @@ s32 SaveData_UpdateLoadPair(void)
         }
         return 0;
     case 1:
-        if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
+        if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
             SD_SEPlayFull(8);
             gSaveData_LoadPairState = 0x82;
             gMemCard_pDialogObject->field_60 = 0x400;
-        } else if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
+        } else if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
             SD_SEPlayFull(7);
             gSaveData_LoadPairState = 2;
             gMemCard_pDialogObject->field_60 = 0x400;

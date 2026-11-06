@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_HELD_IS_AGGREGATE
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
@@ -109,7 +108,7 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
             *(u16 *) DUEL_VIEWER_CARD_ID_ADDRESS = picked;
             *(u8 *) DUEL_VIEWER_Y_OFFSET_ADDRESS = 0x14;
             gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
-        } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
+        } else if (!(gInput_awPadHeld[0] & PAD_BUTTON_TRIGGER_MASK)) {
             gDuel_wDisplayTransitionFlags = 0xC;
             gDuelCursor_PickFlags = gDuelCursor_PickFlags | 0x60;
         }

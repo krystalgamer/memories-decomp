@@ -1,5 +1,4 @@
 #define D_8009B318_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #define D_8009B142_IN_DATA
 #include "graphics_frame.h"
@@ -52,7 +51,7 @@ s32 Main_RunFrontendLoop(void) {
                     continue;
                 }
                 if (f & 0x40) {
-                    if (gInput_wPad1Pressed &
+                    if (gInput_awPadPressed[0] &
                         (PAD_BUTTON_START | MAIN_FRONTEND_CONFIRM_MASK)) {
                         TextBox_Destroy(gText_aChannels);
                         gMain_bFrontendPhase = 1;

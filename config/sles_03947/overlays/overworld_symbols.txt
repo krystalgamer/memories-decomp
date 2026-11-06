@@ -52,8 +52,8 @@ D_8016A2C9 = 0x8016A299;
 D_8016A2C8_EuropeRaw = 0x8016A2C8;
 D_8016A2C9_EuropeRaw = 0x8016A2C9;
 
-gInput_wPad1Pressed = 0x8009C30C;
-gInput_wPad1Held = 0x8009C2F0;
+gInput_awPadPressed = 0x8009C30C;
+gInput_awPadHeld = 0x8009C2F0;
 ViewState_ApplyOrbit = 0x80013444; // type:func
 Campaign_TestStoryFlag = 0x8002CD38; // type:func
 SD_SEPlayFull = 0x80040004; // type:func

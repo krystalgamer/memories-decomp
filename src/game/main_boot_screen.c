@@ -498,7 +498,7 @@ void Main_HoldBootScreen(s32 count)
             (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
               gFile_dwCancelRequestState) == 0))
             found = 1;
-        if ((gInput_wPad1Pressed &
+        if ((gInput_awPadPressed[0] &
              (PAD_BUTTON_START | MAIN_HOLD_CONFIRM_MASK)) && found)
             count = 0;
         count--;

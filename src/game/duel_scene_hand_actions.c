@@ -28,9 +28,6 @@
  *   enclosing pass keeps loop.c from moving the miss block out of the loop.
  *   Duel_ApplyAiHandSelection next door has the same one-pass do/while.
  */
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
-#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
@@ -360,16 +357,16 @@ void DuelScene_UpdateHandActions(void)
         if (Duel_CheckQuitInput() != 0) {
             break;
         }
-        if (gInput_wPad1Pressed & 0x10) {
+        if (gInput_awPadPressed[0] & 0x10) {
             card_id = CARD_ID(HAND_CARD_INDEX(side));
             gDuel_bCardViewerYOffset = 0x14;
             gDuel_bEffectState = 2;
             gDuel_wViewerCardID = card_id;
             return;
         }
-        if (gInput_wPad1Repeat & 0xA000) {
+        if (gInput_awPadRepeat[0] & 0xA000) {
             value = (s8)side->field_0E;
-            if (gInput_wPad1Repeat & 0x2000) {
+            if (gInput_awPadRepeat[0] & 0x2000) {
                 value++;
                 if (value >= 5) {
                     return;
@@ -386,14 +383,14 @@ void DuelScene_UpdateHandActions(void)
             SD_SEPlayFull(6);
             return;
         }
-        if ((gInput_wPad1Pressed & 0xFFFF) == 0x1000 && gInput_wPad1Held == 0x1000) {
+        if ((gInput_awPadPressed[0] & 0xFFFF) == 0x1000 && gInput_awPadHeld[0] == 0x1000) {
             if (hand->selection_order == 0) {
                 DuelHand_CreateSelectionOrderMarker(side);
                 return;
             }
-        } else if ((gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) ||
-                   ((gInput_wPad1Pressed & 0xFFFF) == 0x4000 &&
-                    gInput_wPad1Held == 0x4000)) {
+        } else if ((gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) ||
+                   ((gInput_awPadPressed[0] & 0xFFFF) == 0x4000 &&
+                    gInput_awPadHeld[0] == 0x4000)) {
             value = hand->selection_order;
             if (value != 0) {
                 SD_SEPlayFull(0x2F);
@@ -414,13 +411,13 @@ void DuelScene_UpdateHandActions(void)
                 return;
             }
         } else {
-            if (gInput_wPad1Held & 3) {
+            if (gInput_awPadHeld[0] & 3) {
                 gDuelCursor_PickFlags = 0;
                 gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides + 1 * DUEL_SELECTION_RECORD_SIZE);
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
-            if ((gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) && side->field_15 != 1) {
+            if ((gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) && side->field_15 != 1) {
                 SD_SEPlayFull(7);
                 gDuel_bSceneSubStep = 4;
                 DuelHand_RefreshSelectionColors(side);
@@ -510,16 +507,16 @@ void DuelScene_UpdateHandActions(void)
                 }
             }
         } else {
-            if (gInput_wPad1Repeat & 0xA000) {
+            if (gInput_awPadRepeat[0] & 0xA000) {
                 obj->step = 0x10;
                 gDuel_bSceneSubStep |= 0x20;
-                if (gInput_wPad1Repeat & 0x2000) {
+                if (gInput_awPadRepeat[0] & 0x2000) {
                     obj->step = -0x10;
                 }
                 SD_SEPlayFull(0xB);
                 return;
             }
-            if (gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) {
+            if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
                 SD_SEPlayFull(8);
                 if (obj->face != 0) {
                     obj->step = 0x10;
@@ -528,7 +525,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 goto restore;
             }
-            if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
+            if (gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) {
                 SD_SEPlayFull(7);
                 gDuel_aCardRecords[obj->card_index].flags &= 0xEFFF;
                 if (obj->face != 0) {
@@ -581,13 +578,13 @@ void DuelScene_UpdateHandActions(void)
                 gDuel_bEffectState = 2;
                 return;
             }
-            if (gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) {
+            if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
                 gDuel_wDisplayTransitionFlags = 0xC;
                 gDuel_bSceneSubStep |= 0x50;
                 SD_SEPlayFull(8);
                 return;
             }
-            if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
+            if (gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) {
             confirm:
                 SD_SEPlayFull(7);
                 for (n = 6; n >= 0; n--) {

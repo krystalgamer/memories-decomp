@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IN_DATA
 #define D_8009B0C1_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
@@ -98,7 +97,7 @@ reset:
                 }
             } else {
                 if (q->choice.flags & FUNC_80039794_CHOICE_FLAG) {
-                    if (gInput_wPad1Pressed &
+                    if (gInput_awPadPressed[0] &
                         DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
                         q->choice.flags &= 0xFFFF ^ FUNC_80039794_CHOICE_FLAG;
                         DisplayObject_ReleaseIfPresent(q->choice.obj);

@@ -190,8 +190,8 @@ sound or lower-priority input handling. Next comes repeat/new-press vertical
 input, with Up winning over Down and decimal digits wrapping 0-9. Newly
 pressed Circle then cancels, and newly pressed Cross finally attempts lookup.
 Square alone and Start are not confirmation here. These use three distinct
-volatile streams: held `gInput_wPad1Held`, repeat `gInput_wPad1Repeat`, and newly pressed
-`gInput_wPad1Pressed`.
+volatile streams: held `gInput_awPadHeld[0]`, repeat `gInput_awPadRepeat[0]`, and newly pressed
+`gInput_awPadPressed[0]`.
 
 State 1 first requests the selected card into cached slot 0. It waits for
 `((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0` before recreating the
@@ -426,15 +426,11 @@ neither reaches past it.
 
 ### What one unit forced, and what it did not
 
-**The pad-spelling arms are now the unit's, not a file's.** The keyboard
-handler needs `GINPUT_PAD1_HELD_IS_VOLATILE`,
-`GINPUT_PAD1_REPEAT_IS_VOLATILE` and `GINPUT_PAD1_PRESSED_IS_VOLATILE`,
-because it re-reads the held halfword on five paths and gcc otherwise commons
-them into one register. `NameEntry_UpdateDialog` reads
-`gInput_wPad1Pressed` exactly once and previously took the plain scalar. One
-translation unit gets one arm, and the volatile arm is the one that had to
-win. It is free for the dialog: volatile forces re-reads, and a single read
-is a single read under either spelling. The module still matches
+**The pad masks are volatile.** The keyboard handler re-reads the held
+halfword on five paths, which the volatile `gInput_awPad*` arrays in
+`input.h` give it; non-volatile reads would be commoned into one register.
+`NameEntry_UpdateDialog` reads `gInput_awPadPressed[0]` exactly once, so
+volatility costs it nothing: a single read is a single read either way. The module still matches
 byte-for-byte, which is the proof rather than the argument.
 
 **The two private object views stay two, and that is the finding.** Unlike
@@ -532,12 +528,12 @@ signed 8.8 fixed point, and the timer decrements. A still-active timer returns
 early; expiration snaps the rectangle, clears global tween bit `0x4000` and
 continues processing input in that same invocation.
 
-Held directions at `gInput_wPad1Held[0]` take priority. Horizontal movement wraps
+Held directions at `gInput_awPadHeld[0]` take priority. Horizontal movement wraps
 over 15 columns; ordinary vertical movement wraps over nine rows. The
 right-hand control block instead uses the row-transition table. Newly pressed
-Start at `gInput_wPad1Pressed[0] & 0x800` moves selection through the same navigation
+Start at `gInput_awPadPressed[0] & 0x800` moves selection through the same navigation
 path to the finish control; it does not immediately accept the name.
-Confirmation uses `gInput_wPad1Repeat[0] & 0xC0`, the repeat/new-press stream.
+Confirmation uses `gInput_awPadRepeat[0] & 0xC0`, the repeat/new-press stream.
 Circle in that stream moves the caret left without erasing a backing word.
 
 The signed `9 x 15` table at `0x8016AB38` is navigation metadata, not a
