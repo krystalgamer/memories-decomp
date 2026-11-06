@@ -40,12 +40,6 @@ typedef struct {
     long depth[2];
 } EntryStrip373;
 
-typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 size, field_8C;
-} EntryRing373;
-
 typedef union {
     POLY_GT4 grid[8];
     struct {
@@ -61,7 +55,7 @@ typedef struct {
     EntryStrip373 strips[1];
     Family373QuadGroup quadrants[1];
     Family373Ribbon ribbons[8];
-    EntryRing373 rings[4];
+    ModelVariantColorRing rings[4];
     Family373Ray rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;

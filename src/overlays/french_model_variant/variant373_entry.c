@@ -13,7 +13,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     EntryPointGroup373 *group = work->groups;
     EntryStrip373 *strip = work->strips;
     Family373QuadGroup *quadrant = work->quadrants;
-    EntryRing373 *ring = work->rings;
+    ModelVariantColorRing *ring = work->rings;
     Family373Ray *ray = work->rays;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
@@ -227,8 +227,8 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             ring->outer_color.r = 0;
             ring->outer_color.g = 0;
             ring->outer_color.b = 0;
-            ring->size = i * 256;
-            ring->field_8C = 0;
+            ring->angle = i * 256;
+            ring->count = 0;
         }
         work->grid_scale = 0;
         work->translation = 0;

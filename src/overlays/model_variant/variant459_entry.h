@@ -29,7 +29,7 @@ typedef struct {
     ModelVariantWeb webs[3];
     Variant459EntryGlow glows[16];
     ModelVariantSheet sheet;
-    Variant459Grid grid;
+    ModelVariantMesh grid;
     Variant476ScreenGrid screen_grid;
     Variant459Curtain curtains[5];
     POLY_G3 triangle;

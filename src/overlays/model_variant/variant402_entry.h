@@ -36,24 +36,13 @@ typedef struct {
     s32 size[32], done[32], reset[32];
 } Variant402EntrySwarm;
 
-/* One 0xA0-byte band with two depth rows. */
-typedef struct {
-    u8 unknown_00[0x68];
-    s32 depth[2];
-    CVECTOR inner[2], outer[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} Variant402EntryBand;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant402EntryQuads quads[1];
     Variant402EntrySwarm swarm;
     ModelVariantTrail streaks[16];
     ModelVariantWebNarrow webs[3];
-    Variant402EntryBand bands[1];
+    ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

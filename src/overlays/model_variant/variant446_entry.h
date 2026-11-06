@@ -43,16 +43,6 @@ typedef struct {
     s32 done[24];
 } Variant446EntrySprites;
 
-typedef struct {
-    u8 unknown_00[0x68];
-    s32 offset[2];
-    CVECTOR ca[2], cb[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} Variant446EntryBand;
-
 /* Header 446's 0x4AC4-byte work area. */
 typedef struct {
     Variant446EntryRibbon ribbons[5];
@@ -62,7 +52,7 @@ typedef struct {
     Variant446EntrySprites sprites;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
-    Variant446EntryBand bands[1];
+    ModelVariantBandPair bands[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
     ModelVariantFan quads[1];

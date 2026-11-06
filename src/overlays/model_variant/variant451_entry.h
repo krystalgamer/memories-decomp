@@ -35,7 +35,7 @@ typedef struct {
     Variant451EntryGroup group;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
-    Variant412EntryBand bands[1];
+    ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

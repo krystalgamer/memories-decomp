@@ -18,12 +18,6 @@ typedef struct {
     u8 unknown_3C[0xC];
 } Variant459EntryConfig;
 
-/* Two seventeen-point loops with a scale and a growth word. */
-typedef struct {
-    SVECTOR a[17], b[17];
-    s32 scale, growth;
-} Variant459EntryRing;
-
 /* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
 typedef struct {
     u8 unknown_000[0x144];
@@ -39,7 +33,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTripleCurtain curtains[5];
-    Variant459EntryRing rings[4];
+    ModelVariantCurtain rings[4];
     ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 rays[0x360];

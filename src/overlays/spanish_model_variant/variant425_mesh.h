@@ -5,12 +5,7 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR rows[9][17];
-    u8 colors[9][4];
-} Mesh425Rows;
-
-typedef struct {
-    Mesh425Rows mesh;
+    ModelVariantMesh mesh;
     u8 unknown_04EC[0x103C];
     POLY_GT4 polygon;
     u8 unknown_155C[0x1F8];

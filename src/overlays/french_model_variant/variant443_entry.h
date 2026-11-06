@@ -73,12 +73,6 @@ typedef struct {
 } EntryShortBand443;
 
 typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 initial, hidden;
-} EntryRing443;
-
-typedef struct {
     SVECTOR inner[6], outer[5], corners[4];
     CVECTOR inner_color, outer_color;
     s32 field_80, field_84, field_88;
@@ -96,7 +90,7 @@ typedef struct {
     EntryLongBand443 long_bands[1];
     EntryShortBand443 bands[3];
     ModelVariantSheet sheets[5];
-    EntryRing443 rings_a[6], rings_b[4];
+    ModelVariantColorRing rings_a[6], rings_b[4];
     EntryShape443 shapes[1];
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -42,17 +42,12 @@ typedef struct {
 } EntryPulse446;
 
 typedef struct {
-    SVECTOR inner[17], outer[17];
-    s32 progress, state;
-} EntryRing446;
-
-typedef struct {
     EntryRay446 rays[16];
     EntryLines446 lines[3];
     EntryStrip446 strips[1];
     EntryPulse446 pulses[2];
     u8 unknown_1250[0x2C0];
-    EntryRing446 rings[4];
+    ModelVariantCurtain rings[4];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra, ring_packet;

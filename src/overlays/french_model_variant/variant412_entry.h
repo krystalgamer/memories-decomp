@@ -18,7 +18,7 @@ typedef struct {
     Variant402EntryRecord records[1];
     Variant402EntryRing rings[2];
     u8 unknown_13E0[0x2C0];
-    Family402Band bands[2];
+    ModelVariantCurtain bands[2];
     u8 unknown_18D0[0x34];
     POLY_G3 triangle;
     POLY_G4 quad;

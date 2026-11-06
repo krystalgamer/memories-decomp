@@ -283,7 +283,9 @@ typedef struct {
 } ModelVariantSheetSet;
 
 /* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
- * as sixteen POLY_GT4 strips, a scale and a wrap count. */
+ * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
+ * of the times it wrapped. The entry handlers start the scales staggered at
+ * -(n * 4096 / 3) or similar. */
 typedef struct {
     SVECTOR a[17];
     SVECTOR b[17];
@@ -413,5 +415,42 @@ typedef struct {
     s32 done[10];
     u8 unknown_25C[0xA0];
 } ModelVariantSpriteSet;
+
+/* One 0x90-byte ring of eight spokes with CVECTOR colours: inner and outer
+ * spoke ends, the inner and outer colours (the entry handlers set them to
+ * (64, 128, 255) and black), the angle the spokes sweep through 0..0x400 and
+ * a count. ModelVariantRing is the same record with u8[4] colours; its
+ * drawers advance angle and bump count when angle wraps. */
+typedef struct {
+    SVECTOR inner[8];
+    SVECTOR outer[8];
+    CVECTOR inner_color;
+    CVECTOR outer_color;
+    s32 angle;
+    s32 count;
+} ModelVariantColorRing;
+
+/* One 0xA0-byte two-point band record: per point a staggered start offset
+ * (-(j * 768)) and two colours, then a scale vector. ca takes the first
+ * colour of the entry config and cb the second (the header-461 family's
+ * config calls these outer and inner, the header-402 and 478 configs inner
+ * and outer). */
+typedef struct {
+    u8 unknown_00[0x68];
+    s32 offset[2];
+    CVECTOR ca[2];
+    CVECTOR cb[2];
+    VECTOR scale;
+    s16 field_90, field_92;
+    s32 field_94;
+    u8 unknown_98[8];
+} ModelVariantBandPair;
+
+/* A 0x4EC-byte mesh of nine rows of seventeen points and one colour per row,
+ * drawn as RotTransPers4 quads between neighbouring rows. */
+typedef struct {
+    SVECTOR rows[9][17];
+    u8 colors[9][4];
+} ModelVariantMesh;
 
 #endif

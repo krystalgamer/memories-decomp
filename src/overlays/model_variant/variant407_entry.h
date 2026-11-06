@@ -24,20 +24,10 @@ typedef struct {
 } Variant407EntryPetals;
 
 typedef struct {
-    u8 unknown_00[0x68];
-    s32 offset[2];
-    CVECTOR ca[2], cb[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} Variant407EntryBand;
-
-typedef struct {
     Variant407EntryPetals petals;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
-    Variant407EntryBand bands[1];
+    ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

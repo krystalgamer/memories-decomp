@@ -18,12 +18,6 @@ typedef struct {
     s32 size;
 } Variant438EntryConfig;
 
-/* Two seventeen-point loops with a scale and a growth word. */
-typedef struct {
-    SVECTOR a[17], b[17];
-    s32 scale, growth;
-} Variant438EntryRing;
-
 /* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
 typedef struct {
     u8 unknown_000[0x144];
@@ -35,13 +29,6 @@ typedef struct {
     s32 field_1A0;
     u8 unknown_1A4[0x24];
 } Variant438EntryBand;
-
-/* Two eight-point loops, two colours, an angle and a word. */
-typedef struct {
-    SVECTOR a[8], b[8];
-    CVECTOR color_a, color_b;
-    s32 angle, field_8C;
-} Variant438EntrySpoke;
 
 /* A six-point fan, five rays, four corners and two colours. */
 typedef struct {
@@ -56,14 +43,14 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTripleCurtain curtains[5];
-    Variant438EntryRing rings[1];
+    ModelVariantCurtain rings[1];
     ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 rays[0x360];
     Variant438EntryBand bands[1];
     ModelVariantSheet sheets[2];
-    Variant438EntrySpoke spokes[6];
-    Variant438EntrySpoke petals[4];
+    ModelVariantColorRing spokes[6];
+    ModelVariantColorRing petals[4];
     Variant438EntryStar stars[1];
     POLY_G3 triangle;
     POLY_G4 quad;

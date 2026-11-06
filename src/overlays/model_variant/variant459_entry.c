@@ -35,7 +35,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     s32 result;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
-    Variant459Grid *grid_a;
+    ModelVariantMesh *grid_a;
     GsRVIEW2 *view;
     s32 angle, base_angle;
     s32 f2;

@@ -23,7 +23,7 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant454EntryGroup *group;
     ModelVariantSpriteSet *cluster;
-    Variant412EntryBand *band;
+    ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;

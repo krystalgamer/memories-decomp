@@ -22,7 +22,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
     Variant388EntryTube *tube = work->tubes;
     Variant388EntrySheet *sheet = work->sheets;
     Variant388EntryFeedback *feedback = work->feedback;
-    Variant388EntrySpoke *spoke = work->spokes;
+    ModelVariantColorRing *spoke = work->spokes;
     Variant388EntryArm *arm = work->arms;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
@@ -181,10 +181,10 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&spoke->outer[n], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            SETC(spoke->color, 64, 128, 255);
-            SETC(spoke->shade, 0, 0, 0);
+            SETC(spoke->inner_color, 64, 128, 255);
+            SETC(spoke->outer_color, 0, 0, 0);
             spoke->angle = j << 8;
-            spoke->field_8C = 0;
+            spoke->count = 0;
         }
         work->field_1892 = 1024;
         work->field_1884 = 0;

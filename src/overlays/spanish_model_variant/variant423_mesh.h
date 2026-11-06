@@ -6,12 +6,7 @@
 #include "../../game/gpu_packets.h"
 
 typedef struct {
-    SVECTOR rows[9][17];
-    u8 colors[9][4];
-} Mesh423Rows;
-
-typedef struct {
-    Mesh423Rows mesh;
+    ModelVariantMesh mesh;
     u8 unknown_04EC[0x1640];
     POLY_GT4 polygon;
     u8 unknown_1B60[0x1F8];

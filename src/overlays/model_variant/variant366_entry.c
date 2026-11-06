@@ -19,7 +19,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
     Variant366Strip *strip = work->strips;
     Variant366Quads *quads = work->quads;
     Variant366Ribbon *ribbon = work->ribbons;
-    Variant366Ring *ring = work->rings;
+    ModelVariantColorRing *ring = work->rings;
     ModelVariantSpiral *ray = work->rays;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat;
@@ -193,8 +193,8 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
             ring->outer_color.r = 0;
             ring->outer_color.g = 0;
             ring->outer_color.b = 0;
-            ring->size = i * 256;
-            ring->state = 0;
+            ring->angle = i * 256;
+            ring->count = 0;
         }
         for (k = 2; k >= 0; k--) {
             work->cone_opening[k] = 0;

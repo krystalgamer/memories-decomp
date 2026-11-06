@@ -15,10 +15,10 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
     EntryQuads478 *quad_group;
     EntryPetals478 *petal;
     EntrySwarm478 *swarm = &work->swarm;
-    EntryPair478 *pair = work->pairs;
+    ModelVariantBandPair *pair = work->pairs;
     ModelVariantSheet *sheet = work->sheets;
-    EntryRing478 *ring = work->rings;
-    EntryRing478 *large_ring = work->large_rings;
+    ModelVariantColorRing *ring = work->rings;
+    ModelVariantColorRing *large_ring = work->large_rings;
     EntrySmall478 *small = work->small;
     ModelVariantWebNarrow *grid = work->grids;
     EntryExtra478 *extra = work->extras;
@@ -156,13 +156,13 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
         for (j = 0; j < 1; j++, pair++) {
             setVector(&pair->scale, 4096, 4096, 4096);
             for (k = 0; k < 2; k++) {
-                pair->inner[k].r = work->config->inner.r;
-                pair->inner[k].g = work->config->inner.g;
-                pair->inner[k].b = work->config->inner.b;
-                pair->outer[k].r = work->config->outer.r;
-                pair->outer[k].g = work->config->outer.g;
-                pair->outer[k].b = work->config->outer.b;
-                pair->progress[k] = -k * 768;
+                pair->ca[k].r = work->config->inner.r;
+                pair->ca[k].g = work->config->inner.g;
+                pair->ca[k].b = work->config->inner.b;
+                pair->cb[k].r = work->config->outer.r;
+                pair->cb[k].g = work->config->outer.g;
+                pair->cb[k].b = work->config->outer.b;
+                pair->offset[k] = -k * 768;
             }
             pair->field_90 = 0;
             pair->field_92 = 0;
@@ -277,8 +277,8 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
             ring->outer_color.r = 0;
             ring->outer_color.g = 0;
             ring->outer_color.b = 0;
-            ring->size = row * 1024 / 6;
-            ring->field_8C = 0;
+            ring->angle = row * 1024 / 6;
+            ring->count = 0;
         }
         for (row = 0, k = 0; row < 4; row++, large_ring++, k += 200) {
             for (i = 0, angle = k; i < 8; angle += 512, i++) {
@@ -293,8 +293,8 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
             large_ring->outer_color.r = 255;
             large_ring->outer_color.g = 192;
             large_ring->outer_color.b = 64;
-            large_ring->size = 1024 - row * 256;
-            large_ring->field_8C = 0;
+            large_ring->angle = 1024 - row * 256;
+            large_ring->count = 0;
             reset_value = 4096;
         }
         work->field_2A10 = 0;

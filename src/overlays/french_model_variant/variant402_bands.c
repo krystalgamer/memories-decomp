@@ -11,7 +11,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     long interpolation;
     long flag;
     u8 *work;
-    Family402Band *band;
+    ModelVariantCurtain *band;
     GsOT *ot;
     Family402BandPacket *quad;
     s32 i, j;
@@ -37,7 +37,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     u8 r0, g0, b0, r1, g1, b1;
 
     work = context;
-    band = (Family402Band *)(work + BAND_WORK_0438);
+    band = (ModelVariantCurtain *)(work + BAND_WORK_0438);
     ot = Graphics_GetDefaultOrderingTable();
 #ifndef MODEL_VARIANT412_BANDS
     direction = -1;
@@ -69,14 +69,14 @@ void FrenchModelVariant402_DrawBands(u8 *context)
             z = outer_depth * direction;
 #endif
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                band->inner[j].vx = (u32)rcos(angle) >> 4;
-                band->inner[j].vy = (u32)rsin(angle) >> 4;
-                band->inner[j].vz = 0;
+                band->a[j].vx = (u32)rcos(angle) >> 4;
+                band->a[j].vy = (u32)rsin(angle) >> 4;
+                band->a[j].vz = 0;
 #ifdef MODEL_VARIANT412_BANDS
-                setVector(&band->outer[j], rcos(angle) * (pulse + 512) >> 12,
+                setVector(&band->b[j], rcos(angle) * (pulse + 512) >> 12,
                           rsin(angle) * (pulse + 512) >> 12, pulse + 192);
 #else
-                setVector(&band->outer[j], rcos(angle) * outer_radius >> 12,
+                setVector(&band->b[j], rcos(angle) * outer_radius >> 12,
                           rsin(angle) * outer_radius >> 12, z);
 #endif
             }
@@ -113,8 +113,8 @@ void FrenchModelVariant402_DrawBands(u8 *context)
                 b1 = work[BAND_WORK_089A] * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
-                depth = RotTransPers4(&band->inner[j], &band->inner[j + 1],
-                                     &band->outer[j], &band->outer[j + 1],
+                depth = RotTransPers4(&band->a[j], &band->a[j + 1],
+                                     &band->b[j], &band->b[j + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
@@ -137,7 +137,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
             band->scale += MODEL_VARIANT_WORD(work, BAND_WORK_0874) * 256;
             if (band->scale >= 4096) {
                 band->scale = 4096;
-                band->cycles++;
+                band->count++;
                 if (i + 1 == 2 && MODEL_VARIANT_WORD(work, BAND_WORK_08AC) == 2) {
                     MODEL_VARIANT_WORD(work, BAND_WORK_08AC) = 3;
                 }

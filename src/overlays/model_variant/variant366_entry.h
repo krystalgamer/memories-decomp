@@ -44,19 +44,12 @@ typedef struct {
     s32 progress, cycles;
 } Variant366Ribbon;
 
-/* The four eight-point rings. */
-typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 size, state;
-} Variant366Ring;
-
 typedef struct {
     Variant366Strip strips[1];
     Variant366Quads quads[1];
     u8 unknown_F4[0x360];
     Variant366Ribbon ribbons[3];
-    Variant366Ring rings[4];
+    ModelVariantColorRing rings[4];
     ModelVariantSpiral rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;

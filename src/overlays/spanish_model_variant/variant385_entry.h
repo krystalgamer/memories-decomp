@@ -32,18 +32,13 @@ typedef struct {
     u8 unknown_8C[4];
 } Variant385EntrySheet;
 
-typedef struct {
-    SVECTOR inner[17], outer[17];
-    s32 angle, field_114;
-} Variant385EntryCurtain;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
     Variant385EntryTube tubes[1];
     Variant385EntrySheet sheets[2];
     u8 unknown_68C[0x300];
-    Variant385EntryCurtain curtains[4];
+    ModelVariantCurtain curtains[4];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];

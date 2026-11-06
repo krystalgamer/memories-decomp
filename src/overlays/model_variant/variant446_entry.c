@@ -28,7 +28,7 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     Variant446EntryRibbon *trail;
     ModelVariantSheetSet *panel;
     Variant446EntrySprites *sprites;
-    Variant446EntryBand *band;
+    ModelVariantBandPair *band;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
     ModelVariantFan *quad_record;

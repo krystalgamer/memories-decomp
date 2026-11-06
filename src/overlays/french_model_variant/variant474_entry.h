@@ -36,14 +36,6 @@ typedef struct {
     u8 unknown_3DC[0xD0];
 } Variant474EntryRibbon;
 
-/* One funnel: seventeen inner and outer ring points and a size. */
-typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 size;
-    s32 field_114;
-} Variant474EntryFunnel;
-
 /* One 0x98-byte sheet: four quads given by corner arrays and two colours. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
@@ -52,17 +44,11 @@ typedef struct {
     u8 unknown_94[4];
 } Variant474EntrySheet;
 
-/* The 9x17 mesh points and nine row colours. */
-typedef struct {
-    SVECTOR row[9][17];
-    u8 color[9][4];
-} Variant474EntryMesh;
-
 /* The header-474 work area shared with its helpers. */
 typedef struct {
-    Variant474EntryFunnel funnels[2];
+    ModelVariantCurtain funnels[2];
     Variant474EntryRibbon ribbon;
-    Variant474EntryMesh mesh;
+    ModelVariantMesh mesh;
     ModelVariantSpiral spirals[12];
     Variant474EntrySheet sheets[2];
     ModelVariantStreamer streamers[2];

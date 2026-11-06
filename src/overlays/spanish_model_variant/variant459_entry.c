@@ -13,7 +13,7 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant459EntryRing *ring = work->rings;
+    ModelVariantCurtain *ring = work->rings;
     ModelVariantTripleCurtain *curtain = work->curtains;
     Variant459EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
@@ -146,7 +146,7 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 ring->scale = -((n << 12) / 3);
             }
-            ring->growth = 0;
+            ring->count = 0;
         }
         for (i = 0; i < 6; i++, band++) {
             band->scale[0] = 4096;
