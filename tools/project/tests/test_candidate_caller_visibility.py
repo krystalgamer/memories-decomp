@@ -324,13 +324,19 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
-        call = "DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);"
-        swapped = "DisplayObject_SubmitPacket(PRM, origin, (GsOT *)arg1, arg, packet);"
+        call = (
+            "PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)arg1, arg,\n"
+            "        CARD_PANEL_ORIGIN_BYTES(origin));"
+        )
+        swapped = (
+            "PRM, CARD_PANEL_PACKET_BYTES(origin), (GsOT *)arg1, arg,\n"
+            "        CARD_PANEL_ORIGIN_BYTES(packet));"
+        )
         self.assertIn(call, original)
         base_diagnostics = compiler_diagnostics(path, profile, path.parent)
         self.assertNotRegex(
             base_diagnostics,
-            r"passing arg [25] of `DisplayObject_SubmitPacket' from incompatible pointer type",
+            r"(has no member named|passing arg [25] of `DisplayObject_SubmitPacket')",
         )
 
         (REPOSITORY / "tmp").mkdir(exist_ok=True)
@@ -339,17 +345,13 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             probe = scratch / "a/b/c" / path.name
             probe.parent.mkdir(parents=True)
             probe.write_text(original.replace(call, swapped, 1), encoding="utf-8")
-            diagnostics = compiler_diagnostics(probe, profile, path.parent)
+            with self.assertRaises(AssertionError) as failure:
+                compiler_diagnostics(probe, profile, path.parent)
+            diagnostics = str(failure.exception)
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
-        self.assertRegex(
-            diagnostics,
-            r"passing arg 2 of `DisplayObject_SubmitPacket' from incompatible pointer type",
-        )
-        self.assertRegex(
-            diagnostics,
-            r"passing arg 5 of `DisplayObject_SubmitPacket' from incompatible pointer type",
-        )
+        self.assertRegex(diagnostics, r"has no member named `tag'")
+        self.assertRegex(diagnostics, r"has no member named `x'")
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
         source = "src/game/model_init_slot.c"
