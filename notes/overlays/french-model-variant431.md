@@ -507,8 +507,9 @@ Cross-region review caught three Spanish fixture failures in the initial
 focused selection: Spanish431 inherits the French tests but still has
 twelve C owners and assembly at `0x17C8`. Its helper/reachability fixture
 now explicitly preserves that ownership, and the projection-binding
-expectation is regional: French uses `RotTransPers3`, Spanish retains
-`func_french_80087898` at the same address. Both regions retain the native
+expectation is regional: French uses `RotTransPers3`, and Spanish now binds
+the same `RotTransPers3` name at that address (see
+[regional resident import names](regional-resident-import-names.md)). Both regions retain the native
 band instruction checks; no test is skipped and no Spanish C, inventory,
 binding or aggregate is promoted. All 74 combined French/Spanish431,
 French/Spanish435 and progress regressions pass. This correction changes
