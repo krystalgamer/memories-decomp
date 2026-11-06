@@ -17,20 +17,7 @@
 
 #include "../../game/model_copy_slot_position.h"
 
-/* One 0x50-byte element: a ribbon, a sprite, a fan or a dome. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    u8 done, count, unknown_12[2];
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_40;
-} Model667Element;
+/* ModelVariantCountedElement here: a ribbon, a sprite, a fan or a dome. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -60,10 +47,10 @@ typedef struct {
     u8 cell_u[9], cell_v[9];
     /* Filled by Model_CopySlotPosition; the fourth halfword is unused. */
     s16 origin[4];
-    Model667Element ribbons[2];
-    Model667Element sprites[16];
-    Model667Element fans[16];
-    Model667Element domes[32];
+    ModelVariantCountedElement ribbons[2];
+    ModelVariantCountedElement sprites[16];
+    ModelVariantCountedElement fans[16];
+    ModelVariantCountedElement domes[32];
 } Model667State;
 
 extern MATRIX GsIDMATRIX;

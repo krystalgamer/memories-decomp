@@ -14,21 +14,9 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a rising bubble, a burst or a spray, placed through
- * its own coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    /* A bubble's rise: the arc height in vy and the end depth in vz. */
-    VECTOR target;
-} Model678UsElement;
+/* ModelVariantElement here: a rising bubble, a burst or a spray, placed
+ * through its own coordinate unit. In target, a bubble's rise: the arc
+ * height in vy and the end depth in vz. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -60,9 +48,9 @@ typedef struct {
     /* Spray directions, then shard directions, both rotated from the slot. */
     VECTOR spray_axes[5];
     VECTOR shard_axes[16];
-    Model678UsElement bubbles[12][2];
-    Model678UsElement bursts[12][2];
-    Model678UsElement sprays[12][2];
+    ModelVariantElement bubbles[12][2];
+    ModelVariantElement bursts[12][2];
+    ModelVariantElement sprays[12][2];
 } Model678UsState;
 
 extern MATRIX GsIDMATRIX;

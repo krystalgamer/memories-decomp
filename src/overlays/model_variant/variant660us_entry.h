@@ -14,21 +14,9 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a glow, shard, orb, band ring, ray sphere or spark
- * placed through its own coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    /* A spark's final offset from its orb; zero for the other elements. */
-    VECTOR offset;
-} Model660UsElement;
+/* ModelVariantOffsetElement here: a glow, shard, orb, band ring, ray sphere
+ * or spark placed through its own coordinate unit. In offset, a spark's
+ * final offset from its orb; zero for the other elements. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -57,13 +45,13 @@ typedef struct {
     /* Per-orb numerator and divisor of the X and Y arcs. */
     s32 arc_x[8][2];
     s32 arc_y[8][2];
-    Model660UsElement glows[2];
-    Model660UsElement shards[16][2];
-    Model660UsElement orbs[8][2];
-    Model660UsElement rings[8][2];
-    Model660UsElement rays[8][2];
+    ModelVariantOffsetElement glows[2];
+    ModelVariantOffsetElement shards[16][2];
+    ModelVariantOffsetElement orbs[8][2];
+    ModelVariantOffsetElement rings[8][2];
+    ModelVariantOffsetElement rays[8][2];
     /* Five sparks per orb and copy. */
-    Model660UsElement sparks[5][8][2];
+    ModelVariantOffsetElement sparks[5][8][2];
 } Model660UsState;
 
 extern MATRIX GsIDMATRIX;

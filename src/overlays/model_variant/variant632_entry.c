@@ -92,7 +92,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->flares[i][0].u = 0;
             work->flares[i][0].v = 16;
             setVector(&work->flares[i][0].scale, 4096, 4096, 4096);
-            setVector(&work->flares[i][0].unknown_3C, 0, 0, 0);
+            setVector(&work->flares[i][0].growth, 0, 0, 0);
             switch (command) {
             case 0:
             case 1:
@@ -129,7 +129,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->spheres[i].green = gModelVariant632_aConfigs[command].sphere_green;
             work->spheres[i].blue = gModelVariant632_aConfigs[command].sphere_blue;
             setVector(&work->spheres[i].scale, 0, 0, 0);
-            setVector(&work->spheres[i].unknown_3C, 0, 0, 0);
+            setVector(&work->spheres[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
             case 1:
@@ -153,7 +153,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->strips[i].green = gModelVariant632_aConfigs[command].green;
             work->strips[i].blue = gModelVariant632_aConfigs[command].blue;
             setVector(&work->strips[i].scale, 4096, 4096, 4096);
-            setVector(&work->strips[i].unknown_3C, 0, 0, 0);
+            setVector(&work->strips[i].growth, 0, 0, 0);
             setVector(&work->strips[i].rotation, 0, 0, 0);
             setVector(&work->strips[i].position, 0, 0, 0);
         }

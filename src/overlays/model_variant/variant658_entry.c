@@ -90,7 +90,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             work->halos[i].u = 0;
             work->halos[i].v = 0;
             setVector(&work->halos[i].scale, 4096, 4096, 4096);
-            setVector(&work->halos[i].unknown_3C, 0, 0, 0);
+            setVector(&work->halos[i].target, 0, 0, 0);
             setVector(&work->halos[i].rotation, 0, work->slot * 2048, 0);
             switch (command) {
             case 0:

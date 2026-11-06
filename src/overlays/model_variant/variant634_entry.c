@@ -78,7 +78,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             work->rings[i].u = 0;
             work->rings[i].v = 32;
             setVector(&work->rings[i].scale, 0, 0, 0);
-            setVector(&work->rings[i].unknown_3C, 0, 0, 0);
+            setVector(&work->rings[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
                 setVector(&work->rings[i].rotation, (i % 2 * 2 - 1) * (i / 8 * 0x71000 / 3 * (i % 8) / 8 + 398),
@@ -115,7 +115,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             work->sparks[i].u = 0;
             work->sparks[i].v = 0;
             setVector(&work->sparks[i].scale, 4096, 4096, 4096);
-            setVector(&work->sparks[i].unknown_3C, 0, 0, 0);
+            setVector(&work->sparks[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
                 setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT627_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -23,19 +24,9 @@ typedef struct {
     u16 duration;
 } Model627Command;
 
-/* One ring or one fan of lines: the 0x4C-byte burst record of header 647,
- * with the cone growth in growth.vy (outer edge) and growth.vz (inner edge). */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model627Ring;
+/* ModelVariantBurst here: one ring or one fan of lines: the 0x4C-byte burst
+ * record of header 647, with the cone growth in growth.vy (outer edge) and
+ * growth.vz (inner edge). */
 
 /* The work area: the command, the shared packets and vertex rings, and up to
  * ten rings and ten fans of lines. */
@@ -53,8 +44,8 @@ typedef struct {
     SVECTOR spokes[32][2];
     u8 flags[5];
     u8 ring_count, line_count, unknown_36B;
-    Model627Ring rings[10];
-    Model627Ring lines[10];
+    ModelVariantBurst rings[10];
+    ModelVariantBurst lines[10];
 } Model627State;
 
 extern MATRIX GsIDMATRIX;

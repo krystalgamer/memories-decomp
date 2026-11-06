@@ -15,19 +15,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: an animated flare, a growing ring or a spark. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model659Element;
+/* ModelVariantElement here: an animated flare, a growing ring or a spark. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -48,9 +36,9 @@ typedef struct {
     /* Flare cursor, flare timer and, in [4], the finished latch. */
     u8 flags[5];
     u8 count, unknown_1E2[2];
-    Model659Element flares[32];
-    Model659Element rings[32];
-    Model659Element sparks[32];
+    ModelVariantElement flares[32];
+    ModelVariantElement rings[32];
+    ModelVariantElement sparks[32];
 } Model659State;
 
 extern MATRIX GsIDMATRIX;

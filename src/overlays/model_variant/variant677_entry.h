@@ -15,19 +15,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a spark, a ring or a burst. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR target;
-} Model677Element;
+/* ModelVariantElement here: a spark, a ring or a burst. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -59,9 +47,9 @@ typedef struct {
     u8 unknown_447;
     VECTOR offsets[5];
     VECTOR spread[5];
-    Model677Element sparks[12][2];
-    Model677Element rings[12][2];
-    Model677Element bursts[12][2];
+    ModelVariantElement sparks[12][2];
+    ModelVariantElement rings[12][2];
+    ModelVariantElement bursts[12][2];
 } Model677State;
 
 extern MATRIX GsIDMATRIX;

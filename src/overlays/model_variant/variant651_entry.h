@@ -17,18 +17,7 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte strip record. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model651Strip;
+/* ModelVariantBurst here: a strip record. */
 
 /* The work area: the command, the slot, the shaded quad, the inner ring,
  * the dome rows, the outer ring, the flags, the dome row timers and three
@@ -50,9 +39,9 @@ typedef struct {
     u8 flags[5];
     u8 ring_count, dome_count, unknown_AFB;
     u16 row_timer[8];
-    Model651Strip rings[8];
-    Model651Strip domes[4];
-    Model651Strip cones[8];
+    ModelVariantBurst rings[8];
+    ModelVariantBurst domes[4];
+    ModelVariantBurst cones[8];
 } Model651State;
 
 extern MATRIX GsIDMATRIX;

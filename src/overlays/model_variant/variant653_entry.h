@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT653_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -27,18 +28,7 @@ typedef struct {
     u8 line_red, line_green, line_blue;
 } Model653Command;
 
-/* One 0x4C-byte effect record. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model653Strip;
+/* ModelVariantBurst here: an effect record. */
 
 /* The work area: the command, the slot, the textured quad, the cone
  * triangle, the line, the shell grid, the cone ring and the sphere grid.
@@ -68,10 +58,10 @@ typedef struct {
     u8 flags[5];
     u8 emitter_count, shell_count, cone_count;
     SVECTOR target;
-    Model653Strip emitters[1];
-    Model653Strip shells[32];
-    Model653Strip cones[8];
-    Model653Strip spheres[8];
+    ModelVariantBurst emitters[1];
+    ModelVariantBurst shells[32];
+    ModelVariantBurst cones[8];
+    ModelVariantBurst spheres[8];
 } Model653State;
 
 extern MATRIX GsIDMATRIX;

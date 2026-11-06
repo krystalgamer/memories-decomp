@@ -15,20 +15,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a flash, a ring, a burst, a dome or a spark. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    /* Flashes count their frames in rotation.vx. */
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR target;
-} Model681Element;
+/* ModelVariantElement here: a flash, a ring, a burst, a dome or a spark. In
+ * rotation, flashes count their frames in rotation.vx. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -58,11 +46,11 @@ typedef struct {
     u8 flash_count, column_count, row_count, spark_columns, spark_rows;
     u8 unknown_AA3;
     VECTOR offsets[5];
-    Model681Element flashes[2];
-    Model681Element rings[4][5];
-    Model681Element bursts[4][5];
-    Model681Element domes[4];
-    Model681Element sparks[32][2];
+    ModelVariantElement flashes[2];
+    ModelVariantElement rings[4][5];
+    ModelVariantElement bursts[4][5];
+    ModelVariantElement domes[4];
+    ModelVariantElement sparks[32][2];
 } Model681State;
 
 extern MATRIX GsIDMATRIX;

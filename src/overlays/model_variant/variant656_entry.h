@@ -15,20 +15,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a sprite, cone or dome placed through its own
- * coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model656Element;
+/* ModelVariantGrowthElement here: a sprite, cone or dome placed through its
+ * own coordinate unit. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -55,9 +43,9 @@ typedef struct {
     u8 flags[5];
     u8 count, dome_count, unknown_84F;
     MATRIX joints[16];
-    Model656Element sprites[16];
-    Model656Element cones[16];
-    Model656Element domes[16];
+    ModelVariantGrowthElement sprites[16];
+    ModelVariantGrowthElement cones[16];
+    ModelVariantGrowthElement domes[16];
 } Model656State;
 
 /* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and

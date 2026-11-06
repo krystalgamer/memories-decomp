@@ -25,19 +25,7 @@ typedef struct {
     u8 color[3];
 } Model630Command;
 
-/* One 0x4C-byte element: an orb, its fading ring or a spark sprite. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR target;
-} Model630Element;
+/* ModelVariantElement here: an orb, its fading ring or a spark sprite. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -57,9 +45,9 @@ typedef struct {
     /* The volley cursor and, in [4], the finished latch. */
     u8 flags[5];
     u8 count, rows, unknown_19F;
-    Model630Element orbs[10];
-    Model630Element rings[10];
-    Model630Element sparks[10][3];
+    ModelVariantElement orbs[10];
+    ModelVariantElement rings[10];
+    ModelVariantElement sparks[10][3];
 } Model630State;
 
 extern MATRIX GsIDMATRIX;

@@ -15,20 +15,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x50-byte element: a streak, a burst or a spark. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    u8 done, count, unknown_12[2];
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_40;
-} Model661Element;
+/* ModelVariantCountedElement here: a streak, a burst or a spark. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -52,9 +39,9 @@ typedef struct {
     SVECTOR outer[2][16];
     u8 flags[5];
     u8 rows, cols, burst_count, spark_count, unknown_2381[3];
-    Model661Element streaks[8];
-    Model661Element bursts[8];
-    Model661Element sparks[8][8];
+    ModelVariantCountedElement streaks[8];
+    ModelVariantCountedElement bursts[8];
+    ModelVariantCountedElement sparks[8][8];
 } Model661State;
 
 extern MATRIX GsIDMATRIX;

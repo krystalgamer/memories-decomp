@@ -16,19 +16,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a petal bloom or a ring. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR target;
-} Model671Element;
+/* ModelVariantElement here: a petal bloom or a ring. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -54,8 +42,8 @@ typedef struct {
     u8 flags[5];
     u8 count;
     SVECTOR origin;
-    Model671Element blooms[32];
-    Model671Element rings[32];
+    ModelVariantElement blooms[32];
+    ModelVariantElement rings[32];
 } Model671State;
 
 extern MATRIX GsIDMATRIX;

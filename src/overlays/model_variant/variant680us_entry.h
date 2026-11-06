@@ -15,19 +15,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a bloom, a ring or a burst. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR target;
-} Model680UsElement;
+/* ModelVariantElement here: a bloom, a ring or a burst. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -58,9 +46,9 @@ typedef struct {
     VECTOR cone[5][32];
     /* Five spoke offsets shared by the bursts. */
     VECTOR spokes[5];
-    Model680UsElement blooms[32];
-    Model680UsElement rings[32];
-    Model680UsElement bursts[32];
+    ModelVariantElement blooms[32];
+    ModelVariantElement rings[32];
+    ModelVariantElement bursts[32];
     ModelVariantSpark sparks[8][6];
 } Model680UsState;
 

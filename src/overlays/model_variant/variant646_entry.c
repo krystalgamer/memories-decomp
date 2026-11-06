@@ -101,7 +101,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->glows[i].u = 0;
             work->glows[i].v = 0;
             setVector(&work->glows[i].scale, 0, 0, 0);
-            setVector(&work->glows[i].unknown_3C, 0, 0, 0);
+            setVector(&work->glows[i].target, 0, 0, 0);
             setVector(&work->glows[i].rotation, 0, work->slot * 2048, 0);
             switch (command) {
             case 0:
@@ -137,7 +137,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->shards[i][0].u = 0;
             work->shards[i][0].v = 32;
             setVector(&work->shards[i][0].scale, 0, 0, 0);
-            setVector(&work->shards[i][0].unknown_3C, 0, 0, 0);
+            setVector(&work->shards[i][0].target, 0, 0, 0);
             value = (i % 2) * 2 - 1;
             /* i * 398 * sign folds into i * (sign * 398); the sign shares `value`,
              * which keeps it in retail's register. */
@@ -202,7 +202,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
                 break;
             }
             setVector(&work->orbs[i][0].scale, 2048, 2048, 2048);
-            setVector(&work->orbs[i][0].unknown_3C, 0, 0, 0);
+            setVector(&work->orbs[i][0].target, 0, 0, 0);
             setVector(&work->orbs[i][0].rotation, 0, work->slot * 2048, 0);
             switch (command) {
             case 0:
@@ -236,7 +236,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->rings[i][0].u = 0;
             work->rings[i][0].v = 32;
             setVector(&work->rings[i][0].scale, 0, 0, 0);
-            setVector(&work->rings[i][0].unknown_3C, 0, 0, 0);
+            setVector(&work->rings[i][0].target, 0, 0, 0);
             /* Grouping the slot angle with the offset keeps i * 284 + 1704 as the
              * induction value, as in retail. */
             setVector(&work->rings[i][0].rotation, i * 170 + 1190, i * 284 + (work->slot * 2048 + 1704),
@@ -273,7 +273,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             work->rays[i][0].u = 0;
             work->rays[i][0].v = 0;
             setVector(&work->rays[i][0].scale, 0, 0, 0);
-            setVector(&work->rays[i][0].unknown_3C, 0, 0, 0);
+            setVector(&work->rays[i][0].target, 0, 0, 0);
             /* Grouping the slot angle with the offset keeps i * 284 + 1704 as the
              * induction value, as in retail. */
             setVector(&work->rays[i][0].rotation, i * 170 + 850, i * 284 + (work->slot * 2048 + 1704),

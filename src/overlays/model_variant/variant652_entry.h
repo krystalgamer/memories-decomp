@@ -17,21 +17,9 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a ring, a dome, a spark or the screen flash. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    /* The sparks keep their outward drift here instead of a scale. */
-    VECTOR scale;
-    VECTOR position;
-    /* The domes keep their row count in vx; the sparks their rise. */
-    VECTOR spin;
-} Model652Element;
+/* ModelVariantSpinElement here: a ring, a dome, a spark or the screen flash.
+ * In scale, the sparks keep their outward drift here instead of a scale. In
+ * spin, the domes keep their row count in vx; the sparks their rise. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -60,10 +48,10 @@ typedef struct {
     u8 shade[3][17][9];
     s16 cursor;
     SVECTOR origin;
-    Model652Element rings[64];
-    Model652Element domes[4];
-    Model652Element sparks[3][8][4];
-    Model652Element flash;
+    ModelVariantSpinElement rings[64];
+    ModelVariantSpinElement domes[4];
+    ModelVariantSpinElement sparks[3][8][4];
+    ModelVariantSpinElement flash;
 } Model652State;
 
 extern MATRIX GsIDMATRIX;
