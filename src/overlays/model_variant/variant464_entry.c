@@ -240,7 +240,7 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
         work->outer.r = work->config->outer.r;
         work->outer.g = work->config->outer.g;
         work->outer.b = work->config->outer.b;
-        work->field_20A8 = 0;
+        work->spin = 0;
         work->field_2058 = 0;
         work->field_205C = 0;
         work->field_2064 = 0;

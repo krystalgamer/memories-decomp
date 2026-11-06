@@ -99,7 +99,7 @@ typedef struct {
     s16 field_2088, field_208A, field_208C, field_208E;
     s32 field_2090, field_2094, field_2098, field_209C;
     CVECTOR inner, outer;
-    s32 field_20A8, field_20AC, field_20B0, field_20B4, field_20B8, phase;
+    s32 spin, field_20AC, field_20B0, field_20B4, field_20B8, phase;
     s32 field_20C0, field_20C4;
     SVECTOR camera;
     s32 ambient;
