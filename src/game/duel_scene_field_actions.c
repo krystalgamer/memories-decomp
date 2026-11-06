@@ -69,6 +69,28 @@
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bConfirmFlags;
+s32 gDuel_dwFieldDimTarget;
+DisplayObject *gDuel_pActionCard;
+u8 gDuel_bAnimatedBattleRequested;
+u16 gDuel_awSideViewHeadings[2];
+DuelSideState *gDuel_pActiveSideState;
+s8 gDuelCursor_TargetColumn;
+s8 gDuelCursor_TargetRow;
+s8 gDuelCursor_Direction;
+u16 gDuel_wOutcomeFlags;
+u16 gDuel_wActionSubstate;
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u8 gDuel_bFieldActionAutoCommit;
+DisplayObject *gDuel_pActionReadyMarker;
+u8 gDuel_bWinnerSide;
+u16 gDuel_wSceneStateFlags;
+u8 gDuel_bActiveSide;
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
  * Circle, so a regional build names its own. */
 #ifndef DUEL_FIELD_ACTIONS_CONFIRM_MASK

@@ -23,6 +23,12 @@
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gDuel_bSceneSubStep;
+DuelSideState *gDuel_pActiveSideState;
+u16 gDuel_wSceneStateFlags;
+
 /* Regional value: the object's y (0x16 -> 0xE). The European build
  * (src/game/european/) defines its own. */
 #ifndef DUEL_CARD_USE_OBJECT_Y

@@ -3074,7 +3074,7 @@
     },
     {
       "address": "0x80039D64",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
       "source": "src/game/duel_effect_process_entries.c"
     },

@@ -509,7 +509,7 @@ segments:
       - [0xDCA60, .bss, game/italian/debug_menu_editor_entries]
       - [0xDCA90, bss, duel_effect_command_commons]
       - [0xDCAA8, bss, text_control_commands_commons]
-      - [0xDCB90, .bss, game/european/duel_effect_process_entries]
+      - [0xDCB8C, bss, duel_effect_process_entries_commons]
       - [0xE1050, bss, text_box_runtime_commons]
       - [0xE11F0, .bss, game/european/input_pads]
       - [0xE1258, .bss, game/spanish/mem_card]

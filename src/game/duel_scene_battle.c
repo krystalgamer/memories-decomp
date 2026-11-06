@@ -90,6 +90,29 @@
 #include "duel_grid.h"
 #include "duel_view_tween.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 *gDuel_pActiveFieldGrid;
+u16 gDuel_awSavedStatModifiers[2];
+u16 gDuel_wStepCounter;
+DuelEffectRequest *gDuelEffect_pTrackedRequest;
+DuelSideState *gDuel_pActiveSideState;
+s16 gDuel_awBattleDamage[2];
+s8 gDuel_abBattleOutcome[2];
+s8 gDuel_bPresentationCursor;
+u16 gDuel_wTrapPresentationMode;
+u16 gDuel_awSavedRecordFlags[2];
+u8 gDuel_bSceneSubStep;
+u16 gDuel_wDisplayTransitionFlags;
+DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+u8 gDuel_bActiveSide;
+u8 gDuel_bAnimatedBattleRequested;
+u8 gDuel_bSelectedTrapSlot;
+s16 gDuel_wSelectedTrapCardId;
+DisplayObject *gDuel_pLifePointsPanel;
+DisplayObject *gDuel_pTerrainIcon;
+u16 gDuel_wSceneStateFlags;
+
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define B(p, o) (*((u8 *)(p) + (o)))
