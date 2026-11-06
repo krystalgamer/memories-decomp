@@ -1,4 +1,3 @@
-#define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a
