@@ -141,10 +141,10 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
         work->field_4D0 = 0;
         work->field_4D4 = 0;
         work->progress = 0;
-        work->field_488 = 0;
+        work->spoke_scale = 0;
         work->field_48C = 0;
-        work->field_490 = 1024;
-        work->field_494 = 0;
+        work->spoke_width = 1024;
+        work->spoke_angle = 0;
         work->field_478 = 0;
         work->field_47C = 4096;
         work->field_47E = 1024;

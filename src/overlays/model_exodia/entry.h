@@ -59,7 +59,7 @@ typedef struct {
     u32 field_468;
     GsCOORDUNIT *parts[3];
     s16 field_478, field_47A, field_47C, field_47E;
-    s32 field_480, progress, field_488, field_48C, field_490, field_494;
+    s32 field_480, progress, spoke_scale, field_48C, spoke_width, spoke_angle;
     s32 field_498, field_49C, field_4A0, field_4A4, field_4A8, field_4AC;
     s32 field_4B0, field_4B4, field_4B8, field_4BC, field_4C0, field_4C4;
     s32 field_4C8, field_4CC, field_4D0, field_4D4, field_4D8;
