@@ -55,8 +55,8 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
  * the object.
  */
 extern u16 gModel_wViewDistance;
-extern u16 gModel_wViewYaw;
-extern u16 gModel_wViewPitch;
+extern s16 gModel_wViewYaw;
+extern s16 gModel_wViewPitch;
 
 /* Returns the known distance/yaw/pitch prefix at &gModel_wViewDistance. Separate
    interior labels and eight-byte snapshot views remain unchanged. */

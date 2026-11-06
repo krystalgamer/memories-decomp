@@ -155,19 +155,7 @@ segments:
     - initial_data_f60
   - - 7152
     - .rodata
-    - game/european/model_background
-  - - 7188
-    - rodata
-    - initial_data_1c14
-  - - 7384
-    - .rodata
-    - game/spanish/model_scene_controllers
-  - - 7708
-    - rodata
-    - initial_data_1e1c
-  - - 7712
-    - .rodata
-    - game/european/model_slot_control
+    - game/spanish/model
   - - 7924
     - .rodata
     - game/european/model_animation_unit
@@ -940,19 +928,7 @@ segments:
     - game/model_slot_part_animation
   - - 268152
     - c
-    - game/european/model_background
-  - - 271092
-    - c
-    - game/spanish/model_scene_controllers
-  - - 290336
-    - c
-    - game/european/model_debug_controller
-  - - 293404
-    - c
-    - game/european/model_draw_slot
-  - - 299104
-    - c
-    - game/european/model_slot_control
+    - game/spanish/model
   - - 311228
     - c
     - game/sd_apply_positional_sound
@@ -1170,11 +1146,7 @@ segments:
   - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/display_object_system]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
-  - [0x8CB18, .sdata, game/model_graphics_state]
-  - [0x8CB3C, .sdata, game/european/model_background]
-  - [0x8CB74, .sdata, game/spanish/model_scene_controllers]
-  - [0x8CB94, .sdata, game/european/model_debug_controller]
-  - [0x8CB98, .sdata, game/model_handler_diagnostics]
+  - [0x8CB18, .sdata, game/spanish/model]
   - [0x8CBE8, .sdata, game/spanish/movie_pipeline]
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
   - [0x8CC04, pad]
@@ -1200,7 +1172,7 @@ segments:
   - [0x8CFA8, .sbss, game/french/main_run_boot_sequence]
   - [0x8CFB0, .sbss, game/european/mem_card_driver]
   - [0x8CFD8, .sbss, game/european/sound_driver]
-  - [0x8CFE8, .sbss, game/spanish/model_scene_controllers]
+  - [0x8CFE8, .sbss, game/spanish/model]
   - [0x8D018, .sbss, game/spanish/movie_pipeline]
   - [0x8D038, .bss, game/french/main]
   - [0xDB970, .bss, game/european/file_set_position_table]
@@ -1220,7 +1192,7 @@ segments:
   - [0xE19C0, .bss, game/european/display_object_system]
   - [0xE4410, .bss, game/european/mem_card_driver]
   - [0xE46A8, .bss, game/european/model_keyframe_update]
-  - [0xE4858, .bss, game/spanish/model_scene_controllers]
+  - [0xE4858, .bss, game/spanish/model]
   - [0xE73D8, .bss, game/model_distance_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
   - [0xE7708, .bss, game/spanish/movie_pipeline]

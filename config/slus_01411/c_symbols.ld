@@ -10,7 +10,6 @@ gSD_szSeGroupCountFormat = 0x800107A8;
 gSD_szSmfMixerOutFormat = 0x800107DC;
 gSD_szCdMixerOutFormat = 0x800107F4;
 gSD_adwVoiceMasks = 0x80011434;
-gModel_szLoadModelTraceFormat = 0x80011594;
 gFile_szSuMrgPath = 0x800117C8;
 gModelAnim_szAssertFormat = 0x800117EC;
 gModelAnim_szSourceFileName = 0x80011814;

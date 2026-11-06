@@ -90,7 +90,7 @@ extern char gModel_szOuchTrace[8];
 extern char gModel_szTermTrace[8];
 #endif
 
-extern char gModel_szContinueTrace[];
+extern const char gModel_szContinueTrace[];
 
 /* Original sequence-handler assertion format and source-file label. */
 extern char gModelAnim_szAssertFormat[];

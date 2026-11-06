@@ -1,6 +1,9 @@
 #include "../../types.h"
-/* SLPM-86398 build of src/game/model_scene_controllers.c. */
+/* SLPM-86398 build of src/game/model.c. VERSION_JAPAN drops the debug
+ * display data and traces and selects the Japanese draw and debug paths. */
 #define VERSION_JAPAN
+/* Drops the control step's FntPrint trace. */
+#define MODEL_CONTROL_TRACE(message)
 /* The Japanese camera move record has no field_06 (model.h). */
 #define MODEL_CAMERA_MOVE_COMPACT_LAYOUT
 #include "../model.h"
@@ -16,8 +19,8 @@ s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
 s16 gModel_sTextureTintRectH;
 u16 gModel_wViewDistance;
-u16 gModel_wViewYaw;
-u16 gModel_wViewPitch;
+s16 gModel_wViewYaw;
+s16 gModel_wViewPitch;
 ModelBytes8 gModel_ViewSnapshot;
 
-#include "../model_scene_controllers.c"
+#include "../model.c"

@@ -118,7 +118,7 @@ bss_start = main_SBSS_START;
 
 /* Names inside input_pads's own storage (#2602). */
 
-/* Names inside model_scene_controllers's own storage (#2602). */
+/* Names inside the model runtime's (game/model) own storage (#2602). */
 gDisplay_abResourceBank1 = 0x801BF800;
 gText_StagedValues = 0x801D5608;
 

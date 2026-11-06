@@ -30,7 +30,7 @@ extern s16 gModel_ImageCopyRectW;
 extern s16 gModel_ImageCopyRectH;
 #define MODEL_IMAGE_COPY_RECT ((RECT *)&gModel_ImageCopyRectX)
 
-extern u8 gModel_szAnimationSoundTraceFormat[];
+extern const u8 gModel_szAnimationSoundTraceFormat[];
 
 /* Model_UpdateAnimatedBattle's per-slot action: plays animation
  * guardian_star_selection + 3 when it has frames, moves the camera towards the other slot

@@ -33,6 +33,6 @@
  * body reaches gModel_pBackgroundRecord, gModel_wPresentationBgmCommand and gModel_bPresentationPhase through %gp_rel -- so the
  * declaration is moved verbatim, array form and all, because the form is what
  * the addressing depends on. */
-extern s32 (*gModel_apfnEffectHandlers[4])(s32, s32);
+extern s32 (*const gModel_apfnEffectHandlers[4])(s32, s32);
 
 #endif

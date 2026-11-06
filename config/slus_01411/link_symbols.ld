@@ -139,7 +139,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/mem_card_driver's small data (#2602). */
 
-/* Other names for game/model_slot_control's small data (#2602). */
+/* Other names for game/model's small data (former model_slot_control part) (#2602). */
 
 /* Other names for game/model_slot_support's small data (#2602). */
 
@@ -149,9 +149,9 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/ai_script_vm's small data (#2602). */
 
-/* Other names for game/model_scene_controllers's small data (#2602). */
+/* Other names for game/model's small data (former model_scene_controllers part) (#2602). */
 
 /* Other names for game/input_pads's small data (#2602). */
 
-/* Other names for game/model_scene_controllers's small data (#2602). */
+/* Other names for game/model's small data (former model_scene_controllers part) (#2602). */
 initialized_data_start = D_800906E0;
