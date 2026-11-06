@@ -308,7 +308,7 @@ Two of them take a European arm in the shared source:
 The middle range (`0x80091E20`-`0x800925F4`) groups the same tables
 differently from the North American build, but ten of its units now own
 their tables there:
-- `build_deck_update`: its European table ends with the divisor ladder
+- `build_deck_input`: its European table ends with the divisor ladder
   (`BUILD_DECK_DIVISOR_LADDER_ONLY`).
 - `duel_effect_update_object_layout`: an 800-entry pool, split
   280/220/220/80.

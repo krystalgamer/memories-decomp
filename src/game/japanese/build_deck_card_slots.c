@@ -1,4 +1,5 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#include "../card_list_sort.c"
+
+#include "../build_deck_card_slots.c"

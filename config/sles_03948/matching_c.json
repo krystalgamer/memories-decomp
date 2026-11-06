@@ -2285,31 +2285,31 @@
       "address": "0x80032078",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/european/card_list_text_boxes.c"
+      "source": "src/game/european/build_deck_card_slots.c"
     },
     {
       "address": "0x800321D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/card_list_text_boxes.c"
+      "source": "src/game/european/build_deck_card_slots.c"
     },
     {
       "address": "0x80032230",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/european/build_deck_card_counts.c"
+      "source": "src/game/european/build_deck_card_slots.c"
     },
     {
       "address": "0x800322B8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/european/build_deck_card_counts.c"
+      "source": "src/game/european/build_deck_card_slots.c"
     },
     {
       "address": "0x80032350",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/european/build_deck_card_counts.c"
+      "source": "src/game/european/build_deck_card_slots.c"
     },
     {
       "address": "0x800323F0",
@@ -2357,79 +2357,79 @@
       "address": "0x8003305C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/european/card_list_sort.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x800330D0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/european/card_list_sort.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033144",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x474",
-      "source": "src/game/european/card_list_sort.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x800335B8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x448",
-      "source": "src/game/european/card_list_sort.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033A00",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/build_deck_pane_input.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033A3C",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1B4",
-      "source": "src/game/european/build_deck_pane_input.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033BF0",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F4",
-      "source": "src/game/european/build_deck_pane_input.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033DE4",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
-      "source": "src/game/european/build_deck_pane_input.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033E98",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/european/build_deck_update.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80033ED0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x218",
-      "source": "src/game/european/build_deck_update.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x800340E8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
-      "source": "src/game/european/build_deck_update.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x80034190",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
-      "source": "src/game/duel_effect_mode_7.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x800341A8",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/duel_effect_mode_7.c"
+      "source": "src/game/european/build_deck_input.c"
     },
     {
       "address": "0x800341C4",

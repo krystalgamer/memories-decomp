@@ -110,7 +110,7 @@ segments:
     - initial_data_aac
   - - 2736
     - .rodata
-    - game/european/card_list_sort
+    - game/european/build_deck_input
   - - 2772
     - .rodata
     - game/european/free_duel_load_package_stage
@@ -487,10 +487,7 @@ segments:
     - game/european/build_deck_draw_card_list_page
   - - 141432
     - c
-    - game/european/card_list_text_boxes
-  - - 141872
-    - c
-    - game/european/build_deck_card_counts
+    - game/european/build_deck_card_slots
   - - 142320
     - c
     - game/build_deck_recount_deck_cards
@@ -505,16 +502,7 @@ segments:
     - game/european/build_deck_init_screen
   - - 145500
     - c
-    - game/european/card_list_sort
-  - - 147968
-    - c
-    - game/european/build_deck_pane_input
-  - - 149144
-    - c
-    - game/european/build_deck_update
-  - - 149904
-    - c
-    - game/duel_effect_mode_7
+    - game/european/build_deck_input
   - - 149956
     - c
     - game/card_list_update_sort_mode
@@ -1059,7 +1047,7 @@ segments:
   - [0x828CC, .data, game/french/debug_menu_editor_entries]
   - [0x829B0, .data, game/european/debug_menu_update]
   - [0x82A14, .data, game/european/build_deck_draw_card_list_page]
-  - [0x82A34, .data, game/european/build_deck_update]
+  - [0x82A34, .data, game/european/build_deck_input]
   - [0x82A64, .data, game/european/duel_effect_update_object_layout]
   - [0x82A70, .data, game/european/text_box_build_step]
   - [0x82AB8, .data, game/european/duel_effect_command_table]
