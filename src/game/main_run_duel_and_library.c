@@ -19,7 +19,6 @@
 #include "../game/library_runtime.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
-#define GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 
@@ -77,7 +76,7 @@ void Main_RunDuel(void)
         break;
     case 2:
     {
-        u16 *table = gDuel_wCampaignSceneOnWin;
+        u16 *table = &gDuel_wCampaignSceneOnWin;
         u8 next;
 
         Fade_WaitOut();

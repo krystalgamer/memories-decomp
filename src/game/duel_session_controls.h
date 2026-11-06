@@ -20,14 +20,10 @@ extern u8 gDuel_bPostDuelMainMode;
 
 extern u8 gDuel_bResumeFromAnimatedBattle;
 
-/* The win/loss scene pair. Main_RunDuelAndLibrary indexes it by
- * gDuel_bPlayerLost through an absolute address, which cc1psx builds only for
- * an unknown-bound array; the scalar writers reach it gp-relative. */
-#ifdef GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR
-extern u16 gDuel_wCampaignSceneOnWin[];
-#else
+/* The win/loss scene pair. Main_StartDuel and Text_StartCampaignDuel store
+ * the two halfwords separately; Main_RunDuelAndLibrary indexes the pair by
+ * gDuel_bPlayerLost from the address of the first. */
 extern u16 gDuel_wCampaignSceneOnWin;
-#endif
 extern u16 gDuel_wCampaignSceneOnLoss;
 
 /* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a

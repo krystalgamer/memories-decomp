@@ -8,7 +8,7 @@ session structure: PAL order and gaps differ from NA.
 | --- | --- | --- |
 | `D_8009B368` | `gDuel_bPostDuelMainMode` | `u8`, plain / `.data` |
 | `D_8009B369` | `gDuel_bResumeFromAnimatedBattle` | `u8`, plain / `.data` |
-| `D_8009B370` | `gDuel_wCampaignSceneOnWin` | `u16`, or incomplete `u16[]` for the indexed read |
+| `D_8009B370` | `gDuel_wCampaignSceneOnWin` | `u16`; Main_RunDuelAndLibrary indexes the pair from its address |
 | `D_8009B372` | `gDuel_wCampaignSceneOnLoss` | independent `u16` |
 | `D_8009B374` | `gDuel_wAnimatedBattleBgmCommand` | `u16`, plain / `.data` |
 
