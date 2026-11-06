@@ -45,9 +45,12 @@ extern s32 gModel_PartMaskAddress;
 extern u8 gModel_bActiveSlotIndex;
 extern u8 gModelDebug_bSelectedDigit;
 
-/* Active graphics buffer, bounded frame step, and frame-step override. */
+/* Active graphics buffer, bounded frame step, and frame-step override.
+ * gGraphics_bFrameStep is volatile, as model.c defines it; Graphics_SyncFrame's
+ * store and Model_GetFrameStep's two reads are non-volatile in retail, so
+ * those three accesses cast at the use. */
 extern u8 gGraphics_bPacketBufferIndex;
-extern u8 gGraphics_bFrameStep;
+extern volatile u8 gGraphics_bFrameStep;
 
 /* A4-A7 are four separate bytes (graphics_frame_controls.h): the frame-step
  * override gGraphics_FrameStepControl, unclassified D_8009AFA5, D_8009AFA6

@@ -246,7 +246,7 @@ void Graphics_SyncFrame(void)
     }
     gGraphics_nBaseFrameStep = gGraphics_bExtraFrameStep + 1;
 
-    gGraphics_bFrameStep = gGraphics_FrameStepControl ? 2 : gGraphics_nBaseFrameStep;
+    *(u8 *)&gGraphics_bFrameStep = gGraphics_FrameStepControl ? 2 : gGraphics_nBaseFrameStep;
 
     gGraphics_FrameStepControl = 0;
     gGraphics_dwSyncVBlankCounter = -1;
