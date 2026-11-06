@@ -2115,43 +2115,43 @@
     },
     {
       "address": "0x8003031C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD0",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800303EC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x8003048C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800304D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x524",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800309F4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE8",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030ADC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1E0",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030CBC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x23C",
       "source": "src/game/french/debug_menu_editor_entries.c"
     },

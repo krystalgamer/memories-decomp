@@ -1161,7 +1161,7 @@ segments:
   - {start: 0x8CE0A, type: bin, name: resident_tail_8009c60a, linker_section_order: .sbss}
   - [0x8CE10, .sbss, game/european/script_command_busy]
   - [0x8CE14, sbss, script_op_load_image_scene_commons]
-  - [0x8CE50, .sbss, game/french/debug_menu_editor_entries]
+  - [0x8CE50, sbss, debug_menu_editor_entries_commons]
   - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
   - [0x8CE88, .sbss, game/european/sorted_entry_render]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
@@ -1182,7 +1182,7 @@ segments:
   - [0xDBD70, .bss, game/library_create_grid_section_sprites]
   - [0xDC910, .bss, game/european/duel_effect_object_pool]
   - [0xDCA10, bss, main_run_campaign_commons]
-  - [0xDCA60, .bss, game/french/debug_menu_editor_entries]
+  - [0xDCA60, bss, debug_menu_editor_entries_bss_commons]
   - [0xDCA90, bss, duel_effect_command_commons]
   - [0xDCAA8, bss, text_control_commands_commons]
   - [0xDCB8C, bss, duel_effect_process_entries_commons]

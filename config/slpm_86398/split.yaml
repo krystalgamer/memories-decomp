@@ -467,7 +467,7 @@ segments:
       - [0x8b96c, .sbss, game/script_command_busy]
       - [0x8b970, sbss, script_op_load_image_scene_commons]
       - [0x8b99c, .sbss, game/script_op_load_image_scene]
-      - [0x8b9a0, .sbss, game/japanese/debug_menu_editor_entries]
+      - [0x8b9a0, sbss, debug_menu_editor_entries_commons]
       - [0x8b9e8, .sbss, game/japanese/build_deck_draw_card_list_page]
       - [0x8b9f0, .sbss, game/sorted_entry_render]
       - {start: 0x8ba08, type: bin, name: bss_image_8009b208, linker_section_order: .sbss}
@@ -489,7 +489,7 @@ segments:
       - [0xda8c8, .bss, game/library_create_grid_section_sprites]
       - [0xdb468, .bss, game/japanese/duel_effect_object_pool]
       - [0xdb568, bss, main_run_campaign_commons]
-      - [0xdb5b8, .bss, game/japanese/debug_menu_editor_entries]
+      - [0xdb5b8, bss, debug_menu_editor_entries_bss_commons]
       - [0xdb5e8, bss, duel_effect_entry_occupancy_commons]
       - [0xdb6d8, bss, duel_effect_command_commons]
       - [0xdb6f0, bss, text_control_commands_commons]
