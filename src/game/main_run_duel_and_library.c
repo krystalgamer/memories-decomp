@@ -38,6 +38,10 @@ u8 gMain_bActiveModeState;
 #include "../game/main_mode_state.h"
 #include "build_deck_draw_card_list_page_data.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bModeRunnerStep;
+
 void Main_RunDuel(void)
 {
     u8 value = gMain_bActiveModeState;

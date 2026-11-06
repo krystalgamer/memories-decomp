@@ -19,6 +19,10 @@ SceneScriptSlot gSceneScript_Slots[3];
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bActiveModeState;
+
 void Main_RunCampaign(void) {
     u8 flags = gMain_bActiveModeState;
 
