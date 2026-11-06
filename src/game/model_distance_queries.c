@@ -12,7 +12,7 @@
 GsCOORDUNIT gModel_CameraCoordinateUnit;
 GsRVIEW2 gModel_RView;
 GsRVIEW2 gModel_SavedRefView;
-static u8 D_800F5730[0x20];
+static PADDING_VARIABLE(0x20);
 
 #include "model.h"
 #include "camera_view.h"

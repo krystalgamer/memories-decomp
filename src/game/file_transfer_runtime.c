@@ -50,7 +50,7 @@ s32 D_8009B12C;
 s32 gFile_CommandRetryCount;
 u32 gFile_dwCancelRequestState;
 s32 gFile_ReadyDataEventCount;
-static s32 D_8009B13C;
+static PADDING_VARIABLE(4);
 #else
 /* The regional wrapper declared these in its own address order. */
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
@@ -117,7 +117,7 @@ u32 _stacksize = 0x00002000;
 FileTransferDescriptor *gFile_ReadyTransferDescriptor
     = &gFile_PrimaryTransferDescriptor;
 
-static u32 sData8009AF10_Pad1C = 0;
+static PADDING_VARIABLE(4) = {0};
 
 #include "file_transfer.h"
 #include "file_constants.h"

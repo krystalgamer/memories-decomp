@@ -16,15 +16,15 @@
  * address order ahead of the headers that declare it (#2602). The startup,
  * frame and service units sit beside this one in text and declare these
  * through their headers. */
-static u32 D_8009B090;
-static u32 D_8009B094;
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
 u16 gGraphics_wFlags;
 volatile s32 gMain_dwFrameCounter;
 u8 gGraphics_abOrderingTableLengths[4];
 s32 D_8009B0A4;
 u8 gGraphics_bSkipDisplaySwap;
-static u8 D_8009B0A9;
-static u16 D_8009B0AA;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
 u8 gGraphics_bActiveBuffer;
 u8 gGraphics_bDither;
 s32 D_8009B0B0;
@@ -33,7 +33,7 @@ void (*gMain_pfnExtraFrameService)(void);
 s32 D_8009B0BC;
 volatile u8 gGraphics_bSyncVBlankTarget;
 u8 gGraphics_bExtraFrameStep;
-static u8 D_8009B0C2;
+static PADDING_VARIABLE(1);
 u8 gMain_bVBlankSoundPending;
 volatile s32 gSaveData_dwVBlankCounter;
 volatile s32 gGraphics_dwSyncVBlankCounter;
@@ -42,7 +42,7 @@ u8 gGraphics_bClearBackground;
 u8 D_8009B0D1;
 s32 D_8009B0D4;
 s32 gGraphics_nBaseFrameStep;
-static u32 D_8009B0DC;
+static PADDING_VARIABLE(4);
 #else
 extern u16 gGraphics_wFlags;
 extern volatile s32 gMain_dwFrameCounter;
@@ -92,11 +92,11 @@ u8 gMain_bSoundVSyncBusy = 0;
 GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
 u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
 DISPENV gGraphics_DispEnv;
-static u8 D_800E9D40[0x30];
+static PADDING_VARIABLE(0x30);
 RECT gGraphics_aImageTransferRects[2];
-static u32 D_800E9D80[4];
+static PADDING_VARIABLE(16);
 GsOT *gGraphics_apOrderingTables[4];
-static u32 D_800E9DA0[4];
+static PADDING_VARIABLE(16);
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 #else

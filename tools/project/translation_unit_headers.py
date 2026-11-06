@@ -29,6 +29,7 @@ IGNORED_NAMES = frozenset(
         "__asm",
         "__asm__",
         "__attribute__",
+        "PADDING_VARIABLE",
         "section",
         "void",
         "char",

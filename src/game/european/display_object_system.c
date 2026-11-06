@@ -11,9 +11,9 @@ extern struct DisplayObject gDisplayObject_aPool[];
 /* This build's own zero-initialized storage at 0x8009C374-0x8009C388 (#2602); its
  * layout differs from the North American block the shared source defines. */
 s32 gDisplayObject_fRenderRetry;
-u32 D_8009C378_sles_03947;
-u32 D_8009C37C_sles_03947;
-u32 D_8009C380_sles_03947;
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
 u16 gDisplayObject_wUnlinkCount;
 u16 gDisplayObject_wAcquireCount;
 

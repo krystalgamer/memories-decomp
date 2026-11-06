@@ -7,7 +7,7 @@
 struct SDSecondaryState *gSD_pSecondaryState;
 struct SDValue *g_SDValue;
 struct FileRequestSlot *gSD_pFileRequest;
-static u32 D_8009B464;
+static PADDING_VARIABLE(4);
 #else
 extern struct SDSecondaryState *gSD_pSecondaryState;
 extern struct SDValue *g_SDValue;

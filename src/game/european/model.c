@@ -29,17 +29,17 @@ s16 gModel_sTextureTintRectH;
 u16 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
-u16 D_8009C3EE_sles_03947;
+static PADDING_VARIABLE(2);
 ModelBytes8 gModel_ViewSnapshot;
 s16 gModel_awSlotModelIds[3];
 u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
-u16 D_8009C402_sles_03947;
-u32 D_8009C404_sles_03947;
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
 u32 D_8009C408;
-u32 D_8009C40C_sles_03947;
-u32 D_8009C410_sles_03947;
-u32 D_8009C414_sles_03947;
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
 #endif
 
 /* SLES-03947..51 build of src/game/model.c. VERSION_EUROPE selects the

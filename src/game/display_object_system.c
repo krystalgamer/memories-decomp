@@ -18,7 +18,7 @@ extern s16 gDisplayObject_awListKeys[];
  * address order ahead of the headers that declare it (#2602). */
 u16 gDisplayObject_wUnlinkCount;
 u16 gDisplayObject_wAcquireCount;
-static u32 D_8009B414;
+static PADDING_VARIABLE(4);
 static u32 D_8009B418;
 static u32 D_8009B41C;
 static u32 D_8009B420;

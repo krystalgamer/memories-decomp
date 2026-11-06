@@ -4,7 +4,7 @@
 /* Zero-initialized storage this unit owns at 0x8009B27C-0x8009B280, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gScript_wCommandWord;
-static u16 D_8009B27E;
+static PADDING_VARIABLE(2);
 #else
 extern u16 gScript_wCommandWord;
 #endif
