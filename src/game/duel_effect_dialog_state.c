@@ -6,14 +6,14 @@
 u16 gDuel_wEffectDialogTextID;
 u16 gDuel_wViewerCardID;
 u8 gDuel_bEffectHandlerFlags;
-static u8 D_8009B249;
+static PADDING_VARIABLE(1);
 u8 gDuel_bActiveEffectState;
 u8 gDuel_bCardViewerYOffset;
 struct DisplayObject *gDuel_pCardViewerCard;
 struct DuelEffectChannel *gDuel_pCardViewerTextBox;
 u8 gDuel_bEffectState;
-static u8 D_8009B255;
-static u16 D_8009B256;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
 #else
 extern u16 gDuel_wEffectDialogTextID;
 extern u16 gDuel_wViewerCardID;

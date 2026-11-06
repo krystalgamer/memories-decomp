@@ -8,10 +8,10 @@
 u8 gDuel_bEffectRequestStatus;
 DuelEffectRequest *gDuelEffect_pActiveRequest;
 u8 gDuelEffect_bRequestFinished;
-u8 D_8009C1E1_sles_03947;
-u16 D_8009C1E2_sles_03947;
-u32 D_8009C1E4_sles_03947;
-u16 D_8009C1E8_sles_03947;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(2);
 
 /* The European builds compile the shared unit through this wrapper so that
  * they can give it their own zero-initialized storage (#2602). */

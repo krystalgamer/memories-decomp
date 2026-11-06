@@ -15,8 +15,8 @@ s16 gGraphics_sViewportY;
 u8 gFade_bTargetBlue;
 u8 gFade_bTargetGreen;
 u8 gFade_bTargetRed;
-static u8 D_8009B14D;
-static u16 D_8009B14E;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
 #else
 extern u8 gFade_bKeepOverlayDepth;
 extern u8 gFade_bOrderingTableMode;

@@ -5,7 +5,7 @@
 struct SDSecondaryState *gSD_pSecondaryState;
 struct FileRequestSlot *gSD_pFileRequest;
 struct SDValue *g_SDValue;
-u32 D_8009C3C4_sles_03947;
+static PADDING_VARIABLE(4);
 
 /* The European builds compile the shared unit through this wrapper so that
  * they can give it their own zero-initialized storage (#2602). */

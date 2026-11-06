@@ -19,7 +19,7 @@ u16 gScript_EventState;
 u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;
 u16 gScript_ViewportTargetY;
-static u32 D_8009B2AC;
+static PADDING_VARIABLE(4);
 #else
 extern struct DisplayObject *gScript_TransitionObject;
 extern s32 gScript_ViewportAccumulatorX;

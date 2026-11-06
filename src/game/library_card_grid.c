@@ -7,8 +7,8 @@
  * address order ahead of the headers that declare it (#2602). */
 s8 gCardGrid_bCursorColumn;
 s8 gCardGrid_bCursorRow;
-static u16 D_8009B25A;
-static u32 D_8009B25C;
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
 
 #include "text_box_blocking_build.h"
 #include "graphics_frame.h"

@@ -15,12 +15,12 @@ volatile u16 gInput_awPadHeld[2];
 u32 gInput_dwDeferredRepeat;
 u32 gInput_dwDeferredPressed;
 u8 gInput_bRepeatDelay;
-u8 D_8009C2FD_sles_03947;
+static PADDING_VARIABLE(1);
 u16 gInput_wPad1HeldBackup;
 u32 gInput_dwPreviousHeld;
 u8 gInput_bRepeatInterval;
-u8 D_8009C305_sles_03947;
-u16 D_8009C306_sles_03947;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
 volatile u16 gInput_awPadRepeat[2];
 volatile u16 gInput_awPadPressed[2];
 

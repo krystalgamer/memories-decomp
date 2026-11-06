@@ -16,12 +16,12 @@ u8 gGraphics_bClearRed;
 u8 gFade_bTargetBlue;
 u8 gFade_bTargetGreen;
 u8 gFade_bTargetRed;
-u8 D_8009C09F_sles_03947;
+static PADDING_VARIABLE(1);
 s16 gGraphics_sViewportX;
 s16 gGraphics_sViewportY;
 u8 gFade_bKeepOverlayDepth;
 u8 gFade_bWhiteLatch;
-u16 D_8009C0A6_sles_03947;
+static PADDING_VARIABLE(2);
 u16 gDuel_wAiSelectionStepDelay;
 s16 gDuel_wViewTweenDistanceTarget;
 

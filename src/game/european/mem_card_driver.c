@@ -12,10 +12,10 @@ extern struct DIRENTRY gMemCard_aDirEntries[];
  * layout differs from the North American block the shared source defines. */
 u8 gMemCard_bChannel;
 u8 gMemCard_bRetries;
-u16 D_8009C392_sles_03947;
+static PADDING_VARIABLE(2);
 s32 gMemCard_nDirEntries;
 u8 gMemCard_bLoadStep;
-u8 D_8009C399_sles_03947;
+static PADDING_VARIABLE(1);
 u16 gMemCard_wRequestOffset;
 volatile s32 gMemCard_nIOResult;
 struct DIRENTRY *gMemCard_pDirEntries;
@@ -25,8 +25,8 @@ s8 gMemCard_bRequest;
 u8 gMemCard_bDirFlags;
 u8 gMemCard_bTransferRetriesRemaining;
 u8 gMemCard_bRequestStep;
-u16 D_8009C3AE_sles_03947;
-u32 D_8009C3B0_sles_03947;
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
 s32 gMemCard_nFreeBlocks;
 
 /* SLES-03947 build of src/game/mem_card_driver.c. The US source is included

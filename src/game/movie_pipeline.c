@@ -15,8 +15,8 @@ CdlLOC gMovie_StreamLoc;
 u8 D_8009B4A0;
 u8 D_8009B4A1;
 u8 D_8009B4A2;
-static u8 D_8009B4A3;
-static u32 D_8009B4A4;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(4);
 #else
 extern u8 *gMovie_pWorkArea;
 extern CdlLOC gMovie_StreamLoc;

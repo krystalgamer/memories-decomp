@@ -6,9 +6,9 @@
 u32 gSD_dwCurrentBgmCommand;
 u32 gSD_dwSavedBgmCommand;
 s8 gSD_bOutputType;
-static u8 D_8009B409;
-static u16 D_8009B40A;
-static u32 D_8009B40C;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
 #else
 extern u32 gSD_dwCurrentBgmCommand;
 extern u32 gSD_dwSavedBgmCommand;

@@ -30,7 +30,7 @@ u16 gMemCard_wRequestOffset;
 u8 gMemCard_bDirFlags;
 u8 gMemCard_bRequestStep;
 volatile s32 gMemCard_nIOResult;
-static u32 D_8009B454;
+static PADDING_VARIABLE(4);
 #else
 extern s32 gMemCard_pRequestBuf;
 extern u16 gMemCard_wRequestSize;

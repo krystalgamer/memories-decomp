@@ -74,8 +74,8 @@ ModelBytes8 gModel_ViewSnapshot;
 s16 gModel_awSlotModelIds[3];
 u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
-static u16 D_8009B492;
-static u32 D_8009B494;
+static PADDING_VARIABLE(2);
+static PADDING_VARIABLE(4);
 #else
 extern s16 gModel_ImageCopyRectX;
 extern s16 gModel_ImageCopyRectY;

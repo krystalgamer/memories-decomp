@@ -9,12 +9,12 @@ CdlLOC gMovie_StreamLoc;
 u8 D_8009B4A0;
 u8 D_8009B4A1;
 u8 D_8009B4A2;
-static u8 D_8009C823_sles_03948;
-u32 D_8009C824_sles_03948;
+static PADDING_VARIABLE(1);
+static PADDING_VARIABLE(4);
 u32 D_8009C828;
-u32 D_8009C82C_sles_03948;
-u32 D_8009C830_sles_03948;
-u32 D_8009C834_sles_03948;
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
+static PADDING_VARIABLE(4);
 
 /* SLES-03948 to SLES-03951 build of src/game/movie_pipeline.c, which
  * gives these builds their own zero-initialized storage (#2602). */

@@ -7,11 +7,11 @@ u16 gDuel_wEffectDialogTextID;
 u8 gDuel_bEffectState;
 u8 gDuel_bCardViewerYOffset;
 u8 gDuel_bEffectHandlerFlags;
-u8 D_8009C1BF_sles_03947;
+static PADDING_VARIABLE(1);
 struct DisplayObject *gDuel_pCardViewerCard;
-u32 D_8009C1C4_sles_03947;
+static PADDING_VARIABLE(4);
 struct DuelEffectChannel *gDuel_pCardViewerTextBox;
-u32 D_8009C1CC_sles_03947;
+static PADDING_VARIABLE(4);
 
 #define DUEL_EFFECT_DIALOG_DONE_FLAG 0x2000
 #define DUEL_EFFECT_DIALOG_CHOICE_FLAG 0x20
