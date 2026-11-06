@@ -179,7 +179,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
                           (u32)rsin(angle) >> 3);
             }
             ribbon->progress = -(k * 2048) / 3;
-            ribbon->field_19C = 0;
+            ribbon->cycles = 0;
         }
         for (i = 0, base = 0; i < 4; i++, ring++, base += 256) {
             for (k = 0, m = base; k < 8; m += 512, k++) {
@@ -197,19 +197,19 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
             ring->state = 0;
         }
         for (k = 2; k >= 0; k--) {
-            work->field_1558[k] = 0;
+            work->cone_opening[k] = 0;
         }
-        work->field_1554 = 255;
+        work->brightness = 255;
         work->field_157A = 1024;
-        work->field_1550 = 0;
-        work->field_1564 = 0;
-        work->field_1566 = 0;
+        work->scale = 0;
+        work->ray_polar_angle = 0;
+        work->ray_azimuth = 0;
         work->field_1568 = 0;
-        work->field_156C = 0;
+        work->ray_radius = 0;
         work->field_156A = 0;
         work->field_156E = 0;
-        work->field_1578 = 0;
-        work->field_157C = 0;
+        work->travel = 0;
+        work->spin = 0;
         work->field_1570 = 0;
         work->field_1572 = 0;
         work->field_1574 = 0;
