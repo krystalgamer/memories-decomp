@@ -24,7 +24,6 @@
     "src/game/model_state_getters.c",
     "src/game/script_op_duel_result.c",
     "src/game/script_op_show_dialog.c",
-    "src/game/spanish/debug_menu_editor_entries.c",
-    "src/game/spanish/duel_result_runtime.c"
+    "src/game/spanish/debug_menu_editor_entries.c"
   ]
 }

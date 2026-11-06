@@ -81,6 +81,9 @@ u16 gDuel_wSceneStateFlags;
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
 #include "duel_result_localized_sprites.h"
 
+/* The localized builds also read the outro sprite count through $gp. */
+s32 gDuelResult_nOutroSpriteCount;
+
 #define DUEL_RESULT_OUTRO_SPRITE_LIMIT 10
 #define DUEL_RESULT_OUTRO_ACTIVE_COUNT gDuelResult_nOutroSpriteCount
 #else
