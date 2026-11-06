@@ -7,7 +7,6 @@
 #include "../types.h"
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#define D_8009B118_IS_POINTER_IN_DATA
 
 #include "model_record_tables.h"
 #include "model_background.h"

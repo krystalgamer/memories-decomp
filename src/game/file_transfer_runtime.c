@@ -41,7 +41,7 @@ void (*gFile_BeforePrimaryRequestCallback)(void);
 u8 D_8009B110;
 volatile u16 gFile_wTransferStepFlags;
 u8 gFile_ReadyEventCount;
-s32 gFile_TransferBufferBase;
+u8 *gFile_TransferBufferBase;
 CdlFILTER gFile_FilterParams;
 void (*gFile_RangePauseCallback)(void);
 volatile u16 gFile_ServiceCallGate;
@@ -69,7 +69,6 @@ extern void (*gFile_BeforePrimaryRequestCallback)(void);
 extern u8 D_8009B110;
 extern volatile u16 gFile_wTransferStepFlags;
 extern u8 gFile_ReadyEventCount;
-extern s32 gFile_TransferBufferBase;
 extern CdlFILTER gFile_FilterParams;
 extern void (*gFile_RangePauseCallback)(void);
 extern volatile u16 gFile_ServiceCallGate;
@@ -127,7 +126,7 @@ static u32 sData8009AF10_Pad1C = 0;
 
 void File_InitTransferState(s32 value)
 {
-    gFile_TransferBufferBase = value;
+    gFile_TransferBufferBase = (u8 *)value;
     D_8009B110 = 0;
     D_8009B108 = 0;
     gFile_dwTransferState = 0;
@@ -212,8 +211,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
                 transfer->field_30.h.counter = target;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
-                transfer->sector_destination = gFile_TransferBufferBase;
-                transfer->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+                transfer->sector_destination = (s32)gFile_TransferBufferBase;
+                transfer->alternate_sector_destination = (s32)gFile_TransferBufferBase + FILE_SECTOR_SIZE;
             }
         }
     }
@@ -786,7 +785,7 @@ full:
         goto reduced;
     }
     descriptor->transfer_mode = 3;
-    sector_buffer = gFile_TransferBufferBase;
+    sector_buffer = (s32)gFile_TransferBufferBase;
     descriptor->sector_destination = sector_buffer;
     descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
     descriptor->field_30.word = request->spu_destination;

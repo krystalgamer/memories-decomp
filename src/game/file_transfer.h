@@ -333,26 +333,12 @@ extern u8 D_8009B110;
 extern s32 D_8009B12C;
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
- * immediately after it, so no element can hide inside. Fifteen files declared
- * it identically as `extern s32 gFile_TransferBufferBase;`, which is why it moved to unmatched.h and now here, beside its definer
- * unchanged - there is no per-consumer spelling to preserve.
- *
- * It holds an address despite the s32 spelling:
- * campaign_map_load_package_stage.c passes it to LoadImage2 as (u32 *) and
- * also adds 0x800 to it. The s32 is left as-is rather than retyped, which is
- * a separate question from centralizing it.
- *
- * Six consumers do NOT take the plain arm, and both reasons are load bearing.
- * Five carry section(".data"), which is the -G8 lever that keeps the address
- * being rebuilt per access instead of resolved gp-relative, and
- * duel_load_package_stage.c additionally spells it u8 * because it does
- * pointer arithmetic on it. Those two arms are selected by
- * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
- * input.h and sound.h use, rather than by re-declaring the symbol locally. */
-#if defined(D_8009B118_IS_POINTER_IN_DATA)
+ * immediately after it, so no element can hide inside. File_InitTransferState
+ * stores the transfer buffer's address into it; campaign_map_load_package_stage.c
+ * passes it to LoadImage2 as (u32 *) and adds 0x800 to it, and the PAL options
+ * overlay reads and writes its first byte. It is declared as the address it
+ * holds; every consumer, including file_transfer_runtime.c's integer uses
+ * (cast at the site), builds byte-identically with this one declaration. */
 extern u8 *gFile_TransferBufferBase;
-#else
-extern s32 gFile_TransferBufferBase;
-#endif
 
 #endif
