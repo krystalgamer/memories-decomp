@@ -375,9 +375,6 @@ void Duel_ProjectCardSlotScreenPositions(void)
 {
     ProjectedPair p;
     SVECTOR *scratch;
-    ProjectedPair *projected;
-    ScreenPair *out;
-    u16 *source;
     s32 i;
 
     SetGeomScreen(gViewState_Current.projection);
@@ -385,31 +382,26 @@ void Duel_ProjectCardSlotScreenPositions(void)
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     scratch = (SVECTOR *)0x1F8003E0;
     i = 0;
-    projected = &p;
-    out = gDuel_aCardSlotScreenPositions;
-    source = gDuel_aCardSlotGroundPositions;
     do {
         s32 y;
-        u16 x = source[0];
+        u16 x = gDuel_aCardSlotGroundPositions[i].x;
 
         scratch->vy = 0;
         scratch->vx = x;
-        scratch->vz = source[1];
+        scratch->vz = (u16)gDuel_aCardSlotGroundPositions[i].y;
         gte_ldv0(scratch);
         gte_rtps();
-        gte_stsxy(projected);
-        out->x = p.x - 0x1A;
+        gte_stsxy(&p);
+        gDuel_aCardSlotScreenPositions[i].x = p.x - 0x1A;
         y = p.y;
-        out->y = y - 0x1E;
+        gDuel_aCardSlotScreenPositions[i].y = y - 0x1E;
         if (gDuel_bActiveSide != 0) {
             if (i < DUEL_CARD_SIDE_RECORD_COUNT) {
-                out->y = y - 0x1D;
+                gDuel_aCardSlotScreenPositions[i].y = y - 0x1D;
             }
         } else if (i >= DUEL_CARD_SIDE_RECORD_COUNT) {
-            out->y = y - 0x1D;
+            gDuel_aCardSlotScreenPositions[i].y = y - 0x1D;
         }
-        out++;
-        source += 2;
         i++;
     } while (i < DUEL_CARD_RECORD_COUNT);
     SetGeomOffset(0, 0);

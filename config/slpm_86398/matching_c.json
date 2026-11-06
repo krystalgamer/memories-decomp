@@ -603,13 +603,13 @@
     },
     {
       "address": "0x80017650",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps_comm",
       "size": "0xF8",
       "source": "src/game/japanese/duel_ground_projection.c"
     },
     {
       "address": "0x80017748",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps_comm",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps_comm",
       "size": "0xD0",
       "source": "src/game/japanese/duel_ground_projection.c"
     },
