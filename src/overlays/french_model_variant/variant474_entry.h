@@ -103,13 +103,13 @@ typedef struct {
     u8 unknown_1BA8[4];
     GsCOORDUNIT *part;
     s16 field_1BB0, field_1BB2;
-    s32 field_1BB4, field_1BB8, field_1BBC, field_1BC0, field_1BC4, field_1BC8;
+    s32 width, ribbon_angle, scale, field_1BC0, field_1BC4, field_1BC8;
     s32 field_1BCC, field_1BD0, field_1BD4, field_1BD8, field_1BDC;
-    s32 field_1BE0, field_1BE4;
+    s32 field_1BE0, progress;
     s16 field_1BE8, field_1BEA, field_1BEC, field_1BEE;
     s32 field_1BF0, field_1BF4, field_1BF8, field_1BFC;
     CVECTOR inner_color, outer_color;
-    s32 field_1C08, field_1C0C, field_1C10, field_1C14, field_1C18;
+    s32 spin, field_1C0C, field_1C10, field_1C14, field_1C18;
     s32 phase;
     s32 field_1C20, field_1C24;
     SVECTOR camera;

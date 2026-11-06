@@ -267,9 +267,9 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         work->outer_color.r = work->config->color[0];
         work->outer_color.g = work->config->color[1];
         work->outer_color.b = work->config->color[2];
-        work->field_1C08 = 0;
-        work->field_1BB8 = 0;
-        work->field_1BBC = 0;
+        work->spin = 0;
+        work->ribbon_angle = 0;
+        work->scale = 0;
         work->field_1BC4 = 0;
         work->field_1BC8 = 0;
         work->field_1BCC = 0;
@@ -281,7 +281,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         work->field_1BEA = 0;
         work->field_1BEC = 0;
         work->field_1BEE = 0;
-        work->field_1BB4 = 1024;
+        work->width = 1024;
         work->field_1BC0 = 1024;
         work->field_1BB0 = 0;
         work->field_1BB2 = 0;
@@ -290,7 +290,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         work->field_1BF0 = 1024;
         work->field_1C14 = 0;
         work->field_1C18 = 0;
-        work->field_1BE4 = 0;
+        work->progress = 0;
         work->field_1BF4 = 0;
         work->field_1BF8 = 0;
         work->field_1BFC = 0;
@@ -348,11 +348,11 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
             work->step = Model_GetFrameStep();
             work->animation_frame = frame;
         }
-        if (work->config->fade_begin <= work->frame && work->field_1BE4 < 1024) {
-            work->field_1BE4 = ((work->frame - work->config->fade_begin) << 10) /
+        if (work->config->fade_begin <= work->frame && work->progress < 1024) {
+            work->progress = ((work->frame - work->config->fade_begin) << 10) /
                                (work->config->fade_end - work->config->fade_begin);
-            if (work->field_1BE4 >= 1024) {
-                work->field_1BE4 = 1024;
+            if (work->progress >= 1024) {
+                work->progress = 1024;
             }
         }
     }
