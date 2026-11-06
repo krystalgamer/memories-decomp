@@ -14,7 +14,7 @@ void FrenchModelVariant428_DrawSwarm(u8 *context)
     long flag;
     GsOT *ot;
     Swarm428State *state = (Swarm428State *)context;
-    Swarm428Group *group = &state->group;
+    ModelVariantSwarmGroup *group = &state->group;
     POLY_FT4 *polygon = &state->polygon;
     s16 j;
     s16 angle;

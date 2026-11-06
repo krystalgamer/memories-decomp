@@ -13,7 +13,7 @@ void FrenchModelVariant430_DrawSwarm(u8 *context)
     long interpolation;
     long flag;
     Swarm132118State *state = (Swarm132118State *)context;
-    Swarm132118Group *group;
+    ModelVariantSwarmGroup *group;
     POLY_FT4 *polygon;
     GsOT *ot;
     s16 i, j;

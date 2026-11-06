@@ -31,13 +31,13 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < 5) {
-            matrix.t[0] = state->positions[i % 3].translation.vx + primary->position.vx;
-            matrix.t[1] = state->positions[i % 3].translation.vy + primary->position.vy;
-            matrix.t[2] = state->positions[i % 3].translation.vz + primary->position.vz;
+            matrix.t[0] = state->positions[i % 3].position.vx + primary->position.vx;
+            matrix.t[1] = state->positions[i % 3].position.vy + primary->position.vy;
+            matrix.t[2] = state->positions[i % 3].position.vz + primary->position.vz;
         } else {
-            matrix.t[0] = state->positions[i - 5].translation.vx;
-            matrix.t[1] = state->positions[i - 5].translation.vy;
-            matrix.t[2] = state->positions[i - 5].translation.vz;
+            matrix.t[0] = state->positions[i - 5].position.vx;
+            matrix.t[1] = state->positions[i - 5].position.vy;
+            matrix.t[2] = state->positions[i - 5].position.vz;
         }
         scale.vx = sheet->size + extra;
         scale.vy = sheet->size + extra;

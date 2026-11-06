@@ -20,11 +20,6 @@ typedef struct {
 } Bloom22822Group;
 
 typedef struct {
-    u8 unknown_00[0x20];
-    u32 limit;
-} Bloom22822Timing;
-
-typedef struct {
     Bloom22822Group groups[8];
     u8 unknown_1520[0x188C];
     POLY_FT4 polygon;
@@ -37,7 +32,7 @@ typedef struct {
     u8 unknown_2E74[4];
     s32 step;
     u8 unknown_2E7C[4];
-    Bloom22822Timing *timing;
+    ModelVariantQuadTiming *timing;
     u8 unknown_2E84[0x20];
     s32 phase;
     u8 unknown_2EA8[0xC];

@@ -4,11 +4,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-typedef struct {
-    VECTOR position;
-    u8 unknown_10[0x10];
-} QuadPairAnchor470;
-
 /* One 0x4C4-byte group: ten quads, their growth, done and reset flags,
  * anchors and drift directions. */
 typedef struct {
@@ -24,15 +19,10 @@ typedef struct {
     u8 unknown_1F4[0x28];
     s32 reset[10];
     u8 unknown_244[0x14];
-    QuadPairAnchor470 anchor[10];
+    ModelVariantAnchor anchor[10];
     u8 unknown_398[0x8C];
     VECTOR direction[10];
 } QuadPairGroup470;
-
-typedef struct {
-    u8 unknown_00[0x20];
-    u32 limit;
-} QuadPairTiming470;
 
 typedef struct {
     QuadPairGroup470 groups[2];
@@ -46,7 +36,7 @@ typedef struct {
     u8 unknown_25E0[4];
     s32 step;
     u8 unknown_25E8[4];
-    QuadPairTiming470 *timing;
+    ModelVariantQuadTiming *timing;
     u8 unknown_25F0[0x30];
     s32 phase;
 } QuadPairState470;
