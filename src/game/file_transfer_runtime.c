@@ -278,7 +278,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     return transfer;
 }
 
-void File_TransferReadyCallback(s32 arg)
+void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
 {
     s32 event;
     s32 remaining;
@@ -296,7 +296,7 @@ void File_TransferReadyCallback(s32 arg)
     s32 n;
     s32 image_y;
 
-    event = arg & 0xFF;
+    event = intr;
     gFile_ReadyEventCount++;
     if (event != 1) {
         return;
@@ -447,7 +447,7 @@ void File_HandleReadEvent(u8 event)
         DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 6, (DslCB)File_HandleReadEvent, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
-        DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
+        DsStartReadySystem(File_TransferReadyCallback, -1);
         gFile_ReadyEventCount = 0;
         gFile_ReadyDataEventCount = 0;
         gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;

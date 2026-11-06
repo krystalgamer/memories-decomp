@@ -63,17 +63,10 @@ void File_HandleReadEvent(u8 event);
 void File_HandleSeekEvent(u8 event);
 void File_HandleCancelPauseEvent(u8 event);
 void File_HandleRangePauseEvent(s32 event);
-/* Canonical implementation: only the low byte of the first word is consumed. */
-void File_TransferReadyCallback(s32 event);
+/* The DsStartReadySystem callback, in libds's DslRCB shape. Only the
+ * interrupt byte is read. */
+void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused);
 
-/* Legacy fixed-address views of the same entry. DsStartReadySystem supplies
-   all three arguments; preserve both measured declarations and this selector
-   independently of the canonical implementation's s32 prototype. */
-#ifdef FUNC_80013C28_CALLBACK_VIEW
-void func_80013C28(u8, u8 *, u32 *);
-#else
-void func_80013C28(s32);
-#endif
 void File_StepActiveTransfer(void);
 void File_ServiceTransfers(s32 arg0);
 void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_index);
@@ -219,7 +212,7 @@ extern s32 gFile_ReadyDataEventCount;
 extern CdlFILTER gFile_FilterParams;
 
 /* The CD callback's state word, switched on and advanced by
- * func_80013C28.c and file_transfer_runtime.c. It remains a volatile u16 and
+ * File_TransferReadyCallback and the rest of file_transfer_runtime.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 gFile_wStepState;
 

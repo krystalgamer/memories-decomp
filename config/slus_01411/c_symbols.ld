@@ -21,7 +21,6 @@ gAiScript_szSourceFile = 0x800118CC;
 gAiScript_szReturnUnderflowError = 0x800118E4;
 gAiScript_szCheckpoint = 0x80011908;
 gAiScript_szCheckpointFormat = 0x80011918;
-func_80013C28 = 0x80013C28;
 func_80024060 = 0x80024060;
 func_80024088 = 0x80024088;
 func_80029EB0 = 0x80029EB0;
