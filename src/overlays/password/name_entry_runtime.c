@@ -1,8 +1,5 @@
 /* The name-entry keyboard updater, at the end of this unit, samples each pad
  * word independently; the other name-entry functions read no pad state. */
-#define GINPUT_PAD1_HELD_IS_VOLATILE
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
-#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -833,32 +830,32 @@ void NameEntry_UpdateKeyboard(void)
         w->y = gNameEntry_wCursorTargetY;
         gNameEntry_wSelectionFrameFlags &= 0xBFFF;
     }
-    if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
-        if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+    if ((gInput_awPadHeld[0] & PAD_DIRECTION_MASK) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) != 0) {
             gNameEntry_bKeyboardColumn = gNameEntry_bKeyboardColumn + 1;
             if (gNameEntry_bKeyboardColumn >= 15) {
                 gNameEntry_bKeyboardColumn = 0;
             }
         }
-        if ((gInput_wPad1Held & PAD_DIRECTION_LEFT) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) != 0) {
             gNameEntry_bKeyboardColumn = gNameEntry_bKeyboardColumn - 1;
             if (gNameEntry_bKeyboardColumn < 0) {
                 gNameEntry_bKeyboardColumn = 14;
             }
         }
-        if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             if (gNameEntry_bKeyboardColumn >= 11) {
 #ifdef VERSION_EUROPE
                 SD_SEPlayFull(9);
                 return;
 #else
-                n = gInput_wPad1Held & PAD_DIRECTION_DOWN;
+                n = gInput_awPadHeld[0] & PAD_DIRECTION_DOWN;
                 work = (n != 0);
                 gNameEntry_bKeyboardColumn = 11;
                 gNameEntry_bSavedRow = gNameEntry_bKeyboardRow = gNameEntry_aRowLinks[(s8)gNameEntry_bKeyboardRow][work];
                 goto tail47;
 #endif
-            } else if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
+            } else if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
                 gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow - 1;
                 if ((s8)gNameEntry_bKeyboardRow < 0) {
                     gNameEntry_bKeyboardRow = 8;
@@ -942,7 +939,7 @@ tail47:
     return;
 
 alt800:
-    if ((gInput_wPad1Pressed & PAD_BUTTON_START) == 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) == 0) {
         goto select;
     }
     gNameEntry_bKeyboardColumn = 14;
@@ -950,9 +947,9 @@ alt800:
     goto tail47;
 select:
 #ifdef VERSION_EUROPE
-    if ((gInput_wPad1Repeat & 0xC) != 0) {
+    if ((gInput_awPadRepeat[0] & 0xC) != 0) {
         work = 1;
-        if ((gInput_wPad1Repeat & 4) != 0) {
+        if ((gInput_awPadRepeat[0] & 4) != 0) {
             work = -1;
         }
         if (NameEntry_AdjustLength(work, 6) == 0) {
@@ -961,7 +958,7 @@ select:
         return;
     }
 #endif
-    if ((gInput_wPad1Repeat & NAME_ENTRY_CONFIRM_MASK) == 0) {
+    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CONFIRM_MASK) == 0) {
         goto sel_ret;
     }
 #ifdef VERSION_EUROPE
@@ -1128,7 +1125,7 @@ join:
 #endif
 sel_ret:
 #ifdef VERSION_EUROPE
-    if ((gInput_wPad1Repeat & NAME_ENTRY_CANCEL_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CANCEL_MASK) != 0) {
         if (NameEntry_AdjustLength(-1, 6) != 0) {
             SD_SEPlayFull(12);
         } else {
@@ -1136,7 +1133,7 @@ sel_ret:
         }
     }
 #else
-    if ((gInput_wPad1Repeat & NAME_ENTRY_CANCEL_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CANCEL_MASK) != 0) {
         n = NameEntry_AdjustLength(-1, 6);
         if (n != 0) {
             n = 12;
@@ -1265,7 +1262,7 @@ void NameEntry_UpdateDialog(void)
             return;
         }
         if ((gNameEntry_wPendingDialogId & 0x8000) == 0) {
-            if ((gInput_wPad1Pressed & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
+            if ((gInput_awPadPressed[0] & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                 SD_SEPlayFull(11);
                 return;
             }

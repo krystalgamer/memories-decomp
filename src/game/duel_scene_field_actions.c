@@ -26,7 +26,6 @@
  *   member offset stays in the load displacement.
  */
 #define D_8009B300_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
@@ -322,14 +321,14 @@ void DuelScene_UpdateFieldActions(void)
                 gDuel_pActionReadyMarker = 0;
             }
         }
-        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] < 0 && (gInput_wPad1Pressed & 0x800)) {
+        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] < 0 && (gInput_awPadPressed[0] & 0x800)) {
             gDuel_bSceneSubStep = 0xB;
             return;
         }
         if (Duel_CheckQuitInput() != 0) {
             return;
         }
-        if (gInput_wPad1Pressed & 0xC) {
+        if (gInput_awPadPressed[0] & 0xC) {
             r = side->row;
             card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[r * 5 + side->col + gDuel_bActiveSide * 20]];
             if (r == 2 && DuelCard_CanActThisTurn(card) != 0) {
@@ -348,7 +347,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bEffectState = 2;
             return;
         }
-        if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CONFIRM_MASK) {
+        if (gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CONFIRM_MASK) {
             if (side->row == 2) {
                 if (gDuel_pActiveSideState->swords_turns_remaining != 0) {
                     SD_SEPlayFull(9);
@@ -475,7 +474,7 @@ void DuelScene_UpdateFieldActions(void)
         if (DuelCursor_UpdateFromInput(side) != 0) {
             return;
         }
-        if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
+        if (gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
             Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
                 gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][FIELD_CURSOR.field_18][FIELD_CURSOR.row]);
             o = (u8 *)side->cursor_object;
@@ -499,11 +498,11 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bEffectState = 2;
             return;
         }
-        if (!(gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CONFIRM_MASK)) {
+        if (!(gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CONFIRM_MASK)) {
             return;
         }
         gDuel_bAnimatedBattleRequested = 0;
-        if (gInput_wPad1Pressed & 0x80) {
+        if (gInput_awPadPressed[0] & 0x80) {
             gDuel_bAnimatedBattleRequested = 1;
         }
     commit:

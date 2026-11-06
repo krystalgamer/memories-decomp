@@ -10,8 +10,6 @@
  * variables, which keeps slide_in local to the setup block and in $s0. */
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
-#define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA_VOLATILE
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
@@ -324,17 +322,17 @@ void DuelEffect_UpdateCardViewerState(void)
     }
 
 #ifdef VERSION_JAPAN
-    if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & PAD_BUTTON_CROSS) == 0) {
+    if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & PAD_BUTTON_CROSS) == 0) {
         return;
     }
 #else
     if ((gMain_bActiveModeState & 0x1F) == 0xE) {
-        if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0x20) != 0) {
+        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) != 0) {
             goto press;
         }
         return;
     }
-    if ((gInput_wPad1Pressed & 0x20) == 0) {
+    if ((gInput_awPadPressed[0] & 0x20) == 0) {
         return;
     }
 press:

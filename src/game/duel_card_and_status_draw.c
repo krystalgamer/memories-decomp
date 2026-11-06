@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
@@ -408,7 +407,7 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
        ends at flags, as Duel_UpdateCardDisplayMarker does. The US build instead reads the
        cursor's grid cell and rejects a face-down card when that cell's value
        is DUEL_FIELD_SIDE_GRID_SLOT_COUNT or more. */
-    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) &&
         (*(s32 *)&card->terrain_modifier & 0xA0000000) == 0x80000000)
         return card->card_id;
     return 0;
@@ -425,7 +424,7 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
         valid = (u32)mask < 1;
     }
 
-    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) &&
         (card->flags & DUEL_CARD_FLAG_OCCUPIED) && valid)
         return card->card_id;
     return 0;

@@ -1064,7 +1064,7 @@
     },
     {
       "address": "0x80024078",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0xA4",
       "source": "src/game/duel_cursor_held_grid_direction.c"
     },
@@ -2378,25 +2378,25 @@
     },
     {
       "address": "0x80033A00",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x3C",
       "source": "src/game/european/build_deck_pane_input.c"
     },
     {
       "address": "0x80033A3C",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1B4",
       "source": "src/game/european/build_deck_pane_input.c"
     },
     {
       "address": "0x80033BF0",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1F4",
       "source": "src/game/european/build_deck_pane_input.c"
     },
     {
       "address": "0x80033DE4",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g8_no_split",
       "size": "0xB4",
       "source": "src/game/european/build_deck_pane_input.c"
     },

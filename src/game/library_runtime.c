@@ -1,7 +1,6 @@
 #define D_8009B118_IN_DATA
 #define D_8009B0C0_IN_DATA_VOLATILE
 #define GDUEL_WSELECTEDCARDID_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #include "text_box_blocking_build.h"
@@ -540,7 +539,7 @@ void Library_UpdateCardView(LibraryState *state)
             }
             break;
         case 1:
-            if (gInput_wPad1Pressed & 0x80E0) {
+            if (gInput_awPadPressed[0] & 0x80E0) {
                 Fade_StartOutKeepOverlay();
                 state->motion.card_view_slide_phase = 1;
                 state->motion.card_view_subphase = 2;
@@ -583,7 +582,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         break;
     case 5:
-        if (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
+        if (gInput_awPadPressed[0] & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
             H(rec->primary_object, 8) |= 4;
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
@@ -593,7 +592,7 @@ void Library_UpdateCardView(LibraryState *state)
             return;
         }
         if (state->motion.model_load_phase == 0 &&
-            (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_ACTION_MASK)
+            (gInput_awPadPressed[0] & LIBRARY_CARD_VIEW_ACTION_MASK)
             && ((gDuel_adwCardStats[(u16)state->motion.selected_card_id - 1] >> 0x1A) & 0x1F) < 0x14
             && state->motion.card_view_slide_phase == 0) {
             state->motion.card_view_phase = 4;

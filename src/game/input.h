@@ -74,200 +74,21 @@ extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 extern u32 gInput_dwPendingHeld;
 
-/* gInput_wPad1Pressed is declared seven different ways below, counting the
- * plain scalar; the other six are codegen inputs rather than style. A
- * consumer states the spelling its own match needs before including this
- * header; everything else takes the plain scalar.
- *
- * Two independent knobs, so arms rather than one chain: a file that wants the
- * non-small form *and* the re-reads would silently lose the volatile if these
- * shared a single ladder.
- *
- *   _IS_VOLATILE   -- the halfword is re-read on each path. Without it gcc
- *                     commons several reads into one register.
- *   _IN_DATA       -- takes the symbol out of small data at the compiler,
- *                     with its true size: the bare form the assembler
- *                     expands, rather than cc1psx's own %hi/%lo pair.
- *   _IS_AGGREGATE  -- an unsized array is not small data either, but gives
- *                     cc1psx's split pair instead of the bare symbol.
- *   _SIZED_VOLATILE -- an indexed volatile four-halfword view. That
- *                     leaves small data only where the assembler's -G sits
- *                     below the compiler's. Its consumers include
- *                     src/overlays/main_menu/trade_update.c and
- *                     src/overlays/main_menu/value_setup.c. The main-menu
- *                     updater assembles at -G0, where nothing is small
- *                     data at either threshold, so the eight bytes reach
- *                     nothing;
- *                     value_setup.c is another module source, and what says
- *                     the size reached nothing there is the module hash,
- *                     unchanged across the change. For both, the arm is here
- *                     only because it is
- *                     the volatile arm that can be indexed.
- *   _SIZED_IN_DATA_VOLATILE -- the same indexed volatile view in .data.
- *                     Matching DebugMenu_UpdateValueEditor selects it for all six pad
- *                     names under uniform G8; DebugMenu_UpdateSoundEntry
- *                     independently selects it for pad-1 pressed.
- *
- * A `[5]` arm used to sit beside that one, for src/game/duel_card_and_status_draw.c
- * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
- * data at a single -G8 threshold, and the split flag decides only whose
- * %hi/%lo pair the reference becomes, so nothing separated the two
- * spellings: moving that unit to the aggregate arm leaves the retail SHA-256
- * unchanged.
- *
- * An independent matching decompilation of this binary carries the same
- * address behind eight declarations, chosen per function, which is where this
- * list came from. Its sized arms are `[4]`, volatile and not, including the
- * .data view used by DebugMenu_UpdateSoundEntry, and it has no `[5]`. */
-#ifdef GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad1Pressed[4]
-    __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE)
-extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_PRESSED_IN_DATA)
-extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_PRESSED_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad1Pressed[4];
-#elif defined(GINPUT_PAD1_PRESSED_IS_AGGREGATE)
-extern u16 gInput_wPad1Pressed[];
-#elif defined(GINPUT_PAD1_PRESSED_IS_VOLATILE)
-extern volatile u16 gInput_wPad1Pressed;
-#else
-extern u16 gInput_wPad1Pressed;
-#endif
-
-/* gInput_wPad1Held: same arms as gInput_wPad1Pressed above, same reasons;
- * our matching tree carries this symbol (0x8009B3A4) behind an equivalent
- * set, with a note on each recording which function needed it. The
- * _SIZED_IN_DATA_VOLATILE arm is the value editor's
- * (src/game/debug_menu_editor_entries.c), which reads this name and the
- * other five at [0] under uniform gcc_2_8_1_g8_split.
- * The _SIZED_VOLATILE arm also has a consumer,
- * src/overlays/main_menu/trade_update.c, which reads [0] and
- * [1]; that one assembles at -G0, where the declared size reaches nothing,
- * so the arm is doing no work for it beyond naming the symbol. The scalar
- * _IS_VOLATILE arm below has its own new consumer the same day,
- * Password_UpdateShopScreen (overlays/password/shop.c), which reads this
- * symbol as a plain volatile halfword and spelled it D_8009B3A4 until then. */
-#ifdef GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad1Held[];
-#elif defined(GINPUT_PAD1_HELD_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad1Held[4];
-#elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)
-extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_HELD_IN_DATA)
-extern u16 gInput_wPad1Held __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_HELD_IS_AGGREGATE)
-extern u16 gInput_wPad1Held[];
-#elif defined(GINPUT_PAD1_HELD_IS_VOLATILE)
-extern volatile u16 gInput_wPad1Held;
-#else
-extern u16 gInput_wPad1Held;
-#endif
-
-/* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
- * The _SIZED_IN_DATA_VOLATILE one is DebugMenu_UpdateValueEditor's. The
- * _SIZED_VOLATILE one is src/overlays/main_menu/trade_update.c's. It
- * still has no aggregate
- * consumer, so there is no unsized arm -- a spelling nothing in the tree
- * uses would be a guess, not a lever. The result controller's _IN_DATA
- * arm is a nonvolatile absolute halfword, distinct from the volatile arm. */
-#ifdef GINPUT_PAD1_REPEAT_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad1Repeat[4]
-    __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_REPEAT_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad1Repeat[4];
-#elif defined(GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE)
-extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_REPEAT_IN_DATA)
-extern u16 gInput_wPad1Repeat __attribute__((section(".data")));
-#elif defined(GINPUT_PAD1_REPEAT_IS_VOLATILE)
-extern volatile u16 gInput_wPad1Repeat;
-#else
-extern u16 gInput_wPad1Repeat;
-#endif
+/* Per-pad button masks, indexed by pad (0 = pad 1, 1 = pad 2), published by
+ * Input_UpdatePads each frame: held buttons, newly pressed buttons, and the
+ * repeat stream (new presses plus auto-repeat). Each is one two-element
+ * array -- Repeat at 0x8009B394, Pressed at 0x8009B398, Held at 0x8009B3A4 --
+ * and Input_ResetPads walks them that way, taking &array[1] and stepping
+ * down. They are volatile: the readers re-load them on every test. */
+extern volatile u16 gInput_awPadPressed[INPUT_PAD_COUNT];
+extern volatile u16 gInput_awPadHeld[INPUT_PAD_COUNT];
+extern volatile u16 gInput_awPadRepeat[INPUT_PAD_COUNT];
 
 /* Saved pad-1 masks used by the temporary pad-2 swap. Both the backup and the
- * restore path are in input_pads.c, which defines them in its small data
- * and needs no volatile arm: the unit builds byte-identically without one. */
+ * restore path are in input_pads.c, which defines them in its small data. */
 extern u16 gInput_wPad1HeldBackup;
 extern u16 gInput_wPad1PressedBackup;
 extern u16 gInput_wPad1RepeatBackup;
-
-/* The pad-2 trio. Each of these sits two bytes above its pad-1 twin --
- * Repeat at 0x8009B394/0x396, Pressed at 0x398/0x39A, Held at 0x3A4/0x3A6 --
- * so every name in this family is one element of a two-element, pad-indexed
- * pair. Input_ResetPads walks that pairing directly: it takes the address of
- * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
- *
- * Only the arms some consumer needs. Matching DebugMenu_UpdateValueEditor uses the sized
- * volatile .data view for all three names. gInput_wPad2Pressed additionally
- * has true-width .data views; ModelDebug_UpdateController uses the nonvolatile
- * one while selecting the established per-test volatile views for pad-1
- * pressed and repeat. All three also retain the _SIZED_VOLATILE arm for other
- * indexed consumers.
- *
- * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
- * these names, and that cannot be converted. value_setup.c and
- * MainMenu_UpdateTradeScreen (trade_update.c) read both `[0]` and `[1]` of the
- * pad-1 name; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is
- * the obvious tidy-up and it does not build. Measured on the value-setup
- * updater: the main_menu module stops matching, and it still fails when only
- * one of the two symbols is converted, so it is the pad-2 access itself and
- * not an interaction between them.
- *
- * That measurement is about the pad-2 NAME, and it does not reach the name
- * used for the pad-1 element. Both units above spelled that name D_8009B394,
- * D_8009B398 and D_8009B3A4 in private declarations until 2026-09-12; both
- * now take the _SIZED_VOLATILE arms here and read the same `[0]` and `[1]`.
- * Same symbol, same displacement, same relocation, and measured on each: the
- * candidate's object keeps every instruction, with the only disassembly
- * difference being which name its relocations carry, and value_setup.c is a
- * module source, so its check is the module itself -- main_menu still hashes
- * 34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97 and still
- * reports overlay match. The candidate assembles at -G0, where the arm's
- * declared size can reach nothing; for value_setup.c the size is inside the
- * module build and the module hash is what says it changed nothing.
- *
- * The reason is addressing, not naming. `X[1]` is one materialization of the
- * pad-1 symbol plus a displacement; the pad-2 name is its own relocation.
- * Retail chose per site, so both spellings are faithful and neither can be
- * made to stand in for the other. Same shape as the overlaps recorded in
- * notes/memory-map.md and the main_menu README. */
-#ifdef GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad2Held[4]
-    __attribute__((section(".data")));
-#elif defined(GINPUT_PAD2_HELD_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad2Held[4];
-#elif defined(GINPUT_PAD2_HELD_IS_VOLATILE)
-extern volatile u16 gInput_wPad2Held;
-#else
-extern u16 gInput_wPad2Held;
-#endif
-
-#ifdef GINPUT_PAD2_PRESSED_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad2Pressed[4]
-    __attribute__((section(".data")));
-#elif defined(GINPUT_PAD2_PRESSED_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad2Pressed[4];
-#elif defined(GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE)
-extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
-#elif defined(GINPUT_PAD2_PRESSED_IN_DATA)
-extern u16 gInput_wPad2Pressed __attribute__((section(".data")));
-#elif defined(GINPUT_PAD2_PRESSED_IS_VOLATILE)
-extern volatile u16 gInput_wPad2Pressed;
-#else
-extern u16 gInput_wPad2Pressed;
-#endif
-
-#ifdef GINPUT_PAD2_REPEAT_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad2Repeat[4]
-    __attribute__((section(".data")));
-#elif defined(GINPUT_PAD2_REPEAT_SIZED_VOLATILE)
-extern volatile u16 gInput_wPad2Repeat[4];
-#else
-extern u16 gInput_wPad2Repeat;
-#endif
 
 void Input_ResetPads(void);
 void Input_InitPads(void);

@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA
 #define D_8009B142_IS_AGGREGATE
@@ -30,7 +29,7 @@ void Movie_UpdatePlayback(void)
         u8 value = gMovie_bPlaybackState;
 
         if ((value & 0x40) ||
-            (gInput_wPad1Pressed[0] & PAD_BUTTON_START)) {
+            (gInput_awPadPressed[0] & PAD_BUTTON_START)) {
             gMovie_bPlaybackState = value | 0x40;
             gGraphics_bClearRed[0] = 1;
             gGraphics_bClearGreen[0] = 1;

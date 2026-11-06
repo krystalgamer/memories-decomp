@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_HELD_IS_AGGREGATE
-#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #define D_8009B0CC_IN_DATA
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
@@ -74,7 +72,7 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
-void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->playback_state;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->playback_state=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;gText_PageAdvanceHoldCountdown=10;o->prompt_object=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){gText_PageAdvanceHoldCountdown--;if(gText_PageAdvanceHoldCountdown<0)gText_PageAdvanceHoldCountdown=0;}else gText_PageAdvanceHoldCountdown=10;if(gText_PageAdvanceHoldCountdown!=0&&!(gInput_wPad1Pressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->playback_state=2;DisplayObject_ReleaseIfPresent(o->prompt_object);o->prompt_object=0;}}
+void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->playback_state;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->playback_state=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;gText_PageAdvanceHoldCountdown=10;o->prompt_object=Dialog_OpenChoice(o);}else{if(gInput_awPadHeld[0]&PAD_BUTTON_SQUARE){gText_PageAdvanceHoldCountdown--;if(gText_PageAdvanceHoldCountdown<0)gText_PageAdvanceHoldCountdown=0;}else gText_PageAdvanceHoldCountdown=10;if(gText_PageAdvanceHoldCountdown!=0&&!(gInput_awPadPressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->playback_state=2;DisplayObject_ReleaseIfPresent(o->prompt_object);o->prompt_object=0;}}
 
 void Text_StageScriptImage(DuelEffectChannel *state)
 {

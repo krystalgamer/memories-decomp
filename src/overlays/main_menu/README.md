@@ -653,11 +653,9 @@ two sources and `void *` in a third; `u8 *` wins because two of the three
 index them by byte offset while the third only passes them to a `void *`
 parameter. All four now live in `frontend.h`.
 
-`GINPUT_PAD1_PRESSED_IS_VOLATILE` was defined for the whole unit rather than
-for one function, because it has to precede `input.h`. That was safe:
 `MainMenu_UpdateFrontendMenu` is the only front-end function that reads
-`gInput_wPad1Pressed` at all. `frontend.c` keeps the define for the merged
-initializer and updater; the initializer reads no pad state.
+`gInput_awPadPressed[0]`, which every unit declares as the same volatile
+two-pad array; the initializer reads no pad state.
 
 ## Value-setup translation unit
 

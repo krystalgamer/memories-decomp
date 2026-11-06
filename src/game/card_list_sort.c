@@ -212,8 +212,6 @@ void BuildDeck_SortCardList(CardList *list)
 /* The two explicit volatile .data input views retain absolute pad loads under
  * the uniform -G8 compiler/assembler profile used by the surrounding card
  * list sort code. */
-#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
@@ -278,10 +276,10 @@ top:
         return 1;
     }
 
-    if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
+    if ((gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
         sel = -1;
         row = list->first;
-        if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
+        if ((gInput_awPadHeld[0] & PAD_BUTTON_R1) != 0) {
             if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
                 list->cursor != CARD_LIST_LAST_CURSOR) {
                 sel = CARD_LIST_LAST_CURSOR;
@@ -314,10 +312,10 @@ top:
         return 1;
     }
 
-    if ((gInput_wPad1Repeat & PAD_BUTTON_TRIGGER_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_BUTTON_TRIGGER_MASK) != 0) {
         sel = -1;
         row = list->first;
-        if ((gInput_wPad1Repeat & PAD_BUTTON_R2) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_BUTTON_R2) != 0) {
             if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
                 list->cursor != CARD_LIST_LAST_CURSOR) {
                 sel = CARD_LIST_LAST_CURSOR;
@@ -345,9 +343,9 @@ top:
         goto finish;
     }
 
-    if ((gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
         row = list->first;
-        if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
             list->cursor += 1;
             if (list->cursor >= CARD_LIST_VISIBLE_ROWS) {
                 row += 1;
@@ -376,9 +374,9 @@ top:
         return 1;
     }
 
-    if ((gInput_wPad1Repeat & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) !=
+    if ((gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) !=
         0) {
-        if ((gInput_wPad1Repeat & PAD_BUTTON_START) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_BUTTON_START) != 0) {
             list->sort_choice += 1;
             if (list->sort_choice >= 7) {
                 list->sort_choice = 0;

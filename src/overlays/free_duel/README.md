@@ -251,8 +251,8 @@ for the same reason.
 
 ## Input publication and button meanings
 
-Normal browsing uses `gInput_wPad1Held` for directional movement and
-`gInput_wPad1Pressed` for Cancel and Confirm. The named masks come from
+Normal browsing uses `gInput_awPadHeld[0]` for directional movement and
+`gInput_awPadPressed[0]` for Cancel and Confirm. The named masks come from
 [`input.h`](../../game/input.h); the code-derived controls and their
 precedence are recorded in
 [`the-game.md`](../../../notes/research/the-game.md#8-free-duel).

@@ -1,8 +1,4 @@
 #define D_8009B0C8_IN_DATA
-#define GINPUT_PAD1_HELD_IS_VOLATILE
-#define GINPUT_PAD2_HELD_IS_VOLATILE
-#define GINPUT_PAD2_PRESSED_IS_VOLATILE
-#define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 
@@ -10,32 +6,26 @@
 /* Zero-initialized storage this unit owns at 0x8009B390-0x8009B3B8, defined in
  * address order ahead of the headers that declare it (#2602). */
 u32 gInput_dwPreviousHeld;
-u16 gInput_wPad1Repeat;
-u16 gInput_wPad2Repeat;
-volatile u16 gInput_wPad1Pressed;
-volatile u16 gInput_wPad2Pressed;
+volatile u16 gInput_awPadRepeat[2];
+volatile u16 gInput_awPadPressed[2];
 u8 gInput_bRepeatDelay;
 u16 gInput_wPad1RepeatBackup;
 u16 gInput_wPad1PressedBackup;
 u8 gInput_bRepeatInterval;
-volatile u16 gInput_wPad1Held;
-volatile u16 gInput_wPad2Held;
+volatile u16 gInput_awPadHeld[2];
 u32 gInput_dwPendingHeld;
 u16 gInput_wPad1HeldBackup;
 u32 gInput_dwDeferredRepeat;
 u32 gInput_dwDeferredPressed;
 #else
 extern u32 gInput_dwPreviousHeld;
-extern u16 gInput_wPad1Repeat;
-extern u16 gInput_wPad2Repeat;
-extern volatile u16 gInput_wPad1Pressed;
-extern volatile u16 gInput_wPad2Pressed;
+extern volatile u16 gInput_awPadRepeat[2];
+extern volatile u16 gInput_awPadPressed[2];
 extern u8 gInput_bRepeatDelay;
 extern u16 gInput_wPad1RepeatBackup;
 extern u16 gInput_wPad1PressedBackup;
 extern u8 gInput_bRepeatInterval;
-extern volatile u16 gInput_wPad1Held;
-extern volatile u16 gInput_wPad2Held;
+extern volatile u16 gInput_awPadHeld[2];
 extern u32 gInput_dwPendingHeld;
 extern u16 gInput_wPad1HeldBackup;
 extern u32 gInput_dwDeferredRepeat;
@@ -86,9 +76,9 @@ u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
 
 void Input_ResetPads(void) {
     s32 i = INPUT_PAD_COUNT - 1;
-    volatile u16 *c = &gInput_wPad2Held;
-    volatile u16 *b = &gInput_wPad2Pressed;
-    volatile u16 *a = &gInput_wPad2Repeat;
+    volatile u16 *c = &gInput_awPadHeld[1];
+    volatile u16 *b = &gInput_awPadPressed[1];
+    volatile u16 *a = &gInput_awPadRepeat[1];
     u8 *base;
     do {
         *a = 0;
@@ -205,30 +195,30 @@ void Input_UpdatePads(void)
         gInput_dwDeferredRepeat = 0;
         gInput_dwDeferredPressed = 0;
     }
-    gInput_wPad1Held = current;
-    gInput_wPad2Held = current >> INPUT_PAD_BUTTON_BITS;
-    gInput_wPad1Pressed = newly_pressed;
-    gInput_wPad2Pressed = newly_pressed >> INPUT_PAD_BUTTON_BITS;
-    gInput_wPad1Repeat = repeat;
-    gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
+    gInput_awPadHeld[0] = current;
+    gInput_awPadHeld[1] = current >> INPUT_PAD_BUTTON_BITS;
+    gInput_awPadPressed[0] = newly_pressed;
+    gInput_awPadPressed[1] = newly_pressed >> INPUT_PAD_BUTTON_BITS;
+    gInput_awPadRepeat[0] = repeat;
+    gInput_awPadRepeat[1] = repeat >> INPUT_PAD_BUTTON_BITS;
 }
 
 void Input_BackupPad1AndUsePad2(void)
 {
     u16 value;
 
-    value = *(volatile u16 *)&gInput_wPad1Held;
+    value = *(volatile u16 *)&gInput_awPadHeld[0];
     gInput_wPad1HeldBackup = value;
-    value = *(volatile u16 *)&gInput_wPad1Pressed;
+    value = *(volatile u16 *)&gInput_awPadPressed[0];
     gInput_wPad1PressedBackup = value;
-    value = *(volatile u16 *)&gInput_wPad1Repeat;
+    value = *(volatile u16 *)&gInput_awPadRepeat[0];
     gInput_wPad1RepeatBackup = value;
-    value = gInput_wPad2Held;
-    gInput_wPad1Held = value;
-    value = gInput_wPad2Pressed;
-    gInput_wPad1Pressed = value;
-    value = gInput_wPad2Repeat;
-    gInput_wPad1Repeat = value;
+    value = gInput_awPadHeld[1];
+    gInput_awPadHeld[0] = value;
+    value = gInput_awPadPressed[1];
+    gInput_awPadPressed[0] = value;
+    value = gInput_awPadRepeat[1];
+    gInput_awPadRepeat[0] = value;
 }
 
 void Input_RestorePad1FromBackup(void)
@@ -236,9 +226,9 @@ void Input_RestorePad1FromBackup(void)
     u16 value;
 
     value = gInput_wPad1HeldBackup;
-    gInput_wPad1Held = value;
+    gInput_awPadHeld[0] = value;
     value = gInput_wPad1PressedBackup;
-    gInput_wPad1Pressed = value;
+    gInput_awPadPressed[0] = value;
     value = gInput_wPad1RepeatBackup;
-    gInput_wPad1Repeat = value;
+    gInput_awPadRepeat[0] = value;
 }

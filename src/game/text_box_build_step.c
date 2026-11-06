@@ -1,5 +1,3 @@
-#define GINPUT_PAD1_HELD_IN_DATA
-#define GINPUT_PAD1_PRESSED_IN_DATA
 #define SCRIPT_STATE_COMMAND_IN_DATA
 #include "../types.h"
 #include "text_box_wrap_line.h"
@@ -204,8 +202,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         return;
     }
     if ((object->flags_34 & 0x1C00) == 0) {
-        if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) ||
-            (gInput_wPad1Pressed & TEXT_BOX_ADVANCE_MASK)) {
+        if ((gInput_awPadHeld[0] & PAD_BUTTON_SQUARE) ||
+            (gInput_awPadPressed[0] & TEXT_BOX_ADVANCE_MASK)) {
             DuelEffect_SetEntryControlBytes(object, 0, 0);
             object->delay_countdown = 1;
             object->flags_34 = object->flags_34 | 0x400;

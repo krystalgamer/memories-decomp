@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "../types.h"
 #include "dialog_highlight_choice.h"
 #include "duel_effect_update_object_layout.h"
@@ -40,16 +39,16 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
    The Spanish build also drops R1 from the previous-held word before the
    tests (DIALOG_READ_CHOICE_CLEARS_HELD_R1).
 
-   gInput_wPad1Repeat is volatile: the target reads it once per test rather
+   gInput_awPadRepeat[0] is volatile: the target reads it once per test rather
    than caching it, and the three reads are what the three branches turn on. */
 s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
 {
-    if (gInput_wPad1Repeat &
+    if (gInput_awPadRepeat[0] &
         (PAD_DIRECTION_VERTICAL_MASK | PAD_BUTTON_R1)) {
 #ifdef DIALOG_READ_CHOICE_CLEARS_HELD_R1
         gInput_dwPreviousHeld &= ~PAD_BUTTON_R1;
 #endif
-        if (gInput_wPad1Repeat & PAD_BUTTON_R1) {
+        if (gInput_awPadRepeat[0] & PAD_BUTTON_R1) {
             u8 choice = gDialog_bChoice;
             s32 count = gDialog_bChoiceCount;
 
@@ -57,7 +56,7 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
             if ((s8)(choice + 1) >= count) {
                 gDialog_bChoice = 0;
             }
-        } else if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
+        } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) {
             u8 choice = gDialog_bChoice;
             s32 count = gDialog_bChoiceCount;
 

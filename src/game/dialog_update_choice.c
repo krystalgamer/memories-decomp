@@ -5,7 +5,6 @@
 #include "dialog_highlight_choice.h"
 #include "display_object.h"
 #include "display_object_core.h"
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
@@ -84,7 +83,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         if (Dialog_ReadChoiceInput(p) != 0) {
             return;
         }
-        if ((gInput_wPad1Pressed & DIALOG_UPDATE_CHOICE_CONFIRM_MASK) == 0) {
+        if ((gInput_awPadPressed[0] & DIALOG_UPDATE_CHOICE_CONFIRM_MASK) == 0) {
             return;
         }
     }

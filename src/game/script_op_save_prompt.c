@@ -1,4 +1,3 @@
-#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GDIALOG_CHOICE_IN_DATA
 #define GDIALOG_CHOICE_COUNT_IN_DATA
 #define D_8009B268_IN_DATA
@@ -295,7 +294,7 @@ void Script_OpSavePrompt(void)
         if (Dialog_ReadChoiceInput(box) != 0) {
             return;
         }
-        if ((gInput_wPad1Pressed & SAVE_PROMPT_CONFIRM_MASK) == 0) {
+        if ((gInput_awPadPressed[0] & SAVE_PROMPT_CONFIRM_MASK) == 0) {
             return;
         }
         gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /

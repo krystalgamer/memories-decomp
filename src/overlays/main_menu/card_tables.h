@@ -32,12 +32,10 @@
  *
  * main_menu_linker_symbols.txt already did that for resident *data* when the
  * comment was written. At af5cf8930, the commit that added it, the file was
- * eight lines and two of them were
- *
- *     gInput_wPad1Repeat = 0x8009B394;
- *     gInput_wPad1Pressed = 0x8009B398;
- *
- * -- resident scalars, named semantically, in this module, on that day. The
+ * eight lines and two of them named the resident pad-1 repeat and pressed
+ * masks (0x8009B394 and 0x8009B398, now gInput_awPadRepeat and
+ * gInput_awPadPressed) -- resident data, named semantically, in this module,
+ * on that day. The
  * two entries the tables needed are now in the same file.
  */
 

@@ -1,9 +1,3 @@
-#define GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
-#define GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
-#define GINPUT_PAD2_PRESSED_SIZED_IN_DATA_VOLATILE
-#define GINPUT_PAD1_REPEAT_SIZED_IN_DATA_VOLATILE
-#define GINPUT_PAD2_REPEAT_SIZED_IN_DATA_VOLATILE
 #define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #define CAMPAIGN_PRIMARY_OBJECT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
@@ -299,22 +293,22 @@ s32 DebugMenu_UpdateValueEditor(void)
     if ((gDebug_bEditorFlags & 1) != 0) {
         goto fill;
     }
-    if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
+    if (((gInput_awPadHeld[0] | gInput_awPadHeld[1]) & 0x800) != 0) {
         goto fill;
     }
-    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
+    if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
         ret = 1;
         goto out;
     }
-    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
+    if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
         ret = -1;
         goto out;
     }
-    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x5000) != 0) {
+    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x5000) != 0) {
         e = gDebug_bEditorDigit;
         val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
         step = c[e];
-        if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
+        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x4000) != 0) {
             step = -step;
         }
         if ((gDebug_bEditorFlags & 0x40) != 0) {
@@ -351,10 +345,10 @@ s32 DebugMenu_UpdateValueEditor(void)
         }
         FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
     }
-    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0xA000) == 0) {
+    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0xA000) == 0) {
         goto out;
     }
-    if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x2000) != 0) {
+    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x2000) != 0) {
         gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
         if (gDebug_bEditorDigit < 0) {
             gDebug_bEditorRow = gDebug_bEditorRow + 1;
@@ -470,12 +464,12 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
 
-    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_START) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
         SD_StopAll();
         return;
     }
 
-    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
         File_CancelTransfers();
         return;
     }
@@ -506,7 +500,7 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     case 2:
         gDebug_nLastSoundID[1] = gDebug_nEditedCdSoundId;
-        if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SQUARE) != 0) {
+        if ((gInput_awPadPressed[0] & PAD_BUTTON_SQUARE) != 0) {
             SD_CdSoundSeek((u16)gDebug_nEditedCdSoundId);
             return;
         }
@@ -556,7 +550,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         gDebugMenu_bCampaignEditField = 0;
         goto select_editor;
     }
-    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
         gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
     select_editor:
         if (gDebugMenu_bCampaignEditField == 0) {

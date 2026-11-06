@@ -11,8 +11,7 @@ extern struct InputRawPadPacket gInput_abRawPadBuffers[];
 u16 gInput_wPad1RepeatBackup;
 u16 gInput_wPad1PressedBackup;
 u32 gInput_dwPendingHeld;
-volatile u16 gInput_wPad1Held;
-volatile u16 gInput_wPad2Held;
+volatile u16 gInput_awPadHeld[2];
 u32 gInput_dwDeferredRepeat;
 u32 gInput_dwDeferredPressed;
 u8 gInput_bRepeatDelay;
@@ -22,10 +21,8 @@ u32 gInput_dwPreviousHeld;
 u8 gInput_bRepeatInterval;
 u8 D_8009C305_sles_03947;
 u16 D_8009C306_sles_03947;
-u16 gInput_wPad1Repeat;
-u16 gInput_wPad2Repeat;
-volatile u16 gInput_wPad1Pressed;
-volatile u16 gInput_wPad2Pressed;
+volatile u16 gInput_awPadRepeat[2];
+volatile u16 gInput_awPadPressed[2];
 
 #define VERSION_EUROPE
 
