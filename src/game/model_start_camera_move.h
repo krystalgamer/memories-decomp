@@ -8,7 +8,7 @@
  * camera at gModel_RView and a model slot's +0xDD0 vector, and writes the result
  * back immediately when the duration is zero.
  *
- * Both consumers already spelled it this way. model_effect_requests.c wraps it
+ * Both consumers already spelled it this way. model_scene_services.c wraps it
  * in two guarded requests, described in its own header; Model_ResetSceneView,
  * in model_scene_controllers.c beside the definition, asks for the all-zero move.
  *

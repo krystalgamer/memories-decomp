@@ -1,9 +1,10 @@
 /* The model runtime: the background renderer, the scene controllers, the
- * debug controller, the slot renderer and slot control, with the
- * initialized and zero-initialized data they own. In every executable these
- * are one contiguous run of text (0x8004DE24-0x80058624 in the US build) whose
- * .rodata, .sdata, .sbss and .bss are each contiguous too, so they were one
- * translation unit: each part reads the others' small data through $gp. */
+ * debug controller, the slot renderer and slot control, and the positional
+ * sound helper, with the initialized and zero-initialized data they own. In
+ * every executable these are one contiguous run of text (0x8004DE24-0x80058838
+ * in the US build) whose .rodata, .sdata, .sbss and .bss are each contiguous
+ * too, so they were one translation unit: each part reads the others' small
+ * data through $gp. */
 #include "../types.h"
 
 #include "model_record_tables.h"
@@ -5666,5 +5667,77 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
         orbit_position[0] = pivot_position[0] + horizontal_or_x * direction_scale;
         orbit_position[1] = pivot_position[1] + vertical_offset * direction_scale;
         orbit_position[2] = pivot_position[2] + z_offset * direction_scale;
+    }
+}
+
+#include "positional_sound.h"
+
+#define POSITIONAL_SOUND_PAN_PTR(buffer) ((s8 *)&(buffer)[1])
+
+void SD_ApplyPositionalSound(
+    s32 sound_id, s32 play, s32 world_x, s32 world_z)
+{
+    u8 st[2];
+    s8 *pp;
+    s32 dx;
+    s32 dz;
+    s32 a;
+    s32 b;
+    s32 c;
+    s32 d;
+    s32 ex;
+    s32 ez;
+    s32 n;
+    s32 r;
+    s32 dd;
+    s32 v;
+    s32 w;
+
+    dx = gModel_RView.vpx - world_x;
+    dz = gModel_RView.vpz - world_z;
+    pp = POSITIONAL_SOUND_PAN_PTR(st);
+    st[0] = 0;
+    st[1] = 0;
+    r = SquareRoot0(dx * dx + dz * dz);
+    b = gModel_RView.vpz;
+    c = gModel_RView.vrx;
+    d = gModel_RView.vrz;
+    ez = d - b;
+    a = gModel_RView.vpx;
+    ex = a - c;
+    n = c * b - a * d;
+    dd = SquareRoot0(ez * ez + ex * ex);
+    r -= 0x2BC;
+
+    st[0] = 0xFF;
+    *pp = 0;
+    if (r > 0) {
+        v = 0xFF - r / 12;
+        if (v < 0x10) {
+            v = 0x10;
+        }
+        st[0] = v;
+    }
+
+    if (dd != 0) {
+        r = (world_x * ez + world_z * ex + n) / dd;
+        w = r / 16;
+        /* The conditional form negates w's register instead of v in place. */
+        v = __builtin_abs(w);
+        if (v >= 0x80) {
+            v = 0x7F;
+        }
+        w = v;
+        if (r <= 0) {
+            w = -w;
+        }
+        *pp = w;
+    }
+
+    if (play != 0) {
+        SD_SEPlay(sound_id & 0xFFFF, st[0], *POSITIONAL_SOUND_PAN_PTR(st));
+    } else {
+        SD_SESetVolumePan(sound_id & 0xFFFF, st[0],
+                     *POSITIONAL_SOUND_PAN_PTR(st));
     }
 }

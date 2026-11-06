@@ -30,10 +30,10 @@ new range/zero-divisor validation or side effect is added.
 
 ## Source ownership and regional identity
 
-The standalone source/header are `model_is_camera_move_complete.c/.h`.
-Every caller include, all matching manifests and tracked split paths
-follow that source move. The profile remains `gcc_2_8_1_g0_split`, the
-extent `0x4C`:
+The function is defined in `model_spatial_queries.c` and declared by
+`model_is_camera_move_complete.h`. Every caller include, all matching
+manifests and tracked split paths follow that source. The profile is the
+unit's `gcc_2_8_1_g8_split_comm`, the extent `0x4C`:
 
 | Build | Address |
 |---|---|

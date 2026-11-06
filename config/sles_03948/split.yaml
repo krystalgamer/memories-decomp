@@ -929,9 +929,6 @@ segments:
   - - 268152
     - c
     - game/spanish/model
-  - - 311228
-    - c
-    - game/sd_apply_positional_sound
   - - 311760
     - c
     - game/model_queue_tint_request
@@ -940,10 +937,7 @@ segments:
     - game/european/model_texture_load_tim
   - - 313032
     - c
-    - game/model_state_getters
-  - - 313156
-    - c
-    - game/model_slot_queries
+    - game/model_slot_getters
   - - 313368
     - asm
     - text_5c018
@@ -955,52 +949,16 @@ segments:
     - game/model_slot_state_updates
   - - 315796
     - c
-    - game/file_query_wrappers
-  - - 316164
-    - c
-    - game/model_texture_upload_wrappers
-  - - 316392
-    - c
-    - game/model_state_setters
-  - - 316416
-    - c
-    - game/model_queue_tint_request_for_all_parts
-  - - 316568
-    - c
-    - game/model_get_slot0_offset_world_position
-  - - 316704
-    - c
-    - game/model_scene_states
-  - - 317380
-    - c
-    - game/model_effect_requests
-  - - 318096
-    - c
-    - game/model_lock_orbit_direction
+    - game/model_scene_services
   - - 318204
     - c
-    - game/model_distance_queries
-  - - 318680
-    - c
-    - game/model_find_branching_child
-  - - 318832
-    - c
-    - game/model_slot_updates
+    - game/model_view_queries
   - - 319044
     - c
     - game/model_remap_primitive_handlers
   - - 319264
     - c
-    - game/model_effect_wrapped_value
-  - - 319408
-    - c
-    - game/sd_calc_spatial_volume_pan
-  - - 319872
-    - c
-    - game/model_is_camera_move_complete
-  - - 319948
-    - c
-    - game/model_has_insufficient_buffer_space
+    - game/model_spatial_queries
   - - 320148
     - c
     - game/european/model_texture_pack_page_clut
@@ -1193,7 +1151,7 @@ segments:
   - [0xE4410, .bss, game/european/mem_card_driver]
   - [0xE46A8, bss, model_keyframe_update_commons]
   - [0xE4858, .bss, game/spanish/model]
-  - [0xE73D8, .bss, game/model_distance_queries]
+  - [0xE73D8, .bss, game/model_view_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
   - [0xE7708, .bss, game/spanish/movie_pipeline]
   - [0xE7720, .bss, game/ai_script_vm]

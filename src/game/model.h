@@ -95,7 +95,7 @@ typedef struct {
  *
  * Mirrored rather than taken from libhmd.h so this header stays free of the
  * libgte/libgpu/libgs/libhmd chain, as root_coordinate below does for
- * GsCOORDUNIT. model_slot_updates.c asserts the two layouts agree. */
+ * GsCOORDUNIT. model_view_queries.c asserts the two layouts agree. */
 typedef struct {
     u32 rewrite_idx;
     u16 size;

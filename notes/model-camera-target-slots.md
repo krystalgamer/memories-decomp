@@ -24,8 +24,8 @@ added. Existing caller values, including `-1`, remain untouched.
 
 ## Object and regional identity
 
-The function stays in the seven-function `model_effect_requests.c` group
-under `gcc_2_8_1_g0_split`, preserving its `0x64` extent:
+The function stays with the seven camera-request functions, now in
+`model_scene_services.c` under `gcc_2_8_1_g8_split_comm`, preserving its `0x64` extent:
 
 | Build | Address |
 |---|---|

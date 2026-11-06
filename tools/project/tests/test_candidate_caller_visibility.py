@@ -484,7 +484,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                                 )
 
     def test_parent_search_has_one_pointer_view(self) -> None:
-        definition = "src/game/model_find_branching_child.c"
+        definition = "src/game/model_view_queries.c"
         self.assertIn(
             '#include "model_parent_search.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),

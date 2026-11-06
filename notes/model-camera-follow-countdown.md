@@ -33,8 +33,8 @@ broader alias rewrite, range check or overflow guarantee is introduced.
 
 ## Group and regional identity
 
-The same seven-function `model_effect_requests.c` object and
-`gcc_2_8_1_g0_split` profile retain the `0x54` extent:
+The same seven camera-request functions, now in `model_scene_services.c` under
+`gcc_2_8_1_g8_split_comm`, retain the `0x54` extent:
 
 | Build | Address |
 |---|---|

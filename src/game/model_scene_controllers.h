@@ -18,7 +18,7 @@
  *
  * gModel_pBackgroundRecord comes from model_graphics_state.h.
  *
- * Model_UpdateScene in model_scene_states.c is the only caller and held the only
+ * Model_UpdateScene in model_scene_services.c is the only caller and held the only
  * declaration. */
 void Model_StepBackgroundVramAnimation(void);
 /* Four separate halfword globals, like gModel_sTextureTintRectX..H: each
