@@ -55,9 +55,10 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s16 field_27D4, field_27D6, field_27D8, field_27DA;
     s32 field_27DC, time;
-    s32 field_27E4, field_27E8, field_27EC, field_27F0, field_27F4, field_27F8;
-    s32 field_27FC, field_2800, field_2804, field_2808, field_280C, field_2810, field_2814, field_2818;
-    s32 field_281C, field_2820, field_2824, field_2828, field_282C, field_2830;
+    s32 spiral_size, field_27E8, spiral_arm_length, spiral_angle, field_27F4, field_27F8;
+    s32 globe_scale, field_2800, globe_rotation_x, globe_pulse_angle, globe_brightness;
+    s32 field_2810, field_2814, field_2818;
+    s32 field_281C, field_2820, field_2824, screen_grid_brightness, field_282C, field_2830;
     s32 facing;
     s32 zeroes[5];
     s32 phase, field_2850;

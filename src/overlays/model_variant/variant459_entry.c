@@ -369,28 +369,28 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                 }
             }
         }
-        work->field_27FC = 0;
+        work->globe_scale = 0;
         work->field_2800 = 0;
-        work->field_2804 = 0;
-        work->field_2808 = 0;
-        work->field_280C = 1024;
+        work->globe_rotation_x = 0;
+        work->globe_pulse_angle = 0;
+        work->globe_brightness = 1024;
         work->field_2810 = 0;
         work->field_2814 = 0;
         work->field_2818 = 0;
         work->field_281C = 0;
         work->field_2820 = 0;
         work->field_2824 = 0;
-        work->field_2828 = 1024;
+        work->screen_grid_brightness = 1024;
         work->field_282C = 0;
         work->field_2830 = 0;
         for (n = 4; n >= 0; n--) {
             work->zeroes[n] = 0;
         }
-        work->field_27EC = 1024;
+        work->spiral_arm_length = 1024;
         work->time = 0;
-        work->field_27E4 = 0;
+        work->spiral_size = 0;
         work->field_27E8 = 0;
-        work->field_27F0 = 0;
+        work->spiral_angle = 0;
         work->field_27D4 = 0;
         work->field_27D8 = 4096;
         work->field_27DA = 1024;
