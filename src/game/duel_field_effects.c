@@ -1,5 +1,4 @@
 #include "../types.h"
-#define DUEL_FIELD_GRID_2D
 #include "ai.h"
 #include "duel_side_state.h"
 #include "ai_controller_handoff.h"
@@ -217,7 +216,8 @@ void DuelEffect_ApplySwords(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
-                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_SELECTOR_VOLATILE][slot]];
+                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
+                    slot + DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
                     0x90000000) {
                     DuelFieldEffectObject *current;
@@ -274,9 +274,7 @@ void DuelEffect_ApplyCursebreaker(void) {
     gDuel_sEffectWorkCounter = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
-           selected by DUEL_FIELD_GRID_2D. The cast is the one
-           place the two spellings meet. The single-pass loop preserves the
+           below. The single-pass loop preserves the
            retail grid and side register allocation under GCC 2.8.1. The
            selected record uses DuelFieldPosition, with u16 member views to
            retain retail's unsigned halfword loads. */

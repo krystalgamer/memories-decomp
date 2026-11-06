@@ -32,23 +32,10 @@ typedef struct {
  * build a per-side cursor as
  * gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *
- * Left unsized on purpose: a declared size is a -G input for this toolchain,
- * and no consumer needs the bound. */
-#ifdef DUEL_FIELD_GRID_2D
-/* duel_card_effects.c (through a cast of the flat array) and
- * DuelEffect_ApplySwords (src/game/duel_field_effects.c)
- * index it [side][slot]. That is not a spelling preference: rewriting either
- * of them to the flat index the other sixteen files use builds to the right
- * size and differs from byte 0x80025CA2.
- *
- * DuelEffect_ApplySwords shares duel_field_effects.c with
- * DuelEffect_ApplyCursebreaker and DuelEffect_ApplyHarpiesFeatherDuster, which
- * walk the grid flat, so the unit defines DUEL_FIELD_GRID_2D for the
- * [side][slot] user and casts at the flat ones. */
-extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
-#else
+ * Declared with an unknown bound, as an array defined elsewhere;
+ * duel_field_layout.c defines the DUEL_SIDE_COUNT * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+ * bytes. Every consumer indexes it flat, side folded into the index. */
 extern u8 gDuel_abFieldGridCardRecordIndices[];
-#endif
 
 /* The hand table defined immediately before that grid, in the same unit:
  * duel_field_layout.c has it as
