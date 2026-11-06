@@ -1,8 +1,4 @@
-#define D_8009B0CC_IN_DATA
-#define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
-#define FILE_TRANSFER_STEP_FLAGS_IN_DATA
 #include "text_stream_read_le.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
@@ -11,7 +7,6 @@
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
@@ -81,7 +76,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
     gScript_ViewportTargetY = 0;
     gScript_ViewportTargetX = 0;
     result = TextStream_ReadU16LE(state);
-    gScript_ImageOperand[0] = result;
+    gScript_ImageOperand = result;
 
     if (result & SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT) {
         u8 **slot =

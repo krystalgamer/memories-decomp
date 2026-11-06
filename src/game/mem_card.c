@@ -1,4 +1,3 @@
-#define GDIALOG_CHOICE_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #include "../types.h"
 

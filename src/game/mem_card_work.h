@@ -84,11 +84,11 @@ extern void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
  * Existing absolute linker symbols supply those identities. No RAM-mirror
  * equivalence with other addresses is assumed by this view. */
 extern u8 D_80210000[MEM_CARD_WORK_FRAME_SIZE];
-extern u8 D_8021007A __attribute__((section(".data")));
-extern u8 D_8021007B __attribute__((section(".data")));
-extern u8 D_8021007C __attribute__((section(".data")));
-extern u8 D_8021007D __attribute__((section(".data")));
-extern u8 D_8021007E __attribute__((section(".data")));
+extern u8 D_8021007A;
+extern u8 D_8021007B;
+extern u8 D_8021007C;
+extern u8 D_8021007D;
+extern u8 D_8021007E;
 
 /* Poll requests, service shared display transitions and advance the legacy
  * work state. The separate MemCardDialog_Update uses the LIBMCRD runtime. */

@@ -77,8 +77,8 @@ typedef char GraphicsDimension_size_must_be_4[
     sizeof(GraphicsDimension) == 4 ? 1 : -1
 ];
 
-extern GraphicsDimension gGraphics_CurrentWidth __attribute__((section(".data")));
-extern GraphicsDimension gGraphics_CurrentHeight __attribute__((section(".data")));
+extern GraphicsDimension gGraphics_CurrentWidth;
+extern GraphicsDimension gGraphics_CurrentHeight;
 
 /* The movie work area lives at gMovie_pWorkArea + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed

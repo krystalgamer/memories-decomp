@@ -1,5 +1,4 @@
 #include "../types.h"
-#define D_80011434_IS_CONST
 #include "sound.h"
 #include "sd_pitch_from_note.h"
 #include "../psyq/libspu.h"

@@ -12,18 +12,8 @@
  * the upper bits carry engine flags: bit 15 is the one-shot busy latch
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
- *
- * The text callbacks and TextBox_BuildStep select the absolute (.data)
- * scalar; Text_StartViewportTween's signed store is a cast at the use. These
- * arms keep the measured addressing without private declarations in the
- * consumers.
- */
-#if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS) || \
-    defined(SCRIPT_STATE_COMMAND_IN_DATA)
-extern u16 gScript_wCommandWord __attribute__((section(".data")));
-#else
+ * Text_StartViewportTween's signed store is a cast at the use. */
 extern u16 gScript_wCommandWord;
-#endif
 
 /* The script instruction cursor: a byte pointer walking the script stream.
  *
@@ -57,28 +47,17 @@ extern u8 *gScript_StreamCursor;
  * and Script_UpdateViewportTween interpolates the viewport towards them,
  * reading them signed for the delta (`*(s16 *)&gScript_ViewportTargetX`, retail lh)
  * and unsigned for the final copy (retail lhu). Retail reaches them
- * gp-relative in all four of those units.
- *
- * The text callback arm takes them absolute (.data); its signed accesses are
- * casts at the use. */
+ * gp-relative in all four of those units. */
 /* Shared retained halfword: viewport commands use it as their divisor/countdown;
  * Script_OpDuelResult also stages its two-byte operand here. It is not
  * universally a duration. Text_StartViewportTween uses TextStream_ReadU16LE.
  *
- * The default-arm consumers read it unsigned except one site, which takes it as
- * `*(s16 *)&gScript_SharedOperand` to read the signed divisor. That cast stays
- * at the use, so the declaration here remains the existing plain u16.
- *
- * The text callback arm keeps its signed, absolute spelling. */
-#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern s16 gScript_SharedOperand __attribute__((section(".data")));
-extern u16 gScript_ViewportTargetX __attribute__((section(".data")));
-extern u16 gScript_ViewportTargetY __attribute__((section(".data")));
-#else
+ * Consumers read it unsigned except where a site takes it as
+ * `*(s16 *)&gScript_SharedOperand` to read the signed divisor; that cast
+ * stays at the use, so the declaration is the plain u16. */
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;
 extern u16 gScript_ViewportTargetY;
-#endif
 
 /* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-invocation
  * deltas. The intervening command latch and stream pointer are independent
@@ -112,14 +91,9 @@ extern struct DisplayObject *gScript_TransitionObject;
  * gScript_ViewportTargetX/Y), and Script_OpShowImage tests 0x4000.
  * Retail is sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
- * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
- * the unsized-array arm rather than a small scalar. Their optional viewport
+ * The text callbacks store TextStream_ReadU16LE's result through $at. Their optional viewport
  * form consumes one byte then one halfword, not two halfwords. */
-#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern u16 gScript_ImageOperand[];
-#else
 extern u16 gScript_ImageOperand;
-#endif
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
  *

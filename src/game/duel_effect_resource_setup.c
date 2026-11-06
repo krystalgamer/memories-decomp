@@ -1,6 +1,5 @@
 #define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "card_constants.h"
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"

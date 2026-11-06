@@ -1,7 +1,4 @@
-#define GDIALOG_CHOICE_IN_DATA
 #define SAVE_DATA_WORKSPACE_AS_HALFWORDS
-#define MAIN_MODE_STATE_NEXT_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"
@@ -21,7 +18,6 @@
 #include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"
-#define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_read_choice_input.h"

@@ -67,11 +67,7 @@ extern DuelEffectChannel gText_aChannels[DUEL_EFFECT_CHANNEL_COUNT];
  * Every access is sb or lbu. Retail addresses the candidate writer through
  * $at, while the matching reader is gp-relative, so the writer selects the
  * .data declaration and the reader takes the plain declaration. */
-#ifdef D_8009B344_IN_DATA
-extern u8 gText_GuardianGlyphCode __attribute__((section(".data")));
-#else
 extern u8 gText_GuardianGlyphCode;
-#endif
 
 /* Generic text jump selector A; the field-info interpretation below is not
  * universal. Results use multiplayer mode, and the trade builder stores its
@@ -85,19 +81,8 @@ extern u8 gText_GuardianGlyphCode;
  * before building a text box; Text_JumpBySelectorA adds twice its value to the word the object's +0x58
  * index selects; duel_result_runtime.c stores the result-screen mode.
  * notes/duel-card-record.md calls it a text-selector override. Values
- * 0..3, every access sb or lbu.
- *
- * Retail reaches it through $at in DuelField_CreateCardInfoTextBox (six stores) with a
- * lui/lbu read in the same function, and gp-relative in Text_JumpBySelectorA, so
- * duel_field_display_objects.c defines the .data arm below;
- * duel_effect_object_commands.c takes the plain byte, and so does
- * main_menu_create_trade_ready_indicator.c, whose -G0 unit stores through
- * $at either way. */
-#ifdef D_8009B34E_IN_DATA
-extern u8 gText_BranchSelectorA __attribute__((section(".data")));
-#else
+ * 0..3, every access sb or lbu. */
 extern u8 gText_BranchSelectorA;
-#endif
 
 /* Independent generic selector B. Results use winner + 2 * multiplayer;
  * this is not universally Swords or guardian flags.
@@ -107,11 +92,7 @@ extern u8 gText_BranchSelectorA;
  * index selects.
  * Same two units, same forms (four $at stores and one lui/lbu read in
  * DuelField_CreateCardInfoTextBox, gp-relative in Text_JumpBySelectorB), same arms. */
-#ifdef D_8009B355_IN_DATA
-extern u8 gText_BranchSelectorB __attribute__((section(".data")));
-#else
 extern u8 gText_BranchSelectorB;
-#endif
 
 /* Stored by two functions and read by one. DuelField_CreateCardInfoTextBox stores
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
@@ -126,18 +107,10 @@ extern u8 gText_BranchSelectorB;
  * above it is gText_WaitCounter, at +2 (nothing is named at +1 there, in symbols.txt
  * or in c_symbols.ld).
  *
- * u8 because the one function that loads it, Text_ExpandSelectedCardInfo, already declared
- * it u8 and matched, and the load is lbu (Text_ExpandSelectedCardInfo.s:20, gp-relative).
- * Retail stores it through $at in DuelField_CreateCardInfoTextBox (DuelField_CreateCardInfoTextBox.s:162-163)
- * and Library_RefreshSelectedCardText (Library_RefreshSelectedCardText.s:39-40, :48-49), both
- * gcc_2_8_1_g8_split, so duel_field_display_objects.c and library_card_grid.c
- * define the .data arm; Text_ExpandSelectedCardInfo's candidate takes the plain byte.
- * Initial value not read. */
-#ifdef D_8009B320_IN_DATA
-extern u8 gText_SelectedCardColorIndex __attribute__((section(".data")));
-#else
+ * u8 because the one function that loads it, Text_ExpandSelectedCardInfo,
+ * already declared it u8 and matched, and the load is lbu
+ * (Text_ExpandSelectedCardInfo.s:20, gp-relative). Initial value not read. */
 extern u8 gText_SelectedCardColorIndex;
-#endif
 
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
  * stores the list entry's id (card_list_text_boxes.c:19); DuelField_CreateCardInfoTextBox stores
@@ -161,22 +134,8 @@ extern u8 gText_SelectedCardColorIndex;
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
  * gText_CurrentStreamCode at +2.
  *
- * Those five loads are %gp_rel and every C writer's sh goes through $at
- * (CardList_CreateSlotTextBox at 0x80031CD4, DuelField_CreateCardInfoTextBox.s:36-37,
- * DuelEffect_UpdateCardViewerState.s:102-103,
- * Library_RefreshSelectedCardText.s:13-14 and :26-27, CardList_BuildRowSetTextBoxes.s:61-62), so the five
- * units whose profiles are -G8 at both the compiler and maspsx --
- * duel_field_display_objects.c (DuelField_CreateCardInfoTextBox), card_list_deck_box.c,
- * library_card_grid.c, library_runtime.c (Library_UpdateCardView) and the
- * DuelEffect_UpdateCardViewerState candidate --
- * define the .data arm, and card_list_text_boxes.c, whose unit assembles
- * at -G0, takes the plain declaration.
  * Initial value not read. */
-#ifdef GDUEL_WSELECTEDCARDID_IN_DATA
-extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
-#else
 extern s16 gDuel_wSelectedCardID;
-#endif
 
 /* The text command disposition. TextBox_BuildStep is the only reader: it
  * clears the flag to 0, calls the opcode handler, and then tests the result
@@ -214,11 +173,7 @@ extern u8 gDialog_bCallbackState;
  * MemCardWork_UpdateOperation tests bit 0 to select read-header versus
  * write-header work; dialog_transition.c uses that same bit in
  * `DuelEffect_CreateChannel((a & 1) | 0xD0, 0)`. The other seven stored
- * bits have no reader in matched code; this is not a Boolean declaration.
- *
- * Plain, with no .data arm: the low-level card controller, MemCardWork_UpdateOperation,
- * reaches it as `lbu %gp_rel(gMemCardWork_OperationMode)($gp)`, so retail addresses it through
- * $gp like the small-data neighbours here. */
+ * bits have no reader in matched code; this is not a Boolean declaration. */
 extern u8 gMemCardWork_OperationMode;
 
 /* A 0x1C-byte partial effect prefix, historically merged from
@@ -254,32 +209,17 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 extern u8 gDuel_bEffectHandlerFlags;
 extern u8 gDuel_bActiveEffectState;
 
-/* The pending duel-effect request. DuelEffect_UpdateState reads it each
- * tick: zero is idle; otherwise the low bits are the effect id, which it
- * copies into gDuel_bActiveEffectState and then marks with 0x80 as started.
- * State handlers raise 0x40 when the effect is finished, and the next tick
- * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
+/* The pending duel-effect request. DuelEffect_UpdateState reads it each tick:
+ * zero is idle; otherwise the low bits are the effect id, which it copies
+ * into gDuel_bActiveEffectState and then marks with 0x80 as started. State
+ * handlers raise 0x40 when the effect is finished, and the next tick clears
+ * the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
- * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and
- * 4 by
- * frontend_scene_states.c,
- * and cleared by
- * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
- * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
- * Retail reaches it through $gp in DuelEffect_UpdateState,
- * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
- * through %hi/%lo everywhere else, including DuelScene_UpdateFieldActions
- * (still assembly). frontend_scene_states.c, main_run_campaign.c,
- * duel_scene_hand_actions.c and duel_update_card_pick_cursor.c define the
- * .data arm below for that;
- * build_deck_pane_input.c, src/game/duel_effect_states.c,
- * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and
- * MainMenu_UpdateTradeScreen take the plain arm. */
-#ifdef GDUEL_BEFFECTSTATE_IN_DATA
-extern u8 gDuel_bEffectState __attribute__((section(".data")));
-#else
+ * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and 4
+ * by frontend_scene_states.c, and cleared by Main_ResetFrontendRuntime and
+ * Main_RunCampaign. One byte, read lbu; the next named byte is
+ * gCardGrid_bCursorColumn at 0x8009B258. */
 extern u8 gDuel_bEffectState;
-#endif
 
 s32 DuelEffect_UpdateState(void);
 

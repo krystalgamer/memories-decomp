@@ -1,6 +1,5 @@
 #ifdef VERSION_JAPAN
 #endif
-#define D_8009AF5C_AS_BYTE_ARRAY
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "../ygo_types.h"
@@ -43,12 +42,7 @@ static u32 D_8009B38C;
    Options_HandleInput calls Options_UpdateLayout on every output-type change,
    and Options_Update dispatches to Options_HandleInput.
 
-   The four former sources were recorded at four profiles. Every member
-   compiles to an identical object at gcc_2_8_1_g8_split, including
-   Options_Init, whose gcc_2_8_1_cc_g8_as_g4_no_split dated from when it
-   reached gSD_bOutputType through an oversized array; it now takes the
-   .data arm of that declaration, which leaves the assembler threshold with
-   nothing to decide. */
+   The four former sources were recorded at four profiles. */
 
 /* The options screen's text box string; the Japanese string table numbers
  * it differently, so a regional build names its own. */
@@ -103,12 +97,10 @@ void Options_UpdateLayout(s32 selection) {
    with the selection flag (set to 0 earlier), gOptions_pOutputCursor is set to obj3,
    and SD_BGMPlay(0x7350) runs last.
 
-   gSD_bOutputType is reached through its .data arm (sound.h) so the load
-   is absolute (lui+lbu) rather than gp-relative. The single load of it is
-   cached in a local and
-   reused for both the output-type store and the `< 0` sign test, matching
-   how gcc schedules the real target (interleaved with obj1->flags's
-   load-early/store-late around the intervening `ori`). */
+   The single load of it is cached in a local and reused for both the
+   output-type store and the `< 0` sign test, matching how gcc schedules the
+   real target (interleaved with obj1->flags's load-early/store-late around
+   the intervening `ori`). */
 
 void Options_Init(void) {
     DisplayObject *obj;

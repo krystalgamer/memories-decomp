@@ -5,7 +5,6 @@
    state callback that calls the builder after loading or restoring a page. */
 
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "display_effect_has_resource_entry.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -141,8 +140,6 @@ void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offs
     }
 }
 
-/* The scalars carry section(".data") so -G8 keeps them off $gp and they take
-   the assembler macro form, while the one-byte gDisplayEffect_ResourceCacheWriteSlot stays gp-relative. */
 /* Which effect each VRAM slot holds, and the first sector of the effect
    packages. The Japanese build keeps the slot ids inside the gRuntime_pSharedWorkBase arena
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five

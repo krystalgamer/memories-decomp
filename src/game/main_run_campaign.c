@@ -1,5 +1,3 @@
-#define GDUEL_BEFFECTSTATE_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "ai.h"
 #include "scene_script.h"

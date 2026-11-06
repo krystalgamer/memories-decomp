@@ -1,7 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
-#define GDIALOG_CHOICE_IN_DATA
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "ai.h"
 #include "duel_side_state.h"
 #include "ai_controller_handoff.h"

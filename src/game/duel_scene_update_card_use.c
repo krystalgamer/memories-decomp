@@ -1,5 +1,4 @@
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_scene_card_placement.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

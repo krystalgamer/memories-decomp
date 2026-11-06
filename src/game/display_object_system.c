@@ -105,7 +105,6 @@ u8 gSD_szMidiTrackMarker[8] = "MTrk";
 #include "display_object_layout.h"
 #include "display_object_projection.h"
 #include "display_object_render_sprite_list.h"
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
@@ -504,7 +503,6 @@ void DisplayObject_RenderSpriteSheetList(void) {
 #include "../psyq/rand.h"
 /* The explicit viewport .data view keeps both offsets absolute under the
  * uniform -G8 compiler/assembler profile used by these renderers. */
-#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "display_flat_lights.h"
 #include "display_object.h"

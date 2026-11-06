@@ -9,12 +9,9 @@
  * The model scene owns the pointer and model state through gModelDebug_bSelectedDigit.
  * Graphics_BeginFrame and Graphics_SyncFrame publish the active buffer and
  * bounded frame step in gGraphics_bPacketBufferIndex-gGraphics_FrameStepControl.
- *
- * graphics_frame.c needs the absolute-address declaration arm below. Its
- * retail stores use %hi/%lo and its view of gGraphics_bFrameStep is non-volatile.
- * Model_GetFrameStep also uses a non-volatile view, but keeps two explicit
- * source reads. The C owner remains volatile and in .sdata for the default
- * view. */
+ * gGraphics_bFrameStep is volatile, as model.c defines it; Graphics_SyncFrame's
+ * store and Model_GetFrameStep's two reads are non-volatile in retail, so
+ * those three accesses cast at the use. */
 /* Pointer to the active 0xB2-byte model record. Model_SetSlotProperties
  * selects it from gModel_abBackgroundRecords; model view/update code reads fields through it.
  * The background renderer reads through +0xB1, including texture metadata,
@@ -52,16 +49,8 @@ extern u8 gModel_bActiveSlotIndex;
 extern u8 gModelDebug_bSelectedDigit;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */
-#ifdef MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
-extern u8 gGraphics_bPacketBufferIndex __attribute__((section(".data")));
-extern u8 gGraphics_bFrameStep __attribute__((section(".data")));
-#elif defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
-extern u8 gGraphics_bPacketBufferIndex;
-extern u8 gGraphics_bFrameStep;
-#else
 extern u8 gGraphics_bPacketBufferIndex;
 extern volatile u8 gGraphics_bFrameStep;
-#endif
 
 /* A4-A7 are four separate bytes (graphics_frame_controls.h): the frame-step
  * override gGraphics_FrameStepControl, unclassified D_8009AFA5, D_8009AFA6

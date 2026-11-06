@@ -1,4 +1,3 @@
-#define D_8009B0D8_IN_DATA
 #include "../types.h"
 
 #ifndef INPUT_PADS_REGIONAL_SMALL_STORAGE

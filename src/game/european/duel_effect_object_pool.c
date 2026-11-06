@@ -1,5 +1,4 @@
 #include "../../types.h"
-#define D_8009B1D5_IS_ABSOLUTE_SCALAR
 #include "../view_state.h"
 #include "../duel_effect_request.h"
 #define DUEL_EFFECT_OBJECT_POOL_REGIONAL_SMALL_STORAGE

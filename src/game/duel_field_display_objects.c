@@ -1,8 +1,3 @@
-#define D_8009B34E_IN_DATA
-#define D_8009B355_IN_DATA
-#define D_8009B320_IN_DATA
-#define D_8009B344_IN_DATA
-#define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "card_constants.h"

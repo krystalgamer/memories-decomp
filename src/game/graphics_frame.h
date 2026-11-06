@@ -23,17 +23,11 @@
  * 0x80180680 in MainMenu_UpdateFrontendMenu.
  * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
  * int global emit lbu and lhu against the same symbol -- so a narrow read is
- * written as a cast at the site, not as a declaration.
- *
- * The two arms left select addressing and ordering, which a cast cannot:
- *
- *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded;
- *                   display_object_fade_callbacks.c takes it for the whole
- *                   unit, and its three plain reads build the same under it
- *   _IN_DATA     -- out of small data at the compiler */
+ * written as a cast at the site, not as a declaration. Every consumer builds
+ * byte-identically with the one plain declaration in
+ * graphics_base_frame_step.h. */
 
-/* The movie playback state byte, shared by three files that disagree about
- * how to reach it.
+/* The movie playback state byte, shared by three files.
  *
  * movie_playback_control.h describes what it means: Movie_Play sets bit
  * 0x80 when a movie starts, Movie_UpdatePlayback sets 0x40 once the stream has been
@@ -41,15 +35,7 @@
  * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
  * why it is declared here -- this is the header all three consumers already
  * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
- * all.
- *
- * Two arms, for the same reason gGraphics_nBaseFrameStep has them
- * (graphics_base_frame_step.h). Every consumer is
- * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
- * main_run_frontend_loop.c and graphics_frame.c both carry section(".data") to escape
- * that; movie_playback_control.c takes the plain spelling and wants the
- * gp-relative form. Each arm reproduces exactly what that file already
- * wrote. */
+ * all. */
 extern u8 gMovie_bPlaybackState;
 
 #include "graphics_base_frame_step.h"
@@ -65,38 +51,15 @@ extern u8 gMovie_bPlaybackState;
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
  * re-reads it each iteration); every other retail site is a bare store
- * through $at (`lui $at,%hi` / `sb ...,%lo(...)($at)`). The arms follow
- * the unit, and each is justified by a control build of that unit on the
- * plain arm (the PR that added this block records the five results):
+ * through $at (`lui $at,%hi` / `sb ...,%lo(...)($at)`).
  *
- *   _IS_VOLATILE -- src/game/main.c
- *   _IN_DATA     -- main_run_animated_battle.c and
- *                   main_run_duel_and_library.c and main_mode_runners.c,
- *                   all at -G8: out of small
- *                   data at the compiler, with its true width
- *   _IN_DATA_VOLATILE -- src/game/duel_effect_states.c: the same .data view,
- *                   volatile. reorg treats a volatile reference as
- *                   conflicting with everything, so the delay-slot search
- *                   of the call after the store stops at the store; with
- *                   the plain byte that call takes its own `li a0,3` and
- *                   the unit differs from retail in two instructions.
- *                   src/game/library_runtime.c takes it for Library_UpdateCardView,
- *                   whose close path clears the byte right before
- *                   DisplayObject_SetResourceVariant: retail leaves that
- *                   call's delay slot empty, and the plain .data byte lets
- *                   the call take its own `li a1,2`
- *
- * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
- * plain byte. */
-#ifdef D_8009B0C0_IN_DATA_VOLATILE
-extern volatile u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
-#elif defined(D_8009B0C0_IN_DATA)
-extern u8 gGraphics_bSyncVBlankTarget __attribute__((section(".data")));
-#elif defined(D_8009B0C0_IS_VOLATILE)
+ * Every consumer builds byte-identically with the one volatile declaration.
+ * It is load-bearing in src/game/duel_effect_states.c and
+ * src/game/library_runtime.c: reorg treats a volatile reference as
+ * conflicting with everything, so the delay-slot search of the call after
+ * the store stops at the store, and retail leaves those calls' delay slots
+ * empty (with a plain byte they take their own `li a0,3` / `li a1,2`). */
 extern volatile u8 gGraphics_bSyncVBlankTarget;
-#else
-extern u8 gGraphics_bSyncVBlankTarget;
-#endif
 
 /* The normalized extra-step byte Graphics_SyncFrame publishes after its
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)` wait: it stores the counter into it,
@@ -114,14 +77,7 @@ extern u8 gGraphics_bSyncVBlankTarget;
  * overrides the common symbol with its retail address through the generated
  * symbol binding. This header's plain declaration sits in front of that
  * definition
- * and does not change it.
- *
- * Graphics_SyncFrame and Main_Init reach it gp-relative (sb/lbu,
- * func_80012DB4.s:20/24/26 and func_80012B50.s:34), so they take the plain
- * byte; TextBox_UpdateChannels reaches it through %hi/%lo (func_80039794.s:50-51)
- * and defines the .data arm. main_init.c used to declare it volatile; the
- * plain form builds byte-identical (measured by the PR that added this
- * block). */
+ * and does not change it. */
 extern u8 gGraphics_bExtraFrameStep;
 
 /* A byte Main_VBlankCB stores 1 into after bumping gMain_dwFrameCounter and
@@ -145,34 +101,19 @@ extern u8 gMain_bVBlankSoundPending;
  * then resets it to -1, and Main_Init zeroes it. It is not a monotonic
  * elapsed-frame total. Input_UpdatePads accumulates deferred masks for a
  * nonzero value and merges/clears them for zero. The compare in
- * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed.
- *
- * Three units reach it gp-relative and take the volatile form below;
- * Input_UpdatePads reads it through a %hi/%lo pair into the load's own
- * register (func_8003CCD8.s:50-51), the bare form, and takes _IN_DATA --
- * out of small data at the compiler with its true width. The unsized
- * `u32 []` it used to declare reached the same form ("Retail
- * rematerializes this address inside the repeat loop", its comment said),
- * and the .data scalar builds byte-identical there. Both arms are
- * justified by a control build recorded in the PR that added this
- * block. */
+ * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed. */
 extern volatile s32 gGraphics_dwSyncVBlankCounter;
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
  * zeroes it, and Text_WaitWithViewportShake and DuelResult_UpdateOrbitSprite test its bit
  * 0. The free_duel overlay's screen_runtime.c reads its low seven bits.
  * Retail reaches it gp-relative in Main_Init and graphics_frame.c and through
- * a lui/lw pair in the other two, which is the .data arm.
- * volatile is measured: without it Main_Init's zeroing store sinks below the
+ * a lui/lw pair in the other two. volatile is measured: without it Main_Init's zeroing store sinks below the
  * volatile gGraphics_dwSyncVBlankCounter store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
  * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
-#ifdef D_8009B0CC_IN_DATA
-extern s32 gGraphics_dwSyncedFrameCount __attribute__((section(".data")));
-#else
 extern volatile s32 gGraphics_dwSyncedFrameCount;
-#endif
 
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
  * Main_Init zeroes it and reads it into a local it stores to
@@ -182,16 +123,7 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
  * password overlay's NameEntry_Main shifts it left by eight and ors it
  * above a name checksum into the save block's stamped word; Library_DrawCardGrid
  * masks its low seven bits for the Library cursor's colour ramp. Sign is not visible in any use (& 0x3F,
- * & 0x7F, << 8, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter and is not established.
- *
- * src/game/main.c reaches it gp-relative and
- * takes the volatile form below; every other retail site is a lui/lw pair.
- * volatile is measured (notes/research/matching-evidence.md:479-490):
- * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
- * forwards the stored zero and the function is one instruction short.
- * build_deck_update.c and library_card_grid.c (-G8) define the .data arm;
- * widget_update_pulse_colour.c (-G0) and the password overlay's
- * name_entry_main.c take the plain form. */
+ * & 0x7F, << 8, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter and is not established. */
 extern volatile s32 gMain_dwFrameCounter;
 
 /* The active VBlank counter persisted in the save block. Main_VBlankCB ticks it beside
@@ -202,13 +134,7 @@ extern volatile s32 gMain_dwFrameCounter;
  * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
  * (save_data.h:65). Sign is not visible in any use (++, a store of that
  * local, a u32 field in and out), so s32 follows gMain_dwFrameCounter and gGraphics_dwSyncVBlankCounter
- * and is not established.
- *
- * src/game/main.c reaches it gp-relative and
- * takes the volatile form below; SaveData_ApplyRuntimeState stores through
- * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
- * while reaching another symbol through $gp, so save_data_payload.c, which
- * holds both, defines the .data arm. */
+ * and is not established. */
 extern volatile s32 gSaveData_dwVBlankCounter;
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
@@ -222,22 +148,15 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * only store to it.
  *
  * src/game/main.c defines it and reaches it gp-relative (the plain form).
- * main_init.c used to declare it volatile with the rest of its init block;
- * on this symbol the plain form builds byte-identical (measured by the PR
- * that added this block). Main_RunBootSequence stores through $at (lui/sh) in
- * a unit that reaches one other symbol through $gp, so
- * main_run_boot_sequence.c
- * defines the .data arm. */
+ * main_init.c used to declare it volatile with the rest of its init block; on
+ * this symbol the plain form builds byte-identical (measured by the PR that
+ * added this block). */
 extern u16 gGraphics_wFlags;
 
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than
  * through the small-data base. */
-#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
-extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
-#else
 extern u8 gGraphics_bActiveBuffer;
-#endif
 
 /* libgs's environments passed to PutDrawEnv / PutDispEnv. Startup writes the
  * draw environment through a volatile view at the use. See
@@ -285,44 +204,16 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  * gp-relative and supplies the three load-delay nops in the tint copy.  That
  * function's translation unit includes this header, so it builds
  * byte-identical with the declaration below visible ahead of its definition,
- * which is the only claim made here about the two.
- *
- *   _IN_DATA_VOLATILE -- startup's ordered, absolute-address byte stores
- *   _IN_DATA          -- out of small data at the compiler
- *   _IS_AGGREGATE     -- unsized array, read as [0]
- */
-#ifdef D_8009B142_IN_DATA_VOLATILE
-extern volatile u8 gGraphics_bClearBlue __attribute__((section(".data")));
-extern volatile u8 gGraphics_bClearGreen __attribute__((section(".data")));
-extern volatile u8 gGraphics_bClearRed __attribute__((section(".data")));
-#elif defined(D_8009B142_IN_DATA)
-extern u8 gGraphics_bClearBlue __attribute__((section(".data")));
-extern u8 gGraphics_bClearGreen __attribute__((section(".data")));
-extern u8 gGraphics_bClearRed __attribute__((section(".data")));
-#elif defined(D_8009B142_IS_AGGREGATE)
-extern u8 gGraphics_bClearBlue[];
-extern u8 gGraphics_bClearGreen[];
-extern u8 gGraphics_bClearRed[];
-#else
+ * which is the only claim made here about the two. */
 extern u8 gGraphics_bClearBlue;
 extern u8 gGraphics_bClearGreen;
 extern u8 gGraphics_bClearRed;
-#endif
 
 /* Viewport scroll offset in pixels, signed: Library_UpdateGridScroll subtracts it from a
    sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
-   results have to be able to go negative.
-
-   Files that reach these through `__attribute__((section(".data")))` select
-   the guarded view below because that spelling changes how the address is
-   materialised, not just how the value reads. */
-#if defined(GRAPHICS_VIEWPORT_IN_DATA)
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-#else
+   results have to be able to go negative. */
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
-#endif
 
 /* One half of the double-buffered graphics work area. The first 0x5110 bytes
  * hold the ordering-table tags; four SDK descriptors occupy the final 0x50
@@ -347,11 +238,7 @@ typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
  */
 extern GraphicsFrameBuffer gGraphics_aFrameBuffers[];
 
-#ifdef GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
-extern GraphicsFrameBuffer *volatile gGraphics_pActiveFrameBuffer;
-#else
 extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
-#endif
 
 /* The other half of that pair, the one the comment above refers to:
  *
@@ -393,17 +280,13 @@ extern DISPENV gGraphics_DispEnv;
  * Their neighbour gGraphics_abOrderingTableLengths holds the four ordering-table
  * lengths. Main_InitHardware writes all four through small data in program
  * order (volatile); the two menu runners write element 3 through the absolute
- * %hi/%lo form, which an array of unknown size reaches at -G8, so they select
- * the unsized view. */
+ * %hi/%lo form. Every consumer builds byte-identically with the sized
+ * declaration. */
 extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
 extern u8 gGraphics_bSkipDisplaySwap;
 
-#ifdef GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
-extern u8 gGraphics_abOrderingTableLengths[];
-#else
 extern u8 gGraphics_abOrderingTableLengths[4];
-#endif
 
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);

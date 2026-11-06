@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "text_start_campaign_duel.h"
 #include "duel_effect.h"

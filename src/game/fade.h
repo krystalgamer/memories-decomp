@@ -10,9 +10,7 @@
 
 extern FadeTransitionState gFade_State;
 
-/* The fade-active flag. Five of the fade family reach it through $gp (small
- * data) and take the plain arm below. graphics_frame.c reaches it with
- * %hi/%lo and takes the .data arm. The keep-overlay depth byte beside it is
+/* The fade-active flag. The keep-overlay depth byte beside it is
  * gFade_bKeepOverlayDepth (fade_overlay_controls.h). */
 extern u8 gFade_bOrderingTableMode;
 
@@ -24,20 +22,12 @@ extern u8 gFade_bOrderingTableMode;
  * family, and the start-up block in Main_InitHardware -- so the family
  * header holds the declaration.
  *
- * Main_InitHardware (src/game/main.c) takes the arm below and it
- * is a codegen input on that unit: retail stores the six D_8009B14x bytes
- * there through `lui $at` / `sb %lo(...)`, i.e. outside small data, and in
- * source order, which is what `.data` and `volatile` give. The three fade
- * units store them gp-relative and take the plain arm. */
-#ifdef D_8009B14A_IN_DATA_VOLATILE
-extern volatile u8 gFade_bTargetBlue __attribute__((section(".data")));
-extern volatile u8 gFade_bTargetGreen __attribute__((section(".data")));
-extern volatile u8 gFade_bTargetRed __attribute__((section(".data")));
-#else
+ * Main_InitHardware (src/game/main.c) stores them through `lui $at` /
+ * `sb %lo(...)`, the three fade units gp-relative; every consumer builds
+ * byte-identically with this one plain declaration. */
 extern u8 gFade_bTargetBlue;
 extern u8 gFade_bTargetGreen;
 extern u8 gFade_bTargetRed;
-#endif
 
 void Fade_Init(void);
 void Fade_StepBands(void);

@@ -105,34 +105,23 @@ extern DuelEffectRequest *gDuelEffect_pTrackedRequest;
  * raises bit 7 when it hands out a request and DuelEffect_ResetRequestPool
  * clears the byte; DuelEffect_UpdateRequests clears bit 0, raises it again
  * while walking blocking records and returns it; DuelScene_Update drops bit 7
- * unless bit 0 is set;
- * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty and
- * DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu everywhere and one
- * byte wide (c_symbols.ld names gDuelEffect_bRequestFinished next). Retail reaches it through
- * $gp in DuelEffect_UpdateRequests, DuelEffect_CreateRequest and
- * DuelEffect_ResetRequestPool, and through %hi/%lo in DuelScene_Update,
- * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty,
- * DuelEffect_ApplyDarkPiercingLight and DuelScene_UpdateExodiaResult. The
- * matching coordinator, duel_card_effects.c, and the matching Exodia-result
- * source define the .data arm below for that. The request-creation source
- * takes the plain arm.
+ * unless bit 0 is set; DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty
+ * and DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu everywhere and
+ * one byte wide (c_symbols.ld names gDuelEffect_bRequestFinished next).
+ * Retail reaches it through $gp in DuelEffect_UpdateRequests,
+ * DuelEffect_CreateRequest and DuelEffect_ResetRequestPool, and through
+ * %hi/%lo in DuelScene_Update, DuelEffect_ApplyRaigeki,
+ * DuelEffect_ApplyStatPenalty, DuelEffect_ApplyDarkPiercingLight and
+ * DuelScene_UpdateExodiaResult: the plain declaration, as every other unit
+ * assembled at -G0, gives the absolute accesses as the bare macro form.
  *
- * This paragraph named duel_scene_update.c until 2026-09-12. That was true
- * when it was written: duel_scene_update.c defined the arm from #3231 until
- * the coordinator moved through a candidate and then returned to matching C.
- *
- * What the arm buys DuelScene_UpdateExodiaResult is measured rather than
- * assumed: retail
- * leaves the delay slot before that unit's request-status test empty, and the
- * bare form this arm produces is one pseudo-instruction to the delay-slot
- * filler, so there is nothing for it to hoist into the slot. The unsized
+ * That form is measured rather than assumed for DuelScene_UpdateExodiaResult:
+ * retail leaves the delay slot before its request-status test empty, and the
+ * bare form is one pseudo-instruction to the delay-slot filler, so there is
+ * nothing for it to hoist into the slot. The unsized
  * array the unit declared privately gives cc1psx's own splittable pair
  * instead, and the lui half lands in the slot. */
-#ifdef gDuel_bEffectRequestStatus_IN_DATA
-extern u8 gDuel_bEffectRequestStatus __attribute__((section(".data")));
-#else
 extern u8 gDuel_bEffectRequestStatus;
-#endif
 
 /* Allocates a request for the given effect id, marks the pool active, and
  * returns it, or 0 when the pool is full. */

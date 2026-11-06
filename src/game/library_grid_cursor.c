@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_NEXT_AS_ARRAY
 #include "../types.h"
 #include "../unmatched.h"
 #include "input.h"
@@ -76,7 +75,7 @@ void Library_UpdateGridCursor(LibraryState *state)
             }
         }
         if ((gInput_awPadPressed[0] & LIBRARY_GRID_CANCEL_BUTTON) != 0) {
-            gMain_bActiveModeState[0] = gMain_bReturnMode[0];
+            gMain_bActiveModeState = gMain_bReturnMode;
             return;
         }
         if ((gInput_awPadHeld[0] & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {

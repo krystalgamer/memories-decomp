@@ -26,6 +26,6 @@ extern AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT];
 /* The signed opponent selector, element 1 of gDuel_bSide0ControllerSelector
  * (ai_controller_handoff.h). Every retail access is absolute, so every unit
  * takes this one .data declaration. */
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
+extern s8 gDuel_bOpponentID;
 
 #endif

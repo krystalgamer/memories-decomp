@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/rand.h"

@@ -1,4 +1,3 @@
-#define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
 #include "build_deck_test_and_set_initialized.h"
 #include "duel_effect.h"

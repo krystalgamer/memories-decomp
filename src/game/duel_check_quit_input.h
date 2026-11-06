@@ -35,8 +35,7 @@ extern u8 gDuel_bQuitDialogState;
  * starts, in the same run of assignments that clears the quit state, and
  * raises 0x1000 there for its own reason.
  *
- * Main_RunDuel takes the .data arm because its G8 build reaches the word
- * absolutely. The other two users take the plain scalar. */
+ * The other two users take the plain scalar. */
 extern u16 gDuel_wOutcomeFlags;
 
 /* debug_effect_screen.c's page byte. It follows gDuel_wOutcomeFlags in the

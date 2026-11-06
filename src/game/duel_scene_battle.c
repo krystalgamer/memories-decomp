@@ -38,12 +38,7 @@
  *   profile keeps the definitions common, so the linker resolves them to
  *   the retail addresses.
  */
-#define D_8009B369_IN_DATA
-#define D_8009B374_IN_DATA
-#define MAIN_MODE_STATE_NEXT_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "../psyq/rand.h"
 #include "duel_scene_state.h"
 #include "file_transfer.h"

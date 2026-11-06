@@ -17,7 +17,7 @@
  * use the assembler's macro form, which is what the .data placement gives
  * them, and the -G0 units are unaffected. Every unit takes this one
  * declaration. */
-extern s8 gDuel_bSide0ControllerSelector[DUEL_SIDE_COUNT] __attribute__((section(".data")));
+extern s8 gDuel_bSide0ControllerSelector[DUEL_SIDE_COUNT];
 
 void AiScript_SetHandFaceDownRequest(void);
 void AiScript_ClearHandFaceDownRequest(void);

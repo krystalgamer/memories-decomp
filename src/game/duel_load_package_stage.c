@@ -9,9 +9,7 @@
  * The thirteen stage contracts, both image submissions and volatile flag
  * accesses are preserved without register bindings or instruction assembly.
  */
-#define D_8009B118_IS_POINTER_IN_DATA
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "duel_check_ritual.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

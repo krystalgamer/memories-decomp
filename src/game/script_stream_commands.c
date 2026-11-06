@@ -1,6 +1,4 @@
-#define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #include "../types.h"
-#define FILE_TRANSFER_WORDS_IN_DATA
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
@@ -44,7 +42,7 @@ void Script_OpSound(void)
                 gSD_dwSavedBgmCommand = q[0] | (q[1] << 8);
             }
             if (f & 4) {
-                gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand[0];
+                gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand;
             }
         }
         if (f & 0x80) {

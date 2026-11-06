@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
-#define D_8009B118_IS_POINTER_IN_DATA
 #include "../unmatched.h"
 
 #define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
