@@ -31,7 +31,7 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
     Variant452Streamer *streamer = work->streamers;
-    Variant452EntryTrail *trail = work->trails;
+    ModelVariantRay *trail = work->trails;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;
@@ -229,19 +229,19 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 16; i++, trail++) {
             for (j = 0; j < 3; j++) {
                 if (j == 2) {
-                    trail->inner[j].r = 0;
-                    trail->inner[j].g = 0;
-                    trail->inner[j].b = 0;
                     trail->outer[j].r = 0;
                     trail->outer[j].g = 0;
                     trail->outer[j].b = 0;
-                } else {
-                    trail->inner[j].r = 255;
+                    trail->inner[j].r = 0;
                     trail->inner[j].g = 0;
-                    trail->inner[j].b = 255;
-                    trail->outer[j].r = 128;
-                    trail->outer[j].g = 128;
-                    trail->outer[j].b = 128;
+                    trail->inner[j].b = 0;
+                } else {
+                    trail->outer[j].r = 255;
+                    trail->outer[j].g = 0;
+                    trail->outer[j].b = 255;
+                    trail->inner[j].r = 128;
+                    trail->inner[j].g = 128;
+                    trail->inner[j].b = 128;
                 }
             }
         }

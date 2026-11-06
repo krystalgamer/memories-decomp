@@ -26,7 +26,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     Variant459Curtain *curtain;
     ModelVariantSheet *sheet;
     ModelVariantWeb *web;
-    Variant459EntryGlow *glow;
+    ModelVariantSpiralWide *glow;
     POLY_G4 *quad;
     POLY_GT4 *plain;
     POLY_GT4 *veil;

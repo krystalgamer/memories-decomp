@@ -14,14 +14,6 @@
 #include "../../game/model_effect_state.h"
 #include "../../game/model_graphics_state.h"
 
-typedef struct {
-    CVECTOR outer, inner, web_color;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    s32 first_count, paired;
-    u32 draw_start, grow_end, field_2C, phase3_end, matrix_end;
-    u8 unknown_38[8];
-} EntryConfig445Us;
-
 /* One 0x2B0-byte ribbon: a thirteen-point spine and a copy of it moved along
  * the view, both projected, per point the screen angle and projected width,
  * the ribbon colour, the drawn length, the phase state, the view offset, the
@@ -68,7 +60,7 @@ typedef struct {
     s32 frame_count;
     u32 elapsed, animation;
     s32 step, fade;
-    EntryConfig445Us *config;
+    ModelVariantGrowConfig *config;
     u32 field_3550;
     GsCOORDUNIT *parts[3];
     s32 angle, scale, wave, intensity, ribbon_wave, ribbon_phase;

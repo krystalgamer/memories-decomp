@@ -20,7 +20,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant413EntryGroup *group;
+    ModelVariantSwarm *group;
     ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;

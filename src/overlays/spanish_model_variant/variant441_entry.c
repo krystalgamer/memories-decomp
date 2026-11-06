@@ -15,7 +15,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantScreenRing *hoop = work->hoops;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantTubeView *tube = work->tubes;
-    Variant441EntryRibbon *ribbon = work->ribbons;
+    ModelVariantShortRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;
     ModelVariantColorRing *spoke = work->spokes;

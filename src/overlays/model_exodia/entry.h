@@ -35,14 +35,8 @@ typedef struct {
 } ExodiaColorRecord;
 
 typedef struct {
-    SVECTOR points[16];
-    CVECTOR inner, outer;
-    s32 scale, field_8C, field_90, field_94;
-} ExodiaEntryRing;
-
-typedef struct {
     ExodiaColorRecord colors[16];
-    ExodiaEntryRing rings[1];
+    ModelVariantPointSheet rings[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];

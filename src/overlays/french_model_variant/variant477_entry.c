@@ -10,7 +10,7 @@ s32 FrenchModelVariant477_HandleRequest(SVECTOR *point, s32 command)
     EntryPanel477 *panel;
     ModelVariantQuadGroup *group;
     ModelVariantBandPair *band = work->bands;
-    EntrySheet477 *sheet = work->sheets;
+    ModelVariantScaledSheet *sheet = work->sheets;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
     ModelVariantShape *shape = work->shapes;

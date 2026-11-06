@@ -17,18 +17,11 @@ typedef struct {
     u8 unknown_34[4];
 } Variant452EntryConfig;
 
-/* One 0xB8-byte record whose three colour pairs the entry seeds. */
-typedef struct {
-    u8 unknown_00[0x78];
-    CVECTOR outer[3], inner[3];
-    u8 unknown_90[0x28];
-} Variant452EntryTrail;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWeb webs[3];
     Variant452Streamer streamers[16];
-    Variant452EntryTrail trails[16];
+    ModelVariantRay trails[16];
     u8 unknown_25A0[0x360];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];

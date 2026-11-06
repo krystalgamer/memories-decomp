@@ -69,18 +69,6 @@ typedef struct {
     s32 unknown19C;
 } Variant437Cone;
 
-/* The 0xA0-byte two-step beam at work + 0x2480. */
-typedef struct {
-    u8 unknown00[0x68];
-    s32 offset[2];
-    u8 color[2][4];
-    u8 glow[2][4];
-    VECTOR scale;
-    s16 rx, ry;
-    s32 unknown94;
-    u8 unknown98[8];
-} Variant437Beam;
-
 /* One 0x98-byte four-corner tile (two at work + 0x2520). */
 typedef struct {
     SVECTOR a[4];
@@ -107,7 +95,7 @@ typedef struct {
     Variant437Group groups[8];
     Variant437Ribbon ribbons[16];
     Variant437Cone cones[3];
-    Variant437Beam beam;
+    ModelVariantBeamPair beam;
     Variant437Tile tiles[2];
     ModelVariantRing discs[6];
     ModelVariantRing rings[4];

@@ -46,14 +46,8 @@ typedef struct {
 } ExodiaSecondEntryBeam;
 
 typedef struct {
-    SVECTOR points[16];
-    CVECTOR inner, outer;
-    s32 scale, field_8C, field_90, field_94;
-} ExodiaSecondEntryRing;
-
-typedef struct {
     ExodiaSecondEntryBeam beams[1];
-    ExodiaSecondEntryRing rings[2];
+    ModelVariantPointSheet rings[2];
     ModelVariantSpiralWide petals[12];
     POLY_F4 flat;
     POLY_G3 triangle;
