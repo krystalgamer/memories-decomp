@@ -205,7 +205,7 @@ struct DuelRitualResult;
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
- * (script_op_save_prompt.c) holds the same object as
+ * (script_runtime.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation
@@ -225,10 +225,6 @@ extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
 extern u8 gSD_SmfBankVolInfoTag;
 extern u8 gSD_CdBankVolInfoTag;
-/* Retail reaches this byte gp-relative only in script_op_save_prompt.c
- * (dropping its switch grows .text by 8 bytes); every other unit uses
- * absolute addressing. */
-extern u8 gCampaignSceneIndex;
 extern u8 gFile_szSuMrgPath[];
 
 #endif

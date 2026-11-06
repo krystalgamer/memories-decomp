@@ -25,7 +25,7 @@
  * left s32 here on purpose. ScriptImageEntry has a separate stored-pointer
  * view of the same prefix; naming the table does not merge these access forms.
  *
- * script_op_duel_result.c takes this declaration too. Its three stores are
+ * script_runtime.c takes this declaration too. Its three stores are
  * the first word of slots 0, 1 and 2, as gSceneScript_Slots[i].object_address.
  * That spelling builds the unit's .text, relocations and data sections identical
  * to the pointer-array view it used to declare privately. (A cast of the
