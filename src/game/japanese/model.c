@@ -4,8 +4,6 @@
 #define VERSION_JAPAN
 /* Drops the control step's FntPrint trace. */
 #define MODEL_CONTROL_TRACE(message)
-/* The Japanese camera move record has no field_06 (model.h). */
-#define MODEL_CAMERA_MOVE_COMPACT_LAYOUT
 #include "../model.h"
 #define MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* This build's own zero-initialized storage at 0x8009B368-0x8009B388 (#2602); its
