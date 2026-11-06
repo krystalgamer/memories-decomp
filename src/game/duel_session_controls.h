@@ -21,11 +21,7 @@
  * two of them used to declare
  * were accessed only at [0]; as the notes on gDuel_bSide0ControllerSelector and gDuel_bPlayerLost
  * say, such a size is a threshold, not a length. */
-#ifdef D_8009B368_IN_DATA
-extern u8 gDuel_bPostDuelMainMode __attribute__((section(".data")));
-#else
 extern u8 gDuel_bPostDuelMainMode;
-#endif
 
 #ifdef D_8009B369_IN_DATA
 extern u8 gDuel_bResumeFromAnimatedBattle __attribute__((section(".data")));

@@ -4,5 +4,4 @@
 
 #define VERSION_EUROPE
 
-#define D_8009B3D4_IN_DATA
 #include "../duel_effect_states.c"

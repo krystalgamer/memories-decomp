@@ -27,9 +27,7 @@ The full byte is a packed control, not a Boolean, row index or
 release-only flag. All literal masks, callbacks, repeated reads and
 state-store ordering remain unchanged.
 
-The canonical declaration retains the original plain `u8` or
-`D_8009B34C_IN_DATA` `.data` selection. The old owner in `unmatched.h`,
-its selector spelling and its first-include behavior remain unchanged.
+The canonical declaration is the one plain `u8`.
 
 ## Shared callback state, not work-only or per-record state
 

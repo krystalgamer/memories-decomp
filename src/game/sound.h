@@ -896,31 +896,13 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
 
 #undef SD_STATE_OFFSET
 
-/* The sound root. sd_queue_value_link_transfer.c,
- * sd_allocate_sound_effect_voice.c and sd_init_voice_state.c load it with
- * lui %hi / lw %lo at every use because they build at -G0 without split
- * addresses; they reach no small data through $gp at all.
- *
- * sd_step_active_command.c, sd_cancel_music_requests.c and
- * sd_arm_busy_callback.c still define G_SDVALUE_IN_DATA. They also reach no
- * small data through $gp, but they need -msplit-addresses (for switch tables,
- * or for SD_ArmBusyCallback's function address), and at -G0 that also splits
- * g_SDValue, which retail does not. At -G8 the
- * compiler leaves g_SDValue as one lw macro; the attribute only drops the
- * `.extern g_SDValue, 4` line that would make MASPSX use $gp. */
-#ifdef G_SDVALUE_IN_DATA
-extern SDValue *g_SDValue __attribute__((section(".data")));
-#else
+/* The sound root. Every unit outside its owner loads it with lui %hi /
+ * lw %lo at each use, the assembler's -G0 form for an extern. */
 extern SDValue *g_SDValue;
-#endif
 
 /* Voice setup units keep the pointer outside small data for their absolute
  * loads; other resident consumers use the shared layout. */
-#ifdef D_8009B458_IN_DATA
-extern SDSecondaryState *gSD_pSecondaryState __attribute__((section(".data")));
-#else
 extern SDSecondaryState *gSD_pSecondaryState;
-#endif
 
 /* One SPU voice bit per entry.  The object at gSD_adwVoiceMasks is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
@@ -1145,11 +1127,7 @@ extern u32 gSD_dwCurrentBgmCommand;
  * control build measures. SD_BGMPlay takes a u32 and the neighbour it is
  * copied from is u32, so the word is declared u32; s32 builds
  * byte-identical. */
-#ifdef D_8009B404_IN_DATA
-extern u32 gSD_dwSavedBgmCommand[];
-#else
 extern u32 gSD_dwSavedBgmCommand;
-#endif
 
 /* The byte after gSD_dwSavedBgmCommand, 0x8009B408. Retail loads it lb where the C
  * tests its sign: SaveData_ApplyRuntimeState tests it `< 0` before storing
@@ -1168,10 +1146,6 @@ extern u32 gSD_dwSavedBgmCommand;
  * say so); the four units whose listings reach it through %hi/%lo take the
  * .data arm, and sound_frontend.c, whose store is gp-relative
  * (Sound_InitFrontend.s:12), takes the plain one. */
-#ifdef GSD_BOUTPUTTYPE_IN_DATA
-extern s8 gSD_bOutputType __attribute__((section(".data")));
-#else
 extern s8 gSD_bOutputType;
-#endif
 
 #endif

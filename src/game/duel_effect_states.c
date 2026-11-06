@@ -8,8 +8,6 @@
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
-#define D_8009B140_IN_DATA
-#define D_8009AF74_IN_DATA
 #define D_8009B0C0_IN_DATA_VOLATILE
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA

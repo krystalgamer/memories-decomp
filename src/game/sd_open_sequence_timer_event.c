@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "../psyq/libapi.h"
-#define D_8009B458_IN_DATA
 #include "sound.h"
 #include "sound_event_runtime.h"
 

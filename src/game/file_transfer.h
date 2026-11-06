@@ -150,21 +150,10 @@ void File_CancelTransfers(void);
  * `sector_destination = (s32)gFile_StagingBuffer`, and its case 3 writes this word into the same
  * two fields -- so the word is a stored address and is declared as one.  Every read is a single load of that word; the array and
  * scalar spellings this replaces reached it as `*(s32 *)(gFile_pScreenBankBase)` and as
- * a plain read, which are the same load.
- *
- * D_800101D8_IN_DATA is a codegen input, measured on each unit separately:
- * put either campaign_map_load_package_stage.c or
- * free_duel_load_package_stage.c on the plain declaration and the link fails
- * on that object alone with `relocation truncated to fit: R_MIPS_GPREL16
- * against gFile_pScreenBankBase`, because the unit reaches the symbol gp-relatively and
- * 0x800101D8 is out of range of $gp. The attribute takes it out of small data
- * for those two; the other three do not need it.
+ * a plain read, which are the same load. It sits at 0x800101D8, out of $gp's
+ * range, and every unit reaches it with %hi/%lo.
  */
-#ifdef D_800101D8_IN_DATA
-extern u8 *gFile_pScreenBankBase __attribute__((section(".data")));
-#else
 extern u8 *gFile_pScreenBankBase;
-#endif
 
 /* The per-file starting sector table the transfer setup indexes by file
    number. Four sources reached it, all with this identical declaration and
@@ -278,11 +267,7 @@ extern char gFile_TargetLoc[4];
  * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
  * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer is what every use
  * assigns and calls. */
-#ifdef D_8009B10C_IN_DATA
-extern void (*gFile_BeforePrimaryRequestCallback)(void) __attribute__((section(".data")));
-#else
 extern void (*gFile_BeforePrimaryRequestCallback)(void);
-#endif
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
  * 24x24 at (0x120, 0xD0), tpage 0xB, uv (0x00, 0xA0), clut (0x230, 0xFC),
@@ -304,25 +289,12 @@ void File_SetPositionTable(void);
  * of zero in File_InitTransferState and gp-relative lw in
  * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
  * defines the .data arms below for that. Initial value not read. */
-#ifdef D_8009B0F0_IN_DATA
-extern void (*gFile_RangeReadCallback)(void) __attribute__((section(".data")));
-#else
 extern void (*gFile_RangeReadCallback)(void);
-#endif
-#ifdef D_8009B120_IN_DATA
-extern void (*gFile_RangePauseCallback)(void) __attribute__((section(".data")));
-#else
 extern void (*gFile_RangePauseCallback)(void);
-#endif
 
 /* SD_ConfigureTransferPhase invokes this after its normal secondary payload
  * legs. SD_ArmBusyCallback stores it through the .data arm. */
-#ifdef D_8009B128_IN_DATA
-extern void (*gFile_SecondaryPayloadCompleteCallback)(void)
-    __attribute__((section(".data")));
-#else
 extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
-#endif
 
 /* Disk-error command reissues; reset only by loader initialization. */
 extern s32 gFile_CommandRetryCount;

@@ -1,4 +1,3 @@
-#define D_8009B145_IN_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
 #define FILE_TRANSFER_WORDS_IN_DATA

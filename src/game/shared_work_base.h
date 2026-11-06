@@ -3,10 +3,6 @@
 
 #include "../types.h"
 
-#ifdef HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
-extern u8 *gRuntime_pSharedWorkBase __attribute__((section(".data")));
-#else
 extern u8 *gRuntime_pSharedWorkBase;
-#endif
 
 #endif

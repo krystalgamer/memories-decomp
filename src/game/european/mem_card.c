@@ -36,7 +36,6 @@ extern u8 gMemCardDialog_DirectoryBuffer[];
 extern u8 gMemCardDialog_FileNameBuffer[];
 extern struct MemCardWorkArea gMemCardWork_Area;
 #define GDIALOG_CHOICE_IN_DATA
-#define MEM_CARD_DIRECTORY_IN_DATA
 #define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #include "../text_box_blocking_build.h"
 #include "../mem_card_dialog.h"

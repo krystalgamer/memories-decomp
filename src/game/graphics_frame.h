@@ -50,11 +50,7 @@
  * that; movie_playback_control.c takes the plain spelling and wants the
  * gp-relative form. Each arm reproduces exactly what that file already
  * wrote. */
-#ifdef D_8009B318_IN_DATA
-extern u8 gMovie_bPlaybackState __attribute__((section(".data")));
-#else
 extern u8 gMovie_bPlaybackState;
-#endif
 
 #include "graphics_base_frame_step.h"
 
@@ -126,11 +122,7 @@ extern u8 gGraphics_bSyncVBlankTarget;
  * and defines the .data arm. main_init.c used to declare it volatile; the
  * plain form builds byte-identical (measured by the PR that added this
  * block). */
-#ifdef D_8009B0C1_IN_DATA
-extern u8 gGraphics_bExtraFrameStep __attribute__((section(".data")));
-#else
 extern u8 gGraphics_bExtraFrameStep;
-#endif
 
 /* A byte Main_VBlankCB stores 1 into after bumping gMain_dwFrameCounter and
  * gSaveData_dwVBlankCounter and before bumping gGraphics_dwSyncVBlankCounter,
@@ -164,11 +156,7 @@ extern u8 gMain_bVBlankSoundPending;
  * and the .data scalar builds byte-identical there. Both arms are
  * justified by a control build recorded in the PR that added this
  * block. */
-#ifdef D_8009B0C8_IN_DATA
-extern s32 gGraphics_dwSyncVBlankCounter[];
-#else
 extern volatile s32 gGraphics_dwSyncVBlankCounter;
-#endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
  * zeroes it, and Text_WaitWithViewportShake and DuelResult_UpdateOrbitSprite test its bit
@@ -204,11 +192,7 @@ extern volatile s32 gGraphics_dwSyncedFrameCount;
  * build_deck_update.c and library_card_grid.c (-G8) define the .data arm;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
-#ifdef D_8009B09C_IN_DATA
-extern s32 gMain_dwFrameCounter __attribute__((section(".data")));
-#else
 extern volatile s32 gMain_dwFrameCounter;
-#endif
 
 /* The active VBlank counter persisted in the save block. Main_VBlankCB ticks it beside
  * gMain_dwFrameCounter; Main_Init stores into it, at the end of its block, the value
@@ -225,11 +209,7 @@ extern volatile s32 gMain_dwFrameCounter;
  * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
-#ifdef D_8009B0C4_IN_DATA
-extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
-#else
 extern volatile s32 gSaveData_dwVBlankCounter;
-#endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
  * is set; Graphics_BeginFrame calls PutDispEnv only when bit 0x2000 is set;
@@ -248,11 +228,7 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * a unit that reaches one other symbol through $gp, so
  * main_run_boot_sequence.c
  * defines the .data arm. */
-#ifdef D_8009B098_IN_DATA
-extern u16 gGraphics_wFlags[];
-#else
 extern u16 gGraphics_wFlags;
-#endif
 
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than

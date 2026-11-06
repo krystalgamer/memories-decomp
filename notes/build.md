@@ -1194,8 +1194,7 @@ duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_c
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `frontend_scene_states.c` and
-[`Script_OpSavePrompt`](../src/game/script_op_save_prompt.c) behind a
-`D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
+[`Script_OpSavePrompt`](../src/game/script_op_save_prompt.c). `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
 a lever and could never be a real array -- and `frontend_scene_states.c`
 demonstrates both at once, declaring `D_8009B26C[]` while separately using

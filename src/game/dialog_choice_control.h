@@ -16,10 +16,6 @@
  *
  * Script_OpSavePrompt also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
-#ifdef D_8009B34C_IN_DATA
-extern u8 gDialog_bChoiceControl __attribute__((section(".data")));
-#else
 extern u8 gDialog_bChoiceControl;
-#endif
 
 #endif

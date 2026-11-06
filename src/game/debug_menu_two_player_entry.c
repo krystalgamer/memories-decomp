@@ -1,5 +1,3 @@
-#define D_8009B3EA_IN_DATA
-#define D_8009B3ED_IN_DATA
 #include "../types.h"
 #include "two_player_save_setup.h"
 #include "mem_card.h"
@@ -20,8 +18,8 @@ void DebugMenu_UpdateTwoPlayerDuelEntry(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
-        gSaveData_PairSetupState[0] = 0;
-        gSaveData_LoadPairState[0] = 0;
+        gSaveData_PairSetupState = 0;
+        gSaveData_LoadPairState = 0;
     }
     result = SaveData_UpdateDuelLoad();
     if (result != 0) {

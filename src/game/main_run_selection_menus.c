@@ -1,7 +1,6 @@
 #define GRAPHICS_ORDERING_TABLE_LENGTHS_UNSIZED
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define D_8009B2F8_AS_ARRAY
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../types.h"
 #include "secondary_scene_commands.h"
 #include "../overlays/free_duel/free_duel.h"

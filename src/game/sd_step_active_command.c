@@ -1,6 +1,4 @@
-#define G_SDVALUE_IN_DATA
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
-#define SOUND_TRANSFER_REQUEST_IN_DATA
 #include "../types.h"
 #include "sound_transfer_lifecycle.h"
 #include "file_transfer.h"

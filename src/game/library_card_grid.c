@@ -1,5 +1,4 @@
 #define GRAPHICS_VIEWPORT_IN_DATA
-#define D_8009B09C_IN_DATA
 #define D_8009B320_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"

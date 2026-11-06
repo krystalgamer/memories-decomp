@@ -46,15 +46,9 @@ void MemCard_FindLoadedEntry(u8 *name);
 #endif
 
 /* Current directory-entry buffer and the number of records loaded into it. */
-#ifdef MEM_CARD_DIRECTORY_IN_DATA
-extern struct DIRENTRY *gMemCard_pDirEntries __attribute__((section(".data")));
-extern s32 gMemCard_nDirEntries __attribute__((section(".data")));
-extern s32 gMemCard_nFreeBlocks __attribute__((section(".data")));
-#else
 extern struct DIRENTRY *gMemCard_pDirEntries;
 extern s32 gMemCard_nDirEntries;
 extern s32 gMemCard_nFreeBlocks;
-#endif
 extern struct DIRENTRY gMemCard_aDirEntries[];
 
 #endif

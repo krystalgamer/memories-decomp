@@ -55,10 +55,6 @@ void Campaign_LoadScenePackageStage(
  * releases/recreates it. DuelResult conditionally hides/restores its renderable
  * flag. Releases do not imply a null store or a live pointer afterward.
  * The debug entry selects the DATA view for its absolute load/store. */
-#ifdef CAMPAIGN_PRIMARY_OBJECT_IN_DATA
-extern DisplayObject *gCampaign_PrimaryDisplayObject __attribute__((section(".data")));
-#else
 extern DisplayObject *gCampaign_PrimaryDisplayObject;
-#endif
 
 #endif

@@ -16,8 +16,7 @@
  *   gDialog_bChoiceCount    How many are offered; read into an s32 and set to
  *                           4 and 7 at different prompts.
  *
- * Script_OpSavePrompt also clears gDialog_bChoiceCount and needs the absolute
- * .data addressing, so it selects GDIALOG_CHOICE_COUNT_IN_DATA below.
+ * Script_OpSavePrompt also clears gDialog_bChoiceCount.
  *
  * WAS NOT HERE, AND NOW IS
  *
@@ -28,11 +27,7 @@
  * privately.
  */
 extern u8 gDialog_bChoiceEnabled;
-#ifdef GDIALOG_CHOICE_COUNT_IN_DATA
-extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
-#else
 extern s8 gDialog_bChoiceCount;
-#endif
 
 /* The selected index the other two are read against. #3149 left this out
  * because it is declared eleven times in four spellings; sorting those into

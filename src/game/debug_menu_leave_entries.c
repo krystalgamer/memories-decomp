@@ -11,7 +11,6 @@
 #include "debug_menu_exit.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
-#define GFREEDUEL_BRETURNFLAGS_IN_DATA
 #include "../overlays/free_duel/free_duel.h"
 
 /* Small globals other units own, declared here as common symbols the

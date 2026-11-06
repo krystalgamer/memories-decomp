@@ -1,4 +1,3 @@
-#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sd_key_off_secondary_object.h"

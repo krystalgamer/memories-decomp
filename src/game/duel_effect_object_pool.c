@@ -1,4 +1,3 @@
-#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #define D_8009B1D5_IS_ABSOLUTE_SCALAR
 #include "../types.h"
 #include "view_state.h"
