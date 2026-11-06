@@ -87,7 +87,8 @@ typedef struct {
     s16 field_1F48, field_1F4A;
     s32 field_1F4C, field_1F50, field_1F54, field_1F58, field_1F5C;
     s16 field_1F60, field_1F62;
-    s32 field_1F64, field_1F68, field_1F6C, field_1F70, field_1F74, field_1F78;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 field_1F74, wave_phase;
     s32 phase;
     u8 unknown_1F80[8];
     s32 ambient;
