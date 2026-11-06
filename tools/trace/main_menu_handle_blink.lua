@@ -37,8 +37,12 @@
 --   seconds. Each handle blinks twice. The renderers draw an entry only when
 --   (flags & 0xC0) == 0xC0 and still run its update callback first, so the
 --   only effect is that the graphic is not drawn. Nothing else is written.
---   If a handle changes or goes null mid-blink the blink is abandoned and
---   the bit is restored only if the same object is still allocated.
+--   Every write (hide, re-hide from either hook, restore) first re-reads the
+--   overlay signature, the handle global, the slot's ALLOCATED bit and the
+--   flags we last left. If any of them moved -- including a release and
+--   reallocation of the same slot -- the blink is abandoned with an ABANDON
+--   row and nothing more is written, so a replacement object is never
+--   touched; a SHOW row appears only when the original bit was written back.
 --
 -- HOW TO RUN (about three minutes; the window ends itself after four)
 --   1. Enable the debugger, select the interpreter CPU (restart the emulator
@@ -151,6 +155,7 @@ local handles = {
 }
 for _, h in ipairs(handles) do
     h.blinks, h.aborts, h.refused, h.rewrites, h.last = 0, 0, 0, 0, 0
+    h.abandoned = 0
 end
 
 local mem = PCSX.getMemPtr()
@@ -158,6 +163,7 @@ local rows, dropped = {}, 0
 local frames, event, controlHits, writes = 0, 0, 0, 0
 local resident, mismatches = nil, 0
 local active, gapUntil, allDoneAt = nil, 0, nil
+local abandonedTotal = 0
 local done = false
 breakpoints_main_menu_handle_blink = {}
 
@@ -210,13 +216,6 @@ local function refusal(pointer)
     return nil
 end
 
--- Fields that change only if the slot is released and reused.
-local function identity(pointer)
-    return string.format('%08X/%08X/%04X/%08X/%08X', read32(pointer + 0x04),
-        read32(pointer + 0x24), read16(pointer + 0x1E),
-        read32(pointer + 0x3C), read32(pointer + 0x5C))
-end
-
 local function writeFlags(pointer, value)
     if refusal(pointer) ~= nil then return false end
     ffi.cast('uint16_t*', mem + (pointer + 0x08 - RAM_BASE))[0] = value
@@ -254,15 +253,57 @@ local function describe(pointer)
         read32(pointer + 0x54))
 end
 
+-- No DisplayObject field is an allocation generation: DisplayObject_Release
+-- zeroes flags and DisplayObject_AcquireSlot may hand the same address and
+-- pool_index straight to a new owner. So before every write the blink must
+-- still be ours, re-read now: the overlay signature, the watched handle
+-- still pointing at the blinked object, the slot still allocated, and the
+-- flags still exactly what we last wrote (or that plus only 0x40, the game
+-- re-setting the bit). Anything else is a new lifetime or a foreign change.
+-- Returns the current flags, or nil and the reason.
+local function ours(blink)
+    if not signature() then return nil, 'main_menu overlay left' end
+    local current = read32(blink.handle.address)
+    if current ~= blink.object then
+        return nil, string.format('handle changed to 0x%08X', current)
+    end
+    local why = refusal(blink.object)
+    if why ~= nil then return nil, 'object no longer live: ' .. why end
+    local flags = read16(blink.object + 0x08)
+    if flags ~= blink.written
+        and flags ~= bit.bor(blink.written, FLAG_RENDERABLE) then
+        return nil, string.format('flags changed 0x%04X -> 0x%04X '
+            .. '(released/reallocated or rewritten)', blink.written, flags)
+    end
+    return flags
+end
+
+-- Drop a stale blink without writing anything. The object it named may
+-- now belong to someone else, so its flags are left as they are.
+local function abandon(reason)
+    local blink = active
+    if blink == nil then return end
+    active = nil
+    local h = blink.handle
+    h.abandoned = h.abandoned + 1
+    abandonedTotal = abandonedTotal + 1
+    live(string.format('ABANDON %s (obj=0x%08X): %s; nothing written, the '
+        .. 'original bit was NOT restored', h.name, blink.object, reason))
+    gapUntil = frames + GAP_FRAMES
+end
+
 -- Keep the bit clear while a blink runs; counts the game setting it again.
 local function rehide()
-    if active == nil or refusal(active.object) ~= nil then return end
-    local flags = read16(active.object + 0x08)
-    if bit.band(flags, FLAG_RENDERABLE) ~= 0 then
+    if active == nil then return end
+    local flags, why = ours(active)
+    if flags == nil then
+        abandon(why)
+        return
+    end
+    if flags ~= active.written then
         active.handle.rewrites = active.handle.rewrites + 1
         active.rewrites = active.rewrites + 1
-        writeFlags(active.object,
-            bit.band(flags, bit.bnot(FLAG_RENDERABLE)))
+        writeFlags(active.object, active.written)
         if active.rewrites == 1 then
             live(string.format('REWRITE %s: the game set the bit again; '
                 .. 're-hidden', active.handle.name))
@@ -270,19 +311,19 @@ local function rehide()
     end
 end
 
--- Put the original bit back, and only on the same live object.
+-- Put the original bit back, but only while the blink is still ours.
+-- A completed SHOW is reported only when that write happened.
 local function restore(reason)
     local blink = active
     if blink == nil then return end
+    local flags, why = ours(blink)
+    if flags == nil then
+        abandon(why)
+        return
+    end
     active = nil
     local h = blink.handle
-    local restored = false
-    if refusal(blink.object) == nil
-        and identity(blink.object) == blink.identity then
-        local flags = read16(blink.object + 0x08)
-        restored = writeFlags(blink.object, bit.bor(
-            bit.band(flags, bit.bnot(FLAG_RENDERABLE)), blink.original))
-    end
+    writeFlags(blink.object, bit.bor(blink.written, blink.original))
     if reason == nil then
         h.blinks = h.blinks + 1
         live(string.format('SHOW %s (obj=0x%08X) blink %d/%d done; '
@@ -290,21 +331,20 @@ local function restore(reason)
             h.blinks, BLINKS, blink.rewrites))
     else
         h.aborts = h.aborts + 1
-        live(string.format('ABORT %s (obj=0x%08X): %s; %s', h.name,
-            blink.object, reason, restored and 'bit restored'
-                or 'bit not restored (object released or reused)'))
+        live(string.format('STOP %s (obj=0x%08X): %s; bit restored',
+            h.name, blink.object, reason))
     end
     gapUntil = frames + GAP_FRAMES
 end
 
 local function start(h, pointer)
     local flags = read16(pointer + 0x08)
+    local written = bit.band(flags, bit.bnot(FLAG_RENDERABLE))
     active = {
         handle = h, object = pointer, started = frames, rewrites = 0,
-        original = bit.band(flags, FLAG_RENDERABLE),
-        identity = identity(pointer),
+        original = bit.band(flags, FLAG_RENDERABLE), written = written,
     }
-    writeFlags(pointer, bit.band(flags, bit.bnot(FLAG_RENDERABLE)))
+    writeFlags(pointer, written)
     live(string.format('HIDE %s (obj=0x%08X) for 3 s -- note what '
         .. 'disappears', h.name, pointer))
 end
@@ -344,16 +384,9 @@ local function tick()
         end
     end
     if active ~= nil then
-        local current = now and read32(active.handle.address) or nil
-        if not now then
-            restore('main_menu overlay left')
-        elseif current ~= active.object then
-            restore(string.format('handle changed to 0x%08X', current))
-        elseif refusal(active.object) ~= nil then
-            restore('object no longer live: ' .. refusal(active.object))
-        else
-            rehide()
-            if frames - active.started >= HIDE_FRAMES then restore(nil) end
+        rehide()
+        if active ~= nil and frames - active.started >= HIDE_FRAMES then
+            restore(nil)
         end
     end
     if now then poll() end
@@ -386,6 +419,7 @@ end
 finish = function(reason)
     if done then return end
     if active ~= nil then pcall(restore, 'trace ended') end
+    if active ~= nil then active = nil end
     done = true
     for _, bp in ipairs(breakpoints_main_menu_handle_blink) do
         pcall(function() bp:disable() end)
@@ -399,12 +433,12 @@ finish = function(reason)
     print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format('frames: %d control_hits: %d flag_writes: %d '
-        .. 'signature_mismatches: %d dropped_rows: %d', frames, controlHits,
-        writes, mismatches, dropped))
+        .. 'signature_mismatches: %d abandoned_blinks: %d dropped_rows: %d',
+        frames, controlHits, writes, mismatches, abandonedTotal, dropped))
     for _, h in ipairs(handles) do
-        print(string.format('%s 0x%08X blinks=%d/%d aborts=%d refused=%d '
-            .. 'game_rewrites=%d', h.name, h.address, h.blinks, BLINKS,
-            h.aborts, h.refused, h.rewrites))
+        print(string.format('%s 0x%08X blinks=%d/%d stopped=%d '
+            .. 'abandoned=%d refused=%d game_rewrites=%d', h.name, h.address,
+            h.blinks, BLINKS, h.aborts, h.abandoned, h.refused, h.rewrites))
     end
     if controlHits == 0 then
         print('note: Main_RunFrameServices never fired; the blinks still '
@@ -423,7 +457,7 @@ breakpoints_main_menu_handle_blink[1] = traceAddBreakpoint(CONTROL, 'Exec', 4,
             if read32(CONTROL) == CONTROL_WORD then
                 controlHits = controlHits + 1
             end
-            if resident then rehide() end
+            rehide()
         end)
         if not ok then finish('callback error: ' .. tostring(err)) end
     end)

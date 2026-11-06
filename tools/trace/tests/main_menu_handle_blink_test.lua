@@ -161,60 +161,120 @@ do
     assert(r:countOf('HIDE D_80184558') == 2, 'two blinks per handle')
 end
 
--- The game setting the bit again mid-blink is re-hidden, then restored,
--- and its own change to another bit survives.
+-- The game setting only the bit again mid-blink is re-hidden from either
+-- hook, then the original bit comes back.
 do
     local r = capture()
     local object = r:object(4, 0xE8)
     r.w32(HANDLES[2], object)
     r:frames(10)
     assert(r.r16(object + 8) == 0xA8)
-    r.w16(object + 8, 0xEC) -- game: set renderable and clip-test
+    r.w16(object + 8, 0xE8) -- game: set renderable again
     r:control()
-    assert(r.r16(object + 8) == 0xAC, 'the frame-services hook re-hides')
-    r.w16(object + 8, 0xEC)
+    assert(r.r16(object + 8) == 0xA8, 'the frame-services hook re-hides')
+    r.w16(object + 8, 0xE8)
     r:frames(1)
-    assert(r.r16(object + 8) == 0xAC, 'the frame tick re-hides')
+    assert(r.r16(object + 8) == 0xA8, 'the frame tick re-hides')
     assert(r:countOf('REWRITE D_8018455C') == 1)
     r:frames(HIDE)
-    assert(r.r16(object + 8) == 0xEC, 'original bit back, game bit kept')
-    assert(r:has('game re-set the bit 2 time(s)'))
+    assert(r.r16(object + 8) == 0xE8, 'original bit back')
+    assert(r:has('SHOW D_8018455C (obj=0x800F0008) blink 1/2 done; game '
+        .. 're-set the bit 2 time(s)'))
 end
 
--- A handle changing mid-blink aborts and restores the old object; a
--- released object is left alone.
+-- Any other flag change is a foreign write: abandoned with no write.
 do
     local r = capture()
-    local first, second = r:object(5), r:object(6)
-    r.w32(HANDLES[3], first)
-    r:frames(30)
-    assert(r.r16(first + 8) == 0xA8)
-    r.w32(HANDLES[3], second)
-    r:frames(1)
-    assert(r:has('ABORT D_801845A0 (obj=0x800F0078): handle changed to '
-        .. '0x800F00E8; bit restored'))
-    assert(r.r16(first + 8) == 0xE8)
-    assert(r.r16(second + 8) == 0xE8, 'the gap holds off the next blink')
-    r:frames(GAP)
-    assert(r.r16(second + 8) == 0xA8, 'blinking resumes on the new object')
-    r.w32(HANDLES[3], 0)
-    r:release(second)
-    r:frames(1)
-    assert(r:has('ABORT D_801845A0 (obj=0x800F00E8): handle changed to '
-        .. '0x00000000; bit not restored'))
-    assert(r.r16(second + 8) == 0, 'a released slot is not written')
-    assert(r:has('D_801845A0 cleared to null'))
+    local object = r:object(4, 0xE8)
+    r.w32(HANDLES[2], object)
+    r:frames(10)
+    r.w16(object + 8, 0xAC) -- game: clip-test on, renderable still clear
+    local before = r:snapshot()
+    r:control()
+    r:frames(HIDE + GAP - 1)
+    assert(r:snapshot() == before, 'nothing written after a foreign change')
+    assert(r:countOf('ABANDON D_8018455C (obj=0x800F0008): flags changed '
+        .. '0x00A8 -> 0x00AC') == 1)
+    assert(not r:has('SHOW D_8018455C'))
+end
 
-    -- Overlay replaced mid-blink: restored through the resident pool.
-    local q = capture()
-    local object = q:object(9)
-    q.w32(HANDLES[5], object)
-    q:frames(5)
-    q.w32(0x8018001C, 0)
-    q:frames(1)
-    assert(q:has('ABORT D_801845DC (obj=0x800F0238): main_menu overlay left; '
-        .. 'bit restored'))
-    assert(q.r16(object + 8) == 0xE8)
+-- The reviewer's interleaving: slot A is released and reallocated to a new
+-- renderable object, the handle is cleared, and the frame-services hook runs
+-- before the next vsync. The replacement must never be written.
+for _, handleAfter in ipairs({0, POOL + 30 * RECORD}) do
+    local r = capture()
+    local a = r:object(5)
+    r.w32(HANDLES[3], a)
+    r:frames(30)
+    assert(r.r16(a + 8) == 0xA8)
+    r:release(a)
+    r:object(5, 0xE8) -- same address and pool_index, new owner
+    r.w32(HANDLES[3], handleAfter)
+    local before = r:snapshot()
+    r:control()
+    assert(r:snapshot() == before, 'the control hook left the replacement alone')
+    assert(r:has(string.format('ABANDON D_801845A0 (obj=0x800F0078): handle '
+        .. 'changed to 0x%08X; nothing written', handleAfter)))
+    r:frames(1)
+    assert(r.r16(a + 8) == 0xE8, 'the vsync tick wrote nothing either')
+    assert(not r:has('SHOW D_801845A0'))
+    r:frames(HIDE)
+    assert(r:countOf('ABANDON D_801845A0') == 1)
+end
+
+-- Released and reallocated with the handle unchanged but different flags:
+-- the flags no longer match our write, so it is a new lifetime.
+do
+    local r = capture()
+    local a = r:object(5)
+    r.w32(HANDLES[3], a)
+    r:frames(30)
+    r:release(a)
+    r:object(5, 0xC8)
+    local before = r:snapshot()
+    r:control()
+    r:frames(1)
+    assert(r:snapshot() == before)
+    assert(r:has('ABANDON D_801845A0 (obj=0x800F0078): flags changed 0x00A8 '
+        .. '-> 0x00C8'))
+end
+
+-- The overlay changing before the control hook: abandoned, nothing written.
+do
+    local r = capture()
+    local object = r:object(9)
+    r.w32(HANDLES[5], object)
+    r:frames(5)
+    r.w32(0x8018001C, 0)
+    local before = r:snapshot()
+    r:control()
+    assert(r:snapshot() == before)
+    assert(r:has('ABANDON D_801845DC (obj=0x800F0238): main_menu overlay '
+        .. 'left; nothing written'))
+    r:frames(HIDE)
+    assert(r:snapshot() == before)
+    assert(r:has('signature mismatch'))
+end
+
+-- Restoration refused at the end of the blink: no SHOW, no blink counted,
+-- and the result says the bit was not restored.
+do
+    local r = capture()
+    local object = r:object(12)
+    r.w32(HANDLES[1], object)
+    r:frames(HIDE)
+    r:release(object)
+    local before = r:snapshot()
+    r:frames(1)
+    assert(r:snapshot() == before)
+    assert(r:has('ABANDON D_80184558 (obj=0x800F0388): object no longer live: '
+        .. 'pool slot not allocated; nothing written, the original bit was '
+        .. 'NOT restored'))
+    assert(not r:has('SHOW D_80184558'))
+    r:frames(14400)
+    r:finishedOnce()
+    assert(r:has('D_80184558 0x80184558 blinks=0/2 stopped=0 abandoned=1'))
+    assert(r:has('abandoned_blinks: 1 '))
 end
 
 -- Bounded output: a handle churning through refused values.
@@ -272,7 +332,7 @@ do
     assert(r.r16(object + 8) == 0xA8)
     r:frames(5)
     r:finishedOnce()
-    assert(r:has('ABORT D_80184558 (obj=0x800F0708): trace ended; bit restored'))
+    assert(r:has('STOP D_80184558 (obj=0x800F0708): trace ended; bit restored'))
     assert(r:snapshot() == before)
     r:frames(10)
     assert(r:snapshot() == before, 'nothing is written after the end')
@@ -282,9 +342,11 @@ do
     q.w32(HANDLES[2], other)
     local start = q:snapshot()
     q:frames(3)
+    assert(q.r16(other + 8) == 0xA8)
     q:reset()
     q:finishedOnce()
     assert(q:has('status: reset;'))
+    assert(q:has('STOP D_8018455C (obj=0x800F0778): trace ended; bit restored'))
     assert(q:snapshot() == start)
 end
 
