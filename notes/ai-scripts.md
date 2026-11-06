@@ -314,8 +314,8 @@ register.
 The configured search count is used by the zone decoder and both fusion
 searches. The existing table contains values from five through twenty,
 so the hand window can include the next remaining-deck cards. The getter's
-definition remains `s8`; the zone decoder keeps its existing caller-specific
-`s32` declaration under `AI_GET_HAND_SEARCH_COUNT_RETURNS_S32`, which avoids
+definition remains `s8`; the zone decoder calls it through the `AiGetHandSearchCountWide` (`s32`)
+function-pointer type at the call site, which avoids
 the additional sign-extension instructions documented in the original
 matching evidence. Neither the signed opponent selector nor the table values,
 window bounds or narrowing is changed.

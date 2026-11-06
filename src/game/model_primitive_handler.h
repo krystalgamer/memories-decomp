@@ -3,11 +3,9 @@
 
 #include "../ygo_types.h"
 
-#ifdef FUNC_800603DC_RETURNS_HANDLER
-s32 (*Model_GetImagePrimitiveHandler())();
-#else
 void *Model_GetImagePrimitiveHandler(u32 value);
-#endif
+/* The handler it returns; callers cast the result to call it. */
+typedef s32 (*ModelImagePrimitiveHandler)();
 void *Model_GetPrimitiveHandler(u32 primitive_code);
 void Model_BindPrimitiveHandler(ModelHandlerObject *object);
 s32 Model_GetSharedPrimitiveHandler(s32 primitive_code);

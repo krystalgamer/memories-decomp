@@ -1038,11 +1038,9 @@ s32 SD_OpenSequence(u8 *input, s16 vab_id);
    s16-against-int disagreement is free because every caller stores the result
    into a 16-bit field and the sh truncates anyway. See
    notes/research/matching-evidence.md. */
-#ifdef SD_POLL_SEQUENCE_STATE_RETURNS_S16
-s16 SD_PollSequenceState(void);
-#else
 s32 SD_PollSequenceState(void);
-#endif
+/* Callers that read the result as a halfword call through this. */
+typedef s16 (*SDPollSequenceStateHalf)(void);
 
 /* Three secondary-path steps that take one argument they never read. Every
    retail call site loads it into $a0 first: g_SDValue->s_wSD_SEQ_ACCESS for

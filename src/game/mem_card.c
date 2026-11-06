@@ -1,4 +1,3 @@
-#define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
@@ -1070,7 +1069,7 @@ success:
     case 5:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
+            index = ((MemCardFindLoadedEntryResult)MemCard_FindLoadedEntry)(gMemCard_szSaveFileName);
             if (index < 0 || (gMemCardWork_wFlags & 2)) {
                 message = 0xD3;
                 goto show_message;
@@ -1088,7 +1087,7 @@ success:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
             name = gMemCard_szSaveFileName;
-            index = MemCard_FindLoadedEntry(name);
+            index = ((MemCardFindLoadedEntryResult)MemCard_FindLoadedEntry)(name);
             message = 0xD3;
             if (index < 0 || (gMemCardWork_wFlags & 2))
                 goto show_message;
@@ -1119,7 +1118,7 @@ success:
                 break;
             }
             file = gMemCard_szSaveFileName;
-            if (MemCard_FindLoadedEntry(file) < 0) {
+            if (((MemCardFindLoadedEntryResult)MemCard_FindLoadedEntry)(file) < 0) {
                 gMemCardWork_OperationState = 10;
                 break;
             }
@@ -1164,7 +1163,7 @@ success:
             s32 i;
             s32 sector;
             gMemCardWork_OperationState |= 0x80;
-            index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
+            index = ((MemCardFindLoadedEntryResult)MemCard_FindLoadedEntry)(gMemCard_szSaveFileName);
             checksum = 0;
             i = 0;
             D_8021007E = 1;

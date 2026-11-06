@@ -39,11 +39,9 @@ s32 MemCard_DoLoadDirectory(void);
  * in MIPS $v0. The controller consumes that residual register value. This
  * guarded caller ABI is not an ISO C return guarantee; do not invoke the
  * void implementation through this view in native tests. */
-#ifdef MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
-s32 MemCard_FindLoadedEntry(u8 *name);
-#else
 void MemCard_FindLoadedEntry(u8 *name);
-#endif
+/* Callers that read the entry index it leaves in $v0 call through this. */
+typedef s32 (*MemCardFindLoadedEntryResult)(u8 *name);
 
 /* Current directory-entry buffer and the number of records loaded into it. */
 extern struct DIRENTRY *gMemCard_pDirEntries;

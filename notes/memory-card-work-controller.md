@@ -49,8 +49,9 @@ directory-record approximation.
 `MemCard_FindLoadedEntry` is an unusual existing binary ABI. Its matching C
 definition is **void**, calls `MemCard_FindEntry`, and returns without
 overwriting the index in MIPS `$v0`. The controller consumes that index.
-`MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW` explicitly selects the returning
-caller declaration; the definition retains the default void declaration.
+The controller calls it through the returning `MemCardFindLoadedEntryResult`
+function-pointer type at the call site; the header declares the void
+definition.
 This is not a normal ISO C return guarantee. Native behavior tests must
 model the measured returning ABI with a returning stub, not call the void
 implementation and assume the host leaves its return register intact.

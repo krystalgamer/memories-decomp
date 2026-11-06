@@ -1,5 +1,4 @@
 #include "../types.h"
-#define AI_GET_HAND_SEARCH_COUNT_RETURNS_S32
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
 #include "ai.h"
@@ -28,7 +27,7 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
         break;
     case 2:
         *low = AI_SLOT_OWN_HAND_FIRST;
-        value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
+        value = ((AiGetHandSearchCountWide)Ai_GetHandSearchCount)() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 3:
     case 4:
@@ -64,7 +63,7 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
         break;
     case 4:
         *low = AI_SLOT_OWN_HAND_FIRST;
-        value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
+        value = ((AiGetHandSearchCountWide)Ai_GetHandSearchCount)() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
     case 5:
     case 6:

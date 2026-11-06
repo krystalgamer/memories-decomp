@@ -1,5 +1,4 @@
 #include "../types.h"
-#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #include "sound.h"
 
 #define STATE_BYTES ((u8 *)g_SDValue)
@@ -75,7 +74,7 @@ after:
 
     if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
         if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
-            if (SD_PollSequenceState() == 1) {
+            if (((SDPollSequenceStateHalf)SD_PollSequenceState)() == 1) {
                 SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             }
             g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;

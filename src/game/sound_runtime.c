@@ -1,4 +1,3 @@
-#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #include "../types.h"
 #include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"
@@ -135,7 +134,7 @@ void SD_UpdateRuntime(void)
     state = g_SDValue;
     if ((state->s_wSD_STATUS & 0x80) != 0 &&
         state->s_wSD_SEQ_ACCESS != -1 &&
-        SD_PollSequenceState() != 1) {
+        ((SDPollSequenceStateHalf)SD_PollSequenceState)() != 1) {
         SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
         state = g_SDValue;
         flags_or_command = state->s_wSD_STATUS;
