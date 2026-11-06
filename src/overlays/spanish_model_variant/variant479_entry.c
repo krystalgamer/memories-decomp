@@ -244,7 +244,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         work->field_41A8 = 1024;
         work->field_41AC = 0;
         work->field_41B0 = 0;
-        work->spiral_sweep = 0;
+        work->spiral_angle = 0;
         work->field_41BA = 0;
         work->spiral_size = 0;
         work->field_41BE = 0;
