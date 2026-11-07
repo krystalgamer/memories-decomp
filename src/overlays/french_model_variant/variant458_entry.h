@@ -42,7 +42,7 @@ typedef struct {
 
 typedef struct {
     EntryStrand458 strands[6];
-    Variant458Sheet sheets[7];
+    ModelVariantQuadSheet sheets[7];
     ModelVariantBandTriple ribbons[1];
     EntryStreamer458 streamers[3];
     u8 unknown_17C8[0x318];

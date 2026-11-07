@@ -14,7 +14,7 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
     long interpolation;
     long flag;
     Grid379State *state = (Grid379State *)context;
-    Grid379Sheet *sheet = state->sheets;
+    ModelVariantGridSheet *sheet = state->sheets;
     Grid379Pulse *pulse = state->pulses;
     POLY_GT4 *quad = &state->quad;
     GsOT *ot;

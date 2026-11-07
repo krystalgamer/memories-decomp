@@ -14,7 +14,7 @@ void FrenchModelVariant449_DrawSheet(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Variant449Sheet *sheet;
+    ModelVariantQuadSheet *sheet;
     POLY_GT4 *quad;
     s32 i, j;
     s32 bias;

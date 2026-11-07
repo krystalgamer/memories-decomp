@@ -405,12 +405,33 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbon;
 
+/* The ribbon colour bytes of headers 373 and 383: the outer and inner
+ * intensities. */
+typedef struct {
+    u8 unknown_00[0x80];
+    u8 outer;
+    u8 unknown_81[3];
+    u8 inner;
+    u8 unknown_85[3];
+} ModelVariantRibbonColors;
+
 /* The ribbon command row: the fade window at + 0x24. */
 typedef struct {
     u8 unknown00[0x24];
     u32 fade_start;
     u32 fade_end;
 } ModelVariantRibbonFadeTiming;
+
+/* The ribbon command row of headers 425 and 426: the growth and fade
+ * windows. */
+typedef struct {
+    u8 unknown00[0x1C];
+    u32 grow_start;
+    u32 grow_end;
+    u8 unknown24[4];
+    u32 fade_start;
+    u32 fade_end;
+} ModelVariantRibbonGrowTiming;
 
 /* Header 425's 0x6C-byte ribbon: the same fields with eight bytes less
  * between the widths and the depths. */
@@ -426,6 +447,22 @@ typedef struct {
     u16 ox[2];
     u16 oy[2];
 } ModelVariantRibbonShort;
+
+/* One 0x6C-byte ribbon span of headers 373 and 383: two points and their
+ * edge copies, both projected, the angles and widths, the depths and the
+ * screen offsets. */
+typedef struct {
+    SVECTOR points[2];
+    long projected[2];
+    s32 angle[2];
+    SVECTOR edges[2];
+    long edge_projected[2];
+    s32 width[2];
+    u8 unknown_40[0x1C];
+    long depth[2];
+    s16 x_offset[2];
+    s16 y_offset[2];
+} ModelVariantRibbonSpan;
 
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
@@ -608,6 +645,16 @@ typedef struct {
     u8 unknown_4F0[8];
 } ModelVariantGridScale;
 
+/* One 0x4F8-byte grid sheet: nine rows of seventeen points, a colour per
+ * row, the size and the done flag. */
+typedef struct {
+    SVECTOR points[9][17];
+    u8 colors[9][4];
+    s32 size;
+    u8 unknown_4F0[4];
+    s32 done;
+} ModelVariantGridSheet;
+
 /* The funnel and sheet command row of headers 411 and 444: the growth window
  * and the fade window. */
 typedef struct {
@@ -742,6 +789,26 @@ typedef struct {
     s32 scale, count;
 } ModelVariantScreenRing;
 
+/* One 0x7C-byte ray of headers 373 and 383: two points and their edge
+ * copies, both projected, the angles and widths, the inner and outer
+ * colours, the depths and the screen offsets. */
+typedef struct {
+    u8 unknown_00[0x10];
+    SVECTOR points[2];
+    long projected[2];
+    s32 angle[2];
+    SVECTOR edges[2];
+    long edge_projected[2];
+    s32 width[2];
+    CVECTOR inner[2];
+    CVECTOR outer[2];
+    u8 unknown_60[4];
+    s32 depth[2];
+    s16 x_offset[2];
+    s16 y_offset[2];
+    u8 unknown_74[8];
+} ModelVariantShadedRay;
+
 /* ModelVariantSpiral in a 0x84-byte record. */
 typedef struct {
     u8 unknown_00[0x50];
@@ -833,6 +900,13 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
+/* One 0x88-byte sheet of four quads: four rows of four corners; each quad
+ * takes color[1] on its first three corners and color[0] on the fourth. */
+typedef struct {
+    SVECTOR points[4][4];
+    CVECTOR color[2];
+} ModelVariantQuadSheet;
+
 /* One 0x334-byte streamer: seventeen colours the entry handlers reset to
  * grey. */
 typedef struct {
@@ -841,6 +915,29 @@ typedef struct {
     s32 field_2A8;
     u8 unknown_2AC[0x88];
 } ModelVariantStreamer;
+
+/* The strip of headers 373 and 383: three rows of two points, their screen
+ * coordinates and two depths. */
+typedef struct {
+    SVECTOR points[3][2];
+    long projected[3][2];
+    u8 unknown_48[0x1C];
+    long depth[2];
+} ModelVariantStrip;
+
+/* The strip command row: the pass count, the width and the start, expanded,
+ * fade and end times. */
+typedef struct {
+    u8 unknown_00[0xC];
+    u16 iterations;
+    u8 unknown_0E[2];
+    s32 width;
+    u8 unknown_14[0x1C];
+    u32 start;
+    u32 expanded;
+    u32 fade;
+    u32 end;
+} ModelVariantStripTiming;
 
 /* Ten sprites: corner arrays v0..v3, an origin per sprite, a colour, and per
  * sprite a scale and a done flag. */
@@ -880,6 +977,14 @@ typedef struct {
     s32 angle;
     s32 count;
 } ModelVariantColorRing;
+
+/* The command row of the header 373 and 383 ribbon and strip helpers, read
+ * only for the pass count at + 0x0C: the helper finishes when its index
+ * reaches it. */
+typedef struct {
+    u8 unknown_00[0xC];
+    u16 count_0C;
+} ModelVariantCountConfig;
 
 /* One 0xA0-byte two-point band record: per point a staggered start offset
  * (-(j * 768)) and two colours, then a scale vector. ca takes the first

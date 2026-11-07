@@ -12,7 +12,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR unused_position, unused_target;
     VECTOR squared;
     ModelVariantCurtain *curtain = work->curtains;
-    Grid379Sheet *grid = work->grids;
+    ModelVariantGridSheet *grid = work->grids;
     Variant479Rib *rib = work->ribs;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;

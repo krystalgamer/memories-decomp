@@ -13,7 +13,7 @@ void FrenchModelVariant383_DrawRays(u8 *context)
     long flag[16][2];
     long edge_flag;
     GsOT *ot;
-    Family383Ray *ray;
+    ModelVariantShadedRay *ray;
     POLY_GT4 *quad;
     s16 i, j, width;
     s32 angle_a, angle_b;

@@ -53,10 +53,10 @@ typedef struct {
     Family373Layer layers[5];
     EntryPointGroup373 groups[3];
     EntryStrip373 strips[1];
-    Family373QuadGroup quadrants[1];
-    Family373Ribbon ribbons[8];
+    ModelVariantQuadSheet quadrants[1];
+    ModelVariantRibbonSpan ribbons[8];
     ModelVariantColorRing rings[4];
-    Family373Ray rays[16];
+    ModelVariantShadedRay rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 shared[2], layer_packets[16];

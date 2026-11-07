@@ -1,26 +1,15 @@
 #ifndef FRENCH_MODEL_VARIANT373_STRIP_H
 #define FRENCH_MODEL_VARIANT373_STRIP_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
 
 typedef struct {
-    SVECTOR points[3][2];
-    long projected[3][2];
-    u8 unknown_48[0x1C];
-    long depth[2];
-} Family373Strip;
-
-typedef struct {
-    u8 unknown_00[0xC];
-    u16 count_0C;
-} Family373StripConfig;
-
-typedef struct {
     u8 unknown_0000[0xF64];
-    Family373Strip strip;
+    ModelVariantStrip strip;
     u8 unknown_0FD0[0xE28];
     POLY_GT4 quad;
     u8 unknown_1E2C[0x598];
@@ -32,7 +21,7 @@ typedef struct {
     u8 unknown_23EC[0x24];
     s32 step;
     u8 unknown_2414[4];
-    Family373StripConfig *config;
+    ModelVariantCountConfig *config;
     u8 unknown_241C[0x10];
     s32 index_242C;
     u8 unknown_2430[0x44];

@@ -22,15 +22,6 @@ typedef struct {
 } Ribbon426;
 
 typedef struct {
-    u8 unknown00[0x1C];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown24[4];
-    u32 fade_start;
-    u32 fade_end;
-} Ribbon426Timing;
-
-typedef struct {
     u8 unknown0000[0x4EC];
     Ribbon426 ribbon[1];
     u8 unknown084C[0x1F90 - 0x84C];
@@ -47,7 +38,7 @@ typedef struct {
     s32 unknown2104;
     s32 step;
     s32 unknown210C;
-    Ribbon426Timing *timing;
+    ModelVariantRibbonGrowTiming *timing;
     u8 unknown2114[0xC];
     s32 fade;
     u8 unknown2124[0x20];

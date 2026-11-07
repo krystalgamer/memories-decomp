@@ -1,15 +1,11 @@
 #ifndef FRENCH_MODEL_VARIANT458_SHEETS_H
 #define FRENCH_MODEL_VARIANT458_SHEETS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-} Variant458Sheet;
 
 typedef struct {
     u8 unknown_00[0x14];
@@ -22,7 +18,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_0000[0xC00];
-    Variant458Sheet sheets[7];
+    ModelVariantQuadSheet sheets[7];
     u8 unknown_0FB8[0xB68];
     POLY_GT4 quads[2];
     u8 unknown_1B88[0xD0];

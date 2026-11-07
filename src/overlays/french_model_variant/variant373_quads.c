@@ -13,7 +13,7 @@ void FrenchModelVariant373_DrawQuads(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Family373QuadGroup *group = &work->group;
+    ModelVariantQuadSheet *group = &work->group;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;

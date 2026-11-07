@@ -63,9 +63,9 @@ Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `field_1C` → `u32 ribbon_start` | `Ribbon426Timing.grow_start` | `FrenchModelVariant426_DrawRibbon` (french_model_variant/variant426_ribbon.c; `model_variant/variant409_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->timing->grow_start <= work->clock)` | high |
+| `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (french_model_variant/variant426_ribbon.c; `model_variant/variant409_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->timing->grow_start <= work->clock)` | high |
 
-The `Ribbon426Timing` view calls this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
+The `ModelVariantRibbonGrowTiming` view calls this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
 
 ## `Variant411UsEntryConfig` (`gModelVariant411_aConfigs`)
 

@@ -5,11 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-} Variant449Sheet;
-
-typedef struct {
     u8 unknown_00[0x10];
     s32 scale_start;
     s32 scale_end;
@@ -20,7 +15,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_0000[0xE00];
-    Variant449Sheet sheets[1];
+    ModelVariantQuadSheet sheets[1];
     u8 unknown_0E88[0xB68];
     POLY_GT4 quads[2];
     u8 unknown_1A58[0xBC];
