@@ -3,4 +3,5 @@
 #define VERSION_JAPAN
 #define BUILD_DECK_PANE_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define BUILD_DECK_PANE_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
-#include "../build_deck_pane_input.c"
+
+#include "../build_deck_input.c"

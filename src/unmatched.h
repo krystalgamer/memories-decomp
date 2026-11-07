@@ -193,7 +193,7 @@ struct DuelRitualResult;
  * per call rather than jumped. Only once the two agree does it read the pad
  * for paging and sorting.
  *
- * The return value is a handled flag: build_deck_pane_input.c, the only
+ * The return value is a handled flag: build_deck_input.c, the only
  * consumer, tests it against zero at both call sites and does no more work
  * when it is set. */
 /* One frame of choice-cursor input on a dialog's text-box record. Returns 1

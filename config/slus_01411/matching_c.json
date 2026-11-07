@@ -2270,33 +2270,33 @@
     },
     {
       "address": "0x80031CD4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
-      "source": "src/game/card_list_text_boxes.c"
+      "source": "src/game/build_deck_card_slots.c"
     },
     {
       "address": "0x80031E04",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/card_list_text_boxes.c"
+      "source": "src/game/build_deck_card_slots.c"
     },
     {
       "address": "0x80031E5C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/build_deck_card_counts.c"
+      "source": "src/game/build_deck_card_slots.c"
     },
     {
       "address": "0x80031EE4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/build_deck_card_counts.c"
+      "source": "src/game/build_deck_card_slots.c"
     },
     {
       "address": "0x80031F7C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/build_deck_card_counts.c"
+      "source": "src/game/build_deck_card_slots.c"
     },
     {
       "address": "0x8003201C",
@@ -2344,79 +2344,79 @@
       "address": "0x80032B60",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/card_list_sort.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80032BD4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/card_list_sort.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80032C48",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x474",
-      "source": "src/game/card_list_sort.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x800330BC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x444",
-      "source": "src/game/card_list_sort.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033500",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/build_deck_pane_input.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x8003353C",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1B4",
-      "source": "src/game/build_deck_pane_input.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x800336F0",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F4",
-      "source": "src/game/build_deck_pane_input.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x800338E4",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
-      "source": "src/game/build_deck_pane_input.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033998",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/build_deck_update.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x800339D0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x218",
-      "source": "src/game/build_deck_update.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033BE8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
-      "source": "src/game/build_deck_update.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033C90",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
-      "source": "src/game/duel_effect_mode_7.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033CA8",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/duel_effect_mode_7.c"
+      "source": "src/game/build_deck_input.c"
     },
     {
       "address": "0x80033CC4",

@@ -8,7 +8,7 @@
 /* The card id the viewer screen is currently showing.
  *
  * It is a publication point rather than a working variable: the pickers write
- * it and the viewer reads it, with nothing in between. build_deck_pane_input.c
+ * it and the viewer reads it, with nothing in between. build_deck_input.c
  * stores the highlighted row's id at both of its pick sites, and
  * duel_update_card_pick_cursor.c does the same from the field cursor -- its
  * header comment describes a successful pick as being "published in
@@ -30,7 +30,7 @@
 extern u16 gDuel_wViewerCardID;
 
 /* The vertical offset the viewer draws at, set by the same screens that
- * publish the id above: build_deck_pane_input.c and the main menu's
+ * publish the id above: build_deck_input.c and the main menu's
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c) both
  * store 20 (0x14) when they
  * open the viewer, and

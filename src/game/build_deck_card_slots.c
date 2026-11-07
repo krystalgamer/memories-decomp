@@ -1,16 +1,85 @@
 #include "../types.h"
+
+/* The Build Deck card slots and counts, five contiguous functions from
+   CardList_CreateSlotTextBox (0x80031CD4) through
+   BuildDeck_TakeCardFromChest: the per-slot card-list text box and the loop
+   that builds every visible slot, then the count-box refresh and the two
+   transfers that move one card between the chest and the deck. */
+
 #include "text_box_blocking_build.h"
-#include "build_deck_card_counts.h"
-#include "build_deck_transition_state.h"
 #include "card_constants.h"
-#include "card_list_sort.h"
+#include "display_object.h"
 #include "display_object_layout.h"
-#include "duel_card.h"
+#include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
+#include "card_list_text_boxes.h"
+#include "build_deck_card_counts.h"
+#include "build_deck_transition_state.h"
+#include "card_list_sort.h"
+#include "duel_card.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
-#include "display_object.h"
+
+/* Builds the text box for one card slot of a trade or deck screen. The entry
+   is picked out of the list at the scroll offset plus the slot, and the list
+   kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
+
+#ifndef CARD_LIST_SLOT_BOX_Y
+#define CARD_LIST_SLOT_BOX_Y 0x2B
+#endif
+
+#ifndef CARD_LIST_SLOT_BOX_HEIGHT
+#define CARD_LIST_SLOT_BOX_HEIGHT 0xB0
+#endif
+
+#ifndef CARD_LIST_SLOT_FOLLOWING_FLAG
+#define CARD_LIST_SLOT_FOLLOWING_FLAG 0x40
+#endif
+
+void CardList_CreateSlotTextBox(CardList *list, s32 slot)
+{
+    DuelEffectChannel *box;
+    s32 style;
+
+    gDuel_wSelectedCardID = list->entries[list->first + slot].id;
+    style = 0;
+    if (list->entries[list->first + slot].flags != 0) {
+        style = 6;
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+        /* The later regional builds give a magic or other non-monster card
+           its own box style. */
+        if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
+            style = 7;
+        }
+#endif
+    }
+    box = TextBox_Create(list->kind + 1, style, 0x22,
+                         CARD_LIST_SLOT_BOX_Y, 0x120,
+                         CARD_LIST_SLOT_BOX_HEIGHT);
+    box->pen_y = slot * 22;
+    box->render_object->flags &=
+        ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    if ((list->entries[list->first + slot].flags & 0x80) != 0) {
+        box->color_index_54 = 4;
+    }
+    if (list->kind != 0) {
+        *(u16 *)&box->rect_x += 0x160;
+    }
+    if (slot != 0) {
+        box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
+    }
+    TextBox_BuildBlocking(box);
+}
+
+void CardList_CreateSlotTextBoxes(CardList *list, s32 count)
+{
+    s32 i;
+
+    for (i = 0; i < count; i++)
+        CardList_CreateSlotTextBox(list, i);
+}
 
 /* Regional values: the count box's y (0x17 -> 0x19) and flags (0x100 ->
  * 0x1). The European build (src/game/european/) defines its own. */

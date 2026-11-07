@@ -1777,7 +1777,7 @@ parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. Four matching sources call qsort through it:
 [`duel_card_record_lifecycle.c`](../src/game/duel_card_record_lifecycle.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
-`Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
+`Util_CompareS16` before compacting duplicates; `build_deck_input.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; the main-menu overlay's
 `MainMenu_RefreshTradeInventory` (`trade_update.c`) sorts `CARD_COUNT` four-byte id/count entries through one
