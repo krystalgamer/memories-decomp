@@ -71,7 +71,7 @@ ModelCameraOrbitPreset gModel_aCameraOrbitPresets[] = {
  * contract.
  *
  * Two `__builtin_abs` calls are load-bearing. They use the same semantic
- * intrinsic as matching `duel_card_and_status_draw.c` and `sd_apply_positional_sound.c`.
+ * intrinsic as matching `duel_card_and_status_draw.c` and `SD_ApplyPositionalSound` in `model.c`.
  * The compiler emits its `abs` pseudo-instruction, rather than a hand-written
  * conditional whose scheduled delay slot duplicates a multiply. Both operands
  * come from signed halfwords promoted to s32, including -32768, so their

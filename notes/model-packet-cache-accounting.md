@@ -89,7 +89,7 @@ remain unchanged.
 
 Primary evidence is in `model_init_slot.c`, `model_slot_control.c`,
 `model_slot_row_tables.c`, `model_draw_slot.c`,
-`model_has_insufficient_buffer_space.c`, and the existing handwritten
+`model_spatial_queries.c`, and the existing handwritten
 FT3/GT3/FT4/GT4 renderer assembly. The local packet/normal accounting does
 not require importing guessed reference declarations or changing SDK types.
 

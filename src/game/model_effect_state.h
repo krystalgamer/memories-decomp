@@ -9,7 +9,7 @@
  *
  * Model_SetCameraOrbit's last parameter is a pointer in the definition -- the SVECTOR
  * whose offset the step applies -- not the fifth s32 its two callers declared.
- * model_scene_states.c passes literal zeroes, which were always null pointers;
+ * model_scene_services.c passes literal zeroes, which were always null pointers;
  * Model_SetCameraOrbitFromPreset and Model_QueueCameraOrbitFromPreset forward the same optional pointer type.
  *
  * Model_QueueEffectEndpointPair takes two indices into gModel_aEffectEndpoints rather than

@@ -193,7 +193,7 @@ rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
 first command key and stamps `start_sid`. `Model_SeekSlotPartAnimation` seeks a part by
 writing `rframe`, `tframe`, `ci` and `ti`. `model.h` mirrors the layout as
 `ModelSlotPart` so it does not need the libhmd chain, and
-`model_slot_updates.c` asserts that the mirror and `GsSEQ` agree field by
+`model_view_queries.c` asserts that the mirror and `GsSEQ` agree field by
 field.
 
 The reset, table builder and subsequent command-row linker are named and
