@@ -1139,7 +1139,7 @@ or loss *means* is decided by the caller (§6, §7.12, §8).
 
 The computer's turn is played by a **bytecode script** per opponent,
 interpreted by a small VM
-[`AiScript_Run`](../../src/game/ai_script_vm.c) (`0x80070650`): the loop
+[`AiScript_Run`](../../src/game/ai_script.c) (`0x80070650`): the loop
 fetches an opcode, dispatches through a **67-entry handler table**
 [`0x800916E0`], and returns when the handler is one of three terminal ones
 (end of hand phase, end of field phase, field play). After any other

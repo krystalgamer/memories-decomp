@@ -106,7 +106,7 @@ segments:
       - [0x1FC8, rodata, initial_data_1f]
       - [0x1FD8, .rodata, game/main_menu_load_package_stage]
       - [0x1FEC, rodata, initial_data_1d]
-      - [0x214C, .rodata, game/ai_script_opcodes]
+      - [0x214C, .rodata, game/ai_script]
       - [0x21A8, rodata, initial_data_2]
 
 
@@ -168,8 +168,7 @@ segments:
       - [0x81d1c, .data, game/movie_pipeline]
       - [0x81d50, .data, game/model_effect_state]
       - [0x81de8, .data, game/model_subdivided_effect]
-      - [0x81ee0, .data, game/ai_script_vm]
-      - [0x81ff0, .data, game/ai_get_hand_search_count]
+      - [0x81ee0, .data, game/ai_script]
       - [0x82158, data, initialized_data_80091958]
       - [0x8b708, .sdata, game/main]
       - [0x8b70d, pad]
@@ -252,7 +251,7 @@ segments:
       - [0xe5f50, .bss, game/movie_pipeline]
       - [0xe5f68, bss, model_keyframe_update_commons]
       - [0xe6118, .bss, game/model_handler_registry]
-      - [0xe6398, .bss, game/ai_script_vm]
+      - [0xe6398, .bss, game/ai_script]
       - [0xe64c0, bin, bss_image_800f5cc0]
 
   - name: reserved_zero

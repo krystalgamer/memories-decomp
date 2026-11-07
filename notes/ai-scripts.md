@@ -1,7 +1,7 @@
 # Opponent AI scripts
 
 The computer's decisions come from two bytecode programs on the disc, run by
-the VM in [`src/game/ai_script_vm.c`](../src/game/ai_script_vm.c). This note
+the VM in [`src/game/ai_script.c`](../src/game/ai_script.c). This note
 covers where the programs live, the full instruction set, and what the programs
 do for each duelist. Use it together with [ai-structures.md](ai-structures.md),
 which describes the VM state and the slot map.
@@ -49,7 +49,7 @@ Each claim below carries one of these tags:
   1-based `gDuel_bOpponentID`). It then branches on r15 by comparing it with
   constants loaded by `Store` (`JumpEqual` / `JumpNotEqual`). It also reads
   per-duelist numbers from `gDuel_aOpponentData` (`0x800917F0`,
-  [ai_get_hand_search_count.c](../src/game/ai_get_hand_search_count.c)) through
+  [ai_script.c](../src/game/ai_script.c)) through
   `LoadOpponentData`. A duelist's "personality" is therefore three things:
   (a) the r15 branches that name it, (b) its nine-byte row in
   `gDuel_aOpponentData`, and (c) the deck it draws.
@@ -114,7 +114,7 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   * byte 8: a flag (`D_800EAE90`).
 * **Field phase:** each `PlayFieldCard slot, a, b, c` ends the run with one
   field action. The meaning of the operands is **[code]**
-  ([ai_script_opcodes.c](../src/game/ai_script_opcodes.c)):
+  ([ai_script.c](../src/game/ai_script.c)):
 
   | Operand | Stored in | Meaning |
   |---|---|---|
@@ -224,8 +224,8 @@ was read from the handler; none was inferred.
 
 | Op | Name (handler) | Len | Operands | Effect | Source, address |
 |---:|---|---:|---|---|---|
-| 00 | (null) | - | - | The table slot is null, so executing it crashes. It never occurs in reachable code. | `ai_script_vm.c` |
-| 01 | Jump | 3 | L | goto L | `ai_script_opcodes.c` `0x80070988` |
+| 00 | (null) | - | - | The table slot is null, so executing it crashes. It never occurs in reachable code. | `ai_script.c` |
+| 01 | Jump | 3 | L | goto L | `ai_script.c` `0x80070988` |
 | 02 | JumpGreaterEqual | 5 | rA rB L | if rA >= rB goto L | same, `0x800709C0` |
 | 03 | JumpGreater | 5 | rA rB L | if rA > rB goto L | `0x80070A40` |
 | 04 | JumpEqual | 5 | rA rB L | if rA == rB goto L | `0x80070AC0` |
@@ -236,18 +236,18 @@ was read from the handler; none was inferred.
 | 09 | Return | 1 | - | pop | `0x80070DA8` |
 | 0A | SetRandom | 6 | imm lo, imm hi, ->rD | rD = lo + rand()%(hi-lo+1) | `0x80070E20` |
 | 0B | Subtract | 4 | rA rB ->rD | rD = rA - rB | `0x80070EB4` |
-| 0C | PlayFieldCard | 5 | rSlot rA rB rCat | Emit a field action and end the run (returns 2). See §2. | `ai_script_opcodes.c` `0x80070F1C` |
+| 0C | PlayFieldCard | 5 | rSlot rA rB rCat | Emit a field action and end the run (returns 2). See §2. | `ai_script.c` `0x80070F1C` |
 | 0D | EndHand | 1 | - | end the run (returns 1) | `0x80070FF8` |
 | 0E | EndField | 1 | - | end the run (returns 3) | `0x80071000` |
 | 0F | CalcCardPower | 4 | rCard rMode ->rD | Base ATK (mode 0), DEF (1) or the higher of the two. A non-monster gives 0, except in mode 0 for Sparks..Tremendous Fire (50/100/200/500/1000). | `ai_script_calc_card_power.c` `0x80071008` |
-| 10 | TestDefenseAtLeastAttack | 3 | rCard ->rD | 1 if a monster's base DEF >= base ATK, otherwise 0. Unused. | `ai_script_opcodes.c` `0x80071194` |
+| 10 | TestDefenseAtLeastAttack | 3 | rCard ->rD | 1 if a monster's base DEF >= base ATK, otherwise 0. Unused. | `ai_script.c` `0x80071194` |
 | 11 | LoadCardType | 3 | rCard ->rD | card type (0 Dragon .. 23 Equip) | `0x80071248` |
 | 12 | LoadCardID | 3 | rSlot ->rD | card id in a snapshot slot | `0x800712B4` |
 | 13 | LoadCardState | 3 | rSlot ->rD | Read-only card query: 0 empty, 1 face-up, 2 face-down. Unused. | `0x80071320` |
 | 14 | LoadLifePoint | 3 | rSide ->rD | life points of record `1 - side` | `0x800713B8` |
-| 15 | LoadOpponentID | 2 | ->rD | `gDuel_bOpponentID` | `ai_script_load_duel_globals.c` `0x80071424` |
+| 15 | LoadOpponentID | 2 | ->rD | `gDuel_bOpponentID` | `ai_script.c` `0x80071424` |
 | 16 | LoadTerrain | 2 | ->rD | `gDuel_bTerrain` (0 Normal .. 6 Dark) | `0x80071460` |
-| 17 | LoadDeckSize | 2 | ->rD | Non-empty slots 11..55 minus 5, which is the AI's cards left in its deck. | `ai_script_combo.c` `0x8007149C` |
+| 17 | LoadDeckSize | 2 | ->rD | Non-empty slots 11..55 minus 5, which is the AI's cards left in its deck. | `ai_script.c` `0x8007149C` |
 | 18 | LoadSelectionRandom | 2 | ->rD | Reads byte 8 of the selection record. Unused. | `0x80071510` |
 | 19 | TestSwordsActive | 3 | rSide ->rD | Swords of Revealing Light turns remaining != 0. Side 0 is the player, side 1 is the AI itself **[inferred from use]**. | `0x8007154C` |
 | 1A | LoadFirstFieldComboSlot | 2 | ->rD | First own-field slot (1..10) in the first five selected combo entries, or 0. Does not initialize the combo. | `0x800715C4` |

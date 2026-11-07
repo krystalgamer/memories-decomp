@@ -207,9 +207,8 @@ the module's text, with all five overlay modules still byte-exact.
 `src/game/file_set_position_table.c` is the worked example for the resident
 image: the loader's seven disc paths and the null-terminated `gFile_apszName`
 table, 0xA8 bytes at 0x80090704, are defined after its includes by the unit
-that reads them, instead of coming from the extracted blob. `ai_script_vm.c`
-(an opcode table of relocations) and `ai_get_hand_search_count.c` (a typed
-record array) are two more. Five things make one of these:
+that reads them, instead of coming from the extracted blob. `ai_script.c`
+(an opcode table of relocations and a typed record array) is another. Five things make one of these:
 
 1. **Split the blob in `config/slus_01411/split.yaml`.** The owning file gets a
    dotted subsegment at its address and the remainder keeps going to a
@@ -974,7 +973,7 @@ and `gAi_bBestTarget` at `+0x9A` and `+0x9B`. Both sources now read the
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/game/ai_script_combo.c` | `gAiScript_State.attack_best_*` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98..0x9B` |
+| `src/game/ai_script.c` | `gAiScript_State.attack_best_*` | `gcc_2_8_1_g8_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98..0x9B` |
 | `src/game/ai_script_find_best_attack.c` | `gAiScript_State.attack_best_stat` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98` |
 
 The structure is larger than the G8 limit, so neither profile can select a

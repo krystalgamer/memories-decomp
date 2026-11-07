@@ -175,7 +175,7 @@ segments:
     - initial_data_2020
   - - 8288
     - .rodata
-    - game/european/ai_script_opcodes
+    - game/european/ai_script
   - - 8380
     - rodata
     - initial_data_20bc
@@ -967,19 +967,7 @@ segments:
     - game/european/model_effect_handlers
   - - 398264
     - c
-    - game/ai_script_vm
-  - - 398652
-    - c
-    - game/ai_get_hand_search_count
-  - - 398692
-    - c
-    - game/european/ai_script_opcodes
-  - - 401900
-    - c
-    - game/ai_script_load_duel_globals
-  - - 402020
-    - c
-    - game/ai_script_combo
+    - game/european/ai_script
   - - 403756
     - c
     - game/ai_script_find_killer
@@ -1029,8 +1017,7 @@ segments:
   - [0x831CC, .data, game/model_image_copy_frames]
   - [0x831D4, .data, game/spanish/movie_pipeline]
   - [0x83208, .data, game/european/model_subdivided_effect]
-  - [0x83300, .data, game/ai_script_vm]
-  - [0x83410, .data, game/ai_get_hand_search_count]
+  - [0x83300, .data, game/european/ai_script]
   - [0x83578, data, resident_tail_80092d78]
   - [0x8CA98, .sdata, game/french/main]
   - [0x8CA9D, pad]
@@ -1095,6 +1082,6 @@ segments:
   - [0xE73D8, .bss, game/model_view_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
   - [0xE7708, .bss, game/spanish/movie_pipeline]
-  - [0xE7720, .bss, game/ai_script_vm]
+  - [0xE7720, .bss, game/european/ai_script]
   - {start: 0xE7844, type: bin, name: resident_tail_800f7044, linker_section_order: .bss}
 - - 1902592

@@ -232,7 +232,7 @@ a general validated set implementation.
 
 ### Interpreter dispatch and yielding
 
-Matching [`AiScript_Run`](../src/game/ai_script_vm.c) (`0x80070650`) copies
+Matching [`AiScript_Run`](../src/game/ai_script.c) (`0x80070650`) copies
 `script_cursor` to `previous_cursor` before reading each opcode. It calls
 `gAiScript_apfnCommand[opcode]`, then reloads that table entry to classify
 the completed command. The interpreter does not use a handler return value.

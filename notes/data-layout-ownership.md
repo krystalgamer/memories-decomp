@@ -127,7 +127,7 @@ object before it.
 | `src/game/movie_pipeline.c` | `.bss` | `0x800F5750`-`0x800F5768` |
 | `src/game/model_keyframe_update.c` | `.bss` | `0x800F5768`-`0x800F5918` |
 | `src/game/model_handler_registry.c` | `.bss` | `0x800F5918`-`0x800F5B98` |
-| `src/game/ai_script_vm.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
+| `src/game/ai_script.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
 
 Bytes inside a unit's range that no code names are written as `static`
 address-named objects (`static u32 D_8009B448;`): they keep the retail
@@ -289,14 +289,14 @@ North American tables but in its own order:
 - `data_80091510`.
 
 #8729 places these. Japan's game `.data` is now fully owned up to
-`ai_get_hand_search_count`.
+`ai_script`'s hand-search records.
 
 Europe's initialized tables start `0x1004` above the North American ones and
 drift as European tables grow. Its split places seventeen owners:
 - from `file_set_position_table` through `campaign_scene` (`+0x1004`);
 - `debug_menu_editor_entries` through `build_deck_draw_card_list_page`
   (`+0x1020`);
-- `model_subdivided_effect`, `ai_script_vm` and `ai_get_hand_search_count`
+- `model_subdivided_effect` and `ai_script`
   (`+0x100C`).
 
 Two of them take a European arm in the shared source:
@@ -458,7 +458,7 @@ model units, in their `.bss` as in their text:
   with these builds' own storage (`D_<ADDR>_sles_03948`) in
   `spanish/movie_pipeline.c`.
 - In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
-  and `ai_script_vm` (`0x800F6F08`), so the model blocks are `0x408` above
+  and `ai_script` (`0x800F6F08`), so the model blocks are `0x408` above
   Europe's.
 
 `spanish/mem_card_dialog.c`, which the four builds also share, repeats the
