@@ -25,7 +25,7 @@ s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
     Model138Colour saved_colour;
     long flag, interpolation;
     Model138State *work;
-    Model138Config *config;
+    ModelVariantWaveConfig *config;
     s32 direction;
     GsOT *ot;
     SVECTOR *point, *edge, *other;

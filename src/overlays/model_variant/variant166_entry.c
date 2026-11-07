@@ -34,7 +34,7 @@ s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
     Model166State *work;
-    Model166Config *config;
+    ModelVariantGatherConfig *config;
     s32 direction;
     GsOT *ot;
     s32 step;

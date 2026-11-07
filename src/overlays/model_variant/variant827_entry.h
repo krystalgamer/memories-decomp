@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT827_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -15,31 +16,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-/* One 0x3C-byte command row: the burst colour, the ray count and shape, the
- * spark count, size and speed, the glow size, the debris and ember sizes,
- * speeds and counts, the colour fade step, the delay, and the timing and
- * offsets of the camera presets. */
-typedef struct {
-    u8 r, g, b, pad_3;
-    u16 ray_count;
-    s16 ray_width, ray_base, ray_height;
-    u16 spark_max;
-    s16 spark_size;
-    u16 spark_speed;
-    u16 glow_size;
-    s16 debris_size;
-    u16 debris_speed;
-    u16 debris_count;
-    u16 ember_count;
-    s16 ember_size;
-    u16 ember_speed;
-    s16 fade;
-    s16 pad_22;
-    u16 delay;
-    u16 camera_times[2];
-    s16 camera_args[9];
-} Model827Config;
-
 /* A colour that the entry tests as a 24-bit word to know whether it faded out. */
 typedef union {
     CVECTOR rgb;
@@ -51,7 +27,7 @@ typedef union {
  * spark frames, the debris frame, the spark count, the camera sequence, the
  * ambient level, the ray scale, the textures and the burst colour. */
 typedef struct {
-    Model827Config *config;
+    ModelVariantBurstConfig *config;
     SVECTOR rays[64];
     SVECTOR sparks[16];
     SVECTOR debris[8];
@@ -71,7 +47,7 @@ typedef struct {
 } Model827State;
 
 extern GsIMAGE gModelVariant827_aImages[];
-extern Model827Config gModelVariant827_aConfigs[];
+extern ModelVariantBurstConfig gModelVariant827_aConfigs[];
 
 s32 ModelVariant827_HandleRequest(u8 *context, s32 command);
 

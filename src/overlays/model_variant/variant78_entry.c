@@ -22,7 +22,7 @@ s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
     VECTOR unused; /* Never used; it keeps retail's frame size. */
     long flag, interpolation;
     Model78State *work;
-    Model78Config *config;
+    ModelVariantWaveConfig *config;
     s32 direction;
     GsOT *ot;
     SVECTOR *point, *edge, *other;

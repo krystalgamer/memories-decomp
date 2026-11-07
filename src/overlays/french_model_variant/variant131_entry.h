@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT131_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/screen_projection.h"
@@ -12,14 +13,7 @@
 #include "../../psyq/sdk_internal.h"
 
 typedef struct {
-    u8 beam_r, beam_g, beam_b;
-    u8 particle_r, particle_g, particle_b;
-    u8 part, unknown_07;
-    s16 radius, particle_half_size, spin, fade, duration, delay;
-} Model131Config;
-
-typedef struct {
-    Model131Config *config;
+    ModelVariantBeamParticleConfig *config;
     SVECTOR ring[14];
     SVECTOR origin;
     SVECTOR particles[32];
@@ -29,7 +23,7 @@ typedef struct {
 } Model131State;
 
 extern GsIMAGE gFrenchModelVariant131_aImages[];
-extern Model131Config gFrenchModelVariant131_aConfigs[];
+extern ModelVariantBeamParticleConfig gFrenchModelVariant131_aConfigs[];
 s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command);
 
 #endif
