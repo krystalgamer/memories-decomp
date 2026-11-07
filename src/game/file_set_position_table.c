@@ -1,21 +1,16 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x8009B0E0-0x8009B0E8, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 D_8009B0E0;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(2);
-static PADDING_VARIABLE(4);
-
 #include "../psyq/stdio.h"
 #include "color_constants.h"
 #include "file_names.h"
 
-/* Zero-initialized storage this unit owns at 0x800E9DF0-0x800E9E18, defined in
- * address order ahead of the headers that declare it (#2602). */
-SpritePrim D_800E9DF0;
-
 #include "file_transfer.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * file_set_position_table_commons subsegments place it at the retail
+ * addresses. */
+u8 D_8009B0E0;
+SpritePrim D_800E9DF0;
 
 /* Initialized data this unit owns at 0x80090704. The paths are padded to a word boundary
    the way the compiler pads them, and gFile_apszName is the null-terminated
