@@ -151,17 +151,17 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
             }
             column->field_2A8 = 0;
         }
-        work->field_2068 = 1024;
-        work->field_206C = 0;
-        work->field_2070 = 0;
+        work->width = 1024;
+        work->segment_start = 0;
+        work->segment_end = 0;
         work->field_2074 = 0;
         work->field_2076 = 0;
-        work->field_2088 = 0;
-        work->field_208C = 0;
-        work->field_2078 = 1024;
-        work->field_207C = 0;
-        work->field_2080 = 0;
-        work->field_2084 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
+        work->streamer_length = 1024;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
