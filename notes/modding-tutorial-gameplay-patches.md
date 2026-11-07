@@ -444,7 +444,7 @@ The tutorial changes one immediate byte at each of two SLUS offsets:
 | `0x959C` | `0x80018D9C` | `16 00 E2 28` | `slti $v0, $a3, 0x16` | Exclusive end of the required-ID range |
 
 Both instructions are in exact matching
-[`Duel_HasAllExodiaPieces`](../src/game/duel_draw_resolution.c). The source
+[`Duel_HasAllExodiaPieces`](../src/game/duel_scene.c). The source
 copies `HAND_SIZE` hand-slot indices, then searches those slots for each card
 ID from `EXODIA_FIRST_CARD_ID` through `EXODIA_CARD_ID_END - 1`. Those
 constants expand to `0x11`, five pieces, and exclusive end `0x16`. A matched
@@ -533,9 +533,9 @@ Opponent IDs below `39` call the shuffle helper with `(player_deck, NULL)`.
 Duel Master K is opponent `39`, so the retail comparison fails and the
 fallthrough changes the call to `(player_deck, player_deck)`. The matching C
 for
-[`Duel_ShuffleBothDecks`](../src/game/duel_scene_update.c) passes those
+[`Duel_ShuffleBothDecks`](../src/game/duel_scene.c) passes those
 two arguments independently to the player and CPU
-[`Duel_ShuffleDeck`](../src/game/duel_scene_update.c) calls. Exact matching
+[`Duel_ShuffleDeck`](../src/game/duel_scene.c) calls. Exact matching
 `Duel_ShuffleDeck` confirms that a null source generates `DECK_SIZE` cards
 from `gDuel_awOpponentDeckPool`, while a non-null source copies its
 `DECK_SIZE` card IDs before shuffling. Duel Master K therefore receives a
@@ -611,14 +611,14 @@ initialized data:
 | Direct damage | `0x8B738-0x8B73C` | `0x8009AF38-0x8009AF3C` | `5, 10, 20, 50, 100` | `x10` |
 
 The two application handlers are contiguous in matching
-[`duel_card_effects.c`](../src/game/duel_card_effects.c), and
+[`duel_scene.c`](../src/game/duel_scene.c), and
 `DUEL_LIFE_POINT_EFFECT_COUNT` names their shared five-effect width. This
 relationship is therefore established by the accepted source layout as well
 as by the tutorials' parallel tables.
 
 The recovery table maps, in order, to Mooyan Curry, Red Medicine, Goblin's
 Secret Remedy, Soul of the Pure, and Dian Keto the Cure Master. Exact
-matching [`func_800250C8`](../src/game/duel_card_effects.c) subtracts
+matching [`func_800250C8`](../src/game/duel_scene.c) subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to obtain table indices
 `0`-`4`, indexes `gDuel_abLifePointRecoveryUnits`, and multiplies the selected
 byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`). During presentation setup,
@@ -631,7 +631,7 @@ same amount and clamps it to zero.
 
 The damage table maps to Sparks, Hinotama, Final Flame, Ookazi, and
 Tremendous Fire. Exact matching
-[`func_8002525C`](../src/game/duel_card_effects.c) subtracts
+[`func_8002525C`](../src/game/duel_scene.c) subtracts
 `DUEL_DIRECT_DAMAGE_FIRST_CARD_ID` from the current card ID, loads that entry
 from `gDuel_abDirectDamageUnits`, and multiplies it by
 `DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at

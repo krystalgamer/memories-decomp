@@ -42,9 +42,9 @@ typedef char DuelHandSlot_selection_order_offset_must_be_0x09[
 
 extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
 
-/* How many cards are still to be drawn into those slots. duel_phase_entry.c
+/* How many cards are still to be drawn into those slots. duel_scene.c
  * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing
- * hand back up -- and duel_draw_resolution.c spends it, taking one off per
+ * hand back up -- and duel_scene.c spends it, taking one off per
  * card as the draw animation retires each one and raising bit 0x4000 in the
  * scene state gDuel_wSceneStateFlags once it reaches zero.
  *

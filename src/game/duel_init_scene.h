@@ -27,7 +27,7 @@ extern DisplayObject *gDuel_pLifePointsPanel;
  * The no-opponent path points them at the two 0x1000-byte halves of
  * gSaveData_aPairWorkspace; the normal path uses the buffers returned by the
  * duel package transfer. They are two adjacent scalars, each defined once in
- * duel_field_card_render.c: Duel_InitScene stores each through its own
+ * duel_scene.c: Duel_InitScene stores each through its own
  * GP-relative address, which one two-entry array would fold into a shared
  * base register.
  *

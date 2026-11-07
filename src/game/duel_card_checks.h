@@ -10,9 +10,9 @@
  * What a prototype cannot say is what the non-zero value is, and the two
  * differ. Duel_CheckEquip hands back `equipment` unchanged, so its result
  * carries no information the caller did not already have; ai_fusion.c and
- * duel_field_effects.c use it as a plain predicate. Duel_CheckFusion
+ * duel_scene.c use it as a plain predicate. Duel_CheckFusion
  * returns the id of the card the pair fuses INTO, which ai_fusion.c reads as a
- * value and ai_turn_action.c only tests.
+ * value and duel_scene.c only tests.
  *
  * The tables are also asymmetric in opposite ways. gDuel_awEquipTable is
  * keyed on the equipment card and searched for the monster, so the argument
@@ -22,7 +22,7 @@
  * takes gDuel_aFusionTable's base as a u8 * and strides it itself.
  *
  * Neither is defined in C. Duel_LoadPackageStage
- * (src/game/duel_load_package_stage.c) fills both from the disc, handing their
+ * (src/game/duel_scene.c) fills both from the disc, handing their
  * addresses to a transfer descriptor as
  * `d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable`, which is why that
  * source declared them too and now includes this header instead.

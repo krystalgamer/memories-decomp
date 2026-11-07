@@ -81,7 +81,7 @@ The offset maps to VRAM `0x800175D0`:
 ```
 
 At that address, matching
-[`Duel_InitSideStates`](../src/game/duel_state_init.c) contains:
+[`Duel_InitSideStates`](../src/game/duel_scene.c) contains:
 
 ```mips
 addiu $v0, $zero, 0x1F40
@@ -1182,7 +1182,7 @@ map to resident addresses `0x8009AF24`-`0x8009AF29`:
 | `0x8B729` | `0x8009AF29` | `255` | `25500` | Widespread Ruin (`686`) |
 
 The matching trap-selection path in
-[`Duel_SelectAttackTrap`](../src/game/duel_battle_stats.c) sizes the table
+[`Duel_SelectAttackTrap`](../src/game/duel_scene.c) sizes the table
 with
 `DUEL_ATTACK_TRAP_COUNT` and scans from
 `DUEL_ATTACK_TRAP_COUNT - 1` through zero. For each available trap it loads

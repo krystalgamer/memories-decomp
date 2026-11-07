@@ -7,7 +7,7 @@ external reference.
 
 | Wrapper | Spanish entry | Functions | Bytes | Literal specialization |
 |---|---|---:|---:|---|
-| `duel_update_card_pick_cursor.c` | `0x8002416C` | 1 | 336 | Card ID at `0x8009C5D8`, Y offset at `0x8009C5DD` |
+| `duel_scene.c` | `0x8002416C` | 1 | 336 | Card ID at `0x8009C5D8`, Y offset at `0x8009C5DD` |
 | `save_data_payload.c` | `0x8003D040` | 9 | 1,164 | Campaign scene index at `0x8009C638` |
 | `mem_card_io_result_callbacks.c` | `0x800451B8` | 4 | 76 | Result word at `0x800A0000 - 0x3844 = 0x8009C7BC` |
 | `sd_arm_busy_callback.c` | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
@@ -79,7 +79,7 @@ integrated only after separate identity and exact-match verification.
 
 ## Effect-preview state window
 
-`debug_effect_screen.c` matches the three contiguous functions at
+`duel_scene.c` matches the three contiguous functions at
 `0x80022174`, `0x800223B0`, and `0x800226D4` (1,468 text bytes), with the
 unchanged `gcc_2_8_1_g8_split` profile and shared function bodies.
 
@@ -97,12 +97,11 @@ unchanged gave conflicting inferred bases for one symbol. Correcting the
 offsets, and accounting for each new object relocation addend when recovering
 bindings, produces one consistent Spanish base and exact instruction bytes.
 
-The implementation-only `debug_effect_state.h` supplies the region's bounded
-declaration. Spanish declares the seven-byte minimum accessed window; it does
-not assert the size of any unaccessed tail or claim ownership of the raw data.
-The public function header no longer exports a conflicting six-byte bound to
-unrelated translation units. Other regions retain their six-byte declaration
-and the North American six-byte initialized definition.
+Since the duel units became one object, `src/game/duel_scene.c`, the state
+is three definitions (`gDebugEffect_bEditedOperand`, `gDebugEffect_abOperands`,
+`gDebugEffect_bPage`) and no layout selector: GCC word-aligns the operand
+array, which places it two bytes after the index in the North American,
+Japanese and European builds and four bytes after it here.
 
 Both incomplete-array declaration probes were rejected by the existing-object
 identity gate. The bounded private declaration preserves all five existing
@@ -180,7 +179,7 @@ is unchanged. The remaining result-outro difference is covered below.
 
 ## Localized result-outro completion
 
-`duel_result_runtime.c` selects `DUEL_RESULT_LOCALIZED_SPRITES` while
+`duel_scene.c` selects `DUEL_RESULT_LOCALIZED_SPRITES` while
 reusing the European wrapper and shared runtime. The grouped object uses
 `gcc_2_8_1_g8_split`; the localized sprites change the first four of its nine
 functions:

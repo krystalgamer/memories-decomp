@@ -94,7 +94,7 @@ extern const char gAiScript_szCheckpointFormat[];
  * this class (gMain_apFrameServiceCallbacks[3], library_runtime.c), left for
  * game/library_card_grid.h when it matched.
  *
- * Seven of them were declared in duel_scene_update.c, which is a file I
+ * Seven of them were declared in duel_scene.c, which is a file I
  * added when that table moved out of its blob. The argument there was that
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
@@ -172,7 +172,7 @@ struct DuelRitualResult;
  * records.
  *
  * Duel_InitScene installs it rather than calling it, as `gMain_apFrameServiceCallbacks[3] =
- * Duel_DrawFieldCards;` (src/game/duel_init_scene.c:155), so the declaration
+ * Duel_DrawFieldCards;` (src/game/duel_scene.c:155), so the declaration
  * has to match the definition exactly for the address to be taken. */
 
 /* gScript_apfnCommandHandlers handler: the two-axis smooth scroll stepper Script_OpViewportTween

@@ -49,9 +49,9 @@ grouping and definition order are unchanged.
 ## Storage
 
 Each image defines the two bytes once, under these names, in its duel
-storage unit: `src/game/duel_field_card_render.c` for North America and
-Japan, `src/game/european/duel_field_card_render.c` for the PAL images.
-The tentative definitions in `duel_scene_battle.c` are COMMON and merge
+storage unit: `src/game/duel_scene.c` for North America and
+Japan, `src/game/european/duel_scene.c` for the PAL images.
+The tentative definitions in `duel_scene.c` are COMMON and merge
 with that storage, so no linker alias joins the two names.
 
 | Image | Slot 0 | Slot 1 | Bound by |

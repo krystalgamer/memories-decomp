@@ -86,7 +86,7 @@ object before it.
 | `src/game/file_set_position_table.c` | `.sbss` | `0x8009B0E0`-`0x8009B0E8` |
 | `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
 | `src/game/fade_runtime.c` | `.sbss` | `0x8009B140`-`0x8009B150` |
-| `src/game/duel_field_card_render.c` | `.sbss` | `0x8009B150`-`0x8009B244` |
+| `src/game/duel_scene.c` | `.sbss` | `0x8009B150`-`0x8009B244` |
 | `src/game/duel_effect_dialog_state.c` | `.sbss` | `0x8009B244`-`0x8009B258` |
 | `src/game/library.c` | `.sbss` | `0x8009B258`-`0x8009B260` |
 | `src/game/duel_effect_object_pool.c` | `.sbss` | `0x8009B260`-`0x8009B268` |
@@ -108,7 +108,7 @@ object before it.
 | `src/game/file_set_position_table.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
 | `src/game/file_transfer_runtime.c` | `.bss` | `0x800E9E18`-`0x800E9EC8` |
 | `src/game/fade_runtime.c` | `.bss` | `0x800E9EC8`-`0x800E9EF0` |
-| `src/game/duel_field_card_render.c` | `.bss` | `0x800E9EF0`-`0x800EA1E8` |
+| `src/game/duel_scene.c` | `.bss` | `0x800E9EF0`-`0x800EA1E8` |
 | `src/game/library_create_grid_section_sprites.c` | `.bss` | `0x800EA1E8`-`0x800EAD88` |
 | `src/game/duel_effect_object_pool.c` | `.bss` | `0x800EAD88`-`0x800EAE88` |
 | `src/game/main_run_campaign.c` | `.bss` | `0x800EAE88`-`0x800EAED8` |
@@ -135,7 +135,7 @@ layout without exporting a name another region's data could collide with.
 The duel block shows the rule for data shared by many split files: the
 original duel unit spans many repository sources, so its zero-initialized block
 belongs to the first of them in text order that references it,
-`duel_field_card_render.c`. Its consumers declare the block through
+`duel_scene.c`. Its consumers declare the block through
 `duel_field_card_render_data.h`. Struct pointers are spelled with their tags
 (`struct DuelSideState *`) so the definitions can precede the headers that
 complete the types. Adjacent words that code reaches by name are separate
@@ -172,12 +172,12 @@ Owners keep text order. A `-G8` owner cannot hold an initialized object of
 eight bytes or less in `.data`, because that compiler puts it in `.sdata`.
 
 Data-only units remain where no owner is settled yet: `duel_field_layout.c`
-(its grid selector changes `duel_card_and_status_draw.c`'s code, and no other
+(its grid selector changes `duel_scene.c`'s code, and no other
 reader falls in its window), `duel_effect_command_table.c` (no reader falls
 between its neighbours in text order), and `model_image_copy_frames.c` and
 `data_80091510.c` (an eight-byte object only a `-G0` owner could hold).
 `duel_screen_tables.c` brought its typed-positions selector into
-`duel_ground_projection.c`, which builds the same with it. The rest of the
+`duel_scene.c`, which builds the same with it. The rest of the
 region from `0x80091958` is Psy-Q data.
 
 Regional builds discard compiled text units' `.data` as they do `.bss`, and
@@ -353,7 +353,7 @@ sprite tables instead of the two North American ones. That is one
 opponent/no-opponent pair per language, each [2][10]
 (`duel_result_localized_sprites.h`): 0x280 bytes from `0x80091B30` up to
 `duel_scene_update`. The four builds compile the unit through
-`spanish/duel_ground_projection.c`, which defines
+`spanish/duel_scene.c`, which defines
 `DUEL_RESULT_LANGUAGE_SPRITE_TABLES`, and own its `.data` at `0x80091AA8`.
 German, Italian and Spanish now split their data image as plain data rather
 than one `.sdata`-ordered bin.
@@ -371,7 +371,7 @@ for `duel_field_effects`, `options_layout_position_data` or
 `ai_script_source_line_format`.
 
 Europe now defines `runtime_gp`, `gMain_bSoundVSyncBusy` and
-`gDebugEffect_PreviewState` itself instead of placing them through its
+the effect-preview state itself instead of placing them through its
 symbol file. The shared sources also gained European arms:
 - `debug_menu` drops two unreferenced halfwords;
 - `gMainMenu_PackageStageRect` stages the package at x 0x280, y 0xD0.
@@ -379,10 +379,11 @@ symbol file. The shared sources also gained European arms:
 The four language builds keep Europe's small data 0x414 to 0x41C higher,
 except that, as in their text, they place the movie unit after the model
 units: the model units are 0x408 higher and `movie_frame_pipeline` 0x4EC
-higher. Each split places the same eighteen owners. Only six zero bytes
-after `duel_battle_stats` (`0x8009C2BA`) stay extracted, since nothing
-identifies their owner; the two after `duel_card_effects` are alignment, as
-in the North American split.
+higher. Each split places the same owners. The six zero bytes after the
+trap-attack thresholds (`0x8009C2BA`) are `duel_scene.c`'s: the duel result's
+`gDuelResult_nOutroSpriteCount` at `0x8009C2BC`, which the localized outro
+reads through `$gp`, and its alignment. The bytes after the card-effect
+tables are alignment, as in the North American split.
 
 Their `debug_effect_screen` small data is seven bytes. Placing the owners
 removed 74 more linker assignments per build.
@@ -405,7 +406,7 @@ not compile, stay extracted.
 
 With every build now owning `main_services`, `main_frame` and
 `debug_effect_screen`, the shared sources define `runtime_gp`,
-`gMain_bSoundVSyncBusy` and `gDebugEffect_PreviewState` unconditionally.
+`gMain_bSoundVSyncBusy` and the effect-preview state unconditionally.
 
 Europe (SLES-03947) has the same unit order but its own order of names inside
 many units, so most of its blocks differ. Every compiler emits tentative

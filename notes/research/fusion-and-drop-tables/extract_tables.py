@@ -39,7 +39,7 @@ def read_sectors(path, lba, count):
 
 
 def decode_fusion(base):
-    """Transcription of Duel_CheckFusion (0x80019A60), src/game/duel_card_checks.c.
+    """Transcription of Duel_CheckFusion (0x80019A60), src/game/duel_scene.c.
 
     A pair is stored once, under the smaller id, with the larger as partner.
     Ids are ten bits; the four high halves are packed two bits each into the

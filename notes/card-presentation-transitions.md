@@ -1,6 +1,6 @@
 # Field-card presentation transitions
 
-The paired callbacks in `duel_card_turn_animations.c` move existing card
+The paired callbacks in `duel_scene.c` move existing card
 objects between the field-selection presentation and the ordinary 3D field
 presentation. They are not gameplay face-up/face-down operations.
 

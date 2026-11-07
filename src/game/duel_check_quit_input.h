@@ -13,7 +13,7 @@ s32 Duel_CheckQuitInput(void);
  *   0x01  a quit was requested -- Duel_CheckQuitInput stores 1 when Select is
  *         pressed and gDuel_bOpponentID is negative.
  *   0x80  the dialog is already up. DuelScene_Update
- *         (src/game/duel_scene_update.c) is the consumer: on a nonzero
+ *         (src/game/duel_scene.c) is the consumer: on a nonzero
  *         value with 0x80 clear it sets that bit, plays SE 0x30 and raises
  *         the box through TextBox_CreateFlagged;
  *         with 0x80 set it waits for the box, destroys it, and clears the
@@ -38,7 +38,7 @@ extern u8 gDuel_bQuitDialogState;
  * The other two users take the plain scalar. */
 extern u16 gDuel_wOutcomeFlags;
 
-/* debug_effect_screen.c's placement counter: DebugEffect_UpdatePreview zeroes
+/* duel_scene.c's placement counter: DebugEffect_UpdatePreview zeroes
    it on first entry and steps it modulo 8 on each placement; nothing else reads
    it. It follows gDuel_wOutcomeFlags in the US and Japanese images, but the
    European ones place it elsewhere, so it is its own variable rather than a

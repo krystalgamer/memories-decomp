@@ -134,7 +134,7 @@ typedef struct DisplayObject {
     } field_20;                    /* 0x20 */
     DisplayObjectCallback update;  /* 0x24 */
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
-       sprite emitters take whole words, while display_parent_links.c derives a
+       sprite emitters take whole words, while duel_scene.c derives a
        parent-relative offset from the halves. A union records both without
        forcing either side to spell the other's access. */
     union {
@@ -153,7 +153,7 @@ typedef struct DisplayObject {
        text_box_build_step.c clears it, and text_control_commands.c and
        Dialog_UpdateChoice write colour constants.
 
-       Halves: display_object_property_transitions.c compares 0x2C against the
+       Halves: duel_scene.c compares 0x2C against the
        byte at 0x21, and divides 0x80 and 0x800 by 0x2E to derive its
        per-frame increments -- so 0x2E is a nonzero divisor rather than
        padding. That file calls them `target` and `step`; the names here stay
@@ -378,7 +378,7 @@ typedef struct DisplayObject {
 
        For others it holds a second callback: display_object_runtime.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       src/game/duel_init_scene.c and Library_CreateFadingCardOutline.c each store a
+       src/game/duel_scene.c and Library_CreateFadingCardOutline.c each store a
        function's address here.
 
        Timed sprite streams instead store the frame_data byte pointer here;
@@ -394,7 +394,7 @@ typedef struct DisplayObject {
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
 
-       src/game/duel_init_scene.c stores a pointer to another display
+       src/game/duel_scene.c stores a pointer to another display
        object here and Duel_DrawLifePointsAndDeckCounts loads it back.
        DisplayObject_InitializeTexturedGouraudQuad in display_object_helpers.c writes the colour 0x00808080,
        as the fourth of six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50,
@@ -413,7 +413,7 @@ typedef struct DisplayObject {
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
        user the comment above lists, and the two callers that reach the word
-       by name spell it .word: src/game/duel_init_scene.c, which stores
+       by name spell it .word: src/game/duel_scene.c, which stores
        another object's address here, and Duel_DrawLifePointsAndDeckCounts,
        which loads that address back. Those two are why the word view is s32
        rather than unsigned. */
@@ -439,7 +439,7 @@ typedef struct DisplayObject {
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        its Dialog_UpdateMessageTransition sets -0x400 and adds 0x20; mem_card_dialog.c
        steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
-       `phase` for an rsin ease; display_object_property_transitions.c calls
+       `phase` for an rsin ease; duel_scene.c calls
        it `speed` in one function and `step` in the other. Four callers, four
        words, one range -- so it keeps the offset for a name, on the same
        grounds #3004 set out for 0x44. */
@@ -471,7 +471,7 @@ typedef struct DisplayObject {
        display_object_config.h. main_boot_screen.c reads it and hands
        it to DisplayObject_ConfigureSpriteAtPositionWithResource. */
     u8 field_69;                   /* 0x69 */
-    /* duel_action_ready_marker.c copies a byte into this offset when it builds the
+    /* duel_scene.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.
        That is the only evidence for it, so it takes the offset for a name. */
     u8 field_6A;                   /* 0x6A */
@@ -521,7 +521,7 @@ typedef struct DisplayObject {
    member's address, *(s32 *)&e->field_2C, stays a scalar reference as the
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
-   That is the same device duel_card_and_status_draw.c uses for its 0x0C colour word, and
+   That is the same device duel_scene.c uses for its 0x0C colour word, and
    it is how the two DisplayObject_Render*GouraudQuadList functions name
    every offset they touch except 0x72. */
 

@@ -710,7 +710,7 @@ values can be expressed at the call site, and a register the caller never
 writes before the call still holds the caller's own argument, which can be.
 
 A caller that passes MORE than the callee reads is the case that looks equally
-unfixable and is not. duel_card_effects.c declared
+unfixable and is not. duel_scene.c declared
 `s32 Duel_UpdateTrapPresentation(s32)` and called it with a flag at both sites;
 the definition takes void and never looks at the register. Dropping the
 argument and the parameter is byte-identical, so the declaration follows the

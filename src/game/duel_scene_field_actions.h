@@ -5,7 +5,7 @@
 
 /* State private to duel scene-state 5, the field navigation, attack selection
  * and battle transition phase. DuelScene_UpdateFieldActions
- * (src/game/duel_scene_field_actions.c) is the only source in the tree that
+ * (src/game/duel_scene.c) is the only source in the tree that
  * names either of these. This is the arrangement duel_scene_hand_actions.h
  * records for the neighbouring scene-state 4.
  *
@@ -16,12 +16,12 @@
  * and gp-relatively never.
  */
 
-/* The scene-state 5 callback, entry 4 of duel_scene_update.c's table. */
+/* The scene-state 5 callback, entry 4 of duel_scene.c's table. */
 void DuelScene_UpdateFieldActions(void);
 
 /* The target colour of the field dim ramp: one grey level repeated in three
  * channels. The pass that dims the field sets it to 0x202020
- * (duel_scene_field_actions.c) and a second site sets it to 0x808080 while starting
+ * (duel_scene.c) and a second site sets it to 0x808080 while starting
  * the same walk over the gDuel_aCardRecords card records (:616). The ramp moves
  * gModel_dwFogBaseColor (sorted_entry.h, which this unit already includes) eight levels at
  * a time towards it, reading this symbol's low
@@ -36,7 +36,7 @@ void DuelScene_UpdateFieldActions(void);
 extern s32 gDuel_dwFieldDimTarget;
 
 /* Which of the two field passes the state is in. It is cleared when the state
- * sets up (duel_scene_field_actions.c), raised once and cleared again,
+ * sets up (duel_scene.c), raised once and cleared again,
  * and its three reads choose between the dim-and-ramp path and the path that
  * waits for the tagged display objects to retire before finishing
  *.
@@ -51,7 +51,7 @@ extern s32 gDuel_dwFieldDimTarget;
  * restore them. All four are gp-relative halfwords in retail.
  *
  * Both are two-entry side arrays (attacker, target) owned by
- * src/game/duel_field_card_render.c. As side arrays rather than struct
+ * src/game/duel_scene.c. As side arrays rather than struct
  * elements, DuelScene_UpdateBattle's loads cannot pass the record stores,
  * which is what reloads gDuel_awSavedRecordFlags[1] after each flags store. */
 extern u16 gDuel_awSavedStatModifiers[2];

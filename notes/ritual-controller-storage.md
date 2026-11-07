@@ -18,12 +18,12 @@ allocated five-pointer array is insufficient backing. A 0x20-byte
 aggregate is never small data at `-G8`, so the union keeps every consumer's
 absolute relocations exactly as the earlier incomplete-array spelling did.
 
-`duel_field_card_render.c` defines the storage; the terminator word has no
+`duel_scene.c` defines the storage; the terminator word has no
 separate symbol. The next mapped label
 after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
 The controller's preview record is `gCardPreview_Resources[1]`, defined in
-`duel_field_card_render.c`. The controller writes the `RECT` at offsets
+`duel_scene.c`. The controller writes the `RECT` at offsets
 `+8` through `+0x0E` and reads source coordinates at `+0x28/+0x2A`.
 
 ## Integer card-ID API
@@ -108,7 +108,7 @@ the same bitset from chest and deck entries. Thus this helper marks normal
 created/result-card IDs **known**, not owned, and does not add a card copy.
 
 The new name is `Duel_MarkCreatedCardKnown`. The main owner is
-`duel_mark_created_card_known.c`; the Japanese wrapper keeps its original
+`duel_scene.c`; the Japanese wrapper keeps its original
 player-state alias and includes that same body. All seven names, owners and
 regional split references retain the original `0x50` size and
 `gcc_2_8_1_g8` profile. Only identifiers/filenames change in existing source

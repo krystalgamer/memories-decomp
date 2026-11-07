@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* 0x801D1200. Five functions in four units take its address and nothing
- * else: Duel_InitScene (src/game/duel_init_scene.c, `pool =
+ * else: Duel_InitScene (src/game/duel_scene.c, `pool =
  * gSaveData_aPairWorkspace;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
  * (mem_card_dialog.c as the first argument to MemCardDialog_Request
  * and through SaveDataState casts, the second at

@@ -48,8 +48,8 @@ This includes the preview's depth-minus-one and its 0xFFFF mask.
 The old header caveat conflated two distinct owners. DuelEffectRequest
 is a separate 0x20-byte request pool record: AllocateRequest (0x8002C604)
 initializes its buffer pointer at +0x14 from the shared work area.
-The step<<14 and step*0x3000 expressions in duel_card_effects.c and
-duel_field_effects.c advance that request buffer, NOT DisplayObject's
+The step<<14 and step*0x3000 expressions in duel_scene.c and
+duel_scene.c advance that request buffer, NOT DisplayObject's
 cached depth. Those request bodies and their declarations are unchanged.
 Likewise OR-ing the cached depth with 0x10000, 0xF0000 or 0x30000 does not
 make it a shared bitfield: DisplayObject_SubmitPacket (0x80042188) first
@@ -643,7 +643,7 @@ and `TEXT_BOX_GLYPH_CLUT_X`/`_Y` (the text box's glyph palette, formerly
 
 | Offset | Why it keeps its name |
 |---|---|
-| `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `display_object_property_transitions.c` (see the observed values above). The step's units differ per caller, so no view is clearly right. |
+| `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `duel_scene.c` (see the observed values above). The step's units differ per caller, so no view is clearly right. |
 | `+0x60` | A per-caller countdown, phase or easing amount with no single unit or direction, even within one object kind. |
 | `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck_card_transfer_icon.c` and a u/v for the textured-quad second submission. Several of these share one object kind, so per-kind views do not separate them. |
 | `+0x6A` | The linked object's pool index for the action-ready marker, but a card-record index for duel cards. It is a single byte with no word users, so a view adds nothing over documenting both. |

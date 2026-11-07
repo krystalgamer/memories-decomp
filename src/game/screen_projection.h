@@ -6,8 +6,8 @@
 #include "../psyq/libgte.h"
 
 /* The light-source matrix GsSetLsMatrix is handed. Five callers --
- * display_projection.c, both functions in duel_ground_projection.c, duel_project_card_slot_screen_x.c and
- * duel_field_card_render.c -- each declared it u8[] and cast it to (MATRIX *) at the
+ * display_projection.c, both functions in duel_scene.c, duel_scene.c and
+ * duel_scene.c -- each declared it u8[] and cast it to (MATRIX *) at the
  * call, so the SDK signature already fixed the type at every site; the cast
  * was the type escaping the declaration. model_slot_support.c spelled it as
  * a scalar u8 and returned its address as void *. library_draw_wireframe_globe.c declared it

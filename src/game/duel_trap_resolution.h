@@ -17,7 +17,7 @@ s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
  * zero once the sequence has finished, non-zero while it is running or when
  * gDuel_wDisplayTransitionFlags blocks it.
  *
- * It takes NO arguments. duel_card_effects.c declared it `s32 (s32)` and
+ * It takes NO arguments. duel_scene.c declared it `s32 (s32)` and
  * called it with a flag at both sites; the definition ignores whatever is in
  * that register. Dropping the argument was measured rather than assumed --
  * the executable is byte-identical with the calls spelled
@@ -25,7 +25,7 @@ s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
  * definition here.
  *
  * duel_action_lock.h describes the mode word it sequences on, `gDuel_wTrapPresentationMode &
- * 0xF`, and records that duel_card_effects.c clears that word to 0 at the two
+ * 0xF`, and records that duel_scene.c clears that word to 0 at the two
  * points the effect finishes -- the same two sites that make these calls. */
 s32 Duel_UpdateTrapPresentation(void);
 

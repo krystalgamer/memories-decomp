@@ -60,7 +60,7 @@ typedef struct DuelSideState {
      * statistic "cards used", but refill draws advance it before play. */
     s8 deck_draw_cursor;
     s8 swords_turns_remaining;
-    /* duel_draw_resolution.c's own view of this record calls +0x1A
+    /* duel_scene.c's own view of this record calls +0x1A
      * hand[HAND_SIZE] and Duel_HasAllExodiaPieces copies five entries out of
      * it, so the six bytes are five hand slots and one separate byte. */
     s8 hand[HAND_SIZE];
@@ -95,7 +95,7 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
 extern u8 gDuel_bActiveSide;
 
 /* A volatile view of the same byte. Swords of Revealing Light and
- * Cursebreaker (duel_field_effects.c) reload it at every use, while the rest
+ * Cursebreaker (duel_scene.c) reload it at every use, while the rest
  * of that unit reads the plain declaration above. */
 #define DUEL_SIDE_SELECTOR_VOLATILE (*(volatile u8 *)&gDuel_bActiveSide)
 
@@ -125,9 +125,9 @@ extern DuelEffectRequest
  * battle step moves to sub-step 5, which fades out and enters the animated
  * battle main mode, instead of sub-step 7.
  * DuelScene_UpdateFieldActions stores 0 twice and 1 once
- * (src/game/duel_scene_field_actions.c), DuelScene_UpdateBattle stores 0 twice and
+ * (src/game/duel_scene.c), DuelScene_UpdateBattle stores 0 twice and
  * is the only reader, testing it against 0
- * (src/game/duel_scene_battle.c). That single load is lbu and the five
+ * (src/game/duel_scene.c). That single load is lbu and the five
  * stores are sb and cannot say, so the byte is unsigned -- which settles a
  * disagreement the two units carried, one declaring it u8 and the other s8
  * while every use is a store of 0 or 1 or a test against 0, so neither
@@ -142,22 +142,22 @@ extern u8 gDuel_bAnimatedBattleRequested;
  * Duel_SelectAttackTrap stores `sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one
  * arm and `v` under its `hit:` label;
  * DuelEffect_ApplyLifePointRecovery and DuelEffect_ApplyDirectDamage test it
- * against 0. DuelScene_UpdateBattle (src/game/duel_scene_battle.c) stores 0
+ * against 0. DuelScene_UpdateBattle (src/game/duel_scene.c) stores 0
  * once and loads it eight times. Every retail load is lh
  * (DuelEffect_ApplyLifePointRecovery, DuelEffect_ApplyDirectDamage, and the
  * eight in DuelScene_UpdateBattle), so the halfword is signed; the stores
  * are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
- * plain declaration for duel_card_effects.c, duel_battle_stats.c and
- * duel_select_trap_by_card_id.c alike, and the `u16` one of them used to write was the same
+ * plain declaration for duel_scene.c, duel_scene.c and
+ * duel_scene.c alike, and the `u16` one of them used to write was the same
  * halfword under the other sign. Initial value not read. */
 extern s16 gDuel_wSelectedTrapCardId;
 
 /* Assigned in two units and read by no C statement: Duel_InitScene writes
  * `gDuel_pActiveFieldGrid = &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * 20];`
- * (src/game/duel_init_scene.c:119-120) and
+ * (src/game/duel_scene.c:119-120) and
  * DuelScene_UpdateTurnSwitch writes `gDuel_pActiveFieldGrid = gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide *
- * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_battle.c); no other listing
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene.c); no other listing
  * mentions the symbol. u8 * because gDuel_abFieldGridCardRecordIndices is `extern u8 gDuel_abFieldGridCardRecordIndices[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); DuelScene_UpdateTurnSwitch's source used to
@@ -193,9 +193,9 @@ extern u16 gDuel_wTwoPlayerSide1LifePoints;
  * as gDuel_bSide0ControllerSelector in ai_controller_handoff.h. */
 
 /* Which side won, and therefore which of the two records above the result
- * code applies to. duel_draw_resolution.c sets it as `gDuel_bActiveSide ^ 1`, the
+ * code applies to. duel_scene.c sets it as `gDuel_bActiveSide ^ 1`, the
  * side that is not the one the selector documented above points at, and both
- * it and duel_result_runtime.c immediately use it to index gDuel_aSideStates. That is what
+ * it and duel_scene.c immediately use it to index gDuel_aSideStates. That is what
  * puts it in this header rather than beside the screen that displays the
  * outcome: it is a side selector, and it is read as one. */
 extern u8 gDuel_bWinnerSide;
@@ -203,7 +203,7 @@ extern u8 gDuel_bWinnerSide;
 /* The outro's own copy of the winning side, and the only one of these that
  * carries a "not set" state. Duel_InitScene clears it to -1 when the duel
  * starts, DuelScene_UpdateResultOutro writes the winner alongside gDuel_bPlayerLost when the
- * result sequence begins, and duel_scene_update.c reads it as an override:
+ * result sequence begins, and duel_scene.c reads it as an override:
  * it takes gDuel_bActiveSide and replaces it with this value only when the test
  * `gDuel_bOutroWinnerSide >= 0` passes. That signed test is why it is s8 and not u8 --
  * the sentinel is the whole point of the field. */
@@ -239,15 +239,15 @@ extern u16 gDuel_wBgmId;
 
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns
- * `gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];` (duel_state_init.c:62;
+ * `gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];` (duel_scene.c:62;
  * Duel_InitSideStates.s:85). It does not touch gDuel_pActiveFieldGrid: that store is in its
- * only caller, src/game/duel_init_scene.c:119, after the call at :95.
+ * only caller, src/game/duel_scene.c:119, after the call at :95.
  *
  * Declared here because that last statement is the assignment this header
  * already describes: the note on gDuel_pActiveSideState says four translation units
  * assign it exactly `&gDuel_aSideStates[gDuel_bActiveSide]` on a turn change, and this is
- * one of them. Duel_InitScene (src/game/duel_init_scene.c) is the only
- * caller, and its old duel_init_scene.c had the only declaration. */
+ * one of them. Duel_InitScene (src/game/duel_scene.c) is the only
+ * caller, and its old duel_scene.c had the only declaration. */
 void Duel_InitSideStates(void);
 
 #endif

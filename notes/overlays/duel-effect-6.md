@@ -13,7 +13,7 @@ source/compiler change.
 ## Static gameplay role and semantic bindings
 
 `DuelEffect_ApplyDirectDamage` in
-[`duel_card_effects.c`](../../src/game/duel_card_effects.c) creates effect 6
+[`duel_scene.c`](../../src/game/duel_scene.c) creates effect 6
 for Sparks, Hinotama, Final Flame, Ookazi and Tremendous Fire (cards
 343..347), selecting configuration 0..4 by subtracting 343. Detecting Goblin
 Fan (687) selects configuration 5 for this first request instead. That

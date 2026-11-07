@@ -22,9 +22,10 @@ u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
 No game-owned small-data blob remains. The last one, at `0x8009AF2A`, is now
-the six-byte `gDebugEffect_PreviewState` struct (formerly the
-`gDebugEffect_abPreviewState` array) in
-`debug_effect_screen.c`. The former `0x8009AF08` watchdog word is owned by
+the effect-preview state in `duel_scene.c`: the edited-operand byte
+`gDebugEffect_bEditedOperand`, the two-byte `gDebugEffect_abOperands` and the
+page byte `gDebugEffect_bPage` (formerly the `gDebugEffect_abPreviewState`
+array, then a six-byte struct). The former `0x8009AF08` watchdog word is owned by
 `main_services.c`, and the former `0x8009AF6C` blob is fully split among
 addressed data owners through `ai_script_source_line_format.c`.
 
@@ -40,9 +41,9 @@ Small-data order follows text order. Checking the two owners that appear in
 
 The blob at `0x8009AF2A` sits between those two, so its owner must be a unit
 whose text sits between `0x8001EE44` and `0x800250C8`.
-`debug_effect_screen.c` does, at `0x800220B8`.
+`duel_scene.c` does, at `0x800220B8`.
 
-That prediction is confirmed independently: `debug_effect_screen.c` is the
+That prediction is confirmed independently: `duel_scene.c` is the
 **only** consumer of all three names in that blob, `D_8009AF2A`,
 `D_8009AF2C` and `D_8009AF2D`.
 
@@ -98,8 +99,11 @@ u8 gDebugEffect_abPreviewState[6]
     __attribute__((section(".sdata"))) = {0};
 ```
 
-(It is now `DebugEffectPreviewState gDebugEffect_PreviewState = {0};`, with the
-same six bytes and placement.)
+(That held while `debug_effect_screen.c` was its own object starting at
+`0x8009AF2A`. In the merged `duel_scene.c`, whose `.sdata` starts at the
+word-aligned `0x8009AF20`, the three separate definitions are exact: GCC
+word-aligns the operand array to `0x8009AF2C`, and the four language builds'
+three-byte gap after the index is the same rule.)
 
 Byte 0 is the axis selector, bytes 2 and 3 are the two coordinates, and byte 4
 is the preview page. Bytes 1 and 5 are explicit unused storage. The one array
@@ -109,7 +113,7 @@ section beginning exactly at `0x8009AF2A`.
 ## Overlapping labels do not require overlapping C objects
 
 `D_8009AF2D` was the **second byte of** `D_8009AF2C`, and
-`debug_effect_screen.c` used both spellings:
+`duel_scene.c` used both spellings:
 
 ```c
 D_8009AF2C[D_8009AF2A]++;                      /* index can be 1 */

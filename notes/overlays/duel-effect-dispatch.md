@@ -289,7 +289,7 @@ argument is named only on the effect-2 view. It does not name `field_12`
 for effect 13 or for any other request.
 
 Effect 0 (`func_80154688`) keeps its native name. Besides the observed
-equip placement, `DuelScene_UpdateExodiaResult` (`duel_draw_resolution.c`)
+equip placement, `DuelScene_UpdateExodiaResult` (`duel_scene.c`)
 requests it with phase 9. The same equip call site also selects effect 4
 for cards 301 and 302. No sampled route covers the Exodia lifecycle, so an
 equip-only name would overclaim.

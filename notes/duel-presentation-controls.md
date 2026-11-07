@@ -22,13 +22,13 @@ outcomes and damage. The related display slots are indexed with `cursor + 2`.
 slots in the same reverse order. It does not turn this byte into a fixed
 attacker/defender or player-side identity.
 
-The Exodia sequence in `duel_draw_resolution.c` also uses the byte to cycle
+The Exodia sequence in `duel_scene.c` also uses the byte to cycle
 effect texture regions with `counter & 3`, then to walk display work slots.
 It is therefore a reusable presentation cursor/counter, not a permanently
 bounded slot index. Byte wrapping, signed comparisons, the -1 sentinel,
 texture cycling, offsets and all existing casts remain.
 
-The byte is one `s8` object, defined once in `duel_field_card_render.c`
+The byte is one `s8` object, defined once in `duel_scene.c`
 and declared once in `duel_presentation_controls.h`. Exodia's texture
 cycle reads it as `(u8)` before masking with `& 3`; that unsigned read is
 the only place the retail code zero-extends it. The former `u8` default
@@ -76,7 +76,7 @@ and timing remain.
 | Other PAL | `8009C4E1` | `8009C522` | `8009C4EC` |
 
 The auto-commit and placement-setup bytes are defined once per image under
-their canonical names, in the duel storage unit (`duel_field_card_render.c`,
+their canonical names, in the duel storage unit (`duel_scene.c`,
 or the European wrapper); Japan and the non-English PAL images bind their
 addresses in `symbols.txt` and `link_symbols.ld`. No `D_8009B218` alias
 remains, and `duel_presentation_controls.h` holds the only declaration of
