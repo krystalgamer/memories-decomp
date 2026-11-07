@@ -1,33 +1,12 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x800F5750-0x800F5768, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 gMovie_FileInfo[24];
-
 #include "movie_open_stream.h"
-
-#ifndef MOVIE_FRAME_PIPELINE_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B498-0x8009B4A8, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 *gMovie_pWorkArea;
-CdlLOC gMovie_StreamLoc;
-u8 D_8009B4A0;
-u8 D_8009B4A1;
-u8 D_8009B4A2;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(4);
-#else
-extern u8 *gMovie_pWorkArea;
-extern CdlLOC gMovie_StreamLoc;
-extern u8 D_8009B4A0;
-extern u8 D_8009B4A1;
-extern u8 D_8009B4A2;
-#endif
 
 #include "movie_seek_and_start_read.h"
 #include "movie_on_stream_end.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
+
 #include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libpress.h"
@@ -42,6 +21,15 @@ extern u8 D_8009B4A2;
 #include "mdec_sync.h"
 #include "sound_mix.h"
 #include "../unmatched.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * movie_pipeline_commons subsegments place it at the retail addresses. */
+u8 *gMovie_pWorkArea;
+CdlLOC gMovie_StreamLoc;
+u8 D_8009B4A0;
+u8 D_8009B4A1;
+u8 D_8009B4A2;
+u8 gMovie_FileInfo[24];
 
 s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     RECT rect;
