@@ -216,7 +216,7 @@ segments:
       - [0x8ba70, .sbss, game/script_image_scene]
       - [0x8bab0, sbss, debug_menu_editor_entries_commons]
       - [0x8baf8, .sbss, game/build_deck_draw_card_list_page]
-      - [0x8bb00, .sbss, game/sorted_entry_render]
+      - [0x8bb00, sbss, sorted_entry_render_commons]
       - [0x8bb18, bin, bss_image_8009b318]
       - [0x8bb7c, .sbss, game/options_screen]
       - [0x8bb90, .sbss, game/input_pads]

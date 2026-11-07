@@ -214,7 +214,7 @@ segments:
       - [0x23024, c, game/european/build_deck_init_screen]
       - [0x2385C, c, game/european/build_deck_input]
       - [0x249C4, c, game/card_list_update_sort_mode]
-      - [0x249F8, c, game/european/sorted_entry_render]
+      - [0x249F8, c, game/sorted_entry_render]
       - [0x263A0, c, game/util_memory]
       - [0x264E8, c, game/text_encode_decimal_digits]
       - [0x265FC, c, game/rand_get_interval]
@@ -429,7 +429,7 @@ segments:
       - [0x8CE10, .sbss, game/european/script_image_scene]
       - [0x8CE50, sbss, debug_menu_editor_entries_commons]
       - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
-      - [0x8CE88, .sbss, game/european/sorted_entry_render]
+      - [0x8CE88, sbss, sorted_entry_render_commons]
       - {start: 0x8CEA0, type: bin, name: spanish_raw_8009c6a0, linker_section_order: .sbss}
       - [0x8CF08, .sbss, game/european/input_pads]
       - [0x8CF30, .sbss, game/spanish/mem_card]
