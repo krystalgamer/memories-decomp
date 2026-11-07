@@ -33,15 +33,9 @@ typedef struct {
 } EntryRibbon427;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x24];
-} EntrySpiral427;
-
-typedef struct {
     Mesh427 meshes[3];
     EntryRibbon427 ribbons[3];
-    EntrySpiral427 spirals[12];
+    ModelVariantSpiralWide spirals[12];
     ModelVariantSheet sheets[6];
     Streamer427 streamers[2];
     ModelVariantCurtain curtains[9];

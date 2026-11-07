@@ -12,11 +12,11 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant417EntryWeb *web = work->webs;
+    ModelVariantWebNarrow *web = work->webs;
     Variant417EntryTube *tube = work->tubes;
     Variant417EntryRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
-    Variant417EntryCurtain *curtain = work->curtains;
+    ModelVariantTripleCurtain *curtain = work->curtains;
     Variant417EntrySpoke *spoke = work->spokes;
     ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
@@ -122,7 +122,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
             web->color.g = work->config->web.g;
             web->color.b = work->config->web.b;
             web->scale = n * 4096 / 3 + 4096;
-            web->field_198 = 0;
+            web->done = 0;
             web->field_19C = 0;
         }
         for (i = 0; i < 1; i++, tube++) {

@@ -16,7 +16,7 @@
 s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant415EntryState *work;
-    Variant415EntryStack stack;
+    ModelVariantClutStack stack;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;

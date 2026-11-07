@@ -14,7 +14,7 @@
 s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant405EntryState *work = (Variant405EntryState *)point;
-    Variant405EntryStack stack;
+    ModelVariantClutStack stack;
     Variant405EntryRing *ring = work->rings;
     Variant405EntrySheet *sheet = work->sheets;
     Variant405EntryCurtain *outer = work->outer_curtains;

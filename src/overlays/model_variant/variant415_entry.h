@@ -85,8 +85,4 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon);
 void SpanishModelVariant432_DrawSheets(u8 *context, s32 phase);
 void SpanishModelVariant432_DrawBandLayers(u8 *context);
 void SpanishModelVariant432_DrawBands(u8 *context);
-typedef struct {
-    u8 unknown_00[60];
-    u16 texture_cluts[2];
-} Variant415EntryStack;
 #endif

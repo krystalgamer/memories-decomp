@@ -13,18 +13,6 @@ typedef struct {
     s32 height;
 } Variant412EntryConfig;
 
-/* Ten sprites at the start of the work area. */
-typedef struct {
-    SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
-    CVECTOR color;
-    s32 scale[10];
-    s32 field_1BC[10];
-    s32 field_1E4[10];
-    s32 field_20C[10];
-    s32 done[10];
-    u8 unknown_25C[0xA0];
-} Variant412EntryTrail;
-
 /* Six sprites at work + 0x2FC, released from the opposite slot. */
 typedef struct {
     SVECTOR v0[6], v1[6], v2[6], v3[6], origin[6];
@@ -37,15 +25,6 @@ typedef struct {
 } Variant412EntryFlares;
 
 typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color[9];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 offset[9];
-    s32 field_A0, field_A4;
-} Variant412EntryRecord;
-
-typedef struct {
     u8 unknown_00[0x68];
     s32 offset[2];
     CVECTOR ca[2], cb[2];
@@ -56,9 +35,9 @@ typedef struct {
 } Variant412EntryBand;
 
 typedef struct {
-    Variant412EntryTrail trails[1];
+    ModelVariantSpriteSet trails[1];
     Variant412EntryFlares flares;
-    Variant412EntryRecord records[16];
+    ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     Variant412EntryBand bands[1];
     ModelVariantSheet sheets[2];

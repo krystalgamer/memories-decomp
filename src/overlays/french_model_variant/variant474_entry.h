@@ -52,14 +52,6 @@ typedef struct {
     u8 unknown_94[4];
 } Variant474EntrySheet;
 
-/* One 0x334-byte streamer: seventeen colours. */
-typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x88];
-} Variant474EntryStreamer;
-
 /* The 9x17 mesh points and nine row colours. */
 typedef struct {
     SVECTOR row[9][17];
@@ -73,7 +65,7 @@ typedef struct {
     Variant474EntryMesh mesh;
     ModelVariantSpiral spirals[12];
     Variant474EntrySheet sheets[2];
-    Variant474EntryStreamer streamers[2];
+    ModelVariantStreamer streamers[2];
     u8 unknown_1930[0x34];
     POLY_GT4 glow;
     u8 unknown_1998[0x34];

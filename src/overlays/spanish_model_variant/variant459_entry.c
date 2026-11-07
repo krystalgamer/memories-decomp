@@ -14,10 +14,10 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant459EntryRing *ring = work->rings;
-    Variant459EntryCurtain *curtain = work->curtains;
+    ModelVariantTripleCurtain *curtain = work->curtains;
     Variant459EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
-    Variant459EntryWeb *web = work->webs;
+    ModelVariantWebNarrow *web = work->webs;
     ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
@@ -218,7 +218,7 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             web->color.g = work->config->web.g;
             web->color.b = work->config->web.b;
             web->scale = n * 4096 / 3 + 4096;
-            web->field_198 = 0;
+            web->done = 0;
             web->field_19C = 0;
         }
         for (i = 0; i < 12; glow++, i++) {

@@ -20,15 +20,6 @@ typedef struct {
 } Variant385EntryConfig;
 
 typedef struct {
-    SVECTOR near[4][6];
-    SVECTOR far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, field_198, field_19C;
-} Variant385EntryWeb;
-
-typedef struct {
     u8 unknown_00[0x6C];
     s16 field_6C, field_6E;
     s32 field_70;
@@ -48,7 +39,7 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    Variant385EntryWeb webs[3];
+    ModelVariantWebNarrow webs[3];
     Variant385EntryTube tubes[1];
     Variant385EntrySheet sheets[2];
     u8 unknown_68C[0x300];

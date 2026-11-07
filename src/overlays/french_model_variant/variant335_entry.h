@@ -28,19 +28,12 @@ typedef struct {
     u8 unknown_94[4];
 } Model335EntrySheet;
 
-typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x334 - 0x2AC];
-} Model335EntryShortStreamer;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Model335EntryRecord records[3];
     Model335EntrySheet sheets[4];
     Variant335Ring rings[3];
-    Model335EntryShortStreamer short_streamers[6];
+    ModelVariantStreamer short_streamers[6];
     Variant337EntryStreamer streamers[2];
     POLY_G3 triangle;
     POLY_G4 quad;

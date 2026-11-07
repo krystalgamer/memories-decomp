@@ -5,19 +5,6 @@
 #include "../model_variant/variant405_halo.h"
 #include "../model_variant/variant405_veils.h"
 
-/* Only the CLUT halfwords are accessed; preceding stack bytes remain unassigned. */
-typedef struct {
-    u8 unknown_00[60];
-    u16 texture_cluts[2];
-} Variant422EntryStack;
-
-typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start, end;
-    u8 unknown_24[0xC];
-} Variant422EntryConfig;
-
 typedef struct {
     u8 unknown_00[0x144];
     CVECTOR ca[9], cb[9];
@@ -51,7 +38,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant422EntryConfig *config;
+    ModelVariantWebConfig *config;
     u32 field_1DCC;
     GsCOORDUNIT *parts[3];
     u8 unknown_1DDC[0x14];
@@ -65,7 +52,7 @@ typedef struct {
 } Variant422EntryState;
 
 extern GsIMAGE gFrenchModelVariant422_aImages[2];
-extern Variant422EntryConfig gFrenchModelVariant422_aConfigs[];
+extern ModelVariantWebConfig gFrenchModelVariant422_aConfigs[];
 void ModelVariant405_DrawHalo(u8 *context);
 void ModelVariant405_DrawVeils(u8 *context);
 #endif

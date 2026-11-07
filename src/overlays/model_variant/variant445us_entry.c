@@ -21,14 +21,14 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     EntryRibbon445Us *ribbon = work->ribbons;
-    EntryRing445Us *ring = &work->ring;
+    ModelVariantQuadRing *ring = &work->ring;
     EntryBand445Us *band = work->bands;
     EntryQuad445Us *quad_sheet = work->quads;
     EntrySmallRing445Us *ring_a = work->rings_a;
     EntrySmallRing445Us *ring_b = work->rings_b;
-    EntryShape445Us *shape = work->shapes;
-    EntryWeb445Us *web = work->webs;
-    EntryTrail445Us *trail = work->trails;
+    ModelVariantShape *shape = work->shapes;
+    ModelVariantWebNarrow *web = work->webs;
+    ModelVariantTrail *trail = work->trails;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -248,10 +248,10 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {
-                trail->progress[j] = delay;
-                trail->colors[j].r = -64 - j * 24;
-                trail->colors[j].g = -64 - j * 24;
-                trail->colors[j].b = 255;
+                trail->offset[j] = delay;
+                trail->color[j].r = -64 - j * 24;
+                trail->color[j].g = -64 - j * 24;
+                trail->color[j].b = 255;
             }
             trail->field_6C = 0;
             trail->field_70 = 0;

@@ -23,7 +23,7 @@
 s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant380EntryState *work = (Variant380EntryState *)point;
-    Variant380EntryStack stack;
+    ModelVariantClutStack stack;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;

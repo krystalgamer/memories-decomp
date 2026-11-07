@@ -74,13 +74,6 @@ typedef struct {
     s32 field_B8, field_BC;
 } Variant456EntrySheet;
 
-typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x88];
-} Variant456EntryStreamer;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant456EntryFan fans[2];
@@ -88,7 +81,7 @@ typedef struct {
     Variant456EntryRibbon ribbons[2];
     Variant456EntryLine lines[16];
     Variant456EntrySheet sheets[8];
-    Variant456EntryStreamer streamers[2];
+    ModelVariantStreamer streamers[2];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], glow;

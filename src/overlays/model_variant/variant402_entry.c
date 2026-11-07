@@ -25,7 +25,7 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpokeRing *spoke = work->spokes;
     ModelVariantFan *fan = work->fans;
     ModelVariantWebNarrow *web = work->webs;
-    Variant402EntryStreak *streak = work->streaks;
+    ModelVariantTrail *streak = work->streaks;
     POLY_GT4 *textured = work->textured;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
@@ -244,7 +244,7 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
                 streak->color[j].r = -64 - j * 24;
                 streak->color[j].g = -64 - j * 24;
                 streak->color[j].b = 255;
-                streak->depth[j] = -(j * 256);
+                streak->offset[j] = -(j * 256);
             }
             streak->field_6C = 0;
             streak->field_70 = 0;

@@ -13,18 +13,6 @@ typedef struct {
     u32 sweep_start, sweep_end;
 } Variant411UsEntryConfig;
 
-/* Ten sprites at the start of the work area. */
-typedef struct {
-    SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
-    CVECTOR color;
-    s32 scale[10];
-    s32 field_1BC[10];
-    s32 field_1E4[10];
-    s32 field_20C[10];
-    s32 done[10];
-    u8 unknown_25C[0xA0];
-} Variant411UsEntryTrail;
-
 /* The 32-sprite swarm at work + 0x2FC, released towards the opposite slot. */
 typedef struct {
     SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
@@ -35,15 +23,6 @@ typedef struct {
     s32 field_614[32];
     s32 done[32];
 } Variant411UsEntrySwarm;
-
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color[9];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 offset[9];
-    s32 field_A0, field_A4;
-} Variant411UsEntryRecord;
 
 typedef struct {
     u8 unknown_00[0x68];
@@ -63,20 +42,11 @@ typedef struct {
     u8 unknown_94[4];
 } Variant411UsEntrySheet;
 
-/* ModelVariantWebNarrow with the words it clears named. */
 typedef struct {
-    SVECTOR near[4][6], far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, done, field_19C;
-} Variant411UsEntryWeb;
-
-typedef struct {
-    Variant411UsEntryTrail trails[1];
+    ModelVariantSpriteSet trails[1];
     Variant411UsEntrySwarm swarm;
-    Variant411UsEntryRecord records[16];
-    Variant411UsEntryWeb webs[3];
+    ModelVariantTrail records[16];
+    ModelVariantWebNarrow webs[3];
     Variant411UsEntryBand bands[1];
     Variant411UsEntrySheet sheets[2];
     ModelVariantRing rings[6];

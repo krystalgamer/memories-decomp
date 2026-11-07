@@ -46,27 +46,14 @@ typedef struct {
     CVECTOR color[9];
 } Variant464EntryDome;
 
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x24];
-} Variant464EntrySpiral;
-
-typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x88];
-} Variant464EntryStreamer;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant464EntryFunnel funnels[2];
     Variant464EntryBand bands[1];
     Variant464EntryDome dome;
-    Variant464EntrySpiral spirals[12];
+    ModelVariantSpiralWide spirals[12];
     ModelVariantSheet sheets[2];
-    Variant464EntryStreamer streamers[2];
+    ModelVariantStreamer streamers[2];
     u8 unknown_1DD0[0x34];
     POLY_GT4 special;
     u8 unknown_1E38[0x34];

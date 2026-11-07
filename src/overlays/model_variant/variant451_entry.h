@@ -33,7 +33,7 @@ typedef struct {
 
 typedef struct {
     Variant451EntryGroup group;
-    Variant412EntryRecord records[16];
+    ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     Variant412EntryBand bands[1];
     ModelVariantSheet sheets[2];

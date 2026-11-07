@@ -19,8 +19,8 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     Variant464EntryFunnel *funnel = work->funnels;
     Variant464EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
-    Variant464EntryStreamer *streamer = work->streamers;
-    Variant464EntrySpiral *spiral = work->spirals;
+    ModelVariantStreamer *streamer = work->streamers;
+    ModelVariantSpiralWide *spiral = work->spirals;
     POLY_GT4 *special = &work->special;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;

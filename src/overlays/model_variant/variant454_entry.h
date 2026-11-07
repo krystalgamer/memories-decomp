@@ -29,22 +29,10 @@ typedef struct {
     VECTOR offsets[16];
 } Variant454EntryGroup;
 
-/* A cluster of 10 sprites after the group. */
-typedef struct {
-    SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
-    CVECTOR color;
-    s32 scale[10];
-    s32 field_1BC[10];
-    s32 field_1E4[10];
-    s32 field_20C[10];
-    s32 done[10];
-    u8 unknown_25C[0xA0];
-} Variant454EntryCluster;
-
 typedef struct {
     Variant454EntryGroup groups[1];
-    Variant454EntryCluster clusters[1];
-    Variant412EntryRecord records[16];
+    ModelVariantSpriteSet clusters[1];
+    ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     Variant412EntryBand bands[1];
     ModelVariantSheet sheets[2];

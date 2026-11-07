@@ -4,7 +4,7 @@
 s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant422EntryState *work = (Variant422EntryState *)point;
-    Variant422EntryStack stack;
+    ModelVariantClutStack stack;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;

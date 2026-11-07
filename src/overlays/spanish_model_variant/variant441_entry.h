@@ -34,15 +34,6 @@ typedef struct {
 } Variant441EntryTube;
 
 typedef struct {
-    SVECTOR near[4][6];
-    SVECTOR far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 scale, field_198, field_19C;
-} Variant441EntryWeb;
-
-typedef struct {
     u8 unknown_00[0x48];
     CVECTOR color;
     s32 scale[3];
@@ -51,12 +42,6 @@ typedef struct {
     s32 field_60;
     u8 unknown_64[8];
 } Variant441EntryRibbon;
-
-typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    u8 color_a[4], color_b[4];
-    s32 scale, growth;
-} Variant441EntryCurtain;
 
 typedef struct {
     SVECTOR a[8], b[8];
@@ -68,11 +53,11 @@ typedef struct {
 typedef struct {
     Variant441EntryHoop hoops[3];
     Variant441EntryTube tubes[1];
-    Variant441EntryWeb webs[3];
+    ModelVariantWebNarrow webs[3];
     Variant441EntryRibbon ribbons[1];
     ModelVariantSheet sheets[2];
     u8 rays[0x360];
-    Variant441EntryCurtain curtains[5];
+    ModelVariantTripleCurtain curtains[5];
     Variant441EntrySpoke spokes[4];
     ModelVariantSpiral glows[12];
     POLY_G3 triangle;
