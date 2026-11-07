@@ -17,7 +17,7 @@ void SpanishModelVariant426_DrawFunnel(u8 *context)
     long flag;
     Funnel426State *state = (Funnel426State *)context;
     ModelVariantSheet *sheet;
-    Funnel426 *funnel;
+    ModelVariantFunnel *funnel;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, k;

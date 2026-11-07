@@ -18,7 +18,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantBandTriple *record = work->records;
     EntryRibbon436 *ribbon = work->ribbons;
     Sheet436 *sheet = work->sheets;
-    Streamer436 *streamer = work->streamers;
+    ModelVariantShortStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->extra;

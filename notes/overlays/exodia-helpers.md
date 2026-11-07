@@ -158,7 +158,7 @@ contains 34 resident bindings, retaining every previously accepted binding.
 The remaining slot-1 helper at `0x8017BDF0` now owns all 2,416 instruction
 bytes through `src/overlays/model_exodia/petals.c`, with the observed
 304-byte frame. Its dedicated header reuses the existing
-`Variant418SpiralArm` access view and canonical SDK declarations; the entry
+`ModelVariantFlaggedSpiralArm` access view and canonical SDK declarations; the entry
 imports that header instead of retaining a separate helper prototype.
 No shared layout, compiler profile or resident binding changes.
 

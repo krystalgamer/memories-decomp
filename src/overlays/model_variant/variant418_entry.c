@@ -24,7 +24,7 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpokeRing *spoke = work->spokes;
     ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
-    Variant418SpiralArm *arm = work->arms;
+    ModelVariantFlaggedSpiralArm *arm = work->arms;
     POLY_GT4 *textured = work->textured;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;

@@ -3,25 +3,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-/* One 0x378-byte streamer: a seventeen-point spine and its copy moved along
- * the view, both projected, with per-point angle, width, colour, projection
- * flag, depth and screen offset. */
-typedef struct {
-    SVECTOR a[17];
-    long sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    long sb[17];
-    s32 width[17];
-    u8 unknown220[0x44];
-    u8 color[17][4];
-    u8 unknown2A8[0x04];
-    long flag[17];
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
-} Variant397Streamer;
-
 /* Command row view: only the record count is read. */
 typedef struct {
     u8 unknown_00[0x24];

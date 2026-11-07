@@ -13,7 +13,7 @@ loader entry calls it.
 
 ## Behaviour
 
-The routine draws two funnels at `+0x67C`. Each one is a `Funnel411` record of
+The routine draws two funnels at `+0x67C`. Each one is a `ModelVariantFunnel` record of
 0x118 bytes holding two seventeen-point rings:
 
 - an inner ring of radius 64

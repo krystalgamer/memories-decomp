@@ -23,7 +23,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     s32 distance;
     s32 spread;
     s32 turn;
-    Petal388Arm *arm;
+    ModelVariantFlaggedSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -33,7 +33,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     s32 dy;
 
     work = ctx;
-    arm = (Petal388Arm *)(work + 0x1050);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(work + 0x16C0);
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1848), MODEL_VARIANT_WORD(work, 0x1840)) + 0xC00;
@@ -90,7 +90,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        arm = (Petal388Arm *)(work + 0x1050);
+        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
         for (i = 0; i < 12; i++, arm++) {
             for (k = 0; k < 2; k++) {
                 if (k == 1) {
@@ -116,7 +116,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
                 }
             }
         }
-        arm = (Petal388Arm *)(work + 0x1050);
+        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
         for (i = 0; i < 12; i++, arm++) {
             for (k = 0; k < 1; k++) {
                 poly->x0 = arm->sa[k] + arm->ox[k];

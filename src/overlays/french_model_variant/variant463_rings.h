@@ -5,17 +5,8 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR v0[24];
-    SVECTOR v1[24];
-    SVECTOR v2[24];
-    SVECTOR v3[24];
-    u8 unknown_300[0xD4];
-    s32 size[24];
-} Ring463;
-
-typedef struct {
     u8 unknown_0000[0x2710];
-    Ring463 ring;
+    ModelVariantQuadRingView ring;
     u8 unknown_2B44[0x18DC];
     POLY_FT4 polygon;
     u8 unknown_4448[0x4C];

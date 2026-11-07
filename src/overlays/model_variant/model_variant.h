@@ -259,6 +259,15 @@ typedef struct {
     s32 count;
 } ModelVariantRing;
 
+/* One 0x98-byte ring sheet: four rows of four corners, two colours and the
+ * scale. */
+typedef struct {
+    SVECTOR points[4][4];
+    CVECTOR color[2];
+    s32 scale;
+    u8 unknown_08C[12];
+} ModelVariantScaledSheetView;
+
 /* One 0x90-byte element of the spoke-ring array in header 397's work area:
  * like ModelVariantRing, but the colour sits one word earlier and the ring
  * is scaled rather than swept. */
@@ -464,6 +473,14 @@ typedef struct {
     s16 y_offset[2];
 } ModelVariantRibbonSpan;
 
+/* The ribbon tail: the completion flag, the target it moves to and the
+ * per-step delta. */
+typedef struct {
+    s32 completed;
+    VECTOR target;
+    VECTOR delta;
+} ModelVariantRibbonTail;
+
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
     SVECTOR point[13];
@@ -546,6 +563,24 @@ typedef struct {
     u32 shrink_start;
     u32 shrink_end;
 } ModelVariantSheetTimingWide;
+
+/* One 0x274-byte streamer: a thirteen-point spine and its copy moved along
+ * the view, both projected, with per-point angle, width, colour, depth and
+ * screen offset. */
+typedef struct {
+    SVECTOR a[13];
+    long sa[13];
+    s32 angle[13];
+    SVECTOR b[13];
+    long sb[13];
+    s32 width[13];
+    u8 unknown_01A0[0x34];
+    CVECTOR color[13];
+    u8 unknown_0208[4];
+    s32 depth[13];
+    s16 ox[13];
+    s16 oy[13];
+} ModelVariantShortStreamer;
 
 /* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
  * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
@@ -636,6 +671,57 @@ typedef struct {
     s32 done;
     u8 unknown_8C[4];
 } ModelVariantFan;
+
+/* One 0x84-byte spiral or petal arm: a two-point spine and a copy of it
+ * moved along the view, both projected, per point the screen angle, the
+ * projected width and its screen offset, and two colour rows. */
+typedef struct {
+    u8 unknown00[0x10];
+    SVECTOR a[2];
+    long sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    long sb[2];
+    s32 width[2];
+    u8 cb[2][4];
+    u8 ca[2][4];
+    u8 unknown60[4];
+    long flag[2];
+    s32 otz[2];
+    s16 ox[2];
+    s16 oy[2];
+    u8 unknown7C[8];
+} ModelVariantFlaggedSpiralArm;
+
+/* One 0x378-byte streamer: a seventeen-point spine and a copy of it moved
+ * along the view, both projected, and per point the screen angle, the
+ * projected width, a colour, the projection flag, the depth and the width's
+ * screen offset. */
+typedef struct {
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+    u8 unknown220[0x44];
+    u8 color[17][4];
+    u8 unknown2A8[0x04];
+    long flag[17];
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantFlaggedStreamer;
+
+/* One 0x118-byte funnel or ring: seventeen inner points at radius 64 and
+ * seventeen outer points at radius 256, joined into quads and scaled by
+ * size. */
+typedef struct {
+    SVECTOR inner[17];
+    SVECTOR outer[17];
+    s32 size;
+    u8 unknown_114[4];
+} ModelVariantFunnel;
 
 /* A 0x4F8-byte record read only for its size at + 0x4EC, which scales the
  * funnels or curtains drawn over it. */
@@ -899,6 +985,16 @@ typedef struct {
     u8 unknown_3C4[0x10];
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
+
+/* A ring of 24 quads given by corner arrays v0..v3, and a size per quad. */
+typedef struct {
+    SVECTOR v0[24];
+    SVECTOR v1[24];
+    SVECTOR v2[24];
+    SVECTOR v3[24];
+    u8 unknown_300[0xD4];
+    s32 size[24];
+} ModelVariantQuadRingView;
 
 /* One 0x88-byte sheet of four quads: four rows of four corners; each quad
  * takes color[1] on its first three corners and color[0] on the fourth. */

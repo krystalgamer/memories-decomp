@@ -22,7 +22,7 @@ void SpanishModelVariant473_DrawFunnels(u8 *context)
     long flag;
     Funnel473State *state = (Funnel473State *)context;
     ModelVariantSheet *sheet;
-    Funnel473 *funnel;
+    ModelVariantFunnel *funnel;
     ModelVariantGridScale *object;
     POLY_GT4 *quad;
     GsOT *ot;

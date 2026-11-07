@@ -19,7 +19,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWeb webs[3];
-    Variant418SpiralArm arms[12];
+    ModelVariantFlaggedSpiralArm arms[12];
     u8 unknown_D50[0x10F0 - 0xD50];
     ModelVariantColorBandPadded bands[1];
     ModelVariantSheet sheets[1];
