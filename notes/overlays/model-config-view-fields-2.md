@@ -61,9 +61,9 @@ Entry `french_model_variant/variant458_entry.c` line 36: `work->config = (EntryC
 | `+0x20` | `unknown_1C[0xC]` bytes → `s32 move_end` | `Variant458Timing.move_end` | `FrenchModelVariant458_DrawSheets` (french_model_variant/variant458_sheets.c; `french_model_variant/variant458_entry.c:259`, `Variant458View.timing` at +0x1F24) | `(work->timing->move_end - work->timing->move_start);` | high |
 | `+0x24` | `unknown_1C[0xC]` bytes → `s32 fade_start` | `Variant458Timing.fade_start` | `FrenchModelVariant458_DrawSheets` (french_model_variant/variant458_sheets.c; `french_model_variant/variant458_entry.c:259`, `Variant458View.timing` at +0x1F24) | `} else if (work->phase == 4 && work->timing->fade_start <= work->elapsed)` | high |
 
-## `EntryConfig445Us`
+## `ModelVariantGrowConfig`
 
-Entry `model_variant/variant445us_entry.c` line 51: `work->config = (EntryConfig445Us *)(gModelVariant445_D2848 + 0xFC) + command;`. Its work struct `EntryState445Us` has `config` at `+0x354C`.
+Entry `model_variant/variant445us_entry.c` line 51: `work->config = (ModelVariantGrowConfig *)(gModelVariant445_D2848 + 0xFC) + command;`. Its work struct `EntryState445Us` has `config` at `+0x354C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|

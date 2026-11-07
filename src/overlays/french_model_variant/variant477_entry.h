@@ -14,12 +14,6 @@
 #include "../../game/model_effect_state.h"
 
 typedef struct {
-    CVECTOR outer, inner, web_color;
-    u8 unknown_0C[4], parts[2], unknown_12[0xA];
-    u32 draw_start, limit, field_24, field_28, matrix_end, move_start, move_end;
-} EntryConfig477;
-
-typedef struct {
     SVECTOR a[1], b[1], c[1], d[1], positions[1];
     CVECTOR color;
     u8 unknown_2C[0x10];
@@ -29,25 +23,12 @@ typedef struct {
 } EntryPanel477;
 
 typedef struct {
-    SVECTOR a[10], b[10], c[10], d[10], positions[10];
-    CVECTOR color;
-    s32 size[10], angle[10], done[10], field_20C[10], initialized[10];
-    u8 unknown_25C[0xA0];
-} EntryGroup477;
-
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR inner, outer;
-    VECTOR scale;
-} EntrySheet477;
-
-typedef struct {
     EntryPanel477 panels[2];
-    EntryGroup477 groups[2];
+    ModelVariantQuadGroup groups[2];
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
-    EntrySheet477 sheets[2];
+    ModelVariantScaledSheet sheets[2];
     ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
     POLY_G3 triangle;
@@ -64,7 +45,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig477 *config;
+    ModelVariantMoveConfig *config;
     u32 field_207C;
     GsCOORDUNIT *parts[2];
     u32 field_2088;
@@ -78,7 +59,7 @@ typedef struct {
 } EntryState477;
 
 extern GsIMAGE gFrenchModelVariant477_aImages[9];
-extern EntryConfig477 gFrenchModelVariant477_aConfigs[];
+extern ModelVariantMoveConfig gFrenchModelVariant477_aConfigs[];
 void SpanishModelVariant477_DrawPanels(u8 *context);
 void SpanishModelVariant477_DrawQuadGroups(u8 *context);
 

@@ -5,35 +5,13 @@
 #include "variant412_entry.h"
 
 typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start;
-    u32 limit;
-    u8 unknown_24[8];
-    u32 origin_end;
-    u32 sweep_start, sweep_end;
-} Variant413EntryConfig;
-
-/* Three groups of 32 sprites at the start of the work area, drawn by
- * FrenchModelVariant430_DrawSwarm (image132118_swarm.c). */
-typedef struct {
-    SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 scale[32];
-    s32 field_594[32];
-    s32 field_614[32];
-    s32 done[32];
-} Variant413EntryGroup;
-
-typedef struct {
-    Variant413EntryGroup groups[3];
+    ModelVariantSwarm groups[3];
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
@@ -51,7 +29,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant413EntryConfig *config;
+    ModelVariantSweepConfig *config;
     u32 field_3AE0;
     GsCOORDUNIT *parts[3];
     s16 field_3AF0, field_3AF2;
@@ -64,6 +42,6 @@ typedef struct {
 } Variant413EntryState;
 
 extern GsIMAGE gModelVariant413_aImages[9];
-extern Variant413EntryConfig gModelVariant413_aConfigs[];
+extern ModelVariantSweepConfig gModelVariant413_aConfigs[];
 void FrenchModelVariant430_DrawSwarm(u8 *context);
 #endif

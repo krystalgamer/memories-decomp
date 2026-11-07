@@ -23,7 +23,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
     Variant388EntrySheet *sheet = work->sheets;
     Variant388EntryFeedback *feedback = work->feedback;
     ModelVariantColorRing *spoke = work->spokes;
-    Variant388EntryArm *arm = work->arms;
+    ModelVariantSpiralWide *arm = work->arms;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;
@@ -124,11 +124,11 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 12; i++, arm++) {
             for (j = 0; j < 2; j++) {
                 if (j == 1) {
-                    SETC(arm->ca[j], 0, 0, 0);
-                    SETC(arm->cb[j], 0, 0, 0);
+                    SETC(arm->outer[j], 0, 0, 0);
+                    SETC(arm->inner[j], 0, 0, 0);
                 } else {
-                    SETC(arm->ca[j], 255, 0, 255);
-                    SETC(arm->cb[j], 128, 128, 128);
+                    SETC(arm->outer[j], 255, 0, 255);
+                    SETC(arm->inner[j], 128, 128, 128);
                 }
             }
         }

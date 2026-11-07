@@ -16,32 +16,12 @@ typedef struct {
     s32 end;
 } Variant441EntryConfig;
 
-/* The 0x54C-byte tube with nine fixed colours and its scale words. */
-typedef struct {
-    u8 unknown_000[0x510];
-    CVECTOR colors[9];
-    s32 scale[3];
-    u8 unknown_540[4];
-    s16 field_544, field_546;
-    s32 field_548;
-} Variant441EntryTube;
-
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color;
-    s32 scale[3];
-    u8 unknown_58[4];
-    s16 field_5C, field_5E;
-    s32 field_60;
-    u8 unknown_64[8];
-} Variant441EntryRibbon;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantScreenRing hoops[3];
-    Variant441EntryTube tubes[1];
+    ModelVariantTubeView tubes[1];
     ModelVariantWebNarrow webs[3];
-    Variant441EntryRibbon ribbons[1];
+    ModelVariantShortRibbon ribbons[1];
     ModelVariantSheet sheets[2];
     u8 rays[0x360];
     ModelVariantTripleCurtain curtains[5];

@@ -16,7 +16,7 @@ void ModelVariant428_DrawSpokes(u8 *ctx)
     long p;
     long flag;
     GsGLINE *line;
-    ModelVariantSpokeRing *ring;
+    ModelVariantRing *ring;
     u8 *obj;
     GsOT *ot;
     s32 i;
@@ -29,7 +29,7 @@ void ModelVariant428_DrawSpokes(u8 *ctx)
     line = (GsGLINE *)(ctx + 0x1514);
     work = ctx;
     obj = ctx + 0xC78;
-    ring = (ModelVariantSpokeRing *)(ctx + 0x1108);
+    ring = (ModelVariantRing *)(ctx + 0x1108);
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 4; i++, ring++) {
         if (ring->count >= 0) {
@@ -63,13 +63,13 @@ void ModelVariant428_DrawSpokes(u8 *ctx)
                 line->b0 = 0;
                 if (ring->angle >= 0x200) {
                     f = 0x400 - ring->angle;
-                    line->r1 = ring->color[0] * f / 512;
-                    line->g1 = ring->color[1] * f / 512;
-                    line->b1 = ring->color[2] * f / 512;
+                    line->r1 = ring->outer_color[0] * f / 512;
+                    line->g1 = ring->outer_color[1] * f / 512;
+                    line->b1 = ring->outer_color[2] * f / 512;
                 } else {
-                    line->r1 = ring->color[0];
-                    line->g1 = ring->color[1];
-                    line->b1 = ring->color[2];
+                    line->r1 = ring->outer_color[0];
+                    line->g1 = ring->outer_color[1];
+                    line->b1 = ring->outer_color[2];
                 }
                 if (otz > 0) {
                     GsSortGLine(line, ot, otz);

@@ -13,26 +13,15 @@ typedef struct {
     u32 sweep_start, sweep_end;
 } Variant411UsEntryConfig;
 
-/* The 32-sprite swarm at work + 0x2FC, released towards the opposite slot. */
-typedef struct {
-    SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 scale[32];
-    s32 field_594[32];
-    s32 field_614[32];
-    s32 done[32];
-} Variant411UsEntrySwarm;
-
 typedef struct {
     ModelVariantSpriteSet trails[1];
-    Variant411UsEntrySwarm swarm;
+    ModelVariantSwarm swarm;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;

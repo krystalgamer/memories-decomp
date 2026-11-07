@@ -10,7 +10,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     ExodiaSecondEntryBeam *beam = work->beams;
-    ExodiaSecondEntryRing *ring = work->rings;
+    ModelVariantPointSheet *ring = work->rings;
     ModelVariantSpiralWide *colors = work->petals;
     POLY_GT4 *textured = work->textured;
     POLY_F4 *flat = &work->flat;
@@ -136,13 +136,13 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
                     setVector(&ring->points[ring_point + 12], 0, 0, 0);
                 }
             }
-            ring->inner.r = 192;
-            ring->inner.g = 192;
-            ring->inner.b = 160;
-            ring->outer.r = 255;
-            ring->outer.g = 224;
-            ring->outer.b = 64;
-            ring->scale = 0;
+            ring->outer.r = 192;
+            ring->outer.g = 192;
+            ring->outer.b = 160;
+            ring->inner.r = 255;
+            ring->inner.g = 224;
+            ring->inner.b = 64;
+            ring->size = 0;
             ring->field_8C = 0;
             ring->field_90 = 0;
         }

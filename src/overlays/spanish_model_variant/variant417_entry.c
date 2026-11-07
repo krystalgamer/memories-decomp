@@ -13,8 +13,8 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     ModelVariantWebNarrow *web = work->webs;
-    Variant417EntryTube *tube = work->tubes;
-    Variant417EntryRibbon *ribbon = work->ribbons;
+    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantShortRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;
     ModelVariantColorRing *spoke = work->spokes;
@@ -126,9 +126,9 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
             web->field_19C = 0;
         }
         for (i = 0; i < 1; i++, tube++) {
-            tube->scale[0] = 4096;
-            tube->scale[1] = 4096;
-            tube->scale[2] = 4096;
+            tube->scale.vx = 4096;
+            tube->scale.vy = 4096;
+            tube->scale.vz = 4096;
             for (j = 0; j < 9; j++) {
                 if (j == 0 || j == 8) {
                     tr = 128; tg = 0; tb = 0;

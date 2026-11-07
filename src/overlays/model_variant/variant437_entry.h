@@ -69,18 +69,6 @@ typedef struct {
     s32 unknown19C;
 } Variant437Cone;
 
-/* The 0xA0-byte two-step beam at work + 0x2480. */
-typedef struct {
-    u8 unknown00[0x68];
-    s32 offset[2];
-    u8 color[2][4];
-    u8 glow[2][4];
-    VECTOR scale;
-    s16 rx, ry;
-    s32 unknown94;
-    u8 unknown98[8];
-} Variant437Beam;
-
 /* One 0x98-byte four-corner tile (two at work + 0x2520). */
 typedef struct {
     SVECTOR a[4];
@@ -92,16 +80,6 @@ typedef struct {
     s32 unknown88[3];
     u8 unknown94[4];
 } Variant437Tile;
-
-/* One 0x90-byte eight-point disc (six at work + 0x2650, four at + 0x29B0). */
-typedef struct {
-    SVECTOR inner[8];
-    SVECTOR outer[8];
-    u8 color[4];
-    u8 glow[4];
-    s32 angle;
-    s32 unknown8C;
-} Variant437Disc;
 
 /* The 0x90-byte five-point star at work + 0x2BF0. */
 typedef struct {
@@ -117,10 +95,10 @@ typedef struct {
     Variant437Group groups[8];
     Variant437Ribbon ribbons[16];
     Variant437Cone cones[3];
-    Variant437Beam beam;
+    ModelVariantBeamPair beam;
     Variant437Tile tiles[2];
-    Variant437Disc discs[6];
-    Variant437Disc rings[4];
+    ModelVariantRing discs[6];
+    ModelVariantRing rings[4];
     Variant437Star star;
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -48,7 +48,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig445Us *)(gModelVariant445_D2848 + 0xFC) + command;
+        work->config = (ModelVariantGrowConfig *)(gModelVariant445_D2848 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);

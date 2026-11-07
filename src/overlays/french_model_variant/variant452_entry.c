@@ -27,11 +27,11 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantColorBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
-    ModelVariantSpokeRing *spoke = work->spokes;
+    ModelVariantRing *spoke = work->spokes;
     ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
     Variant452Streamer *streamer = work->streamers;
-    Variant452EntryTrail *trail = work->trails;
+    ModelVariantRay *trail = work->trails;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;
@@ -207,12 +207,12 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&ring->outer[outer], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            ring->color[0] = 64;
-            ring->color[1] = 128;
-            ring->color[2] = 255;
-            ring->pad84[0] = 0;
-            ring->pad84[1] = 0;
-            ring->pad84[2] = 0;
+            ring->inner_color[0] = 64;
+            ring->inner_color[1] = 128;
+            ring->inner_color[2] = 255;
+            ring->outer_color[0] = 0;
+            ring->outer_color[1] = 0;
+            ring->outer_color[2] = 0;
             ring->angle = row * 1024 / 6;
             ring->count = 0;
         }
@@ -229,19 +229,19 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 16; i++, trail++) {
             for (j = 0; j < 3; j++) {
                 if (j == 2) {
-                    trail->inner[j].r = 0;
-                    trail->inner[j].g = 0;
-                    trail->inner[j].b = 0;
                     trail->outer[j].r = 0;
                     trail->outer[j].g = 0;
                     trail->outer[j].b = 0;
-                } else {
-                    trail->inner[j].r = 255;
+                    trail->inner[j].r = 0;
                     trail->inner[j].g = 0;
-                    trail->inner[j].b = 255;
-                    trail->outer[j].r = 128;
-                    trail->outer[j].g = 128;
-                    trail->outer[j].b = 128;
+                    trail->inner[j].b = 0;
+                } else {
+                    trail->outer[j].r = 255;
+                    trail->outer[j].g = 0;
+                    trail->outer[j].b = 255;
+                    trail->inner[j].r = 128;
+                    trail->inner[j].g = 128;
+                    trail->inner[j].b = 128;
                 }
             }
         }
@@ -251,12 +251,12 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
                           (u32)(rsin(angle) * 3) >> 5, 0);
                 setVector(&spoke->outer[outer], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
             }
-            spoke->pad80[0] = 0;
-            spoke->pad80[1] = 0;
-            spoke->pad80[2] = 0;
-            spoke->color[0] = 255;
-            spoke->color[1] = 192;
-            spoke->color[2] = 64;
+            spoke->inner_color[0] = 0;
+            spoke->inner_color[1] = 0;
+            spoke->inner_color[2] = 0;
+            spoke->outer_color[0] = 255;
+            spoke->outer_color[1] = 192;
+            spoke->outer_color[2] = 64;
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }

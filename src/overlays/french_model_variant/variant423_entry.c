@@ -14,7 +14,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
     Funnel423 *funnel = work->funnels;
-    EntryRibbon423 *ribbon = work->ribbons;
+    ModelVariantLongRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;
     ModelVariantSpiral *spiral = work->spirals;

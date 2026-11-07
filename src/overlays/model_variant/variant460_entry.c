@@ -13,10 +13,10 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     VECTOR squared;
     long origin, interpolation, flag, projected;
     Panel477 *panel;
-    Variant460Pair *pair = &work->pair;
+    ModelVariantBeamPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
-    Variant460Ring *ring = work->rings;
-    Variant460Ring *halo = work->halos;
+    ModelVariantRing *ring = work->rings;
+    ModelVariantRing *halo = work->halos;
     Variant460Star *star = &work->star;
     Variant460Dome *dome = work->domes;
     POLY_G3 *triangle = &work->triangle;
@@ -161,10 +161,10 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 pair->outer[k][0] = work->config->color_b[0];
                 pair->outer[k][1] = work->config->color_b[1];
                 pair->outer[k][2] = work->config->color_b[2];
-                pair->size[k] = -(k * 768);
+                pair->offset[k] = -(k * 768);
             }
-            pair->field_90 = 0;
-            pair->field_92 = 0;
+            pair->rx = 0;
+            pair->ry = 0;
             pair->field_94 = 0;
         }
         for (outer = 0; outer < 1; outer++, star++) {
@@ -261,31 +261,31 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
         }
         for (row = 0, ring_base = 0; row < 6; row++, ring++, ring_base += 256) {
             for (outer = 0, ring_angle = ring_base; outer < 8; ring_angle += 512, outer++) {
-                setVector(&ring->a[outer], (u32)rcos(ring_angle) >> 4, (u32)rsin(ring_angle) >> 4, 0);
-                setVector(&ring->b[outer], (u32)(rcos(ring_angle) * 5) >> 6, (u32)(rsin(ring_angle) * 5) >> 6, 0);
+                setVector(&ring->inner[outer], (u32)rcos(ring_angle) >> 4, (u32)rsin(ring_angle) >> 4, 0);
+                setVector(&ring->outer[outer], (u32)(rcos(ring_angle) * 5) >> 6, (u32)(rsin(ring_angle) * 5) >> 6, 0);
             }
-            ring->color_a[0] = 64;
-            ring->color_a[1] = 128;
-            ring->color_a[2] = 255;
-            ring->color_b[0] = 0;
-            ring->color_b[1] = 0;
-            ring->color_b[2] = 0;
-            ring->size = (row << 10) / 6;
-            ring->field_8C = 0;
+            ring->inner_color[0] = 64;
+            ring->inner_color[1] = 128;
+            ring->inner_color[2] = 255;
+            ring->outer_color[0] = 0;
+            ring->outer_color[1] = 0;
+            ring->outer_color[2] = 0;
+            ring->angle = (row << 10) / 6;
+            ring->count = 0;
         }
         for (row = 0, elevation = 0; row < 4; row++, halo++, elevation += 200) {
             for (j = 0, halo_angle = elevation; j < 8; halo_angle += 512, j++) {
-                setVector(&halo->a[j], (u32)(rcos(halo_angle) * 3) >> 5, (u32)(rsin(halo_angle) * 3) >> 5, 0);
-                setVector(&halo->b[j], (u32)rcos(halo_angle) >> 3, (u32)rsin(halo_angle) >> 3, 0);
+                setVector(&halo->inner[j], (u32)(rcos(halo_angle) * 3) >> 5, (u32)(rsin(halo_angle) * 3) >> 5, 0);
+                setVector(&halo->outer[j], (u32)rcos(halo_angle) >> 3, (u32)rsin(halo_angle) >> 3, 0);
             }
-            halo->color_b[0] = 255;
-            halo->color_b[1] = 192;
-            halo->color_a[0] = 0;
-            halo->color_a[1] = 0;
-            halo->color_a[2] = 0;
-            halo->color_b[2] = 64;
-            halo->size = 1024 - (row << 8);
-            halo->field_8C = 0;
+            halo->outer_color[0] = 255;
+            halo->outer_color[1] = 192;
+            halo->inner_color[0] = 0;
+            halo->inner_color[1] = 0;
+            halo->inner_color[2] = 0;
+            halo->outer_color[2] = 64;
+            halo->angle = 1024 - (row << 8);
+            halo->count = 0;
             inner = 4096;
         }
         work->field_208C = 0;

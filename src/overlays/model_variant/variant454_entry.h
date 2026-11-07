@@ -5,16 +5,6 @@
 #include "../../game/model_effect_state.h"
 #include "variant412_entry.h"
 
-typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start;
-    u32 limit;
-    u8 unknown_24[8];
-    u32 origin_end;
-    u32 sweep_start, sweep_end;
-} Variant454EntryConfig;
-
 /* One group of 16 sprites at the start of the work area. */
 typedef struct {
     SVECTOR v0[16], v1[16], v2[16], v3[16], origin[16];
@@ -37,7 +27,7 @@ typedef struct {
     ModelVariantBandPair bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
@@ -52,7 +42,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant454EntryConfig *config;
+    ModelVariantSweepConfig *config;
     u32 field_23FC;
     GsCOORDUNIT *parts[3];
     s16 field_240C, field_240E;
@@ -66,7 +56,7 @@ typedef struct {
 } Variant454EntryState;
 
 extern GsIMAGE gModelVariant454_aImages[9];
-extern Variant454EntryConfig gModelVariant454_aConfigs[];
+extern ModelVariantSweepConfig gModelVariant454_aConfigs[];
 void FrenchModelVariant471_DrawQuadGroup(u8 *context);
 void FrenchModelVariant471_DrawQuads(u8 *context);
 #endif

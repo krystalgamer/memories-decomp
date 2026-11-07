@@ -9,24 +9,11 @@
 #include "../../game/model_get_frame_step.h"
 
 typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR colors[8], inner_color, outer_color;
-    s32 size, field_AC;
-} EntryRing411;
-
-typedef struct {
-    u8 unknown_00[0xD8];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    u8 unknown_F0[0x3C];
-} EntryExtra411;
-
-typedef struct {
     ModelVariantTubeView tubes[1];
     ModelVariantSheet sheets[2];
     Funnel411 funnels[2];
-    EntryRing411 rings[4];
-    EntryExtra411 extras[2];
+    ModelVariantSpokeColorRing rings[4];
+    ModelVariantBeam extras[2];
     Beam411 beams[16];
     POLY_G3 triangle;
     POLY_G4 quad;

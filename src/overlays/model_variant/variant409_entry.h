@@ -14,25 +14,6 @@
 #include "../../psyq/libhmd.h"
 #include "model_variant.h"
 
-/* One 0x34-byte entry of the command table that follows the GsIMAGE table. */
-typedef struct {
-    CVECTOR outer, inner;
-    u8 unknown_08[8], part, unknown_11[7];
-    u32 draw_start, ribbon_start, travel_start, travel_end, fade_start, fade_end;
-    u32 spiral_start;
-} EntryConfig409;
-
-typedef struct {
-    u8 unknown_000[0x220];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
-    u8 unknown_240[0x88];
-    VECTOR position;
-    u8 unknown_2D8[0x88];
-} EntryRibbon409;
-
 typedef struct {
     u8 unknown_000[0x264];
     u8 color[17][4];
@@ -42,7 +23,7 @@ typedef struct {
 
 typedef struct {
     ModelVariantMesh mesh;
-    EntryRibbon409 ribbons[1];
+    ModelVariantLongRibbon ribbons[1];
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     EntryStreamer409 streamers[4];
@@ -65,7 +46,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig409 *config;
+    ModelVariantSpiralConfig *config;
     u32 field_2114;
     GsCOORDUNIT *part;
     s16 field_211C, field_211E;
@@ -83,7 +64,7 @@ typedef struct {
 
 /* Nine GsIMAGE records (0x1C bytes each) followed by the command table. */
 extern GsIMAGE gModelVariant409_aImages[9];
-extern EntryConfig409 gModelVariant409_aConfigs[];
+extern ModelVariantSpiralConfig gModelVariant409_aConfigs[];
 void SpanishModelVariant426_DrawMesh(u8 *context);
 void SpanishModelVariant426_DrawSpiral(u8 *context);
 void FrenchModelVariant426_DrawRibbon(u8 *context);
