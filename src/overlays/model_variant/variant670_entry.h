@@ -26,18 +26,7 @@ typedef struct {
     u8 red, green, blue, ring_red, ring_green, ring_blue;
 } Model670Command;
 
-/* One 0x4C-byte element: a textured shell or ring placed at position. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model670Element;
+/* ModelVariantBurst here: a textured shell or ring placed at position. */
 
 /* The work area: the command, the slot, the packets, the meshes and the
  * two element arrays. The shell is a sprite square, an eight-point base in
@@ -72,8 +61,8 @@ typedef struct {
     u8 count;
     s16 position[3];
     u8 unknown_580[4];
-    Model670Element shells[32];
-    Model670Element rings[32];
+    ModelVariantBurst shells[32];
+    ModelVariantBurst rings[32];
 } Model670State;
 
 extern MATRIX GsIDMATRIX;

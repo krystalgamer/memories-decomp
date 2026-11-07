@@ -14,19 +14,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One flare, sphere or trail strip: the 0x4C-byte burst record of header
- * 647. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model632Burst;
+/* ModelVariantBurst here: one flare, sphere or trail strip: the 0x4C-byte
+ * burst record of header 647. */
 
 /* Two points tracked on the model in one frame; the trail strips span them. */
 typedef struct {
@@ -53,9 +42,9 @@ typedef struct {
     Model632TrailPoint trail[11];
     u8 flags[5];
     u8 flare_count, copies, sphere_count;
-    Model632Burst flares[32][2];
-    Model632Burst spheres[2];
-    Model632Burst strips[10];
+    ModelVariantBurst flares[32][2];
+    ModelVariantBurst spheres[2];
+    ModelVariantBurst strips[10];
 } Model632State;
 
 extern MATRIX GsIDMATRIX;

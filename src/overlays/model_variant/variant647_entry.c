@@ -72,7 +72,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             work->bursts[i].duration = 64;
             work->bursts[i].active = 0;
             work->bursts[i].elapsed = 0;
-            work->bursts[i].unknown_4C = 1;
+            work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
             work->bursts[i].red = gModelVariant647_aConfigs[command].red;
             work->bursts[i].green = gModelVariant647_aConfigs[command].green;
@@ -80,7 +80,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 0, 0, 0);
-            setVector(&work->bursts[i].unknown_80, 0, 0, 0);
+            setVector(&work->bursts[i].growth, 0, 0, 0);
             switch (command) {
             case 9:
             case 10:

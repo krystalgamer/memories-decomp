@@ -25,19 +25,8 @@ typedef struct {
     u8 red, green, blue, dome_red, dome_green, dome_blue;
 } Model674Command;
 
-/* One 0x50-byte effect record: a ring of strips or a dome at position. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    u16 ticks, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model674Element;
+/* ModelVariantTickedBurst here: an effect record: a ring of strips or a dome
+ * at position. */
 
 /* The work area: the command, the slot, the packets, the flash square, the
  * upper, lower and middle ring outlines, the dome grid (17 meridians of 9
@@ -66,8 +55,8 @@ typedef struct {
     u8 flags[5];
     u8 count;
     u8 unknown_7DA[2];
-    Model674Element rings[3];
-    Model674Element domes[3];
+    ModelVariantTickedBurst rings[3];
+    ModelVariantTickedBurst domes[3];
 } Model674State;
 
 extern MATRIX GsIDMATRIX;

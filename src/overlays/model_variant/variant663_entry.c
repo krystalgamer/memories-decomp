@@ -21,7 +21,7 @@
     work->columns[work->flags[0]].v = 0x80;                                     \
     value = 0x800;                                                              \
     setVector(&work->columns[work->flags[0]].scale, value, value, value);       \
-    setVector(&work->columns[work->flags[0]].unknown_3C, 0, 0, 0);              \
+    setVector(&work->columns[work->flags[0]].target, 0, 0, 0);              \
     setVector(&work->columns[work->flags[0]].rotation, 0, 0, 0);                \
     unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, point);           \
     GsGetLwUnit(&unit, &ls);                                                    \
@@ -139,7 +139,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->columns[i].v = 0x80;
             value = 0x800;
             setVector(&work->columns[i].scale, value, value, value);
-            setVector(&work->columns[i].unknown_3C, 0, 0, 0);
+            setVector(&work->columns[i].target, 0, 0, 0);
             setVector(&work->columns[i].rotation, 0, 0, 0);
             setVector(&work->columns[i].position, 0, 0, 0);
         }
@@ -156,7 +156,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->bursts[i].v = 0x80;
             value = 0x800;
             setVector(&work->bursts[i].scale, value, value, value);
-            setVector(&work->bursts[i].unknown_3C, 0, 0, 0);
+            setVector(&work->bursts[i].target, 0, 0, 0);
             setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
             switch (command) {
             case 0:

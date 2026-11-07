@@ -15,21 +15,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a sprite, shell or fan placed through its own
- * coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    /* Only vz is used: the sprites' spin speed. */
-    VECTOR spin;
-} Model650Element;
+/* ModelVariantSpinElement here: a sprite, shell or fan placed through its
+ * own coordinate unit. In spin, only vz is used: the sprites' spin speed. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -53,9 +40,9 @@ typedef struct {
     /* Per-sprite numerator and divisor of the X and Y arcs. */
     s32 arc_x[8][2];
     s32 arc_y[8][2];
-    Model650Element sprites[8];
-    Model650Element shells[4];
-    Model650Element fans[64];
+    ModelVariantSpinElement sprites[8];
+    ModelVariantSpinElement shells[4];
+    ModelVariantSpinElement fans[64];
 } Model650State;
 
 extern MATRIX GsIDMATRIX;

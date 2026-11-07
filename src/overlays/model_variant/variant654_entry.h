@@ -17,19 +17,9 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One burst quad, ring quad or sphere: the 0x4C-byte burst record of header
- * 647, flying from position along growth over its lifetime. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model654Burst;
+/* ModelVariantBurst here: one burst quad, ring quad or sphere: the 0x4C-byte
+ * burst record of header 647, flying from position along growth over its
+ * lifetime. */
 
 /* The work area: the command, the radius, the shared quad and line packets,
  * the quad corners and the 9x9 sphere points, the column flags, the grid
@@ -49,9 +39,9 @@ typedef struct {
     SVECTOR grid[9][9];
     u8 flags[5];
     u8 rows, columns, ring_count;
-    Model654Burst bursts[8][12];
-    Model654Burst rings[8][12];
-    Model654Burst spheres[12];
+    ModelVariantBurst bursts[8][12];
+    ModelVariantBurst rings[8][12];
+    ModelVariantBurst spheres[12];
 } Model654State;
 
 extern MATRIX GsIDMATRIX;

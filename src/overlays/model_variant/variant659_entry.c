@@ -99,7 +99,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             work->flares[i].u = 0;
             work->flares[i].v = 0;
             setVector(&work->flares[i].scale, 4096, 4096, 4096);
-            setVector(&work->flares[i].unknown_3C, 0, 0, 0);
+            setVector(&work->flares[i].target, 0, 0, 0);
             setVector(&work->flares[i].rotation, 0, work->slot * 2048, value * ((i % 8) << 12) / 8);
             setVector(&work->flares[i].position,
                 value * work->radius / 2 * rsin((i << 12) / work->count) / 4096,
@@ -125,7 +125,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 88;
             value = 4096;
             setVector(&work->rings[i].scale, value, value, value);
-            setVector(&work->rings[i].unknown_3C, 0, 0, 0);
+            setVector(&work->rings[i].target, 0, 0, 0);
             work->rings[i].rotation = work->flares[i].rotation;
             work->rings[i].position = work->flares[i].position;
             work->rings[i].position.vz += work->radius * -work->direction;
@@ -143,7 +143,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             work->sparks[i].v = 216;
             value = 4096;
             setVector(&work->sparks[i].scale, value, value, value);
-            setVector(&work->sparks[i].unknown_3C, 0, 0, 0);
+            setVector(&work->sparks[i].target, 0, 0, 0);
             setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
             work->sparks[i].position = work->rings[i].position;
         }

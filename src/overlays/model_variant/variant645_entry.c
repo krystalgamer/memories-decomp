@@ -27,7 +27,7 @@
         (work)->puffs[(work)->flags[0]].v = 128;                                                 \
         value = 2048;                                                                            \
         setVector(&(work)->puffs[(work)->flags[0]].scale, value, value, value);                  \
-        setVector(&(work)->puffs[(work)->flags[0]].unknown_3C, 0, 0, 0);                         \
+        setVector(&(work)->puffs[(work)->flags[0]].target, 0, 0, 0);                         \
         setVector(&(work)->puffs[(work)->flags[0]].rotation, 0, 0, 0);                           \
         unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry((work)->slot, joint);                      \
         GsGetLwUnit(&unit, &ls);                                                                 \
@@ -143,7 +143,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
              * value's register. */
             value = 2048;
             setVector(&work->puffs[i].scale, value, value, value);
-            setVector(&work->puffs[i].unknown_3C, 0, 0, 0);
+            setVector(&work->puffs[i].target, 0, 0, 0);
             setVector(&work->puffs[i].rotation, 0, 0, 0);
             setVector(&work->puffs[i].position, 0, 0, 0);
         }
@@ -160,7 +160,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             work->halos[i].v = 128;
             value = 2048;
             setVector(&work->halos[i].scale, value, value, value);
-            setVector(&work->halos[i].unknown_3C, 0, 0, 0);
+            setVector(&work->halos[i].target, 0, 0, 0);
             setVector(&work->halos[i].rotation, 0, work->slot * 2048, 0);
             switch (command) {
             case 3:

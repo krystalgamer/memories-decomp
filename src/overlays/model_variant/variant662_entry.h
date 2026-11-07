@@ -15,19 +15,7 @@
 #include "../../psyq/string.h"
 #include "../../psyq/abs.h"
 
-/* One 0x4C-byte element: a tube, a cone, a dome or a spark. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR offset;
-} Model662Element;
+/* ModelVariantOffsetElement here: a tube, a cone, a dome or a spark. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -51,11 +39,11 @@ typedef struct {
     u8 tube_count, spark_count;
     /* Set once a tube has opened its cone and sparks. */
     u8 triggered[3], unknown_218E[2];
-    Model662Element tubes[3];
-    Model662Element cones[3];
-    Model662Element domes[3];
+    ModelVariantOffsetElement tubes[3];
+    ModelVariantOffsetElement cones[3];
+    ModelVariantOffsetElement domes[3];
     /* [spark][tube] */
-    Model662Element sparks[8][3];
+    ModelVariantOffsetElement sparks[8][3];
 } Model662State;
 
 extern MATRIX GsIDMATRIX;

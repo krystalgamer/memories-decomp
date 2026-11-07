@@ -15,20 +15,9 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte effect part placed through a camera-relative coordinate
- * unit; the shards also keep an offset from their ring's centre. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR offset;
-} Model657Part;
+/* ModelVariantOffsetElement here: an effect part placed through a
+ * camera-relative coordinate unit; the shards also keep an offset from their
+ * ring's centre. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -49,10 +38,10 @@ typedef struct {
     u8 flags[5];
     u8 ring_count, shard_count;
     u8 triggered[3], unknown_218E[2];
-    Model657Part rings[3];
-    Model657Part bands[3];
-    Model657Part caps[3];
-    Model657Part shards[8][3];
+    ModelVariantOffsetElement rings[3];
+    ModelVariantOffsetElement bands[3];
+    ModelVariantOffsetElement caps[3];
+    ModelVariantOffsetElement shards[8][3];
 } Model657State;
 
 extern MATRIX GsIDMATRIX;

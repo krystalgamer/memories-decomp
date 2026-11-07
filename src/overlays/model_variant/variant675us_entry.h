@@ -26,21 +26,9 @@ typedef struct {
     u8 red, green, blue, bolt_red, bolt_green, bolt_blue;
 } Model675UsCommand;
 
-/* One 0x50-byte effect record: a ring, a bolt, a fading bolt trail or a
- * spark curtain. Bolts keep their trail cursor in ticks and their target
- * point in growth. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    u16 ticks, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model675UsElement;
+/* ModelVariantTickedBurst here: an effect record: a ring, a bolt, a fading
+ * bolt trail or a spark curtain. Bolts keep their trail cursor in ticks and
+ * their target point in growth. */
 
 /* The work area: the command, the slot, the packets, the flash square, the
  * upper, lower and middle ring outlines, the 17-point fan with its centre,
@@ -72,10 +60,10 @@ typedef struct {
     SVECTOR origin;
     u8 flags[5];
     u8 ring_count, bolt_count, trail_count;
-    Model675UsElement rings[3];
-    Model675UsElement bolts[16];
-    Model675UsElement trails[8][16];
-    Model675UsElement sparks[16];
+    ModelVariantTickedBurst rings[3];
+    ModelVariantTickedBurst bolts[16];
+    ModelVariantTickedBurst trails[8][16];
+    ModelVariantTickedBurst sparks[16];
 } Model675UsState;
 
 extern MATRIX GsIDMATRIX;

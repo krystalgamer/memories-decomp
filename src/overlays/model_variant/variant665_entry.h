@@ -35,19 +35,8 @@ typedef struct {
     u8 unknown_19[3];
 } Model665Command;
 
-/* One 0x4C-byte quad record placed through its own coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model665Quad;
+/* ModelVariantGrowthElement here: a quad record placed through its own
+ * coordinate unit. */
 
 /* One 0x2C-byte ring of strips flying from start to end. */
 typedef struct {
@@ -96,10 +85,10 @@ typedef struct {
     u8 unknown_389[3];
     u8 ring_count, rows, cols, spark_count, fan_count;
     u8 unknown_391[3];
-    Model665Quad rising[8][4];
-    Model665Quad sparks[32];
-    Model665Quad burst;
-    Model665Quad fans[32];
+    ModelVariantGrowthElement rising[8][4];
+    ModelVariantGrowthElement sparks[32];
+    ModelVariantGrowthElement burst;
+    ModelVariantGrowthElement fans[32];
     Model665Ring rings[32];
 } Model665State;
 

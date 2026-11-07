@@ -15,20 +15,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element: a tube puff left at a model joint, or a halo
+/* ModelVariantElement here: a tube puff left at a model joint, or a halo
  * placed through its own coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model645Element;
 
 typedef struct {
     u8 command, unknown_01;
@@ -53,8 +41,8 @@ typedef struct {
     u8 puff_count, halo_count, unknown_4CF;
     /* The joint matrix each puff was left with. */
     MATRIX joints[64];
-    Model645Element puffs[64];
-    Model645Element halos[8];
+    ModelVariantElement puffs[64];
+    ModelVariantElement halos[8];
 } Model645State;
 
 /* A blade corner and its rotated copy. */

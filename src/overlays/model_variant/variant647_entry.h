@@ -14,19 +14,9 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One burst: a cone of rings that grows from the camera unit while it
- * fades, drawn as quads and triangles from the shared ring vertices. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_4A[2];
-    s32 unknown_4C;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_80;
-} Model647Burst;
+/* ModelVariantBurst here: one burst: a cone of rings that grows from the
+ * camera unit while it fades, drawn as quads and triangles from the shared
+ * ring vertices. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -45,7 +35,7 @@ typedef struct {
     SVECTOR bottom[17][8];
     u8 flags[5];
     u8 count, unknown_D42[2];
-    Model647Burst bursts[2];
+    ModelVariantBurst bursts[2];
     u8 unknown_DDC[0x428];
 } Model647State;
 

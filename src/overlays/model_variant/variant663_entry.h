@@ -16,19 +16,7 @@
 #include "../../psyq/string.h"
 #include "../../psyq/abs.h"
 
-/* One 0x4C-byte element: a strip column or a ray burst. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model663Element;
+/* ModelVariantElement here: a strip column or a ray burst. */
 
 typedef struct {
     u8 command, unknown_01;
@@ -49,8 +37,8 @@ typedef struct {
     u8 column_count, burst_count, unknown_4CF;
     /* The model-point matrix captured when each strip column spawns. */
     MATRIX matrices[64];
-    Model663Element columns[64];
-    Model663Element bursts[8];
+    ModelVariantElement columns[64];
+    ModelVariantElement bursts[8];
 } Model663State;
 
 extern MATRIX GsIDMATRIX;

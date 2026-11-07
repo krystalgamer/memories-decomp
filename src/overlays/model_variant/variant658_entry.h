@@ -28,20 +28,9 @@ typedef struct {
     u8 unknown_19[3];
 } Model658Command;
 
-/* One 0x4C-byte halo: a sprite and a two-band ring of strips plus a cloud
- * of shards, all placed through a camera-relative coordinate unit. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model658Halo;
+/* ModelVariantElement here: a halo: a sprite and a two-band ring of strips
+ * plus a cloud of shards, all placed through a camera-relative coordinate
+ * unit. */
 
 /* One 0x2C-byte screen-space particle moving from start to end. */
 typedef struct {
@@ -84,7 +73,7 @@ typedef struct {
     u8 flags[6];
     u8 fade;
     u8 halo_count, burst_count, spark_count, unknown_B4A[2];
-    Model658Halo halos[16];
+    ModelVariantElement halos[16];
     Model658Particle bursts[128];
     Model658Particle sparks[32];
     Model658Particle flash;

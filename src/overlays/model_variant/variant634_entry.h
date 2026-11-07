@@ -14,18 +14,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One ring or one spark: the 0x4C-byte burst record of header 647. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR unknown_3C;
-} Model634Burst;
+/* ModelVariantBurst here: one ring or one spark: the 0x4C-byte burst record
+ * of header 647. */
 
 /* The work area: the command, the radius, the two textures, the shared band
  * and quad packets, the band vertices and the quad corners, the flags, the
@@ -44,8 +34,8 @@ typedef struct {
     SVECTOR square[4];
     u8 flags[5];
     u8 ring_count, spark_count, unknown_1AF;
-    Model634Burst rings[32];
-    Model634Burst sparks[32];
+    ModelVariantBurst rings[32];
+    ModelVariantBurst sparks[32];
 } Model634State;
 
 extern MATRIX GsIDMATRIX;

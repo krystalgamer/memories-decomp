@@ -26,19 +26,8 @@ typedef struct {
     u8 red, green, blue, fan_red, fan_green, fan_blue;
 } Model673Command;
 
-/* One 0x4C-byte quad record flying from position along growth over its
- * lifetime. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model673Quad;
+/* ModelVariantBurst here: a quad record flying from position along growth
+ * over its lifetime. */
 
 /* The work area: the command, the slot, the packets, the quad corners, the
  * fan ring and its centre and corners, the slot position, the flags, and
@@ -64,9 +53,9 @@ typedef struct {
     u8 flags[5];
     u8 count;
     u8 unknown_14E[2];
-    Model673Quad rising[64];
-    Model673Quad falling[64];
-    Model673Quad fans[64];
+    ModelVariantBurst rising[64];
+    ModelVariantBurst falling[64];
+    ModelVariantBurst fans[64];
 } Model673State;
 
 extern MATRIX GsIDMATRIX;

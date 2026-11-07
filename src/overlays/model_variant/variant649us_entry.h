@@ -20,18 +20,7 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0x4C-byte element placed through its own coordinate unit. */
-typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
-    VECTOR growth;
-} Model649UsElement;
+/* ModelVariantBurst here: an element placed through its own coordinate unit. */
 
 /* The work area: the command, the slot, the packets, the meshes and the
  * element arrays. The petals are textured quads strung between two joints,
@@ -63,11 +52,11 @@ typedef struct {
     u8 flags[5];
     u8 petal_count, shard_count, spark_count;
     SVECTOR anchor;
-    Model649UsElement petals[64];
-    Model649UsElement dome_element;
-    Model649UsElement card_element;
-    Model649UsElement shards[32];
-    Model649UsElement sparks[32];
+    ModelVariantBurst petals[64];
+    ModelVariantBurst dome_element;
+    ModelVariantBurst card_element;
+    ModelVariantBurst shards[32];
+    ModelVariantBurst sparks[32];
 } Model649UsState;
 
 extern MATRIX GsIDMATRIX;
