@@ -50,7 +50,7 @@ typedef struct {
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
     u8 outer[4], inner[4];
-    s32 size, field_8C, field_90, field_94, field_98, field_9C;
+    s32 size, field_8C, field_90, field_94, fading, brightness;
 } Variant433EntrySheet;
 
 typedef struct {
@@ -85,9 +85,9 @@ typedef struct {
     Variant433EntryConfig *config;
     u8 unknown_42C0[4];
     GsCOORDUNIT *part;
-    s16 field_42C8, field_42CA, field_42CC, field_42CE;
-    s32 field_42D0, field_42D4, field_42D8, field_42DC, field_42E0;
-    s32 field_42E4, field_42E8, field_42EC, field_42F0, field_42F4;
+    s16 field_42C8, field_42CA, field_42CC, radius;
+    s32 field_42D0, streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 ripple, ripple2, field_42EC, field_42F0, spin;
     s32 phase;
     u8 unknown_42FC[8];
     s32 tint;
