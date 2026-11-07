@@ -208,7 +208,7 @@ segments:
     vram: 0x8009B150
     align: 2
     subsegments:
-      - [0x8b950, .sbss, game/duel_field_card_render]
+      - [0x8b950, sbss, duel_field_card_render_commons]
       - [0x8ba44, .sbss, game/duel_effect_dialog_state]
       - [0x8ba58, .sbss, game/library]
       - [0x8ba60, .sbss, game/duel_effect_object_pool]
@@ -232,7 +232,7 @@ segments:
       - [0xda5f0, .bss, game/file_set_position_table]
       - [0xda618, .bss, game/file_transfer_runtime]
       - [0xda6c8, .bss, game/fade_runtime]
-      - [0xda6f0, .bss, game/duel_field_card_render]
+      - [0xda6f0, bss, duel_field_card_render_bss_commons]
       - [0xda9e8, .bss, game/library_create_grid_section_sprites]
       - [0xdb588, .bss, game/duel_effect_object_pool]
       - [0xdb688, bss, main_run_campaign_commons]

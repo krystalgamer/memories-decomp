@@ -124,12 +124,6 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = main_SBSS_START;
 
-/* maspsx emits `.align 3` for every sbss object of eight or more bytes, which
- * would raise duel_field_card_render's .sbss to 8-byte alignment and move its
- * retail start (0x8009C0AC) to 0x8009C0B0. The C storage therefore keeps two
- * word placeholders and this two-pointer array name labels the first. */
-gDuel_apSwordsEffectObjects = D_8009C0B0_sles_03947;
-
 /* Names inside mem_card_driver's own storage (#2602). */
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
