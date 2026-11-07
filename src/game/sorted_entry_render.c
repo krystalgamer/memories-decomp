@@ -1,10 +1,6 @@
 
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x8009B300-0x8009B304, defined in
- * address order ahead of the headers that declare it (#2602). */
-u32 gModel_dwFogBaseColor;
-
 #include "../psyq/libgte.h"
 #include "sorted_entry.h"
 
@@ -545,21 +541,14 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 
 #include "sorted_entry.h"
 
-#ifndef SORTED_ENTRY_RELINK_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B304-0x8009B318, defined in
- * address order ahead of the headers that declare it (#2602). */
-SortedEntry *gSortedEntry_pBase;
-u32 gSortedEntry_nSortedCount;
+/* Zero-initialized storage this unit owns. Each build's generated
+ * sorted_entry_render_commons subsegment places it at the retail addresses. */
+u32 gModel_dwFogBaseColor;
 u32 gModel_dwFogDrawFlags;
+SortedEntry *gSortedEntry_pBase;
 SortedEntry *gSortedEntry_pCursor;
 u32 gSortedEntry_nCount;
-#else
-extern SortedEntry *gSortedEntry_pBase;
-extern u32 gSortedEntry_nSortedCount;
-extern u32 gModel_dwFogDrawFlags;
-extern SortedEntry *gSortedEntry_pCursor;
-extern u32 gSortedEntry_nCount;
-#endif
+u32 gSortedEntry_nSortedCount;
 
 #include "../psyq/qsort.h"
 
