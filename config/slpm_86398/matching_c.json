@@ -3,61 +3,61 @@
   "functions": [
     {
       "address": "0x80012A3C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x184",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012BC0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012C38",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012C70",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012CA0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012D48",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x210",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80012F58",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE8",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x80013040",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20C",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x8001324C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x154",
       "source": "src/game/japanese/main.c"
     },
     {
       "address": "0x800133A0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
       "source": "src/game/japanese/main.c"
     },

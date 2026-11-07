@@ -197,7 +197,7 @@ segments:
     vram: 0x8009B090
     align: 2
     subsegments:
-      - [0x8b890, .sbss, game/main]
+      - [0x8b890, sbss, main_commons]
       - [0x8b8e0, sbss, file_set_position_table_commons]
       - [0x8b8e8, sbss, file_transfer_runtime_commons]
       - [0x8b940, sbss, fade_runtime_commons]
@@ -228,7 +228,7 @@ segments:
       - [0x8bc58, sbss, sound_driver_commons]
       - [0x8bc68, .sbss, game/model]
       - [0x8bc98, sbss, movie_pipeline_commons]
-      - [0x8bca8, .bss, game/main]
+      - [0x8bca8, bss, main_bss_commons]
       - [0xda5f0, bss, file_set_position_table_bss_commons]
       - [0xda618, bss, file_transfer_runtime_bss_commons]
       - [0xda6c8, bss, fade_runtime_bss_commons]
