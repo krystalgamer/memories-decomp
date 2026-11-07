@@ -108,7 +108,7 @@ void SD_ResetSecondaryPlayback(void) {
             obj->key_held = 0;
             obj->pan = 0x40;
             obj->cached_pitch_bend = k40;
-            obj->field_001C = k40;
+            obj->key_on_pitch_bend = k40;
             obj->reuse_countdown = 0;
             SD_ResetVoiceEnvelope(i);
             SpuSetKey(SPU_OFF, key);
