@@ -1,17 +1,11 @@
 #ifndef MEMORIES_MODEL_VARIANT337_RINGS_H
 #define MEMORIES_MODEL_VARIANT337_RINGS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-    s32 scale;
-    u8 unknown_08C[12];
-} ModelVariant337Ring;
 
 typedef struct {
     u8 unknown_00[16];
@@ -24,7 +18,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x3A4];
-    ModelVariant337Ring rings[2];
+    ModelVariantScaledSheetView rings[2];
     u8 unknown_4D4[0x764];
     POLY_GT4 quad;
     u8 unknown_C6C[0x60];

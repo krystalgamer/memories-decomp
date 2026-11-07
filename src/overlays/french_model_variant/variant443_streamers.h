@@ -8,26 +8,11 @@
 #include "../../game/gpu_packets.h"
 #include "../model_variant/model_variant.h"
 
-typedef struct {
-    SVECTOR a[13];
-    long sa[13];
-    s32 angle[13];
-    SVECTOR b[13];
-    long sb[13];
-    s32 width[13];
-    u8 unknown_01A0[0x34];
-    CVECTOR color[13];
-    u8 unknown_0208[4];
-    s32 depth[13];
-    s16 ox[13];
-    s16 oy[13];
-} Streamer443;
-
 /* MODEL443 places the streamers at +0x11CC and drives the three passes from
  * a position table and the sizes of three sheets. */
 typedef struct {
     u8 unknown_0000[0x11CC];
-    Streamer443 streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_1928[0x1140];
     ModelVariantSheet sheets[3];
     u8 unknown_2C30[0x88C];

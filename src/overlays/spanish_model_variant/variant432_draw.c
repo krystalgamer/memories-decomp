@@ -13,7 +13,7 @@ void SpanishModelVariant432_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariant432Ring *ring = work->rings;
+    ModelVariantScaledSheetView *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;

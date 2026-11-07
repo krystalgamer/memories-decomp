@@ -24,7 +24,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
     s32 uz;
     s32 spread;
     s32 turn;
-    Variant418SpiralArm *arm;
+    ModelVariantFlaggedSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -39,7 +39,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
     ux = MODEL_VARIANT_WORD(work, 0x1B2C);
     uy = MODEL_VARIANT_WORD(work, 0x1B30);
     uz = MODEL_VARIANT_WORD(work, 0x1B34);
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     poly = (POLY_GT4 *)(work + 0x19E4);
     spread = 0x400 - MODEL_VARIANT_HALF(work, 0x1B72);
     for (i = 0; i < 12; i++, arm++) {
@@ -83,7 +83,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -121,7 +121,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];

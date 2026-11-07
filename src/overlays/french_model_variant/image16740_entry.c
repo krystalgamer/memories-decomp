@@ -25,7 +25,7 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
     long depth;
     Image16740State *state;
     GsOT *ot;
-    Image16740Config *config;
+    ModelVariantBeamRingConfig *config;
     SVECTOR *point;
     s32 i, j;
     s32 side;

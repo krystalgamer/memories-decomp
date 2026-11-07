@@ -37,7 +37,7 @@ typedef struct {
 typedef struct {
     Variant444EntryTube tubes[1];
     ModelVariantSheet sheets[2];
-    Funnel411 funnels[2];
+    ModelVariantFunnel funnels[2];
     Variant444EntrySpoke spokes[4];
     Variant444EntryBeam beams[2];
     Variant444EntryColorRecord records[16];

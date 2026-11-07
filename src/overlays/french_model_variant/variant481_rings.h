@@ -5,19 +5,12 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR a[17];
-    SVECTOR b[17];
-    s32 scale;
-    u8 unknown_114[4];
-} Ring481;
-
-typedef struct {
     u8 unknown_000[0x4A4];
     s32 level;
 } Ring481Gauge;
 
 typedef struct {
-    Ring481 rings[2];
+    ModelVariantFunnel rings[2];
     Ring481Gauge gauge;
     u8 unknown_6D8[0x172C];
     POLY_GT4 quad;
