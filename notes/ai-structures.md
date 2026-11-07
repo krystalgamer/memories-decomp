@@ -286,8 +286,8 @@ backing object, symbol addresses and compiler profiles remain unchanged.
 | `0x06` | `value` | Turn/equip/trap selectors write a destination slot; the hand-scene handler reads it unsigned before subtracting the row base. |
 | `0x07` | `zero` | The action selectors initialize this byte; `AiScript_LoadGuardianStarChoice` retains its standalone alias store. |
 | `0x08` | `random` | Turn selection writes `rand() & 1` or a fixed flag; the hand-scene handler reads the unsigned byte. |
-| `0x09` | `field_09` | The field-play opcode and per-turn decision write the acting field slot; field-scene tests retain unsigned reads. |
-| `0x0A` | `field_0A` | The field-play opcode writes its category/target value, including the existing `0xFF` to `0x3A` conversion. |
+| `0x09` | `source_code` | The field-play opcode and per-turn decision write the acting field slot; field-scene tests retain unsigned reads. |
+| `0x0A` | `target_code` | The field-play opcode writes its category/target value, including the existing `0xFF` to `0x3A` conversion. |
 | `0x0B` | `field_0B` | The opcode stores its third value; field-scene dispatch tests this byte with the category/target byte. |
 
 The migrated producers and consumers include the script VM initialization,
@@ -305,7 +305,7 @@ unsigned because the script loader zero-extends it; the opcode setters,
 clearer and loader use the field directly.
 Bytes 7, 9 and 10 (`D_800EAE8F`, `D_800EAE91`, `D_800EAE92`) have no
 separate C names: the guardian-star load and the field opcode write them as
-`fields.zero`, `fields.field_09` and `fields.field_0A`, and the scene handlers
+`fields.zero`, `fields.source_code` and `fields.target_code`, and the scene handlers
 read them as `bytes[7]`, `bytes[9]` and `bytes[10]`. Those accesses are not
 small data, so the base-plus-offset relocation links to the same bytes.
 

@@ -576,7 +576,7 @@ void DuelScene_UpdateBattle(void)
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                     result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
                     gDuelEffect_pTrackedRequest = req;
-                    req->field_12 = result;
+                    req->number = result;
                     result = (result < 0 ? -result : result) / 1000;
                     if (result >= 3) {
                         result = 2;
@@ -643,7 +643,7 @@ void DuelScene_UpdateBattle(void)
                 req->phase = 2;
             }
             SD_SEPlayFull(req->phase + 0x10);
-            req->field_12 = result;
+            req->number = result;
             req->phase = req->phase + 3;
             return;
         }

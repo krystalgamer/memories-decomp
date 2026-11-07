@@ -7,12 +7,12 @@
 void DebugMenu_Init(void);
 void DebugMenu_OpenValueEditor(
     u8 *data,
-    s32 field_B4,
-    s32 field_B5,
-    s32 field_B6,
-    s32 field_B8,
-    s32 field_C0,
-    s32 field_E0
+    s32 caret_column_0,
+    s32 caret_column_1,
+    s32 caret_column_2,
+    s32 leading_line_count,
+    s32 digit_count,
+    s32 row_count
 );
 
 #endif

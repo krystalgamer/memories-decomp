@@ -89,9 +89,15 @@ typedef struct {
     s8 zero;        /* 0x07 */
     u8 face_down;   /* 0x08 */
     /* The field-action source and target codes. DuelScene_UpdateFieldActions
-     * reads them as bytes[9] and bytes[10]; AiScript_PlayFieldCard writes all three. */
-    s8 field_09;    /* 0x09 */
-    s8 field_0A;    /* 0x0A */
+     * reads them as bytes[9] and bytes[10]; AiScript_PlayFieldCard writes all three.
+     * The source is an own-field slot code: 1..5 for the monster row and
+     * 6..10 for the back row, decoded as (a - 1) % 5 and a >= 6. The target
+     * is a mixed code: values below 0x38 are own slots in the same encoding,
+     * and 0x38 and above select the opposing monster at column 0x3C - a.
+     * Byte 0x0B is tested together with them but its role depends on the
+     * source row, so it keeps its offset name. */
+    s8 source_code; /* 0x09 */
+    s8 target_code; /* 0x0A */
     s8 field_0B;    /* 0x0B */
 } AiSelectionFields;
 
@@ -245,11 +251,11 @@ typedef char AiSelection_zero_offset_must_be_0x07[
 typedef char AiSelection_face_down_offset_must_be_0x08[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, face_down) == 0x08 ? 1 : -1
 ];
-typedef char AiSelection_field_09_offset_must_be_0x09[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_09) == 0x09 ? 1 : -1
+typedef char AiSelection_source_code_offset_must_be_0x09[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, source_code) == 0x09 ? 1 : -1
 ];
-typedef char AiSelection_field_0A_offset_must_be_0x0A[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_0A) == 0x0A ? 1 : -1
+typedef char AiSelection_target_code_offset_must_be_0x0A[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, target_code) == 0x0A ? 1 : -1
 ];
 typedef char AiSelection_field_0B_offset_must_be_0x0B[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_0B) == 0x0B ? 1 : -1

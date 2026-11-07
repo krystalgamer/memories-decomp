@@ -196,26 +196,26 @@ void DebugMenu_Init(void)
 
 void DebugMenu_OpenValueEditor(
     u8 *data,
-    s32 field_B4,
-    s32 field_B5,
-    s32 field_B6,
-    s32 field_B8,
-    s32 field_C0,
-    s32 field_E0
+    s32 caret_column_0,
+    s32 caret_column_1,
+    s32 caret_column_2,
+    s32 leading_line_count,
+    s32 digit_count,
+    s32 row_count
 )
 {
     gDebug_bEditorFlags = 0;
     gDebug_pszEditorFormat = data;
-    gDebug_abEditorCaretColumns[0] = field_B4;
-    gDebug_abEditorCaretColumns[1] = field_B5;
-    gDebug_abEditorCaretColumns[2] = field_B6;
+    gDebug_abEditorCaretColumns[0] = caret_column_0;
+    gDebug_abEditorCaretColumns[1] = caret_column_1;
+    gDebug_abEditorCaretColumns[2] = caret_column_2;
     gDebug_bEditorDigit = 0;
     gDebug_bEditorRow = 0;
-    gDebug_bEditorLeadingLineCount = field_B8;
-    gDebug_abEditorDigitCounts[2] = field_C0;
-    gDebug_abEditorDigitCounts[1] = field_C0;
-    gDebug_abEditorDigitCounts[0] = field_C0;
-    gDebug_bEditorRowCount = field_E0;
+    gDebug_bEditorLeadingLineCount = leading_line_count;
+    gDebug_abEditorDigitCounts[2] = digit_count;
+    gDebug_abEditorDigitCounts[1] = digit_count;
+    gDebug_abEditorDigitCounts[0] = digit_count;
+    gDebug_bEditorRowCount = row_count;
 }
 
 /*

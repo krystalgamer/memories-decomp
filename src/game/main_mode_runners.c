@@ -411,7 +411,7 @@ void Main_RunCredits(void)
             Library_UpdateCardUsedFlag(flag | 0x8000);
         }
         gMain_bModeRunnerStep = 0;
-        save_state->field_3DE = save_state->field_3DE | 3;
+        save_state->credits_flags = save_state->credits_flags | 3;
     }
 
     state = gMain_bModeRunnerStep;
