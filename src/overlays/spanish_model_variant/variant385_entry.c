@@ -167,7 +167,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[k], 0, 0, 0);
                 }
             }
-            sheet->field_80 = 0;
+            sheet->size = 0;
             sheet->field_84 = 0;
             sheet->field_88 = 0;
         }
@@ -185,20 +185,20 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
             }
             curtain->count = 0;
         }
-        work->field_1028 = 1024;
+        work->radius = 1024;
         work->color[0] = 192;
         work->color[1] = 192;
         work->color[2] = 192;
         work->field_101E = 255;
-        work->field_102A = 0;
+        work->progress = 0;
         work->field_101C = 0;
         work->field_101D = 0;
         work->field_1020 = 0;
         work->field_1022 = 0;
         work->field_1024 = 0;
         work->field_1026 = 0;
-        work->field_102C = 0;
-        work->field_102E = 0;
+        work->ribbon_angle = 0;
+        work->ring_angle = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
