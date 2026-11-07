@@ -42,7 +42,7 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
         fade = fade_base + fade_index;
         primary = primary_base + primary_index;
         extra = 0;
-        if (work->field_42A8 & 1) {
+        if (work->flags & 1) {
             extra = fade->scale / 4;
         }
         if (fade->fading == 0) {
@@ -53,11 +53,11 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
             r = group->color[0] * fade->brightness / 1024;
             g = group->color[1] * fade->brightness / 1024;
             b = group->color[2] * fade->brightness / 1024;
-            work->field_42F4 += work->field_42B4 * 4;
+            work->spin += work->step * 4;
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = work->field_42F4;
+        rot.vz = work->spin;
         m.t[0] = primary->translation.vx;
         m.t[1] = primary->translation.vy;
         m.t[2] = primary->translation.vz;
