@@ -6,7 +6,7 @@
 extern u16 gDebugMenu_wMessageId;
 extern u16 gDebugMenu_wCampaignScene;
 /* The four nibble masks the value editor applies per digit.
- * DebugMenu_UpdateValueEditor (debug_menu_editor_entries.c) copies all
+ * DebugMenu_UpdateValueEditor (debug_menu.c) copies all
  * eight bytes with a Bytes8 assignment; the unsized declaration is what
  * gives that read cc1psx's %hi/%lo pair rather than a gp-relative one. */
 extern u16 gDebugMenu_awNibbleMasks[];

@@ -728,7 +728,7 @@ wrappers and the actual frontend/debug reset paths:
 
 Their declarations belong to `two_player_save_setup.h`, which already
 owns the duel/trade setup API, rather than the modal-card header.
-`frontend_scene_states.c` explicitly includes that owner; the other
+`debug_menu.c` explicitly includes that owner; the other
 resident and Main Menu consumers already include it. All three identities
 remain `u8`, each with one plain declaration.
 Ownership alone leaves all 940 complete resident compiler/MASPSX outputs

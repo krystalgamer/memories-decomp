@@ -91,7 +91,7 @@ object before it.
 | `src/game/library.c` | `.sbss` | `0x8009B258`-`0x8009B260` |
 | `src/game/duel_effect_object_pool.c` | `.sbss` | `0x8009B260`-`0x8009B268` |
 | `src/game/script_image_scene.c` | `.sbss` | `0x8009B270`-`0x8009B2B0` |
-| `src/game/debug_menu_editor_entries.c` | `.sbss` | `0x8009B2B0`-`0x8009B2F8` |
+| `src/game/debug_menu.c` | `.sbss` | `0x8009B2B0`-`0x8009B2F8` |
 | `src/game/build_deck_draw_card_list_page.c` | `.sbss` | `0x8009B2F8`-`0x8009B300` |
 | `src/game/sorted_entry_render.c` | `.sbss` | `0x8009B300`-`0x8009B318` |
 | `src/game/options_screen.c` | `.sbss` | `0x8009B37C`-`0x8009B390` |
@@ -112,7 +112,7 @@ object before it.
 | `src/game/library_create_grid_section_sprites.c` | `.bss` | `0x800EA1E8`-`0x800EAD88` |
 | `src/game/duel_effect_object_pool.c` | `.bss` | `0x800EAD88`-`0x800EAE88` |
 | `src/game/main_run_campaign.c` | `.bss` | `0x800EAE88`-`0x800EAED8` |
-| `src/game/debug_menu_editor_entries.c` | `.bss` | `0x800EAED8`-`0x800EAF08` |
+| `src/game/debug_menu.c` | `.bss` | `0x800EAED8`-`0x800EAF08` |
 | `src/game/duel_effect_entry_occupancy.c` | `.bss` | `0x800EAF08`-`0x800EAFF8` |
 | `src/game/duel_effect_command.c` | `.bss` | `0x800EAFF8`-`0x800EB010` |
 | `src/game/text_control_commands.c` | `.bss` | `0x800EB010`-`0x800EB0F8` |
@@ -236,7 +236,7 @@ The spans outline the original units:
 - the duel code from `duel_field_card_render`'s block through about 55 current
   units, with `duel_ground_projection` inside it;
 - the script commands (`script_command_busy` and `script_op_load_image_scene`);
-- the debug menu (`debug_menu` and `debug_menu_editor_entries`);
+- the debug menu (`debug_menu`);
 - the model controllers (`model_background`, `model_debug_controller` and
   `model_scene_controllers`);
 - smaller groups, such as `graphics_frame` and its first three readers.
@@ -294,7 +294,7 @@ North American tables but in its own order:
 Europe's initialized tables start `0x1004` above the North American ones and
 drift as European tables grow. Its split places seventeen owners:
 - from `file_set_position_table` through `campaign_scene` (`+0x1004`);
-- `debug_menu_editor_entries` through `build_deck_draw_card_list_page`
+- `debug_menu` through `build_deck_draw_card_list_page`
   (`+0x1020`);
 - `model_subdivided_effect` and `ai_script`
   (`+0x100C`).
@@ -324,7 +324,7 @@ their tables there:
 
 The 0x1C bytes after `campaign_scene` are the European debug menu's
 `"LANGUAGE = %X"` editor format, `gDebugMenu_szLanguageEditorFormat`.
-`debug_menu_editor_entries` defines it under `VERSION_EUROPE` ahead of its
+`debug_menu` defines it under `VERSION_EUROPE` ahead of its
 other formats, and owns its data from `0x80091CB8` (and `0x800920CC` in the
 language builds).
 

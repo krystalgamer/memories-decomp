@@ -10,7 +10,7 @@ any assembly.
 ## Configuration identities
 
 `debug_value_editor_config.h` declares the editor configuration, defined
-under these names by `debug_menu_editor_entries.c` (or its regional block):
+under these names by `debug_menu.c` (or its regional block):
 
 | NA address | Former identity | Name |
 | --- | --- | --- |
@@ -58,7 +58,7 @@ requests three rows with columns `0x11, 0x19, 0x21`, then overrides rows 1
 and 2 to three digits. Its format at `gDebugMenu_szSoundEditorFormat` contains three conversions:
 `%04X`, `%03X`, `%03X`. The scene/menu/movie states request one row and
 use their corresponding single-conversion strings from
-`debug_menu_editor_entries.c`.
+`debug_menu.c`.
 
 The editor indexes `gDebug_abEditorCaretColumns` and
 `gDebug_abEditorDigitCounts` with `gDebug_bEditorRow`, advances

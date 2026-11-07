@@ -113,7 +113,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/duel_effect_dialog_state's small data (#2602). */
 
-/* Other names for game/debug_menu_editor_entries's small data (#2602). */
+/* Other names for game/debug_menu's small data (#2602). */
 
 /* Other names for game/sound_frontend's small data (#2602). */
 

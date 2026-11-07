@@ -2116,85 +2116,85 @@
       "address": "0x800300C8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD0",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030198",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB8",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030250",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030294",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x524",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800307B8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1E0",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030998",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x278",
-      "source": "src/game/debug_menu_editor_entries.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030C10",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030CB0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAC",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030D5C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD4",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030E30",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030E7C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030EC8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030F40",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030F80",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/frontend_scene_states.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030FA0",
