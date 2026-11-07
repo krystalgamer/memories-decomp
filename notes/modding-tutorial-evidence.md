@@ -492,17 +492,17 @@ calls provide a complete static inventory:
 | VRAM row | SU offset | Matching main-menu consumer |
 |---:|---:|---|
 | `240` | `+0x30000` | The eleven `gMain_apMenuEntries` objects created by `MainMenu_InitFrontendMenu`, plus copies created by `MainMenu_SpawnFrontendEntryAfterimage` |
-| `241` | `+0x30200` | The three persistent singleton objects `D_80184558`, `D_8018455C`, and `D_80184560` created by `MainMenu_InitFrontendMenu` |
+| `241` | `+0x30200` | The three persistent singleton objects `gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice`, and `D_80184560` created by `MainMenu_InitFrontendMenu` |
 | `242` | `+0x30400` | No direct consumer in the matching main-menu overlay |
 | `243` | `+0x30600` | No direct consumer in the matching main-menu overlay |
 | `244` | `+0x30800` | The full-screen tiled background drawn by `MainMenu_DrawFrontendBackground` |
-| `245` | `+0x30A00` | The dedicated `D_801845A4` sprite created by `MainMenu_StartValueSetup` |
+| `245` | `+0x30A00` | The dedicated `gMainMenu_pValueSetupPanel` sprite created by `MainMenu_StartValueSetup` |
 
 Rows `242` and `243` may be retained for another data-driven or resident use;
 the absence of a direct overlay initializer is not proof that their colour
-data is globally unused. The code also does not establish visual names for
-the three row-`241` singleton objects, so those remain identified by ownership
-rather than appearance.
+data is globally unused. The code alone does not establish visual names for
+the three row-`241` singleton objects; their names come from decoding the
+resource bank artwork (see `notes/overlays/main-menu-display-ownership.md`).
 
 The third singleton now has the behavioral C view
 `gMainMenu_pStartPrompt`: its visible update branch pulses its shade, handles
