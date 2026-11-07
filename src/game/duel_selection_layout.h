@@ -38,8 +38,9 @@ typedef struct DuelSelectionRecord {
     u8 row_min;
     u8 row_end;
     u8 field_13;
-    /* Text-box channel of the record's information panel: TextBox_Create,
-     * TextBox_SetPos and TextBox_Destroy all select it through
+    /* Text-box channel of the record's information panel. TextBox_Create
+     * receives this raw numeric index; only TextBox_SetPos and
+     * TextBox_Destroy convert it to &gText_aChannels[index] through
      * DUEL_FIELD_DISPLAY_CHANNEL. Japanese keeps the record index; North
      * America maps index 3 to 1. */
     u8 text_channel;

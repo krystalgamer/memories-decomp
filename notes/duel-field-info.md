@@ -28,7 +28,7 @@ display object.
 | `0x0F` | `col` | Signed grid column. |
 | `0x10` | `row` | Signed grid row and existing Swords-side selection. |
 | `0x13` | `field_13` | Existing resource-variant selector; no broader rename is inferred. |
-| `0x14` | `text_channel` | Text-box channel selector passed to `TextBox_Create`, `TextBox_SetPos` and `TextBox_Destroy`. |
+| `0x14` | `text_channel` | Text-box channel index: `TextBox_Create` receives the raw index; only `TextBox_SetPos` and `TextBox_Destroy` convert it to `&gText_aChannels[index]` through `DUEL_FIELD_DISPLAY_CHANNEL`. |
 | `0x16` | `text_y_offset` | Signed byte added to the panel's screen Y; transition entry writes `0x24` or `7`. This was live data, not padding. |
 | `0x17` | `record_index` | Ordinal set by `Duel_InitSelectionRecords`; selects cursor resources/styles and tags linked objects for callback lookup. |
 | `0x18` | `field_18` | Existing mode byte, retained without a new interpretation. |
