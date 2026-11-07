@@ -1,22 +1,4 @@
 #include "../types.h"
-#include "view_state.h"
-#include "duel_effect_request.h"
-
-/* Zero-initialized storage this unit owns at 0x800EAD88-0x800EAE88, defined in
- * address order ahead of the headers that declare it (#2602). */
-DuelEffectRequest gDuelEffect_aRequests[8];
-
-#ifndef DUEL_EFFECT_OBJECT_POOL_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B260-0x8009B268, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 gDuel_bEffectRequestStatus;
-u8 gDuelEffect_bRequestFinished;
-DuelEffectRequest *gDuelEffect_pActiveRequest;
-#else
-extern u8 gDuel_bEffectRequestStatus;
-extern u8 gDuelEffect_bRequestFinished;
-extern DuelEffectRequest *gDuelEffect_pActiveRequest;
-#endif
 
 #include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"
@@ -34,6 +16,16 @@ extern DuelEffectRequest *gDuelEffect_pActiveRequest;
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "view_state.h"
+#include "duel_effect_request.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * duel_effect_object_pool_commons subsegments place it at the retail
+ * addresses. */
+u8 gDuel_bEffectRequestStatus;
+u8 gDuelEffect_bRequestFinished;
+DuelEffectRequest *gDuelEffect_pActiveRequest;
+DuelEffectRequest gDuelEffect_aRequests[8];
 
 int Library_CheckCardInChest(int offset)
 {
