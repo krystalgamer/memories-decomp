@@ -73,13 +73,10 @@ fingerprints and their canonical dependency contracts remain unchanged.
 
 ### Measured addressing boundaries
 
-The default workspace declaration is an incomplete byte array. The save
-prompt in `Script_OpSavePrompt` selects `SAVE_DATA_WORKSPACE_AS_HALFWORDS` to keep
-its incomplete `s16` array. Its two stores use the shared header/state
-offsets but intentionally still write both bytes at `+0x7DC`. Replacing
-them with a casted scalar field store made GCC fold away the base-address
-`addiu`, changed register allocation and shortened the resident image by
-four bytes; the guarded array retains the original instructions.
+The workspace is declared once, as an incomplete byte array. The save
+prompt in `Script_OpSavePrompt` writes both bytes at `+0x7DC` through the
+`campaign_scene.word` member of the `SaveDataState` union (the scene byte
+plus the opaque `field_5DD`), reached through a `SaveDataWorkspace` cast.
 
 `Library_CheckCardInChest` (formerly `func_8002C570`) retains its byte-offset API and two-stage base calculation.
 Its displacement is now derived from the card-quantity layout, but no caller

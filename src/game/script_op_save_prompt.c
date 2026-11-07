@@ -1,4 +1,3 @@
-#define SAVE_DATA_WORKSPACE_AS_HALFWORDS
 #include "../types.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"
@@ -285,14 +284,14 @@ void Script_OpSavePrompt(void)
         if ((gInput_awPadPressed[0] & SAVE_PROMPT_CONFIRM_MASK) == 0) {
             return;
         }
-        gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
-                  sizeof(s16)] = gScript_SavePromptSceneOperand;
+        ((SaveDataWorkspace *)gSaveData_Workspace)->state.campaign_scene.word =
+            gScript_SavePromptSceneOperand;
         choice = gDialog_bChoice;
         switch (choice) {
         case 0:
             SD_SEPlayFull(7);
-            gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
-                      sizeof(s16)] = gScript_SavePromptSceneOperand;
+            ((SaveDataWorkspace *)gSaveData_Workspace)->state.campaign_scene.word =
+                gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
             gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG;
             break;

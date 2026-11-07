@@ -599,11 +599,12 @@ match. Other confirmed choices do not lose the first live-workspace write,
 and cancelled/failed modal outcomes do not gain a rollback.
 
 This destination is workspace `+0x7DC`, the live state at header offset
-`0x200` plus state offset `0x5DC`. `campaign_scene_index` itself is a byte;
-the halfword store also writes the following opaque `field_5DD`.
+`0x200` plus state offset `0x5DC`. The `campaign_scene` union holds the
+scene byte (`bytes.index`) and the following opaque `field_5DD`; the halfword
+store writes both through `campaign_scene.word`.
 The operand's high byte has no newly inferred interpretation and is not
-discarded or moved to another field. The signed-halfword workspace view
-and separate interior relocation labels remain as before.
+discarded or moved to another field. The separate interior relocation
+labels remain as before.
 
 Only the existing build-deck handoff explicitly casts the operand to
 `u8` for `gCampaignSceneIndex`. That active scene is distinct from the

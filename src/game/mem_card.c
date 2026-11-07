@@ -296,7 +296,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
      */
     gSaveData_dwVBlankCounter = state->vblank_counter;
     gSaveDataSequence = state->save_sequence;
-    gCampaignSceneIndex = state->campaign_scene_index;
+    gCampaignSceneIndex = state->campaign_scene.bytes.index;
 
     if (gSD_bOutputType < 0) {
         u8 output_type = state->output_type;

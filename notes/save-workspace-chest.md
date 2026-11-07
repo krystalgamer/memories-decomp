@@ -14,14 +14,11 @@ structure. The existing campaign-bit writer
 `Library_UpdateCardUsedFlag`, in `campaign_story_flags.c`, addresses the same
 bank as bytes.
 `Library_CheckCardOwned` reads the quantity array through that structure.
-`Script_OpSavePrompt` uses the halfword base view for the saved campaign
-scene index.
+`Script_OpSavePrompt` stores the saved campaign scene through the
+`campaign_scene.word` union member, which also covers the adjacent
+`field_5DD`; it is not rewritten as a byte store.
 
-The isolated canonical header mirrors the existing declaration selector:
-incomplete `u8[]` normally, incomplete `s16[]` when
-`SAVE_DATA_WORKSPACE_AS_HALFWORDS` is defined. The prompt keeps that
-selector and its halfword access, which also touches adjacent `field_5DD`;
-it is not rewritten as a byte store. All existing headers stay unchanged.
+The workspace has one declaration: an incomplete `u8[]`.
 
 The reusable live-state workspace is distinct from
 `gSaveData_aTransferBuffer`. The recovered prefix is not proof that every
