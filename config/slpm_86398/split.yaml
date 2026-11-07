@@ -431,7 +431,7 @@ segments:
       - [0x8bb00, .sbss, game/japanese/display_object_system]
       - [0x8bb18, .sbss, game/japanese/main_boot_frontend]
       - [0x8bb20, .sbss, game/mem_card_driver]
-      - [0x8bb48, .sbss, game/japanese/sound_driver]
+      - [0x8bb48, sbss, sound_driver_commons]
       - [0x8bb58, sbss, movie_pipeline_commons]
       - [0x8bb68, .sbss, game/japanese/model]
       - [0x8bb88, .bss, game/japanese/main]
