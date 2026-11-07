@@ -4125,123 +4125,123 @@
     },
     {
       "address": "0x80044000",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044058",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800440E8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044120",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044174",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x17C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800442F0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x8004436C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800443A8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800443F4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044494",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x9C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044530",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x8004459C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x9C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044638",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800446A4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x84",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044728",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD4",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800447FC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044850",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x70",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x800448C0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x230",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044AF0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x49C",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044F8C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/mem_card_driver.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044FB4",
