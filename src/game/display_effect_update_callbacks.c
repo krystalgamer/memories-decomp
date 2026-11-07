@@ -87,18 +87,18 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
     s32 dy;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(r)) == 0) {
-        r->field_48 = TRIG_ANGLE_QUARTER_TURN;
+        r->tween_angle = TRIG_ANGLE_QUARTER_TURN;
         d = TRIG_ANGLE_QUARTER_TURN / r->field_44;
-        r->field_4A = d;
+        r->tween_angle_step = d;
         if (d >= 0) {
-            r->field_48 = 0;
+            r->tween_angle = 0;
         }
         r->field_44 = *(u16 *)&r->field_40 - r->x;
-        r->field_46 = *(u16 *)&r->field_42 - r->y;
+        r->tween_delta_y = *(u16 *)&r->field_42 - r->y;
     }
 
-    t = *(u16 *)&r->field_48 + *(u16 *)&r->field_4A;
-    r->field_48 = t;
+    t = *(u16 *)&r->tween_angle + *(u16 *)&r->tween_angle_step;
+    r->tween_angle = t;
 
     if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         DisplayPositionGroup_SetPosition(
@@ -110,10 +110,10 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
     } else {
         c = rcos((s16)t);
         dx = c * r->field_44 / ONE;
-        dy = c * r->field_46 / ONE;
-        if (r->field_4A < 0) {
+        dy = c * r->tween_delta_y / ONE;
+        if (r->tween_angle_step < 0) {
             dx = r->field_44 - dx;
-            dy = r->field_46 - dy;
+            dy = r->tween_delta_y - dy;
         }
         DisplayPositionGroup_SetPosition(
             DISPLAY_POSITION_GROUP_VIEW(r),

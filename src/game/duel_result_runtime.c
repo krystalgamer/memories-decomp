@@ -524,12 +524,12 @@ void Duel_CalcRankScore(void) {
         v = e->life_points.signed_value; q[1 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_REMAINING_LP, v);
-        q[2 * DUEL_SIDE_COUNT] = e->field_0E;
+        q[2 * DUEL_SIDE_COUNT] = e->deck_average_attack;
         q[3 * DUEL_SIDE_COUNT] = e->rank.field_0B;
         v = e->rank.effective_attacks; q[4 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_EFFECTIVE_ATTACKS, v);
-        q[5 * DUEL_SIDE_COUNT] = e->field_10;
+        q[5 * DUEL_SIDE_COUNT] = e->deck_average_defense;
         q[6 * DUEL_SIDE_COUNT] = e->rank.field_0C;
         v = e->rank.defensive_wins; q[7 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
@@ -544,7 +544,7 @@ void Duel_CalcRankScore(void) {
         v = e->rank.equips_used; q[11 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_EQUIP_MAGIC, v);
-        q[12 * DUEL_SIDE_COUNT] = e->rank.field_0A;
+        q[12 * DUEL_SIDE_COUNT] = e->rank.field_magic_used;
         v = e->rank.pure_magic_used; q[13 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_PURE_MAGIC, v);

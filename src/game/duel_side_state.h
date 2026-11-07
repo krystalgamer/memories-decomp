@@ -39,7 +39,8 @@ typedef struct {
     u8 field_07;
     u8 fusions_initiated;
     u8 equips_used;
-    u8 field_0A;
+    /* Field magic cards played: DuelEffect_ApplyTerrain counts each one. */
+    u8 field_magic_used;
     u8 field_0B;
     u8 field_0C;
 } DuelRankStatistics;
@@ -47,8 +48,10 @@ typedef struct {
 typedef struct DuelSideState {
     DuelRankStatistics rank;
     u8 field_0D;
-    s16 field_0E;
-    s16 field_10;
+    /* Mean ATK and DEF of the side's 40-card deck, computed by duel phase
+     * entry and shown on the result screen; not part of the rank score. */
+    s16 deck_average_attack;
+    s16 deck_average_defense;
     /* The life-point value actually drawn. Duel_UpdateLifePointDisplay steps
      * it towards life_points a little each frame, and
      * Duel_DrawLifePointsAndDeckCounts draws this field, not life_points, as
