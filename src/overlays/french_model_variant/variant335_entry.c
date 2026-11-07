@@ -200,7 +200,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
         work->field_2E78 = 0;
         work->field_2E6C = 0;
         work->field_2E70 = 0;
-        work->field_2E74 = 0;
+        work->spin = 0;
         work->count = 0;
         work->field_2E8E = 0;
         work->field_2E90 = 0;
@@ -270,7 +270,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
             work->step = Model_GetFrameStep();
             work->animation_frame = frame;
         }
-        work->field_2E74 += work->step * 32;
+        work->spin += work->step * 32;
     }
     Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
     if (work->phase < 10) {
