@@ -2129,7 +2129,7 @@
       "address": "0x80030DD8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2AC",
-      "source": "src/game/japanese/debug_menu_update.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x800314BC",
@@ -2225,37 +2225,37 @@
       "address": "0x80030CF4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/debug_menu_leave_entries.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x80030D24",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/debug_menu_leave_entries.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x80030D54",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/debug_menu_two_player_entry.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x80030DCC",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/debug_menu_two_player_entry.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x80031084",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/japanese/debug_menu_update.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x8003108C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/japanese/debug_menu_update.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x80031120",

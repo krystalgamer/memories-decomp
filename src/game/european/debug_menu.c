@@ -2,4 +2,4 @@
 
 #define VERSION_EUROPE
 
-#include "../debug_menu_update.c"
+#include "../debug_menu.c"

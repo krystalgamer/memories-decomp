@@ -16,7 +16,7 @@ extern u8 gSaveData_PairMessageCode;
  * mem_card_dialog.c test bit 0x80
  * clear, set it and store
  * gSaveData_PairMessageCode; DebugMenu_UpdateTradeEntry (frontend_scene_states.c),
- * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu_two_player_entry.c:19) and
+ * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu.c:109) and
  * MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch, src/overlays/main_menu/frontend.c) store 0.
  *
@@ -39,7 +39,7 @@ extern u8 gSaveData_PairSetupState;
  *
  * SaveData_UpdateDuelLoad reports a status its callers poll:
  * MainMenu_UpdateFrontendMenu (src/overlays/main_menu/frontend.c) stores the result for
- * main-menu item 2 and debug_menu_two_player_entry.c tests it
+ * main-menu item 2 and debug_menu.c tests it
  * before entering the two-player duel setup. On top of the trade load it
  * requires a full deck in both saves and converts both player names.
  *

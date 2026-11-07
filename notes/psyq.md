@@ -1732,9 +1732,9 @@ single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
 shared `gMain_RecoveryJmpBuf` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
-`DebugMenu_Exit` (`debug_menu_leave_entries.c`) returns through `longjmp(..., 2)`. `Main_Init` remains a
+`DebugMenu_Exit` (`debug_menu.c`) returns through `longjmp(..., 2)`. `Main_Init` remains a
 implementation in `src/game/main.c`, while `Main_RunGameOver` now
-matches from `src/game/main_mode_runners.c`; `debug_menu_leave_entries.c` is the other
+matches from `src/game/main_mode_runners.c`; `debug_menu.c` is the other
 matching user. The imported `longjmp`
 prototype has no compiler attribute, so `DebugMenu_Exit` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the

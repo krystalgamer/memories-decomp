@@ -8,7 +8,7 @@
  * 0x800307B8 and 0x80030998. Both entries drive the digit editor and
  * return through DebugMenu_RestorePrimaryDisplayObject when it cancels. */
 
-/* Entry 5 of gDebugMenu_apfnPrimaryPageSteps (debug_menu_update.c), the
+/* Entry 5 of gDebugMenu_apfnPrimaryPageSteps (debug_menu.c), the
  * "Sound" label: edits and plays sound IDs. */
 void DebugMenu_UpdateSoundEntry(void);
 
@@ -16,7 +16,7 @@ void DebugMenu_UpdateSoundEntry(void);
 extern void DebugMenu_UpdateLanguageEntry(void);
 #endif
 
-/* Entry 2 of gDebugMenu_apfnPrimaryPageSteps (debug_menu_update.c), the
+/* Entry 2 of gDebugMenu_apfnPrimaryPageSteps (debug_menu.c), the
  * "Campaign" label.
  * Switches between message-preview and campaign-index editors, preserving
  * the dialog-choice cleanup before returning to the editor. */

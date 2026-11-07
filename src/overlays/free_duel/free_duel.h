@@ -13,7 +13,7 @@
  * runtime walks the cursor toward the target.
  *
  * gFreeDuel_bReturnFlags has one declaration; the resident writers
- * main_mode_runners.c and debug_menu_leave_entries.c address it with %hi/%lo
+ * main_mode_runners.c and debug_menu.c address it with %hi/%lo
  * like every unit outside its owner.
  */
 extern s8 gFreeDuel_bCursorColumn;
