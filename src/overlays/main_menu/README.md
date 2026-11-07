@@ -650,8 +650,8 @@ and `frontend_update.c` spelled it `s8`, and spreading the wrong one is worse
 than leaving it local. One unit forces the choice and the evidence is
 one-sided: the updater assigns `1` and `-1` and tests `< 0`, so it is a signed
 fade direction; the init file only ever wrote `0`, which is why its `u8` was
-harmless rather than right. `D_80184558/5C/60` were the same shape, `u8 *` in
-two sources and `void *` in a third; `u8 *` wins because two of the three
+harmless rather than right. `gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice`
+and `gMainMenu_pStartPrompt` were the same shape, `u8 *` in two sources and `void *` in a third; `u8 *` wins because two of the three
 index them by byte offset while the third only passes them to a `void *`
 parameter. All four now live in `frontend.h`.
 
@@ -688,7 +688,7 @@ absent because their declarers disagreed. `gMainMenu_apValueSetupCursors` was sp
 `void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
 renderer dereferences it through named fields more than twenty times while
 the other three users only do byte arithmetic, which a cast covers.
-`D_801845A0` and `D_801845A4` were each `void *` and `u8 *`; `u8 *` wins,
+`D_801845A0` and `gMainMenu_pValueSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 

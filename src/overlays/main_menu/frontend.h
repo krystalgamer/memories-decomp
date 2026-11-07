@@ -18,9 +18,11 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *                          the wheel has eleven positions.
  *   gMain_apMenuEntries    One object pointer per entry, cleared to 0 for
  *                          the slots that are not live.
- *   D_80184558             The three standing objects: background, title and
- *   D_8018455C             prompt. Made by MainMenu_InitFrontendMenu and
- *   gMainMenu_pStartPrompt released by MainMenu_DestroyFrontendMenu.
+ *   gMainMenu_pTitleLogo   The three standing objects: the title logo, the
+ *   gMainMenu_pCopyrightNotice
+ *                          copyright line and the Start prompt. Made by
+ *   gMainMenu_pStartPrompt MainMenu_InitFrontendMenu and released by
+ *                          MainMenu_DestroyFrontendMenu.
  *   gMainMenu_bTransitionMode
  *                          The transition mode, taken straight from
  *                          MainMenu_StartFrontendEntryTransition's argument.
@@ -60,12 +62,15 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  * spelling was harmless rather than right, because the file that used it only
  * ever wrote 0.
  *
- * D_80184558/5C/60 are the three singleton display objects allocated by
- * MainMenu_InitFrontendMenu. Their matching and candidate consumers use the
- * shared DisplayObject fields rather than deriving the layout again.
+ * The three singleton display objects allocated by MainMenu_InitFrontendMenu
+ * select variants 0, 2 and 1 of resource 5/0 in gDisplay_abResourceBank1.
+ * Their matching and candidate consumers use the shared DisplayObject fields
+ * rather than deriving the layout again.
  */
-extern struct DisplayObject *D_80184558;
-extern struct DisplayObject *D_8018455C;
+/* Variant 0: the "Yu-Gi-Oh! Forbidden Memories" title logo. */
+extern struct DisplayObject *gMainMenu_pTitleLogo;
+/* Variant 2: the "(C) 1996 KAZUKI TAKAHASHI" copyright line. */
+extern struct DisplayObject *gMainMenu_pCopyrightNotice;
 /* The blinking singleton gates Start input before the menu wheel. */
 extern struct DisplayObject *gMainMenu_pStartPrompt;
 extern s8 gMainMenu_nFadeDirection;

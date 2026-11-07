@@ -28,7 +28,8 @@
                  twenty-odd times through named fields.
      D_801845A0  was void * and u8 *, and u8 * won on the byte arithmetic
                  the starter did on it.
-     D_801845A4  same pair, same reason.
+     gMainMenu_pValueSetupPanel
+                 same pair, same reason.
 
    All of them, including the tween's gMainMenu_apValueSetupCursors[2], are display objects out of DisplayObject_AcquireSlot,
    and every offset any of them was reached at is a DisplayObject member:
@@ -108,12 +109,12 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845A4 = object;
+    gMainMenu_pValueSetupPanel = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0xA, 6, 0, 0, 0xE, 5, gDisplay_abResourceBank1);
-        D_801845A4->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gMainMenu_pValueSetupPanel->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_801845A4, -1);
+        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupPanel, -1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -563,8 +564,8 @@ void MainMenu_FinishValueSetup(void)
     *gMainMenu_pValueSetupToggle = (gMainMenu_abValueSetupChoices[2] != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
     DisplayObject_ReleaseIfPresent(D_801845A0);
     D_801845A0 = 0;
-    DisplayObject_ReleaseIfPresent(D_801845A4);
-    D_801845A4 = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_pValueSetupPanel);
+    gMainMenu_pValueSetupPanel = 0;
     DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[0]);
     gMainMenu_apValueSetupCursors[0] = 0;
     DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[1]);

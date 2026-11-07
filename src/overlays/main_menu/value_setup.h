@@ -19,7 +19,7 @@ extern u8 gMainMenu_abValueSetupChoices[];
 extern u8 *gMainMenu_pValueSetupToggle;
 extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
 extern DisplayObject *D_801845A0;
-extern DisplayObject *D_801845A4;
+extern DisplayObject *gMainMenu_pValueSetupPanel;
 extern DisplayObject *gMainMenu_apValueSetupCursors[];
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);
