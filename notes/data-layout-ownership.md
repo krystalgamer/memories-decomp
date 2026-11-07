@@ -454,9 +454,8 @@ model units, in their `.bss` as in their text:
   block (`0x8009C7E8`-`0x8009C818`). The four builds compile it through
   `spanish/model_scene_controllers.c`, which defines `EUROPEAN_LANGUAGE_BUILD`
   to leave out the European storage.
-- `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`,
-  with these builds' own storage (`D_<ADDR>_sles_03948`) in
-  `spanish/movie_pipeline.c`.
+- `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`;
+  its generated `movie_pipeline_commons` subsegment places the globals.
 - In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
   and `ai_script` (`0x800F6F08`), so the model blocks are `0x408` above
   Europe's.
