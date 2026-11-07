@@ -44,12 +44,12 @@ Both adjacent cursor/marker helpers now take the actual
 `DuelSelectionRecord *` held by their hand-scene caller. The former
 `DuelHandStackState` was only a private `0x18` prefix view; removing it does
 not resize the real `0x1C` records or their four-record side blocks.
-The helpers use `cursor_object` at `+0x04`, the signed view of `field_0E`
+The helpers use `cursor_object` at `+0x04`, the signed view of `hand_cursor_slot`
 at `+0x0E`, and the hand-context ordered-pick count `field_15` at `+0x15`.
 The shared layout asserts all three offsets, and every caller now passes
 its existing record directly instead of casting to the prefix.
 
-`field_0E` remains unsigned storage in the canonical record because other
+`hand_cursor_slot` remains unsigned storage in the canonical record because other
 consumers keep their own views. The two helpers explicitly cast it to `s8`,
 preserving the original signed loads and arithmetic for every byte pattern.
 The count remains unsigned and retains its original narrowing and wrap.

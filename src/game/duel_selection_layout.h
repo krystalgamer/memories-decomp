@@ -30,7 +30,7 @@ typedef struct DuelSelectionRecord {
      * gDuelHand_aSlots with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
      * that index. */
-    u8 field_0E;
+    u8 hand_cursor_slot;
     /* Signed grid coordinates, also consumed by the input/status APIs. */
     s8 col;
     s8 row;
@@ -38,8 +38,11 @@ typedef struct DuelSelectionRecord {
     u8 row_min;
     u8 row_end;
     u8 field_13;
-    /* Japanese keeps the record index; North America maps index 3 to 1. */
-    u8 field_14;
+    /* Text-box channel of the record's information panel: TextBox_Create,
+     * TextBox_SetPos and TextBox_Destroy all select it through
+     * DUEL_FIELD_DISPLAY_CHANNEL. Japanese keeps the record index; North
+     * America maps index 3 to 1. */
+    u8 text_channel;
     /* Ordered-pick count in the hand-selection record. The color helper
      * restores the cursor card only when this is zero; other record
      * contexts keep their existing interpretation. */
@@ -63,8 +66,8 @@ typedef char DuelSelectionRecord_cursor_object_offset_must_be_4[
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
     (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
 ];
-typedef char DuelSelectionRecord_field_0E_offset_must_be_0xE[
-    (u32)&(((DuelSelectionRecord *)0)->field_0E) == 0xE ? 1 : -1
+typedef char DuelSelectionRecord_hand_cursor_slot_offset_must_be_0xE[
+    (u32)&(((DuelSelectionRecord *)0)->hand_cursor_slot) == 0xE ? 1 : -1
 ];
 typedef char DuelSelectionRecord_col_offset_must_be_0xF[
     (u32)&(((DuelSelectionRecord *)0)->col) == 0xF ? 1 : -1

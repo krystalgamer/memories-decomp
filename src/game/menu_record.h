@@ -87,7 +87,10 @@ typedef struct MenuRecord {
        names.
 
        0x44 and 0x46 are the distance still to travel: the sweep seeds them
-       with 0x40 - 0x34 and 0x42 - 0x36 on its first tick.
+       with 0x40 - 0x34 and 0x42 - 0x36 on its first tick. Before that tick
+       0x44 holds the sweep's duration (Text_HandleDisplayEffectCommand
+       stores 0x10 and the sweep divides the quarter turn by it), so only
+       0x46 is named for the delta.
 
        0x48 is the eased angle, running to TRIG_ANGLE_QUARTER_TURN, and 0x4A
        the per-tick step derived from it, whose sign picks which end of the
@@ -100,9 +103,9 @@ typedef struct MenuRecord {
     s16 field_40;
     s16 field_42;
     s16 field_44;
-    s16 field_46;
-    s16 field_48;
-    s16 field_4A;
+    s16 tween_delta_y;
+    s16 tween_angle;
+    s16 tween_angle_step;
 } MenuRecord;
 
 #define MENU_RECORD_OFFSET(member) ((u32)&(((MenuRecord *)0)->member))
@@ -131,8 +134,8 @@ typedef char MenuRecord_slot_index_must_be_at_0x3C[
 typedef char MenuRecord_field_40_must_be_at_0x40[
     MENU_RECORD_OFFSET(field_40) == 0x40 ? 1 : -1
 ];
-typedef char MenuRecord_field_4A_must_be_at_0x4A[
-    MENU_RECORD_OFFSET(field_4A) == 0x4A ? 1 : -1
+typedef char MenuRecord_tween_angle_step_must_be_at_0x4A[
+    MENU_RECORD_OFFSET(tween_angle_step) == 0x4A ? 1 : -1
 ];
 
 #undef MENU_RECORD_OFFSET

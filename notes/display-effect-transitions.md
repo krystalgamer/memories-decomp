@@ -20,8 +20,9 @@ alias: retaining both names as independently live pointers changes the old
 compiler's frame and register allocation.
 
 Initialization divides a quarter turn by signed `field_44`, narrows the
-step into `field_4A`, selects the original start angle from its sign, then
-overwrites the overloaded distance fields. The divisor stays unvalidated.
+step into `tween_angle_step`, selects the original start angle from its sign, then
+overwrites the overloaded distance fields (`field_44` and
+`tween_delta_y`); `tween_angle` carries the eased angle. The divisor stays unvalidated.
 
 The update keeps unsigned-halfword reads of angle and increment, the
 stored-halfword wrap, unsigned `(t - 1)` endpoint test, signed cosine input

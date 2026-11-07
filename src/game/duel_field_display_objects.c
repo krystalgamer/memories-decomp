@@ -197,7 +197,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         style += 2;
     }
     box = TextBox_Create(
-        source->field_14, style,
+        source->text_channel, style,
         (s16)source->field_00->xy.h.x + 0x10,
         (s16)source->field_00->xy.h.y + source->text_y_offset,
         0x120, 0x40
@@ -390,7 +390,7 @@ s32 Duel_UpdateDisplayTransition(void)
             o->field_60 -= 0x40;
             moving = busy;
             if (o->field_60 < 0) {
-                TextBox_Destroy(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14));
+                TextBox_Destroy(DUEL_FIELD_DISPLAY_CHANNEL(source->text_channel));
                 DisplayObject_ReleaseIfPresent(o);
                 source->field_00 = 0;
                 if (source->hand != 0) {
@@ -406,7 +406,7 @@ s32 Duel_UpdateDisplayTransition(void)
             }
         }
         if (moving != 0) {
-            TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14),
+            TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->text_channel),
                            (s16)o->xy.h.x + 0x10,
                            (s16)o->xy.h.y + source->text_y_offset);
         }
