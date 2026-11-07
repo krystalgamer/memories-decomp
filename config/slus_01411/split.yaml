@@ -213,7 +213,7 @@ segments:
       - [0x8ba58, .sbss, game/library]
       - [0x8ba60, .sbss, game/duel_effect_object_pool]
       - [0x8ba68, bin, bss_image_8009b268]
-      - [0x8ba70, .sbss, game/script_image_scene]
+      - [0x8ba70, sbss, script_image_scene_commons]
       - [0x8bab0, sbss, debug_menu_editor_entries_commons]
       - [0x8baf8, .sbss, game/build_deck_draw_card_list_page]
       - [0x8bb00, .sbss, game/sorted_entry_render]

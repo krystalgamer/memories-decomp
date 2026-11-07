@@ -426,7 +426,7 @@ segments:
       - [0x8CDF0, .sbss, game/european/library]
       - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
       - {start: 0x8CE0A, type: bin, name: german_raw_8009c60a, linker_section_order: .sbss}
-      - [0x8CE10, .sbss, game/european/script_image_scene]
+      - [0x8CE10, sbss, script_image_scene_commons]
       - [0x8CE50, sbss, debug_menu_editor_entries_commons]
       - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
       - [0x8CE88, .sbss, game/european/sorted_entry_render]
