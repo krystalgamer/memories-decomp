@@ -16,14 +16,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the ring radius, the
- * cone height and two colours (rings and band, then the sprite grid). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model643Command;
-
 /* One 0x50-byte element: a cone ring, the flat band or a grid sprite. */
 typedef struct {
     u8 active;
@@ -73,7 +65,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant643_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant643_aImages[2];
-extern Model643Command gModelVariant643_aConfigs[];
+/* One 0xC-byte command row: the start delay, the ring radius, the
+ * cone height and two colours (rings and band, then the sprite grid). */
+extern ModelVariantTwoColorCommand gModelVariant643_aConfigs[];
 
 s32 ModelVariant643_HandleRequest(u8 *context, s32 command);
 

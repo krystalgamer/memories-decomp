@@ -5,6 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../game/gpu_packets.h"
 
@@ -497,6 +498,51 @@ typedef struct {
     u8 unknown_24[0xC];
 } ModelVariantWebConfig;
 
+/* One 0xC-byte row of a header 636-682 entry's command table, indexed by
+ * the request command: the start delay, a radius, a height (each entry
+ * gives the two sizes its own role; see the table's declaration) and two
+ * RGB colours. */
+typedef struct {
+    s16 delay;
+    u16 radius, height;
+    u8 color[6];
+} ModelVariantTwoColorCommand;
+
+/* The 0x10-byte command row of headers 635, 657, 662, 676 and 681: the
+ * start delay, a radius, a height and three RGB colours, then a pad byte. */
+typedef struct {
+    s16 delay;
+    u16 radius, height;
+    u8 color[9];
+    u8 unknown_0F;
+} ModelVariantThreeColorCommand;
+
+/* The 0xC-byte command row of headers 647 and 651: the start delay, a
+ * radius, a height and one RGB colour; the last three bytes are unused. */
+typedef struct {
+    s16 delay;
+    u16 radius, height;
+    u8 red, green, blue, unknown_09[3];
+} ModelVariantOneColorCommand;
+
+/* The 0xC-byte command row of headers 632 and 654: the start delay, the
+ * radius, a value the entries copy but never read, the main colour and
+ * the sphere colour. */
+typedef struct {
+    s16 delay;
+    u16 radius, unknown_04;
+    u8 red, green, blue, sphere_red, sphere_green, sphere_blue;
+} ModelVariantSphereCommand;
+
+/* The 0xC-byte command row of headers 633 and 634: the start delay, the
+ * radius, the height (header 634 copies it but never reads it), the main
+ * colour and the spark colour. */
+typedef struct {
+    s16 delay;
+    u16 radius, height;
+    u8 red, green, blue, spark_red, spark_green, spark_blue;
+} ModelVariantSparkCommand;
+
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
  * and per quad a size, a progress word and an initialized flag. */
 typedef struct {
@@ -527,6 +573,18 @@ typedef struct {
     s32 done[10];
     u8 unknown_25C[0xA0];
 } ModelVariantSpriteSet;
+
+/* One 0x20-byte spark of headers 680 and 682: an animated sprite pinned
+ * to a model point through its coordinate unit. */
+typedef struct {
+    u8 active;
+    u8 color[3];
+    u8 u, unknown_05;
+    u16 elapsed, duration;
+    u16 unknown_0A;
+    GsCOORDUNIT *coord;
+    VECTOR position;
+} ModelVariantSpark;
 
 /* One 0x90-byte ring of eight spokes with CVECTOR colours: inner and outer
  * spoke ends, the inner and outer colours (the entry handlers set them to

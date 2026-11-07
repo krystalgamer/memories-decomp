@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the square and
- * spokes, and the colours of the sprites and of the spoke strips. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model648Command;
-
 /* One 0x54-byte element: a spinning cluster of fading sprites that drift
  * out from the element's position, then a fan of spoke strips over it. */
 typedef struct {
@@ -60,7 +52,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant648_aImages[2];
-extern Model648Command gModelVariant648_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the square and
+ * spokes, and the colours of the sprites and of the spoke strips. */
+extern ModelVariantTwoColorCommand gModelVariant648_aConfigs[];
 
 s32 ModelVariant648_HandleRequest(u8 *context, s32 command);
 

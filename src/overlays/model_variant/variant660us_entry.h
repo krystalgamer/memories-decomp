@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the glows and
- * shards, then the glow/shard/orb colour and the band/ray/spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model660UsCommand;
-
 /* One 0x4C-byte element: a glow, shard, orb, band ring, ray sphere or spark
  * placed through its own coordinate unit. */
 typedef struct {
@@ -78,7 +70,9 @@ extern MATRIX GsIDMATRIX;
 /* Spark, shard/band and glow/orb texture images; the entry uploads them last
  * to first, so tpage[0] belongs to the glows and orbs. */
 extern GsIMAGE gModelVariant660Us_aImages[3];
-extern Model660UsCommand gModelVariant660Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the glows and
+ * shards, then the glow/shard/orb colour and the band/ray/spark colour. */
+extern ModelVariantTwoColorCommand gModelVariant660Us_aConfigs[];
 
 s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command);
 

@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the radius and the rise height,
- * then the bubble colour and the burst/spray colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model678UsCommand;
-
 /* One 0x4C-byte element: a rising bubble, a burst or a spray, placed through
  * its own coordinate unit. */
 typedef struct {
@@ -75,7 +67,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant678Us_aImages[11];
-extern Model678UsCommand gModelVariant678Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the radius and the rise height,
+ * then the bubble colour and the burst/spray colour. */
+extern ModelVariantTwoColorCommand gModelVariant678Us_aConfigs[];
 
 s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command);
 

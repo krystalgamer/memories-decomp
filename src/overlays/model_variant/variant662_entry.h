@@ -15,15 +15,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/abs.h"
 
-/* One 0x10-byte command row: the start delay, the radius and the cone
- * height, then the tube, the cone/dome and the spark colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[9];
-    u8 unknown_0F;
-} Model662Command;
-
 /* One 0x4C-byte element: a tube, a cone, a dome or a spark. */
 typedef struct {
     u8 active;
@@ -69,7 +60,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant662_aImages[3];
-extern Model662Command gModelVariant662_aConfigs[];
+/* One 0x10-byte command row: the start delay, the radius and the cone
+ * height, then the tube, the cone/dome and the spark colours. */
+extern ModelVariantThreeColorCommand gModelVariant662_aConfigs[];
 
 s32 ModelVariant662_HandleRequest(u8 *context, s32 command);
 

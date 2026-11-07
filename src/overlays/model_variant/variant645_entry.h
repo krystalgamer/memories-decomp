@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the tube radius and length,
- * then the tube colour and the halo colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model645Command;
-
 /* One 0x4C-byte element: a tube puff left at a model joint, or a halo
  * placed through its own coordinate unit. */
 typedef struct {
@@ -72,7 +64,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant645_aImages[2];
-extern Model645Command gModelVariant645_aConfigs[];
+/* One 0xC-byte command row: the start delay, the tube radius and length,
+ * then the tube colour and the halo colour. */
+extern ModelVariantTwoColorCommand gModelVariant645_aConfigs[];
 
 s32 ModelVariant645_HandleRequest(u8 *context, s32 command);
 

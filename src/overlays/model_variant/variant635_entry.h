@@ -14,15 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0x10-byte command row: the start delay, the dome radius and height,
- * then the dome, the burst and the ray colours. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[9];
-    u8 unknown_0F;
-} Model635Command;
-
 /* One 0x50-byte effect part placed through its own coordinate unit. */
 typedef struct {
     u8 active;
@@ -78,7 +69,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant635_aImages[2];
-extern Model635Command gModelVariant635_aConfigs[];
+/* One 0x10-byte command row: the start delay, the dome radius and height,
+ * then the dome, the burst and the ray colours. */
+extern ModelVariantThreeColorCommand gModelVariant635_aConfigs[];
 
 s32 ModelVariant635_HandleRequest(u8 *context, s32 command);
 

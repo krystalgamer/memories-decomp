@@ -16,14 +16,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/abs.h"
 
-/* One 0xC-byte command row: the start delay, the size of the strips and
- * rays, then the strip colour and the ray/fan/spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model682UsCommand;
-
 /* One 0x4C-byte element: a strip column or a ray burst. */
 typedef struct {
     u8 active;
@@ -37,17 +29,6 @@ typedef struct {
     VECTOR position;
     VECTOR unknown_3C;
 } Model682UsElement;
-
-/* One 0x20-byte spark: an animated sprite pinned to a model point. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, unknown_05;
-    u16 elapsed, duration;
-    u16 unknown_0A;
-    GsCOORDUNIT *coord;
-    VECTOR position;
-} Model682UsSpark;
 
 typedef struct {
     u8 command, unknown_01;
@@ -72,12 +53,14 @@ typedef struct {
     MATRIX matrices[64];
     Model682UsElement columns[64];
     Model682UsElement bursts[8];
-    Model682UsSpark sparks[16][6];
+    ModelVariantSpark sparks[16][6];
 } Model682UsState;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant682Us_aImages[3];
-extern Model682UsCommand gModelVariant682Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the strips and
+ * rays, then the strip colour and the ray/fan/spark colour. */
+extern ModelVariantTwoColorCommand gModelVariant682Us_aConfigs[];
 
 s32 ModelVariant682Us_HandleRequest(u8 *context, s32 command);
 

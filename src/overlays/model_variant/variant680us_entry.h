@@ -15,15 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the effect radius, the
- * flight height and two colours (blooms and sparks, then rings and
- * bursts). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model680UsCommand;
-
 /* One 0x4C-byte element: a bloom, a ring or a burst. */
 typedef struct {
     u8 active;
@@ -37,17 +28,6 @@ typedef struct {
     VECTOR position;
     VECTOR target;
 } Model680UsElement;
-
-/* One 0x20-byte spark shed from a model joint. */
-typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, unknown_05;
-    u16 elapsed, duration;
-    u16 unknown_0A;
-    GsCOORDUNIT *coord;
-    VECTOR position;
-} Model680UsSpark;
 
 typedef struct {
     u8 command, unknown_01;
@@ -81,7 +61,7 @@ typedef struct {
     Model680UsElement blooms[32];
     Model680UsElement rings[32];
     Model680UsElement bursts[32];
-    Model680UsSpark sparks[8][6];
+    ModelVariantSpark sparks[8][6];
 } Model680UsState;
 
 extern MATRIX GsIDMATRIX;
@@ -91,7 +71,10 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant680Us_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant680Us_aImages[11];
-extern Model680UsCommand gModelVariant680Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the effect radius, the
+ * flight height and two colours (blooms and sparks, then rings and
+ * bursts). */
+extern ModelVariantTwoColorCommand gModelVariant680Us_aConfigs[];
 
 s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command);
 

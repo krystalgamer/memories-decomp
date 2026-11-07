@@ -16,14 +16,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the effect radius, the
- * cone height and two colours (petal blooms, then rings). */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model671Command;
-
 /* One 0x4C-byte element: a petal bloom or a ring. */
 typedef struct {
     u8 active;
@@ -73,7 +65,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant671_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant671_aImages[3];
-extern Model671Command gModelVariant671_aConfigs[];
+/* One 0xC-byte command row: the start delay, the effect radius, the
+ * cone height and two colours (petal blooms, then rings). */
+extern ModelVariantTwoColorCommand gModelVariant671_aConfigs[];
 
 s32 ModelVariant671_HandleRequest(u8 *context, s32 command);
 

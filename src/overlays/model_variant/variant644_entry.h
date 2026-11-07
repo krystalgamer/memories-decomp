@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the effect and
- * its colour; the last three bytes are unused by this entry. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model644Command;
-
 /* One 0x50-byte element: a glowing cage, a spinning star or a burst. */
 typedef struct {
     u8 active;
@@ -70,7 +62,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant644_Image;
-extern Model644Command gModelVariant644_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the effect and
+ * its colour; the last three bytes are unused by this entry. */
+extern ModelVariantTwoColorCommand gModelVariant644_aConfigs[];
 
 s32 ModelVariant644_HandleRequest(u8 *context, s32 command);
 

@@ -16,14 +16,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/abs.h"
 
-/* One 0xC-byte command row: the start delay, the size of the strips and
- * rays, then the strip colour and the ray/fan colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model663Command;
-
 /* One 0x4C-byte element: a strip column or a ray burst. */
 typedef struct {
     u8 active;
@@ -63,7 +55,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant663_aImages[2];
-extern Model663Command gModelVariant663_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the strips and
+ * rays, then the strip colour and the ray/fan colour. */
+extern ModelVariantTwoColorCommand gModelVariant663_aConfigs[];
 
 s32 ModelVariant663_HandleRequest(u8 *context, s32 command);
 

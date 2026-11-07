@@ -15,14 +15,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the size of the sprites and
- * shells, then the sprite colour and the shell/fan colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 color[6];
-} Model650Command;
-
 /* One 0x4C-byte element: a sprite, shell or fan placed through its own
  * coordinate unit. */
 typedef struct {
@@ -68,7 +60,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant650_aImages[2];
-extern Model650Command gModelVariant650_aConfigs[];
+/* One 0xC-byte command row: the start delay, the size of the sprites and
+ * shells, then the sprite colour and the shell/fan colour. */
+extern ModelVariantTwoColorCommand gModelVariant650_aConfigs[];
 
 s32 ModelVariant650_HandleRequest(u8 *context, s32 command);
 

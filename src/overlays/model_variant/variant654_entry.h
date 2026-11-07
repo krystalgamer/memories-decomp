@@ -17,15 +17,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the burst radius, a value the
- * entry copies but never reads, the burst and ring colour, and the sphere
- * colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, unknown_04;
-    u8 red, green, blue, sphere_red, sphere_green, sphere_blue;
-} Model654Command;
-
 /* One burst quad, ring quad or sphere: the 0x4C-byte burst record of header
  * 647, flying from position along growth over its lifetime. */
 typedef struct {
@@ -65,7 +56,10 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant654_Image;
-extern Model654Command gModelVariant654_aConfigs[];
+/* One 0xC-byte command row: the start delay, the burst radius, a value the
+ * entry copies but never reads, the burst and ring colour, and the sphere
+ * colour. */
+extern ModelVariantSphereCommand gModelVariant654_aConfigs[];
 
 s32 ModelVariant654_HandleRequest(u8 *context, s32 command);
 

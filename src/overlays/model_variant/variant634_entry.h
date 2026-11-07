@@ -14,14 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the radius, a value the entry
- * copies but never reads, the ring colour and the spark colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, unknown_04;
-    u8 red, green, blue, spark_red, spark_green, spark_blue;
-} Model634Command;
-
 /* One ring or one spark: the 0x4C-byte burst record of header 647. */
 typedef struct {
     u8 active, red, green, blue;
@@ -58,7 +50,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant634_aImages[2];
-extern Model634Command gModelVariant634_aConfigs[];
+/* One 0xC-byte command row: the start delay, the radius, a value the entry
+ * copies but never reads, the ring colour and the spark colour. */
+extern ModelVariantSparkCommand gModelVariant634_aConfigs[];
 
 s32 ModelVariant634_HandleRequest(u8 *context, s32 command);
 
