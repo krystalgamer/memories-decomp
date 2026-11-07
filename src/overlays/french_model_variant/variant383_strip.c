@@ -93,7 +93,7 @@ void FrenchModelVariant383_DrawStrip(u8 *context)
                 }
             }
         }
-        if (work->index_154C + 1 == work->config->count_0C) {
+        if (work->index + 1 == work->config->count_0C) {
             if (work->phase == 1) {
                 if (work->factor <= 1024) {
                     work->factor += work->step * 32;
