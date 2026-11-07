@@ -16,7 +16,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
     Variant444EntryTube *tube = work->tubes;
     Variant444EntryColorRecord *record = work->records;
     ModelVariantSheet *sheet = work->sheets;
-    Funnel411 *funnel = work->funnels;
+    ModelVariantFunnel *funnel = work->funnels;
     Variant444EntrySpoke *spoke = work->spokes;
     Variant444EntryBeam *beam = work->beams;
     POLY_G3 *triangle = &work->triangle;

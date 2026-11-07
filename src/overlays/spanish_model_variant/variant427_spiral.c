@@ -27,7 +27,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
     s32 offset;
     s32 eighth;
     s32 r;
-    Variant418SpiralArm *arm;
+    ModelVariantFlaggedSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 spread;
@@ -62,7 +62,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
         } else {
             spread = 0x400 - MODEL_VARIANT_HALF(work, 0x3796);
         }
-        arm = (Variant418SpiralArm *)(work + 0x19C8);
+        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x19C8);
         for (i = 0; i < 12; i++, arm++) {
             phi = offset + (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x3790) * 2;
             theta = offset + (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x3790);
@@ -84,7 +84,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
         } else {
             size = 0x1200;
         }
-        arm = (Variant418SpiralArm *)(work + 0x19C8);
+        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x19C8);
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
@@ -132,7 +132,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
         c0 = 0;
         c3 = 0xC0;
         c1 = 0x80;
-        arm = (Variant418SpiralArm *)(work + 0x19C8);
+        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x19C8);
         for (i = 0; i < 12; i++, arm++) {
             for (k = 0; k < 1; k++) {
                 poly->x0 = arm->sa[k] + arm->ox[k];

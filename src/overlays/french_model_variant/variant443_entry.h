@@ -74,7 +74,7 @@ typedef struct {
     EntryRibbon443 ribbons[3];
     EntryFramebufferRing443 rings[5];
     EntryMesh443 meshes[1];
-    Streamer443 streamers[3];
+    ModelVariantShortStreamer streamers[3];
     EntrySphere443 spheres[3];
     ModelVariantSpiral spirals[12];
     u8 unknown_23D8[0x360];

@@ -2,6 +2,7 @@
 #define FRENCH449_STREAMERS_VIEW_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -9,23 +10,8 @@
 #include "../../game/gpu_packets.h"
 
 typedef struct {
-    SVECTOR a[13];
-    long sa[13];
-    s32 angle[13];
-    SVECTOR b[13];
-    long sb[13];
-    s32 width[13];
-    u8 unknown_01A0[0x34];
-    CVECTOR color[13];
-    u8 unknown_0208[4];
-    s32 depth[13];
-    s16 ox[13];
-    s16 oy[13];
-} Variant449Streamer;
-
-typedef struct {
     u8 unknown_0000[0xF3C];
-    Variant449Streamer streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_1698[0x410];
     POLY_FT4 quads[1];
     u8 unknown_1AD0[0x44];
