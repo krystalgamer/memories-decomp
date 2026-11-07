@@ -1411,6 +1411,12 @@ Fade_InitInColor = 0x8001581C; // type:func
 Fade_InitOutColor = 0x80015944; // type:func
 Fade_Wait = 0x80015998; // type:func
 gFade_State = 0x800E9EC8;
+gFade_bKeepOverlayDepth = 0x8009B140;
+gFade_bOrderingTableMode = 0x8009B141;
+gFade_bWhiteLatch = 0x8009B145;
+gFade_bTargetBlue = 0x8009B14A;
+gFade_bTargetGreen = 0x8009B14B;
+gFade_bTargetRed = 0x8009B14C;
 gInput_dwPreviousHeld = 0x8009B390;
 gInput_dwDeferredRepeat = 0x8009B3B0;
 gInput_dwDeferredPressed = 0x8009B3B4;
@@ -2546,6 +2552,9 @@ CardGrid_GetColumnX = 0x8002C400; // type:func size:0x84
 
 CardGrid_GetRowY = 0x8002C484; // type:func size:0x58
 gGraphics_apOrderingTables = 0x800E9D90; // size:0x10
+gGraphics_bClearBlue = 0x8009B142;
+gGraphics_bClearGreen = 0x8009B143;
+gGraphics_bClearRed = 0x8009B144;
 
 // Semantic names
 Library_NoOpScreenState3 = 0x8002BAAC; // type:func

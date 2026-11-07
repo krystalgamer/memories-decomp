@@ -1,34 +1,5 @@
 #include "../types.h"
 
-#ifndef FADE_RUNTIME_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B140-0x8009B150, defined in
- * address order ahead of the headers that declare it (#2602). */
-u8 gFade_bKeepOverlayDepth;
-u8 gFade_bOrderingTableMode;
-u8 gGraphics_bClearBlue;
-u8 gGraphics_bClearGreen;
-u8 gGraphics_bClearRed;
-u8 gFade_bWhiteLatch;
-s16 gGraphics_sViewportX;
-s16 gGraphics_sViewportY;
-u8 gFade_bTargetBlue;
-u8 gFade_bTargetGreen;
-u8 gFade_bTargetRed;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(2);
-#else
-extern u8 gFade_bKeepOverlayDepth;
-extern u8 gFade_bOrderingTableMode;
-extern u8 gGraphics_bClearBlue;
-extern u8 gGraphics_bClearGreen;
-extern u8 gGraphics_bClearRed;
-extern u8 gFade_bWhiteLatch;
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
-extern u8 gFade_bTargetBlue;
-extern u8 gFade_bTargetGreen;
-extern u8 gFade_bTargetRed;
-#endif
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -38,21 +9,28 @@ extern u8 gFade_bTargetRed;
 
 #include "fade.h"
 
-#ifndef FADE_RUNTIME_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800E9EC8-0x800E9EF0, defined in
- * address order ahead of the headers that declare it (#2602). */
-FadeTransitionState gFade_State;
-#else
-extern FadeTransitionState gFade_State;
-#endif
-
 #include "fade_overlay_controls.h"
 #include "../unmatched.h"
 #include "graphics_frame_controls.h"
 
+/* Zero-initialized storage this unit owns. Each build's generated
+ * fade_runtime_commons subsegments place it at the retail addresses. */
+u8 gFade_bKeepOverlayDepth;
+u8 gFade_bOrderingTableMode;
+u8 gFade_bWhiteLatch;
+u8 gFade_bTargetRed;
+u8 gFade_bTargetGreen;
+u8 gFade_bTargetBlue;
+u8 gGraphics_bClearRed;
+u8 gGraphics_bClearGreen;
+u8 gGraphics_bClearBlue;
+s16 gGraphics_sViewportX;
+s16 gGraphics_sViewportY;
+FadeTransitionState gFade_State;
+
 /* Boot reset, band stepping, the per-frame fade step and the complete fade
    overlay, setup, blocking, and wrapper runtime. All thirty-three contiguous
-   functions operate on gFade_State and compile at gcc_2_8_1_g8_split; the
+   functions operate on gFade_State and compile at gcc_2_8_1_g8_split_comm; the
    unit defines the small zero-initialized block above, which Fade_Update's
    tint copy reaches gp-relative. display_projection.c after the unit is owned by the pending
    #3859 reclassification. */

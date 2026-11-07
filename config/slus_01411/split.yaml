@@ -200,7 +200,7 @@ segments:
       - [0x8b890, .sbss, game/main]
       - [0x8b8e0, sbss, file_set_position_table_commons]
       - [0x8b8e8, sbss, file_transfer_runtime_commons]
-      - [0x8b940, .sbss, game/fade_runtime]
+      - [0x8b940, sbss, fade_runtime_commons]
 
   - name: bss_image_after_viewport
     type: bin
@@ -231,7 +231,7 @@ segments:
       - [0x8bca8, .bss, game/main]
       - [0xda5f0, bss, file_set_position_table_bss_commons]
       - [0xda618, bss, file_transfer_runtime_bss_commons]
-      - [0xda6c8, .bss, game/fade_runtime]
+      - [0xda6c8, bss, fade_runtime_bss_commons]
       - [0xda6f0, .bss, game/duel_field_card_render]
       - [0xda9e8, .bss, game/library_create_grid_section_sprites]
       - [0xdb588, bss, duel_effect_object_pool_bss_commons]
