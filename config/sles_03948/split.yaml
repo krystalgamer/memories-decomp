@@ -53,7 +53,7 @@ segments:
     - initial_data
   - - 2116
     - .rodata
-    - game/european/file_transfer_runtime
+    - game/file_transfer_runtime
   - - 2144
     - rodata
     - initial_data_860
@@ -199,7 +199,7 @@ segments:
     - game/file_wait_for_transfers
   - - 16308
     - c
-    - game/european/file_transfer_runtime
+    - game/file_transfer_runtime
   - - 22732
     - c
     - game/european/fade_runtime
@@ -1003,7 +1003,7 @@ segments:
   - [0x83578, data, resident_tail_80092d78]
   - [0x8CA98, .sdata, game/french/main]
   - [0x8CA9D, pad]
-  - [0x8CAA0, .sdata, game/european/file_transfer_runtime]
+  - [0x8CAA0, .sdata, game/file_transfer_runtime]
   - [0x8CAB0, .sdata, game/spanish/duel_ground_projection]
   - [0x8CAB4, .sdata, game/european/duel_battle_stats]
   - {start: 0x8CABA, type: bin, name: resident_tail_8009c2ba, linker_section_order: .sdata}
@@ -1020,8 +1020,8 @@ segments:
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
   - [0x8CC04, pad]
   - [0x8CC08, .sbss, game/french/main]
-  - [0x8CC58, .sbss, game/european/file_set_position_table]
-  - [0x8CC60, .sbss, game/european/file_transfer_runtime]
+  - [0x8CC58, sbss, file_set_position_table_commons]
+  - [0x8CC60, sbss, file_transfer_runtime_commons]
   - [0x8CCB8, .sbss, game/european/fade_runtime]
   - [0x8CCCC, .sbss, game/european/duel_field_card_render]
   - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
@@ -1043,8 +1043,8 @@ segments:
   - [0x8CFE8, .sbss, game/spanish/model]
   - [0x8D018, .sbss, game/spanish/movie_pipeline]
   - [0x8D038, .bss, game/french/main]
-  - [0xDB970, .bss, game/european/file_set_position_table]
-  - [0xDB998, .bss, game/european/file_transfer_runtime]
+  - [0xDB970, bss, file_set_position_table_bss_commons]
+  - [0xDB998, bss, file_transfer_runtime_bss_commons]
   - [0xDBA48, .bss, game/european/fade_runtime]
   - [0xDBA78, .bss, game/european/duel_field_card_render]
   - [0xDBD70, .bss, game/library_create_grid_section_sprites]

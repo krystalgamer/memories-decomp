@@ -16,18 +16,13 @@
 #include "../psyq/libspu.h"
 #include "../ygo_types.h"
 
-#ifndef FILE_TRANSFER_RUNTIME_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x800E9E18-0x800E9EC8, defined in
- * address order ahead of the headers that declare it (#2602). */
+/* Zero-initialized storage this unit owns. Each build's generated
+ * file_transfer_runtime_commons subsegments place it at the retail addresses. */
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 /* One eight-word LBA table: the file LBAs, the movie stream base at word 3
  * and the master XA LBA at word 6. */
 s32 gFile_anLba[8];
-
-/* The loader's zero-initialized state, defined here in address order before
- * file_transfer.h declares it, so the compiler emits it in this order and the
- * unit's small zero-initialized data reproduces the retail layout (#2602). */
 volatile s32 gFile_ServiceReentryLatch;
 u16 gFile_RangeWaitCountdown;
 void (*gFile_RangeReadCallback)(void);
@@ -50,34 +45,6 @@ s32 D_8009B12C;
 s32 gFile_CommandRetryCount;
 u32 gFile_dwCancelRequestState;
 s32 gFile_ReadyDataEventCount;
-static PADDING_VARIABLE(4);
-#else
-/* The regional wrapper declared these in its own address order. */
-FileTransferDescriptor gFile_SecondaryTransferDescriptor;
-FileTransferDescriptor gFile_PrimaryTransferDescriptor;
-s32 gFile_anLba[8];
-extern volatile s32 gFile_ServiceReentryLatch;
-extern u16 gFile_RangeWaitCountdown;
-extern void (*gFile_RangeReadCallback)(void);
-extern volatile u32 gFile_dwTransferState;
-extern u32 *gFile_ReadySourceCursor;
-extern s32 D_8009B0FC;
-extern volatile u16 gFile_wStepState;
-extern char gFile_TargetLoc[4];
-extern u8 D_8009B108;
-extern void (*gFile_BeforePrimaryRequestCallback)(void);
-extern u8 D_8009B110;
-extern volatile u16 gFile_wTransferStepFlags;
-extern u8 gFile_ReadyEventCount;
-extern CdlFILTER gFile_FilterParams;
-extern void (*gFile_RangePauseCallback)(void);
-extern volatile u16 gFile_ServiceCallGate;
-extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
-extern s32 D_8009B12C;
-extern s32 gFile_CommandRetryCount;
-extern u32 gFile_dwCancelRequestState;
-extern s32 gFile_ReadyDataEventCount;
-#endif
 
 /* This unit's small data at 0x8009AF10, right after src/game/main.c's.
  * Sixteen bytes: three objects and a trailing word the image never names.
