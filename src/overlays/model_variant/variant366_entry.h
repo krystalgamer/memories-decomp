@@ -41,7 +41,7 @@ typedef struct {
 /* The three 17-point ribbon cones drawn by ModelVariant366_DrawCones. */
 typedef struct {
     SVECTOR inner[17], middle[17], outer[17];
-    s32 progress, field_19C;
+    s32 progress, cycles;
 } Variant366Ribbon;
 
 /* The four eight-point rings. */
@@ -83,12 +83,12 @@ typedef struct {
     u8 unknown_153C[4];
     GsCOORDUNIT *parts[3];
     s32 index;
-    s32 field_1550, field_1554;
-    s32 field_1558[3];
-    s16 field_1564, field_1566, field_1568, field_156A, field_156C, field_156E;
+    s32 scale, brightness;
+    s32 cone_opening[3];
+    s16 ray_polar_angle, ray_azimuth, field_1568, field_156A, ray_radius, field_156E;
     s16 field_1570, field_1572, field_1574, unknown_1576;
-    s16 field_1578, field_157A;
-    s32 field_157C, phase, field_1584;
+    s16 travel, field_157A;
+    s32 spin, phase, field_1584;
     u8 unknown_1588[8];
     s32 tint;
     s16 slot, command;

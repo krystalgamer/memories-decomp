@@ -5,7 +5,7 @@
 /* Draws the three ribbon cones above the target. Each cone is sixteen
  * POLY_GT4 strips textured from the frame-buffer half the strip lands on,
  * with a POLY_F4 mask-write packet behind each one. Before phase 7 each cone
- * breathes with its progress; afterwards it opens by field_1558[k] towards
+ * breathes with its progress; afterwards it opens by cone_opening[k] towards
  * the opponent. Progress then advances and wraps with a count. */
 void ModelVariant366_DrawCones(u8 *context)
 {
@@ -71,7 +71,7 @@ void ModelVariant366_DrawCones(u8 *context)
                 /* The division is repeated in each radius and shared by
                  * CSE. A named quotient changes its registers and lets
                  * reload reuse inner_r from t2 instead of reloading it. */
-                spread = (work->direction.vz * sign - 320) * work->field_1558[k];
+                spread = (work->direction.vz * sign - 320) * work->cone_opening[k];
                 inner_r = spread / 1024 + 320;
                 {
                     /* Block-scoped temporaries; a direct middle_r formula
@@ -79,8 +79,8 @@ void ModelVariant366_DrawCones(u8 *context)
                     s32 mid = spread / 1024 + 416;
                     s32 d, q;
                     outer_r = spread / 1024 + 512;
-                    d = (mid - inner_r) * work->field_1558[k] / 1024;
-                    q = work->field_1558[k] * 48 / 1024;
+                    d = (mid - inner_r) * work->cone_opening[k] / 1024;
+                    q = work->cone_opening[k] * 48 / 1024;
                     /* The loop starts before the last two radii, which
                      * retail schedules after the counter. */
                     i = 0;
@@ -171,17 +171,17 @@ void ModelVariant366_DrawCones(u8 *context)
                 ribbon->progress += work->step * 64;
                 if (ribbon->progress >= 2048) {
                     ribbon->progress -= 2048;
-                    ribbon->field_19C++;
+                    ribbon->cycles++;
                 }
             }
         } else if (ribbon->progress <= 1024) {
             ribbon->progress += work->step * 48;
             if (ribbon->progress >= 1024) {
                 ribbon->progress = 1024;
-                if (work->field_1558[k] < 1024) {
-                    work->field_1558[k] += work->step * 32;
-                    if (work->field_1558[k] >= 1024) {
-                        work->field_1558[k] = 1024;
+                if (work->cone_opening[k] < 1024) {
+                    work->cone_opening[k] += work->step * 32;
+                    if (work->cone_opening[k] >= 1024) {
+                        work->cone_opening[k] = 1024;
                         if (work->phase == 7) {
                             work->phase = 8;
                         }
@@ -192,7 +192,7 @@ void ModelVariant366_DrawCones(u8 *context)
             ribbon->progress += work->step * 48;
             if (ribbon->progress >= 2048) {
                 ribbon->progress -= 2048;
-                ribbon->field_19C++;
+                ribbon->cycles++;
             }
         }
     }
