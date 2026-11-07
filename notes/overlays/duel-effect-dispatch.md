@@ -285,8 +285,9 @@ the complete static requester list:
 | 17 | `DuelEffect_RunBoardDestruction` | `func_80148BA4` | `DuelEffect_ApplyBoardDestruction` (Dark Hole and the Dragon Capture Jar phase) |
 
 The debug effect screen can request any ID and is not counted. The third
-argument is named only on the effect-2 view. It does not name `field_12`
-for effect 13 or for any other request.
+argument is the request's `number` (`+0x12`): the dispatcher passes it only
+to effects 2 and 13, and both store it as the number their work record
+draws. Other effects never read it.
 
 Effect 0 (`func_80154688`) keeps its native name. Besides the observed
 equip placement, `DuelScene_UpdateExodiaResult` (`duel_draw_resolution.c`)
@@ -298,8 +299,7 @@ The attack handler's signed request variant was observed as zero, positive
 and negative, including `1200`, `200` and `-700` in monster attacks.
 Direct-attack episodes used phases four or five and positive variants
 `1150`, `1600`, `2500` and `3300`. These are bounded observations of the
-existing `field_12` argument, not a meaning assigned to every request's
-variant field.
+`number` argument.
 
 The texture run's final Beast Fangs episode was still running when its
 three-minute window expired: only six dispatch calls were captured. Its

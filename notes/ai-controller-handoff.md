@@ -91,7 +91,7 @@ not renamed, and selection byte 11 remains unclassified here.
 
 Signed struct stores, unsigned standalone reads, arbitrary VM bytes,
 zero/default branches, raw comparisons and out-of-range behavior remain.
-The old signed members `zero`, `random`, `field_09` and `field_0A` stay in
+The old signed members `zero`, `random`, `source_code` and `target_code` stay in
 the frozen legacy header. Standalone and `gAi_Selection.bytes[...]`
 expressions are not folded into those members: their addressing forms
 and instruction ordering are load-bearing.

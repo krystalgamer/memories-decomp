@@ -138,7 +138,7 @@ typedef struct SaveDataState {
         (SAVE_DATA_DUELIST_CODE_OFFSET + sizeof(s32))];
     /* Main_RunCredits sets the low two bits when the ending starts, beside
      * parking campaign_scene_index at 0x30 and marking every card used. */
-    u8 field_3DE;
+    u8 credits_flags;
     u8 pad_3DF[
         SAVE_DATA_TERTIARY_OFFSET -
         (SAVE_DATA_CREDITS_FLAGS_OFFSET + sizeof(u8))
@@ -203,8 +203,8 @@ typedef char SaveDataState_duelist_code_offset_must_be_0x334[
     (u32)&(((SaveDataState *)0)->duelist_code) ==
         SAVE_DATA_DUELIST_CODE_OFFSET ? 1 : -1
 ];
-typedef char SaveDataState_field_3DE_offset_must_be_0x3DE[
-    (u32)&(((SaveDataState *)0)->field_3DE) ==
+typedef char SaveDataState_credits_flags_offset_must_be_0x3DE[
+    (u32)&(((SaveDataState *)0)->credits_flags) ==
         SAVE_DATA_CREDITS_FLAGS_OFFSET ? 1 : -1
 ];
 typedef char SaveDataState_campaign_flags_offset_must_be_0x418[

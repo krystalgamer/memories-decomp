@@ -42,7 +42,11 @@ typedef struct DuelEffectRequest {
     s32 ordering_table_2;   /* 0x08 */
     s32 ordering_table_1;   /* 0x0C */
     s16 base_priority;   /* 0x10 */
-    s16 field_12;   /* 0x12 */
+    /* The signed number the effect draws. The dispatcher hands it only to
+     * DuelEffect_RunAttackSlash (id 2: the battle damage) and
+     * DuelEffect_RunStatPenalty (id 0xD: the negative stat change), and both
+     * store it as their work record's number. */
+    s16 number;     /* 0x12 */
     void *buffer;   /* 0x14 */
     s16 id;         /* 0x18 */
     s16 phase;      /* 0x1A */

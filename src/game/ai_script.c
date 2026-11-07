@@ -495,22 +495,22 @@ void AiScript_PlayFieldCard(void)
     s32 third = gAiScript_aMemory[AiScript_ReadByte()];
     s32 category = gAiScript_aMemory[AiScript_ReadByte()];
 
-    gAi_Selection.fields.field_09 = (s8)first;
+    gAi_Selection.fields.source_code = (s8)first;
     gAi_Selection.fields.field_0B = (s8)third;
 
     if (category == 0) {
         if (first >= 6 && second == 1) {
-            gAi_Selection.fields.field_0A = (s8)first;
+            gAi_Selection.fields.target_code = (s8)first;
             return;
         }
-        gAi_Selection.fields.field_0A = 0;
+        gAi_Selection.fields.target_code = 0;
         return;
     }
 
     if (category < 0xFF) {
-        gAi_Selection.fields.field_0A = (s8)category;
+        gAi_Selection.fields.target_code = (s8)category;
     } else {
-        gAi_Selection.fields.field_0A = 0x3A;
+        gAi_Selection.fields.target_code = 0x3A;
     }
 }
 
