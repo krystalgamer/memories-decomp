@@ -15,7 +15,7 @@ void SpanishModelVariant470_DrawQuads(u8 *context)
     long flag;
     GsOT *ot;
     Quads470State *state = (Quads470State *)context;
-    QuadGroup470 *group = state->groups;
+    ModelVariantQuadGroupView *group = state->groups;
     POLY_FT4 *polygon;
     s16 i, j;
     s16 angle, ripple;

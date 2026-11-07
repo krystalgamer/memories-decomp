@@ -13,11 +13,6 @@ typedef struct {
 } Sheets479Primary;
 
 typedef struct {
-    VECTOR translation;
-    u8 unknown_10[0x10];
-} Sheets479Position;
-
-typedef struct {
     u8 unknown_00[0x18];
     u32 grow_begin;
     u32 grow_end;
@@ -34,7 +29,7 @@ typedef struct {
     u8 unknown_3258[0xD24];
     POLY_GT4 polygon;
     u8 unknown_3FB0[0x74];
-    Sheets479Position positions[3];
+    ModelVariantAnchor positions[3];
     u8 unknown_4084[0xE0];
     u32 frame;
     u32 time;

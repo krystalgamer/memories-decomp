@@ -15,6 +15,87 @@
 #define MODEL_VARIANT_WORD(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define MODEL_VARIANT_HALF(p, o) (*(s16 *)((u8 *)(p) + (o)))
 
+/* The command row the quad, quad-pair, swarm and bloom helpers reach through
+ * their timing pointer: the frame limit at + 0x20 is compared with the
+ * elapsed time before a finished quad is reset. */
+typedef struct {
+    u8 unknown_00[0x20];
+    u32 limit;
+} ModelVariantQuadTiming;
+
+/* Like ModelVariantQuadTiming, but the frame limit sits one word later, at
+ * + 0x24. */
+typedef struct {
+    u8 unknown_00[0x24];
+    u32 limit;
+} ModelVariantQuadTimingLong;
+
+/* The swarm command row with the group count, the growth rate and the frame
+ * limit a finished quad waits for. */
+typedef struct {
+    u8 unknown_00[0x1C];
+    s32 count;
+    u8 unknown_20[4];
+    u32 rate;
+    u8 unknown_28[4];
+    u32 limit;
+} ModelVariantSwarmRateTiming;
+
+/* One 0x2FC-byte group of ten quads drawn by the quads helpers: the four
+ * corner rows, a shared colour, and per quad the size, angle, done flag and
+ * reset flag. */
+typedef struct {
+    SVECTOR a[10];
+    SVECTOR b[10];
+    SVECTOR c[10];
+    SVECTOR d[10];
+    u8 unknown_140[0x50];
+    u8 color[4];
+    s32 size[10];
+    s32 angle[10];
+    s32 done[10];
+    u8 unknown_20C[0x28];
+    s32 reset[10];
+    u8 unknown_25C[0xA0];
+} ModelVariantQuadGroupView;
+
+/* One group of 32 swarm quads: corners, a shared colour, and per quad the
+ * growth, done flag and reset flag. */
+typedef struct {
+    SVECTOR a[32];
+    SVECTOR b[32];
+    SVECTOR c[32];
+    SVECTOR d[32];
+    u8 unknown_400[0x100];
+    u8 color[4];
+    u8 unknown_504[0x10];
+    s32 size[32];
+    s32 done[32];
+    u8 unknown_614[0x80];
+    s32 reset[32];
+} ModelVariantSwarmGroup;
+
+/* One group of 32 quads: corners, a shared colour, growth and done flags;
+ * ModelVariantSwarmGroup without the trailing reset flags. */
+typedef struct {
+    SVECTOR a[32];
+    SVECTOR b[32];
+    SVECTOR c[32];
+    SVECTOR d[32];
+    u8 unknown_400[0x100];
+    u8 color[4];
+    u8 unknown_504[0x10];
+    s32 size[32];
+    s32 done[32];
+} ModelVariantSwarmGroupShort;
+
+/* A 0x20-byte anchor whose position becomes the translation of a sheet,
+ * ribbon or quad-pair matrix. */
+typedef struct {
+    VECTOR position;
+    u8 unknown_10[0x10];
+} ModelVariantAnchor;
+
 /* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner
  * quad whose two colours and growing size drive a Gouraud-shaded POLY_G4. */
 typedef struct {

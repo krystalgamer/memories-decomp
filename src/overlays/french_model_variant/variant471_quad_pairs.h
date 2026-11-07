@@ -5,11 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    VECTOR position;
-    u8 unknown_10[0x10];
-} QuadPairAnchor471;
-
-typedef struct {
     SVECTOR a[16];
     SVECTOR b[16];
     SVECTOR c[16];
@@ -22,15 +17,10 @@ typedef struct {
     u8 unknown_314[0x40];
     s32 reset[16];
     u8 unknown_394[0x14];
-    QuadPairAnchor471 anchor[16];
+    ModelVariantAnchor anchor[16];
     u8 unknown_5A8[0xEC];
     VECTOR direction[16];
 } QuadPairGroup471;
-
-typedef struct {
-    u8 unknown_00[0x20];
-    u32 limit;
-} QuadPairTiming471;
 
 typedef struct {
     QuadPairGroup471 groups[1];
@@ -44,7 +34,7 @@ typedef struct {
     u8 unknown_23EC[4];
     s32 step;
     u8 unknown_23F4[4];
-    QuadPairTiming471 *timing;
+    ModelVariantQuadTiming *timing;
     u8 unknown_23FC[0x30];
     s32 phase;
 } QuadPairState471;

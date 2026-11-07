@@ -19,11 +19,6 @@ typedef struct {
 } Swarm429Group;
 
 typedef struct {
-    u8 unknown_00[0x20];
-    u32 limit;
-} Swarm429Timing;
-
-typedef struct {
     u8 unknown_0000[0x2FC];
     Swarm429Group group;
     u8 unknown_0460[0x188C];
@@ -40,7 +35,7 @@ typedef struct {
     u8 unknown_1E54[4];
     s32 step;
     u8 unknown_1E5C[4];
-    Swarm429Timing *timing;
+    ModelVariantQuadTiming *timing;
     u8 unknown_1E64[0x24];
     s32 phase;
 } Swarm429State;

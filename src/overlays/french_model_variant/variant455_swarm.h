@@ -20,15 +20,6 @@ typedef struct {
 } Swarm455Group;
 
 typedef struct {
-    u8 unknown_00[0x1C];
-    s32 count;
-    u8 unknown_20[4];
-    u32 rate;
-    u8 unknown_28[4];
-    u32 limit;
-} Swarm455Timing;
-
-typedef struct {
     Swarm455Group group;
     u8 unknown_1614[0x188C];
     POLY_FT4 polygon;
@@ -42,7 +33,7 @@ typedef struct {
     u8 unknown_3748[4];
     s32 step;
     u8 unknown_3750[4];
-    Swarm455Timing *timing;
+    ModelVariantSwarmRateTiming *timing;
     u8 unknown_3758[0x24];
     s32 phase;
 } Swarm455State;

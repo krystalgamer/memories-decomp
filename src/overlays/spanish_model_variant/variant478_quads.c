@@ -15,7 +15,7 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
     long flag;
     GsOT *ot;
     Quads478State *state = (Quads478State *)context;
-    QuadGroup478 *group = state->groups;
+    ModelVariantQuadGroupView *group = state->groups;
     POLY_FT4 *polygon = &state->polygon;
     s16 i, j;
     s16 angle, ripple;

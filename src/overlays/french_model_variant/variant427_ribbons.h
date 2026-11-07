@@ -25,11 +25,6 @@ typedef struct {
 } Ribbon379;
 
 typedef struct {
-    VECTOR position;
-    u8 unknown10[0x10];
-} Ribbon379Anchor;
-
-typedef struct {
     u8 unknown00[0x24];
     u32 fade_start;
     u32 fade_end;
@@ -38,7 +33,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown0000[0x363C];
-    Ribbon379Anchor anchor[3];
+    ModelVariantAnchor anchor[3];
     u8 unknown369C[0x36F0 - 0x369C];
     VECTOR vec[3];
     u8 unknown3720[0x3740 - 0x3720];

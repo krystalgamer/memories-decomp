@@ -28,7 +28,7 @@ Entry `model_variant/variant413_entry.c` sets `work->config = gModelVariant413_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `Swarm132118Timing.limit` | `FrenchModelVariant430_DrawSwarm` (french_model_variant/image132118_swarm.c; `model_variant/variant413_entry.c:366`, `Swarm132118State.timing` at +0x3ADC) | `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant430_DrawSwarm` (french_model_variant/image132118_swarm.c; `model_variant/variant413_entry.c:366`, `Swarm132118State.timing` at +0x3ADC) | `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant451EntryConfig` (`gModelVariant451_aConfigs`)
 
@@ -36,8 +36,8 @@ Entry `model_variant/variant451_entry.c` sets `work->config = gModelVariant451_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `Swarm134622Timing.rate` | `FrenchModelVariant468_DrawSwarm` (french_model_variant/image134622_swarm.c; `model_variant/variant451_entry.c:388`, `Swarm134622State.timing` at +0x212C) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
-| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `Swarm134622Timing.limit` | `FrenchModelVariant468_DrawSwarm` (french_model_variant/image134622_swarm.c; `model_variant/variant451_entry.c:388`, `Swarm134622State.timing` at +0x212C) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `ModelVariantSwarmRateTiming.rate` | `FrenchModelVariant468_DrawSwarm` (french_model_variant/image134622_swarm.c; `model_variant/variant451_entry.c:388`, `Swarm134622State.timing` at +0x212C) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
+| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `ModelVariantSwarmRateTiming.limit` | `FrenchModelVariant468_DrawSwarm` (french_model_variant/image134622_swarm.c; `model_variant/variant451_entry.c:388`, `Swarm134622State.timing` at +0x212C) | `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant380EntryConfig` (`gModelVariant380_aConfigs`)
 
@@ -55,7 +55,7 @@ Entry `model_variant/variant402_entry.c` sets `work->config = gModelVariant402_a
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
 | `+0x1C` | `unknown_13[0x0D]` bytes → `u16 spin` | `Swarm419Timing.spin` | `FrenchModelVariant419_DrawSwarm` (french_model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `spin = state->timing->spin << 11;` | high |
-| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `Quads419Timing.limit` | `FrenchModelVariant419_DrawQuads` (french_model_variant/variant419_quads.c; `model_variant/variant402_entry.c:335`, `Quads419State.timing` at +0x22D0); `FrenchModelVariant419_DrawSwarm` (french_model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant419_DrawQuads` (french_model_variant/variant419_quads.c; `model_variant/variant402_entry.c:335`, `Quads419State.timing` at +0x22D0); `FrenchModelVariant419_DrawSwarm` (french_model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `EntryConfig409` (`gModelVariant409_aConfigs`)
 
@@ -73,7 +73,7 @@ Entry `model_variant/variant411us_entry.c` sets `work->config = gModelVariant411
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `Quads428Timing.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Quads428State.timing` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Swarm428State.timing` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Quads428State.timing` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Swarm428State.timing` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant412EntryConfig` (`gModelVariant412_aConfigs`)
 
@@ -81,7 +81,7 @@ Entry `model_variant/variant412_entry.c` sets `work->config = gModelVariant412_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `Quads429Timing.limit` | `FrenchModelVariant429_DrawQuads` (french_model_variant/variant429_quads.c; `model_variant/variant412_entry.c:375`, `Quads429State.timing` at +0x1E60); `FrenchModelVariant429_DrawSwarm` (french_model_variant/variant429_swarm.c; `model_variant/variant412_entry.c:372`, `Swarm429State.timing` at +0x1E60) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant429_DrawQuads` (french_model_variant/variant429_quads.c; `model_variant/variant412_entry.c:375`, `Quads429State.timing` at +0x1E60); `FrenchModelVariant429_DrawSwarm` (french_model_variant/variant429_swarm.c; `model_variant/variant412_entry.c:372`, `Swarm429State.timing` at +0x1E60) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant432EntryConfig` (`gModelVariant432_aConfigs`)
 
@@ -109,8 +109,8 @@ Entry `model_variant/variant438_entry.c` sets `work->config = gModelVariant438_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `Swarm455Timing.rate` | `FrenchModelVariant455_DrawSwarm` (french_model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
-| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `Swarm455Timing.limit` | `FrenchModelVariant455_DrawSwarm` (french_model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `ModelVariantSwarmRateTiming.rate` | `FrenchModelVariant455_DrawSwarm` (french_model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
+| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `ModelVariantSwarmRateTiming.limit` | `FrenchModelVariant455_DrawSwarm` (french_model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant446EntryConfig` (`gModelVariant446_aConfigs`)
 
@@ -129,7 +129,7 @@ Entry `model_variant/variant454_entry.c` sets `work->config = gModelVariant454_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `QuadPairTiming471.limit` | `FrenchModelVariant471_DrawQuadGroup` (french_model_variant/variant471_quad_pairs.c; `model_variant/variant454_entry.c:412`, `QuadPairState471.timing` at +0x23F8); `FrenchModelVariant471_DrawQuads` (french_model_variant/variant471_quads.c; `model_variant/variant454_entry.c:415`, `Quads471State.timing` at +0x23F8) | `if (state->timing->limit <= state->time)`; `if (state->timing->limit <= state->time && state->phase >= 3)` | high |
+| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant471_DrawQuadGroup` (french_model_variant/variant471_quad_pairs.c; `model_variant/variant454_entry.c:412`, `QuadPairState471.timing` at +0x23F8); `FrenchModelVariant471_DrawQuads` (french_model_variant/variant471_quads.c; `model_variant/variant454_entry.c:415`, `Quads471State.timing` at +0x23F8) | `if (state->timing->limit <= state->time)`; `if (state->timing->limit <= state->time && state->phase >= 3)` | high |
 
 ## `EntryConfig436` (`gFrenchModelVariant436_aConfigs`)
 

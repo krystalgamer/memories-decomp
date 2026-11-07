@@ -49,7 +49,7 @@ Entry `model_variant/variant430_entry.c` line 76: `work->config = &gModelVariant
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `Swarm447Timing.limit` | `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
 
 ## `EntryConfig458`
 
