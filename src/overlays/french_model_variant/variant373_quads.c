@@ -77,7 +77,7 @@ void FrenchModelVariant373_DrawQuads(u8 *context)
                 }
             }
         }
-        if (work->index_242C + 1 == work->config->count_0C) {
+        if (work->index + 1 == work->config->count_0C) {
             if (work->phase == 0) {
                 if (work->scale < 4096) {
                     work->scale = (work->elapsed << 12) / work->config->duration_14;
