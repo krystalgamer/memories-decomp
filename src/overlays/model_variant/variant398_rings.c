@@ -29,7 +29,7 @@ void ModelVariant398_DrawRings(u8 *context)
     long p;
     long flag;
     VARIANT398_RINGS_WORK *work = (VARIANT398_RINGS_WORK *)context;
-    Variant398EntryScreenRing *ring;
+    ModelVariantScreenRing *ring;
     POLY_GT4 *poly;
     GsOT *ot;
     s32 i, j;

@@ -21,17 +21,10 @@ typedef struct {
     u8 unknown_2F4[0x3C0 - 0x2F4];
 } Variant336EntryRecord;
 
-typedef struct {
-    SVECTOR points[16];
-    CVECTOR outer, inner;
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant336EntrySheet;
-
 /* Only the entry's measured view, not an allocation-capacity claim. */
 typedef struct {
     Variant336EntryRecord records[4];
-    Variant336EntrySheet sheets[8];
+    ModelVariantPointSheet sheets[8];
     Variant337EntryStreamer streamers[2];
     u8 unknown_1AB0[0x1DC8 - 0x1AB0];
     POLY_G3 triangle;

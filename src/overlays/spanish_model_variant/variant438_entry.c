@@ -18,7 +18,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ModelVariantCurtain *ring = work->rings;
     ModelVariantTripleCurtain *curtain = work->curtains;
-    Variant438EntryBand *band = work->bands;
+    ModelVariantColorBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantColorRing *spoke = work->spokes;
     ModelVariantColorRing *petal = work->petals;
@@ -150,9 +150,9 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
             ring->count = 0;
         }
         for (i = 0; i < 1; i++, band++) {
-            band->scale[0] = 4096;
-            band->scale[1] = 4096;
-            band->scale[2] = 4096;
+            band->scale.vx = 4096;
+            band->scale.vy = 4096;
+            band->scale.vz = 4096;
             for (j = 0; j < 9; j++) {
                 band->inner[j].r = work->config->inner.r;
                 band->inner[j].g = work->config->inner.g;

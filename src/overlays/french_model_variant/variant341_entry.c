@@ -12,7 +12,7 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant341EntryBand *band = work->bands;
+    ModelVariantColorBandPadded *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantSpokeRing *spoke = work->spokes;
@@ -99,12 +99,12 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 1; i++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
             for (j = 0; j < 9; j++) {
-                band->ca[j].r = 128;
-                band->ca[j].g = 64;
-                band->ca[j].b = 0;
-                band->cb[j].r = 128;
-                band->cb[j].g = 128;
-                band->cb[j].b = 120;
+                band->inner[j].r = 128;
+                band->inner[j].g = 64;
+                band->inner[j].b = 0;
+                band->outer[j].r = 128;
+                band->outer[j].g = 128;
+                band->outer[j].b = 120;
             }
             band->field_19C = 0;
             band->field_1A0 = 0;

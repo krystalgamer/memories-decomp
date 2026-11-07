@@ -18,7 +18,7 @@ s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpokeRing *spoke = work->spokes;
     ModelVariantFan *fan = work->fans;
     ModelVariantWebNarrow *web = work->webs;
-    Variant464EntryScreenRing *screen_ring = work->screen_rings;
+    ModelVariantScreenRing *screen_ring = work->screen_rings;
     ModelVariantCurtain *curtain = work->curtains;
     POLY_GT4 *textured = work->textured;
     POLY_G3 *triangle = &work->triangle;

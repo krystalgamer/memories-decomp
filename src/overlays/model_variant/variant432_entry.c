@@ -20,7 +20,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant432EntryRecord *record = work->records;
+    ModelVariantBandTriple *record = work->records;
     Variant432EntryRibbon *ribbon = work->ribbons;
     Sheet437 *sheet = work->sheets;
     Variant437Streamer *streamer = work->streamers;
@@ -121,7 +121,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
                 record->outer[j].r = 255;
                 record->outer[j].g = 255;
                 record->outer[j].b = 255;
-                record->progress[j] = 128 - j * 128;
+                record->offset[j] = 128 - j * 128;
             }
             record->field_A0 = 0;
             record->field_A4 = 0;

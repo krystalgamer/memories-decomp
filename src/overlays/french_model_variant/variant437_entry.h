@@ -34,19 +34,9 @@ typedef struct {
 } Variant437EntryRibbon;
 
 typedef struct {
-    u8 unknown_00[0x6C];
-    s32 progress[3];
-    CVECTOR inner[3], outer[3];
-    VECTOR scale;
-    s16 field_A0, field_A2;
-    s32 field_A4;
-    u8 unknown_A8[0xC];
-} Variant437EntryRecord;
-
-typedef struct {
     Variant437EntryRibbon ribbons[4];
     Sheet437 sheets[1];
-    Variant437EntryRecord records[1];
+    ModelVariantBandTriple records[1];
     Variant437Streamer streamers[3];
     u8 unknown_1098[0x318];
     POLY_G3 triangle;

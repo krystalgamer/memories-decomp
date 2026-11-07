@@ -12,7 +12,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    EntryRibbon458 *ribbon = work->ribbons;
+    ModelVariantBandTriple *ribbon = work->ribbons;
     EntryStrand458 *strand = work->strands;
     Variant458Sheet *sheet = work->sheets;
     EntryStreamer458 *streamer = work->streamers;
@@ -105,7 +105,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
                 ribbon->outer[j].r = 255;
                 ribbon->outer[j].g = 255;
                 ribbon->outer[j].b = 255;
-                ribbon->offsets[j] = 128 - j * 128;
+                ribbon->offset[j] = 128 - j * 128;
             }
             ribbon->field_A0 = 0;
             ribbon->field_A4 = 0;

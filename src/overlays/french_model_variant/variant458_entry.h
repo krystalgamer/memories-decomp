@@ -34,16 +34,6 @@ typedef struct {
 } EntryStrand458;
 
 typedef struct {
-    u8 unknown_00[0x6C];
-    s32 offsets[3];
-    CVECTOR inner[3], outer[3];
-    VECTOR scale;
-    s16 field_A0, field_A2;
-    s32 field_A4;
-    u8 unknown_A8[0xC];
-} EntryRibbon458;
-
-typedef struct {
     u8 unknown_000[0x1D4];
     CVECTOR color[13];
     s32 field_208;
@@ -53,7 +43,7 @@ typedef struct {
 typedef struct {
     EntryStrand458 strands[6];
     Variant458Sheet sheets[7];
-    EntryRibbon458 ribbons[1];
+    ModelVariantBandTriple ribbons[1];
     EntryStreamer458 streamers[3];
     u8 unknown_17C8[0x318];
     POLY_G3 triangle;

@@ -31,7 +31,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpiral *spiral = work->spirals;
     ModelVariantSheet *sheet = work->sheets;
     EntrySphere443 *sphere = work->spheres;
-    EntryLongBand443 *long_band = work->long_bands;
+    ModelVariantColorBand *long_band = work->long_bands;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
     EntryShape443 *shape = work->shapes;
@@ -327,8 +327,8 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
                 sheet->inner[0] = 0; sheet->inner[1] = 0; sheet->inner[2] = 255;
             }
             sheet->size = 0;
-            *(s32 *)(sheet->pad8C + 0) = 0;
-            *(s32 *)(sheet->pad8C + 4) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (i = 0, base = 0; i < 3; i++, sphere++, base += 300) {
             for (row = 0, ring_base = 2048 / 5; row < 4; row++, ring_base = (row + 1) * 2048 / 5) {

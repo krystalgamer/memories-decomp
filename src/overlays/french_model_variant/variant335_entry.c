@@ -25,7 +25,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Model335EntryRecord *record = work->records;
-    Model335EntrySheet *sheet = work->sheets;
+    ModelVariantPointSheet *sheet = work->sheets;
     Variant335Ring *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;
     ModelVariantStreamer *short_streamer = work->short_streamers;

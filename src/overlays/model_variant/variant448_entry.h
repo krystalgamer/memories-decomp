@@ -22,7 +22,7 @@ typedef struct {
  * the packets the helpers draw and the entry's own state. */
 typedef struct {
     Variant448Radial radial[1];
-    Variant448SpiralArm spiral[12];
+    ModelVariantSpiralArm spiral[12];
     ModelVariantWebNarrow webs[3];
     Variant448FanUnit fans[3];
     Variant448Orbit orbit[1];

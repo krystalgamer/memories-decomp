@@ -30,7 +30,7 @@ typedef struct {
     Variant452Streamer streamers[16];
     Variant452EntryTrail trails[16];
     u8 unknown_25A0[0x360];
-    Variant439EntryBand bands[1];
+    ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

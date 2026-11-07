@@ -31,13 +31,6 @@ typedef struct {
 } Variant337EntryRecord;
 
 typedef struct {
-    SVECTOR points[16];
-    CVECTOR inner, outer;
-    s32 scale, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant337EntryRing;
-
-typedef struct {
     u8 unknown_000[0x264];
     CVECTOR color[17];
     s32 field_2A8;
@@ -47,7 +40,7 @@ typedef struct {
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant337EntryRecord records[1];
-    Variant337EntryRing rings[2];
+    ModelVariantPointSheet rings[2];
     Variant337EntryStreamer streamers[2];
     POLY_G3 triangle;
     POLY_G4 quad;

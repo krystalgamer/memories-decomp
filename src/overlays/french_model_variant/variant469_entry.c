@@ -18,7 +18,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
     EntryRibbon469 *ribbon = work->ribbons;
     ModelVariantQuadRing *ring = &work->ring;
     ModelVariantBandPair *band = work->bands;
-    EntryQuad469 *quad_sheet = work->quads;
+    ModelVariantSheetSet *quad_sheet = work->quads;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
     ModelVariantTrail *trail = work->trails;
@@ -212,37 +212,37 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         for (k = 0; k < 10; k++, quad_sheet++) {
             for (j = 0; j < 4; j++) {
                 if (j == 0) {
-                    setVector(&quad_sheet->sheet.v0[j], -128, -128, 0);
-                    setVector(&quad_sheet->sheet.v1[j], 0, -128, 0);
-                    setVector(&quad_sheet->sheet.v2[j], -128, 0, 0);
-                    setVector(&quad_sheet->sheet.v3[j], 0, 0, 0);
+                    setVector(&quad_sheet->v0[j], -128, -128, 0);
+                    setVector(&quad_sheet->v1[j], 0, -128, 0);
+                    setVector(&quad_sheet->v2[j], -128, 0, 0);
+                    setVector(&quad_sheet->v3[j], 0, 0, 0);
                 } else if (j == 1) {
-                    setVector(&quad_sheet->sheet.v0[j], 128, -128, 0);
-                    setVector(&quad_sheet->sheet.v1[j], 128, 0, 0);
-                    setVector(&quad_sheet->sheet.v2[j], 0, -128, 0);
-                    setVector(&quad_sheet->sheet.v3[j], 0, 0, 0);
+                    setVector(&quad_sheet->v0[j], 128, -128, 0);
+                    setVector(&quad_sheet->v1[j], 128, 0, 0);
+                    setVector(&quad_sheet->v2[j], 0, -128, 0);
+                    setVector(&quad_sheet->v3[j], 0, 0, 0);
                 } else if (j == 2) {
-                    setVector(&quad_sheet->sheet.v0[j], 128, 128, 0);
-                    setVector(&quad_sheet->sheet.v1[j], 0, 128, 0);
-                    setVector(&quad_sheet->sheet.v2[j], 128, 0, 0);
-                    setVector(&quad_sheet->sheet.v3[j], 0, 0, 0);
+                    setVector(&quad_sheet->v0[j], 128, 128, 0);
+                    setVector(&quad_sheet->v1[j], 0, 128, 0);
+                    setVector(&quad_sheet->v2[j], 128, 0, 0);
+                    setVector(&quad_sheet->v3[j], 0, 0, 0);
                 } else if (j == 3) {
-                    setVector(&quad_sheet->sheet.v0[j], -128, 128, 0);
-                    setVector(&quad_sheet->sheet.v1[j], -128, 0, 0);
-                    setVector(&quad_sheet->sheet.v2[j], 0, 128, 0);
-                    setVector(&quad_sheet->sheet.v3[j], 0, 0, 0);
+                    setVector(&quad_sheet->v0[j], -128, 128, 0);
+                    setVector(&quad_sheet->v1[j], -128, 0, 0);
+                    setVector(&quad_sheet->v2[j], 0, 128, 0);
+                    setVector(&quad_sheet->v3[j], 0, 0, 0);
                 }
             }
-            quad_sheet->sheet.outer[0] = 255;
-            quad_sheet->sheet.outer[1] = 255;
-            quad_sheet->sheet.outer[2] = 255;
-            quad_sheet->sheet.inner[0] = 0;
-            quad_sheet->sheet.inner[1] = 64;
-            quad_sheet->sheet.inner[2] = 255;
-            quad_sheet->sheet.size = 0;
-            MODEL_VARIANT_WORD(&quad_sheet->sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(&quad_sheet->sheet, 0x90) = 0;
-            quad_sheet->field_98 = 0;
+            quad_sheet->outer[0] = 255;
+            quad_sheet->outer[1] = 255;
+            quad_sheet->outer[2] = 255;
+            quad_sheet->inner[0] = 0;
+            quad_sheet->inner[1] = 64;
+            quad_sheet->inner[2] = 255;
+            quad_sheet->size = 0;
+            MODEL_VARIANT_WORD(quad_sheet, 0x8C) = 0;
+            MODEL_VARIANT_WORD(quad_sheet, 0x90) = 0;
+            quad_sheet->shown = 0;
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {

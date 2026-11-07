@@ -16,21 +16,12 @@ typedef struct {
     u8 unknown_40[4];
 } Variant418EntryConfig;
 
-typedef struct {
-    u8 unknown_00[0x144];
-    CVECTOR ca[9], cb[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x48];
-} Variant418EntryBand;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWeb webs[3];
     Variant418SpiralArm arms[12];
     u8 unknown_D50[0x10F0 - 0xD50];
-    Variant418EntryBand bands[1];
+    ModelVariantColorBandPadded bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];

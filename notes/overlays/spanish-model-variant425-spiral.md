@@ -31,7 +31,7 @@ changes. The following were recovered from this retail body:
 - **Radius.** The radius is `size * 768 / 1024`, and the length step is 16 with
   a base of 4.
 - **Colours.** Each arm's colours are read from its record, in the
-  `Variant448SpiralArm` layout of the accepted shared
+  `ModelVariantSpiralArm` layout of the accepted shared
   `model_variant/variant448_spiral.h`, instead of fixed shades.
 
 The accepted shared spiral sources were used only as structural evidence. The

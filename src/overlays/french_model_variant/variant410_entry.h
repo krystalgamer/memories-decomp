@@ -45,18 +45,11 @@ typedef struct {
     s32 progress[17];
 } Variant410EntryRibbon;
 
-typedef struct {
-    SVECTOR points[16];
-    CVECTOR inner, outer;
-    s32 scale, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant410EntryRing;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant410EntryQuads quads[1];
     Variant410EntryRibbon ribbons[9];
-    Variant410EntryRing rings[2];
+    ModelVariantPointSheet rings[2];
     POLY_FT4 quad;
     POLY_G3 triangle;
     POLY_G4 gradient;

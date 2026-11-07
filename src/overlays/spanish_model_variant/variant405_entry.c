@@ -16,7 +16,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     Variant405EntryState *work = (Variant405EntryState *)point;
     ModelVariantClutStack stack;
     Variant405EntryRing *ring = work->rings;
-    Variant405EntrySheet *sheet = work->sheets;
+    ModelVariantSheetSet *sheet = work->sheets;
     Variant405EntryCurtain *outer = work->outer_curtains;
     Variant405EntryCurtain *inner = work->inner_curtains;
     Variant405EntrySpoke *spoke = work->spokes;
@@ -153,8 +153,8 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[0] = 0;
             sheet->inner[1] = 64;
             sheet->inner[2] = 255;
-            sheet->field_98 = 0;
-            sheet->field_88 = 0;
+            sheet->shown = 0;
+            sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
         }

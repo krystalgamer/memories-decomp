@@ -15,7 +15,7 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant336EntryRecord *record = work->records;
     Variant337EntryStreamer *streamer = work->streamers;
-    Variant336EntrySheet *sheet = work->sheets;
+    ModelVariantPointSheet *sheet = work->sheets;
     GsOT *ot = Graphics_GetDefaultOrderingTable();
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;

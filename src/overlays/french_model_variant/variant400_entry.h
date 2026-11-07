@@ -30,15 +30,8 @@ typedef struct {
 } Variant400EntryNode;
 
 typedef struct {
-    SVECTOR points[16];
-    CVECTOR inner, outer;
-    s32 field_88, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant400EntrySheet;
-
-typedef struct {
     Variant400EntryNode nodes[5];
-    Variant400EntrySheet sheets[7];
+    ModelVariantPointSheet sheets[7];
     ModelVariantStreamer columns[2];
     u8 unknown_1BC0[0x1ED8 - 0x1BC0];
     POLY_G3 triangle;

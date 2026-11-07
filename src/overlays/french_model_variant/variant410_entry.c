@@ -22,7 +22,7 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant410EntryQuads *quads;
     Variant410EntryRibbon *ribbon = work->ribbons;
-    Variant410EntryRing *ring = work->rings;
+    ModelVariantPointSheet *ring = work->rings;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;
@@ -171,13 +171,13 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&ring->points[ring_point + 12], 0, 0, 0);
                 }
             }
-            ring->inner.r = 255;
-            ring->inner.g = 255;
-            ring->inner.b = 255;
-            ring->outer.r = 0;
-            ring->outer.g = 64;
+            ring->outer.r = 255;
+            ring->outer.g = 255;
             ring->outer.b = 255;
-            ring->scale = 0;
+            ring->inner.r = 0;
+            ring->inner.g = 64;
+            ring->inner.b = 255;
+            ring->size = 0;
             ring->field_8C = 0;
             ring->field_90 = 0;
         }

@@ -18,18 +18,6 @@ typedef struct {
     u8 unknown_3C[0xC];
 } Variant459EntryConfig;
 
-/* The 0x1C8-byte ModelVariantBand with the words its pad holds. */
-typedef struct {
-    u8 unknown_000[0x144];
-    CVECTOR inner[9];
-    CVECTOR outer[9];
-    s32 scale[3];
-    u8 unknown_198[4];
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x24];
-} Variant459EntryBand;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTripleCurtain curtains[5];
@@ -37,7 +25,7 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantSpiral glows[12];
     u8 rays[0x360];
-    Variant459EntryBand bands[6];
+    ModelVariantColorBand bands[6];
     ModelVariantSheet sheets[13];
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -14,7 +14,7 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant337EntryRecord *record = work->records;
-    Variant337EntryRing *ring = work->rings;
+    ModelVariantPointSheet *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
@@ -157,13 +157,13 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&ring->points[ring_point + 12], 0, 0, 0);
                 }
             }
-            ring->inner.r = work->config->inner.r;
-            ring->inner.g = work->config->inner.g;
-            ring->inner.b = work->config->inner.b;
-            ring->outer.r = work->config->outer.r;
-            ring->outer.g = work->config->outer.g;
-            ring->outer.b = work->config->outer.b;
-            ring->scale = 0;
+            ring->outer.r = work->config->inner.r;
+            ring->outer.g = work->config->inner.g;
+            ring->outer.b = work->config->inner.b;
+            ring->inner.r = work->config->outer.r;
+            ring->inner.g = work->config->outer.g;
+            ring->inner.b = work->config->outer.b;
+            ring->size = 0;
             ring->field_8C = 0;
             ring->field_90 = 0;
         }

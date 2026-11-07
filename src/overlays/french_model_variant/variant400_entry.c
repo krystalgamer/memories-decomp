@@ -14,7 +14,7 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant400EntryNode *node = work->nodes;
-    Variant400EntrySheet *sheet = work->sheets;
+    ModelVariantPointSheet *sheet = work->sheets;
     ModelVariantStreamer *column = work->columns;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
@@ -133,13 +133,13 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->points[sheet_point + 12], 0, 0, 0);
                 }
             }
-            sheet->inner.r = 255;
-            sheet->inner.g = 255;
-            sheet->inner.b = 255;
-            sheet->outer.r = 0;
-            sheet->outer.g = 64;
+            sheet->outer.r = 255;
+            sheet->outer.g = 255;
             sheet->outer.b = 255;
-            sheet->field_88 = 0;
+            sheet->inner.r = 0;
+            sheet->inner.g = 64;
+            sheet->inner.b = 255;
+            sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
         }

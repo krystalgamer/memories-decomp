@@ -23,16 +23,6 @@ typedef struct {
 } EntryConfig436;
 
 typedef struct {
-    u8 unknown_00[0x6C];
-    s32 progress[3];
-    CVECTOR inner[3], outer[3];
-    VECTOR scale;
-    s16 field_A0, field_A2;
-    s32 field_A4;
-    u8 unknown_A8[0xC];
-} EntryRecord436;
-
-typedef struct {
     u8 unknown_000[0x120];
     CVECTOR inner, outer;
     VECTOR scale;
@@ -45,7 +35,7 @@ typedef struct {
 typedef struct {
     EntryRibbon436 ribbons[4];
     Sheet436 sheets[1];
-    EntryRecord436 records[1];
+    ModelVariantBandTriple records[1];
     Streamer436 streamers[3];
     u8 unknown_1098[0x318];
     POLY_G3 triangle;

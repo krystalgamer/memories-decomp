@@ -24,7 +24,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     s32 unused0;
     s32 unused1;
     s32 turn;
-    Variant428SpiralArm *arm;
+    ModelVariantSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -46,7 +46,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     if (eighth * MODEL_VARIANT_HALF(work, 0x15A6) < 0) {
         length = 0;
     }
-    arm = (Variant428SpiralArm *)work;
+    arm = (ModelVariantSpiralArm *)work;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x15A4) * 2;
         theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x15A4);
@@ -88,7 +88,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant428SpiralArm *)work;
+    arm = (ModelVariantSpiralArm *)work;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -114,7 +114,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant428SpiralArm *)work;
+    arm = (ModelVariantSpiralArm *)work;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];

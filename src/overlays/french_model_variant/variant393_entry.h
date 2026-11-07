@@ -17,7 +17,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant337EntryRecord records[1];
-    Variant337EntryRing rings[2];
+    ModelVariantPointSheet rings[2];
     Variant337EntryStreamer streamers[2];
     POLY_G3 triangle;
     POLY_G4 quad;

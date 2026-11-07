@@ -24,7 +24,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     s32 unused0;
     s32 unused1;
     s32 turn;
-    Variant448SpiralArm *arm;
+    ModelVariantSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -36,7 +36,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
-    arm = (Variant448SpiralArm *)(work + 0x128);
+    arm = (ModelVariantSpiralArm *)(work + 0x128);
     poly = (POLY_GT4 *)(work + 0x1988);
     r = MODEL_VARIANT_HALF(work, 0x1B28) / 2;
     eighth = MODEL_VARIANT_HALF(work, 0x1B28) / 8;
@@ -87,7 +87,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant448SpiralArm *)(work + 0x128);
+    arm = (ModelVariantSpiralArm *)(work + 0x128);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -125,7 +125,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant448SpiralArm *)(work + 0x128);
+    arm = (ModelVariantSpiralArm *)(work + 0x128);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];

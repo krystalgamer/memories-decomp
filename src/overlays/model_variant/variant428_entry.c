@@ -18,8 +18,8 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant428SpiralArm *arm = work->arms;
-    Variant428EntryBand *band = work->bands;
+    ModelVariantSpiralArm *arm = work->arms;
+    ModelVariantColorBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantSpokeRing *spoke = work->spokes;
@@ -124,12 +124,12 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 1; i++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
             for (j = 0; j < 9; j++) {
-                band->ca[j].r = work->config->inner.r;
-                band->ca[j].g = work->config->inner.g;
-                band->ca[j].b = work->config->inner.b;
-                band->cb[j].r = work->config->outer.r;
-                band->cb[j].g = work->config->outer.g;
-                band->cb[j].b = work->config->outer.b;
+                band->inner[j].r = work->config->inner.r;
+                band->inner[j].g = work->config->inner.g;
+                band->inner[j].b = work->config->inner.b;
+                band->outer[j].r = work->config->outer.r;
+                band->outer[j].g = work->config->outer.g;
+                band->outer[j].b = work->config->outer.b;
             }
             band->field_19C = 0;
             band->field_1A0 = 0;

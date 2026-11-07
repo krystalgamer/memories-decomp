@@ -11,19 +11,10 @@ typedef struct {
     u32 duration;
 } Variant341EntryConfig;
 
-typedef struct {
-    u8 unknown_00[0x144];
-    CVECTOR ca[9], cb[9];
-    VECTOR scale;
-    s16 field_19C, field_19E;
-    s32 field_1A0;
-    u8 unknown_1A4[0x48];
-} Variant341EntryBand;
-
 /* Minimum entry-observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant341EntryBand bands[1];
+    ModelVariantColorBandPadded bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
