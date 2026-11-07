@@ -1033,7 +1033,7 @@ segments:
   - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
   - [0x8CE88, sbss, sorted_entry_render_commons]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
-  - [0x8CF08, .sbss, game/european/input_pads]
+  - [0x8CF08, sbss, input_pads_commons]
   - [0x8CF30, .sbss, game/spanish/mem_card]
   - [0x8CF80, .sbss, game/european/sound_frontend]
   - [0x8CF94, .sbss, game/european/display_object_system]
@@ -1055,7 +1055,7 @@ segments:
   - [0xDCAA8, bss, text_control_commands_commons]
   - [0xDCB8C, bss, duel_effect_process_entries_commons]
   - [0xE1050, bss, text_box_runtime_commons]
-  - [0xE11F0, .bss, game/european/input_pads]
+  - [0xE11F0, bss, input_pads_bss_commons]
   - [0xE1258, .bss, game/spanish/mem_card]
   - [0xE19C0, .bss, game/european/display_object_system]
   - [0xE4410, .bss, game/european/mem_card_driver]

@@ -1591,6 +1591,20 @@ gDuelCursor_TargetColumn = 0x8009C50F;
 gDuelCursor_TargetRow = 0x8009C510;
 
 gText_SelectedCardColorIndex = 0x8009C6E1;
+gInput_wPad1RepeatBackup = 0x8009C708;
+gInput_wPad1PressedBackup = 0x8009C70A;
+gInput_dwPendingHeld = 0x8009C70C;
+gInput_awPadHeld = 0x8009C710;
+gInput_dwDeferredRepeat = 0x8009C714;
+gInput_dwDeferredPressed = 0x8009C718;
+gInput_bRepeatDelay = 0x8009C71C;
+gInput_wPad1HeldBackup = 0x8009C71E;
+gInput_dwPreviousHeld = 0x8009C720;
+gInput_bRepeatInterval = 0x8009C724;
+gInput_awPadRepeat = 0x8009C728;
+gInput_awPadPressed = 0x8009C72C;
+gInput_abRepeatTimers = 0x800F09F0;
+gInput_abRawPadBuffers = 0x800F0A10;
 
 gText_GuardianGlyphCode = 0x8009C6C0;
 
