@@ -257,8 +257,8 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[2] = 255;
             sheet->inner[0] = 0;
             sheet->inner[1] = 128;
-            sheet->field_98 = 0;
-            sheet->field_9C = 1024;
+            sheet->fading = 0;
+            sheet->brightness = 1024;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
@@ -272,20 +272,20 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
             }
             streamer->field_2A8 = 0;
         }
-        work->field_42CE = 1024;
+        work->radius = 1024;
         work->field_42D0 = 1024;
-        work->field_42D4 = 1024;
-        work->field_42F4 = 0;
+        work->streamer_length = 1024;
+        work->spin = 0;
         work->field_42C8 = 0;
         work->field_42CA = 0;
         work->field_42CC = 0;
-        work->field_42E4 = 0;
-        work->field_42E8 = 0;
+        work->ripple = 0;
+        work->ripple2 = 0;
         work->field_42EC = 0;
         work->field_42F0 = 0;
-        work->field_42D8 = 0;
-        work->field_42DC = 0;
-        work->field_42E0 = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
