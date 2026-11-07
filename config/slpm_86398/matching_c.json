@@ -5535,217 +5535,217 @@
     },
     {
       "address": "0x80051720",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800520AC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005229C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800523FC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x12EC",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800536E8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x758",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80053E40",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005408C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x754",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80054928",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x27C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80054BA4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6F8",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005529C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAE0",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80055EE8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1DC",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80056544",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x394",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80056A5C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800585D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2EC",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800588BC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C0",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80058F7C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x134",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800590B0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2B4",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80055D7C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x16C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800560C4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x480",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800568D8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x184",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80056BBC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE0",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80056C9C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x300",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x800547E0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x148",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80056F9C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1634",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80059364",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x324",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80059688",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x524",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x80059BAC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7C8",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005A374",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x26C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005A5E0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x344",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005A924",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x32C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005AC50",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x118",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005AD68",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x19C",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005AF04",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1EC",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005B0F0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x174",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005B264",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
       "source": "src/game/japanese/model.c"
     },
     {
       "address": "0x8005B454",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x214",
       "source": "src/game/japanese/model.c"
     },

@@ -51,9 +51,9 @@ static u16 sModelGraphicsState_PadAA
 #endif
 
 #include "model.h"
-#ifndef MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B468-0x8009B498, defined in
- * address order ahead of the headers that declare it (#2602). */
+
+/* Small zero-initialized storage this unit owns. Each build's generated
+ * model_commons subsegment places it at the retail addresses. */
 s16 gModel_ImageCopyRectX;
 s16 gModel_ImageCopyRectY;
 s16 gModel_ImageCopyRectW;
@@ -66,28 +66,13 @@ u16 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
 ModelBytes8 gModel_ViewSnapshot;
+#ifndef VERSION_JAPAN
+/* The Japanese block has no slot model ids or debug slot flags. */
 s16 gModel_awSlotModelIds[3];
 u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
-static PADDING_VARIABLE(2);
-static PADDING_VARIABLE(4);
-#else
-extern s16 gModel_ImageCopyRectX;
-extern s16 gModel_ImageCopyRectY;
-extern s16 gModel_ImageCopyRectW;
-extern s16 gModel_ImageCopyRectH;
-extern s16 gModel_sTextureTintRectX;
-extern s16 gModel_sTextureTintRectY;
-extern s16 gModel_sTextureTintRectW;
-extern s16 gModel_sTextureTintRectH;
-extern u16 gModel_wViewDistance;
-extern s16 gModel_wViewYaw;
-extern s16 gModel_wViewPitch;
-extern ModelBytes8 gModel_ViewSnapshot;
-extern s16 gModel_awSlotModelIds[3];
-extern u8 gModelDebug_abSlotAfFlags[2];
-extern u8 gModelDebug_abSlotGfFlags[2];
 #endif
+
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -465,8 +450,8 @@ const char gModel_szLoadModelTraceFormat[] = "LoadModelDO(%d)=%03X\n";
 #include "sound_output_state.h"
 #include "../psyq/stdio.h"
 
-/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F56A0, defined in
- * address order ahead of the headers that declare it (#2602). */
+/* Zero-initialized storage this unit owns. Each build's generated
+ * model_bss_commons subsegment places it at the retail addresses. */
 ModelCameraMove gModel_CameraMove;
 ModelTintRequest gModel_aTintRequests[10];
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
