@@ -2,7 +2,7 @@
 
 `CardPreview_UpdateVariant` receives the actual `DisplayObject *`, not a
 separately owned `CardVariantSource` record. The paired preview constructor
-stores this callback in its primary object's `field_10`.
+stores this callback in its primary object's `back_face_handler` (`+0x10`).
 `DisplayObject_ProjectRotationFacing` calls that field as
 `void (*)(DisplayObject *, s32)` with the same object pointer.
 
