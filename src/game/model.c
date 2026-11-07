@@ -2678,7 +2678,7 @@ have_flags:
         ModelCameraMove *camera_move = &gModel_CameraMove;
 
         camera_move->follow_countdown = MODEL_DEFAULT_PROJECTION;
-#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+#ifndef VERSION_JAPAN
         camera_move->base_orbit_step = 8;
 #endif
         camera_move->orbit_step = 8;

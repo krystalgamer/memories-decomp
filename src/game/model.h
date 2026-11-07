@@ -387,7 +387,7 @@ typedef struct {
     u8 flags;
     u16 follow_countdown;
     u16 orbit_step;
-#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+#ifndef VERSION_JAPAN
     u16 base_orbit_step;
 #endif
     u16 elapsed;
@@ -792,14 +792,14 @@ typedef char ModelCameraMove_control_prefix_must_match[
     MODEL_OFFSET(ModelCameraMove, orbit_step) == 4 &&
     sizeof(((ModelCameraMove *)0)->orbit_step) == 2 ? 1 : -1
 ];
-#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+#ifndef VERSION_JAPAN
 typedef char ModelCameraMove_baseline_word_must_match[
     MODEL_OFFSET(ModelCameraMove, base_orbit_step) == 6 &&
     sizeof(((ModelCameraMove *)0)->base_orbit_step) == 2 ? 1 : -1
 ];
 #endif
 
-#ifdef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+#ifdef VERSION_JAPAN
 typedef char ModelCameraMove_size_must_be_0x2A[
     sizeof(ModelCameraMove) == 0x2A ? 1 : -1
 ];
