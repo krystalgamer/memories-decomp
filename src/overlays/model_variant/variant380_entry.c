@@ -198,19 +198,19 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         for (i = 0; i < work->config->count; i++) {
-            work->field_1B70[i] = -(i * 8);
+            work->length[i] = -(i * 8);
             work->field_1B7A[i] = 0;
-            work->field_1B84[i] = 0;
-            work->field_1B8E[i] = 0;
-            work->field_1BB4[i] = 0;
-            work->field_1BC8[i] = 0;
-            work->field_1BDC[i] = 0;
-            work->field_1BA0[i] = 1024;
+            work->mode[i] = 0;
+            work->done[i] = 0;
+            work->streamer_rotation_x[i] = 0;
+            work->streamer_rotation_y[i] = 0;
+            work->streamer_rotation_z[i] = 0;
+            work->streamer_length[i] = 1024;
         }
         work->field_1B98 = 0;
         work->field_1B9A = 0;
-        work->field_1BF0 = 0;
-        work->field_1BF4 = 0;
+        work->wave = 0;
+        work->bend = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
