@@ -26,9 +26,22 @@ static u32 D_8009B42C;
 #include "../external_funcs.h"
 #include "../unmatched.h"
 #include "display_asset_banks.h"
+#include "duel_effect.h"
+#include "text_channel_state.h"
+#include "../overlays/main_menu/frontend.h"
+#include "../psyq/rand.h"
+#include "main_run_frontend_loop.h"
+#include "input.h"
+#include "movie_playback_control.h"
+#include "text_box_lifecycle.h"
+#include "sound.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
+
+/* The boot sequence and the front-end loop that follows it, one translation
+ * unit (#2602). Retail reads gMain_bFrontendPhase gp-relative only from these
+ * two functions; both compile at gcc_2_8_1_g8_split. */
 
 #if defined(VERSION_EUROPE)
 /* The European boot sequence factors the debug-font setup and the boot
@@ -235,3 +248,74 @@ void Main_RunBootSequence(s32 mode)
     Main_ResetFrontendRuntime();
 }
 #endif
+
+#ifndef MAIN_FRONTEND_CONFIRM_MASK
+#define MAIN_FRONTEND_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
+s32 Main_RunFrontendLoop(void) {
+    s32 r;
+    u32 f;
+    s32 g;
+
+#ifdef VERSION_EUROPE
+    /* The European loop resets the frontend runtime before the fade. */
+    Main_ResetFrontendRuntime();
+#endif
+    Fade_WaitInitIn();
+
+    for (;;) {
+        gMain_bFrontendPhase = 0;
+        for (;;) {
+            rand();
+            Main_AdvanceFrame();
+            f = gMain_bFrontendPhase;
+            if ((f & 1) == 0) {
+                if ((f & 0x80) == 0) {
+                    gMain_bFrontendPhase = f | 0x80;
+                    Main_ResetFrontendRuntime();
+                    Movie_Play(0);
+                    gGraphics_bClearBlue = 0xFF;
+                    gGraphics_bClearGreen = 0xFF;
+                    gGraphics_bClearRed = 0xFF;
+                    continue;
+                }
+                if (f & 0x40) {
+                    if (gInput_awPadPressed[0] &
+                        (PAD_BUTTON_START | MAIN_FRONTEND_CONFIRM_MASK)) {
+                        TextBox_Destroy(gText_aChannels);
+                        gMain_bFrontendPhase = 1;
+                    }
+                    continue;
+                }
+                g = gMovie_bPlaybackState;
+                if (g & 0x80) {
+                    continue;
+                }
+                gMain_bFrontendPhase = 1;
+                if ((g & 0x40) == 0) {
+                    Fade_CutToWhite();
+                }
+                Fade_WaitInitOut();
+                continue;
+            }
+            if ((f & 0x80) == 0) {
+                gMain_bFrontendPhase = f | 0x80;
+                Main_ResetFrontendRuntime();
+                MainMenu_InitFrontendMenu(0, 0);
+                Fade_StartIn();
+            }
+            r = MainMenu_UpdateFrontendMenu();
+            if (r != -1) {
+                break;
+            }
+        }
+        SD_BGMFadeOut();
+        Fade_WaitOut();
+        MainMenu_DestroyFrontendMenu();
+        Main_ResetFrontendRuntime();
+        if (r != -2) {
+            return r;
+        }
+    }
+}

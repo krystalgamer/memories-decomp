@@ -743,7 +743,7 @@ and the answer follows the include graph rather than the name.
 
 `gMovie_bPlaybackState` is a movie playback state byte. `movie_playback_control.h`
 describes exactly what its bits mean and is the obvious home by name, but
-`main_run_frontend_loop.c` does not include that header at all, while all three
+`main_boot_frontend.c` does not include that header at all, while all three
 consumers already include `graphics_frame.h`. Placing the declaration by what
 the include graph is, rather than by which subsystem the name sounds like,
 costs no new include and cannot strand a consumer.

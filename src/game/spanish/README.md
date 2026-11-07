@@ -164,7 +164,7 @@ only its addresses or geometry:
 | Wrapper | Spanish entry | Functions | Bytes | Difference |
 |---|---|---:|---:|---|
 | `main_init.c` | `0x80012A44` | 1 | 404 | stores language index 4 |
-| `main_run_boot_sequence.c` | `0x80043D7C` | 3 | 776 | requests and stores language 4 instead of 0 |
+| `main_boot_frontend.c` | `0x80043D7C` | 4 | 1,160 | requests and stores language 4 instead of 0 |
 | `debug_menu_editor_entries.c` | `0x800304D0` | 4 | 2,600 | the debug language entry wraps to 4; the value editor before it is unchanged |
 | `dialog_choice_cursor.c` | `0x80036EF0` | 2 | 420 | clears R1 from `gInput_dwPreviousHeld` before the tests |
 | Total | | 10 | 4,200 | |

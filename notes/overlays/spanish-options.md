@@ -191,7 +191,7 @@ Resident C dependencies include `DisplayObject_UpdateResourceVariant` at
 `0x800156F8` / `0x80015820`, and `SD_BGMFadeOut` at `0x80040258`.
 Input additionally uses `DisplayObject_SetResourceVariant` at `0x80040734`,
 `SD_SEPlayFull` at `0x80040204` and `SD_SetOutputType` at `0x80047430`.
-The boot helpers belong to `src/game/spanish/main_run_boot_sequence.c`,
+The boot helpers belong to `src/game/spanish/main_boot_frontend.c`,
 not the French wrapper. SDK `DrawSync`, `LoadImage` and `StoreImage` at
 `0x8007FC64`, `0x8007FF10` and `0x8007FF70` are actual functions in the
 selected `generated/spanish_80073c4c` assembly object. SDK `rcos` at

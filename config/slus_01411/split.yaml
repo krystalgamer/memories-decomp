@@ -227,7 +227,7 @@ segments:
       - [0x8bbb8, .sbss, game/mem_card]
       - [0x8bc00, .sbss, game/sound_frontend]
       - [0x8bc10, .sbss, game/display_object_system]
-      - [0x8bc28, .sbss, game/main_run_boot_sequence]
+      - [0x8bc28, .sbss, game/main_boot_frontend]
       - [0x8bc30, .sbss, game/mem_card_driver]
       - [0x8bc58, .sbss, game/sound_driver]
       - [0x8bc68, .sbss, game/model]
