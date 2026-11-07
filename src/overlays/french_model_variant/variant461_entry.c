@@ -13,7 +13,7 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    EntryRibbon461 *ribbon = work->ribbons;
+    ModelVariantCountedRibbon *ribbon = work->ribbons;
     ModelVariantQuadRing *ring = &work->ring;
     ModelVariantBandPair *band = work->bands;
     ModelVariantSheetSet *quad_sheet = work->quads;

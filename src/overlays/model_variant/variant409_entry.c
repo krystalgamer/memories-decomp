@@ -16,7 +16,7 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
     ModelVariantCurtain *funnel = work->funnels;
-    EntryRibbon409 *ribbon = work->ribbons;
+    ModelVariantLongRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     EntryStreamer409 *streamer = work->streamers;
     ModelVariantSpiral *spiral = work->spirals;

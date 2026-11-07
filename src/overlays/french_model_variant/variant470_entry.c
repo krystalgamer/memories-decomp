@@ -13,7 +13,7 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     EntryPair470 *pair;
-    EntryGroup470 *group;
+    ModelVariantQuadGroup *group;
     ModelVariantBandPair *band = work->bands;
     EntrySheet470 *sheet = work->sheets;
     ModelVariantColorRing *ring_a = work->rings_a;

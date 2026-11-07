@@ -20,7 +20,7 @@ typedef struct {
     Variant416EntryBand bands[2];
     ModelVariantSheet sheets[3];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan fans[1];
     POLY_G3 triangle;
     POLY_G4 quad;
