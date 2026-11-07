@@ -1,15 +1,11 @@
 #ifndef FRENCH_MODEL_VARIANT373_QUADS_H
 #define FRENCH_MODEL_VARIANT373_QUADS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-} Family373QuadGroup;
 
 typedef struct {
     u8 unknown_00[0xC];
@@ -20,7 +16,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_0000[0xFD0];
-    Family373QuadGroup group;
+    ModelVariantQuadSheet group;
     u8 unknown_1058[0xDD4];
     POLY_GT4 quad;
     u8 unknown_1E60[0x564];

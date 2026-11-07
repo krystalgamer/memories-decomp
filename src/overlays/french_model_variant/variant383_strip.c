@@ -11,7 +11,7 @@ void FrenchModelVariant383_DrawStrip(u8 *context)
     long interpolation;
     long flag;
     Family383StripView *work;
-    Family383Strip *strip;
+    ModelVariantStrip *strip;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, j;

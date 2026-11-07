@@ -22,7 +22,7 @@ typedef struct {
 /* Header 479's 0x4208-byte loader work area: the records of the accepted
  * helpers, their primitives, three part matrices and the shared timing. */
 typedef struct {
-    Grid379Sheet grids[5];
+    ModelVariantGridSheet grids[5];
     Variant479Rib ribs[5];
     Variant479SpiralArm arms[12];
     ModelVariantSheet sheets[8];

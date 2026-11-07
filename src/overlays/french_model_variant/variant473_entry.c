@@ -13,7 +13,7 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Funnel473 *funnel = work->funnels;
-    Grid385Sheet *mesh = work->meshes;
+    ModelVariantGridSheet *mesh = work->meshes;
     EntryRibbon473 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;

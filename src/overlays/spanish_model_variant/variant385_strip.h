@@ -15,18 +15,6 @@ typedef struct {
 } Strip385;
 
 typedef struct {
-    u8 unknown_00[0xC];
-    u16 iterations;
-    u8 unknown_0E[2];
-    s32 width;
-    u8 unknown_14[0x1C];
-    u32 start;
-    u32 expanded;
-    u32 fade;
-    u32 end;
-} Strip385Timing;
-
-typedef struct {
     u8 unknown_00[0x4E0];
     Strip385 strips[1];
     u8 unknown_56C[0x8C0];
@@ -41,7 +29,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_FF4[0xC];
-    Strip385Timing *timing;
+    ModelVariantStripTiming *timing;
     u8 unknown_1004[0x10];
     s32 iteration;
     u8 unknown_1018[0x10];

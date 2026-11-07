@@ -12,7 +12,7 @@ void FrenchModelVariant373_DrawRays(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Family373Ray *ray;
+    ModelVariantShadedRay *ray;
     POLY_GT4 *quad;
     s16 i, j, width;
     s32 angle_a, angle_b;

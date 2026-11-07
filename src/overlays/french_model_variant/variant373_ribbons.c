@@ -12,12 +12,12 @@ void FrenchModelVariant373_DrawRibbons(u8 *context)
     long interpolation;
     long flag;
     Family373RibbonView *work;
-    Family373RibbonColors *colors;
+    ModelVariantRibbonColors *colors;
     GsOT *ot;
     s16 i;
     s32 turn;
     s32 tilt;
-    Family373Ribbon *ribbon;
+    ModelVariantRibbonSpan *ribbon;
     POLY_G3 *triangle;
     s16 j;
     s16 angle;

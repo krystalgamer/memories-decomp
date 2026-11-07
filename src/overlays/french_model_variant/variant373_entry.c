@@ -12,9 +12,9 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     Family373Layer *layer = work->layers;
     EntryPointGroup373 *group = work->groups;
     EntryStrip373 *strip = work->strips;
-    Family373QuadGroup *quadrant = work->quadrants;
+    ModelVariantQuadSheet *quadrant = work->quadrants;
     ModelVariantColorRing *ring = work->rings;
-    Family373Ray *ray = work->rays;
+    ModelVariantShadedRay *ray = work->rays;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *shared = work->shared;

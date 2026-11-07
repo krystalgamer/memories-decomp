@@ -14,7 +14,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ModelVariantBandTriple *ribbon = work->ribbons;
     EntryStrand458 *strand = work->strands;
-    Variant458Sheet *sheet = work->sheets;
+    ModelVariantQuadSheet *sheet = work->sheets;
     EntryStreamer458 *streamer = work->streamers;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;

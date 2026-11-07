@@ -1,31 +1,15 @@
 #ifndef FRENCH_MODEL_VARIANT373_RAYS_H
 #define FRENCH_MODEL_VARIANT373_RAYS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
 
 typedef struct {
-    u8 unknown_00[0x10];
-    SVECTOR points[2];
-    long projected[2];
-    s32 angle[2];
-    SVECTOR edges[2];
-    long edge_projected[2];
-    s32 width[2];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[4];
-    s32 depth[2];
-    s16 x_offset[2];
-    s16 y_offset[2];
-    u8 unknown_74[8];
-} Family373Ray;
-
-typedef struct {
     u8 unknown_0000[0x15F8];
-    Family373Ray rays[16];
+    ModelVariantShadedRay rays[16];
     u8 unknown_1DB8[0x40];
     POLY_GT4 quad;
     u8 unknown_1E2C[0x598];
