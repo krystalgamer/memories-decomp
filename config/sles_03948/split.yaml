@@ -137,7 +137,7 @@ segments:
     - initial_data_cc4
   - - 3284
     - .rodata
-    - game/european/mem_card_driver
+    - game/mem_card_driver
   - - 3332
     - .rodata
     - game/sd_step_active_command
@@ -155,7 +155,7 @@ segments:
     - initial_data_f60
   - - 7152
     - .rodata
-    - game/spanish/model
+    - game/european/model
   - - 7924
     - .rodata
     - game/european/model_animation_unit
@@ -706,7 +706,7 @@ segments:
     - game/french/main_boot_frontend
   - - 215556
     - c
-    - game/european/mem_card_driver
+    - game/mem_card_driver
   - - 219576
     - c
     - game/spanish/mem_card_io_result_callbacks
@@ -853,7 +853,7 @@ segments:
     - game/model_slot_part_animation
   - - 268152
     - c
-    - game/spanish/model
+    - game/european/model
   - - 311760
     - c
     - game/model_queue_tint_request
@@ -1015,7 +1015,7 @@ segments:
   - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/display_object_system]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
-  - [0x8CB18, .sdata, game/spanish/model]
+  - [0x8CB18, .sdata, game/european/model]
   - [0x8CBE8, .sdata, game/spanish/movie_pipeline]
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
   - [0x8CC04, pad]
@@ -1038,9 +1038,9 @@ segments:
   - [0x8CF80, .sbss, game/european/sound_frontend]
   - [0x8CF94, .sbss, game/european/display_object_system]
   - [0x8CFA8, .sbss, game/french/main_boot_frontend]
-  - [0x8CFB0, .sbss, game/european/mem_card_driver]
+  - [0x8CFB0, sbss, mem_card_driver_commons]
   - [0x8CFD8, .sbss, game/european/sound_driver]
-  - [0x8CFE8, .sbss, game/spanish/model]
+  - [0x8CFE8, sbss, model_commons]
   - [0x8D018, .sbss, game/spanish/movie_pipeline]
   - [0x8D038, .bss, game/french/main]
   - [0xDB970, .bss, game/european/file_set_position_table]
@@ -1058,9 +1058,9 @@ segments:
   - [0xE11F0, .bss, game/european/input_pads]
   - [0xE1258, .bss, game/spanish/mem_card]
   - [0xE19C0, .bss, game/european/display_object_system]
-  - [0xE4410, .bss, game/european/mem_card_driver]
+  - [0xE4410, bss, mem_card_driver_bss_commons]
   - [0xE46A8, bss, model_keyframe_update_commons]
-  - [0xE4858, .bss, game/spanish/model]
+  - [0xE4858, bss, model_bss_commons]
   - [0xE73D8, .bss, game/model_view_queries]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
   - [0xE7708, .bss, game/spanish/movie_pipeline]

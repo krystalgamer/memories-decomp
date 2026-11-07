@@ -1,53 +1,5 @@
 #include "../types.h"
 
-#ifndef MEM_CARD_DRIVER_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20. GCC lays
- * it out in first-declaration order, so it is declared here in address order
- * ahead of the headers and defined once they supply the types (#2602). A
- * regional wrapper that lays it out differently declares its own order and
- * defines MEM_CARD_DRIVER_STORAGE_ORDER. */
-extern struct DIRENTRY gMemCard_aDirEntries[];
-extern long gMemCard_aIOEventHandles[];
-extern long gMemCard_aHwIOEventHandles[];
-extern char gMemCard_szRequestPath[];
-#endif
-
-#ifndef MEM_CARD_DRIVER_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B430-0x8009B458, defined in
- * address order ahead of the headers that declare it (#2602). */
-s32 gMemCard_pRequestBuf;
-u16 gMemCard_wRequestSize;
-u8 gMemCard_bTransferRetriesRemaining;
-u8 gMemCard_bChannel;
-s32 gMemCard_nFreeBlocks;
-u8 gMemCard_bRetries;
-u8 gMemCard_bLoadStep;
-s8 gMemCard_bRequest;
-s32 gMemCard_nDirEntries;
-struct DIRENTRY *gMemCard_pDirEntries;
-static u32 D_8009B448;
-u16 gMemCard_wRequestOffset;
-u8 gMemCard_bDirFlags;
-u8 gMemCard_bRequestStep;
-volatile s32 gMemCard_nIOResult;
-static PADDING_VARIABLE(4);
-#else
-extern s32 gMemCard_pRequestBuf;
-extern u16 gMemCard_wRequestSize;
-extern u8 gMemCard_bTransferRetriesRemaining;
-extern u8 gMemCard_bChannel;
-extern s32 gMemCard_nFreeBlocks;
-extern u8 gMemCard_bRetries;
-extern u8 gMemCard_bLoadStep;
-extern s8 gMemCard_bRequest;
-extern s32 gMemCard_nDirEntries;
-extern struct DIRENTRY *gMemCard_pDirEntries;
-extern u16 gMemCard_wRequestOffset;
-extern u8 gMemCard_bDirFlags;
-extern u8 gMemCard_bRequestStep;
-extern volatile s32 gMemCard_nIOResult;
-#endif
-
 #include "../psyq/libapi.h"
 #include "../psyq/stdio.h"
 #include "../psyq/strings.h"
@@ -61,6 +13,22 @@ extern volatile s32 gMemCard_nIOResult;
 #include "../unmatched.h"
 #include "mem_card_request_inputs.h"
 
+/* Zero-initialized storage this unit owns. Each build's generated
+ * mem_card_driver_commons subsegments place it at the retail addresses. */
+s32 gMemCard_pRequestBuf;
+u16 gMemCard_wRequestSize;
+u8 gMemCard_bTransferRetriesRemaining;
+u8 gMemCard_bChannel;
+s32 gMemCard_nFreeBlocks;
+u8 gMemCard_bRetries;
+u8 gMemCard_bLoadStep;
+s8 gMemCard_bRequest;
+s32 gMemCard_nDirEntries;
+struct DIRENTRY *gMemCard_pDirEntries;
+u16 gMemCard_wRequestOffset;
+u8 gMemCard_bDirFlags;
+u8 gMemCard_bRequestStep;
+volatile s32 gMemCard_nIOResult;
 struct DIRENTRY gMemCard_aDirEntries[15];
 long gMemCard_aIOEventHandles[4];
 long gMemCard_aHwIOEventHandles[4];

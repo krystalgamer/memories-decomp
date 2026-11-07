@@ -2157,3 +2157,4 @@ gScript_ImageOperand = 0x8009C210;
 gCampaignSceneIndex = 0x8009C218;
 gScript_WaitCounter = 0x8009C220;
 D_8009C22C_sles_03947 = 0x8009C22C;
+D_8009C408 = 0x8009C408;
