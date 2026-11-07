@@ -12,7 +12,7 @@ void SpanishModelVariant446_DrawPulse(u8 *context)
     long interpolation;
     long flag;
     Pulse446State *state = (Pulse446State *)context;
-    Pulse446 *group = state->groups;
+    ModelVariantPulseGroup *group = state->groups;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, j;

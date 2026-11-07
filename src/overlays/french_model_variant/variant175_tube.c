@@ -11,7 +11,7 @@ void FrenchModelVariant175_DrawTube(u8 *context)
     long interpolation;
     long flag;
     Tube175State *state = (Tube175State *)context;
-    Tube175 *tube;
+    ModelVariantTubeView *tube;
     POLY_G4 *quad = &state->quad;
     GsOT *ot;
     s16 i, j, k;

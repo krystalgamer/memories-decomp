@@ -11,7 +11,7 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
     long interpolation;
     long flag;
     Pulse385State *state = (Pulse385State *)context;
-    Pulse385 *group = state->groups;
+    ModelVariantPulseGroup *group = state->groups;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, j;

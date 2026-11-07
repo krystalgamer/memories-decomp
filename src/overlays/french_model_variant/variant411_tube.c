@@ -11,7 +11,7 @@ void FrenchModelVariant411_DrawTube(u8 *context)
     long interpolation;
     long flag;
     Tube411State *state = (Tube411State *)context;
-    Tube411 *tube;
+    ModelVariantTubeView *tube;
     POLY_G4 *quad = &state->quad;
     GsOT *ot;
     s16 i, j, k;

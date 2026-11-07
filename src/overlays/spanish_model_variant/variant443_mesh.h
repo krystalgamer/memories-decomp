@@ -5,18 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR points[9][9];
-    u8 unknown_288[0x288];
-    CVECTOR colors[9];
-    u8 unknown_534[0x18];
-} Mesh443;
-
-typedef struct {
-    u8 unknown_00[0x88];
-    s32 size;
-} Companion443;
-
-typedef struct {
     u8 unknown_00[0x48];
     u32 grow_start;
     u32 grow_end;
@@ -24,9 +12,9 @@ typedef struct {
 
 typedef struct {
     u8 unknown_00[0xC80];
-    Mesh443 mesh[1];
+    ModelVariantTubeView mesh[1];
     u8 unknown_11CC[0x189C];
-    Companion443 companion;
+    ModelVariantPulse companion;
     u8 unknown_2AF4[0x8B8];
     POLY_G4 quad;
     u8 unknown_33D0[0x1D0];

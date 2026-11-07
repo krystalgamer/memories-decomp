@@ -12,8 +12,8 @@ void SpanishModelVariant438_DrawRays(u8 *context)
     long interpolation;
     long flag;
     Rays438State *state = (Rays438State *)context;
-    Rays438 *ray = state->rays;
-    Rays438Pulse *pulse = &state->pulse;
+    ModelVariantOffsetRay *ray = state->rays;
+    ModelVariantPulse *pulse = &state->pulse;
     POLY_G3 *triangle = &state->triangle;
     GsOT *ot;
     s16 i, j;

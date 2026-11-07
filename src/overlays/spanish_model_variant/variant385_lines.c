@@ -11,7 +11,7 @@ void SpanishModelVariant385_DrawLines(u8 *context)
     long interpolation;
     long flag;
     State385 *state = (State385 *)context;
-    Lines385 *group = state->groups;
+    ModelVariantLineGroupRgb *group = state->groups;
     GsGLINE *line = &state->line;
     GsOT *ot;
     s16 i, j, k;

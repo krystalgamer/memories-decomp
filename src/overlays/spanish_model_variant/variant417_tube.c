@@ -11,8 +11,8 @@ void SpanishModelVariant417_DrawTube(u8 *context)
     long interpolation;
     long flag;
     Tube417State *state = (Tube417State *)context;
-    Tube417 *tube;
-    Tube417Pulse *pulse;
+    ModelVariantTubeView *tube;
+    ModelVariantPulse *pulse;
     POLY_G4 *quad = &state->quad;
     GsOT *ot;
     s16 i, j, k;

@@ -22,7 +22,7 @@ typedef struct {
 } EntryExtra411;
 
 typedef struct {
-    Tube411 tubes[1];
+    ModelVariantTubeView tubes[1];
     ModelVariantSheet sheets[2];
     Funnel411 funnels[2];
     EntryRing411 rings[4];
