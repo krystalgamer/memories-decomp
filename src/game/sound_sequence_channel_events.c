@@ -254,7 +254,7 @@ u8 velocity;
             (obj->level_right *
              gSD_pSecondaryState->master_level_right) >> 7;
         obj->key_note = level;
-        obj->field_001C = rec->pitch_bend_msb;
+        obj->key_on_pitch_bend = rec->pitch_bend_msb;
         obj->cached_pitch_bend = -1;
         pitch = SD_CalcPitchBend(obj, rec->pitch_bend_msb) + obj->note * 128;
         vi = idx;

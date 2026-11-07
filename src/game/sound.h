@@ -376,7 +376,9 @@ typedef struct {
     u16 level_right;
     u8 pad0018[2];
     s16 cached_pitch_bend;
-    s16 field_001C;
+    /* The channel's pitch_bend_msb captured at key-on (0x40, the bend
+       centre, after reset); no reader is established. */
+    s16 key_on_pitch_bend;
     /* 0xFFFF at key-on; the reuse-ranking update counts down toward zero.
        Lower values are preferred for voice stealing, not voice expiry. */
     u16 reuse_countdown;
@@ -971,7 +973,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
-   its position; SD_UpdateBankLoad dispatches on g_SDValue->field_003C.
+   its position; SD_UpdateBankLoad dispatches on g_SDValue->s_dwSD_BANK_LOAD_PHASE.
    sound_secondary_playback.c calls the reset right before
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
