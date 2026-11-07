@@ -21,12 +21,6 @@ typedef struct {
     u8 unknown_28[0xC];
 } Variant464EntryConfig;
 
-/* Two 17-point circles, the outer one raised by 64. */
-typedef struct {
-    SVECTOR inner[17], outer[17];
-    s32 size, field_114;
-} Variant464EntryFunnel;
-
 /* A 0x8EC-byte band of 33 steps with two colours per step. */
 typedef struct {
     u8 unknown_000[0x420];
@@ -48,7 +42,7 @@ typedef struct {
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant464EntryFunnel funnels[2];
+    ModelVariantCurtain funnels[2];
     Variant464EntryBand bands[1];
     Variant464EntryDome dome;
     ModelVariantSpiralWide spirals[12];

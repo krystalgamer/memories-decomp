@@ -44,22 +44,6 @@ typedef struct {
 } EntryExtra478;
 
 typedef struct {
-    u8 unknown_00[0x68];
-    s32 progress[2];
-    CVECTOR inner[2], outer[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} EntryPair478;
-
-typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 size, field_8C;
-} EntryRing478;
-
-typedef struct {
     SVECTOR center, first[5], second[5], corners[4];
     CVECTOR inner, outer;
     s32 field_80, field_84, field_88, field_8C;
@@ -71,9 +55,9 @@ typedef struct {
     EntrySwarm478 swarm;
     EntryExtra478 extras[16];
     ModelVariantWebNarrow grids[3];
-    EntryPair478 pairs[1];
+    ModelVariantBandPair pairs[1];
     ModelVariantSheet sheets[2];
-    EntryRing478 rings[6], large_rings[4];
+    ModelVariantColorRing rings[6], large_rings[4];
     EntrySmall478 small[1];
     POLY_G3 triangle;
     POLY_G4 quad;

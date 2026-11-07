@@ -15,7 +15,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantWebNarrow *web = work->webs;
     Variant385EntryTube *tube = work->tubes;
     Variant385EntrySheet *sheet = work->sheets;
-    Variant385EntryCurtain *curtain = work->curtains;
+    ModelVariantCurtain *curtain = work->curtains;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -173,17 +173,17 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
         }
         for (n = 0; n < 4; n++, curtain++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                setVector(&curtain->inner[j], rcos(angle) * work->config->inner_radius >> 12,
+                setVector(&curtain->a[j], rcos(angle) * work->config->inner_radius >> 12,
                           rsin(angle) * work->config->inner_radius >> 12, 0);
-                setVector(&curtain->outer[j], rcos(angle) * work->config->outer_radius >> 12,
+                setVector(&curtain->b[j], rcos(angle) * work->config->outer_radius >> 12,
                           rsin(angle) * work->config->outer_radius >> 12, -64);
             }
             if (n == 3) {
-                curtain->angle = 0;
+                curtain->scale = 0;
             } else {
-                curtain->angle = -(n * 4096 / 3);
+                curtain->scale = -(n * 4096 / 3);
             }
-            curtain->field_114 = 0;
+            curtain->count = 0;
         }
         work->field_1028 = 1024;
         work->color[0] = 192;

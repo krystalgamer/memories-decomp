@@ -38,12 +38,6 @@ typedef struct {
 } Variant388EntryFeedback;
 
 typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR color, shade;
-    s32 angle, field_8C;
-} Variant388EntrySpoke;
-
-typedef struct {
     u8 unknown_00[0x50];
     CVECTOR cb[2];
     CVECTOR ca[2];
@@ -56,7 +50,7 @@ typedef struct {
     Variant388EntrySheet sheets[2];
     u8 unknown_228[0x3A0];
     Variant388EntryFeedback feedback[5];
-    Variant388EntrySpoke spokes[4];
+    ModelVariantColorRing spokes[4];
     Variant388EntryArm arms[12];
     POLY_G3 triangle;
     POLY_G4 quad;

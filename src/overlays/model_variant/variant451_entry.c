@@ -22,7 +22,7 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant451EntryGroup *group;
-    Variant412EntryBand *band;
+    ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;

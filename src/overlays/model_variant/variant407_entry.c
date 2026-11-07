@@ -20,7 +20,7 @@ s32 ModelVariant407_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant407EntryPetals *petals;
-    Variant407EntryBand *band;
+    ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;

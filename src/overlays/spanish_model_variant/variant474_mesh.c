@@ -12,7 +12,7 @@ void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
     long interpolation;
     long flag;
     Mesh474State *state = (Mesh474State *)context;
-    Mesh474Rows *mesh = &state->mesh;
+    ModelVariantMesh *mesh = &state->mesh;
     POLY_G4 *polygon;
     GsOT *ot;
     s32 i, j;
@@ -46,15 +46,15 @@ void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
     GsSetLsMatrix(&light);
     if (state->phase >= 5) {
         for (i = 0; i < 9; i++) {
-            red[i] = mesh->color[i][0] * state->intensity / 1024;
-            green[i] = mesh->color[i][1] * state->intensity / 1024;
-            blue[i] = mesh->color[i][2] * state->intensity / 1024;
+            red[i] = mesh->colors[i][0] * state->intensity / 1024;
+            green[i] = mesh->colors[i][1] * state->intensity / 1024;
+            blue[i] = mesh->colors[i][2] * state->intensity / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            red[i] = mesh->color[i][0];
-            green[i] = mesh->color[i][1];
-            blue[i] = mesh->color[i][2];
+            red[i] = mesh->colors[i][0];
+            green[i] = mesh->colors[i][1];
+            blue[i] = mesh->colors[i][2];
         }
     }
     for (i = 0; i < 8; i++) {
@@ -71,8 +71,8 @@ void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
         polygon->g3 = green[i + 1];
         polygon->b3 = blue[i + 1];
         for (j = 0; j < 16; j++) {
-            depth = RotTransPers4(&mesh->row[i][j], &mesh->row[i][j + 1],
-                                 &mesh->row[i + 1][j], &mesh->row[i + 1][j + 1],
+            depth = RotTransPers4(&mesh->rows[i][j], &mesh->rows[i][j + 1],
+                                 &mesh->rows[i + 1][j], &mesh->rows[i + 1][j + 1],
                                  (long *)&polygon->x0, (long *)&polygon->x1,
                                  (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);

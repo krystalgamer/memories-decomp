@@ -38,12 +38,6 @@ typedef struct {
     u8 unknown_64[8];
 } Variant417EntryRibbon;
 
-typedef struct {
-    SVECTOR a[8], b[8];
-    CVECTOR color_a, color_b;
-    s32 angle, field_8C;
-} Variant417EntrySpoke;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant417EntryTube tubes[1];
@@ -52,7 +46,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     u8 rays[0x360];
     ModelVariantTripleCurtain curtains[5];
-    Variant417EntrySpoke spokes[4];
+    ModelVariantColorRing spokes[4];
     ModelVariantSpiral glows[12];
     POLY_G3 triangle;
     POLY_G4 quad;

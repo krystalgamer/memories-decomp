@@ -15,7 +15,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant402EntryRecord *record = work->records;
     Variant402EntryRing *ring = work->rings;
-    Family402Band *band = work->bands;
+    ModelVariantCurtain *band = work->bands;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->triangle;
@@ -137,14 +137,14 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         }
         for (ring_index = 0, scale = 0; ring_index < 2; ring_index++, band++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                band->inner[j].vx = (u32)rcos(angle) >> 4;
-                band->inner[j].vy = (u32)rsin(angle) >> 4;
-                band->inner[j].vz = 0;
-                setVector(&band->outer[j], (u32)(rcos(angle) * 5) >> 6,
+                band->a[j].vx = (u32)rcos(angle) >> 4;
+                band->a[j].vy = (u32)rsin(angle) >> 4;
+                band->a[j].vz = 0;
+                setVector(&band->b[j], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, -192);
             }
             band->scale = scale;
-            band->cycles = 0;
+            band->count = 0;
             scale -= 2048;
         }
         work->width = 1024;

@@ -34,7 +34,7 @@ typedef struct {
 } EntryRibbon423;
 
 typedef struct {
-    Mesh423Rows mesh;
+    ModelVariantMesh mesh;
     EntryRibbon423 ribbons[1];
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];

@@ -32,34 +32,18 @@ typedef struct {
 } EntryRibbon461;
 
 typedef struct {
-    u8 unknown_00[0x68];
-    s32 progress[2];
-    CVECTOR outer[2], inner[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} EntryBand461;
-
-typedef struct {
     ModelVariantSheet sheet;
     s32 field_98;
 } EntryQuad461;
-
-typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 size, state;
-} EntrySmallRing461;
 
 typedef struct {
     EntryRibbon461 ribbons[5];
     ModelVariantQuadRing ring;
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
-    EntryBand461 bands[1];
+    ModelVariantBandPair bands[1];
     EntryQuad461 quads[10];
-    EntrySmallRing461 rings_a[6], rings_b[4];
+    ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
     POLY_G3 triangle;
     POLY_G4 quad;

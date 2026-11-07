@@ -36,35 +36,19 @@ typedef struct {
 } EntryGroup477;
 
 typedef struct {
-    u8 unknown_00[0x68];
-    s32 progress[2];
-    CVECTOR outer[2], inner[2];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} EntryBand477;
-
-typedef struct {
     SVECTOR points[4][4];
     CVECTOR inner, outer;
     VECTOR scale;
 } EntrySheet477;
 
 typedef struct {
-    SVECTOR inner[8], outer[8];
-    CVECTOR inner_color, outer_color;
-    s32 size, state;
-} EntrySmallRing477;
-
-typedef struct {
     EntryPanel477 panels[2];
     EntryGroup477 groups[2];
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];
-    EntryBand477 bands[1];
+    ModelVariantBandPair bands[1];
     EntrySheet477 sheets[2];
-    EntrySmallRing477 rings_a[6], rings_b[4];
+    ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
     POLY_G3 triangle;
     POLY_G4 quad;

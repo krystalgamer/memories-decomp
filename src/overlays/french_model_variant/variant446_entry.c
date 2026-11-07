@@ -16,7 +16,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     EntryLines446 *lines = work->lines;
     EntryStrip446 *strip = work->strips;
     EntryPulse446 *pulse = work->pulses;
-    EntryRing446 *ring = work->rings;
+    ModelVariantCurtain *ring = work->rings;
     POLY_GT4 *textured = work->textured;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
@@ -185,17 +185,17 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         }
         for (row = 0; row < 4; row++, ring++) {
             for (j = 0, longitude = 0; j < 17; j++, longitude = j * 256) {
-                setVector(&ring->inner[j], rcos(longitude) * work->config->inner_radius >> 12,
+                setVector(&ring->a[j], rcos(longitude) * work->config->inner_radius >> 12,
                     rsin(longitude) * work->config->inner_radius >> 12, 0);
-                setVector(&ring->outer[j], rcos(longitude) * work->config->outer_radius >> 12,
+                setVector(&ring->b[j], rcos(longitude) * work->config->outer_radius >> 12,
                     rsin(longitude) * work->config->outer_radius >> 12, -64);
             }
             if (row == 3) {
-                ring->progress = 0;
+                ring->scale = 0;
             } else {
-                ring->progress = -(row * 4096 / 3);
+                ring->scale = -(row * 4096 / 3);
             }
-            ring->state = 0;
+            ring->count = 0;
         }
         work->width = 1024;
         work->radius = 0;

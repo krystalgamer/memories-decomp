@@ -21,7 +21,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant474EntryState *work;
-    Variant474EntryFunnel *funnel;
+    ModelVariantCurtain *funnel;
     Variant474EntryRibbon *ribbon;
     Variant474EntrySheet *sheet;
     ModelVariantStreamer *streamer;
@@ -30,7 +30,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     POLY_G4 *quad;
     s32 result;
     u16 tpage2, clut2, clut;
-    Variant474EntryMesh *mesh;
+    ModelVariantMesh *mesh;
     POLY_GT4 *textured;
     POLY_FT4 *flat;
     POLY_GT4 *bar;
@@ -142,11 +142,11 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
             s = rsin(angle) * 256 >> 12;
             c = rcos(angle) * 256 >> 12;
             for (j = 0, angle2 = 0; j < 17; j++, angle2 = j << 8) {
-                setVector(&mesh->row[n][j], rcos(angle2) * s >> 12, -c, rsin(angle2) * s >> 12);
+                setVector(&mesh->rows[n][j], rcos(angle2) * s >> 12, -c, rsin(angle2) * s >> 12);
             }
-            mesh->color[n][2] = n * 8 + 64;
-            mesh->color[n][0] = n * 8;
-            mesh->color[n][1] = n * 8;
+            mesh->colors[n][2] = n * 8 + 64;
+            mesh->colors[n][0] = n * 8;
+            mesh->colors[n][1] = n * 8;
         }
         for (i = 0; i < 1; i++, ribbon++) {
             for (j = 0; j < 17; j++) {
@@ -188,14 +188,14 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         }
         for (m = 0; m < 2; funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
-                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4, 0, (u32)rsin(angle) >> 4);
-                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6, -64, (u32)(rsin(angle) * 5) >> 6);
+                setVector(&funnel->a[j], (u32)rcos(angle) >> 4, 0, (u32)rsin(angle) >> 4);
+                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6, -64, (u32)(rsin(angle) * 5) >> 6);
             }
             do {
-                funnel->size = 0;
+                funnel->scale = 0;
             } while (0);
             m++;
-            funnel->field_114 = 0;
+            funnel->count = 0;
         }
         for (i = 0; i < 12; i++, spiral++) {
             for (j = 0; j < 2; j++) {

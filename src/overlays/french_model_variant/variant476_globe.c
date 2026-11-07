@@ -10,7 +10,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant476Globe *globe;
+    ModelVariantMesh *globe;
     GsOT *ot;
     POLY_GT4 *poly;
     u8 *work;
@@ -21,7 +21,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
 
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    globe = (Variant476Globe *)(work + 0xFF8);
+    globe = (ModelVariantMesh *)(work + 0xFF8);
     ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
     poly = (POLY_GT4 *)(work + 0x26D0);
     ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
@@ -50,25 +50,25 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     if (MODEL_VARIANT_WORD(work, 0x284C) < 5) {
         MODEL_VARIANT_WORD(work, 0x280C) = 1024 - (MODEL_VARIANT_WORD(work, 0x27FC) - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            globe->color[i][0] = (i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
-            globe->color[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 16;
-            globe->color[i][2] = (255 - i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
+            globe->colors[i][0] = (i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
+            globe->colors[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 16;
+            globe->colors[i][2] = (255 - i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            globe->color[i][0] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
-            globe->color[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
-            globe->color[i][2] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
+            globe->colors[i][0] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
+            globe->colors[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
+            globe->colors[i][2] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
         }
     }
     for (i = 0; i < 8; i++) {
-        setRGB0(poly, globe->color[i][0], globe->color[i][1], globe->color[i][2]);
-        setRGB1(poly, globe->color[i][0], globe->color[i][1], globe->color[i][2]);
-        setRGB2(poly, globe->color[i + 1][0], globe->color[i + 1][1], globe->color[i + 1][2]);
-        setRGB3(poly, globe->color[i + 1][0], globe->color[i + 1][1], globe->color[i + 1][2]);
+        setRGB0(poly, globe->colors[i][0], globe->colors[i][1], globe->colors[i][2]);
+        setRGB1(poly, globe->colors[i][0], globe->colors[i][1], globe->colors[i][2]);
+        setRGB2(poly, globe->colors[i + 1][0], globe->colors[i + 1][1], globe->colors[i + 1][2]);
+        setRGB3(poly, globe->colors[i + 1][0], globe->colors[i + 1][1], globe->colors[i + 1][2]);
         for (j = 0; j < 16; j++) {
-            otz = RotTransPers4(&globe->points[i][j], &globe->points[i][j + 1],
-                               &globe->points[i + 1][j], &globe->points[i + 1][j + 1],
+            otz = RotTransPers4(&globe->rows[i][j], &globe->rows[i][j + 1],
+                               &globe->rows[i + 1][j], &globe->rows[i + 1][j + 1],
                                (long *)&poly->x0, (long *)&poly->x1,
                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             if (otz >= 0 && flag >= 0) {

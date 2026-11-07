@@ -16,12 +16,12 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant438EntryRing *ring = work->rings;
+    ModelVariantCurtain *ring = work->rings;
     ModelVariantTripleCurtain *curtain = work->curtains;
     Variant438EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
-    Variant438EntrySpoke *spoke = work->spokes;
-    Variant438EntrySpoke *petal = work->petals;
+    ModelVariantColorRing *spoke = work->spokes;
+    ModelVariantColorRing *petal = work->petals;
     Variant438EntryStar *star = work->stars;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantSpiral *glow = work->glows;
@@ -147,7 +147,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
                 ring->scale = -((n << 12) / (MODEL_VARIANT438_RING_COUNT - 1));
             }
 #endif
-            ring->growth = 0;
+            ring->count = 0;
         }
         for (i = 0; i < 1; i++, band++) {
             band->scale[0] = 4096;
@@ -244,17 +244,17 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         }
         for (row = 0, ang = 0; row < 6; row++, spoke++, ang += 256) {
             for (n = 0, angle = ang; n < 8; n++, angle = ang + n * 512) {
-                setVector(&spoke->a[n], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
-                setVector(&spoke->b[n], (u32)(rcos(angle) * 5) >> 6, (u32)(rsin(angle) * 5) >> 6, 0);
+                setVector(&spoke->inner[n], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
+                setVector(&spoke->outer[n], (u32)(rcos(angle) * 5) >> 6, (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            spoke->color_a.r = 64;
-            spoke->color_a.g = 128;
-            spoke->color_a.b = 255;
-            spoke->color_b.r = 0;
-            spoke->color_b.g = 0;
-            spoke->color_b.b = 0;
+            spoke->inner_color.r = 64;
+            spoke->inner_color.g = 128;
+            spoke->inner_color.b = 255;
+            spoke->outer_color.r = 0;
+            spoke->outer_color.g = 0;
+            spoke->outer_color.b = 0;
             spoke->angle = (row << 10) / 6;
-            spoke->field_8C = 0;
+            spoke->count = 0;
         }
         for (i = 0; i < 12; glow++, i++) {
             for (j = 0; j < 2; j++) {
@@ -277,17 +277,17 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         }
         for (row = 0, ang = 0; row < 4; row++, petal++, ang += 200) {
             for (n = 0, angle = ang; n < 8; n++, angle = ang + n * 512) {
-                setVector(&petal->a[n], (u32)(rcos(angle) * 3) >> 5, (u32)(rsin(angle) * 3) >> 5, 0);
-                setVector(&petal->b[n], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
+                setVector(&petal->inner[n], (u32)(rcos(angle) * 3) >> 5, (u32)(rsin(angle) * 3) >> 5, 0);
+                setVector(&petal->outer[n], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
             }
-            petal->color_a.r = 0;
-            petal->color_a.g = 0;
-            petal->color_a.b = 0;
-            petal->color_b.r = 255;
-            petal->color_b.g = 192;
-            petal->color_b.b = 64;
+            petal->inner_color.r = 0;
+            petal->inner_color.g = 0;
+            petal->inner_color.b = 0;
+            petal->outer_color.r = 255;
+            petal->outer_color.g = 192;
+            petal->outer_color.b = 64;
             petal->angle = 1024 - (row << 8);
-            petal->field_8C = 0;
+            petal->count = 0;
         }
         work->color_22CC.r = 192;
         work->color_22CC.g = 192;

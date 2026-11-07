@@ -14,8 +14,8 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    EntryMesh409 *mesh = &work->mesh;
-    EntryFunnel409 *funnel = work->funnels;
+    ModelVariantMesh *mesh = &work->mesh;
+    ModelVariantCurtain *funnel = work->funnels;
     EntryRibbon409 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     EntryStreamer409 *streamer = work->streamers;
@@ -212,17 +212,17 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         }
         for (k = 0; k < 2; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4, 0,
+                setVector(&funnel->a[j], (u32)rcos(angle) >> 4, 0,
                     (u32)rsin(angle) >> 4);
-                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6, -64,
+                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6, -64,
                     (u32)(rsin(angle) * 5) >> 6);
             }
             if (k == 1) {
-                funnel->size = 0;
+                funnel->scale = 0;
             } else {
-                funnel->size = -(k * 4096);
+                funnel->scale = -(k * 4096);
             }
-            funnel->field_114 = 0;
+            funnel->count = 0;
         }
         for (i = 0; i < 4; i++, streamer++) {
             for (j = 0; j < 17; j++) {

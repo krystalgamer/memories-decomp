@@ -22,12 +22,6 @@ typedef struct {
     u32 spiral_start;
 } EntryConfig409;
 
-/* A nine-row, seventeen-column dome mesh with one colour per row. */
-typedef struct {
-    SVECTOR rows[9][17];
-    u8 colors[9][4];
-} EntryMesh409;
-
 typedef struct {
     u8 unknown_000[0x220];
     CVECTOR colors[2];
@@ -47,17 +41,12 @@ typedef struct {
 } EntryStreamer409;
 
 typedef struct {
-    SVECTOR inner[17], outer[17];
-    s32 size, field_114;
-} EntryFunnel409;
-
-typedef struct {
-    EntryMesh409 mesh;
+    ModelVariantMesh mesh;
     EntryRibbon409 ribbons[1];
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     EntryStreamer409 streamers[4];
-    EntryFunnel409 funnels[2];
+    ModelVariantCurtain funnels[2];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_1EB4[0x34];
     POLY_GT4 special;

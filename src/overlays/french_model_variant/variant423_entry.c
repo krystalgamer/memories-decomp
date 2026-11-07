@@ -12,7 +12,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    Mesh423Rows *mesh = &work->mesh;
+    ModelVariantMesh *mesh = &work->mesh;
     Funnel423 *funnel = work->funnels;
     EntryRibbon423 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;

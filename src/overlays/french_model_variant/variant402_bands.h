@@ -3,13 +3,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 scale;
-    s32 cycles;
-} Family402Band;
-
 void FrenchModelVariant402_DrawBands(u8 *context);
 
 #ifdef MODEL_VARIANT412_BANDS

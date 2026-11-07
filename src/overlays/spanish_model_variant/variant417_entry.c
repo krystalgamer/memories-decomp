@@ -17,7 +17,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     Variant417EntryRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;
-    Variant417EntrySpoke *spoke = work->spokes;
+    ModelVariantColorRing *spoke = work->spokes;
     ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
@@ -236,17 +236,17 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
         }
         for (row = 0, ang = 0; row < 4; row++, spoke++, ang += 256) {
             for (n = 0, angle = ang; n < 8; n++, angle = ang + n * 512) {
-                setVector(&spoke->a[n], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
-                setVector(&spoke->b[n], (u32)(rcos(angle) * 5) >> 6, (u32)(rsin(angle) * 5) >> 6, 0);
+                setVector(&spoke->inner[n], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
+                setVector(&spoke->outer[n], (u32)(rcos(angle) * 5) >> 6, (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            spoke->color_a.r = 64;
-            spoke->color_a.g = 128;
-            spoke->color_a.b = 255;
-            spoke->color_b.r = 0;
-            spoke->color_b.g = 0;
-            spoke->color_b.b = 0;
+            spoke->inner_color.r = 64;
+            spoke->inner_color.g = 128;
+            spoke->inner_color.b = 255;
+            spoke->outer_color.r = 0;
+            spoke->outer_color.g = 0;
+            spoke->outer_color.b = 0;
             spoke->angle = row << 8;
-            spoke->field_8C = 0;
+            spoke->count = 0;
         }
         work->width = 1024;
         work->ribbon_width = 1024;

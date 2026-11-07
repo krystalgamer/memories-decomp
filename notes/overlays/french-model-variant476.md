@@ -275,7 +275,7 @@ progress fixture change during reconciliation.
 
 The locally recovered globe at `0x2848..0x2DD4` matches both model 712
 stage 9/10 images: 1,420 instruction bytes and a 280-byte frame each.
-The private `Variant476Globe` view uses the existing local SDK declarations;
+The private `ModelVariantMesh` view uses the existing local SDK declarations;
 no accepted Spanish or US globe body was available to reuse. Slot 1 only
 renamed the function through a three-line wrapper; it has since been
 removed (see [Names](#names)). Shared sources, SDK

@@ -12,7 +12,7 @@ void SpanishModelVariant423_DrawMesh(u8 *context)
     long interpolation;
     long flag;
     Mesh423State *state = (Mesh423State *)context;
-    Mesh423Rows *mesh = &state->mesh;
+    ModelVariantMesh *mesh = &state->mesh;
     POLY_GT4 *polygon;
     GsOT *ot;
     s32 i, j;
