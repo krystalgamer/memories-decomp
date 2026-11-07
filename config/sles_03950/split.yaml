@@ -437,7 +437,7 @@ segments:
       - [0x8CF94, .sbss, game/european/display_object_system]
       - [0x8CFA8, .sbss, game/italian/main_boot_frontend]
       - [0x8CFB0, .sbss, game/european/mem_card_driver]
-      - [0x8CFD8, .sbss, game/european/sound_driver]
+      - [0x8CFD8, sbss, sound_driver_commons]
       - [0x8CFE8, .sbss, game/spanish/model]
       - [0x8D018, .sbss, game/spanish/movie_pipeline]
       - [0x8D038, .bss, game/italian/main]
