@@ -1479,3 +1479,6 @@ gDebugMenu_bCampaignEditField = 0x8009C67E;
 gDebug_szEditorCaretLine = 0x800EC260;
 gModel_aPoseSnapshot = 0x800F3EA8;
 gModel_aEffectKeys = 0x800F3EC8;
+gSD_dwSavedBgmCommand = 0x8009C780;
+gSD_bOutputType = 0x8009C784;
+gSD_dwCurrentBgmCommand = 0x8009C788;
