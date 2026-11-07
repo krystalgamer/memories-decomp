@@ -1006,9 +1006,11 @@ channel controls without changing their byte storage:
 stores name four more channel members: the byte `field_0004`, which
 `func_8004B374` also clears, the two words `field_0008` and `field_000C`,
 both reset to `0x7F`, and the halfword `field_0014`. In the other layouts it
-names object halfword `field_001C` at `+0x1C`, which is set to `0x40` beside
-`cached_pitch_bend`, and track byte `field_002B`. Nothing else in C reads
-them, so they keep offset-based names. Replacing the `u8` padding with `s32`
+names track byte `field_002B`. Nothing else in C reads them, so they keep
+offset-based names. Object halfword `key_on_pitch_bend` at `+0x1C` is set to
+`0x40` (the bend centre) beside `cached_pitch_bend` here, and
+`SD_KeyOnSecondaryNote` copies the channel's `pitch_bend_msb` into it at
+key-on; no reader is established. Replacing the `u8` padding with `s32`
 gives `SDSecondaryRecord` 4-byte alignment. Its size and offsets are
 unchanged, and its only container is the 4-aligned `SDSecondaryState`.
 
