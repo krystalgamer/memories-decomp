@@ -45,7 +45,7 @@ void DebugMenu_UpdateMapEntry(void)
         if (result < 0) {
             gDebugMenu_bStep = 0;
         } else {
-            gCampaignMap_bEntryLocation[0] = 0;
+            gCampaignMap_bEntryLocation = 0;
             gMain_bActiveModeState = 5;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }

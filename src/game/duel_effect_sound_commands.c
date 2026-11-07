@@ -114,5 +114,5 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
     u8 value = *(*stream)++;
     gMain_bActiveModeState = 5;
-    gCampaignMap_bEntryLocation[0] = value;
+    gCampaignMap_bEntryLocation = value;
 }
