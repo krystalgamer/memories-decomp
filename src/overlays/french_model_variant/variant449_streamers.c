@@ -23,7 +23,7 @@ void FrenchModelVariant449_DrawStreamers(u8 *ctx)
     s32 turn;
     s16 j;
     s32 radius;
-    Variant449Streamer *streamer;
+    ModelVariantShortStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;

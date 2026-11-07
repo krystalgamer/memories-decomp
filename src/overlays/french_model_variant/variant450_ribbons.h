@@ -1,13 +1,8 @@
 #ifndef FRENCH_MODEL_VARIANT450_RIBBONS_H
 #define FRENCH_MODEL_VARIANT450_RIBBONS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "variant450_bands.h"
-
-typedef struct {
-    s32 completed;
-    VECTOR target;
-    VECTOR delta;
-} Model450RibbonTail;
 
 typedef struct {
     SVECTOR points[9];
@@ -23,7 +18,7 @@ typedef struct {
     s16 x_offset[9];
     s16 y_offset[9];
     s32 phase[9];
-    Model450RibbonTail tail;
+    ModelVariantRibbonTail tail;
 } Model450Ribbon;
 
 typedef struct {

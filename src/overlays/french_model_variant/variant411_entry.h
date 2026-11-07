@@ -24,7 +24,7 @@ typedef struct {
 typedef struct {
     ModelVariantTubeView tubes[1];
     ModelVariantSheet sheets[2];
-    Funnel411 funnels[2];
+    ModelVariantFunnel funnels[2];
     EntryRing411 rings[4];
     EntryExtra411 extras[2];
     Beam411 beams[16];

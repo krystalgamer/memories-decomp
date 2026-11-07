@@ -44,7 +44,7 @@ palette x = 640 (`variant476_entry{,_slot1}.c`); see
 
 The independently recovered `0x170C..0x20BC` helper matches all 2,480 bytes
 with a 304-byte frame in each slot. It reuses the unchanged local
-`Variant418SpiralArm` declaration, not the other family's geometry or
+`ModelVariantFlaggedSpiralArm` declaration, not the other family's geometry or
 timing behavior. Sixteen 132-byte records occupy `context + 0x720..0xF60`.
 Each has two spine points at `0x10`, projections at `0x20`, angles at
 `0x28`, displaced points at `0x30`, their projections at `0x40`, widths

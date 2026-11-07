@@ -5,19 +5,12 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 size;
-    u8 unknown_114[4];
-} Funnel474;
-
-typedef struct {
     u8 unknown_00[0x264];
     s32 size;
 } Funnel474TriggerView;
 
 typedef struct {
-    Funnel474 funnels[2];
+    ModelVariantFunnel funnels[2];
     Funnel474TriggerView trigger;
     u8 unknown_0498[0x14CC];
     POLY_GT4 quad;

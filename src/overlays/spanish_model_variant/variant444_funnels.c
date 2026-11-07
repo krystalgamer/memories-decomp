@@ -16,7 +16,7 @@ void SpanishModelVariant444_DrawFunnels(u8 *context)
     long interpolation;
     long flag;
     Funnel411State *state = (Funnel411State *)context;
-    Funnel411 *funnel = state->funnels;
+    ModelVariantFunnel *funnel = state->funnels;
     ModelVariantSheet *sheet;
     POLY_GT4 *quad;
     GsOT *ot;

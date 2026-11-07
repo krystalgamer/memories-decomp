@@ -11,7 +11,7 @@ the helper directly.
 ## Behaviour and method
 
 This is the twelve-arm spiral of the accepted MODEL473 spiral (#7134), drawn in
-three passes. The arms are 0x84-byte `Variant418SpiralArm` records at
+three passes. The arms are 0x84-byte `ModelVariantFlaggedSpiralArm` records at
 `+0x19C8`, which carry their own projection flags. The packet is at `+0x3560`.
 While the phase at `+0x37C4` is not negative, each pass:
 

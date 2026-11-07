@@ -16,7 +16,7 @@ typedef struct {
  * the rest moved, and a flag choosing one ring or two. */
 typedef struct {
     u8 unknown_000[0x3A4];
-    ModelVariant337Ring rings[2];
+    ModelVariantScaledSheetView rings[2];
     u8 unknown_4D4[0x764];
     POLY_GT4 quad;
     u8 unknown_C6C[0xB0];

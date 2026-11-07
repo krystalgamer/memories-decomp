@@ -12,7 +12,7 @@ void FrenchModelVariant474_DrawPairedFunnels(u8 *context)
     long flag;
     Funnels474State *state = (Funnels474State *)context;
     Funnel474TriggerView *trigger;
-    Funnel474 *funnel = state->funnels;
+    ModelVariantFunnel *funnel = state->funnels;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, k;

@@ -397,7 +397,7 @@ indexed trials and two canonical matches. The addition is 26 C instances /
 68,640 instruction bytes, not new registrations.
 
 Thirty-eight freshly compiled layout constants and 244 retail anchors
-verify twelve 132-byte `Variant418SpiralArm` records at context
+verify twelve 132-byte `ModelVariantFlaggedSpiralArm` records at context
 `0x720..0xD50`, between the established webs and ribbons. Each has two
 eight-byte spine points at `0x10`, two offset points at `0x30`, projected
 screens at `0x20/0x40`, angles at `0x28`, widths at `0x48`, color rows at

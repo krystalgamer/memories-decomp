@@ -77,7 +77,7 @@ slot and command fields extend the minimum observed context through
 checks 63 entry layout constants in addition to the 61 helper constants.
 
 The two streamers at `0x254C` have stride `0x378`, independently agreeing
-with the existing local `Variant321Streamer` declaration. Point rows are at
+with the existing local `ModelVariantFlaggedStreamer` declaration. Point rows are at
 `0/0x110`, screen rows at `0x88/0x198`, angle/width columns at `0xCC/0x1DC`,
 colours at `0x264`, projection flags/depths at `0x2AC/0x2F0`, and offset
 halfwords at `0x334/0x356`. Their FT4 packet pair starts at `0x2D68`.

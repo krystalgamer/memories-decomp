@@ -151,7 +151,7 @@ unconditional packet-color writes are retained exactly.
 
 ### Timed streamers at `1B6C`
 
-Two canonical 888-byte `Variant321Streamer` records start at `13C0` and end
+Two canonical 888-byte `ModelVariantFlaggedStreamer` records start at `13C0` and end
 at the strand array's `1AB0`. Seventeen-point generation uses a signed-short
 reach of 128, the measured frame-dependent rotations, and word-sized world
 translation at `1F34`. The large-width clamp is two, not the NA321 value

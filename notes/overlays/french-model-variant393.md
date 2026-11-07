@@ -140,7 +140,7 @@ regenerated as part of this matching change.
 ## Streamer recovery
 
 The independent French streamer source reuses the unchanged local
-`Variant376Streamer` header. Its two `0x378` records begin at context
+`ModelVariantFlaggedStreamer` header. Its two `0x378` records begin at context
 `0x4D4`; seventeen-point grids, packed screens and angles occupy
 `0/0x110`, `0x88/0x198` and `0xCC`. Widths, colors, per-point projection
 flags, depths and signed screen offsets occupy `0x1DC`, `0x264`,

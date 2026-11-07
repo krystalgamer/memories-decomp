@@ -21,7 +21,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     s32 distance;
     s32 spread;
     s32 turn;
-    Variant418SpiralArm *arm;
+    ModelVariantFlaggedSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -33,7 +33,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0xC50), MODEL_VARIANT_WORD(work, 0xC48)) + 0xC00;
-    arm = (Variant418SpiralArm *)(work + 0x438);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
     poly = (POLY_GT4 *)(work + 0xAC0);
     radius = MODEL_VARIANT_HALF(work, 0xC90) * 4;
     eighth = MODEL_VARIANT_HALF(work, 0xC90) / 8;
@@ -87,7 +87,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant418SpiralArm *)(work + 0x438);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -113,7 +113,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
             }
         }
     }
-    arm = (Variant418SpiralArm *)(work + 0x438);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];

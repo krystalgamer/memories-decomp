@@ -36,7 +36,7 @@ typedef struct {
     EntryRibbon436 ribbons[4];
     Sheet436 sheets[1];
     ModelVariantBandTriple records[1];
-    Streamer436 streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_1098[0x318];
     POLY_G3 triangle;
     POLY_G4 quad;

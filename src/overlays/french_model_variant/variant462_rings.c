@@ -16,7 +16,7 @@ void FrenchModelVariant462_DrawRings(u8 *context)
     long flag;
     GsOT *ot;
     Rings462State *state = (Rings462State *)context;
-    Ring462 *ring;
+    ModelVariantQuadRingView *ring;
     POLY_FT4 *polygon;
     s16 i;
     s16 angle;
