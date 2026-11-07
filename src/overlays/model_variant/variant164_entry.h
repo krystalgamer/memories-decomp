@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT164_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_queries.h"
 #include "../../game/model_slot_data.h"
@@ -18,23 +19,12 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
-/* One 0x24-byte command row, picked by command % 100: the particle and glow
- * colours, the slot part the particles start from, the particle count, the
- * particle half size, the target sphere radius, the glow half size, the ring
- * radius, the rise, fade and pulse durations, the gather and burst durations,
- * the spacing between particles, the spin rate and the three start times. */
-typedef struct {
-    u8 red, green, blue, glow_red, glow_green, glow_blue, part, count;
-    s16 size, radius, glow_size, ring_radius, rise, fade, pulse, gather, burst, spacing, spin;
-    s16 delay, delay2, start;
-} Model164Config;
-
 /* The 0x638-byte work area: the command row, 64 particle positions and 64
  * target points, the gather centre, a 66-point double ring, three texture
  * words, the completion flag, the elapsed time, a frame count and the mode
  * (command / 100). */
 typedef struct {
-    Model164Config *config;
+    ModelVariantGatherConfig *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR centre;
@@ -47,7 +37,7 @@ typedef struct {
 } Model164State;
 
 extern GsIMAGE gModelVariant164_aImages[];
-extern Model164Config gModelVariant164_aConfigs[];
+extern ModelVariantGatherConfig gModelVariant164_aConfigs[];
 
 s32 ModelVariant164_HandleRequest(u8 *context, s32 command);
 

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT138_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_texture_upload.h"
@@ -16,19 +17,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
-/* One 0x28-byte command row: the wave's colour, two unused colour ranges,
- * the sprites' colour, then the sprite size, the bounce height, the sway and
- * drift of the ring, the spin speed, the grid size, the base height, the wave
- * amplitude, the period, the fade time, the lead time and the frame the fade
- * starts. */
-typedef struct {
-    u8 red, green, blue;
-    u8 low[3], high[3];
-    u8 sprite_red, sprite_green, sprite_blue;
-    s16 sprite_size, bounce, sway, drift, speed, grid_size, base, amplitude, period, unknown_1E;
-    s16 fade, unknown_22, lead, start;
-} Model138Config;
-
 /* One rainbow vertex colour. */
 typedef struct {
     u8 red, green, blue, unknown_03;
@@ -40,7 +28,7 @@ typedef struct {
  * spin angle, three texture words, the completion flag and the elapsed
  * time. */
 typedef struct {
-    Model138Config *config;
+    ModelVariantWaveConfig *config;
     SVECTOR grid[169];
     Model138Colour colours[169];
     Model138Colour ring[153];
@@ -57,7 +45,7 @@ typedef struct {
 
 extern char gModelVariant138_szWorkSizeFormat[];
 extern GsIMAGE gModelVariant138_aImages[];
-extern Model138Config gModelVariant138_aConfigs[];
+extern ModelVariantWaveConfig gModelVariant138_aConfigs[];
 
 s32 ModelVariant138_HandleRequest(u8 *context, s32 command);
 

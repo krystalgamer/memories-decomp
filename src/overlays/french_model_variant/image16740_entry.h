@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE16740_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -14,28 +15,7 @@
 #include "../../game/graphics_packet_submission.h"
 
 typedef struct {
-    u8 beam_color[3];
-    u8 ring_color[3];
-    u8 unknown_06[2];
-    s16 height;
-    s16 half_width;
-    s16 spread;
-    s16 radius;
-    s16 thickness;
-    s16 ring_height;
-    s16 beam_duration;
-    s16 ring_span;
-    s16 ring_duration;
-    s16 flash_duration;
-    s16 beam_spacing;
-    s16 ring_spacing;
-    s16 ring_begin;
-    s16 beam_begin;
-    s16 flash_begin;
-} Image16740Config;
-
-typedef struct {
-    Image16740Config *config;
+    ModelVariantBeamRingConfig *config;
     SVECTOR beams[32];
     SVECTOR origin;
     SVECTOR ring[66];
@@ -47,6 +27,6 @@ typedef struct {
 
 extern VECTOR gFrenchModelVariant196_UnitScale;
 extern GsIMAGE gFrenchModelVariant196_aImages[2];
-extern Image16740Config gFrenchModelVariant196_aConfigs[];
+extern ModelVariantBeamRingConfig gFrenchModelVariant196_aConfigs[];
 
 #endif

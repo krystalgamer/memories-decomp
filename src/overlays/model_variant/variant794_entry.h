@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT794_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -19,42 +20,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/abs.h"
 
-/* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
- * ray colours, the model point the bolts leave from, the muzzle size, the
- * flight length, the bolt count, the ring of sprites and spinning strips
- * around each bolt, the smoke puffs, the impact glow, its rays and sparks,
- * the two fade steps and the spawn period, start and end. */
-typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
-    u8 ray_r, ray_g, ray_b;
-    u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
-    u16 glow_size;
-    u16 ray_spread;
-    u16 ray_width;
-    u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
-    u8 fade, unknown_33;
-    u8 ray_fade, unknown_35;
-    u16 period;
-    u16 start;
-    u16 end;
-} Model794Config;
-
 /* The work area: the command row; per bolt its position, step, strip
  * angle, ring offsets, target, 32-point trail, origin, smoke puffs
  * and their velocities, impact rays and sparks; the timers, the per-bolt
@@ -62,7 +27,7 @@ typedef struct {
  * trail heads; the bolt count, the arrival flags, the phase, the ambient
  * level, the five textures and the per-bolt bolt, glow and ray colours. */
 typedef struct {
-    Model794Config *config;
+    ModelVariantBoltStreamConfig *config;
     SVECTOR pos[16];
     SVECTOR step[16];
     SVECTOR angle[16];
@@ -100,7 +65,7 @@ typedef struct {
 } Model794State;
 
 extern GsIMAGE gModelVariant794_aImages[];
-extern Model794Config gModelVariant794_aConfigs[];
+extern ModelVariantBoltStreamConfig gModelVariant794_aConfigs[];
 
 s32 ModelVariant794_HandleRequest(u8 *context, s32 command);
 
