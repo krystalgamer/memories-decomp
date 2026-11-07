@@ -189,10 +189,10 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
         work->color[0] = 192;
         work->color[1] = 192;
         work->color[2] = 192;
-        work->field_101E = 255;
+        work->outer_b = 255;
         work->progress = 0;
-        work->field_101C = 0;
-        work->field_101D = 0;
+        work->outer_r = 0;
+        work->outer_g = 0;
         work->field_1020 = 0;
         work->field_1022 = 0;
         work->field_1024 = 0;
