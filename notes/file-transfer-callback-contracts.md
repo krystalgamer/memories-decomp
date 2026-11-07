@@ -8,30 +8,24 @@ processing, package selection or descriptor state transitions.
 ## Ready-system declaration ownership
 
 `File_TransferReadyCallback` already names the matched implementation in
-`file_transfer_runtime.c`. Its canonical `void(s32)` declaration now belongs
-to `file_transfer.h`, which the implementation already includes. The
+`file_transfer_runtime.c`. It takes libds's `DslRCB` arguments
+(`u8, u8 *, u32 *`) and reads only the interrupt byte; its declaration
+belongs to `file_transfer.h`, which the implementation already includes. The
 formerly separate `file_ready_sector.h` remains a compatibility forwarder to
 that owner, without a second private prototype.
 
-The old `func_80013C28` declarations are intentional fixed-address ABI
-views, not another callback to rename or remove. Both the
-`FUNC_80013C28_CALLBACK_VIEW` arm (`u8, u8 *, u32 *`) and its `s32`
-alternative remain exactly as before. Their legacy linker labels and
-policy metadata remain unchanged. A canonical implementation prototype
-does not erase the three-argument SDK entry shape.
+The unused fixed-address `func_80013C28` declarations and linker alias
+are gone: the definition itself now carries the SDK entry shape.
 
-`DsStartReadySystem` still receives the original explicit `DslRCB` cast.
-The implementation still masks the first argument to a byte, increments
-its byte counter before the event gate and increments the separate
+`DsStartReadySystem` receives the callback without a cast.
+The implementation masks the first argument to a byte through its `u8`
+parameter, increments its byte counter before the event gate and increments the separate
 word counter only for event one. Its source remains the same grouped
 sixteen-function unit with all original signatures, copy loops, callback
 reloads, buffers, flags, signedness and compiler profiles.
 
 The existing CD-ready witness includes both the owning header and the
-compatibility path. Neither include, callback-view selector, generated
-witness, assertion, stub, control nor fixture changes. In particular,
-selecting the three-argument legacy view must not conflict with the
-canonical `s32` implementation declaration.
+compatibility path.
 
 This checkpoint preserves all 940 complete compiler/MASPSX outputs
 byte-for-byte, with no symbol, instruction, directive, relocation or filename

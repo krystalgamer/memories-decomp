@@ -1329,7 +1329,9 @@ s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const 
     DisplayObjectStream_ConfigureRotation,
 };
 
-void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
+void DisplayObjectStream_ReadNextCommand(
+    DisplayObjectStreamState *object, s32 script, s32 attribute, DisplayObject *owner
+)
 {
     u8 *p;
     s32 op;
@@ -1428,7 +1430,7 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         object->field_5A = remain;
         if (remain <= 0) {
 call_it:
-            ((void (*)(DisplayObject *, s32, s32, DisplayObject *))DisplayObjectStream_ReadNextCommand)(object, script, attribute, object);
+            DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
         }
     }
 }

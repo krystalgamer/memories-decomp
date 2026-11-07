@@ -20,15 +20,6 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry);
  * never read; the command pump's retail call still loads $a1 with 1. */
 void SD_PlaySequence(s32 start, s32 unused);
 
-/* The definition returns s32 and takes no arguments. Secondary playback has
- * two retail register setups: one leaves the state pointer in $a0 and the
- * other leaves $a0 untouched. SD_PlaySequence uses the canonical no-argument
- * declaration; its preceding state writes already reproduce the first setup.
- * The void-returning view remains for callers that still select it. */
-#ifdef SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
-void SD_StartSequenceTracks(SDSecondaryState *state);
-#else
 s32 SD_StartSequenceTracks(void);
-#endif
 
 #endif
