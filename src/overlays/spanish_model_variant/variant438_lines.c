@@ -122,8 +122,8 @@ void SpanishModelVariant438_DrawLines(u8 *context)
         }
         if (state->phase == 0) {
             if (group->size > 0) {
-                cycle = ((state->time - state->timing->cycle_start) * 3 << 12) /
-                         (state->timing->cycle_end - state->timing->cycle_start) - 4096;
+                cycle = ((state->time - state->timing->grow_start) * 3 << 12) /
+                         (state->timing->grow_end - state->timing->grow_start) - 4096;
                 group->size = i * 4096 / 3 - cycle;
                 if (group->size <= 0) {
                     group->size += 4096;

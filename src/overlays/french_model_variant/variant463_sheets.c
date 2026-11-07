@@ -11,7 +11,7 @@ void FrenchModelVariant463_DrawSheets(u8 *context)
     long interpolation;
     long flag;
     Sheets463State *state = (Sheets463State *)context;
-    Sheets463Primary *primary = state->primary;
+    ModelVariantSheetPrimaryWide *primary = state->primary;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon = state->polygons;
     Sheets463Timing *timing;

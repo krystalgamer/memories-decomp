@@ -84,16 +84,16 @@ void SpanishModelVariant473_DrawSheets(u8 *context)
         }
         if (i == 5) {
             if (state->phase == 0 && sheet->size < 4096) {
-                sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                              (state->timing->grow_end - state->timing->grow_begin);
+                sheet->size = ((state->time - state->timing->grow_start) << 12) /
+                              (state->timing->grow_end - state->timing->grow_start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-            if (state->time >= state->timing->fade_begin && sheet->size > 0) {
-                sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                    (state->timing->fade_end - state->timing->fade_begin);
+            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
+                sheet->size = 4096 - ((state->time - state->timing->shrink_start) << 12) /
+                                    (state->timing->shrink_end - state->timing->shrink_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
@@ -108,9 +108,9 @@ void SpanishModelVariant473_DrawSheets(u8 *context)
                     state->phase = 4;
                 }
             }
-            if (state->time >= state->timing->fade_begin && sheet->size > 0) {
-                sheet->size = 8192 - ((state->time - state->timing->fade_begin) << 13) /
-                                    (state->timing->fade_end - state->timing->fade_begin);
+            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
+                sheet->size = 8192 - ((state->time - state->timing->shrink_start) << 13) /
+                                    (state->timing->shrink_end - state->timing->shrink_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }

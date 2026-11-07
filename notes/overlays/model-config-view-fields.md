@@ -156,8 +156,8 @@ Entry `french_model_variant/variant461_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `Sheets461Timing.first_count` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
-| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `Sheets461Timing.paired` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
+| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
+| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
 
 ## `Variant464EntryConfig` (`gFrenchModelVariant464_aConfigs`)
 
@@ -175,6 +175,6 @@ Entry `french_model_variant/variant473_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `Sheets473Timing.grow_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
-| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `Sheets473Timing.fade_begin` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->fade_begin && sheet->size > 0)` | high |
-| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `Sheets473Timing.fade_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
+| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |

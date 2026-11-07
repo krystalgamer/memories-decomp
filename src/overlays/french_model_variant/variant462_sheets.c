@@ -13,7 +13,7 @@ void FrenchModelVariant462_DrawSheets(u8 *context)
     long interpolation;
     long flag;
     Sheets462State *state = (Sheets462State *)context;
-    Sheets462Primary *primary = state->primary;
+    ModelVariantSheetPrimaryWide *primary = state->primary;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon = state->polygons;
     Sheets462Timing *timing;

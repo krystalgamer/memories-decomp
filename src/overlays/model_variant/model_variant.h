@@ -285,6 +285,24 @@ typedef struct {
     u8 pad8C[0x0C];
 } ModelVariantSheet;
 
+/* A 0x250-byte primary record the sheet helpers read for its active flag and
+ * size. */
+typedef struct {
+    u8 unknown_00[0x188];
+    s32 active;
+    s32 size;
+    u8 unknown_190[0xC0];
+} ModelVariantSheetPrimary;
+
+/* A 0x2B0-byte primary record the sheet helpers read for its active flag and
+ * size. */
+typedef struct {
+    u8 unknown_000[0x1C8];
+    s32 active;
+    s32 size;
+    u8 unknown_1D0[0xE0];
+} ModelVariantSheetPrimaryWide;
+
 /* One 0x1C8-byte band of the bands helper: three rows of nine points, the
  * screen coordinates RotTransPers3 writes for them, two colour rows and the
  * nine depths. */
@@ -347,6 +365,13 @@ typedef struct {
     u16 ox[2];
     u16 oy[2];
 } ModelVariantRibbon;
+
+/* The ribbon command row: the fade window at + 0x24. */
+typedef struct {
+    u8 unknown00[0x24];
+    u32 fade_start;
+    u32 fade_end;
+} ModelVariantRibbonFadeTiming;
 
 /* Header 425's 0x6C-byte ribbon: the same fields with eight bytes less
  * between the widths and the depths. */
@@ -423,6 +448,27 @@ typedef struct {
     s32 shown;
 } ModelVariantSheetSet;
 
+/* The sheet command row: the window in which the sheets grow and the later
+ * window in which they shrink again. */
+typedef struct {
+    u8 unknown_00[0x18];
+    u32 grow_start;
+    u32 grow_end;
+    u8 unknown_20[4];
+    u32 shrink_start;
+    u32 shrink_end;
+} ModelVariantSheetTiming;
+
+/* ModelVariantSheetTiming with the shrink window one word later. */
+typedef struct {
+    u8 unknown_00[0x18];
+    u32 grow_start;
+    u32 grow_end;
+    u8 unknown_20[8];
+    u32 shrink_start;
+    u32 shrink_end;
+} ModelVariantSheetTimingWide;
+
 /* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
  * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
  * of the times it wrapped. The entry handlers start the scales staggered at
@@ -479,6 +525,26 @@ typedef struct {
     long interpolation, flag, target;
 } ModelVariantPackedProjection;
 
+/* The paired-sheet command row: the first sheet count, the pairing flag and
+ * the fade window. */
+typedef struct {
+    u8 unknown_00[0x1C];
+    s32 first_count;
+    s32 paired;
+    u8 unknown_24[0x0C];
+    u32 fade_begin;
+    u32 fade_end;
+    u8 unknown_38[8];
+} ModelVariantPairedSheetTiming;
+
+/* One 0x3A8-byte record of the array at work + 0xED0 of header 427, read by
+ * the mesh and panel helpers only for its progress at + 0x240. */
+typedef struct {
+    u8 unknown_000[0x240];
+    s32 progress;
+    u8 unknown_244[0x164];
+} ModelVariantProgressRecord;
+
 /* One 0x90-byte fan record: a centre point and two rings of five points
  * (point[0], point[1..5], point[6..10]), four quad corners, the inner and
  * outer colours, the growing size and a done flag. */
@@ -492,6 +558,34 @@ typedef struct {
     s32 done;
     u8 unknown_8C[4];
 } ModelVariantFan;
+
+/* A 0x4F8-byte record read only for its size at + 0x4EC, which scales the
+ * funnels or curtains drawn over it. */
+typedef struct {
+    u8 unknown_000[0x4EC];
+    s32 size;
+    u8 unknown_4F0[8];
+} ModelVariantGridScale;
+
+/* The funnel and sheet command row of headers 411 and 444: the growth window
+ * and the fade window. */
+typedef struct {
+    u8 unknown_00[0xC];
+    u32 grow_start;
+    u32 grow_end;
+    u8 unknown_14[4];
+    u32 fade_start;
+    u32 fade_end;
+} ModelVariantGrowFadeTiming;
+
+/* Header 438's command row, read through one pointer at work + 0x22B4 by both
+ * helpers: the sheets grow in the window at + 0x1C, and the lines cycle their
+ * colour in the same window. */
+typedef struct {
+    u8 unknown_00[0x1C];
+    u32 grow_start;
+    u32 grow_end;
+} ModelVariantGrowTiming;
 
 /* One 0x1A0-byte group of lines: two sets of four six-point lines, a colour,
  * the size and the finished flag. */

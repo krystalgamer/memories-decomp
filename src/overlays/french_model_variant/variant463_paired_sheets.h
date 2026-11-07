@@ -18,14 +18,7 @@ typedef struct {
 } PairedSheets463Timing;
 
 typedef struct {
-    u8 unknown_000[0x1C8];
-    s32 active;
-    s32 size;
-    u8 unknown_1D0[0xE0];
-} PairedSheets463Primary;
-
-typedef struct {
-    PairedSheets463Primary primary[1];
+    ModelVariantSheetPrimaryWide primary[1];
     u8 unknown_02B0[0x1830];
     ModelVariantSheetSet sheets[10];
     u8 unknown_20F8[0x223C];

@@ -5,13 +5,7 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    u8 unknown_000[0x4EC];
-    s32 size;
-    u8 unknown_4F0[8];
-} Curtains479Primary;
-
-typedef struct {
-    Curtains479Primary primary[5];
+    ModelVariantGridScale primary[5];
     u8 unknown_18D8[0x15E0];
     s32 pulse_scale;
     u8 unknown_2EBC[0xA04];

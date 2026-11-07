@@ -11,14 +11,8 @@ typedef struct {
 } Mesh427;
 
 typedef struct {
-    u8 unknown_000[0x240];
-    s32 progress;
-    u8 unknown_244[0x164];
-} Mesh427Companion;
-
-typedef struct {
     Mesh427 meshes[3];
-    Mesh427Companion companions[3];
+    ModelVariantProgressRecord companions[3];
     u8 unknown_19C8[0x1A88];
     POLY_GT4 polygon;
     u8 unknown_3484[0x20C];

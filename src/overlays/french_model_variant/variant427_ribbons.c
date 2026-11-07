@@ -34,7 +34,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     s32 dy;
     s32 dz;
     s32 sy;
-    Ribbon379Timing *timing;
+    ModelVariantRibbonFadeTiming *timing;
     u8 *v;
     s32 n;
     s32 kk;

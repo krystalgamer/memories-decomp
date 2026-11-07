@@ -98,9 +98,9 @@ Entry `spanish_model_variant/variant479_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `Sheets479Timing.grow_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
-| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_start` | `Sheets479Timing.fade_begin` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `if (state->time >= state->timing->fade_begin && sheet->size > 0)` | high |
-| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `Sheets479Timing.fade_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_start` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
+| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |
 
 ## Names chosen and skipped
 

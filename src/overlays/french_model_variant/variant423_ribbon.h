@@ -22,12 +22,6 @@ typedef struct {
 } Ribbon423;
 
 typedef struct {
-    u8 unknown00[0x24];
-    u32 fade_start;
-    u32 fade_end;
-} Ribbon423Timing;
-
-typedef struct {
     u8 unknown0000[0x4EC];
     Ribbon423 ribbon[1];
     u8 unknown084C[0x1C70 - 0x84C];
@@ -44,7 +38,7 @@ typedef struct {
     s32 unknown1D94;
     s32 step;
     s32 unknown1D9C;
-    Ribbon423Timing *timing;
+    ModelVariantRibbonFadeTiming *timing;
     u8 unknown1DA4[0xC];
     s32 fade;
     u8 unknown1DB4[0x20];
