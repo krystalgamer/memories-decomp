@@ -368,7 +368,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         b = p->channel_index;
         e->field_40.clut.x = TEXT_BOX_GLYPH_CLUT_X;
         e->field_40.clut.y = TEXT_BOX_GLYPH_CLUT_Y;
-        e->field_66 = 0xA;
+        e->texture_page = 0xA;
         f = e->flags;
         e->field_4C = (s32)TextBox_DrawEntries;
         e->field_67 = b;

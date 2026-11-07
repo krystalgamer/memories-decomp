@@ -1,4 +1,4 @@
-#define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
+#define DISPLAY_OBJECT_RESOURCE_UV_BYTES(object) ((u8 *)&(object)->resource_uv)
 #include "../types.h"
 #include "card_constants.h"
 #include "file_transfer.h"
@@ -92,9 +92,9 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_3C.word = 0x00100038;
 #ifdef VERSION_EUROPE
     object->attribute |= 0x01000000;
-    object->field_5E = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
+    object->resource_uv = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
 #else
-    object->field_5E = 0x9E00;
+    object->resource_uv = 0x9E00;
     object->attribute |= 0x01000000;
 #endif
 
@@ -131,10 +131,10 @@ disp_16:
     goto shared_tail;
 
 disp_17:
-    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[
+    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
         DUEL_RESOURCE_VARIANT_BYTE];
     byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
         byte_value;
     /* fallthrough */
 disp_14:
@@ -144,22 +144,22 @@ disp_14:
 
 disp_15:
     setup = 0x102;
-    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[
+    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
         DUEL_RESOURCE_VARIANT_BYTE];
     variant = 1;
     byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
         byte_value;
     goto shared_tail;
 
 path_a:
     object->xy.h.y = DUEL_RESOURCE_PATH_Y;
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
         DUEL_RESOURCE_PATH_FIELD_5E;
     object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
     object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
 #ifdef VERSION_EUROPE
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] =
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[1] =
         (gText_bLanguageIndex << 4) - 0x60;
 #endif
 
@@ -210,9 +210,9 @@ shared_tail:
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -1);
 
-    ((DisplayObject *)entry->secondary_object)->field_65 = 3;
-    object->field_65 = 3;
-    object->field_10 = (u32)CardPreview_UpdateVariant;
+    ((DisplayObject *)entry->secondary_object)->subdivisions = 3;
+    object->subdivisions = 3;
+    object->back_face_handler = (u32)CardPreview_UpdateVariant;
 
     {
         DisplayObject *secondary = entry->secondary_object;

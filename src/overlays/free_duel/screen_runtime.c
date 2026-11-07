@@ -123,7 +123,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 
     x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, gDisplay_abResourceBank0);
-    ((u8 *)&x->field_5E)[1] = 0x80;
+    ((u8 *)&x->resource_uv)[1] = 0x80;
     x->field_48.word = 0x180018;
     DisplayObject_SetDepthOffset(x, 5);
     x->flags |= 0x20;
@@ -315,7 +315,7 @@ done:
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, gDisplay_abResourceBank0);
-    ((u8 *)&obj->field_5E)[1] = 128;
+    ((u8 *)&obj->resource_uv)[1] = 128;
     DisplayObject_SetDepthOffset(obj, 15);
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

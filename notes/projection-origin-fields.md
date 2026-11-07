@@ -16,7 +16,7 @@ receives the original full `s32` inputs; the stored coordinates retain the
 same low-halfword conversion.
 
 The packed-rotation helper stores zero divisions. The object helper
-zero-extends the existing `field_65` byte into that word. Sprite-sheet and
+zero-extends the existing `subdivisions` byte (`+0x65`) into that word. Sprite-sheet and
 quad/card callers pass this byte-compatible record to the packet
 dispatcher, whose established `DisplayObjectPacketOrigin` view subtracts
 X/Y and uses the same word for its `DivideFT4` choice/count. The two C
