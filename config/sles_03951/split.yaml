@@ -422,7 +422,7 @@ segments:
       - [0x8CC60, .sbss, game/european/file_transfer_runtime]
       - [0x8CCB8, .sbss, game/european/fade_runtime]
       - [0x8CCCC, .sbss, game/european/duel_field_card_render]
-      - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
+      - [0x8CDD8, sbss, duel_effect_dialog_state_commons]
       - [0x8CDF0, .sbss, game/european/library]
       - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
       - {start: 0x8CE0A, type: bin, name: spanish_raw_8009c60a, linker_section_order: .sbss}

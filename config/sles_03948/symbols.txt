@@ -1577,6 +1577,13 @@ DuelScene_UpdateResultOutro = 0x80020EB0; // type:func size:0x688
 Duel_ShowResultPage = 0x80021538; // type:func size:0xDC
 
 gDuel_RitualResultCardId = 0x8009C59E;
+gDuel_wViewerCardID = 0x8009C5D8;
+gDuel_wEffectDialogTextID = 0x8009C5DA;
+gDuel_bEffectState = 0x8009C5DC;
+gDuel_bCardViewerYOffset = 0x8009C5DD;
+gDuel_bEffectHandlerFlags = 0x8009C5DE;
+gDuel_pCardViewerCard = 0x8009C5E0;
+gDuel_pCardViewerTextBox = 0x8009C5E8;
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
 
