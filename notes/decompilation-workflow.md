@@ -509,7 +509,7 @@ knowing because a scan reports all of them as clean:
 
 - **The stores are in a form the scan did not match.**
   `display_effect_update_callbacks.c` stores with `*(DisplayObject **)p = o`
-  and `p[0x33] = 0`, and `library_runtime.c` uses `*(u16 *)(p + 2) += 0xC`.
+  and `p[0x33] = 0`, and `library.c` uses `*(u16 *)(p + 2) += 0xC`.
   A store detector has to cover `*(T **)base =`, `base[i] =` and `+=`, or it
   will hand back store-through-pointer functions as read-only ones.
 

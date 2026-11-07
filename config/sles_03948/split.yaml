@@ -95,7 +95,7 @@ segments:
     - initial_data_9d8
   - - 2540
     - .rodata
-    - game/european/library_runtime
+    - game/european/library
   - - 2612
     - .rodata
     - game/european/main_mode_runners
@@ -394,16 +394,7 @@ segments:
     - game/european/library_draw_wireframe_globe
   - - 108616
     - c
-    - game/european/library_card_grid
-  - - 110576
-    - c
-    - game/european/func_8002A660
-  - - 110664
-    - c
-    - game/library_grid_cursor
-  - - 111440
-    - c
-    - game/european/library_runtime
+    - game/european/library
   - - 118228
     - c
     - game/duel_grid_offsets
@@ -1156,7 +1147,7 @@ segments:
   - [0x8CCB8, .sbss, game/european/fade_runtime]
   - [0x8CCCC, .sbss, game/european/duel_field_card_render]
   - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
-  - [0x8CDF0, .sbss, game/european/library_card_grid]
+  - [0x8CDF0, .sbss, game/european/library]
   - [0x8CDF8, .sbss, game/european/duel_effect_object_pool]
   - {start: 0x8CE0A, type: bin, name: resident_tail_8009c60a, linker_section_order: .sbss}
   - [0x8CE10, .sbss, game/european/script_command_busy]

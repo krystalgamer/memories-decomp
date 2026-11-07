@@ -1505,67 +1505,67 @@
       "address": "0x80029CA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x430",
-      "source": "src/game/japanese/library_card_grid.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A0D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/japanese/library_card_grid.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A1AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/japanese/library_card_grid.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A288",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/japanese/library_card_grid.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A7A0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A994",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002B88C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002B894",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002BAEC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x230",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002BD1C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002BDAC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x420",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002C1CC",
@@ -1827,39 +1827,39 @@
     },
     {
       "address": "0x8002A440",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/library_update_grid_scroll.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A498",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/japanese/library_grid_cursor.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002A568",
-      "profile": "gcc_2_8_1_g8_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x238",
-      "source": "src/game/japanese/library_grid_cursor.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002AA84",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xDFC",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002B880",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/japanese/library_runtime.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x80029C90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/japanese/library_card_grid.c"
+      "source": "src/game/japanese/library.c"
     },
     {
       "address": "0x8002C2A8",

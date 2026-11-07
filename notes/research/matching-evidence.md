@@ -7275,7 +7275,7 @@ signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
 pair measured, and the answer is not the one the shape of the problem suggests.
 
 At that campaign snapshot two sources used them. The cursor functions have
-since been recovered as matching C and grouped in `library_grid_cursor.c` as
+since been recovered as matching C and grouped in `library.c` as
 `Library_GetGridCursorCardId` and `Library_UpdateGridCursor`; both use the
 canonical `s8` declarations and read them into `s32`. `func_8002BFCC.c`
 declares them `u8` and writes

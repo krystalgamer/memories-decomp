@@ -40,7 +40,7 @@ view that would select a different store register.
 | `Library_RefreshSelectedCardText` | `+0` | The selected card ID returned by `Library_GetGridCursorCardId`, narrowed through `s16`, is staged before text request 1. Uses `card.card_id`. |
 | `func_80060E70` | `+0`, `+4` | Each two-halfword input row supplies its card ID and count before its text box is built. Uses `card.card_id` and `.count`; retains the separate direct-symbol store and cached destination pointer. |
 | `BuildDeck_RefreshCountDisplay` in `build_deck_card_counts.c` | `+0`, `+4` | Copies screen words `+0x5A9C` and `+0x5AA0` before text `0xE`. The same TU's chest-return/deck-add paths update the respective totals. Uses `build_deck.chest` and `.deck`. |
-| `Library_InitializeScreen` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
+| `Library_InitializeScreen` in `library.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
 | `MemCardDialog_UpdateSave` in `mem_card_dialog.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
 | Modal card-number producers in `mem_card_dialog.c` | `+0x40` | Where their existing branches do so, stage `(gMemCardDialog_Port >> 4) + 1` through `gMemCardDialog_CardNumberArg[0]`; this remains a module-specific relocation view of the shared word, not new storage or a universal field interpretation. |
 | `SaveData_UpdateDuelLoad` in `mem_card_dialog.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
@@ -88,7 +88,7 @@ explains why these are not persistent ATK/DEF globals.
   `DuelField_CreateCardInfoTextBox` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/card_list_deck_box.c`, `MemCardDialog_UpdateSave` in
   `src/game/mem_card.c` and `Library_RefreshSelectedCardText` in
-  `src/game/library_card_grid.c`, plus `Password_UpdateShopScreen` in
+  `src/game/library.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The indirect text number
   reader (`func_80038148` via `TextStream_ReadU32LE`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
