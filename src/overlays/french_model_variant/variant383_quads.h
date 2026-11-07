@@ -31,7 +31,7 @@ typedef struct {
     u8 unknown_1534[4];
     Family383QuadConfig *config;
     u8 unknown_153C[0x10];
-    s32 index_154C;
+    s32 index;
     s32 scale;
     s32 brightness;
     u8 unknown_1558[0x20];

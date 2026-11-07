@@ -75,7 +75,7 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
                 GsSortPoly(quad, ot, (u16)depth);
             }
         }
-        if (work->index_154C + 1 == work->config->count_0C) {
+        if (work->index + 1 == work->config->count_0C) {
             if (work->phase == 0) {
                 if (work->scale < 4096) {
                     work->scale = (work->elapsed << 12) / work->config->duration_10;
