@@ -214,7 +214,6 @@ gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B268 = 0x8009C60C;
 gMain_bReturnMode = 0x8009C60D;
 gMain_bRequestedMenuID = 0x8009C60E;
-gScript_SharedOperand = 0x8009C612;
 gMovie_bPlaybackState = 0x8009C6A0;
 gDialog_bChoiceEnabled = 0x8009C6A8;
 gText_DisplayEffectRecord = 0x8009C6AC;

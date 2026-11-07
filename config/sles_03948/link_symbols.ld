@@ -47,7 +47,6 @@ gMain_bReturnMode = 0x8009C60D;
 gMain_bActiveModeState = 0x8009C60A;
 gMain_bRequestedMenuID = 0x8009C60E;
 gMain_bModeRunnerStep = 0x8009C60B;
-gScript_SharedOperand = 0x8009C612;
 gMovie_bPlaybackState = 0x8009C6A0;
 gText_SelectedCardColorIndex = 0x8009C6E1;
 gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;

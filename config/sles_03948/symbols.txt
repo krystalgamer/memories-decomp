@@ -1912,3 +1912,4 @@ gSortedEntry_pCursor = 0x8009C690;
 gSortedEntry_nCount = 0x8009C694;
 gSortedEntry_pBase = 0x8009C698;
 gSortedEntry_nSortedCount = 0x8009C69C;
+gScript_wCommandWord = 0x8009C610;

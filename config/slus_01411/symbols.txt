@@ -2591,3 +2591,4 @@ gSortedEntry_nSortedCount = 0x8009B308;
 gModel_dwFogDrawFlags = 0x8009B30C;
 gSortedEntry_pCursor = 0x8009B310;
 gSortedEntry_nCount = 0x8009B314;
+gScript_wCommandWord = 0x8009B27C;
