@@ -65,11 +65,14 @@ typedef struct {
     u8 unknown_1BA8[4];
     GsCOORDUNIT *part;
     s16 field_1BB0, field_1BB2;
-    s32 width, ribbon_angle, scale, field_1BC0, field_1BC4, field_1BC8;
-    s32 field_1BCC, field_1BD0, field_1BD4, field_1BD8, field_1BDC;
-    s32 field_1BE0, progress;
-    s16 field_1BE8, field_1BEA, field_1BEC, field_1BEE;
-    s32 field_1BF0, field_1BF4, field_1BF8, field_1BFC;
+    /* The mesh helper scales the mesh by mesh_size and its colours by
+     * mesh_intensity / 1024; the sheet helper moves the second sheet
+     * displacement / 1024 along the direction. */
+    s32 width, ribbon_angle, scale, field_1BC0, mesh_size, field_1BC8;
+    s32 field_1BCC, field_1BD0, mesh_intensity, field_1BD8, field_1BDC;
+    s32 displacement, progress;
+    s16 spiral_angle, field_1BEA, spiral_size, field_1BEE;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
     CVECTOR inner_color, outer_color;
     s32 spin, field_1C0C, field_1C10, field_1C14, field_1C18;
     s32 phase;
