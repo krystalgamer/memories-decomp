@@ -80,8 +80,6 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 
-gScript_pMenuRecord = 0x8009B164;
-
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;

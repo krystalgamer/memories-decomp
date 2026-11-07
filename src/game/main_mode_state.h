@@ -16,6 +16,12 @@
  * once in main_mode_controls.h. */
 extern u8 D_8009B0D1;
 
+/* The campaign scene the next Main_RunCampaign pass loads, defined by
+ * script_image_scene.c. Retail reaches this byte gp-relative only in
+ * script_runtime.c (dropping its switch grows .text by 8 bytes); every other
+ * unit uses absolute addressing. */
+extern u8 gCampaignSceneIndex;
+
 #include "main_mode_controls.h"
 
 #endif

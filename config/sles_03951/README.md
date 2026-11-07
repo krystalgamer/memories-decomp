@@ -154,7 +154,7 @@ order and sizes:
 | `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
 | `0x8002BC30..0x8002BC38` | `european/library.c` | `func_8002BAA0` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `noop_callbacks.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
-| `0x8002F694..0x8002F6A4` | `european/script_noop_commands.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+| `0x8002F694..0x8002F6A4` | `european/script_runtime.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 
 The library handler additionally has an existing independently recovered
 direct-call binding. Script command-table slots 14 and 15 at
