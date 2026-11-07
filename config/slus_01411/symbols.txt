@@ -2490,6 +2490,7 @@ gText_PrimaryStringOffsets = 0x801C0000;
 gText_GlobalStringOffsets = 0x801D5800;
 gText_PrimaryStringAddressAnchor = 0x801B0000;
 gDialog_bChoiceControl = 0x8009B34C;
+gDialog_bCallbackState = 0x8009B3C1;
 gText_aCurrentPlayerNameGlyphs = 0x801B125A;
 gText_aFirstPlayerNameGlyphs = 0x801B122B;
 gText_aSecondPlayerNameGlyphs = 0x801B1238;
