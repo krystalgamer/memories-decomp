@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT670_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -74,12 +75,6 @@ typedef struct {
     Model670Element shells[32];
     Model670Element rings[32];
 } Model670State;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model670ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant670_aImages[3];

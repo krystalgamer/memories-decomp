@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT659_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -59,11 +60,6 @@ typedef struct {
     Model659Element rings[32];
     Model659Element sparks[32];
 } Model659State;
-
-/* An eight-byte copy of the view metrics; the entry reads two angles. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model659ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant659_aImages[7];

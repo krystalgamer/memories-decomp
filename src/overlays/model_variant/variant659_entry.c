@@ -34,7 +34,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
     Model659State *work;
     MATRIX ls;
     GsCOORDUNIT unit;
-    Model659ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k;
@@ -207,7 +207,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model659ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->count; i++) {
         if (work->flares[i].active == 1) {

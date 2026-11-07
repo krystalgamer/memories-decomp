@@ -24,7 +24,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
     Model675UsState *work;
     MATRIX ls;
     GsCOORDUNIT unit;
-    Model675UsViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     SVECTOR tip, mid;
     SVECTOR mids[2];
     u8 u[3], v[3];
@@ -224,7 +224,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model675UsViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->ring_count; i++) {
             if (work->rings[i].active == 1) {

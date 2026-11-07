@@ -77,7 +77,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model677ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     VECTOR vec;
     long interpolation, flag;
     s32 result, step, inactive;
@@ -251,7 +251,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model677ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (j = 0; j < work->column_count; j++) {
             for (i = 0; i < work->row_count; i++) {

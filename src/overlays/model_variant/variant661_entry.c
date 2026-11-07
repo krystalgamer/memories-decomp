@@ -22,7 +22,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     s32 sel[2];
     GsCOORDUNIT unit;
-    Model661ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR point[2];
     SVECTOR mid[2];
     /* Never referenced, but it keeps the original 0x10-byte frame slot. */
@@ -642,7 +642,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model661ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->rows; i++) {
             if (work->streaks[i].active == 1) {

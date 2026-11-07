@@ -39,7 +39,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     Image9840State *work;
     MATRIX ls, world;
     GsCOORDUNIT unit;
-    Image9840ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     SVECTOR zero, midpoint0, midpoint1;
     VECTOR position;
     long interpolation, flag;
@@ -200,7 +200,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Image9840ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
     inactive = 0;
     unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 7);
     GsGetLwUnit(&unit, &world);

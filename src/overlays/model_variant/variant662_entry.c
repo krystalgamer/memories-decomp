@@ -61,7 +61,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     MATRIX m;
     s32 uv[4];
     GsCOORDUNIT unit;
-    Model662ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     VECTOR offset;
     long interpolation, flag;
     s32 result, i, step, inactive, distance;
@@ -294,7 +294,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model662ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->tube_count; i++) {
         if (work->tubes[i].active == 1) {

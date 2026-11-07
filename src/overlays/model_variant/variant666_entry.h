@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT666_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -66,11 +67,6 @@ typedef struct {
     Model666Element sparks[16][3];
     Model666Element rings[16][3];
 } Model666State;
-
-/* An eight-byte copy of the view metrics. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model666ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH

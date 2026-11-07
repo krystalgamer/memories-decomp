@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_IMAGE9840_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_texture_upload.h"
@@ -52,10 +53,6 @@ typedef struct {
     Image9840Part secondary[10];
     Image9840Part bursts[32];
 } Image9840State;
-
-typedef struct {
-    u8 bytes[8];
-} Image9840ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant648_Image;

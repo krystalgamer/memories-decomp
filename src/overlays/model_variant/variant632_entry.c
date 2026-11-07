@@ -23,7 +23,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
     Model632State *work;
     MATRIX ls;
     GsCOORDUNIT unit;
-    Model632ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     SVECTOR corners[4];
     long interpolation, flag;
     s32 result, step, inactive;
@@ -281,7 +281,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
         }
         inactive = 0;
         PushMatrix();
-        view = *(Model632ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         for (i = 0; i < work->flare_count; i++) {
             for (j = 0; j < work->copies; j++) {
                 if (work->flares[i][j].active == 1) {

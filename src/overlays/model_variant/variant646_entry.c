@@ -21,7 +21,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
     Model646State *work;
     MATRIX ls, lw;
     GsCOORDUNIT unit;
-    Model646ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR mid, origin;
     VECTOR offset;
     long interpolation, flag, sxy;
@@ -452,7 +452,7 @@ s32 ModelVariant646_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model646ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         switch (work->command) {
         case 3:

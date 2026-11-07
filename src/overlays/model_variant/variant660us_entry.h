@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT660US_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -72,11 +73,6 @@ typedef struct {
     /* Five sparks per orb and copy. */
     Model660UsElement sparks[5][8][2];
 } Model660UsState;
-
-/* An eight-byte copy of the view metrics; the entry reads two angles. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model660UsViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 /* Spark, shard/band and glow/orb texture images; the entry uploads them last

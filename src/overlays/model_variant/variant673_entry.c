@@ -14,7 +14,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
     Model673State *work;
     MATRIX ls, lw;
     GsCOORDUNIT unit;
-    Model673ViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     long interpolation, flag;
     s32 result, step, inactive;
     s32 i, k, n, r, s, a;
@@ -172,7 +172,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         }
         PushMatrix();
         inactive = 0;
-        view = *(Model673ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         for (i = 0; i < work->count; i++) {
             if (work->rising[i].active == 1) {
                 unit.flg = 0;

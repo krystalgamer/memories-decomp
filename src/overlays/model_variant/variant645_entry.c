@@ -61,7 +61,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
     Model645State *work;
     MATRIX ls, rot;
     GsCOORDUNIT unit;
-    Model645ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR here, there;
     Model645Corner corners[4];
     long interpolation, flag;
@@ -545,7 +545,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model645ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->puff_count; i++) {
             if (work->puffs[i].active == 1) {

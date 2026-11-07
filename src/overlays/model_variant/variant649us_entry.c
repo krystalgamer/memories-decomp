@@ -20,7 +20,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
     Model649UsState *work;
     MATRIX ls, m, lw;
     GsCOORDUNIT unit;
-    Model649UsViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR zero;
     VECTOR near, far, first, second, mid;
     long interpolation, flag;
@@ -201,7 +201,7 @@ s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model649UsViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
         GsGetLwUnit(&unit, &lw);

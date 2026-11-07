@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT634_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -54,12 +55,6 @@ typedef struct {
     Model634Burst rings[32];
     Model634Burst sparks[32];
 } Model634State;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    u8 bytes[8];
-} Model634ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant634_aImages[2];

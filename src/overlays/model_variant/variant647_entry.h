@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT647_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -55,11 +56,6 @@ typedef struct {
     Model647Burst bursts[2];
     u8 unknown_DDC[0x428];
 } Model647State;
-
-/* An eight-byte copy of the view metrics that the entry never reads. */
-typedef struct {
-    u8 bytes[8];
-} Model647ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant647_Image;

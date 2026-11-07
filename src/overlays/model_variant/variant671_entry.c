@@ -19,7 +19,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
     Model671State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model671ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR pts[3];
     long interpolation, flag;
     s32 result, step, inactive;
@@ -152,7 +152,7 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model671ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->count; i++) {
         if (work->blooms[i].active == 1) {

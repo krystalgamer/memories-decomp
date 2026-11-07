@@ -16,7 +16,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model683ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     /* Only two bytes are used; the size keeps the original frame layout. */
     u8 uv[8];
     VECTOR target;
@@ -174,7 +174,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             setVector(&target, 0, 0, 0);
         }
         PushMatrix();
-        view = *(Model683ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->count; i++) {
             if (work->orbs[i].active == 1) {

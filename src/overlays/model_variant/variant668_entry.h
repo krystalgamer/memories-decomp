@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT668_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -59,11 +60,6 @@ typedef struct {
     Model668Element shells[8];
     Model668Element flash;
 } Model668State;
-
-/* An eight-byte copy of the view metrics; the entry reads two angles. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model668ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant668_Image;

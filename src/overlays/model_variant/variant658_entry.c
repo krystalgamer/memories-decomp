@@ -17,7 +17,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     s32 z[4];
     s32 x[2], y[2];
     GsCOORDUNIT unit;
-    Model658ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR v[4];
     SVECTOR rot;
     long interpolation, flag;
@@ -396,7 +396,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         }
     }
     PushMatrix();
-    view = *(Model658ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->halo_count; i++) {
         if (work->halos[i].active == 1) {

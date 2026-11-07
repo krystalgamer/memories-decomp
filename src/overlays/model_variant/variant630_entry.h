@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT630_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -60,11 +61,6 @@ typedef struct {
     Model630Element rings[10];
     Model630Element sparks[10][3];
 } Model630State;
-
-/* An eight-byte copy of the view metrics. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model630ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant630_aImages[2];

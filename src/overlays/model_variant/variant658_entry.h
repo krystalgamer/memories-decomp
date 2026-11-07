@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT658_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -88,11 +89,6 @@ typedef struct {
     Model658Particle sparks[32];
     Model658Particle flash;
 } Model658State;
-
-/* An eight-byte copy of the view metrics; the entry reads two angles. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model658ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant658_aImages[3];

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT628_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -71,12 +72,6 @@ typedef struct {
     Model628Part domes[2][3];
     Model628Part bursts[32][3];
 } Model628State;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    u8 bytes[8];
-} Model628ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant628_aImages[3];

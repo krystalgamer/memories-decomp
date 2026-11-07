@@ -20,7 +20,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
     Model650State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model650ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR points[4];
     SVECTOR origin;
     long interpolation, flag;
@@ -205,7 +205,7 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model650ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->sprite_count; i++) {
             if (work->sprites[i].active == 1) {

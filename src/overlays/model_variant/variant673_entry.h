@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT673_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -67,12 +68,6 @@ typedef struct {
     Model673Quad falling[64];
     Model673Quad fans[64];
 } Model673State;
-
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4. */
-typedef struct {
-    u8 bytes[8];
-} Model673ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH

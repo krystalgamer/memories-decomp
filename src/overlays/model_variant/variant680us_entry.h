@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT680US_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_queries.h"
@@ -82,11 +83,6 @@ typedef struct {
     Model680UsElement bursts[32];
     Model680UsSpark sparks[8][6];
 } Model680UsState;
-
-/* An eight-byte copy of the view metrics. */
-typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
-} Model680UsViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 #ifndef VERSION_FRENCH

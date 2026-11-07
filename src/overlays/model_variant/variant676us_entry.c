@@ -24,7 +24,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX m;
     GsCOORDUNIT unit;
-    Model676UsViewSnapshot view;
+    ModelVariantViewSnapshotBytes view;
     SVECTOR points[2];
     SVECTOR *pt;
     u8 u[3], v[3];
@@ -301,7 +301,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model676UsViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->flash_count; i++) {
             if (work->flashes[i].active == 1) {

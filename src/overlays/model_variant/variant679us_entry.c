@@ -20,7 +20,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     MATRIX rotation;
     GsCOORDUNIT unit;
-    Model679UsViewSnapshot view;
+    ModelVariantViewSnapshot view;
     u8 red[2], green[2], blue[2], row[2];
     long interpolation, flag;
     VECTOR offset;
@@ -224,7 +224,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model679UsViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->count; i++) {
         if (work->shells[i].active == 1) {

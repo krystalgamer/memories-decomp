@@ -33,7 +33,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
     Model630State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model630ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR rot, vec;
     long interpolation, flag;
     s32 result, step, inactive;
@@ -162,7 +162,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
         break;
     }
     PushMatrix();
-    view = *(Model630ViewSnapshot *)Model_GetViewMetricsBuffer();
+    view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->count; i++) {
         if (work->orbs[i].active == 1) {
