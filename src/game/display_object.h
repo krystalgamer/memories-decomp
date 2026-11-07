@@ -64,7 +64,17 @@ typedef struct DisplayObject {
     u8 pool_index;                 /* 0x0A */
     u8 field_0B;                   /* 0x0B */
     u32 rgb;                  /* 0x0C */
-    u32 field_10;                  /* 0x10 */
+    /* The back-face control DisplayObject_ProjectRotationFacing reads. Zero
+       returns a negative facing area unchanged; any nonzero value mirrors the
+       X and Z matrix columns and reprojects instead, and a negative one -- a
+       code address -- is first called as void (*)(DisplayObject *, s32) with
+       the area. The preview constructor in duel_effect_resource_setup.c
+       stores CardPreview_UpdateVariant here, and the duel card objects store
+       DisplayObject_SetResourceVariantFromSign through DuelCardDisplayObject's
+       view, so a card turned away selects its back-face variant.
+       Library_CreateFadingCardOutline stores 1, and AcquireSlot and both
+       Initialize*GouraudQuad helpers clear it. */
+    u32 back_face_handler;         /* 0x10 */
     /* Cached ordering-table depth. SubmitPacket reads the signed low half
        of its mode word; the upper half selects a handler. The effect-request
        buffer at +0x14 belongs to a separate record, not this field. */
@@ -434,7 +444,15 @@ typedef struct DisplayObject {
     s16 field_58;                  /* 0x58 */
     s16 field_5A;                  /* 0x5A */
     u16 field_5C;                  /* 0x5C */
-    u16 field_5E;                  /* 0x5E */
+    /* The texture u/v (low byte u, high byte v) of a resource-configured
+       sprite. DisplayObject_ConfigureSpriteResource fills both bytes from
+       its texture_config argument, DisplayObject_RenderSpriteSheet starts
+       its parts from them, CardPreview_DrawDetailPanel copies the halfword
+       into a primitive's uv, and the duel effect, game-over, Library and
+       free-duel code write u or v directly. Screen sprites keep their u/v
+       at 0x5C instead (DisplayObjectConfigView's texture_u/texture_v), which
+       is why that halfword keeps its offset name. */
+    u16 resource_uv;               /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        its Dialog_UpdateMessageTransition sets -0x400 and adds 0x20; mem_card_dialog.c
@@ -451,8 +469,17 @@ typedef struct DisplayObject {
        same slot 0x34 fills in its first. The other three bytes of that word
        are named below for their own byte users. */
     u8 field_64;                   /* 0x64 */
-    u8 field_65;                   /* 0x65 */
-    u8 field_66;                   /* 0x66 */
+    /* DisplayObject_ProjectRotationFacing copies it into
+       ProjectionOut.divisions, which the packet backend hands to DivideFT4
+       as DIVPOLYGON4.ndiv when nonzero. AcquireSlot clears it; the card
+       preview objects set 3. */
+    u8 subdivisions;               /* 0x65 */
+    /* The GsSPRITE tpage. Both sprite list renderers copy it into
+       SpritePrim.tpage, the sheet renderer adds each part's page to it,
+       DisplayObject_ConfigureScreenSprite stores its texture_page argument
+       here and DisplayObject_ConfigureSpriteResource the low byte of
+       texture_config. DisplayObjectConfigView names it texture_page too. */
+    u8 texture_page;               /* 0x66 */
     /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
        this same record, and read by text_control_commands.c. 0x68 is named just
        below, now that Duel_DrawCardFrame reaches it through this record. */
@@ -560,8 +587,17 @@ typedef char DisplayObject_field_58_must_be_at_0x58[
 typedef char DisplayObject_field_64_must_be_at_0x64[
     DISPLAY_OBJECT_OFFSET(field_64) == 0x64 ? 1 : -1
 ];
-typedef char DisplayObject_field_65_must_be_at_0x65[
-    DISPLAY_OBJECT_OFFSET(field_65) == 0x65 ? 1 : -1
+typedef char DisplayObject_subdivisions_must_be_at_0x65[
+    DISPLAY_OBJECT_OFFSET(subdivisions) == 0x65 ? 1 : -1
+];
+typedef char DisplayObject_back_face_handler_must_be_at_0x10[
+    DISPLAY_OBJECT_OFFSET(back_face_handler) == 0x10 ? 1 : -1
+];
+typedef char DisplayObject_resource_uv_must_be_at_0x5E[
+    DISPLAY_OBJECT_OFFSET(resource_uv) == 0x5E ? 1 : -1
+];
+typedef char DisplayObject_texture_page_must_be_at_0x66[
+    DISPLAY_OBJECT_OFFSET(texture_page) == 0x66 ? 1 : -1
 ];
 
 /* The DISPLAY_OBJECT_LIST_COUNT list heads, immediately below the pool.

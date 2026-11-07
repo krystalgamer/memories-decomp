@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Input screen origin narrowed for packet vertices, followed by the quad
-   subdivision count (field_65 for objects, zero for packed rotation).
+   subdivision count (subdivisions for objects, zero for packed rotation).
    These are not transformed vertices, depth or MAC0. The separate packet
    origin view has the same byte roles; no API/type unification is implied. */
 struct ProjectionOut {
@@ -41,13 +41,13 @@ s32 DisplayObject_ProjectPackedRotationFacing(u32 packed_rotation, s32 x, s32 y,
                                               struct ProjectionOut *out);
 
 /* The same facing test for one display object: the rotation comes from its
-   field_20/21/22 bytes, field_65 goes into `out->divisions` (the packed
+   field_20/21/22 bytes, subdivisions goes into `out->divisions` (the packed
    variant stores 0), and the matrix is scaled by field_44.scale unless
    GsROTOFF is set.
-   A nonzero field_10 gates the back-face handling. A negative (code-address)
-   field_10 is first called with the result, whatever its sign. Then, for any
-   nonzero field_10, a negative result mirrors the X and Z matrix columns and
-   reprojects, which appears to draw the back face mirrored. With field_10
+   A nonzero back_face_handler gates the back-face handling. A negative (code-address)
+   back_face_handler is first called with the result, whatever its sign. Then, for any
+   nonzero back_face_handler, a negative result mirrors the X and Z matrix columns and
+   reprojects, which appears to draw the back face mirrored. With back_face_handler
    zero a negative result is returned unchanged. It returns the signed MAC0
    result. The return type matters: one caller used to declare this `void`,
    which is invisible on this ABI because the result comes back in $v0 and

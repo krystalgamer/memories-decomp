@@ -101,7 +101,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         return;
     }
     flags = win->flags;
-    if ((obj->field_66 & m) ^ (obj->field_67 & k)) {
+    if ((obj->texture_page & m) ^ (obj->field_67 & k)) {
         win->flags = flags;
     }
     if ((flags & 0x40) == 0) {
@@ -138,7 +138,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->rgb = win->rgb;
     PRM->cxcy.word = obj->field_40.word;
     PRM->uv.word = obj->field_5C;
-    PRM->tpage = obj->field_66;
+    PRM->tpage = obj->texture_page;
     DisplayObject_SubmitPacket(
         PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)arg1, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
@@ -182,7 +182,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.x = win->xy.h.x + obj->xy.h.x;
     PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
-    PRM->uv.word = obj->field_5E;
+    PRM->uv.word = obj->resource_uv;
     if (obj->field_68 < 0x14) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;

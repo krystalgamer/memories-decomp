@@ -669,7 +669,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }
 
-DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18.center.x=*(s32*)&src->field_18.center.x;o->field_60=0x100;*(s16*)&o->field_3C.size.w=*(s16*)&o->field_18.center.x*2;*(s16*)&o->field_3C.size.h=*(s16*)&o->field_18.center.y*2;o->xy.word=src->xy.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->rgb=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
+DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18.center.x=*(s32*)&src->field_18.center.x;o->field_60=0x100;*(s16*)&o->field_3C.size.w=*(s16*)&o->field_18.center.x*2;*(s16*)&o->field_3C.size.h=*(s16*)&o->field_18.center.y*2;o->xy.word=src->xy.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->rgb=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->back_face_handler=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
@@ -1508,7 +1508,7 @@ void Library_InitializeScreen(void) {
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);
-    ((u8 *)&o->field_5E)[1] = 0x80;
+    ((u8 *)&o->resource_uv)[1] = 0x80;
     DisplayObject_SelectOrderingTable1(o);
     n = CARD_ID_FIRST;
     o->flags = o->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -1518,7 +1518,7 @@ void Library_InitializeScreen(void) {
         o, r->motion.x, r->motion.y,
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
-    ((u8 *)&o->field_5E)[1] = 0x80;
+    ((u8 *)&o->resource_uv)[1] = 0x80;
     r->motion.display_objects.by_role.render = o;
     r->cards[0].flags = 0;
     r->cards[0].clut_x = 0;
