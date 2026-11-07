@@ -5,62 +5,6 @@
    function here and absolute from every other unit (#2602). */
 #include "../types.h"
 
-#ifndef GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B090-0x8009B0E0, defined in
- * address order ahead of the headers that declare it (#2602). The startup,
- * frame and service units sit beside this one in text and declare these
- * through their headers. */
-static PADDING_VARIABLE(4);
-static PADDING_VARIABLE(4);
-u16 gGraphics_wFlags;
-volatile s32 gMain_dwFrameCounter;
-u8 gGraphics_abOrderingTableLengths[4];
-s32 D_8009B0A4;
-u8 gGraphics_bSkipDisplaySwap;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(2);
-u8 gGraphics_bActiveBuffer;
-u8 gGraphics_bDither;
-s32 D_8009B0B0;
-struct GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
-void (*gMain_pfnExtraFrameService)(void);
-s32 D_8009B0BC;
-volatile u8 gGraphics_bSyncVBlankTarget;
-u8 gGraphics_bExtraFrameStep;
-static PADDING_VARIABLE(1);
-u8 gMain_bVBlankSoundPending;
-volatile s32 gSaveData_dwVBlankCounter;
-volatile s32 gGraphics_dwSyncVBlankCounter;
-volatile s32 gGraphics_dwSyncedFrameCount;
-u8 gGraphics_bClearBackground;
-u8 D_8009B0D1;
-s32 D_8009B0D4;
-s32 gGraphics_nBaseFrameStep;
-static PADDING_VARIABLE(4);
-#else
-extern u16 gGraphics_wFlags;
-extern volatile s32 gMain_dwFrameCounter;
-extern u8 gGraphics_abOrderingTableLengths[4];
-extern s32 D_8009B0A4;
-extern u8 gGraphics_bSkipDisplaySwap;
-extern u8 gGraphics_bActiveBuffer;
-extern u8 gGraphics_bDither;
-extern s32 D_8009B0B0;
-extern struct GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
-extern void (*gMain_pfnExtraFrameService)(void);
-extern s32 D_8009B0BC;
-extern volatile u8 gGraphics_bSyncVBlankTarget;
-extern u8 gGraphics_bExtraFrameStep;
-extern u8 gMain_bVBlankSoundPending;
-extern volatile s32 gSaveData_dwVBlankCounter;
-extern volatile s32 gGraphics_dwSyncVBlankCounter;
-extern volatile s32 gGraphics_dwSyncedFrameCount;
-extern u8 gGraphics_bClearBackground;
-extern u8 D_8009B0D1;
-extern s32 D_8009B0D4;
-extern s32 gGraphics_nBaseFrameStep;
-#endif
-
 /* Small data at 0x8009AF08-0x8009AF0D. gMain_bSoundVSyncBusy keeps a nested VBlank callback from calling SD_VSync
    while the previous call is still running. */
 s32 gMain_nServiceResyncCountdown = 0x3C;
@@ -77,32 +21,43 @@ u8 gMain_bSoundVSyncBusy = 0;
 #include "graphics_frame_buffer.h"
 #include "../psyq/setjmp.h"
 
-#ifndef GRAPHICS_FRAME_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x8009B4A8-0x800E9DF0, defined in
- * address order (#2602). graphics_frame.h declares the first three in this
- * order; the rest are first declared here, ahead of ordering_tables.h. The
- * ordering-table slot names and the per-slot callback names are elements,
- * named by link_symbols.ld. */
-GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
-u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
-DISPENV gGraphics_DispEnv;
-static PADDING_VARIABLE(0x30);
-RECT gGraphics_aImageTransferRects[2];
-static PADDING_VARIABLE(16);
-GsOT *gGraphics_apOrderingTables[4];
-static PADDING_VARIABLE(16);
-void (*gMain_apFrameServiceCallbacks[4])(void);
-jmp_buf gMain_RecoveryJmpBuf;
-#else
-/* The regional wrapper declared these in its own address order. */
-GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
-u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
-DISPENV gGraphics_DispEnv;
-RECT gGraphics_aImageTransferRects[2];
-GsOT *gGraphics_apOrderingTables[4];
-void (*gMain_apFrameServiceCallbacks[4])(void);
-jmp_buf gMain_RecoveryJmpBuf;
+/* Zero-initialized storage this unit owns. Each build's generated
+ * main_commons/main_bss_commons subsegments place it at the retail
+ * addresses; link_symbols.ld names the ordering-table slots and the
+ * per-slot callbacks inside the arrays. */
+u16 gGraphics_wFlags;
+volatile s32 gMain_dwFrameCounter;
+u8 gGraphics_abOrderingTableLengths[4];
+s32 D_8009B0A4;
+u8 gGraphics_bSkipDisplaySwap;
+u8 gGraphics_bActiveBuffer;
+u8 gGraphics_bDither;
+s32 D_8009B0B0;
+GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+void (*gMain_pfnExtraFrameService)(void);
+s32 D_8009B0BC;
+volatile u8 gGraphics_bSyncVBlankTarget;
+u8 gGraphics_bExtraFrameStep;
+u8 gMain_bVBlankSoundPending;
+volatile s32 gSaveData_dwVBlankCounter;
+volatile s32 gGraphics_dwSyncVBlankCounter;
+volatile s32 gGraphics_dwSyncedFrameCount;
+u8 gGraphics_bClearBackground;
+u8 D_8009B0D1;
+s32 D_8009B0D4;
+s32 gGraphics_nBaseFrameStep;
+#ifdef VERSION_EUROPE
+/* The European builds keep the language index in this unit's block. */
+u8 gText_bLanguageIndex;
 #endif
+GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
+u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
+DISPENV gGraphics_DispEnv;
+RECT gGraphics_aImageTransferRects[2];
+GsOT *gGraphics_apOrderingTables[4];
+void (*gMain_apFrameServiceCallbacks[4])(void);
+jmp_buf gMain_RecoveryJmpBuf;
+
 #include "../unmatched.h"
 #include "duel_side_state.h"
 #include "duel_effect_resource_setup.h"
