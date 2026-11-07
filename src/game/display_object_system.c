@@ -190,16 +190,16 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_0B = 0;
         slot->rgb = 0x00808080;
         slot->field_20.word = 0;
-        slot->field_10 = 0;
+        slot->back_face_handler = 0;
         slot->field_1C = 0;
         slot->field_18.center.y = 0;
         slot->field_18.center.x = 0;
-        slot->field_66 = 0;
+        slot->texture_page = 0;
         slot->field_48.word = 0;
         slot->field_44.word = 0x10001000;
         slot->field_40.word = 0;
-        slot->field_5E = 0;
-        slot->field_65 = 0;
+        slot->resource_uv = 0;
+        slot->subdivisions = 0;
         slot->depth_offset = 0;
         slot->ot_depth = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
     }
@@ -304,9 +304,9 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resou
     configured->field_67 = resource_root_index;
     configured->field_68 = resource_branch_index;
     configured->field_69 = resource_variant;
-    configured->field_66 = texture_config;
-    *(u8 *)&configured->field_5E = texture_config >> 16;
-    *((u8 *)&configured->field_5E + 1) = texture_config >> 8;
+    configured->texture_page = texture_config;
+    *(u8 *)&configured->resource_uv = texture_config >> 16;
+    *((u8 *)&configured->resource_uv + 1) = texture_config >> 8;
     configured->field_40.clut.x = DISPLAY_OBJECT_SPRITE_TEXTURE_U(palette_config);
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
     texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(palette_config);
@@ -360,7 +360,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     half_height = height / 2;
     *(u8 *)&object->field_5C = texture_u;
     ((u8 *)&object->field_5C)[1] = texture_v;
-    object->field_66 = texture_page;
+    object->texture_page = texture_page;
     object->field_40.clut.x = clut_x;
     object->field_40.clut.y = clut_y;
     object->field_18.center.y = half_height;
@@ -417,7 +417,7 @@ void DisplayObject_RenderSpriteList(void) {
                 p->uv.word = e->field_5C;
                 mode = e->ot_depth | 0x10000;
                 ot = tb[idx];
-                p->tpage = e->field_66;
+                p->tpage = e->texture_page;
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
@@ -607,7 +607,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
     } else if (tag & DISPLAY_OBJECT_ATTRIBUTE_8BPP) {
         step = 2;
     }
-    p->tpage = e->field_66;
+    p->tpage = e->texture_page;
     p->xy.word = e->xy.word;
     p->cxcy.word = e->field_40.word;
     p->rgb = e->rgb;
@@ -1134,8 +1134,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
     work->clip = object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST;
 retry:
     work->attribute = object->attribute;
-    work->u = ((u8 *)&object->field_5E)[0];
-    work->v = ((u8 *)&object->field_5E)[1];
+    work->u = ((u8 *)&object->resource_uv)[0];
+    work->v = ((u8 *)&object->resource_uv)[1];
     count = SPRITE_SHEET_HEADER(object)->count;
     if (count == 0) {
         return;
@@ -1143,10 +1143,10 @@ retry:
     state->flags = SPRITE_SHEET_HEADER(object)->flags;
     if (work->attribute & 0x01000000) {
         work->wide = 1;
-        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage * 2;
+        tpage = object->texture_page + SPRITE_SHEET_HEADER(object)->tpage * 2;
     } else {
         work->wide = 0;
-        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage;
+        tpage = object->texture_page + SPRITE_SHEET_HEADER(object)->tpage;
     }
     sprite->tpage = work->tpage = tpage;
     work->cx = object->field_40.clut.x;
@@ -1515,7 +1515,7 @@ s32 DisplayObject_ProjectRotationFacing(
 
     out->x = x;
     out->y = y;
-    out->divisions = obj->field_65;
+    out->divisions = obj->subdivisions;
 
     SetGeomOffset(x, y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
@@ -1560,7 +1560,7 @@ s32 DisplayObject_ProjectRotationFacing(
         gte_stopz(area_result);
 
         {
-            s32 cb = obj->field_10;
+            s32 cb = obj->back_face_handler;
             if (cb != 0) {
                 if (cb < 0) {
                     ((void (*)(DisplayObject *, s32))cb)(obj, facing_area);
@@ -1804,7 +1804,7 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_3C.word = 0;
     object->field_34.word = 0;
     object->field_2C.word = 0;
-    object->field_10 = 0;
+    object->back_face_handler = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
@@ -1830,7 +1830,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     object->field_44.word = initial;
     object->field_38.word = initial;
     object->field_2C.word = initial;
-    object->field_10 = 0;
+    object->back_face_handler = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;

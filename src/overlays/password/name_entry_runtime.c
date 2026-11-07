@@ -428,7 +428,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
 #ifdef VERSION_JAPAN
                                   25,
 #else
-                                  glyph->field_66,
+                                  glyph->texture_page,
 #endif
                                   (u16)glyph->field_40.clut.x,
                                   (u16)glyph->field_40.clut.y);
@@ -523,7 +523,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
                       16, 16,
 #endif
                       *(u8 *)&g->field_5C, ((u8 *)&g->field_5C)[1],
-                      g->field_66,
+                      g->texture_page,
 #ifdef VERSION_JAPAN
                       0x210, 0xFF);
 #else

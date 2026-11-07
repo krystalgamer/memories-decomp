@@ -76,7 +76,7 @@ dispatcher actually consumes in `display_object_helpers.c`, not a new
 allocation, layout or broader dispatcher ABI.
 
 The projection helper's explicit `ProjectionOut *` view is retained. Its
-three stores publish the same X/Y and zero-extended object `field_65` into
+three stores publish the same X/Y and zero-extended object `subdivisions` (`+0x65`) into
 that same eight-byte shape. The renderer passes this origin to its frame
 submissions, then clears the complete division word before the card/detail
 submissions. The backend subtracts X/Y before projection and uses the
