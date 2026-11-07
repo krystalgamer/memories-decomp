@@ -64,7 +64,7 @@ segments:
     align: 4
     subsegments:
       - {start: 0x800, type: bin, name: italian_raw_80010000, linker_section_order: .rodata}
-      - [0x844, .rodata, game/european/file_transfer_runtime]
+      - [0x844, .rodata, game/file_transfer_runtime]
       - {start: 0x860, type: bin, name: italian_raw_80010060, linker_section_order: .rodata}
       - [0x8B0, .rodata, game/european/duel_load_package_stage]
       - {start: 0x8F4, type: bin, name: italian_raw_800100f4, linker_section_order: .rodata}
@@ -113,7 +113,7 @@ segments:
       - [0x3DF0, c, game/func_800136D4]
       - [0x3E00, c, game/european/file_set_position_table]
       - [0x3F00, c, game/file_wait_for_transfers]
-      - [0x3FB4, c, game/european/file_transfer_runtime]
+      - [0x3FB4, c, game/file_transfer_runtime]
       - [0x58CC, c, game/european/fade_runtime]
       - [0x6434, c, game/display_projection]
       - [0x6518, c, game/european/duel_field_card_render]
@@ -401,7 +401,7 @@ segments:
       - [0x83578, data, italian_raw_80092d78]
       - [0x8CA98, .sdata, game/italian/main]
       - [0x8CA9D, pad]
-      - [0x8CAA0, .sdata, game/european/file_transfer_runtime]
+      - [0x8CAA0, .sdata, game/file_transfer_runtime]
       - [0x8CAB0, .sdata, game/spanish/duel_ground_projection]
       - [0x8CAB4, .sdata, game/european/duel_battle_stats]
       - {start: 0x8CABA, type: bin, name: italian_raw_8009c2ba, linker_section_order: .sdata}
@@ -418,8 +418,8 @@ segments:
       - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
       - [0x8CC04, pad]
       - [0x8CC08, .sbss, game/italian/main]
-      - [0x8CC58, .sbss, game/european/file_set_position_table]
-      - [0x8CC60, .sbss, game/european/file_transfer_runtime]
+      - [0x8CC58, sbss, file_set_position_table_commons]
+      - [0x8CC60, sbss, file_transfer_runtime_commons]
       - [0x8CCB8, .sbss, game/european/fade_runtime]
       - [0x8CCCC, .sbss, game/european/duel_field_card_render]
       - [0x8CDD8, .sbss, game/european/duel_effect_dialog_state]
@@ -441,8 +441,8 @@ segments:
       - [0x8CFE8, .sbss, game/spanish/model]
       - [0x8D018, .sbss, game/spanish/movie_pipeline]
       - [0x8D038, .bss, game/italian/main]
-      - [0xDB970, .bss, game/european/file_set_position_table]
-      - [0xDB998, .bss, game/european/file_transfer_runtime]
+      - [0xDB970, bss, file_set_position_table_bss_commons]
+      - [0xDB998, bss, file_transfer_runtime_bss_commons]
       - [0xDBA48, .bss, game/european/fade_runtime]
       - [0xDBA78, .bss, game/european/duel_field_card_render]
       - [0xDBD70, .bss, game/library_create_grid_section_sprites]
