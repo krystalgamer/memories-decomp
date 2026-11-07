@@ -1,60 +1,5 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a
- * common symbol split.yaml's debug_menu_editor_entries_bss_commons subsegment
- * allocates. */
-u8 gDebug_szEditorCaretLine[48];
-
-#ifndef DEBUG_MENU_EDITOR_ENTRIES_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B2B0-0x8009B2F8, declared in
- * address order ahead of the headers that declare it (#2602). The globals are
- * common symbols; split.yaml's debug_menu_editor_entries_commons subsegment
- * allocates them, and the bytes no global names, at their retail addresses. */
-u8 D_8009B2B2;
-s8 gDebug_abEditorCaretColumns[3];
-u8 gDebug_bEditorLeadingLineCount;
-u8 gDebugMenu_bCampaignEditField;
-u8 gDebug_abEditorDigitCounts[3];
-u16 gDebug_nLastSoundID[2];
-u16 gDebug_nSceneOrSoundID;
-u16 gDebug_nEditedBgmId;
-u16 gDebug_nEditedCdSoundId;
-u16 gDebug_nLastBgmId;
-s8 gDebug_bEditorRow;
-u16 D_8009B2DE;
-u8 gDebug_bEditorRowCount;
-struct DisplayObject *gDebugMenu_pCursorQuad;
-u8 gDebugMenu_bLastMapId;
-s8 gDebug_bEditorDigit;
-u8 gDebug_bEditorFlags;
-u8 gDebugMenu_bStep;
-u8 *gDebug_pszEditorFormat;
-u8 gDebugMenu_bPage;
-s8 gDebugMenu_bCursor;
-#else
-extern u8 D_8009B2B2;
-extern s8 gDebug_abEditorCaretColumns[3];
-extern u8 gDebug_bEditorLeadingLineCount;
-extern u8 gDebugMenu_bCampaignEditField;
-extern u8 gDebug_abEditorDigitCounts[3];
-extern u16 gDebug_nLastSoundID[2];
-extern u16 gDebug_nSceneOrSoundID;
-extern u16 gDebug_nEditedBgmId;
-extern u16 gDebug_nEditedCdSoundId;
-extern u16 gDebug_nLastBgmId;
-extern s8 gDebug_bEditorRow;
-extern u16 D_8009B2DE;
-extern u8 gDebug_bEditorRowCount;
-extern struct DisplayObject *gDebugMenu_pCursorQuad;
-extern u8 gDebugMenu_bLastMapId;
-extern s8 gDebug_bEditorDigit;
-extern u8 gDebug_bEditorFlags;
-extern u8 gDebugMenu_bStep;
-extern u8 *gDebug_pszEditorFormat;
-extern u8 gDebugMenu_bPage;
-extern s8 gDebugMenu_bCursor;
-#endif
-
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -95,6 +40,35 @@ extern s8 gDebugMenu_bCursor;
 
 #define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 #include "../game/display_object.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a
+ * common symbol split.yaml's debug_menu_editor_entries_bss_commons subsegment
+ * allocates. */
+u8 gDebug_szEditorCaretLine[48];
+
+/* Small zero-initialized storage this unit owns. The globals are common
+ * symbols; each build's debug_menu_editor_entries_commons subsegment
+ * allocates them, and the bytes no global names, at their retail addresses. */
+u8 D_8009B2B2;
+s8 gDebug_abEditorCaretColumns[3];
+u8 gDebug_bEditorLeadingLineCount;
+u8 gDebugMenu_bCampaignEditField;
+u8 gDebug_abEditorDigitCounts[3];
+u16 gDebug_nLastSoundID[2];
+u16 gDebug_nSceneOrSoundID;
+u16 gDebug_nEditedBgmId;
+u16 gDebug_nEditedCdSoundId;
+u16 gDebug_nLastBgmId;
+s8 gDebug_bEditorRow;
+u8 gDebug_bEditorRowCount;
+DisplayObject *gDebugMenu_pCursorQuad;
+u8 gDebugMenu_bLastMapId;
+s8 gDebug_bEditorDigit;
+u8 gDebug_bEditorFlags;
+u8 gDebugMenu_bStep;
+u8 *gDebug_pszEditorFormat;
+u8 gDebugMenu_bPage;
+s8 gDebugMenu_bCursor;
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
