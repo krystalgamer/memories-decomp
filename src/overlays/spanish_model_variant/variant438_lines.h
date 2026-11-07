@@ -5,12 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    u8 unknown_00[0x1C];
-    u32 cycle_start;
-    u32 cycle_end;
-} Lines438Timing;
-
-typedef struct {
     u8 unknown_0000[0x960];
     ModelVariantLineGroup groups[3];
     u8 unknown_0E40[0x13F0];
@@ -27,7 +21,7 @@ typedef struct {
     u8 unknown_22A0[4];
     u32 step;
     u8 unknown_22A8[0xC];
-    Lines438Timing *timing;
+    ModelVariantGrowTiming *timing;
     u8 unknown_22B8[0x30];
     s32 phase;
 } Lines438State;

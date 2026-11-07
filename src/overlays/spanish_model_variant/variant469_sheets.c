@@ -11,10 +11,10 @@ void SpanishModelVariant469_DrawSheets(u8 *context)
     long interpolation;
     long flag;
     Sheets469State *state = (Sheets469State *)context;
-    Sheets469Primary *primary = state->primary;
+    ModelVariantSheetPrimary *primary = state->primary;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon = state->polygons;
-    Sheets469Timing *timing;
+    ModelVariantPairedSheetTiming *timing;
     GsOT *ot;
     s32 count, first;
     s32 i, j;

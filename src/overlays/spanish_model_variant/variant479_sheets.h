@@ -13,15 +13,6 @@ typedef struct {
 } Sheets479Primary;
 
 typedef struct {
-    u8 unknown_00[0x18];
-    u32 grow_begin;
-    u32 grow_end;
-    u8 unknown_20[4];
-    u32 fade_begin;
-    u32 fade_end;
-} Sheets479Timing;
-
-typedef struct {
     u8 unknown_0000[0x18D8];
     Sheets479Primary primary[5];
     u8 unknown_2468[0x930];
@@ -36,7 +27,7 @@ typedef struct {
     u8 unknown_416C[4];
     u32 step;
     u8 unknown_4174[4];
-    Sheets479Timing *timing;
+    ModelVariantSheetTiming *timing;
     u8 unknown_417C[0x70];
     s32 phase;
 } Sheets479State;

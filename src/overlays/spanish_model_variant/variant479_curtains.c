@@ -11,7 +11,7 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
     long interpolation;
     long flag;
     Curtains479State *state = (Curtains479State *)context;
-    Curtains479Primary *primary = state->primary;
+    ModelVariantGridScale *primary = state->primary;
     ModelVariantCurtain *curtain = state->curtains;
     POLY_GT4 *polygon;
     GsOT *ot;

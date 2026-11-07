@@ -5,15 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    u8 unknown_00[0xC];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_14[4];
-    u32 fade_after;
-    u32 fade_end;
-} Timing411Funnel;
-
-typedef struct {
     SVECTOR inner[17];
     SVECTOR outer[17];
     s32 size;
@@ -37,7 +28,7 @@ typedef struct {
     u8 unknown_1640[4];
     s32 step;
     u8 unknown_1648[4];
-    Timing411Funnel *timing;
+    ModelVariantGrowFadeTiming *timing;
     u8 unknown_1650[0x10];
     u8 inner_color[4];
     u8 outer_color[4];

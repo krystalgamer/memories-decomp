@@ -5,15 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    u8 unknown_00[0x18];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_20[8];
-    u32 shrink_start;
-    u32 shrink_end;
-} Sheet426Descriptor;
-
-typedef struct {
     u8 unknown_0000[0xE1C];
     ModelVariantSheet sheets[2];
     u8 unknown_0F4C[0x1078];
@@ -28,7 +19,7 @@ typedef struct {
     u8 unknown_2104[4];
     s32 step;
     u8 unknown_210C[4];
-    Sheet426Descriptor *descriptor;
+    ModelVariantSheetTimingWide *descriptor;
     u8 unknown_2114[0x30];
     s32 progress;
     u8 unknown_2148[0x38];

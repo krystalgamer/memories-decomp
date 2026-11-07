@@ -12,7 +12,7 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
     long interpolation;
     long flag;
     Mesh427State *state = (Mesh427State *)context;
-    Mesh427Companion *companion = state->companions;
+    ModelVariantProgressRecord *companion = state->companions;
     Mesh427 *mesh = state->meshes;
     POLY_GT4 *polygon = &state->polygon;
     GsOT *ot;

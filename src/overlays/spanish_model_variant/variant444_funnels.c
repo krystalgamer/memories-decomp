@@ -103,7 +103,7 @@ void SpanishModelVariant444_DrawFunnels(u8 *context)
                     funnel->size = 4096;
                 }
             }
-        } else if (state->timing->fade_after < state->time && funnel->size > 0) {
+        } else if (state->timing->fade_start < state->time && funnel->size > 0) {
             funnel->size = 4096 - (state->time - gFrenchModelVariant444_aConfigs[0].fade_start) * 4096 /
                                   (state->timing->fade_end - gFrenchModelVariant444_aConfigs[0].fade_start);
             if (funnel->size <= 0) {

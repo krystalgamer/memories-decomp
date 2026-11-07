@@ -12,13 +12,7 @@ typedef struct {
 } Funnel473;
 
 typedef struct {
-    u8 unknown_000[0x4EC];
-    s32 size;
-    u8 unknown_4F0[8];
-} Funnel473Object;
-
-typedef struct {
-    Funnel473Object objects[5];
+    ModelVariantGridScale objects[5];
     u8 unknown_18D8[0x10AC];
     ModelVariantSheet sheets[2];
     u8 unknown_2AB4[0x8C8];
