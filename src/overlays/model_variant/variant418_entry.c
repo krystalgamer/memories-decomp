@@ -17,12 +17,12 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant418EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantSpokeRing *spoke = work->spokes;
-    Variant418EntryFan *fan = work->fans;
+    ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
     Variant418SpiralArm *arm = work->arms;
     POLY_GT4 *textured = work->textured;

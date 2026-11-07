@@ -12,7 +12,7 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant400EntryProjection projection;
+    ModelVariantProjection projection;
     Variant400EntryNode *node = work->nodes;
     Variant400EntrySheet *sheet = work->sheets;
     Variant400EntryColumn *column = work->columns;

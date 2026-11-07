@@ -84,12 +84,6 @@ typedef struct {
     s16 slot, command;
 } ExodiaSecondEntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} ExodiaSecondEntryProjection;
-
 extern ExodiaSecondEntryConfig gModelExodia_aSecondConfigs[];
 s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command);
 #endif

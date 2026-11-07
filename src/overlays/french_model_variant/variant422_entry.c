@@ -7,14 +7,14 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
     Variant422EntryStack stack;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant405Halo *halo;
     Variant405Veil *veil;
     Variant422EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant422EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     POLY_GT4 *textured;
     POLY_G3 *triangle;

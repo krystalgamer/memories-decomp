@@ -11,7 +11,7 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection478 projection;
+    ModelVariantPackedProjection projection;
     EntryQuads478 *quad_group;
     EntryPetals478 *petal;
     EntrySwarm478 *swarm = &work->swarm;

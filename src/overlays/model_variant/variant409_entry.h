@@ -22,11 +22,6 @@ typedef struct {
     u32 spiral_start;
 } EntryConfig409;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection409;
-
 /* A nine-row, seventeen-column dome mesh with one colour per row. */
 typedef struct {
     SVECTOR rows[9][17];
@@ -45,12 +40,6 @@ typedef struct {
 } EntryRibbon409;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x1C];
-} EntrySpiral409;
-
-typedef struct {
     u8 unknown_000[0x264];
     u8 color[17][4];
     s32 field_2A8;
@@ -65,7 +54,7 @@ typedef struct {
 typedef struct {
     EntryMesh409 mesh;
     EntryRibbon409 ribbons[1];
-    EntrySpiral409 spirals[12];
+    ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     EntryStreamer409 streamers[4];
     EntryFunnel409 funnels[2];

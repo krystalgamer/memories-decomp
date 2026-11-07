@@ -16,7 +16,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant456EntryState *work = (Variant456EntryState *)point;
     Variant456EntryFan *fan = work->fans;
     Variant456EntryTrail *trail = work->trails;

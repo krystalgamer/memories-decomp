@@ -12,7 +12,7 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection461 projection;
+    ModelVariantProjection projection;
     EntryRibbon461 *ribbon = work->ribbons;
     EntryRing461 *ring = &work->ring;
     EntryBand461 *band = work->bands;

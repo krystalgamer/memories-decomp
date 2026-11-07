@@ -23,29 +23,14 @@ typedef struct {
 } Variant404EntryBand;
 
 typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant404EntryQuad;
-
-/* 0x7C-byte record at work + 0x4E0 used by SpanishModelVariant421_DrawSpiral. */
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x1C];
-} Variant404EntryGlow;
-
-typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant404EntryGlow glows[12];
+    ModelVariantSpiral glows[12];
     u8 unknown_AB0[0x360];
     Variant404EntryBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant404EntryQuad quads[1];
+    ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

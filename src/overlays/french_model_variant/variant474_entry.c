@@ -19,13 +19,13 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant474EntryState *work;
     Variant474EntryFunnel *funnel;
     Variant474EntryRibbon *ribbon;
     Variant474EntrySheet *sheet;
     Variant474EntryStreamer *streamer;
-    Variant474EntrySpiral *spiral;
+    ModelVariantSpiral *spiral;
     POLY_GT4 *glow;
     POLY_G4 *quad;
     s32 result;

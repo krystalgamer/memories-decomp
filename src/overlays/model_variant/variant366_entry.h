@@ -51,20 +51,13 @@ typedef struct {
     s32 size, state;
 } Variant366Ring;
 
-/* The sixteen rays drawn by FrenchModelVariant383_DrawRays. */
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x1C];
-} Variant366Ray;
-
 typedef struct {
     Variant366Strip strips[1];
     Variant366Quads quads[1];
     u8 unknown_F4[0x360];
     Variant366Ribbon ribbons[3];
     Variant366Ring rings[4];
-    Variant366Ray rays[16];
+    ModelVariantSpiral rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_F4 mask;
@@ -93,12 +86,6 @@ typedef struct {
     s32 tint;
     s16 slot, command;
 } Variant366State;
-
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant366Projection;
 
 extern GsIMAGE gModelVariant366_aImages[];
 extern Variant366Config gModelVariant366_aConfigs[];

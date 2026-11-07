@@ -16,11 +16,6 @@ typedef struct {
 } EntryConfig478;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection478;
-
-typedef struct {
     SVECTOR a[32], b[32], c[32], d[32], positions[32];
     u8 color[4], unknown_504[0x10];
     s32 size[32], done[32], reset[32];

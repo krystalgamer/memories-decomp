@@ -82,12 +82,6 @@ typedef struct {
     s16 slot, command;
 } Variant410EntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant410EntryProjection;
-
 extern u8 gFrenchModelVariant410_D1D04[];
 void FrenchModelVariant410_DrawQuads(u8 *context);
 void FrenchModelVariant410_DrawRibbons(u8 *context);

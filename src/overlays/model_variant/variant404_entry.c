@@ -17,14 +17,14 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant404EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant404EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
-    Variant404EntryGlow *glow;
+    ModelVariantSpiral *glow;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;

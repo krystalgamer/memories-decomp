@@ -12,13 +12,13 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant459EntryRing *ring = work->rings;
     Variant459EntryCurtain *curtain = work->curtains;
     Variant459EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     Variant459EntryWeb *web = work->webs;
-    Variant459EntryGlow *glow = work->glows;
+    ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;

@@ -20,7 +20,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
     Variant366Quads *quads = work->quads;
     Variant366Ribbon *ribbon = work->ribbons;
     Variant366Ring *ring = work->rings;
-    Variant366Ray *ray = work->rays;
+    ModelVariantSpiral *ray = work->rays;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat;
     POLY_G3 *triangle = &work->triangle;
@@ -33,7 +33,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant366Projection projection;
+    ModelVariantProjection projection;
     u16 tpage, clut, flat_clut;
     s32 packed, flat_page;
     s32 i, j, k, n, m, angle, base;

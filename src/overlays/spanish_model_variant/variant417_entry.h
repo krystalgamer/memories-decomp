@@ -59,13 +59,6 @@ typedef struct {
     s32 angle, field_8C;
 } Variant417EntrySpoke;
 
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x1C];
-} Variant417EntryGlow;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant417EntryTube tubes[1];
@@ -75,7 +68,7 @@ typedef struct {
     u8 rays[0x360];
     Variant417EntryCurtain curtains[5];
     Variant417EntrySpoke spokes[4];
-    Variant417EntryGlow glows[12];
+    ModelVariantSpiral glows[12];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];

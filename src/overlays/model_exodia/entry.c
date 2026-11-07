@@ -8,7 +8,7 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    ExodiaEntryProjection projection;
+    ModelVariantProjection projection;
     ExodiaEntryRing *ring = work->rings;
     ExodiaColorRecord *colors = work->colors;
     POLY_GT4 *textured = work->textured;

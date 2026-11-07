@@ -15,7 +15,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant438EntryRing *ring = work->rings;
     Variant438EntryCurtain *curtain = work->curtains;
     Variant438EntryBand *band = work->bands;
@@ -24,7 +24,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     Variant438EntrySpoke *petal = work->petals;
     Variant438EntryStar *star = work->stars;
     Variant438EntryWeb *web = work->webs;
-    Variant438EntryGlow *glow = work->glows;
+    ModelVariantSpiral *glow = work->glows;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;

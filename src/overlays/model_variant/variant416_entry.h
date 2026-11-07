@@ -31,20 +31,13 @@ typedef struct {
 } Variant416EntryBand;
 
 typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant416EntryFan;
-
-typedef struct {
     Variant416EntryRecord records[16];
     ModelVariantWebNarrow webs[3];
     Variant416EntryBand bands[2];
     ModelVariantSheet sheets[3];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant416EntryFan fans[1];
+    ModelVariantFan fans[1];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], extra;

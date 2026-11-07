@@ -22,11 +22,6 @@ typedef struct {
     u32 draw_start, ribbon_start, travel_start, travel_end, fade_start, fade_end;
 } EntryConfig425;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection425;
-
 /* A seventeen-point ribbon: its spine and a copy moved along the view, both
  * projected, and per point the screen angle, the projected width, the depth
  * and the width's screen offset. */
@@ -49,15 +44,9 @@ typedef struct {
 } EntryRibbon425;
 
 typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x1C];
-} EntrySpiral425;
-
-typedef struct {
     Mesh425Rows mesh;
     EntryRibbon425 ribbons[1];
-    EntrySpiral425 spirals[12];
+    ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     Variant425Streamer streamers[1];
     Funnel423 funnels[5];

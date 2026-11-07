@@ -11,7 +11,7 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection427 projection;
+    ModelVariantPackedProjection projection;
     ModelVariantCurtain *curtain = work->curtains;
     Mesh427 *mesh = work->meshes;
     EntryRibbon427 *ribbon = work->ribbons;

@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT458_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_slot_queries.h"
@@ -48,12 +49,6 @@ typedef struct {
     s32 field_208;
     u8 unknown_20C[0x68];
 } EntryStreamer458;
-
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection458;
 
 typedef struct {
     EntryStrand458 strands[6];

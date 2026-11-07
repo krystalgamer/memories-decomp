@@ -12,7 +12,7 @@ s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1, unused_matrix2;
     SVECTOR position, target;
     VECTOR squared;
-    Variant402EntryProjection projection;
+    ModelVariantProjection projection;
     Variant412Trail *trail = work->trails;
     Variant402EntryRecord *record = work->records;
     Variant402EntryRing *ring = work->rings;

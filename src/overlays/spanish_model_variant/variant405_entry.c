@@ -229,7 +229,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     } else {
         SVECTOR position, target;
         VECTOR squared;
-        Variant337EntryProjection projection;
+        ModelVariantProjection projection;
 
         view = Model_GetCameraViewBuffer();
         setVector(&work->view_delta, view->vrx - view->vpx,

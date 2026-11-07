@@ -19,12 +19,12 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant425EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant425EntryFan *fan;
+    ModelVariantFan *fan;
     ModelVariantWebSmall *web;
     Variant425EntryArm *arm;
     Variant425EntryRay *ray;

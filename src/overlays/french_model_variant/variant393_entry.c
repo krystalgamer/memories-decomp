@@ -12,7 +12,7 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant393EntryProjection projection;
+    ModelVariantProjection projection;
     Variant337EntryRecord *record = work->records;
     Variant337EntryRing *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;

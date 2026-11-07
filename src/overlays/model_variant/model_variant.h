@@ -289,4 +289,46 @@ typedef struct {
     s32 count;
 } ModelVariantCurtain;
 
+/* The RotTransPers scratch record of the entry handlers: a projected screen
+ * point, the interpolation value and flag RotTransPers writes, and the
+ * projected screen point of the target. */
+typedef struct {
+    DVECTOR projected;
+    long interpolation, flag;
+    DVECTOR target;
+} ModelVariantProjection;
+
+/* ModelVariantProjection with the target's projected screen point kept as
+ * the packed word RotTransPers writes: the handlers split it with (u16) and
+ * >> 16 to get the screen delta. */
+typedef struct {
+    DVECTOR projected;
+    long interpolation, flag, target;
+} ModelVariantPackedProjection;
+
+/* One 0x90-byte fan record: a centre point and two rings of five points
+ * (point[0], point[1..5], point[6..10]), four quad corners, the inner and
+ * outer colours, the growing size and a done flag. */
+typedef struct {
+    SVECTOR point[11];
+    SVECTOR corner[4];
+    u8 inner[4];
+    u8 outer[4];
+    s32 size;
+    s32 field_84;
+    s32 done;
+    u8 unknown_8C[4];
+} ModelVariantFan;
+
+/* One 0x7C-byte spiral record: two inner and two outer colours after 0x50
+ * unknown bytes. The DrawSpiral helpers (e.g. SpanishModelVariant421_DrawSpiral)
+ * and FrenchModelVariant383_DrawRays, which draws sixteen of them as rays,
+ * read these records. */
+typedef struct {
+    u8 unknown_00[0x50];
+    CVECTOR inner[2];
+    CVECTOR outer[2];
+    u8 unknown_60[0x1C];
+} ModelVariantSpiral;
+
 #endif

@@ -18,7 +18,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant439EntryFan fans[1];
+    ModelVariantFan fans[1];
     Variant398EntryScreenRing screen_rings[3];
     ModelVariantCurtain curtains[4];
     POLY_G3 triangle;

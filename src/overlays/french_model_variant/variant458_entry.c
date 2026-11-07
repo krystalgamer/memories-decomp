@@ -11,7 +11,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection458 projection;
+    ModelVariantProjection projection;
     EntryRibbon458 *ribbon = work->ribbons;
     EntryStrand458 *strand = work->strands;
     Variant458Sheet *sheet = work->sheets;

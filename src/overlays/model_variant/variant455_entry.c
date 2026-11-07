@@ -32,7 +32,7 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
     s32 angle, i, packed, beam_page;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection455 projection;
+    ModelVariantProjection projection;
     s32 flat_page, glow_page;
     u16 tpage, clut, flat_clut;
     s32 j, k, m, n, p, radius, red, green, blue;

@@ -7,7 +7,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     EntryTextureStack373 texture_stack;
     SVECTOR position, target;
     VECTOR squared;
-    EntryProjection373 projection;
+    ModelVariantPackedProjection projection;
     Family373Grid *grid = &work->grid;
     Family373Layer *layer = work->layers;
     EntryPointGroup373 *group = work->groups;

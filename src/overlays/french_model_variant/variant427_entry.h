@@ -22,11 +22,6 @@ typedef struct {
 } EntryConfig427;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag, target;
-} EntryProjection427;
-
-typedef struct {
     u8 unknown_000[0x220];
     CVECTOR colors[2];
     VECTOR scale;

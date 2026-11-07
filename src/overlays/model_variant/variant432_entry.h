@@ -15,12 +15,6 @@
 #include "../spanish_model_variant/variant437_sheet.h"
 #include "variant437_streamers.h"
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant432EntryProjection;
-
 /* One 0x24-byte command row at gModelVariant432_aConfigs. */
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];

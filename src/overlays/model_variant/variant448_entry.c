@@ -19,7 +19,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     POLY_G3 *triangle;
     Variant448Radial *radial;
     Variant448SpiralArm *arm;
@@ -32,7 +32,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
     s32 r;
     ModelVariantSpokeRing *spoke;
     u32 screen_x;
-    Variant448EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     u16 tpage, clut, flat_clut;
     ModelVariantWebNarrow *web;
     s32 fan_base;

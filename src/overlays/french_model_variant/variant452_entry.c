@@ -23,12 +23,12 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant439EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantSpokeRing *spoke = work->spokes;
-    Variant439EntryFan *fan = work->fans;
+    ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
     Variant452Streamer *streamer = work->streamers;
     Variant452EntryTrail *trail = work->trails;

@@ -20,14 +20,14 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
     Variant454EntryState *work = (Variant454EntryState *)point;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant454EntryGroup *group;
     Variant454EntryCluster *cluster;
     Variant412EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantSpokeRing *spoke;
-    Variant412EntryQuad *quad_record;
+    ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     Variant412EntryRecord *record;
     POLY_GT4 *textured;

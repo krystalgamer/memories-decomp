@@ -27,13 +27,6 @@ typedef struct {
 } Variant464EntryPrimary;
 
 typedef struct {
-    SVECTOR point[11], corner[4];
-    u8 inner[4], outer[4];
-    s32 size, field_84, done;
-    u8 unknown_8C[4];
-} Variant464EntryFan;
-
-typedef struct {
     SVECTOR a[17], b[17], c[17];
     CVECTOR color[17];
     s32 scale, count;
@@ -45,7 +38,7 @@ typedef struct {
     ModelVariantSheetSet sheets[6];
     ModelVariantRing rings[6];
     ModelVariantSpokeRing spokes[4];
-    Variant464EntryFan fans[1];
+    ModelVariantFan fans[1];
     Variant464EntryScreenRing screen_rings[3];
     ModelVariantCurtain curtains[3];
     POLY_G3 triangle;

@@ -19,7 +19,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant337EntryProjection projection;
+    ModelVariantProjection projection;
     Variant433EntryFan *fan;
     Variant433EntryState *work;
     Variant433EntryRibbon *ribbon;

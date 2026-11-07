@@ -11,7 +11,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
-    Variant402EntryProjection projection;
+    ModelVariantProjection projection;
     EntryRay446 *ray = work->rays;
     EntryLines446 *lines = work->lines;
     EntryStrip446 *strip = work->strips;

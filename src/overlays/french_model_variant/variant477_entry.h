@@ -71,12 +71,6 @@ typedef struct {
 } EntryShape477;
 
 typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} EntryProjection477;
-
-typedef struct {
     EntryPanel477 panels[2];
     EntryGroup477 groups[2];
     EntryTrail477 trails[16];

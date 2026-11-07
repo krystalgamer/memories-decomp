@@ -63,12 +63,6 @@ typedef struct {
     s16 slot, command;
 } Variant402EntryState;
 
-typedef struct {
-    DVECTOR projected;
-    long interpolation, flag;
-    DVECTOR target;
-} Variant402EntryProjection;
-
 extern GsIMAGE gFrenchModelVariant402_aImages[9];
 extern Variant402EntryConfig gFrenchModelVariant402_aConfigs[];
 #endif
