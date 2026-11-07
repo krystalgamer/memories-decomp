@@ -1290,7 +1290,7 @@ type-`0xD` effect object, copies the target card display object's
 `x`/`y`/depth fields into it, and staggers the effect depth by field slot.
 The Spellbinding Circle branch sets effect state `2`, subtracts `500` from
 the target `DuelCardRecord.stat_modifier` at offset `+0x12`, and stores
-`-500` in the effect object's signed `field_12`. The alternate branch sets
+`-500` in the effect request's signed `number`. The alternate branch sets
 effect state `1` and performs the same paired writes with `-1000`, matching
 Shadow Spell's stronger two-level reduction documented by the card behavior
 research.

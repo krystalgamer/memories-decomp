@@ -6,7 +6,7 @@
 `DuelEffect_ApplyStatPenalty` creates requests for occupied field slots,
 selects phase 2 for Spellbinding Circle or phase 1 for the other penalty
 path, subtracts the corresponding resident stat modifier and supplies its
-negative magnitude in request `field_12`. The Reverse Trap path in
+negative magnitude in request `number`. The Reverse Trap path in
 `duel_scene_card_move.c` also creates effect 13 and supplies the negated
 pending equip bonus before resident code adjusts the modifier.
 The animation renders the number and marks request progress; it does not

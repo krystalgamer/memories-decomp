@@ -591,12 +591,12 @@ void DuelEffect_ApplyStatPenalty(void) {
             object->phase = 2;
             record->stat_modifier =
                 record->stat_modifier - DUEL_STAT_PENALTY_PER_LEVEL;
-            object->field_12 = -DUEL_STAT_PENALTY_PER_LEVEL;
+            object->number = -DUEL_STAT_PENALTY_PER_LEVEL;
         } else {
             object->phase = 1;
             record->stat_modifier =
                 record->stat_modifier - 2 * DUEL_STAT_PENALTY_PER_LEVEL;
-            object->field_12 = -2 * DUEL_STAT_PENALTY_PER_LEVEL;
+            object->number = -2 * DUEL_STAT_PENALTY_PER_LEVEL;
         }
         SD_SEPlayFull(0x21);
     }

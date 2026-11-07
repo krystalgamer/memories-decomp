@@ -38,7 +38,7 @@ void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectR
     }
     if (effect == 2) {
         gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
-        DuelEffect_RunAttackSlash(buffer, phase, context->field_12);
+        DuelEffect_RunAttackSlash(buffer, phase, context->number);
     }
     if (effect == 3) {
         gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
@@ -89,7 +89,7 @@ void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectR
     if (effect == 13) {
         gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
-        DuelEffect_RunStatPenalty(buffer, phase, context->field_12);
+        DuelEffect_RunStatPenalty(buffer, phase, context->number);
     }
     if (effect == 14) {
         gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;

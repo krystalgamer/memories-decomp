@@ -232,7 +232,7 @@ state_four:
             request->field_00 = object->xy.h.x;
             request->field_02 = object->xy.h.y;
             z = object->field_34.h.field_34;
-            request->field_12 = -gDuel_wPendingEquipBonus;
+            request->number = -gDuel_wPendingEquipBonus;
             request->field_04 = z;
             SD_SEPlayFull(0x21);
             gDuel_bSceneSubStep &= ~0x40;
