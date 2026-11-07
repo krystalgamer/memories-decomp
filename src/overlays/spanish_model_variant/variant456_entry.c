@@ -209,8 +209,8 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             line->field_18 = 0;
             line->field_1C = 0;
             line->field_1A = 0;
-            line->field_100 = 0;
-            line->field_FC = 0;
+            line->hidden = 0;
+            line->spin = 0;
             line->field_104 = 0;
             line->heading[0] = (s32)(rcos(angle) << 8) >> 12;
             line->heading[1] = (s32)(rsin(angle) << 8) >> 12;
@@ -249,8 +249,8 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[0] = work->config->secondary.r;
             sheet->inner[1] = work->config->secondary.g;
             sheet->inner[2] = work->config->secondary.b;
-            sheet->field_B8 = 0;
-            sheet->field_BC = 1024;
+            sheet->faded = 0;
+            sheet->fade = 1024;
             if (n == 0) {
                 sheet->size = 0;
                 sheet->field_8C = 0;
@@ -276,8 +276,8 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         work->field_233C = 0;
         work->field_233E = 0;
         work->field_2340 = 0;
-        work->field_2358 = 0;
-        work->field_235C = 0;
+        work->spray_wave = 0;
+        work->spray_phase = 0;
         work->field_2360 = 0;
         work->field_2364 = 0;
         work->field_234C = 0;
@@ -344,8 +344,8 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             work->step = Model_GetFrameStep();
             work->animation_frame = frame;
         }
-        work->field_2358 += work->step << 7;
-        work->field_235C += work->step << 6;
+        work->spray_wave += work->step << 7;
+        work->spray_phase += work->step << 6;
     }
     Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {

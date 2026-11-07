@@ -115,9 +115,9 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             ring->field_5C = 0;
             ring->field_5E = 0;
             ring->field_60 = 0;
-            ring->field_62 = 0;
-            ring->field_64 = 0;
-            ring->field_68 = -512;
+            ring->started = 0;
+            ring->progress = 0;
+            ring->tail_progress = -512;
         }
         trail = work->trails;
         for (n = 0; n < 3; n++, trail++) {
@@ -170,7 +170,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
                 outer->inner_color[2] = 255;
             }
             outer->angle = n * -12288 / 3;
-            outer->field_11C = 0;
+            outer->completed = 0;
         }
         for (n = 0; n < 3; n++, inner++) {
             for (j = 0, v = 0; j < 17; j++, v = j * 256) {
@@ -184,7 +184,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
                 inner->inner_color[2] = 255;
             }
             inner->angle = 0;
-            inner->field_11C = 0;
+            inner->completed = 0;
         }
         for (q = 0, base = 0; q < 4; q++, spoke++, base += 256) {
             for (n = 0, angle = base; n < 8; angle += 512, n++) {

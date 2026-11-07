@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
-    s32 field_80, field_84, field_88;
+    s32 size, field_84, field_88;
     u8 unknown_8C[4];
 } Variant385EntrySheet;
 
@@ -63,7 +63,7 @@ typedef struct {
     u8 color[3], unknown_101B;
     u8 field_101C, field_101D, field_101E, unknown_101F;
     s16 field_1020, field_1022, field_1024, field_1026;
-    s16 field_1028, field_102A, field_102C, field_102E;
+    s16 radius, progress, ribbon_angle, ring_angle;
     s32 phase;
     s32 field_1034;
     u8 unknown_1038[8];
