@@ -66,7 +66,7 @@ void DuelEffect_ApplyTerrain(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         r = gDuel_pActiveSideState;
-        r->rank.field_0A = r->rank.field_0A + 1;
+        r->rank.field_magic_used = r->rank.field_magic_used + 1;
         v = (u8)gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain = v;
         n = gDuel_bTerrain - 1;
