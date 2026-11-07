@@ -1892,61 +1892,61 @@
     },
     {
       "address": "0x8002E3B4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E3DC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E3FC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E470",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E5AC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10C",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E6B8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E730",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1E8",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E918",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002E9A0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
       "source": "src/game/script_image_scene.c"
     },
     {
       "address": "0x8002EA0C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
       "source": "src/game/script_image_scene.c"
     },

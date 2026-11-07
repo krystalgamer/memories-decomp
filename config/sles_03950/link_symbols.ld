@@ -214,7 +214,6 @@ gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B268 = 0x8009C60C;
 gMain_bReturnMode = 0x8009C60D;
 gMain_bRequestedMenuID = 0x8009C60E;
-gScript_SharedOperand = 0x8009C612;
 gModel_dwFogDrawFlags = 0x8009C68C;
 gSortedEntry_pCursor = 0x8009C690;
 gSortedEntry_nCount = 0x8009C694;

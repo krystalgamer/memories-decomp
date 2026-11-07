@@ -47,7 +47,6 @@ gMain_bReturnMode = 0x8009C60D;
 gMain_bActiveModeState = 0x8009C60A;
 gMain_bRequestedMenuID = 0x8009C60E;
 gMain_bModeRunnerStep = 0x8009C60B;
-gScript_SharedOperand = 0x8009C612;
 gSortedEntry_pBase = 0x8009C698;
 gSortedEntry_nSortedCount = 0x8009C69C;
 gModel_dwFogDrawFlags = 0x8009C68C;

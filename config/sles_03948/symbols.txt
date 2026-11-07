@@ -1906,3 +1906,4 @@ gDebugMenu_bCampaignEditField = 0x8009C67E;
 gDebug_szEditorCaretLine = 0x800EC260;
 gModel_aPoseSnapshot = 0x800F3EA8;
 gModel_aEffectKeys = 0x800F3EC8;
+gScript_wCommandWord = 0x8009C610;

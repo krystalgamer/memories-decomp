@@ -1,16 +1,16 @@
 
 #include "../types.h"
 
-#ifndef SCRIPT_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B270-0x8009B2B0, defined in
- * address order ahead of the headers that declare it (#2602). The European
- * wrapper defines its own layout instead. */
+#include "script_command_busy.h"
+#include "script_state.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * script_image_scene_commons subsegment places it at the retail addresses. */
 u16 gScript_ImageOperand;
 struct MenuRecord *gScript_pMenuRecord;
 s16 gScript_WaitCounter;
 u8 gCampaignSceneIndex;
 u16 gScript_wCommandWord;
-static PADDING_VARIABLE(2);
 struct DisplayObject *gScript_TransitionObject;
 s32 gScript_ViewportAccumulatorX;
 s32 gScript_ViewportAccumulatorY;
@@ -24,11 +24,6 @@ u16 gScript_EventState;
 u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;
 u16 gScript_ViewportTargetY;
-static PADDING_VARIABLE(4);
-#endif
-
-#include "script_command_busy.h"
-#include "script_state.h"
 
 s32 ScriptCommand_MarkStarted(void)
 {
