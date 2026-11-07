@@ -417,7 +417,7 @@ segments:
       - [0x8b840, .sbss, game/duel_field_card_render]
       - [0x8b934, .sbss, game/duel_effect_dialog_state]
       - [0x8b948, .sbss, game/japanese/library]
-      - [0x8b950, .sbss, game/japanese/duel_effect_object_pool]
+      - [0x8b950, sbss, duel_effect_object_pool_commons]
       - {start: 0x8b958, type: bin, name: bss_image_8009b158, linker_section_order: .sbss}
       - [0x8b960, .sbss, game/japanese/script_image_scene]
       - [0x8b9a0, sbss, debug_menu_editor_entries_commons]
@@ -440,7 +440,7 @@ segments:
       - [0xda5a8, .bss, game/fade_runtime]
       - [0xda5d0, .bss, game/duel_field_card_render]
       - [0xda8c8, .bss, game/library_create_grid_section_sprites]
-      - [0xdb468, .bss, game/japanese/duel_effect_object_pool]
+      - [0xdb468, bss, duel_effect_object_pool_bss_commons]
       - [0xdb568, bss, main_run_campaign_commons]
       - [0xdb5b8, bss, debug_menu_editor_entries_bss_commons]
       - [0xdb5e8, bss, duel_effect_entry_occupancy_commons]
