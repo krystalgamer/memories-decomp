@@ -1,30 +1,5 @@
 #include "../types.h"
 
-#ifndef DUEL_EFFECT_DIALOG_STATE_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B244-0x8009B258, defined in
- * address order ahead of the headers that declare it (#2602). */
-u16 gDuel_wEffectDialogTextID;
-u16 gDuel_wViewerCardID;
-u8 gDuel_bEffectHandlerFlags;
-static PADDING_VARIABLE(1);
-u8 gDuel_bActiveEffectState;
-u8 gDuel_bCardViewerYOffset;
-struct DisplayObject *gDuel_pCardViewerCard;
-struct DuelEffectChannel *gDuel_pCardViewerTextBox;
-u8 gDuel_bEffectState;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(2);
-#else
-extern u16 gDuel_wEffectDialogTextID;
-extern u16 gDuel_wViewerCardID;
-extern u8 gDuel_bEffectHandlerFlags;
-extern u8 gDuel_bActiveEffectState;
-extern u8 gDuel_bCardViewerYOffset;
-extern struct DisplayObject *gDuel_pCardViewerCard;
-extern struct DuelEffectChannel *gDuel_pCardViewerTextBox;
-extern u8 gDuel_bEffectState;
-#endif
-
 #include "duel_effect_state_latch.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -34,6 +9,18 @@ extern u8 gDuel_bEffectState;
 #include "dialog_choice_state.h"
 #include "text_box_update_channels.h"
 #include "input_is_pad1_confirm_pressed.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * duel_effect_dialog_state_commons subsegment places it at the retail
+ * addresses. */
+u16 gDuel_wEffectDialogTextID;
+u16 gDuel_wViewerCardID;
+u8 gDuel_bEffectHandlerFlags;
+u8 gDuel_bActiveEffectState;
+u8 gDuel_bCardViewerYOffset;
+u8 gDuel_bEffectState;
+struct DisplayObject *gDuel_pCardViewerCard;
+DuelEffectChannel *gDuel_pCardViewerTextBox;
 
 #ifndef DUEL_EFFECT_DIALOG_DONE_FLAG
 #define DUEL_EFFECT_DIALOG_DONE_FLAG TEXT_BOX_FLAG_DONE
