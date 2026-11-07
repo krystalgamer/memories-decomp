@@ -153,24 +153,24 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         work->field_D48 = 1024;
-        work->field_D4C = 1024;
-        work->field_D40 = 0;
+        work->streamer_length = 1024;
+        work->ribbon_length = 0;
         work->field_D42 = 0;
         work->field_D44 = 0;
-        work->field_D5C = 0;
-        work->field_D60 = 0;
-        work->field_D64 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
+        work->spin = 0;
         work->field_D68 = 0;
-        work->field_D50 = 0;
-        work->field_D54 = 0;
-        work->field_D58 = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
         work->step = 0;
         work->phase = 0;
         work->fade = 0;
-        work->field_D78 = 2048;
+        work->tint = 2048;
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
@@ -216,16 +216,16 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->field_D78, work->field_D78, work->field_D78);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
-        if (work->field_D78 > 0) {
-            work->field_D78 -= 128;
-            if (work->field_D78 <= 0) {
-                work->field_D78 = 0;
+        if (work->tint > 0) {
+            work->tint -= 128;
+            if (work->tint <= 0) {
+                work->tint = 0;
             }
         }
     } else {
-        work->field_D78 = work->fade << 5;
+        work->tint = work->fade << 5;
     }
     if (work->phase >= 2 && work->phase <= 4) {
         result = 4;

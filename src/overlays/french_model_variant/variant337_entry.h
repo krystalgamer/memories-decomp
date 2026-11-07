@@ -16,7 +16,9 @@
 typedef struct {
     CVECTOR inner, outer;
     u8 part, unknown_09[7];
-    u32 start, end, field_18, fade_start, fade_end;
+    /* The ribbon helper grows the ribbon to sixteen segments from end to
+     * ribbon_end. */
+    u32 start, end, ribbon_end, fade_start, fade_end;
 } Variant337EntryConfig;
 
 typedef struct {
@@ -58,11 +60,14 @@ typedef struct {
     Variant337EntryConfig *config;
     u32 field_D38;
     GsCOORDUNIT *part;
-    s16 field_D40, field_D42, field_D44, width;
-    s32 field_D48, field_D4C, field_D50, field_D54, field_D58;
-    s32 field_D5C, field_D60, field_D64, field_D68, phase;
+    /* ribbon_length is the ribbon's drawn segment count; ribbon_wave and
+     * ribbon_phase sway it; the ring helper turns the rings by spin. */
+    s16 ribbon_length, field_D42, field_D44, width;
+    s32 field_D48, streamer_length;
+    s32 streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 ribbon_wave, ribbon_phase, spin, field_D68, phase;
     u8 unknown_D70[8];
-    s32 field_D78;
+    s32 tint;
     s16 slot, command;
 } Variant337EntryState;
 
