@@ -415,7 +415,7 @@ segments:
       - [0x8b7d8, .sbss, game/file_transfer_runtime]
       - [0x8b830, .sbss, game/fade_runtime]
       - [0x8b840, .sbss, game/duel_field_card_render]
-      - [0x8b934, .sbss, game/duel_effect_dialog_state]
+      - [0x8b934, sbss, duel_effect_dialog_state_commons]
       - [0x8b948, .sbss, game/japanese/library]
       - [0x8b950, .sbss, game/japanese/duel_effect_object_pool]
       - {start: 0x8b958, type: bin, name: bss_image_8009b158, linker_section_order: .sbss}
