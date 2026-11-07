@@ -279,7 +279,7 @@ segments:
       - [0x02D144, c, game/european/game_over]
       - [0x02D378, c, game/european/input_pads]
       - [0x02D640, c, game/european/mem_card]
-      - [0x0307A4, c, game/european/sound_frontend]
+      - [0x0307A4, c, game/sound_frontend]
       - [0x030950, c, game/european/display_object_system]
       - [0x033C58, c, game/european/main_boot_screen]
       - [0x03437C, c, game/european/main_boot_frontend]
@@ -432,7 +432,7 @@ segments:
       - {start: 0x8ca80, type: bin, name: bss_image_8009c280, linker_section_order: .sbss}
       - [0x8cae8, .sbss, game/european/input_pads]
       - [0x8cb10, .sbss, game/european/mem_card]
-      - [0x8cb60, .sbss, game/european/sound_frontend]
+      - [0x8cb60, sbss, sound_frontend_commons]
       - [0x8cb74, .sbss, game/european/display_object_system]
       - [0x8cb88, .sbss, game/european/main_boot_frontend]
       - [0x8cb90, .sbss, game/european/mem_card_driver]

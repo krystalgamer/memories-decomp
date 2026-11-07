@@ -2586,3 +2586,4 @@ gDebug_pszEditorFormat = 0x8009B2EC;
 gDebugMenu_bPage = 0x8009B2F0;
 gDebugMenu_bCursor = 0x8009B2F1;
 gModel_aPoseSnapshot = 0x800F5768;
+gSD_dwSavedBgmCommand = 0x8009B404;

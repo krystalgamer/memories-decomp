@@ -694,7 +694,7 @@ segments:
     - game/spanish/mem_card
   - - 199076
     - c
-    - game/european/sound_frontend
+    - game/sound_frontend
   - - 199504
     - c
     - game/european/display_object_system
@@ -1035,7 +1035,7 @@ segments:
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
   - [0x8CF08, .sbss, game/european/input_pads]
   - [0x8CF30, .sbss, game/spanish/mem_card]
-  - [0x8CF80, .sbss, game/european/sound_frontend]
+  - [0x8CF80, sbss, sound_frontend_commons]
   - [0x8CF94, .sbss, game/european/display_object_system]
   - [0x8CFA8, .sbss, game/french/main_boot_frontend]
   - [0x8CFB0, .sbss, game/european/mem_card_driver]
