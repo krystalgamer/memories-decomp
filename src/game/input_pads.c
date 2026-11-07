@@ -44,7 +44,9 @@ u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
    Input_InitPads was recorded at gcc_2_8_1_g8 against gcc_2_8_1_g8_split for
    the other three. That was never a boundary: the two profiles differ only in
    -msplit-addresses, and Input_InitPads compiles to an identical object under
-   either, so the unit builds at gcc_2_8_1_g8_split. */
+   either, so the unit builds at gcc_2_8_1_g8_split. It now builds at
+   gcc_2_8_1_g8_split_comm, which differs from that profile only in keeping
+   the storage above common for the generated subsegments to place. */
 
 void Input_ResetPads(void) {
     s32 i = INPUT_PAD_COUNT - 1;
