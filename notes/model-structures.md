@@ -271,6 +271,12 @@ words of `ModelSlotS32Quad` at +0xDB0. The original scale APIs retain
 their pointer construction;
 nonnull setter copies all four words, null resets only the first three
 in the original order. No SDK VECTOR retyping or fourth-word clear.
+The first three words are now `vx`, `vy` and `vz`, the components of the
+VECTOR `Model_DrawSlot` passes to `ScaleMatrix` and
+`Model_UpdateCoordinateUnitMatrix`, and the three words `Model_ResetSlot`
+and the null setter seed with `MODEL_FIXED_ONE`. The fourth word stays
+`field_0C`: it is only copied. The handler-table copy in
+`Model_UpdateAnimatedBattle` uses the type as a block and names no member.
 
 `ModelSlot.field_DC8` is now `cached_dimensions`, still `u16[4]` at
 +0xDC8. First-three entries are padded/smoothed eligible coordinate-origin

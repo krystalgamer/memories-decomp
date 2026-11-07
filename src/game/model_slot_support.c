@@ -256,9 +256,9 @@ void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
     if (source != 0) {
         entry->render_scale = *source;
     } else {
-        entry->render_scale.field_08 = MODEL_FIXED_ONE;
-        entry->render_scale.field_04 = MODEL_FIXED_ONE;
-        entry->render_scale.field_00 = MODEL_FIXED_ONE;
+        entry->render_scale.vz = MODEL_FIXED_ONE;
+        entry->render_scale.vy = MODEL_FIXED_ONE;
+        entry->render_scale.vx = MODEL_FIXED_ONE;
     }
 }
 

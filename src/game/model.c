@@ -4275,9 +4275,9 @@ void Model_ResetSlot(s32 slot_index)
     slot_state->ambient_rgb_scale[2] = MODEL_FIXED_HALF;
     slot_state->ambient_rgb_scale[1] = MODEL_FIXED_HALF;
     slot_state->ambient_rgb_scale[0] = MODEL_FIXED_HALF;
-    slot_state->render_scale.field_08 = MODEL_FIXED_ONE;
-    slot_state->render_scale.field_04 = MODEL_FIXED_ONE;
-    slot_state->render_scale.field_00 = MODEL_FIXED_ONE;
+    slot_state->render_scale.vz = MODEL_FIXED_ONE;
+    slot_state->render_scale.vy = MODEL_FIXED_ONE;
+    slot_state->render_scale.vx = MODEL_FIXED_ONE;
     slot_state->tint[2] = 0x80;
     slot_state->tint[1] = 0x80;
     slot_state->tint[0] = 0x80;

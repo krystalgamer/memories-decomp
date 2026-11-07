@@ -130,10 +130,13 @@ typedef struct {
     u8 pad_0F;
 } ModelSlotLightEntry;
 
+/* Mirrors the SDK VECTOR that Model_DrawSlot passes render_scale as to
+ * ScaleMatrix and Model_UpdateCoordinateUnitMatrix; field_0C is copied but
+ * never read or reset on its own. */
 typedef struct {
-    s32 field_00;
-    s32 field_04;
-    s32 field_08;
+    s32 vx;
+    s32 vy;
+    s32 vz;
     s32 field_0C;
 } ModelSlotS32Quad;
 
