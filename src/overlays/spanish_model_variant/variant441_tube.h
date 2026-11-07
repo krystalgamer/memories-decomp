@@ -5,18 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR points[9][9];
-    u8 unknown_288[0x288];
-    CVECTOR colors[9];
-    u8 unknown_534[0x18];
-} Tube441;
-
-typedef struct {
-    u8 unknown_00[0x88];
-    s32 size;
-} Tube441Pulse;
-
-typedef struct {
     u8 unknown_00[0x20];
     s32 expansion_start;
     s32 expansion_end;
@@ -26,9 +14,9 @@ typedef struct {
 
 typedef struct {
     u8 unknown_00[0x5AC];
-    Tube441 tubes[1];
+    ModelVariantTubeView tubes[1];
     u8 unknown_AF8[0x5E4];
-    Tube441Pulse pulse;
+    ModelVariantPulse pulse;
     u8 unknown_1168[0x13E0];
     POLY_G4 quad;
     u8 unknown_256C[0x124];

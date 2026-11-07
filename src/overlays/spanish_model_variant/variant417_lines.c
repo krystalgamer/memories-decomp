@@ -11,8 +11,8 @@ void SpanishModelVariant417_DrawPhasedLines(u8 *context)
     long interpolation;
     long flag;
     Lines417State *state = (Lines417State *)context;
-    Companion417 *companion = &state->companion;
-    Lines417 *group = state->groups;
+    ModelVariantPulse *companion = &state->companion;
+    ModelVariantLineGroup *group = state->groups;
     GsGLINE *line = &state->line;
     GsOT *ot;
     s16 i, j, k;

@@ -5,15 +5,6 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR points[2][4][6];
-    u8 color[4];
-    u8 unknown_184[0x10];
-    s32 size;
-    s32 finished;
-    u8 unknown_19C[4];
-} Lines459;
-
-typedef struct {
     u8 unknown_00[0x34];
     u32 cycle_start;
     u32 cycle_end;
@@ -21,7 +12,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_0000[0xCA8];
-    Lines459 groups[3];
+    ModelVariantLineGroup groups[3];
     u8 unknown_1188[0x1D30];
     GsGLINE line;
     u8 unknown_2ECC[0x14];

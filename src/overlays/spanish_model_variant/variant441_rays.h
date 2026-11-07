@@ -5,33 +5,10 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR points[2];
-    long screen[2];
-    s32 angles[2];
-    SVECTOR offset_points[2];
-    long offset_screen[2];
-    s32 projected_width[2];
-    u8 unknown_40[0x1C];
-    s32 depth[2];
-    s16 width_x[2];
-    s16 width_y[2];
-} Rays441;
-
-typedef struct {
-    u8 unknown_00[0x88];
-    s32 size;
-} Rays441Pulse;
-
-typedef struct {
-    u8 unknown_00[0x18];
-    u16 count;
-} Rays441Timing;
-
-typedef struct {
     u8 unknown_00[0x1044];
-    Rays441Pulse pulse;
+    ModelVariantPulse pulse;
     u8 unknown_10D0[0xA4];
-    Rays441 rays[8];
+    ModelVariantOffsetRay rays[8];
     u8 unknown_14D4[0x1058];
     POLY_G3 triangle;
     u8 unknown_2548[0x148];
@@ -45,7 +22,7 @@ typedef struct {
     u8 unknown_26D4[8];
     s32 step;
     u8 unknown_26E0[4];
-    Rays441Timing *timing;
+    ModelVariantRayTiming *timing;
     u8 unknown_26E8[0x10];
     s32 index;
     u8 unknown_26FC[0x18];

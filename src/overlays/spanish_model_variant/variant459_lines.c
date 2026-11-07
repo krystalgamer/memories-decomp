@@ -11,7 +11,7 @@ void SpanishModelVariant459_DrawLines(u8 *context)
     long interpolation;
     long flag;
     Lines459State *state = (Lines459State *)context;
-    Lines459 *group = state->groups;
+    ModelVariantLineGroup *group = state->groups;
     GsGLINE *line = &state->line;
     GsOT *ot;
     s16 i, j, k;

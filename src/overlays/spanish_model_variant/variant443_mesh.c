@@ -13,8 +13,8 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
     long flag;
     Mesh443State *state = (Mesh443State *)context;
     POLY_G4 *quad = &state->quad;
-    Mesh443 *mesh = state->mesh;
-    Companion443 *companion = &state->companion;
+    ModelVariantTubeView *mesh = state->mesh;
+    ModelVariantPulse *companion = &state->companion;
     GsOT *ot;
     s16 i, j, k;
     s16 row_angle, angle, radius;

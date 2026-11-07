@@ -30,6 +30,13 @@ typedef struct {
     u32 limit;
 } ModelVariantQuadTimingLong;
 
+/* The rays command row: the pass count at + 0x18; the helper finishes when
+ * its index reaches it. */
+typedef struct {
+    u8 unknown_00[0x18];
+    u16 count;
+} ModelVariantRayTiming;
+
 /* The swarm command row with the group count, the growth rate and the frame
  * limit a finished quad waits for. */
 typedef struct {
@@ -318,6 +325,34 @@ typedef struct {
     DVECTOR target;
 } ModelVariantProjection;
 
+/* The pulsing companion record the lines, rays, tube and mesh helpers of
+ * headers 417-459 read only for its size at + 0x88: it scales the rays,
+ * widens the tube or mesh radius, or gates the lines. */
+typedef struct {
+    u8 unknown_00[0x88];
+    s32 size;
+} ModelVariantPulse;
+
+/* One 0x90-byte pulse group: four rows of four points and the size. */
+typedef struct {
+    SVECTOR points[4][4];
+    s32 size;
+    u8 unknown_84[0xC];
+} ModelVariantPulseGroup;
+
+/* The pulse command row: the group count, the growth window and the fade
+ * window. */
+typedef struct {
+    u8 unknown_00[0xC];
+    u16 count;
+    u8 unknown_0E[0x1E];
+    u32 start;
+    u32 end;
+    u8 unknown_34[4];
+    u32 fade_start;
+    u32 fade_end;
+} ModelVariantPulseTiming;
+
 /* ModelVariantProjection with the target's projected screen point kept as
  * the packed word RotTransPers writes: the handlers split it with (u16) and
  * >> 16 to get the screen delta. */
@@ -339,6 +374,49 @@ typedef struct {
     s32 done;
     u8 unknown_8C[4];
 } ModelVariantFan;
+
+/* One 0x1A0-byte group of lines: two sets of four six-point lines, a colour,
+ * the size and the finished flag. */
+typedef struct {
+    SVECTOR points[2][4][6];
+    u8 color[4];
+    u8 unknown_184[0x10];
+    s32 size;
+    s32 finished;
+    u8 unknown_19C[4];
+} ModelVariantLineGroup;
+
+/* ModelVariantLineGroup with the colour typed as a CVECTOR. */
+typedef struct {
+    SVECTOR points[2][4][6];
+    CVECTOR color;
+    u8 unknown_184[0x10];
+    s32 size;
+    s32 finished;
+    u8 unknown_19C[4];
+} ModelVariantLineGroupRgb;
+
+/* The lines command row: the duration at + 0x30. */
+typedef struct {
+    u8 unknown_00[0x30];
+    u32 duration;
+} ModelVariantLineTiming;
+
+/* One 0x6C-byte ray: a two-point spine and a copy offset across the view,
+ * both projected, the screen angles and widths, the depths and the width's
+ * screen offset. */
+typedef struct {
+    SVECTOR points[2];
+    long screen[2];
+    s32 angles[2];
+    SVECTOR offset_points[2];
+    long offset_screen[2];
+    s32 projected_width[2];
+    u8 unknown_40[0x1C];
+    s32 depth[2];
+    s16 width_x[2];
+    s16 width_y[2];
+} ModelVariantOffsetRay;
 
 /* One 0x7C-byte spiral record: two inner and two outer colours after 0x50
  * unknown bytes. The DrawSpiral helpers (e.g. SpanishModelVariant421_DrawSpiral)
@@ -383,6 +461,24 @@ typedef struct {
     u8 color_a[4], color_b[4];
     s32 scale, growth;
 } ModelVariantTripleCurtain;
+
+/* The tube command row: the expansion and fade windows. */
+typedef struct {
+    u8 unknown_00[0x10];
+    s32 expansion_start;
+    s32 expansion_end;
+    s32 fade_start;
+    s32 fade_end;
+} ModelVariantTubeTiming;
+
+/* One 0x54C-byte tube or mesh: nine rings of nine points swept along the
+ * path, and one colour per ring. */
+typedef struct {
+    SVECTOR points[9][9];
+    u8 unknown_288[0x288];
+    CVECTOR colors[9];
+    u8 unknown_534[0x18];
+} ModelVariantTubeView;
 
 /* ModelVariantSpiral in a 0x84-byte record. */
 typedef struct {
