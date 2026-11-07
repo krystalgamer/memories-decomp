@@ -1,30 +1,18 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
- * address order ahead of the headers that declare it (#2602). The European
- * builds keep it inside the memory card dialog's small storage block, which
- * defines it there. */
-#ifndef SAVE_DATA_SEQUENCE_IN_MEM_CARD_DIALOG
-s32 gSaveDataSequence;
-#endif
-
-#ifndef MEM_CARD_DIALOG_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38. GCC lays
- * it out in first-declaration order, so it is declared here in address order
- * ahead of the headers and defined once they supply the types (#2602). A
- * regional wrapper that lays it out differently declares its own order and
- * defines MEM_CARD_DIALOG_STORAGE_ORDER. */
-extern struct MemCardWorkArea gMemCardWork_Area;
-extern u8 gMemCardDialog_DirectoryBuffer[];
-extern u8 gMemCardDialog_FileNameBuffer[];
-#endif
-
 #include "text_box_blocking_build.h"
 #include "mem_card_dialog.h"
 
-#ifndef MEM_CARD_DIALOG_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B3BC-0x8009B400, defined in
- * address order ahead of the headers that declare it (#2602). */
+#include "save_data.h"
+#include "player_name_glyphs.h"
+#include "graphics_frame.h"
+#include "sound.h"
+#include "text_sjis_to_glyph_codes.h"
+#include "util_memory.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * mem_card_commons subsegments place it at the retail addresses. */
+s32 gSaveDataSequence;
 s32 gMemCardDialog_SyncStatus;
 u8 gSaveData_PairMessageCode;
 u8 gDialog_bCallbackState;
@@ -34,7 +22,6 @@ u8 gMemCardDialog_MessageCode;
 u8 gMemCardWork_OperationMode;
 s32 gMemCardWork_nRequestResult;
 u16 gMemCardWork_wFlags;
-static PADDING_VARIABLE(1);
 u8 gMemCardWork_OperationState;
 u8 *gMemCard_pPrimaryTransferCursor;
 u8 gSaveData_AllowIdentityBypass;
@@ -45,7 +32,6 @@ u8 gMemCardWork_bSlotIndex;
 u8 gMemCardDialog_StepIndex;
 u8 *gMemCard_pSecondaryTransferCursor;
 s32 gMemCardWork_nCompletedRequest;
-static PADDING_VARIABLE(2);
 u8 gSaveData_LoadPairState;
 u8 gMemCardDialog_OperationState;
 u8 gMemCardDialog_RetryCounter;
@@ -54,48 +40,8 @@ u8 gMemCardDialog_ChannelIndex;
 u8 gMemCardDialog_Outcome;
 s32 gMemCardDialog_SyncCommand;
 s32 gMemCardDialog_SyncResult;
-static PADDING_VARIABLE(1);
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
-static PADDING_VARIABLE(4);
-#else
-extern s32 gMemCardDialog_SyncStatus;
-extern u8 gSaveData_PairMessageCode;
-extern u8 gDialog_bCallbackState;
-extern u16 gMemCardDialog_TransferSize;
-extern u16 gMemCardDialog_TransferOffset;
-extern u8 gMemCardDialog_MessageCode;
-extern u8 gMemCardWork_OperationMode;
-extern s32 gMemCardWork_nRequestResult;
-extern u16 gMemCardWork_wFlags;
-extern u8 gMemCardWork_OperationState;
-extern u8 *gMemCard_pPrimaryTransferCursor;
-extern u8 gSaveData_AllowIdentityBypass;
-extern u8 gMemCardWork_bOperationResult;
-extern DisplayObject *gMemCard_pDialogObject;
-extern u8 gMemCardDialog_BlockCount;
-extern u8 gMemCardWork_bSlotIndex;
-extern u8 gMemCardDialog_StepIndex;
-extern u8 *gMemCard_pSecondaryTransferCursor;
-extern s32 gMemCardWork_nCompletedRequest;
-extern u8 gSaveData_LoadPairState;
-extern u8 gMemCardDialog_OperationState;
-extern u8 gMemCardDialog_RetryCounter;
-extern u8 gSaveData_PairSetupState;
-extern u8 gMemCardDialog_ChannelIndex;
-extern u8 gMemCardDialog_Outcome;
-extern s32 gMemCardDialog_SyncCommand;
-extern s32 gMemCardDialog_SyncResult;
-extern u8 gMemCardDialog_Port;
-extern u16 gMemCard_wDialogFlags;
-#endif
-
-#include "save_data.h"
-#include "player_name_glyphs.h"
-#include "graphics_frame.h"
-#include "sound.h"
-#include "text_sjis_to_glyph_codes.h"
-#include "util_memory.h"
 
 #define SAVE_DATA_PRIMARY_VIEW(data) ((SaveDataPrimaryIntegrity *)(data))
 #define SAVE_DATA_SECONDARY_VIEW(data) \
