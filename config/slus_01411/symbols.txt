@@ -2368,6 +2368,7 @@ Text_DisableCompletionWait = 0x800389C4; // type:func
 gSD_adwStatusDataByteCounts = 0x80011484;
 gModel_szAnimationSoundTraceFormat = 0x80011508;
 gSD_pFileRequest = 0x8009B460;
+gSD_dwSavedBgmCommand = 0x8009B404;
 gAiScript_abFieldScript = 0x801A9800;
 
 Text_NoOpSecondary12 = 0x80038888; // type:func

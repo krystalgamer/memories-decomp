@@ -427,7 +427,7 @@ segments:
       - [0x8ba6c, .sbss, game/japanese/options_screen]
       - [0x8ba80, sbss, input_pads_commons]
       - [0x8baa8, .sbss, game/japanese/mem_card]
-      - [0x8baf0, .sbss, game/sound_frontend]
+      - [0x8baf0, sbss, sound_frontend_commons]
       - [0x8bb00, .sbss, game/japanese/display_object_system]
       - [0x8bb18, .sbss, game/japanese/main_boot_frontend]
       - [0x8bb20, .sbss, game/mem_card_driver]
