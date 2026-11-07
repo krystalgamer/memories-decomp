@@ -18,15 +18,15 @@ typedef struct {
     u8 field_48, field_49, field_4A, unknown_4B;
     s32 field_4C, field_50, field_54;
     u8 unknown_58[4];
-    s16 field_5C, field_5E, field_60, field_62;
-    s32 field_64, field_68;
+    s16 field_5C, field_5E, field_60, started;
+    s32 progress, tail_progress;
     u8 unknown_6C[8];
 } Variant405EntryRing;
 
 typedef struct {
     SVECTOR inner[17], outer[17];
     u8 outer_color[4], inner_color[4];
-    s32 angle, field_11C;
+    s32 angle, completed;
 } Variant405EntryCurtain;
 
 typedef struct {

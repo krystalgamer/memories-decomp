@@ -60,7 +60,7 @@ typedef struct {
     s32 heading[3];
     u8 unknown_B4[4];
     s32 phase[17];
-    s32 field_FC, field_100, field_104;
+    s32 spin, hidden, field_104;
 } Variant456EntryLine;
 
 /* A 0xC0-byte sheet of four quads with a travelling target. */
@@ -71,7 +71,7 @@ typedef struct {
     u8 unknown_94[4];
     VECTOR target;
     VECTOR delta;
-    s32 field_B8, field_BC;
+    s32 faded, fade;
 } Variant456EntrySheet;
 
 /* Minimum observed extent, not an allocation capacity. */
@@ -101,7 +101,7 @@ typedef struct {
     GsCOORDUNIT *part;
     s16 field_233C, field_233E, field_2340, field_2342;
     s32 field_2344, field_2348, field_234C, field_2350, field_2354;
-    s32 field_2358, field_235C, field_2360, field_2364, field_2368;
+    s32 spray_wave, spray_phase, field_2360, field_2364, field_2368;
     s32 phase;
     u8 unknown_2370[8];
     s32 tint;
