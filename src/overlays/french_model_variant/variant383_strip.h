@@ -22,7 +22,7 @@ typedef struct {
     u8 unknown_1534[4];
     ModelVariantCountConfig *config;
     u8 unknown_153C[0x10];
-    s32 index_154C;
+    s32 index;
     u8 unknown_1550[0x28];
     s16 factor;
     s16 width;
