@@ -3381,37 +3381,37 @@
     },
     {
       "address": "0x8003CD78",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
       "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CDE4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
       "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CE34",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x70",
       "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CEA4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x120",
       "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CFC4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
       "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003D014",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
       "source": "src/game/european/input_pads.c"
     },

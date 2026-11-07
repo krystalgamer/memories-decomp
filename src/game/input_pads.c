@@ -1,45 +1,5 @@
 #include "../types.h"
 
-#ifndef INPUT_PADS_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B390-0x8009B3B8, defined in
- * address order ahead of the headers that declare it (#2602). */
-u32 gInput_dwPreviousHeld;
-volatile u16 gInput_awPadRepeat[2];
-volatile u16 gInput_awPadPressed[2];
-u8 gInput_bRepeatDelay;
-u16 gInput_wPad1RepeatBackup;
-u16 gInput_wPad1PressedBackup;
-u8 gInput_bRepeatInterval;
-volatile u16 gInput_awPadHeld[2];
-u32 gInput_dwPendingHeld;
-u16 gInput_wPad1HeldBackup;
-u32 gInput_dwDeferredRepeat;
-u32 gInput_dwDeferredPressed;
-#else
-extern u32 gInput_dwPreviousHeld;
-extern volatile u16 gInput_awPadRepeat[2];
-extern volatile u16 gInput_awPadPressed[2];
-extern u8 gInput_bRepeatDelay;
-extern u16 gInput_wPad1RepeatBackup;
-extern u16 gInput_wPad1PressedBackup;
-extern u8 gInput_bRepeatInterval;
-extern volatile u16 gInput_awPadHeld[2];
-extern u32 gInput_dwPendingHeld;
-extern u16 gInput_wPad1HeldBackup;
-extern u32 gInput_dwDeferredRepeat;
-extern u32 gInput_dwDeferredPressed;
-#endif
-
-#ifndef INPUT_PADS_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0. GCC lays
- * it out in first-declaration order, so it is declared here in address order
- * ahead of the headers and defined once they supply the types (#2602). A
- * regional wrapper that lays it out differently declares its own order and
- * defines INPUT_PADS_STORAGE_ORDER. */
-extern struct InputRawPadPacket gInput_abRawPadBuffers[];
-extern u8 gInput_abRepeatTimers[];
-#endif
-
 #include "../psyq/libapi.h"
 #ifdef VERSION_JAPAN
 #include "../psyq/libetc.h"
@@ -48,6 +8,20 @@ extern u8 gInput_abRepeatTimers[];
 #include "input.h"
 #include "graphics_frame_controls.h"
 
+/* Zero-initialized storage this unit owns. Each build's generated
+ * input_pads_commons subsegments place it at the retail addresses. */
+u32 gInput_dwPreviousHeld;
+volatile u16 gInput_awPadRepeat[INPUT_PAD_COUNT];
+volatile u16 gInput_awPadPressed[INPUT_PAD_COUNT];
+volatile u16 gInput_awPadHeld[INPUT_PAD_COUNT];
+u8 gInput_bRepeatDelay;
+u8 gInput_bRepeatInterval;
+u16 gInput_wPad1RepeatBackup;
+u16 gInput_wPad1PressedBackup;
+u16 gInput_wPad1HeldBackup;
+u32 gInput_dwPendingHeld;
+u32 gInput_dwDeferredRepeat;
+u32 gInput_dwDeferredPressed;
 #ifndef VERSION_JAPAN
 InputRawPadPacket gInput_abRawPadBuffers[INPUT_PAD_COUNT];
 #endif
