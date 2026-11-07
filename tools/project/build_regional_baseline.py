@@ -321,6 +321,14 @@ def regional_linker_script(
     kept = re.sub(
         r"^([ \t]*)(\S+/src/\S+\.o\(\.bss\));[ \t]*\n", keep_bss, text, flags=re.M
     )
+    # A generated <unit>_bss_commons subsegment stands in for its unit's .bss,
+    # which the game's linker started on an 8-byte boundary like any object's.
+    kept = re.sub(
+        r"^([ \t]*)(\S+_bss_commons\.bss\.o\(\.bss\);)[ \t]*\n",
+        lambda m: f"{m.group(1)}. = ALIGN(., 8);\n{m.group(0)}",
+        kept,
+        flags=re.M,
+    )
     for name in text_objects:
         if f"{name}(.data)" in owned:
             continue

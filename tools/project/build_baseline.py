@@ -496,8 +496,9 @@ def finalize_linker_script(root: Path) -> None:
 
     The text output section forces SUBALIGN(2) on its inputs, which code and
     small data need, but the game's linker started every object's .bss on the
-    object's alignment; each compiled unit's .bss placement is aligned to 8.
-    The step is idempotent.
+    object's alignment; each compiled unit's .bss placement is aligned to 8,
+    and so is each generated <unit>_bss_commons subsegment, which stands in
+    for its unit's .bss. The step is idempotent.
     """
     script = resolve_within(root, "tmp/splat/slus_01411.ld", must_exist=True)
     lines = script.read_text(encoding="utf-8").splitlines(keepends=True)
@@ -522,7 +523,9 @@ def finalize_linker_script(root: Path) -> None:
             in_bss = True
         elif re.match(r"^\s*\w+_BSS_END = \.;", line):
             in_bss = False
-        if in_bss and placement.match(line) and "/src/" in line:
+        if in_bss and placement.match(line) and (
+            "/src/" in line or "_bss_commons.bss.o(" in line
+        ):
             indent = line[: len(line) - len(line.lstrip())]
             if not (aligned and aligned[-1].strip() == ". = ALIGN(., 8);"):
                 aligned.append(f"{indent}. = ALIGN(., 8);\n")

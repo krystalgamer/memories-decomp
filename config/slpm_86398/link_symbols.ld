@@ -55,7 +55,6 @@ func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 
-gGraphics_nBaseFrameStep = 0x8009AFC8;
 
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 

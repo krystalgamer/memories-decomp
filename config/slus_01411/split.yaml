@@ -197,7 +197,7 @@ segments:
     vram: 0x8009B090
     align: 2
     subsegments:
-      - [0x8b890, .sbss, game/main]
+      - [0x8b890, sbss, main_commons]
       - [0x8b8e0, .sbss, game/file_set_position_table]
       - [0x8b8e8, .sbss, game/file_transfer_runtime]
       - [0x8b940, .sbss, game/fade_runtime]
@@ -224,11 +224,11 @@ segments:
       - [0x8bc00, .sbss, game/sound_frontend]
       - [0x8bc10, .sbss, game/display_object_system]
       - [0x8bc28, .sbss, game/main_boot_frontend]
-      - [0x8bc30, .sbss, game/mem_card_driver]
+      - [0x8bc30, sbss, mem_card_driver_commons]
       - [0x8bc58, .sbss, game/sound_driver]
       - [0x8bc68, .sbss, game/model]
       - [0x8bc98, .sbss, game/movie_pipeline]
-      - [0x8bca8, .bss, game/main]
+      - [0x8bca8, bss, main_bss_commons]
       - [0xda5f0, .bss, game/file_set_position_table]
       - [0xda618, .bss, game/file_transfer_runtime]
       - [0xda6c8, .bss, game/fade_runtime]
@@ -245,7 +245,7 @@ segments:
       - [0xdfe68, .bss, game/input_pads]
       - [0xdfed0, .bss, game/mem_card]
       - [0xe0638, .bss, game/display_object_system]
-      - [0xe3088, .bss, game/mem_card_driver]
+      - [0xe3088, bss, mem_card_driver_bss_commons]
       - [0xe3320, .bss, game/model]
       - [0xe5ea0, .bss, game/model_view_queries]
       - [0xe5f50, .bss, game/movie_pipeline]
