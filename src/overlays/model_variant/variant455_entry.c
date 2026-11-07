@@ -220,11 +220,11 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
         }
         work->field_2F14 = 4096;
         work->field_2F16 = 1024;
-        work->field_2F1C = 0;
-        work->field_2F20 = 0;
+        work->spiral_size = 0;
+        work->spiral_angle = 0;
         work->field_2F24 = 0;
         work->field_2F28 = 0;
-        work->field_2F2C = 0;
+        work->spin = 0;
         work->field_2F10 = 0;
         work->field_2F18 = 0;
         work->field_2F30 = 0;

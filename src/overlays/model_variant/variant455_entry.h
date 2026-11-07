@@ -76,7 +76,7 @@ typedef struct {
     u32 field_2F00;
     GsCOORDUNIT *parts[3];
     s16 field_2F10, field_2F12, field_2F14, field_2F16;
-    s32 field_2F18, field_2F1C, field_2F20, field_2F24, field_2F28, field_2F2C, field_2F30;
+    s32 field_2F18, spiral_size, spiral_angle, field_2F24, field_2F28, spin, field_2F30;
     SVECTOR camera_offset;
     s32 ambient, phase;
     s16 slot, command;
