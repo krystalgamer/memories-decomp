@@ -21,7 +21,7 @@ Neither handler consumes an operand or changes command disposition.
 
 `Text_OpenCampaignMap` consumes one unsigned byte from the channel's selected
 stream, advancing that slot once. It writes frontend mode `5` and then
-publishes the byte to `gCampaignMap_bEntryLocation[0]`. The separate
+publishes the byte to `gCampaignMap_bEntryLocation`. The separate
 `Script_OpOpenCampaignMap` command makes the same request using the story
 script cursor. Both original expressions, unsigned operand types and store
 orders remain intact.
@@ -46,9 +46,10 @@ of the overlay's live current-location state. `DebugMenu_UpdateMapEntry`
 explicitly requests location zero; its separate remembered debug map ID is
 not forwarded as this operand.
 
-`gCampaignMap_bEntryLocation` keeps the original incomplete `u8[]`
-declaration and `[0]` accesses. The incomplete array is an absolute-addressing
-input under G8, not evidence of a longer buffer. Each image defines the
+`gCampaignMap_bEntryLocation` is declared as the single `u8` it is. With the
+assembler at `-G0` every non-owner store is absolute either way, and the known
+one-byte size is what lets the `-msplit-addresses` users emit retail's macro
+store (#2602). Each image defines the
 name once at its own address; no `D_8009B363` alias remains. The French symbol
 `D_8009B363_French`, which names the literal address `0x8009B363`, is a
 different native identity and is not substituted.
