@@ -49,27 +49,12 @@ typedef struct {
     u32 limit;
 } ModelVariantSwarmRateTiming;
 
-/* One 0x2FC-byte group of ten quads drawn by the quads helpers: the four
- * corner rows, a shared colour, and per quad the size, angle, done flag and
- * reset flag. */
-typedef struct {
-    SVECTOR a[10];
-    SVECTOR b[10];
-    SVECTOR c[10];
-    SVECTOR d[10];
-    u8 unknown_140[0x50];
-    u8 color[4];
-    s32 size[10];
-    s32 angle[10];
-    s32 done[10];
-    u8 unknown_20C[0x28];
-    s32 reset[10];
-    u8 unknown_25C[0xA0];
-} ModelVariantQuadGroupView;
-
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized
- * flag. */
+ * flag. The French header-470 entry builds one at work + 0x988 and hands the
+ * work area to SpanishModelVariant470_DrawQuads, which draws the corners in
+ * the colour, grows size, sets done and clears initialized when a quad wraps;
+ * the header-419, 428, 429, 471 and 478 quads helpers read it the same way. */
 typedef struct {
     SVECTOR a[10], b[10], c[10], d[10], positions[10];
     CVECTOR color;
