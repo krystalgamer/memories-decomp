@@ -3,21 +3,15 @@
 #include "../../types.h"
 #include "variant337_entry.h"
 
-typedef struct {
-    SVECTOR a[17], b[17], c[17];
-    CVECTOR inner, outer;
-    s32 scale, count;
-} Variant439EntryScreenRing;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan fans[1];
-    Variant439EntryScreenRing screen_rings[3];
+    ModelVariantTwoToneScreenRing screen_rings[3];
     ModelVariantCurtain curtains[4];
     POLY_G3 triangle;
     POLY_G4 quad;

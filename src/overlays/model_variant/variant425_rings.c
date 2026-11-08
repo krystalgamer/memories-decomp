@@ -58,13 +58,13 @@ void ModelVariant425_DrawExpandingRings(u8 *ctx)
                                     &ring->outer[k], (long *)&line->x0, (long *)&line->x1,
                                     (long *)&line->x0, (long *)&line->x1, &p, &flag);
                 if (ring->angle < 0x100) {
-                    line->r0 = ring->color[0] * ring->angle / 256;
-                    line->g0 = ring->color[1] * ring->angle / 256;
-                    line->b0 = ring->color[2] * ring->angle / 256;
+                    line->r0 = ring->inner_color[0] * ring->angle / 256;
+                    line->g0 = ring->inner_color[1] * ring->angle / 256;
+                    line->b0 = ring->inner_color[2] * ring->angle / 256;
                 } else {
-                    line->r0 = ring->color[0];
-                    line->g0 = ring->color[1];
-                    line->b0 = ring->color[2];
+                    line->r0 = ring->inner_color[0];
+                    line->g0 = ring->inner_color[1];
+                    line->b0 = ring->inner_color[2];
                 }
                 line->r1 = 0;
                 line->g1 = 0;

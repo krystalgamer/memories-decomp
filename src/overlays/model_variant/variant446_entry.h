@@ -54,7 +54,7 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan quads[1];
     POLY_G3 triangle;
     POLY_G4 quad;

@@ -22,7 +22,7 @@ typedef struct {
     Variant422EntryBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
-    ModelVariantSpokeRing spokes[4];
+    ModelVariantRing spokes[4];
     ModelVariantFan quads[1];
     POLY_GT4 halo_poly;
     POLY_G3 triangle;

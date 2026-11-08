@@ -40,14 +40,6 @@ typedef struct {
 } EntryFramebufferRing443;
 
 typedef struct {
-    u8 unknown_000[0x510];
-    CVECTOR colors[9];
-    VECTOR scale;
-    s16 field_544, field_546;
-    s32 field_548;
-} EntryMesh443;
-
-typedef struct {
     SVECTOR near[4][6], far[4][6];
     CVECTOR color;
     s32 field_184, field_188, field_18C, field_190;
@@ -73,7 +65,7 @@ typedef struct {
 typedef struct {
     EntryRibbon443 ribbons[3];
     EntryFramebufferRing443 rings[5];
-    EntryMesh443 meshes[1];
+    ModelVariantTubeView meshes[1];
     ModelVariantShortStreamer streamers[3];
     EntrySphere443 spheres[3];
     ModelVariantSpiral spirals[12];

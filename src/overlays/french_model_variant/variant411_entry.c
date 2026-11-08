@@ -16,8 +16,8 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     Beam411 *beam = work->beams;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantFunnel *funnel = work->funnels;
-    EntryRing411 *ring = work->rings;
-    EntryExtra411 *extra_record = work->extras;
+    ModelVariantSpokeColorRing *ring = work->rings;
+    ModelVariantBeam *extra_record = work->extras;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -234,8 +234,8 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             ring->outer_color.r = 0;
             ring->outer_color.g = 0;
             ring->outer_color.b = 0;
-            ring->size = 1024 - row * 256;
-            ring->field_AC = 0;
+            ring->angle = 1024 - row * 256;
+            ring->count = 0;
         }
         for (i = 0; i < 2; i++, extra_record++) {
             setVector(&extra_record->scale, 4096, 4096, 4096);

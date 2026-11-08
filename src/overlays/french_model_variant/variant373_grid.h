@@ -1,15 +1,11 @@
 #ifndef FRENCH_MODEL_VARIANT373_GRID_H
 #define FRENCH_MODEL_VARIANT373_GRID_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-
-typedef struct {
-    SVECTOR points[9][17];
-    CVECTOR colors[9];
-} Family373Grid;
 
 typedef struct {
     u8 unknown_00[0x14];
@@ -21,7 +17,7 @@ typedef struct {
 } Family373GridConfig;
 
 typedef struct {
-    Family373Grid grid;
+    ModelVariantDome grid;
     u8 unknown_04EC[0x1CB4];
     POLY_GT4 quads[8];
     u8 unknown_2340[0x84];
