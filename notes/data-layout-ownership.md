@@ -451,9 +451,8 @@ share these wrappers and one layout: Europe's owners and storage, `0x420`
 higher, with three exceptions. These builds link the movie units after the
 model units, in their `.bss` as in their text:
 - `model_scene_controllers` keeps the North American layout of its small
-  block (`0x8009C7E8`-`0x8009C818`). The four builds compile it through
-  `spanish/model_scene_controllers.c`, which defines `EUROPEAN_LANGUAGE_BUILD`
-  to leave out the European storage.
+  block (`0x8009C7E8`-`0x8009C818`); its generated `model_commons`
+  subsegment places the globals.
 - `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`;
   its generated `movie_pipeline_commons` subsegment places the globals.
 - In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
