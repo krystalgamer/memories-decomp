@@ -253,8 +253,8 @@ void DuelScene_UpdateStartup(void)
             def += ((stat >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        gDuel_aSideStates[0].field_0E = atk / DECK_SIZE;
-        gDuel_aSideStates[0].field_10 = def / DECK_SIZE;
+        gDuel_aSideStates[0].deck_average_attack = atk / DECK_SIZE;
+        gDuel_aSideStates[0].deck_average_defense = def / DECK_SIZE;
         atk = 0;
         def = 0;
         rec = &gDuel_aDeckCardRecords[DECK_SIZE];
@@ -264,8 +264,8 @@ void DuelScene_UpdateStartup(void)
             def += ((stat2 >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        gDuel_aSideStates[1].field_0E = atk / DECK_SIZE;
-        gDuel_aSideStates[1].field_10 = def / DECK_SIZE;
+        gDuel_aSideStates[1].deck_average_attack = atk / DECK_SIZE;
+        gDuel_aSideStates[1].deck_average_defense = def / DECK_SIZE;
         gDuel_bSceneSubStep = 5;
         break;
     }

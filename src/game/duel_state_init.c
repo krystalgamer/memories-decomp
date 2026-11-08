@@ -104,9 +104,9 @@ void Duel_InitSelectionRecords(void) {
             p->field_13 = 1;
             p->record_index = j;
 #ifdef VERSION_JAPAN
-            p->field_14 = j;
+            p->text_channel = j;
 #else
-            p->field_14 = (j != 3) ? j : 1;
+            p->text_channel = (j != 3) ? j : 1;
 #endif
         }
     }
