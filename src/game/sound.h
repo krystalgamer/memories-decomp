@@ -1059,12 +1059,12 @@ void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 
 /* sound_frontend.c reaches it gp-relative through a common declaration,
- * while script_runtime.c and duel_effect_sound_commands.c reach it
+ * while script_scene.c and duel_effect_sound_commands.c reach it
  * through an absolute address; every unit shares this one declaration. */
 extern u32 gSD_dwCurrentBgmCommand;
 
 /* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
- * (script_runtime.c) and DuelEffect_ProcessBgmCommand
+ * (script_scene.c) and DuelEffect_ProcessBgmCommand
  * (duel_effect_sound_commands.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
  * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy

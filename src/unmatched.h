@@ -205,7 +205,7 @@ struct DuelRitualResult;
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
- * (script_runtime.c) holds the same object as
+ * (script_scene.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation

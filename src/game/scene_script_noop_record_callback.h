@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Entry 0 of the scene-script record callback table gSceneScript_RecordCallbacks
- * (script_runtime.c). It is empty: a record whose selector
+ * (script_scene.c). It is empty: a record whose selector
  * byte is 0 has no per-frame work. */
 void SceneScript_NoOpRecordCallback(void);
 

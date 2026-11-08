@@ -100,7 +100,7 @@ one another. Loads and repeated writes remain separate; no no-alias
 assumption, merged store or newly skipped object is introduced.
 
 The callback stays grouped immediately after the eight-byte no-op in
-`script_runtime.c` (formerly `scene_script_slots.c`), with its original `gcc_2_8_1_g8_split` profile and
+`script_scene.c` (formerly `scene_script_slots.c`), with its original `gcc_2_8_1_g8_split` profile and
 0xFC-byte size in all seven inventories. Only its function-name field
 changes; addresses, sizes, ownership/status, notes and order remain intact.
 The public header moves from `func_8002FED8.h` to
