@@ -13,7 +13,7 @@ typedef struct {
 } Variant428EntryConfig;
 
 typedef struct {
-    ModelVariantSpiralArm arms[12];
+    ModelVariantShadedRay arms[12];
     ModelVariantWebNarrow webs[3];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];

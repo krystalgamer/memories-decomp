@@ -1014,9 +1014,12 @@ typedef struct {
     s32 scale, count;
 } ModelVariantScreenRing;
 
-/* One 0x7C-byte ray of headers 373 and 383: two points and their edge
- * copies, both projected, the angles and widths, the inner and outer
- * colours, the depths and the screen offsets. */
+/* One 0x7C-byte ray of headers 373 and 383, also drawn as the arms of the
+ * header-425, 428 and 448 spirals: two points and their edge copies, both
+ * projected, the angles and widths, the inner and outer colours, the depths
+ * and the screen offsets. Each segment is a POLY_GT4 with outer on its first
+ * two corners and inner on the last two. ModelVariantSpiral is the entries'
+ * colour-only view of the same record. */
 typedef struct {
     u8 unknown_00[0x10];
     SVECTOR points[2];
@@ -1048,26 +1051,6 @@ typedef struct {
     CVECTOR inner[2], outer[2];
     u8 unknown_60[0x24];
 } ModelVariantSpiralWide;
-
-/* One 0x7C-byte spiral arm: a two-point spine and a copy of it moved along
- * the view, both projected, per point the screen angle, the projected width
- * and its screen offset, and two colour rows. */
-typedef struct {
-    u8 unknown00[0x10];
-    SVECTOR a[2];
-    long sa[2];
-    s32 angle[2];
-    SVECTOR b[2];
-    long sb[2];
-    s32 width[2];
-    u8 cb[2][4];
-    u8 ca[2][4];
-    u8 unknown60[4];
-    s32 otz[2];
-    s16 ox[2];
-    s16 oy[2];
-    u8 unknown74[8];
-} ModelVariantSpiralArm;
 
 /* One 0x12C-byte beam record: inner and outer colours and a scale vector. */
 typedef struct {

@@ -26,7 +26,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantRing *spoke;
     ModelVariantFan *fan;
     ModelVariantWebSmall *web;
-    ModelVariantSpiralArm *arm;
+    ModelVariantShadedRay *arm;
     Variant425EntryRay *ray;
     POLY_GT4 *textured;
     POLY_FT4 *flat;
@@ -238,19 +238,19 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 16; i++, arm++) {
             for (base_angle = 0; base_angle < 2; base_angle++) {
                 if (base_angle == 1) {
-                    arm->ca[base_angle][0] = 0;
-                    arm->ca[base_angle][1] = 0;
-                    arm->ca[base_angle][2] = 0;
-                    arm->cb[base_angle][0] = 0;
-                    arm->cb[base_angle][1] = 0;
-                    arm->cb[base_angle][2] = 0;
+                    arm->outer[base_angle].r = 0;
+                    arm->outer[base_angle].g = 0;
+                    arm->outer[base_angle].b = 0;
+                    arm->inner[base_angle].r = 0;
+                    arm->inner[base_angle].g = 0;
+                    arm->inner[base_angle].b = 0;
                 } else {
-                    arm->ca[base_angle][0] = 255;
-                    arm->ca[base_angle][1] = 0;
-                    arm->ca[base_angle][2] = 255;
-                    arm->cb[base_angle][0] = 128;
-                    arm->cb[base_angle][1] = 128;
-                    arm->cb[base_angle][2] = 128;
+                    arm->outer[base_angle].r = 255;
+                    arm->outer[base_angle].g = 0;
+                    arm->outer[base_angle].b = 255;
+                    arm->inner[base_angle].r = 128;
+                    arm->inner[base_angle].g = 128;
+                    arm->inner[base_angle].b = 128;
                 }
             }
         }
