@@ -431,7 +431,7 @@ segments:
       - [0x8ca68, sbss, sorted_entry_render_commons]
       - {start: 0x8ca80, type: bin, name: bss_image_8009c280, linker_section_order: .sbss}
       - [0x8cae8, sbss, input_pads_commons]
-      - [0x8cb10, .sbss, game/european/mem_card]
+      - [0x8cb10, sbss, mem_card_commons]
       - [0x8cb60, sbss, sound_frontend_commons]
       - [0x8cb74, .sbss, game/european/display_object_system]
       - [0x8cb88, .sbss, game/european/main_boot_frontend]
@@ -453,7 +453,7 @@ segments:
       - [0xdc76c, bss, duel_effect_process_entries_commons]
       - [0xe0c30, bss, text_box_runtime_commons]
       - [0xe0dd0, bss, input_pads_bss_commons]
-      - [0xe0e38, .bss, game/european/mem_card]
+      - [0xe0e38, bss, mem_card_bss_commons]
       - [0xe15a0, .bss, game/european/display_object_system]
       - [0xe3ff0, bss, mem_card_driver_bss_commons]
       - [0xe4288, bss, model_keyframe_update_commons]

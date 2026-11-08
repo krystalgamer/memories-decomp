@@ -1311,12 +1311,18 @@ gDisplayEffect_ResourceCacheWriteSlot = 0x8009C6DF;
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 
 gDialog_apfnTransitionSteps = 0x800923B4;
+gDialog_bCallbackState = 0x8009C751;
 
 gMemCardWork_OperationMode = 0x8009C756;
 
 gMemCardWork_OperationState = 0x8009C75A;
 
 gMemCardWork_Area = 0x800F0CD0;
+gMemCardWork_nRequestResult = 0x8009C744;
+gMemCardWork_wFlags = 0x8009C758;
+gMemCardWork_bOperationResult = 0x8009C760;
+gMemCardWork_bSlotIndex = 0x8009C769;
+gMemCardWork_nCompletedRequest = 0x8009C774;
 
 gMemCardDialog_apfnSteps = 0x800923C8;
 
@@ -1325,6 +1331,7 @@ gMemCardDialog_StepIndex = 0x8009C770;
 gMemCardDialog_Outcome = 0x8009C739;
 
 gMemCardDialog_ChannelIndex = 0x8009C73A;
+gSaveDataSequence = 0x8009C73C;
 
 gMemCardDialog_MessageCode = 0x8009C757;
 
@@ -1372,6 +1379,10 @@ gMemCard_aIOEventHandles = 0x800F3C10;
 gMemCard_aHwIOEventHandles = 0x800F3C20;
 gMemCard_szRequestPath = 0x800F3C30;
 gMemCard_aDirEntries = 0x800F3C50;
+gMemCard_wDialogFlags = 0x8009C74E;
+gMemCard_pPrimaryTransferCursor = 0x8009C75C;
+gMemCard_pDialogObject = 0x8009C764;
+gMemCard_pSecondaryTransferCursor = 0x8009C76C;
 gSD_pSecondaryState = 0x8009C7D8;
 gSD_pFileRequest = 0x8009C7DC;
 g_SDValue = 0x8009C7E0;

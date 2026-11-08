@@ -426,7 +426,7 @@ segments:
       - {start: 0x8ba08, type: bin, name: bss_image_8009b208, linker_section_order: .sbss}
       - [0x8ba6c, .sbss, game/japanese/options_screen]
       - [0x8ba80, sbss, input_pads_commons]
-      - [0x8baa8, .sbss, game/japanese/mem_card]
+      - [0x8baa8, sbss, mem_card_commons]
       - [0x8baf0, sbss, sound_frontend_commons]
       - [0x8bb00, .sbss, game/japanese/display_object_system]
       - [0x8bb18, .sbss, game/japanese/main_boot_frontend]
@@ -449,7 +449,7 @@ segments:
       - [0xdb7d4, bss, text_box_runtime_commons]
       - [0xdb958, bss, duel_effect_process_entries_commons]
       - [0xdd588, bss, input_pads_bss_commons]
-      - [0xdd5a8, .bss, game/japanese/mem_card]
+      - [0xdd5a8, bss, mem_card_bss_commons]
       - [0xddd10, .bss, game/japanese/display_object_system]
       - [0xe0760, bss, mem_card_driver_bss_commons]
       - [0xe09f8, bss, movie_pipeline_bss_commons]
