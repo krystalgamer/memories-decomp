@@ -15,7 +15,7 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
     long flag;
     GsOT *ot;
     Quads429State *state = (Quads429State *)context;
-    ModelVariantQuadGroupView *group = state->groups;
+    ModelVariantQuadGroup *group = state->groups;
     POLY_FT4 *polygon;
     s16 i, j;
     s16 angle, ripple;
@@ -36,13 +36,13 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
         for (; j < 10; j++, angle += 1300, ripple += 1700) {
             if (group->size[j] >= 0) {
                 if (group->size[j] > 3072) {
-                    red = group->color[0] * (4096 - group->size[j]) / 1024;
-                    green = group->color[1] * (4096 - group->size[j]) / 1024;
-                    blue = group->color[2] * (4096 - group->size[j]) / 1024;
+                    red = group->color.r * (4096 - group->size[j]) / 1024;
+                    green = group->color.g * (4096 - group->size[j]) / 1024;
+                    blue = group->color.b * (4096 - group->size[j]) / 1024;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 rotation.vx = 0;
                 rotation.vy = 0;
@@ -81,7 +81,7 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     } else {
-                        group->reset[j] = 0;
+                        group->initialized[j] = 0;
                         group->size[j] -= 4096;
                         group->angle[j] += 600;
                     }

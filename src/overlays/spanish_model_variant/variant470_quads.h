@@ -6,7 +6,7 @@
 
 typedef struct {
     u8 unknown_0000[0x988];
-    ModelVariantQuadGroupView groups[1];
+    ModelVariantQuadGroup groups[1];
     u8 unknown_0C84[0x188C];
     POLY_FT4 polygon;
     u8 unknown_2538[0x6C];

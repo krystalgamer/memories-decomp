@@ -5,7 +5,7 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    ModelVariantQuadGroupView groups[1];
+    ModelVariantQuadGroup groups[1];
     u8 unknown_02FC[0x19F0];
     POLY_FT4 polygon;
     u8 unknown_1D14[0x44];
