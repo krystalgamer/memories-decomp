@@ -1585,6 +1585,8 @@ gDuel_bEffectHandlerFlags = 0x8009C5DE;
 gDuel_pCardViewerCard = 0x8009C5E0;
 gDuel_pCardViewerTextBox = 0x8009C5E8;
 gDuel_bEffectRequestStatus = 0x8009C5F8;
+gDuel_wAiSelectionStepDelay = 0x8009C4C8;
+gDuel_wViewTweenDistanceTarget = 0x8009C4CA;
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
 
@@ -1744,6 +1746,13 @@ gScriptImage_OverlayPairs = 0x80091FC0;
 gScriptImage_OverlayPlacements = 0x80092018;
 
 gFile_BeforePrimaryRequestCallback = 0x8009C4A8;
+gFade_bOrderingTableMode = 0x8009C4B8;
+gFade_bTargetBlue = 0x8009C4BC;
+gFade_bTargetGreen = 0x8009C4BD;
+gFade_bTargetRed = 0x8009C4BE;
+gFade_bKeepOverlayDepth = 0x8009C4C4;
+gFade_bWhiteLatch = 0x8009C4C5;
+gFade_State = 0x800EB248;
 
 gFile_RangeReadCallback = 0x8009C49C;
 
@@ -1907,6 +1916,11 @@ Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives = 0x800677D0; // type:func
 Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives = 0x80067A84; // type:func size:0x304
 _spu_RQ = 0x800F70A8;
 gGraphics_apOrderingTables = 0x8009C858; // size:0x10
+gGraphics_bClearBlue = 0x8009C4B9;
+gGraphics_bClearGreen = 0x8009C4BA;
+gGraphics_bClearRed = 0x8009C4BB;
+gGraphics_sViewportX = 0x8009C4C0;
+gGraphics_sViewportY = 0x8009C4C2;
 _ramsize = 0x8009C2A0; // defined:True
 _stacksize = 0x8009C2A4; // defined:True
 D_8009C20E_sles_03947 = 0x8009C62E;
