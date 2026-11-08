@@ -5,7 +5,7 @@
 
 /* The entry's view of the ray record (the same layout as Variant425Ray),
  * with the three colour rows the entry fills named; its arm records are
- * ModelVariantSpiralArm. */
+ * ModelVariantShadedRay. */
 typedef struct {
     u8 unknown00[0x18];
     SVECTOR a[3];
@@ -33,7 +33,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebSmall webs[3];
-    ModelVariantSpiralArm arms[16];
+    ModelVariantShadedRay arms[16];
     Variant425EntryRay rays[16];
     u8 unknown_1940[0x1CA0 - 0x1940];
     ModelVariantColorBand bands[1];

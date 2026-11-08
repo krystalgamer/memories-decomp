@@ -22,7 +22,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     POLY_G3 *triangle;
     Variant448Radial *radial;
-    ModelVariantSpiralArm *arm;
+    ModelVariantShadedRay *arm;
     GsRVIEW2 *view;
     Variant448FanUnit *fan;
     POLY_GT4 *textured;
@@ -211,19 +211,19 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 12; i++, arm++) {
             for (m = 0; m < 2; m++) {
                 if (m == 1) {
-                    arm->ca[m][0] = 0;
-                    arm->ca[m][1] = 0;
-                    arm->ca[m][2] = 0;
-                    arm->cb[m][0] = 0;
-                    arm->cb[m][1] = 0;
-                    arm->cb[m][2] = 0;
+                    arm->outer[m].r = 0;
+                    arm->outer[m].g = 0;
+                    arm->outer[m].b = 0;
+                    arm->inner[m].r = 0;
+                    arm->inner[m].g = 0;
+                    arm->inner[m].b = 0;
                 } else {
-                    arm->ca[m][0] = work->config->inner.r;
-                    arm->ca[m][1] = work->config->inner.g;
-                    arm->ca[m][2] = work->config->inner.b;
-                    arm->cb[m][0] = work->config->outer.r;
-                    arm->cb[m][1] = work->config->outer.g;
-                    arm->cb[m][2] = work->config->outer.b;
+                    arm->outer[m].r = work->config->inner.r;
+                    arm->outer[m].g = work->config->inner.g;
+                    arm->outer[m].b = work->config->inner.b;
+                    arm->inner[m].r = work->config->outer.r;
+                    arm->inner[m].g = work->config->outer.g;
+                    arm->inner[m].b = work->config->outer.b;
                 }
             }
         }
