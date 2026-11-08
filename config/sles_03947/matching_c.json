@@ -4401,151 +4401,151 @@
     },
     {
       "address": "0x80046924",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80046980",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800469D4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80046A20",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F4",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80046C14",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80046C48",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80046CC0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3B4",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80047074",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x170",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800471E4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x8004722C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x68",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80047294",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800472A8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800472C8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800472DC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x8004733C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800473CC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x8004745C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80047504",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80047534",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800475A0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800475C8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x80047658",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x8004767C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800476BC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/european/sound_driver.c"
     },
     {
       "address": "0x800476E4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/european/sound_driver.c"
     },

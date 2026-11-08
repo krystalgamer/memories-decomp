@@ -1,22 +1,15 @@
 #include "../types.h"
 
-#ifndef SOUND_OUTPUT_TRANSITION_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B458-0x8009B468, defined in
- * address order ahead of the headers that declare it (#2602). */
-struct SDSecondaryState *gSD_pSecondaryState;
-struct SDValue *g_SDValue;
-struct FileRequestSlot *gSD_pFileRequest;
-static PADDING_VARIABLE(4);
-#else
-extern struct SDSecondaryState *gSD_pSecondaryState;
-extern struct SDValue *g_SDValue;
-extern struct FileRequestSlot *gSD_pFileRequest;
-#endif
-
 #include "../psyq/libspu.h"
 
 #include "sound.h"
 #include "sound_output_transition.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * sound_driver_commons subsegment places it at the retail addresses. */
+SDSecondaryState *gSD_pSecondaryState;
+SDValue *g_SDValue;
+FileRequestSlot *gSD_pFileRequest;
 
 void SD_FadeInStreamAudio(void)
 {

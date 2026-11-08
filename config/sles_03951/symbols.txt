@@ -1273,6 +1273,9 @@ gSaveData_PairMessageCode = 0x8009C77B;
 gSD_dwSavedBgmCommand = 0x8009C780;
 gSD_bOutputType = 0x8009C784;
 gSD_dwCurrentBgmCommand = 0x8009C788;
+gSD_pSecondaryState = 0x8009C7D8;
+gSD_pFileRequest = 0x8009C7DC;
+g_SDValue = 0x8009C7E0;
 
 gMemCardDialog_DirectoryBuffer = 0x800F0A58;
 

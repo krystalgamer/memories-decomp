@@ -436,7 +436,7 @@ segments:
       - [0x8cb74, .sbss, game/european/display_object_system]
       - [0x8cb88, .sbss, game/european/main_boot_frontend]
       - [0x8cb90, .sbss, game/european/mem_card_driver]
-      - [0x8cbb8, .sbss, game/european/sound_driver]
+      - [0x8cbb8, sbss, sound_driver_commons]
       - [0x8cbc8, sbss, movie_pipeline_commons]
       - [0x8cbd8, .sbss, game/european/model]
       - [0x8cc18, .bss, game/european/main]
