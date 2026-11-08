@@ -183,7 +183,7 @@ segments:
       - [0x01CC90, c, game/duel_grid_offsets]
       - [0x01CD6C, c, game/duel_deck_lookup]
       - [0x01CDF0, c, game/noop_callbacks]
-      - [0x01CE00, c, game/european/duel_effect_object_pool]
+      - [0x01CE00, c, game/duel_effect_object_pool]
       - [0x01D1C8, c, game/duel_field_card_objects]
       - [0x01D3E0, c, game/display_object_copy_work_slots]
       - [0x01D410, c, game/duel_card_stat_rules]
@@ -423,8 +423,8 @@ segments:
       - [0x8c8ac, .sbss, game/european/duel_field_card_render]
       - [0x8c9b8, sbss, duel_effect_dialog_state_commons]
       - [0x8c9d0, .sbss, game/european/library]
-      - [0x8c9d8, .sbss, game/european/duel_effect_object_pool]
-      - {start: 0x8c9ea, type: bin, name: bss_image_8009c1ea, linker_section_order: .sbss}
+      - [0x8c9d8, sbss, duel_effect_object_pool_commons]
+      - {start: 0x8c9e8, type: bin, name: bss_image_8009c1e8, linker_section_order: .sbss}
       - [0x8c9f0, sbss, script_image_scene_commons]
       - [0x8ca30, sbss, debug_menu_editor_entries_commons]
       - [0x8ca60, .sbss, game/european/build_deck_draw_card_list_page]
@@ -445,7 +445,7 @@ segments:
       - [0xdb628, .bss, game/european/fade_runtime]
       - [0xdb658, .bss, game/european/duel_field_card_render]
       - [0xdb950, .bss, game/library_create_grid_section_sprites]
-      - [0xdc4f0, .bss, game/european/duel_effect_object_pool]
+      - [0xdc4f0, bss, duel_effect_object_pool_bss_commons]
       - [0xdc5f0, bss, main_run_campaign_commons]
       - [0xdc640, bss, debug_menu_editor_entries_bss_commons]
       - [0xdc670, bss, duel_effect_command_commons]

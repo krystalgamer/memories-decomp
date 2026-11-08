@@ -2093,6 +2093,7 @@ gModel_wDrawTintRedGreen = 0x8009BF6E;
 gModel_bDrawTintBlue = 0x8009BF70;
 gModel_aShadowFanSteps = 0x800925CC;
 gDuel_aFieldCardRecords = 0x801A7B64;
+gDuel_bEffectRequestStatus = 0x8009C1D8;
 gDebugEffect_aPreviewCardRecords = 0x801A7B80;
 gLibCd_nDeferredStreamInterrupt = 0x800F6CD4;
 gLibrary_sCapturedReferenceY = 0x80181002;

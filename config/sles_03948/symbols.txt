@@ -1584,6 +1584,7 @@ gDuel_bCardViewerYOffset = 0x8009C5DD;
 gDuel_bEffectHandlerFlags = 0x8009C5DE;
 gDuel_pCardViewerCard = 0x8009C5E0;
 gDuel_pCardViewerTextBox = 0x8009C5E8;
+gDuel_bEffectRequestStatus = 0x8009C5F8;
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
 
@@ -1906,6 +1907,9 @@ gDisplayEffect_aMenuRecords = 0x800EC2A8;
 gText_aChannels = 0x800F0850;
 gMain_aAnimatedBattleModels = 0x800F09E0;
 gDuelEffect_aEntries = 0x800EC390;
+gDuelEffect_pActiveRequest = 0x8009C5FC;
+gDuelEffect_bRequestFinished = 0x8009C600;
+gDuelEffect_aRequests = 0x800EC110;
 gAi_Selection = 0x800EC210;
 gDebug_abEditorDigitCounts = 0x8009C650;
 gDebug_abEditorCaretColumns = 0x8009C654;
