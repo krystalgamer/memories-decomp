@@ -9,7 +9,7 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ExodiaEntryRing *ring = work->rings;
+    ModelVariantPointSheet *ring = work->rings;
     ExodiaColorRecord *colors = work->colors;
     POLY_GT4 *textured = work->textured;
     POLY_G3 *triangle = &work->triangle;
@@ -97,13 +97,13 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&ring->points[ring_point + 12], 0, 0, 0);
                 }
             }
-            ring->inner.r = work->config->inner.r;
-            ring->inner.g = work->config->inner.g;
-            ring->inner.b = work->config->inner.b;
-            ring->outer.r = work->config->outer.r;
-            ring->outer.g = work->config->outer.g;
-            ring->outer.b = work->config->outer.b;
-            ring->scale = 0;
+            ring->outer.r = work->config->inner.r;
+            ring->outer.g = work->config->inner.g;
+            ring->outer.b = work->config->inner.b;
+            ring->inner.r = work->config->outer.r;
+            ring->inner.g = work->config->outer.g;
+            ring->inner.b = work->config->outer.b;
+            ring->size = 0;
             ring->field_8C = 0;
             ring->field_90 = 0;
         }

@@ -37,13 +37,6 @@ typedef struct {
     s32 progress, field_1A4;
 } Variant388EntryFeedback;
 
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR cb[2];
-    CVECTOR ca[2];
-    u8 unknown_60[0x24];
-} Variant388EntryArm;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant388EntryTube tubes[1];
@@ -51,7 +44,7 @@ typedef struct {
     u8 unknown_228[0x3A0];
     Variant388EntryFeedback feedback[5];
     ModelVariantColorRing spokes[4];
-    Variant388EntryArm arms[12];
+    ModelVariantSpiralWide arms[12];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2];

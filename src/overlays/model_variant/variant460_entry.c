@@ -13,7 +13,7 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     VECTOR squared;
     long origin, interpolation, flag, projected;
     Panel477 *panel;
-    Variant460Pair *pair = &work->pair;
+    ModelVariantBeamPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantRing *halo = work->halos;
@@ -161,10 +161,10 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 pair->outer[k][0] = work->config->color_b[0];
                 pair->outer[k][1] = work->config->color_b[1];
                 pair->outer[k][2] = work->config->color_b[2];
-                pair->size[k] = -(k * 768);
+                pair->offset[k] = -(k * 768);
             }
-            pair->field_90 = 0;
-            pair->field_92 = 0;
+            pair->rx = 0;
+            pair->ry = 0;
             pair->field_94 = 0;
         }
         for (outer = 0; outer < 1; outer++, star++) {

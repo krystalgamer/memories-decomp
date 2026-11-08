@@ -22,7 +22,7 @@ byte-identical. The views are kept: each helper still declares only what
 it reads. Struct-member renames are recorded here, not in the semantic
 map, which has no field kind.
 
-## `Variant413EntryConfig` (`gModelVariant413_aConfigs`)
+## `ModelVariantSweepConfig` (`gModelVariant413_aConfigs`)
 
 Entry `model_variant/variant413_entry.c` sets `work->config = gModelVariant413_aConfigs + command` (line 69); its work struct `Variant413EntryState` has `config` at `+0x3ADC`.
 
@@ -57,7 +57,7 @@ Entry `model_variant/variant402_entry.c` sets `work->config = gModelVariant402_a
 | `+0x1C` | `unknown_13[0x0D]` bytes → `u16 spin` | `Swarm419Timing.spin` | `FrenchModelVariant419_DrawSwarm` (french_model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `spin = state->timing->spin << 11;` | high |
 | `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant419_DrawQuads` (french_model_variant/variant419_quads.c; `model_variant/variant402_entry.c:335`, `Quads419State.timing` at +0x22D0); `FrenchModelVariant419_DrawSwarm` (french_model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
-## `EntryConfig409` (`gModelVariant409_aConfigs`)
+## `ModelVariantSpiralConfig` (`gModelVariant409_aConfigs`)
 
 Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_aConfigs + command` (line 41); its work struct `EntryState409` has `config` at `+0x2110`.
 
@@ -123,7 +123,7 @@ Entry `model_variant/variant446_entry.c` sets `work->config = gModelVariant446_a
 | `+0x2C` | `unknown_2C[4]` bytes → `s32 mode` | `PairedSheets463Timing.mode` | `FrenchModelVariant463_DrawPairedSheets` (french_model_variant/variant463_paired_sheets.c; `model_variant/variant446_entry.c:489`, `PairedSheets463State.timing` at +0x4A64) | `if (timing->mode == 1)` | high |
 | `+0x34` | `unknown_34[4]` bytes → `u32 grow_end` | `PairedSheets463Timing.grow_end` | `FrenchModelVariant463_DrawPairedSheets` (french_model_variant/variant463_paired_sheets.c; `model_variant/variant446_entry.c:489`, `PairedSheets463State.timing` at +0x4A64); `FrenchModelVariant463_DrawSheets` (french_model_variant/variant463_sheets.c; `model_variant/variant446_entry.c:491`, `Sheets463State.timing` at +0x4A64) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
 
-## `Variant454EntryConfig` (`gModelVariant454_aConfigs`)
+## `ModelVariantSweepConfig` (`gModelVariant454_aConfigs`)
 
 Entry `model_variant/variant454_entry.c` sets `work->config = gModelVariant454_aConfigs + command` (line 73); its work struct `Variant454EntryState` has `config` at `+0x23F8`.
 
@@ -150,7 +150,7 @@ Entry `french_model_variant/variant437_entry.c` sets `work->config = gFrenchMode
 | `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Timing437.move_start` | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Sheet437State.timing` at +0x15F4) | `(state->timing->move_start - state->timing->grow_end);` | high |
 | `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Timing437.move_end` | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Sheet437State.timing` at +0x15F4) | `(state->timing->move_end - state->timing->move_start);` | high |
 
-## `EntryConfig461` (`gFrenchModelVariant461_aConfigs`)
+## `ModelVariantGrowConfig` (`gFrenchModelVariant461_aConfigs`)
 
 Entry `french_model_variant/variant461_entry.c` sets `work->config = gFrenchModelVariant461_aConfigs + command` (line 44); its work struct `EntryState461` has `config` at `+0x336C`.
 

@@ -6,13 +6,6 @@
 #include "variant425_entry.h"
 
 typedef struct {
-    CVECTOR outer, inner;
-    u8 unknown_08[8], part, unknown_11[7];
-    u32 draw_start, field_1C, travel_start, travel_end, fade_start, fade_end;
-    u32 spiral_start;
-} EntryConfig426;
-
-typedef struct {
     ModelVariantMesh mesh;
     EntryRibbon425 ribbons[1];
     ModelVariantSpiral spirals[12];
@@ -37,7 +30,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig426 *config;
+    ModelVariantSpiralConfig *config;
     u32 field_17A0;
     GsCOORDUNIT *part;
     s16 field_17A8, field_17AA;
@@ -54,7 +47,7 @@ typedef struct {
 } EntryState426;
 
 extern GsIMAGE gFrenchModelVariant426_aImages[9];
-extern EntryConfig426 gFrenchModelVariant426_aConfigs[];
+extern ModelVariantSpiralConfig gFrenchModelVariant426_aConfigs[];
 
 void SpanishModelVariant426_DrawMesh(u8 *context);
 void SpanishModelVariant426_DrawSpiral(u8 *context);

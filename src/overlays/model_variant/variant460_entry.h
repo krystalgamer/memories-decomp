@@ -52,18 +52,6 @@ typedef struct {
     s32 field_198, field_19C;
 } Variant460Dome;
 
-/* A 0xA0-byte pair of shaded sprites sharing one scale. */
-typedef struct {
-    u8 unknown_00[0x68];
-    s32 size[2];
-    u8 inner[2][4];
-    u8 outer[2][4];
-    VECTOR scale;
-    s16 field_90, field_92;
-    s32 field_94;
-    u8 unknown_98[8];
-} Variant460Pair;
-
 /* A 0x90-byte five-spoke star with a square backing. */
 typedef struct {
     SVECTOR a[6];
@@ -81,7 +69,7 @@ typedef struct {
     QuadGroup477 groups[2];
     Variant460Column columns[16];
     Variant460Dome domes[3];
-    Variant460Pair pair;
+    ModelVariantBeamPair pair;
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantRing halos[4];

@@ -18,21 +18,11 @@ typedef struct {
     s32 offset[3];
 } Variant417EntryConfig;
 
-typedef struct {
-    u8 unknown_00[0x48];
-    CVECTOR color;
-    s32 scale[3];
-    u8 unknown_58[4];
-    s16 field_5C, field_5E;
-    s32 field_60;
-    u8 unknown_64[8];
-} Variant417EntryRibbon;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTubeView tubes[1];
     ModelVariantWebNarrow webs[3];
-    Variant417EntryRibbon ribbons[1];
+    ModelVariantShortRibbon ribbons[1];
     ModelVariantSheet sheets[2];
     u8 rays[0x360];
     ModelVariantTripleCurtain curtains[5];
