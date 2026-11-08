@@ -1,34 +1,6 @@
 
 #include "../types.h"
 
-#ifndef DISPLAY_OBJECT_CORE_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x800EFE38-0x800F2888. GCC lays
- * it out in first-declaration order, so it is declared here in address order
- * ahead of the headers and defined once they supply the types (#2602). A
- * regional wrapper that lays it out differently declares its own order and
- * defines DISPLAY_OBJECT_CORE_STORAGE_ORDER. */
-extern s16 gDisplayObject_awListHeads[];
-extern struct DisplayObject gDisplayObject_aPool[];
-extern struct ViewState gViewState_Current;
-extern s16 gDisplayObject_awListKeys[];
-#endif
-
-#ifndef DISPLAY_OBJECT_CORE_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B410-0x8009B428, defined in
- * address order ahead of the headers that declare it (#2602). */
-u16 gDisplayObject_wUnlinkCount;
-u16 gDisplayObject_wAcquireCount;
-static PADDING_VARIABLE(4);
-static u32 D_8009B418;
-static u32 D_8009B41C;
-static u32 D_8009B420;
-s32 gDisplayObject_fRenderRetry;
-#else
-extern u16 gDisplayObject_wUnlinkCount;
-extern u16 gDisplayObject_wAcquireCount;
-extern s32 gDisplayObject_fRenderRetry;
-#endif
-
 #include "display_object_depth_bases.h"
 #include "mem_card_work.h"
 #include "mem_card_diagnostic_strings.h"
@@ -111,6 +83,12 @@ u8 gSD_szMidiTrackMarker[8] = "MTrk";
 #include "display_object_packet_submit.h"
 #include "view_state.h"
 
+/* Zero-initialized storage this unit owns. Each build's generated
+ * display_object_system_commons/_bss_commons subsegments place it at the
+ * retail addresses. */
+u16 gDisplayObject_wUnlinkCount;
+u16 gDisplayObject_wAcquireCount;
+s32 gDisplayObject_fRenderRetry;
 s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT];
 DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
 ViewState gViewState_Current;
