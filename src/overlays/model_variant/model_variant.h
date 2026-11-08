@@ -310,19 +310,14 @@ typedef struct {
     s32 count;
 } ModelVariantRing;
 
-/* One 0x98-byte ring sheet: four rows of four corners, two colours and the
- * scale. */
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-    s32 scale;
-    u8 unknown_08C[12];
-} ModelVariantScaledSheetView;
-
 /* One 0x98-byte element of header 397's sheet array: four POLY_GT4 quads
  * given by corner arrays v0..v3, an inner colour on three corners and an
  * outer colour on the fourth, a scale and two words the entry handlers
- * clear. */
+ * clear. The header-321, 324, 337, 376 and 432 sheet helpers draw quad j
+ * from v0[j]..v3[j], light the first three corners with inner and the fourth
+ * with outer, and grow size as the scale; the header-415 and 341 entries
+ * (ModelVariantSheet) and the header-337, 338 and 393 entries
+ * (ModelVariantPointSheet) pass them these records. */
 typedef struct {
     SVECTOR v0[4];
     SVECTOR v1[4];

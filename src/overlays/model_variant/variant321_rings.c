@@ -13,7 +13,7 @@ void ModelVariant321_DrawRings(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariantScaledSheetView *ring = work->rings;
+    ModelVariantSheet *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -25,7 +25,7 @@ void ModelVariant321_DrawRings(u8 *context)
     for (i = 0; i < 2; i++, ring++) {
         pulse = 0;
         if (work->frame & 1) {
-            pulse = ring->scale / 8;
+            pulse = ring->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
@@ -39,9 +39,9 @@ void ModelVariant321_DrawRings(u8 *context)
             matrix.t[1] = work->target.vy;
             matrix.t[2] = work->target.vz;
         }
-        scale.vx = ring->scale + pulse;
-        scale.vy = ring->scale + pulse;
-        scale.vz = ring->scale + pulse;
+        scale.vx = ring->size + pulse;
+        scale.vy = ring->size + pulse;
+        scale.vz = ring->size + pulse;
         RotMatrix(&rotation, &matrix);
         coordinate.coord = matrix;
         coordinate.super = 0;
@@ -54,23 +54,23 @@ void ModelVariant321_DrawRings(u8 *context)
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(
-                &ring->points[0][j], &ring->points[1][j],
-                &ring->points[2][j], &ring->points[3][j],
+                &ring->v0[j], &ring->v1[j],
+                &ring->v2[j], &ring->v3[j],
                 (long *)&quad->x0, (long *)&quad->x1,
                 (long *)&quad->x2, (long *)&quad->x3,
                 (long *)&interpolation, (long *)&flag);
-            quad->r0 = ring->color[1].r;
-            quad->g0 = ring->color[1].g;
-            quad->b0 = ring->color[1].b;
-            quad->r1 = ring->color[1].r;
-            quad->g1 = ring->color[1].g;
-            quad->b1 = ring->color[1].b;
-            quad->r2 = ring->color[1].r;
-            quad->g2 = ring->color[1].g;
-            quad->b2 = ring->color[1].b;
-            quad->r3 = ring->color[0].r;
-            quad->g3 = ring->color[0].g;
-            quad->b3 = ring->color[0].b;
+            quad->r0 = ring->inner[0];
+            quad->g0 = ring->inner[1];
+            quad->b0 = ring->inner[2];
+            quad->r1 = ring->inner[0];
+            quad->g1 = ring->inner[1];
+            quad->b1 = ring->inner[2];
+            quad->r2 = ring->inner[0];
+            quad->g2 = ring->inner[1];
+            quad->b2 = ring->inner[2];
+            quad->r3 = ring->outer[0];
+            quad->g3 = ring->outer[1];
+            quad->b3 = ring->outer[2];
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, depth);
@@ -78,40 +78,40 @@ void ModelVariant321_DrawRings(u8 *context)
         }
         if (i == 0) {
             if (work->state == 0) {
-                if (ring->scale < 4096) {
-                    ring->scale = (work->elapsed - work->config->start) * 4096 /
+                if (ring->size < 4096) {
+                    ring->size = (work->elapsed - work->config->start) * 4096 /
                         (work->config->end - work->config->start);
-                    if (ring->scale >= 4096) {
-                        ring->scale = 4096;
+                    if (ring->size >= 4096) {
+                        ring->size = 4096;
                         work->state = 1;
                     }
                 }
-            } else if (work->state == 3 && ring->scale > 0) {
+            } else if (work->state == 3 && ring->size > 0) {
                 if (work->elapsed >= work->config->fade_start) {
-                    ring->scale = 4096 -
+                    ring->size = 4096 -
                         (work->elapsed - work->config->fade_start) * 4096 /
                         (work->config->fade_end - work->config->fade_start);
                 }
-                if (ring->scale <= 0) {
-                    ring->scale = 0;
+                if (ring->size <= 0) {
+                    ring->size = 0;
                 }
             }
         } else if (work->state == 2) {
-            if (ring->scale < 0x3000) {
-                ring->scale += work->step * 2048;
-                if (ring->scale >= 0x3000) {
-                    ring->scale = 0x3000;
+            if (ring->size < 0x3000) {
+                ring->size += work->step * 2048;
+                if (ring->size >= 0x3000) {
+                    ring->size = 0x3000;
                     work->state = 3;
                 }
             }
-        } else if (work->state == 3 && ring->scale > 0) {
+        } else if (work->state == 3 && ring->size > 0) {
             if (work->elapsed >= work->config->fade_start) {
-                ring->scale = 0x3000 -
+                ring->size = 0x3000 -
                     (work->elapsed - work->config->fade_start) * 0x3000 /
                     (work->config->fade_end - work->config->fade_start);
             }
-            if (ring->scale <= 0) {
-                ring->scale = 0;
+            if (ring->size <= 0) {
+                ring->size = 0;
                 work->state = 4;
             }
         }

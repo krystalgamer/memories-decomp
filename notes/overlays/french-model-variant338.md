@@ -53,7 +53,8 @@ Entry captures `a0 -> s3 -> s6`, derives the rings pointer at context
 `+0x1234` and passes the same context to the rings helper. Initialization
 advances by 152 bytes with a bound of two. Its four point groups at offsets
 0, 32, 64 and 96, two colors at 128/132 and scale at 136 agree with the
-accepted `ModelVariantScaledSheetView` view. The two records end at `+0x1364`.
+shared `ModelVariantSheet` record (its v0..v3 rows, outer/inner colours
+and size) that the rings helper reads. The two records end at `+0x1364`.
 
 The retained strand captures `a0 -> s4`, derives records at `+0x1364`
 and uses six records of stride 132, ending at `+0x167C`. Its inner loop
