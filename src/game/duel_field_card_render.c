@@ -8,23 +8,27 @@
 
 #include "../types.h"
 
-#ifndef DUEL_FIELD_CARD_RENDER_STORAGE_ORDER
-/* Zero-initialized storage this unit owns at 0x800E9EF0-0x800EA1E8. GCC lays
- * it out in first-declaration order, so it is declared here in address order
- * ahead of the headers and defined once they supply the types (#2602). A
- * regional wrapper that lays it out differently declares its own order and
- * defines DUEL_FIELD_CARD_RENDER_STORAGE_ORDER. */
-extern union DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
-extern u8 gDuel_abSelectionSides[];
-extern struct DuelSideState gDuel_aSideStates[];
-extern struct DuelHandSlot gDuelHand_aSlots[];
-extern struct ScreenPair gDuel_aCardSlotScreenPositions[];
-extern struct DuelEffectResourceRecord gCardPreview_Resources[];
-#endif
+#include "../ygo_types.h"
+#include "duel_side_state.h"
+#include "display_object.h"
+#include "display_object_work_slots.h"
+#include "display_projection.h"
+#include "screen_projection.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/inline_c.h"
+#include "duel_draw_card_frame.h"
+#include "ordering_tables.h"
+#include "duel_field_card_render.h"
+#include "duel_field_card_render_data.h"
+#include "duel_selection_layout.h"
+#include "duel_screen_tables.h"
+#include "duel_effect_resource_record.h"
 
-#ifndef DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B150-0x8009B244, defined in
- * address order ahead of the headers that declare it (#2602). */
+/* Zero-initialized storage this unit owns. Each build's generated
+ * duel_field_card_render_commons/_bss_commons subsegments place it at the
+ * retail addresses. */
 u16 gDuel_wPlacementCardId;
 u8 gDuel_bConfirmFlags;
 s16 gDuel_wPendingEquipBonus;
@@ -55,7 +59,6 @@ s16 gDuel_wAiHandStackPending;
 s16 gDuel_RitualResultCardId;
 s16 gDuel_awBattleDamage[2];
 s16 gDuel_sCardEffectIndex;
-static PADDING_VARIABLE(2);
 s16 gDuel_wMonsterRemovalCriterion;
 s16 gDuel_wMonsterRemovalZone;
 s8 gDuel_abBattleOutcome[2];
@@ -97,127 +100,19 @@ s16 gDuel_sEffectWorkCounter;
 u16 gDuel_wTrapPresentationMode;
 struct DisplayObject *gDuel_pTerrainIcon;
 s8 gDuel_bPlacementNeedsCardMoveSetup;
-static PADDING_VARIABLE(1);
 u8 gDuel_bFieldActionAutoCommit;
 struct DisplayObject *gDuel_pLifePointsPanel;
 u16 gDuel_wCardEffectFlags;
 s32 gDuel_dwViewTweenReferenceZAccumulator;
-static u8 D_8009B228;
 u8 gDuel_bAnimatedBattleRequested;
 s16 gDuel_wSelectedTrapCardId;
 u8 *gDuel_pActiveFieldGrid;
 u8 gDuel_bTwoPlayerCardViewMode;
-static PADDING_VARIABLE(2);
 u16 gDuel_wTwoPlayerSide0LifePoints;
 u16 gDuel_wTwoPlayerSide1LifePoints;
 s8 gDuel_bOutroWinnerSide;
 u16 gDuel_wSceneStateFlags;
-static u32 D_8009B23C;
 struct DisplayObject *gDuel_pCardViewerBackground;
-#else
-extern u16 gDuel_wPlacementCardId;
-extern u8 gDuel_bConfirmFlags;
-extern s16 gDuel_wPendingEquipBonus;
-extern s32 gDuel_dwViewTweenHeadingAccumulator;
-extern s32 gDuel_dwViewTweenOrbitAngleAccumulator;
-extern s8 gDuelCursor_Direction;
-extern u16 gDuel_wDisplayTransitionFlags;
-extern u8 gDuel_bQuitDialogState;
-extern u8 gDuel_bWinnerSide;
-extern s16 gDuel_wViewTweenReferenceZTarget;
-extern s32 gDuel_dwViewTweenReferenceZStep;
-extern u16 gDuel_wOutcomeFlags;
-extern u8 gDebugEffect_bPlacementCounter;
-extern u16 gDuel_awSavedStatModifiers[2];
-extern u8 gDuel_bSceneSubStep;
-extern u16 gDuel_awSavedRecordFlags[2];
-extern struct DuelEffectRequest *gDuelEffect_pTrackedRequest;
-extern u8 *gDebugEffect_pPreviewCard0;
-extern u8 *gDebugEffect_pPreviewCard1;
-extern struct DisplayObject *gDuel_pFlipLeftMarker;
-extern struct DisplayObject *gDuel_pFlipRightMarker;
-extern s16 gDuel_wViewTweenHeadingTarget;
-extern s16 gDuel_wViewTweenOrbitAngleTarget;
-extern s32 gDuel_dwViewTweenHeadingStep;
-extern s32 gDuel_dwViewTweenOrbitAngleStep;
-extern u8 gDuel_bCardMoveSlot;
-extern s16 gDuel_wAiHandStackPending;
-extern s16 gDuel_RitualResultCardId;
-extern s16 gDuel_awBattleDamage[2];
-extern s16 gDuel_sCardEffectIndex;
-extern s16 gDuel_wMonsterRemovalCriterion;
-extern s16 gDuel_wMonsterRemovalZone;
-extern s8 gDuel_abBattleOutcome[2];
-extern struct DuelSelectionRecord *gDuel_pActiveSelectionRecord;
-extern u8 gDuel_bSelectedTrapSlot;
-extern s8 gDuel_bPresentationCursor;
-extern s32 gDuel_dwFieldDimTarget;
-extern struct DisplayObject *gDuel_pCardPreviewObject;
-extern s32 gDuel_dwViewTweenDistanceAccumulator;
-extern struct DuelSideState *gDuel_pActiveSideState;
-extern struct DisplayObject *gDuel_pActionCard;
-extern u16 gDuel_wStepCounter;
-extern s16 gDuel_wEffectCardID;
-extern u8 gDuelCursor_PickFlags;
-extern u8 gDuel_bActiveSide;
-extern s8 gDuelCursor_TargetColumn;
-extern s8 gDuelCursor_TargetRow;
-extern struct SaveDataState *gDuel_pSide0SaveData;
-extern struct SaveDataState *gDuel_pSide1SaveData;
-extern u16 gDuelResult_wBgmId;
-extern u8 gDuel_bAiSelectionCursor;
-extern u16 gDuel_wAiSelectionStepDelay;
-extern struct DuelResultDisplayState *gDuel_pResultDisplayState;
-extern u8 gDuel_bPendingDrawCount;
-extern u8 gDuel_bDrawStepCountdown;
-extern s16 gDuel_wViewTweenDistanceTarget;
-extern struct DuelEffectRequest *gDuel_apSwordsEffectObjects[2 ];
-extern struct DisplayObject *gDuel_pActionReadyMarker;
-extern s32 gDuel_dwViewTweenDistanceStep;
-extern s16 gDuel_sGroundReferenceScreenX;
-extern s16 gDuel_sGroundReferenceScreenY;
-extern s16 gDuel_wViewTweenFramesRemaining;
-extern s16 gDuel_wEquipCardId;
-extern s8 gDuel_bBattleRemovalSlot0;
-extern s8 gDuel_bBattleRemovalSlot1;
-extern s8 gDuel_bAiCursorTarget;
-extern u16 gDuel_wActionSubstate;
-extern s16 gDuel_sEffectWorkCounter;
-extern u16 gDuel_wTrapPresentationMode;
-extern struct DisplayObject *gDuel_pTerrainIcon;
-extern s8 gDuel_bPlacementNeedsCardMoveSetup;
-extern u8 gDuel_bFieldActionAutoCommit;
-extern struct DisplayObject *gDuel_pLifePointsPanel;
-extern u16 gDuel_wCardEffectFlags;
-extern s32 gDuel_dwViewTweenReferenceZAccumulator;
-extern u8 gDuel_bAnimatedBattleRequested;
-extern s16 gDuel_wSelectedTrapCardId;
-extern u8 *gDuel_pActiveFieldGrid;
-extern u8 gDuel_bTwoPlayerCardViewMode;
-extern u16 gDuel_wTwoPlayerSide0LifePoints;
-extern u16 gDuel_wTwoPlayerSide1LifePoints;
-extern s8 gDuel_bOutroWinnerSide;
-extern u16 gDuel_wSceneStateFlags;
-extern struct DisplayObject *gDuel_pCardViewerBackground;
-#endif
-
-#include "../ygo_types.h"
-#include "duel_side_state.h"
-#include "display_object.h"
-#include "display_object_work_slots.h"
-#include "display_projection.h"
-#include "screen_projection.h"
-#include "../psyq/libgte.h"
-#include "../psyq/libgpu.h"
-#include "../psyq/libgs.h"
-#include "../psyq/inline_c.h"
-#include "duel_draw_card_frame.h"
-#include "ordering_tables.h"
-#include "duel_field_card_render.h"
-#include "duel_field_card_render_data.h"
-#include "duel_selection_layout.h"
-#include "duel_screen_tables.h"
-#include "duel_effect_resource_record.h"
 
 DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 u8 gDuel_abSelectionSides[DUEL_SIDE_COUNT * DUEL_SELECTION_SIDE_SIZE];

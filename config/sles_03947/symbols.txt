@@ -1938,10 +1938,8 @@ gSD_szBgmFileName = 0x80010710;
 gSD_szSeFileName = 0x8001071C;
 gSD_szMasterXaFileName = 0x80010728;
 
-// Semantic names
 CardPreview_DrawDetailPanel = 0x80028AC8; // type:func
 
-// Semantic names
 CardPreview_HandleResourceTransfer = 0x8002895C; // type:func
 
 gAiSnapshot_aOwnCards = 0x801AB00C;
@@ -2165,3 +2163,17 @@ _stacksize = 0x8009BE90; // defined:True
 gScript_ImageOperand = 0x8009C210;
 gCampaignSceneIndex = 0x8009C218;
 gScript_WaitCounter = 0x8009C220;
+gDuel_bBattleRemovalSlot0 = 0x8009C0B8;
+gDuel_bBattleRemovalSlot1 = 0x8009C0B9;
+gDuel_bAiSelectionCursor = 0x8009C0C0;
+gDuel_wAiHandStackPending = 0x8009C0C2;
+gDuel_sEffectWorkCounter = 0x8009C0C4;
+gDuel_bFieldActionAutoCommit = 0x8009C0CC;
+gDuel_pSide0SaveData = 0x8009C0D8;
+gDuel_pSide1SaveData = 0x8009C0DC;
+gDuel_bTwoPlayerCardViewMode = 0x8009C0F1;
+gDuel_pActionReadyMarker = 0x8009C108;
+gDuel_bAiCursorTarget = 0x8009C10C;
+gDuel_wActionSubstate = 0x8009C10E;
+gDuel_bAnimatedBattleRequested = 0x8009C148;
+gDuel_bActiveEffectState = 0x8009C1B0;

@@ -10,7 +10,6 @@ overlay_slots_start = 0x8013A000;
 tail_data_start = 0x801AC000;
 loaded_image_end = 0x801E0000; // absolute:True
 
-// Semantic names
 g_SDValue = 0x8009B45C;
 DuelCard_CanActThisTurn = 0x8001700C; // type:func
 Duel_GetCardViewerRequestId = 0x80017034; // type:func
@@ -37,7 +36,6 @@ Movie_MoveDisplayImage = 0x8005C568; // type:func
 Movie_StartFadeOut = 0x8005C5C4; // type:func
 Movie_WaitFrameDecoded = 0x8005C5D4; // type:func
 
-// Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
 gDebug_nSceneOrSoundID = 0x8009B2C8;
 gCredits_awSecretNumbers = 0x80090B50;
@@ -111,7 +109,6 @@ gDuel_pCardViewerCard = 0x8009B24C;
 gDuel_pCardViewerTextBox = 0x8009B250;
 gDuel_bEffectState = 0x8009B254;
 
-// Semantic names
 Main_Init = 0x80012B50; // type:func
 Main_VBlankCB = 0x80012CD4; // type:func
 Main_AdvanceFrame = 0x80012D4C; // type:func
@@ -281,7 +278,6 @@ File_RequestPasswordPackage = 0x8003BEB8; // type:func
 File_RequestEgyptOverworldPackage = 0x8003C0C0; // type:func
 File_Exists = 0x8005C4F0; // type:func
 
-// Semantic names
 gMemCard_aDirEntries = 0x800F2888;
 gMemCard_aIOEventHandles = 0x800F2AE0;
 gMemCard_aHwIOEventHandles = 0x800F2AF0;
@@ -365,7 +361,6 @@ AiScript_SetRegister = 0x800735DC; // type:func
 AiScript_Add = 0x80073624; // type:func
 AiScript_Print = 0x800736C4; // type:func
 
-// Semantic names
 SD_SEPlayFull = 0x8003FEE0; // type:func
 SD_CdSoundPlay = 0x8003FF88; // type:func
 SD_CdSoundSeek = 0x8003FFB4; // type:func
@@ -440,10 +435,8 @@ gDuel_anRankScore = 0x80179A04;
 gDuel_awEquipTable = 0x8017A1D8;
 gCard_asNameSortKey = 0x801D4D8E;
 
-// Semantic names
 Duel_AwardCard = 0x80021894; // type:func
 
-// Semantic names
 Duel_ApplyCardObjectFlags = 0x80018080; // type:func
 Duel_UpdateCardPickCursor = 0x800240B0; // type:func
 DuelEffect_MarkObjectIfActive = 0x8002E370; // type:func
@@ -479,14 +472,11 @@ Model_RegisterHandlerKey = 0x80060170; // type:func
 Model_FindHandlerKey = 0x800601D0; // type:func
 Model_GetPrimitiveHandler = 0x8006041C; // type:func
 
-// Semantic names
 SaveData_ApplyRuntimeState = 0x8003D0F4; // type:func
 SaveData_HasSameDuelistCode = 0x8003D288; // type:func
 
-// Semantic names
 DuelEffect_CreateChannel = 0x8003D46C; // type:func
 
-// Semantic names
 SD_EnqueueCdFade = 0x80044FFC; // type:func
 SD_StartCdFade = 0x8004503C; // type:func
 SD_EnqueueCdStop = 0x80045114; // type:func
@@ -496,33 +486,24 @@ SD_EnqueueCdSeek = 0x80045334; // type:func
 SD_ClearBusyFlag = 0x8004544C; // type:func
 SD_ArmBusyCallback = 0x8004545C; // type:func
 
-// Semantic names
 DuelEffect_UpdateState = 0x8002892C; // type:func
 
-// Semantic names
 Util_FillMemory = 0x80035748; // type:func
 
-// Semantic names
 SD_ProcessSequenceTracks = 0x8004C8C8; // type:func
 SD_SequenceTimerCallback = 0x8004B734; // type:func
 
-// Semantic names
 DuelEffect_UpdateObjectLayout = 0x80036DBC; // type:func
 
-// Semantic names
 SD_ResetSequenceTracks = 0x8004CA60; // type:func
 
-// Semantic names
 DuelEffect_PlaySoundCommand = 0x80038798; // type:func
 
-// Semantic names
 Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 
-// Semantic names
 File_FinishActiveTransfer = 0x800144B8; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
-// Semantic names
 Fade_Init = 0x800151B0; // type:func
 Fade_CutToWhite = 0x800156DC; // type:func
 Fade_StepBands = 0x800151D8; // type:func
@@ -626,19 +607,14 @@ Main_InitFreeDuelMenu = 0x8003B9BC; // type:func
 gDuel_wViewerCardID = 0x8009B246;
 gLibrary_aCardArtRecord = 0x801DC000;
 
-// Semantic names
 SaveData_NextMaskWord = 0x8003CE74; // type:func
 
-// Semantic names
 gDuel_abTrapAttackThresholds = 0x8009AF24;
 
-// Semantic names
 gDuel_bWidespreadRuinAttackThreshold = 0x8009AF29;
 
-// Semantic names
 Duel_HasAllExodiaPieces = 0x80018CF8; // type:func
 
-// Semantic names
 File_RequestAsyncTransfer = 0x80014E1C; // type:func
 File_TryRequestAsyncTransfer = 0x80014EEC; // type:func
 File_CancelTransfers = 0x80014FA4; // type:func
@@ -650,36 +626,26 @@ gFile_SecondaryTransferDescriptor = 0x800E9E18;
 gFile_PrimaryTransferDescriptor = 0x800E9E60;
 gDuel_awUniqueDeckCardIds = 0x80178130;
 
-// Semantic names
 File_InitTransferDescriptor = 0x80013998; // type:func
 File_TryStartPrimaryTransfer = 0x80013B04; // type:func
 
-// Semantic names
 BuildDeck_AddCard = 0x800320BC; // type:func
 
-// Semantic names
 gDuel_abDirectDamageUnits = 0x8009AF38;
 
-// Semantic names
 gDuel_abLifePointRecoveryUnits = 0x8009AF30;
 
-// Semantic names
 Duel_CollectFieldCardsBelowType = 0x80026C6C; // type:func
 Duel_CollectFieldCardsByType = 0x80026D18; // type:func
 
-// Semantic names
 SD_FindMidiTrackChunk = 0x8004BBBC; // type:func
 
-// Semantic names
 Text_StartCampaignDuel = 0x80038530; // type:func
 
-// Semantic names
 Text_SetCursorOffset = 0x80038BA8; // type:func
 
-// Semantic names
 Text_HandleChoiceCommand = 0x80038BF0; // type:func
 
-// Semantic names
 gDialog_bInputState = 0x8009B327;
 gDialog_bChoiceEnabled = 0x8009B336;
 gDialog_bChoiceCount = 0x8009B345;
@@ -693,10 +659,8 @@ gInput_dwPendingHeld = 0x8009B3A8;
 gInput_wPad1HeldBackup = 0x8009B3AC;
 gInput_abRawPadBuffers = 0x800EF668;
 
-// Semantic names
 Widget_UpdatePulseColour = 0x80037110; // type:func
 
-// Semantic names
 DuelEffect_ProcessEntries = 0x80039D64; // type:func
 DuelEffect_ClearCardEffect = 0x80024E4C; // type:func
 DuelEffect_ApplyTerrain = 0x80024E58; // type:func
@@ -742,11 +706,9 @@ SD_ReadVariableLengthValue = 0x8004BB34; // type:func
 SD_ReadSequenceU32BE = 0x8004BC2C; // type:func
 SD_ReadSequenceU16BE = 0x8004BCA8; // type:func
 
-// Semantic names
 Dialog_ReadChoiceInput = 0x8003700C; // type:func
 Dialog_UpdateChoice = 0x800371A8; // type:func
 
-// Semantic names
 Input_UpdatePads = 0x8003CCD8; // type:func
 Input_ResetPads = 0x8003CB7C; // type:func
 Input_ReadRawPads = 0x8003CC38; // type:func
@@ -755,17 +717,13 @@ Input_RestorePad1FromBackup = 0x8003CE48; // type:func
 Input_InitPads = 0x8003CBE8; // type:func
 BuildDeck_UpdatePaneTransition = 0x800338E4; // type:func
 
-// Semantic names
 gMovie_aStreamRanges = 0x8009151C;
 
-// Semantic names
 Duel_LoadPackageStage = 0x800171A8; // type:func
 
-// Semantic names
 gText_abColorSlots = 0x801D5708;
 gText_aGlyphSearchEntries = 0x801D9004;
 
-// Semantic names
 gDuel_abCardLevelAttr = 0x801D5332;
 
 // Psy-Q LIBAPI.LIB syscall thunks
@@ -1250,7 +1208,6 @@ Duel_RequestCombinedDeckData = 0x80024734; // type:func
 Duel_PopulateCombinedDeckData = 0x80024824; // type:func
 Model_SetSlotProperties = 0x80053248; // type:func
 
-// Semantic names
 CdDataCallback = 0x8007A860; // type:func
 DS_sync = 0x8007E2F0; // type:func
 DS_ready = 0x8007E320; // type:func
@@ -1263,7 +1220,6 @@ CdReadyCallback = 0x8007E860; // type:func
 CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
-// Semantic names
 gMain_bSoundVSyncBusy = 0x8009AF0C; // defined:True
 gDuelEffect_szDecimalTraceFormat = 0x8009AF40; // defined:True
 gDebugMenu_wMessageId = 0x8009AF44; // defined:True
@@ -1424,7 +1380,6 @@ gInput_abRepeatTimers = 0x800EF6B0;
 DuelEffect_MarkInitialized = 0x80024E24; // type:func
 gAiScript_szSourceLineFormat = 0x8009B084;
 
-// Semantic names
 __do_global_dtors = 0x80012AE8; // type:func
 PCopen = 0x80073704; // type:func
 PCclose = 0x80073724; // type:func
@@ -1518,7 +1473,6 @@ GsGetLwUnit = 0x8008A4A0; // type:func
 GsGetLsUnit = 0x8008A760; // type:func
 GsGetLwsUnit = 0x8008AA30; // type:func
 
-// Semantic names
 SD_ReadSequenceHeader = 0x8004BCE8; // type:func
 SD_AdvanceSequencePosition = 0x8004BE6C; // type:func
 SD_IgnoreSequenceEvent = 0x8004BE80; // type:func
@@ -1553,7 +1507,6 @@ Duel_StepCardDataTransfer = 0x800245EC; // type:func
 gInput_bRepeatDelay = 0x8009B39C;
 gInput_bRepeatInterval = 0x8009B3A2;
 
-// Semantic names
 PCread = 0x80073758; // type:func
 HostFile_ReadRange = 0x80059908; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
@@ -1635,35 +1588,27 @@ Campaign_LoadScenePackage = 0x8002FD10; // type:func
 Text_ExtendGlyphCode = 0x80037D2C; // type:func
 Main_RunBootSequence = 0x80043960; // type:func
 
-// Semantic names
 Text_CompletePageAdvance = 0x8003741C; // type:func
 
-// Semantic names
 DebugMenu_DimPrimaryDisplayObject = 0x80030090; // type:func
 DebugMenu_RestorePrimaryDisplayObject = 0x800300AC; // type:func
 
-// Semantic names
 BuildDeck_ReturnCardToChest = 0x80031EE4; // type:func
 BuildDeck_TakeCardFromChest = 0x80031F7C; // type:func
 
-// Semantic names
 SD_SelectSecondaryObject = 0x8004A940; // type:func
 
-// Semantic names
 SD_FindLowestPrioritySecondaryObject = 0x8004A854; // type:func
 BuildDeck_RefreshCountDisplay = 0x80031E5C; // type:func
 
-// Semantic names
 SD_PrepareSecondaryObjectReuse = 0x8004A8E4; // type:func
 SD_InitVoiceState = 0x80047480; // type:func
 SD_QueueValueLinkTransfer = 0x80047788; // type:func
 
-// Semantic names
 SD_UpdateSecondaryObjectPitch = 0x8004A43C; // type:func
 SD_UpdateSecondaryObjectVoices = 0x8004AAFC; // type:func
 SD_ResetSecondaryPlayback = 0x8004A518; // type:func
 
-// Semantic names
 SD_HandleSequenceControlChange = 0x8004B49C; // type:func
 SD_ApplySequenceReverbParameter = 0x8004ACE4; // type:func
 SD_SetSequenceChannelProgram = 0x8004B6E8; // type:func
@@ -1672,7 +1617,6 @@ gDebugEffect_pPreviewCard0 = 0x8009B180;
 gDebugEffect_pPreviewCard1 = 0x8009B184;
 tent_DisplayObjectStreamCommandTable = 0x80090FEC;
 
-// Semantic names
 Model_ResetSlotAnimationTables = 0x8004D58C; // type:func
 Model_BuildSlotAnimationTables = 0x8004D75C; // type:func
 Model_LinkSlotAnimationRows = 0x8004D914; // type:func
@@ -1690,7 +1634,6 @@ Model_InterpolateTransRotScale = 0x8005D378; // type:func
 Model_ResetSceneView = 0x800530C4; // type:func
 Model_ResetSceneState = 0x800533D8; // type:func
 
-// Semantic names
 File_HandleCancelPauseEvent = 0x800141A8; // type:func
 File_HandleSeekEvent = 0x80014134; // type:func
 File_HandleReadEvent = 0x800140A0; // type:func
@@ -1701,10 +1644,8 @@ File_HandleLogicalPositionEvent = 0x80014390; // type:func
 gModel_pCurrentEffectKey = 0x8009B074;
 gModel_bEffectKeyCount = 0x8009B078;
 
-// Semantic names
 gModel_aEffectKeys = 0x800F5788;
 
-// Semantic names
 Library_UpdateGridScroll = 0x8002A660; // type:func
 SD_KeyOnSecondaryNote = 0x8004ADE8; // type:func
 SD_KeyOffSecondaryNote = 0x8004B374; // type:func
@@ -1712,118 +1653,83 @@ SD_KeyOffSecondaryObject = 0x8004A7C0; // type:func
 SD_PitchFromNote = 0x80049FB4; // type:func
 SD_UpdateSecondaryObjectReuseCountdowns = 0x8004C84C; // type:func
 
-// Semantic names
 Model_CaptureKeyframePose = 0x8005F070; // type:func
 Model_UpdateEffectKeyframes = 0x8005DBA4; // type:func
 
-// Semantic names
 Model_ResetEffectKeyQueue = 0x8005FAE4; // type:func
 Model_IsEffectKeyQueueEmpty = 0x8005FB08; // type:func
 Model_GetCurrentEffectKeyAddress = 0x8005FB14; // type:func
 
-// Semantic names
 Model_PrepareEffectKey = 0x8005E808; // type:func
 Model_RefreshEffectKeySlotValues = 0x8005FB30; // type:func
 
-// Semantic names
 Model_ApplyEffectKeyQueueCommand = 0x8005F91C; // type:func
 
-// Semantic names
 Model_SetCameraTargetSlots = 0x8005A010; // type:func
 Model_QueueEffectEndpointSequences = 0x8005F828; // type:func
 
-// Semantic names
 Model_SetCameraMoveDurationFromMagnitude = 0x8005A074; // type:func
 
-// Semantic names
 Model_SetCameraFollowCountdown = 0x8005A0DC; // type:func
 
-// Semantic names
 Model_SetCameraOrbitStep = 0x8005A130; // type:func
 
-// Semantic names
 Model_RequestCameraMoveToSlots = 0x80059F18; // type:func
 
-// Semantic names
 Model_IsCameraMoveComplete = 0x8005A878; // type:func
 
-// Semantic names
 Library_UpdateCursorMotion = 0x8002A3CC; // type:func
 Library_StartCursorMotion = 0x8002A4A8; // type:func
 
-// Semantic names
 Library_UpdateCardView = 0x8002ACA4; // type:func
 
-// Semantic names
 Library_UpdateScreen = 0x8002BAB4; // type:func
 
-// Semantic names
 Library_InitializeScreen = 0x8002BFCC; // type:func
 
-// Semantic names
 Library_LoadPackageStage = 0x8002BD0C; // type:func
 
-// Semantic names
 Library_CreateGridSectionSprites = 0x80029590; // type:func
 
-// Semantic names
 Library_RefreshSelectedCardText = 0x8002A2F4; // type:func
 
-// Semantic names
 Library_DrawWireframeGlobe = 0x80029934; // type:func
 
-// Semantic names
 Library_DrawGlobeXSpan = 0x80029684; // type:func
 Library_DrawGlobeZSpan = 0x800297DC; // type:func
 
-// Semantic names
 Library_EnterGridState = 0x8002BAA0; // type:func
 
-// Semantic names
 Library_DrawFadingCardOutline = 0x8002A9C0; // type:func
 Library_CreateFadingCardOutline = 0x8002ABB4; // type:func
 
-// Semantic names
 CardPreview_DrawDetailPanel = 0x80028B08; // type:func
 
-// Semantic names
 CardPreview_HandleResourceTransfer = 0x800289BC; // type:func
 gCardPreview_Resources = 0x800EA0E8;
 
-// Semantic names
 CardPreview_RequestResourceTransfer = 0x80029164; // type:func
 
-// Semantic names
 CardPreview_CreateResourceObjects = 0x800291E0; // type:func
 
-// Semantic names
 Duel_MarkCreatedCardKnown = 0x80019CC8; // type:func
 
-// Semantic names
 gDuel_RitualResultCardId = 0x8009B1A0;
 
-// Semantic names
 Duel_DrawCardFrame = 0x80016784; // type:func
 
-// Semantic names
 Duel_CreateCardDisplayObject = 0x80017F04; // type:func
 
-// Semantic names
 Duel_UpdateCardDisplayState = 0x80017E3C; // type:func
 
-// Semantic names
 Duel_CreateFieldCardObject = 0x80024C1C; // type:func
 
-// Semantic names
 Duel_SetupFieldCardFromDeck = 0x80024D34; // type:func
 
-// Semantic names
 Duel_CreateHandCardDisplayObject = 0x80018004; // type:func
 
-// Semantic names
 Duel_UpdateCardDisplayMarker = 0x80017DB4; // type:func
 
-// Semantic names
 gDuel_aCardUploadRects = 0x80177EA4;
 Duel_BeginFieldPlacementSelection = 0x8001B938; // type:func
 Duel_ApplyAiHandSelection = 0x8001BAF0; // type:func
@@ -1862,7 +1768,6 @@ gGraphics_dwSyncVBlankCounter = 0x8009B0C8;
 gSaveData_dwVBlankCounter = 0x8009B0C4;
 Text_SetFastPrintMode = 0x800384E4; // type:func
 
-// Semantic names
 Ai_SelectMagicPlay = 0x8002712C; // type:func
 Ai_SelectFusionPlay = 0x80027228; // type:func
 Ai_SelectHandPlay = 0x80027508; // type:func
@@ -1871,27 +1776,22 @@ Ai_FindFavorableFaceUpFieldTarget = 0x800278A0; // type:func
 Ai_SelectFieldPlay = 0x800279BC; // type:func
 Duel_CompareBattleStrength = 0x8001EFD4; // type:func
 
-// Semantic names
 Ai_ExportSideSnapshot = 0x80027DF8; // type:func
 Ai_RefreshBoardSnapshot = 0x80028220; // type:func
 gAiSnapshot_aOwnCards = 0x801AB00C;
 
-// Semantic names
 DuelHand_RefreshSelectionColors = 0x8001B8B8; // type:func
 gDuelHand_aSlots = 0x800EA030;
 
-// Semantic names
 DuelField_GetGuardianStarDisplayCode = 0x80023090; // type:func
 DuelField_CreateCardInfoTextBox = 0x80023144; // type:func
 DuelField_RefreshCursorCardInfo = 0x8002348C; // type:func
 
-// Semantic names
 gDuelCursor_Direction = 0x8009B160;
 gDuelCursor_PickFlags = 0x8009B1D4;
 gDuelCursor_TargetColumn = 0x8009B1D6;
 gDuelCursor_TargetRow = 0x8009B1D7;
 
-// Semantic names
 Text_ExpandSelectedCardInfo = 0x80037DA4; // type:func
 Text_EmitSymbolGlyph = 0x80038024; // type:func
 Text_EmitGuardianStarGlyph = 0x80038070; // type:func
@@ -1903,7 +1803,6 @@ gText_GuardianGlyphCode = 0x8009B344;
 gText_BranchSelectorA = 0x8009B34E;
 gText_BranchSelectorB = 0x8009B355;
 
-// Semantic names
 Text_ResetPenXAndAdvanceY = 0x800380D4; // type:func
 Text_AdvancePenX = 0x80038110; // type:func
 Text_SetFontMode = 0x800382A8; // type:func
@@ -2557,7 +2456,6 @@ gGraphics_bClearBlue = 0x8009B142;
 gGraphics_bClearGreen = 0x8009B143;
 gGraphics_bClearRed = 0x8009B144;
 
-// Semantic names
 Library_NoOpScreenState3 = 0x8002BAAC; // type:func
 DebugMenu_NoOpBustUpFrame = 0x8003134C; // type:func
 AiScript_SetUnreadFlag = 0x80073464; // type:func
@@ -2625,3 +2523,41 @@ gModel_dwFogDrawFlags = 0x8009B30C;
 gSortedEntry_pCursor = 0x8009B310;
 gSortedEntry_nCount = 0x8009B314;
 gScript_wCommandWord = 0x8009B27C;
+gDisplayObject_apWorkSlots = 0x800E9EF0;
+gDebugEffect_bPlacementCounter = 0x8009B16E;
+gDuel_wPlacementCardId = 0x8009B150;
+gDuel_bConfirmFlags = 0x8009B152;
+gDuel_wOutcomeFlags = 0x8009B16C;
+gDuel_awSavedStatModifiers = 0x8009B170;
+gDuel_bSceneSubStep = 0x8009B174;
+gDuel_awSavedRecordFlags = 0x8009B178;
+gDuel_pFlipLeftMarker = 0x8009B188;
+gDuel_pFlipRightMarker = 0x8009B18C;
+gDuel_bCardMoveSlot = 0x8009B19C;
+gDuel_bSelectedTrapSlot = 0x8009B1B8;
+gDuel_bPresentationCursor = 0x8009B1B9;
+gDuel_pActiveSideState = 0x8009B1C8;
+gDuel_pActionCard = 0x8009B1CC;
+gDuel_wStepCounter = 0x8009B1D0;
+gDuel_bActiveSide = 0x8009B1D5;
+gDuel_pResultDisplayState = 0x8009B1E8;
+gDuel_pActionReadyMarker = 0x8009B1F8;
+gDuel_wEquipCardId = 0x8009B206;
+gDuel_bBattleRemovalSlot0 = 0x8009B208;
+gDuel_bBattleRemovalSlot1 = 0x8009B209;
+gDuel_bAiCursorTarget = 0x8009B20A;
+gDuel_wActionSubstate = 0x8009B20C;
+gDuel_sEffectWorkCounter = 0x8009B20E;
+gDuel_wTrapPresentationMode = 0x8009B210;
+gDuel_pTerrainIcon = 0x8009B214;
+gDuel_bPlacementNeedsCardMoveSetup = 0x8009B218;
+gDuel_bFieldActionAutoCommit = 0x8009B21A;
+gDuel_wSelectedTrapCardId = 0x8009B22A;
+gDuel_pActiveFieldGrid = 0x8009B22C;
+gDuel_bTwoPlayerCardViewMode = 0x8009B230;
+gDuel_wTwoPlayerSide0LifePoints = 0x8009B234;
+gDuel_wTwoPlayerSide1LifePoints = 0x8009B236;
+gDuel_bOutroWinnerSide = 0x8009B238;
+gDuel_abSelectionSides = 0x800E9F10;
+gDuel_aSideStates = 0x800E9FF0;
+gDuelEffect_pTrackedRequest = 0x8009B17C;
