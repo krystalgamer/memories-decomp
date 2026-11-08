@@ -1181,7 +1181,10 @@ typedef struct {
 } ModelVariantSweepConfig;
 
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
- * and per quad a size, a progress word and an initialized flag. */
+ * and per quad a size, a progress word and an initialized flag. The French
+ * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass
+ * the work area to SpanishModelVariant461_DrawRing and
+ * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size. */
 typedef struct {
     SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
     CVECTOR color;
@@ -1189,7 +1192,10 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
-/* A ring of 24 quads given by corner arrays v0..v3, and a size per quad. */
+/* The first 0x434 bytes of a ring of 24 quads given by corner arrays v0..v3,
+ * and a size per quad, as the header-447, 462 and 463 ring helpers read it.
+ * The same reads at the same offsets as ModelVariantQuadRing, but no decompiled
+ * entry is known to hand these helpers a full ModelVariantQuadRing. */
 typedef struct {
     SVECTOR v0[24];
     SVECTOR v1[24];

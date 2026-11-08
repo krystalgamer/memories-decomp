@@ -6,8 +6,8 @@
 
 typedef struct {
     u8 unknown_0000[0xB90];
-    ModelVariantQuadRingView ring;
-    u8 unknown_0FC4[0x1EF4];
+    ModelVariantQuadRing ring;
+    u8 unknown_1144[0x1D74];
     POLY_FT4 polygon;
     u8 unknown_2EE0[0x4C];
     s32 origin[3];
