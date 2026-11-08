@@ -153,7 +153,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             trail->field_7C = 0;
             trail->field_7A = 0;
             trail->completed = 0;
-            trail->field_80 = 0;
+            trail->width_scale = 0;
             trail->target.vx = work->target.vx + ((s32)(rcos(angle) << 9) >> 12);
             trail->target.vy = work->target.vy + ((s32)(rsin(angle) << 9) >> 12);
             trail->target.vz = work->target.vz + ((s32)(rsin(angle2) << 9) >> 12);
@@ -181,7 +181,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             ribbon->field_7C = 0;
             ribbon->field_7A = 0;
             ribbon->field_D8 = 0;
-            ribbon->field_DC = 0;
+            ribbon->width_scale = 0;
             if (i == 0) {
                 angle = 1024;
             } else if ((i / 2) * 2 == i - 1) {
@@ -271,8 +271,8 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         }
         work->field_2342 = 1024;
         work->field_2344 = 1024;
-        work->field_2348 = 1024;
-        work->field_2368 = 0;
+        work->streamer_length = 1024;
+        work->spin = 0;
         work->field_233C = 0;
         work->field_233E = 0;
         work->field_2340 = 0;
@@ -280,9 +280,9 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         work->spray_phase = 0;
         work->field_2360 = 0;
         work->field_2364 = 0;
-        work->field_234C = 0;
-        work->field_2350 = 0;
-        work->field_2354 = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;

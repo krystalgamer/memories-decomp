@@ -28,7 +28,8 @@ typedef struct {
     CVECTOR color, secondary;
     VECTOR scale;
     s16 field_78, field_7A;
-    s32 field_7C, field_80;
+    /* The twin-ribbon helper scales each projected width by width_scale / 1024. */
+    s32 field_7C, width_scale;
     u8 unknown_84[0x3C];
     s32 phase[3];
     s32 completed;
@@ -47,7 +48,8 @@ typedef struct {
     s32 heading[3];
     u8 unknown_A4[0x28];
     s32 phase[3];
-    s32 field_D8, field_DC;
+    /* Ribbon456 scales each projected width by width_scale / 1024. */
+    s32 field_D8, width_scale;
 } Variant456EntryRibbon;
 
 /* A 0x108-byte line: colours, scale, heading and seventeen phases. */
@@ -100,8 +102,10 @@ typedef struct {
     u8 unknown_2334[4];
     GsCOORDUNIT *part;
     s16 field_233C, field_233E, field_2340, field_2342;
-    s32 field_2344, field_2348, field_234C, field_2350, field_2354;
-    s32 spray_wave, spray_phase, field_2360, field_2364, field_2368;
+    s32 field_2344, streamer_length, streamer_rotation_x, streamer_rotation_y;
+    s32 streamer_rotation_z;
+    /* The fan helper turns the fans by spin, advancing it while they fade. */
+    s32 spray_wave, spray_phase, field_2360, field_2364, spin;
     s32 phase;
     u8 unknown_2370[8];
     s32 tint;
