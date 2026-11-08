@@ -6,7 +6,7 @@
  * base plus a velocity scaled by a time value. */
 typedef struct {
     u8 unknown_000[0x6CC];
-    ModelVariantScaledSheetView rings[1];
+    ModelVariantSheet rings[1];
     u8 unknown_764[0x684];
     POLY_GT4 quad;
     u8 unknown_E1C[0xBC];
