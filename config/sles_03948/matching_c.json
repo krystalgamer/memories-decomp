@@ -3657,57 +3657,57 @@
     },
     {
       "address": "0x800401A4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x60",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x80040204",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x28",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x8004022C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x2C",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x80040258",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x24",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x8004027C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x30",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x800402AC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x2C",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x800402D8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x24",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x800402FC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x24",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x80040320",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x30",
-      "source": "src/game/european/sound_frontend.c"
+      "source": "src/game/sound_frontend.c"
     },
     {
       "address": "0x80040350",

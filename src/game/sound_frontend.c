@@ -1,20 +1,5 @@
 #include "../types.h"
 
-#ifndef SOUND_FRONTEND_REGIONAL_SMALL_STORAGE
-/* Zero-initialized storage this unit owns at 0x8009B400-0x8009B410, defined in
- * address order ahead of the headers that declare it (#2602). */
-u32 gSD_dwCurrentBgmCommand;
-u32 gSD_dwSavedBgmCommand;
-s8 gSD_bOutputType;
-static PADDING_VARIABLE(1);
-static PADDING_VARIABLE(2);
-static PADDING_VARIABLE(4);
-#else
-extern u32 gSD_dwCurrentBgmCommand;
-extern u32 gSD_dwSavedBgmCommand;
-extern s8 gSD_bOutputType;
-#endif
-
 #include "file_transfer.h"
 #include "main_frame.h"
 #include "file_constants.h"
@@ -23,6 +8,12 @@ extern s8 gSD_bOutputType;
 #include "sound_output.h"
 #include "sound_state_control.h"
 #include "sound_bgm_commands.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * sound_frontend_commons subsegment places it at the retail addresses. */
+u32 gSD_dwCurrentBgmCommand;
+u32 gSD_dwSavedBgmCommand;
+s8 gSD_bOutputType;
 
 void Sound_InitFrontend(void)
 {

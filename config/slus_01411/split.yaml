@@ -221,7 +221,7 @@ segments:
       - [0x8bb7c, .sbss, game/options_screen]
       - [0x8bb90, sbss, input_pads_commons]
       - [0x8bbb8, .sbss, game/mem_card]
-      - [0x8bc00, .sbss, game/sound_frontend]
+      - [0x8bc00, sbss, sound_frontend_commons]
       - [0x8bc10, .sbss, game/display_object_system]
       - [0x8bc28, .sbss, game/main_boot_frontend]
       - [0x8bc30, .sbss, game/mem_card_driver]

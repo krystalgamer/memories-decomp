@@ -278,7 +278,7 @@ segments:
       - [0x2D344, c, game/european/game_over]
       - [0x2D578, c, game/european/input_pads]
       - [0x2D840, c, game/spanish/mem_card]
-      - [0x309A4, c, game/european/sound_frontend]
+      - [0x309A4, c, game/sound_frontend]
       - [0x30B50, c, game/european/display_object_system]
       - [0x33E58, c, game/european/main_boot_screen]
       - [0x3457C, c, game/german/main_boot_frontend]
@@ -433,7 +433,7 @@ segments:
       - {start: 0x8CEA0, type: bin, name: german_raw_8009c6a0, linker_section_order: .sbss}
       - [0x8CF08, sbss, input_pads_commons]
       - [0x8CF30, .sbss, game/spanish/mem_card]
-      - [0x8CF80, .sbss, game/european/sound_frontend]
+      - [0x8CF80, sbss, sound_frontend_commons]
       - [0x8CF94, .sbss, game/european/display_object_system]
       - [0x8CFA8, .sbss, game/german/main_boot_frontend]
       - [0x8CFB0, .sbss, game/european/mem_card_driver]

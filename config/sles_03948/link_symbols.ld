@@ -550,7 +550,6 @@ gDuel_bPostDuelMainMode = 0x8009C6FA;
 gDuel_awCampaignSceneByOutcome = 0x8009C6EC;
 gDuel_wAnimatedBattleBgmCommand = 0x8009C6F6;
 gDialog_bCallbackState = 0x8009C751;
-gSD_dwSavedBgmCommand = 0x8009C780;
 gModel_ImageCopyRectX = 0x8009C7E8;
 gDuel_bFieldActionAutoCommit = 0x8009C4EC;
 gGraphics_aImageTransferRects = 0x8009C838;
