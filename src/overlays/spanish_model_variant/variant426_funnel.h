@@ -5,17 +5,10 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 size;
-    u8 unknown_114[4];
-} Funnel426;
-
-typedef struct {
     u8 unknown_0000[0xE1C];
     ModelVariantSheet sheets[2];
     u8 unknown_0F4C[0xCD0];
-    Funnel426 funnels[1];
+    ModelVariantFunnel funnels[1];
     u8 unknown_1D34[0x14C];
     POLY_GT4 quad;
     u8 unknown_1EB4[0x214];

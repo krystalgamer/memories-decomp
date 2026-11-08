@@ -15,7 +15,7 @@ void SpanishModelVariant469_DrawQuadRing(u8 *context)
     long flag;
     GsOT *ot;
     Rings469State *state = (Rings469State *)context;
-    Ring469 *ring;
+    ModelVariantQuadRingView *ring;
     POLY_FT4 *polygon;
     s16 i;
     s16 angle;

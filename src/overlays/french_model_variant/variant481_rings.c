@@ -12,7 +12,7 @@ void FrenchModelVariant481_DrawRings(u8 *context)
     long flag;
     Rings481State *state = (Rings481State *)context;
     Ring481Gauge *gauge;
-    Ring481 *ring = state->rings;
+    ModelVariantFunnel *ring = state->rings;
     GsOT *ot;
     s32 i;
     s32 sweep;
@@ -44,10 +44,10 @@ void FrenchModelVariant481_DrawRings(u8 *context)
     tilt_a = -pitch - 768;
     tilt_b = -pitch - 1280;
     for (i = 0, sweep = 2048; i < 2; i++, ring++, sweep += 2048) {
-        if (ring->scale > 0) {
+        if (ring->size > 0) {
             for (k = 0, turn = state->spin; k < 17; k++, turn = state->spin + k * 256) {
-                setVector(&ring->a[k], rcos(turn) * 64 >> 12, rsin(turn) * 64 >> 12, 0);
-                setVector(&ring->b[k], rcos(turn) * 256 >> 12, rsin(turn) * 256 >> 12,
+                setVector(&ring->inner[k], rcos(turn) * 64 >> 12, rsin(turn) * 64 >> 12, 0);
+                setVector(&ring->outer[k], rcos(turn) * 256 >> 12, rsin(turn) * 256 >> 12,
                           -(rcos(sweep) * 128 >> 12));
             }
             if (state->mode == 0) {
@@ -61,7 +61,7 @@ void FrenchModelVariant481_DrawRings(u8 *context)
                 matrix.t[1] = state->position.vy - (rsin(sweep + 768) * 96 >> 12);
                 matrix.t[2] = state->position.vz - (rcos(sweep + 2048) * 96 >> 12);
             }
-            setVector(&scale, ring->scale + bob, ring->scale + bob, ring->scale + bob);
+            setVector(&scale, ring->size + bob, ring->size + bob, ring->size + bob);
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             coordinate.coord = matrix;
@@ -69,8 +69,8 @@ void FrenchModelVariant481_DrawRings(u8 *context)
             coordinate.flg = 0;
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
-            if (ring->scale > 6144) {
-                fade = 8192 - ring->scale;
+            if (ring->size > 6144) {
+                fade = 8192 - ring->size;
                 r0 = state->inner.r * fade / 2048;
                 g0 = state->inner.g * fade / 2048;
                 b0 = state->inner.b * fade / 2048;
@@ -86,7 +86,7 @@ void FrenchModelVariant481_DrawRings(u8 *context)
                 b1 = state->outer.b;
             }
             for (k = 0; k < 16; k++) {
-                depth = RotTransPers4(&ring->a[k], &ring->a[k + 1], &ring->b[k], &ring->b[k + 1],
+                depth = RotTransPers4(&ring->inner[k], &ring->inner[k + 1], &ring->outer[k], &ring->outer[k + 1],
                                       (long *)&quad->x0, (long *)&quad->x1,
                                       (long *)&quad->x2, (long *)&quad->x3, &interpolation, &flag);
                 setRGB0(quad, r0, g0, b0);
@@ -99,17 +99,17 @@ void FrenchModelVariant481_DrawRings(u8 *context)
             }
         }
         if (i == 0) {
-            if (ring->scale < 8192 && gauge->level > 900) {
-                ring->scale += state->step * 64;
-                if (ring->scale > 8192) {
-                    ring->scale = 8192;
+            if (ring->size < 8192 && gauge->level > 900) {
+                ring->size += state->step * 64;
+                if (ring->size > 8192) {
+                    ring->size = 8192;
                 }
             }
         } else {
-            if (ring->scale < 8192 && gauge->level > 1100) {
-                ring->scale += state->step * 64;
-                if (ring->scale > 8192) {
-                    ring->scale = 8192;
+            if (ring->size < 8192 && gauge->level > 1100) {
+                ring->size += state->step * 64;
+                if (ring->size > 8192) {
+                    ring->size = 8192;
                 }
             }
         }

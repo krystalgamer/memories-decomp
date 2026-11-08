@@ -13,7 +13,7 @@ static const VECTOR gModelVariant177_UnitScale = {4096, 4096, 4096, 0};
 s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
 {
     Model177State *work;
-    Model177Config *config;
+    ModelVariantBeamParticleConfig *config;
     s32 direction;
     MATRIX base, matrix;
     POLY_FT4 quad;

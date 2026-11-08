@@ -33,7 +33,7 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
     s32 radius;
     s32 base;
     s32 offset;
-    Variant397Streamer *streamer;
+    ModelVariantFlaggedStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -63,7 +63,7 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
             ry = 0x400;
         }
         j = 0;
-        streamer = (Variant397Streamer *)((u8 *)work + 0x1130);
+        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
         base = work->ry[i];
         spin = phase;
         for (; j < 2; j++, streamer++, base += 0x400) {
@@ -100,7 +100,7 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        streamer = (Variant397Streamer *)((u8 *)work + 0x1130);
+        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
         for (j = 0; j < 2; j++, streamer++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -136,7 +136,7 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
                 }
             }
         }
-        streamer = (Variant397Streamer *)((u8 *)work + 0x1130);
+        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
         for (j = 0; j < 2; j++, streamer++) {
             for (k = 0; k < 16; k++) {
                 poly->x0 = streamer->sa[k] + streamer->ox[k];

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT177_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_queries.h"
 #include "../../game/model_slot_data.h"
@@ -13,22 +14,12 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/sdk_internal.h"
 
-/* One 0x14-byte command row, picked by command % 100: the beam and particle
- * colours, a part byte this entry does not read, the ring radius, the particle
- * half size, the spin rate, the fade, the duration and the delay. */
-typedef struct {
-    u8 beam_r, beam_g, beam_b;
-    u8 particle_r, particle_g, particle_b;
-    u8 part, unknown_07;
-    s16 radius, particle_half_size, spin, fade, duration, delay;
-} Model177Config;
-
 /* The 0x18C-byte work area: the command row, the fourteen ring points, the
  * origin next to the other slot, 32 particles (the padding halfword is the
  * particle's animation frame, or -1 once it is spent), two texture words, the
  * elapsed time, the command group (command / 100) and the completion flag. */
 typedef struct {
-    Model177Config *config;
+    ModelVariantBeamParticleConfig *config;
     SVECTOR ring[14];
     SVECTOR origin;
     SVECTOR particles[32];
@@ -38,7 +29,7 @@ typedef struct {
 } Model177State;
 
 extern GsIMAGE gModelVariant177_aImages[];
-extern Model177Config gModelVariant177_aConfigs[];
+extern ModelVariantBeamParticleConfig gModelVariant177_aConfigs[];
 
 s32 ModelVariant177_HandleRequest(u8 *context, s32 command);
 

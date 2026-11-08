@@ -53,7 +53,7 @@ Entry captures `a0 -> s3 -> s6`, derives the rings pointer at context
 `+0x1234` and passes the same context to the rings helper. Initialization
 advances by 152 bytes with a bound of two. Its four point groups at offsets
 0, 32, 64 and 96, two colors at 128/132 and scale at 136 agree with the
-accepted `ModelVariant337Ring` view. The two records end at `+0x1364`.
+accepted `ModelVariantScaledSheetView` view. The two records end at `+0x1364`.
 
 The retained strand captures `a0 -> s4`, derives records at `+0x1364`
 and uses six records of stride 132, ending at `+0x167C`. Its inner loop
@@ -286,7 +286,7 @@ Both `0x1ED4..0x270C` bodies reproduce all 2,104 instruction bytes and
 closed CFGs and 35 fresh resident callee owners are independently verified.
 The retained strand still has no direct entry-call path.
 
-The unchanged local `Variant321Streamer` view is checked by 21
+The unchanged local `ModelVariantFlaggedStreamer` view is checked by 21
 target-compiled record/SDK constants. Each of two `0x378` records at
 context `0x167C` contains seventeen-point grids at `0/0x110`, packed
 screens at `0x88/0x198`, angles at `0xCC`, widths at `0x1DC`, colors at

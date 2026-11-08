@@ -6,7 +6,7 @@ static const VECTOR gFrenchModelVariant131_UnitScale = {4096, 4096, 4096, 0};
 s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
 {
     Model131State *work;
-    Model131Config *config;
+    ModelVariantBeamParticleConfig *config;
     s32 direction;
     MATRIX base, matrix;
     POLY_FT4 quad;

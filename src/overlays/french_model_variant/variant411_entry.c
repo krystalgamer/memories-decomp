@@ -15,7 +15,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantTubeView *tube = work->tubes;
     Beam411 *beam = work->beams;
     ModelVariantSheet *sheet = work->sheets;
-    Funnel411 *funnel = work->funnels;
+    ModelVariantFunnel *funnel = work->funnels;
     EntryRing411 *ring = work->rings;
     EntryExtra411 *extra_record = work->extras;
     POLY_G3 *triangle = &work->triangle;

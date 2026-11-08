@@ -120,6 +120,20 @@ typedef struct {
     u8 bytes[8];
 } ModelVariantViewSnapshotBytes;
 
+/* One 0x28-byte command row of the wave-grid entries: the wave's colour and
+ * the ranges its grid colours are drawn from (unused by header 138), the
+ * sprites' colour, then the sprite size, the bounce height, the sway and
+ * drift of the ring, the spin speed, the grid size, the base height, the wave
+ * amplitude, the period, the fade time, the lead time and the frame the fade
+ * starts. */
+typedef struct {
+    u8 red, green, blue;
+    u8 low[3], high[3];
+    u8 sprite_red, sprite_green, sprite_blue;
+    s16 sprite_size, bounce, sway, drift, speed, grid_size, base, amplitude, period, unknown_1E;
+    s16 fade, unknown_22, lead, start;
+} ModelVariantWaveConfig;
+
 /* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner
  * quad whose two colours and growing size drive a Gouraud-shaded POLY_G4. */
 typedef struct {
@@ -215,6 +229,31 @@ typedef struct {
     VECTOR growth;
 } ModelVariantBurst;
 
+/* One 0x3C-byte command row: the burst colour, the ray count and shape, the
+ * spark count, size and speed, the glow size, the debris and ember sizes,
+ * speeds and counts, the colour fade step, the delay, and the timing and
+ * offsets of the camera presets. */
+typedef struct {
+    u8 r, g, b, pad_3;
+    u16 ray_count;
+    s16 ray_width, ray_base, ray_height;
+    u16 spark_max;
+    s16 spark_size;
+    u16 spark_speed;
+    u16 glow_size;
+    s16 debris_size;
+    u16 debris_speed;
+    u16 debris_count;
+    u16 ember_count;
+    s16 ember_size;
+    u16 ember_speed;
+    s16 fade;
+    s16 pad_22;
+    u16 delay;
+    u16 camera_times[2];
+    s16 camera_args[9];
+} ModelVariantBurstConfig;
+
 /* The 0x50-byte record of headers 674 and 675: ModelVariantBurst with a
  * tick counter after the lifetime. */
 typedef struct {
@@ -258,6 +297,15 @@ typedef struct {
     s32 angle;
     s32 count;
 } ModelVariantRing;
+
+/* One 0x98-byte ring sheet: four rows of four corners, two colours and the
+ * scale. */
+typedef struct {
+    SVECTOR points[4][4];
+    CVECTOR color[2];
+    s32 scale;
+    u8 unknown_08C[12];
+} ModelVariantScaledSheetView;
 
 /* One 0x90-byte element of the spoke-ring array in header 397's work area:
  * like ModelVariantRing, but the colour sits one word earlier and the ring
@@ -464,6 +512,14 @@ typedef struct {
     s16 y_offset[2];
 } ModelVariantRibbonSpan;
 
+/* The ribbon tail: the completion flag, the target it moves to and the
+ * per-step delta. */
+typedef struct {
+    s32 completed;
+    VECTOR target;
+    VECTOR delta;
+} ModelVariantRibbonTail;
+
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
 typedef struct {
     SVECTOR point[13];
@@ -546,6 +602,24 @@ typedef struct {
     u32 shrink_start;
     u32 shrink_end;
 } ModelVariantSheetTimingWide;
+
+/* One 0x274-byte streamer: a thirteen-point spine and its copy moved along
+ * the view, both projected, with per-point angle, width, colour, depth and
+ * screen offset. */
+typedef struct {
+    SVECTOR a[13];
+    long sa[13];
+    s32 angle[13];
+    SVECTOR b[13];
+    long sb[13];
+    s32 width[13];
+    u8 unknown_01A0[0x34];
+    CVECTOR color[13];
+    u8 unknown_0208[4];
+    s32 depth[13];
+    s16 ox[13];
+    s16 oy[13];
+} ModelVariantShortStreamer;
 
 /* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
  * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
@@ -636,6 +710,70 @@ typedef struct {
     s32 done;
     u8 unknown_8C[4];
 } ModelVariantFan;
+
+/* One 0x84-byte spiral or petal arm: a two-point spine and a copy of it
+ * moved along the view, both projected, per point the screen angle, the
+ * projected width and its screen offset, and two colour rows. */
+typedef struct {
+    u8 unknown00[0x10];
+    SVECTOR a[2];
+    long sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    long sb[2];
+    s32 width[2];
+    u8 cb[2][4];
+    u8 ca[2][4];
+    u8 unknown60[4];
+    long flag[2];
+    s32 otz[2];
+    s16 ox[2];
+    s16 oy[2];
+    u8 unknown7C[8];
+} ModelVariantFlaggedSpiralArm;
+
+/* One 0x378-byte streamer: a seventeen-point spine and a copy of it moved
+ * along the view, both projected, and per point the screen angle, the
+ * projected width, a colour, the projection flag, the depth and the width's
+ * screen offset. */
+typedef struct {
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+    u8 unknown220[0x44];
+    u8 color[17][4];
+    u8 unknown2A8[0x04];
+    long flag[17];
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantFlaggedStreamer;
+
+/* One 0x118-byte funnel or ring: seventeen inner points at radius 64 and
+ * seventeen outer points at radius 256, joined into quads and scaled by
+ * size. */
+typedef struct {
+    SVECTOR inner[17];
+    SVECTOR outer[17];
+    s32 size;
+    u8 unknown_114[4];
+} ModelVariantFunnel;
+
+/* One 0x24-byte command row, picked by command % 100: the particle and glow
+ * colours (headers 165 and 166 do not read the glow colour), the slot part
+ * the particles start from, the particle count, the particle half size, the
+ * target sphere radius, the glow half size, the ring radius, the rise, fade
+ * and pulse durations, the gather and burst durations, the spacing between
+ * particles, the spin rate (unused by 165 and 166) and the three start
+ * times. */
+typedef struct {
+    u8 red, green, blue, glow_red, glow_green, glow_blue, part, count;
+    s16 size, radius, glow_size, ring_radius, rise, fade, pulse, gather, burst, spacing, spin;
+    s16 delay, delay2, start;
+} ModelVariantGatherConfig;
 
 /* A 0x4F8-byte record read only for its size at + 0x4EC, which scales the
  * funnels or curtains drawn over it. */
@@ -780,6 +918,43 @@ typedef struct {
     u8 unknown_534[0x18];
 } ModelVariantTubeView;
 
+/* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
+ * ray colours, the model point the bolts leave from, the muzzle size, the
+ * flight length, the bolt count, the ring of sprites and spinning strips
+ * around each bolt, the smoke puffs, the impact glow, its rays and sparks,
+ * the two fade steps, the two bolts' launch times and the CLUT mode of
+ * the second and fourth textures. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+    u8 ray_r, ray_g, ray_b;
+    u8 part, unknown_0D;
+    u16 size;
+    u16 steps;
+    u16 count;
+    u16 ring_count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 ring_size;
+    u16 puff_spread;
+    u16 puff_count;
+    u16 puff_speed;
+    u16 puff_size;
+    u16 glow_size;
+    u16 ray_spread;
+    u16 ray_width;
+    u16 ray_count;
+    u16 spark_spread;
+    u16 spark_size;
+    u16 spark_count;
+    u8 fade, unknown_33;
+    u8 ray_fade, unknown_35;
+    u16 start;
+    u16 second_start;
+    u16 mode;
+} ModelVariantTwinBoltConfig;
+
 /* Header 398's 0x1E4-byte framebuffer ring: three rows of seventeen points, a
  * colour per point (cycling through eight hues), a scale the drawer grows to
  * 0x1000 and the count of times it wrapped. */
@@ -900,6 +1075,16 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
+/* A ring of 24 quads given by corner arrays v0..v3, and a size per quad. */
+typedef struct {
+    SVECTOR v0[24];
+    SVECTOR v1[24];
+    SVECTOR v2[24];
+    SVECTOR v3[24];
+    u8 unknown_300[0xD4];
+    s32 size[24];
+} ModelVariantQuadRingView;
+
 /* One 0x88-byte sheet of four quads: four rows of four corners; each quad
  * takes color[1] on its first three corners and color[0] on the fourth. */
 typedef struct {
@@ -1013,6 +1198,162 @@ typedef struct {
     s32 field_A4;
     u8 unknown_A8[0xC];
 } ModelVariantBandTriple;
+
+/* One 0x14-byte command row, picked by command % 100: the beam and particle
+ * colours, the slot part, the ring radius, the particle half size, the spin
+ * rate, the fade, the duration and the delay. */
+typedef struct {
+    u8 beam_r, beam_g, beam_b;
+    u8 particle_r, particle_g, particle_b;
+    u8 part, unknown_07;
+    s16 radius, particle_half_size, spin, fade, duration, delay;
+} ModelVariantBeamParticleConfig;
+
+/* One 0x26-byte command row of the beam-and-ring entries: the beam and ring
+ * colours, the beam height, half width and spread, the ring radius,
+ * thickness and height, and the durations, spacings and start times of the
+ * beams, rings and flash. */
+typedef struct {
+    u8 beam_color[3];
+    u8 ring_color[3];
+    u8 unknown_06[2];
+    s16 height;
+    s16 half_width;
+    s16 spread;
+    s16 radius;
+    s16 thickness;
+    s16 ring_height;
+    s16 beam_duration;
+    s16 ring_span;
+    s16 ring_duration;
+    s16 flash_duration;
+    s16 beam_spacing;
+    s16 ring_spacing;
+    s16 ring_begin;
+    s16 beam_begin;
+    s16 flash_begin;
+} ModelVariantBeamRingConfig;
+
+/* One 0x48-byte command row: the muzzle sprite colour, the bolt, glow and
+ * ray colours, the model point the bolt leaves from, the muzzle size, the
+ * flight length, the bolt count, the ring of sprites and spinning strips
+ * around the bolt, the smoke puffs, the impact glow, its rays, the shock
+ * fan, the sparks, the two fade steps, the two fan growth rates and the
+ * start time. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+    u8 ray_r, ray_g, ray_b;
+    u8 part;
+    u8 unknown_0D;
+    u16 size;
+    u16 steps;
+    u16 count;
+    u16 ring_count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 ring_size;
+    u16 puff_spread;
+    u16 puff_count;
+    u16 puff_speed;
+    u16 puff_size;
+    u16 glow_size;
+    u16 ray_spread;
+    u16 ray_width;
+    u16 ray_count;
+    u16 fan_radius;
+    u16 fan_outer;
+    u16 fan_depth;
+    u16 spark_spread;
+    u16 spark_size;
+    u16 spark_count;
+    u8 fade, unknown_39;
+    u8 ray_fade, unknown_3B;
+    u32 grow;
+    u32 grow_late;
+    u16 start;
+    u16 unknown_46;
+} ModelVariantBoltFanConfig;
+
+/* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
+ * ray colours, the model point the bolts leave from, the muzzle size, the
+ * flight length, the bolt count, the ring of sprites and spinning strips
+ * around each bolt, the smoke puffs, the impact glow, its rays and sparks,
+ * the two fade steps and the spawn period, start and end. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+    u8 ray_r, ray_g, ray_b;
+    u8 part, unknown_0D;
+    u16 size;
+    u16 steps;
+    u16 count;
+    u16 ring_count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 ring_size;
+    u16 puff_spread;
+    u16 puff_count;
+    u16 puff_speed;
+    u16 puff_size;
+    u16 glow_size;
+    u16 ray_spread;
+    u16 ray_width;
+    u16 ray_count;
+    u16 spark_spread;
+    u16 spark_size;
+    u16 spark_count;
+    u8 fade, unknown_33;
+    u8 ray_fade, unknown_35;
+    u16 period;
+    u16 start;
+    u16 end;
+} ModelVariantBoltStreamConfig;
+
+/* One 0x58-byte command row: the muzzle sprite colour, the bolt, glow and
+ * flare colours, the model point the bolts leave from, the muzzle size, the
+ * flight length, the bolt count, the ring of sprites and spinning strips
+ * around each bolt, the smoke puffs, the impact glow, the shock fan, the
+ * sparks, the fade step, the fan growth rates, the four launch times and
+ * the camera cue times. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+    u8 unknown_09[3];
+    u8 part;
+    u8 unknown_0D[3];
+    u16 size;
+    u16 steps;
+    u16 count;
+    u16 ring_count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 ring_size;
+    u16 puff_spread;
+    u16 puff_count;
+    u16 puff_speed;
+    u16 puff_size;
+    u16 glow_size;
+    u16 unknown_28;
+    u16 fan_radius;
+    u16 fan_outer;
+    u16 fan_depth;
+    u16 spark_spread;
+    u16 spark_size;
+    u16 spark_count;
+    u8 fade, unknown_37;
+    u32 unknown_38;
+    u32 grow;
+    u32 grow_late;
+    u16 start;
+    u16 launch[3];
+    u16 unknown_4C[2];
+    u16 cue[3];
+    u16 unknown_56;
+} ModelVariantBoltVolleyConfig;
 
 /* A 0x4EC-byte mesh of nine rows of seventeen points and one colour per row,
  * drawn as RotTransPers4 quads between neighbouring rows. */

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT795_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
@@ -19,48 +20,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/abs.h"
 
-/* One 0x48-byte command row: the muzzle sprite colour, the bolt, glow and
- * ray colours, the model point the bolt leaves from, the muzzle size, the
- * flight length, the bolt count, the ring of sprites and spinning strips
- * around the bolt, the smoke puffs, the impact glow, its rays, the shock
- * fan, the sparks, the two fade steps, the two fan growth rates and the
- * start time. */
-typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
-    u8 ray_r, ray_g, ray_b;
-    u8 part;
-    u8 unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
-    u16 glow_size;
-    u16 ray_spread;
-    u16 ray_width;
-    u16 ray_count;
-    u16 fan_radius;
-    u16 fan_outer;
-    u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
-    u8 fade, unknown_39;
-    u8 ray_fade, unknown_3B;
-    u32 grow;
-    u32 grow_late;
-    u16 start;
-    u16 unknown_46;
-} Model795Config;
-
 /* The work area: the command row; per bolt its position, step, strip
  * angle, ring offsets, target, 24-point trail, origin, smoke puffs and
  * their velocities and impact rays; the sixteen inner and outer fan
@@ -69,7 +28,7 @@ typedef struct {
  * trail heads; the bolt count, the arrival flags, the phase, the ambient
  * level, the textures and the per-bolt bolt, glow and ray colours. */
 typedef struct {
-    Model795Config *config;
+    ModelVariantBoltFanConfig *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];
@@ -109,7 +68,7 @@ typedef struct {
 } Model795State;
 
 extern GsIMAGE gModelVariant795_aImages[];
-extern Model795Config gModelVariant795_aConfigs[];
+extern ModelVariantBoltFanConfig gModelVariant795_aConfigs[];
 
 s32 ModelVariant795_HandleRequest(u8 *context, s32 command);
 

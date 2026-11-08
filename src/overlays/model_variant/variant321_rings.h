@@ -15,7 +15,7 @@ typedef struct {
 /* Header 321's work area: the header-337 rings and quad further in. */
 typedef struct {
     u8 unknown_0000[0x1234];
-    ModelVariant337Ring rings[2];
+    ModelVariantScaledSheetView rings[2];
     u8 unknown_1364[0xA7C];
     POLY_GT4 quad;
     u8 unknown_1E14[0xB0];

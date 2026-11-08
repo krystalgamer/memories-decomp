@@ -15,7 +15,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     s16 i;
     s32 phi;
     s32 turn;
-    Variant418SpiralArm *arm;
+    ModelVariantFlaggedSpiralArm *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -27,7 +27,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     s16 outer_rg, outer_blue;
 
     work = ctx;
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x279C), MODEL_VARIANT_WORD(work, 0x2794)) + 0xC00;
     poly = (POLY_GT4 *)(work + 0x22B4);
@@ -77,7 +77,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -103,7 +103,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant418SpiralArm *)(work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x720);
     i = 0;
     inner_rg = 64;
     inner_blue = 0;
