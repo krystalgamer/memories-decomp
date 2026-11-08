@@ -1394,13 +1394,13 @@
     },
     {
       "address": "0x800282E8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/duel_effect_dialog_state.c"
     },
     {
       "address": "0x80028310",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
       "source": "src/game/duel_effect_dialog_state.c"
     },

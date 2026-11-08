@@ -1395,13 +1395,13 @@
     },
     {
       "address": "0x80028370",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/european/duel_effect_dialog_state.c"
     },
     {
       "address": "0x80028398",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
       "source": "src/game/european/duel_effect_dialog_state.c"
     },
