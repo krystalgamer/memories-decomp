@@ -132,7 +132,7 @@ retail code needs:
 | Ribbon phases as `-(j << 9) / 8 + i * -512` | The inner loop hoists `i * -512` as a temporary (shift and negate), the outer loop reduces it to a giv initialized after the hoisted constants and copies it into `a0`; `- (i << 9)` hoists only the shift, which is not worth a giv. |
 | Bands: `outer = i << 9` before the amount loop, and `dx = i << 8` in the odd arm of the heading | Two shifts of `i` in separate arms are identical givs and get combined and reduced; a value with other assignments is not a giv, and the lone remaining one is not worth reducing. |
 | Rings: `-(j << 7) - (i << 9)` | The giv's initial value is emitted after the hoisted `i << 9`. |
-| Sheets: `outer[0..2]`, `inner[2]`, `inner[0..1]`, `field_98`, `field_9C`, `size`, `field_8C`, `field_90`, in that order | The fourth `255` is written to `inner[2]`, not `outer[3]`, and the address giv is biased at `field_90`. |
+| Sheets: `outer[0..2]`, `inner[2]`, `inner[0..1]`, `fading`, `brightness`, `size`, `field_8C`, `field_90`, in that order | The fourth `255` is written to `inner[2]`, not `outer[3]`, and the address giv is biased at `field_90`. |
 | `work->config->trigger <= work->frame` | The trigger is loaded first. |
 | The two `MATRIX` locals are never used | They hold the frame at 216 bytes. |
 
