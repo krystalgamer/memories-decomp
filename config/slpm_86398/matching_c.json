@@ -3351,37 +3351,37 @@
     },
     {
       "address": "0x8003C1D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
       "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C23C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
       "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C274",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C29C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x120",
       "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C3BC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
       "source": "src/game/japanese/input_pads.c"
     },
     {
       "address": "0x8003C40C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
       "source": "src/game/japanese/input_pads.c"
     },
