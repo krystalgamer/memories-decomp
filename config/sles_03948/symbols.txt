@@ -1762,6 +1762,18 @@ gFile_ServiceReentryLatch = 0x8009C494;
 gFile_ReadyDataEventCount = 0x8009C478;
 
 gFile_CommandRetryCount = 0x8009C480;
+gFile_dwTransferState = 0x8009C460;
+gFile_wStepState = 0x8009C464;
+gFile_FilterParams = 0x8009C468;
+gFile_wTransferStepFlags = 0x8009C47C;
+gFile_dwCancelRequestState = 0x8009C484;
+gFile_ServiceCallGate = 0x8009C490;
+gFile_RangeWaitCountdown = 0x8009C498;
+gFile_ReadyEventCount = 0x8009C4AC;
+gFile_TransferBufferBase = 0x8009C4B0;
+gFile_TargetLoc = 0x8009C4B4;
+gFile_anLba = 0x800EB198;
+gFile_SecondaryTransferDescriptor = 0x800EB200;
 
 
 gText_SecondaryCommandHandlers = 0x800922B8;
@@ -1933,6 +1945,12 @@ D_8009B2B2 = 0x8009C67A;
 D_8009B4A0 = 0x8009C820;
 D_8009B4A1 = 0x8009C821;
 D_8009B4A2 = 0x8009C822;
+D_8009B108 = 0x8009C46C;
+D_8009B110 = 0x8009C474;
+D_8009B12C = 0x8009C48C;
+D_8009B0FC = 0x8009C4A0;
+D_8009B0E0 = 0x8009C458;
+D_800E9DF0 = 0x800EB170;
 gDebugMenu_bCampaignEditField = 0x8009C67E;
 gDebug_szEditorCaretLine = 0x800EC260;
 gModel_aPoseSnapshot = 0x800F3EA8;
