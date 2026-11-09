@@ -371,7 +371,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
-        if (work->config->field_2C <= work->elapsed && work->phase == 2) {
+        if (work->config->ribbon_loop_end <= work->elapsed && work->phase == 2) {
             work->phase = 3;
         }
         if (work->config->phase3_end <= work->elapsed && work->phase == 4) {

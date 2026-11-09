@@ -1164,7 +1164,7 @@ typedef struct {
     CVECTOR outer, inner, web_color;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     s32 first_count, paired;
-    u32 draw_start, grow_end, field_2C, phase3_end, matrix_end;
+    u32 draw_start, grow_end, ribbon_loop_end, phase3_end, matrix_end;
     u8 unknown_38[8];
 } ModelVariantGrowConfig;
 
