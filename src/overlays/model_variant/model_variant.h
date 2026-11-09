@@ -1490,4 +1490,17 @@ typedef struct {
     u8 colors[9][4];
 } ModelVariantMesh;
 
+/* The streamer parameters an entry state keeps for its DrawStreamers helper
+ * (e.g. FrenchModelVariant426_DrawStreamers): the entry seeds length with
+ * 1024 and the rotations with 0. The helper scales each spine's offset by
+ * length / 64 and shrinks length in the last phase; it builds the streamers'
+ * rotation from the low halves of rotation_x/y/z and advances rotation_y,
+ * which also seeds the spine twist. */
+typedef struct {
+    s32 length;
+    s32 rotation_x;
+    s32 rotation_y;
+    s32 rotation_z;
+} ModelVariantStreamerParams;
+
 #endif
