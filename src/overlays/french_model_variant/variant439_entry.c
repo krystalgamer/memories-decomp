@@ -267,9 +267,9 @@ s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_1960 = 0;
-        work->field_1964 = 4096;
+        work->scale = 4096;
         work->field_1966 = 1024;
-        work->field_1968 = 0;
+        work->progress = 0;
         work->outer.r = work->config->outer.r;
         work->outer.g = work->config->outer.g;
         work->outer.b = work->config->outer.b;
