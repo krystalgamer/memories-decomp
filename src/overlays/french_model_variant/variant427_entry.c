@@ -238,7 +238,7 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
         work->field_3784 = 0;
         work->field_3788 = 0;
         work->spiral.angle = 0;
-        work->spiral.sign = 0;
+        work->spiral.field_02 = 0;
         work->spiral.size = 0;
         work->spiral.shrink = 0;
         work->progress = 0;

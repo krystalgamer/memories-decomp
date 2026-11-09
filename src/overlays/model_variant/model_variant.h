@@ -1520,14 +1520,17 @@ typedef struct {
 } ModelVariantStreamerParams;
 
 /* The spiral parameters an entry state keeps for its DrawSpiral helper
- * (e.g. SpanishModelVariant423_DrawSpiral): the entry zeroes all four. The
- * helper turns the twelve arms by angle (phi by angle * 2, theta by angle)
- * and advances it each frame; it builds the arms on a radius taken from size,
- * which it grows towards 0x400; it clears the arm length when the radius
- * times sign is negative; and it spreads the arms by 0x400 - shrink. */
+ * (e.g. SpanishModelVariant423_DrawSpiral); the entry zeroes all four. The
+ * helper turns the twelve arms by angle (phi by angle * 2, theta by angle),
+ * advancing it under that helper's own phase/step rules, and builds the arms
+ * on a radius taken from size, which it grows towards 0x400. In the early
+ * phases it spreads the arms by 0x400 - shrink; from phase 3 the spread
+ * comes from the companion timing word divided by eight instead. field_02
+ * stays opaque: the helpers only test it in conditions whose results are
+ * overwritten before the geometry uses them, so its role is not shown. */
 typedef struct {
     s16 angle;
-    s16 sign;
+    s16 field_02;
     s16 size;
     s16 shrink;
 } ModelVariantSpiralParams;
