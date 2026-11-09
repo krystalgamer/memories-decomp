@@ -71,8 +71,8 @@ typedef struct {
     u32 unknown_2FD0;
     GsCOORDUNIT *parts[8];
     s16 field_2FF4, field_2FF6, field_2FF8, field_2FFA;
-    s32 field_2FFC, orbit, orbit_progress, field_3008;
-    s32 field_300C, field_3010, field_3014, field_3018, field_301C, phase;
+    s32 field_2FFC, orbit, orbit_progress, streamer_length;
+    s32 streamer_rotation_x, streamer_rotation_y, streamer_rotation_z, ribbon_wave, ribbon_phase, phase;
     u8 unknown_3024[8];
     s32 tint;
     s16 slot, command;

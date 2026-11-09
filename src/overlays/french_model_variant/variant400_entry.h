@@ -52,9 +52,10 @@ typedef struct {
     Variant400EntryConfig *config;
     u32 field_2060;
     GsCOORDUNIT *part;
-    s32 field_2068, field_206C, field_2070;
+    s32 width, segment_start, segment_end;
     s16 field_2074, field_2076;
-    s32 field_2078, field_207C, field_2080, field_2084, field_2088, field_208C;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 ribbon_wave, ribbon_phase;
     s32 phase;
     u8 unknown_2094[8];
     s32 tint;

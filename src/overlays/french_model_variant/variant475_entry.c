@@ -207,18 +207,18 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
             MODEL_VARIANT_WORD(streamer, 0x2A8) = 0;
         }
         work->field_2FFA = 1024;
-        work->field_3008 = 1024;
+        work->streamer_length = 1024;
         work->field_2FFC = 0;
         work->orbit = 0;
         work->orbit_progress = 0;
         work->field_2FF4 = 0;
         work->field_2FF6 = 0;
         work->field_2FF8 = 0;
-        work->field_3018 = 0;
-        work->field_301C = 0;
-        work->field_300C = 0;
-        work->field_3010 = 0;
-        work->field_3014 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
