@@ -4,14 +4,15 @@
 #include "../types.h"
 
 /* Saves the live output position before one of the interpolation helpers
- * starts moving it. */
+ * starts moving it. The names follow DisplayObjectPosition below: the
+ * helpers read the saved pair as their start point and write the output. */
 typedef struct {
     u8 pad_00[0x30];
-    u16 field_30;
-    u16 field_32;
+    u16 out_x;
+    u16 out_y;
     u8 pad_34[2];
-    u16 field_36;
-    u16 field_38;
+    u16 x;
+    u16 y;
 } DisplayObjectSnapshot;
 
 /* Fields the interpolation helpers read and write while easing an object

@@ -2127,8 +2127,8 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
 
 void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
 {
-    object->field_36 = object->field_30;
-    object->field_38 = object->field_32;
+    object->x = object->out_x;
+    object->y = object->out_y;
 }
 
 void DisplayObject_InterpolatePositionCosine(
