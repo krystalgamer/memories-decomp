@@ -235,7 +235,7 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
         work->field_18D2 = 1024;
         work->field_18D4 = 0;
         work->start_index = 0;
-        work->field_18DC = 0;
+        work->spin = 0;
         work->field_18CE = 0;
         work->frame_count = 0;
         work->frame = 0;
