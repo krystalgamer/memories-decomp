@@ -29,11 +29,8 @@ typedef struct {
     u8 unknown_236C[0x4C];
     VECTOR direction;
     DVECTOR projected;
-    u8 unknown_23CC[0x1C];
-    u32 time;
-    u8 unknown_23EC[4];
-    s32 step;
-    u8 unknown_23F4[4];
+    u8 unknown_23CC[0x10];
+    ModelVariantClock clock;
     ModelVariantQuadTiming *timing;
     u8 unknown_23FC[0x30];
     s32 phase;
