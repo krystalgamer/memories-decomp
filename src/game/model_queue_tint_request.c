@@ -35,49 +35,28 @@ void Model_QueueTintRequest(
 {
     ModelSlot *slot_state;
     ModelTintRequest *request;
-    ModelTintRequest *request_end;
-    register u8 *raw_requests = (u8 *)gModel_aTintRequests;
-    s32 request_offset;
-    s32 full_mask_byte;
-    s32 flag_work;
-    s32 mode;
-    s32 active_flags, slot_cleared_flags, slot_flags, selection_cleared_flags, selection_flags, row_cleared_flags;
-    s32 sel;
+    s32 i;
+    s32 j;
 
     slot_state = &gModel_aSlots[slot];
-    mode = (slot & 1) << 1;
-    sel = (selection & 1) << 2;
-    full_mask_byte = 0xFF;
-    request_offset = 0;
-    request = gModel_aTintRequests;
-    request_end = request + MODEL_TINT_REQUEST_COUNT;
-    do {
+    for (i = 0; i < MODEL_TINT_REQUEST_COUNT; i++) {
+        request = &gModel_aTintRequests[i];
+        /* The live bit is tested through the record's first byte, as
+           Model_UpdateTintRequests also does. */
         if ((*(u8 *)request & 1) == 0) {
-            flag_work = request->flags;
-            active_flags = flag_work | 1;
-            slot_cleared_flags = active_flags & 0xFFFD;
-            slot_flags = slot_cleared_flags | mode;
-            selection_cleared_flags = slot_flags & 0xFFFB;
-            selection_flags = selection_cleared_flags | sel;
-            do {
-                mode = 0;
-            } while (0);
-            request->flags = selection_flags;
-            row_cleared_flags = selection_flags & 0xFF07;
-            sel = request_offset;
-            flag_work = row_cleared_flags | ((slot_state->current_animation_row & 0x1F) << 3);
-            request->flags = flag_work;
+            request->active = 1;
+            request->slot = slot;
+            request->masked_parts_only = selection;
+            request->animation_row = slot_state->current_animation_row;
             request->animation_position_snapshot = slot_state->animation_position;
             request->elapsed = 0;
-            request->duration = (duration *= 2);
+            request->duration = duration * 2;
             request->start = start;
             request->end = end;
-            for (; mode < 8; mode++) {
-                raw_requests[mode + sel + 1] = part_mask ? part_mask[mode] : full_mask_byte;
+            for (j = 0; j < 8; j++) {
+                gModel_aTintRequests[i].part_mask[j] = part_mask ? part_mask[j] : 0xFF;
             }
             break;
         }
-        request_offset += sizeof(ModelTintRequest);
-        request++;
-    } while ((s32)request < (s32)request_end);
+    }
 }

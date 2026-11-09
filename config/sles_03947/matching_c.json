@@ -5781,13 +5781,13 @@
     },
     {
       "address": "0x8005CD8C",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
       "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005CE8C",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x144",
       "source": "src/game/model_queue_tint_request.c"
     },
