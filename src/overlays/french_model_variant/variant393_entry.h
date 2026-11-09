@@ -34,9 +34,9 @@ typedef struct {
     u32 unknown_DB8;
     GsCOORDUNIT *parts[3];
     s32 part_index;
-    s16 field_DCC, field_DCE, field_DD0, width;
-    s32 field_DD4, field_DD8, field_DDC, field_DE0, field_DE4;
-    s32 field_DE8, field_DEC, field_DF0, field_DF4;
+    s16 ribbon_length, field_DCE, field_DD0, width;
+    s32 field_DD4, streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 ribbon_wave, field_DEC, field_DF0, field_DF4;
     ModelVariantEntryTail tail;
 } Variant393EntryState;
 
