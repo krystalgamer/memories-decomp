@@ -38,9 +38,7 @@ typedef struct {
     VECTOR position, delta, path;
     DVECTOR screen_delta;
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, frame, animation_frame;
-    s32 step, fade;
+    ModelVariantClock clock;
     s16 streamer_rotation, field_336A, field_336C, field_336E;
     s32 field_3370;
     Variant452EntryConfig *config;
