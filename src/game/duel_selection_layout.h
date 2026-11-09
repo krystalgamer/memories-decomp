@@ -57,7 +57,11 @@ typedef struct DuelSelectionRecord {
     /* Ordinal within the side's four records; also tags linked objects and
      * selects the field-cursor graphic and information-box mode. */
     u8 record_index;
-    u8 field_18;
+    /* Nonzero only while DuelScene_UpdateFieldActions browses the field
+     * with this record; init, pick, placement and targeting clear it. It
+     * selects the field-browse page of gDuel_awFieldGridRowViewTargetZ and,
+     * on record 2, the Swords turn count in the information panel. */
+    u8 field_actions_mode;
     /* Cursor input/status byte. */
     u8 status;
     u8 pad_1A[2];
@@ -96,8 +100,8 @@ typedef char DuelSelectionRecord_ordered_pick_count_offset_must_be_0x15[
 typedef char DuelSelectionRecord_panel_variant_offset_must_be_0x13[
     (u32)&(((DuelSelectionRecord *)0)->panel_variant) == 0x13 ? 1 : -1
 ];
-typedef char DuelSelectionRecord_field_18_offset_must_be_0x18[
-    (u32)&(((DuelSelectionRecord *)0)->field_18) == 0x18 ? 1 : -1
+typedef char DuelSelectionRecord_field_actions_mode_offset_must_be_0x18[
+    (u32)&(((DuelSelectionRecord *)0)->field_actions_mode) == 0x18 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_size_must_be_record_size[
     sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1

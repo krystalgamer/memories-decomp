@@ -1484,7 +1484,7 @@ void Duel_InitSelectionRecords(void) {
             p->info_panel = 0;
             p->cursor_object = 0;
             p->hand = (DuelHandSlot *)0;
-            p->field_18 = 0;
+            p->field_actions_mode = 0;
             p->panel_variant = 1;
             p->record_index = j;
 #ifdef VERSION_JAPAN
@@ -4520,7 +4520,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_pActiveSelectionRecord->status = 0;
     gDuel_pActiveSelectionRecord->panel_variant = 1;
     gDuel_pActiveSelectionRecord->panel_target_y = DUEL_SELECTION_PANEL_TARGET_Y;
-    gDuel_pActiveSelectionRecord->field_18 = 0;
+    gDuel_pActiveSelectionRecord->field_actions_mode = 0;
     gDuel_pActiveSelectionRecord->row_min = 2;
     gDuel_pActiveSelectionRecord->row_end = 3;
 
@@ -5546,7 +5546,7 @@ void DuelScene_UpdateFieldActions(void)
         side->row_end = 4;
         side->panel_target_y = DUEL_FIELD_ACTIONS_INITIAL_PANEL_TARGET_Y;
         y = 1;
-        side->field_18 = y;
+        side->field_actions_mode = y;
         side->panel_variant = 0;
         side->row_min = 0;
         gDuel_wDisplayTransitionFlags = 3;
@@ -5770,11 +5770,11 @@ void DuelScene_UpdateFieldActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             gDuel_pActiveSelectionRecord = side;
-            side->field_18 = 0;
+            side->field_actions_mode = 0;
             side->panel_target_y = DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y;
             Duel_CreateFieldCursorObject(side);
             Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
-                gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][side->field_18][side->row]);
+                gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][side->field_actions_mode][side->row]);
             o = (u8 *)side->cursor_object;
             other = *(u8 **)((u8 *)SEL_REC3 + gDuel_bActiveSide * 0x70 - 0x18);
             DisplayObject_ResetVelocity((void *)o);
@@ -5843,7 +5843,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
             Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
-                gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][FIELD_CURSOR.field_18][FIELD_CURSOR.row]);
+                gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][FIELD_CURSOR.field_actions_mode][FIELD_CURSOR.row]);
             o = (u8 *)side->cursor_object;
             other = (u8 *)FIELD_CURSOR.cursor_object;
             DisplayObject_ResetVelocity((void *)o);
@@ -9025,7 +9025,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             );
         }
     }
-    if (source->record_index == 2 && source->field_18 != 0) {
+    if (source->record_index == 2 && source->field_actions_mode != 0) {
         s32 rank;
         TextStagingValues *dst;
         s32 side;
@@ -9140,7 +9140,7 @@ s32 Duel_UpdateDisplayTransition(void)
             gDuel_wDisplayTransitionFlags = flags | 0x8000;
             if (gDuel_wDisplayTransitionFlags & 1) {
                 Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
-                              gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][source->field_18][source->row]);
+                              gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][source->field_actions_mode][source->row]);
             }
             if (gDuel_wDisplayTransitionFlags & 4) {
                 Duel_StartViewTween(0x10, 0x258, 0x100, gDuel_awSideViewHeadings[gDuel_bActiveSide], 0);
@@ -9350,7 +9350,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
             shift = 8;
         }
         Duel_StartViewTween(shift, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
-                      gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][o->field_18][pos]);
+                      gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][o->field_actions_mode][pos]);
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;
         DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
@@ -9533,7 +9533,7 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
         gDuelCursor_PickFlags = f | 0xC0;
         o->row_end = 4;
         o->panel_target_y = DUEL_PICK_PANEL_TARGET_Y;
-        o->field_18 = 0;
+        o->field_actions_mode = 0;
         o->row_min = 0;
         o->status = 0;
         gDuel_wDisplayTransitionFlags = 3;
