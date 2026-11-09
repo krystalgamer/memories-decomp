@@ -300,7 +300,7 @@ s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_1C44 = 0;
-        work->field_1C48 = 4096;
+        work->width = 4096;
         work->field_1C4A = 1024;
         work->field_1C4C = 0;
         work->outer.r = work->config->outer.r;
