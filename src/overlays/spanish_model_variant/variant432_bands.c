@@ -82,7 +82,7 @@ void SpanishModelVariant432_DrawBands(u8 *context)
             }
         }
         if (band->phase < 4096) {
-            band->phase += work->step * 160;
+            band->phase += work->clock.step * 160;
             if (band->phase >= 4096) {
                 if (work->state < 4) {
                     band->phase -= 4096;

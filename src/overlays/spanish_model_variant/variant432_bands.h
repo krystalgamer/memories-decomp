@@ -1,6 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT432_BANDS_H
 #define MEMORIES_MODEL_VARIANT432_BANDS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -20,9 +21,9 @@ typedef struct {
     POLY_GT4 quads[16];
     u8 unknown_2ED0[0x94];
     SVECTOR position;
-    u8 unknown_2F6C[0x13C];
-    s32 step;
-    u8 unknown_30AC[0x3C];
+    u8 unknown_2F6C[0x128];
+    ModelVariantClock clock;
+    u8 unknown_30B0[0x38];
     s32 state;
 } ModelVariant432BandsState;
 
