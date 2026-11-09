@@ -166,7 +166,7 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *channel) {
     {
         MenuRecord *s = gText_DisplayEffectRecord;
 
-        *(u16 *)&s->field_42 = 0xB2;
+        *(u16 *)&s->tween_target_y = 0xB2;
         s->field_44 = -0x10;
     }
 }

@@ -250,7 +250,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         } else {
             e->field_40 = -0x38;
         }
-        e->field_42 = 0xB2;
+        e->tween_target_y = 0xB2;
         e->field_44 = 0x10;
         o->state = 7;
         e->display_effect_step = 3;

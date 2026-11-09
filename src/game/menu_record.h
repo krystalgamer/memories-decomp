@@ -83,8 +83,9 @@ typedef struct MenuRecord {
        them to DisplayPositionGroup_SetPosition as the final x and y, and
        subtracts a cosine fraction of 0x44/0x46 from them on the way.
        DisplayEffect_FadeInRecord uses 0x40 differently -- a 0..0x80 fade ramp it steps by
-       gGraphics_nBaseFrameStep * 8 -- so neither reading governs and the offsets stay the
-       names.
+       gGraphics_nBaseFrameStep * 8 -- so neither reading governs and 0x40
+       keeps its offset name. 0x42 has only the sweep's reading and is
+       named tween_target_y.
 
        0x44 and 0x46 are the distance still to travel: the sweep seeds them
        with 0x40 - 0x34 and 0x42 - 0x36 on its first tick. Before that tick
@@ -101,7 +102,7 @@ typedef struct MenuRecord {
        unsigned load spell it `*(u16 *)&record->field_40`, which keeps the
        lhu the target issues there and still names the field. */
     s16 field_40;
-    s16 field_42;
+    s16 tween_target_y;
     s16 field_44;
     s16 tween_delta_y;
     s16 tween_angle;

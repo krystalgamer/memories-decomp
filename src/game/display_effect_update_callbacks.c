@@ -94,7 +94,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
             r->tween_angle = 0;
         }
         r->field_44 = *(u16 *)&r->field_40 - r->x;
-        r->tween_delta_y = *(u16 *)&r->field_42 - r->y;
+        r->tween_delta_y = *(u16 *)&r->tween_target_y - r->y;
     }
 
     t = *(u16 *)&r->tween_angle + *(u16 *)&r->tween_angle_step;
@@ -104,7 +104,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         DisplayPositionGroup_SetPosition(
             DISPLAY_POSITION_GROUP_VIEW(r),
             r->field_40,
-            r->field_42
+            r->tween_target_y
         );
         r->display_effect_step = 0;
     } else {
@@ -118,7 +118,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         DisplayPositionGroup_SetPosition(
             DISPLAY_POSITION_GROUP_VIEW(r),
             (s16)(*(u16 *)&r->field_40 - dx),
-            (s16)(*(u16 *)&r->field_42 - dy)
+            (s16)(*(u16 *)&r->tween_target_y - dy)
         );
     }
 }
