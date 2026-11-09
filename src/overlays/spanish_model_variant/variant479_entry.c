@@ -257,10 +257,10 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         work->field_41E0 = 0;
         work->field_41E4 = 0;
         work->field_41E8 = 0;
-        work->streamer_length = 1024;
-        work->streamer_rotation_x = 0;
-        work->streamer_rotation_y = 0;
-        work->streamer_rotation_z = 0;
+        work->streamer.length = 1024;
+        work->streamer.rotation_x = 0;
+        work->streamer.rotation_y = 0;
+        work->streamer.rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
