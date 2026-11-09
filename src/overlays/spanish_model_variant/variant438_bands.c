@@ -24,7 +24,7 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     quad = &state->quad;
     angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
-    if (!(state->frame & 1)) {
+    if (!(state->clock.frame_count & 1)) {
         radius = state->size * state->timing->radius / 4096;
     } else {
         radius = state->size * (state->timing->radius * 18 / 16) / 4096;
@@ -118,7 +118,7 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
     }
     if (state->phase == 1) {
         if (state->progress < 1025) {
-            state->progress = ((state->time - state->timing->grow_start) << 10) /
+            state->progress = ((state->clock.frame - state->timing->grow_start) << 10) /
                               (state->timing->grow_end - state->timing->grow_start);
             if (state->progress >= 1024) {
                 state->progress = 1024;
@@ -126,8 +126,8 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
             }
         }
     } else if (state->phase < 3 && state->size > 0) {
-        if (state->time >= state->timing->fade_start) {
-            state->size = 4096 - ((state->time - state->timing->fade_start) << 12) /
+        if (state->clock.frame >= state->timing->fade_start) {
+            state->size = 4096 - ((state->clock.frame - state->timing->fade_start) << 12) /
                                  (state->timing->fade_end - state->timing->fade_start);
             if (state->size <= 0) {
                 state->size = 0;
