@@ -49,10 +49,8 @@ typedef struct {
     u32 field_18B4;
     GsCOORDUNIT *parts[5];
     s16 field_18CC, field_18CE, field_18D0, field_18D2;
-    s32 field_18D4, start_index, field_18DC, phase;
-    u8 unknown_18E4[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_18D4, start_index, field_18DC;
+    ModelVariantEntryTail tail;
 } Variant431EntryState;
 
 extern GsIMAGE gFrenchModelVariant431_aImages[9];

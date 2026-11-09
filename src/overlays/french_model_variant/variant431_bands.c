@@ -64,15 +64,15 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
                 work->field_18D0 = 256;
                 if (band->progress[j] >= 1024) {
                     band->progress[j] = 1024;
-                    if (work->phase < 2) {
-                        work->phase = 2;
+                    if (work->tail.phase < 2) {
+                        work->tail.phase = 2;
                     }
                     if (i + 1 == 5 && j == 4) {
                         if (work->start_index < 10) {
                             work->start_index++;
                             reset = 1;
-                        } else if (work->phase == 2) {
-                            work->phase = 3;
+                        } else if (work->tail.phase == 2) {
+                            work->tail.phase = 3;
                         }
                     }
                 }
@@ -102,7 +102,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            if (work->phase >= 3) {
+            if (work->tail.phase >= 3) {
                 poly->r0 = band->ca[j].r * work->field_18D2 / 1024;
                 poly->g0 = band->ca[j].g * work->field_18D2 / 1024;
                 poly->b0 = band->ca[j].b * work->field_18D2 / 1024;
@@ -140,7 +140,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            if (work->phase >= 3) {
+            if (work->tail.phase >= 3) {
                 poly->r0 = band->ca[j].r * work->field_18D2 / 1024;
                 poly->g0 = band->ca[j].g * work->field_18D2 / 1024;
                 poly->b0 = band->ca[j].b * work->field_18D2 / 1024;
@@ -172,7 +172,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
             }
         }
     }
-    if (work->phase == 1) {
+    if (work->tail.phase == 1) {
         if (work->field_18D4 <= 1024) {
             work->field_18D4 += work->step << 6;
             work->field_18D0 = 256;
