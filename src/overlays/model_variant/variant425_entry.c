@@ -306,13 +306,13 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->field_2740 = 0;
         work->field_2744 = 0;
         work->field_272A = 0;
-        work->frame_count = 0;
-        work->frame = 0;
-        work->animation_frame = 0;
-        work->step = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
         work->phase = 0;
         work->field_274C = 0;
-        work->fade = 0;
+        work->clock.fade = 0;
         work->tint = 2048;
         work->command = command;
     } else {
@@ -321,8 +321,8 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
                   view->vry - view->vpy, view->vrz - view->vpz);
         Square0(&work->view_delta, &squared);
         angle = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[0] = angle;
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[0] = angle;
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
@@ -360,7 +360,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vx - work->orbit.vx,
                   work->target.vy - work->orbit.vy,
                   work->target.vz - work->orbit.vz);
-        if (work->config->start <= work->frame) {
+        if (work->config->start <= work->clock.frame) {
             ModelVariant425_DrawSheet((u8 *)point);
             ModelVariant425_DrawSpiral((u8 *)point);
             ModelVariant425_DrawWebs((u8 *)point);
@@ -368,12 +368,12 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
                 ModelVariant425_DrawRays((u8 *)point);
             }
         }
-        work->frame_count++;
+        work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
-        if (frame != work->animation_frame) {
-            work->frame += Model_GetFrameStep();
-            work->step = Model_GetFrameStep();
-            work->animation_frame = frame;
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
         }
     }
     Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
@@ -385,7 +385,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
             }
         }
     } else {
-        work->tint = work->fade << 5;
+        work->tint = work->clock.fade << 5;
     }
     if (work->phase >= 2 && work->phase <= 4) {
         result = 4;
@@ -393,10 +393,10 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         result = 1;
         work->phase = 6;
     } else if (work->phase == 6) {
-        if (work->fade < 64) {
-            work->fade += work->step;
-            if (work->fade >= 64) {
-                work->fade = 64;
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
                 work->phase = 7;
             }
         }
