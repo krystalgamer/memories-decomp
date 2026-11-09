@@ -102,8 +102,8 @@ typedef struct {
     u8 unknown_2334[4];
     GsCOORDUNIT *part;
     s16 field_233C, field_233E, field_2340, field_2342;
-    s32 field_2344, streamer_length, streamer_rotation_x, streamer_rotation_y;
-    s32 streamer_rotation_z;
+    s32 field_2344;
+    ModelVariantStreamerParams streamer;
     /* The fan helper turns the fans by spin, advancing it while they fade. */
     s32 spray_wave, spray_phase, field_2360, field_2364, spin;
     s32 phase;

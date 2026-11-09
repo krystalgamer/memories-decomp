@@ -271,7 +271,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         }
         work->field_2342 = 1024;
         work->field_2344 = 1024;
-        work->streamer_length = 1024;
+        work->streamer.length = 1024;
         work->spin = 0;
         work->field_233C = 0;
         work->field_233E = 0;
@@ -280,9 +280,9 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         work->spray_phase = 0;
         work->field_2360 = 0;
         work->field_2364 = 0;
-        work->streamer_rotation_x = 0;
-        work->streamer_rotation_y = 0;
-        work->streamer_rotation_z = 0;
+        work->streamer.rotation_x = 0;
+        work->streamer.rotation_y = 0;
+        work->streamer.rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
