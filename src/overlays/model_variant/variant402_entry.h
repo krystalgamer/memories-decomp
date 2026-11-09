@@ -62,10 +62,8 @@ typedef struct {
     u32 field_22D4;
     GsCOORDUNIT *parts[3];
     s16 field_22E4, field_22E6, field_22E8, field_22EA;
-    s32 field_22EC, field_22F0, phase;
-    u8 unknown_22F8[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_22EC, field_22F0;
+    ModelVariantEntryTail tail;
 } Variant402EntryState;
 
 extern GsIMAGE gModelVariant402_aImages[9];

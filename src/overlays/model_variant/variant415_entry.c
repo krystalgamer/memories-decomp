@@ -63,12 +63,12 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     flat = work->flat_textured;
     result = 0;
     if (command >= 0) {
-        work->slot = Model_GetActiveSlotIndex();
+        work->tail.slot = Model_GetActiveSlotIndex();
         work->config = gModelVariant415_aConfigs + command;
         for (i = 0; i < 5; i++) {
-            work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
+            work->parts[i] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[i]);
         }
-        if (work->slot == 0) {
+        if (work->tail.slot == 0) {
             setVector(&work->target, 0, -300, -450);
         } else {
             setVector(&work->target, 0, -300, 450);
@@ -84,15 +84,15 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT415_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT415_CLUT_X, 244);
-        texture_word = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant415_aImages[1]);
+        texture_word = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant415_aImages[1]);
         bar = work->bars;
         stack.texture_cluts[0] = texture_word;
         flat_page = texture_word >> 16;
         /* +0x8C and +0xE0 lie past the two-image table and the first config
          * record; in every image those bytes are not GsIMAGE records. */
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant415_aImages[1]);
-        i = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0xE0));
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0x8C));
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant415_aImages[1]);
+        i = ModelTexture_PackPageClutCopy(work->tail.slot, 1, (GsIMAGE *)((u8 *)gModelVariant415_aImages + 0xE0));
         j = 0;
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
@@ -260,10 +260,10 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         work->clock.animation_frame = 0;
         work->clock.step = 0;
         work->clock.fade = 0;
-        work->tint = 2048;
-        work->phase = 0;
+        work->tail.tint = 2048;
+        work->tail.phase = 0;
         work->field_30DC = 0;
-        work->command = command;
+        work->tail.command = command;
     } else {
         view = Model_GetCameraViewBuffer();
         setVector(&work->view_delta, view->vrx - view->vpx,
@@ -272,7 +272,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         GsSetLsMatrix(Model_GetLightSourceMatrix());
-        if (work->slot == 0) {
+        if (work->tail.slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
             Model_CopySlotPosition(0, (u16 *)&work->target);
@@ -298,9 +298,9 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         }
         work->field_2F7C = dx;
         work->field_2F7E = dy;
-        if (work->phase >= 2) {
-            if (work->phase < 4) {
-                SpanishModelVariant432_DrawSheets((u8 *)point, work->phase);
+        if (work->tail.phase >= 2) {
+            if (work->tail.phase < 4) {
+                SpanishModelVariant432_DrawSheets((u8 *)point, work->tail.phase);
             }
             SpanishModelVariant432_DrawBands((u8 *)point);
         }
@@ -311,38 +311,38 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant432_DrawBandLayers((u8 *)point);
         }
         work->clock.frame_count++;
-        frame = Model_GetSlotAnimationFrame(work->slot);
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
         if (frame != work->clock.animation_frame) {
             work->clock.frame += Model_GetFrameStep();
             work->clock.step = Model_GetFrameStep();
             work->clock.animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
-    if (work->phase < 7) {
-        if (work->tint > 0) {
-            work->tint -= 128;
-            if (work->tint <= 0) {
-                work->tint = 0;
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 7) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
             }
         }
     } else {
-        work->tint = work->clock.fade << 5;
+        work->tail.tint = work->clock.fade << 5;
     }
-    if (work->phase >= 2 && work->phase <= 4) {
+    if (work->tail.phase >= 2 && work->tail.phase <= 4) {
         result = 4;
-    } else if (work->phase == 6) {
+    } else if (work->tail.phase == 6) {
         result = 1;
-        work->phase = 7;
-    } else if (work->phase == 7) {
+        work->tail.phase = 7;
+    } else if (work->tail.phase == 7) {
         if (work->clock.fade < 64) {
             work->clock.fade += work->clock.step;
             if (work->clock.fade >= 64) {
                 work->clock.fade = 64;
-                work->phase = 8;
+                work->tail.phase = 8;
             }
         }
-    } else if (work->phase == 8) {
+    } else if (work->tail.phase == 8) {
         result = 2;
     }
     return result;

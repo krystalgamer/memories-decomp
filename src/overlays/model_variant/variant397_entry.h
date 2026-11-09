@@ -48,10 +48,8 @@ typedef struct {
     u32 field_F58;
     GsCOORDUNIT *parts[3];
     s16 field_F68, field_F6A, field_F6C, field_F6E;
-    s32 field_F70, field_F74, phase;
-    u8 unknown_F7C[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_F70, field_F74;
+    ModelVariantEntryTail tail;
 } Variant397EntryState;
 
 extern GsIMAGE gModelVariant397_aImages[9];

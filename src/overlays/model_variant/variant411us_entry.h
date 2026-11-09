@@ -42,10 +42,8 @@ typedef struct {
     s16 field_2764, field_2766;
     s32 sweep;
     s16 field_276C, field_276E;
-    s32 field_2770, field_2774, phase;
-    u8 unknown_277C[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_2770, field_2774;
+    ModelVariantEntryTail tail;
 } Variant411UsEntryState;
 
 extern GsIMAGE gModelVariant411_aImages[9];

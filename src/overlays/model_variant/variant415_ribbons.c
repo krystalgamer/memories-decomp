@@ -71,15 +71,15 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
                     ribbon->amount[j] += work->clock.step * 64;
                     if (ribbon->amount[j] >= 0x400) {
                         ribbon->amount[j] = 0x400;
-                        if (work->phase < 2) {
-                            work->phase = 2;
+                        if (work->tail.phase < 2) {
+                            work->tail.phase = 2;
                         }
                         if (k + 1 == 3 && j == 1) {
                             if (work->start_index < 3) {
                                 work->start_index++;
                                 work->field_30DC = j;
-                            } else if (work->phase == 2) {
-                                work->phase = k + 1;
+                            } else if (work->tail.phase == 2) {
+                                work->tail.phase = k + 1;
                             }
                         }
                     }
