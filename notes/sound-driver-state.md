@@ -454,8 +454,8 @@ Its mutation target, replacement, occurrence check and numeric expectations
 remain unchanged; replacing the literal with an equal constant hides the
 control's target even though the executable still matches.
 
-SD_InitVoiceState resets both banks to SD_PENDING_ENTRY_NONE using its
-original byte-offset/pre-folded-shift expression, not typed indexing.
+SD_InitVoiceState resets both banks to SD_PENDING_ENTRY_NONE through
+typed `s_aawSD_INDIRECT_SE_ID[bank][entry]` indexing.
 SD_LoadSequenceBankPair still rejects sides outside the existing pair,
 copies the selected input block and resets pending note registrations.
 It registers the OTHER block before the selected block, retaining each
@@ -1236,11 +1236,11 @@ The first is loaded after transfer-mode setup; note_map_state remains
 an ALIAS assigned from voice_state, not another global reload.
 lookup_state remains the later fresh read. init_index deliberately
 remains ONE reused variable for voice-slot, note-map and lookup-bank
-loops. lookup_entry_index and lookup_byte_offset retain the separate
-entry and pre-folded byte-offset walks. Keep the aligned table formula,
-original constants, raw byte-address sum/base order, sentinel stores
-and offset increment; no typed two-dimensional indexing substitution.
-The existing byte-form explanation changes only its four identifiers.
+loops. The lookup-bank reset indexes
+`lookup_state->s_aawSD_INDIRECT_SE_ID[init_index][lookup_entry_index]`
+directly; the former byte-offset walk was only needed under
+`-fno-strength-reduce`. Keep the aligned table formula, original
+constants and sentinel stores.
 
 SD_ResetSecondaryRuntime names its existing s32 tick_mode snapshot.
 The playback-reset thunk still runs first; only signed values greater

@@ -4514,7 +4514,7 @@
     },
     {
       "address": "0x80047480",
-      "profile": "gcc_2_8_1_g0_no_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x1BC",
       "source": "src/game/sd_init_voice_state.c"
     },
