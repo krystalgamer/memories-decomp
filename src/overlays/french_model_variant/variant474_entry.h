@@ -71,7 +71,7 @@ typedef struct {
     s32 width, ribbon_angle, scale, field_1BC0, mesh_size, field_1BC8;
     s32 field_1BCC, field_1BD0, mesh_intensity, field_1BD8, field_1BDC;
     s32 displacement, progress;
-    s16 spiral_angle, field_1BEA, spiral_size, field_1BEE;
+    ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
     CVECTOR inner_color, outer_color;
     s32 spin, field_1C0C, field_1C10, field_1C14, field_1C18;
