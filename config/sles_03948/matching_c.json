@@ -2319,7 +2319,7 @@
     },
     {
       "address": "0x80032490",
-      "profile": "gcc_2_8_1_g0_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
       "source": "src/game/build_deck_add_card.c"
     },
