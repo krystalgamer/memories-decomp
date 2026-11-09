@@ -147,12 +147,13 @@ four raw owners / 16,760 bytes cover the remaining complete-image bytes.
 ## Entry-called six-sheet renderer
 
 The two 1,152-byte sheets functions at `+0x2444` match with 272-byte
-frames using the existing `gcc_2_8_1_g0_split_no_cse_follow_jumps` profile.
-The default split profile produced the same instruction shape but exchanged
-the context and vertex registers in 20 words. Eight rejected source/profile
-experiments and the exact ninth calibration remain recorded alongside the
-two canonical matches; the six prior terminal records are unchanged.
-No compiler flags, shared source, header, SDK binding or profile is changed.
+frames under the default `gcc_2_8_1_g0_split` profile. They first matched
+with `gcc_2_8_1_g0_split_no_cse_follow_jumps`, because the default profile
+exchanged the context and vertex registers in 20 words. Splitting the
+`i == 5 ||` sort condition into an `if`/`else if` pair with one
+`GsSortPoly` call each, the shape the North American `variant414_sheets.c`
+uses, removes that exchange. The eight rejected experiments, the ninth
+calibration and the earlier canonical records remain in the attempt ledger.
 
 The standalone French body reuses the accepted US423 projection/color
 structure and existing `ModelVariantSheet` and SDK declarations. Its
