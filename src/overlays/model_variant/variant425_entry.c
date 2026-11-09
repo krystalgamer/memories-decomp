@@ -292,9 +292,9 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
             n = 4096;
         }
         work->sweep = 0;
-        work->field_2738 = 0;
-        work->field_273C = 0;
-        work->field_2708 = 0;
+        work->spiral_shrink = 0;
+        work->ray_scale = 0;
+        work->spiral_angle = 0;
         work->field_270A = 0;
         work->field_270C = 0;
         work->field_270E = 0;

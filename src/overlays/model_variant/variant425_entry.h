@@ -54,13 +54,13 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     ModelVariantClock clock;
-    s16 field_2708, field_270A, field_270C, field_270E;
+    s16 spiral_angle, field_270A, field_270C, field_270E;
     s32 field_2710;
     Variant425EntryConfig *config;
     u32 field_2718;
     GsCOORDUNIT *parts[3];
     s16 field_2728, field_272A, field_272C, field_272E;
-    s32 field_2730, sweep, field_2738, field_273C, field_2740, field_2744;
+    s32 field_2730, sweep, spiral_shrink, ray_scale, field_2740, field_2744;
     s32 phase, field_274C;
     u8 unknown_2750[8];
     s32 tint;
