@@ -35,10 +35,8 @@ typedef struct {
     u32 field_F30;
     GsCOORDUNIT *parts[3];
     s16 substep, field_F42, field_F44, field_F46;
-    s32 field_F48, field_F4C, phase;
-    u8 unknown_F54[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_F48, field_F4C;
+    ModelVariantEntryTail tail;
 } Variant341EntryState;
 
 extern GsIMAGE gFrenchModelVariant341_aImages[9];
