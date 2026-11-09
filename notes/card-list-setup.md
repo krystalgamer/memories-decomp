@@ -2,8 +2,9 @@
 
 The three contiguous functions formerly grouped as `duel_reward_setup.c`
 belong to shared card-list UI setup, not an evidenced duel reward-table load.
-The group now lives in `src/game/card_list_setup.c`, with its existing regional
-wrappers and exact compiler profile preserved.
+The group now lives in the merged Build Deck unit `src/game/build_deck.c`,
+which the Japanese and European builds compile through their regional
+wrappers.
 
 | NA address | Identity | Direct evidence |
 | --- | --- | --- |

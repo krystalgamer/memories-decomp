@@ -645,7 +645,7 @@ and `TEXT_BOX_GLYPH_CLUT_X`/`_Y` (the text box's glyph palette, formerly
 |---|---|
 | `+0x2C` | A colour word for Gouraud quads and the pulse widget, and a `target`/`step` pair in `duel_scene.c` (see the observed values above). The step's units differ per caller, so no view is clearly right. |
 | `+0x60` | A per-caller countdown, phase or easing amount with no single unit or direction, even within one object kind. |
-| `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck_card_transfer_icon.c` and a u/v for the textured-quad second submission. Several of these share one object kind, so per-kind views do not separate them. |
+| `+0x6C` | A tag nibble for `DisplayObject_FindAllocatedByTag`, a busy flag for motion callbacks, phase bits in `build_deck.c` and a u/v for the textured-quad second submission. Several of these share one object kind, so per-kind views do not separate them. |
 | `+0x6A` | The linked object's pool index for the action-ready marker, but a card-record index for duel cards. It is a single byte with no word users, so a view adds nothing over documenting both. |
 
 ## Evidence boundary

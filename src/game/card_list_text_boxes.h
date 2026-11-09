@@ -53,7 +53,7 @@ typedef struct CardList {
     /* The two text boxes the input handler moves. Both are display objects
        whose xy.h.y is a y position: BuildDeck_UpdateCardListInput sets the
        cursor box to cursor * 22 + 0x2A and the scroll box to the thumb
-       position it derives from `first`. BuildDeck_Update (build_deck_input.c)
+       position it derives from `first`. BuildDeck_Update (build_deck.c)
        pulses both lists' cursor boxes' colour bytes at +0xC/+0xD/+0xE, which
        is what fixes them as display records rather than rows of this list. */
     struct DisplayObject *cursor_box;
@@ -71,8 +71,8 @@ typedef struct CardList {
 
          - row_count bounds the scroll. BuildDeck_UpdateCardListInput clamps `first` to
            row_count - 8, the last offset that still fills the eight-row
-           page, and build_deck_input.c's shuffle mode sorts row_count rows.
-         - sort_row_count is the population the rest of build_deck_input.c
+           page, and build_deck.c's shuffle mode sorts row_count rows.
+         - sort_row_count is the population the rest of build_deck.c
            sorts, and the denominator BuildDeck_UpdateCardListInput divides the 152-pixel
            thumb travel by.
 
@@ -82,7 +82,7 @@ typedef struct CardList {
     s16 row_count;
     s16 sort_row_count;
     u8 pad_2D44;
-    /* The sort order build_deck_input.c switches on. It is not stored
+    /* The sort order build_deck.c switches on. It is not stored
        directly: BuildDeck_UpdateCardListInput cycles sort_choice and then looks this up as
        the low nibble of gCardList_SortIconTable[sort_choice * 2 + kind * 16 + 1]. */
     u8 sort_mode;
@@ -126,7 +126,7 @@ typedef char CardListAssertKind[CARD_LIST_OFFSET(kind) == 0x2D47 ? 1 : -1];
 typedef char CardListAssertCursor[
     CARD_LIST_OFFSET(cursor) == 0x2D48 ? 1 : -1
 ];
-/* build_deck_input.c reaches the pane's two lists as p + 4 and
+/* build_deck.c reaches the pane's two lists as p + 4 and
    p + 0x2D50, and picks between them with p[0x6342] * 0x2D4C + 4. That
    stride is this record's size, which is what the trailing padding after
    `cursor` accounts for. */

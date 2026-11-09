@@ -80,8 +80,7 @@ PAIRS = [
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
-    ("src/game/build_deck_draw_card_list_page.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
-    ("src/game/build_deck_draw_card_list_page.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
+    ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
     ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
 ]

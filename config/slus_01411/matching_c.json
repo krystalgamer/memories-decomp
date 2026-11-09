@@ -2240,189 +2240,189 @@
     },
     {
       "address": "0x800313E8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x18C",
-      "source": "src/game/build_deck_card_transfer_icon.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031574",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/build_deck_card_transfer_icon.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800316F0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/duel_card_stat_display.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031784",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/build_deck_draw_card_list_page.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031874",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x460",
-      "source": "src/game/build_deck_draw_card_list_page.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031CD4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
-      "source": "src/game/build_deck_card_slots.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031E04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/build_deck_card_slots.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031E5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/build_deck_card_slots.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031EE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/build_deck_card_slots.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031F7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/build_deck_card_slots.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x8003201C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/build_deck_recount_deck_cards.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800320BC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/build_deck_add_card.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032184",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A4",
-      "source": "src/game/card_list_setup.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032328",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/card_list_setup.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032370",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/card_list_setup.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800323F8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x740",
-      "source": "src/game/build_deck_init_screen.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032B38",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/build_deck_init_screen.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032B60",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032BD4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032C48",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x474",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800330BC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x444",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033500",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x8003353C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800336F0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800338E4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033998",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800339D0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033BE8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033C90",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033CA8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/build_deck_input.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033CC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/card_list_update_sort_mode.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033CF8",

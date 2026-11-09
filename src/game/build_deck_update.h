@@ -13,7 +13,7 @@
 int BuildDeck_HasOpenDeckSlot(void);
 
 /* Exit step 4 of the Build Deck step table gBuildDeck_apfnStepHandlers
- * (build_deck_input.c). It asks for confirmation and either
+ * (build_deck.c). It asks for confirmation and either
  * returns to the step saved in next_state or writes the deck out and clears
  * the state word. */
 void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record);

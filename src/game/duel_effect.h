@@ -99,7 +99,7 @@ extern u8 gText_BranchSelectorB;
 extern u8 gText_SelectedCardColorIndex;
 
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
- * stores the list entry's id (build_deck_card_slots.c:45); DuelField_CreateCardInfoTextBox stores
+ * stores the list entry's id (build_deck.c:568); DuelField_CreateCardInfoTextBox stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `gText_BranchSelectorA = 1;` (duel_scene.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
@@ -199,7 +199,7 @@ extern u8 gDuel_bActiveEffectState;
  * zero is idle; otherwise the low bits are the effect id, which it copies
  * into gDuel_bActiveEffectState and then marks with 0x80 as started. State
  * handlers raise 0x40 when the effect is finished, and the next tick clears
- * the byte back to 0. Stored 2 by build_deck_input.c,
+ * the byte back to 0. Stored 2 by build_deck.c,
  * duel_scene.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and 4
  * by debug_menu.c, and cleared by Main_ResetFrontendRuntime and

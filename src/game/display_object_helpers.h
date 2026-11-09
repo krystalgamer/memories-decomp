@@ -51,11 +51,11 @@ typedef struct {
    Indexed by a display object's ot_index: DisplayObject_SelectOrderingTable1 sets 1 and reads
    [1], DisplayObject_SelectOrderingTable3 sets 3 and reads [3], DisplayObject_AcquireSlot reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
-   privately. Seven byte readers (dialog_transition.c, build_deck_input.c,
+   privately. Seven byte readers (dialog_transition.c, build_deck.c,
    Dialog_UpdateMessageTransition, text_apply_fade_command.c,
    src/game/duel_effect_states.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
-   outside small data; dialog_transition.c, build_deck_input.c
+   outside small data; dialog_transition.c, build_deck.c
    and src/game/duel_effect_states.c define the arm below for that. */
 #include "display_object_depth_bases.h"
 

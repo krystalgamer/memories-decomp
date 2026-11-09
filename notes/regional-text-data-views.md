@@ -14,7 +14,7 @@ label or `#define` alias.
 | `gText_awGlyphNibblePatterns` | every image; read only in SLPM_863.98 | `0x80090CD8` in SLPM_863.98 |
 | `gText_awGlyphColorMasks` | every image; read only in SLPM_863.98 | `0x80090CF8` in SLPM_863.98 |
 
-`src/game/build_deck_input.c` defines both glyph tables right after
+`src/game/build_deck.c` defines both glyph tables right after
 `gText_DecimalDivisorView`, as `u16[16]` and `u16[8]`. Every image carries
 their bytes; only Japan's `DuelEffect_RasterizeGlyph` reads them.
 
