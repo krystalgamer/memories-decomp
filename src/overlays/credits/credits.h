@@ -25,7 +25,10 @@ typedef struct {
     u16 width;
     u16 height;
     u8 state;
-    u8 field_13;
+    /* Nonzero from the end of a group's first hold until its last page:
+     * Credits_DrawLine then keeps the first text row at full brightness
+     * while later pages fade. */
+    u8 title_held;
     u8 page;
     u8 pad[3];
 } CreditsLine;
