@@ -9,10 +9,10 @@ typedef struct {
     u8 unknown_0C[4];
     u32 linked;
     u8 parts[3], unknown_17[9];
-    u32 start, field_24, field_28, field_2C, field_30;
+    u32 start, progress_start, progress_end, shrink_start, shrink_end;
     s32 offset[3];
     u16 extent, field_42;
-    s32 field_44;
+    s32 radius;
 } Variant397EntryConfig;
 
 typedef struct {
