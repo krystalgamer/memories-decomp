@@ -171,10 +171,10 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                 cluster->color.g = work->config->outer.g;
                 cluster->color.b = work->config->outer.b;
                 cluster->scale[i] = -(i * 4096 / 10);
-                cluster->field_1BC[i] = 0;
-                cluster->field_1E4[i] = 0;
-                cluster->field_20C[i] = 0;
+                cluster->angle[i] = 0;
                 cluster->done[i] = 0;
+                cluster->field_20C[i] = 0;
+                cluster->initialized[i] = 0;
                 cluster->origin[i].vx = work->matrix.t[0] + work->direction.vx;
                 cluster->origin[i].vy = work->matrix.t[1] + work->direction.vy;
                 cluster->origin[i].vz = work->matrix.t[2] + work->direction.vz;

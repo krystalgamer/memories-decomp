@@ -134,9 +134,9 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             swarm->color.g = work->config->outer.g;
             swarm->color.b = work->config->outer.b;
             swarm->scale[i] = -(i * 32);
-            swarm->field_594[i] = 0;
-            swarm->field_614[i] = 0;
             swarm->done[i] = 0;
+            swarm->field_614[i] = 0;
+            swarm->initialized[i] = 0;
             swarm->origin[i].vx = work->matrix.t[0] + work->direction.vx;
             swarm->origin[i].vy = work->matrix.t[1] + work->direction.vy;
             swarm->origin[i].vz = work->matrix.t[2] + work->direction.vz;
@@ -151,10 +151,10 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
                 trail->color.g = work->config->outer.g;
                 trail->color.b = work->config->outer.b;
                 trail->scale[i] = -(i * 4096 / 10);
-                trail->field_1BC[i] = 0;
-                trail->field_1E4[i] = 0;
-                trail->field_20C[i] = 0;
+                trail->angle[i] = 0;
                 trail->done[i] = 0;
+                trail->field_20C[i] = 0;
+                trail->initialized[i] = 0;
                 trail->origin[i].vx = work->matrix.t[0] + work->direction.vx;
                 trail->origin[i].vy = work->matrix.t[1] + work->direction.vy;
                 trail->origin[i].vz = work->matrix.t[2] + work->direction.vz;
@@ -340,7 +340,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         }
         swarm = &work->swarm;
         for (i = 0; i < 32; i++) {
-            if (swarm->scale[i] >= 0 && swarm->done[i] == 0) {
+            if (swarm->scale[i] >= 0 && swarm->initialized[i] == 0) {
                 if (work->tail.slot == 0) {
                     setVector(&work->positions[i], work->target.vx - (rsin(work->sweep) * 512 >> 12),
                               work->target.vy, work->target.vz);
@@ -348,7 +348,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&work->positions[i], work->target.vx + (rsin(work->sweep) * 512 >> 12),
                               work->target.vy, work->target.vz);
                 }
-                swarm->done[i] = 1;
+                swarm->initialized[i] = 1;
             }
             setVector(&work->offsets[i], work->positions[i].vx - work->matrix.t[0],
                       work->positions[i].vy - work->matrix.t[1],
