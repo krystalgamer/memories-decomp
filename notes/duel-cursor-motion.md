@@ -41,12 +41,13 @@ canonical record's existing 0x1C size assertion retain the layout checks.
 | `object` | `0x04` | `cursor_object` |
 | `col` / `row` | `0x0F` / `0x10` | `col` / `row` |
 | `min_row` / `max_row` | `0x11` / `0x12` | `(s8)row_min` / `(s8)row_end` |
-| `page` | `0x18` | `field_18` |
+| `page` | `0x18` | `field_actions_mode` |
 | `flags` | `0x19` | `status` |
 
 The bounds remain signed reads, including bytes 0x80 through 0xFF. Their
-storage and the page selector keep their existing neutral canonical names;
-the cursor consumer's roles are not asserted for every selection phase.
+storage keeps its canonical names, and the page selector is the record's
+`field_actions_mode` (see the view-reference targets below); the cursor
+consumer's roles are not asserted for every selection phase.
 The status bits and wrapper return widths are unchanged. The remaining
 pick, status and target wrappers now take the same actual
 `DuelSelectionRecord`, rather than three more padded prefix types.
@@ -363,9 +364,12 @@ It is not a cursor-coordinate step or view rotation.
 
 Selection initialization, pick and placement paths set selector page 0;
 field entry selects page 1, while targeted field selection can return to
-page 0. The page byte retains its neutral `field_18` name because panel
-layout also consumes it; this table does not establish the field's entire
-meaning. All sixteen halfwords, the [2][2][4] shape, signed loads, strides,
+page 0. The page byte is the record's `field_actions_mode` (formerly
+`field_18`): only `DuelScene_UpdateFieldActions`' field-browse entry sets it
+to 1, and every other writer clears it. Besides this table, its one other
+reader, `DuelField_CreateCardInfoTextBox`, shows the Swords turn count only
+for record 2 in that same mode, so both readers consume one field-actions
+browse flag. All sixteen halfwords, the [2][2][4] shape, signed loads, strides,
 argument evaluation and regional binding addresses are unchanged.
 
 ## Field-grid ground coordinates
@@ -444,11 +448,15 @@ Neither function's order, compiler profile or grouped extent changes.
 ## Selection display-parent slot
 
 The canonical selection record's first word is a stored `DisplayObject *`,
-with the neutral name `field_00` retained. This is not inferred from the
-initializer's zero store: the field-display transition creates a display
-object, stores it at +0, slides it and later releases/clears it.
-`DuelSelection_LinkDisplayObject` reads the same slot as `position_base`
-when installing child callbacks.
+named `info_panel` (formerly `field_00`). This is not inferred from the
+initializer's zero store: its only non-zero writer,
+`Duel_UpdateDisplayTransition`, stores the field-card information panel
+returned by `Duel_CreateFieldCardPanel` at +0, slides it in and out, and
+releases and clears it with the record's text box. Every reader uses that
+panel: `DuelField_CreateCardInfoTextBox` places and layers the text box from
+its position and depth, `DuelSelection_LinkDisplayObject` reads it as
+`position_base` when installing child callbacks, and
+`DuelSelection_UpdateLinkedObject` follows or retires on it.
 
 `DuelSelection_UpdateLinkedObject` now reads that pointer through
 `DuelSelectionRecord`, rather than a second padded `DuelSelectionDisplayRecord`

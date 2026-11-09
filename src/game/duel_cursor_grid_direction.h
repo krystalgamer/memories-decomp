@@ -36,7 +36,7 @@ typedef char DuelCursor_record_offsets_must_match[
     DUEL_CURSOR_RECORD_OFFSET(row) == 0x10 &&
     DUEL_CURSOR_RECORD_OFFSET(row_min) == 0x11 &&
     DUEL_CURSOR_RECORD_OFFSET(row_end) == 0x12 &&
-    DUEL_CURSOR_RECORD_OFFSET(field_18) == 0x18 &&
+    DUEL_CURSOR_RECORD_OFFSET(field_actions_mode) == 0x18 &&
     DUEL_CURSOR_RECORD_OFFSET(status) == 0x19 ? 1 : -1
 ];
 

@@ -422,7 +422,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         '#include "duel_selection_layout.h"\n'
                         + "struct DisplayObject **display_parent_slot("
                         + "DuelSelectionRecord *record) "
-                        + "{ return &record->field_00; }\n"
+                        + "{ return &record->info_panel; }\n"
                         + f"{record} **active_record(void) "
                         + "{ return &gDuel_pActiveSelectionRecord; }\n"
                         + "DuelHandSlot **hand_slot(DuelSelectionRecord *record) "

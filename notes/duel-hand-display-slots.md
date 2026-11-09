@@ -45,7 +45,7 @@ Both adjacent cursor/marker helpers now take the actual
 `DuelHandStackState` was only a private `0x18` prefix view; removing it does
 not resize the real `0x1C` records or their four-record side blocks.
 The helpers use `cursor_object` at `+0x04`, the signed view of `hand_cursor_slot`
-at `+0x0E`, and the hand-context ordered-pick count `field_15` at `+0x15`.
+at `+0x0E`, and the hand-context ordered-pick count `ordered_pick_count` at `+0x15`.
 The shared layout asserts all three offsets, and every caller now passes
 its existing record directly instead of casting to the prefix.
 
@@ -53,7 +53,12 @@ its existing record directly instead of casting to the prefix.
 consumers keep their own views. The two helpers explicitly cast it to `s8`,
 preserving the original signed loads and arithmetic for every byte pattern.
 The count remains unsigned and retains its original narrowing and wrap.
-No broader meaning is assigned to `field_15` in the other selection records.
+`ordered_pick_count` (formerly `field_15`) is named from its hand-scene
+readers only: `DuelHand_CreateSelectionOrderMarker` draws the marker digit
+from it, increments it and copies the result into the slot's
+`selection_order`; cancelling a mark decrements it; hand actions clear it on
+entry and branch on zero (single card) versus one or more ordered picks.
+No other selection record reads it.
 
 `DuelHand_PositionSelectionCursor` (`0x8001B780`) writes the existing cursor's
 output position from the signed slot index and regional fixed y coordinate.
