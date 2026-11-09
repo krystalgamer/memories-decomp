@@ -46,7 +46,7 @@
 /* duel_phase_entry */
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
-#define DUEL_PHASE_CURSOR_FIELD_0C 0xBE
+#define DUEL_PHASE_PANEL_TARGET_Y 0xBE
 #define DUEL_PHASE_FIELD_40_BASE 0x360
 #define DUEL_PHASE_HAND_CARD_Y 0x2A2
 
@@ -75,14 +75,14 @@
 #define DUEL_HAND_STACK_INNER_Y 210
 #define DUEL_HAND_STACK_COUNT_FIELD_5D 0xB0
 #define DUEL_HAND_STACK_COUNT_CX 0x2D0
-#define DUEL_SELECTION_CURSOR_FIELD_0C 0x84
+#define DUEL_SELECTION_PANEL_TARGET_Y 0x84
 
 /* duel_scene_hand_actions */
 #define DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION 0
 
 /* duel_scene_field_actions */
-#define DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C 0xBE
-#define DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C 0x84
+#define DUEL_FIELD_ACTIONS_INITIAL_PANEL_TARGET_Y 0xBE
+#define DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y 0x84
 
 /* duel_battle_stats */
 
@@ -114,7 +114,7 @@
 /* duel_update_card_pick_cursor */
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
-#define DUEL_PICK_CURSOR_FIELD_0C 0x84
+#define DUEL_PICK_PANEL_TARGET_Y 0x84
 /* The four language builds (src/game/spanish/duel_scene.c) supply their own. */
 #ifndef DUEL_VIEWER_CARD_ID_ADDRESS
 #define DUEL_VIEWER_CARD_ID_ADDRESS 0x8009C1B8

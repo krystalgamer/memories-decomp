@@ -1485,7 +1485,7 @@ void Duel_InitSelectionRecords(void) {
             p->cursor_object = 0;
             p->hand = (DuelHandSlot *)0;
             p->field_18 = 0;
-            p->field_13 = 1;
+            p->panel_variant = 1;
             p->record_index = j;
 #ifdef VERSION_JAPAN
             p->text_channel = j;
@@ -1494,9 +1494,9 @@ void Duel_InitSelectionRecords(void) {
 #endif
         }
     }
-    DUEL_SELECTION_RECORDS(gDuel_abSelectionSides)[0].field_13 = 0;
+    DUEL_SELECTION_RECORDS(gDuel_abSelectionSides)[0].panel_variant = 0;
     DUEL_SELECTION_RECORDS(gDuel_abSelectionSides)[DUEL_SELECTION_RECORDS_PER_SIDE]
-        .field_13 = 0;
+        .panel_variant = 0;
 }
 
 void Duel_ResetCardRecords(void)
@@ -2371,11 +2371,11 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "view_state_current.h"
 #include "duel_battle_removal_slots.h"
 
-/* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
+/* Regional values: the record's panel_target_y (0xAE -> 0xBE), the base of
  * field_40 (0x2E0 -> 0x360) and the y Duel_CreateHandCardDisplayObject places a hand card at
  * (0x292 -> 0x2A2). The European build (src/game/european/) defines its own. */
-#ifndef DUEL_PHASE_CURSOR_FIELD_0C
-#define DUEL_PHASE_CURSOR_FIELD_0C 0xAE
+#ifndef DUEL_PHASE_PANEL_TARGET_Y
+#define DUEL_PHASE_PANEL_TARGET_Y 0xAE
 #endif
 #ifndef DUEL_PHASE_FIELD_40_BASE
 #define DUEL_PHASE_FIELD_40_BASE 0x2E0
@@ -2552,7 +2552,7 @@ void DuelScene_UpdateStartup(void)
             gDuel_wDisplayTransitionFlags = 2;
             gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
-            *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
+            *(u16 *)&gDuel_pActiveSelectionRecord->panel_target_y = DUEL_PHASE_PANEL_TARGET_Y;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
             gDuel_bSceneSubStep = 4;
@@ -2690,7 +2690,7 @@ void DuelScene_UpdateDrawPhase(void) {
         gDuel_wDisplayTransitionFlags = 2;
         gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
-        *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
+        *(u16 *)&gDuel_pActiveSelectionRecord->panel_target_y = DUEL_PHASE_PANEL_TARGET_Y;
     } else if (gDuel_wDisplayTransitionFlags == 0) {
         gDuel_wSceneStateFlags = 3;
     }
@@ -4495,10 +4495,10 @@ void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
             DUEL_DISPLAY_COLOR_NORMAL;
 }
 
-/* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
+/* Regional value: the record's panel_target_y (0x74 -> 0x84). The European build
  * (src/game/european/) defines its own. */
-#ifndef DUEL_SELECTION_CURSOR_FIELD_0C
-#define DUEL_SELECTION_CURSOR_FIELD_0C 0x74
+#ifndef DUEL_SELECTION_PANEL_TARGET_Y
+#define DUEL_SELECTION_PANEL_TARGET_Y 0x74
 #endif
 
 /* Private helpers of the same duel action controller,
@@ -4518,8 +4518,8 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) +
                                        gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
     gDuel_pActiveSelectionRecord->status = 0;
-    gDuel_pActiveSelectionRecord->field_13 = 1;
-    gDuel_pActiveSelectionRecord->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
+    gDuel_pActiveSelectionRecord->panel_variant = 1;
+    gDuel_pActiveSelectionRecord->panel_target_y = DUEL_SELECTION_PANEL_TARGET_Y;
     gDuel_pActiveSelectionRecord->field_18 = 0;
     gDuel_pActiveSelectionRecord->row_min = 2;
     gDuel_pActiveSelectionRecord->row_end = 3;
@@ -5475,13 +5475,13 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #define DUEL_FIELD_ACTIONS_CANCEL_BUTTON 0x20
 #endif
 
-/* European layout shifts both cursor field_0C values by 0x10. */
-#ifndef DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C
-#define DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C 0xAE
+/* European layout shifts both panel_target_y values by 0x10. */
+#ifndef DUEL_FIELD_ACTIONS_INITIAL_PANEL_TARGET_Y
+#define DUEL_FIELD_ACTIONS_INITIAL_PANEL_TARGET_Y 0xAE
 #endif
 
-#ifndef DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C
-#define DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C 0x74
+#ifndef DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y
+#define DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y 0x74
 #endif
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -5544,10 +5544,10 @@ void DuelScene_UpdateFieldActions(void)
         gDuel_bFieldActionAutoCommit = 0;
         gDuel_pActiveSelectionRecord = side;
         side->row_end = 4;
-        side->field_0C = DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C;
+        side->panel_target_y = DUEL_FIELD_ACTIONS_INITIAL_PANEL_TARGET_Y;
         y = 1;
         side->field_18 = y;
-        side->field_13 = 0;
+        side->panel_variant = 0;
         side->row_min = 0;
         gDuel_wDisplayTransitionFlags = 3;
         gDuel_bSceneSubStep = y;
@@ -5771,7 +5771,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bSceneSubStep |= 0x80;
             gDuel_pActiveSelectionRecord = side;
             side->field_18 = 0;
-            side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
+            side->panel_target_y = DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y;
             Duel_CreateFieldCursorObject(side);
             Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
                 gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][side->field_18][side->row]);
@@ -9163,13 +9163,13 @@ s32 Duel_UpdateDisplayTransition(void)
             if (gDuel_wDisplayTransitionFlags & 2) {
                 o = Duel_CreateFieldCardPanel(0, DUEL_FIELD_SCREEN_HEIGHT);
                 source->text_y_offset = 0x24;
-                if (source->field_13 != 0) {
-                    DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);
+                if (source->panel_variant != 0) {
+                    DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->panel_variant);
                     source->text_y_offset = 7;
                 }
                 DisplayObject_SetDepthOffset(o, -(source->record_index * 2) - 2);
                 o->position.h.field_28 = 0;
-                o->position.h.field_2A = source->field_0C;
+                o->position.h.field_2A = source->panel_target_y;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = -0x400;
                 o->field_6C = 2;
@@ -9470,10 +9470,10 @@ s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object)
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
-/* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
+/* Regional value: the record's panel_target_y (0x74 -> 0x84). The European build
  * (src/game/european/) defines its own. */
-#ifndef DUEL_PICK_CURSOR_FIELD_0C
-#define DUEL_PICK_CURSOR_FIELD_0C 0x74
+#ifndef DUEL_PICK_PANEL_TARGET_Y
+#define DUEL_PICK_PANEL_TARGET_Y 0x74
 #endif
 
 /* The absolute spellings below are load-bearing (see the two stores in
@@ -9532,7 +9532,7 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
     if (!(f & 0x80)) {
         gDuelCursor_PickFlags = f | 0xC0;
         o->row_end = 4;
-        o->field_0C = DUEL_PICK_CURSOR_FIELD_0C;
+        o->panel_target_y = DUEL_PICK_PANEL_TARGET_Y;
         o->field_18 = 0;
         o->row_min = 0;
         o->status = 0;

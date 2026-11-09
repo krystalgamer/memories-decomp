@@ -24,8 +24,10 @@ typedef struct DuelSelectionRecord {
      * it. */
     struct DisplayObject *cursor_object;
     DuelHandSlot *hand;
-    /* Cursor step counter or panel position, according to record context. */
-    s16 field_0C;
+    /* Target y of the record's information panel: the field-display
+     * transition stores it as the panel's slide-to y; the cursor paths
+     * write regional screen constants. */
+    s16 panel_target_y;
     /* The hand slot the side's cursor is on: DuelHand_RefreshSelectionColors indexes
      * gDuelHand_aSlots with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
@@ -37,7 +39,9 @@ typedef struct DuelSelectionRecord {
     /* Allowed rows are [row_min, row_end) through the existing signed views. */
     u8 row_min;
     u8 row_end;
-    u8 field_13;
+    /* Nonzero: resource variant applied to the information panel, whose
+     * text box then moves up. */
+    u8 panel_variant;
     /* Text-box channel of the record's information panel. TextBox_Create
      * receives this raw numeric index; only TextBox_SetPos and
      * TextBox_Destroy convert it to &gText_aChannels[index] through
@@ -88,8 +92,8 @@ typedef char DuelSelectionRecord_status_offset_must_be_0x19[
 typedef char DuelSelectionRecord_field_15_offset_must_be_0x15[
     (u32)&(((DuelSelectionRecord *)0)->field_15) == 0x15 ? 1 : -1
 ];
-typedef char DuelSelectionRecord_field_13_offset_must_be_0x13[
-    (u32)&(((DuelSelectionRecord *)0)->field_13) == 0x13 ? 1 : -1
+typedef char DuelSelectionRecord_panel_variant_offset_must_be_0x13[
+    (u32)&(((DuelSelectionRecord *)0)->panel_variant) == 0x13 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_field_18_offset_must_be_0x18[
     (u32)&(((DuelSelectionRecord *)0)->field_18) == 0x18 ? 1 : -1
