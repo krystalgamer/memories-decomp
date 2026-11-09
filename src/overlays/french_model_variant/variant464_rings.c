@@ -115,7 +115,7 @@ void FrenchModelVariant464_DrawRings(u8 *context)
             }
         }
         if (ring->progress < 4096) {
-            ring->progress += state->step * 96;
+            ring->progress += state->clock.step * 96;
             if (ring->progress >= 4096) {
                 if (state->phase < 3) {
                     ring->progress -= 4096;
