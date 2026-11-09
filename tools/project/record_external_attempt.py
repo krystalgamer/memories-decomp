@@ -65,6 +65,9 @@ RETIRED_PROFILES = frozenset(
         "gcc_2_8_1_cc_g8_as_g2_split",
         "gcc_2_8_1_cc_g8_as_g4_no_split",
         "gcc_2_8_1_cc_g8_as_g4_split",
+        # -fno-strength-reduce profiles retired once their units matched the
+        # ordinary profile without it.
+        "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
     }
 )
 MAX_ATTEMPTS = 6
