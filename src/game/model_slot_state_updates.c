@@ -19,54 +19,26 @@ void Model_SetSlotPlaybackSpeed(s32 slot_index, s32 speed)
 
 void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign)
 {
-    ModelSlot *slot;
-    s32 saved_double_speed;
-    s32 playback_state;
-    s32 part_speed;
+    ModelSlot *slot_base = gModel_aSlots;
+    ModelSlot *slot = slot_base + slot_index;
+    ModelSlot *speed_slot;
     s32 double_speed;
 
-    {
-        ModelSlot *slot_base = gModel_aSlots;
+    slot->playback_state = sign > 0 ? 0x3E : sign < 0 ? 0x3C : 0x23;
 
-        slot = slot_base + slot_index;
+    speed_slot = &gModel_aSlots[slot_index];
+    double_speed = speed_slot->playback_speed * 2;
+    switch (speed_slot->playback_state) {
+    case 0x23:
+        Model_SetSlotPartSpeeds(slot_index, 0);
+        break;
+    case 0x3E:
+        Model_SetSlotPartSpeeds(slot_index, double_speed);
+        break;
+    case 0x3C:
+        Model_SetSlotPartSpeeds(slot_index, -double_speed);
+        break;
     }
-    if (sign > 0)
-        goto state_62;
-    if (sign >= 0)
-        goto state_35;
-    slot->playback_state = 60;
-    goto update;
-state_35:
-    slot->playback_state = 35;
-    goto update;
-state_62:
-    slot->playback_state = 62;
-update:
-    {
-        ModelSlot *speed_slot = &gModel_aSlots[slot_index];
-
-        double_speed = speed_slot->playback_speed * 2;
-        playback_state = speed_slot->playback_state;
-    }
-    saved_double_speed = double_speed;
-    part_speed = double_speed;
-    if (playback_state == 60)
-        goto negate;
-    if (playback_state < 61) {
-        part_speed = 0;
-        if (playback_state == 35)
-            goto apply;
-        return;
-    } else {
-        part_speed = saved_double_speed;
-        if (playback_state == 62)
-            goto apply;
-        return;
-    }
-negate:
-    part_speed = -part_speed;
-apply:
-    Model_SetSlotPartSpeeds(slot_index, part_speed);
 }
 
 void Model_SeekSlotAnimation(s32 slot_index, s32 animation_row, s32 frame_position)
