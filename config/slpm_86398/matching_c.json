@@ -2583,7 +2583,7 @@
     },
     {
       "address": "0x80035B6C",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6F8",
       "source": "src/game/japanese/text_box_draw_entries.c"
     },
