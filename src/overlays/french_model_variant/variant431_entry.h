@@ -49,7 +49,7 @@ typedef struct {
     u32 field_18B4;
     GsCOORDUNIT *parts[5];
     s16 field_18CC, field_18CE, field_18D0, field_18D2;
-    s32 field_18D4, start_index, field_18DC;
+    s32 field_18D4, start_index, spin;
     ModelVariantEntryTail tail;
 } Variant431EntryState;
 

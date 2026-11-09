@@ -146,7 +146,7 @@ s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
             swarm->color[1] = 64;
             swarm->color[2] = 64;
             swarm->size[i] = 384 + i * 32;
-            swarm->field_594[i] = 0;
+            swarm->done[i] = 0;
             swarm->field_614[i] = 0;
             swarm->origin[i].vx = work->matrix.t[0] + work->direction.vx;
             swarm->origin[i].vy = work->matrix.t[1] + work->direction.vy;

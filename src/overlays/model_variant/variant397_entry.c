@@ -262,9 +262,9 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_F68 = 0;
-        work->field_F6C = 4096;
+        work->scale = 4096;
         work->field_F6E = 1024;
-        work->field_F70 = 0;
+        work->progress = 0;
         work->field_F74 = 0;
         work->field_F6A = 0;
         work->clock.frame_count = 0;

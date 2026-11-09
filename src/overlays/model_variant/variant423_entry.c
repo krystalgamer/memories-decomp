@@ -227,10 +227,10 @@ s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_F14 = 0;
-        work->field_F18 = 4096;
+        work->scale = 4096;
         work->field_F1A = 1024;
-        work->field_F1C = 0;
-        work->field_F1E = 0;
+        work->progress = 0;
+        work->band_wave = 0;
         work->field_F20 = 0;
         work->field_F16 = 0;
         work->clock.frame_count = 0;
