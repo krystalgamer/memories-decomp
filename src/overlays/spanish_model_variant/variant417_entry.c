@@ -250,11 +250,11 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         work->ribbon_width = 1024;
-        work->field_2160 = 0;
-        work->field_215C = 0;
-        work->field_2150 = 0;
+        work->tube_angle = 0;
+        work->tube_progress = 0;
+        work->spiral_angle = 0;
         work->field_2152 = 0;
-        work->field_2154 = 0;
+        work->spiral_size = 0;
         work->field_2156 = 0;
         work->progress = 0;
         work->field_216C = 0;

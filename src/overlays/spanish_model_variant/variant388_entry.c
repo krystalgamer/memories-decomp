@@ -186,13 +186,13 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
             spoke->angle = j << 8;
             spoke->count = 0;
         }
-        work->field_1892 = 1024;
-        work->field_1884 = 0;
+        work->strip_width = 1024;
+        work->spiral_angle = 0;
         work->field_1886 = 0;
-        work->field_1888 = 0;
-        work->field_188A = 0;
-        work->field_1890 = 0;
-        work->field_1894 = 0;
+        work->spiral_size = 0;
+        work->spiral_shrink = 0;
+        work->progress = 0;
+        work->ribbon_angle = 0;
         work->field_188C = 0;
         work->field_188E = 0;
         work->clock.frame_count = 0;

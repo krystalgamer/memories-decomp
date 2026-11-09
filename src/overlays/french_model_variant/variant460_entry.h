@@ -45,7 +45,7 @@ typedef struct {
     GsCOORDUNIT *parts[8];
     s16 field_2EA4, field_2EA6, field_2EA8, width;
     s32 field_2EAC, field_2EB0, field_2EB4, field_2EB8;
-    s32 field_2EBC, field_2EC0;
+    s32 ribbon_wave, ribbon_phase;
     ModelVariantEntryTail tail;
 } Variant460EntryState;
 
