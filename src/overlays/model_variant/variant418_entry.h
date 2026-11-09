@@ -38,7 +38,7 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     ModelVariantClock clock;
-    s16 field_1B6C, field_1B6E, field_1B70, field_1B72;
+    s16 spiral_angle, field_1B6E, spiral_size, spiral_shrink;
     Variant418EntryConfig *config;
     u32 field_1B78;
     GsCOORDUNIT *parts[3];
