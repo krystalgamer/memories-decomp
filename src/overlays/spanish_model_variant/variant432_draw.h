@@ -9,7 +9,7 @@
 
 typedef struct {
     u8 unknown_000[0x15C];
-    ModelVariantScaledSheetView rings[2];
+    ModelVariantSheet rings[2];
     u8 unknown_28C[0x28D0];
     POLY_GT4 quad;
     u8 unknown_2B90[0x3D4];

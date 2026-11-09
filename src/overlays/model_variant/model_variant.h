@@ -49,27 +49,12 @@ typedef struct {
     u32 limit;
 } ModelVariantSwarmRateTiming;
 
-/* One 0x2FC-byte group of ten quads drawn by the quads helpers: the four
- * corner rows, a shared colour, and per quad the size, angle, done flag and
- * reset flag. */
-typedef struct {
-    SVECTOR a[10];
-    SVECTOR b[10];
-    SVECTOR c[10];
-    SVECTOR d[10];
-    u8 unknown_140[0x50];
-    u8 color[4];
-    s32 size[10];
-    s32 angle[10];
-    s32 done[10];
-    u8 unknown_20C[0x28];
-    s32 reset[10];
-    u8 unknown_25C[0xA0];
-} ModelVariantQuadGroupView;
-
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized
- * flag. */
+ * flag. The French header-470 entry builds one at work + 0x988 and hands the
+ * work area to SpanishModelVariant470_DrawQuads, which draws the corners in
+ * the colour, grows size, sets done and clears initialized when a quad wraps;
+ * the header-419, 428, 429, 471 and 478 quads helpers read it the same way. */
 typedef struct {
     SVECTOR a[10], b[10], c[10], d[10], positions[10];
     CVECTOR color;
@@ -325,19 +310,14 @@ typedef struct {
     s32 count;
 } ModelVariantRing;
 
-/* One 0x98-byte ring sheet: four rows of four corners, two colours and the
- * scale. */
-typedef struct {
-    SVECTOR points[4][4];
-    CVECTOR color[2];
-    s32 scale;
-    u8 unknown_08C[12];
-} ModelVariantScaledSheetView;
-
 /* One 0x98-byte element of header 397's sheet array: four POLY_GT4 quads
  * given by corner arrays v0..v3, an inner colour on three corners and an
  * outer colour on the fourth, a scale and two words the entry handlers
- * clear. */
+ * clear. The header-321, 324, 337, 376 and 432 sheet helpers draw quad j
+ * from v0[j]..v3[j], light the first three corners with inner and the fourth
+ * with outer, and grow size as the scale; the header-415 and 341 entries
+ * (ModelVariantSheet) and the header-337, 338 and 393 entries
+ * (ModelVariantPointSheet) pass them these records. */
 typedef struct {
     SVECTOR v0[4];
     SVECTOR v1[4];
@@ -1034,9 +1014,12 @@ typedef struct {
     s32 scale, count;
 } ModelVariantScreenRing;
 
-/* One 0x7C-byte ray of headers 373 and 383: two points and their edge
- * copies, both projected, the angles and widths, the inner and outer
- * colours, the depths and the screen offsets. */
+/* One 0x7C-byte ray of headers 373 and 383, also drawn as the arms of the
+ * header-425, 428 and 448 spirals: two points and their edge copies, both
+ * projected, the angles and widths, the inner and outer colours, the depths
+ * and the screen offsets. Each segment is a POLY_GT4 with outer on its first
+ * two corners and inner on the last two. ModelVariantSpiral is the entries'
+ * colour-only view of the same record. */
 typedef struct {
     u8 unknown_00[0x10];
     SVECTOR points[2];
@@ -1068,26 +1051,6 @@ typedef struct {
     CVECTOR inner[2], outer[2];
     u8 unknown_60[0x24];
 } ModelVariantSpiralWide;
-
-/* One 0x7C-byte spiral arm: a two-point spine and a copy of it moved along
- * the view, both projected, per point the screen angle, the projected width
- * and its screen offset, and two colour rows. */
-typedef struct {
-    u8 unknown00[0x10];
-    SVECTOR a[2];
-    long sa[2];
-    s32 angle[2];
-    SVECTOR b[2];
-    long sb[2];
-    s32 width[2];
-    u8 cb[2][4];
-    u8 ca[2][4];
-    u8 unknown60[4];
-    s32 otz[2];
-    s16 ox[2];
-    s16 oy[2];
-    u8 unknown74[8];
-} ModelVariantSpiralArm;
 
 /* One 0x12C-byte beam record: inner and outer colours and a scale vector. */
 typedef struct {
@@ -1196,7 +1159,10 @@ typedef struct {
 } ModelVariantSweepConfig;
 
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
- * and per quad a size, a progress word and an initialized flag. */
+ * and per quad a size, a progress word and an initialized flag. The French
+ * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass
+ * the work area to SpanishModelVariant461_DrawRing and
+ * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size. */
 typedef struct {
     SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
     CVECTOR color;
@@ -1204,7 +1170,10 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
-/* A ring of 24 quads given by corner arrays v0..v3, and a size per quad. */
+/* The first 0x434 bytes of a ring of 24 quads given by corner arrays v0..v3,
+ * and a size per quad, as the header-447, 462 and 463 ring helpers read it.
+ * The same reads at the same offsets as ModelVariantQuadRing, but no decompiled
+ * entry is known to hand these helpers a full ModelVariantQuadRing. */
 typedef struct {
     SVECTOR v0[24];
     SVECTOR v1[24];

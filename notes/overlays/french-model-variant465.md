@@ -396,7 +396,7 @@ at `0x50/0x58`,
 depths at `0x64`, and signed-halfword screen offsets at `0x6C/0x70`.
 Eight-byte point strides, four-byte word strides, two-byte offset strides,
 the twelve-arm bound and `0x7C` record advances are observed in the helper.
-The unchanged `ModelVariantSpiralArm` declarations agree with these accesses;
+The `ModelVariantShadedRay` declarations (formerly `ModelVariantSpiralArm`) agree with these accesses;
 unaccessed bytes remain opaque. This is not a whole-context allocation or
 initialization claim.
 

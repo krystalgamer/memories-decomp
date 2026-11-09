@@ -24,7 +24,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     s32 unused0;
     s32 unused1;
     s32 turn;
-    ModelVariantSpiralArm *arm;
+    ModelVariantShadedRay *arm;
     POLY_GT4 *poly;
     s16 k;
     s32 theta;
@@ -36,7 +36,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
-    arm = (ModelVariantSpiralArm *)(work + 0x128);
+    arm = (ModelVariantShadedRay *)(work + 0x128);
     poly = (POLY_GT4 *)(work + 0x1988);
     r = MODEL_VARIANT_HALF(work, 0x1B28) / 2;
     eighth = MODEL_VARIANT_HALF(work, 0x1B28) / 8;
@@ -56,14 +56,14 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
                 length = MODEL_VARIANT_HALF(work, 0x1B30) * 24 / 4096;
             }
             if (k == 0) {
-                setVector(&arm->a[0], 0, 0, 0);
+                setVector(&arm->points[0], 0, 0, 0);
             } else {
-                setVector(&arm->a[k], rcos(phi) * (rsin(theta) * (r * k) >> 12) >> 12,
+                setVector(&arm->points[k], rcos(phi) * (rsin(theta) * (r * k) >> 12) >> 12,
                           rcos(theta) * (r * k) >> 12,
                           rsin(phi) * (rsin(theta) * (r * k) >> 12) >> 12);
             }
-            setVector(&arm->b[k], arm->a[k].vx + (rcos(turn) * length >> 12), arm->a[k].vy,
-                      arm->a[k].vz + (rsin(turn) * length >> 12));
+            setVector(&arm->edges[k], arm->points[k].vx + (rcos(turn) * length >> 12), arm->points[k].vy,
+                      arm->points[k].vz + (rsin(turn) * length >> 12));
         }
     }
     if (!(MODEL_VARIANT_WORD(work, 0x1AFC) & 1)) {
@@ -87,92 +87,92 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantSpiralArm *)(work + 0x128);
+    arm = (ModelVariantShadedRay *)(work + 0x128);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
 #ifdef VERSION_FRENCH
-                arm->otz[k] = RotTransPers4(&arm->a[0], &arm->a[1], &arm->a[0], &arm->a[1],
-                                            &arm->sa[0], &arm->sa[1], &arm->sa[0], &arm->sa[1], &p, &flag);
-                RotTransPers(&arm->b[1], &arm->sb[1], &p, &flag);
-                dx = (s16)arm->sa[k] - (s16)arm->sa[0];
-                dy = (arm->sa[k] >> 16) - (arm->sa[0] >> 16);
+                arm->depth[k] = RotTransPers4(&arm->points[0], &arm->points[1], &arm->points[0], &arm->points[1],
+                                            &arm->projected[0], &arm->projected[1], &arm->projected[0], &arm->projected[1], &p, &flag);
+                RotTransPers(&arm->edges[1], &arm->edge_projected[1], &p, &flag);
+                dx = (s16)arm->projected[k] - (s16)arm->projected[0];
+                dy = (arm->projected[k] >> 16) - (arm->projected[0] >> 16);
                 arm->angle[k] = ratan2(dy, dx) + 0xC00;
-                arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
-                arm->ox[1] = rcos(arm->angle[k]) * arm->width[k] >> 12;
-                arm->oy[1] = rsin(arm->angle[k]) * arm->width[k] >> 12;
+                arm->width[k] = (s16)arm->edge_projected[k] - (s16)arm->projected[k];
+                arm->x_offset[1] = rcos(arm->angle[k]) * arm->width[k] >> 12;
+                arm->y_offset[1] = rsin(arm->angle[k]) * arm->width[k] >> 12;
 #else
-                arm->otz[1] = RotTransPers4(&arm->a[0], &arm->a[1], &arm->a[0], &arm->a[1],
-                                            &arm->sa[0], &arm->sa[1], &arm->sa[0], &arm->sa[1], &p, &flag);
-                RotTransPers(&arm->b[1], &arm->sb[1], &p, &flag);
-                dx = (s16)arm->sa[1] - (s16)arm->sa[0];
-                dy = (arm->sa[1] >> 16) - (arm->sa[0] >> 16);
+                arm->depth[1] = RotTransPers4(&arm->points[0], &arm->points[1], &arm->points[0], &arm->points[1],
+                                            &arm->projected[0], &arm->projected[1], &arm->projected[0], &arm->projected[1], &p, &flag);
+                RotTransPers(&arm->edges[1], &arm->edge_projected[1], &p, &flag);
+                dx = (s16)arm->projected[1] - (s16)arm->projected[0];
+                dy = (arm->projected[1] >> 16) - (arm->projected[0] >> 16);
                 arm->angle[1] = ratan2(dy, dx) + 0xC00;
-                arm->width[1] = (s16)arm->sb[1] - (s16)arm->sa[1];
-                arm->ox[1] = rcos(arm->angle[1]) * arm->width[1] >> 12;
-                arm->oy[1] = rsin(arm->angle[1]) * arm->width[1] >> 12;
+                arm->width[1] = (s16)arm->edge_projected[1] - (s16)arm->projected[1];
+                arm->x_offset[1] = rcos(arm->angle[1]) * arm->width[1] >> 12;
+                arm->y_offset[1] = rsin(arm->angle[1]) * arm->width[1] >> 12;
 #endif
             } else {
-                arm->otz[k] = RotTransPers4(&arm->a[k], &arm->a[k + 1], &arm->a[k], &arm->a[k + 1],
-                                            &arm->sa[k], &arm->sa[k + 1], &arm->sa[k], &arm->sa[k + 1], &p, &flag);
-                RotTransPers(&arm->b[k], &arm->sb[k], &p, &flag);
-                dx = (s16)arm->sa[k + 1] - (s16)arm->sa[k];
-                dy = (arm->sa[k + 1] >> 16) - (arm->sa[k] >> 16);
+                arm->depth[k] = RotTransPers4(&arm->points[k], &arm->points[k + 1], &arm->points[k], &arm->points[k + 1],
+                                            &arm->projected[k], &arm->projected[k + 1], &arm->projected[k], &arm->projected[k + 1], &p, &flag);
+                RotTransPers(&arm->edges[k], &arm->edge_projected[k], &p, &flag);
+                dx = (s16)arm->projected[k + 1] - (s16)arm->projected[k];
+                dy = (arm->projected[k + 1] >> 16) - (arm->projected[k] >> 16);
                 arm->angle[k] = ratan2(dy, dx) + 0xC00;
-                arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
-                arm->ox[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
-                arm->oy[k] = rsin(arm->angle[k]) * arm->width[k] >> 12;
+                arm->width[k] = (s16)arm->edge_projected[k] - (s16)arm->projected[k];
+                arm->x_offset[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
+                arm->y_offset[k] = rsin(arm->angle[k]) * arm->width[k] >> 12;
             }
         }
     }
-    arm = (ModelVariantSpiralArm *)(work + 0x128);
+    arm = (ModelVariantShadedRay *)(work + 0x128);
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
-            poly->x0 = arm->sa[k] + arm->ox[k];
-            poly->y0 = (arm->sa[k] >> 16) + arm->oy[k];
-            poly->x1 = arm->sa[k + 1] + arm->ox[k + 1];
-            poly->y1 = (arm->sa[k + 1] >> 16) + arm->oy[k + 1];
-            poly->x2 = arm->sa[k];
-            poly->y2 = arm->sa[k] >> 16;
-            poly->x3 = arm->sa[k + 1];
-            poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
-            if (arm->otz[k] > 0) {
-                GsSortPoly(poly, ot, arm->otz[k]);
+            poly->x0 = arm->projected[k] + arm->x_offset[k];
+            poly->y0 = (arm->projected[k] >> 16) + arm->y_offset[k];
+            poly->x1 = arm->projected[k + 1] + arm->x_offset[k + 1];
+            poly->y1 = (arm->projected[k + 1] >> 16) + arm->y_offset[k + 1];
+            poly->x2 = arm->projected[k];
+            poly->y2 = arm->projected[k] >> 16;
+            poly->x3 = arm->projected[k + 1];
+            poly->y3 = arm->projected[k + 1] >> 16;
+            poly->r0 = arm->outer[k].r;
+            poly->g0 = arm->outer[k].g;
+            poly->b0 = arm->outer[k].b;
+            poly->r1 = arm->outer[k + 1].r;
+            poly->g1 = arm->outer[k + 1].g;
+            poly->b1 = arm->outer[k + 1].b;
+            poly->r2 = arm->inner[k].r;
+            poly->g2 = arm->inner[k].g;
+            poly->b2 = arm->inner[k].b;
+            poly->r3 = arm->inner[k + 1].r;
+            poly->g3 = arm->inner[k + 1].g;
+            poly->b3 = arm->inner[k + 1].b;
+            if (arm->depth[k] > 0) {
+                GsSortPoly(poly, ot, arm->depth[k]);
             }
-            poly->x0 = arm->sa[k] - arm->ox[k];
-            poly->y0 = (arm->sa[k] >> 16) - arm->oy[k];
-            poly->x1 = arm->sa[k + 1] - arm->ox[k + 1];
-            poly->y1 = (arm->sa[k + 1] >> 16) - arm->oy[k + 1];
-            poly->x2 = arm->sa[k];
-            poly->y2 = arm->sa[k] >> 16;
-            poly->x3 = arm->sa[k + 1];
-            poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
-            if (arm->otz[k] > 0) {
-                GsSortPoly(poly, ot, arm->otz[k]);
+            poly->x0 = arm->projected[k] - arm->x_offset[k];
+            poly->y0 = (arm->projected[k] >> 16) - arm->y_offset[k];
+            poly->x1 = arm->projected[k + 1] - arm->x_offset[k + 1];
+            poly->y1 = (arm->projected[k + 1] >> 16) - arm->y_offset[k + 1];
+            poly->x2 = arm->projected[k];
+            poly->y2 = arm->projected[k] >> 16;
+            poly->x3 = arm->projected[k + 1];
+            poly->y3 = arm->projected[k + 1] >> 16;
+            poly->r0 = arm->outer[k].r;
+            poly->g0 = arm->outer[k].g;
+            poly->b0 = arm->outer[k].b;
+            poly->r1 = arm->outer[k + 1].r;
+            poly->g1 = arm->outer[k + 1].g;
+            poly->b1 = arm->outer[k + 1].b;
+            poly->r2 = arm->inner[k].r;
+            poly->g2 = arm->inner[k].g;
+            poly->b2 = arm->inner[k].b;
+            poly->r3 = arm->inner[k + 1].r;
+            poly->g3 = arm->inner[k + 1].g;
+            poly->b3 = arm->inner[k + 1].b;
+            if (arm->depth[k] > 0) {
+                GsSortPoly(poly, ot, arm->depth[k]);
             }
         }
     }

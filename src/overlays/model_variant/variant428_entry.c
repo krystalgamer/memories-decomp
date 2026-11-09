@@ -18,7 +18,7 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantSpiralArm *arm = work->arms;
+    ModelVariantShadedRay *arm = work->arms;
     ModelVariantColorBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
@@ -105,19 +105,19 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 12; i++, arm++) {
             for (j = 0; j < 2; j++) {
                 if (j == 1) {
-                    arm->ca[j][0] = 0;
-                    arm->ca[j][1] = 0;
-                    arm->ca[j][2] = 0;
-                    arm->cb[j][0] = 0;
-                    arm->cb[j][1] = 0;
-                    arm->cb[j][2] = 0;
+                    arm->outer[j].r = 0;
+                    arm->outer[j].g = 0;
+                    arm->outer[j].b = 0;
+                    arm->inner[j].r = 0;
+                    arm->inner[j].g = 0;
+                    arm->inner[j].b = 0;
                 } else {
-                    arm->ca[j][0] = work->config->inner.r;
-                    arm->ca[j][1] = work->config->inner.g;
-                    arm->ca[j][2] = work->config->inner.b;
-                    arm->cb[j][0] = work->config->outer.r;
-                    arm->cb[j][1] = work->config->outer.g;
-                    arm->cb[j][2] = work->config->outer.b;
+                    arm->outer[j].r = work->config->inner.r;
+                    arm->outer[j].g = work->config->inner.g;
+                    arm->outer[j].b = work->config->inner.b;
+                    arm->inner[j].r = work->config->outer.r;
+                    arm->inner[j].g = work->config->outer.g;
+                    arm->inner[j].b = work->config->outer.b;
                 }
             }
         }
