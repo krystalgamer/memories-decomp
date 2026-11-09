@@ -49,10 +49,8 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s16 field_1FE8, field_1FEA;
     s16 field_1FEC, field_1FEE;
-    s32 field_1FF0, field_1FF4, phase;
-    u8 unknown_1FFC[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_1FF0, field_1FF4;
+    ModelVariantEntryTail tail;
 } Variant430EntryState;
 
 /* Nine texture images followed by the command table. */
