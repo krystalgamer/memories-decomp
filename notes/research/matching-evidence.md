@@ -7591,3 +7591,50 @@ and both exit paths.
 The historical canonical match and six inline-refinement rows remain intact.
 The new `post_terminal_resolution` record identifies the pointer view and
 source-level exit structure as the discriminator beyond that deferred series.
+
+## func_80051610: the one -fno-strength-reduce unit that still needs it
+
+The European slot-decoder build of `model_slot_row_tables.c`
+(`src/game/european/func_80051610.c`, `0x80051610`) is the only resident unit
+left on a `*no_strength_reduce*` profile (`gcc_2_8_1_g0_split_no_strength_reduce`).
+Every other user matched the ordinary profile once its loops stopped advancing
+cursors beside their counters. All of the attempts below change only the
+`VERSION_EUROPE` branches; the North American build of the shared file still
+matches at `gcc_2_8_1_g0`.
+
+Under `gcc_2_8_1_g0_split` the unchanged source is 395 lines off: the reducer
+adds a `rec+24` giv for the maximum reads, keeps the user cursor `p`, saves
+`unit` in `$s0` and pushes the record count into `$s1`. The closest form drops
+both cursors and addresses every read from the record:
+
+- the maximum reads through `primitive_record + off` and every second-offset
+  access through `*(u16 *)(primitive_record + second_offset)`. Both become
+  reduced givs of the record (`$t0 = rec+28`, `$t1 = rec+off`) whose preheader
+  order, increment order and delay slots all match retail.
+
+That leaves 14 lines in which the switch-assigned second offset is allocated
+to `$v1` instead of retail's `$a0` (the eight switch arms and the `$t1`
+initialisation). With strength reduction the offset is a pseudo of its own
+that dies in the preheader; it conflicts with neither the `$v1` type pseudo
+nor the `$a0` loop temporary, so global allocation takes the first free
+register, `$v1`. Without strength reduction the offset is the loop-live
+cursor itself, which does conflict with the type pseudo and lands in `$a0`.
+
+Ruled out, each with its distance:
+
+| Variant | Lines |
+| --- | --- |
+| keep `p`; read the maximum through `((u16 *)p)[...]` | 395 |
+| `p = rec + 0x18` | 327 |
+| drop `p`, keep user `q` (orders differ) | 12 |
+| same, `q` increment after the record increment | 6 (wrong preheader order and delay slot) |
+| `q = rec + second_offset` at the loop top | 223-280 (giv rejected, extra saves) |
+| best form with the offset declared at ten other positions, retyped `u32`/`u16`/`s16`/`u8`, or reusing another local | 14 |
+| switching on the primitive kind or `(u16)unit->type` | 14-38 |
+| `page_bias` inside the loop or a `while` loop | 229-235 |
+| `while (remaining_records-- != 0)` | 10 (offset gets `$a0`, but the loop test becomes `move v1,t5; bnez v1`) |
+| index loop `record = primitive_record + i * stride` | ~465 |
+| permuter: 15 minutes on the best form, 13 on the user-`q` form | no improvement |
+
+The `while (remaining_records-- != 0)` variant is the only one that moves the
+offset to `$a0`. It is the most promising lead if this unit is revisited.
