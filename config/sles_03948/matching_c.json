@@ -2763,7 +2763,7 @@
     },
     {
       "address": "0x80037CC4",
-      "profile": "gcc_2_8_1_g8_no_sched1_comm",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x40",
       "source": "src/game/text_extend_glyph_code.c"
     },

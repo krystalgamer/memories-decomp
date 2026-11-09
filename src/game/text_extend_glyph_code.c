@@ -11,22 +11,10 @@ volatile u16 gText_CurrentStreamCode;
 void Text_ExtendGlyphCode(TextStreamOwner *owner)
 {
     volatile u16 *code = &gText_CurrentStreamCode;
-    s32 index;
-    u32 combined;
-    u32 value;
-    u8 **slot;
-    u8 *cursor;
 
-    index = owner->stream_index;
-    combined = *code;
-    slot = &owner->streams[index];
-    combined -= TEXT_SINGLE_BYTE_GLYPH_LIMIT;
-    cursor = *slot;
-    combined <<= 8;
-    value = *cursor++;
-    *slot = cursor;
-    value |= combined;
-    /* Publish the extended code before signaling completion. */
-    *code = value;
+    /* Combine the F0-F5 prefix with the next stream byte and publish the
+     * extended code before signaling completion. */
+    *code = ((*code - TEXT_SINGLE_BYTE_GLYPH_LIMIT) << 8)
+        | *owner->streams[owner->stream_index]++;
     gText_CommandDisposition = -1;
 }
