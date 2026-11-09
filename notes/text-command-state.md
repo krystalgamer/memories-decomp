@@ -1,7 +1,7 @@
 # Shared text command publication and continuation state
 
 Four existing identities connect the
-[`TextBox_BuildStep`](../src/game/text_box_build_step.c) dispatcher,
+[`TextBox_BuildStep`](../src/game/text_commands.c) dispatcher,
 its command handlers and choice-label layout. They are shared cells and
 an interior table alias, not a new interpreter object or per-channel state.
 

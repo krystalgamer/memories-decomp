@@ -28,7 +28,7 @@ hashes and the generated-symbol prefix changed:
   `src/game/german/` wrappers that set `BUILD_LANGUAGE_INDEX` to 2 over the
   European source, the same shape as the Spanish (4) and Italian (3) ones.
 - Every other Spanish wrapper is reused as is, including
-  `src/game/spanish/dialog_choice_cursor.c`, since its bytes are identical here.
+  `src/game/spanish/duel_effect_text.c`, since its bytes are identical here.
 
 Compiled against the Spanish wrappers, each German index unit differs in
 exactly one instruction, the `li` above.

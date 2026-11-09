@@ -1,8 +1,8 @@
 # Text-box display refresh, outline and entry drawing
 
 Three matching APIs cover the display-object family used by
-[`TextBox_BuildStep`](../src/game/text_box_build_step.c) and
-[`TextBox_SetPos`](../src/game/text_box_runtime.c). The channel owns the
+[`TextBox_BuildStep`](../src/game/text_commands.c) and
+[`TextBox_SetPos`](../src/game/text_commands.c). The channel owns the
 object references; the shared fields do not acquire text-only names or types.
 
 | API | Former NA identity | Role |

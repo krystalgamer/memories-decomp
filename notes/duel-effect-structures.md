@@ -37,11 +37,11 @@ Verified channel fields used by matching C include:
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
-| `0x51` | `state_51` | low five bits dispatch `gTextBox_apfnStateCallbacks` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
+| `0x51` | `state_51` | low five bits dispatch `gTextBox_apfnStateCallbacks` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_text.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`text_commands.c`](../src/game/text_commands.c), and [`text_commands.c`](../src/game/text_commands.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x60` | `output_count` | NA byte count; PAL halfword pixel view includes +0x61 |
 | `0x61` | `output_limit` | NA byte threshold cleared in `DuelEffect_InitEntry`; PAL high counter byte |
@@ -635,19 +635,19 @@ authority: filter by `global_address` and a `function_status` other than
 changes affect these globals.
 
 `DuelEffect_HasActiveEntry` and `func_800373C8` in
-`duel_effect_entry_control.c` are the sole raw-view exceptions among migrated
+`duel_effect_text.c` are the sole raw-view exceptions among migrated
 pure-C users. Both include the shared header and use its typed global
 declaration, but retain byte-pointer field expressions. Replacing those
 expressions with direct `DuelEffectEntry` member access shortened the two
 exact functions by eight bytes in total and failed the resident text-size
 check. The retained expressions preserve GCC 2.8.1's address-adjustment and
 register schedule; they are not a competing layout declaration. The third
-function in that grouped source, `Text_CompletePageAdvance`, uses the shared
+function of that former entry-control group, `Text_CompletePageAdvance`, uses the shared
 `DuelEffectEntry` fields directly.
 
 The shared field syntax was exact-tested successfully in the other migrated
 users, including direct indexing in `DuelEffect_InitEntry` and both marker
-functions in `duel_effect_entry_occupancy.c`.
+functions in `duel_effect_text.c`.
 
 ## Validation
 

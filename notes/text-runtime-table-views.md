@@ -40,7 +40,7 @@ remains unsized; there is no new eighteen-entry guard or assumption that
 all masked indexes are valid.
 
 The table is defined as `gTextBox_apfnStateCallbacks` in
-`text_box_build_step.c`; its pointer types, initializers and call
+`text_commands.c`; its pointer types, initializers and call
 expressions are unchanged.
 
 ## Regional expansion and linker names

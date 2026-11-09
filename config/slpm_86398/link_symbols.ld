@@ -106,7 +106,7 @@ bss_start = main_SBSS_START;
 
 /* Names inside the small zero-initialized blocks this build's units own (#2602). */
 
-/* Names inside duel_effect_process_entries's own storage (#2602). */
+/* Names inside text_commands's own storage (#2602). */
 
 /* Names inside input_pads's own storage (#2602). */
 

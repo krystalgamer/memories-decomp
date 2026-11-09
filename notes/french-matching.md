@@ -406,7 +406,7 @@ translation units**, with all 1,127 prior entries unchanged.
 |---|---:|---:|---|
 | `0x80012A44` | 1 | 404 | French `main_init.c`, language index 1 |
 | `0x800309F4` | 3 | 1,284 | French `debug_menu_sound_entry.c` (now `debug_menu.c`, which also compiles the value editor at `0x800304D0`), language index 1 |
-| `0x80036EF0` | 2 | 420 | Unchanged Spanish `dialog_choice_cursor.c` |
+| `0x80036EF0` | 2 | 420 | Unchanged Spanish `dialog_choice_cursor.c` (now `duel_effect_text.c`) |
 | `0x80043D7C` | 4 | 1160 | French `main_boot_frontend.c`, language index 1 |
 
 The three new French wrappers follow the existing Spanish wrapper structure,

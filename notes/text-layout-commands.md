@@ -1,7 +1,7 @@
 # Pen offsets and regional glyph-metric commands
 
 The four secondary handlers in
-[`duel_effect_command.c`](../src/game/duel_effect_command.c) keep the same
+[`text_commands.c`](../src/game/text_commands.c) keep the same
 positions in the
 [`dispatch table`](../src/game/duel_effect_command_table.c). Their names
 describe the complete matching bodies, without treating the regional operand

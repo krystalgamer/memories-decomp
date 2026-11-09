@@ -164,7 +164,7 @@ the tester and a clear operation for the updater; it is not a stored flag bit.
 
 The event-script handler
 [`Script_OpStoryFlag`](../../src/game/script_scene.c) and text handler
-[`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c)
+[`Text_HandleCampaignFlagCommand`](../../src/game/text_commands.c)
 interprets
 `CAMPAIGN_FLAG_COMMAND_WRITE` (`0x4000`) before calling either helper.
 Write commands pass `command & 0xBFFF`, retaining the clear modifier:
