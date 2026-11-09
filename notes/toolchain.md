@@ -100,12 +100,12 @@ sequence, and the complete PS-X EXE retains the target SHA-256.
 
 `gcc_2_8_1_g0_split_no_cse_follow_jumps` adds only
 `-fno-cse-follow-jumps` to the existing G0 split-address profile.
-`Model_SetSlotPlaybackDirection` uses it to retain the positive-magnitude copies across its
-state dispatch without register pins. Split addressing alone removes those
-copies; the no-CSE-follow-jumps profile without split addressing keeps them
-but changes the address/register setup. Both compiler and assembler remain
-at G0. This is a measured requirement for that source, not a project-wide
-compiler rule.
+`Model_SetSlotPlaybackDirection` formerly used it to retain the
+positive-magnitude copies across a goto-based state dispatch; written as a
+`switch` whose arms assign `double_speed` and `-double_speed`, the same copies
+come out at the ordinary `gcc_2_8_1_g8_split` profile, so that function no
+longer needs the flag. The profile remains for other measured sources; it is
+not a project-wide compiler rule.
 
 ## Original CC1PSX default options
 

@@ -20,7 +20,6 @@ void Model_SetSlotPlaybackSpeed(s32 slot_index, s32 speed)
 void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign)
 {
     ModelSlot *slot;
-    s32 saved_double_speed;
     s32 playback_state;
     s32 part_speed;
     s32 double_speed;
@@ -48,24 +47,19 @@ update:
         double_speed = speed_slot->playback_speed * 2;
         playback_state = speed_slot->playback_state;
     }
-    saved_double_speed = double_speed;
-    part_speed = double_speed;
-    if (playback_state == 60)
-        goto negate;
-    if (playback_state < 61) {
+    switch (playback_state) {
+    case 35:
         part_speed = 0;
-        if (playback_state == 35)
-            goto apply;
-        return;
-    } else {
-        part_speed = saved_double_speed;
-        if (playback_state == 62)
-            goto apply;
+        break;
+    case 62:
+        part_speed = double_speed;
+        break;
+    case 60:
+        part_speed = -double_speed;
+        break;
+    default:
         return;
     }
-negate:
-    part_speed = -part_speed;
-apply:
     Model_SetSlotPartSpeeds(slot_index, part_speed);
 }
 
