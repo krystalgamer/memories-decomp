@@ -85,7 +85,7 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
             }
         }
         if (primary->progress >= 1024 && band->size < 4096) {
-            band->size += state->step * 160;
+            band->size += state->clock.step * 160;
             if (band->size >= 4096) {
                 band->size = 4096;
                 band->completed++;
