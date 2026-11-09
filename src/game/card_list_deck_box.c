@@ -149,25 +149,19 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
  * magic type up the next one; an empty count marks the box and the row's
  * entry, and every box after the first gets the regional following-row flag.
  *
- * The three staging stores sit in their own do { } while (0) block. loop.c
- * then sees a nested loop and leaves the gDuel_adwCardStats address to be
- * rebuilt on each pass, as retail does, rather than hoisting it into $fp;
- * that register goes to the staging pointer instead. The European body uses
- * an incremented staging cursor so both stores share one split address. */
+ * The staging read goes through the per-row count pointer, while the later
+ * empty test indexes the row directly; the European body uses an incremented
+ * staging cursor so both stores share one split address. */
 void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 {
     CardListRowSet *s;
     DuelEffectChannel *box;
     s32 i;
-    s32 y;
     s32 style;
     s32 base;
     s32 id;
-    u16 *q;
-    CardListRowSet *w;
-#ifndef VERSION_EUROPE
-    TextStagingValues *dst;
-#else
+    u16 *count;
+#ifdef VERSION_EUROPE
     u8 *color_slots;
     s32 *stage;
     s32 empty_color;
@@ -184,17 +178,13 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #ifdef VERSION_EUROPE
     color_slots = gText_abColorSlots;
     empty_color = 4;
-#else
-    dst = gText_StagedValues;
 #endif
-    w = s;
-    y = 0;
-    q = e + 1;
     for (i = 0; i < CARD_LIST_ROW_ENTRY_COUNT; i++) {
 #ifdef VERSION_EUROPE
         color_slots[4] = 0;
 #endif
-        w->card_entries[0] = e[0];
+        count = e + 1;
+        s->card_entries[i] = e[0];
         style = e[0];
         if (style != 0) {
             id = style;
@@ -207,24 +197,22 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
             stage = &gText_StagedValues[0].card.card_id;
             *stage++ = id;
             gDuel_wSelectedCardID = id;
-            *stage = q[0];
+            *stage = *count;
 #else
-            do {
-                gText_StagedValues[0].card.card_id = id;
-                dst->card.count = q[0];
-                gDuel_wSelectedCardID = id;
-            } while (0);
+            gText_StagedValues[0].card.card_id = id;
+            gText_StagedValues[0].card.count = *count;
+            gDuel_wSelectedCardID = id;
 #endif
         }
         box = TextBox_Create(idx + 1, style, s->x, s->y, 0x120, 0xB0);
-        box->pen_y = y;
-        if (q[0] == 0) {
+        box->pen_y = i * 0x16;
+        if (e[1] == 0) {
 #ifdef VERSION_EUROPE
             box->color_index_54 = empty_color;
 #else
             box->color_index_54 = 4;
 #endif
-            w->card_entries[0] |= 0x8000;
+            s->card_entries[i] |= 0x8000;
 #ifdef VERSION_EUROPE
             color_slots[4] = empty_color;
 #endif
@@ -233,9 +221,6 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
             box->flags_34 |= CARD_LIST_FOLLOWING_FLAG;
         }
         TextBox_BuildBlocking(box);
-        q += 2;
         e += 2;
-        w = (CardListRowSet *)((u8 *)w + 2);
-        y += 0x16;
     }
 }

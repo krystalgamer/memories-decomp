@@ -6645,13 +6645,13 @@
     },
     {
       "address": "0x8006AB9C",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x338",
       "source": "src/game/european/card_list_deck_box.c"
     },
     {
       "address": "0x8006AED4",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
       "source": "src/game/european/card_list_deck_box.c"
     },

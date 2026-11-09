@@ -6254,13 +6254,13 @@
     },
     {
       "address": "0x80060B38",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x338",
       "source": "src/game/card_list_deck_box.c"
     },
     {
       "address": "0x80060E70",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x198",
       "source": "src/game/card_list_deck_box.c"
     },
