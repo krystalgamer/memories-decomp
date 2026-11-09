@@ -22,10 +22,10 @@ void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record);
 void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index);
 
 /* Two updates to the build-deck screen's per-card counts, both taking the
- * complete BuildDeckTransitionState. BuildDeck_RecountDeckCards keeps byte cursors only
- * inside its count loop, where retail walks the quantity table and deck rows
- * while deriving their base, field distance and stride from the shared
- * BuildDeckTransitionState and CardEntry layouts.
+ * complete BuildDeckTransitionState. BuildDeck_RecountDeckCards indexes
+ * deck_card_quantities by card id and walks the deck rows as CardEntry
+ * records, comparing each row's id as signed so the empty rows' -1 never
+ * matches.
  *
  * BuildDeck_TakeCardFromChest decrements one card's count and, when it reaches zero, clears
  * that card's deck record flag and re-sorts. It does nothing at all when the
