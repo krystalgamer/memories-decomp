@@ -128,6 +128,22 @@ typedef struct {
     u8 bytes[8];
 } ModelVariantViewSnapshotBytes;
 
+/* The control block an entry state keeps ahead of its config pointer
+ * (e.g. Variant428EntryState): the entry zeroes the counters and fade, then
+ * stores the view pitch and yaw in angles (ratan2 of its view delta, the yaw
+ * less 1024). Each tick it bumps frame_count; when the slot's animation
+ * frame differs from animation_frame it adds Model_GetFrameStep() to frame,
+ * keeps that step in step and records the new animation_frame. Its timings
+ * compare against frame, and fade climbs by step to 64 (tint = fade << 5). */
+typedef struct {
+    s32 angles[2];
+    u32 frame_count;
+    u32 frame;
+    u32 animation_frame;
+    s32 step;
+    s32 fade;
+} ModelVariantClock;
+
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the
  * sprites' colour, then the sprite size, the bounce height, the sway and
