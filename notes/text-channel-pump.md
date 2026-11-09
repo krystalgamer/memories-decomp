@@ -8,20 +8,15 @@ The matching source/header paths remain
 [`text_box_runtime.c`](../src/game/text_box_runtime.c) and
 [`text_box_update_channels.h`](../src/game/text_box_update_channels.h).
 
-## Two cursors, one record
+## One record pointer, two registers
 
-The body retains two independently live cursors: the full channel base
-passed to helpers, and a `ChoiceChannelCursor` parked on its `field_30`.
-The latter sees the choice object at displacement zero and the channel
-flags at displacement four. Folding it into the full record costs a
-register and four instructions under the retained profile.
-
-`ChoiceView.obj` now uses the existing `struct DisplayObject *`
-type instead of `void *`: `Dialog_OpenChoice` returns that pointer,
-and `DisplayObject_ReleaseIfPresent` consumes it. Its zero offset, the
-flags' four-byte offset and eight-byte view size have target compile-time
-contracts. No object or record storage is added, and the channel's shared
-`field_30` is not globally renamed or restricted to choices.
+The source walks one `DuelEffectChannel *` beside a down-counter and reads
+`prompt_object` and `flags_34` through it. Under `gcc_2_8_1_g8_split_comm`
+the strength reducer parks a second induction register on the record's
+`+0x30` pair, so the retail body still sees the choice object at
+displacement zero and the flags at displacement four. An earlier match kept
+that second cursor as an explicit `ChoiceChannelCursor` view, which was only
+needed under `-fno-strength-reduce`.
 
 ## Pump and choice lifecycle
 

@@ -127,8 +127,9 @@ choice geometry, optional highlight retention, page-advance initialization,
 countdown/input handling and CloseChoice's release/state/yield sequence
 are unchanged. Existing callers polling this pointer still wait only for
 its non-null publication, not for input confirmation or completed clearing.
-TextBox_UpdateChannels (0x80039794) retains its separate +0x30
-ChoiceChannelCursor, stored obj/flags view and original regional stride.
+TextBox_UpdateChannels (0x80039794) walks one DuelEffectChannel pointer;
+GCC derives the retail second register at +0x30 for prompt_object and
+flags_34 itself.
 
 TextBox_BuildStep (0x800393B0) releases and nulls prompt_object and
 aux_object before refreshing the renderer. TextBox_Destroy (0x80035B7C)
