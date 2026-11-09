@@ -86,7 +86,8 @@ typedef struct {
     u8 unknown_42C0[4];
     GsCOORDUNIT *part;
     s16 field_42C8, field_42CA, field_42CC, radius;
-    s32 field_42D0, streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 field_42D0;
+    ModelVariantStreamerParams streamer;
     s32 ripple, ripple2, field_42EC, field_42F0, spin;
     s32 phase;
     u8 unknown_42FC[8];

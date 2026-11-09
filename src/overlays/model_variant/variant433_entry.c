@@ -274,7 +274,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
         }
         work->radius = 1024;
         work->field_42D0 = 1024;
-        work->streamer_length = 1024;
+        work->streamer.length = 1024;
         work->spin = 0;
         work->field_42C8 = 0;
         work->field_42CA = 0;
@@ -283,9 +283,9 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
         work->ripple2 = 0;
         work->field_42EC = 0;
         work->field_42F0 = 0;
-        work->streamer_rotation_x = 0;
-        work->streamer_rotation_y = 0;
-        work->streamer_rotation_z = 0;
+        work->streamer.rotation_x = 0;
+        work->streamer.rotation_y = 0;
+        work->streamer.rotation_z = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
