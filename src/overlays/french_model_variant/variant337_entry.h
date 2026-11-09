@@ -63,8 +63,8 @@ typedef struct {
     /* ribbon_length is the ribbon's drawn segment count; ribbon_wave and
      * ribbon_phase sway it; the ring helper turns the rings by spin. */
     s16 ribbon_length, field_D42, field_D44, width;
-    s32 field_D48, streamer_length;
-    s32 streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 field_D48;
+    ModelVariantStreamerParams streamer;
     s32 ribbon_wave, ribbon_phase, spin, field_D68, phase;
     u8 unknown_D70[8];
     s32 tint;
