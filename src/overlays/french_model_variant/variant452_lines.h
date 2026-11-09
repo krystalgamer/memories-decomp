@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT452_LINES_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -29,9 +30,8 @@ typedef struct {
     u8 unknown3324[0x14];
     DVECTOR screen_delta;
     VECTOR delta;
-    u8 unknown334C[0x14];
-    s32 step;
-    u8 unknown3364[0x44];
+    ModelVariantClock clock;
+    u8 unknown3368[0x40];
     s32 phase;
 } Variant452LinesView;
 

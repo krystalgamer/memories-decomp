@@ -79,7 +79,7 @@ void FrenchModelVariant452_DrawLines(u8 *ctx)
             }
         }
         if (grid->count < 4096) {
-            grid->count += work->step << 7;
+            grid->count += work->clock.step << 7;
             if (grid->count >= 4096) {
                 if (work->phase < 4) {
                     grid->count -= 4096;
