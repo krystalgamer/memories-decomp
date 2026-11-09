@@ -104,25 +104,25 @@
     },
     {
       "address": "0x80183740",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
       "source": "src/overlays/european/main_menu/compare_cards_by_max_stat.c"
     },
     {
       "address": "0x80183920",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
       "source": "src/overlays/european/main_menu/compare_cards_by_attack.c"
     },
     {
       "address": "0x80183AB0",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
       "source": "src/overlays/european/main_menu/compare_cards_by_defense.c"
     },
     {
       "address": "0x80183C40",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x118",
       "source": "src/overlays/european/main_menu/compare_cards_by_type.c"
     },
