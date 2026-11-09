@@ -218,10 +218,10 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->substep = 0;
-        work->field_F44 = 1024;
-        work->field_F46 = 1024;
-        work->field_F48 = 0;
-        work->field_F4C = 0;
+        work->radius = 1024;
+        work->brightness = 1024;
+        work->progress = 0;
+        work->spin = 0;
         work->field_F42 = 0;
         work->frame_count = 0;
         work->frame = 0;
