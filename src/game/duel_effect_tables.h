@@ -25,7 +25,7 @@
 
 typedef void (*DuelEffectHandler)(void);
 
-/* The dispatch tables src/game/duel_field_effects.c owns at 0x80090A5C.
+/* The dispatch tables src/game/duel_scene.c owns at 0x80090A5C.
 
    DuelEffect_UpdateCardEffect turns the active card effect id into a group
    through gDuelEffect_abGroupByEffectId and runs one of that group's two

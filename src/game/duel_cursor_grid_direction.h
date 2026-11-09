@@ -49,7 +49,7 @@ typedef char DuelCursor_record_offsets_must_match[
  *
  * DuelCursor_UpdateDirection reaches it with the object alone. Its prologue
  * assigns only $a0, so `dir` arrives as whatever that function's own caller
- * left in $a1, and there is no expression duel_cursor_status.c could write for
+ * left in $a1, and there is no expression duel_scene.c could write for
  * it -- the call site does not compute one. The arm below preserves that
  * one-argument call through DuelCursorProcessGridDirectionAmbient, while
  * DuelCursor_ProcessHeldGridDirection, which does compute the argument, uses

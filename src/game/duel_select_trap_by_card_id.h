@@ -8,10 +8,10 @@
  *
  * A hit also records the id in gDuel_wSelectedTrapCardId and the owning object's +0x6A slot
  * index in gDuel_bSelectedTrapSlot; a miss leaves gDuel_wSelectedTrapCardId cleared. duel_side_state.h
- * describes both of those globals, and the definition in duel_select_trap_by_card_id.c
+ * describes both of those globals, and the definition in duel_scene.c
  * carries the rest.
  *
- * duel_card_effects.c calls it with two card ids, so the return is used as a
+ * duel_scene.c calls it with two card ids, so the return is used as a
  * present/absent test rather than for the value it returns. */
 s32 Duel_SelectTrapByCardId(s32 card_id);
 

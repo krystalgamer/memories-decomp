@@ -6,7 +6,7 @@ representation, not merely a border and not the separate lit 3D card path.
 
 The complete matching implementation selects a `DuelCardRecord` through
 the canonical display object's `field_6A`. The constructor
-`Duel_CreateCardDisplayObject` in `duel_init_scene.c` derives that index from
+`Duel_CreateCardDisplayObject` in `duel_scene.c` derives that index from
 `gDuel_aCardRecords`, sets the object's type byte from the card stats,
 and installs `Duel_DrawCardAtOutputPosition` as its secondary callback.
 That wrapper forwards the stored signed screen pair. The other caller,
@@ -22,7 +22,7 @@ This independent constructor/caller/body evidence supports the name
 without guessing global meanings for the polymorphic display-object
 fields or relying on reference-project declarations.
 
-The source is now `duel_card_and_status_draw.c` (formerly
+The source is now `duel_scene.c` (formerly
 `duel_card_frame_draw.c`), grouped with the immediately following
 `Duel_DrawCardAtOutputPosition` and the life-point and deck-count readout,
 using the unchanged

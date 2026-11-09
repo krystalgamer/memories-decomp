@@ -973,7 +973,7 @@ struct FileTransferDescriptor {
     /* One word at 0x30 that the loader's phase callbacks write both ways,
        so the record carries both readings rather than picking one.
 
-       As two halfwords it is a pair: duel_card_data_transfer.c counts
+       As two halfwords it is a pair: duel_scene.c counts
        sectors in `counter` alone, the phase-2 paths write a VRAM position
        pair, and the file-state setup in file_transfer_runtime.c splits a byte
        count across the two halves.

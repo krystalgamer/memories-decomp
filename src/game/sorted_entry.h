@@ -60,7 +60,7 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
  * Model_DrawFogTexturedQuads (src/game/sorted_entry_render.c) each do
  * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
- * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c). */
+ * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene.c). */
 extern u32 gModel_dwFogBaseColor;
 
 extern SortedEntry *gSortedEntry_pBase;

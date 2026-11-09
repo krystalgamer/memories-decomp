@@ -137,8 +137,8 @@ extern DuelSelectionRecord *gDuel_pActiveSelectionRecord;
  * Declared here because this header owns everything it touches: gDuel_abSelectionSides
  * above, DuelSelectionRecord, which the walk now names those fields through,
  * and the three size constants it is written in terms of.
- * Duel_InitScene (src/game/duel_init_scene.c) is the only caller, and
- * its old duel_init_scene.c held the only declaration. */
+ * Duel_InitScene (src/game/duel_scene.c) is the only caller, and
+ * its old duel_scene.c held the only declaration. */
 void Duel_InitSelectionRecords(void);
 
 #endif

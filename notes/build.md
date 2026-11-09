@@ -323,8 +323,11 @@ FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
 Separate definitions cannot reproduce that layout because GCC aligns the
 second object to offset 4. The successful owner is one six-byte array,
 `gDebugEffect_PreviewState`: the old identities become elements 0, 2, and
-3, and the live page byte at `0x8009AF2E` becomes element 4. Because all views
-were private to `debug_effect_screen.c`, no external alias is lost. The object
+3, and the live page byte at `0x8009AF2E` becomes element 4. (Since the duel
+units became one object, `duel_scene.c`, whose `.sdata` starts word-aligned,
+separate definitions are exact again: `gDebugEffect_bEditedOperand`,
+`gDebugEffect_abOperands` and `gDebugEffect_bPage`.) Because all views
+were private to `duel_scene.c`, no external alias is lost. The object
 tiles the complete six-byte window and the linked executable remains exact.
 
 `initialized_data_8009af08` opens with the watchdog counter at `0x8009AF08`,
@@ -542,7 +545,7 @@ units interleave in address order.
 Small data goes back into the **matched translation unit that owns it**, not
 into a data-only unit: at `-G8` a definition of eight bytes or fewer lands in
 `.sdata` by itself, and a text segment claims no small-data section.
-`duel_battle_stats.c` owns the six trap thresholds and `duel_card_effects.c`
+`duel_scene.c` owns the six trap thresholds and `duel_scene.c`
 the two life-point tables this way.
 
 **The consumer's addressing form says whether it owns the symbol.** At `-G8`
@@ -550,9 +553,9 @@ the assembler resolves a small global `%gp_rel` - one instruction - only in the
 translation unit that *defines* it; everywhere else it is `lui %hi` + `%lo`,
 two. So a file that reaches a small symbol through the two-instruction form did
 not define it in retail, and moving the definition there makes its text four
-bytes shorter. `duel_field_effects.c` reads the `"%d\n"` trace format
+bytes shorter. `duel_scene.c` reads the `"%d\n"` trace format
 at 0x8009AF40 that way, so that symbol belongs to some other unit and the blob
-keeps it; `duel_battle_stats.c` and `duel_card_effects.c` reach theirs
+keeps it; `duel_scene.c` and `duel_scene.c` reach theirs
 gp-relative, which is why the definitions land there and the build stays
 byte-exact. The failure is loud but indirect: the shortened function shifts
 every jump-table entry after it.
@@ -562,7 +565,7 @@ bytes are padding to spimdisasm and it does not emit them, so a chunk can be
 shorter than the range it covers and everything after it starts too early.
 Before the final carve, `initialized_data_8009af2a` covered six bytes but
 emitted four, so a `pad` subsegment at `0x8b72e` made up the difference.
-`gDebugEffect_PreviewState[6]` now emits the whole range and removes that
+The preview-state definitions now emit the whole range and removes that
 special case. A missing byte still shows up as a shifted `%gp_rel` reference,
 and the build's size check catches the rest.
 
@@ -636,7 +639,7 @@ global means the original file declared it as a C tentative definition
 (`u8 x;`, emitted as `.comm`), not `extern`.
 
 A unit that reads small globals it does not own therefore repeats each one's
-declaration without `extern` after its includes, as `duel_scene_battle.c`
+declaration without `extern` after its includes, as `duel_scene.c`
 already did, and builds with a `*_comm` profile. With `--use-comm-section`,
 MASPSX keeps them as real `.comm` symbols, which the linker merges with the
 owner's storage. Without it, MASPSX would allocate them as local storage that
@@ -698,9 +701,9 @@ carried the pattern, and both would overrun their neighbours if read literally:
   `section(".data")` arm `sound.h` guards instead.
 
 The last row is why the forms are not interchangeable, and it is worth
-measuring rather than assuming. Relaxing `duel_action_lock.c`'s `[8]` to an
+measuring rather than assuming. Relaxing `duel_scene.c`'s `[8]` to an
 incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
-the identical relaxation in `duel_load_terrain_package.c`, which assembles at `-G8`, is
+the identical relaxation in `duel_scene.c`, which assembles at `-G8`, is
 exact. `options_init.c` used to sit on the `-G4` assembler arm with a sized
 array for the same reason. Once it took the `.data` arm, the assembler
 threshold had nothing left to decide in it, and `Options_Init` now builds at
@@ -803,7 +806,7 @@ thirty-one matching-C sites already including `unmatched.h`.
 
 The next batch demonstrates why the include intersection is evidence only
 after checking behavior. Twelve globals locally declared by
-`duel_card_turn_animations.c` also appeared in files including `view_state.h`, but their
+`duel_scene.c` also appeared in files including `view_state.h`, but their
 actual contract is narrower: the matching function publishes four targets,
 four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in
@@ -947,16 +950,16 @@ declared it three ways:
 
 | Translation unit | Spelling | Relocation |
 | --- | --- | --- |
-| `src/game/duel_scene_update.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
-| `src/game/duel_init_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
-| `debug_effect_screen.c` | `extern u8 gDuel_wOutcomeFlags[4]`, byte 2 | `R_MIPS_GPREL16` |
+| `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
+| `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
+| `duel_scene.c` | `extern u8 gDuel_wOutcomeFlags[4]`, byte 2 | `R_MIPS_GPREL16` |
 | `src/game/main_run_duel_and_library.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The byte view was a misreading. The `u16` users only test bits `0x1000` and
-`0x2000` at offset 0, `debug_effect_screen.c` only touches byte 2, and the
+`0x2000` at offset 0, `duel_scene.c` only touches byte 2, and the
 European images place that byte at an unrelated address. It is its own `u8`,
 `gDebugEffect_bPlacementCounter` (formerly `D_8009B16E`), which the US and Japanese layouts happen to put right after the
-flags word. The owner in `duel_field_card_render.c` now defines the two
+flags word. The owner in `duel_scene.c` now defines the two
 separately. Main_RunDuel's `.data` arm is still the open part of this
 symbol.
 
@@ -1046,7 +1049,7 @@ is no canonical type to adopt: each one is faithful to what its own caller
 puts there.
 
 `gText_StagedValues` is the clearest example in the tree. Before Tick389, seven
-resident sources declared it a flat `s32 []`, while `duel_result_runtime.c` used
+resident sources declared it a flat `s32 []`, while `duel_scene.c` used
 `s32 [16][DUEL_SIDE_COUNT]`. Two overlays, `free_duel/screen_runtime.c` and
 `password/shop.c`, used the shared `Pair` from `ygo_types.h`; the password
 source also needed a plain `s32` same-symbol alias for its starchip renderer.
@@ -1178,7 +1181,7 @@ consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
 plain scalar, as did the former `main_run_credits.c`, `debug_menu_campaign_entry.c` and
 the former `func_8002A788.c`. Same compiler, same `-G8`, opposite spellings,
 both matching.
-`main_start_duel.c` is the control: it is `-G0` and uses the scalar, where the
+`duel_scene.c` is the control: it is `-G0` and uses the scalar, where the
 table says no lever is needed because a plain scalar already gets `%hi/%lo`.
 
 The spelling is therefore a property of the individual access site's required

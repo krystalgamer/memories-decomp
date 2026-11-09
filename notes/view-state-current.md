@@ -37,7 +37,7 @@ of the two angles, so `orbit_angle` is not called pitch.
 | `0x04` | `field_04` | `orbit_angle` | The second angle both orbit bodies pass to `rsin`/`rcos`. `Duel_StartViewTween` names it the orbit-angle channel, and every writer stores an angle: constants such as `0x100`, `0xC4` and `0x3FE`, the duel and overworld tween accumulators, pad-driven up/down steps, or `MapLocation.camera_orbit_angle`. The overworld tween calls its copy pitch, but the alternate orbit uses it as the horizontal angle, so the name stays neutral. | high | 20 accesses, 8 files |
 
 The renames are spelling only, and raw halfword views such as
-`duel_phase_entry.c`'s `w[1]`/`w[2]` keep their existing index spelling.
+`duel_scene.c`'s `w[1]`/`w[2]` keep their existing index spelling.
 `MapLocation.camera_distance` and `camera_orbit_angle` in `src/ygo_types.h`
 (formerly `camera_field_00`/`camera_field_04`) are what
 `CampaignMap_SetCameraFromLocation` copies straight into `distance` and

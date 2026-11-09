@@ -2,7 +2,7 @@
 
 `DuelSelectionRecord.cursor_object` points to the canonical `DisplayObject`,
 rather than the separate `DuelFieldCursorObject` prefix view. The cursor display-object
-constructor in `duel_field_display_objects.c` allocates that same pool
+constructor in `duel_scene.c` allocates that same pool
 object, and `DuelCursor_ProcessGridDirection` only accesses its fixed members: it does not
 allocate, copy by the private type's size, or advance a private-type array.
 

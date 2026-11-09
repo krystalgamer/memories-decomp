@@ -13,7 +13,7 @@
  * does not save and restore the caller's prior view. Duel_InitScene then
  * applies the active side's angle separately.
  *
- * Duel_InitScene (src/game/duel_init_scene.c) is the observed consumer and
+ * Duel_InitScene (src/game/duel_scene.c) is the observed consumer and
  * reached it through a local extern that already agreed with this. */
 void Duel_InitGroundProjectionReference(void);
 extern s16 gDuel_sGroundReferenceScreenX;

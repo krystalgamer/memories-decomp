@@ -19,7 +19,7 @@ owner from its actual rendering sequence: a quad contour, configured delay,
 expanding gradient ring, layered tile and 16 rotating gradient strips,
 followed by fade completion. The source has no particle array; effect 18
 adds that distinct path. Both complete objects remain separate.
-`duel_draw_resolution.c` creates effect 0 with phase 9 during Exodia
+`duel_scene.c` creates effect 0 with phase 9 during Exodia
 presentation, so this must not be called an ordinary-spell-only animation
 or have its 30 configurations reduced to that single observed caller value.
 This is static code evidence, not a new human artwork observation.

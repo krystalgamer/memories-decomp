@@ -1,7 +1,0 @@
-#include "../../types.h"
-
-#define VERSION_JAPAN
-#define DEBUG_EFFECT_FAST_STEP_BUTTON PAD_BUTTON_CIRCLE
-#define DEBUG_EFFECT_FAST_MOVE_BUTTON PAD_BUTTON_CROSS
-#define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CIRCLE
-#include "../debug_effect_screen.c"

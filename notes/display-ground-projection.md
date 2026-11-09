@@ -20,7 +20,7 @@ projects through `gGraphics_LightSourceMatrix` using the official GTE RTPS macro
 The resulting screen pair is written to `xy` and biased by
 `(-32, -30)`. The geometry origin is then restored to zero.
 
-The constructor `func_800234E4` in `duel_field_display_objects.c` supplies
+The constructor `func_800234E4` in `duel_scene.c` supplies
 the two position halves from the duel-field coordinate table and installs
 this function in the display object's `update` slot. The name therefore
 describes a ground-to-screen position update, not a draw routine or an

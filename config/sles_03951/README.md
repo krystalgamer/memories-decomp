@@ -89,7 +89,7 @@ even if the executable hash matches.
 There are no remaining resident C targets. All previously classified handwritten/SDK
 assembly is unchanged. These numbers do not claim the raw gaps as C data.
 
-The three `debug_effect_screen.c` functions now match through the Spanish
+The three `duel_scene.c` functions now match through the Spanish
 wrapper: the earlier conflicting bindings came from applying the European
 coordinate/page offsets (2/4) to the Spanish state window (4/6). All 18
 GP-relative references now agree on the measured base `0x8009C2C0` after
@@ -170,7 +170,7 @@ other region is changed.
 ## Localized result outro and resident completion
 
 The final four functions at `0x80020CB0..0x80021614` contribute 2,404 bytes
-through the Spanish wrapper (now `spanish/duel_result_runtime.c`), using the existing shared body
+through the Spanish wrapper (now `spanish/duel_scene.c`), using the existing shared body
 and `gcc_2_8_1_g8_split` profile. A private header declares eight measured
 two-by-ten sprite tables and the dynamic active-slot count without changing
 the public seven-element tables used by existing regions.
