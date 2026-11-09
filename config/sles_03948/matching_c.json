@@ -2541,7 +2541,7 @@
     },
     {
       "address": "0x80035FE8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
       "source": "src/game/european/duel_effect_init_entry.c"
     },

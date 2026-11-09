@@ -2529,7 +2529,7 @@
     },
     {
       "address": "0x80035850",
-      "profile": "gcc_2_8_1_o1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
       "source": "src/game/japanese/duel_effect_init_entry.c"
     },

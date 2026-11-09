@@ -53,7 +53,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #else
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
-    register int offset = index << 1;
+    int offset = index << 1;
     DuelEffectChannel *e;
 #ifdef VERSION_JAPAN
     unsigned char *range;
@@ -62,13 +62,18 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #endif
     e = &gText_aChannels[index];
     flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
+    /* The do/while (0) loop notes are a barrier to GCC's first scheduling
+       pass, which would otherwise sink the flags OR to its store; retail
+       ORs right after the channel address. */
+    do {
 #ifdef VERSION_JAPAN
-    e->line_advance_y = 16;
-    e->glyph_advance_x = 16;
+        e->line_advance_y = 16;
+        e->glyph_advance_x = 16;
 #else
-    e->glyph_advance_x = 8;
-    e->line_advance_y = 12;
+        e->glyph_advance_x = 8;
+        e->line_advance_y = 12;
 #endif
+    } while (0);
     e->glyph_delay = 2;
 #ifdef VERSION_JAPAN
     /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
