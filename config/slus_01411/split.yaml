@@ -246,7 +246,7 @@ segments:
       - [0xe0638, bss, display_object_system_bss_commons]
       - [0xe3088, bss, mem_card_driver_bss_commons]
       - [0xe3320, bss, model_bss_commons]
-      - [0xe5ea0, .bss, game/model_view_queries]
+      - [0xe5ea0, bss, model_scene_runtime_bss_commons]
       - [0xe5f50, bss, movie_pipeline_bss_commons]
       - [0xe5f68, bss, model_keyframe_update_commons]
       - [0xe6118, .bss, game/model_handler_registry]

@@ -28,7 +28,7 @@ Whole implementation, header and resident caller comparisons change only
 the identifier. The scene-transition fixture retains its complete oracle
 and callback/event arguments under the renamed request stub.
 
-The seven camera-request functions, now in `model_scene_services.c` under
+The seven camera-request functions, now in `model_scene_runtime.c` under
 `gcc_2_8_1_g8_split_comm`, retain the `0x94` extent:
 
 | Build | Address |

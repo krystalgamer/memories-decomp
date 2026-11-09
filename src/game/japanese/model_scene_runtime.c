@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#include "../model_scene_services.c"
+#include "../model_scene_runtime.c"
