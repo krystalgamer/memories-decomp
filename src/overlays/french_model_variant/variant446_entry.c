@@ -212,7 +212,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         work->field_1BC8 = 0;
         work->field_1BCA = 0;
         work->progress = 0;
-        work->field_1BD2 = 0;
+        work->ring_angle = 0;
         work->frame_count = 0;
         work->elapsed = 0;
         work->animation = 0;
