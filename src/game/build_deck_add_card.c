@@ -8,15 +8,6 @@
 #include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
 
-#define BUILD_DECK_ADD_LIST_OFFSET \
-    ((u32)&((BuildDeckTransitionState *)0)->lists[1])
-#define BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET \
-    ((u32)&((BuildDeckTransitionState *)0)->lists[1].entries[0].id + \
-     2 * sizeof(s16))
-#define BUILD_DECK_ADD_ENTRY_HALFWORD_STRIDE \
-    (sizeof(CardEntry) / sizeof(s16))
-#define CARD_ENTRY_BYTES(entry) ((u8 *)(entry))
-
 /* The Build Deck screen's card counts: the count box refresh, returning a
    copy to the chest, taking one out, recounting the deck, and adding a card
    to the deck list. All five work on the same screen record - the per-card
@@ -32,7 +23,7 @@
 void BuildDeck_AddCard(s32 base, s32 card_id)
 {
     s32 *record;
-    s16 *entry;
+    CardEntry *entry;
     s32 index = 0;
     {
         s32 *base = gDuel_adwCardStats;
@@ -40,23 +31,19 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 
         record = &base[record_index];
     }
-    entry = (s16 *)(base + BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET);
-    do {
-        if (CARD_ENTRY_BYTES(entry)[5] == 0) {
-            CARD_ENTRY_BYTES(entry)[5] = 1;
-            entry[-2] = (s16)card_id;
-            CARD_ENTRY_BYTES(entry)[2] =
-                (u8)((*record >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK);
-            entry[-1] =
-                (s16)((*record & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
-            entry[0] =
-                (s16)(((*record >> CARD_STAT_DEFENSE_SHIFT) &
-                       CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
-            BuildDeck_SortCardList((void *)(base + BUILD_DECK_ADD_LIST_OFFSET));
+    entry = ((BuildDeckTransitionState *)base)->lists[1].entries;
+    for (; index < DECK_SIZE; index++, entry++) {
+        if (entry->flags == 0) {
+            entry->flags = 1;
+            entry->id = card_id;
+            entry->type = (*record >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+            entry->attack = (*record & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+            entry->defense =
+                ((*record >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
+                CARD_STAT_SCALE;
+            BuildDeck_SortCardList(&((BuildDeckTransitionState *)base)->lists[1]);
             BuildDeck_RecountDeckCards((BuildDeckTransitionState *)base);
             return;
         }
-        index++;
-        entry += BUILD_DECK_ADD_ENTRY_HALFWORD_STRIDE;
-    } while (index < DECK_SIZE);
+    }
 }
