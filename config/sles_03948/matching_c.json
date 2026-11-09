@@ -4941,7 +4941,7 @@
     },
     {
       "address": "0x8004A58C",
-      "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x180",
       "source": "src/game/sound_spatialize_object.c"
     },
