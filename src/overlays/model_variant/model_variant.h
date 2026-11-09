@@ -144,6 +144,22 @@ typedef struct {
     s32 fade;
 } ModelVariantClock;
 
+/* The block that ends an entry state (e.g. Variant428EntryState). On a
+ * request the entry stores Model_GetActiveSlotIndex() in slot (later passed
+ * to Model_GetSlotAnimationFrame and the texture packers), then sets tint to
+ * 2048, phase to 0 and command to the request's command index (the one that
+ * picks its config row). Each tick it passes tint to Model_SetSlotAmbient as
+ * all three components, lowering it to 0 in the early phases and setting it
+ * to fade << 5 later, and steps its state machine through phase.
+ * unknown_04 stays opaque: these entries never touch it. */
+typedef struct {
+    s32 phase;
+    u8 unknown_04[8];
+    s32 tint;
+    s16 slot;
+    s16 command;
+} ModelVariantEntryTail;
+
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the
  * sprites' colour, then the sprite size, the bounce height, the sway and

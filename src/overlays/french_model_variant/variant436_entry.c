@@ -33,13 +33,13 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
     s32 screen_y, dx, dy;
 
     if (command >= 0) {
-        work->slot = Model_GetActiveSlotIndex();
+        work->tail.slot = Model_GetActiveSlotIndex();
         work->config = gFrenchModelVariant436_aConfigs + command;
-        work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
-        work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
-        work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
+        work->parts[0] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[0]);
+        work->parts[1] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[1]);
+        work->parts[2] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[2]);
         result = 6;
-        if (work->slot == 0) {
+        if (work->tail.slot == 0) {
             setVector(&work->target, 0, -300, -450);
         } else {
             setVector(&work->target, 0, -300, 450);
@@ -56,14 +56,14 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT436_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT436_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[1]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[2]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[3]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[1]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[3]);
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant436_aImages[8]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant436_aImages[8]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -235,9 +235,9 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         work->step = 0;
         work->span = work->config->scale_end - work->config->scale_start;
         work->fade = 0;
-        work->tint = 2048;
-        work->phase = 0;
-        work->command = command;
+        work->tail.tint = 2048;
+        work->tail.phase = 0;
+        work->tail.command = command;
     } else {
         view = Model_GetCameraViewBuffer();
         setVector(&work->view_delta, view->vrx - view->vpx,
@@ -245,7 +245,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         Square0(&work->view_delta, &squared);
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
-        if (work->slot == 0) {
+        if (work->tail.slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
             Model_CopySlotPosition(0, (u16 *)&work->target);
@@ -257,7 +257,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
             work->matrix.t[1] - work->lift / 4, work->matrix.t[2]);
         setVector(&work->path, work->target.vx - work->origin.vx,
             work->target.vy - work->origin.vy, work->target.vz - work->origin.vz);
-        if (work->phase < 2) {
+        if (work->tail.phase < 2) {
             GsGetLwUnit(work->parts[1], &work->origin_a);
             GsGetLwUnit(work->parts[2], &work->origin_b);
             setVector(&work->direction, work->origin_b.t[0] - work->origin_a.t[0],
@@ -280,7 +280,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed) {
-            if (work->phase < 4) {
+            if (work->tail.phase < 4) {
                 FrenchModelVariant436_DrawRibbons((u8 *)point);
             }
             if (work->config->scale_start < work->elapsed) {
@@ -289,37 +289,37 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         work->frame_count++;
-        frame = Model_GetSlotAnimationFrame(work->slot);
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
         if (frame != work->animation_frame) {
             work->elapsed += Model_GetFrameStep();
             work->step = Model_GetFrameStep();
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
-    if (work->phase < 11) {
-        if (work->tint > 0) {
-            work->tint -= 128;
-            if (work->tint <= 0) {
-                work->tint = 0;
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 11) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
             }
         }
     } else {
-        work->tint = work->fade << 5;
+        work->tail.tint = work->fade << 5;
     }
-    if (work->phase >= 5 && work->phase <= 6) {
+    if (work->tail.phase >= 5 && work->tail.phase <= 6) {
         result = 4;
-    } else if (work->phase == 7) {
+    } else if (work->tail.phase == 7) {
         result = 1;
-        work->phase = 11;
-    } else if (work->phase == 11) {
+        work->tail.phase = 11;
+    } else if (work->tail.phase == 11) {
         result = 0;
         work->fade += work->step;
         if (work->fade > 64) {
             work->fade = 64;
-            work->phase = 12;
+            work->tail.phase = 12;
         }
-    } else if (work->phase == 12) {
+    } else if (work->tail.phase == 12) {
         result = 2;
     }
     return result;
