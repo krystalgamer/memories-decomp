@@ -87,10 +87,7 @@ typedef struct {
     s32 field_42D0;
     ModelVariantStreamerParams streamer;
     s32 ripple, ripple2, field_42EC, field_42F0, spin;
-    s32 phase;
-    u8 unknown_42FC[8];
-    s32 tint;
-    s16 slot, command;
+    ModelVariantEntryTail tail;
 } Variant433EntryState;
 
 extern GsIMAGE gModelVariant433_aImages[9];
