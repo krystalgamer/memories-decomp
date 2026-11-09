@@ -34,10 +34,10 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
     s32 dy;
 
     if (command >= 0) {
-        work->slot = Model_GetActiveSlotIndex();
+        work->tail.slot = Model_GetActiveSlotIndex();
         work->config = gFrenchModelVariant337_aConfigs + command;
-        work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
-        if (work->slot == 0) {
+        work->part = Model_GetSlotDataEntry(work->tail.slot, work->config->part);
+        if (work->tail.slot == 0) {
             setVector(&work->target, 0, -300, -450);
         } else {
             setVector(&work->target, 0, -300, 450);
@@ -50,13 +50,13 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT337_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT337_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant337_aImages[7]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant337_aImages[7]);
         flat_texture = packed;
         flat_page = packed >> 16;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant337_aImages[5]);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant337_aImages[1]);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant337_aImages[2]);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant337_aImages[3]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant337_aImages[5]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant337_aImages[1]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant337_aImages[2]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant337_aImages[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -168,10 +168,10 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         work->clock.frame = 0;
         work->clock.animation_frame = 0;
         work->clock.step = 0;
-        work->phase = 0;
+        work->tail.phase = 0;
         work->clock.fade = 0;
-        work->tint = 2048;
-        work->command = command;
+        work->tail.tint = 2048;
+        work->tail.command = command;
     } else {
         view = Model_GetCameraViewBuffer();
         work->view_delta.vx = view->vrx - view->vpx;
@@ -180,7 +180,7 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         Square0(&work->view_delta, &squared);
         work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
-        if (work->slot == 0) {
+        if (work->tail.slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
             Model_CopySlotPosition(0, (u16 *)&work->target);
@@ -205,42 +205,42 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant320_DrawRibbon((u8 *)point);
             SpanishModelVariant337_DrawRings((u8 *)point);
         }
-        if (work->phase >= 3) {
+        if (work->tail.phase >= 3) {
             ModelVariant320_DrawStreamers((u8 *)point);
         }
         work->clock.frame_count++;
-        frame = Model_GetSlotAnimationFrame(work->slot);
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
         if (frame != work->clock.animation_frame) {
             work->clock.frame += Model_GetFrameStep();
             work->clock.step = Model_GetFrameStep();
             work->clock.animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
-    if (work->phase < 6) {
-        if (work->tint > 0) {
-            work->tint -= 128;
-            if (work->tint <= 0) {
-                work->tint = 0;
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 6) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
             }
         }
     } else {
-        work->tint = work->clock.fade << 5;
+        work->tail.tint = work->clock.fade << 5;
     }
-    if (work->phase >= 2 && work->phase <= 4) {
+    if (work->tail.phase >= 2 && work->tail.phase <= 4) {
         result = 4;
-    } else if (work->phase == 5) {
+    } else if (work->tail.phase == 5) {
         result = 1;
-        work->phase = 6;
-    } else if (work->phase == 6) {
+        work->tail.phase = 6;
+    } else if (work->tail.phase == 6) {
         if (work->clock.fade < 64) {
             work->clock.fade += work->clock.step;
             if (work->clock.fade >= 64) {
                 work->clock.fade = 64;
-                work->phase = 7;
+                work->tail.phase = 7;
             }
         }
-    } else if (work->phase == 7) {
+    } else if (work->tail.phase == 7) {
         result = 2;
     }
     return result;

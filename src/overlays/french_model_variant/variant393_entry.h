@@ -36,10 +36,8 @@ typedef struct {
     s32 part_index;
     s16 field_DCC, field_DCE, field_DD0, width;
     s32 field_DD4, field_DD8, field_DDC, field_DE0, field_DE4;
-    s32 field_DE8, field_DEC, field_DF0, field_DF4, phase;
-    u8 unknown_DFC[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_DE8, field_DEC, field_DF0, field_DF4;
+    ModelVariantEntryTail tail;
 } Variant393EntryState;
 
 extern GsIMAGE gFrenchModelVariant393_aImages[9];

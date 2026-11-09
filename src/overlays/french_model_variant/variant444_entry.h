@@ -37,10 +37,8 @@ typedef struct {
     s16 field_1658, field_165A;
     s32 progress;
     CVECTOR inner, outer;
-    s32 field_1668, width, angle, field_1674, field_1678, phase;
-    u8 unknown_1680[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_1668, width, angle, field_1674, field_1678;
+    ModelVariantEntryTail tail;
 } Variant444EntryState;
 
 void FrenchModelVariant175_DrawTube(u8 *context);

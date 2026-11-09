@@ -63,10 +63,8 @@ typedef struct {
     s16 ribbon_length, field_D42, field_D44, width;
     s32 field_D48;
     ModelVariantStreamerParams streamer;
-    s32 ribbon_wave, ribbon_phase, spin, field_D68, phase;
-    u8 unknown_D70[8];
-    s32 tint;
-    s16 slot, command;
+    s32 ribbon_wave, ribbon_phase, spin, field_D68;
+    ModelVariantEntryTail tail;
 } Variant337EntryState;
 
 #endif

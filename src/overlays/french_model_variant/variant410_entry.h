@@ -67,10 +67,8 @@ typedef struct {
     u32 field_21DC;
     GsCOORDUNIT *part;
     s16 field_21E4, width;
-    s32 field_21E8, field_21EC, phase;
-    u8 unknown_21F4[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_21E8, field_21EC;
+    ModelVariantEntryTail tail;
 } Variant410EntryState;
 
 extern u8 gFrenchModelVariant410_D1D04[];

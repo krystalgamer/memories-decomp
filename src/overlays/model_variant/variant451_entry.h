@@ -62,10 +62,8 @@ typedef struct {
     s32 sweep;
     s32 spin, drift_scale, field_2150;
     s16 field_2154, field_2156;
-    s32 field_2158, field_215C, phase;
-    u8 unknown_2164[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_2158, field_215C;
+    ModelVariantEntryTail tail;
 } Variant451EntryState;
 
 extern GsIMAGE gModelVariant451_aImages[9];
