@@ -7592,13 +7592,16 @@ The historical canonical match and six inline-refinement rows remain intact.
 The new `post_terminal_resolution` record identifies the pointer view and
 source-level exit structure as the discriminator beyond that deferred series.
 
-## func_80051610: the one -fno-strength-reduce unit that still needs it
+## func_80051610: the intended last -fno-strength-reduce holdout
 
 The European slot-decoder build of `model_slot_row_tables.c`
-(`src/game/european/func_80051610.c`, `0x80051610`) is the only resident unit
-left on a `*no_strength_reduce*` profile (`gcc_2_8_1_g0_split_no_strength_reduce`).
-Every other user matched the ordinary profile once its loops stopped advancing
-cursors beside their counters. All of the attempts below change only the
+(`src/game/european/func_80051610.c`, `0x80051610`,
+`gcc_2_8_1_g0_split_no_strength_reduce`) is intended to be the last resident
+unit on a `*no_strength_reduce*` profile once the per-function conversions
+proposed alongside it land. Each of those units matched the ordinary profile
+locally after its loops stopped advancing cursors beside their counters; until
+they merge, their current manifests still select the flagged profiles. The
+experiments recorded below were run locally and change only the
 `VERSION_EUROPE` branches; the North American build of the shared file still
 matches at `gcc_2_8_1_g0`.
 
@@ -7620,7 +7623,7 @@ nor the `$a0` loop temporary, so global allocation takes the first free
 register, `$v1`. Without strength reduction the offset is the loop-live
 cursor itself, which does conflict with the type pseudo and lands in `$a0`.
 
-Ruled out, each with its distance:
+Recorded experiments, each with its measured distance:
 
 | Variant | Lines |
 | --- | --- |
