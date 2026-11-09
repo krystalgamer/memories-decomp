@@ -37,10 +37,7 @@ typedef struct {
     s16 field_15A4, field_15A6, field_15A8, field_15AA, field_15AC, field_15AE;
     s16 field_15B0, field_15B2;
     s32 field_15B4, field_15B8;
-    s32 phase;
-    u8 unknown_15C0[8];
-    s32 tint;
-    s16 slot, command;
+    ModelVariantEntryTail tail;
 } Variant428EntryState;
 
 extern GsIMAGE gModelVariant428_aImages[9];
