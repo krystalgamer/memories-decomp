@@ -93,9 +93,9 @@ typedef struct {
     EntryConfig443 *config;
     u8 unknown_3638[0x14];
     s16 field_364C, field_364E;
-    s32 factor, progress, field_3658, spin;
+    s32 factor, progress, mesh_angle, spin;
     s16 field_3660, field_3662, field_3664, field_3666;
-    s32 field_3668, field_366C, field_3670, field_3674;
+    s32 ribbon_start, field_366C, ribbon_wave, ribbon_phase;
     s16 size, field_367A;
     s32 travel, length, rotation_x, rotation_y, rotation_z;
     s32 field_3690, field_3694, phase, field_369C;
