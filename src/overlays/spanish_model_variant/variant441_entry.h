@@ -48,7 +48,7 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s32 index;
     s16 field_26FC, field_26FE, field_2700, field_2702;
-    s32 width, field_2708, field_270C;
+    s32 width, tube_progress, tube_angle;
     s16 field_2710, field_2712, progress, ribbon_width;
     s32 field_2718;
     s32 phase;
