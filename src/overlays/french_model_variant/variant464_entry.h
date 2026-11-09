@@ -50,7 +50,7 @@ typedef struct {
     u32 field_1C30;
     GsCOORDUNIT *parts[3];
     s32 timing_index;
-    s16 field_1C44, field_1C46, field_1C48, field_1C4A;
+    s16 field_1C44, field_1C46, width, field_1C4A;
     s32 field_1C4C, field_1C50;
     CVECTOR outer, inner;
     s32 field_1C5C;
