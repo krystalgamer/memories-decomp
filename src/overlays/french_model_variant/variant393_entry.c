@@ -188,17 +188,17 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         work->field_DD4 = 1024;
-        work->field_DD8 = 1024;
-        work->field_DCC = 0;
+        work->streamer_length = 1024;
+        work->ribbon_length = 0;
         work->field_DCE = 0;
         work->field_DD0 = 0;
-        work->field_DE8 = 0;
+        work->ribbon_wave = 0;
         work->field_DEC = 0;
         work->field_DF0 = 0;
         work->field_DF4 = 0;
-        work->field_DDC = 0;
-        work->field_DE0 = 0;
-        work->field_DE4 = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
         work->clock.animation_frame = 0;
