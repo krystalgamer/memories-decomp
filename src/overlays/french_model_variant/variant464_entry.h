@@ -53,10 +53,8 @@ typedef struct {
     s16 field_1C44, field_1C46, field_1C48, field_1C4A;
     s32 field_1C4C, field_1C50;
     CVECTOR outer, inner;
-    s32 field_1C5C, phase;
-    u8 unknown_1C64[8];
-    s32 tint;
-    s16 slot, command;
+    s32 field_1C5C;
+    ModelVariantEntryTail tail;
 } Variant464EntryState;
 
 extern GsIMAGE gFrenchModelVariant464_aImages[9];
