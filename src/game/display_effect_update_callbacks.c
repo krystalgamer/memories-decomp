@@ -346,10 +346,10 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite(o, (s16)record->x, (s16)record->y, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)&o->field_40.clut.x += (idx >> 4) << 6;
-            *(u8 *)&o->field_5C =
+            *(u8 *)&o->texture_uv =
                 (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WIDTH;
-            ((u8 *)&o->field_5C)[1] =
+            ((u8 *)&o->texture_uv)[1] =
                 (idx / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
             *(u16 *)&o->field_40.clut.y +=
@@ -366,7 +366,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)&o->field_48.pivot.y = 0;
         o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->xy.h.x, *(s16 *)&o->xy.h.y, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
+        DisplayObject_ConfigureScreenSprite(o2, *(s16 *)&o->xy.h.x, *(s16 *)&o->xy.h.y, 0x30, 0x30, *(u8 *)&o->texture_uv, ((u8 *)&o->texture_uv)[1], 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.scale.y = *(u16 *)&o->field_44.scale.y;

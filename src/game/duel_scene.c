@@ -453,8 +453,8 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         return;
     }
 
-    prim->u0 = prim->u2 = ((u8 *)&obj->field_5C)[0];
-    prim->v0 = prim->v1 = ((u8 *)&obj->field_5C)[1];
+    prim->u0 = prim->u2 = ((u8 *)&obj->texture_uv)[0];
+    prim->v0 = prim->v1 = ((u8 *)&obj->texture_uv)[1];
     if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
                    *(long *)&prim->x2) <= 0) {
         prim->u2 = 0x38;

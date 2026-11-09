@@ -336,8 +336,8 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 
     object->field_3C.size.h = height;
     half_height = height / 2;
-    *(u8 *)&object->field_5C = texture_u;
-    ((u8 *)&object->field_5C)[1] = texture_v;
+    *(u8 *)&object->texture_uv = texture_u;
+    ((u8 *)&object->texture_uv)[1] = texture_v;
     object->texture_page = texture_page;
     object->field_40.clut.x = clut_x;
     object->field_40.clut.y = clut_y;
@@ -392,7 +392,7 @@ void DisplayObject_RenderSpriteList(void) {
                 p->xy.word = e->xy.word;
                 p->extent.word = e->field_3C.word;
                 p->cxcy.word = e->field_40.word;
-                p->uv.word = e->field_5C;
+                p->uv.word = e->texture_uv;
                 mode = e->ot_depth | 0x10000;
                 ot = tb[idx];
                 p->tpage = e->texture_page;
@@ -590,7 +590,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
     p->cxcy.word = e->field_40.word;
     p->rgb = e->rgb;
     fl = e->flags;
-    p->uv.word = e->field_5C;
+    p->uv.word = e->texture_uv;
     if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
         p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
@@ -958,7 +958,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     x1 = *(s32 *)&e->field_64;
                     *(s32 *)&g->x0 = x0;
                     *(s32 *)&g->x1 = x1;
-                    *(s32 *)&g->r0 = *(s32 *)&e->field_5C;
+                    *(s32 *)&g->r0 = *(s32 *)&e->texture_uv;
                     *(s32 *)&g->r1 = *(s32 *)&e->field_68;
                     *(u16 *)&g->u0 = *(u16 *)&e->field_60;
                     x2 = *(u16 *)&e->field_6C;
@@ -1803,7 +1803,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     u16 flags = object->flags;
 
     *(u32 *)&object->field_68 = initial;
-    *(u32 *)&object->field_5C = initial;
+    *(u32 *)&object->texture_uv = initial;
     object->field_50.word = initial;
     object->field_44.word = initial;
     object->field_38.word = initial;

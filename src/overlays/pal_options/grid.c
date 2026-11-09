@@ -22,7 +22,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     sprite->extent.wh.h = object->field_3C.size.h;
     sprite->rgb = object->rgb;
     sprite->cxcy.word = object->field_40.word;
-    sprite->uv.word = object->field_5C;
+    sprite->uv.word = object->texture_uv;
     sprite->tpage = object->texture_page;
     packet = (POLY_GT4 *)0x1F800344;
     if (gPalOptions_bLanguage == object->field_6A) {
