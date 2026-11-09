@@ -75,10 +75,9 @@ four storage owners/16,760 bytes cover all40,960 bytes. Sources remain
 under `src/overlays/french_model_variant/variant431_*`; both slots compile
 them directly, and each image binds the shared names at its own addresses. The band calls the
 canonical `RotTransPers3` resident at `0x80087898`; the historical opaque alias
-is removed from both image symbol files and the linker bindings. Sheets alone
-uses `gcc_2_8_1_g0_split_no_cse_follow_jumps`; all other roles use
-`gcc_2_8_1_g0_split`. Both are unchanged named GCC2.8.1/MASPSX2.81
-profiles. No source, header or compiler-profile changes are required.
+is removed from both image symbol files and the linker bindings. Every role,
+including sheets, now uses `gcc_2_8_1_g0_split`; sheets formerly needed
+`gcc_2_8_1_g0_split_no_cse_follow_jumps` (see the French variant 431 note).
 
 The twelve terminal records in the adjacent attempt ledger describe fresh
 Spanish compilations, not inherited French successes. A sheets preflight

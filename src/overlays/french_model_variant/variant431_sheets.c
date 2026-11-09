@@ -86,7 +86,9 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
             poly->b3 = sheet->outer[2];
             otz = otz * 8 / 10;
             if (otz >= 0 && flag >= 0) {
-                if (i == 5 || MODEL_VARIANT_WORD(companion, 0x104) < 0x400) {
+                if (i == 5) {
+                    GsSortPoly(poly, ot, otz);
+                } else if (MODEL_VARIANT_WORD(companion, 0x104) < 0x400) {
                     GsSortPoly(poly, ot, otz);
                 }
             }
