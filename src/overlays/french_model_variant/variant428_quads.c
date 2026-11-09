@@ -74,9 +74,9 @@ void FrenchModelVariant428_DrawQuads(u8 *context)
                 }
             }
             if (group->size[j] < 4096) {
-                group->size[j] += state->step * 256;
+                group->size[j] += state->clock.step * 256;
                 if (group->size[j] >= 4096) {
-                    if (state->timing->limit <= state->time && state->phase >= 3) {
+                    if (state->timing->limit <= state->clock.frame && state->phase >= 3) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     } else {
@@ -85,7 +85,7 @@ void FrenchModelVariant428_DrawQuads(u8 *context)
                         group->angle[j] += 600;
                     }
                 } else if (group->size[j] <= 0) {
-                    if (state->phase >= 3 && state->timing->limit <= state->time) {
+                    if (state->phase >= 3 && state->timing->limit <= state->clock.frame) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     }
