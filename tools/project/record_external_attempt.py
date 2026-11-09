@@ -68,6 +68,19 @@ RETIRED_PROFILES = frozenset(
         # -fno-strength-reduce profiles retired once their units matched the
         # ordinary profile without it.
         "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
+        # Unused -fno-cse-follow-jumps, -fno-schedule-insns[2] and
+        # -fno-strength-reduce variants retired with the same campaign.
+        "gcc_2_8_1_g0_no_cse_follow_jumps",
+        "gcc_2_8_1_g0_no_sched1",
+        "gcc_2_8_1_g0_no_sched2",
+        "gcc_2_8_1_g0_no_sched2_split",
+        "gcc_2_8_1_g0_no_split_no_strength_reduce",
+        "gcc_2_8_1_g0_split_no_sched1",
+        "gcc_2_8_1_g8_no_sched1",
+        "gcc_2_8_1_g8_no_sched2",
+        "gcc_2_8_1_g8_split_no_sched1",
+        "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+        "gcc_2_8_1_g8_split_no_strength_reduce_no_cse_skip_blocks",
     }
 )
 MAX_ATTEMPTS = 6
