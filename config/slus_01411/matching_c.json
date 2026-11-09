@@ -2330,13 +2330,13 @@
     },
     {
       "address": "0x800323F8",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x740",
       "source": "src/game/build_deck_init_screen.c"
     },
     {
       "address": "0x80032B38",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/build_deck_init_screen.c"
     },

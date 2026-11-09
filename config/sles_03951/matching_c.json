@@ -2342,13 +2342,13 @@
     },
     {
       "address": "0x80032824",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x810",
       "source": "src/game/european/build_deck_init_screen.c"
     },
     {
       "address": "0x80033034",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
       "source": "src/game/european/build_deck_init_screen.c"
     },
