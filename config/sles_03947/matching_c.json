@@ -5967,19 +5967,19 @@
     },
     {
       "address": "0x8005DB60",
-      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
       "source": "src/game/model_slot_state_updates.c"
     },
     {
       "address": "0x8005DBC4",
-      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
       "source": "src/game/model_slot_state_updates.c"
     },
     {
       "address": "0x8005DC8C",
-      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
       "source": "src/game/model_slot_state_updates.c"
     },
@@ -6165,7 +6165,7 @@
     },
     {
       "address": "0x8005EA00",
-      "profile": "gcc_2_8_1_g0_no_sched1",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
       "source": "src/game/model_remap_primitive_handlers.c"
     },
