@@ -40,15 +40,13 @@ s16 gText_PumpedGlyphIndex;
 #define DISPLAY_EFFECT_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
-/* The retail body walks two pointers over the same four records: the record
- * base it hands to the per-record calls, and a second cursor parked on the
- * record's 0x30 pair, so the choice object and its flags are reached at
- * displacements 0 and 4. Folding the cursor into the base costs a register and
- * four instructions, so the view stays. */
+/* One record pointer walks the four channels beside a down-counter. Under
+ * strength reduction GCC folds the record's prompt_object and flags_34
+ * accesses into a second induction register parked at offset 0x30, which is
+ * the retail shape. */
 void TextBox_UpdateChannels(void)
 {
     DuelEffectChannel *p;
-    ChoiceChannelCursor *q;
     s32 reset_value;
     TextGlyphLookupEntry *table;
     s32 n;
@@ -62,40 +60,37 @@ void TextBox_UpdateChannels(void)
     n = 4;
     reset_value = -1;
     table = gText_aGlyphLookup;
-    q = (ChoiceChannelCursor *)&p->prompt_object;
     do {
-        if (q->choice.flags & 0x8000) {
+        if (p->flags_34 & 0x8000) {
             gText_PumpedGlyphIndex = 0;
-            if ((q->choice.flags & 0x2000) == 0) {
+            if ((p->flags_34 & 0x2000) == 0) {
                 gText_PumpedGlyphIndex = reset_value;
                 cnt = -1;
                 for (;;) {
                     TextBox_BuildStep(p);
                     cnt++;
-                    f = q->choice.flags;
+                    f = p->flags_34;
                     if (f & 0x2000) {
                         if (f & FUNC_80039794_CHOICE_FLAG) {
-                            q->choice.obj = Dialog_OpenChoice(p);
+                            p->prompt_object = Dialog_OpenChoice(p);
                         }
                         break;
                     }
-                    if (f & 0x1C00) {
-                        goto reset;
+                    if ((f & 0x1C00) == 0) {
+                        if (cnt >= gGraphics_bExtraFrameStep) {
+                            break;
+                        }
+                    } else {
+                        gText_PumpedGlyphIndex = reset_value;
                     }
-                    if (cnt >= gGraphics_bExtraFrameStep) {
-                        break;
-                    }
-                    continue;
-reset:
-                    gText_PumpedGlyphIndex = reset_value;
                 }
             } else {
-                if (q->choice.flags & FUNC_80039794_CHOICE_FLAG) {
+                if (p->flags_34 & FUNC_80039794_CHOICE_FLAG) {
                     if (gInput_awPadPressed[0] &
                         DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
-                        q->choice.flags &= 0xFFFF ^ FUNC_80039794_CHOICE_FLAG;
-                        DisplayObject_ReleaseIfPresent(q->choice.obj);
-                        q->choice.obj = 0;
+                        p->flags_34 &= 0xFFFF ^ FUNC_80039794_CHOICE_FLAG;
+                        DisplayObject_ReleaseIfPresent(p->prompt_object);
+                        p->prompt_object = 0;
                         SD_SEPlayFull(0xB);
                     }
                 }
@@ -114,11 +109,8 @@ reset:
             DisplayEffect_ProcessMenuRecords(arg);
             DuelEffect_ProcessEntries(p);
         }
-        q = (ChoiceChannelCursor *)(
-            (u8 *)q + sizeof(DuelEffectChannel));
+        p++;
         n--;
-        p = (DuelEffectChannel *)(
-            (u8 *)p + sizeof(DuelEffectChannel));
     } while (n != 0);
 }
 
