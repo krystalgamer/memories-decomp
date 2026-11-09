@@ -229,10 +229,10 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->intensity = 1024;
         work->field_17C8 = 0;
         work->field_17CC = 0;
-        work->spiral_angle = 0;
-        work->field_17DA = 0;
-        work->spiral_size = 0;
-        work->field_17DE = 0;
+        work->spiral.angle = 0;
+        work->spiral.sign = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->width = 1024;
         work->field_17B0 = 1024;
         work->field_17A8 = 0;
