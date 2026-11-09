@@ -1259,15 +1259,20 @@ typedef struct {
 } ModelVariantStripTiming;
 
 /* Ten sprites: corner arrays v0..v3, an origin per sprite, a colour, and per
- * sprite a scale and a done flag. */
+ * sprite a scale, an angle, a done flag and an initialized flag. The
+ * header-411, 412 and 454 entries hand it to the French header-428, 429 and
+ * 471 quads helpers, which view it as ModelVariantQuadGroup: they offset each
+ * sprite's orbit by its angle, do not draw a done sprite and multiply the
+ * done flags into their completion test, and clear initialized when a sprite
+ * wraps. */
 typedef struct {
     SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
     CVECTOR color;
     s32 scale[10];
-    s32 field_1BC[10];
-    s32 field_1E4[10];
-    s32 field_20C[10];
+    s32 angle[10];
     s32 done[10];
+    s32 field_20C[10];
+    s32 initialized[10];
     u8 unknown_25C[0xA0];
 } ModelVariantSpriteSet;
 

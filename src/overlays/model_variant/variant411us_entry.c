@@ -151,10 +151,10 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
                 trail->color.g = work->config->outer.g;
                 trail->color.b = work->config->outer.b;
                 trail->scale[i] = -(i * 4096 / 10);
-                trail->field_1BC[i] = 0;
-                trail->field_1E4[i] = 0;
-                trail->field_20C[i] = 0;
+                trail->angle[i] = 0;
                 trail->done[i] = 0;
+                trail->field_20C[i] = 0;
+                trail->initialized[i] = 0;
                 trail->origin[i].vx = work->matrix.t[0] + work->direction.vx;
                 trail->origin[i].vy = work->matrix.t[1] + work->direction.vy;
                 trail->origin[i].vz = work->matrix.t[2] + work->direction.vz;
