@@ -25,7 +25,7 @@ typedef struct {
     VECTOR scale;
     s32 field_1B8, field_1BC;
     s32 progress;
-    s32 field_1C4, field_1C8, field_1CC;
+    s32 field_1C4, state, width_scale;
     u8 unknown_1D0[0x68];
     VECTOR offset;
     u8 unknown_248[0x68];
@@ -80,7 +80,7 @@ typedef struct {
     Variant446EntryConfig *config;
     u32 field_4A68;
     GsCOORDUNIT *parts[5];
-    s32 field_4A80, field_4A84, field_4A88, trail_delay, field_4A90, field_4A94, field_4A98;
+    s32 field_4A80, field_4A84, field_4A88, trail_delay, field_4A90, ribbon_wave, ribbon_phase;
     s16 field_4A9C, field_4A9E;
     s32 sweep;
     s16 field_4AA4, field_4AA6;
