@@ -64,9 +64,7 @@ typedef struct {
     VECTOR starts[8], ends[8], deltas[8], direction;
     DVECTOR screen_delta;
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, frame, animation_frame;
-    s32 step, fade;
+    ModelVariantClock clock;
     Variant475EntryConfig *config;
     u32 unknown_2FD0;
     GsCOORDUNIT *parts[8];
