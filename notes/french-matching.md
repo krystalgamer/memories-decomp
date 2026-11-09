@@ -473,7 +473,7 @@ checked in the linked ELF.
 `function_regions.json` now classifies the entire resident text, instead of
 leaving every fallback boundary as an unknown game candidate. The live game
 regions are anchored by the exact `Main_Init`, `model_slot_queries`,
-`model_slot_support` and final `ai_script_state_ops` source groups. Every byte
+`model_slot_support` and final `ai_script` source groups. Every byte
 inside both game regions belongs to matching C or one of **61 individually
 verified handwritten functions**, with no uncovered gaps.
 

@@ -483,14 +483,15 @@ before the alias question came up, each for a different reason. They are worth
 knowing because a scan reports all of them as clean:
 
 - **The file already says the conversion was tried: treat that as a lead, not proof.**
-  `ai_script_find_killer.c` once recorded that it needed
+  The former `ai_script_find_killer.c` once recorded that it needed
   `-fno-strength-reduce` because the walk's reads at +0, +2, +6 and +9 made
   gcc build a second induction variable biased at +2, and that an index form
   had been tried. Taking each record from the loop counter as
   `&gDuel_aActiveCards[i]`, instead of advancing a separate cursor, later
   matched under plain `gcc_2_8_1_g8_split`.
-  The same indexing later let `ai_script_match_type.c` and
-  `ai_script_find_best_attack.c` drop the flag too.
+  The same indexing later let `AiScript_MatchType` and
+  `AiScript_FindBestAttack` drop the flag too; all three now live in
+  `ai_script.c`.
 
 - **The base is a second symbol for storage another symbol already names.**
   The former `gModel_awSlot0Position` was `gModel_aSlots[0].cached_position` and

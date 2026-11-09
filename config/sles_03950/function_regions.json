@@ -29,7 +29,7 @@
       "start": "0x8005C028",
       "end": "0x80073C4C",
       "module": "game",
-      "evidence": "Exact shared-C model_slot_support begins at 0x8005C028; the final ai_script_state_ops object ends at 0x80073C4C before the SN/Psy-Q host-I/O wrappers."
+      "evidence": "Exact shared-C model_slot_support begins at 0x8005C028; the final ai_script object ends at 0x80073C4C before the SN/Psy-Q host-I/O wrappers."
     },
     {
       "name": "sdk",

@@ -16,13 +16,13 @@ by every duelist: it reads the duelist id (opcode 0x15) and branches on it.
 The tool
   * checks that the seven terrain records carry identical chunks,
   * decodes each chunk by recursive descent from offset 0 (operand lengths
-    and branch semantics come from the handlers in src/game/ai_script_*.c,
-    notably ai_script.c, and ai_fusion.c; see notes/ai-scripts.md),
+    and branch semantics come from the opcode handlers in
+    src/game/ai_script.c; see notes/ai-scripts.md),
   * accounts for every byte of the 0x1800-byte chunk (code, unreachable gaps),
   * runs a constant-propagation pass per duelist id (1-39) to find the part
     of each program that duelist can reach, resolving branches whose
     operands are known (Store constants, the duelist id, the duelist's row
-    of gDuel_aOpponentData parsed from src/game/ai_opponent_data.c),
+    of gDuel_aOpponentData parsed from src/game/ai_script.c),
   * writes full listings, one listing per duelist, an index and a
     verification report to --out.
 
@@ -183,7 +183,7 @@ def load_cards(path):
 
 def load_opponent_data():
     """Parse gDuel_aOpponentData (0x800917F0) from its C definition."""
-    src = os.path.join(ROOT, 'src', 'game', 'ai_opponent_data.c')
+    src = os.path.join(ROOT, 'src', 'game', 'ai_script.c')
     text = open(src, encoding='utf-8').read()
     rows = re.findall(r'\{\{([-\d,\s]+)\}\}', text)
     return [[int(v) for v in r.split(',')] for r in rows]

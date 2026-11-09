@@ -251,6 +251,9 @@ segments:
       - [0xe5f68, bss, model_keyframe_update_commons]
       - [0xe6118, .bss, game/model_handler_registry]
       - [0xe6398, .bss, game/ai_script]
+      # The 4 bytes after ai_script's .bss are the 8-byte alignment the
+      # following c objects' .bss used to supply before their merge.
+      - [0xe64bc, pad]
       - [0xe64c0, bin, bss_image_800f5cc0]
 
   - name: reserved_zero
