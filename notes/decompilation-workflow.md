@@ -489,6 +489,8 @@ knowing because a scan reports all of them as clean:
   had been tried. Taking each record from the loop counter as
   `&gDuel_aActiveCards[i]`, instead of advancing a separate cursor, later
   matched under plain `gcc_2_8_1_g8_split`.
+  The same indexing later let `ai_script_match_type.c` and
+  `ai_script_find_best_attack.c` drop the flag too.
 
 - **The base is a second symbol for storage another symbol already names.**
   The former `gModel_awSlot0Position` was `gModel_aSlots[0].cached_position` and
