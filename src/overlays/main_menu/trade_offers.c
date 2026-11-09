@@ -16,10 +16,9 @@
    delta (0x80184030) and the per-card count it applies (0x801840F8).
 
    The five are contiguous from 0x80183B2C to 0x8018416C and are the whole
-   gcc_2_8_1_g0_split run there: card_stat_comparators.c below and
-   card_name_count_comparators.c above both compile at
-   gcc_2_8_1_g0_no_sched2_split, and a profile change cannot occur inside one
-   unit, so both bounds are hard.
+   gcc_2_8_1_g0_split run there: card_stat_comparators.c below compiles at
+   gcc_2_8_1_g0_no_sched2_split, and card_name_count_comparators.c above is a
+   separate object, so both bounds are hard.
 
    They also call each other and share their data. The offer draw calls
    MainMenu_DrawThreeDigitNumber for every offered card, the offer delta calls

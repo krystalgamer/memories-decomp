@@ -158,13 +158,13 @@
     },
     {
       "address": "0x80184398",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xE8",
       "source": "src/overlays/european/main_menu/compare_cards_by_name.c"
     },
     {
       "address": "0x80184480",
-      "profile": "gcc_2_8_1_g0_no_sched2_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
       "source": "src/overlays/european/main_menu/compare_cards_by_count.c"
     },

@@ -376,8 +376,11 @@ The family is grouped along its two contiguous same-profile source ranges:
 | [`card_stat_comparators.c`](card_stat_comparators.c) | MaxStat, Attack, Defense, Type | `0x80183514-0x80183B2C` (`0x618` bytes) | `0`, `0x1E0`, `0x370`, `0x500` |
 | [`card_name_count_comparators.c`](card_name_count_comparators.c) | Name, Count | `0x8018416C-0x80184344` (`0x1D8` bytes) | `0`, `0xE8` |
 
-Both units retain `gcc_2_8_1_g0_no_sched2_split`, the original definition
-order and all six individual sizes. Neither contributes data or rodata.
+`card_stat_comparators.c` retains `gcc_2_8_1_g0_no_sched2_split`;
+`card_name_count_comparators.c` builds at `gcc_2_8_1_g0_split`, because
+returning directly from its tied-ID branch keeps the return copy ahead of the
+`ra` restore. Both keep the original definition order and all six individual
+sizes. Neither contributes data or rodata.
 The intervening Trade helpers remain separate; these six functions are not
 one contiguous object. Grouping reuses the common declarations without
 changing keys, sentinels, RNG effects or table order. Count's signed locals
