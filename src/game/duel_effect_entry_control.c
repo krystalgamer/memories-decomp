@@ -110,28 +110,31 @@ ret_zero_a:
    out. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800373C8)
 #ifdef VERSION_EUROPE
-void DuelEffect_SetEntryControlBytes(register DuelEffectChannel *a0, u8 a1, u8 a2) {
+void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
+    int start;
+    int count;
+    DUEL_EFFECT_ENTRY_TYPE *entry;
+
+    start = DUEL_EFFECT_RANGE_START(a0);
+    /* Empty statement where a release-stripped debug hook plausibly stood; it
+       keeps the count load after the start load, so count reuses a0. */
+    do { } while (0);
+    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    entry = &DUEL_EFFECT_ENTRIES[start];
+    for (; count != 0; count--, entry++) {
+        if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
+            return;
+        }
+        entry->handler_state = a1;
+        entry->render_mode = a2;
+    }
+}
 #else
 void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
-#endif
     int v0;
     int count;
-#ifdef VERSION_EUROPE
-    u32 address;
-    int active;
-#endif
     u8 *v1;
 
-#ifdef VERSION_EUROPE
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    address = (u32)DUEL_EFFECT_ENTRIES +
-              v0 * sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count == 0) {
-        return;
-    }
-    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_15_OFFSET);
-#else
     v0 = DUEL_EFFECT_RANGE_START(a0);
     count = DUEL_EFFECT_RANGE_COUNT(a0);
     v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
@@ -139,20 +142,11 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
         return;
     }
     v1 = v1 + DUEL_EFFECT_FIELD_15_OFFSET;
-#endif
 loop:
-#ifdef VERSION_EUROPE
-    active = DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
-             DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
-    if (active == 0) {
-        return;
-    }
-#else
     if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
         return;
     }
-#endif
     count = count - 1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->handler_state = a1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->render_mode = a2;
@@ -161,6 +155,7 @@ loop:
         goto loop;
     }
 }
+#endif
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_COMPLETE_PAGE_ADVANCE)
