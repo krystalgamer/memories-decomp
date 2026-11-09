@@ -52,7 +52,7 @@ typedef struct {
     s16 field_1DAC, field_1DAE;
     s32 width, field_1DB4, size, field_1DBC, field_1DC0, field_1DC4;
     s32 intensity, field_1DCC, field_1DD0, progress;
-    s16 spiral_angle, field_1DDA, spiral_size, field_1DDE;
+    ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
     CVECTOR inner, outer;
     s32 spin, ribbon_sway, field_1E00, field_1E04, field_1E08, phase;

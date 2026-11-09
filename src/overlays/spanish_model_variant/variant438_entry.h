@@ -55,7 +55,7 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    s16 spiral_angle, field_22AE, spiral_size, field_22B2;
+    ModelVariantSpiralParams spiral;
     Variant438EntryConfig *config;
     u8 unknown_22B8[4];
     GsCOORDUNIT *parts[3];
