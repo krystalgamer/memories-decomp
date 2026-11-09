@@ -93,16 +93,20 @@ typedef struct {
 } ModelVariantSwarmGroupShort;
 
 /* A 0x714-byte swarm of 32 sprites: corner arrays v0..v3, an origin per
- * sprite, a colour, and per sprite a scale and a done flag (drawn, for
- * instance, by FrenchModelVariant430_DrawSwarm). */
+ * sprite, a colour, and per sprite a scale, a done flag and an initialized
+ * flag (drawn, for instance, by FrenchModelVariant430_DrawSwarm, which views
+ * it as ModelVariantSwarmGroup). The helper does not draw a done sprite and
+ * multiplies the done flags into its completion test; it clears initialized
+ * when a sprite wraps, and the entry places each sprite whose initialized
+ * flag is clear and sets it. */
 typedef struct {
     SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
     CVECTOR color;
     u8 unknown_504[0x10];
     s32 scale[32];
-    s32 field_594[32];
-    s32 field_614[32];
     s32 done[32];
+    s32 field_614[32];
+    s32 initialized[32];
 } ModelVariantSwarm;
 
 /* A 0x20-byte anchor whose position becomes the translation of a sheet,

@@ -140,9 +140,9 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
                 group->color.g = work->config->outer.g;
                 group->color.b = work->config->outer.b;
                 group->scale[i] = -(i * 1024 / 32);
-                group->field_594[i] = 0;
-                group->field_614[i] = 0;
                 group->done[i] = 0;
+                group->field_614[i] = 0;
+                group->initialized[i] = 0;
                 group->origin[i].vx = work->matrix.t[0] + work->direction.vx;
                 group->origin[i].vy = work->matrix.t[1] + work->direction.vy;
                 group->origin[i].vz = work->matrix.t[2] + work->direction.vz;
@@ -333,7 +333,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
                 GsGetLwUnit(work->parts[n], &work->origins[n]);
             }
             for (i = 0; i < 32; i++) {
-                if (group->scale[i] >= 0 && group->done[i] == 0) {
+                if (group->scale[i] >= 0 && group->initialized[i] == 0) {
                     if (work->tail.slot == 0) {
                         setVector(&work->positions[n][i],
                                   work->target.vx + (rsin(work->sweep) * 768 >> 12),
@@ -343,7 +343,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
                                   work->target.vx - (rsin(work->sweep) * 768 >> 12),
                                   work->target.vy, work->target.vz);
                     }
-                    group->done[i] = 1;
+                    group->initialized[i] = 1;
                 }
                 setVector(&work->offsets[n][i], work->positions[n][i].vx - work->origins[n].t[0],
                           work->positions[n][i].vy - work->origins[n].t[1],
