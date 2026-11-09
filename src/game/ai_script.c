@@ -11,7 +11,6 @@ AiScriptState gAiScript_State;
 #include "ai_script_commands.h"
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
-#include "ai.h"
 #include "ai_script_opcodes.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
@@ -144,7 +143,6 @@ s32 AiScript_Run(void)
     return 0;
 }
 
-#include "ai.h"
 #include "ai_opponent_data.h"
 
 /* Initialized data this unit owns at 0x800917F0: the per-duellist AI parameters, in duellist
@@ -200,19 +198,12 @@ s32 Ai_GetHandSearchCount(void)
 
 #include "../psyq/rand.h"
 #include "../psyq/stdio.h"
-#include "ai.h"
-#include "ai_script_read_byte.h"
-#include "ai_script_commands.h"
 #include "duel_card_stat_rules.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
-#include "ai_script_opcodes.h"
-#include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
-#include "../unmatched.h"
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
@@ -339,8 +330,8 @@ void AiScript_Jump(void)
    readers and register file.
 
    The former support and subtract objects were recorded at gcc_2_8_1_g0 and
-   are byte-identical at gcc_2_8_1_g0_split. The nine-function control object
-   is byte-identical at gcc_2_8_1_g0_split and gcc_2_8_1_g8_split. */
+   the nine-function control object at gcc_2_8_1_g0_split; all are
+   byte-identical at this unit's gcc_2_8_1_g8_split. */
 
 void AiScript_JumpGreaterEqual(void)
 {
@@ -647,11 +638,7 @@ void AiScript_LoadLifePoint(void) {
     p[AiScript_ReadByte()] = gDuel_aSideStates[1 - i].life_points.signed_value;
 }
 
-#include "ai.h"
-#include "ai_script_read_byte.h"
-#include "ai_script_commands.h"
 #include "duel_terrain_boost.h"
-#include "ai_opponent_data.h"
 
 void AiScript_LoadOpponentID(void)
 {
@@ -673,14 +660,6 @@ void AiScript_LoadTerrain(void)
 
     values[index] = value;
 }
-
-#include "duel_side_state.h"
-#include "ai.h"
-#include "card_constants.h"
-#include "duel_card_layout.h"
-#include "ai_script_read_byte.h"
-#include "ai_script_commands.h"
-#include "ai_controller_handoff.h"
 
 void AiScript_LoadDeckSize(void)
 {
@@ -939,4 +918,1038 @@ void AiScript_FindWeakest(void)
     }
 
     gAiScript_aMemory[result] = best_slot;
+}
+
+#include "ai_constants.h"
+#include "duel_grid.h"
+
+/* Each slot is addressed as &gDuel_aActiveCards[i] from the loop index, so the
+ * strength reducer folds the card_id, attack, flags and guardian_star reads
+ * (+0, +2, +6, +9) into one cursor with plain displacements, as in retail. */
+
+void AiScript_FindKiller(void) {
+    AiActiveCard *c;
+    AiActiveCard *ref;
+    s32 a;
+    s32 m;
+    s32 w;
+    s32 i;
+    s32 k;
+    s32 best;
+    s32 d;
+    s32 t;
+
+    a = gAiScript_aMemory[AiScript_ReadByte()];
+    best = CARD_STAT_MAX;
+    m = gAiScript_aMemory[AiScript_ReadByte()];
+    k = 0;
+    w = AiScript_ReadByte();
+    i = 1;
+    ref = &gDuel_aActiveCards[a];
+
+    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++) {
+        c = &gDuel_aActiveCards[i];
+        if (c->card_id == 0) {
+            continue;
+        }
+        if ((c->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+            continue;
+        }
+        if (m == 0) {
+            d = c->attack - ref->attack;
+        } else {
+            d = c->attack - ref->defense;
+        }
+        d = d + Duel_CalcGuardianStarMatchup(c->guardian_star, ref->guardian_star);
+        if (d > 0) {
+            t = c->attack;
+            if (t < best) {
+                best = t;
+                k = i;
+            }
+        }
+    }
+
+    gAiScript_aMemory[w] = k;
+}
+
+/* AI script opcode taking two operand bytes: a register that when non-zero
+ * makes a face-down opponent card invisible to the scan, and the register to
+ * write. It pairs the two fields off strongest against strongest - each round
+ * takes the strongest card not yet taken from slots 1..5 and the strongest not
+ * yet taken from slots 56..60, marks both taken, and stops as soon as the
+ * opponent's pick is not beaten. It answers 1 only if at least one round ran
+ * and every round was won, so a losing or empty field answers 0. Slot 0 of
+ * gDuel_aActiveCards is the zero entry both searches start from, which is what
+ * makes index 0 mean "nothing found" while still comparing cleanly. */
+void AiScript_FindDefenseStopper(void)
+{
+    s32 hide_face_down;
+    s32 result;
+    s32 answer;
+    s32 taken[DUEL_SIDE_COUNT][DUEL_FIELD_ROW_SIZE];
+    s32 best;
+    s32 other;
+    s32 i;
+    s32 j;
+    AiActiveCard *cards;
+    AiActiveCard *others;
+
+    hide_face_down = gAiScript_aMemory[AiScript_ReadByte()];
+    result = AiScript_ReadByte();
+    answer = 1;
+
+    for (i = 0; i < DUEL_SIDE_COUNT; i++) {
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
+            taken[i][j] = 0;
+        }
+    }
+
+    i = 0;
+    do {
+        best = AI_SLOT_NONE;
+        cards = &gDuel_aActiveCards[AI_SLOT_OWN_MONSTER_FIRST];
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
+            if (taken[0][j] == 0) {
+                if (cards[j].attack > gDuel_aActiveCards[best].attack) {
+                    best = j + AI_SLOT_OWN_MONSTER_FIRST;
+                }
+            }
+        }
+        if (best != AI_SLOT_NONE) {
+            taken[0][best - AI_SLOT_OWN_MONSTER_FIRST] = 1;
+        }
+
+        other = AI_SLOT_NONE;
+        others = &gDuel_aActiveCards[AI_SLOT_OPPONENT_MONSTER_FIRST];
+        for (j = 0; j < DUEL_FIELD_ROW_SIZE; j++) {
+            if (taken[1][j] == 0) {
+                if (hide_face_down == 0 ||
+                    !(others[j].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
+                    if (others[j].attack > gDuel_aActiveCards[other].attack) {
+                        other = j + AI_SLOT_OPPONENT_MONSTER_FIRST;
+                    }
+                }
+            }
+        }
+        if (other == AI_SLOT_NONE) {
+            break;
+        }
+        taken[1][other - AI_SLOT_OPPONENT_MONSTER_FIRST] = 1;
+        if (gDuel_aActiveCards[best].attack <= gDuel_aActiveCards[other].attack) {
+            answer = 0;
+            break;
+        }
+        i++;
+    } while (i < DUEL_FIELD_ROW_SIZE);
+
+    if (i == 0) {
+        answer = 0;
+    }
+    gAiScript_aMemory[result] = answer;
+}
+
+void AiScript_CountCards(void)
+{
+    s32 count;
+    s32 *table = gAiScript_aMemory;
+    s32 type;
+    s32 output;
+    s32 start;
+    s32 end;
+    s32 i;
+
+    type = AiScript_ReadByte();
+    type = table[type];
+    output = AiScript_ReadByte();
+    count = 0;
+
+    Ai_GetCardRange(type, &start, &end);
+
+    for (i = start; i <= end; i++) {
+        AiActiveCard *entry = &gDuel_aActiveCards[i];
+        if (entry->card_id != 0) {
+            if (type == 1 || type == 3 || type == 6 || type == 8) {
+                if (!(entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN)) {
+                    count++;
+                }
+            } else {
+                count++;
+            }
+        }
+    }
+
+    gAiScript_aMemory[output] = count;
+}
+
+/* AI script opcode taking three operand bytes: a register holding the wanted
+ * slot state, a register holding the zone type, and the register to write.
+ * It walks the zone's slot range in order and stops at the first slot whose
+ * state matches - 0 for an empty slot, 1 for a face-up card, 2 for a face-down
+ * card - writing that slot index, or 0 when the range runs out. In the four
+ * zone types that can act, a card already used this turn is passed over.
+ * Slot 0 doubles as the not-found answer, which is why the caller's range
+ * never starts there. */
+void AiScript_FindFirstCard(void)
+{
+    s32 wanted;
+    s32 type;
+    s32 result;
+    s32 *table = gAiScript_aMemory;
+    s32 wanted_idx;
+    s32 type_idx;
+    s32 start;
+    s32 end;
+    s32 i;
+
+    wanted_idx = AiScript_ReadByte();
+    wanted = table[wanted_idx];
+    type_idx = AiScript_ReadByte();
+    type = table[type_idx];
+    result = AiScript_ReadByte();
+
+    Ai_GetCardRange(type, &start, &end);
+
+    for (i = start; i <= end; i++) {
+        if (type == 1 || type == 3 || type == 6 || type == 8) {
+            if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
+                continue;
+            }
+        }
+        if (gDuel_aActiveCards[i].card_id != 0) {
+            if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN) {
+                if (wanted == AI_CARD_STATE_FACE_DOWN) {
+                    break;
+                }
+            } else {
+                if (wanted == AI_CARD_STATE_FACE_UP) {
+                    break;
+                }
+            }
+        } else {
+            if (wanted == AI_CARD_STATE_EMPTY) {
+                break;
+            }
+        }
+    }
+
+    if (end < i) {
+        gAiScript_aMemory[result] = 0;
+    } else {
+        gAiScript_aMemory[result] = i;
+    }
+}
+
+/* AI script opcode taking four operand bytes: a register holding the card id
+ * to look for, a register holding the zone type, a register that when 1 makes
+ * a face-down card in a hidden zone (type 5 and up) not count, and the
+ * register to write. It walks the zone's slot range in order and stops at the
+ * first slot holding that card id, writing the slot index, or 0 when the range
+ * runs out. In the four zone types that can act, a card already used this turn
+ * is passed over. */
+void AiScript_FindCard(void)
+{
+    s32 wanted;
+    s32 type;
+    s32 visible_only;
+    s32 result;
+    s32 *table = gAiScript_aMemory;
+    s32 wanted_idx;
+    s32 type_idx;
+    s32 visible_idx;
+    s32 start;
+    s32 end;
+    s32 i;
+
+    wanted_idx = AiScript_ReadByte();
+    wanted = table[wanted_idx];
+    type_idx = AiScript_ReadByte();
+    type = table[type_idx];
+    visible_idx = AiScript_ReadByte();
+    visible_only = table[visible_idx];
+    result = AiScript_ReadByte();
+
+    Ai_GetCardRange(type, &start, &end);
+
+    for (i = start; i <= end; i++) {
+        if (gDuel_aActiveCards[i].card_id != wanted) {
+            continue;
+        }
+        if (type == 1 || type == 3 || type == 6 || type == 8) {
+            if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
+                continue;
+            }
+        }
+        if (visible_only != 1) {
+            break;
+        }
+        if (type < 5) {
+            break;
+        }
+        if (!(gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
+            break;
+        }
+    }
+
+    if (end < i) {
+        gAiScript_aMemory[result] = 0;
+    } else {
+        gAiScript_aMemory[result] = i;
+    }
+}
+
+/* Each slot is indexed from gDuel_aActiveCards; gcc's strength reduction
+ * turns the index into retail's single cursor, so it needs no
+ * -fno-strength-reduce. A walking AiActiveCard cursor instead makes it build
+ * a second induction variable for the repeated flag reads. */
+void AiScript_MatchType(void)
+{
+    s32 start;
+    s32 end;
+    s32 type;
+    s32 range;
+    s32 set;
+    s32 sets;
+    s32 output;
+    s32 index;
+    s32 one;
+
+    type = gAiScript_aMemory[AiScript_ReadByte()];
+    range = gAiScript_aMemory[AiScript_ReadByte()];
+    set = gAiScript_aMemory[AiScript_ReadByte()];
+    sets = gAiScript_aMemory[AiScript_ReadByte()];
+    output = AiScript_ReadByte();
+
+    Ai_GetCardRange(range, &start, &end);
+
+    index = start;
+    if (end < index) {
+        goto zero;
+    }
+
+    one = 1;
+    while (1) {
+        if (gDuel_aActiveCards[index].card_id == 0) {
+            goto next;
+        }
+        if (gDuel_aActiveCards[index].card_type != type) {
+            goto next;
+        }
+        if (range == one || range == 3 || range == 6 || range == 8) {
+            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+                goto next;
+            }
+        }
+        if (set == one && range >= 5) {
+            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+                goto next;
+            }
+        }
+        if (Ai_IsCardInSets(sets, index) == 0) {
+            break;
+        }
+next:
+        index++;
+        if (end < index) {
+            break;
+        }
+    }
+
+    if (end < index) {
+zero:
+        gAiScript_aMemory[output] = 0;
+    } else {
+        gAiScript_aMemory[output] = index;
+    }
+}
+
+#include "duel_check_ritual.h"
+#include "duel_card_checks.h"
+
+void AiScript_FindEquipTarget(void)
+{
+    s32 owner = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 mode = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 type = gAiScript_aMemory[AiScript_ReadByte()];
+    s32 dest = AiScript_ReadByte();
+    s32 i;
+
+    for (i = 1; i < DUEL_FIELD_ROW_SIZE + 1; i++) {
+        AiActiveCard *card = &gDuel_aActiveCards[i];
+
+        if (!card->card_id)
+            continue;
+        if (mode == 1 && (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN))
+            continue;
+        if (Ai_IsCardInSets(type, i))
+            continue;
+        if (Duel_CheckEquip(owner, card->card_id)) {
+            gAiScript_aMemory[dest] = i;
+            return;
+        }
+    }
+    gAiScript_aMemory[dest] = 0;
+}
+
+void AiScript_CheckRitual(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 value = memory[AiScript_ReadByte()];
+    s32 dest = AiScript_ReadByte();
+
+    if (Duel_CheckRitual(0, value) != 0)
+        memory[dest] = 1;
+    else
+        memory[dest] = 0;
+}
+
+void AiScript_FindFirstMonster(void)
+{
+    s32 dest = AiScript_ReadByte();
+    s32 i;
+
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+        s32 index = gAi_Selection.bytes[i];
+        AiActiveCard *card = &gDuel_aActiveCards[index];
+
+        if (card->card_id && card->card_type < CARD_TYPE_MAGIC) {
+            gAiScript_aMemory[dest] = index;
+            return;
+        }
+    }
+    gAiScript_aMemory[dest] = 0;
+}
+
+void AiScript_FindFirstType(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 type = memory[AiScript_ReadByte()];
+    s32 dest = AiScript_ReadByte();
+    s32 i = 0;
+    u8 *indices = gAi_Selection.bytes;
+    AiActiveCard *cards = gDuel_aActiveCards;
+
+    do {
+        s32 index = *(u8 *)(i + (s32)indices);
+        AiActiveCard *card =
+            (AiActiveCard *)((u32)&((AiActiveCard *)0)[index] + (s32)cards);
+
+        if (card->card_id != 0 && card->card_type == type) {
+            memory[dest] = index;
+            return;
+        }
+        i++;
+    } while (i < DUEL_FIELD_ROW_SIZE);
+
+    gAiScript_aMemory[dest] = 0;
+}
+
+void Ai_CompleteFusion(s32 candidate_card_id)
+{
+    s32 hand_index;
+    s32 hand_slot_index;
+    s32 hand_card_id;
+    s32 result_card_id;
+    s32 path_index;
+
+    hand_index = 0;
+    if (gAiScript_State.fusion_count == 0)
+        return;
+    do {
+        if (gAiScript_State.fusion_used[hand_index] == 0) {
+            hand_card_id = gDuel_aActiveCards[hand_index + AI_SLOT_OWN_HAND_FIRST].card_id;
+            hand_slot_index = hand_index + AI_SLOT_OWN_HAND_FIRST;
+            if (hand_card_id != 0) {
+                if (Ai_IsCardInSets(gAiScript_State.fusion_set, hand_slot_index) == 0) {
+                    result_card_id = Duel_CheckFusion(candidate_card_id, hand_card_id);
+                    if (result_card_id == 0)
+                        result_card_id = Duel_CheckEquip(candidate_card_id, hand_card_id);
+                    if (result_card_id != 0) {
+                        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = hand_slot_index;
+                        if (
+                            Duel_GetBaseCardStat(result_card_id, 0) >
+                                gAiScript_State.fusion_best_stat ||
+                            (
+                                Duel_GetBaseCardStat(result_card_id, 0) ==
+                                    gAiScript_State.fusion_best_stat &&
+                                gAiScript_State.fusion_depth <
+                                    gAiScript_State.fusion_best_depth
+                            )
+                        ) {
+                            gAiScript_State.fusion_best_stat =
+                                Duel_GetBaseCardStat(result_card_id, 0);
+                            gAiScript_State.fusion_best_depth =
+                                gAiScript_State.fusion_depth;
+                            for (path_index = 0;
+                                 path_index <= (s32)gAiScript_State.fusion_best_depth;
+                                 path_index++)
+                                gAiScript_State.combo_cards[path_index] =
+                                    gAiScript_State.fusion_path[path_index];
+                            gAiScript_State.combo_cards[path_index] = 0;
+                        }
+                        if (
+                            Duel_GetBaseCardStat(result_card_id, 1) >
+                                gAiScript_State.fusion_best_stat ||
+                            (
+                                Duel_GetBaseCardStat(result_card_id, 1) ==
+                                    gAiScript_State.fusion_best_stat &&
+                                gAiScript_State.fusion_depth <
+                                    gAiScript_State.fusion_best_depth
+                            )
+                        ) {
+                            gAiScript_State.fusion_best_stat =
+                                Duel_GetBaseCardStat(result_card_id, 1);
+                            gAiScript_State.fusion_best_depth =
+                                gAiScript_State.fusion_depth;
+                            for (path_index = 0;
+                                 path_index <= (s32)gAiScript_State.fusion_best_depth;
+                                 path_index++)
+                                gAiScript_State.combo_cards[path_index] =
+                                    gAiScript_State.fusion_path[path_index];
+                            gAiScript_State.combo_cards[path_index] = 0;
+                        }
+                        if (gAiScript_State.fusion_depth <
+                            gAiScript_State.fusion_limit - 1) {
+                            gAiScript_State.fusion_used[hand_index] = 1;
+                            gAiScript_State.fusion_depth++;
+                            Ai_CompleteFusion(result_card_id);
+                            gAiScript_State.fusion_used[hand_index] = 0;
+                            gAiScript_State.fusion_depth--;
+                        }
+                    }
+                }
+            }
+        }
+        hand_index++;
+    } while (hand_index < gAiScript_State.fusion_count);
+}
+
+/* The two fusion-search opcodes below seed the fusion scratch in
+   gAiScript_State and recurse through Ai_CompleteFusion above. They were
+   recorded at gcc_2_8_1_cc_g0_as_g8_split and gcc_2_8_1_g8_split, and each
+   compiles to identical code at this unit's gcc_2_8_1_g8_split. */
+
+/* AI script opcode taking three operand bytes: a register holding the search
+ * depth minus one, a register naming a set of slots to exclude, and the
+ * register to write. It seeds the fusion scratch in gAiScript_State - hand size
+ * at 0x9C, depth limit at 0x9D, excluded sets at 0x9E, best power at 0xA0,
+ * current depth at 0xA2, the current path from 0xA4 and per-slot in-use flags
+ * from 0xAA - then walks the five field slots and then the hand, recording the
+ * strongest card by either statistic and recursing through Ai_CompleteFusion
+ * once the depth allows it. The selected combo is stored separately at 0x38,
+ * with its inclusive best-depth bound at 0xA3.
+ * The answer classifies where the best combo starts:
+ * 3 when nothing was found, 0 when it starts past the field, otherwise 1 or 2
+ * on the second combo byte. */
+void AiScript_FindBestCombo(void)
+{
+    s32 depth_limit_work;
+    s32 excluded_set;
+    s32 result_register;
+    s32 hand_search_count;
+    s32 search_index;
+    s32 candidate_slot;
+    s32 candidate_card_id;
+    u8 *state_byte_cursor;
+    s32 *script_memory;
+
+    script_memory = gAiScript_aMemory;
+    depth_limit_work = script_memory[AiScript_ReadByte()];
+    excluded_set = script_memory[AiScript_ReadByte()];
+    depth_limit_work = depth_limit_work + 1;
+    result_register = AiScript_ReadByte();
+    hand_search_count = Ai_GetHandSearchCount();
+
+    gAiScript_State.fusion_count = hand_search_count;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_limit = depth_limit_work;
+    gAiScript_State.fusion_set = excluded_set;
+
+    for (search_index = 0; search_index < gAiScript_State.fusion_count; search_index++) {
+        gAiScript_State.fusion_used[search_index] = 0;
+    }
+
+    for (search_index = 0; search_index < DUEL_FIELD_ROW_SIZE; search_index++) {
+        candidate_card_id = gDuel_aActiveCards[search_index + AI_SLOT_OWN_MONSTER_FIRST].card_id;
+        candidate_slot = search_index + 1;
+        if (candidate_card_id == 0) {
+            continue;
+        }
+        if (Ai_IsCardInSets(excluded_set, candidate_slot) != 0) {
+            continue;
+        }
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = candidate_slot;
+        if (gDuel_aActiveCards[search_index + AI_SLOT_OWN_MONSTER_FIRST].attack >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[search_index + AI_SLOT_OWN_MONSTER_FIRST].attack;
+            gAiScript_State.combo_cards[0] = candidate_slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gDuel_aActiveCards[search_index + AI_SLOT_OWN_MONSTER_FIRST].defense >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[search_index + AI_SLOT_OWN_MONSTER_FIRST].defense;
+            gAiScript_State.combo_cards[0] = candidate_slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gAiScript_State.fusion_limit >= 2) {
+            /* state_byte_cursor deliberately points at the state base plus search_index, not at
+             * &fusion_used[search_index]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[search_index] costs two instructions. */
+            state_byte_cursor = (u8 *)&gAiScript_State + search_index;
+            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
+            Ai_CompleteFusion(candidate_card_id);
+            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
+        }
+    }
+
+    for (search_index = 0; search_index < gAiScript_State.fusion_count; search_index++) {
+        candidate_card_id = gDuel_aActiveCards[search_index + AI_SLOT_OWN_HAND_FIRST].card_id;
+        candidate_slot = search_index + AI_SLOT_OWN_HAND_FIRST;
+        if (candidate_card_id == 0) {
+            continue;
+        }
+        if (Ai_IsCardInSets(excluded_set, candidate_slot) != 0) {
+            continue;
+        }
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = candidate_slot;
+        if (gDuel_aActiveCards[search_index + AI_SLOT_OWN_HAND_FIRST].attack >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[search_index + AI_SLOT_OWN_HAND_FIRST].attack;
+            gAiScript_State.combo_cards[0] = candidate_slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gDuel_aActiveCards[search_index + AI_SLOT_OWN_HAND_FIRST].defense >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[search_index + AI_SLOT_OWN_HAND_FIRST].defense;
+            gAiScript_State.combo_cards[0] = candidate_slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gAiScript_State.fusion_limit >= 3) {
+            /* state_byte_cursor deliberately points at the state base plus search_index, not at
+             * &fusion_used[search_index]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[search_index] costs two instructions. */
+            state_byte_cursor = (u8 *)&gAiScript_State + search_index;
+            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
+            Ai_CompleteFusion(candidate_card_id);
+            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
+        }
+    }
+
+    if (gAiScript_State.combo_cards[0] != 0) {
+        if (gAiScript_State.combo_cards[0] >= DUEL_FIELD_ROW_SIZE + 1) {
+            gAiScript_aMemory[result_register] = 0;
+        } else if (gAiScript_State.combo_cards[1] != 0) {
+            gAiScript_aMemory[result_register] = 1;
+        } else {
+            gAiScript_aMemory[result_register] = 2;
+        }
+    } else {
+        gAiScript_aMemory[result_register] = 3;
+    }
+}
+
+void AiScript_EvaluateFusion(void)
+{
+    s32 starting_card_id;
+    s32 depth_limit;
+    s32 excluded_set;
+    s32 result_register;
+    s32 attack_stat;
+    s32 defense_stat;
+    s32 hand_index;
+    s32 hand_search_count;
+
+    starting_card_id = gAiScript_aMemory[AiScript_ReadByte()];
+    depth_limit = gAiScript_aMemory[AiScript_ReadByte()] + 1;
+    excluded_set = gAiScript_aMemory[AiScript_ReadByte()];
+    result_register = AiScript_ReadByte();
+    hand_search_count = Ai_GetHandSearchCount();
+
+    gAiScript_State.fusion_count = hand_search_count;
+    gAiScript_State.fusion_limit = depth_limit;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_best_depth = 0;
+    gAiScript_State.fusion_set = excluded_set;
+
+    for (hand_index = 0; hand_index < gAiScript_State.fusion_count; hand_index++) {
+        gAiScript_State.fusion_used[hand_index] = 0;
+    }
+
+    attack_stat = Duel_GetBaseCardStat(starting_card_id, 0);
+    defense_stat = Duel_GetBaseCardStat(starting_card_id, 1);
+
+    if (defense_stat < attack_stat) {
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(starting_card_id, 0);
+    } else {
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(starting_card_id, 1);
+    }
+
+    Ai_CompleteFusion(starting_card_id);
+
+    if (gAiScript_State.fusion_best_depth != 0) {
+        gAiScript_aMemory[result_register] = 0;
+    } else {
+        gAiScript_aMemory[result_register] = 1;
+    }
+}
+
+/* Script opcodes 0x2C and 0x2D. The European image has no operand-skipping
+   bodies; its script table points the same two slots at the empty handlers
+   below instead. */
+#ifndef VERSION_EUROPE
+void AiScript_SkipHand(void)
+{
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+}
+
+void AiScript_SkipField(void)
+{
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+    AiScript_ReadByte();
+}
+#endif
+
+#ifdef VERSION_EUROPE
+/* The European opcode 0x2C and 0x2D handlers: empty bodies right before
+   AiScript_PlayFaceUp in the image, which consume no operand bytes. */
+void AiScript_SkipHand(void)
+{
+}
+
+void AiScript_SkipField(void)
+{
+}
+#endif
+
+void AiScript_PlayFaceUp(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 a = memory[AiScript_ReadByte()];
+    s32 b = memory[AiScript_ReadByte()];
+    s32 c = memory[AiScript_ReadByte()];
+    s32 d = memory[AiScript_ReadByte()];
+    s32 e = memory[AiScript_ReadByte()];
+
+    gAi_Selection.bytes[AI_SCRIPT_COMBO_CARD_COUNT - 1] = 0;
+    gAi_Selection.bytes[0] = a;
+    gAi_Selection.bytes[1] = b;
+    gAi_Selection.bytes[2] = c;
+    gAi_Selection.bytes[3] = d;
+    gAi_Selection.bytes[4] = e;
+}
+
+void AiScript_SetPosition(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 value;
+
+    value = memory[AiScript_ReadByte()];
+    gAi_Selection.bytes[6] = value;
+}
+
+/* The opponent row is indexed from gDuel_aActiveCards (t[j]); gcc's strength
+ * reduction turns the index into retail's single inner cursor, so it
+ * needs no -fno-strength-reduce. A walking cursor over the same row instead
+ * makes it build a second induction variable (four more instructions).
+ * Retail never advances the outer slot: `i` and `r` stay at slot 1, so the
+ * outer loop as compiled never exits. */
+void AiScript_FindBestAttack(void) {
+    AiActiveCard *t;
+    AiActiveCard *r;
+    s32 want;
+    s32 out;
+    s32 i;
+    s32 j;
+    s32 v;
+    u16 f;
+
+    want = gAiScript_aMemory[AiScript_ReadByte()];
+    out = AiScript_ReadByte();
+    i = 1;
+    t = gDuel_aActiveCards;
+    r = &t[AI_SLOT_OWN_MONSTER_FIRST];
+    gAiScript_State.attack_best_stat = 0;
+
+    while (i < DUEL_FIELD_ROW_SIZE + 1) {
+        if (r->card_id == 0) {
+            continue;
+        }
+        if ((r->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+            continue;
+        }
+
+        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST;
+             j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
+             j++) {
+            if (t[j].card_id == 0) {
+                continue;
+            }
+            f = t[j].flags;
+            if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+                continue;
+            }
+            if ((f & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
+                continue;
+            }
+            if (want != 0) {
+                if ((f & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+                    continue;
+                }
+            }
+            v = r->attack - t[j].attack;
+            v += Duel_CalcGuardianStarMatchup(r->guardian_star, t[j].guardian_star);
+            if (gAiScript_State.attack_best_stat < v) {
+                gAiScript_State.attack_best_stat = v;
+                gAiScript_State.attack_best_slot = i;
+                gAiScript_State.attack_best_target = j;
+            }
+        }
+    }
+
+    if (gAiScript_State.attack_best_stat != 0) {
+        gAiScript_aMemory[out] = 0;
+    } else {
+        gAiScript_aMemory[out] = 1;
+    }
+}
+
+/* The AI script VM's state opcodes, eleven former sources in address order:
+   the combo-stack pushes, the hand and field no-ops, the card and type set
+   edits, the two flag pairs and AiScript_MoveCard, the opponent-data load,
+   the register store, copy and add, and the flag load that ends the run.
+   Each reads its operands with AiScript_ReadByte or AiScript_ReadShort and
+   writes gAiScript_aMemory, gAiScript_State or the duel card state.
+
+   The former sources were recorded at five profiles; every member compiles
+   to identical code at this unit's gcc_2_8_1_g8_split. AiScript_Print ends
+   the unit, which runs from AiScript_ReadByte. */
+
+void AiScript_PushComboCard(void)
+{
+    s32 count = 0;
+    s32 i;
+    u8 *output;
+
+    i = AI_SCRIPT_COMBO_CARD_COUNT - 1;
+    output = gAi_Selection.bytes + i;
+    do {
+        *output = 0;
+        i--;
+        output--;
+    } while (i >= 0);
+
+    for (i = 0; i <= gAiScript_State.fusion_best_depth; i++) {
+        s32 value = gAiScript_State.combo_cards[i];
+
+        if (value >= 11) {
+            gAi_Selection.bytes[count] = value;
+            count++;
+        }
+    }
+}
+
+void AiScript_PushComboEmpty(void)
+{
+    s32 count;
+    s32 index;
+
+    for (count = 0, index = 0;
+         index <= gAiScript_State.fusion_best_depth; index++) {
+        s32 value = gAiScript_State.combo_cards[index];
+
+        if (value >= 11) {
+            gAi_Selection.bytes[count] = value;
+            count++;
+        }
+    }
+}
+
+void AiScript_HandNop(void)
+{
+}
+
+void AiScript_FieldNop(void)
+{
+}
+
+void AiScript_AddCard(void) {
+    s32 *p = gAiScript_aMemory;
+    s32 v;
+    s32 i;
+    v = p[AiScript_ReadByte()];
+    for (i = 0; i < AI_SCRIPT_CARD_SET_COUNT; i++) {
+        u16 c = gAiScript_State.card_set[i];
+        if (c == v) return;
+        if (c == AI_SCRIPT_CARD_SET_EMPTY) {
+            gAiScript_State.card_set[i] = v;
+            return;
+        }
+    }
+}
+
+void AiScript_ClearCards(void)
+{
+    s32 i = AI_SCRIPT_CARD_SET_COUNT - 1;
+    u16 *entries = (u16 *)&gAiScript_State;
+
+    entries += AI_SCRIPT_CARD_SET_HALFWORD_OFFSET;
+    do {
+        entries[AI_SCRIPT_CARD_SET_COUNT - 1] = AI_SCRIPT_CARD_SET_EMPTY;
+        i--;
+        entries--;
+    } while (i >= 0);
+}
+
+void AiScript_AddType(void)
+{
+    s32 *memory = gAiScript_aMemory;
+    s32 index = AiScript_ReadByte();
+    s32 type = memory[index] + AI_SCRIPT_TYPE_SET_ENCODING_BIAS;
+    s32 i;
+
+    for (i = 0; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
+        u8 *entry = (u8 *)&gAiScript_State + i;
+
+        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == type) {
+            break;
+        }
+        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == AI_SCRIPT_TYPE_SET_EMPTY) {
+            entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = type;
+            break;
+        }
+    }
+}
+
+void AiScript_ClearTypes(void)
+{
+    s32 i = AI_SCRIPT_TYPE_SET_COUNT - 1;
+    u8 *entries = (u8 *)&gAiScript_State;
+
+    entries += i;
+    do {
+        entries[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = AI_SCRIPT_TYPE_SET_EMPTY;
+        i--;
+        entries--;
+    } while (i >= 0);
+}
+
+void AiScript_SetHandFaceDownRequest(void)
+{
+    gAi_Selection.fields.face_down = 1;
+}
+
+void AiScript_ClearHandFaceDownRequest(void)
+{
+    gAi_Selection.fields.face_down = 0;
+}
+
+void AiScript_SetUnreadFlag(void)
+{
+    gAiScript_State.unread_flag = 1;
+}
+
+void AiScript_ClearUnreadFlag(void)
+{
+    gAiScript_State.unread_flag = 0;
+}
+
+void AiScript_MoveCard(void)
+{
+    register s32 *values = gAiScript_aMemory;
+    s32 index = AiScript_ReadByte();
+    s32 value = values[index];
+
+    gDuel_aActiveCards[value].flags |= DUEL_CARD_FLAG_USED_THIS_TURN;
+}
+
+void AiScript_LoadOpponentData(void)
+{
+    s32 index;
+    s32 field;
+    s32 dst;
+    s32 *mem = gAiScript_aMemory;
+
+    index = mem[AiScript_ReadByte()];
+    field = mem[AiScript_ReadByte()];
+    dst = AiScript_ReadByte();
+    if (field == 0) {
+        mem[dst] = gDuel_aOpponentData[index].values[1] * 100;
+    } else {
+        mem[dst] = gDuel_aOpponentData[index].values[field + 1];
+    }
+}
+
+void AiScript_Store(void)
+{
+    int value = AiScript_ReadShort();
+    int index = AiScript_ReadByte();
+    volatile int *values = gAiScript_aMemory;
+
+    values[index] = value;
+}
+
+/* Same 4-byte-stride table as idx_table_copy_lowbyte.c. */
+
+/* Copies one table entry to another: two indices read from the stream. */
+void AiScript_SetRegister(void) {
+    s32 src = AiScript_ReadByte();
+    s32 dst = AiScript_ReadByte();
+    gAiScript_aMemory[dst] = gAiScript_aMemory[src];
+}
+
+void AiScript_Add(void)
+{
+    int left = AiScript_ReadByte();
+    int right = AiScript_ReadByte();
+    int output = AiScript_ReadByte();
+    int *values = gAiScript_aMemory;
+
+    values[output] = values[left] + values[right];
+}
+
+void AiScript_LoadGuardianStarChoice(void)
+{
+    gAi_Selection.fields.zero = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+}
+
+void AiScript_Print(void)
+{
+#ifdef VERSION_EUROPE
+    /* The European build reads the checkpoint byte and prints nothing. */
+    AiScript_ReadByte();
+#else
+    int checkpoint = AiScript_ReadByte();
+
+    printf(gAiScript_szCheckpoint);
+    printf(gAiScript_szCheckpointFormat, checkpoint);
+#endif
 }

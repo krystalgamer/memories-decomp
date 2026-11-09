@@ -254,23 +254,23 @@ was read from the handler; none was inferred.
 | 1B-1D | LoadBestDifference / LoadBestAttacker / LoadBestTarget | 2 | ->rD | Read the results of FindBestAttack. Unused. | `0x8007164C` / `0x80071688` / `0x800716C4` |
 | 1E | FindStrongest | 6 | rStat rZone rHide rSets ->rD | slot with the highest ATK/DEF/either, or 0 | `0x80071700` |
 | 1F | FindWeakest | 6 | rStat rZone rHide rSets ->rD | slot with the lowest stat, or 0 | `0x80071924` |
-| 20 | FindKiller | 4 | rTarget rMode ->rD | The unused AI monster with the **lowest ATK** that still beats the target's ATK (mode 0) or DEF (mode 1), guardian-star bonus included. | `ai_script_find_killer.c` `0x80071B64` |
-| 21 | FindDefenseStopper | 3 | rHide ->rD | 1 if the AI's monsters, paired strongest against strongest, beat every player monster | `ai_script_find_card.c` `0x80071CB0` |
+| 20 | FindKiller | 4 | rTarget rMode ->rD | The unused AI monster with the **lowest ATK** that still beats the target's ATK (mode 0) or DEF (mode 1), guardian-star bonus included. | `ai_script.c` `0x80071B64` |
+| 21 | FindDefenseStopper | 3 | rHide ->rD | 1 if the AI's monsters, paired strongest against strongest, beat every player monster | `ai_script.c` `0x80071CB0` |
 | 22 | CountCards | 3 | rZone ->rD | number of cards in the zone | `0x80071EB8` |
 | 23 | FindFirstCard | 4 | rState rZone ->rD | first slot that is empty (0), face-up (1) or face-down (2) | `0x80071FC8` |
 | 24 | FindCard | 5 | rCard rZone rHide ->rD | first slot holding that card id. With hide=1, a face-down card in a player zone does not count. | `0x8007214C` |
-| 25 | MatchType | 6 | rType rZone rHide rSets ->rD | first slot of that card type | `ai_script_match_type.c` `0x800722CC` |
-| 26 | FindEquipTarget | 5 | rCard rMode rSets ->rD | first AI monster (1..5) that the equip card can equip (`Duel_CheckEquip`); mode 1 skips monsters used this turn | `ai_fusion.c` `0x8007249C` |
+| 25 | MatchType | 6 | rType rZone rHide rSets ->rD | first slot of that card type | `ai_script.c` `0x800722CC` |
+| 26 | FindEquipTarget | 5 | rCard rMode rSets ->rD | first AI monster (1..5) that the equip card can equip (`Duel_CheckEquip`); mode 1 skips monsters used this turn | `ai_script.c` `0x8007249C` |
 | 27 | CheckRitual | 3 | rCard ->rD | 1 if `Duel_CheckRitual(0, card)` | `0x800725C4` |
 | 28 | FindFirstMonster | 2 | ->rD | Unused. | `0x80072640` |
 | 29 | FindFirstType | 3 | rType ->rD | Unused. | `0x800726F4` |
 | 2A | FindBestCombo | 4 | rDepth rSets ->rD | Search AI field monsters and the hand window, up to depth+1 cards, for the highest ATK-or-DEF result (`Ai_CompleteFusion`, `0x800727C0`). Result: 0 = the combo starts in the hand, 1 = it starts on the field and uses more cards, 2 = the field card alone is best, 3 = nothing. | `0x80072A48` |
 | 2B | EvaluateFusion | 5 | rCard rDepth rSets ->rD | Same search, seeded with one given card. 0 = something better was found. | `0x80072DC0` |
-| 2C / 2D | SkipHand / SkipField | 5 | b b b b | Read and ignore four bytes. Unused. | `ai_fusion.c` `0x80072F1C` / `0x80072F54` |
-| 2E | PlayFaceUp | 6 | r0..r4 | Write selection bytes 0-4, the hand slots to play. The name is mechanical. | `ai_fusion.c` `0x80072F8C` |
+| 2C / 2D | SkipHand / SkipField | 5 | b b b b | Read and ignore four bytes. Unused. | `ai_script.c` `0x80072F1C` / `0x80072F54` |
+| 2E | PlayFaceUp | 6 | r0..r4 | Write selection bytes 0-4, the hand slots to play. The name is mechanical. | `ai_script.c` `0x80072F8C` |
 | 2F | SetPosition | 2 | rSlot | selection byte 6 (destination slot) | `0x80073050` |
-| 30 | FindBestAttack | 3 | rHide ->rD | Unused. The decompiled outer loop has no increment; do not rely on it. | `ai_script_find_best_attack.c` `0x8007308C` |
-| 31 | PushComboCard | 1 | - | Clear selection bytes 0-5, then copy the combo's hand slots (>= 11) into them. | `ai_script_state_ops.c` `0x80073220` |
+| 30 | FindBestAttack | 3 | rHide ->rD | Unused. The decompiled outer loop has no increment; do not rely on it. | `ai_script.c` `0x8007308C` |
+| 31 | PushComboCard | 1 | - | Clear selection bytes 0-5, then copy the combo's hand slots (>= 11) into them. | `ai_script.c` `0x80073220` |
 | 32 | PushComboEmpty | 1 | - | the same copy without the clear | `0x800732A0` |
 | 33 / 34 | HandNop / FieldNop | 1 | - | Do nothing. Unused. | `0x80073300` / `0x80073308` |
 | 35 | AddCard | 2 | rCard | add to the 32-entry card set | `0x80073310` |
@@ -283,7 +283,7 @@ was read from the handler; none was inferred.
 | 3F | Store | 4 | imm ->rD | rD = imm | `0x800735A0` |
 | 40 | SetRegister | 3 | rS ->rD | copy | `0x800735DC` |
 | 41 | Add | 4 | rA rB ->rD | rD = rA + rB | `0x80073624` |
-| 42 | LoadGuardianStarChoice | 2 | rX | selection byte 7 = low byte of rX | `ai_script_state_ops.c` |
+| 42 | LoadGuardianStarChoice | 2 | rX | selection byte 7 = low byte of rX | `ai_script.c` |
 | 43 | Print | 2 | b | Print a "check_point" debug line. Unused. | `0x800736C4` |
 
 **[script]** The two scripts use 47 of the 67 opcodes; the hand script uses
