@@ -36,7 +36,7 @@ display object.
 The initializer still writes the original partial set of fields; it does not
 gain a text-offset, padding or whole-record clear. Existing size/offset
 contracts are retained and extended to the signed coordinates, text offset
-and ordinal. Hand-context `field_15` semantics and the other selection records
+and ordinal. Hand-context `ordered_pick_count` semantics and the other selection records
 are not changed.
 
 ## The linked entries are the hand cache

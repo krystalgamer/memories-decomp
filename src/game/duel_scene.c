@@ -4480,8 +4480,8 @@ void DuelHand_PositionSelectionCursor(DuelSelectionRecord *object)
 void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)
 {
  register DuelSelectionRecord*object=arg;register DuelHandSlot*slot=&gDuelHand_aSlots[(s8)object->hand_cursor_slot];register DuelCardDisplayObject*child;
- DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->field_15<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
- DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->depth_offset+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->field_15++;slot->selection_order=object->field_15;SD_SEPlayFull(0x2F);
+ DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->ordered_pick_count<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
+ DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->depth_offset+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->ordered_pick_count++;slot->selection_order=object->ordered_pick_count;SD_SEPlayFull(0x2F);
 }
 
 void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
@@ -4490,7 +4490,7 @@ void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
         if (gDuelHand_aSlots[i].selection_order == 0)
             gDuelHand_aSlots[i].object->rgb =
                 DUEL_DISPLAY_COLOR_DIMMED;
-    if (side->field_15 == 0)
+    if (side->ordered_pick_count == 0)
         gDuelHand_aSlots[(s8)side->hand_cursor_slot].object->rgb =
             DUEL_DISPLAY_COLOR_NORMAL;
 }
@@ -4524,7 +4524,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_pActiveSelectionRecord->row_min = 2;
     gDuel_pActiveSelectionRecord->row_end = 3;
 
-    if (selection->field_15 == 0) {
+    if (selection->ordered_pick_count == 0) {
         b = gDuel_abCardStagingBuffer;
         r = gDuelHand_aSlots[(s8)selection->hand_cursor_slot].object;
         g = (DuelCardReplayRecordBlock *)(
@@ -4769,7 +4769,7 @@ void DuelScene_UpdateHandActions(void)
         gDuel_pActiveSelectionRecord = side;
         gDuel_wDisplayTransitionFlags = 0;
         side->hand_cursor_slot = 0;
-        side->field_15 = 0;
+        side->ordered_pick_count = 0;
         obj = HAND_CARD_OBJECT_VIEW(
             DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2));
         DisplayObject_ConfigureSpriteResource(
@@ -5011,7 +5011,7 @@ void DuelScene_UpdateHandActions(void)
                 HAND_CARD_OBJECT_VIEW(hand->object)->pos.xy.y += 4;
                 DisplayObject_ReleaseIfPresent(hand->order_marker);
                 hand->order_marker = 0;
-                side->field_15--;
+                side->ordered_pick_count--;
                 hand = gDuelHand_aSlots;
                 for (n = 0; n < 5; n++, hand++) {
                     v = hand->selection_order;
@@ -5030,11 +5030,11 @@ void DuelScene_UpdateHandActions(void)
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
-            if ((gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) && side->field_15 != 1) {
+            if ((gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) && side->ordered_pick_count != 1) {
                 SD_SEPlayFull(7);
                 gDuel_bSceneSubStep = 4;
                 DuelHand_RefreshSelectionColors(side);
-                if (side->field_15 == 0) {
+                if (side->ordered_pick_count == 0) {
                     gDuel_bSceneSubStep = 3;
                     return;
                 }
@@ -5175,7 +5175,7 @@ void DuelScene_UpdateHandActions(void)
                 if (gDuel_bSceneSubStep & 0x10) {
                     gDuel_bSceneSubStep = 1;
                     gDuel_pActiveSelectionRecord = SIDE_CURSOR(gDuel_abSelectionSides);
-                    if (side->field_15 == 0) {
+                    if (side->ordered_pick_count == 0) {
                         gDuel_bSceneSubStep = 3;
                         return;
                     }
@@ -5215,13 +5215,13 @@ void DuelScene_UpdateHandActions(void)
                         Duel_CreateCardDisplayObject(
                             card, card->screen_x, card->screen_y));
                     DuelCard_DeactivateRecord(&gDuel_aCardRecords[obj->card_index]);
-                } else if (side->field_15 == 0 &&
+                } else if (side->ordered_pick_count == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
                                CARD_TYPE_EQUIP &&
                            gDuel_pActiveSelectionRecord->row == 2) {
                     return;
                 }
-                if (side->field_15 == 0) {
+                if (side->ordered_pick_count == 0) {
                     hand->selection_order = 1;
                     if (HAND_CARD_OBJECT_VIEW(hand->object)->face != 0) {
                         gDuel_pActiveSideState->rank.face_down_plays++;
