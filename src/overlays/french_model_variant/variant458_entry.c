@@ -194,10 +194,10 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
         work->field_1F62 = 0;
         work->field_1F74 = 0;
         work->wave_phase = 0;
-        work->streamer_length = 1024;
-        work->streamer_rotation_x = 0;
-        work->streamer_rotation_y = 0;
-        work->streamer_rotation_z = 0;
+        work->streamer.length = 1024;
+        work->streamer.rotation_x = 0;
+        work->streamer.rotation_y = 0;
+        work->streamer.rotation_z = 0;
         work->frame_count = 0;
         work->elapsed = 0;
         work->animation = 0;

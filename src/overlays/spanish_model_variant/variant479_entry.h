@@ -54,7 +54,7 @@ typedef struct {
     s32 rib_fade, field_4194, curtain_gate, field_419C, field_41A0;
     s32 field_41A4, field_41A8, field_41AC, field_41B0, field_41B4;
     s16 spiral_angle, field_41BA, spiral_size, field_41BE;
-    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    ModelVariantStreamerParams streamer;
     u8 color_a[4];
     u8 color_b[4];
     s32 curtain_angle, field_41DC, field_41E0, field_41E4, field_41E8;
