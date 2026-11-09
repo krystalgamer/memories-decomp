@@ -98,7 +98,7 @@ void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
         }
         if (group->progress < 2048) {
             complete = 0;
-            group->progress += state->step * 32;
+            group->progress += state->clock.step * 32;
             if (group->progress >= 2048) {
                 if (state->phase >= 5) {
                     group->progress = 2048;
