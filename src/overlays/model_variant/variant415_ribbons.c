@@ -68,7 +68,7 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
                                                &ribbon->screen[1][j], &ribbon->screen[2][j], &p,
                                                &flag[k][j]);
                 if (ribbon->amount[j] < 0x400 && i + 1 == 5) {
-                    ribbon->amount[j] += work->step * 64;
+                    ribbon->amount[j] += work->clock.step * 64;
                     if (ribbon->amount[j] >= 0x400) {
                         ribbon->amount[j] = 0x400;
                         if (work->phase < 2) {
