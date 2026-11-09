@@ -108,7 +108,7 @@ extern u8 gDuel_abCardLevelAttr[];
 
 /* Signed name sort key, indexed by the same card id minus one: an ordering
  * over the card names that callers compare instead of the name text.
- * BuildDeck_CompareSortKeyDescending and BuildDeck_CompareSortKeyAscending in build_deck_input.c read it only as
+ * BuildDeck_CompareSortKeyDescending and BuildDeck_CompareSortKeyAscending in build_deck.c read it only as
  * the tie-break, when the two items' primary keys are equal. main_menu's
  * comparators read the same table for their whole ordering and substitute
  * 0x7FFFFFFF for id 0, which is where the empty slot sorting last comes from
@@ -116,7 +116,7 @@ extern u8 gDuel_abCardLevelAttr[];
  *
  * Declared here beside gDuel_adwCardStats because the two are read at the
  * same index by the callers that use both. It used to be a file-local
- * `extern s16 gCard_asNameSortKey[];` in build_deck_input.c -- a file that
+ * `extern s16 gCard_asNameSortKey[];` in build_deck.c -- a file that
  * already included this header for its twin -- and a second, address-named
  * declaration in src/overlays/main_menu/card_tables.h. */
 extern s16 gCard_asNameSortKey[];

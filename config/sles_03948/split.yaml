@@ -74,13 +74,7 @@ segments:
     - game/french/debug_menu
   - - 2712
     - .rodata
-    - game/european/card_list_setup
-  - - 2732
-    - rodata
-    - initial_data_aac
-  - - 2736
-    - .rodata
-    - game/european/build_deck_input
+    - game/european/build_deck
   - - 2772
     - .rodata
     - game/european/free_duel_load_package_stage
@@ -277,34 +271,7 @@ segments:
     - game/french/debug_menu
   - - 138816
     - c
-    - game/european/build_deck_card_transfer_icon
-  - - 139592
-    - c
-    - game/european/duel_card_stat_display
-  - - 139740
-    - c
-    - game/european/build_deck_draw_card_list_page
-  - - 141432
-    - c
-    - game/european/build_deck_card_slots
-  - - 142320
-    - c
-    - game/build_deck_recount_deck_cards
-  - - 142480
-    - c
-    - game/build_deck_add_card
-  - - 142680
-    - c
-    - game/european/card_list_setup
-  - - 143396
-    - c
-    - game/european/build_deck_init_screen
-  - - 145500
-    - c
-    - game/european/build_deck_input
-  - - 149956
-    - c
-    - game/card_list_update_sort_mode
+    - game/european/build_deck
   - - 150008
     - c
     - game/sorted_entry_render
@@ -756,8 +723,7 @@ segments:
   - [0x827C0, .data, game/european/script_image_rebuild]
   - [0x82868, .data, game/european/script_scene]
   - [0x828CC, .data, game/french/debug_menu]
-  - [0x82A14, .data, game/european/build_deck_draw_card_list_page]
-  - [0x82A34, .data, game/european/build_deck_input]
+  - [0x82A14, .data, game/european/build_deck]
   - [0x82A64, .data, game/european/duel_effect_update_object_layout]
   - [0x82A70, .data, game/european/text_box_build_step]
   - [0x82AB8, .data, game/european/duel_effect_command_table]
@@ -795,7 +761,7 @@ segments:
   - {start: 0x8CE08, type: bin, name: resident_tail_8009c608, linker_section_order: .sbss}
   - [0x8CE10, sbss, script_scene_commons]
   - [0x8CE50, sbss, debug_menu_commons]
-  - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
+  - [0x8CE80, .sbss, game/european/build_deck]
   - [0x8CE88, sbss, sorted_entry_render_commons]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
   - [0x8CF08, sbss, input_pads_commons]

@@ -92,7 +92,7 @@ object before it.
 | `src/game/duel_effect_object_pool.c` | `.sbss` | `0x8009B260`-`0x8009B268` |
 | `src/game/script_scene.c` | `.sbss` | `0x8009B270`-`0x8009B2B0` |
 | `src/game/debug_menu.c` | `.sbss` | `0x8009B2B0`-`0x8009B2F8` |
-| `src/game/build_deck_draw_card_list_page.c` | `.sbss` | `0x8009B2F8`-`0x8009B300` |
+| `src/game/build_deck.c` | `.sbss` | `0x8009B2F8`-`0x8009B300` |
 | `src/game/sorted_entry_render.c` | `.sbss` | `0x8009B300`-`0x8009B318` |
 | `src/game/options_screen.c` | `.sbss` | `0x8009B37C`-`0x8009B390` |
 | `src/game/input_pads.c` | `.sbss` | `0x8009B390`-`0x8009B3B8` |
@@ -294,7 +294,7 @@ North American tables but in its own order:
 Europe's initialized tables start `0x1004` above the North American ones and
 drift as European tables grow. Its split places seventeen owners:
 - from `file_set_position_table` through `campaign_scene` (`+0x1004`);
-- `debug_menu` through `build_deck_draw_card_list_page`
+- `debug_menu` through `build_deck`
   (`+0x1020`);
 - `model_subdivided_effect` and `ai_script`
   (`+0x100C`).
@@ -308,7 +308,7 @@ Two of them take a European arm in the shared source:
 The middle range (`0x80091E20`-`0x800925F4`) groups the same tables
 differently from the North American build, but ten of its units now own
 their tables there:
-- `build_deck_input`: its European table ends with the divisor ladder
+- `build_deck` (its list-input part): its European table ends with the divisor ladder
   (`BUILD_DECK_DIVISOR_LADDER_ONLY`).
 - `duel_effect_update_object_layout`: an 800-entry pool, split
   280/220/220/80.

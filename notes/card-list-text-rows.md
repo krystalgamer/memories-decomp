@@ -78,8 +78,8 @@ The generic `gText_StagedValues` message-input union and separate result-card wo
 remain untouched. They serve broader card, deck, mem-card, rank, credits
 and overlay contexts, not one card-list allocation.
 
-Only registered active glyph sources are changed; the standalone
-`card_list_update_sort_mode.c` is active in some native registrations and
+Only registered active glyph sources are changed; `CardList_UpdateSortMode`
+(now in `build_deck.c`) is active in some native registrations and
 is not removed as an orphan. The sort-table data owner retains its
 registered `gcc_2_8_1_g0` profile, and all builder variants build under
 `gcc_2_8_1_g8_split`. Source filenames and grouping stay.

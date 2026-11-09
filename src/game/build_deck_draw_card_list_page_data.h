@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Small data that build_deck_draw_card_list_page.c defines (#2602), for the units that reach it
+/* Small data that build_deck.c defines (#2602), for the units that reach it
  * without the unit's other declarations. */
 extern u8 gBuildDeck_bConfirmMode;
 

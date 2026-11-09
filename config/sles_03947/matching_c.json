@@ -2247,195 +2247,195 @@
     },
     {
       "address": "0x80031454",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x18C",
-      "source": "src/game/european/build_deck_card_transfer_icon.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800315E0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/european/build_deck_card_transfer_icon.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x8003175C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/european/duel_card_stat_display.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800317F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/european/build_deck_draw_card_list_page.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x8003187C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/european/build_deck_draw_card_list_page.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x8003196C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x520",
-      "source": "src/game/european/build_deck_draw_card_list_page.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80031E8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/european/build_deck_card_slots.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80031FEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/build_deck_card_slots.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032044",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/european/build_deck_card_slots.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800320CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/european/build_deck_card_slots.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032164",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/european/build_deck_card_slots.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032204",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/build_deck_recount_deck_cards.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800322A4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/build_deck_add_card.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x8003236C",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1FC",
-      "source": "src/game/european/card_list_setup.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032568",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/card_list_setup.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800325B0",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/european/card_list_setup.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032638",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x810",
-      "source": "src/game/european/build_deck_init_screen.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032E48",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/european/build_deck_init_screen.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032E70",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032EE4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80032F58",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x474",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x800333CC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033814",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033850",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033A04",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033BF8",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033CAC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033CE4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033EFC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033FA4",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033FBC",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/european/build_deck_input.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x80033FD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/card_list_update_sort_mode.c"
+      "source": "src/game/european/build_deck.c"
     },
     {
       "address": "0x8003400C",
