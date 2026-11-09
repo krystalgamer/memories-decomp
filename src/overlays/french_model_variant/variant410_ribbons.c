@@ -71,7 +71,7 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                           ribbon->a[k].vy,
                           ribbon->a[k].vz + (rsin(yaw) * length >> 12));
                 if (ribbon->progress[k] < 1024) {
-                    ribbon->progress[k] += work->step * 40;
+                    ribbon->progress[k] += work->clock.step * 40;
                     if (ribbon->progress[k] >= 1024) {
                         ribbon->progress[k] = 1024;
                         if (k == 0 && work->phase == 1) {
@@ -161,6 +161,6 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
             }
         }
     }
-    work->animation_angle += work->step * 384;
-    work->animation_angle2 += work->step << 6;
+    work->animation_angle += work->clock.step * 384;
+    work->animation_angle2 += work->clock.step << 6;
 }

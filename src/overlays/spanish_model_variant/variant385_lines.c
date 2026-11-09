@@ -112,7 +112,7 @@ void SpanishModelVariant385_DrawLines(u8 *context)
         }
         if (state->phase == 0) {
             if (group->size > 0) {
-                progress = state->time * 3 * 4096 / state->timing->duration - 4096;
+                progress = state->clock.frame * 3 * 4096 / state->timing->duration - 4096;
                 group->size = i * 4096 / 3 - progress;
                 if (group->size <= 0) {
                     group->size += 4096;
@@ -121,7 +121,7 @@ void SpanishModelVariant385_DrawLines(u8 *context)
         } else if (state->phase == 1) {
             group->size = -(i * 8192 / 3);
         } else if (group->size < 8192) {
-            group->size += state->step * 256;
+            group->size += state->clock.step * 256;
             if (group->size >= 8192) {
                 if (state->phase >= 5) {
                     group->size = 8192;

@@ -95,20 +95,20 @@ void FrenchModelVariant175_DrawTube(u8 *context)
         }
     }
     if (state->phase < 2 && state->progress <= 1024) {
-        state->progress = (state->time - state->timing->expansion_start) * 1024 /
+        state->progress = (state->clock.frame - state->timing->expansion_start) * 1024 /
                           (state->timing->expansion_end - state->timing->expansion_start);
         if (state->progress >= 1024) {
             state->progress = 1024;
             state->phase = 2;
         }
     }
-    if (state->time >= state->timing->fade_start && state->width > 0) {
-        state->width = 1024 - (state->time - state->timing->fade_start) * 1024 /
+    if (state->clock.frame >= state->timing->fade_start && state->width > 0) {
+        state->width = 1024 - (state->clock.frame - state->timing->fade_start) * 1024 /
                              (state->timing->fade_end - state->timing->fade_start);
         if (state->width <= 0) {
             state->width = 0;
             state->phase = 4;
         }
     }
-    state->angle -= state->step * 32;
+    state->angle -= state->clock.step * 32;
 }

@@ -25,10 +25,8 @@ typedef struct {
     s32 direction[3];
     u8 unknown_FCC[4];
     DVECTOR projected;
-    u8 unknown_FD4[0x18];
-    u32 frame;
-    u32 time;
-    u8 unknown_FF4[0xC];
+    u8 unknown_FD4[0x10];
+    ModelVariantClock clock;
     ModelVariantStripTiming *timing;
     u8 unknown_1004[0x10];
     s32 iteration;

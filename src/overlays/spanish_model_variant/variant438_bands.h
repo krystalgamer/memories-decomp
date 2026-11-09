@@ -25,10 +25,9 @@ typedef struct {
     s32 direction[3];
     u8 unknown_2278[4];
     DVECTOR projected;
-    u8 unknown_2280[0x18];
-    u32 frame;
-    u32 time;
-    u8 unknown_22A0[0x14];
+    u8 unknown_2280[0x10];
+    ModelVariantClock clock;
+    u8 unknown_22AC[8];
     Bands438Timing *timing;
     u8 unknown_22B8[0x20];
     s16 size;

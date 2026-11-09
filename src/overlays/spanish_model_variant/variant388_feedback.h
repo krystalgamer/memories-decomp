@@ -20,9 +20,9 @@ typedef struct {
     u8 unknown_1790[0x94];
     SVECTOR origin;
     VECTOR direction;
-    u8 unknown_183C[0x28];
-    s32 step;
-    u8 unknown_1868[0x30];
+    u8 unknown_183C[0x14];
+    ModelVariantClock clock;
+    u8 unknown_186C[0x2C];
     s32 phase;
 } Feedback388State;
 

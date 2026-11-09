@@ -18,9 +18,9 @@ typedef struct {
     POLY_GT4 polygons[16];
     u8 unknown_3148[0x94];
     SVECTOR origin;
-    u8 unknown_31E4[0x40];
-    s32 step;
-    u8 unknown_3228[8];
+    u8 unknown_31E4[0x2C];
+    ModelVariantClock clock;
+    u8 unknown_322C[4];
     Bands405Descriptor *descriptor;
     u8 unknown_3234[0x20];
     s32 phase;

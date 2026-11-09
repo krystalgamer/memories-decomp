@@ -30,11 +30,8 @@ typedef struct {
     DVECTOR projected;
     u8 unknown_1F00[0x100];
     VECTOR directions[16];
-    u8 unknown_2100[0x1C];
-    u32 time;
-    u8 unknown_2120[4];
-    s32 step;
-    u8 unknown_2128[4];
+    u8 unknown_2100[0x10];
+    ModelVariantClock clock;
     ModelVariantSwarmRateTiming *timing;
     u8 unknown_2130[0x18];
     s32 spin;

@@ -22,9 +22,9 @@ typedef struct {
     s32 origin[3];
     u8 unknown_1BE4[8];
     s32 direction[3];
-    u8 unknown_1BF8[0x2C];
-    s32 step;
-    u8 unknown_1C28[0x38];
+    u8 unknown_1BF8[0x18];
+    ModelVariantClock clock;
+    u8 unknown_1C2C[0x34];
     s32 phase;
 } Ring464State;
 

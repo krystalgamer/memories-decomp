@@ -22,7 +22,7 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
     polygon = &state->polygon;
     angle += 2048;
     if (state->phase > 0) {
-        if ((state->frame & 1) == 0) {
+        if ((state->clock.frame_count & 1) == 0) {
             extent = state->timing->width * state->radius / 1024;
         } else {
             extent = state->timing->width * state->radius / 1024 + state->radius / 128;
@@ -103,15 +103,15 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
         if (state->iteration + 1 == state->timing->iterations) {
             if (state->phase == 1) {
                 if (state->progress <= 1024) {
-                    state->progress = (state->time - state->timing->start) * 1024 /
+                    state->progress = (state->clock.frame - state->timing->start) * 1024 /
                                       (state->timing->expanded - state->timing->start);
                     if (state->progress >= 1024) {
                         state->progress = 1024;
                         state->phase = 2;
                     }
                 }
-            } else if (state->timing->fade <= state->time && state->radius > 0) {
-                state->radius = 1024 - (state->time - state->timing->fade) * 1024 /
+            } else if (state->timing->fade <= state->clock.frame && state->radius > 0) {
+                state->radius = 1024 - (state->clock.frame - state->timing->fade) * 1024 /
                                       (state->timing->end - state->timing->fade);
                 if (state->radius <= 0) {
                     state->radius = 0;

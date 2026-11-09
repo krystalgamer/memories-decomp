@@ -72,7 +72,7 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
             }
             if (work->phase < 3) {
                 if (record->scale[j] < 4096) {
-                    record->scale[j] += work->step << 8;
+                    record->scale[j] += work->clock.step << 8;
                     if (record->scale[j] >= 4096) {
                         record->scale[j] = 0;
                         if (work->phase == 1) {
@@ -82,7 +82,7 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
                 }
             } else {
                 if (record->scale[j] < 4096) {
-                    record->scale[j] += work->step << 8;
+                    record->scale[j] += work->clock.step << 8;
                     if (record->scale[j] >= 4096) {
                         record->scale[j] = 4096;
                         record->done[j] = 1;
