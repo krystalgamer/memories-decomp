@@ -173,12 +173,12 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         work->wave0 = 0;
         work->wave1 = 0;
         work->extent = 1024;
-        work->frame_count = 0;
-        work->frame = 0;
-        work->animation_frame = 0;
-        work->step = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
         work->phase = 0;
-        work->fade = 0;
+        work->clock.fade = 0;
         work->brightness = 2048;
         work->command = command;
         work->rotation[0] = 0;
@@ -190,8 +190,8 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         work->view_delta.vy = view->vry - view->vpy;
         work->view_delta.vz = view->vrz - view->vpz;
         Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
             work->target.vy = 0;
@@ -199,7 +199,7 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
             Model_CopySlotPosition(0, (u16 *)&work->target);
             work->target.vy = 0;
         }
-        if (work->frame < work->config->end) {
+        if (work->clock.frame < work->config->end) {
             GsGetLwUnit(work->part0, &work->matrix0);
             GsGetLwUnit(work->part1, &work->matrix1);
             work->origin[0] = (work->matrix0.t[0] + work->matrix1.t[0]) / 2;
@@ -222,19 +222,19 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
-        if (work->config->start < work->frame) {
+        if (work->config->start < work->clock.frame) {
             FrenchModelVariant336_DrawStreamers((u8 *)point);
         }
         if (work->phase > 0) {
             FrenchModelVariant336_DrawRibbon((u8 *)point);
             FrenchModelVariant336_DrawSheets((u8 *)point);
         }
-        work->frame_count++;
+        work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
-        if (frame != work->animation_frame) {
-            work->frame += Model_GetFrameStep();
-            work->step = Model_GetFrameStep();
-            work->animation_frame = frame;
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
         }
     }
     Model_SetSlotAmbient(2, work->brightness, work->brightness, work->brightness);
@@ -246,7 +246,7 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
             }
         }
     } else {
-        work->brightness = work->fade << 5;
+        work->brightness = work->clock.fade << 5;
     }
     if (work->phase == 2) {
         result = 4;
@@ -254,10 +254,10 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         result = 1;
         work->phase = 6;
     } else if (work->phase == 6) {
-        if (work->fade < 64) {
-            work->fade += work->step;
-            if (work->fade >= 64) {
-                work->fade = 64;
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
                 work->phase = 7;
             }
         }
