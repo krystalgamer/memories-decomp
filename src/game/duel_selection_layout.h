@@ -16,9 +16,10 @@
  *
  * Cursor input/status APIs use this actual record and its real stride. */
 typedef struct DuelSelectionRecord {
-    /* Position base for linked display objects; the field-display path
-     * stores its sliding information panel here. */
-    struct DisplayObject *field_00;
+    /* The record's sliding field-card information panel, stored by the
+     * field-display transition; its text box and linked display objects
+     * are positioned from it. */
+    struct DisplayObject *info_panel;
     /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
      * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
      * it. */
@@ -62,8 +63,8 @@ typedef struct DuelSelectionRecord {
     u8 pad_1A[2];
 } DuelSelectionRecord;
 
-typedef char DuelSelectionRecord_field_00_offset_must_be_0[
-    (u32)&(((DuelSelectionRecord *)0)->field_00) == 0 ? 1 : -1
+typedef char DuelSelectionRecord_info_panel_offset_must_be_0[
+    (u32)&(((DuelSelectionRecord *)0)->info_panel) == 0 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_cursor_object_offset_must_be_4[
     (u32)&(((DuelSelectionRecord *)0)->cursor_object) == 4 ? 1 : -1

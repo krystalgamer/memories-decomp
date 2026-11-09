@@ -1481,7 +1481,7 @@ void Duel_InitSelectionRecords(void) {
         DuelSelectionRecord *p = DUEL_SELECTION_RECORDS(
             gDuel_abSelectionSides + row * DUEL_SELECTION_SIDE_SIZE);
         for (j = 0; j < DUEL_SELECTION_RECORDS_PER_SIDE; p++, j++) {
-            p->field_00 = 0;
+            p->info_panel = 0;
             p->cursor_object = 0;
             p->hand = (DuelHandSlot *)0;
             p->field_18 = 0;
@@ -8786,7 +8786,7 @@ void DuelSelection_UpdateLinkedObject(DisplayObject *object)
     DisplayObject *parent;
 
     offset += gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
-    parent = ((DuelSelectionRecord *)(base + offset))->field_00;
+    parent = ((DuelSelectionRecord *)(base + offset))->info_panel;
     if (parent == 0) {
         DisplayObject_ReleaseIfPresent(object);
     } else {
@@ -8815,7 +8815,7 @@ void DuelSelection_LinkDisplayObject(
     int index;
 
     if (object != 0) {
-        base = parent->field_00;
+        base = parent->info_panel;
         object->position.h.field_28 = object->xy.h.x - base->xy.h.x;
         object->position.h.field_2A = object->xy.h.y - base->xy.h.y;
         index = parent->record_index;
@@ -9047,11 +9047,11 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     }
     box = TextBox_Create(
         source->text_channel, style,
-        (s16)source->field_00->xy.h.x + 0x10,
-        (s16)source->field_00->xy.h.y + source->text_y_offset,
+        (s16)source->info_panel->xy.h.x + 0x10,
+        (s16)source->info_panel->xy.h.y + source->text_y_offset,
         0x120, 0x40
     );
-    box->depth_offset = *(u8 *)&source->field_00->depth_offset + 1;
+    box->depth_offset = *(u8 *)&source->info_panel->depth_offset + 1;
     TextBox_BuildBlocking((struct DuelEffectChannel *)box);
 }
 
@@ -9173,7 +9173,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = -0x400;
                 o->field_6C = 2;
-                source->field_00 = o;
+                source->info_panel = o;
                 if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
                         if (source->hand[i].object != 0) {
@@ -9187,7 +9187,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 DuelSelection_LinkDisplayObjects(source, 0);
             }
             if (gDuel_wDisplayTransitionFlags & 8) {
-                o = source->field_00;
+                o = source->info_panel;
                 o->position.h.field_2A = DUEL_FIELD_SCREEN_HEIGHT;
                 o->position.h.field_28 = o->xy.h.x;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
@@ -9218,7 +9218,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 }
             }
         }
-        o = source->field_00;
+        o = source->info_panel;
         if ((gDuel_wDisplayTransitionFlags & 2) && o->field_6C != 0) {
             busy = 1;
             moving = busy;
@@ -9241,7 +9241,7 @@ s32 Duel_UpdateDisplayTransition(void)
             if (o->field_60 < 0) {
                 TextBox_Destroy(DUEL_FIELD_DISPLAY_CHANNEL(source->text_channel));
                 DisplayObject_ReleaseIfPresent(o);
-                source->field_00 = 0;
+                source->info_panel = 0;
                 if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
                         DisplayObject_ReleaseIfPresent(source->hand[i].object);

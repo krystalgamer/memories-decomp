@@ -444,11 +444,15 @@ Neither function's order, compiler profile or grouped extent changes.
 ## Selection display-parent slot
 
 The canonical selection record's first word is a stored `DisplayObject *`,
-with the neutral name `field_00` retained. This is not inferred from the
-initializer's zero store: the field-display transition creates a display
-object, stores it at +0, slides it and later releases/clears it.
-`DuelSelection_LinkDisplayObject` reads the same slot as `position_base`
-when installing child callbacks.
+named `info_panel` (formerly `field_00`). This is not inferred from the
+initializer's zero store: its only non-zero writer,
+`Duel_UpdateDisplayTransition`, stores the field-card information panel
+returned by `Duel_CreateFieldCardPanel` at +0, slides it in and out, and
+releases and clears it with the record's text box. Every reader uses that
+panel: `DuelField_CreateCardInfoTextBox` places and layers the text box from
+its position and depth, `DuelSelection_LinkDisplayObject` reads it as
+`position_base` when installing child callbacks, and
+`DuelSelection_UpdateLinkedObject` follows or retires on it.
 
 `DuelSelection_UpdateLinkedObject` now reads that pointer through
 `DuelSelectionRecord`, rather than a second padded `DuelSelectionDisplayRecord`
