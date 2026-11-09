@@ -47,7 +47,7 @@ s32 Duel_FindFreeFieldSlot(s32 start);
  * was what they stored and that callers holding DuelCardRecord * should
  * convert at the call site. Neither half held up: the cast was a consequence
  * of the parameter type rather than a fact about the data, and the callers
- * did the opposite -- ai_turn_action.c passes DuelCardRecord *list0[6]
+ * did the opposite -- duel_scene.c passes DuelCardRecord *list0[6]
  * uncast, which warned, while casting a stale local type for another call in
  * the same file. */
 s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1, s32 arg2);
@@ -59,7 +59,7 @@ s32 Duel_SelectEquipPair(void);
 
 /* The same convention, for a trap rather than an equip: 0 once it has written
  * a play into gAi_Selection, 1 when it found no trap on the field or no free
- * slot. ai_turn_action.c calls the two in adjacent lines behind the same
+ * slot. duel_scene.c calls the two in adjacent lines behind the same
  * `(rand() & 1) == 0 && ... == 0` guard, so they are alternatives in one
  * chain rather than unrelated helpers. */
 s32 Duel_SelectTrapPlay(void);

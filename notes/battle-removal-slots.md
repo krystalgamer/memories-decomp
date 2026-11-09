@@ -49,17 +49,17 @@ grouping and definition order are unchanged.
 ## Storage
 
 Each image defines the two bytes once, under these names, in its duel
-storage unit: `src/game/duel_field_card_render.c` for North America and
-Japan, `src/game/european/duel_field_card_render.c` for the PAL images.
-The tentative definitions in `duel_scene_battle.c` are COMMON and merge
-with that storage, so no linker alias joins the two names.
+storage unit, `src/game/duel_scene.c` (the regional builds include it
+through their wrappers). The definitions are COMMON, and the generated
+`duel_scene_commons` subsegment places them at the `symbols.txt` addresses,
+so no linker alias joins the two names.
 
 | Image | Slot 0 | Slot 1 | Bound by |
 | --- | --- | --- | --- |
-| North America | `0x8009B208` | `0x8009B209` | storage order |
+| North America | `0x8009B208` | `0x8009B209` | `symbols.txt` |
 | Japan | `0x8009B0F8` | `0x8009B0F9` | `symbols.txt` |
-| SLES_039.47 | `0x8009C0B8` | `0x8009C0B9` | storage order, `symbols.txt` |
-| Other PAL | `0x8009C4D8` | `0x8009C4D9` | `link_symbols.ld` |
+| SLES_039.47 | `0x8009C0B8` | `0x8009C0B9` | `symbols.txt` |
+| Other PAL | `0x8009C4D8` | `0x8009C4D9` | `symbols.txt` |
 
 The unrelated French literal `D_8009C0B9_French = 0x8009C0B9` stays
 distinct.

@@ -1,6 +1,6 @@
 # Developer effect-preview controls and resources
 
-The complete three-function `debug_effect_screen.c` group contains
+The complete three-function `duel_scene.c` group contains
 `DebugEffect_UpdateViewControls`, `DebugEffect_UpdatePreview` and the already
 named `DuelScene_UpdateEffectPreview` scene entry. Canonical declarations are
 isolated in `debug_effect_preview.h`; every existing header remains unchanged.
@@ -25,14 +25,13 @@ allocator stores it in the request's `id` at `0x18`. The second is assigned to
 `field_1A`; its effect-specific meaning is not inferred. The actual request
 position is assigned separately according to the preview page.
 
-These are the `bEditedOperand` and `abOperands` members of
-`gDebugEffect_PreviewState`, a `DebugEffectPreviewState` struct (with `bPage`)
-that replaced a byte array and its `#define` element views. The operand reads
-index from `&gDebugEffect_PreviewState.abOperands[0]`: retail forms that
-address first (`addiu a0,gp,0x24`), while indexing the member array directly
-folds the `+2` into the load. The old layout selector
-`DEBUG_EFFECT_COORDINATE_OFFSET` retains its name and value for compatibility,
-as do every other selector and the historical wording in frozen headers.
+These are `gDebugEffect_bEditedOperand` and `gDebugEffect_abOperands`, defined
+with the page byte `gDebugEffect_bPage` in `duel_scene.c`. They replaced a
+`DebugEffectPreviewState` struct, which itself replaced a byte array and its
+`#define` element views. The operand reads index from the array's own address
+(`addiu a0,gp,0x24`), as retail does. GCC word-aligns the array, so its offset
+from the index (2 here, 4 in the four language builds) needs no layout
+selector.
 
 LEFT/RIGHT toggles the edited index with XOR 1. UP/DOWN retains the exact
 unsigned-byte increment/decrement expressions and wrapping behavior. Reentry
@@ -83,7 +82,7 @@ Japan retains its native button swaps, and European page-1 geometry remains
 distinct from NA/Japan.
 
 Only the three obsolete Japanese helper/record spelling macros are retired.
-The neighboring-function comment in `duel_result_runtime.c` receives an
+The neighboring-function comment in `duel_scene.c` receives an
 identifier update only. Existing headers, overlay C/import maps/metadata,
 tests, traces and historical fingerprints remain unchanged.
 

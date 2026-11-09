@@ -441,7 +441,6 @@ FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
 func_801680F4 = 0x801680F4;
 func_80168160 = 0x80168160;
-gDuelResult_nOutroSpriteCount = 0x8009C2BC;
 
 /* Semantic draw-state aliases retain the original native providers. */
 

@@ -78,7 +78,6 @@ gModel_szStoneTrace = 0x8009C3C8;
 gModel_szHitTrace = 0x8009C3D0;
 gModel_szOuchTrace = 0x8009C3D8;
 gModel_szTermTrace = 0x8009C3E0;
-gDuelResult_nOutroSpriteCount = 0x8009C2BC;
 D_800EA0E8 = 0x800EB470;
 D_800EAE8F = 0x800EC217;
 D_800EAE91 = 0x800EC219;

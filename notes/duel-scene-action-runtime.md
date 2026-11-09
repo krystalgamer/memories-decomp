@@ -124,7 +124,7 @@ Both functions remain generated assembly, but their scene-table positions,
 input branches, state transitions, and viewer payload writes establish the
 names independently of a C reconstruction.
 
-Matching `DuelScene_UpdateExodiaResult` in `src/game/duel_draw_resolution.c`
+Matching `DuelScene_UpdateExodiaResult` in `src/game/duel_scene.c`
 uses `gDuel_wSceneStateFlags` like the rest of the runtime; the former
 address-based `D_8009B23A` view of the same halfword has been removed.
 

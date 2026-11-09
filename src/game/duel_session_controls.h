@@ -25,7 +25,7 @@ extern u8 gDuel_bResumeFromAnimatedBattle;
  * Text_StartCampaignDuel write both; Main_RunDuel reads the selected one. */
 extern u16 gDuel_awCampaignSceneByOutcome[2];
 
-/* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
+/* DuelScene_UpdateBattle (src/game/duel_scene.c) reads it through a
  * %hi/%lo pair into the load's own register, which is the .data form. */
 extern u16 gDuel_wAnimatedBattleBgmCommand;
 

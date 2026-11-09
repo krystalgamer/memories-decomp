@@ -14,7 +14,7 @@
  * alone, but all three callers pass three arguments -- record, x, y -- and
  * that is not a mistake in any of them: Duel_CreateHandCardDisplayObject hands the record to
  * Duel_CreateCardDisplayObject through an unprototyped cast in
- * duel_init_scene.c, so the two position words the caller left in
+ * duel_scene.c, so the two position words the caller left in
  * $a1/$a2 reach Duel_CreateCardDisplayObject untouched and become the object's initial
  * position. Narrowing a call site to one argument would delete its argument
  * setup and change the image.
@@ -25,7 +25,7 @@
  *
  * The return type is a card-rendering view of the shared display-pool slot.
  * Callers storing it in hand slots cast to the canonical DisplayObject;
- * duel_draw_resolution.c also uses that wider record for +0x6C. The narrow
+ * duel_scene.c also uses that wider record for +0x6C. The narrow
  * return view and both measured argument-count arms below remain unchanged. */
 DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
 /* Callers that also pass the hand position in $a1/$a2 call through this. */

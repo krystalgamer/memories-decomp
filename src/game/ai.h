@@ -73,7 +73,7 @@ extern AiScriptState gAiScript_State;
  * logic writes the slot/flag bytes at 0x00, 0x01, 0x06, 0x07 and 0x08, and
  * the field-card path writes 0x09..0x0B. Previously that was split across
  * two competing typedefs -- this one in the header covering 0x09..0x0B, and
- * a second inside ai_turn_action.c covering 0x00..0x08 -- describing the
+ * a second inside duel_scene.c covering 0x00..0x08 -- describing the
  * same twelve bytes. The record and unsigned combo-byte views below share
  * one backing object; neither is a separate pending action. */
 typedef struct {
@@ -121,8 +121,8 @@ extern AiSelection gAi_Selection;
 /* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has no
  * symbol of its own. Seven sites across three sources write the byte:
  * AiScript_PlayFaceUp (ai_script.c) stores the second of the five combo bytes as
- * gAi_Selection.bytes[1], duel_field_effects.c clears it the same way in
- * Duel_SelectEquipPair and Duel_SelectTrapPlay, and ai_turn_action.c writes
+ * gAi_Selection.bytes[1], duel_scene.c clears it the same way in
+ * Duel_SelectEquipPair and Duel_SelectTrapPlay, and duel_scene.c writes
  * it as gAi_Selection.fields.field1.
  * DuelScene_UpdateHandActions is the only reader and reads the byte view too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and

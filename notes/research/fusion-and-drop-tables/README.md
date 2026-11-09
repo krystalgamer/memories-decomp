@@ -76,7 +76,7 @@ for the selector's behavior with edited totals.
 
 ## Reading the fusion table
 
-`Duel_CheckFusion` (`0x80019A60`, `src/game/duel_card_checks.c`) sorts its two
+`Duel_CheckFusion` (`0x80019A60`, `src/game/duel_scene.c`) sorts its two
 arguments, so each pair is stored once under the smaller id:
 
 ```

@@ -177,7 +177,7 @@ is never sufficient for acceptance.
 ## Compiler-owned initialized small data
 
 This batch adds **11 functions / 4,772 text bytes** from the unchanged
-`european/duel_battle_stats.c` and `duel_card_effects.c` translation units.
+`european/duel_scene.c` and `duel_scene.c` translation units.
 Their existing named profiles produce **19 bytes of initialized `.sdata`**.
 The batch retains all prior matches and introduces no new C, inline assembly,
 source-local extern declarations, or compiler flags.
@@ -270,7 +270,7 @@ acceptance. Interpretation of 2,094 relocation sites then checks object
 addends, European ELF values, French references, repeated bindings, and local
 section addresses. Two groups remain deferred:
 
-- `european/debug_effect_screen.c`: references to
+- `european/duel_scene.c`: references to
   `gDebugEffect_PreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
   a single alias cannot resolve the regional layout difference.
 - `model_background.c` (formerly `model_update_background_scroll.c`): the initial bytes at recovered `D_8009AF88` differ from
@@ -455,7 +455,7 @@ including their explicit uninventoried-code caveat, remain unchanged.
 ## Final resident group and complete ownership classification
 
 The unchanged Spanish `duel_result_orbit_sprites.c` group (now part of
-`spanish/duel_result_runtime.c`) completes the
+`spanish/duel_scene.c`) completes the
 eligible resident C inventory: **4 functions / 2,404 text bytes** at
 `0x80020CB0..0x80021614`, bringing the total to **1,140 functions / 357,700
 text bytes in 561 translation units**. All 1,136 previous entries remain

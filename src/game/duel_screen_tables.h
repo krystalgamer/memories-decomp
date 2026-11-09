@@ -23,10 +23,10 @@ typedef struct {
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
    read them cannot drift apart. gDuel_aCardSlotGroundPositions is declared as its DuelFieldPosition pairs
-   everywhere: the defining unit duel_ground_projection.c and
-   duel_card_record_lifecycle.c, whose Duel_SetupFieldCardFromDeck loads the
-   pair with lh, read it that way. debug_effect_screen.c reads one pair's
-   members as unsigned halfwords and duel_project_card_slot_screen_x.c casts
+   everywhere: the defining unit duel_scene.c and
+   duel_scene.c, whose Duel_SetupFieldCardFromDeck loads the
+   pair with lh, read it that way. duel_scene.c reads one pair's
+   members as unsigned halfwords and duel_scene.c casts
    to a halfword pointer. The
    pair supplies ground X/Z; consumers choose height independently and the
    shared type retains its generic x/y names. */

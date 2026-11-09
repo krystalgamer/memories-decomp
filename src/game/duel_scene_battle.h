@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* Duel scene-state 9, the battle resolution phase, and the two side pairs it
- * keeps private. DuelScene_UpdateBattle (src/game/duel_scene_battle.c) is the
+ * keeps private. DuelScene_UpdateBattle (src/game/duel_scene.c) is the
  * only source in the tree that names either pair; duel_scene_hand_actions.h
  * and duel_scene_field_actions.h record the same arrangement for scene-states
  * 4 and 5.

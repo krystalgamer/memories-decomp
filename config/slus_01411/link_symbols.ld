@@ -105,7 +105,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Auxiliary slot's retained load-step byte view. */
 
-/* Other names for game/duel_field_card_render's small data (#2602). */
+/* Other names for game/duel_scene's small data (#2602). */
 
 /* Other names for game/script_scene's small data (#2602). */
 
@@ -121,7 +121,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
 
-/* Other names for game/duel_field_card_render's small data (#2602). */
+/* Other names for game/duel_scene's small data (#2602). */
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 

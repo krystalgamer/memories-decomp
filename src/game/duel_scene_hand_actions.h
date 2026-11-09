@@ -4,9 +4,9 @@
 #include "../types.h"
 
 /* Duel scene-state 4, the hand navigation and card play phase, and the state
- * private to it. DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is
+ * private to it. DuelScene_UpdateHandActions (duel_scene.c) is
  * the only source in the tree that names any of the four globals below;
- * duel_scene_update.c takes the prototype for the phase callback table.
+ * duel_scene.c takes the prototype for the phase callback table.
  *
  * Every access to the last three is gp-relative in retail: 5, 3 and 4
  * relocations, none through %hi/%lo. So these are the plain scalar declarations. That the
@@ -19,7 +19,7 @@
  * selection byte minus 11 and steps the hand cursor toward it; the placement
  * step stores the target column and steers gDuelCursor_Direction until the
  * selection record's column equals it. Its storage is defined with the duel
- * scene's other small state in duel_field_card_render.c, two bytes after
+ * scene's other small state in duel_scene.c, two bytes after
  * gDuel_bBattleRemovalSlot0; it is a separate object rather than a third
  * replay slot, since the European builds place it 0x54 bytes away from the
  * replay pair. */

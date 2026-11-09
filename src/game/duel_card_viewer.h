@@ -10,7 +10,7 @@
  * It is a publication point rather than a working variable: the pickers write
  * it and the viewer reads it, with nothing in between. build_deck_input.c
  * stores the highlighted row's id at both of its pick sites, and
- * duel_update_card_pick_cursor.c does the same from the field cursor -- its
+ * duel_scene.c does the same from the field cursor -- its
  * header comment describes a successful pick as being "published in
  * gDuel_wViewerCardID along with the event code 0x14 and state 2".
  *

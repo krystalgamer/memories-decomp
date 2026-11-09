@@ -245,7 +245,7 @@ Two conditions are easy to get wrong:
   emitting the same `lui $at` / `addu $at` / `lb` sequence as before.
 
 `func_80024D34` (`0x80024D34`, `0x48000` plus `0x36B8`) and
-[`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c) (`0x4B9FC`
+[`Duel_HasAllExodiaPieces`](../../src/game/duel_scene.c) (`0x4B9FC`
 in the same blob) are the two worked positives, both on `D_8015C424`.
 
 Register pins are not a substitute here either. GCC constant-folds through the
@@ -1156,7 +1156,7 @@ MASPSX cannot see what `as` is about to do.
 `Duel_SelectTrapByCardId` (`0x80025028`) is the worked example, and it is otherwise
 finished. 39 of the target's 40 instructions are byte-exact, registers and
 relocations included, from a body that uses only the cohort's own idioms —
-`ai_turn_action.c` supplies `slot + gDuel_bActiveSide * 20`, the
+`duel_scene.c` supplies `slot + gDuel_bActiveSide * 20`, the
 `D_801A7AD8[D_800907D8[position]]` indexing, and the `0x6A` object field. The
 one missing instruction is this nop, between `lbu $v1, 0x6A($v0)` and
 `sb $v1, %gp_rel(gDuel_bSelectedTrapSlot)($gp)`. The build rejects it as
@@ -2354,7 +2354,7 @@ is the same padding trap recorded above for `no_sched2`.
 |---|---|
 | `gViewState_Current` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
-| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_ground_projection.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
+| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_scene.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
 Observed `gDuel_adwCardStats` property fields include:
@@ -3290,13 +3290,13 @@ Measured while typing `D_801A7AD8`, a `0x1C`-byte duel card record reached
 through raw casts in eleven files. One file converted cleanly and matched. Five
 others, converted identically, did not:
 
-- `duel_phase_entry.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
+- `duel_scene.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
   to a callee. Once the array is typed, that expression scales **twice** - the
   multiply is still written and the pointer arithmetic scales again - which both
   changes the address and grows the text. Rewriting it as `&D_801A7AD8[i]` fixed
   the size and still produced different bytes, so the index form and the
   explicit multiply are not equivalent here either.
-- [`func_8001898C`](../../src/game/duel_phase_entry.c) failed the same way at
+- [`func_8001898C`](../../src/game/duel_scene.c) failed the same way at
   a different address.
 
 The trap is that the first symptom was a **link error about overlapping
@@ -5324,7 +5324,7 @@ unchanged; these are extern declarations and do not allocate or move data.
 
 The terminal result was recorded and promoted with the existing tools.
 Only the five include paths were normalized for `func_80018608` in
-[`duel_phase_entry.c`](../../src/game/duel_phase_entry.c), then the integrated
+[`duel_scene.c`](../../src/game/duel_scene.c), then the integrated
 source was remeasured. The clean full-executable gate passed with every
 existing matching entry enabled and retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
@@ -7086,13 +7086,13 @@ rest from whatever the registers happen to hold. `DisplayObject_ReleaseIfPresent
 "corrected" by writing the missing argument, because there is no expression
 in the caller that produces it.
 
-    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_load_terrain_package.c
-    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_init_scene.c
+    Duel_LoadPackageStage  def 2 (duel_scene.c)  <-  decl 0 in duel_scene.c
+    Duel_LoadPackageStage  def 2 (duel_scene.c)  <-  decl 0 in duel_scene.c
     Main_InitHardware          def 1 (main_services.c)  <-  decl 0 in main_init.c
-    func_80017F04          def 3 (duel_init_scene.c)  <-  decl 1 in func_80018004.c
+    func_80017F04          def 3 (duel_scene.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     DuelResult_LoadOutroPackageStage          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
-    DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c
+    DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in duel_scene.c
     Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     CardList_RenderDeckBoxStats def 2 (card_list_render_deck_box_stats.c) <- decl 0 in func_80061008.c
 

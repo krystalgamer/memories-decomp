@@ -65,7 +65,7 @@ extern u8 gText_GuardianGlyphCode;
  * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
  * MainMenu_CreateTradeReadyIndicator stores its mode argument into it
  * before building a text box; Text_JumpBySelectorA adds twice its value to the word the object's +0x58
- * index selects; duel_result_runtime.c stores the result-screen mode.
+ * index selects; duel_scene.c stores the result-screen mode.
  * notes/duel-card-record.md calls it a text-selector override. Values
  * 0..3, every access sb or lbu. */
 extern u8 gText_BranchSelectorA;
@@ -82,7 +82,7 @@ extern u8 gText_BranchSelectorB;
 
 /* Stored by two functions and read by one. DuelField_CreateCardInfoTextBox stores
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
- * `if (gText_BranchSelectorA != 0)` in duel_field_display_objects.c;
+ * `if (gText_BranchSelectorA != 0)` in duel_scene.c;
  * Library_RefreshSelectedCardText stores the returned text channel's
  * color_index_54 byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/library_card_grid.c:246-249);
@@ -101,7 +101,7 @@ extern u8 gText_SelectedCardColorIndex;
 /* Stored by five C functions and read by one. CardList_CreateSlotTextBox
  * stores the list entry's id (build_deck_card_slots.c:45); DuelField_CreateCardInfoTextBox stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
- * immediately after `gText_BranchSelectorA = 1;` (duel_field_display_objects.c);
+ * immediately after `gText_BranchSelectorA = 1;` (duel_scene.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
  * Library_RefreshSelectedCardText stores Library_GetGridCursorCardId's result
  * (src/game/library_card_grid.c:232) and then, under `if (n != 0)`, stores
@@ -200,7 +200,7 @@ extern u8 gDuel_bActiveEffectState;
  * into gDuel_bActiveEffectState and then marks with 0x80 as started. State
  * handlers raise 0x40 when the effect is finished, and the next tick clears
  * the byte back to 0. Stored 2 by build_deck_input.c,
- * duel_update_card_pick_cursor.c and the main_menu overlay's
+ * duel_scene.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and 4
  * by debug_menu.c, and cleared by Main_ResetFrontendRuntime and
  * Main_RunCampaign. One byte, read lbu; the next named byte is

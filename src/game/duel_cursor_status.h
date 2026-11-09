@@ -9,7 +9,7 @@
  * result of their own.
  *
  * The callers use different checked views of DuelCursor_UpdateDirection --
- * see the note in duel_cursor_status.c. */
+ * see the note in duel_scene.c. */
 
 /* Direction selected by the cursor path plus the target column and row used
  * by DuelCursor_StepTowardTarget, which compares them as signed bytes. */
