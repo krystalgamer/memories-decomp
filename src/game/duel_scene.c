@@ -3613,7 +3613,7 @@ void DuelScene_UpdateCardPlacement(void)
             PLACEMENT_TY(object) = 42;
             gDuel_wSceneStateFlags |= 0x4000;
         } else {
-            gDuel_pActiveSideState->rank.field_07++;
+            gDuel_pActiveSideState->rank.combo_plays++;
         }
         n = 0;
         do {
@@ -6799,9 +6799,9 @@ void DuelScene_UpdateBattle(void)
                 gDuel_awBattleDamage[1] = 0;
                 if (result != 0) {
                     if (gDisplayObject_apWorkSlots.slots[1] != 0 && (gDuel_awSavedRecordFlags[1] & 0x800)) {
-                        gDuel_pActiveSideState->rank.field_0B++;
+                        gDuel_pActiveSideState->rank.card_destructions++;
                         gDuel_abBattleOutcome[1] = -1;
-                        gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.field_0C++;
+                        gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.defensive_losses++;
                         return;
                     }
                     view = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
@@ -6811,7 +6811,7 @@ void DuelScene_UpdateBattle(void)
                         view->life_points.unsigned_value = 0;
                     }
                     if (gDisplayObject_apWorkSlots.slots[1] != 0) {
-                        gDuel_pActiveSideState->rank.field_0B++;
+                        gDuel_pActiveSideState->rank.card_destructions++;
                         gDuel_pActiveSideState->rank.effective_attacks++;
                     }
                     gDuel_abBattleOutcome[1] = -1;
@@ -7916,16 +7916,16 @@ void Duel_CalcRankScore(void) {
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_REMAINING_LP, v);
         q[2 * DUEL_SIDE_COUNT] = e->deck_average_attack;
-        q[3 * DUEL_SIDE_COUNT] = e->rank.field_0B;
+        q[3 * DUEL_SIDE_COUNT] = e->rank.card_destructions;
         v = e->rank.effective_attacks; q[4 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_EFFECTIVE_ATTACKS, v);
         q[5 * DUEL_SIDE_COUNT] = e->deck_average_defense;
-        q[6 * DUEL_SIDE_COUNT] = e->rank.field_0C;
+        q[6 * DUEL_SIDE_COUNT] = e->rank.defensive_losses;
         v = e->rank.defensive_wins; q[7 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_DEFENSIVE_WINS, v);
-        q[8 * DUEL_SIDE_COUNT] = e->rank.field_07;
+        q[8 * DUEL_SIDE_COUNT] = e->rank.combo_plays;
         v = e->rank.face_down_plays; q[9 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_FACE_DOWN_PLAYS, v);
