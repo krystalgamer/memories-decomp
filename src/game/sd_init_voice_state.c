@@ -10,7 +10,6 @@ void SD_InitVoiceState(void) {
     SDValue *note_map_state;
     s32 init_index;
     s32 lookup_entry_index;
-    s32 lookup_byte_offset;
 
     g_SDValue->s_bSD_VOICE_ACTIVE_MASK = 0;
     g_SDValue->s_bSD_VOICE_CURSOR = 0;
@@ -68,15 +67,8 @@ void SD_InitVoiceState(void) {
     init_index = 0;
     lookup_state = g_SDValue;
     for (; init_index < SD_VOICE_LOOKUP_BANK_COUNT; init_index++) {
-        lookup_entry_index = 0;
-        lookup_byte_offset = init_index << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        for (; lookup_entry_index < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; lookup_entry_index++) {
-            /* The bank shift is already folded into lookup_byte_offset, and retail adds the
-               record base to it in that order, so this keeps the byte form
-               rather than becoming lookup_state->s_aawSD_INDIRECT_SE_ID[init_index][lookup_entry_index]. */
-            *(u16 *)((u8 *)lookup_state + lookup_byte_offset + SD_VOICE_LOOKUP_BYTE_OFFSET) =
-                SD_PENDING_ENTRY_NONE;
-            lookup_byte_offset += 2;
+        for (lookup_entry_index = 0; lookup_entry_index < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; lookup_entry_index++) {
+            lookup_state->s_aawSD_INDIRECT_SE_ID[init_index][lookup_entry_index] = SD_PENDING_ENTRY_NONE;
         }
     }
 }
