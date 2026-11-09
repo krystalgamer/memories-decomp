@@ -27,7 +27,10 @@ union DuelSideLifePoints {
 /* The rank statistics stored at the front of each side record. The named
  * bytes are the counters consumed by Duel_CalcRankScore; face_down_plays
  * counts normal single-card face-down commitments, not fusion results.
- * Unresolved display rows retain their offsets. */
+ * combo_plays, card_destructions and defensive_losses are shown on the
+ * result screen (COMBO PLAYS, CARD DESTRUCTION, DEFENSIVE LOSSES) but not
+ * scored: plays committing more than one card, attacker wins over a
+ * monster, and the defender's defence-position monsters beaten. */
 typedef struct {
     s8 result_adjustment;
     u8 turns_taken;
@@ -36,13 +39,13 @@ typedef struct {
     u8 face_down_plays;
     u8 pure_magic_used;
     u8 traps_triggered;
-    u8 field_07;
+    u8 combo_plays;
     u8 fusions_initiated;
     u8 equips_used;
     /* Field magic cards played: DuelEffect_ApplyTerrain counts each one. */
     u8 field_magic_used;
-    u8 field_0B;
-    u8 field_0C;
+    u8 card_destructions;
+    u8 defensive_losses;
 } DuelRankStatistics;
 
 typedef struct DuelSideState {
