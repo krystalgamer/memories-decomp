@@ -5307,7 +5307,7 @@
     },
     {
       "address": "0x8004D5F4",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_comm",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC64",
       "source": "src/game/japanese/model_keyframe_update.c"
     },
