@@ -208,7 +208,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
         }
         work->field_2FFA = 1024;
         work->streamer_length = 1024;
-        work->field_2FFC = 0;
+        work->quad_count = 0;
         work->orbit = 0;
         work->orbit_progress = 0;
         work->field_2FF4 = 0;

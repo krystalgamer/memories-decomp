@@ -69,7 +69,7 @@ typedef struct {
     u32 unknown_2FD0;
     GsCOORDUNIT *parts[8];
     s16 field_2FF4, field_2FF6, field_2FF8, field_2FFA;
-    s32 field_2FFC, orbit, orbit_progress, streamer_length;
+    s32 quad_count, orbit, orbit_progress, streamer_length;
     s32 streamer_rotation_x, streamer_rotation_y, streamer_rotation_z, ribbon_wave, ribbon_phase;
     ModelVariantEntryTail tail;
 } Variant475EntryState;
