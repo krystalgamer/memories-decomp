@@ -174,8 +174,8 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
             setVector(&ribbon->position, rcos(angle) * 256 >> 12,
                 rsin(angle) * 256 >> 12, 0);
             ribbon->progress = -(i * 512);
-            ribbon->field_184 = 0;
-            ribbon->field_188 = 0;
+            ribbon->fade = 0;
+            ribbon->state = 0;
         }
         for (k = 0; k < 6; k++, sheet++) {
             for (sheet_point = 0; sheet_point < 4; sheet_point++) {

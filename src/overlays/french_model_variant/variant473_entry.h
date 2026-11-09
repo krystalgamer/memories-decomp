@@ -30,7 +30,7 @@ typedef struct {
     CVECTOR inner[9], outer[9];
     VECTOR scale;
     s16 field_178, field_17A;
-    s32 field_17C, progress, field_184, field_188;
+    s32 field_17C, progress, fade, state;
     u8 unknown_18C[0x48];
     VECTOR position;
     u8 unknown_1E4[0x48];
