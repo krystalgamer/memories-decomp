@@ -1166,7 +1166,7 @@ address,size,name,status,module,notes
 0x80071EB8,0x110,AiScript_CountCards,matching_c,game,"Exact ordinary-C AI card-count command without register pins or mixed thresholds. Operand-index/type local reuse restores allocation while preserving shared card layouts, range selection and used-this-turn filtering; existing uniform G0 split profile."
 0x80071FC8,0x184,AiScript_FindFirstCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot in the wanted state (0 empty, 1 face-up, 2 face-down), skipping cards already used this turn in the four acting zone types, and writes the slot index or 0 to the destination register."
 0x8007214C,0x180,AiScript_FindCard,matching_c,game,"AI script opcode: scans a zone's slot range for the first slot holding a given card id, skipping cards already used this turn in the four acting zone types and, when the third operand is 1, face-down cards in zone types 5 and up; writes the slot index or 0."
-0x800722CC,0x1D0,AiScript_MatchType,matching_c,game,AI card-type search across a mode-selected active-card range; exact post-terminal collaborator match. Disabling strength reduction preserves the retail single-cursor loop for repeated flag reads.
+0x800722CC,0x1D0,AiScript_MatchType,matching_c,game,AI card-type search across a mode-selected active-card range; exact post-terminal collaborator match. Indexing gDuel_aActiveCards[index] yields the retail single-cursor loop at gcc_2_8_1_g8_split without disabling strength reduction.
 0x8007249C,0x128,AiScript_FindEquipTarget,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800725C4,0x7C,AiScript_CheckRitual,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80072640,0xB4,AiScript_FindFirstMonster,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
@@ -1178,7 +1178,7 @@ address,size,name,status,module,notes
 0x80072F54,0x38,AiScript_SkipField,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80072F8C,0xC4,AiScript_PlayFaceUp,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80073050,0x3C,AiScript_SetPosition,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8007308C,0x194,AiScript_FindBestAttack,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split_no_strength_reduce from the ygofm reference (batch port, probe-verified)."
+0x8007308C,0x194,AiScript_FindBestAttack,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split: indexing the opponent row as t[j] lets strength reduction build retail's single inner cursor, replacing the earlier no-strength-reduce cursor walk from the ygofm reference."
 0x80073220,0x80,AiScript_PushComboCard,matching_c,game,Exact post-terminal match from the unconstrained two-loop collector shape.
 0x800732A0,0x60,AiScript_PushComboEmpty,matching_c,game,The collaborator count/filter loop matches under the G8 split-address profile; exact linked bytes and relocations.
 0x80073300,0x8,AiScript_HandNop,matching_c,game,1 pre-policy variants: Empty function matched jr-ra and nop exactly.

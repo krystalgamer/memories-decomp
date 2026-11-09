@@ -6,10 +6,16 @@
 #include "duel_grid.h"
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
+
+/* The opponent row is indexed from gDuel_aActiveCards (t[j]); gcc's strength
+ * reduction turns the index into retail's single inner cursor, so the unit
+ * needs no -fno-strength-reduce. A walking cursor over the same row instead
+ * makes it build a second induction variable (four more instructions).
+ * Retail never advances the outer slot: `i` and `r` stay at slot 1, so the
+ * outer loop as compiled never exits. */
 void AiScript_FindBestAttack(void) {
     AiActiveCard *t;
     AiActiveCard *r;
-    AiActiveCard *e;
     s32 want;
     s32 out;
     s32 i;
@@ -32,14 +38,13 @@ void AiScript_FindBestAttack(void) {
             continue;
         }
 
-        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST,
-             e = &t[AI_SLOT_OPPONENT_MONSTER_FIRST];
+        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST;
              j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
-             j++, e++) {
-            if (e->card_id == 0) {
+             j++) {
+            if (t[j].card_id == 0) {
                 continue;
             }
-            f = e->flags;
+            f = t[j].flags;
             if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 continue;
             }
@@ -51,8 +56,8 @@ void AiScript_FindBestAttack(void) {
                     continue;
                 }
             }
-            v = r->attack - e->attack;
-            v += Duel_CalcGuardianStarMatchup(r->guardian_star, e->guardian_star);
+            v = r->attack - t[j].attack;
+            v += Duel_CalcGuardianStarMatchup(r->guardian_star, t[j].guardian_star);
             if (gAiScript_State.attack_best_stat < v) {
                 gAiScript_State.attack_best_stat = v;
                 gAiScript_State.attack_best_slot = i;

@@ -6993,217 +6993,217 @@
     },
     {
       "address": "0x80072074",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x208",
       "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x8007227C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x110",
       "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x8007238C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
       "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80072510",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x180",
       "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80072690",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D0",
       "source": "src/game/ai_script_match_type.c"
     },
     {
       "address": "0x80072860",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x128",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072988",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072A04",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072AB8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072B84",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x288",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072E0C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x378",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80073184",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x15C",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800732E0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800732E8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800732F0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800733B4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
       "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800733F0",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
       "source": "src/game/ai_script_find_best_attack.c"
     },
     {
       "address": "0x80073584",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073604",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073664",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x8007366C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073674",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800736E4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x8007370C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073784",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800737AC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800737BC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800737C8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800737D8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800737E4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073840",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073904",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073940",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073988",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x800739F0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
       "source": "src/game/european/ai_script_state_ops.c"
     },
     {
       "address": "0x80073A28",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x20",
       "source": "src/game/european/ai_script_state_ops.c"
     }

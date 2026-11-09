@@ -4,12 +4,14 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 
+/* Each slot is indexed from gDuel_aActiveCards; gcc's strength reduction
+ * turns the index into retail's single cursor, so the unit needs no
+ * -fno-strength-reduce. A walking AiActiveCard cursor instead makes it build
+ * a second induction variable for the repeated flag reads. */
 void AiScript_MatchType(void)
 {
     s32 start;
     s32 end;
-    AiActiveCard *entry;
-    AiActiveCard *cards;
     s32 type;
     s32 range;
     s32 set;
@@ -32,22 +34,20 @@ void AiScript_MatchType(void)
     }
 
     one = 1;
-    cards = gDuel_aActiveCards;
-    entry = &cards[index];
     while (1) {
-        if (entry->card_id == 0) {
+        if (gDuel_aActiveCards[index].card_id == 0) {
             goto next;
         }
-        if (entry->card_type != type) {
+        if (gDuel_aActiveCards[index].card_type != type) {
             goto next;
         }
         if (range == one || range == 3 || range == 6 || range == 8) {
-            if ((entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 goto next;
             }
         }
         if (set == one && range >= 5) {
-            if ((entry->flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                 goto next;
             }
         }
@@ -55,7 +55,6 @@ void AiScript_MatchType(void)
             break;
         }
 next:
-        entry++;
         index++;
         if (end < index) {
             break;
