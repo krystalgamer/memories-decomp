@@ -81,8 +81,8 @@ and overlay contexts, not one card-list allocation.
 Only registered active glyph sources are changed; the standalone
 `card_list_update_sort_mode.c` is active in some native registrations and
 is not removed as an orphan. The sort-table data owner retains its
-registered `gcc_2_8_1_g0` profile, and all builder variants retain
-`gcc_2_8_1_g8_split_no_strength_reduce`. Source filenames and grouping stay.
+registered `gcc_2_8_1_g0` profile, and all builder variants build under
+`gcc_2_8_1_g8_split`. Source filenames and grouping stay.
 
 Two minimal canonical headers reuse existing types and declarations.
 Every old header, overlay C/import, shared-buffer test, manifest/profile,
