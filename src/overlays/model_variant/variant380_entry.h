@@ -60,10 +60,10 @@ typedef struct {
     Variant380EntryConfig *config;
     u32 field_1B58;
     GsCOORDUNIT *parts[5];
-    s16 field_1B70[5], field_1B7A[5], field_1B84[5], field_1B8E[5];
+    s16 length[5], field_1B7A[5], mode[5], done[5];
     s16 field_1B98, field_1B9A, width;
-    s32 field_1BA0[5], field_1BB4[5], field_1BC8[5], field_1BDC[5];
-    s32 field_1BF0, field_1BF4, phase;
+    s32 streamer_length[5], streamer_rotation_x[5], streamer_rotation_y[5], streamer_rotation_z[5];
+    s32 wave, bend, phase;
     u8 unknown_1BFC[8];
     s32 ambient;
     s16 slot, command;

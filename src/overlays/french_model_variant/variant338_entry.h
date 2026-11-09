@@ -38,10 +38,10 @@ typedef struct {
     u32 field_1F40;
     GsCOORDUNIT *part;
     s16 field_1F48, field_1F4A, field_1F4C, width;
-    s32 field_1F50, field_1F54, field_1F58, field_1F5C;
-    s32 field_1F60, field_1F64, phase;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
+    s32 ribbon_wave, ribbon_phase, phase;
     u8 unknown_1F6C[8];
-    s32 field_1F74;
+    s32 ambient;
     s16 slot, command;
 } Variant338EntryState;
 
