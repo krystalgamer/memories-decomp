@@ -1,6 +1,7 @@
 #ifndef FRENCH_MODEL_VARIANT410_RIBBONS_H
 #define FRENCH_MODEL_VARIANT410_RIBBONS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -38,9 +39,9 @@ typedef struct {
     s32 direction[3];
     u8 unknown_21A4[8];
     s32 view_direction[3];
-    u8 unknown_21B8[0x18];
-    s32 step;
-    u8 unknown_21D4[0x14];
+    u8 unknown_21B8[4];
+    ModelVariantClock clock;
+    u8 unknown_21D8[0x10];
     s32 animation_angle;
     s32 animation_angle2;
     s32 phase;
