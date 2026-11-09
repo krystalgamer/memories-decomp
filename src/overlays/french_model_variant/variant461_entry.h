@@ -40,7 +40,7 @@ typedef struct {
     ModelVariantGrowConfig *config;
     u32 field_3370;
     GsCOORDUNIT *parts[3];
-    s32 angle, scale, wave, intensity, field_3390, field_3394;
+    s32 angle, scale, wave, intensity, ribbon_wave, field_3394;
     s16 field_3398, field_339A;
     s32 field_339C;
     s16 field_33A0, field_33A2;
