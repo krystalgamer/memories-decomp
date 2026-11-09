@@ -296,10 +296,10 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         work->color_22D0.g = 0;
         work->color_22D0.b = 0;
         work->ring_angle = 0;
-        work->spiral_angle = 0;
-        work->field_22AE = 0;
-        work->spiral_size = 0;
-        work->field_22B2 = 0;
+        work->spiral.angle = 0;
+        work->spiral.sign = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->field_22C8 = 0;
         work->scale = 4096;
         work->field_22DA = 1024;
