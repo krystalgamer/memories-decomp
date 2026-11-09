@@ -415,13 +415,21 @@ typedef struct {
  * into the model slot's tint, redraws through it and then restores
  * everything it touched.
  *
- * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
- * bits 3..7 carry the saved animation-sequence selector override.
+ * The first halfword holds bitfields: `active` marks the entry live, `slot`
+ * selects the model slot, `masked_parts_only` limits the redraw to the parts
+ * in `part_mask`, and `animation_row` carries the saved animation-sequence
+ * selector override. Its high byte is part_mask[0]; the bitfield stores keep
+ * it. Model_UpdateTintRequests hands `part_mask` to the renderer through
+ * gModel_PartMaskAddress.
  * animation_position_snapshot is the slot's animation_position when queued;
  * Model_UpdateTintRequests seeks the part sequences to it for the redraw. */
 typedef struct {
-    u16 flags;             /* 0x00 */
-    u8 pad_02[8];          /* 0x02 */
+    u16 active : 1;        /* 0x00 bit 0 */
+    u16 slot : 1;          /* 0x00 bit 1 */
+    u16 masked_parts_only : 1; /* 0x00 bit 2 */
+    u16 animation_row : 5; /* 0x00 bits 3..7 */
+    u8 part_mask[8];       /* 0x01 */
+    u8 pad_09;             /* 0x09 */
     u16 animation_position_snapshot; /* 0x0A */
     u16 elapsed;           /* 0x0C */
     u16 duration;          /* 0x0E */

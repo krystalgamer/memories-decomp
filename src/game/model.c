@@ -2526,13 +2526,13 @@ void Model_UpdateTintRequests(void)
         if ((*(u8 *)request & 1) == 0) {
             continue;
         }
-        if (gModel_aSlots[(request->flags >> 1) & 1].is_active == 0) {
+        if (gModel_aSlots[request->slot].is_active == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace((request->flags >> 1) & 1, request->start.blend_mode)) {
+        if (Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode)) {
             goto tail;
         }
-        flag_work = request->flags;
+        flag_work = *(u16 *)request;
         request_animation_position = request->animation_position_snapshot;
         elapsed = request->elapsed;
         duration = request->duration;
@@ -2565,7 +2565,7 @@ void Model_UpdateTintRequests(void)
         }
 
         gModel_PartMaskAddress = request_offset + mask_base_address;
-        gModel_bDrawMaskedPartsOnly = (request->flags >> 2) & 1;
+        gModel_bDrawMaskedPartsOnly = request->masked_parts_only;
         Model_DrawSlot(slot_index);
         gModel_PartMaskAddress = 0;
         gModel_bDrawMaskedPartsOnly = 0;
@@ -2588,7 +2588,7 @@ void Model_UpdateTintRequests(void)
 tail:
         request->elapsed += Model_GetFrameStep();
         if (request->elapsed >= request->duration) {
-            request->flags &= 0xFFFE;
+            request->active = 0;
         }
     }
 }
@@ -2830,7 +2830,7 @@ void Model_SetSlotProperties(s32 idx, ...)
 #define MODEL_TEXTURE_RESET_ROW_X 0x200
 #endif
 
-void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)gModel_aTintRequests[i].flags&=0xfffe;gModel_bDrawMaskedPartsOnly=0;gModel_PartMaskAddress=0;Model_SetScreenYOverride(0x8000);gModel_bSceneMode=0;gModel_bPresentationPhase=-1;}
+void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=MODEL_TEXTURE_RESET_ROW_X;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}Model_ResetSlot(0);Model_ResetSlot(1);Model_ResetSlot(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)gModel_aTintRequests[i].active=0;gModel_bDrawMaskedPartsOnly=0;gModel_PartMaskAddress=0;Model_SetScreenYOverride(0x8000);gModel_bSceneMode=0;gModel_bPresentationPhase=-1;}
 
 #include "input.h"
 
