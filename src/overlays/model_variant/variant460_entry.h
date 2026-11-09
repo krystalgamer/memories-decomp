@@ -87,10 +87,7 @@ typedef struct {
     VECTOR delta;
     DVECTOR projected;
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, frame, animation_frame;
-    s32 step;
-    s32 fade;
+    ModelVariantClock clock;
     Variant460Config *config;
     u8 unknown_207C[4];
     GsCOORDUNIT *parts[2];
