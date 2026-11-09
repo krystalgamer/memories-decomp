@@ -652,8 +652,8 @@ for each global from `symbols.txt`. Those definitions satisfy every unit's
 common declaration, so the linker places no common storage of its own. Any
 `static` storage the unit keeps follows as its ordinary `.sbss` subsegment.
 `script_op_load_image_scene.c` was the first unit built this way; its
-merged successor `script_image_scene.c` now defines that storage itself in
-`.sbss` and needs no `*_comm` profile. No linker-script addresses are
+merged successor `script_scene.c` builds the same way, with its storage in
+`script_scene_commons`. No linker-script addresses are
 involved; every name needs a `symbols.txt` entry at its retail address.
 
 ### Merging units that were one original file
@@ -1104,7 +1104,7 @@ the declarations from the owning header builds byte-identical. The comment was
 true of the rest of the run and over-claimed for these three.
 
 **Case two: the difference changes the addressing mode.** `Main_RunTrade` in `main_mode_runners.c`
-defines `u8 D_8009B269;`. `script_runtime.c` compiles at `-G8` and
+defines `u8 D_8009B269;`. `script_scene.c` compiles at `-G8` and
 declares it `extern u8 D_8009B269[]`, writing `D_8009B269[0]` at two sites.
 Converting that consumer to the scalar spelling does not shift bytes -- it
 *shortens the executable*:
@@ -1147,7 +1147,8 @@ centralization target and is not one.
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
 `D_8009B26C[0]`: `debug_menu.c`,
 `duel_effect_sound_commands.c`, `build_deck_input.c`, `func_8002FA28.c`,
-`script_op_open_campaign_map.c`, `script_runtime.c` and
+`script_op_open_campaign_map.c`, `script_runtime.c` (both now in
+`script_scene.c`) and
 `debug_menu.c`. Seven identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
@@ -1194,14 +1195,14 @@ duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_c
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `debug_menu.c` and
-[`Script_OpSavePrompt`](../src/game/script_runtime.c). `D_8009B26C` is a
+[`Script_OpSavePrompt`](../src/game/script_scene.c). `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
 a lever and could never be a real array -- and `debug_menu.c`
 demonstrates both at once, declaring `D_8009B26C[]` while separately using
 `D_8009B26D`.
 
 Its neighbour `D_8009B269` sits three bytes below `D_8009B26C` and behaves the
-same way: converting `script_runtime.c` to the scalar spelling
+same way: converting `script_scene.c` to the scalar spelling
 shortens the executable by eight bytes, as the section above records.
 
 ### The overlay data blobs

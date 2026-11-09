@@ -7,7 +7,7 @@
 struct DisplayObject;
 
 /* Entry 1 of the scene-script record callback table gSceneScript_RecordCallbacks
- * (script_runtime.c). It advances a sine phase at +6 of
+ * (script_scene.c). It advances a sine phase at +6 of
  * `state`, latched by bit 0x8000 of +4 on the first call. From it, it writes
  * a pulsing grey into the colour bytes (rgb) of `color` -- the display
  * object SceneScript_UpdateSlots passes from the slot's own first word -- and a

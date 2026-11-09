@@ -11,7 +11,7 @@
  * The busy word is then latched into gScript_DialogCommandLatch, which this unit defines. */
 void Script_OpShowDialog(void);
 
-/* The latched busy word. This unit owns the definition; script_runtime.c
+/* The latched busy word. script_scene.c owns the definition; Script_RunTick there
  * clears it, tests it, and copies it back into gScript_wCommandWord, and spelled its
  * own `extern u16` for it.
  *

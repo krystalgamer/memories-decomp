@@ -191,7 +191,7 @@ package and compliance-module contract.
 ### Campaign scene package
 
 Matching
-[`Campaign_LoadScenePackage`](../src/game/script_runtime.c)
+[`Campaign_LoadScenePackage`](../src/game/script_scene.c)
 requests the same 49 WA sectors beginning at `0x1E57` for every argument,
 which is archive range `0xF2B800-0xF44000`. Matching callback
 `Campaign_LoadScenePackageStage` accounts for all four transfer phases:
@@ -212,7 +212,7 @@ See the [complete upload and F6 selection contract](dialog-portrait-bank.md).
 The argument initializes the event-script state at `D_8009B2A4`, not the
 archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
 passes `gCampaignSceneIndex`. When neither dialog-active nor started state
-intervenes, [`Script_RunTick`](../src/game/script_runtime.c) uses a nonzero
+intervenes, [`Script_RunTick`](../src/game/script_scene.c) uses a nonzero
 value directly to index the script's `u16` offset table. A zero state does
 not start an event, but does not prevent the loader from requesting the
 shared resource package.

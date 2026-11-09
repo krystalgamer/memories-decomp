@@ -107,7 +107,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
 
-/* Other names for game/script_image_scene's small data (#2602). */
+/* Other names for game/script_scene's small data (#2602). */
 
 /* Other names for game/build_deck_draw_card_list_page's small data (#2602). */
 
