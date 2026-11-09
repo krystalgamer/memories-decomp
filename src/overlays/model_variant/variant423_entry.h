@@ -33,7 +33,7 @@ typedef struct {
     ModelVariantWebConfig *config;
     u32 field_F04;
     GsCOORDUNIT *parts[3];
-    s16 field_F14, field_F16, field_F18, field_F1A, field_F1C, field_F1E;
+    s16 field_F14, field_F16, scale, field_F1A, progress, band_wave;
     s32 field_F20;
     ModelVariantEntryTail tail;
 } Variant423EntryState;
