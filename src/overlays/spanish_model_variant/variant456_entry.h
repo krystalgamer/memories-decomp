@@ -104,10 +104,7 @@ typedef struct {
     ModelVariantStreamerParams streamer;
     /* The fan helper turns the fans by spin, advancing it while they fade. */
     s32 spray_wave, spray_phase, field_2360, field_2364, spin;
-    s32 phase;
-    u8 unknown_2370[8];
-    s32 tint;
-    s16 slot, command;
+    ModelVariantEntryTail tail;
 } Variant456EntryState;
 
 extern GsIMAGE gSpanishModelVariant456_aImages[9];
