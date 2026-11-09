@@ -177,12 +177,12 @@ s32 Credits_UpdateLines(void)
                 if (gCredits_aLines[i].timer <= 0) {
                     gCredits_aLines[i].timer = 0x98;
                     gCredits_aLines[i].state++;
-                    if (gCredits_aLines[i].field_13 != 0) {
+                    if (gCredits_aLines[i].title_held != 0) {
                         if (gCredits_aLines[i].page == 1) {
-                            gCredits_aLines[i].field_13 = 0;
+                            gCredits_aLines[i].title_held = 0;
                         }
                     } else {
-                        gCredits_aLines[i].field_13++;
+                        gCredits_aLines[i].title_held++;
                     }
                 }
             }
@@ -249,7 +249,7 @@ s32 Credits_UpdateLines(void)
                                 }
                                 other->state = 0;
                                 other->timer = 152;
-                                other->field_13 = 0;
+                                other->title_held = 0;
                             }
                             goto done;
                     }
@@ -540,7 +540,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                 r1 = c1;
                 r2 = c2;
                 r3 = c3;
-                if (line->field_13 != 0 && line->page != 0 && drawn == 0) {
+                if (line->title_held != 0 && line->page != 0 && drawn == 0) {
                     r0 = r1 = r2 = r3 = d;
                 }
                 setRGB0(&glyph, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
@@ -642,7 +642,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                 r1 = c1;
                 r2 = c2;
                 r3 = c3;
-                if (line->field_13 != 0 && line->page != 0 && drawn == 0) {
+                if (line->title_held != 0 && line->page != 0 && drawn == 0) {
                     r0 = r1 = r2 = r3 = d;
                 }
                 setRGB0(&glyph, r0 * 128 / d, r0 * 128 / d, r0 * 128 / d);
@@ -709,7 +709,7 @@ next:
                 }
                 line->state = 0;
                 line->timer = 152;
-                line->field_13 = 0;
+                line->title_held = 0;
             }
             return;
         } while (0);
