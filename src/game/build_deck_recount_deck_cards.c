@@ -3,42 +3,23 @@
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
-#define BUILD_DECK_RECOUNT_QUANTITY_OFFSET \
-    ((u32)&((BuildDeckTransitionState *)0)->deck_card_quantities)
-#define BUILD_DECK_RECOUNT_ROW_ID_OFFSET \
-    ((u32)&((BuildDeckTransitionState *)0)->lists[1].entries[0].id)
-#define CARD_ENTRY_ID_TO_FLAGS_OFFSET \
-    ((u32)&((CardEntry *)0)->flags - (u32)&((CardEntry *)0)->id)
-#define BUILD_DECK_STATE_BYTES(state) ((u8 *)(state))
-
 void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
 {
     s32 index;
 
     state->deck_card_quantities[0] = 0;
-    /* The count loop keeps its byte cursors: typed member accesses change its
-       addressing, but the deck-row base, flags distance and stride can still
-       be derived from the shared layouts. */
     {
-        u8 *count;
+        CardEntry *record;
+        s32 record_index;
 
-        index = CARD_ID_FIRST;
-        count = BUILD_DECK_STATE_BYTES(state) + index;
-        for (; index < CARD_ID_END; index++, count++) {
-            s32 record_index;
-            u8 *record;
-            u8 *output;
-
-            count[BUILD_DECK_RECOUNT_QUANTITY_OFFSET] = 0;
-            record_index = 0;
-            output = count;
-            record = BUILD_DECK_STATE_BYTES(state) +
-                     BUILD_DECK_RECOUNT_ROW_ID_OFFSET;
-            for (; record_index < DECK_SIZE; record_index++) {
-                if (record[CARD_ENTRY_ID_TO_FLAGS_OFFSET] != 0 &&
-                    *(s16 *)record == index)
-                    output[BUILD_DECK_RECOUNT_QUANTITY_OFFSET]++;
-                record += sizeof(CardEntry);
+        for (index = CARD_ID_FIRST; index < CARD_ID_END; index++) {
+            state->deck_card_quantities[index] = 0;
+            record = state->lists[1].entries;
+            for (record_index = 0; record_index < DECK_SIZE; record_index++) {
+                /* Deck rows are compared as signed IDs (empty rows hold -1). */
+                if (record->flags != 0 && (s16)record->id == index)
+                    state->deck_card_quantities[index]++;
+                record++;
             }
         }
     }

@@ -681,6 +681,14 @@ index before assigning the output and record pointers, keeps the card ID in
 leading occupied records. That combination matches all `0xA0` bytes and
 relocations under `gcc_2_8_1_g8`.
 
+The unit later carried `gcc_2_8_1_g8_split_no_strength_reduce` to keep that
+byte-cursor form. It now matches under plain `gcc_2_8_1_g8_split` with typed C:
+the outer loop indexes `state->deck_card_quantities[index]` directly, the inner
+loop walks a `CardEntry *` from `state->lists[1].entries`, and the ID test is
+`(s16)record->id == index`. Without the cast the only remaining difference is
+`lhu` for the reference `lh`; the signed compare matches the deck's `-1` empty
+rows.
+
 ### Disassembly artifacts
 
 Splat names any address-shaped literal as though it were a symbol. A `%hi`/`%lo`
