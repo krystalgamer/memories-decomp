@@ -6950,7 +6950,7 @@
     },
     {
       "address": "0x80071B64",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14C",
       "source": "src/game/ai_script_find_killer.c"
     },

@@ -8,17 +8,11 @@
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
 
-/* -fno-strength-reduce, fourth user. The record walk reads card_id, attack,
- * flags and guardian_star (+0, +2, +6, +9) and gcc builds a SECOND giv
- * biased at +2 because most of the reads are there; that costs a
- * callee-saved register and four frame instructions (78 differences, +4
- * length). Retail has one cursor with plain displacements. No source
- * spelling removes the anchor -- an index form, the AiActiveCard cursor
- * used here, dropping the named compare value and inlining the base were
- * all tried -- because the bias is the reducer's, not the source's. */
+/* Each slot is addressed as &gDuel_aActiveCards[i] from the loop index, so the
+ * strength reducer folds the card_id, attack, flags and guardian_star reads
+ * (+0, +2, +6, +9) into one cursor with plain displacements, as in retail. */
 
 void AiScript_FindKiller(void) {
-    AiActiveCard *base;
     AiActiveCard *c;
     AiActiveCard *ref;
     s32 a;
@@ -36,11 +30,10 @@ void AiScript_FindKiller(void) {
     k = 0;
     w = AiScript_ReadByte();
     i = 1;
-    base = gDuel_aActiveCards;
-    c = &base[AI_SLOT_OWN_MONSTER_FIRST];
-    ref = base + a;
+    ref = &gDuel_aActiveCards[a];
 
-    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++, c++) {
+    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++) {
+        c = &gDuel_aActiveCards[i];
         if (c->card_id == 0) {
             continue;
         }
