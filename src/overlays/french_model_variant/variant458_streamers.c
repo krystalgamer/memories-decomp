@@ -53,7 +53,7 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
     }
     streamer = work->streamers;
     i = 0;
-    base = work->rotation_y;
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 3; i++, streamer++, base += 1024) {
@@ -61,7 +61,7 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 125, spin += 1500, wave += 512) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = work->length / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k],
                       bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
@@ -72,15 +72,15 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = (s16)work->rotation_x + rx;
-    rot.vy = (s16)work->rotation_y + ry;
-    rot.vz = (s16)work->rotation_z;
+    rot.vx = (s16)work->streamer.rotation_x + rx;
+    rot.vy = (s16)work->streamer.rotation_y + ry;
+    rot.vz = (s16)work->streamer.rotation_z;
     if (work->flags % 10 == 0) {
-        work->rotation_y += 1300;
+        work->streamer.rotation_y += 1300;
     }
-    work->rotation_y += 32;
+    work->streamer.rotation_y += 32;
     /* A zero step: the PAL build drops it, the USA build keeps its load. */
-    work->rotation_z += 0;
+    work->streamer.rotation_z += 0;
     for (j = 0; j < 7; j++) {
         m.t[0] = work->origins[j].t[0] + work->deltas[j].vx * work->factor / 1024;
         m.t[1] = work->origins[j].t[1] + work->deltas[j].vy * work->factor / 1024;
@@ -105,7 +105,7 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
                     dx = (s16)streamer->sa[k] - (s16)streamer->sa[11];
                     dy = (streamer->sa[k] >> 16) - (streamer->sa[11] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 3072;
-                    if (work->length > 512) {
+                    if (work->streamer.length > 512) {
                         streamer->width[k] = 2;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -121,7 +121,7 @@ void FrenchModelVariant458_DrawStreamers(u8 *ctx)
                     dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                     dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 3072;
-                    if (work->length > 512) {
+                    if (work->streamer.length > 512) {
                         streamer->width[k] = 2;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];

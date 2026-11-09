@@ -90,25 +90,25 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
             }
         }
         if (group->size[j] < 1024 && state->phase > 0) {
-            group->size[j] += state->step * 8;
+            group->size[j] += state->clock.step * 8;
             if (group->size[0] >= 512 && state->phase < 3) {
                 state->phase = 3;
             }
             if (group->size[j] >= 1024) {
-                if (state->timing->limit <= state->time) {
+                if (state->timing->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 } else {
                     group->size[j] -= 1024;
                 }
             } else if (group->size[j] <= 0) {
-                if (state->timing->limit <= state->time) {
+                if (state->timing->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 }
             }
         } else {
-            group->size[j] -= state->step * 24;
+            group->size[j] -= state->clock.step * 24;
             if (j + 1 == 32 && group->size[j] <= 0) {
                 state->phase = 1;
             }

@@ -21,11 +21,8 @@ typedef struct {
     u8 unknown_2288[8];
     VECTOR direction;
     DVECTOR projected;
-    u8 unknown_22A4[0x1C];
-    u32 time;
-    u8 unknown_22C4[4];
-    s32 step;
-    u8 unknown_22CC[4];
+    u8 unknown_22A4[0x10];
+    ModelVariantClock clock;
     Swarm419Timing *timing;
     u8 unknown_22D4[0x20];
     s32 phase;
