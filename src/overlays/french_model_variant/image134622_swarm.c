@@ -88,12 +88,12 @@ void FrenchModelVariant468_DrawSwarm(u8 *context)
             }
         }
         if (group->size[j] < 1024) {
-            group->size[j] += state->timing->rate * state->step / 2;
+            group->size[j] += state->timing->rate * state->clock.step / 2;
             if (group->size[0] >= 512 && state->phase == 0) {
                 state->phase = 2;
             }
             if (group->size[j] >= 1024) {
-                if (state->timing->limit <= state->time) {
+                if (state->timing->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 } else {
@@ -107,7 +107,7 @@ void FrenchModelVariant468_DrawSwarm(u8 *context)
             state->phase = 3;
         }
         if (state->phase >= 4 && group->fade[j] > 0) {
-            level = state->step * 8;
+            level = state->clock.step * 8;
             group->fade[j] -= level;
             if (group->fade[j] <= 0) {
                 group->fade[j] = 0;
@@ -118,7 +118,7 @@ void FrenchModelVariant468_DrawSwarm(u8 *context)
         }
     }
     if (state->phase >= 3 && state->drift_scale < 1024) {
-        state->drift_scale += state->step * 8;
+        state->drift_scale += state->clock.step * 8;
         if (state->drift_scale >= 1024) {
             state->drift_scale = 1024;
             if (state->phase == 3) {
@@ -126,5 +126,5 @@ void FrenchModelVariant468_DrawSwarm(u8 *context)
             }
         }
     }
-    state->spin += state->step * 64;
+    state->spin += state->clock.step * 64;
 }
