@@ -168,18 +168,18 @@ void ModelVariant366_DrawCones(u8 *context)
         }
         if (work->phase < 7) {
             if (ribbon->progress < 2048) {
-                ribbon->progress += work->step * 64;
+                ribbon->progress += work->clock.step * 64;
                 if (ribbon->progress >= 2048) {
                     ribbon->progress -= 2048;
                     ribbon->cycles++;
                 }
             }
         } else if (ribbon->progress <= 1024) {
-            ribbon->progress += work->step * 48;
+            ribbon->progress += work->clock.step * 48;
             if (ribbon->progress >= 1024) {
                 ribbon->progress = 1024;
                 if (work->cone_opening[k] < 1024) {
-                    work->cone_opening[k] += work->step * 32;
+                    work->cone_opening[k] += work->clock.step * 32;
                     if (work->cone_opening[k] >= 1024) {
                         work->cone_opening[k] = 1024;
                         if (work->phase == 7) {
@@ -189,7 +189,7 @@ void ModelVariant366_DrawCones(u8 *context)
                 }
             }
         } else {
-            ribbon->progress += work->step * 48;
+            ribbon->progress += work->clock.step * 48;
             if (ribbon->progress >= 2048) {
                 ribbon->progress -= 2048;
                 ribbon->cycles++;
