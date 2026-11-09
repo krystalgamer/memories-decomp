@@ -16,9 +16,9 @@
    the inventory row rebuild (0x801844D8).
 
    The three are contiguous from 0x80184344 to 0x80184558 and are the whole
-   gcc_2_8_1_g0_split run there: card_name_count_comparators.c below compiles
-   at gcc_2_8_1_g0_no_sched2_split and the module's data section starts above,
-   so both bounds are hard.
+   gcc_2_8_1_g0_split run there: card_name_count_comparators.c below is a
+   separate object and the module's data section starts above, so both
+   bounds are hard.
 
    Unlike the offer group they do not call each other. What ties them is the
    screen and its data: all three take their declarations from

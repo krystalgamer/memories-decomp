@@ -23,6 +23,9 @@ s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
         } else {
             result = -1;
         }
+        /* Returning here gives the function a shared return label, which
+           keeps the final copy to v0 ahead of the epilogue's ra restore. */
+        return result;
     } else {
         if (idA != 0) {
             keyA = gCard_asNameSortKey[idA - 1];
@@ -79,6 +82,7 @@ s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
         } else {
             result = -1;
         }
+        return result;
     } else {
         if (idA != 0) {
             keyA = gCard_asNameSortKey[idA - 1];

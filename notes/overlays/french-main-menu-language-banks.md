@@ -5,8 +5,7 @@ existing `french_main_menu` registration selects language bank 0; the four
 `french_main_menu_language_1` through `_4` registrations cover the remaining
 physical images. They reuse all 31 accepted European main-menu C units,
 unchanged, with the existing French symbol bindings and named profiles:
-25 units use `gcc_2_8_1_g0_split`, while the six card comparators use
-`gcc_2_8_1_g0_no_sched2_split`.
+all 31 units use `gcc_2_8_1_g0_split`.
 No new C implementation, declaration, compiler flag, or assembly fallback is
 introduced.
 
