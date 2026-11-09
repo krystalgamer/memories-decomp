@@ -1,6 +1,7 @@
 #ifndef FRENCH_MODEL_VARIANT410_QUADS_H
 #define FRENCH_MODEL_VARIANT410_QUADS_H
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -25,9 +26,9 @@ typedef struct {
     s32 direction[3];
     u8 unknown_21A4[4];
     s16 screen_delta[2];
-    u8 unknown_21AC[0x24];
-    s32 step;
-    u8 unknown_21D4[0x1C];
+    u8 unknown_21AC[0x10];
+    ModelVariantClock clock;
+    u8 unknown_21D8[0x18];
     s32 phase;
 } Family410QuadView;
 
