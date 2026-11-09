@@ -59,7 +59,7 @@ typedef struct {
     CVECTOR inner, outer;
     s16 field_89C, field_89E, field_8A0, field_8A2;
     s16 width, field_8A6, field_8A8, field_8AA;
-    s32 phase, field_8B0, field_8B4, field_8B8, field_8BC;
+    s32 phase, field_8B0, field_8B4, field_8B8, tint;
     s16 slot, command;
 } Variant402EntryState;
 

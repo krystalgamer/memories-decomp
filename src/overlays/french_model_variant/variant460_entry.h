@@ -49,7 +49,7 @@ typedef struct {
     s32 field_2EAC, field_2EB0, field_2EB4, field_2EB8;
     s32 field_2EBC, field_2EC0, phase;
     u8 unknown_2EC8[8];
-    s32 field_2ED0;
+    s32 tint;
     s16 slot, command;
 } Variant460EntryState;
 

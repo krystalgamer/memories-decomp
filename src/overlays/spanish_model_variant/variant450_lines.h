@@ -46,11 +46,11 @@ typedef struct {
     s32 field_4294;
     s32 field_4298;
     u8 unknown_429C[12];
-    s32 field_42A8;
+    s32 flags;
     u8 unknown_42AC[8];
-    s32 field_42B4;
+    s32 step;
     u8 unknown_42B8[0x3C];
-    s32 field_42F4;
+    s32 spin;
 } Variant450View;
 
 #endif

@@ -186,7 +186,7 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
         work->step = 0;
         work->phase = 0;
         work->fade = 0;
-        work->field_2ED0 = 2048;
+        work->tint = 2048;
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
@@ -252,16 +252,16 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             work->animation_frame = frame;
         }
     }
-    Model_SetSlotAmbient(2, work->field_2ED0, work->field_2ED0, work->field_2ED0);
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
     if (work->phase < 6) {
-        if (work->field_2ED0 > 0) {
-            work->field_2ED0 -= 128;
-            if (work->field_2ED0 <= 0) {
-                work->field_2ED0 = 0;
+        if (work->tint > 0) {
+            work->tint -= 128;
+            if (work->tint <= 0) {
+                work->tint = 0;
             }
         }
     } else {
-        work->field_2ED0 = work->fade << 5;
+        work->tint = work->fade << 5;
     }
     if (work->phase >= 2 && work->phase <= 4) {
         result = 4;

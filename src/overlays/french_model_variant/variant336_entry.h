@@ -47,8 +47,8 @@ typedef struct {
     u8 unknown_1FDC[4];
     GsCOORDUNIT *part0, *part1;
     s32 field_1FE8, sheet_count;
-    s16 field_1FF0, field_1FF2;
-    s32 field_1FF4, field_1FF8, extent, phase;
+    s16 segment_start, segment_end;
+    s32 wave0, wave1, extent, phase;
     u8 unknown_2004[8];
     s32 brightness;
     s16 slot, command;

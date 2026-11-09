@@ -168,10 +168,10 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         }
         work->field_1FE8 = 0;
         work->sheet_count = 1;
-        work->field_1FF0 = 0;
-        work->field_1FF2 = 0;
-        work->field_1FF4 = 0;
-        work->field_1FF8 = 0;
+        work->segment_start = 0;
+        work->segment_end = 0;
+        work->wave0 = 0;
+        work->wave1 = 0;
         work->extent = 1024;
         work->frame_count = 0;
         work->frame = 0;
