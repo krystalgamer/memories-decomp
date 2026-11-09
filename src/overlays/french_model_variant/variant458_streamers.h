@@ -28,9 +28,6 @@ typedef struct {
     u8 unknown_1F00[0xC];
     s32 flags;
     u8 unknown_1F10[0x54];
-    s32 length;
-    s32 rotation_x;
-    s32 rotation_y;
-    s32 rotation_z;
+    ModelVariantStreamerParams streamer;
 } Variant458StreamerView;
 #endif
