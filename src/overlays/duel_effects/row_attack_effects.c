@@ -318,7 +318,7 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->attribute |= 0x50000000;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x += work->card_velocities[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y += work->card_velocities[i].vy;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z += work->card_velocities[i].vz;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vx;

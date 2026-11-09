@@ -202,13 +202,24 @@ typedef struct DisplayObject {
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
        out of it -- the same saved-position reading DisplayObject_SavePosition.h's
-       DisplayObjectSnapshot gives the pair. Duel effect 15 reads 0x34 as the
-       third coordinate alongside 0x30/0x32. The offset names remain because
-       other object kinds give these words different meanings. */
+       DisplayObjectSnapshot gives the pair. That reading and
+       DisplayObjectVelocity's velocity_x give 0x36 different meanings, so it
+       and the word keep their offset names.
+
+       z: the low half is the depth coordinate that completes xy wherever a
+       halfword reads it. Duel_CreateFieldCardObject stores its third
+       argument here (DuelCardDisplayObject's field_34) beside x and a fixed
+       -24 y; Duel_RenderFieldCard3D loads it as the translation's t[2] and
+       Duel_DrawProjectedFieldCardFrame as the vz it hands to gte_rtps; the
+       equip-bonus and trap code copy it into an effect request's field_04
+       beside the request's x/y; duel effect 15 takes it as the card's
+       translation vz, and effects 17, 22 and the row attacks integrate it
+       with their per-card velocity vz.
+       DisplayObjectVelocity names the same halfword z. */
     union {
         u32 word;
         struct {
-            s16 field_34;
+            s16 z;
             s16 field_36;
         } h;
     } field_34;                    /* 0x34 */
