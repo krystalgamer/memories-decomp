@@ -45,9 +45,8 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state);
  * entries is a silent no-op.
  *
  * `base` is s32 rather than a pointer because that is what the definition
- * takes: the screen record is reached through integer address arithmetic,
- * never dereferenced as a struct. Its one caller holds the same record as
- * u8 * and casts. */
+ * takes; the body casts it to BuildDeckTransitionState * to reach lists[1].
+ * Its one caller holds the same record as u8 * and casts. */
 void BuildDeck_AddCard(s32 base, s32 card_id);
 
 #endif
