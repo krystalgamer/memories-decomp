@@ -15,7 +15,7 @@
 typedef struct {
     u8 unknown_00[4];
     u8 part, unknown_05[7];
-    u32 start, field_10, end, field_18, field_1C;
+    u32 start, grow_end, end, field_18, field_1C;
 } Variant400EntryConfig;
 
 typedef struct {
