@@ -48,8 +48,8 @@ typedef struct {
     u8 unknown_213C[4];
     GsCOORDUNIT *parts[3];
     s32 index;
-    s16 field_2150, field_2152, field_2154, field_2156;
-    s32 width, field_215C, field_2160;
+    s16 spiral_angle, field_2152, spiral_size, field_2156;
+    s32 width, tube_progress, tube_angle;
     s16 field_2164, field_2166, progress, ribbon_width;
     s32 field_216C;
     s32 phase;
