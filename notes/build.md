@@ -1145,7 +1145,7 @@ claims, and it is worth writing down because it looks like an obvious
 centralization target and is not one.
 
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
-`D_8009B26C[0]`: `frontend_scene_states.c`,
+`D_8009B26C[0]`: `debug_menu.c`,
 `duel_effect_sound_commands.c`, `build_deck_input.c`, `func_8002FA28.c`,
 `script_op_open_campaign_map.c`, `script_runtime.c` and
 `debug_menu.c`. Seven identical
@@ -1193,10 +1193,10 @@ units define it -- `main_mode_runners.c`, which now also holds the two-player
 duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_comm`
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
-live in its own right, read and written by `frontend_scene_states.c` and
+live in its own right, read and written by `debug_menu.c` and
 [`Script_OpSavePrompt`](../src/game/script_runtime.c). `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
-a lever and could never be a real array -- and `frontend_scene_states.c`
+a lever and could never be a real array -- and `debug_menu.c`
 demonstrates both at once, declaring `D_8009B26C[]` while separately using
 `D_8009B26D`.
 

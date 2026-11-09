@@ -7,7 +7,7 @@ widely shared global in the tree: 51 translation units declare and use it,
 against 37 for the next-busiest address. At the time of this audit,
 `DebugMenu_UpdateMovieEntry` reached it from inline assembly without declaring
 it; that function is now matching C in
-[`frontend_scene_states.c`](../src/game/frontend_scene_states.c).
+[`debug_menu.c`](../src/game/debug_menu.c).
 
 Before this pass every one of those 51 units declared the word for itself, and
 the declarations did not agree. Fifteen distinct spellings were in use:
@@ -164,7 +164,7 @@ and the full executable still matched:
 
 `DebugMenu_UpdateMovieEntry` has since been recovered as matching C and now uses the
 explicit absolute-address view in
-[`frontend_scene_states.c`](../src/game/frontend_scene_states.c). The original
+[`debug_menu.c`](../src/game/debug_menu.c). The original
 inline-assembly exception no longer remains.
 
 Naming the word, and naming the remaining bits, is not attempted here.

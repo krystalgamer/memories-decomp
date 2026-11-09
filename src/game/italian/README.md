@@ -8,7 +8,7 @@ There are no copied function bodies, inline assembly or source-local externs.
 | Wrapper | Functions | Bytes | Named profile |
 |---|---:|---:|---|
 | `main_init.c` | 1 | 404 | `gcc_2_8_1_g8_split_no_sched1` |
-| `debug_menu_editor_entries.c` | 4 | 2600 | `gcc_2_8_1_g8_split` |
+| `debug_menu.c` | 22 | 4900 | `gcc_2_8_1_g8_split_comm` |
 | `main_boot_frontend.c` | 4 | 1160 | `gcc_2_8_1_g8_split` |
 
 Only the language immediate differs inside each complete source/profile group;

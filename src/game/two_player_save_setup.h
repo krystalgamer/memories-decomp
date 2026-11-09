@@ -15,7 +15,7 @@ extern u8 gSaveData_PairMessageCode;
  * gSaveData_PairSetupState: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
  * mem_card_dialog.c test bit 0x80
  * clear, set it and store
- * gSaveData_PairMessageCode; DebugMenu_UpdateTradeEntry (frontend_scene_states.c),
+ * gSaveData_PairMessageCode; DebugMenu_UpdateTradeEntry (debug_menu.c),
  * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu.c:109) and
  * MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch, src/overlays/main_menu/frontend.c) store 0.

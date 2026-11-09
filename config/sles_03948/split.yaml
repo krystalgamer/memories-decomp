@@ -101,7 +101,7 @@ segments:
     - game/european/main_mode_runners
   - - 2656
     - .rodata
-    - game/french/debug_menu_editor_entries
+    - game/french/debug_menu
   - - 2712
     - .rodata
     - game/european/card_list_setup
@@ -463,13 +463,7 @@ segments:
     - game/display_object_brightness
   - - 133916
     - c
-    - game/french/debug_menu_editor_entries
-  - - 136952
-    - c
-    - game/frontend_scene_states
-  - - 137864
-    - c
-    - game/european/debug_menu
+    - game/french/debug_menu
   - - 138816
     - c
     - game/european/build_deck_card_transfer_icon
@@ -984,8 +978,7 @@ segments:
   - [0x82768, .data, game/european/main_mode_runners]
   - [0x827C0, .data, game/european/script_image_rebuild]
   - [0x82868, .data, game/european/script_runtime]
-  - [0x828CC, .data, game/french/debug_menu_editor_entries]
-  - [0x829B0, .data, game/european/debug_menu]
+  - [0x828CC, .data, game/french/debug_menu]
   - [0x82A14, .data, game/european/build_deck_draw_card_list_page]
   - [0x82A34, .data, game/european/build_deck_input]
   - [0x82A64, .data, game/european/duel_effect_update_object_layout]
@@ -1011,7 +1004,7 @@ segments:
   - [0x8CAC7, pad]
   - [0x8CAC8, .sdata, game/duel_card_effects]
   - [0x8CAD5, pad]
-  - [0x8CAD8, .sdata, game/european/debug_menu]
+  - [0x8CAD8, .sdata, game/french/debug_menu]
   - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/display_object_system]
   - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
@@ -1029,7 +1022,7 @@ segments:
   - [0x8CDF8, sbss, duel_effect_object_pool_commons]
   - {start: 0x8CE08, type: bin, name: resident_tail_8009c608, linker_section_order: .sbss}
   - [0x8CE10, sbss, script_image_scene_commons]
-  - [0x8CE50, sbss, debug_menu_editor_entries_commons]
+  - [0x8CE50, sbss, debug_menu_commons]
   - [0x8CE80, .sbss, game/european/build_deck_draw_card_list_page]
   - [0x8CE88, sbss, sorted_entry_render_commons]
   - {start: 0x8CEA0, type: bin, name: resident_tail_8009c6a0, linker_section_order: .sbss}
@@ -1050,7 +1043,7 @@ segments:
   - [0xDBD70, .bss, game/library_create_grid_section_sprites]
   - [0xDC910, bss, duel_effect_object_pool_bss_commons]
   - [0xDCA10, bss, main_run_campaign_commons]
-  - [0xDCA60, bss, debug_menu_editor_entries_bss_commons]
+  - [0xDCA60, bss, debug_menu_bss_commons]
   - [0xDCA90, bss, duel_effect_command_commons]
   - [0xDCAA8, bss, text_control_commands_commons]
   - [0xDCB8C, bss, duel_effect_process_entries_commons]
