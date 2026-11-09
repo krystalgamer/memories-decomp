@@ -6044,7 +6044,7 @@
     },
     {
       "address": "0x8005D644",
-      "profile": "gcc_2_8_1_g0_no_sched1",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xDC",
       "source": "src/game/model_remap_primitive_handlers.c"
     },

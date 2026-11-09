@@ -14,10 +14,9 @@ void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntr
 
     for (remaining_descriptors = descriptor_count - 1; remaining_descriptors != -1; remaining_descriptors--) {
         type_key = Model_FindHandlerKey(descriptor->handler_value);
-        count_flags_word = descriptor->metadata;
+        descriptor_stride_words = (descriptor->metadata & 0xFFFF) + 1;
+        count_flags_word = descriptor->metadata & 0xFFFF0000;
         type_tag = type_key >> 24;
-        descriptor_stride_words = (count_flags_word & 0xFFFF) + 1;
-        count_flags_word &= 0xFFFF0000;
         if (((u32)type_tag < 2 && (type_key & 0xFFFF) != 0 && count_flags_word != 0) ||
             (type_tag == 1 && (type_key & 0xFFFF) == 0)) {
             replacement_handler = remap_handler(descriptor->handler_value);

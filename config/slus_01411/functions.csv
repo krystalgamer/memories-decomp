@@ -973,7 +973,7 @@ address,size,name,status,module,notes
 0x8005A3D0,0x98,Model_FindBranchingChildCoord,matching_c,game,"Exact ordinary-C parent/backlink search; valid count lifetime and structured outer loop preserve152bytes. Shared model_parent_search.h retains measured definition and caller pointer views, with no source-local API declaration."
 0x8005A468,0x5C,Model_SetSlotPartSpeeds,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A4C4,0x78,Model_SetSlotRootTransform,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8005A53C,0xDC,Model_RemapPrimitiveHandlers,matching_c,game,Post-terminal pure-C match; disabling GCC first-pass instruction scheduling reproduces the retail register and branch schedule exactly.
+0x8005A53C,0xDC,Model_RemapPrimitiveHandlers,matching_c,game,"Post-terminal pure-C match under gcc_2_8_1_g0: reading the descriptor metadata directly for the stride and then the high-half mask reproduces the retail register and branch schedule without -fno-schedule-insns."
 0x8005A618,0x90,Model_GetSlotCameraPresetYaw,matching_c,game,"Exact pure-C model-effect value lookup. Selects a coefficient from an indexed 3616-byte record, applies an index-dependent bias, and returns the signed remainder modulo 4096."
 0x8005A6A8,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference; the constant subtraction placed after the second square-root call is load-bearing.
 0x8005A878,0x4C,Model_IsCameraMoveComplete,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
