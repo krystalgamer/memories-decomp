@@ -19,7 +19,7 @@
 
    The former sources were recorded at five profiles. Every member compiles
    to an identical object at gcc_2_8_1_g0_split. Bounded below by
-   AiScript_FindBestAttack (gcc_2_8_1_g8_split_no_strength_reduce) and above
+   AiScript_FindBestAttack (gcc_2_8_1_g8_split) and above
    by AiScript_Print (gcc_2_8_1_g8). */
 
 #ifndef VERSION_JAPAN

@@ -6,6 +6,11 @@
 #include "duel_grid.h"
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
+
+/* Each opponent slot is addressed as &t[j] from the loop index, so the
+ * strength reducer folds the card_id, attack, flags and guardian_star reads
+ * into one cursor with plain displacements, as in retail. */
+
 void AiScript_FindBestAttack(void) {
     AiActiveCard *t;
     AiActiveCard *r;
@@ -32,10 +37,10 @@ void AiScript_FindBestAttack(void) {
             continue;
         }
 
-        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST,
-             e = &t[AI_SLOT_OPPONENT_MONSTER_FIRST];
+        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST;
              j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
-             j++, e++) {
+             j++) {
+            e = &t[j];
             if (e->card_id == 0) {
                 continue;
             }

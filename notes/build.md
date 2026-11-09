@@ -974,7 +974,7 @@ and `gAi_bBestTarget` at `+0x9A` and `+0x9B`. Both sources now read the
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
 | `src/game/ai_script.c` | `gAiScript_State.attack_best_*` | `gcc_2_8_1_g8_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98..0x9B` |
-| `src/game/ai_script_find_best_attack.c` | `gAiScript_State.attack_best_stat` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98` |
+| `src/game/ai_script_find_best_attack.c` | `gAiScript_State.attack_best_stat` | `gcc_2_8_1_g8_split` | `R_MIPS_HI16` + `R_MIPS_LO16` against `gAiScript_State+0x98` |
 
 The structure is larger than the G8 limit, so neither profile can select a
 small-data relocation; the old array spelling was only needed while the alias

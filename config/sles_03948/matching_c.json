@@ -7089,7 +7089,7 @@
     },
     {
       "address": "0x800735F4",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
       "source": "src/game/ai_script_find_best_attack.c"
     },
