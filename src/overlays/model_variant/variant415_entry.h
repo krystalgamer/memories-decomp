@@ -71,10 +71,7 @@ typedef struct {
     GsCOORDUNIT *parts[5];
     s32 field_30CC, field_30D0, field_30D4, start_index, field_30DC, field_30E0;
     u8 unknown_30E4[4];
-    s32 phase;
-    u8 unknown_30EC[8];
-    s32 tint;
-    s16 slot, command;
+    ModelVariantEntryTail tail;
 } Variant415EntryState;
 
 extern GsIMAGE gModelVariant415_aImages[2];
