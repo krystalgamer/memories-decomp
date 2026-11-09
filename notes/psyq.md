@@ -1424,7 +1424,7 @@ The resident block at `0x800F56F0` now has field-level evidence matching the
 parent-coordinate pointer. Matching `Model_ResetSceneView` initializes all eight
 words and submits the block to `GsSetRefView2`; `Model_UpdateViewMetrics`
 copies the same eight-word boundary and derives a distance plus two 4096-unit
-angles from the two points; `model_scene_services.c` resubmits the same base
+angles from the two points; `model_scene_runtime.c` resubmits the same base
 through a layout-compatible cast. Matching `ViewState_ApplyViewpointOffset`
 separately uses an embedded native `GsRVIEW2` at object offset `+0x10` and
 calls the canonical one-argument interface byte-identically. Other matching
@@ -1470,10 +1470,10 @@ object, packet, and sorting paths also use `libgs.h`, including
 `view_state_orbit.c`,
 `Graphics_SubmitTextureWindowPacket` in
 [`gpu_packets.c`](../src/game/gpu_packets.c),
-`model_scene_controllers.c`, `model_scene_services.c`, and `model_texture_upload.c`.
+`model_scene_controllers.c`, `model_scene_runtime.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
 consumers are `model_animation_unit.c` for `GsSEQ`, `GsTYPEUNIT`, and the
-animation APIs; `model_view_queries.c` for the `GsCOORDUNIT` layout; and
+animation APIs; `model_scene_runtime.c` for the `GsCOORDUNIT` layout; and
 `model_handler_registry.c` for the imported HMD handler sentinels. These
 imports justify their specific API and field uses; a local render or model
 record still requires field-level and resident-call evidence before migration
@@ -1659,7 +1659,7 @@ requires the additional call-graph evidence recorded in its row:
 
 | Address | Current symbol | Signature evidence | Local corroboration |
 |---|---|---|---|
-| `0x80073704` | `PCopen` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`HostFile_ReadRange`](../src/game/model_scene_services.c) and [`HostFile_GetSize`](../src/game/model_scene_services.c) pass a path followed by zero flags and permissions, then test the returned handle. |
+| `0x80073704` | `PCopen` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`HostFile_ReadRange`](../src/game/model_scene_runtime.c) and [`HostFile_GetSize`](../src/game/model_scene_runtime.c) pass a path followed by zero flags and permissions, then test the returned handle. |
 | `0x80073724` | `PCclose` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
 | `0x80073734` | `PClseek` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
 | `0x80073758` | `PCread` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `HostFile_ReadRange` treats its return as the number of bytes placed in successive destination chunks; that call graph resolves the identity. |
@@ -1808,7 +1808,7 @@ The `memory.h` consumer inventory is complete at seven matching sources.
 `ai_script.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The six `memset` consumers are
 `model_slot_support.c`, `func_8005D994.c`,
-`model_view_queries.c`, `model_scene_services.c`, `model_effect_state.c`, and
+`model_scene_runtime.c`, `model_effect_state.c`, and
 `model_scene_controllers.c`. The former
 `model_slot_control.c` user, `func_800580D4`, now shares that
 translation unit with `Model_UpdateViewMetrics`. Across those
@@ -2152,7 +2152,7 @@ The existing C sources expose several useful starting points:
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `Model_ApplyTextureTint`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
-| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_controllers.c` and `model_scene_services.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
+| Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_controllers.c` and `model_scene_runtime.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `model_slot_support.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_boot_frontend.c` (`FntLoad`), `model_slot_support.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `model_slot_support.c` (`RotMatrixYXZ_gte`), `model_scene_controllers.c` (`RotMatrix_gte`), `model_slot_support.c` (`RotTrans`), matching `DisplayObject_ProjectPackedRotationFacing` and the retained `DisplayObject_ProjectRotationFacing` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and matching [`Duel_RenderFieldCard3D`](../src/game/duel_field_card_render.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `SD_MeasureCdAudioLevel` (now grouped in `src/game/sound_output_state.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |

@@ -36,7 +36,7 @@ owner declaration. Strict old-GCC controls inspect the actual production
 definition rather than introducing a guessed forwarding prototype.
 Existing interface controls remain unchanged.
 
-The seven camera-request functions, now in `model_scene_services.c` under
+The seven camera-request functions, now in `model_scene_runtime.c` under
 `gcc_2_8_1_g8_split_comm`, retain the `0x68` extent:
 
 | Build | Address |

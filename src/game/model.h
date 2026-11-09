@@ -84,7 +84,7 @@ typedef struct {
  *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
  *                Model_LoadSlot clears both to 0xFFFF when it rearms a part
  *   sid / speed  Model_UpdateTintRequests in model_scene_controllers.c and
- *                model_slot_state_updates.c switch
+ *                model_scene_runtime.c switch
  *                a part's sequence through sid; Model_SetSlotPartSpeeds sets speed
  *                for every part, and the rearm resets it to 0x10
  *   rframe..ti   Model_SeekSlotPartAnimation seeks a part by writing the frames left,
@@ -95,7 +95,7 @@ typedef struct {
  *
  * Mirrored rather than taken from libhmd.h so this header stays free of the
  * libgte/libgpu/libgs/libhmd chain, as root_coordinate below does for
- * GsCOORDUNIT. model_view_queries.c asserts the two layouts agree. */
+ * GsCOORDUNIT. model_scene_runtime.c asserts the two layouts agree. */
 typedef struct {
     u32 rewrite_idx;
     u16 size;

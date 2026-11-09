@@ -859,19 +859,7 @@ segments:
     - game/european/model_slot_support
   - - 315300
     - c
-    - game/model_slot_state_updates
-  - - 315796
-    - c
-    - game/model_scene_services
-  - - 318204
-    - c
-    - game/model_view_queries
-  - - 319044
-    - c
-    - game/model_remap_primitive_handlers
-  - - 319264
-    - c
-    - game/model_spatial_queries
+    - game/model_scene_runtime
   - - 320148
     - c
     - game/european/model_texture_pack_page_clut
@@ -1030,7 +1018,7 @@ segments:
   - [0xE4410, bss, mem_card_driver_bss_commons]
   - [0xE46A8, bss, model_keyframe_update_commons]
   - [0xE4858, bss, model_bss_commons]
-  - [0xE73D8, .bss, game/model_view_queries]
+  - [0xE73D8, bss, model_scene_runtime_bss_commons]
   - [0xE7488, .bss, game/european/model_handler_dispatch]
   - [0xE7708, bss, movie_pipeline_bss_commons]
   - [0xE7720, .bss, game/european/ai_script]

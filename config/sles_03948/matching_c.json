@@ -5847,231 +5847,231 @@
     },
     {
       "address": "0x8005C7A4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/model_slot_state_updates.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005C808",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC8",
-      "source": "src/game/model_slot_state_updates.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005C8D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC4",
-      "source": "src/game/model_slot_state_updates.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005C994",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005C9EC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CA10",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF4",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CB04",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CB58",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CBB0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CBE8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CBF4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CC00",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CC98",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CD20",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CD2C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CD90",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CDA4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CDD8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CDEC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF4",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CEE0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE4",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005CFC4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D020",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D0B4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D118",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D17C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x68",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D1E4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D238",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D290",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/model_scene_services.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D2FC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xEC",
-      "source": "src/game/model_view_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D3E8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF0",
-      "source": "src/game/model_view_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D4D8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/model_view_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D570",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/model_view_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D5CC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/model_view_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D644",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
-      "source": "src/game/model_remap_primitive_handlers.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D720",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
-      "source": "src/game/model_spatial_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D7B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1D0",
-      "source": "src/game/model_spatial_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D980",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/model_spatial_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005D9CC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC8",
-      "source": "src/game/model_spatial_queries.c"
+      "source": "src/game/model_scene_runtime.c"
     },
     {
       "address": "0x8005DA94",

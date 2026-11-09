@@ -30,7 +30,7 @@ new range/zero-divisor validation or side effect is added.
 
 ## Source ownership and regional identity
 
-The function is defined in `model_spatial_queries.c` and declared by
+The function is defined in `model_scene_runtime.c` and declared by
 `model_is_camera_move_complete.h`. Every caller include, all matching
 manifests and tracked split paths follow that source. The profile is the
 unit's `gcc_2_8_1_g8_split_comm`, the extent `0x4C`:

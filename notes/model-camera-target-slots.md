@@ -25,7 +25,7 @@ added. Existing caller values, including `-1`, remain untouched.
 ## Object and regional identity
 
 The function stays with the seven camera-request functions, now in
-`model_scene_services.c` under `gcc_2_8_1_g8_split_comm`, preserving its `0x64` extent:
+`model_scene_runtime.c` under `gcc_2_8_1_g8_split_comm`, preserving its `0x64` extent:
 
 | Build | Address |
 |---|---|
