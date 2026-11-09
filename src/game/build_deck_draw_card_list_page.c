@@ -88,25 +88,17 @@ void BuildDeck_DrawSortIcons(
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
 #ifdef VERSION_EUROPE
-#define CARD_LIST_ROW_FLAGS(row) ((row)->flags)
-#define CARD_LIST_ROW_ID(row) ((s16)(row)->id)
-#define CARD_LIST_ROW_TYPE(row) ((row)->type)
 #define CARD_LIST_ROW_COUNT 9
 #else
-#define CARD_LIST_ROW_FLAGS(row) \
-    (CARD_ENTRY_FROM_MEMBER(row, defense)->flags)
-#define CARD_LIST_ROW_ID(row) \
-    ((s16)CARD_ENTRY_FROM_MEMBER(row, defense)->id)
-#define CARD_LIST_ROW_TYPE(row) \
-    (CARD_ENTRY_FROM_MEMBER(row, defense)->type)
 #define CARD_LIST_ROW_COUNT 8
 #endif
 
 /* Both sprites are GsSPRITE records in the scratchpad: `sprite` at 0x1F800020
  * draws the rows' digits and icons, `header` at 0x1F800060 the sort menu, and
  * the digit text is built at 0x1F800000. Europe also uses `header` for row
- * numbers and card ids. Its typed row iteration lets GCC strength-reduce the
- * stat cursor to entry + 6; the other builds retain their entry + 8 cursor.
+ * numbers and card ids. Every build walks the page as typed CardEntry rows;
+ * GCC strength-reduces the European stat reads to an entry + 6 cursor, while
+ * the US and Japanese builds keep a single entry + 8 cursor.
  *
  * The regional empty-loop boundaries preserve the prologue load schedule. */
 void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
@@ -120,7 +112,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     CardEntry *row;
 #else
     CardList *list;
-    u8 *row;
+    CardEntry *row;
     s32 kind;
 #endif
     s32 x0;
@@ -177,7 +169,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     row = &list->entries[list->first];
     header->y = y + 0x11;
 #else
-    row = (u8 *)&list->entries[list->first];
+    row = &list->entries[list->first];
     text = (u8 *)0x1F800000;
 #endif
     if (kind == 0) {
@@ -205,7 +197,6 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     ry = 0x2C;
 #else
     ry = 0x2B;
-    row += CARD_ENTRY_OFFSET(defense);
 #endif
     do {
 #ifdef VERSION_EUROPE
@@ -216,13 +207,13 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
         header->y = ry;
 #endif
         sprite->y = ry;
-        if (CARD_LIST_ROW_FLAGS(row) != 0) {
+        if (row->flags != 0) {
             GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
 #ifdef VERSION_EUROPE
             GS_SPRITE_COLOR_WORD(header) = COLOR_RGB24_NEUTRAL_GREY;
 #endif
-            id = CARD_LIST_ROW_ID(row);
-            if (CARD_LIST_ROW_FLAGS(row) & 0x80) {
+            id = (s16)row->id;
+            if (row->flags & 0x80) {
                 GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_DIM_GREY;
 #ifdef VERSION_EUROPE
                 GS_SPRITE_COLOR_WORD(header) = COLOR_RGB24_DIM_GREY;
@@ -285,7 +276,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
             CardList_DrawDecimalDigits(sprite, ot, text, 3);
             sprite->x += 0x88;
 #endif
-            if (CARD_LIST_ROW_TYPE(row) < 0x14) {
+            if (row->type < 0x14) {
 #ifdef VERSION_EUROPE
                 sprite->cy = 0xC7;
                 *(u16 *)&sprite->u = 0x40F8;
@@ -306,8 +297,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
                 *(u16 *)&sprite->u = 0x58D0;
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
-                Text_EncodeDecimalDigits(
-                    CARD_ENTRY_FROM_MEMBER(row, defense)->attack, 4, text);
+                Text_EncodeDecimalDigits(row->attack, 4, text);
                 CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 /* u 0xD8, v 0x58: the DEF label, one line down. */
                 *(u16 *)&sprite->u = 0x58D8;
@@ -315,8 +305,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
                 sprite->y += 8;
                 GsSortFastSprite(sprite, ot, 0);
                 sprite->x += 8;
-                Text_EncodeDecimalDigits(
-                    CARD_ENTRY_FROM_MEMBER(row, defense)->defense, 4, text);
+                Text_EncodeDecimalDigits(row->defense, 4, text);
                 CardList_DrawDecimalDigits(sprite, ot, text, 4);
                 sprite->y -= 8;
 #endif
@@ -343,11 +332,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
                 sprite->y -= 8;
             }
         }
-#ifdef VERSION_EUROPE
         row++;
-#else
-        row += sizeof(CardEntry);
-#endif
         i++;
         ry += 0x16;
     } while (i < CARD_LIST_ROW_COUNT);
