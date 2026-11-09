@@ -1,7 +1,9 @@
 # Main-menu prompt and display-resource ownership
 
 This component binds two proven ownership roles across the complete
-frontend and value-setup consumers, without identifying unknown artwork.
+frontend and value-setup consumers. A later North-American-only artwork
+decode (below) additionally binds three sprite handles; Japanese and PAL
+artwork was not rendered.
 It starts from accepted request-handoff master
 `055429fd98e74e9852b2a65205e52f7d142b7373`.
 
@@ -52,12 +54,20 @@ header flag `0x10`) over the SU stage-0/1/2 VRAM uploads renders:
 
 Variant 1 reproducing the Start prompt that the input evidence already
 identified checks the decoder. The value-setup sprite formerly
-`D_801845A4` (bank 1 resource 6/0 variant 0, page `0x0E`, CLUT row 245)
-decodes the same way to the framed 2P-duel rules panel whose page carries
-the "REGULATION OF 2P-DUEL RULES", "CARD INDICATE", "DECK NUMBER",
-"OPEN CARD" and "1P/2P" captions; it is `gMainMenu_pValueSetupPanel`.
-These are North American SU renders; the regional images run the same
-C with the same selectors but their banks were not rendered.
+`D_801845A4` (bank 1 resource 6/0 variant 0, 4-bit page `0x0E`, CLUT row
+245) decodes the same way to a 46-part, 320 by 160 framed 2P-duel rules
+panel whose own first-frame parts draw the "REGULATION OF 2P-DUEL RULES",
+"CARD INDICATE", "DECK NUMBER", "OPEN CARD" and "1P/2P" captions over the
+frame (same-depth parts are prepended to the ordering table, so the first
+record is drawn last); it is `gMainMenu_pValueSetupPanel`.
+
+Provenance is North American only: the input is `game/DATA/SU.MRG`
+(SHA-256 `c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51`,
+listed in `config/slus_01411/files.sha256`), sectors 0..97 for the VRAM and
+CLUT uploads and sector 114 for the bank. The Japanese and PAL images run
+the same C with the same selectors, but their banks and uploads were not
+rendered, so their artwork is not independently confirmed. The decoder is
+local scratch and no retail bytes or rendered images are committed.
 
 `D_801845A0` and `D_801845DC` remain native: they use the resident default
 resource at `tail_data_start` (`0x801AC000`), whose runtime contents are

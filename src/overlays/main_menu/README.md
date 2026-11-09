@@ -1,10 +1,17 @@
 # Main Menu Overlay
 
 The frontend's Start-button prompt and its shared, separately loaded
-display-resource bank now have canonical C bindings. The two other singleton
-sprites retain native names because their artwork is not identified. See
+display-resource bank now have canonical C bindings. The two other frontend
+singleton sprites and the value-setup sprite are bound as
+`gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice` and
+`gMainMenu_pValueSetupPanel` from their decoded artwork. That artwork was
+rendered only from the North American `SU.MRG` resource bank and uploads;
+the Japanese and PAL banks were not rendered, so those images inherit the
+bindings through the shared C and selectors only. The two default-resource
+handles `D_801845A0` and `D_801845DC` stay native. See
 [display ownership](../../../notes/overlays/main-menu-display-ownership.md)
-for the input/lifecycle evidence, exact storage views and regional scope.
+for the input/lifecycle evidence, the decode, exact storage views and
+regional scope.
 
 This directory contains matching source from the main-menu runtime
 module.
@@ -138,9 +145,13 @@ transition and installs the background callback. It is not the archive
 loader or input pump. Final state is not simply all zero: the transition
 starter sets active byte `gMainMenu_bTransitionActive` to 1, and nonzero selection sets
 `gMainMenu_bShadeLevel` to `0x80`. Individual allocation checks do not make the final
-third-singleton access in that nonzero-selection path null-safe. The
-singleton artwork and the meaning of the retained sound argument `0x7000`
-remain unassigned.
+third-singleton access in that nonzero-selection path null-safe. The three
+singletons are the title logo, copyright notice and Start prompt (variants
+0, 2 and 1 of resource 5/0); the first two identities come from the North
+American `SU.MRG` artwork decode only, with Japanese and PAL artwork not
+rendered.
+
+The meaning of the retained sound argument `0x7000` remains unassigned.
 
 `MainMenu_StartFrontendEntryTransition` (`0x80180D2C`) is the internal
 endpoint initializer, not the interpolator. It skips null entries, but
