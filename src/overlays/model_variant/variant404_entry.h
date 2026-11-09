@@ -33,12 +33,12 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     ModelVariantClock clock;
-    s16 field_1930, field_1932, field_1934, field_1936;
+    s16 spiral_angle, field_1932, spiral_size, field_1936;
     Variant404EntryConfig *config;
     u32 field_193C;
     GsCOORDUNIT *parts[3];
-    s16 field_194C, field_194E, field_1950, field_1952;
-    s32 field_1954, field_1958, field_195C, phase, field_1964;
+    s16 field_194C, field_194E, band_scale, field_1952;
+    s32 displacement, field_1958, ribbon_angle, phase, field_1964;
     u8 unknown_1968[8];
     s32 tint;
     s16 slot, command;

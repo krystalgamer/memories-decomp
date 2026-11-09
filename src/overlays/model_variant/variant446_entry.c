@@ -141,8 +141,8 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             ribbon->field_1BC = 0;
             ribbon->progress = -(n * 16);
             ribbon->field_1C4 = 0;
-            ribbon->field_1C8 = 0;
-            ribbon->field_1CC = 1024;
+            ribbon->state = 0;
+            ribbon->width_scale = 1024;
             if (n == 0) {
                 angle = 1024;
             } else if (n % 2 == 1) {
@@ -167,8 +167,8 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             trail->field_1BC = 0;
             trail->progress = -work->trail_delay - n * 16;
             trail->field_1C4 = 0;
-            trail->field_1C8 = 0;
-            trail->field_1CC = 1024;
+            trail->state = 0;
+            trail->width_scale = 1024;
             if (n == 0) {
                 angle = 1024;
             } else if (n % 2 == 1) {
@@ -378,8 +378,8 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         work->field_4A80 = 0;
         work->field_4A88 = 0;
         work->field_4A84 = 1024;
-        work->field_4A94 = 0;
-        work->field_4A98 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
         work->field_4A9C = 0;
         work->field_4AA4 = 4096;
         work->field_4AA6 = 1024;

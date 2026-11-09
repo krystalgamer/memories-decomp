@@ -16,7 +16,7 @@ typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
     u16 count;
     u8 unknown_0E[2];
-    u32 layers_start, grid_start, field_18, field_1C, field_20, points_start;
+    u32 layers_start, grid_start, scale_end, translation_start, translation_end, points_start;
 } EntryConfig373;
 
 typedef struct {

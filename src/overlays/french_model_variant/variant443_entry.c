@@ -396,13 +396,13 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             ring_b->angle = 1024 - row * 256;
             ring_b->count = 0;
         }
-        work->field_3668 = 16;
+        work->ribbon_start = 16;
         work->field_366C = 16;
         work->spin = 0;
-        work->field_3670 = 0;
-        work->field_3674 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
         work->factor = 1024;
-        work->field_3658 = 0;
+        work->mesh_angle = 0;
         work->progress = 0;
         work->length = 1024;
         work->rotation_x = 0;

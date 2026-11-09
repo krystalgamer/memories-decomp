@@ -270,16 +270,16 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }
-        work->field_1930 = 0;
+        work->spiral_angle = 0;
         work->field_1932 = 0;
-        work->field_1934 = 0;
+        work->spiral_size = 0;
         work->field_1936 = 0;
         work->field_194C = 0;
-        work->field_1950 = 4096;
+        work->band_scale = 4096;
         work->field_1952 = 1024;
-        work->field_1954 = 0;
+        work->displacement = 0;
         work->field_1958 = 0;
-        work->field_195C = 0;
+        work->ribbon_angle = 0;
         work->field_194E = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
