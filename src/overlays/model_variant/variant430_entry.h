@@ -20,7 +20,7 @@ typedef struct {
     u8 color[4];
     u8 unknown_504[0x10];
     s32 size[32];
-    s32 field_594[32];
+    s32 done[32];
     s32 field_614[32];
 } Variant430EntrySwarm;
 
