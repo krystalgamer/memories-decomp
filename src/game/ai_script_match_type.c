@@ -4,19 +4,21 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 
+/* Each slot is addressed as &gDuel_aActiveCards[index] from the loop index, so the
+ * strength reducer keeps one cursor for the card_id, card_type and flags reads,
+ * as in retail. */
+
 void AiScript_MatchType(void)
 {
     s32 start;
     s32 end;
     AiActiveCard *entry;
-    AiActiveCard *cards;
     s32 type;
     s32 range;
     s32 set;
     s32 sets;
     s32 output;
     s32 index;
-    s32 one;
 
     type = gAiScript_aMemory[AiScript_ReadByte()];
     range = gAiScript_aMemory[AiScript_ReadByte()];
@@ -26,44 +28,30 @@ void AiScript_MatchType(void)
 
     Ai_GetCardRange(range, &start, &end);
 
-    index = start;
-    if (end < index) {
-        goto zero;
-    }
-
-    one = 1;
-    cards = gDuel_aActiveCards;
-    entry = &cards[index];
-    while (1) {
+    for (index = start; index <= end; index++) {
+        entry = &gDuel_aActiveCards[index];
         if (entry->card_id == 0) {
-            goto next;
+            continue;
         }
         if (entry->card_type != type) {
-            goto next;
+            continue;
         }
-        if (range == one || range == 3 || range == 6 || range == 8) {
+        if (range == 1 || range == 3 || range == 6 || range == 8) {
             if ((entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
-                goto next;
+                continue;
             }
         }
-        if (set == one && range >= 5) {
+        if (set == 1 && range >= 5) {
             if ((entry->flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
-                goto next;
+                continue;
             }
         }
         if (Ai_IsCardInSets(sets, index) == 0) {
             break;
         }
-next:
-        entry++;
-        index++;
-        if (end < index) {
-            break;
-        }
     }
 
     if (end < index) {
-zero:
         gAiScript_aMemory[output] = 0;
     } else {
         gAiScript_aMemory[output] = index;

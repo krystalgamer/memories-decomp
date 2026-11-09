@@ -6980,7 +6980,7 @@
     },
     {
       "address": "0x800722CC",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D0",
       "source": "src/game/ai_script_match_type.c"
     },
