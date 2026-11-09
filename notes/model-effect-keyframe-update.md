@@ -78,8 +78,9 @@ global key reads and the optional second frame-step call stay live at their
 original source sites. No key alias merge, forced reload or callback policy.
 
 output_channels captures the view pointer BEFORE the empty-queue guard.
-Its two endpoints, output_cursor, pose_halfwords and spline_result_cursor
-retain original pointer types, strides, extents and lifetimes. slot_position,
+The key endpoints, gModel_aPoseSnapshot and output_channels are indexed by
+channel_index (`output_channels[channel_index][axis]`); the former
+output_cursor, pose_halfwords and spline_result_cursor locals are gone. slot_position,
 follow_target_position, spline_result and follow_delta each remain FOUR
 halfwords, even where only three components are consumed. active_channel_count
 still counts all nonzero kinds, including unhandled ones and deferred orbit
@@ -96,20 +97,21 @@ middle-axis helper call, 60 limit, three additions and later reference writes.
 Noise keeps all FOUR ordered rand calls, signed shifts/remainders, X/Z-only
 writes and completed-duration branch; no positivity or divisor guard.
 
-The spline copy retains axis_index and separate component/output cursors.
-The orbit pass keeps ONE reused channel index, its distinct key/halfword
-views, early elapsed assignment, duration/remaining captures, radius gate,
-Q12 projections and opposite-output pointer increment. No trigonometric
+The spline copy indexes spline_result and output_channels[channel_index] by
+axis_index. The orbit pass is a second plain `for` over the same reused
+channel index, with its distinct key/halfword views, early elapsed
+assignment, duration/remaining captures, radius gate and Q12 projections; it
+reads the opposite channel's output as `output_channels[channel_index ^ 1]`.
+The former `next_channel` goto is gone. No trigonometric
 reordering, orbit-center recapture, finite-angle or radius guarantee.
 Completion still handles inactive/open-ended clearing, pose capture, ring
 advance/wrap and single-key clearing, preparation, zero-magnitude recursion
 and final persistent==2 orbit-step versus metrics update in that order.
 
-Only scoped bare identifiers in these TWO definitions and matching words in
-TWO existing comments change. All other functions, members, operators,
-types, declarations/order/lifetimes, casts, constants, labels, calls, macros,
-comments, public headers, profiles, private data and storage remain.
-Two existing CSV NOTES cells are appended; identities/evidence/confidence
-and every other row stay. No fixture/control/oracle/mutation changes, new
-synthetic/generated-C/source-string behavioral harness, retired fixture
-revival or local cloud execution.
+Historical evidence for the earlier naming change: that change renamed only
+scoped bare identifiers in two definitions and matching words in two
+comments, and appended two CSV notes cells. The later ordinary-profile
+rewrite described above replaced the cursors with indexed accesses, removed
+the goto and moved the unit to `gcc_2_8_1_g8_split_comm`; it changes no
+fixture, control, oracle or mutation, and adds no synthetic or generated-C
+harness.
