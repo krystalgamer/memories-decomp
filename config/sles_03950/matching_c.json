@@ -2582,7 +2582,7 @@
     },
     {
       "address": "0x80036298",
-      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_no_cse_skip_blocks",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x9CC",
       "source": "src/game/european/text_box_draw_entries.c"
     },
