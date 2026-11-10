@@ -12,7 +12,6 @@ AiScriptState gAiScript_State;
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
 #include "ai_script.h"
-#include "../unmatched.h"
 
 /* Initialized data this unit owns at 0x800916E0: the opcode dispatch table AiScript_Run
    indexes. Opcode 0 is unused and its slot is null. */

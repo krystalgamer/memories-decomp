@@ -12,7 +12,6 @@
 #include "layered_drawing.h"
 #include "drawing_helpers.h"
 #include "color_helpers.h"
-#include "../../unmatched.h"
 
 typedef struct {
     SVECTOR rotations[64];

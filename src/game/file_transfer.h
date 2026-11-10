@@ -335,4 +335,7 @@ extern s32 D_8009B12C;
  * (cast at the site), builds byte-identically with this one declaration. */
 extern u8 *gFile_TransferBufferBase;
 
+/* The CD path of SU.MRG, the archive the main-menu package is read from. */
+extern u8 gFile_szSuMrgPath[];
+
 #endif

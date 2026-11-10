@@ -8,7 +8,6 @@
 #include "sound_sequence_channel_events.h"
 
 #include "sound_secondary_commands.h"
-#include "../unmatched.h"
 
 #define SD_SECONDARY_STATE_BYTES(state) ((u8 *)(state))
 

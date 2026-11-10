@@ -76,7 +76,7 @@ extern u8 gText_abColorSlots[];
  * that as gText_aGlyphLookup + 1 (cast to const, or through a const arm of
  * this declaration) does not match: GCC 2.8.1 treats symbol+4 differently
  * from a separate symbol, which swaps t3/t4 or adds a register move (+8
- * bytes). The separate label is a measured exception. 0x174 bytes to D_801D9174,
+ * bytes). The separate label is a measured exception. 0x174 bytes to gText_aGlyphRecordBitmaps,
  * 93 entries; the first word is zero in the image and no C unit writes the table.
  * Retail reaches it through %hi/%lo at every
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */

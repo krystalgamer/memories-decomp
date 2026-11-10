@@ -3,7 +3,6 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_voice_constants.h"
-#include "../unmatched.h"
 
 s32 SD_EnqueueCommand(SDCommand *src) {
     SDValue *capacity_state;

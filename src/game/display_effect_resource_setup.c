@@ -23,7 +23,6 @@
 #include "display_effect_update_resource_acquisition.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 
 /* Small globals other units own, declared here as common symbols the

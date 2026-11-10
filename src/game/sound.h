@@ -1090,4 +1090,13 @@ extern u32 gSD_dwSavedBgmCommand;
  * reaches +1, and every declarer said s8. */
 extern s8 gSD_bOutputType;
 
+/* Sound driver debug format strings printed by sound_driver.c. */
+extern u8 gSD_szSeGroupCountFormat[];
+extern u8 gSD_szSmfMixerOutFormat[];
+extern u8 gSD_szCdMixerOutFormat[];
+
+/* VAB bank volume-info tags compared by the sound driver. */
+extern u8 gSD_SmfBankVolInfoTag;
+extern u8 gSD_CdBankVolInfoTag;
+
 #endif

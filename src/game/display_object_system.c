@@ -438,7 +438,6 @@ void DisplayObject_RenderSpriteList(void) {
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "display_object_update_command_stream.h"
-#include "../unmatched.h"
 #include "display_object_runtime.h"
 #include "display_object_render_sprite_sheet_list.h"
 
@@ -493,7 +492,6 @@ void DisplayObject_RenderSpriteSheetList(void) {
 #include "display_object_packet_submit.h"
 #include "display_object_runtime.h"
 #include "ordering_tables.h"
-#include "../unmatched.h"
 #include "display_object_render_sprite_list.h"
 #include "display_object_render_sprite_sheet_list.h"
 

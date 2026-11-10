@@ -301,7 +301,6 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 #include "model_slot_properties.h"
 #include "model_effect_state.h"
 #include "model_transfer_state.h"
-#include "../unmatched.h"
 #include "../game/model_draw_slot.h"
 
 void Model_SetPresentationBgmCommand(s32 value)

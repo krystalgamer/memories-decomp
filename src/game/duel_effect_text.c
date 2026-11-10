@@ -230,7 +230,6 @@ void *TextBox_CreateFlagged(
 #include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entry_occupancy.h"
-#include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAF08-0x800EAFF8 in the
  * US build; the generated duel_effect_text_commons subsegment places it.
@@ -1238,7 +1237,6 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entries.h"
-#include "../unmatched.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 #include "duel_effect_entry_occupancy.h"
 #endif
@@ -1259,8 +1257,8 @@ u8 *Text_FindRecordById(s32 id) {
     u8 *key;
     s32 v;
 
-    rec = D_801D9174;
-    key = D_801D9174_b;
+    rec = gText_aGlyphRecordBitmaps;
+    key = gText_aGlyphRecordKeys;
 
 loop_check:
     v = key[0] << 8;
@@ -1537,7 +1535,6 @@ u32 TextStream_ReadU32LE(TextStreamOwner *object)
 #include "display_object.h"
 #include "duel_effect_entry_ranges.h"
 #include "duel_effect_update_object_layout.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 
@@ -1813,7 +1810,6 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
@@ -2102,7 +2098,6 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "script_state.h"
 #include "sound.h"
 #include "sound_sequence_state.h"
-#include "../unmatched.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -2414,7 +2409,6 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
 }
 
 #include "text_box_wrap_line.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
@@ -2459,7 +2453,6 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
 
 #include "text_constants.h"
 #include "text_stream_commands.h"
-#include "../unmatched.h"
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
@@ -2486,7 +2479,6 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
 
 #include "text_stream_commands.h"
 #include "duel_effect.h"
-#include "../unmatched.h"
 #include "dialog_choice.h"
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
@@ -2510,7 +2502,6 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 #include "text_encode_decimal_digits.h"
 #include "text_stream_read_le.h"
 #include "duel_effect_command.h"
-#include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAFF8-0x800EB010 in the
  * US build. */
@@ -3131,7 +3122,6 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 #include "text_stream_read_le.h"
 #include "duel_side_state.h"
 #include "ai_script.h"
-#include "../unmatched.h"
 #include "duel_session_controls.h"
 
 #include "ai_opponent_data.h"
@@ -3219,7 +3209,6 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
 #include "duel_effect_play_sound_command.h"
 #include "duel_effect_fade_out_bgm_command.h"
 #include "main_mode_state.h"
-#include "../unmatched.h"
 #include "sound_bgm_commands.h"
 
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
@@ -3495,7 +3484,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 #include "text_box_draw_entries.h"
 #include "text_box_runtime.h"
 #include "text_control_commands.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 
 /* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8 in the
@@ -3869,7 +3857,6 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 #include "dialog_choice_state.h"
-#include "../unmatched.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */

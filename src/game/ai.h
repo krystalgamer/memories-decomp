@@ -289,4 +289,14 @@ s32 Ai_IsTypeInSet(s32 index);
  * combo_cards, and it returns immediately when fusion_count is zero. */
 void Ai_CompleteFusion(s32 card_id);
 
+/* AI script diagnostics. AiScript_Print passes the checkpoint string and its
+ * format to printf (the format also receives the checkpoint byte); the
+ * nest-overflow and return-underflow errors print with gAiScript_szSourceFile
+ * through gAiScript_szSourceLineFormat. */
+extern const char gAiScript_szCheckpoint[];
+extern const char gAiScript_szCheckpointFormat[];
+extern char gAiScript_szNestOverflowError[];
+extern char gAiScript_szSourceFile[];
+extern char gAiScript_szReturnUnderflowError[];
+
 #endif

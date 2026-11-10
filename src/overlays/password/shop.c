@@ -26,7 +26,6 @@
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"
 #include "../../game/duel_effect_resource_record.h"
-#include "../../unmatched.h"
 #include "../../game/main_mode_state.h"
 
 #ifdef VERSION_JAPAN

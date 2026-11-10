@@ -4,7 +4,6 @@
 #include "file_transfer.h"
 #include "name_entry_load_package_stage.h"
 #include "file_constants.h"
-#include "../unmatched.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef NAME_ENTRY_PACKAGE_START_SECTOR

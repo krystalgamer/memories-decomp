@@ -751,8 +751,8 @@ consumers already include `graphics_frame.h`. Placing the declaration by what
 the include graph is, rather than by which subsystem the name sounds like,
 costs no new include and cannot strand a consumer.
 
-The same test decides whether a symbol is `unmatched.h` material at all. That
-header says it is for symbols that are still homeless, and the difference
+The same test decided whether a symbol was `unmatched.h` material at all. That
+header, now retired, was for symbols that are still homeless, and the difference
 between *homeless* and *merely undeclared* is whether the consumers share
 anything above `types.h`:
 
@@ -766,7 +766,7 @@ anything above `types.h`:
 
 `make check-unmatched-contracts` enforces both sides of that boundary. For
 functions it cross-references `functions.csv`, the matching-C source manifest,
-and `unmatched.h`: an unmatched function referenced by matching C must have
+and the central header if present: an unmatched function referenced by matching C must have
 one central declaration, and a file-local declaration is rejected unless its
 exact source and spelling appear in
 `unmatched_contract_exceptions.json`. The same check rejects declarations that
@@ -789,7 +789,7 @@ exception manifest; a recorded site that no longer calls implicitly is an
 error, so that list cannot go stale.
 
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
-matching C, and all resident headers. A symbol centralized in `unmatched.h`
+matching C, and all resident headers. A centrally declared symbol
 cannot remain locally declared, lose its linker assignment, or gain a
 subsystem-header declaration without making the check fail. Distinct guarded
 central views are allowed; exact duplicates are not. A measured local
@@ -829,8 +829,7 @@ exit. The second combines the active mode with lifecycle flags 0x20, 0x40 and
 0x80. The current 38 resident/candidate/overlay consumers use plain byte
 scalars, incomplete arrays, and scalars forced into `.data`.
 `main_mode_state.h` is their single declaration owner, with independent
-selectors for each byte; `unmatched.h` forwards to it without repeating the
-declarations. Defaults deliberately preserve the current contract: scalar
+selectors for each byte. Defaults deliberately preserve the current contract: scalar
 NEXT and array ACTIVE. In particular, selecting only NEXT's `.data` view
 must not introduce an ACTIVE scalar into `Main_Init`.
 

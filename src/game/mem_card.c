@@ -343,7 +343,6 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
 #include "mem_card_work_initialize_operation.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
-#include "../unmatched.h"
 
 void MemCardWork_InitializeOperation(u8 value)
 {
@@ -485,7 +484,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #undef gDialog_bChoice
 
-#include "../unmatched.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "display_object_core.h"
@@ -812,7 +810,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "text_sjis_to_glyph_codes.h"
 #include "two_player_save_setup.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
 

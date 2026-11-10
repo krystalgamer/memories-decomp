@@ -792,7 +792,6 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "duel_effect_resource_setup.h"
 #endif
 #include "../ygo_types.h"
-#include "../unmatched.h"
 
 #ifdef VERSION_EUROPE
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
@@ -1308,7 +1307,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "build_deck_card_counts.h"
 #include "duel_card_stat_display.h"
 #include "duel_effect.h"
-#include "../unmatched.h"
 #include "build_deck_pane_input.h"
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"

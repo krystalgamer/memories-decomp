@@ -8,7 +8,6 @@
 #include "text_stream_commands.h"
 #include "duel_effect_sound_commands.h"
 #include "duel_effect_play_sound_command.h"
-#include "../unmatched.h"
 #include "text_start_campaign_duel.h"
 #include "display_object_fade_callbacks.h"
 #include "text_channel_state.h"

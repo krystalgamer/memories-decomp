@@ -673,7 +673,6 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "../ygo_types.h"
 #include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
-#include "../unmatched.h"
 #include "model_camera_state.h"
 
 void Model_StepBackgroundVramAnimation(void) {

@@ -59,4 +59,8 @@ extern DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[];
  * existing full-width tagged-index conventions. */
 DuelCardRecord *Duel_SetupCardRecord(s32, s32);
 
+/* The CLUT words that follow the card thumbnail blocks; each block's CLUT row
+ * starts DUEL_CARD_DATA_BLOCK_SIZE bytes further on. */
+extern u8 gDuel_CardThumbnailClutBase[];
+
 #endif

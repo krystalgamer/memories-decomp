@@ -186,7 +186,6 @@ void Script_OpShowDialog(void)
 #include "script_image_rebuild.h"
 #include "script_image_commands.h"
 #include "script_flag_commands.h"
-#include "../unmatched.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -352,7 +351,6 @@ void Script_UpdateViewportTween(void) {
 
 #include "secondary_scene_commands.h"
 #include "script_state.h"
-#include "../unmatched.h"
 #include "script_op_open_campaign_map.h"
 #include "main_mode_state.h"
 
@@ -512,7 +510,6 @@ void Script_OpJump(void)
 #include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_read_choice_input.h"
 #include "script_op_save_prompt.h"
@@ -815,7 +812,6 @@ void Script_OpUnusedHalt15(void)
 #include "fade.h"
 #include "script_state.h"
 #include "script_op_fade_out.h"
-#include "../unmatched.h"
 
 void Script_OpFadeOut(void)
 {
@@ -845,7 +841,6 @@ end:;
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "duel_result_load_package_stage.h"
-#include "../unmatched.h"
 
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
@@ -943,7 +938,6 @@ join:
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "sound_output.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 #include "scene_script.h"
 #include "script_op_duel_result.h"
@@ -1078,7 +1072,6 @@ void Script_OpDuelResult(void) {
 #include "script_command_busy.h"
 #include "script_state.h"
 #include "script_control_commands.h"
-#include "../unmatched.h"
 #include "main_mode_state.h"
 
 void Script_OpGameOver(void)
@@ -1126,7 +1119,6 @@ void Script_OpWait(void)
 #include "script_stream_commands.h"
 #include "main_services.h"
 #include "script_command_runner.h"
-#include "../unmatched.h"
 #include "main_mode_state.h"
 
 /* Initialized data this unit owns at 0x80090C50: the 23 scene-script command handlers.
@@ -1227,7 +1219,6 @@ void Script_RunTick(void)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
-#include "../unmatched.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 

@@ -14,7 +14,6 @@
 #include "display_quads.h"
 #include "../../game/display_object.h"
 #include "../../game/display_object_work_slots.h"
-#include "../../unmatched.h"
 
 typedef struct {
     SVECTOR targets[5];

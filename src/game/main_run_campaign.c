@@ -14,7 +14,6 @@ SceneScriptSlot gSceneScript_Slots[3];
 #include "script_command_runner.h"
 #include "sound.h"
 #include "campaign_scene_package.h"
-#include "../unmatched.h"
 #include "main_mode_state.h"
 
 /* Small globals other units own, declared here as common symbols the

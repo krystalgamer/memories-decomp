@@ -170,7 +170,6 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 }
 
 #include "../psyq/stdio.h"
-#include "../unmatched.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 #include "sound_output.h"

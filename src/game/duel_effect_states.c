@@ -34,7 +34,6 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 #include "duel_effect_card_viewer_state.h"
-#include "../unmatched.h"
 #include "main_mode_state.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */

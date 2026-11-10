@@ -15,7 +15,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "sound_output_state.h"
-#include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * movie_pipeline_commons subsegments place it at the retail addresses. */
@@ -487,7 +486,6 @@ void func_8005C374(s32 first, s32 second, s32 third)
 #include "file_constants.h"
 #include "movie_stream_ranges.h"
 #include "file_transfer.h"
-#include "../unmatched.h"
 #include "movie_stream_requests_data.h"
 
 /* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
