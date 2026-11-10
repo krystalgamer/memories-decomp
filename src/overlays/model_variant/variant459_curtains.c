@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant459_curtains.h"
+#include "../spanish_model_variant/variant459_entry.h"
 
 /* Draws five rotating curtains of sixteen textured strips. Each grows and
  * fades from 0x1400 to 0x1800, wraps with a new rotation until its deadline,
@@ -19,18 +20,18 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
     long flag;
     GsOT *ot;
     s32 i;
-    u8 *work;
+    Variant459EntryState *work;
     Variant459Curtain *curtain;
     POLY_GT4 *poly;
     s32 j;
     s32 fade;
     s32 otz;
 
-    work = ctx;
-    curtain = (Variant459Curtain *)(work + 0x1A18);
+    work = (Variant459EntryState *)ctx;
+    curtain = (Variant459Curtain *)((u8 *)work + 0x1A18);
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
-    poly = (POLY_GT4 *)(work + 0x2704);
+    poly = (POLY_GT4 *)((u8 *)work + 0x2704);
     i = 0;
     ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
     ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
@@ -40,9 +41,9 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
             rot.vx = curtain->rotation.vx;
             rot.vy = curtain->rotation.vy;
             rot.vz = curtain->rotation.vz;
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x2758);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x275A);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x275C);
+            m.t[0] = work->sheets[3].v1[1].vx;
+            m.t[1] = work->sheets[3].v1[1].vy;
+            m.t[2] = work->sheets[3].v1[1].vz;
             scale.vx = curtain->scale;
             scale.vy = curtain->scale;
             scale.vz = curtain->scale;
@@ -91,12 +92,12 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
             }
         }
         if (curtain->scale < 0x1800) {
-            curtain->scale += MODEL_VARIANT_WORD(work, 0x27B8) << 7;
+            curtain->scale += work->sheets[3].size << 7;
             if (curtain->scale >= 0x1800) {
                 curtain->scale -= 0x1800;
                 curtain->rotation.vx += 0x180;
                 curtain->rotation.vz += 0x320;
-                if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) > (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x34)) {
+                if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) > (u32)MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x34)) {
                     curtain->scale = 0x1800;
                 }
             }

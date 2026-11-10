@@ -1,10 +1,11 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
+#include "variant438_entry.h"
 
 #define RING_COUNT 1
 #define LAST_RING (RING_COUNT - 1)
-#define TIMING(work) MODEL_VARIANT_WORD(work, 0x22B4)
+#define TIMING(work) work->config
 
 /* The MODEL446 rings with a single ring: one seventeen-point POLY_GT4 ring
  * around the variant's direction, timed by the record, with radii scaled from
@@ -18,7 +19,7 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant438EntryState *work;
     u8 *pulse;
     POLY_GT4 *poly;
     ModelVariantCurtain *ring;
@@ -38,32 +39,32 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
     u8 ir, ig, ib;
     u8 or, og, ob;
 
-    work = ctx;
-    ring = (ModelVariantCurtain *)(work + 0x848);
+    work = (Variant438EntryState *)ctx;
+    ring = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
     first = 1;
-    pulse = work + 0x1938;
-    poly = (POLY_GT4 *)(work + 0x2140);
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2274), MODEL_VARIANT_WORD(work, 0x226C));
+    pulse = (u8 *)work + 0x1938;
+    poly = &work->ray;
+    yaw = ratan2(work->direction.vz, work->direction.vx);
     heading = yaw + 0x800;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x2270), MODEL_VARIANT_WORD(work, 0x2274)) + 0x800;
+    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
     if (heading < 0x800) {
         heading = -heading + 0x400;
     } else {
         heading = yaw + 0xC00;
     }
     amp = ((MODEL_VARIANT_WORD(work, 0x2298) & 1) << 5) * MODEL_VARIANT_WORD(pulse, 0x88) / 4096;
-    if (MODEL_VARIANT_WORD(work, 0x22E8) < 2) {
+    if (work->phase < 2) {
         k = LAST_RING;
         ring += LAST_RING;
     } else {
         k = 0;
-        ring = (ModelVariantCurtain *)(work + 0x848);
+        ring = work->rings;
     }
     for (i = k; i < RING_COUNT; i++, ring++) {
         if (ring->scale > 0) {
             size = ring->scale;
-            for (j = 0, a = MODEL_VARIANT_WORD(work, 0x22D4); j < 17; j++, a = MODEL_VARIANT_WORD(work, 0x22D4) + (j << 8)) {
+            for (j = 0, a = work->ring_angle; j < 17; j++, a = work->ring_angle + (j << 8)) {
                 if (i == LAST_RING) {
                     setVector(&ring->a[j], rcos(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) / 4) >> 12,
                               rsin(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) / 4) >> 12, 0);
@@ -82,13 +83,13 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             rot.vy = heading;
             rot.vz = 0;
             if (i == LAST_RING) {
-                m.t[0] = MODEL_VARIANT_WORD(work, 0x2258);
-                m.t[1] = MODEL_VARIANT_WORD(work, 0x225C);
-                m.t[2] = MODEL_VARIANT_WORD(work, 0x2260);
+                m.t[0] = work->matrix.t[0];
+                m.t[1] = work->matrix.t[1];
+                m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = MODEL_VARIANT_HALF(work, 0x2264);
-                m.t[1] = MODEL_VARIANT_HALF(work, 0x2266);
-                m.t[2] = MODEL_VARIANT_HALF(work, 0x2268);
+                m.t[0] = work->target.vx;
+                m.t[1] = work->target.vy;
+                m.t[2] = work->target.vz;
             }
             scale.vx = size;
             scale.vy = size;
@@ -101,27 +102,27 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (i == LAST_RING) {
-                ir = work[0x22CC];
-                ig = work[0x22CD];
-                ib = work[0x22CE];
-                or = work[0x22D0];
-                og = work[0x22D1];
-                ob = work[0x22D2];
+                ir = ((u8 *)work)[0x22CC];
+                ig = ((u8 *)work)[0x22CD];
+                ib = ((u8 *)work)[0x22CE];
+                or = ((u8 *)work)[0x22D0];
+                og = ((u8 *)work)[0x22D1];
+                ob = ((u8 *)work)[0x22D2];
             } else if (ring->scale < 0x800) {
-                ir = work[0x22CC];
-                ig = work[0x22CD];
-                ib = work[0x22CE];
-                or = work[0x22D0];
-                og = work[0x22D1];
-                ob = work[0x22D2];
+                ir = ((u8 *)work)[0x22CC];
+                ig = ((u8 *)work)[0x22CD];
+                ib = ((u8 *)work)[0x22CE];
+                or = ((u8 *)work)[0x22D0];
+                og = ((u8 *)work)[0x22D1];
+                ob = ((u8 *)work)[0x22D2];
             } else {
                 fade = 0x1000 - ring->scale;
-                ir = work[0x22CC] * fade / 2048;
-                ig = work[0x22CD] * fade / 2048;
-                ib = work[0x22CE] * fade / 2048;
-                or = work[0x22D0] * fade / 2048;
-                og = work[0x22D1] * fade / 2048;
-                ob = work[0x22D2] * fade / 2048;
+                ir = ((u8 *)work)[0x22CC] * fade / 2048;
+                ig = ((u8 *)work)[0x22CD] * fade / 2048;
+                ib = ((u8 *)work)[0x22CE] * fade / 2048;
+                or = ((u8 *)work)[0x22D0] * fade / 2048;
+                og = ((u8 *)work)[0x22D1] * fade / 2048;
+                ob = ((u8 *)work)[0x22D2] * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&ring->a[j], &ring->a[j + 1],
@@ -146,7 +147,7 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             }
         }
         if (i == LAST_RING) {
-            if (ring->scale < 0x1000 && MODEL_VARIANT_WORD(work, 0x22E8) < 3) {
+            if (ring->scale < 0x1000 && work->phase < 3) {
                 ring->scale = (u32)(MODEL_VARIANT_WORD(work, 0x229C) << 12) /
                              (u32)MODEL_VARIANT_WORD(TIMING(work), 0x20);
                 if (ring->scale >= 0x1000) {
@@ -158,12 +159,12 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
                              (u32)(MODEL_VARIANT_WORD(TIMING(work), 0x2C) - MODEL_VARIANT_WORD(TIMING(work), 0x28));
             }
         } else if (ring->scale < 0x1000) {
-            ring->scale += MODEL_VARIANT_WORD(work, 0x22A4) << 7;
+            ring->scale += work->clock.step << 7;
             if (ring->scale >= 0x1000) {
-                if (MODEL_VARIANT_WORD(work, 0x22E8) >= 5) {
+                if (work->phase >= 5) {
                     ring->scale = 0x1000;
                     if (i + 1 == LAST_RING && first == 1) {
-                        MODEL_VARIANT_WORD(work, 0x22E8) = 6;
+                        work->phase = 6;
                     }
                 } else {
                     first = 0;
@@ -173,5 +174,5 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x22D4) += MODEL_VARIANT_WORD(work, 0x22A4) * 80;
+    work->ring_angle += work->clock.step * 80;
 }
