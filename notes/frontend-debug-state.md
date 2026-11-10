@@ -1,9 +1,10 @@
 # Frontend debug numeric-editor state
 
-`src/game/frontend_debug_state.h` owns the numeric editor's shared data
-contracts. `duel_interface_setup.h` includes it for the producer API;
-the menu dispatcher, scene/sound states, cursor updater, async return path,
-and matching `DebugMenu_UpdateValueEditor` consume the same declarations.
+`src/game/debug_menu.h` owns the numeric editor's shared data
+contracts and directly declares the producer API (`DebugMenu_Init` and
+`DebugMenu_OpenValueEditor`); the menu dispatcher, scene/sound states, cursor
+updater, async return path, and matching `DebugMenu_UpdateValueEditor`
+consume the same declarations.
 The raw-word `DebugMenu_UpdateCampaignEntry` also includes it without changing
 any assembly.
 
