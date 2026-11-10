@@ -91,7 +91,7 @@ cloud-witness execution.
 
 ## Source, adapters and contracts
 
-The function opens the grouped `model_effect_state.c` unit, directly
+The function follows `Model_UpdateEffectKeyframes` in the grouped `model_camera_effects.c` unit, directly
 before `Model_EvaluateKeyframeSpline`; it previously had its own
 `model_prepare_effect_key.c` source and European and Japanese include
 adapters. The unit's adapters already alias `gModel_pCurrentEffectKey`

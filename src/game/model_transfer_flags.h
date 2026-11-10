@@ -8,7 +8,7 @@
  * and a setter.
  *
  * The accessors are not the only route to them: later functions in
- * model_effect_state.c and two single-function sources read the bytes directly
+ * model_camera_effects.c read the bytes directly
  * rather than through the getters, which is why the bytes are declared here
  * as well.
  *

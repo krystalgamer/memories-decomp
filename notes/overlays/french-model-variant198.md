@@ -13,7 +13,7 @@ to 25 resident destinations and no local or indirect calls. Both complete
 images match with actual sized linked C entries, exclusive C literal
 contributions and disjoint raw owners. All 25 resident callee bodies agree
 with the exact French resident ELF. French `0x8004F7C0` uses the existing
-`func_8005F7B0(s32, s32)` declaration and definition in `model_effect_state`.
+`func_8005F7B0(s32, s32)` declaration in `model_effect_state.h` and definition in `model_camera_effects.c`.
 Its second argument is explicitly narrowed to a signed halfword by this
 caller; that narrowing is not a different callee ABI or evidence for a
 speculative effect name.

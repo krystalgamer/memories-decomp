@@ -125,7 +125,7 @@ object before it.
 | `src/game/model.c` | `.bss` | `0x800F2B20`-`0x800F56A0` |
 | `src/game/model_scene_runtime.c` | `.bss` | `0x800F56A0`-`0x800F5750` |
 | `src/game/movie_pipeline.c` | `.bss` | `0x800F5750`-`0x800F5768` |
-| `src/game/model_keyframe_update.c` | `.bss` | `0x800F5768`-`0x800F5918` |
+| `src/game/model_camera_effects.c` | `.bss` | `0x800F5768`-`0x800F5918` |
 | `src/game/model_handler_registry.c` | `.bss` | `0x800F5918`-`0x800F5B98` |
 | `src/game/ai_script.c` | `.bss` | `0x800F5B98`-`0x800F5CBC` |
 

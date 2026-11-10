@@ -6044,153 +6044,153 @@
     },
     {
       "address": "0x8005D994",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x210",
-      "source": "src/game/model_queue_relative_camera_orbit.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005DBA4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC64",
-      "source": "src/game/model_keyframe_update.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005E808",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3EC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005EBF4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x47C",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F070",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x104",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F174",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F180",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F18C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F198",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F1A4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F1B8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC4",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F27C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F3B8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1AC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F564",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F588",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F5C8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14C",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F714",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x9C",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F7B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F828",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF4",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005F91C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C8",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FAE4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FB08",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FB14",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FB30",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FBC4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/model_camera_effects.c"
     },
     {
       "address": "0x8005FC1C",

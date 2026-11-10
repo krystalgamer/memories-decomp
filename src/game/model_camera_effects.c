@@ -1,32 +1,82 @@
 #include "../types.h"
-#include "../psyq/libgte.h"
-#include "../psyq/memory.h"
-#include "../unmatched.h"
-#include "model_effect_coefficients.h"
-#include "model_effect_state.h"
-#include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "model_copy_slot_position.h"
+#include "../psyq/memory.h"
 #include "model.h"
+#include "model_transfer_flags.h"
+#include "model_queue_relative_camera_orbit.h"
+#include "model_effect_state.h"
+#include "camera_view.h"
+#include "model_keyframe_spline.h"
+#include "model_get_slot_readiness.h"
+#include "model_get_frame_step.h"
 #include "model_step_view_orbit.h"
+#include "../psyq/rand.h"
+#include "../psyq/libgte.h"
+#include "../unmatched.h"
+#include "model_effect_coefficients.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
 #include "model_slot_support.h"
-#include "model_keyframe_spline.h"
-#include "model_transfer_flags.h"
 #include "model_transfer_state.h"
-#include "model_queue_relative_camera_orbit.h"
 #include "model_cubic_coefficients.h"
-#include "model_get_slot_readiness.h"
 
-/* Small globals other units own, declared here as common symbols the
- * way the original read them through $gp. */
-u8 gModel_bEffectKeyPreparationPending;
-s8 gModel_nEffectKeyBatchOrdinal;
-u8 gModel_bHandlerCallbackState;
-u8 gModel_bCameraHoldState;
-u8 gModel_bEffectKeyCount;
-Key *gModel_pCurrentEffectKey;
+/* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
+ *
+ * model_transfer_flags.h already settled everything this file needs. It
+ * records what each byte is, and it worked out that gModel_pCurrentEffectKey is a pointer
+ * rather than the s32 two units had spelled it: every retail read uses the
+ * word as a base for a load at a fixed offset or a null test. Queue setup
+ * stores gModel_aEffectKeys, while the updater advances and wraps that Key cursor
+ * or clears it with the count. This file gives the block a definition and
+ * includes its owner header so the two cannot drift apart.
+ *
+ * The header also answers in advance the question a carve would otherwise
+ * have to ask, noting that every retail access to the run is gp-relative.
+ * That is what .sdata provides, so no consumer needs a declaration arm.
+ *
+ * This is the last of the three owners in the 40-byte range at 0x8009B058
+ * that the notes call the scattered tail. The middle block belongs to the
+ * movie pipeline and the first eight bytes to main_menu_load_package_stage.c,
+ * which stays extracted.
+ *
+ * gModel_nEffectKeyBatchOrdinal is initialised to -1. The header describes it as a signed
+ * counter armed at -1 and the retail byte is 0xFF, so the semantics recorded
+ * there and the image agree; that agreement is also what makes s8 rather
+ * than u8 the right spelling for the definition.
+ *
+ * The block ends with three bytes no symbol names, so splat's label for
+ * gModel_bHandlerCallbackState spans four bytes although the object is one -- the same way the
+ * label at gFile_ReadyTransferDescriptor ran long. They are written out as padding because an
+ * object stopping at gModel_bHandlerCallbackState would leave the window three bytes short.
+ *
+ * The padding is three separate bytes rather than a u8[3], which is not a
+ * style choice. An array of three bytes is given four-byte alignment, so it
+ * lands at offset 0x0C instead of 0x09 and the compiler fills 0x09 to 0x0B
+ * itself; the section then measures fifteen bytes and the link fails with
+ * .initialized_data overlapping the bss image. Separate bytes align to one
+ * and pack where they belong. model_graphics_state.c spells its own
+ * continuation bytes this way for the same reason.
+ *
+ * Every value is zero apart from that -1, so the section attributes are load
+ * bearing rather than decorative: without them these objects would be placed
+ * in .sbss and leave .sdata entirely. */
+
+Key *gModel_pCurrentEffectKey = 0;
+u8 gModel_bEffectKeyCount = 0;
+u8 gModel_bEffectKeyPreparationPending = 0;
+s8 gModel_nEffectKeyBatchOrdinal = -1;
+u8 gModel_bCameraHoldState = 0;
+u8 gModel_bHandlerCallbackState = 0;
+static u8 sModelTransferFlags_Pad7D = 0;
+static u8 sModelTransferFlags_Pad7E = 0;
+static u8 sModelTransferFlags_Pad7F = 0;
+
+/* Zero-initialized storage this unit owns at 0x800F5768-0x800F5918. The
+ * generated model_camera_effects_bss_commons subsegment reserves the range and
+ * symbols.txt places each array at its retail address (#2602). */
+SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT + 1];
+Key gModel_aEffectKeys[10];
 
 /* Initialized data this unit owns at 0x80091550: four endpoint presets consumed in pairs by
    Model_QueueEffectEndpointPair. */
@@ -56,6 +106,380 @@ ModelCameraOrbitPreset gModel_aCameraOrbitPresets[] = {
     { 700, -512, -512, 0 },
     { 700, 512, -512, 0 },
 };
+
+void Model_QueueRelativeCameraOrbit(
+    s32 slot_selector,
+    s32 distance,
+    s32 yaw,
+    s32 pitch,
+    SVECTOR *target_offset,
+    s32 key_magnitude
+) {
+    u16 target_halfwords[4];
+    u16 orbit_halfwords[4];
+    ModelViewMetrics *view_metrics;
+    s32 one;
+    s32 offset_sign;
+    s32 biased_yaw;
+    s32 biased_pitch;
+    s32 yaw_word;
+    s32 x;
+    s32 queue_mode;
+
+    view_metrics = Model_GetViewMetricsBuffer();
+    memset(target_halfwords, 0, sizeof(target_halfwords));
+    target_halfwords[3] = slot_selector | 0x80;
+    one = 1;
+
+    if (gModel_bCameraHoldState == one && gModel_bHandlerCallbackState == one) {
+        return;
+    }
+
+    if (slot_selector == 2) {
+        Model_CopySlotPosition(2, (u16 *)target_halfwords);
+        target_halfwords[3] = one;
+    }
+
+    if (target_offset != 0) {
+        offset_sign = -1;
+        if (slot_selector <= 0) {
+            offset_sign = 1;
+        }
+        target_halfwords[0] = target_halfwords[0] + target_offset->vx * offset_sign;
+        /* Retail zero-extends only the middle component. */
+        target_halfwords[1] = target_halfwords[1] + *(u16 *)&target_offset->vy;
+        target_halfwords[2] = target_halfwords[2] + target_offset->vz * offset_sign;
+    }
+
+    orbit_halfwords[0] = distance;
+    x = (s16)view_metrics->yaw;
+    biased_yaw = yaw + MODEL_ANGLE_FULL_TURN;
+    if (slot_selector <= 0) {
+        x = x - 0xC00;
+    } else {
+        x = x - 0x400;
+    }
+    orbit_halfwords[1] = (biased_yaw - x) - (biased_yaw - x) / MODEL_ANGLE_FULL_TURN *
+        MODEL_ANGLE_FULL_TURN;
+    yaw_word = orbit_halfwords[1];
+    if (*(s16 *)&orbit_halfwords[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        orbit_halfwords[1] = yaw_word - MODEL_ANGLE_FULL_TURN;
+    }
+    if (*(s16 *)&orbit_halfwords[1] < -MODEL_ANGLE_HALF_TURN) {
+        orbit_halfwords[1] = orbit_halfwords[1] + MODEL_ANGLE_FULL_TURN;
+    }
+
+    biased_pitch = pitch + MODEL_ANGLE_FULL_TURN;
+    orbit_halfwords[2] = (biased_pitch - biased_pitch / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
+        view_metrics->pitch;
+    if (*(s16 *)&orbit_halfwords[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        orbit_halfwords[2] = orbit_halfwords[2] - MODEL_ANGLE_FULL_TURN;
+    }
+    if (*(s16 *)&orbit_halfwords[2] < -MODEL_ANGLE_HALF_TURN) {
+        orbit_halfwords[2] = orbit_halfwords[2] + MODEL_ANGLE_FULL_TURN;
+    }
+
+    queue_mode = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
+    x = queue_mode;
+    orbit_halfwords[3] = 4;
+    if (x < 0) {
+        queue_mode = 0;
+    } else {
+        gModel_nEffectKeyBatchOrdinal = gModel_nEffectKeyBatchOrdinal + 1;
+        queue_mode = x > 0;
+    }
+    Model_ApplyEffectKeyQueueCommand(
+        queue_mode, (ModelEffectEndpoint *)orbit_halfwords, (ModelEffectEndpoint *)target_halfwords, key_magnitude
+    );
+}
+
+/*
+ * Evaluates the two camera keyframe channels, then resolves relative orbits.
+ * Timing sources are live after callbacks, but the first timing destination
+ * and the output view are captured. The slot copier writes four halfwords;
+ * slot_position and follow_target_position retain that complete extent.
+ *
+ * All 3,172 bytes match with the uniform G8 split profile. Both channel
+ * loops take every record from the loop counter: the key's endpoint
+ * halfwords, the pose snapshot vector and the output view channel are all
+ * indexed by channel_index rather than advanced as separate cursors. The
+ * middle-axis helper retains the signed adjustment's publication boundary;
+ * its arithmetic is word-sized before the result is narrowed.
+ *
+ * Orbit projection uses the separate horizontal/vertical components already
+ * used by Model_StepViewOrbit and reads the opposite channel's output.
+ * The early elapsed_time local and remaining-duration capture retain the
+ * original register lifetimes.
+ * Finite valid key programs require nonzero interpolation/noise divisors.
+ */
+
+#define LIMIT(v, n) ((v) > 0 ? ((v) < (n) ? (v) : (n)) : \
+    ((v) > -(n) ? (v) : -(n)))
+#define KEY_VIEW(key) ((Key *)(key))
+
+static inline s32 Keyframe_ApplyDeadzone(s16 *axis, s32 amount)
+{
+    s32 value = *axis;
+    if (value > 0) {
+        s32 result = value - amount;
+        return result < 0 ? 0 : result;
+    } else {
+        s32 result = value + amount;
+        return result > 0 ? 0 : result;
+    }
+}
+
+void Model_UpdateEffectKeyframes(void)
+{
+    s32 *output_channels[2];
+    s16 slot_position[4];
+    s16 spline_result[4];
+    s16 follow_target_position[4];
+    s16 follow_delta[4];
+    s32 active_channel_count;
+    s32 persistent_channel_count;
+    s32 channel_index;
+
+    output_channels[0] = (s32 *)Model_GetCameraViewBuffer();
+    output_channels[1] = output_channels[0] + 3;
+    persistent_channel_count = 0;
+    active_channel_count = 0;
+    if (!gModel_bEffectKeyCount || !gModel_pCurrentEffectKey) {
+        return;
+    }
+    if (gModel_bEffectKeyPreparationPending && (gModel_bCameraHoldState != 1 || gModel_bHandlerCallbackState != 1)) {
+        Key *preparation_key = gModel_aEffectKeys;
+        s32 preparation_index;
+        for (preparation_index = 0; preparation_index < gModel_bEffectKeyCount; preparation_index++) {
+            Model_PrepareEffectKey(preparation_key++);
+        }
+        gModel_bEffectKeyPreparationPending = 0;
+        gModel_nEffectKeyBatchOrdinal = -1;
+    }
+    if (gModel_pCurrentEffectKey->duration != 0x4000) {
+        Key *progress_write_key = gModel_pCurrentEffectKey;
+        s32 frame_step = Model_GetFrameStep();
+        s32 elapsed_time;
+        if (gModel_pCurrentEffectKey->progress + frame_step <
+            gModel_pCurrentEffectKey->duration) {
+            frame_step = Model_GetFrameStep();
+            elapsed_time = gModel_pCurrentEffectKey->progress + frame_step;
+        } else {
+            elapsed_time = gModel_pCurrentEffectKey->duration;
+        }
+        progress_write_key->progress = elapsed_time;
+    }
+    for (channel_index = 0; channel_index < 2; channel_index++) {
+        u8 *channel_key_bytes = (u8 *)gModel_pCurrentEffectKey;
+        s16 *channel_halfwords = ((s16 (*)[4])channel_key_bytes)[channel_index];
+        if (channel_halfwords[3] != 0) {
+            switch (channel_halfwords[3]) {
+            case 0x80:
+            case 0x81: {
+                s32 slot_index = (s16)((u16)channel_halfwords[3] & 0xFF7F);
+                s32 elapsed_time = KEY_VIEW(channel_key_bytes)->progress;
+                s32 duration_time = KEY_VIEW(channel_key_bytes)->duration;
+                s32 remaining_time;
+                if (Model_GetSlotReadiness(slot_index) != 1) {
+                    break;
+                }
+                Model_CopySlotPosition(slot_index, (u16 *)slot_position);
+                {
+                    s16 *slot_offset_halfwords = ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                    slot_position[0] += (u16)slot_offset_halfwords[0];
+                    slot_position[1] += (u16)slot_offset_halfwords[1];
+                    slot_position[2] += (u16)slot_offset_halfwords[2];
+                }
+                remaining_time = duration_time - elapsed_time;
+                output_channels[channel_index][0] = gModel_aPoseSnapshot[channel_index].vx * remaining_time / duration_time
+                    + slot_position[0] * elapsed_time / duration_time;
+                output_channels[channel_index][1] = gModel_aPoseSnapshot[channel_index].vy * remaining_time / duration_time
+                    + slot_position[1] * elapsed_time / duration_time;
+                output_channels[channel_index][2] = gModel_aPoseSnapshot[channel_index].vz * remaining_time / duration_time
+                    + slot_position[2] * elapsed_time / duration_time;
+                break;
+            }
+            case 1: {
+                s32 axis_index;
+                Model_EvaluateKeyframeSpline(KEY_VIEW(channel_key_bytes), channel_index,
+                    KEY_VIEW(channel_key_bytes)->progress, 0, spline_result);
+                for (axis_index = 0; axis_index < 3; axis_index++) {
+                    output_channels[channel_index][axis_index] = spline_result[axis_index];
+                }
+                break;
+            }
+            case 2:
+            case 3: {
+                s32 slot_index;
+                s32 follow_amount;
+                persistent_channel_count++;
+                slot_index = channel_halfwords[0];
+                follow_amount = channel_halfwords[1];
+                if (Model_GetSlotReadiness(slot_index) != 1) {
+                    break;
+                }
+                Model_CopySlotPosition(slot_index, (u16 *)follow_target_position);
+                {
+                    s16 *follow_reference_halfwords = ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                    follow_delta[0] = follow_target_position[0] - (u16)follow_reference_halfwords[8];
+                    follow_delta[1] = follow_target_position[1] - (u16)follow_reference_halfwords[9];
+                    follow_delta[2] = follow_target_position[2] - (u16)follow_reference_halfwords[10];
+                    if (follow_reference_halfwords[3] == 2) {
+                        if (follow_amount == 0) {
+                            follow_amount = 10;
+                        }
+                        {
+                            s32 adjusted_delta = follow_delta[0];
+                            if (adjusted_delta > 0) {
+                                adjusted_delta -= follow_amount;
+                                if (adjusted_delta < 0) {
+                                    adjusted_delta = 0;
+                                }
+                            } else {
+                                adjusted_delta += follow_amount;
+                                if (adjusted_delta > 0) {
+                                    adjusted_delta = 0;
+                                }
+                            }
+                            follow_delta[0] = adjusted_delta;
+                        }
+                        {
+
+                            follow_delta[1] = Keyframe_ApplyDeadzone(&follow_delta[1], follow_amount);
+                        }
+                        {
+                            s32 adjusted_delta = follow_delta[2];
+                            if (adjusted_delta > 0) {
+                                adjusted_delta -= follow_amount;
+                                if (adjusted_delta < 0) {
+                                    adjusted_delta = 0;
+                                }
+                            } else {
+                                adjusted_delta += follow_amount;
+                                if (adjusted_delta > 0) {
+                                    adjusted_delta = 0;
+                                }
+                            }
+                            follow_delta[2] = adjusted_delta;
+                        }
+                        follow_delta[0] = LIMIT(follow_delta[0], 60);
+                        follow_delta[1] = LIMIT(follow_delta[1], 60);
+                        follow_delta[2] = LIMIT(follow_delta[2], 60);
+                        output_channels[channel_index][0] += follow_delta[0];
+                        output_channels[channel_index][1] += follow_delta[1];
+                        output_channels[channel_index][2] += follow_delta[2];
+                        {
+                            s16 *committed_reference_halfwords =
+                                ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                            committed_reference_halfwords[8] += (u16)follow_delta[0];
+                            committed_reference_halfwords[9] += (u16)follow_delta[1];
+                            committed_reference_halfwords[10] += (u16)follow_delta[2];
+                        }
+                    } else {
+                        if (follow_amount == 0) {
+                            follow_amount = 2000;
+                        }
+                        follow_delta[0] = LIMIT(follow_delta[0], follow_amount);
+                        follow_delta[1] = LIMIT(follow_delta[1], follow_amount);
+                        follow_delta[2] = LIMIT(follow_delta[2], follow_amount);
+                        output_channels[channel_index][0] = gModel_aPoseSnapshot[channel_index].vx + follow_delta[0];
+                        output_channels[channel_index][1] = gModel_aPoseSnapshot[channel_index].vy + follow_delta[1];
+                        output_channels[channel_index][2] = gModel_aPoseSnapshot[channel_index].vz + follow_delta[2];
+                    }
+                }
+                break;
+            }
+            case 5: {
+                s32 noise_amplitude = channel_halfwords[0];
+                s32 noise_sample_a;
+                s32 noise_sample_b;
+                persistent_channel_count++;
+                if (KEY_VIEW(channel_key_bytes)->progress >= KEY_VIEW(channel_key_bytes)->duration) {
+                    output_channels[channel_index][0] = gModel_aPoseSnapshot[channel_index].vx;
+                    output_channels[channel_index][2] = gModel_aPoseSnapshot[channel_index].vz;
+                    break;
+                }
+                noise_sample_a = rand();
+                noise_sample_b = rand();
+                noise_sample_a >>= 8;
+                output_channels[channel_index][0] = gModel_aPoseSnapshot[channel_index].vx + noise_sample_a % noise_amplitude
+                    - ((noise_sample_b >> 8) % noise_amplitude) / 2;
+                noise_sample_a = rand();
+                noise_sample_b = rand();
+                noise_sample_a >>= 8;
+                output_channels[channel_index][2] = gModel_aPoseSnapshot[channel_index].vz + noise_sample_a % noise_amplitude
+                    - ((noise_sample_b >> 8) % noise_amplitude) / 2;
+                break;
+            }
+            }
+            active_channel_count++;
+        }
+    }
+    for (channel_index = 0; channel_index < 2; channel_index++) {
+        s32 elapsed_time;
+        u8 *channel_key_bytes = (u8 *)gModel_pCurrentEffectKey;
+        s16 *channel_halfwords = ((s16 (*)[4])channel_key_bytes)[channel_index];
+        if (channel_halfwords[3] == 4) {
+            s32 duration_time = (elapsed_time = KEY_VIEW(channel_key_bytes)->progress,
+                KEY_VIEW(channel_key_bytes)->duration);
+            s32 yaw_step = channel_halfwords[1] * elapsed_time / duration_time;
+            s32 pitch_step = channel_halfwords[2] * elapsed_time / duration_time;
+            s32 radius = gModel_aPoseSnapshot[2].vx;
+            s32 remaining_time = duration_time - elapsed_time;
+            s32 yaw = yaw_step + gModel_aPoseSnapshot[2].vy;
+            s32 pitch = pitch_step + gModel_aPoseSnapshot[2].vz;
+            s32 cosine;
+            s32 sine;
+            s32 depth;
+            s32 horizontal;
+            s32 vertical;
+            if (channel_halfwords[0] != 0) {
+                radius = (radius * remaining_time + channel_halfwords[0] * elapsed_time) / duration_time;
+            }
+            cosine = rcos(pitch);
+            sine = rsin(pitch);
+            horizontal = radius * cosine / 0x1000;
+            vertical = radius * sine / 0x1000;
+            cosine = rcos(yaw);
+            sine = rsin(yaw);
+            depth = horizontal * sine / 0x1000;
+            horizontal = horizontal * cosine / 0x1000;
+            output_channels[channel_index][0] = output_channels[channel_index ^ 1][0] + horizontal;
+            output_channels[channel_index][1] = output_channels[channel_index ^ 1][1] + vertical;
+            output_channels[channel_index][2] = output_channels[channel_index ^ 1][2] + depth;
+        }
+    }
+    if (!active_channel_count && gModel_pCurrentEffectKey->duration == 0x4000) {
+        gModel_pCurrentEffectKey = 0;
+        gModel_bEffectKeyCount = 0;
+        return;
+    }
+    if (gModel_pCurrentEffectKey->progress >=
+        gModel_pCurrentEffectKey->duration) {
+        Model_CaptureKeyframePose(0);
+        gModel_pCurrentEffectKey++;
+        if (gModel_pCurrentEffectKey - gModel_aEffectKeys >= gModel_bEffectKeyCount) {
+            if (gModel_bEffectKeyCount >= 2) {
+                gModel_pCurrentEffectKey = gModel_aEffectKeys;
+                gModel_pCurrentEffectKey->ready = 0;
+            } else {
+                gModel_pCurrentEffectKey = 0;
+                gModel_bEffectKeyCount = 0;
+            }
+        }
+        if (gModel_pCurrentEffectKey) {
+            Model_PrepareEffectKey(gModel_pCurrentEffectKey);
+            if (gModel_pCurrentEffectKey->magnitude == 0) {
+                Model_UpdateEffectKeyframes();
+            }
+        }
+    }
+    if (persistent_channel_count == 2) {
+        Model_StepViewOrbit(1, 0x1000, 0, 0, 0);
+    } else {
+        Model_UpdateViewMetrics(0);
+    }
+}
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
 #define KEY_BYTES(key) ((u8 *)(key))
