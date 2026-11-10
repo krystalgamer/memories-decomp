@@ -4,7 +4,7 @@
 #include "display_object_depth_bases.h"
 #include "mem_card_work.h"
 #include "mem_card_diagnostic_strings.h"
-#include "mem_card_directory.h"
+#include "mem_card_driver.h"
 #include "mem_card_directory_patterns.h"
 
 /* The .sdata window at 0x8009AF6C, carved as one unit because its objects

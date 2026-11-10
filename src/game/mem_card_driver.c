@@ -4,11 +4,9 @@
 #include "../psyq/stdio.h"
 #include "../psyq/strings.h"
 
-#include "mem_card_begin_request.h"
-#include "mem_card_directory.h"
+#include "mem_card_driver.h"
 #include "mem_card_directory_patterns.h"
 #include "mem_card_io_result_callbacks.h"
-#include "io_event_helpers.h"
 #include "mem_card.h"
 #include "../unmatched.h"
 #include "mem_card_request_inputs.h"
