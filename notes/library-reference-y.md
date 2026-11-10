@@ -8,14 +8,14 @@
 | `D_80181012` | `gLibrary_sSampledReferenceY` | Sampled reference-point Y used while following model animation |
 
 Every image labels both names directly at these addresses. The former
-`D_` externs in `library_runtime.h` and the link aliases are gone.
+`D_` externs in `library.h` (formerly `library_runtime.h`) and the link aliases are gone.
 
 Both declarations remain signed `s16` scalars with the existing `.data`
 attribute. They name independent labels in the Library's fixed reused work
 window, not new resident allocations or a permanent ownership/type claim
 about other SU images that reuse those addresses.
 
-The narrow header follows the unchanged `library_runtime.h` owner in the
+The narrow header follows the unchanged `library.h` (formerly `library_runtime.h`) owner in the
 existing runtime root. No literal address is replaced by a named object,
 member expression or address macro. That distinction preserves the retail
 literal materialization and the independent symbol relocations.

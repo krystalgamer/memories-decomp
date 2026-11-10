@@ -16,7 +16,7 @@
 #include "../game/sound.h"
 #include "../game/sound_pending_entries.h"
 #include "../game/sound_voice_selection.h"
-#include "../game/library_runtime.h"
+#include "../game/library.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
 #include "duel_session_controls.h"

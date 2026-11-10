@@ -3,7 +3,7 @@
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
-#include "library_card_grid.h"
+#include "library.h"
 
 /* Zero-initialized storage this unit owns at 0x800EA1E8-0x800EAD88, defined in
  * address order ahead of the headers that declare it (#2602). */
