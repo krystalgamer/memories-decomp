@@ -180,7 +180,7 @@ it simply “end” is accurate only for the outermost stream.
 
 The Japanese inventory's old `func_800382A8` label at `0x800382A8`
 (`0x124` bytes) identifies the already-canonical `Text_HandleChoiceCommand`
-definition in the actual Japanese `text_commands.c` wrapper. It is
+definition in the actual Japanese `duel_effect_text.c` wrapper. It is
 not a new function, ABI or native alias. The North American definition is at
 `0x80038BF0`; the European definition is at `0x800389F0` (`0x80038BF0`
 in the other PAL images). Source ownership, grouped order and named

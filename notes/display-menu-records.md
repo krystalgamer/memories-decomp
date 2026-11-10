@@ -68,7 +68,7 @@ change the existing record layout or member representations.
 | Other PAL | `800EC2A8` | `8009C634` |
 
 The record table is defined once, as `gDisplayEffect_aMenuRecords[3]` in
-`text_commands.c`, and every region binds that name directly; the
+`duel_effect_text.c`, and every region binds that name directly; the
 former `D_800EB010` link alias is gone. The Japanese pointer binds
 `D_8009B274` at its own address. French literal aliases remain distinct
 from the logical PAL addresses. No storage, initialization, section or

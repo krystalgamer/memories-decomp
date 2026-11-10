@@ -41,7 +41,7 @@ Verified channel fields used by matching C include:
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`text_commands.c`](../src/game/text_commands.c), and [`text_commands.c`](../src/game/text_commands.c) |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep` and [`duel_effect_text.c`](../src/game/duel_effect_text.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x60` | `output_count` | NA byte count; PAL halfword pixel view includes +0x61 |
 | `0x61` | `output_limit` | NA byte threshold cleared in `DuelEffect_InitEntry`; PAL high counter byte |
