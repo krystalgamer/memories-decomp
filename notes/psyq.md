@@ -1980,7 +1980,7 @@ For one continuously held button starting from a zero counter and a unit
 increment on every update, the per-button generator emits on updates
 `1, 24, 28, 32, 36, ...`. The subsequent spacing is four updates, not twenty.
 This calculation precedes the saved-event merge and does not establish a
-frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
+frame or millisecond interval: `gGraphics_nBaseFrameStep` supplies the increment, and byte
 truncation occurs before the threshold comparison.
 
 The game-side consumers `Duel_UpdateCardUseConfirmation` and `DebugMenu_Update` use the named

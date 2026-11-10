@@ -177,7 +177,7 @@ extern u8 *gDuel_pActiveFieldGrid;
  * below; Duel_InitSideStates, when both gDuel_bSide0ControllerSelector[0] and
  * gDuel_bOpponentID are negative, copies it into card_view_mode of both
  * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is
- * a byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39,
+ * a byte or an address (lbu Duel_InitSideStates.s:65, sb Main_Init.s:39,
  * the lui/addiu pair at 0x8002DC60), and the PAL images place it at an odd
  * address (0x8009C0F1 in SLES-03947), so it is a u8. The following halfword is
  * separate storage. Initial value not read. */

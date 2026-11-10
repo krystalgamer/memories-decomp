@@ -53,12 +53,12 @@ band `29 - i`:
 
 | Condition | Pair traversal | Value before clamping | Stored head after all 15 pairs |
 |---|---|---|---|
-| `L < T` | `i = 14..0`, middle pair to outer pair | `H - (15 - i) * step` | old halfword plus `step * D_8009B0D8` |
-| `L >= T` | `i = 0..14`, outer pair to middle pair | `H + (i + 1) * step` | old halfword minus `step * D_8009B0D8` |
+| `L < T` | `i = 14..0`, middle pair to outer pair | `H - (15 - i) * step` | old halfword plus `step * gGraphics_nBaseFrameStep` |
+| `L >= T` | `i = 0..14`, outer pair to middle pair | `H + (i + 1) * step` | old halfword minus `step * gGraphics_nBaseFrameStep` |
 
 Both paths clamp to the interval between `L` and `T`. The unscaled `step`
 sets the spacing between unclamped pair values; only the head advance is
-multiplied by `D_8009B0D8`. The head update therefore uses the opposite sign
+multiplied by `gGraphics_nBaseFrameStep`. The head update therefore uses the opposite sign
 to the within-pass accumulator. A post-call sample of `field_08` already
 contains the next head, whereas the band array was generated from the old
 one.
@@ -80,7 +80,7 @@ as filling from the edges toward the middle is incomplete.
 ### Frame-advance factor
 
 The matching [`Graphics_SyncFrame`](../src/game/main.c) now establishes
-the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
+the producer of `gGraphics_nBaseFrameStep`. The frame-sync helper optionally waits for the
 GPU with `DrawSync(0)` (unless `gGraphics_wFlags & 0x8000` is set), then spins
 while the volatile counter `gGraphics_dwSyncVBlankCounter` (originally
 `D_8009B0C8`, `0x8009B0C8`) is below the byte threshold
@@ -90,11 +90,11 @@ counter on each callback.
 After the wait, the helper assigns the counter to the **byte**
 `gGraphics_bExtraFrameStep` (originally `D_8009B0C1`, `0x8009B0C1`),
 changes any nonzero byte to `1`, and publishes that byte plus
-one as the word `D_8009B0D8`. For the sampled counter value `n`, the
+one as the word `gGraphics_nBaseFrameStep`. For the sampled counter value `n`, the
 publication is exactly:
 
 ```text
-D_8009B0D8 = 1 + ((u8)n != 0)
+gGraphics_nBaseFrameStep = 1 + ((u8)n != 0)
 ```
 
 Thus this writer produces only `1` or `2`: samples `0`, `1`, and `2`
@@ -103,7 +103,7 @@ has low byte zero and produces `1`, so this is not an unbounded elapsed
 VBlank count or a saturating conversion of the full counter. The helper
 then resets `gGraphics_dwSyncVBlankCounter` to `-1`, calls `VSync(0)`, and increments
 `gGraphics_dwSyncedFrameCount`. Its separate `gGraphics_FrameStepControl` override affects `gGraphics_bFrameStep`, not
-`D_8009B0D8`.
+`gGraphics_nBaseFrameStep`.
 
 The signed word is a synchronization-window counter, not a monotonic
 elapsed total: initialization writes zero and the sync helper resets it
@@ -262,7 +262,7 @@ These are code-derived conclusions, not a new emulator result. The older
 [screen-fade observations, F87-F92](research/Unchiga_Symbols/findings.md#screen-fade-to-black-circle-out-of-free-duel-x-back-in----session-2026-09-02)
 describe particular menu runs; their eight-unit step and approximate
 48-frame duration are not universal API guarantees. The frame-sync producer
-now bounds its published `D_8009B0D8` values to `1` or `2` as described
+now bounds its published `gGraphics_nBaseFrameStep` values to `1` or `2` as described
 above. Which screens select each setup path, and the sequence of factors
 during those transitions, still need caller-specific evidence and human
 context before assigning fixed timings or screen-specific meanings.

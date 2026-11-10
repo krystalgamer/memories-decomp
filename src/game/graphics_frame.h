@@ -16,7 +16,7 @@
  * It is one four-byte value, and the three widths seen in the listings come
  * from the use sites rather than the declaration. The resident listings carry
  * eighteen accesses across twelve functions, every one of them at offset
- * zero: thirteen word, three halfword, two byte, with func_80012DB4 in two of
+ * zero: thirteen word, three halfword, two byte, with Graphics_SyncFrame in two of
  * those groups. That census is the resident one; the main_menu overlay adds a
  * nineteenth access, a halfword read at offset zero --
  * `lhu $a0, %lo(gGraphics_nBaseFrameStep)($v0)` at
@@ -88,8 +88,8 @@ extern u8 gGraphics_bExtraFrameStep;
  * of the two resident listings that name it loads it. Initial value not
  * read.
  *
- * Both units reach it gp-relative (sb, func_80012CD4.s:16/29 and
- * func_80012B50.s:33), so this is the plain byte for both. main_init.c used
+ * Both units reach it gp-relative (sb, Main_VBlankCB.s:16/29 and
+ * Main_Init.s:33), so this is the plain byte for both. main_init.c used
  * to declare it volatile with the rest of its init block; on this symbol
  * the plain form builds byte-identical (measured by the PR that added
  * this line). */
@@ -101,7 +101,7 @@ extern u8 gMain_bVBlankSoundPending;
  * then resets it to -1, and Main_Init zeroes it. It is not a monotonic
  * elapsed-frame total. Input_UpdatePads accumulates deferred masks for a
  * nonzero value and merges/clears them for zero. The compare in
- * Graphics_SyncFrame is `slt` (func_80012DB4.s:15), so it is signed. */
+ * Graphics_SyncFrame is `slt` (Graphics_SyncFrame.s:15), so it is signed. */
 extern volatile s32 gGraphics_dwSyncVBlankCounter;
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
@@ -185,7 +185,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  *
  * [2] is the extent that is WRITTEN, not the object's size: the next symbol,
  * gGraphics_apOrderingTables, sits at +0x20, and nothing in either tree touches the sixteen
- * bytes between. Four units used to declare this `u8 [100]` -- func_8001944C.c
+ * bytes between. Four units used to declare this `u8 [100]` -- DuelCard_CaptureRoundedTexture.c
  * said why: "Spelt as an oversized array so -G8 keeps the eight-byte
  * rectangle out of small data; the retail code addresses it with a %hi/%lo
  * pair". Sixteen bytes clear -G8 on their own, so the real shape does the

@@ -165,8 +165,8 @@ step `8` and roughly 48-frame duration are not universal: the final color
 helpers can override a banded request with non-band flags and step `12`.
 
 There is also a bounded frame-advance factor. Matching `Graphics_SyncFrame`
-[`0x80012DB4`] samples the VBlank counter `D_8009B0C8`, takes its low byte,
-and publishes `D_8009B0D8 = 1` when that byte is zero or `2` otherwise.
+[`0x80012DB4`] samples the VBlank counter `gGraphics_dwSyncVBlankCounter`, takes its low byte,
+and publishes `gGraphics_nBaseFrameStep = 1` when that byte is zero or `2` otherwise.
 The band walker multiplies the head advance by this factor, not the unclamped
 level spacing between band pairs: with step `8`, the factor gives an advance of
 `8` or `16` per update. It is not an exact elapsed-time or unlimited
