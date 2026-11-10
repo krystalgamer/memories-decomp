@@ -3,10 +3,9 @@
 #include "display_object.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
-#include "card_list_render_deck_box_stats.h"
+#include "card_list_deck_box.h"
 #include "card_list_rows.h"
 #include "card_list_create_deck_box_stat_rows.h"
-#include "card_list_row_text.h"
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen.
    A regional build supplies its own addresses and row bias. */
