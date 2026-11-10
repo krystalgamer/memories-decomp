@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant439_entry.h"
 
 /* Draws three curtains of sixteen POLY_GT4 strips between their two rows of
  * points, turned to face the variant's direction and faded once their scale
@@ -15,7 +16,7 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant439EntryState *work;
     GsOT *ot;
     s32 i;
     s32 yaw;
@@ -34,12 +35,12 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = ctx;
+    work = (Variant439EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    curtain = (ModelVariantCurtain *)(work + 0x1300);
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1914), MODEL_VARIANT_WORD(work, 0x190C)) + 0x800;
-    poly = (POLY_GT4 *)(work + 0x183C);
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1910), MODEL_VARIANT_WORD(work, 0x1914)) + 0x800;
+    curtain = work->curtains;
+    yaw = ratan2(work->direction.vz, work->direction.vx) + 0x800;
+    poly = &work->curtain_poly;
+    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
@@ -52,9 +53,9 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
             rot.vx = -pitch;
             rot.vy = yaw;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1904);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1906);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1908);
+            m.t[0] = work->target.vx;
+            m.t[1] = work->target.vy;
+            m.t[2] = work->target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -66,20 +67,20 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (curtain->scale < 0x800) {
-                r0 = work[0x1970];
-                g0 = work[0x1971];
-                b0 = work[0x1972];
-                r1 = work[0x1974];
-                g1 = work[0x1975];
-                b1 = work[0x1976];
+                r0 = ((u8 *)work)[0x1970];
+                g0 = ((u8 *)work)[0x1971];
+                b0 = ((u8 *)work)[0x1972];
+                r1 = ((u8 *)work)[0x1974];
+                g1 = ((u8 *)work)[0x1975];
+                b1 = ((u8 *)work)[0x1976];
             } else {
                 fade = 0x1000 - curtain->scale;
-                r0 = work[0x1970] * fade / 2048;
-                g0 = work[0x1971] * fade / 2048;
-                b0 = work[0x1972] * fade / 2048;
-                r1 = work[0x1974] * fade / 2048;
-                g1 = work[0x1975] * fade / 2048;
-                b1 = work[0x1976] * fade / 2048;
+                r0 = ((u8 *)work)[0x1970] * fade / 2048;
+                g0 = ((u8 *)work)[0x1971] * fade / 2048;
+                b0 = ((u8 *)work)[0x1972] * fade / 2048;
+                r1 = ((u8 *)work)[0x1974] * fade / 2048;
+                g1 = ((u8 *)work)[0x1975] * fade / 2048;
+                b1 = ((u8 *)work)[0x1976] * fade / 2048;
             }
             poly->r0 = r0;
             poly->g0 = g0;
@@ -103,19 +104,19 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
             }
         }
         if (curtain->scale < 0x1000) {
-            curtain->scale += MODEL_VARIANT_WORD(work, 0x1944) << 7;
+            curtain->scale += work->clock.step << 7;
             if (curtain->scale >= 0x1000) {
-                if (MODEL_VARIANT_WORD(work, 0x197C) >= 4) {
+                if (work->tail.phase >= 4) {
                     curtain->scale = 0x1000;
                 } else {
                     curtain->scale -= 0x1000;
                     curtain->count++;
                 }
-                if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x197C) == 4) {
-                    MODEL_VARIANT_WORD(work, 0x197C) = 5;
+                if (i + 1 == 3 && done == 1 && work->tail.phase == 4) {
+                    work->tail.phase = 5;
                 }
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x1978) += MODEL_VARIANT_WORD(work, 0x1944) * 80;
+    work->field_1978 += work->clock.step * 80;
 }

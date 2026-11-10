@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant404_entry.h"
 
 /* Header 404's copy of the header-397 phased webs, at its own work-area
  * offsets. */
@@ -17,7 +18,7 @@ void ModelVariant404_DrawWebs(u8 *ctx)
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
-    u8 *work;
+    Variant404EntryState *work;
     s16 i;
     s16 j;
     s16 k;
@@ -30,19 +31,19 @@ void ModelVariant404_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
-    timing = work + 0xFD8;
+    work = (Variant404EntryState *)ctx;
+    timing = (u8 *)work + 0xFD8;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1874);
-    ratan2(MODEL_VARIANT_WORD(work, 0x190C), MODEL_VARIANT_WORD(work, 0x1904));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1908), MODEL_VARIANT_WORD(work, 0x1904));
-    ratan2(MODEL_VARIANT_WORD(work, 0x18F8), MODEL_VARIANT_WORD(work, 0x18F4));
-    ratan2(MODEL_VARIANT_HALF(work, 0x1902), MODEL_VARIANT_HALF(work, 0x1900));
+    line = (GsGLINE *)((u8 *)work + 0x1874);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ratan2(work->direction.vz, work->direction.vy);
+    ratan2(work->screen_delta.vy, work->screen_delta.vx);
     do {
-        if (MODEL_VARIANT_WORD(work, 0x1960) == 0) {
+        if (work->phase == 0) {
             if (web->scale < 0x1000) {
                 level = web->scale;
                 size = level;
@@ -60,7 +61,7 @@ void ModelVariant404_DrawWebs(u8 *ctx)
                 g = web->color.g;
                 b = web->color.b;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1960) == 1) {
+        } else if (work->phase == 1) {
             level = 0x1000;
             b = g = r = 0;
         } else {
@@ -85,14 +86,14 @@ void ModelVariant404_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1960) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x189C);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x18A0);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x18A4);
+        if (work->phase < 2) {
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x18E8);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x18EA);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x18EC);
+            m.t[0] = work->target.vx;
+            m.t[1] = work->target.vy;
+            m.t[2] = work->target.vz;
         }
         scale.vx = level;
         scale.vy = level;
@@ -110,7 +111,7 @@ void ModelVariant404_DrawWebs(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
                                     (long *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x1960) < 2) {
+                if (work->phase < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -130,9 +131,9 @@ void ModelVariant404_DrawWebs(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x1960) == 0) {
+        if (work->phase == 0) {
             if (web->scale > 0) {
-                web->scale -= MODEL_VARIANT_WORD(work, 0x1928) * 0xC0;
+                web->scale -= work->clock.step * 0xC0;
                 if (web->scale <= 0) {
                     if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800) {
                         web->scale = 0;
@@ -144,15 +145,15 @@ void ModelVariant404_DrawWebs(u8 *ctx)
             if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800 && web->scale > 0x1000) {
                 web->scale = 0;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1960) == 1) {
+        } else if (work->phase == 1) {
             web->scale = -((i << 13) / 3);
         } else if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x1928) << 8;
+            web->scale += work->clock.step << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x1960) >= 4) {
+                if (work->phase >= 4) {
                     web->scale = 0x2000;
-                    if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x1960) == 4) {
-                        MODEL_VARIANT_WORD(work, 0x1960) = 5;
+                    if (i + 1 == 3 && done == 1 && work->phase == 4) {
+                        work->phase = 5;
                     }
                 } else {
                     web->scale -= 0x2000;

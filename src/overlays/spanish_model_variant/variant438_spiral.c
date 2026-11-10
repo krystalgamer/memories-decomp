@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant425_spiral.h"
+#include "variant438_entry.h"
 
 /* Phase-guarded twelve-arm spiral with an eight-entry palette: while the phase
  * is not negative, the arms are built on a spiral of half the size, moved along
@@ -17,7 +18,7 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
     long status[12][2];
     long p;
     long flag;
-    u8 *work;
+    Variant438EntryState *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -35,29 +36,29 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant438EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x20D8);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2288), MODEL_VARIANT_WORD(work, 0x2280)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x22E8) >= 0) {
-    r = MODEL_VARIANT_HALF(work, 0x22B0) / 2;
-    eighth = MODEL_VARIANT_HALF(work, 0x22B0) / 8;
-    if (r * MODEL_VARIANT_HALF(work, 0x22AE) < 0) {
+    poly = work->textured;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    if (work->phase >= 0) {
+    r = work->spiral.size / 2;
+    eighth = work->spiral.size / 8;
+    if (r * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0x22AE) < 0) {
+    if (eighth * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (MODEL_VARIANT_WORD(work, 0x22E8) >= 3) {
-        timing = work + 0x19D0;
+    if (work->phase >= 3) {
+        timing = (u8 *)work + 0x19D0;
         spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
     } else {
-        spread = 0x400 - MODEL_VARIANT_HALF(work, 0x22B2);
+        spread = 0x400 - work->spiral.shrink;
     }
-    arm = (Variant425SpiralArm *)(work + 0xE40);
+    arm = (Variant425SpiralArm *)work->glows;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x22AC) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x22AC);
+        phi = (i << 12) / 12 + work->spiral.angle * 2;
+        theta = (i << 13) / 12 + work->spiral.angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = spread / 128;
@@ -75,18 +76,18 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x2298) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
     }
-    arm = (Variant425SpiralArm *)(work + 0xE40);
+    arm = (Variant425SpiralArm *)work->glows;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x2264);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x2266);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x2268);
+    m.t[0] = work->target.vx;
+    m.t[1] = work->target.vy;
+    m.t[2] = work->target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -124,7 +125,7 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant425SpiralArm *)(work + 0xE40);
+    arm = (Variant425SpiralArm *)work->glows;
     for (i = 0; i < 12; i++, arm++) {
         u8 r0;
         u8 g0;
@@ -133,56 +134,56 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
         u8 g2;
         u8 b2;
 
-        if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 0) {
+        if (((work->clock.frame_count + i) & 7) == 0) {
             r0 = 128;
             g0 = 0;
             b0 = 0;
             r2 = 192;
             g2 = 128;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 1) {
+        } else if (((work->clock.frame_count + i) & 7) == 1) {
             r0 = 128;
             g0 = 64;
             b0 = 0;
             r2 = 192;
             g2 = 160;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 2) {
+        } else if (((work->clock.frame_count + i) & 7) == 2) {
             r0 = 128;
             g0 = 128;
             b0 = 0;
             r2 = 192;
             g2 = 192;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 3) {
+        } else if (((work->clock.frame_count + i) & 7) == 3) {
             r0 = 0;
             g0 = 128;
             b0 = 0;
             r2 = 128;
             g2 = 192;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 4) {
+        } else if (((work->clock.frame_count + i) & 7) == 4) {
             r0 = 0;
             g0 = 128;
             b0 = 128;
             r2 = 128;
             g2 = 192;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 5) {
+        } else if (((work->clock.frame_count + i) & 7) == 5) {
             r0 = 0;
             g0 = 0;
             b0 = 128;
             r2 = 128;
             g2 = 128;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 6) {
+        } else if (((work->clock.frame_count + i) & 7) == 6) {
             r0 = 128;
             g0 = 0;
             b0 = 128;
             r2 = 192;
             g2 = 128;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x2298) + i) & 7) == 7) {
+        } else if (((work->clock.frame_count + i) & 7) == 7) {
             r0 = 128;
             g0 = 0;
             b0 = 64;
@@ -270,13 +271,13 @@ void SpanishModelVariant438_DrawSpiral(u8 *ctx)
         }
     }
     }
-    MODEL_VARIANT_HALF(work, 0x22AC) += 16;
-    if ((u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x22B4), 0x20) <= (u32)MODEL_VARIANT_WORD(work, 0x229C) &&
-        MODEL_VARIANT_WORD(work, 0x22EC) == 0 && MODEL_VARIANT_HALF(work, 0x22B0) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x22B0) += MODEL_VARIANT_WORD(work, 0x22A4) * 64;
-        if (MODEL_VARIANT_HALF(work, 0x22B0) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x22B0) = 0x400;
-            MODEL_VARIANT_WORD(work, 0x22EC) = 2;
+    work->spiral.angle += 16;
+    if ((u32)MODEL_VARIANT_WORD(work->config, 0x20) <= (u32)work->clock.frame &&
+        work->field_22EC == 0 && work->spiral.size < 0x400) {
+        work->spiral.size += work->clock.step * 64;
+        if (work->spiral.size >= 0x400) {
+            work->spiral.size = 0x400;
+            work->field_22EC = 2;
         }
     }
 }

@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant437_streamers.h"
+#include "../french_model_variant/variant437_entry.h"
 
 /* The North American header-420 streamers index the closing segment directly
  * and reload the work word after the spin angle; the default spelling matches
@@ -29,7 +30,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
 #ifndef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
     long *previous;
 #endif
-    u8 *work;
+    Variant437EntryState *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -53,27 +54,27 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant437EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x14A8);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x15CC), MODEL_VARIANT_WORD(work, 0x15C4)) + 0xC00;
+    poly = (POLY_G4 *)work->extra;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     reach = 0x60;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x15DC) & 1)) {
+    if (!(work->frame_count & 1)) {
         rx = 0x200;
         ry = 0;
     } else {
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x15DC) & 3) < 2) {
+    if ((u32)(work->frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant437Streamer *)(work + 0x93C);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x162C);
+    base = work->rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 3; i++, streamer++, base += step) {
@@ -82,7 +83,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 12, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x1624) / 64;
+            length = work->length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -93,25 +94,25 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x1628) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x162C) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x1630);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x15DC) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x162C) += 0x514;
+    if ((u32)work->frame_count % 10 == 0) {
+        work->rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x162C) += 0x20;
+    work->rotation_y += 0x20;
 #ifdef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
-    MODEL_VARIANT_WORD(work, 0x1630) = MODEL_VARIANT_WORD(work, 0x1630);
+    work->rotation_z = work->rotation_z;
 #endif
     for (n = 0; n < 1; n++) {
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1528) + MODEL_VARIANT_WORD(work, 0x15A0) * MODEL_VARIANT_WORD(work, 0x1590) / 1024;
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x152C) + MODEL_VARIANT_WORD(work, 0x15A4) * MODEL_VARIANT_WORD(work, 0x1590) / 1024;
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1530) + MODEL_VARIANT_WORD(work, 0x15A8) * MODEL_VARIANT_WORD(work, 0x1590) / 1024;
-    if (MODEL_VARIANT_WORD(work, 0x163C) < 6) {
-        scale.vx = MODEL_VARIANT_WORD(work, 0x1598);
-        scale.vy = MODEL_VARIANT_WORD(work, 0x1598);
-        scale.vz = MODEL_VARIANT_WORD(work, 0x1598);
+    m.t[0] = work->origin.vx + work->delta.vx * work->factor / 1024;
+    m.t[1] = work->origin.vy + work->delta.vy * work->factor / 1024;
+    m.t[2] = work->origin.vz + work->delta.vz * work->factor / 1024;
+    if (work->tail.phase < 6) {
+        scale.vx = work->scale;
+        scale.vy = work->scale;
+        scale.vz = work->scale;
     } else {
-        scale.vx = 0x4000 - MODEL_VARIANT_WORD(work, 0x1598);
-        scale.vy = 0x4000 - MODEL_VARIANT_WORD(work, 0x1598);
-        scale.vz = 0x4000 - MODEL_VARIANT_WORD(work, 0x1598);
+        scale.vx = 0x4000 - work->scale;
+        scale.vy = 0x4000 - work->scale;
+        scale.vz = 0x4000 - work->scale;
     }
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -120,7 +121,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant437Streamer *)(work + 0x93C);
+    streamer = work->streamers;
 #ifdef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
     for (i = 0; i < 3; i++, streamer++) {
 #else
@@ -136,7 +137,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*STREAMERS437_PREVIOUS;
                 dy = (streamer->sa[k] >> 16) - (*STREAMERS437_PREVIOUS >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1624) > 0x200) {
+                if (work->length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -151,7 +152,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1624) > 0x200) {
+                if (work->length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -161,7 +162,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (Variant437Streamer *)(work + 0x93C);
+    streamer = work->streamers;
     for (i = 0; i < 3; i++, streamer++) {
         for (k = 0; k < 12; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -181,10 +182,10 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x163C) >= 6 && MODEL_VARIANT_WORD(work, 0x1624) > 0) {
-        MODEL_VARIANT_WORD(work, 0x1624) = 0x400 - (MODEL_VARIANT_WORD(work, 0x1598) - 0x4000) / 16;
-        if (MODEL_VARIANT_WORD(work, 0x1624) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x1624) = 0;
+    if (work->tail.phase >= 6 && work->length > 0) {
+        work->length = 0x400 - (work->scale - 0x4000) / 16;
+        if (work->length <= 0) {
+            work->length = 0;
         }
     }
     }
