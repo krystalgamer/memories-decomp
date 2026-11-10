@@ -5,7 +5,7 @@
    state callback that calls the builder after loading or restoring a page. */
 
 #include "../types.h"
-#include "display_effect_has_resource_entry.h"
+#include "display_effect_resource_setup.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -18,9 +18,6 @@
 #include "file_transfer.h"
 #include "util_memory.h"
 #include "display_effect_load_resource_stage.h"
-#include "display_effect_build_resource_objects.h"
-#include "display_effect_set_object_row_blend.h"
-#include "display_effect_update_resource_acquisition.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "display_asset_banks.h"
