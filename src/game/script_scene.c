@@ -1,6 +1,6 @@
 #include "../types.h"
 
-#include "script_command_busy.h"
+#include "script_scene.h"
 #include "script_state.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
@@ -40,7 +40,6 @@ void Script_OpHalt(void)
     ScriptCommand_MarkStarted();
 }
 
-#include "campaign_create_primary_display_object.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
@@ -54,15 +53,12 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
     return object;
 }
 
-#include "scene_script.h"
-#include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
-#include "script_op_load_image_scene.h"
 
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
@@ -110,13 +106,11 @@ void Script_OpLoadImageScene(void)
     }
 }
 
-#include "script_command_busy.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "duel_effect_set_entry_range_layout.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
-#include "script_op_show_dialog.h"
 #include "duel_effect_mark_object_if_active.h"
 
 /* Regional values, which the European wrapper defines for itself: the
@@ -170,8 +164,6 @@ void Script_OpShowDialog(void)
 
 #include "campaign_flags.h"
 #include "display_object_config.h"
-#include "scene_script.h"
-#include "script_command_busy.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
 #include "display_object.h"
@@ -184,8 +176,6 @@ void Script_OpShowDialog(void)
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
-#include "script_image_commands.h"
-#include "script_flag_commands.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
@@ -351,7 +341,6 @@ void Script_UpdateViewportTween(void) {
 
 #include "secondary_scene_commands.h"
 #include "script_state.h"
-#include "script_op_open_campaign_map.h"
 #include "main_mode_state.h"
 
 void Script_OpOpenCampaignMap(void)
@@ -364,12 +353,10 @@ void Script_OpOpenCampaignMap(void)
 
 #include "display_effect_lifecycle.h"
 #include "display_effect_process_menu_records.h"
-#include "script_command_busy.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
-#include "script_op_show_menu.h"
 
 void Script_OpShowMenu(void)
 {
@@ -407,11 +394,9 @@ void Script_OpShowMenu(void)
     }
 }
 
-#include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
 #include "script_state.h"
-#include "script_stream_commands.h"
 #include "sound_bgm_commands.h"
 
 void Script_OpSound(void)
@@ -497,7 +482,6 @@ void Script_OpJump(void)
 #include "duel_effect_mode_7.h"
 #include "input.h"
 #include "save_data.h"
-#include "script_command_busy.h"
 
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -512,7 +496,6 @@ void Script_OpJump(void)
 #include "main_services.h"
 #include "dialog_choice_control.h"
 #include "dialog_read_choice_input.h"
-#include "script_op_save_prompt.h"
 #include "duel_effect_mark_object_if_active.h"
 #include "duel_effect_entry_control.h"
 #include "dialog_choice.h"
@@ -798,8 +781,6 @@ void Script_OpSavePrompt(void)
     } while (0);
 }
 
-#include "script_noop_commands.h"
-
 void Script_OpUnusedHalt14(void)
 {
 }
@@ -808,10 +789,8 @@ void Script_OpUnusedHalt15(void)
 {
 }
 
-#include "script_command_busy.h"
 #include "fade.h"
 #include "script_state.h"
-#include "script_op_fade_out.h"
 
 void Script_OpFadeOut(void)
 {
@@ -840,7 +819,6 @@ end:;
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_result_load_package_stage.h"
 
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
@@ -925,7 +903,6 @@ join:
 }
 
 #include "display_object_config.h"
-#include "script_command_busy.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -939,10 +916,6 @@ join:
 #include "script_image_objects.h"
 #include "sound_output.h"
 #include "display_asset_banks.h"
-#include "scene_script.h"
-#include "script_op_duel_result.h"
-#include "duel_result_load_package_stage.h"
-#include "campaign_scene_package.h"
 
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -1069,9 +1042,7 @@ void Script_OpDuelResult(void) {
     }
 }
 
-#include "script_command_busy.h"
 #include "script_state.h"
-#include "script_control_commands.h"
 #include "main_mode_state.h"
 
 void Script_OpGameOver(void)
@@ -1102,23 +1073,9 @@ void Script_OpWait(void)
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "text_box_update_channels.h"
-#include "script_op_show_dialog.h"
 #include "script_command_table.h"
 #include "script_state.h"
-#include "script_op_load_image_scene.h"
-#include "script_op_open_campaign_map.h"
-#include "script_op_show_menu.h"
-#include "script_op_save_prompt.h"
-#include "script_op_fade_out.h"
-#include "script_op_duel_result.h"
-#include "script_command_busy.h"
-#include "script_control_commands.h"
-#include "script_flag_commands.h"
-#include "script_noop_commands.h"
-#include "script_image_commands.h"
-#include "script_stream_commands.h"
 #include "main_services.h"
-#include "script_command_runner.h"
 #include "main_mode_state.h"
 
 /* Initialized data this unit owns at 0x80090C50: the 23 scene-script command handlers.
@@ -1220,7 +1177,6 @@ void Script_RunTick(void)
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
 #include "../ygo_types.h"
-#include "campaign_scene_package.h"
 
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
@@ -1319,22 +1275,17 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
    live records through gSceneScript_RecordCallbacks, which this unit owns. */
 
 #include "display_object.h"
-#include "scene_script.h"
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
-#include "campaign_scene_package.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "campaign_create_primary_display_object.h"
 
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "trig_constants.h"
-#include "scene_script_color_pulse.h"
-#include "scene_script_noop_record_callback.h"
 #include "scene_script_record_callbacks.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */

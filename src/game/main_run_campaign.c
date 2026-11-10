@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "ai.h"
-#include "scene_script.h"
+#include "script_scene.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, in
  * address order (#2602). Each common is aligned by its size, so the slot
@@ -11,9 +11,7 @@ SceneScriptSlot gSceneScript_Slots[3];
 
 #include "duel_effect.h"
 #include "fade.h"
-#include "script_command_runner.h"
 #include "sound.h"
-#include "campaign_scene_package.h"
 #include "main_mode_state.h"
 
 /* Small globals other units own, declared here as common symbols the

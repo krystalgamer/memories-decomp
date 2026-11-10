@@ -3472,7 +3472,7 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 
 #include "menu_record.h"
 #include "display_menu_records.h"
-#include "campaign_scene_package.h"
+#include "script_scene.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

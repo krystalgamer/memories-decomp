@@ -816,7 +816,7 @@ question rather than a thirteenth member of the batch.
 
 Three multi-consumer symbols show the three outcomes of the same ownership
 test. `D_8009B2A0` is created by the scene-package initializer and toggled by
-its result-screen consumer, so it lives in `campaign_scene_package.h`.
+its result-screen consumer, so it lives in `script_scene.h` (formerly `campaign_scene_package.h`).
 `D_800EB184`, once named a four-object brightness pool, was an alias at
 `gText_aChannels + 0x8C`: the debug dim/restore helpers and the bust-up entry
 read text channel 1's `render_object`, now spelled
