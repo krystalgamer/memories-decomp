@@ -22,9 +22,269 @@
    the two pairs with equal strides included, and carries its own final
    compare; cross-jumping folds them into retail's shared tails. */
 /* Europe also supports mode 2's packed-channel conversion. Its separate
-   translation unit keeps explicit maximum and secondary cursors rather
-   than applying loop strength reduction. */
+   translation unit reads the records through typed Psy-Q HMD polygon
+   layouts selected by the kind switch. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_SLOT_DECODER)
+#ifdef VERSION_EUROPE
+s32 tent_Model_RebaseTexturedPrimitives(
+    s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *max_lit_color_index, s32 *packet_bytes
+)
+{
+    ModelPrimitiveBlockHeader *primitive_header;
+    u8 *primitive_record;
+    u8 *primitive_base;
+    s32 record_count;
+    s32 remaining_records;
+    s32 tsb_offset;
+    s32 record_stride;
+    s32 packet_size;
+    s32 page_bias;
+    u16 *tsb;
+    u32 kind;
+    s32 tpage;
+    s32 depth;
+    s32 current;
+    s32 clut;
+    s32 clut_row;
+    s32 clut_col;
+    /* The kind's CLUT field offset, then each index candidate. */
+    s32 value;
+
+    primitive_header = (ModelPrimitiveBlockHeader *)ctx->primp;
+    primitive_base = (u8 *)((GsARGUNIT_NORMAL *)ctx)->primtop;
+    record_count = primitive_header->record_count;
+    primitive_record = primitive_base + primitive_header->word_offset * 4;
+    remaining_records = record_count;
+    if ((u32)slot_index >= 3) {
+        return 0;
+    }
+    kind = (u16)unit->type;
+    switch (kind) {
+    case 9:
+        tsb_offset = PRIM_OFFSET(ModelPrimFT3, tsb);
+        value = PRIM_OFFSET(ModelPrimFT3, cba);
+        record_stride = sizeof(ModelPrimFT3);
+        packet_size = sizeof(POLY_FT3);
+        break;
+    case 0x209:
+        tsb_offset = PRIM_OFFSET(ModelPrimFT3C, prim.tsb);
+        value = PRIM_OFFSET(ModelPrimFT3C, prim.cba);
+        record_stride = sizeof(ModelPrimFT3C);
+        packet_size = sizeof(POLY_FT3);
+        break;
+    case 0xD:
+        tsb_offset = PRIM_OFFSET(ModelPrimGT3, tsb);
+        value = PRIM_OFFSET(ModelPrimGT3, cba);
+        record_stride = sizeof(ModelPrimGT3);
+        packet_size = sizeof(POLY_GT3);
+        break;
+    case 0x20D:
+        tsb_offset = PRIM_OFFSET(ModelPrimGT3C, prim.tsb);
+        value = PRIM_OFFSET(ModelPrimGT3C, prim.cba);
+        record_stride = sizeof(ModelPrimGT3C);
+        packet_size = sizeof(POLY_GT3);
+        break;
+    case 0x11:
+        tsb_offset = PRIM_OFFSET(ModelPrimFT4, tsb);
+        value = PRIM_OFFSET(ModelPrimFT4, cba);
+        record_stride = sizeof(ModelPrimFT4);
+        packet_size = sizeof(POLY_FT4);
+        break;
+    case 0x211:
+        tsb_offset = PRIM_OFFSET(ModelPrimFT4C, prim.tsb);
+        value = PRIM_OFFSET(ModelPrimFT4C, prim.cba);
+        record_stride = sizeof(ModelPrimFT4C);
+        packet_size = sizeof(POLY_FT4);
+        break;
+    case 0x15:
+        tsb_offset = PRIM_OFFSET(ModelPrimGT4, tsb);
+        value = PRIM_OFFSET(ModelPrimGT4, cba);
+        record_stride = sizeof(ModelPrimGT4);
+        packet_size = sizeof(POLY_GT4);
+        break;
+    case 0x215:
+        tsb_offset = PRIM_OFFSET(ModelPrimGT4C, prim.tsb);
+        value = PRIM_OFFSET(ModelPrimGT4C, prim.cba);
+        record_stride = sizeof(ModelPrimGT4C);
+        packet_size = sizeof(POLY_GT4);
+        break;
+    default:
+        return 0;
+    }
+
+    if (--remaining_records != -1) {
+        s32 cba_offset = value;
+
+        page_bias = (slot_index << 2) - 0xA;
+        do {
+            tsb = (u16 *)(primitive_record + tsb_offset);
+            tpage = *tsb;
+            depth = ((u32)tpage >> 7) & 3;
+            if (slot_index < 2) {
+                tpage += page_bias;
+                *tsb = tpage;
+                if (depth >= 3) {
+                    *tsb = tpage & 0xFF7F;
+                }
+                if (depth < 2) {
+                    u32 packed;
+
+                    clut = *(u16 *)(primitive_record + cba_offset);
+                    clut_row = ((u32)clut >> 6) & 0xF;
+                    clut_row += 0xD0;
+                    clut_row += slot_index << 4;
+                    packed = (u32)clut_row << 6;
+                    clut &= 0x3F;
+                    packed |= clut;
+                    *(u16 *)(primitive_record + cba_offset) = packed;
+                }
+            } else if (depth < 2) {
+                clut = *(u16 *)(primitive_record + cba_offset);
+                clut_row = (u32)clut >> 6;
+                if (clut_row < 0x100) {
+                    u32 page_row;
+
+                    clut_col = (clut & 0x3F) << 4;
+                    page_row = clut_row & 0xF;
+                    clut_row = page_row + 0xD0;
+                    if (clut_col >= 0x200) {
+                        clut_row = page_row + 0xF0;
+                    }
+                    clut_col = (clut_col & 0xFF) + 0x280;
+                    {
+                        s32 result = clut_row << 6;
+
+                        result |= (clut_col >> 4) & 0x3F;
+                        *(u16 *)(primitive_record + cba_offset) = result;
+                    }
+                }
+            }
+            if (max_lit_color_index != 0) {
+                kind = (u16)unit->type;
+                switch (kind) {
+                case 9:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimFT3 *)primitive_record)->norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x209:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimFT3C *)primitive_record)->prim.norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0xD:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimGT3 *)primitive_record)->norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT3 *)primitive_record)->norm1;
+                    if (current < value) {
+                        current = value;
+                        *max_lit_color_index = value;
+                    }
+                    value = ((ModelPrimGT3 *)primitive_record)->norm2;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x20D:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm1;
+                    if (current < value) {
+                        current = value;
+                        *max_lit_color_index = value;
+                    }
+                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm2;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x11:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimFT4 *)primitive_record)->norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x211:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimFT4C *)primitive_record)->prim.norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x15:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimGT4 *)primitive_record)->norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT4 *)primitive_record)->norm1;
+                    if (current < value) {
+                        current = value;
+                        *max_lit_color_index = value;
+                    }
+                    value = ((ModelPrimGT4 *)primitive_record)->norm2;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT4 *)primitive_record)->norm3;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                case 0x215:
+                    current = *max_lit_color_index;
+                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm0;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm1;
+                    if (current < value) {
+                        current = value;
+                        *max_lit_color_index = value;
+                    }
+                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm2;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm3;
+                    if (current < value) {
+                        current = value;
+                    }
+                    *max_lit_color_index = current;
+                    break;
+                }
+            }
+            primitive_record += record_stride;
+            *packet_bytes += packet_size;
+        } while (--remaining_records != -1);
+    }
+    return record_count;
+}
+#else
 s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *max_lit_color_index, s32 *packet_bytes
 )
@@ -43,90 +303,69 @@ s32 tent_Model_RebaseTexturedPrimitives(
     s32 page_bias;
     s32 clut_bias;
     s32 color_depth;
-#ifdef VERSION_EUROPE
-    s32 v;
-    u8 *field;
-#else
     u32 v;
-#endif
     u32 adjusted;
     /* x and y carry the second rebase's row and sum as well as the running
        maximum and its candidate; one pseudo each keeps them in $a0/$a2. */
     s32 x;
-#ifndef VERSION_EUROPE
     s32 y;
-#endif
     u32 primitive_kind;
 
-#ifdef VERSION_EUROPE
-#define MODEL_SECOND_OFFSET v
-#else
-#define MODEL_SECOND_OFFSET off2
-#endif
     primitive_header = (ModelPrimitiveBlockHeader *)ctx->primp;
     primitive_base = (u8 *)((GsARGUNIT_NORMAL *)ctx)->primtop;
     record_count = primitive_header->record_count;
     primitive_record = primitive_base + primitive_header->word_offset * 4;
     remaining_records = record_count;
-#ifdef VERSION_EUROPE
-    if ((u32)slot_index >= 3) {
-#else
     if ((u32)slot_index >= 2) {
-#endif
         return 0;
     }
-#ifdef VERSION_EUROPE
-    off2 = (u16)unit->type;
-    switch ((u32)off2) {
-#else
     primitive_kind = (u16)unit->type;
     switch (primitive_kind) {
-#endif
     case 9:
         page_word_offset = 6;
-        MODEL_SECOND_OFFSET = 2;
+        off2 = 2;
         record_stride = 0x14;
         packet_size = 0x20;
         break;
     case 0x209:
         page_word_offset = 0xA;
-        MODEL_SECOND_OFFSET = 6;
+        off2 = 6;
         record_stride = 0x18;
         packet_size = 0x20;
         break;
     case 0xD:
         page_word_offset = 6;
-        MODEL_SECOND_OFFSET = 2;
+        off2 = 2;
         record_stride = 0x18;
         packet_size = 0x28;
         break;
     case 0x20D:
         page_word_offset = 0xA;
-        MODEL_SECOND_OFFSET = 6;
+        off2 = 6;
         record_stride = 0x1C;
         packet_size = 0x28;
         break;
     case 0x11:
         page_word_offset = 6;
-        MODEL_SECOND_OFFSET = 2;
+        off2 = 2;
         record_stride = 0x18;
         packet_size = 0x28;
         break;
     case 0x211:
         page_word_offset = 0xA;
-        MODEL_SECOND_OFFSET = 6;
+        off2 = 6;
         record_stride = 0x1C;
         packet_size = 0x28;
         break;
     case 0x15:
         page_word_offset = 6;
-        MODEL_SECOND_OFFSET = 2;
+        off2 = 2;
         record_stride = 0x1C;
         packet_size = 0x34;
         break;
     case 0x215:
         page_word_offset = 0xA;
-        MODEL_SECOND_OFFSET = 6;
+        off2 = 6;
         record_stride = 0x20;
         packet_size = 0x34;
         break;
@@ -137,56 +376,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
     if (--remaining_records != -1) {
         page_bias = (slot_index << 2) - 0xA;
         clut_bias = (slot_index << 4) + 0x3BD8;
-#ifdef VERSION_EUROPE
-        p = primitive_record + 0x1C;
-        q = primitive_record + MODEL_SECOND_OFFSET;
-#endif
         do {
-#ifdef VERSION_EUROPE
-            field = primitive_record + page_word_offset;
-            off2 = MODEL_CHANNEL_HALFWORD(field);
-            v = ((u32)off2 >> 7) & 3;
-            if (slot_index < 2) {
-                off2 += page_bias;
-                MODEL_CHANNEL_HALFWORD(field) = off2;
-                if (v >= 3) {
-                    MODEL_CHANNEL_HALFWORD(field) = off2 & 0xFF7F;
-                }
-                if (v < 2) {
-                    u32 packed;
-
-                    v = MODEL_CHANNEL_HALFWORD(q);
-                    off2 = ((u32)v >> 6) & 0xF;
-                    off2 += 0xD0;
-                    off2 += slot_index << 4;
-                    adjusted = off2;
-                    packed = adjusted << 6;
-                    v &= 0x3F;
-                    packed |= v;
-                    MODEL_CHANNEL_HALFWORD(q) = packed;
-                }
-            } else if (v < 2) {
-                v = MODEL_CHANNEL_HALFWORD(q);
-                off2 = (u32)v >> 6;
-                if (off2 < 0x100) {
-                    v = (v & 0x3F) << 4;
-                    adjusted = off2 & 0xF;
-                    off2 = adjusted + 0xD0;
-                    if (v >= 0x200) {
-                        off2 = adjusted + 0xF0;
-                    }
-                    v = (v & 0xFF) + 0x280;
-                    {
-                        /* Keep the packed result distinct from the index. */
-                        s32 result = off2 << 6;
-
-                        x = v >> 4;
-                        result |= x & 0x3F;
-                        MODEL_CHANNEL_HALFWORD(q) = result;
-                    }
-                }
-            }
-#else
             if (slot_index < 2) {
                 p = primitive_record + page_word_offset;
                 v = MODEL_CHANNEL_HALFWORD(p);
@@ -210,157 +400,135 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     }
                 }
             }
-#endif
             if (max_lit_color_index != 0) {
-#ifdef VERSION_EUROPE
-#define MODEL_CURRENT_MAX off2
-#define MODEL_MAX_CANDIDATE v
-#else
-#define MODEL_CURRENT_MAX x
-#define MODEL_MAX_CANDIDATE y
-#endif
-#ifdef VERSION_EUROPE
-#define MODEL_MAX_VALUE(offset) (*(u16 *)(p + (offset) - 0x1C))
-#else
 #define MODEL_MAX_VALUE(offset) (*(u16 *)(primitive_record + (offset)))
-#endif
-#ifdef VERSION_EUROPE
-                off2 = (u16)unit->type;
-                switch ((u32)off2) {
-#else
                 primitive_kind = (u16)unit->type;
                 switch (primitive_kind) {
-#endif
                 case 9:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0xC);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x209:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0x10);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0xD:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0xC);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x10);
+                    if (x < y) {
+                        x = y;
+                        *max_lit_color_index = y;
                     }
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    y = MODEL_MAX_VALUE(0x14);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x20D:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0x10);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x14);
+                    if (x < y) {
+                        x = y;
+                        *max_lit_color_index = y;
                     }
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    y = MODEL_MAX_VALUE(0x18);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x11:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0xE);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x211:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x12);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0x12);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x15:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xA);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0xA);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x10);
+                    if (x < y) {
+                        x = y;
+                        *max_lit_color_index = y;
                     }
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    y = MODEL_MAX_VALUE(0x14);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x18);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 case 0x215:
-                    MODEL_CURRENT_MAX = *max_lit_color_index;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    x = *max_lit_color_index;
+                    y = MODEL_MAX_VALUE(0xE);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x14);
+                    if (x < y) {
+                        x = y;
+                        *max_lit_color_index = y;
                     }
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    y = MODEL_MAX_VALUE(0x18);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
-                    MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x1C);
-                    if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
-                        MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
+                    *max_lit_color_index = x;
+                    y = MODEL_MAX_VALUE(0x1C);
+                    if (x < y) {
+                        x = y;
                     }
-                    *max_lit_color_index = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = x;
                     break;
                 }
-#undef MODEL_MAX_CANDIDATE
-#undef MODEL_CURRENT_MAX
 #undef MODEL_MAX_VALUE
             }
-#ifdef VERSION_EUROPE
-            p = p + record_stride;
-            q += record_stride;
-#endif
             primitive_record = primitive_record + record_stride;
             *packet_bytes = *packet_bytes + packet_size;
         } while (--remaining_records != -1);
     }
-#undef MODEL_SECOND_OFFSET
+#undef off2
     return record_count;
 }
+#endif
 #endif
 
 #ifndef MODEL_SLOT_DECODER_ONLY
