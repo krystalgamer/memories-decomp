@@ -3130,7 +3130,7 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 #include "duel_effect.h"
 #include "text_stream_read_le.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
+#include "ai_script.h"
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 

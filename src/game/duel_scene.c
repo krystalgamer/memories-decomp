@@ -1392,7 +1392,7 @@ void Duel_InitModelScene(void)
 }
 
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
+#include "ai_script.h"
 #include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -3489,7 +3489,6 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
 
 #include "ai_opponent_data.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "campaign_flags.h"
 #include "duel_ritual_controller.h"
 
@@ -4227,7 +4226,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "duel_card_staging.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "duel_scene_callbacks.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -4699,7 +4697,6 @@ int Duel_CheckQuitInput(void)
 #include "duel_check_quit_input.h"
 #include "input.h"
 #include "ai.h"
-#include "ai_controller_handoff.h"
 #include "script_state.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
@@ -5449,7 +5446,6 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #include "duel_check_quit_input.h"
 #include "duel_side_view_angles.h"
 #include "ai.h"
-#include "ai_controller_handoff.h"
 #include "duel_load_package_stage.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -7428,7 +7424,6 @@ tail:
 #include "sound_output.h"
 #include "fade.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "duel_screen_tables.h"
@@ -10189,7 +10184,6 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 
 #include "main_start_duel.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 #include "main_mode_state.h"
@@ -10954,7 +10948,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 
 #include "ai.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "duel_grid.h"
 #include "../psyq/stdio.h"
 #include "card_constants.h"
