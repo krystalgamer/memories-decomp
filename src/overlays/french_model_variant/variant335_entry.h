@@ -44,7 +44,7 @@ typedef struct {
     Model335EntryConfig *config;
     u8 unknown_2E64[4];
     GsCOORDUNIT *part;
-    s32 field_2E6C, field_2E70, spin, field_2E78;
+    s32 travel_angle, lift, spin, orbit_diameter;
     s32 rotation[3], extent;
     s16 count, field_2E8E, field_2E90, width, field_2E94, field_2E96;
     s32 wave0, wave1, phase;
