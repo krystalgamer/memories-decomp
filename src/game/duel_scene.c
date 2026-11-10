@@ -2245,9 +2245,9 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 
     p->out_x = x;
     p->out_y = y;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-    p->field_10.callback = DisplayObject_SetResourceVariantFromSign;
+    p->back_face_handler.callback = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
-    p->field_4C = Duel_DrawCardAtOutputPosition;
+    p->draw_callback = Duel_DrawCardAtOutputPosition;
     Duel_UpdateCardDisplayState(p);
     Duel_UpdateCardDisplayMarker(p);
     return p;
@@ -10119,15 +10119,15 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
 
     obj->out_y = -0x18;
     obj->out_x = x;
-    obj->field_34 = y;
+    obj->z = y;
     obj->deck_number_marker = 0;
     obj->is_back_facing = 0;
     obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];
-    obj->field_10.callback = DisplayObject_SetResourceVariantFromSign;
+    obj->back_face_handler.callback = DisplayObject_SetResourceVariantFromSign;
     obj->icon_state = 0;
-    obj->field_5D = 0xC0;
+    obj->texture_v = 0xC0;
 
     type = (s32)desc >> CARD_STAT_TYPE_SHIFT;
     type &= CARD_STAT_TYPE_MASK;

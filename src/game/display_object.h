@@ -208,7 +208,7 @@ typedef struct DisplayObject {
 
        z: the low half is the depth coordinate that completes xy wherever a
        halfword reads it. Duel_CreateFieldCardObject stores its third
-       argument here (DuelCardDisplayObject's field_34) beside x and a fixed
+       argument here (DuelCardDisplayObject's z) beside x and a fixed
        -24 y; Duel_RenderFieldCard3D loads it as the translation's t[2] and
        Duel_DrawProjectedFieldCardFrame as the vz it hands to gte_rtps; the
        equip-bonus and trap code copy it into an effect request's field_04
@@ -409,7 +409,7 @@ typedef struct DisplayObject {
        No reading governs, so the offset is the name. s32 is the spelling
        that serves them: the callback writers in this file already cast the
        function to it, and a colour word is not a pointer. DuelCardDisplayObject
-       in duel_card_display_state.h names the same word field_4C, as a void *,
+       in duel_card_display_state.h names the same word draw_callback, as a void *,
        because on that view only the callback reading occurs. */
     s32 field_4C;                  /* 0x4C */
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C

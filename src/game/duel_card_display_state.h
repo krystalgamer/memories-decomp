@@ -23,10 +23,20 @@
    their eased result. Duel_CreateCardDisplayObject writes that pair as the object's initial
    position. The card-rendering metadata names the original-deck number
    marker at 0x67, cached card type at 0x68 and deck-entry index at 0x6B.
-   Other views of these polymorphic bytes keep their own names. Offset
-   0x4C is a second callback slot, which DisplayObject covers with pad_4C,
-   and all that is known here is that Duel_CreateCardDisplayObject stores
-   Duel_DrawCardAtOutputPosition into it. */
+   Other views of these polymorphic bytes keep their own names.
+
+   back_face_handler at 0x10 is DisplayObject's name for the same word:
+   both card constructors store DisplayObject_SetResourceVariantFromSign
+   there, which DisplayObject_ProjectRotationFacing calls when the card
+   faces away. z at 0x34 is DisplayObject's field_34.h.z: Duel_CreateFieldCardObject
+   stores its third argument there beside x and a fixed -24 y, and
+   Duel_RenderFieldCard3D loads it as the translation's t[2]. draw_callback
+   at 0x4C is the secondary callback DisplayObject_RunSecondaryCallbackList
+   calls with the object's ordering table once it is renderable;
+   Duel_CreateCardDisplayObject stores Duel_DrawCardAtOutputPosition into it.
+   texture_v at 0x5D is the high byte of DisplayObject's texture_uv:
+   Duel_CreateFieldCardObject sets it to 0xC0 and Duel_RenderFieldCard3D
+   copies it into the POLY_GT4's v0/v1. */
 /* The +0x21/+0x22 bytes are the common display rotation_y/rotation_z.
    The two card-state helpers deliberately map card flags to them differently. */
 typedef struct {
@@ -38,21 +48,21 @@ typedef struct {
     union {
         u32 word;
         void (*callback)(DisplayObjectConfig *, u32);
-    } field_10;
+    } back_face_handler;
     u8 pad_14[0x0D];
     u8 rotation_y;
     u8 rotation_z;
     u8 pad_23[0x0D];
     s16 out_x;
     s16 out_y;
-    s16 field_34;
+    s16 z;
     u8 pad_36[0x0C];
     u16 icon_variant;
     u8 pad_44[0x08];
-    void *field_4C;
+    void *draw_callback;
     u8 pad_50[0x0C];
     u8 icon_state;
-    u8 field_5D;
+    u8 texture_v;
     u8 pad_5E[0x09];
     u8 deck_number_marker;
     u8 card_type;
