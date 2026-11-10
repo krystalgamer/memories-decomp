@@ -295,8 +295,8 @@ void Ai_CompleteFusion(s32 card_id);
  * through gAiScript_szSourceLineFormat. */
 extern const char gAiScript_szCheckpoint[];
 extern const char gAiScript_szCheckpointFormat[];
-extern char gAiScript_szNestOverflowError[];
-extern char gAiScript_szSourceFile[];
-extern char gAiScript_szReturnUnderflowError[];
+extern const char gAiScript_szNestOverflowError[];
+extern const char gAiScript_szSourceFile[];
+extern const char gAiScript_szReturnUnderflowError[];
 
 #endif
