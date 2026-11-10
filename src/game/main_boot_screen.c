@@ -7,7 +7,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "main_boot_load_stages.h"
+#include "main_boot_screen.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
 #ifdef VERSION_EUROPE
@@ -21,7 +21,6 @@
 #include "input.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
-#include "display_object_transition.h"
 
 /* Main_RunBootSequence queues the boot image with Main_LoadBootImageStage
    and the boot package with Main_LoadBootPackageStage. Both declarations
