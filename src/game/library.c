@@ -55,7 +55,7 @@ static PADDING_VARIABLE(4);
 #include "display_object_helpers.h"
 #include "duel_deck_lookup.h"
 #include "library_create_grid_section_sprites.h"
-#include "text_render_state.h"
+#include "sorted_entry_render.h"
 #include "display_object_config.h"
 #include "display_object_interpolation.h"
 #include "duel_effect_resource_setup.h"

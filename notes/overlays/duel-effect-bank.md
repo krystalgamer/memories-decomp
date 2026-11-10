@@ -378,7 +378,7 @@ was not used as a substitute for the independent French build.
 
 The only new external binding is `D_8009B300 = 0x8009C688`, independently
 confirmed by the French resident linker map. The color header already reuses
-the resident declaration from `src/game/sorted_entry.h`. This word remains
+the resident declaration from `src/game/sorted_entry_render.h`. This word remains
 resident-owned; no overlay storage, guessed allocation or overriding alias
 for module data is introduced. Existing packet globals and texture-prefix
 data retain their generated storage.
