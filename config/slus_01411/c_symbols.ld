@@ -96,8 +96,8 @@ gFile_ActiveRequestSlot = 0x801D4200;
 gDuel_adwCardStats = 0x801D4244;
 gText_StagedValues = 0x801D5608;
 gText_aGlyphLookup = 0x801D9000;
-gText_aGlyphRecordKeys = 0x801D9174;
-gText_aGlyphRecordBitmaps = 0x801D9174;
+gText_aGlyphRecordKeys = gText_aGlyphLookup + 0x174;
+gText_aGlyphRecordBitmaps = gText_aGlyphLookup + 0x174;
 gSD_SmfBankVolInfoTag = 0x801E2000 + 0x7F8;
 gSD_CdBankVolInfoTag = 0x801E8800 + 0x7F8;
 

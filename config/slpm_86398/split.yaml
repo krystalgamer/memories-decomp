@@ -376,11 +376,13 @@ segments:
       - [0x170800, bin, overlays/slot_80180000]
 
   - name: tail_data
-    type: bin
+    type: code
     start: 0x1ac800
     vram: 0x801bc000
     align: 4
     subsegments:
       - [0x1ac800, bin, tail_data]
+      - [0x1ca3ac, .data, game/japanese/text_glyph_records]
+      - [0x1ca710, bin, tail_data_after_glyph_records]
 
   - [0x1d0800]
