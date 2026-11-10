@@ -83,6 +83,7 @@ RETIRED_PROFILES = frozenset(
         "gcc_2_8_1_g8_split_no_strength_reduce_no_cse_skip_blocks",
         "gcc_2_8_1_g0_split_no_cse_follow_jumps",
         "gcc_2_8_1_g8_split_no_strength_reduce",
+        "gcc_2_8_1_g8_no_sched1_comm",
     }
 )
 MAX_ATTEMPTS = 6
