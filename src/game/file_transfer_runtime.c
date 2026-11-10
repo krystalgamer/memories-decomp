@@ -28,7 +28,7 @@ u16 gFile_RangeWaitCountdown;
 void (*gFile_RangeReadCallback)(void);
 volatile u32 gFile_dwTransferState;
 u32 *gFile_ReadySourceCursor;
-s32 D_8009B0FC;
+s32 gFile_DsInitialized;
 volatile u16 gFile_wStepState;
 char gFile_TargetLoc[4];
 u8 D_8009B108;
@@ -107,7 +107,7 @@ void File_InitTransferState(s32 value)
     gFile_CommandRetryCount = 0;
     while (DsInit() == 0) {
     }
-    D_8009B0FC = 1;
+    gFile_DsInitialized = 1;
 }
 
 void File_GetPosition(s32 *output, const char *path)
@@ -718,7 +718,7 @@ void File_ServiceTransfers(s32 arg0)
 }
 
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
-   Model_LoadAuxiliaryPackageStage and func_80057728: File_RequestSecondarySlot below installs it through
+   Model_LoadAuxiliaryPackageStage and Model_LoadSpecialBattlePackageStage: File_RequestSecondarySlot below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
    fields the other two do -- the sector_destination/alternate_sector_destination source window,
