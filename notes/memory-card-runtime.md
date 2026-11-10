@@ -368,7 +368,7 @@ The controller's bounded workspace, absolute directory view, frame backing,
 and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
 [memory-card-work-controller.md](memory-card-work-controller.md). The request
 prototypes live in `mem_card.h`; event initialization remains in
-`io_event_helpers.h`. The grouped driver remains separate from the matching
+`mem_card_driver.h` (formerly `io_event_helpers.h`). The grouped driver remains separate from the matching
 request controller in `src/game/mem_card_driver.c`.
 
 ## Directory enumeration
@@ -393,8 +393,8 @@ own name and treats a zero count as the name being free.
 
 The matching producer in `mem_card_driver.c` and matching controller in
 `src/game/mem_card_driver.c` consume the request declarations in `mem_card.h`,
-the directory API in `mem_card_directory.h`, and the existing event API in
-`io_event_helpers.h`.
+the directory API in `mem_card_driver.h` (formerly `mem_card_directory.h`), and the existing event API in
+`mem_card_driver.h` (formerly `io_event_helpers.h`).
 The earlier ownership migration removed eight driver-local globals and
 fourteen globals plus three function prototypes from the then-candidate
 controller. The matching source retains those owning-header contracts without
