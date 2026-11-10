@@ -65,7 +65,7 @@ extern u16 gText_StagedStringId;
 extern u8 gText_abColorSlots[];
 
 /* The Shift-JIS key table: four-byte entries whose low halfword is the key.
- * Text_SjisToGlyphCodes (text_sjis_to_glyph_codes.c) walks it from entry 1
+ * Text_SjisToGlyphCodes (frontend_package_stages.c) walks it from entry 1
  * for a non-zero key, compares the low halfword against each source
  * halfword, stops at a zero word, and emits the entry index as the glyph
  * code; TextBox_BuildStep (text_box_build_step.c) reads packed at a

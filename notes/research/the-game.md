@@ -1574,7 +1574,7 @@ using entry `string_id - 0x8000` and bank base `0x801D0000`.
 
 Decoding IDs `0x8329..0x834F` through the executable's glyph-to-Shift-JIS
 table at `0x801D9000` (also used by
-[`Text_SjisToGlyphCodes`](../../src/game/text_sjis_to_glyph_codes.c))
+[`Text_SjisToGlyphCodes`](../../src/game/frontend_package_stages.c))
 agrees with all 39 names above after character-width normalization. Each
 glyph-table entry is four bytes; its low halfword supplies the Shift-JIS
 value. The remaining prose-spacing difference is that the raw strings say

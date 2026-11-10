@@ -6,7 +6,7 @@
 #include "player_name_glyphs.h"
 #include "main.h"
 #include "sound.h"
-#include "text_sjis_to_glyph_codes.h"
+#include "frontend_package_stages.h"
 #include "util_memory.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
@@ -794,7 +794,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "util_memory.h"
 #include "card_constants.h"
 #include "input.h"
-#include "text_sjis_to_glyph_codes.h"
 #include "sound.h"
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"

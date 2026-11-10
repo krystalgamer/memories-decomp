@@ -49,7 +49,7 @@ profile or French registration changes are needed.
 ## Loader and direct callers
 
 Spanish `Options_LoadPackageStage` (formerly `func_8003C56C`) at `0x8003C76C` and `File_RequestOptionsPackage` at `0x8003C90C`
-use `src/game/european/options_package_stages.c`. The request starts at
+use `src/game/european/frontend_package_stages.c`. The request starts at
 `0x2797 + language * 0x29` and spans 41 sectors. The four phases consume
 32, one, two and six sectors. The last phase copies to the pointer stored
 at `0x800101D8`, whose retail value is `0x80168000`. Thus each independently

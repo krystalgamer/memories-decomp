@@ -29,7 +29,7 @@
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/dialog_choice_state.h"
 #include "../../game/display_object_interpolation.h"
-#include "../../game/text_sjis_to_glyph_codes.h"
+#include "../../game/frontend_package_stages.h"
 #include "../../game/duel_effect_entry_occupancy.h"
 #include "../../game/card_preview.h"
 #include "../../overlays/password/name_entry_keyboard.h"

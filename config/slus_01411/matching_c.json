@@ -3238,55 +3238,55 @@
       "address": "0x8003B808",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",
-      "source": "src/game/free_duel_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003B9BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/main_init_free_duel_menu.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BA14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E4",
-      "source": "src/game/name_entry_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BBF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/name_entry_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BC40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/text_sjis_to_glyph_codes.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BD14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A4",
-      "source": "src/game/password_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BEB8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/password_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BF00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/campaign_map_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C0C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/campaign_map_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C120",
@@ -3310,7 +3310,7 @@
       "address": "0x8003C498",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/file_request_game_over_package.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C4E0",
