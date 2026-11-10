@@ -7,12 +7,9 @@
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 #include "sound_voice_selection.h"
-#include "sound_voice_pan.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_data.h"
 #include "sound_init.h"
-#include "sound_sequence_state.h"
-#include "sd_reset_music_state.h"
 
 void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
 {

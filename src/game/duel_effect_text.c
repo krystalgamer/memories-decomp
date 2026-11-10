@@ -2097,7 +2097,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
-#include "sound_sequence_state.h"
+#include "sound_effect_request.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
