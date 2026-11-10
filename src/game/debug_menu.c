@@ -54,7 +54,7 @@
 #include "secondary_scene_commands.h"
 #include "mem_card.h"
 #include "duel_side_state.h"
-#include "duel_effect_mode_7.h"
+#include "build_deck.h"
 #include "main_start_duel.h"
 #include "save_data_update_trade_load.h"
 #include "two_player_save_setup.h"

@@ -2,7 +2,7 @@
 #include "secondary_scene_commands.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
-#include "build_deck_update.h"
+#include "build_deck.h"
 #include "file_transfer.h"
 #include "save_data.h"
 #include "main_frame.h"
@@ -15,7 +15,6 @@
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "main_mode_state.h"
-#include "build_deck_init_screen.h"
 #include "build_deck_draw_card_list_page_data.h"
 
 /* Small globals other units own, declared here as common symbols the

@@ -18,7 +18,7 @@ struct BuildDeckTransitionState *gBuildDeck_pState;
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "display_object.h"
-#include "duel_card_stat_display.h"
+#include "build_deck.h"
 #include "display_object_config.h"
 #include "duel_card.h"
 #include "card_constants.h"
@@ -163,7 +163,6 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
 #include "card_constants.h"
 #include "display_object_helpers.h"
 #include "duel_card.h"
-#include "duel_card_stat_display.h"
 
 /* Regional value: the digit sprites' texture v (0x70 -> 0x40). The European
  * build (src/game/european/) defines its own. */
@@ -199,10 +198,7 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "text_encode_decimal_no_padding.h"
 #include "build_deck_transition_state.h"
 #include "color_constants.h"
-#include "duel_card_stat_display.h"
-#include "build_deck_draw_sort_icons.h"
 #include "graphics_frame.h"
-#include "build_deck_draw_card_list_page.h"
 #include "card_list_sort_icons.h"
 
 /* Initialized data this unit owns at 0x80090DD8: two 16-byte rows used by card-list sorting
@@ -537,9 +533,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "card_list_text_boxes.h"
-#include "build_deck_card_counts.h"
 #include "build_deck_transition_state.h"
-#include "card_list_sort.h"
 #include "duel_card.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
@@ -688,7 +682,6 @@ void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id)
     }
 }
 
-#include "build_deck_card_counts.h"
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
@@ -728,9 +721,7 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
     }
 }
 
-#include "../game/build_deck_card_counts.h"
 #include "../game/card_constants.h"
-#include "../game/card_list_sort.h"
 #include "../game/display_object_layout.h"
 #include "../game/duel_card.h"
 #include "../game/text_box_lifecycle.h"
@@ -787,7 +778,6 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "card_constants.h"
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
-#include "card_list_setup.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -1043,18 +1033,12 @@ void Library_PruneRecentCardDrops(void)
  * The display objects keep their raw slot offsets on the record.
  */
 #include "graphics_frame.h"
-#include "card_list_setup.h"
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
-#include "build_deck_card_counts.h"
-#include "card_list_sort.h"
-#include "build_deck_draw_card_list_page.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "sound.h"
-#include "build_deck_init_screen.h"
 #include "card_list_sort_icons.h"
-#include "build_deck_test_and_set_initialized.h"
 
 #ifndef BUILD_DECK_CURSOR_Y
 #define BUILD_DECK_CURSOR_Y 0x29
@@ -1297,19 +1281,13 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "rand_get_interval.h"
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
-#include "card_list_sort.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
 #include "card_list_sort_icons.h"
-#include "build_deck_test_and_set_initialized.h"
 #include "duel_card_viewer.h"
-#include "build_deck_card_counts.h"
-#include "duel_card_stat_display.h"
 #include "duel_effect.h"
-#include "build_deck_pane_input.h"
 #include "graphics_frame.h"
-#include "build_deck_update_pane_transition.h"
 #include "text_channel_state.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
@@ -1317,13 +1295,10 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "text_box_update_channels.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
-#include "build_deck_update.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
-#include "card_list_setup.h"
 #include "dialog_choice.h"
 #include "build_deck_draw_card_list_page_data.h"
-#include "duel_effect_mode_7.h"
 #include "main_mode_state.h"
 
 s32 BuildDeck_CompareSortKeyDescending(
@@ -2142,7 +2117,6 @@ void BuildDeck_EnterWideConfirmMode(void)
     gMain_bActiveModeState = 7;
 }
 
-#include "card_list_update_sort_mode.h"
 #include "card_list_sort_icons.h"
 
 void CardList_UpdateSortMode(CardList *a0) {

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
-#include "../../game/duel_effect_mode_7.h"
+#include "../../game/build_deck.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object.h"
 #include "../../game/input.h"
