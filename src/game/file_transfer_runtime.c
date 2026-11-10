@@ -87,7 +87,7 @@ static PADDING_VARIABLE(4) = {0};
 
 #include "file_transfer.h"
 #include "file_constants.h"
-#include "file_cd_helpers.h"
+#include "movie_pipeline.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
 
