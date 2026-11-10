@@ -423,7 +423,7 @@ address,size,name,status,module,notes
 0x80035A58,0xC,Movie_ResetPlaybackState,matching_c,game,"Clears the movie playback-control byte gMovie_bPlaybackState (0x80 playing, 0x40 skip latched); Main_Init calls it once at boot. First -O2 -G8 global-byte assignment candidate matched."
 0x80035A64,0x54,DuelEffect_ResetState,matching_c,game,"Pure-C exact match: moving the loop decrement into the condition keeps all four channel-reset stores ahead of it, eliminating both compiler barriers while preserving the retail schedule."
 0x80035AB8,0x38,TextBox_SetRect,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80035AF0,0x8C,DuelEffect_InitEntry,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_o1_g0.
+0x80035AF0,0x8C,DuelEffect_InitEntry,matching_c,game,"Pure-C match at gcc_2_8_1_g8_split: wrapping the glyph and line advance stores in do { } while (0) gives GCC's first scheduling pass a loop-note barrier, so the flags OR stays right after the channel address as in retail instead of being sunk to its store (formerly matched only at gcc_2_8_1_o1_g0); exact linked bytes and relocations."
 0x80035B7C,0x68,TextBox_Destroy,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035BE4,0x54,TextBox_Create,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80035C38,0x70,TextBox_CreateFlagged,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

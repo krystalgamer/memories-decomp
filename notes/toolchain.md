@@ -291,6 +291,13 @@ partial functions whose target code provides specific evidence:
 | `gcc_2_8_1_cc_g0_as_g8` | Compiler small-data threshold 0, assembler threshold 8 |
 | `gcc_2_8_1_g*_no_split` | Explicit `-mgas -mno-split-addresses` |
 
+No committed matching source uses `gcc_2_8_1_o1_g0` any more:
+`DuelEffect_InitEntry` (US `0x80035AF0`), its last user, matched there only
+because `-O1` skips the first scheduling pass, which otherwise sinks the
+flags OR to its store. Wrapping the glyph and line advance stores in
+`do { } while (0)` puts loop notes, a scheduling barrier, between the OR and
+the stores, and the function now matches at `gcc_2_8_1_g8_split`.
+
 These are not new defaults and do not change the Psy-Q 4.6 or ASPSX 2.81
 selection. Use one only when instruction scheduling or relocation shape points
 to that knob. Preserve the resulting object and mismatch evidence so later
