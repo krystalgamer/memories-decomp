@@ -506,7 +506,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     GsSortPoly(sprite, tab[2], 0xFFF);
 }
 
-#include "view_state.h"
+#include "view_state_orbit.h"
 #include "duel_card_layout.h"
 #include "duel_display.h"
 #include "duel_grid.h"
@@ -517,7 +517,6 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 #include "duel_field_card_render.h"
 #include "../unmatched.h"
 #include "../game/model_draw_slot.h"
-#include "view_state_current.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
  * European build (src/game/european/) defines its own. */
@@ -1102,8 +1101,6 @@ s32 Duel_CalcCardStats(DuelCardRecord *card)
 #include "../psyq/libgs.h"
 #include "view_state_reset_defaults.h"
 #include "model.h"
-#include "view_state.h"
-#include "view_state_current.h"
 
 void ViewState_ResetDefaults(void)
 {
@@ -1525,7 +1522,6 @@ void Duel_ResetCardRecords(void)
 #include "../psyq/inline_c.h"
 #include "duel_card.h"
 #include "screen_projection.h"
-#include "view_state.h"
 #include "duel_screen_tables.h"
 #ifdef DUEL_RESULT_LANGUAGE_SPRITE_TABLES
 #include "duel_result_localized_sprites.h"
@@ -1534,7 +1530,6 @@ void Duel_ResetCardRecords(void)
 #include "duel_side_view_angles.h"
 #include "../unmatched.h"
 #include "view_state_reset_defaults.h"
-#include "view_state_current.h"
 #include "duel_result_outro.h"
 
 /* Small data at 0x8009AF20: opposing headings for the two duel sides.
@@ -2003,7 +1998,6 @@ void Duel_LoadTerrainPackage(void)
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
 #include "display_object_helpers.h"
-#include "view_state.h"
 #include "main_services.h"
 #include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
@@ -2024,7 +2018,6 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_terrain_boost.h"
 #include "duel_view_tween.h"
 #include "ai_opponent_data.h"
-#include "view_state_current.h"
 #include "duel_card_object_helpers.h"
 #include "duel_card_layout.h"
 #include "duel_card_display_objects.h"
@@ -2350,7 +2343,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_scene_resume.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"
-#include "view_state.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
 #include "duel_hand.h"
@@ -2368,7 +2360,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_card_display_objects.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
-#include "view_state_current.h"
 #include "duel_battle_removal_slots.h"
 
 /* Regional values: the record's panel_target_y (0xAE -> 0xBE), the base of
@@ -4187,9 +4178,7 @@ finish_effect_step:
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "screen_projection.h"
-#include "view_state.h"
 #include "duel_screen_tables.h"
-#include "view_state_current.h"
 
 /* Projects one live-slot ground pair at height -24; returns signed screen X. */
 s16 Duel_ProjectCardSlotScreenX(s32 index)
@@ -6167,12 +6156,10 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
 #include "duel_effect_request.h"
 #include "duel_grid.h"
 #include "sound.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_trap_resolution.h"
-#include "view_state_current.h"
 
 /* Battle arithmetic between two duel cards, built up in address order.
 
@@ -7447,12 +7434,10 @@ tail:
 #include "display_object_config.h"
 #include "text_constants.h"
 #include "display_asset_banks.h"
-#include "view_state.h"
 #include "duel_check_quit_input.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -8185,7 +8170,6 @@ show_page:
 #include "file_transfer.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "input.h"
-#include "view_state.h"
 #include "display_object.h"
 #include "duel_card_display_state.h"
 #include "duel_scene_state.h"
@@ -8197,7 +8181,6 @@ show_page:
 #include "debug_effect_screen.h"
 #include "debug_effect_preview.h"
 #include "debug_effect_state.h"
-#include "view_state_current.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -8429,10 +8412,8 @@ void DuelScene_UpdateEffectPreview(void) {
 #include "duel_card_display_state.h"
 #include "duel_card_display_objects.h"
 #include "display_object_lifecycle.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
 #include "../unmatched.h"
-#include "view_state_current.h"
 #include "duel_selection_layout.h"
 #include "duel_selection_update_linked_object.h"
 #include "display_object_core.h"
@@ -8896,10 +8877,8 @@ void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear)
 #include "duel_card_turn_animations.h"
 #include "duel_side_view_angles.h"
 #include "duel_view_tween.h"
-#include "view_state.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "view_state_current.h"
 #include "sound.h"
 #include "duel_cursor_grid_direction.h"
 
@@ -10377,7 +10356,6 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_display_objects.h"
 #include "duel_effect.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"

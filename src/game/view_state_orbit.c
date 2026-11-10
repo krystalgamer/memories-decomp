@@ -3,9 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "model.h"
-#include "view_state.h"
 #include "view_state_orbit.h"
-#include "view_state_current.h"
 
 /* Placing the gViewState_Current view: ViewState_ApplyViewpointOffset puts the
    viewpoint at an offset from the reference point and installs the

@@ -806,7 +806,7 @@ thirty-one matching-C sites already including `unmatched.h`.
 
 The next batch demonstrates why the include intersection is evidence only
 after checking behavior. Twelve globals locally declared by
-`duel_scene.c` also appeared in files including `view_state.h`, but their
+`duel_scene.c` also appeared in files including `view_state_orbit.h` (formerly `view_state.h`), but their
 actual contract is narrower: the matching function publishes four targets,
 four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in
