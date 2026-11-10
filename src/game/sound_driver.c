@@ -67,7 +67,7 @@ void SD_InitSpuCommonVolume(void)
 
 #include "file_transfer.h"
 #include "sound.h"
-#include "sound_mix.h"
+#include "sound_output_state.h"
 #include "sound_init.h"
 #include "sound_output_transition.h"
 #include "sound_transfer_lifecycle.h"
@@ -324,11 +324,9 @@ void SD_UpdateBankLoad(void) {
     return;
 }
 
-#include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_sequence_state.h"
-#include "sound_output_state.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 

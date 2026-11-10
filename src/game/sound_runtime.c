@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "sd_set_cd_volume.h"
+#include "sound_output_state.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_voice_constants.h"

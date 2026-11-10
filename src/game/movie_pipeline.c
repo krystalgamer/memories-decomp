@@ -14,7 +14,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "sound_mix.h"
+#include "sound_output_state.h"
 #include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated

@@ -4,7 +4,7 @@
 #include "file_transfer.h"
 #include "input.h"
 #include "movie_playback_control.h"
-#include "sound_mix.h"
+#include "sound_output_state.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
