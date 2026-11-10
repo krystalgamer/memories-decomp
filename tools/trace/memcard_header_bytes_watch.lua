@@ -216,14 +216,19 @@ local EXACT_STORES = {[0x28] = true, [0x29] = true, [0x2b] = true}
 
 local mem = PCSX.getMemPtr()
 
-local ramNote, eightMegs = (function()
+-- ramKnown is false when the 8Megs setting is missing, unreadable or not a
+-- boolean. The watch then assumes 2 MB, but the real footer may be at
+-- 0x8021007A, so silence from that watch cannot qualify as evidence.
+local ramNote, eightMegs, ramKnown = (function()
     local ok, value = pcall(function() return PCSX.settings.emulator['8Megs'] end)
     if ok and value == true then
-        return '8MB: the frame is its own memory at 0x80210000', true
+        return '8MB: the frame is its own memory at 0x80210000', true, true
     elseif ok and value == false then
-        return '2MB: the frame folds onto 0x80010000 (resident rodata)', false
+        return '2MB: the frame folds onto 0x80010000 (resident rodata)', false,
+            true
     end
-    return 'unknown (assumed 2MB): the frame folds onto 0x80010000', false
+    return 'unknown (assumed 2MB): the frame folds onto 0x80010000', false,
+        false
 end)()
 
 -- Physical offset of a KUSEG/KSEG0/KSEG1 RAM address as the CPU sees it.
@@ -548,6 +553,10 @@ local function qualificationGaps(windowDone)
         gaps[#gaps + 1] = 'no SaveData_RequestWrite (the save was not captured)'
     end
     if hits.dialog == 0 then gaps[#gaps + 1] = 'MemCardDialog_Update never ran' end
+    if not ramKnown then
+        gaps[#gaps + 1] = 'RAM size unknown (8Megs setting unreadable), so '
+            .. 'the footer watch may be on the wrong address'
+    end
     return gaps
 end
 

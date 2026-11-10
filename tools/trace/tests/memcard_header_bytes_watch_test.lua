@@ -39,7 +39,16 @@ local function capture(eightMegs)
     for address, value in pairs(WORDS) do word(address, value) end
     print = function(text) output[#output + 1] = tostring(text) end
     local emulator = {Debug = {Debug = true}, Dynarec = false}
-    emulator['8Megs'] = eightMegs
+    if eightMegs == 'throw' then
+        setmetatable(emulator, {__index = function(_, k)
+            if k == '8Megs' then error('setting unreadable') end
+        end})
+        eightMegs = false
+    elseif eightMegs == 'missing' then
+        eightMegs = false
+    else
+        emulator['8Megs'] = eightMegs
+    end
     PCSX = {
         settings = {emulator = emulator},
         getMemPtr = function() return memory end,
@@ -393,6 +402,19 @@ do
     assert(t:has('route: SaveData_RequestLoad=1 SaveData_RequestWrite=1 '
                  .. 'MemCardDialog_Update=1'))
     assert(t:has('qualified: yes'))
+    finished(t)
+end
+
+-- An absent or unreadable 8Megs setting is never qualified negative
+-- evidence, even over a full witnessed route.
+for _, mode in ipairs({'missing', 'throw'}) do
+    local t = capture(mode)
+    route(t)
+    t:frames(WINDOW)
+    assert(t:has('ram: unknown (assumed 2MB)'))
+    assert(t:has('qualified: no'), mode)
+    assert(t:has('RAM size unknown (8Megs setting unreadable)'), mode)
+    assert(not t:has('negative evidence'), mode)
     finished(t)
 end
 
