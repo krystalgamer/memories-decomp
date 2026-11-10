@@ -494,7 +494,7 @@ void Script_OpJump(void)
 
 #include "card_constants.h"
 #include "data_transfer_request.h"
-#include "duel_effect_mode_7.h"
+#include "build_deck.h"
 #include "input.h"
 #include "save_data.h"
 #include "script_command_busy.h"

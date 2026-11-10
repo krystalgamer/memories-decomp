@@ -81,8 +81,8 @@ PAIRS = [
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
-    ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
-    ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
+    ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
+    ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
 ]
 
 
@@ -139,6 +139,13 @@ def implicit_calls(
     return set(IMPLICIT.findall(compiler_diagnostics(
         path, profile, include_dir, warnings_as_errors=warnings_as_errors,
     )))
+
+
+# Folded owners also carry the unit's types and are reached transitively, so
+# the shared-owner probe shadows them instead of dropping their include.
+FOLDED_SHADOW_OWNERS = (
+    "build_deck.h",
+)
 
 
 @unittest.skipUnless((REPOSITORY / COMPILER).is_file(), "needs the GCC 2.8.1 toolchain")
@@ -242,6 +249,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             if not any(
                 owner in include
                 for owner in (
+                    "build_deck.h",
                     "display_object_packet_submit.h",
                     "duel_effect_resource_setup.h",
                     "card_preview_objects.h",
@@ -251,7 +259,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "duel_hand_position_selection_cursor.h",
                     "duel_hand_selection_cursor.h",
                     "duel_card_object_helpers.h",
-                    "duel_card_stat_display.h",
+                    "build_deck.h",
                     "text_encode_decimal_no_padding.h",
                 )
             ):
@@ -276,7 +284,19 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     )
                 shadow = None
                 shadow_name = "model_slot_control.h"
-                if text.count(include + "\n") > 1:
+                folded = any(owner in include for owner in FOLDED_SHADOW_OWNERS)
+                if folded:
+                    # Keep the owner's types; lose only the callee's
+                    # prototype, and include the shadow first so its guard
+                    # wins over any transitive include of the real owner.
+                    shadow_name = re.search(r'"([^"]+)"', include).group(1)
+                    owner = (REPOSITORY / Path(source).parent / shadow_name).read_text()
+                    shadow, count = re.subn(
+                        rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$", "", owner, count=1
+                    )
+                    self.assertEqual(count, 1)
+                    replacement = ""
+                elif text.count(include + "\n") > 1:
                     # A grouped unit repeats the owner include; removing one
                     # copy hides nothing, so shadow the owner with a copy
                     # that loses only the callee's declaration.
@@ -301,13 +321,14 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     probe = Path(directory) / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
                     if shadow is not None:
-                        (probe.parent / shadow_name).write_text(
-                            shadow, encoding="utf-8"
-                        )
-                    probe.write_text(
-                        text.replace(include + "\n", replacement, 1),
-                        encoding="utf-8",
-                    )
+                        shadow_path = probe.parent / shadow_name
+                        shadow_path.parent.mkdir(parents=True, exist_ok=True)
+                        shadow_path.write_text(shadow, encoding="utf-8")
+                    probe_text = text.replace(include + "\n", replacement, 1)
+                    if folded:
+                        first, rest = probe_text.split("\n", 1)
+                        probe_text = first + "\n" + include + "\n" + rest
+                    probe.write_text(probe_text, encoding="utf-8")
                     found = implicit_calls(
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
