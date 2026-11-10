@@ -1,6 +1,5 @@
 #include "../types.h"
-#include "duel_interface_setup.h"
-#include "debug_menu_update.h"
+#include "debug_menu.h"
 #include "main_debug.h"
 #include "main_modes.h"
 #include "main_reset_frontend_runtime.h"

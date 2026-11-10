@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_DEBUG_MENU_NO_OP_BUST_UP_FRAME_H
-#define MEMORIES_DECOMP_DEBUG_MENU_NO_OP_BUST_UP_FRAME_H
-
-void DebugMenu_NoOpBustUpFrame(void);
-
-#endif
