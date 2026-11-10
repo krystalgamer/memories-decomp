@@ -4,7 +4,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/stdio.h"
-#include "hmd_fog_textured_drivers.h"
+#include "sorted_entry_render.h"
 #include "model_primitive_handler.h"
 #include "direct_polygon_renderers.h"
 #include "shared_primitive_renderers.h"

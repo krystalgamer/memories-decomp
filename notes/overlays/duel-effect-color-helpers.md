@@ -89,7 +89,7 @@ subtraction: the boundary behavior differs, including for a zero step.
 The second advances toward three caller-supplied channels, clamps each to
 its target, and returns one only when all three targets have been reached.
 The third packs three bytes into bits 16, 8 and 0 of the existing resident
-word `D_8009B300`, using its declaration in `src/game/sorted_entry.h` and the
+word `D_8009B300`, using its declaration in `src/game/sorted_entry_render.h` and the
 Spanish resident binding `0x8009C688`. It does not create overlay storage.
 
 The fullscreen helpers retain the actual PAL `320 x 256` rectangle, SDK

@@ -18,7 +18,7 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_box_blocking_build.h"
 #include "../../game/input.h"
-#include "../../game/sorted_entry.h"
+#include "../../game/sorted_entry_render.h"
 #include "../../game/trig_constants.h"
 #include "../../game/display_object_interpolation.h"
 #include "../../game/fade.h"
@@ -27,7 +27,6 @@
 #include "../../game/main_services.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_update_coordinate_unit_matrix.h"
-#include "../../game/text_render_state.h"
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
