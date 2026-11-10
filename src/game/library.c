@@ -59,7 +59,7 @@ static PADDING_VARIABLE(4);
 #include "library_draw_wireframe_globe.h"
 #include "text_box_update_channels.h"
 #include "model_set_slot_shadow_enabled.h"
-#include "model_effect_coefficients.h"
+#include "model_camera_effects.h"
 #include "model.h"
 #include "model_load_step.h"
 #include "model_scene_controllers.h"

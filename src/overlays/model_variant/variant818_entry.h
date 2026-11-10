@@ -8,7 +8,7 @@
 #include "../../game/model_state_setters.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_get_frame_step.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/screen_projection.h"

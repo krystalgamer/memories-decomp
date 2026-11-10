@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_FRENCH_MODEL_VARIANT474_ENTRY_H
 #include "../../types.h"
 #include "../../game/model_get_frame_step.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "variant337_entry.h"
 
 /* One 0x34-byte command row: the outer and inner sheet colours, the model

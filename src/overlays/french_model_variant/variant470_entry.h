@@ -11,7 +11,7 @@
 #include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
 #include "../../game/screen_projection.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 
 typedef struct {
     SVECTOR a[10], b[10], c[10], d[10], positions[10];

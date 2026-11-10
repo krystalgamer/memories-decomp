@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../game/model_copy_slot_position.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_get_frame_step.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_graphics_state.h"

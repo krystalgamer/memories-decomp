@@ -15,7 +15,7 @@ current cursor and from the separate current-pose snapshot.
 
 The cursor and count are not newly inferred allocations. Their initialized `.sdata`
 definitions already belong to `src/game/model_camera_effects.c`,
-and their shared types remain in `model_transfer_flags.h`.
+and their shared types remain in `model_camera_effects.h` (formerly `model_transfer_flags.h`).
 
 ## Producer, stepper and consumers
 
@@ -91,7 +91,7 @@ for it.
 The Japanese and PAL builds keep these two globals at other addresses. Their
 symbol files bind `gModel_pCurrentEffectKey` and `gModel_bEffectKeyCount`
 directly at those addresses (formerly `gJapanese_D_8009B074`/`gJapanese_D_8009B078`
-and `gEuropean_D_8009B074`/`gEuropean_D_8009B078`), so `model_transfer_flags.h`
+and `gEuropean_D_8009B074`/`gEuropean_D_8009B078`), so `model_camera_effects.h` (formerly `model_transfer_flags.h`)
 declares them the same way in every region, with no assembler label or
 wrapper macro. Types, storage and every access are unchanged.
 

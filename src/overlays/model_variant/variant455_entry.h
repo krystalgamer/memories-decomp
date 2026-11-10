@@ -12,7 +12,7 @@
 #include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
 #include "../../game/screen_projection.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 
 /* One 0x34-byte command record of the table at 0x8013DD30. */
 typedef struct {

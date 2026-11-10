@@ -9,7 +9,7 @@
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_slot_state_updates.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_get_frame_step.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/graphics_packet_submission.h"

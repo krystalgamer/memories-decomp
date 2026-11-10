@@ -147,7 +147,7 @@ the hold-state binding between its real definition and callers.
 | `Model_SetCameraHoldState` | `0x8004EBD0` (`func_8004EBD0`) | `0xC` |
 
 `model_view_adjustments.h` now owns the two correction declarations and
-`model_transfer_flags.h` owns the hold-state setter declaration, the same in
+`model_camera_effects.h` (formerly `model_transfer_flags.h`) owns the hold-state setter declaration, the same in
 every region and with no assembler label; the Japanese symbols.txt binds the
 three canonical names at those addresses. Native providers, profiles, grouped object order and all common
 C bodies remain unchanged. The three inventory names cover 852 bytes;

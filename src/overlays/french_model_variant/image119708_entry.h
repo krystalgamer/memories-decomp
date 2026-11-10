@@ -7,7 +7,7 @@
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_state_setters.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/model_update_coordinate_unit_matrix.h"

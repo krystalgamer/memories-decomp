@@ -299,8 +299,7 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 #include "primitive_handler_modes.h"
 #include "model_scene_states.h"
 #include "model_slot_properties.h"
-#include "model_effect_state.h"
-#include "model_transfer_state.h"
+#include "model_camera_effects.h"
 #include "../game/model_draw_slot.h"
 
 void Model_SetPresentationBgmCommand(s32 value)
@@ -403,7 +402,6 @@ void Model_RunSlotHandlers(s32 index)
 }
 
 #include "model_start_camera_move.h"
-#include "model_transfer_flags.h"
 #include "model_effect_requests.h"
 #include "model_camera_state.h"
 
@@ -705,7 +703,6 @@ void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntr
     }
 }
 
-#include "model_effect_coefficients.h"
 #include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 

@@ -3,22 +3,16 @@
 #include "model_copy_slot_position.h"
 #include "../psyq/memory.h"
 #include "model.h"
-#include "model_transfer_flags.h"
-#include "model_queue_relative_camera_orbit.h"
-#include "model_effect_state.h"
+#include "model_camera_effects.h"
 #include "camera_view.h"
-#include "model_keyframe_spline.h"
 #include "model_get_slot_readiness.h"
 #include "model_get_frame_step.h"
 #include "model_step_view_orbit.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
-#include "model_effect_coefficients.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
 #include "model_slot_support.h"
-#include "model_transfer_state.h"
-#include "model_cubic_coefficients.h"
 
 /* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
  *
