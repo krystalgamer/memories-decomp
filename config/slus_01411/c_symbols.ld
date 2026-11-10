@@ -98,8 +98,8 @@ gText_StagedValues = 0x801D5608;
 gText_aGlyphLookup = 0x801D9000;
 gText_aGlyphRecordKeys = 0x801D9174;
 gText_aGlyphRecordBitmaps = 0x801D9174;
-gSD_SmfBankVolInfoTag = 0x801E27F8;
-gSD_CdBankVolInfoTag = 0x801E8FF8;
+gSD_SmfBankVolInfoTag = 0x801E2000 + 0x7F8;
+gSD_CdBankVolInfoTag = 0x801E8800 + 0x7F8;
 
 
 
