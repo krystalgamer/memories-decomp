@@ -4,7 +4,7 @@
 #include "file_constants.h"
 
 #include "sound.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "sd_request_music_package_load.h"
 
 s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {

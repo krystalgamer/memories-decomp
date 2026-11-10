@@ -3,7 +3,7 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
-#include "sound_output_transition.h"
+#include "sound_driver.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * sound_driver_commons subsegment places it at the retail addresses. */
@@ -81,7 +81,6 @@ void SD_InitSpuCommonVolume(void)
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_init.h"
-#include "sound_output_transition.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
@@ -155,7 +154,6 @@ void SD_InitState(u8 master_xa_lba_byte)
 }
 
 #include "sound.h"
-#include "sound_state_control.h"
 
 void SD_SetSequenceVSyncMode(s32 vsync_mode)
 {
@@ -184,7 +182,6 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 #include "../psyq/stdio.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
-#include "sound_output.h"
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (248 instructions,
  * the sound bank loader state machine: SE header, SE groups, then the SMF and
@@ -405,7 +402,6 @@ void SD_ResetRuntime(void)
 
 #include "sound_init.h"
 #include "sound_pending_entries.h"
-#include "sound_output.h"
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();

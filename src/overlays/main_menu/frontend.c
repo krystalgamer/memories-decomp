@@ -20,7 +20,7 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
 #include "../../game/display_object_config.h"
-#include "../../game/sound_output.h"
+#include "../../game/sound_driver.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_constants.h"
 #include "../../game/data_transfer_request.h"

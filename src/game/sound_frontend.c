@@ -5,8 +5,7 @@
 #include "file_constants.h"
 #include "sound.h"
 #include "sound_output_state.h"
-#include "sound_output.h"
-#include "sound_state_control.h"
+#include "sound_driver.h"
 #include "sound_bgm_commands.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
