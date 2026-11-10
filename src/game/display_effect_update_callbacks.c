@@ -9,7 +9,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"
-#include "campaign_scene_package.h"
+#include "script_scene.h"
 #include "color_constants.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"

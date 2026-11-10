@@ -8,7 +8,7 @@ allocate a new presentation manager.
 ## Primary display-object slot
 
 `gCampaign_PrimaryDisplayObject` remains the existing `DisplayObject *`
-declared by `campaign_scene_package.h`. The ordinary and `.data` declaration
+declared by `script_scene.h` (formerly `campaign_scene_package.h`). The ordinary and `.data` declaration
 arms remain distinct: the debug campaign entry uses the latter for its
 absolute load/store.
 
@@ -104,7 +104,7 @@ The callback stays grouped immediately after the eight-byte no-op in
 0xFC-byte size in all seven inventories. Only its function-name field
 changes; addresses, sizes, ownership/status, notes and order remain intact.
 The public header moves from `func_8002FED8.h` to
-`scene_script_color_pulse.h` without changing its declaration.
+`script_scene.h` (formerly `scene_script_color_pulse.h`) without changing its declaration.
 
 ## Image-overlay tables and slot publication
 
