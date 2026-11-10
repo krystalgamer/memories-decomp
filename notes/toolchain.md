@@ -81,7 +81,9 @@ maspsx --aspsx-version=2.81 --expand-div -G8
 keep its selector load ahead of the glyph-code load. Writing the update as one
 expression, `*code = ((*code - limit) << 8) | *owner->streams[index]++`, gives
 the same order with first-pass scheduling enabled, so it builds under the
-ordinary `gcc_2_8_1_g8_comm` profile. Its glyph-code accesses are volatile so
+ordinary `gcc_2_8_1_g8_comm` profile, and identically at
+`gcc_2_8_1_g8_split_comm`, the profile of `src/game/duel_effect_text.c` it
+now belongs to. Its glyph-code accesses are volatile so
 the completed code is published before the existing volatile completion flag.
 
 `make compiler-281` builds a native host executable; on a 64-bit host without

@@ -36,7 +36,7 @@ and the high halfword is its string ID. No halfword load replaces the
 original word loads or masks.
 
 Each region's text-box unit defines `gText_aChannels` through the shared
-`src/game/text_commands.c` as `DuelEffectChannel[4]`; in Japan that is
+`src/game/duel_effect_text.c` as `DuelEffectChannel[4]`; in Japan that is
 `0x180` bytes at `0x800EAFD8`. The literal `D_800EB0F8` address is channel 3
 (`0x800EAFD8 + 3 * 0x60`). Overlays bind only `gText_aChannels` itself.
 
@@ -53,7 +53,7 @@ change the done bit, advance a frame, destroy an object or yield the current
 text pass.
 
 The flag's owner is visible in `TextBox_UpdateChannels`
-(`src/game/text_commands.c`). When building first reaches done with this flag
+(`src/game/duel_effect_text.c`). When building first reaches done with this flag
 set, it creates the existing completion prompt with `Dialog_OpenChoice`.
 On a later update, confirmation clears the flag, releases that prompt and
 plays sound `0xB`. `Script_RunTick`, the memory-card result path and
@@ -70,7 +70,7 @@ calls remain as before.
 ## Preservation boundary
 
 The completion command remains inside the complete existing
-`text_commands.c` group. Function order, sizes, compiler
+`duel_effect_text.c` group. Function order, sizes, compiler
 profiles and every sibling body remain unchanged, including Europe's extra
 player-name stream command.
 
