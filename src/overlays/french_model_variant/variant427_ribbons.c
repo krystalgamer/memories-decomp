@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant427_ribbons.h"
+#include "variant427_entry.h"
 
 /* The North American header-410 build reads the projected points through
  * pointer arithmetic so CDK GCC folds sa[k + 1] into a fixed offset from
@@ -21,7 +22,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    EntryState427 *work;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -40,23 +41,23 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     s32 kk;
     s32 py, pz;
 
-    work = ctx;
+    work = (EntryState427 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x372C), MODEL_VARIANT_WORD(work, 0x3724)) + 0xC00;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x3728), MODEL_VARIANT_WORD(work, 0x3724)) + 0xC00;
-    poly = (POLY_GT4 *)(work + 0x3560);
-    if (!(MODEL_VARIANT_WORD(work, 0x373C) & 1)) {
-        len = MODEL_VARIANT_WORD(work, 0x3768) / 16;
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    poly = work->textured;
+    if (!(work->frame_count & 1)) {
+        len = work->width / 16;
     } else {
-        len = MODEL_VARIANT_WORD(work, 0x3768) * 72 / 1024;
+        len = work->width * 72 / 1024;
     }
-    ribbon = (Ribbon379 *)(work + 0xED0);
+    ribbon = (Ribbon379 *)work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
         if (ribbon->amp > 0) {
             if (i < 0) {
                 dy = 0;
             }
-            for (k = 0, v = work + i * 16; k < 17; k++) {
+            for (k = 0, v = (u8 *)work + i * 16; k < 17; k++) {
                 dy = MODEL_VARIANT_WORD(v, 0x36F4) * ribbon->amp / 1024;
                 dz = MODEL_VARIANT_WORD(v, 0x36F8) * ribbon->amp / 1024;
                 n = kk = k;
@@ -107,7 +108,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
             }
         }
     }
-    ribbon = (Ribbon379 *)(work + 0xED0);
+    ribbon = (Ribbon379 *)work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
         if (ribbon->amp > 0) {
             for (k = 0; k < 16; k++) {
@@ -140,11 +141,11 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
             }
         }
         if (ribbon->amp < 0x400) {
-            ribbon->amp += MODEL_VARIANT_WORD(work, 0x3748) * 64;
+            ribbon->amp += work->step * 64;
             if (ribbon->amp >= 0x400) {
                 ribbon->amp = 0x400;
-                if (MODEL_VARIANT_WORD(work, 0x37C4) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x37C4) = 3;
+                if (work->phase == 2) {
+                    work->phase = 3;
                 }
             }
         }

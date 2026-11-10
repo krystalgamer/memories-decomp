@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
+#include "variant335_entry.h"
 
 void FrenchModelVariant335_DrawSheets(u8 *context)
 {
@@ -12,7 +13,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
     long flag;
     ModelVariantSheet *sheet;
     GsOT *ot;
-    u8 *work;
+    Model335EntryState *work;
     POLY_GT4 *poly;
     s32 i;
     s32 k;
@@ -23,29 +24,29 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
     s32 radius;
     s32 rotation_bias;
 
-    work = context;
-    sheet = (ModelVariantSheet *)(work + 0xABC);
+    work = (Model335EntryState *)context;
+    sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x2CB0);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34));
-    rotation_bias = MODEL_VARIANT_WORD(work, 0x2E74) + 3072;
+    poly = &work->textured[1];
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx);
+    rotation_bias = work->spin + 3072;
     turn += rotation_bias;
     for (i = 0; i < 4; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x2E4C) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         setVector(&rot, 0, 0, 0);
         if (i == 3) {
-            matrix.t[0] = MODEL_VARIANT_HALF(work, 0x2E18);
-            matrix.t[1] = MODEL_VARIANT_HALF(work, 0x2E1A);
-            matrix.t[2] = MODEL_VARIANT_HALF(work, 0x2E1C);
+            matrix.t[0] = work->target.vx;
+            matrix.t[1] = work->target.vy;
+            matrix.t[2] = work->target.vz;
         } else {
             angle = turn + (i << 12) / 3;
-            radius = MODEL_VARIANT_WORD(work, 0x2E78) / 2;
-            matrix.t[0] = MODEL_VARIANT_WORD(work, 0x2DE8) + (rcos(angle) * radius >> 12);
-            matrix.t[1] = MODEL_VARIANT_WORD(work, 0x2DEC);
-            matrix.t[2] = MODEL_VARIANT_WORD(work, 0x2DF0) + (rsin(angle) * radius >> 12);
+            radius = work->field_2E78 / 2;
+            matrix.t[0] = work->origin.vx + (rcos(angle) * radius >> 12);
+            matrix.t[1] = work->origin.vy;
+            matrix.t[2] = work->origin.vz + (rsin(angle) * radius >> 12);
         }
         setVector(&scale, sheet->size + bias, sheet->size + bias, sheet->size + bias);
         RotMatrix(&rot, &matrix);
@@ -69,89 +70,89 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             setRGB1(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
             setRGB2(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
             setRGB3(poly, sheet->outer[0], sheet->outer[1], sheet->outer[2]);
-            if ((MODEL_VARIANT_WORD(work, 0x2EA0) != 0 || i == 0)
+            if ((work->phase != 0 || i == 0)
                 && depth >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, depth);
             }
         }
         if (i == 3) {
-            if (MODEL_VARIANT_WORD(work, 0x2EA0) == 5) {
+            if (work->phase == 5) {
                 if (sheet->size < 16384) {
-                    sheet->size += MODEL_VARIANT_WORD(work, 0x2E58) * 2048;
+                    sheet->size += work->clock.step * 2048;
                     if (sheet->size >= 16384) {
                         sheet->size = 16384;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 6;
+                        work->phase = 6;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EA0) >= 6) {
-                if ((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)
+            } else if (work->phase >= 6) {
+                if ((u32)work->clock.frame
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
                     && sheet->size > 0) {
-                    sheet->size = 16384 - ((((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)) << 14)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)));
+                    sheet->size = 16384 - ((((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 14)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                     }
                 }
             }
         } else {
-            if (MODEL_VARIANT_WORD(work, 0x2EA0) == 0) {
+            if (work->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x0C));
+                    sheet->size = (((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C));
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 1;
+                        work->phase = 1;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 1) {
-                if (MODEL_VARIANT_WORD(work, 0x2E78) < 1024) {
-                    MODEL_VARIANT_WORD(work, 0x2E78) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10));
-                    if (MODEL_VARIANT_WORD(work, 0x2E78) >= 1024) {
-                        MODEL_VARIANT_WORD(work, 0x2E78) = 1024;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 2;
+            } else if (work->phase == 1) {
+                if (work->field_2E78 < 1024) {
+                    work->field_2E78 = (((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)) << 10)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10));
+                    if (work->field_2E78 >= 1024) {
+                        work->field_2E78 = 1024;
+                        work->phase = 2;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 2) {
-                if (MODEL_VARIANT_WORD(work, 0x2E70) < 256) {
-                    MODEL_VARIANT_WORD(work, 0x2E70) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14)) << 8)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14));
-                    if (MODEL_VARIANT_WORD(work, 0x2E70) >= 256) {
-                        MODEL_VARIANT_WORD(work, 0x2E70) = 256;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 3;
+            } else if (work->phase == 2) {
+                if (work->field_2E70 < 256) {
+                    work->field_2E70 = (((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)) << 8)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14));
+                    if (work->field_2E70 >= 256) {
+                        work->field_2E70 = 256;
+                        work->phase = 3;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 3) {
-                if (MODEL_VARIANT_WORD(work, 0x2E6C) < 1024) {
-                    MODEL_VARIANT_WORD(work, 0x2E6C) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x1C)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18));
-                    if (MODEL_VARIANT_WORD(work, 0x2E6C) >= 1024) {
-                        MODEL_VARIANT_WORD(work, 0x2E6C) = 1024;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 4;
+            } else if (work->phase == 3) {
+                if (work->field_2E6C < 1024) {
+                    work->field_2E6C = (((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)) << 10)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18));
+                    if (work->field_2E6C >= 1024) {
+                        work->field_2E6C = 1024;
+                        work->phase = 4;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EA0) >= 6) {
-                if ((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)
+            } else if (work->phase >= 6) {
+                if ((u32)work->clock.frame
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
                     && sheet->size > 0) {
-                    sheet->size = 4096 - ((((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)));
+                    sheet->size = 4096 - ((((u32)work->clock.frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
-                        MODEL_VARIANT_WORD(work, 0x2EA0) = 7;
+                        work->phase = 7;
                     }
                 }
             }

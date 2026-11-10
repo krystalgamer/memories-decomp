@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant336_ribbon.h"
+#include "variant336_entry.h"
 
 void FrenchModelVariant336_DrawRibbon(u8 *ctx)
 {
@@ -10,7 +11,7 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant336EntryState *work;
     GsOT *ot;
     s16 i;
     s32 wave;
@@ -24,27 +25,27 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant336EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x2000) > 0) {
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    if (work->phase > 0) {
         ribbon = (ModelVariant336Ribbon *)work;
         for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 0x400) {
             len = ribbon->extent * 48 / 1024;
-            ribbon->origin.vx = MODEL_VARIANT_WORD(work, 0x1F98) * (i + 1) / 4;
+            ribbon->origin.vx = work->direction.vx * (i + 1) / 4;
             ribbon->origin.vy = -1024;
-            ribbon->origin.vz = MODEL_VARIANT_WORD(work, 0x1FA0) * (i + 1) / 4;
+            ribbon->origin.vz = work->direction.vz * (i + 1) / 4;
             ribbon->end.vx = ribbon->origin.vx;
             ribbon->end.vy = 0;
             ribbon->end.vz = ribbon->origin.vz;
             MODEL_VARIANT_WORD(work, 0x1F80) = ribbon->end.vx - ribbon->origin.vx;
             MODEL_VARIANT_WORD(work, 0x1F84) = ribbon->end.vy - ribbon->origin.vy;
             MODEL_VARIANT_WORD(work, 0x1F88) = ribbon->end.vz - ribbon->origin.vz;
-            for (k = 0, wave = phase - MODEL_VARIANT_WORD(work, 0x1FF4); k < 17; k++, wave += 1100) {
+            for (k = 0, wave = phase - work->wave0; k < 17; k++, wave += 1100) {
                 if (k == 0 || k == 16) {
                     bend = 0;
                 } else {
-                    bend = phase - k * 384 + MODEL_VARIANT_WORD(work, 0x1FF8);
+                    bend = phase - k * 384 + work->wave1;
                 }
                 setVector(&ribbon->a[k],
                           ribbon->origin.vx + MODEL_VARIANT_WORD(work, 0x1F80) * k / 16
@@ -57,9 +58,9 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
             }
         }
         setVector(&rot, 0, 0, 0);
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x1F34);
+        m.t[0] = work->origin[0];
         m.t[1] = 0;
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x1F3C);
+        m.t[2] = work->origin[2];
         setVector(&scale, 4096, 4096, 4096);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
@@ -99,7 +100,7 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
         ribbon = (ModelVariant336Ribbon *)work;
         for (i = 0; i < 4; i++, ribbon++) {
             k = 0;
-            poly = (POLY_FT4 *)(work + 0x1E70);
+            poly = work->flat_textured;
             for (; k < ribbon->count; k++) {
                 poly->x0 = ribbon->sa[k] + ribbon->ox[k];
                 poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
@@ -123,26 +124,26 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
             }
             if (ribbon->state == 1) {
                 if (ribbon->count < 16) {
-                    ribbon->count += MODEL_VARIANT_WORD(work, 0x1FD0) * 2;
+                    ribbon->count += work->clock.step * 2;
                     if (ribbon->count >= 16) {
                         ribbon->count = 16;
-                        MODEL_VARIANT_WORD(work, 0x1FEC) = i * 2 + 3;
-                        if (MODEL_VARIANT_WORD(work, 0x1FEC) >= 8) {
-                            MODEL_VARIANT_WORD(work, 0x1FEC) = 8;
+                        work->sheet_count = i * 2 + 3;
+                        if (work->sheet_count >= 8) {
+                            work->sheet_count = 8;
                         }
                     }
                 }
             } else if (ribbon->state == 2 && ribbon->extent > 0) {
-                ribbon->extent -= MODEL_VARIANT_WORD(work, 0x1FD0) * 8;
+                ribbon->extent -= work->clock.step * 8;
                 if (ribbon->extent <= 0) {
                     ribbon->extent = 0;
                     if (i == 3) {
-                        MODEL_VARIANT_WORD(work, 0x2000) = 3;
+                        work->phase = 3;
                     }
                 }
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x1FF4) += MODEL_VARIANT_WORD(work, 0x1FD0) * 650;
-    MODEL_VARIANT_WORD(work, 0x1FF8) += MODEL_VARIANT_WORD(work, 0x1FD0) * 100;
+    work->wave0 += work->clock.step * 650;
+    work->wave1 += work->clock.step * 100;
 }

@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant388_strips.h"
+#include "../spanish_model_variant/variant388_entry.h"
 
 #define W(o) MODEL_VARIANT_WORD(work, o)
 #define H(o) MODEL_VARIANT_HALF(work, o)
@@ -21,7 +22,7 @@
  * American header-371 images built with the CDK compiler use it. */
 void FrenchModelVariant388_DrawStrips(u8 *ctx)
 {
-    u8 *work;
+    Variant388EntryState *work;
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
@@ -39,9 +40,9 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     s16 width;
     s32 angle;
 
-    work = ctx;
+    work = (Variant388EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x16C0);
+    poly = work->textured;
     angle = ratan2(H(0x183E), H(0x183C)) + 0x800;
     if (W(0x1898) > 0) {
         unit = (Strip388Unit *)work;
