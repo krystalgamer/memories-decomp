@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant472_spiral.h"
+#include "../model_variant/variant455_entry.h"
 
 /* The North American header-455 build (CDK compiler) indexes the closing
  * segment's previous point directly instead of walking a pointer to it. */
@@ -28,7 +29,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
 #ifndef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
     long *previous;
 #endif
-    u8 *work;
+    EntryState455 *work;
     GsOT *ot;
     s16 i;
     s16 length;
@@ -48,31 +49,31 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (EntryState455 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x2C14);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2ED8), MODEL_VARIANT_WORD(work, 0x2ED0)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x2F40) < 3) {
+    poly = work->textured;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    if (work->phase < 3) {
         spread = 0x400;
-        r = MODEL_VARIANT_WORD(work, 0x2F1C) / 2;
+        r = work->spiral_size / 2;
     } else {
         r = 0x200;
-        spread = MODEL_VARIANT_WORD(work, 0x2F1C);
+        spread = work->spiral_size;
     }
-    ux = MODEL_VARIANT_WORD(work, 0x2EBC) * MODEL_VARIANT_WORD(work, 0x2F1C) / 1024;
-    uy = MODEL_VARIANT_WORD(work, 0x2EC0) * MODEL_VARIANT_WORD(work, 0x2F1C) / 1024;
-    uz = MODEL_VARIANT_WORD(work, 0x2EC4) * MODEL_VARIANT_WORD(work, 0x2F1C) / 1024;
-    eighth = MODEL_VARIANT_WORD(work, 0x2F1C) / 8;
-    if (r * MODEL_VARIANT_WORD(work, 0x2F28) < 0) {
+    ux = work->direction.vx * work->spiral_size / 1024;
+    uy = work->direction.vy * work->spiral_size / 1024;
+    uz = work->direction.vz * work->spiral_size / 1024;
+    eighth = work->spiral_size / 8;
+    if (r * work->field_2F28 < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_WORD(work, 0x2F28) < 0) {
+    if (eighth * work->field_2F28 < 0) {
         length = 0;
     }
-    arm = (Variant472SpiralArm *)(work + 0x1EF4);
+    arm = (Variant472SpiralArm *)work->fans;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_WORD(work, 0x2F20) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_WORD(work, 0x2F20);
+        phi = (i << 12) / 12 + work->spiral_angle * 2;
+        theta = (i << 13) / 12 + work->spiral_angle;
         for (k = 0; k < 4; k++) {
             length = (k * 32 / 3 + 8) * spread / 1024;
             if (k == 0) {
@@ -86,7 +87,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x2EE8) & 1)) {
+    if (!(work->frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -94,9 +95,9 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x2E98);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x2E9C);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x2EA0);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -107,7 +108,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant472SpiralArm *)(work + 0x1EF4);
+    arm = (Variant472SpiralArm *)work->fans;
 #ifdef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
     for (i = 0; i < 12; i++, arm++) {
 #else
@@ -139,7 +140,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant472SpiralArm *)(work + 0x1EF4);
+    arm = (Variant472SpiralArm *)work->fans;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 3; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];
@@ -190,21 +191,21 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x2F20) += 16;
-    if (MODEL_VARIANT_WORD(work, 0x2F40) == 0) {
-        if (MODEL_VARIANT_WORD(work, 0x2F1C) < 0x400) {
-            MODEL_VARIANT_WORD(work, 0x2F1C) = (u32)((MODEL_VARIANT_WORD(work, 0x2EEC) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x1C)) << 10) /
-                                               (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x20) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x1C));
-            if (MODEL_VARIANT_WORD(work, 0x2F1C) >= 0x400) {
-                MODEL_VARIANT_WORD(work, 0x2F1C) = 0x400;
+    work->spiral_angle += 16;
+    if (work->phase == 0) {
+        if (work->spiral_size < 0x400) {
+            work->spiral_size = (u32)((work->elapsed - work->config->fan_start) << 10) /
+                                               (u32)(work->config->mesh_start - work->config->fan_start);
+            if (work->spiral_size >= 0x400) {
+                work->spiral_size = 0x400;
             }
         }
-    } else if ((u32)MODEL_VARIANT_WORD(work, 0x2EEC) >= (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x28) &&
-               MODEL_VARIANT_WORD(work, 0x2F1C) > 0) {
-        MODEL_VARIANT_WORD(work, 0x2F1C) = 0x400 - (u32)((MODEL_VARIANT_WORD(work, 0x2EEC) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x28)) << 10) /
-                                           (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x2C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2EFC), 0x28));
-        if (MODEL_VARIANT_WORD(work, 0x2F1C) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x2F1C) = 0;
+    } else if ((u32)work->elapsed >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
+               work->spiral_size > 0) {
+        work->spiral_size = 0x400 - (u32)((work->elapsed - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
+                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
+        if (work->spiral_size <= 0) {
+            work->spiral_size = 0;
         }
     }
 }
