@@ -8,7 +8,7 @@ static PADDING_VARIABLE(2);
 static u32 D_8009B42C;
 
 #include "graphics_frame.h"
-#include "display_object_transition.h"
+#include "main_boot_screen.h"
 #include "main_frame.h"
 #include "display_object_core.h"
 #include "../psyq/libgte.h"
@@ -17,7 +17,6 @@ static u32 D_8009B42C;
 #include "../psyq/libds.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "main_boot_load_stages.h"
 #include "main_run_boot_sequence.h"
 #include "graphics_constants.h"
 #include "display_object_helpers.h"

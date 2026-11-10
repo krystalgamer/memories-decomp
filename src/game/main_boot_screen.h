@@ -1,8 +1,8 @@
-#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_TRANSITION_H
-#define MEMORIES_DECOMP_DISPLAY_OBJECT_TRANSITION_H
-
+#ifndef MEMORIES_DECOMP_MAIN_BOOT_SCREEN_H
+#define MEMORIES_DECOMP_MAIN_BOOT_SCREEN_H
 #include "../types.h"
 #include "display_object.h"
+#include "file_transfer.h"
 
 /* Crossfades one display object into another and releases what it replaces:
  * over 17 frames b and a blended copy brighten from 0 to 0x80 while a and its
@@ -23,5 +23,13 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b);
  * count runs out. Main_RunBootSequence passes 4 after the first boot image and
  * 0xB4 while the main-menu package loads behind the second. */
 void Main_HoldBootScreen(s32 count);
+
+/* Main_RunBootSequence supplies these callbacks to the existing boot package
+ * and image requests. The Japanese image entry keeps its native alias in
+ * both the caller and implementation adapters. */
+void Main_LoadBootPackageStage(
+    FileTransferDescriptor *descriptor, s32 stage
+);
+void Main_LoadBootImageStage(FileTransferDescriptor *descriptor, s32 mode);
 
 #endif
