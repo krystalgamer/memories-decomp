@@ -23,7 +23,7 @@
 #include "../../game/display_object_interpolation.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
-#include "../../game/view_state.h"
+#include "../../game/view_state_orbit.h"
 #include "../../game/main_services.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_update_coordinate_unit_matrix.h"

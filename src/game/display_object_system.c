@@ -81,7 +81,7 @@ u8 gSD_szMidiTrackMarker[8] = "MTrk";
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
-#include "view_state.h"
+#include "view_state_orbit.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * display_object_system_commons/_bss_commons subsegments place it at the
