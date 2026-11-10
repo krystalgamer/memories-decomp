@@ -1149,7 +1149,7 @@ centralization target and is not one.
 
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
 `D_8009B26C[0]`: `debug_menu.c`,
-`duel_effect_sound_commands.c`, `build_deck.c`, `func_8002FA28.c`,
+`duel_effect_sound_commands.c` (now `text_commands.c`), `build_deck.c`, `func_8002FA28.c`,
 `script_op_open_campaign_map.c`, `script_runtime.c` (both now in
 `script_scene.c`) and
 `debug_menu.c`. Seven identical

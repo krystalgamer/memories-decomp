@@ -10,7 +10,7 @@ These declarations describe accesses, not C storage allocation.
 `Script_RunTick` fetches the command through `gScript_StreamCursor` and dispatches the
 low five bits of `gScript_wCommandWord`. `Text_StageScriptImage` and
 `Text_StartViewportTween` in
-`duel_effect_state_callbacks.c` install commands 5 and 7 through the same
+`duel_effect_text.c` install commands 5 and 7 through the same
 globals, and `TextBox_BuildStep` dispatches them until the command clears.
 Thus the text-channel views belong to the same contract as the script
 handlers, not independent copies of the state.
@@ -20,8 +20,8 @@ The following access forms remain intentional:
 | Consumer | Shared-header selection | Preserved form |
 | --- | --- | --- |
 | Existing script handlers | Default | Unsigned scalar command, image/shared operands and viewport targets |
-| `duel_effect_state_callbacks.c` | `SCRIPT_STATE_TEXT_CALLBACK_VIEWS` | Unsized unsigned arrays; signed `.data` shared operand and scalar aliases |
-| `text_box_build_step.c` | `SCRIPT_STATE_COMMAND_IN_DATA` | Unsigned `.data` command scalar |
+| `duel_effect_state_callbacks.c` (now `duel_effect_text.c`) | `SCRIPT_STATE_TEXT_CALLBACK_VIEWS` | Unsized unsigned arrays; signed `.data` shared operand and scalar aliases |
+| `text_box_build_step.c` (now `text_commands.c`) | `SCRIPT_STATE_COMMAND_IN_DATA` (no header reads it; the merge dropped it) | Unsigned `.data` command scalar |
 
 The text callback stores both targets through their scalar names, before
 and after its calls. The former `Base2_8009B2A8`/`Base2_8009B2AA`
@@ -241,8 +241,8 @@ units:
 
 | Source | Declarations moved |
 | --- | ---: |
-| `duel_effect_state_callbacks.c` | 10 |
-| `text_box_build_step.c` | 1 |
+| `duel_effect_state_callbacks.c` (now `duel_effect_text.c`) | 10 |
+| `text_box_build_step.c` (now `text_commands.c`) | 1 |
 | `script_update_viewport_tween.c` (now the `Script_UpdateViewportTween` candidate) | 4 |
 | `script_runtime.c` (now `script_scene.c`) | 1 |
 | `script_op_show_image.c` (now `script_scene.c`) | 1 |

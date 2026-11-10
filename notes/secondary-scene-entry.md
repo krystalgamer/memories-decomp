@@ -1,8 +1,8 @@
 # Secondary text commands and Campaign Map entry
 
-The existing seven-function `duel_effect_sound_commands.c` object ends with
+The existing seven-function sound-command run (now in `text_commands.c`) ends with
 two empty secondary handlers and a Campaign Map request. These identities
-complete that object without changing its four accepted sound handlers.
+complete that run without changing its four accepted sound handlers.
 
 ## Secondary command identities
 

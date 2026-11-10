@@ -1,8 +1,15 @@
+
+/* Text channel setup: DuelEffect_ResetState, which clears the four
+ * gText_aChannels effect channels, their occupancy table and entry markers,
+ * and TextBox_SetRect, which sets one channel's text-box rectangle. In every
+ * executable these are one contiguous run of text (0x80035A64-0x80035AF0 in
+ * the US build). */
 #include "../types.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "duel_effect_entry_occupancy.h"
 #include "duel_effect_reset_state.h"
+#include "text_box_set_rect.h"
 
 void DuelEffect_ResetState(void)
 {
@@ -28,4 +35,13 @@ void DuelEffect_ResetState(void)
     DuelEffect_ResetOccupancy();
 #endif
     DuelEffect_ResetEntryMarkers();
+}
+
+void TextBox_SetRect(int index, int x, int y, int width, int height)
+{
+    DuelEffectChannel *entry = &gText_aChannels[index];
+    entry->rect_x = x;
+    entry->rect_y = y;
+    entry->rect_width = width;
+    entry->rect_height = height;
 }

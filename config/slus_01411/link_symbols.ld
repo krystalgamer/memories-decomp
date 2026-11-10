@@ -125,7 +125,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 
-/* Other names for game/text_box_runtime's small data (#2602). */
+/* Other names for game/text_commands's small data (#2602). */
 
 /* Other names for game/input_pads's small data (#2602). */
 

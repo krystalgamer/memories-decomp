@@ -113,11 +113,8 @@ object before it.
 | `src/game/duel_effect_object_pool.c` | `.bss` | `0x800EAD88`-`0x800EAE88` |
 | `src/game/main_run_campaign.c` | `.bss` | `0x800EAE88`-`0x800EAED8` |
 | `src/game/debug_menu.c` | `.bss` | `0x800EAED8`-`0x800EAF08` |
-| `src/game/duel_effect_entry_occupancy.c` | `.bss` | `0x800EAF08`-`0x800EAFF8` |
-| `src/game/duel_effect_command.c` | `.bss` | `0x800EAFF8`-`0x800EB010` |
-| `src/game/text_control_commands.c` | `.bss` | `0x800EB010`-`0x800EB0F8` |
-| `src/game/text_box_runtime.c` | `.bss` | `0x800EB0F8`-`0x800EB288` |
-| `src/game/duel_effect_process_entries.c` | `.bss` | `0x800EB288`-`0x800EF668` |
+| `src/game/duel_effect_text.c` | `.bss` | `0x800EAF08`-`0x800EAFF8` |
+| `src/game/text_commands.c` | `.bss` | `0x800EAFF8`-`0x800EF668` |
 | `src/game/input_pads.c` | `.bss` | `0x800EF668`-`0x800EF6D0` |
 | `src/game/mem_card.c` | `.bss` | `0x800EF6D0`-`0x800EFE38` |
 | `src/game/display_object_system.c` | `.bss` | `0x800EFE38`-`0x800F2888` |
@@ -254,7 +251,7 @@ zero-initialized data is the North American layout moved down by `0x110` in
 and `bss_image` into `main` and lists the same owners at the shifted addresses:
 - `.sbss`: every owned block from `graphics_frame` (`0x8009AF80`) through the
   sound block (`0x8009B348`-`0x8009B358`);
-- `.bss`: from the frame buffers (`0x8009B388`) through `text_control_commands`.
+- `.bss`: from the frame buffers (`0x8009B388`) through `text_commands`.
 
 Where a Japanese block differs from the North American one, the Japanese
 wrapper gives that build its own storage. The wrapper defines
