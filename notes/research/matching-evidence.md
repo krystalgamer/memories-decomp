@@ -7593,7 +7593,7 @@ The historical canonical match and six inline-refinement rows remain intact.
 The new `post_terminal_resolution` record identifies the pointer view and
 source-level exit structure as the discriminator beyond that deferred series.
 
-## func_80051610: the intended last -fno-strength-reduce holdout
+## func_80051610: the last -fno-strength-reduce unit, resolved by typed records
 
 The European slot-decoder build of `model_slot_row_tables.c`
 (`src/game/european/func_80051610.c`, `0x80051610`,
@@ -7640,5 +7640,16 @@ Recorded experiments, each with its measured distance:
 | index loop `record = primitive_record + i * stride` | ~465 |
 | permuter: 15 minutes on the best form, 13 on the user-`q` form | no improvement |
 
-The `while (remaining_records-- != 0)` variant is the only one that moves the
-offset to `$a0`. It is the most promising lead if this unit is revisited.
+None of those experiments changed what the source said the data was. The kind
+switch on `(u16)unit->type` is a type discriminator: each arm selects one Psy-Q
+HMD textured polygon layout (flat/gouraud triangle/quad, the `0x200` kinds with
+a four-byte colour/code prefix), and its constants are that layout's `tsb` and
+`cba` offsets, `sizeof` and GPU packet size. Writing the European body around
+those typed records, with one local per role (tpage, colour depth, CLUT value,
+CLUT row/column, current maximum), matches retail at plain
+`gcc_2_8_1_g0_split`. The arms store the `cba` offset in `value`, the local
+that later holds each normal-index candidate, and the loop takes
+`s32 cba_offset = value;` in its guard. That shared lifetime is what gives the
+offset `$a0`; giving every role a fresh local is 184 lines off, and the typed
+member reads alone change nothing. The unit therefore leaves
+`gcc_2_8_1_g0_split_no_strength_reduce`, which no manifest selects any more.

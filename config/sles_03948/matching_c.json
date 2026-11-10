@@ -5409,7 +5409,7 @@
     },
     {
       "address": "0x80050254",
-      "profile": "gcc_2_8_1_g0_split_no_strength_reduce",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x48C",
       "source": "src/game/european/func_80051610.c"
     },
