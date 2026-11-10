@@ -1090,4 +1090,17 @@ extern u32 gSD_dwSavedBgmCommand;
  * reaches +1, and every declarer said s8. */
 extern s8 gSD_bOutputType;
 
+/* Sound driver debug format strings printed by sound_driver.c. */
+extern const char gSD_szSeGroupCountFormat[];
+extern const char gSD_szSmfMixerOutFormat[];
+extern const char gSD_szCdMixerOutFormat[];
+
+/* The leading 'V' of each staging buffer's "VolInfo" signature: byte 0x7F8
+ * of the SMF bank buffer at 0x801E2000 and of the CD bank buffer at
+ * 0x801E8800. The buffers are runtime CD transfer targets past the end of the
+ * executable image, so there is no initialized data to define; the linker
+ * scripts bind each label as buffer + 0x7F8. See SDBankStagingBuffer. */
+extern u8 gSD_SmfBankVolInfoTag;
+extern u8 gSD_CdBankVolInfoTag;
+
 #endif

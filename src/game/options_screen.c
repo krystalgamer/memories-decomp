@@ -30,7 +30,6 @@ static u32 D_8009B38C;
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_constants.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 
 /* The options screen: its text-colour and text-box setup, the layout pass

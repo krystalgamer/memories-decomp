@@ -9,7 +9,6 @@
 #include "direct_polygon_renderers.h"
 #include "shared_primitive_renderers.h"
 #include "model_handler_registry.h"
-#include "../unmatched.h"
 
 u32 *(*Model_GetImagePrimitiveHandler(u32 v))(GsARGUNIT *){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return GsU_02000000;b:return GsU_02000001;d:
 #ifdef VERSION_EUROPE

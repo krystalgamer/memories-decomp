@@ -29,4 +29,13 @@ extern u16 gText_awGlyphNibblePatterns[16];
 extern u16 gText_awGlyphColorMasks[];
 #endif
 
+/* The glyph records Text_FindRecordById walks: a zero-terminated table of
+ * big-endian halfword ids and, in lockstep, 0x1E-byte records. The Japanese
+ * rasterizer reads a record as fifteen 16-pixel rows of glyph bits; Japan
+ * defines its 27 records in japanese/text_glyph_records.c. The North American
+ * image has no records: both labels sit just past the 93-entry glyph lookup
+ * table, where the linker script binds them. */
+extern u8 gText_aGlyphRecordBitmaps[];
+extern u8 gText_aGlyphRecordKeys[];
+
 #endif

@@ -27,7 +27,6 @@ ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
 #include "shared_primitive_renderers.h"
 #include "wireframe_renderers.h"
 #include "primitive_handler_modes.h"
-#include "../unmatched.h"
 
 #define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
 

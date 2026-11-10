@@ -100,7 +100,7 @@ additional-pass branch and header-plus-eight return is preserved.
 
 All seventeen existing declarations are `int name()` with unspecified
 parameters, including the preparation stage. The frozen explanations in
-`src/unmatched.h` record the earlier correction from incorrect `void(void)`
+the former `unmatched.h` (now retired) recorded the earlier correction from incorrect `void(void)`
 forms and why a typed pointer/result contract is not established. The new
 isolated header preserves that exact declaration shape. It does not copy
 the direct family's thirty address-use `void(void)` declarations or its two

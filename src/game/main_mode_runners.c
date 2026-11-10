@@ -21,7 +21,6 @@
 #include "text_box_runtime.h"
 #include "card_list_setup.h"
 #include "display_object_work_slots.h"
-#include "../unmatched.h"
 #include "main_mode_state.h"
 #include "save_data.h"
 #include "campaign_flags.h"

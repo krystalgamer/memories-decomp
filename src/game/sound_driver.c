@@ -11,6 +11,18 @@ SDSecondaryState *gSD_pSecondaryState;
 SDValue *g_SDValue;
 FileRequestSlot *gSD_pFileRequest;
 
+/* Read-only data this unit owns ahead of its jump tables: the archive names
+ * SD_InitState copies into the file requests, then the debug formats
+ * SD_UpdateBankLoad prints. The European build makes none of those calls. */
+const char gSD_szBgmFileName[] = "SD_bgm.dat";
+const char gSD_szSeFileName[] = "SD_se.dat";
+const char gSD_szMasterXaFileName[] = "MASTER.XA";
+#ifndef VERSION_EUROPE
+const char gSD_szSeGroupCountFormat[] = "g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n";
+const char gSD_szSmfMixerOutFormat[] = "Set SMF Mixer Out:%d\n";
+const char gSD_szCdMixerOutFormat[] = "Set CD Mixer Out:%d\n";
+#endif
+
 void SD_FadeInStreamAudio(void)
 {
     SDValue *first = g_SDValue;
@@ -170,7 +182,6 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 }
 
 #include "../psyq/stdio.h"
-#include "../unmatched.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 #include "sound_output.h"

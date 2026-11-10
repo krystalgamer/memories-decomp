@@ -9,7 +9,6 @@
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "model_slot_support.h"
-#include "../unmatched.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

@@ -10,7 +10,6 @@
 #include "sound.h"
 #include "display_object_config.h"
 #include "game_over.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 
 /* Small globals other units own, declared here as common symbols the

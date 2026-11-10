@@ -19,7 +19,6 @@
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/card_list_create_deck_box_stat_rows.h"
 #include "../../game/trade_confirmation_widgets.h"
-#include "../../unmatched.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN) || \

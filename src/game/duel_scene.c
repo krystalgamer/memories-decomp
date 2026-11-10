@@ -515,7 +515,6 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 #include "card_presentation.h"
 #include "display_projection.h"
 #include "duel_field_card_render.h"
-#include "../unmatched.h"
 #include "../game/model_draw_slot.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
@@ -1135,7 +1134,6 @@ void ViewState_ResetDefaults(void)
 #include "file_transfer.h"
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
-#include "../unmatched.h"
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
 #ifdef VERSION_EUROPE
@@ -1396,7 +1394,6 @@ void Duel_InitModelScene(void)
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 #include "duel_card.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
@@ -1528,7 +1525,6 @@ void Duel_ResetCardRecords(void)
 #endif
 #include "duel_init_ground_projection_reference.h"
 #include "duel_side_view_angles.h"
-#include "../unmatched.h"
 #include "view_state_reset_defaults.h"
 #include "duel_result_outro.h"
 
@@ -2005,7 +2001,6 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_action_lock.h"
 #include "duel_draw_card_output_position.h"
 #include "display_object_set_resource_variant_from_sign.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "duel_init_scene.h"
@@ -2354,7 +2349,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_card_display_objects.h"
 #include "duel_deck_card_data.h"
@@ -2698,7 +2692,6 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "duel_deck_card.h"
 #include "duel_rank.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "duel_card_display_objects.h"
@@ -3168,7 +3161,6 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
 #include "duel_field_effects.h"
 #include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
@@ -3518,7 +3510,6 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 #include "text_channel_state.h"
 #include "file_transfer.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"
@@ -4243,7 +4234,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "ai_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-#include "../unmatched.h"
 #include "duel_field_selection.h"
 
 /* One screen height above the top: -0xF0 in the US build, -0x100 in the
@@ -4253,7 +4243,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #endif
 #include "input.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 #ifndef DUEL_CARD_STAGING_CONFIRM_MASK
@@ -4688,7 +4677,6 @@ int Duel_CheckQuitInput(void)
 #include "script_state.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
@@ -5370,7 +5358,6 @@ void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
 #include "display_object_config.h"
 #include "display_object.h"
 #include "display_projection.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_action_ready_marker.h"
 #include "duel_grid.h"
@@ -5444,7 +5431,6 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #include "input.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
@@ -6151,7 +6137,6 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
 #include "duel_grid.h"
 #include "sound.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_trap_resolution.h"
 
@@ -6516,7 +6501,6 @@ m3:
 #include "sound_sequence_state.h"
 #include "model_scene_states.h"
 #include "display_object_motion.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "display_callback_transitions.h"
@@ -7184,7 +7168,6 @@ void DuelScene_UpdateTurnSwitch(void){if(!(gDuel_wSceneStateFlags&DUEL_SCENE_FLA
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "input.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_update_card_use_confirmation.h"
 
@@ -7300,7 +7283,6 @@ s32 Duel_UpdateCardUseConfirmation(void) {
 #include "file_transfer.h"
 #include "duel_result_load_outro_package_stage.h"
 #include "../ygo_types.h"
-#include "../unmatched.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {
@@ -7429,7 +7411,6 @@ tail:
 #include "display_asset_banks.h"
 #include "duel_check_quit_input.h"
 #include "duel_effect.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -8166,7 +8147,6 @@ show_page:
 #include "display_object.h"
 #include "duel_card_display_state.h"
 #include "duel_scene_state.h"
-#include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "duel_scene_state.h"
 #include "duel_check_quit_input.h"
@@ -8405,7 +8385,6 @@ void DuelScene_UpdateEffectPreview(void) {
 #include "duel_card_display_objects.h"
 #include "display_object_lifecycle.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_selection_layout.h"
 #include "duel_selection_update_linked_object.h"
 #include "display_object_core.h"
@@ -8869,7 +8848,6 @@ void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear)
 #include "duel_card_turn_animations.h"
 #include "duel_side_view_angles.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "sound.h"
 #include "duel_cursor_grid_direction.h"
@@ -9438,7 +9416,6 @@ s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object)
 #include "duel_card.h"
 #include "duel_get_card_viewer_request_id.h"
 #include "input.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 /* Regional value: the record's panel_target_y (0x74 -> 0x84). The European build
@@ -9549,7 +9526,6 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 #include "duel_effect.h"
 #include "duel_effect_request.h"
 #include "duel_field_display_objects.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_field_effects.h"
 #include "dialog_choice.h"
@@ -9870,7 +9846,6 @@ int Util_CompareS16(const short *left, const short *right)
 #include "duel_screen_tables.h"
 #include "duel_terrain_boost.h"
 #include "display_object_set_resource_variant_from_sign.h"
-#include "../unmatched.h"
 
 /* Initialized data this unit owns at 0x800909D4: the terrain attack modifiers, in card-type
    order. */
@@ -10160,7 +10135,6 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 
 #include "main_start_duel.h"
 #include "duel_side_state.h"
-#include "../unmatched.h"
 #include "duel_session_controls.h"
 #include "main_mode_state.h"
 #include "ai_opponent_data.h"
@@ -10209,7 +10183,6 @@ void DuelEffect_ClearCardEffect(void)
 #include "file_transfer.h"
 #include "sound.h"
 #include "display_object_config.h"
-#include "../unmatched.h"
 #include "duel_effect_apply_terrain.h"
 
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
@@ -10332,7 +10305,6 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
 #include "duel_trap_resolution.h"
 #include "duel_select_trap_by_card_id.h"
 #include "duel_card_object_helpers.h"
-#include "../unmatched.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
@@ -10348,7 +10320,6 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
 #include "duel_card_display_objects.h"
 #include "duel_effect.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
@@ -10934,7 +10905,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "duel_magic_effect_format.h"
 #include "duel_card_checks.h"
 #include "duel_field_effects.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -11776,7 +11746,6 @@ s32 Duel_SelectTrapPlay(void) {
 #include "duel_check_quit_input.h"
 #include "ai_turn_action.h"
 #include "duel_battle_stats.h"
-#include "../unmatched.h"
 #include "duel_card_staging.h"
 #include "duel_card_display_state.h"
 #include "duel_deck_card.h"

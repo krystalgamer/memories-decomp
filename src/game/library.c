@@ -27,7 +27,6 @@ static PADDING_VARIABLE(4);
 #include "text_message_staging.h"
 #include "library_card_grid.h"
 #include "library_update_grid_scroll.h"
-#include "../unmatched.h"
 #include "input.h"
 #include "main_mode_state.h"
 #include "../psyq/libgte.h"

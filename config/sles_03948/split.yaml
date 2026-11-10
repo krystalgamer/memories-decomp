@@ -109,9 +109,6 @@ segments:
     - .rodata
     - game/sd_cancel_music_requests
   - - 3856
-    - rodata
-    - initial_data_f10
-  - - 3896
     - .rodata
     - game/european/sound_driver
   - - 3936

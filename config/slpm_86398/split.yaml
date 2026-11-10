@@ -85,14 +85,13 @@ segments:
       - [0xcf4, rodata, initial_data_cf4]
       - [0xcf4, .rodata, game/sd_step_active_command]
       - [0xe3c, .rodata, game/sd_cancel_music_requests]
-      - [0xf00, rodata, initial_data_f00]
-      - [0xf88, .rodata, game/japanese/sound_driver]
+      - [0xF00, .rodata, game/japanese/sound_driver]
       - [0xfb0, rodata, initial_data_fb0]
       - [0x1c40, .rodata, game/japanese/model]
       - [0x1eb4, rodata, initial_data_1eb4]
-      - [0x1f34, .rodata, game/main_menu_load_package_stage]
+      - [0x1F24, .rodata, game/main_menu_load_package_stage]
       - [0x1f48, rodata, initial_data_1f48]
-      - [0x2038, .rodata, game/japanese/ai_script]
+      - [0x1F98, .rodata, game/japanese/ai_script]
       - [0x2094, rodata, initial_data_2094]
       - [0x30c4, asm, entry]
       - [0x323c, c, game/japanese/main]
@@ -377,11 +376,13 @@ segments:
       - [0x170800, bin, overlays/slot_80180000]
 
   - name: tail_data
-    type: bin
+    type: code
     start: 0x1ac800
     vram: 0x801bc000
     align: 4
     subsegments:
       - [0x1ac800, bin, tail_data]
+      - [0x1ca3ac, .data, game/japanese/text_glyph_records]
+      - [0x1ca710, bin, tail_data_after_glyph_records]
 
   - [0x1d0800]

@@ -23,7 +23,6 @@ static u32 D_8009B42C;
 #include "main_reset_frontend_runtime.h"
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"

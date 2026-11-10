@@ -169,12 +169,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
     def test_lost_include_is_caught_while_the_prototype_still_exists(self) -> None:
         # Keep each selected prototype in its owner while hiding that owner
         # from the caller, reproducing the lost-include regression.
-        unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
         sound = (REPOSITORY / "src/game/sound.h").read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "unmatched.h" in include:
-                declarations = unmatched
-            elif callee == "SD_ResetSecondaryPlayback":
+            if callee == "SD_ResetSecondaryPlayback":
                 declarations = sound
             else:
                 continue

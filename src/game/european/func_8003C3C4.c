@@ -6,7 +6,6 @@
 #include "../../psyq/libgpu.h"
 #include "../file_transfer.h"
 #include "../duel_effect_resource_setup.h"
-#include "../../unmatched.h"
 
 /* The second earlier PAL frontend package callback: like the first, with a
    48-sector opening phase.

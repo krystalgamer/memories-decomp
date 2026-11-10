@@ -670,9 +670,10 @@ and resident callers all include that owner directly.
 
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C must have a
-canonical header declaration; genuinely homeless data lives in
-`src/unmatched.h`. Caller-specific scalar, array, pointer, signedness, and
-explicit `.data` spellings are selected through guarded arms there rather than
+canonical header declaration. The former catch-all `unmatched.h` has been
+retired: every declaration it held now lives in an owning subsystem header.
+Caller-specific scalar, array, pointer, signedness, and explicit `.data`
+spellings are selected through guarded arms in those owners rather than
 redeclared in a C file. `make check-unmatched-contracts` scans the built
 sources and reports the number of remaining headerless names and sites; both
 must stay zero.
@@ -690,7 +691,7 @@ are, the two directions are not symmetric and neither is decided by looking.
 
 A caller that sets FEWER argument registers than the callee reads is
 repairable exactly when the values the callee reads can be named at the call
-site. `src/unmatched.h` records both cases below for this direction.
+site. The former `unmatched.h` recorded both cases below for this direction.
 
 `Model_InitSlot` looked like the case that cannot be repaired and is not.
 `Model_LoadSlot` used to call it through a `void (void)` declaration while
@@ -721,7 +722,7 @@ argument and the parameter is byte-identical, so the declaration follows the
 definition. The instinct that retail sets $a0 because the declaration says to
 was wrong here.
 
-One more in the same family, also recorded in unmatched.h: func_80013C28
+One more in the same family, also recorded in the former unmatched.h: func_80013C28
 keeps two incompatible spellings on purpose.
 
 So: an arity mismatch is a measurement, not a reading. Try the definition's

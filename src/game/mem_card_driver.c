@@ -8,7 +8,6 @@
 #include "mem_card_directory_patterns.h"
 #include "mem_card_io_result_callbacks.h"
 #include "mem_card.h"
-#include "../unmatched.h"
 #include "mem_card_request_inputs.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated

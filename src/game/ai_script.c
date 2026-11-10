@@ -12,7 +12,17 @@ AiScriptState gAiScript_State;
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
 #include "ai_script.h"
-#include "../unmatched.h"
+
+/* Read-only data this unit owns ahead of its jump tables, in the order the
+ * nest/return traps and AiScript_Print first print them. The European build
+ * makes none of these printf calls. */
+#ifndef VERSION_EUROPE
+const char gAiScript_szNestOverflowError[] = "ERROR:Sub Routine Nest Over !!\n";
+const char gAiScript_szSourceFile[] = "src/hirata/H_mctrl1.c";
+const char gAiScript_szReturnUnderflowError[] = "ERROR:Can't Return From Routine !!\n";
+const char gAiScript_szCheckpoint[] = "check_point\n";
+const char gAiScript_szCheckpointFormat[] = "---- %d ------------------------------------\n";
+#endif
 
 /* Initialized data this unit owns at 0x800916E0: the opcode dispatch table AiScript_Run
    indexes. Opcode 0 is unused and its slot is null. */

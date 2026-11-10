@@ -13,7 +13,6 @@
 #include "drawing_helpers.h"
 #include "textured_quads.h"
 #include "color_helpers.h"
-#include "../../unmatched.h"
 
 typedef struct {
     u8 color[3];

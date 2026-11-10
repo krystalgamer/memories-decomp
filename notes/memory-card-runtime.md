@@ -874,7 +874,7 @@ to the existing modal owner, without introducing a packed result record.
 | `0x8009B3F4` | `gMemCardDialog_SyncResult` | `s32` |
 
 The operation byte, sync status and sync result declarations move from
-`src/unmatched.h` to `src/game/mem_card.h` with exactly those plain
+the former `unmatched.h` to `src/game/mem_card.h` with exactly those plain
 types. The command word already belonged there. No qualifier, size,
 pointer cast, small-data arm, initialized definition or SDK prototype
 changes. Ownership alone leaves all 940 complete compiler/MASPSX outputs
@@ -972,7 +972,7 @@ not a packed descriptor, new allocation or immutable request snapshot.
 | `0x8009B3C4` | `gMemCardDialog_TransferOffset` | `u16` |
 | `0x8009B3DC` | `gMemCardDialog_BlockCount` | `u8` |
 
-The port and two halfword declarations move from `src/unmatched.h` to
+The port and two halfword declarations move from the former `unmatched.h` to
 their existing consumer owner, `src/game/mem_card.h`, with their exact
 plain types. The filename and block byte already belonged there. No
 qualifier, initialized definition, SDK signature, pointer view or

@@ -7,7 +7,6 @@
 #include "sound_output.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-#include "../unmatched.h"
 
 void SD_RequestBgmPlaybackDefaultStep(s32 command_id)
 {

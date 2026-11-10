@@ -10,7 +10,6 @@
 #include "layered_drawing.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"
-#include "../../unmatched.h"
 
 typedef struct {
     CVECTOR color;

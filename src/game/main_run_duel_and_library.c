@@ -19,7 +19,6 @@
 #include "../game/library_runtime.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
-#include "../unmatched.h"
 #include "duel_session_controls.h"
 
 u8 gMain_bActiveModeState;

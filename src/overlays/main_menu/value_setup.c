@@ -3,7 +3,6 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
-#include "../../unmatched.h"
 #include "../../game/input.h"
 #include "../../game/card_constants.h"
 #include "../../game/display_object_core.h"
