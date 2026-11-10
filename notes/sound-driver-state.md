@@ -178,10 +178,10 @@ also resets `s_dwSD_BANK_LOAD_PHASE` and ORs `0x0A` into the status word.
 The XA-zero clear is deliberately `0x40`, not the loader/wrapper `0x80`
 gate. Do not repair that difference or assign meanings to the other bits.
 
-`tent_SD_SetDataSourceFlags` retains `(old & 0xF0) | value` before the
+`SD_SetDataSourceFlags` retains `(old & 0xF0) | value` before the
 existing byte-store truncation. Its value is not masked to four bits:
-the name does not promise a strict low-nibble setter, and the function
-keeps its tentative qualifier. The field names introduce no enum,
+the name does not promise a strict low-nibble setter, even after its
+promotion from `tent_SD_SetDataSourceFlags`. The field names introduce no enum,
 bit-constant substitution, queue-success check, initialization change,
 mask adjustment, cast removal or scheduling change.
 
@@ -2157,7 +2157,7 @@ relative offset in a different backing object. Its initialization, spatial
 scaling, command consumers and layout assertion remain untouched. The
 `sound_init.c` secondary-state store is not a CD-fade-step store.
 
-The six tentative sound-function names remain tentative. Their existing
+The six then-tentative sound-function names were not promoted here. Their existing
 uncalled-duplicate and voice-ID-domain caveats are not resolved by naming
 the active ramp members. No caller, reachability, historical naming evidence,
 callback signature, initialized table, compiler profile or executable
@@ -2317,9 +2317,8 @@ sources and named compiler profiles remain. The existing allocator witness
 changes only the two member identifiers, including both sides of its cursor
 mutation; inputs, state oracles, event sequences and negative controls stay
 identical. No test case or harness is added or executed locally.
-The incidental cursor spelling in `tent_SD_KeyOffVoiceById` follows the same
-member rename without promoting that helper or removing its reachability
-caveat.
+The incidental cursor spelling in `SD_KeyOffVoiceById` follows the same
+member rename without removing its reachability caveat.
 
 ### Secondary-transfer filename buffers
 
@@ -2763,3 +2762,20 @@ entire remaining queue, and may duplicate or lose neighboring commands.
 It does not guarantee room for the following enqueue. Its active-state
 clears and the partial-command/failed-enqueue side effects are retained.
 No new storage, ABI, type, caller, queue policy or behavioral harness.
+
+## Promoted uncalled sound helpers
+
+Six formerly `tent_`-prefixed sound helpers now use their plain names:
+`SD_SetDataSourceFlags`, `SD_FilterCdFlaggedId`, `SD_KeyOffVoiceById`,
+`SD_BGMFadeCopy`, `SD_StartBgmFadeCopy` and
+`SD_KeyOffSilentSecondaryObjects`. None gained a caller: a jal scan of the
+North American, Japanese, European and French executables plus their
+SU.MRG, WA_MRG.MRG and MODEL.MRG found only the already documented
+intra-driver calls, and the MODEL.MRG word matches sit in data tables of
+`0x0C......` values rather than code. As with `SD_MeasureCdAudioLevel` and
+`SD_EnqueueSpuTransfer`, each name rests on its complete matching body and
+the existing consumers of the fields it writes. The `Copy` suffix still
+marks an uncalled duplicate of `SD_BGMFade`/`SD_StartBgmFade`, not a
+distinct operation, and the `SD_KeyOffVoiceById` id-domain and
+`SD_SetDataSourceFlags` unmasked-argument caveats remain. Sources, types,
+profiles and layout are unchanged.
