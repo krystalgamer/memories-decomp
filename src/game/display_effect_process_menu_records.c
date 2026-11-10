@@ -8,7 +8,7 @@
 #include "display_menu_records.h"
 #include "display_object.h"
 #include "display_effect_step_table.h"
-#include "display_effect_update_resource_acquisition.h"
+#include "display_effect_resource_setup.h"
 #include "dialog_transition.h"
 #include "display_effect_lifecycle.h"
 #include "display_effect_update_callbacks.h"
