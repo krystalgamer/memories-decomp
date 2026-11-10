@@ -461,10 +461,11 @@ typedef struct DisplayObject {
        stores its texture_u/texture_v arguments here; Duel_RenderFieldCard3D
        takes byte 0 as u0/u2 and byte 1 as v0/v1 of its POLY_GT4; the
        display-effect and name-entry callbacks pass the two bytes on as a
-       spawned sprite's u/v. The only other reader,
-       DisplayObject_RenderTexturedGouraudQuadList, copies the word as a
-       colour, but no code acquires an object on its list (key 5) and
-       DisplayObject_InitializeTexturedGouraudQuad has no caller. */
+       spawned sprite's u/v. DisplayObject_RenderTexturedGouraudQuadList
+       instead copies the word as a colour (an alternate view). The reviewed
+       current named C acquisition calls do not select its list (key 5), and
+       no direct named C call to DisplayObject_InitializeTexturedGouraudQuad
+       was found; this does not establish whole-program unreachability. */
     u16 texture_uv;                /* 0x5C */
     /* The texture u/v (low byte u, high byte v) of a resource-configured
        sprite. DisplayObject_ConfigureSpriteResource fills both bytes from
