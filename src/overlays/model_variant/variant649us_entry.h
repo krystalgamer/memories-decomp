@@ -29,9 +29,7 @@
  * shards are textured triangles following it and the sparks are pairs of
  * thin triangles bursting from where the card lands. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 side;
     s32 other;
     s32 tint;

@@ -164,6 +164,21 @@ typedef struct {
     s16 command;
 } ModelVariantEntryTail;
 
+/* The block that starts an entry state (e.g. Model628State). On a request
+ * the entry stores the request's command index in command (the one that
+ * picks its config row), Model_GetActiveSlotIndex() in slot (later passed to
+ * the slot texture and animation calls such as
+ * ModelTexture_PackPageClutCopy) and zeroes elapsed. Each tick it adds
+ * Model_GetFrameStep() to elapsed, the frame counter its timings compare
+ * against.
+ * unknown_01 stays opaque: these entries never touch it. */
+typedef struct {
+    u8 command;
+    u8 unknown_01;
+    u16 elapsed;
+    s32 slot;
+} ModelVariantEntryHead;
+
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the
  * sprites' colour, then the sprite size, the bounce height, the sway and

@@ -31,14 +31,14 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model647State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant647_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant647_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant647_Image);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant647_Image);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -84,14 +84,14 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             switch (command) {
             case 9:
             case 10:
-                setVector(&work->bursts[i].rotation, 0x200, work->slot * 2048, 0);
+                setVector(&work->bursts[i].rotation, 0x200, work->head.slot * 2048, 0);
                 break;
             case 15:
             case 18:
-                setVector(&work->bursts[i].rotation, -0x400, work->slot * 2048, 0);
+                setVector(&work->bursts[i].rotation, -0x400, work->head.slot * 2048, 0);
                 break;
             default:
-                setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
                 break;
             }
             switch (command) {
@@ -160,7 +160,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
         case 1:
         case 2:
@@ -179,7 +179,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
         case 16:
         case 17:
         case 18:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->count; i++) {
                     work->bursts[i].active = 1;
                 }
@@ -187,11 +187,11 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 15:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->bursts[0].active = 1;
                 result = 4;
             }
-            if (work->flags[0] == 0 && work->elapsed >= 41) {
+            if (work->flags[0] == 0 && work->head.elapsed >= 41) {
                 result = work->flags[0] = work->bursts[1].active = 1;
             }
             break;
@@ -217,9 +217,9 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
                 duration = work->bursts[i].duration;
                 if (duration / 2 < work->bursts[i].elapsed) {
                     fade = (duration - work->bursts[i].elapsed) * 2;
-                    work->bursts[i].red = gModelVariant647_aConfigs[work->command].red * fade / duration;
-                    work->bursts[i].green = gModelVariant647_aConfigs[work->command].green * fade / duration;
-                    work->bursts[i].blue = gModelVariant647_aConfigs[work->command].blue * fade / duration;
+                    work->bursts[i].red = gModelVariant647_aConfigs[work->head.command].red * fade / duration;
+                    work->bursts[i].green = gModelVariant647_aConfigs[work->head.command].green * fade / duration;
+                    work->bursts[i].blue = gModelVariant647_aConfigs[work->head.command].blue * fade / duration;
                 }
                 for (k = 0; k < 4; k++) {
                     for (j = 0; j < 16; j++) {
@@ -272,7 +272,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->count) {
             result = 2;
         }

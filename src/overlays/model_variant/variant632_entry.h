@@ -27,9 +27,7 @@ typedef struct {
  * frames of tracked points, the flags, the flare, copy and sphere counts, and
  * the flares, the spheres and the ten trail strips. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, unknown_0C;
     u16 tpage[2], unknown_12;

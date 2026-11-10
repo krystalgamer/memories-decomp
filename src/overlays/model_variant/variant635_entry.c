@@ -39,13 +39,13 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant635_szWorkSizeFormat, sizeof(Model635State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant635_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant635_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant635_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant635_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -85,43 +85,43 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                  * leaving retail's register-based addressing. */
                 switch (i) {
                 case 0:
-                    setVector(&vec, (work->slot * 2 - 1) * 4096 * 20 / 360, -4096 * 5 / 360, 0);
+                    setVector(&vec, (work->head.slot * 2 - 1) * 4096 * 20 / 360, -4096 * 5 / 360, 0);
                     RotMatrix(&vec, &m);
-                    setVector(&vec, 0, 0, (work->slot * 2 - 1) * 5);
+                    setVector(&vec, 0, 0, (work->head.slot * 2 - 1) * 5);
                     ApplyMatrix(&m, &vec, &work->domes[0][i].velocity);
-                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 5 / 360, 0);
+                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 5 / 360, 0);
                     setVector(&work->domes[0][i].position, 0, 0, 0);
                     break;
                 case 1:
-                    setVector(&vec, (work->slot * 2 - 1) * 4096 * 20 / 360, -4096 * 25 / 360, 0);
+                    setVector(&vec, (work->head.slot * 2 - 1) * 4096 * 20 / 360, -4096 * 25 / 360, 0);
                     RotMatrix(&vec, &m);
-                    setVector(&vec, 0, 0, (work->slot * 2 - 1) * 5);
+                    setVector(&vec, 0, 0, (work->head.slot * 2 - 1) * 5);
                     ApplyMatrix(&m, &vec, &work->domes[0][i].velocity);
-                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 25 / 360, 0);
+                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 25 / 360, 0);
                     setVector(&work->domes[0][i].position, 0, 0, 0);
                     break;
                 case 2:
-                    setVector(&vec, (work->slot * 2 - 1) * 4096 * 20 / 360, -4096 * 20 / 360, 0);
+                    setVector(&vec, (work->head.slot * 2 - 1) * 4096 * 20 / 360, -4096 * 20 / 360, 0);
                     RotMatrix(&vec, &m);
-                    setVector(&vec, 0, 0, (work->slot * 2 - 1) * 5);
+                    setVector(&vec, 0, 0, (work->head.slot * 2 - 1) * 5);
                     ApplyMatrix(&m, &vec, &work->domes[0][i].velocity);
-                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 20 / 360, 0);
+                    setVector(&work->domes[0][i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 20 / 360, 0);
                     setVector(&work->domes[0][i].position, 0, 0, 0);
                     break;
                 }
                 break;
             case 2:
-                setVector(&vec, work->slot * 1024 - 512, 0, 0);
+                setVector(&vec, work->head.slot * 1024 - 512, 0, 0);
                 RotMatrix(&vec, &m);
-                setVector(&vec, 0, 0, (work->slot * 2 - 1) * 5);
+                setVector(&vec, 0, 0, (work->head.slot * 2 - 1) * 5);
                 ApplyMatrix(&m, &vec, &work->domes[0][i].velocity);
-                setVector(&work->domes[0][i].rotation, -512, work->slot * 2048, 0);
+                setVector(&work->domes[0][i].rotation, -512, work->head.slot * 2048, 0);
                 setVector(&work->domes[0][i].position, 0, 0, 0);
                 break;
             }
             PopMatrix();
             work->domes[0][i].position.vy -= 350;
-            work->domes[0][i].position.vz -= (work->slot * 2 - 1) * 450;
+            work->domes[0][i].position.vz -= (work->head.slot * 2 - 1) * 450;
             for (k = 1; k < work->dome_count; k++) {
                 work->domes[k][i] = work->domes[0][i];
                 work->domes[k][i].rotation.vz = k << 8;
@@ -144,7 +144,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             case 0:
             case 1:
             case 2:
-                setVector(&work->comets[i].rotation, -1024, work->slot * 2048, 0);
+                setVector(&work->comets[i].rotation, -1024, work->head.slot * 2048, 0);
                 setVector(&work->comets[i].position, 0, 0, 0);
                 break;
             }
@@ -161,7 +161,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             work->bursts[i][0].u = 0;
             work->bursts[i][0].v = 0;
             work->bursts[i][0].stage = 0;
-            setVector(&work->bursts[i][0].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i][0].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bursts[i][0].velocity, 0, 0, 0);
             switch (command) {
             case 0:
@@ -201,27 +201,27 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             case 1:
                 switch (i) {
                 case 0:
-                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 5 / 360, 0);
+                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 5 / 360, 0);
                     setVector(&work->flashes[i].position, 0, 0, 0);
                     break;
                 case 1:
-                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 25 / 360, 0);
+                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 25 / 360, 0);
                     setVector(&work->flashes[i].position, 0, 0, 0);
                     break;
                 case 2:
-                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->slot * 2048 - 4096 * 20 / 360, 0);
+                    setVector(&work->flashes[i].rotation, -4096 * 20 / 360, work->head.slot * 2048 - 4096 * 20 / 360, 0);
                     setVector(&work->flashes[i].position, 0, 0, 0);
                     break;
                 }
                 break;
             case 2:
-                setVector(&work->flashes[i].rotation, -512, work->slot * 2048, 0);
+                setVector(&work->flashes[i].rotation, -512, work->head.slot * 2048, 0);
                 setVector(&work->flashes[i].position, 0, 0, 0);
                 break;
             }
             work->flashes[i].rotation.vx -= 1024;
             work->flashes[i].position.vy -= 350;
-            work->flashes[i].position.vz -= (work->slot * 2 - 1) * 450;
+            work->flashes[i].position.vz -= (work->head.slot * 2 - 1) * 450;
         }
         work->delay = gModelVariant635_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
@@ -278,10 +278,10 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 14);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 14);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
@@ -289,12 +289,12 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                 setVector(&work->flashes[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
             }
             if (work->flags[0] == 0) {
-                if (work->elapsed == 0) {
+                if (work->head.elapsed == 0) {
                     work->domes[0][0].active = 1;
                     work->flashes[0].active = 1;
                     work->flags[0]++;
                 }
-            } else if (work->flags[0] == 1 && work->elapsed >= 21) {
+            } else if (work->flags[0] == 1 && work->head.elapsed >= 21) {
                 work->domes[0][1].active = 1;
                 work->flashes[1].active = 1;
                 work->flags[0]++;
@@ -302,14 +302,14 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             break;
         case 1:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 12);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
                 }
                 setVector(&work->flashes[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
             }
-            if (work->flags[0] == 0 && work->elapsed == 0) {
+            if (work->flags[0] == 0 && work->head.elapsed == 0) {
                 work->domes[0][0].active = 1;
                 work->flashes[0].active = 1;
                 work->flags[0]++;
@@ -317,14 +317,14 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             break;
         case 2:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 27);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 27);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
                 }
                 setVector(&work->flashes[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
             }
-            if (work->flags[0] == 0 && work->elapsed == 0) {
+            if (work->flags[0] == 0 && work->head.elapsed == 0) {
                 work->domes[0][0].active = 1;
                 work->flashes[0].active = 1;
                 work->flags[0]++;
@@ -353,37 +353,37 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                         && work->domes[0][j].launched == 0) {
                         work->comets[j].active = 1;
                         work->comets[j].velocity = work->domes[0][j].position;
-                        switch (work->command) {
+                        switch (work->head.command) {
                         case 0:
                         case 1:
                             work->comets[j].velocity.vy -= work->domes[0][j].scale.vz * work->height / 4096
                                 * rsin(4096 * 20 / 360) / 4096;
                             switch (j) {
                             case 0:
-                                work->comets[j].velocity.vz += (work->slot * 2 - 1) * work->domes[0][j].scale.vz
+                                work->comets[j].velocity.vz += (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz
                                     * work->height / 4096 * rcos(-4096 * 20 / 360) / 4096;
                                 work->comets[j].position.vx = work->domes[0][j].position.vx
-                                    + (work->slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
+                                    + (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
                                         * rsin(-4096 * 5 / 360) / 4096;
-                                work->comets[j].velocity.vx = ((work->slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
+                                work->comets[j].velocity.vx = ((work->head.slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
                                     / work->comets[j].duration * rsin(-4096 * 5 / 360) / rcos(-4096 * 5 / 360);
                                 break;
                             case 1:
-                                work->comets[j].velocity.vz += (work->slot * 2 - 1) * work->domes[0][j].scale.vz
+                                work->comets[j].velocity.vz += (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz
                                     * work->height / 4096 * rcos(-4096 * 20 / 360) / 4096;
                                 work->comets[j].position.vx = work->domes[0][j].position.vx
-                                    + (work->slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
+                                    + (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
                                         * rsin(-4096 * 25 / 360) / 4096;
-                                work->comets[j].velocity.vx = ((work->slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
+                                work->comets[j].velocity.vx = ((work->head.slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
                                     / work->comets[j].duration * rsin(-4096 * 25 / 360) / rcos(-4096 * 25 / 360);
                                 break;
                             case 2:
-                                work->comets[j].velocity.vz += (work->slot * 2 - 1) * work->domes[0][j].scale.vz
+                                work->comets[j].velocity.vz += (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz
                                     * work->height / 4096 * rcos(-4096 * 20 / 360) / 4096;
                                 work->comets[j].position.vx = work->domes[0][j].position.vx
-                                    + (work->slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
+                                    + (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
                                         * rsin(-4096 * 20 / 360) / 4096;
-                                work->comets[j].velocity.vx = ((work->slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
+                                work->comets[j].velocity.vx = ((work->head.slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
                                     / work->comets[j].duration * rsin(-4096 * 20 / 360) / rcos(-4096 * 20 / 360);
                                 break;
                             }
@@ -391,12 +391,12 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                         case 2:
                             work->comets[j].velocity.vy -= work->domes[0][j].scale.vz * work->height / 4096
                                 * rsin(512) / 4096;
-                            work->comets[j].velocity.vz += (work->slot * 2 - 1) * work->domes[0][j].scale.vz
+                            work->comets[j].velocity.vz += (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz
                                 * work->height / 4096 * rcos(-512) / 4096;
                             work->comets[j].position.vx = work->domes[0][j].position.vx
-                                + (work->slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
+                                + (work->head.slot * 2 - 1) * work->domes[0][j].scale.vz * work->height / 4096
                                     * rsin(0) / 4096;
-                            work->comets[j].velocity.vx = ((work->slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
+                            work->comets[j].velocity.vx = ((work->head.slot * 2 - 1) * 450 - work->comets[j].velocity.vz)
                                 / work->comets[j].duration * rsin(0) / rcos(0);
                             break;
                         }
@@ -412,11 +412,11 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                         (work->domes[i][j].elapsed << 14) / work->domes[i][j].duration);
                     /* The shift keeps the doubling off the table colour. */
                     if (work->domes[i][j].duration / 2 < work->domes[i][j].elapsed) {
-                        work->domes[i][j].color[0] = gModelVariant635_aConfigs[work->command].color[0]
+                        work->domes[i][j].color[0] = gModelVariant635_aConfigs[work->head.command].color[0]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
-                        work->domes[i][j].color[1] = gModelVariant635_aConfigs[work->command].color[1]
+                        work->domes[i][j].color[1] = gModelVariant635_aConfigs[work->head.command].color[1]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
-                        work->domes[i][j].color[2] = gModelVariant635_aConfigs[work->command].color[2]
+                        work->domes[i][j].color[2] = gModelVariant635_aConfigs[work->head.command].color[2]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
                     }
                     for (k = 0; k < 5; k++) {
@@ -480,7 +480,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                 elapsed = work->comets[i].elapsed;
                 unit.matrix.t[1] = rise * (ramp = elapsed * 5) * elapsed / (duration * duration * 3)
                     + -(rise * 2) / (duration * 3) * elapsed + start;
-                unit.matrix.t[2] = ((work->slot * 2 - 1) * 450 - work->comets[i].velocity.vz) * work->comets[i].elapsed
+                unit.matrix.t[2] = ((work->head.slot * 2 - 1) * 450 - work->comets[i].velocity.vz) * work->comets[i].elapsed
                     / work->comets[i].duration + work->comets[i].velocity.vz;
                 if (work->comets[i].elapsed == 0) {
                     for (k = 0; k < 2; k++) {
@@ -493,7 +493,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                 setVector(&work->comets[i].rotation,
                     ratan2(work->trail[0][i].vy - work->trail[1][i].vy, work->trail[0][i].vz - work->trail[1][i].vz) - 1024,
                     ratan2(work->trail[0][i].vx - work->trail[1][i].vx, work->trail[0][i].vz - work->trail[1][i].vz)
-                        + work->slot * 2048,
+                        + work->head.slot * 2048,
                     0);
                 RotMatrixZ(work->comets[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->comets[i].rotation.vx, &unit.matrix);
@@ -514,11 +514,11 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 if (work->comets[i].elapsed < work->comets[i].duration / 5) {
-                    work->comets[i].color[0] = gModelVariant635_aConfigs[work->command].color[0] * work->comets[i].elapsed * 5
+                    work->comets[i].color[0] = gModelVariant635_aConfigs[work->head.command].color[0] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
-                    work->comets[i].color[1] = gModelVariant635_aConfigs[work->command].color[1] * work->comets[i].elapsed * 5
+                    work->comets[i].color[1] = gModelVariant635_aConfigs[work->head.command].color[1] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
-                    work->comets[i].color[2] = gModelVariant635_aConfigs[work->command].color[2] * work->comets[i].elapsed * 5
+                    work->comets[i].color[2] = gModelVariant635_aConfigs[work->head.command].color[2] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
                 }
                 for (k = 0; k < 16; k++) {
@@ -594,11 +594,11 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                     }
                     /* As for the domes, the shift keeps the doubling off the colour. */
                     if (work->bursts[i][k].duration / 2 < work->bursts[i][k].elapsed) {
-                        work->bursts[i][k].color[0] = gModelVariant635_aConfigs[work->command].color[3]
+                        work->bursts[i][k].color[0] = gModelVariant635_aConfigs[work->head.command].color[3]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
-                        work->bursts[i][k].color[1] = gModelVariant635_aConfigs[work->command].color[4]
+                        work->bursts[i][k].color[1] = gModelVariant635_aConfigs[work->head.command].color[4]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
-                        work->bursts[i][k].color[2] = gModelVariant635_aConfigs[work->command].color[5]
+                        work->bursts[i][k].color[2] = gModelVariant635_aConfigs[work->head.command].color[5]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
                     }
                     PushMatrix();
@@ -666,11 +666,11 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
                 setVector(&work->flashes[i].scale, (work->flashes[i].elapsed << 13) / work->flashes[i].duration,
                     (work->flashes[i].elapsed << 14) / work->flashes[i].duration,
                     (work->flashes[i].elapsed << 13) / work->flashes[i].duration);
-                work->flashes[i].color[0] = gModelVariant635_aConfigs[work->command].color[6]
+                work->flashes[i].color[0] = gModelVariant635_aConfigs[work->head.command].color[6]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
-                work->flashes[i].color[1] = gModelVariant635_aConfigs[work->command].color[7]
+                work->flashes[i].color[1] = gModelVariant635_aConfigs[work->head.command].color[7]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
-                work->flashes[i].color[2] = gModelVariant635_aConfigs[work->command].color[8]
+                work->flashes[i].color[2] = gModelVariant635_aConfigs[work->head.command].color[8]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
                 for (k = 0; k < 8; k++) {
                     for (l = 0; l < 8; l++) {
@@ -701,7 +701,7 @@ s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == (work->dome_count + 2 + work->burst_count) * work->copies) {
             result = 1;
             if (work->flags[4] == 1) {

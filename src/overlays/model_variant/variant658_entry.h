@@ -43,9 +43,7 @@ typedef struct {
 } Model658Particle;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s32 darken;
     s32 brighten;

@@ -21,9 +21,7 @@
  * and quad packets, the band vertices and the quad corners, the flags, the
  * ring and spark counts, and up to 32 rings and 32 sparks. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, unknown_0C;
     u16 tpage[2], unknown_12;

@@ -25,9 +25,7 @@
  * the quad corners and the 9x9 sphere points, the column flags, the grid
  * sizes, and the bursts, the ring quads and one sphere per column. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, unknown_10;

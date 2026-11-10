@@ -36,9 +36,7 @@ typedef struct {
 } Model635Part;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, height;
     u16 tpage[2], unknown_12;
