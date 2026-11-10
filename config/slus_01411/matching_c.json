@@ -5204,15 +5204,15 @@
     },
     {
       "address": "0x8004DB14",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x124",
-      "source": "src/game/model_slot_part_animation.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8004DC38",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1EC",
-      "source": "src/game/model_slot_part_animation.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8004DE24",

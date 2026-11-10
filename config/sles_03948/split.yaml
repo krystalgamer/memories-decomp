@@ -529,9 +529,6 @@ segments:
     - game/european/model_slot_row_tables
   - - 267368
     - c
-    - game/model_slot_part_animation
-  - - 268152
-    - c
     - game/european/model
   - - 312340
     - c
