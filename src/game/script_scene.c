@@ -937,7 +937,7 @@ join:
 #include "file_transfer.h"
 #include "script_state.h"
 #include "script_image_objects.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "display_asset_banks.h"
 #include "scene_script.h"
 #include "script_op_duel_result.h"

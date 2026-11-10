@@ -644,7 +644,7 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "model_update_view_metrics.h"
 #include "duel_card.h"
 #include "model_slot_properties.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "model_effect_state.h"
 #include "model_lock_orbit_direction.h"
 #include "model_is_camera_move_complete.h"

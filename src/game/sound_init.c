@@ -4,7 +4,7 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
 
