@@ -8,7 +8,7 @@
 #include "duel_effect_dialog_state.h"
 #include "dialog_choice_state.h"
 #include "text_box_update_channels.h"
-#include "input_is_pad1_confirm_pressed.h"
+#include "text_helpers.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * duel_effect_dialog_state_commons subsegment places it at the retail

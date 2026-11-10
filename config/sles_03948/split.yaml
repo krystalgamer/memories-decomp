@@ -304,16 +304,7 @@ segments:
     - game/display_effect_process_menu_records
   - - 180568
     - c
-    - game/european/text_init_decimal_digit_glyph_map
-  - - 180740
-    - c
-    - game/duel_effect_init_entry_default_flags
-  - - 180772
-    - c
-    - game/input_is_pad1_confirm_pressed
-  - - 180788
-    - c
-    - game/european/text_lookup_string
+    - game/european/text_helpers
   - - 180980
     - c
     - game/european/free_duel_load_package_stage
