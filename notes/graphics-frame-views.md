@@ -94,7 +94,7 @@ is run.
 
 Three of these globals sit at other addresses in the Japanese executable.
 `config/slpm_86398/symbols.txt` binds the C names there directly, so every
-declaration arm in `graphics_frame.h` uses the one name in all regions:
+declaration arm in `main.h` (formerly `graphics_frame.h`) uses the one name in all regions:
 
 | Global | Japanese address | Arms |
 |---|---|---|

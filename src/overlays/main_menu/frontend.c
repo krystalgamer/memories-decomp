@@ -29,7 +29,7 @@
 #include "../../game/sound.h"
 #include "../../overlays/main_menu/frontend.h"
 #include "../../overlays/main_menu/ordering_tables.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_INIT_FRONTEND_MENU) || \

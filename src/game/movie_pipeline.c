@@ -2,7 +2,7 @@
 
 #include "movie_pipeline.h"
 
-#include "graphics_frame.h"
+#include "main.h"
 
 #include "movie_handoff_state.h"
 #include "../psyq/libcd.h"

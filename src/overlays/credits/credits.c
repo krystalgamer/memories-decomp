@@ -1,7 +1,7 @@
 /* The credits overlay's runtime: presentation setup, the per-frame line
  * update, glyph building, line drawing and line-group start, in image order. */
 #include "../../types.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 #include "../../psyq/libapi.h"
 #include "../../psyq/strings.h"
 #include "../../psyq/libgte.h"

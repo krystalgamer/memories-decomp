@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "movie_pipeline.h"
 #include "file_transfer.h"
 #include "input.h"

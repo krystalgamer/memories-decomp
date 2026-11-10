@@ -11,7 +11,7 @@
 #include "../../game/display_object_core.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 
 typedef struct {
     u8 text;

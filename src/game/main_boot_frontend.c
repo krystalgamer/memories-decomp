@@ -7,9 +7,8 @@ static PADDING_VARIABLE(1);
 static PADDING_VARIABLE(2);
 static u32 D_8009B42C;
 
-#include "graphics_frame.h"
+#include "main.h"
 #include "main_boot_screen.h"
-#include "main_frame.h"
 #include "display_object_core.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

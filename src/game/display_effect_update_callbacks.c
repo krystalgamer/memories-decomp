@@ -11,7 +11,7 @@
 #include "display_effect_lifecycle.h"
 #include "script_scene.h"
 #include "color_constants.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

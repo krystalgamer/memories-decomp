@@ -586,7 +586,7 @@ before the source was read:
   halfwords as `extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")`
   plus a `#define`. The alias identifier is not declared in any header, so it
   scans as an unhoused symbol needing a home, while the real name is already
-  declared in `graphics_frame.h` and the divergent spelling is deliberate.
+  declared in `main.h` (formerly `graphics_frame.h`) and the divergent spelling is deliberate.
 
 - **A file can opt out of a guarded header declaration.** `save_data_payload.c`
   defines `SAVE_DATA_DECLARE_MASK_STATE_LOCALLY` before including

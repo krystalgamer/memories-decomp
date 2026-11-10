@@ -14,7 +14,7 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/duel_session_controls.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 #include "../../game/image_transfer_rects.h"
 #include "../../game/text_constants.h"
 #include "../../psyq/rand.h"

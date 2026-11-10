@@ -3,8 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "graphics_frame.h"
-#include "main_frame.h"
+#include "main.h"
 #include "ordering_tables.h"
 
 #include "fade.h"
