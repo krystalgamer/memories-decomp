@@ -36,9 +36,7 @@ typedef struct {
  * origin, the flags, the record counts, and the rings, bolts, bolt trails and
  * spark curtains. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, height;

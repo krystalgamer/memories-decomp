@@ -53,9 +53,7 @@ typedef struct {
  * and quad packets, the vertex tables, the spawn counters, the strip UV
  * cycle, the record counts and the five record groups. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s32 fade_in;
     s32 fade_out;

@@ -33,9 +33,7 @@ typedef struct {
  * fan ring and its centre and corners, the slot position, the flags, and
  * three record arrays: the rising quads, the falling quads and the fans. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, height;

@@ -44,20 +44,20 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant675Us_szWorkSizeFormat, sizeof(Model675UsState));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_aImages[2]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_aImages[1]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[4]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_aImages[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[3]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -94,7 +94,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->rings[i].growth, 0, 0, 0);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
             work->rings[i].ticks = 0;
         }
@@ -113,7 +113,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->bolts[i].growth,
                 d * n * rsin((i << 12) / work->bolt_count) / 4096 + work->origin.vx, 0,
                 n * rcos((i << 12) / work->bolt_count) / 4096 + work->origin.vz * 2);
-            setVector(&work->bolts[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bolts[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bolts[i].position, 0, 0, 0);
             work->bolts[i].ticks = 0;
         }
@@ -129,7 +129,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 work->trails[i][k].blue = gModelVariant675Us_aConfigs[command].bolt_blue;
                 setVector(&work->trails[i][k].scale, 0x1000, 0x1000, 0x1000);
                 setVector(&work->trails[i][k].growth, 0, 0, 0);
-                setVector(&work->trails[i][k].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->trails[i][k].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->trails[i][k].position, 0, 0, 0);
             }
         }
@@ -146,7 +146,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->sparks[i].v = 0x80;
             setVector(&work->sparks[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->sparks[i].growth, 0, 0, 0);
-            setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->sparks[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->sparks[i].position, 0, 0, 0);
         }
         work->delay = gModelVariant675Us_aConfigs[command].delay;
@@ -176,45 +176,45 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->rings[0].active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 8);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].position, ls.t[0], ls.t[1], ls.t[2]);
-            if (work->flags[0] * 5 + 0x168 < work->elapsed && work->flags[0] < work->bolt_count) {
+            if (work->flags[0] * 5 + 0x168 < work->head.elapsed && work->flags[0] < work->bolt_count) {
                 work->bolts[work->flags[0]].active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 8);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->bolts[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
                 work->flags[0]++;
             }
             break;
         case 1:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->rings[0].active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 8);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].position, ls.t[0], ls.t[1], ls.t[2]);
-            if (work->flags[0] * 10 + 0x50 < work->elapsed && work->flags[0] < work->bolt_count) {
+            if (work->flags[0] * 10 + 0x50 < work->head.elapsed && work->flags[0] < work->bolt_count) {
                 work->bolts[work->flags[0]].active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 8);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->bolts[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
                 work->flags[0]++;
             }
             break;
         case 2:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->rings[0].active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 1);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].position, ls.t[0], ls.t[1], ls.t[2]);
-            if (work->flags[0] * 10 + 0x64 < work->elapsed && work->flags[0] < work->bolt_count) {
+            if (work->flags[0] * 10 + 0x64 < work->head.elapsed && work->flags[0] < work->bolt_count) {
                 work->bolts[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
@@ -253,9 +253,9 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].duration * 9 / 10 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 10;
                     d = work->rings[i].duration;
-                    work->rings[i].red = gModelVariant675Us_aConfigs[work->command].red * n / d;
-                    work->rings[i].green = gModelVariant675Us_aConfigs[work->command].green * n / d;
-                    work->rings[i].blue = gModelVariant675Us_aConfigs[work->command].blue * n / d;
+                    work->rings[i].red = gModelVariant675Us_aConfigs[work->head.command].red * n / d;
+                    work->rings[i].green = gModelVariant675Us_aConfigs[work->head.command].green * n / d;
+                    work->rings[i].blue = gModelVariant675Us_aConfigs[work->head.command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];
@@ -532,9 +532,9 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 if (work->sparks[i].duration * 9 / 10 < work->sparks[i].elapsed) {
                     n = (work->sparks[i].duration - work->sparks[i].elapsed) * 10;
                     d = work->sparks[i].duration;
-                    work->sparks[i].red = gModelVariant675Us_aConfigs[work->command].bolt_red * n / d;
-                    work->sparks[i].green = gModelVariant675Us_aConfigs[work->command].bolt_green * n / d;
-                    work->sparks[i].blue = gModelVariant675Us_aConfigs[work->command].bolt_blue * n / d;
+                    work->sparks[i].red = gModelVariant675Us_aConfigs[work->head.command].bolt_red * n / d;
+                    work->sparks[i].green = gModelVariant675Us_aConfigs[work->head.command].bolt_green * n / d;
+                    work->sparks[i].blue = gModelVariant675Us_aConfigs[work->head.command].bolt_blue * n / d;
                 }
                 work->sparks[i].v = (work->sparks[i].elapsed + i * 100) % 32 * 2 - 128;
                 for (k = 0; k < 8; k++) {
@@ -603,7 +603,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->ring_count + work->bolt_count * (work->trail_count + 2)) {
             result = 2;
         }
