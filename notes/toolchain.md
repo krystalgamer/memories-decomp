@@ -98,14 +98,13 @@ compiler selection still requires comparison with genuine Psy-Q 4.6 tools.
 the explicit flags above and maspsx emits its exact 64-byte instruction
 sequence, and the complete PS-X EXE retains the target SHA-256.
 
-`gcc_2_8_1_g0_split_no_cse_follow_jumps` adds only
-`-fno-cse-follow-jumps` to the existing G0 split-address profile.
-`Model_SetSlotPlaybackDirection` formerly used it to retain the
-positive-magnitude copies across a goto-based state dispatch; written as a
-`switch` whose arms assign `double_speed` and `-double_speed`, the same copies
-come out at the ordinary `gcc_2_8_1_g8_split` profile, so that function no
-longer needs the flag. The profile remains for other measured sources; it is
-not a project-wide compiler rule.
+The retired `gcc_2_8_1_g0_split_no_cse_follow_jumps` profile added only
+`-fno-cse-follow-jumps` to the G0 split-address profile.
+`Model_SetSlotPlaybackDirection` once used it to retain the positive-magnitude
+copies across a goto-based state dispatch; written as a `switch` whose arms
+assign `double_speed` and `-double_speed`, the same copies come out at the
+ordinary `gcc_2_8_1_g8_split` profile. Its last users, the variant 431 sheet
+renderers, also match without it, so the profile was removed.
 
 ## Original CC1PSX default options
 
