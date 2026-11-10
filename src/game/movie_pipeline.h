@@ -1,10 +1,26 @@
-#ifndef MEMORIES_DECOMP_MOVIE_FRAME_PIPELINE_H
-#define MEMORIES_DECOMP_MOVIE_FRAME_PIPELINE_H
-
+#ifndef MEMORIES_DECOMP_MOVIE_PIPELINE_H
+#define MEMORIES_DECOMP_MOVIE_PIPELINE_H
 #include "../types.h"
-#include "../psyq/libcd.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libcd_abi_variants.h"
+
+s32 File_Exists(const char *path, CdlFILE *file);
+s32 Movie_StepPlayback(void);
+s32 Movie_MoveDisplayImage(s32 first, s32 second);
+
+/* Sets gMovie_bFadingOut, the flag Movie_WaitAndDecodeFrame also raises at the
+ * stream's end frame. While it is set, Movie_DecodeAndPresentFrame lowers
+ * the CD mix level in gMovie_bCdVolume by 0x40 each frame and reports the movie
+ * finished once it reaches zero, so a skip fades the audio out over four
+ * frames instead of cutting it. */
+void Movie_StartFadeOut(void);
+/* Spins until gMovie_bFrameDecoded, the latch Movie_OnDecodeOutput (the DecDCTout callback)
+ * sets once the last strip of the frame is uploaded, is raised. After a
+ * 0x800000 countdown it gives up and calls DecDCTReset(1). Either way it
+ * clears the latch and returns 0. */
+s32 Movie_WaitFrameDecoded(void);
 
 /* The movie frame pipeline's entry points.
  *
@@ -109,5 +125,38 @@ extern CdlLOC gMovie_StreamLoc;
 extern u8 D_8009B4A0;
 extern u8 D_8009B4A1;
 extern u8 D_8009B4A2;
+
+void Movie_OnStreamEnd(void);
+
+s32 Movie_OpenStream(
+    CdlLOC *src, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5
+);
+
+/* Re-issues the disc read at `loc`: sets the location, seeks to it, and
+ * starts a 0x1E0-sector streaming read. Both callers hand it the movie
+ * stream position gMovie_StreamLoc, which movie_frame_pipeline.h declares CdlLOC.
+ *
+ * The two libcd calls take the location as bytes and the libds read takes
+ * DslLOC, which is the same four fields under the other library's name, so
+ * those three casts stay -- but the parameter no longer has to be an
+ * integer for them. */
+void Movie_SeekAndStartRead(CdlLOC *loc);
+
+void Movie_OpenIndexedStream(
+    s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4
+);
+/* Starts a movie from a disc file looked up by name. File_Exists fills the
+ * CdlLOC and byte size at gMovie_FileInfo; the stream then runs from that sector
+ * to the file's start sector plus its size rounded up to whole sectors,
+ * handing the frame range and the two mode arguments to Movie_OpenStream
+ * unchanged. Returns -1 when the file is not found, otherwise
+ * Movie_OpenStream's result. */
+s32 Movie_StartFileStream(
+    const char *path,
+    s32 start_frame,
+    s32 end_frame,
+    s32 arg3,
+    s32 arg4
+);
 
 #endif

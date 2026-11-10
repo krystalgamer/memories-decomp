@@ -1,11 +1,8 @@
 #include "../types.h"
 
-#include "movie_open_stream.h"
+#include "movie_pipeline.h"
 
-#include "movie_seek_and_start_read.h"
-#include "movie_on_stream_end.h"
 #include "graphics_frame.h"
-#include "movie_frame_pipeline.h"
 
 #include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
@@ -17,8 +14,6 @@
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "file_cd_helpers.h"
-#include "mdec_sync.h"
 #include "sound_mix.h"
 #include "../unmatched.h"
 
@@ -489,10 +484,7 @@ void func_8005C374(s32 first, s32 second, s32 third)
     D_8009B4A2 = third;
 }
 
-#include "file_cd_helpers.h"
 #include "file_constants.h"
-#include "movie_open_stream.h"
-#include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
@@ -578,8 +570,6 @@ s32 Movie_StartFileStream(
         arg3, arg4);
 }
 
-#include "file_cd_helpers.h"
-#include "movie_frame_pipeline.h"
 #include "../psyq/libds.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -615,12 +605,8 @@ int Movie_MoveDisplayImage(int first, int second)
 }
 
 #include "../psyq/libpress.h"
-#include "mdec_sync.h"
-#include "movie_frame_pipeline.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
-#include "movie_seek_and_start_read.h"
-#include "movie_on_stream_end.h"
 
 void Movie_StartFadeOut(void)
 {

@@ -71,10 +71,10 @@ PAIRS = [
         "DisplayObject_SetResourceVariant",
         '#include "display_object_config.h"',
     ),
-    ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
-    ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
+    ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
+    ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
+    ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
     ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
@@ -218,7 +218,11 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             REPOSITORY / "src/psyq/libcd_abi_variants.h"
         ).read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "file_cd_helpers.h" not in include:
+            if "movie_pipeline.h" not in include:
+                continue
+            # The helpers now live in movie_pipeline.c's own header, which
+            # that unit cannot lose; only outside callers are probed.
+            if source == "src/game/movie_pipeline.c":
                 continue
             with self.subTest(source=source, callee=callee):
                 self.assertRegex(header, rf"\b{callee}\s*\(")
