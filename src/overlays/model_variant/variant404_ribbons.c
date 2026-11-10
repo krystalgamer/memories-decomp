@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant404_entry.h"
 
 /* Header 404's form of the header-425 ribbons: the RotTransPers4 flag of each
  * point is kept, and a point is drawn only when its depth and flag are not
@@ -15,7 +16,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     long status[8][2];
     long p;
     long flag;
-    u8 *work;
+    Variant404EntryState *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -31,22 +32,22 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant404EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x190C), MODEL_VARIANT_WORD(work, 0x1904)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x1908), MODEL_VARIANT_WORD(work, 0x1904));
-    ribbon = (ModelVariantRibbonShort *)(work + 0xAB0);
-    tilt = ratan2(MODEL_VARIANT_WORD(work, 0x18F8), MODEL_VARIANT_WORD(work, 0x18F4)) + 0x400;
-    ratan2(MODEL_VARIANT_WORD(work, 0x18F8), MODEL_VARIANT_WORD(work, 0x18F0));
-    timing = work + 0xFD8;
-    prim = (POLY_G3 *)(work + 0x1738);
-    if (MODEL_VARIANT_HALF(work, 0x1974) == 1) {
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ribbon = (ModelVariantRibbonShort *)work->unknown_AB0;
+    tilt = ratan2(work->direction.vz, work->direction.vy) + 0x400;
+    ratan2(work->direction.vz, work->direction.vx);
+    timing = (u8 *)work + 0xFD8;
+    prim = &work->triangle;
+    if (work->slot == 1) {
         turn = -turn;
     }
     length = 16;
     flags = MODEL_VARIANT_WORD(work, 0x191C);
-    for (i = 0, angle = MODEL_VARIANT_WORD(work, 0x195C); i < 8;
-         i++, angle = MODEL_VARIANT_WORD(work, 0x195C) + i * 0x200, ribbon++) {
+    for (i = 0, angle = work->ribbon_angle; i < 8;
+         i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
         for (k = 0; k < 2; k++) {
             radius = 0x96;
             if (k == 0) {
@@ -60,9 +61,9 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x189C) + MODEL_VARIANT_WORD(work, 0x18F0) * MODEL_VARIANT_WORD(work, 0x1954) / 1024;
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x18A0) + MODEL_VARIANT_WORD(work, 0x18F4) * MODEL_VARIANT_WORD(work, 0x1954) / 1024;
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x18A4) + MODEL_VARIANT_WORD(work, 0x18F8) * MODEL_VARIANT_WORD(work, 0x1954) / 1024;
+    m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024;
+    m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024;
+    m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024;
     scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
@@ -73,7 +74,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (ModelVariantRibbonShort *)(work + 0xAB0);
+    ribbon = (ModelVariantRibbonShort *)work->unknown_AB0;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 2; k++) {
             if (k == 0) {
@@ -95,7 +96,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
             ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
         }
     }
-    ribbon = (ModelVariantRibbonShort *)(work + 0xAB0);
+    ribbon = (ModelVariantRibbonShort *)work->unknown_AB0;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 1; k++) {
             prim->x0 = ribbon->sa[k] + ribbon->ox[k];
@@ -118,7 +119,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x194C) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x1938) + 0x18)) {
-        MODEL_VARIANT_WORD(work, 0x195C) += MODEL_VARIANT_WORD(work, 0x1928) << 5;
+    if (work->field_194C + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x1938) + 0x18)) {
+        work->ribbon_angle += work->clock.step << 5;
     }
 }
