@@ -54,7 +54,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                 setVector(&work->card_velocities[i],
                           (work->center.vx - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x) / 16,
                           (work->center.vy - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y) / 16,
-                          (work->center.vz - ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34) / 16);
+                          (work->center.vz - ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z) / 16);
                 setVector(&work->card_rotations[i],
                           (ratan2(work->card_velocities[i].vz, work->card_velocities[i].vy) % 256) / 16,
                           (ratan2(work->card_velocities[i].vx, work->card_velocities[i].vz) % 256) / 16,
@@ -207,7 +207,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                 if (work->card_states[i] == 0) {
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x += work->card_velocities[i].vx;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y += work->card_velocities[i].vy;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z += work->card_velocities[i].vz;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.x -= 256;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.y -= 256;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;

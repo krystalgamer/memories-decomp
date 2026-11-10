@@ -639,6 +639,18 @@ regional macros named for the wrong reading now say what they hold:
 and `TEXT_BOX_GLYPH_CLUT_X`/`_Y` (the text box's glyph palette, formerly
 `TEXT_BOX_LAYOUT_WIDTH`/`_HEIGHT`).
 
+### Single-reading members
+
+These members are named because the reviewed coordinate and
+sprite/card producer and consumer paths support the per-kind names below;
+the documented alternate packed and colour views remain. As above, the
+renames are spelling only.
+
+| Offset | Old | New | Evidence | Confidence |
+|---|---|---|---|---|
+| `+0x34` | `field_34.h.field_34` | `field_34.h.z` | It is the depth coordinate beside `xy`. `Duel_CreateFieldCardObject` stores its third argument there, next to x and a fixed y of -24. `Duel_RenderFieldCard3D` loads it as translation `t[2]`, and `Duel_DrawProjectedFieldCardFrame` loads it as the `vz` for `gte_rtps`. Duel effect 15 reads it as a card's translation `vz`. Effects 17 and 22 and the row attacks integrate it with a per-card `vz` velocity. `DisplayObjectVelocity` already calls the same halfword `z`. The word and `h.field_36` keep their offset names: the word is a Gouraud colour, and `+0x36` is a velocity in one view and a saved position in another. | high |
+| `+0x5C` | `field_5C` | `texture_uv` | It is the texture u/v, with u in the low byte and v in the high byte. `DisplayObject_RenderSpriteList` and `DisplayObject_RenderSpriteStrips` copy it into `SpritePrim.uv`, and so do `CardPreview_DrawDetailPanel` and the PAL options grid. `DisplayObject_ConfigureScreenSprite` stores its `texture_u`/`texture_v` arguments there. `Duel_RenderFieldCard3D` takes the bytes as the `POLY_GT4` `u0`/`v0`. The display-effect and name-entry callbacks pass the bytes on as a new sprite's u/v. `DisplayObject_RenderTexturedGouraudQuadList` copies the word as a colour instead (an alternate view). It serves list 5: the reviewed current named C acquisition calls do not select key 5, and no direct named C call to `DisplayObject_InitializeTexturedGouraudQuad` was found. This does not establish whole-program unreachability. | high |
+
 ### Members left at their offsets
 
 | Offset | Why it keeps its name |

@@ -137,7 +137,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->extent.wh.h = 0x60;
     PRM->rgb = win->rgb;
     PRM->cxcy.word = obj->field_40.word;
-    PRM->uv.word = obj->field_5C;
+    PRM->uv.word = obj->texture_uv;
     PRM->tpage = obj->texture_page;
     DisplayObject_SubmitPacket(
         PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)arg1, arg,

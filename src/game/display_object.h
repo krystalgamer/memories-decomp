@@ -202,13 +202,24 @@ typedef struct DisplayObject {
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
        out of it -- the same saved-position reading DisplayObject_SavePosition.h's
-       DisplayObjectSnapshot gives the pair. Duel effect 15 reads 0x34 as the
-       third coordinate alongside 0x30/0x32. The offset names remain because
-       other object kinds give these words different meanings. */
+       DisplayObjectSnapshot gives the pair. That reading and
+       DisplayObjectVelocity's velocity_x give 0x36 different meanings, so it
+       and the word keep their offset names.
+
+       z: the low half is the depth coordinate that completes xy wherever a
+       halfword reads it. Duel_CreateFieldCardObject stores its third
+       argument here (DuelCardDisplayObject's field_34) beside x and a fixed
+       -24 y; Duel_RenderFieldCard3D loads it as the translation's t[2] and
+       Duel_DrawProjectedFieldCardFrame as the vz it hands to gte_rtps; the
+       equip-bonus and trap code copy it into an effect request's field_04
+       beside the request's x/y; duel effect 15 takes it as the card's
+       translation vz, and effects 17, 22 and the row attacks integrate it
+       with their per-card velocity vz.
+       DisplayObjectVelocity names the same halfword z. */
     union {
         u32 word;
         struct {
-            s16 field_34;
+            s16 z;
             s16 field_36;
         } h;
     } field_34;                    /* 0x34 */
@@ -443,15 +454,27 @@ typedef struct DisplayObject {
        as packet coordinates/colours, so the generic offsets remain. */
     s16 field_58;                  /* 0x58 */
     s16 field_5A;                  /* 0x5A */
-    u16 field_5C;                  /* 0x5C */
+    /* The texture u/v (low byte u, high byte v) a sprite or card quad draws
+       from. DisplayObject_RenderSpriteList and DisplayObject_RenderSpriteStrips
+       copy the halfword into SpritePrim.uv (GsSPRITE u/v), as do the card
+       preview panel and the PAL options grid; DisplayObject_ConfigureScreenSprite
+       stores its texture_u/texture_v arguments here; Duel_RenderFieldCard3D
+       takes byte 0 as u0/u2 and byte 1 as v0/v1 of its POLY_GT4; the
+       display-effect and name-entry callbacks pass the two bytes on as a
+       spawned sprite's u/v. DisplayObject_RenderTexturedGouraudQuadList
+       instead copies the word as a colour (an alternate view). The reviewed
+       current named C acquisition calls do not select its list (key 5), and
+       no direct named C call to DisplayObject_InitializeTexturedGouraudQuad
+       was found; this does not establish whole-program unreachability. */
+    u16 texture_uv;                /* 0x5C */
     /* The texture u/v (low byte u, high byte v) of a resource-configured
        sprite. DisplayObject_ConfigureSpriteResource fills both bytes from
        its texture_config argument, DisplayObject_RenderSpriteSheet starts
        its parts from them, CardPreview_DrawDetailPanel copies the halfword
        into a primitive's uv, and the duel effect, game-over, Library and
        free-duel code write u or v directly. Screen sprites keep their u/v
-       at 0x5C instead (DisplayObjectConfigView's texture_u/texture_v), which
-       is why that halfword keeps its offset name. */
+       at 0x5C instead (texture_uv; DisplayObjectConfigView's
+       texture_u/texture_v). */
     u16 resource_uv;               /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;

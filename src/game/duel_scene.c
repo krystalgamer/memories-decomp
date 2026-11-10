@@ -288,7 +288,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
         scratch->vx = x;
         scratch->vz =
             *(u16 *)&((DisplayObject *)((volatile DuelCardRecord *)card)
-                         ->object)->field_34.h.field_34;
+                         ->object)->field_34.h.z;
         gte_ldv0((u8 *)scratch);
         gte_rtps();
         gte_stsxy(&p);
@@ -392,7 +392,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     lm->t[0] = (s16)obj->xy.h.x;
     a = (s16)obj->xy.h.y;
     lm->t[1] = a;
-    d = obj->field_34.h.field_34;
+    d = obj->field_34.h.z;
     lm->t[2] = d;
     a += 0xFF;
     if (a < 0) {
@@ -453,8 +453,8 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         return;
     }
 
-    prim->u0 = prim->u2 = ((u8 *)&obj->field_5C)[0];
-    prim->v0 = prim->v1 = ((u8 *)&obj->field_5C)[1];
+    prim->u0 = prim->u2 = ((u8 *)&obj->texture_uv)[0];
+    prim->v0 = prim->v1 = ((u8 *)&obj->texture_uv)[1];
     if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
                    *(long *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
@@ -4437,7 +4437,7 @@ state_four:
             request = DuelEffect_CreateRequest(0xD);
             request->field_00 = object->xy.h.x;
             request->field_02 = object->xy.h.y;
-            z = object->field_34.h.field_34;
+            z = object->field_34.h.z;
             request->number = -gDuel_wPendingEquipBonus;
             request->field_04 = z;
             SD_SEPlayFull(0x21);
@@ -6470,7 +6470,7 @@ m1:
     e = DuelEffect_CreateRequest(8);
     e->field_00 = (s16)p->xy.h.x;
     e->field_02 = (s16)p->xy.h.y;
-    q34 = (u16 *)&p->field_34.h.field_34;
+    q34 = (u16 *)&p->field_34.h.z;
     *(d = (u16 *)&e->field_04) = *q34;
     DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
     SD_SEPlayFull(0x17);
