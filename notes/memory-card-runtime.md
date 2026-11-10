@@ -347,9 +347,9 @@ handle set, `_card_clear` against the alternate set using channel byte
 resetting the shared result before every stage and waiting for a nonnegative
 event result after each one. It does not reinterpret those three results.
 
-Six of the seven wrappers have one caller, the `func_8003DC1C` controller, and
-its arguments agree with the table: it issues `MemCard_ReqLoadDirectory`
-straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
+Six of the seven wrappers have one caller, the `MemCardWork_UpdateOperation`
+controller, and its arguments agree with the table: it issues
+`MemCard_ReqLoadDirectory` straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
 at offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
 `0xA00`-byte image at offset `0` that starts with `gSaveData_aHeaderTemplate`,
 creates the file only when the free count is at least its block count, and

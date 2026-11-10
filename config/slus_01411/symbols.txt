@@ -1943,6 +1943,7 @@ gMemCardWork_nRequestResult = 0x8009B3C8;
 
 gMemCardWork_nCompletedRequest = 0x8009B3E4;
 
+gMemCardWork_abFrame = 0x80210000;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 gMemCard_szFreeBlockCountFormat = 0x80010378;
