@@ -1808,7 +1808,7 @@ The `memory.h` consumer inventory is complete at seven matching sources.
 `ai_script.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The six `memset` consumers are
 `model_slot_support.c`, `func_8005D994.c`,
-`model_scene_runtime.c`, `model_effect_state.c`, and
+`model_scene_runtime.c`, `model_camera_effects.c`, and
 `model_scene_controllers.c`. The former
 `model_slot_control.c` user, `func_800580D4`, now shares that
 translation unit with `Model_UpdateViewMetrics`. Across those

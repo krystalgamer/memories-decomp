@@ -511,13 +511,7 @@ segments:
     - game/model_word_memory
   - - 254372
     - c
-    - game/model_queue_relative_camera_orbit
-  - - 254900
-    - c
-    - game/european/model_keyframe_update
-  - - 258072
-    - c
-    - game/european/model_effect_state
+    - game/european/model_camera_effects
   - - 263212
     - c
     - game/european/model_init_slot
@@ -634,7 +628,7 @@ segments:
   - [0x82B94, .data, game/display_effect_process_menu_records]
   - [0x82BC8, .data, game/spanish/mem_card]
   - [0x82BDC, .data, game/european/display_object_system]
-  - [0x82C34, .data, game/european/model_effect_state]
+  - [0x82C34, .data, game/european/model_camera_effects]
   - [0x82CCC, .data, game/european/model_background_records]
   - [0x831CC, .data, game/model_image_copy_frames]
   - [0x831D4, .data, game/european/movie_pipeline]
@@ -649,7 +643,7 @@ segments:
   - [0x8CAD8, .sdata, game/french/debug_menu]
   - [0x8CAEC, .sdata, game/spanish/mem_card]
   - [0x8CAF4, .sdata, game/european/display_object_system]
-  - [0x8CB0C, .sdata, game/model_queue_relative_camera_orbit]
+  - [0x8CB0C, .sdata, game/european/model_camera_effects]
   - [0x8CB18, .sdata, game/european/model]
   - [0x8CBE8, .sdata, game/european/movie_pipeline]
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
@@ -691,7 +685,7 @@ segments:
   - [0xE1258, bss, mem_card_bss_commons]
   - [0xE19C0, bss, display_object_system_bss_commons]
   - [0xE4410, bss, mem_card_driver_bss_commons]
-  - [0xE46A8, bss, model_keyframe_update_commons]
+  - [0xE46A8, bss, model_camera_effects_bss_commons]
   - [0xE4858, bss, model_bss_commons]
   - [0xE73D8, bss, model_scene_runtime_bss_commons]
   - [0xE7488, .bss, game/european/model_handler_dispatch]

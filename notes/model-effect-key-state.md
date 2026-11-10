@@ -14,7 +14,7 @@ ten times `sizeof(Key) == 0x28`. Its name distinguishes the array from the
 current cursor and from the separate current-pose snapshot.
 
 The cursor and count are not newly inferred allocations. Their initialized `.sdata`
-definitions already belong to `src/game/model_queue_relative_camera_orbit.c`,
+definitions already belong to `src/game/model_camera_effects.c`,
 and their shared types remain in `model_transfer_flags.h`.
 
 ## Producer, stepper and consumers
@@ -24,7 +24,7 @@ zeroing the count. Its append path installs the requested endpoints in
 `gModel_aEffectKeys[count]`, initializes that key's trailing fields and increments
 the byte count, bounded at ten records. `Model_ResetEffectKeyQueue` clears both globals.
 
-`Model_UpdateEffectKeyframes` in `model_keyframe_update.c` is the decisive evidence for
+`Model_UpdateEffectKeyframes` in `model_camera_effects.c` is the decisive evidence for
 **current**: it reads and updates the pointed key's progress and duration,
 advances the pointer by one `Key`, and compares its array index with the
 count. Multi-key queues wrap to the base; a finished one-key queue clears

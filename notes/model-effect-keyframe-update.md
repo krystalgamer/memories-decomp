@@ -35,7 +35,7 @@ The later local-view component below still preserves captured view/timing
 destinations, live state reads after callbacks, four-halfword slot copies,
 arithmetic, narrowing, random calls, recursion and branch order.
 
-The source remains `src/game/model_keyframe_update.c` with its `0xC64`
+The function lives in `src/game/model_camera_effects.c` with its `0xC64`
 extent. It builds under `gcc_2_8_1_g8_split_comm`: indexing the key
 endpoints, pose snapshot and output channels by `channel_index`, instead of
 advancing separate cursors beside it, removed the need for

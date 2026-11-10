@@ -13,13 +13,13 @@
  * dispatcher share it and this is where Key lives. Two facts bound it at
  * ten: the next named object, gModel_aHandlerKeyRegistry (c_symbols.ld:396, model.h:541-542),
  * starts at +0x190 = 10 * 0x28, and Model_ApplyEffectKeyQueueCommand writes a record only while
- * `gModel_bEffectKeyCount < 0xA` (model_effect_state.c; gModel_bEffectKeyCount is a u8,
+ * `gModel_bEffectKeyCount < 0xA` (model_camera_effects.c; gModel_bEffectKeyCount is a u8,
  * model_transfer_flags.h:47). That unit stores through a u8 pointer: two
  * 8-byte ModelEffectEndpoint copies at +0 and +8, halfwords at +6, +0xE,
  * +0x20, +0x22 and +0x24, a byte at +0x26 (:51-66), and stores the ring's
  * address into gModel_pCurrentEffectKey. Model_EvaluateKeyframeSpline forms Key pointers from the ring and
  * derives each channel pointer as `(u8 *)key + k * 8`.
- * Model_UpdateEffectKeyframes walks and wraps the same ring in model_keyframe_update.c.
+ * Model_UpdateEffectKeyframes walks and wraps the same ring in model_camera_effects.c.
  * The evaluator used to declare it `Key []` and
  * Model_ApplyEffectKeyQueueCommand used a local `u8 []` declaration. */
 extern Key gModel_aEffectKeys[10];
