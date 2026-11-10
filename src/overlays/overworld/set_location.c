@@ -67,7 +67,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                 object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPositionWithResource(
                     object, entry->x, entry->y, 0, 2,
-                    entry->field_08, 0x17, 0x100, gDisplay_abResourceBank0
+                    entry->direction_variant, 0x17, 0x100, gDisplay_abResourceBank0
                 );
                 DisplayObject_SetDepthOffset(object, 5);
                 *(u16 *)(object + 8) |=
