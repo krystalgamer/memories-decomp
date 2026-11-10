@@ -198,7 +198,7 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "text_encode_decimal_no_padding.h"
 #include "build_deck_transition_state.h"
 #include "color_constants.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "card_list_sort_icons.h"
 
 /* Initialized data this unit owns at 0x80090DD8: two 16-byte rows used by card-list sorting
@@ -776,7 +776,6 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "card_constants.h"
-#include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -1032,7 +1031,6 @@ void Library_PruneRecentCardDrops(void)
  *
  * The display objects keep their raw slot offsets on the record.
  */
-#include "graphics_frame.h"
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
 #include "display_object_core.h"
@@ -1287,7 +1285,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "card_list_sort_icons.h"
 #include "duel_card_viewer.h"
 #include "duel_effect.h"
-#include "graphics_frame.h"
 #include "text_channel_state.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"

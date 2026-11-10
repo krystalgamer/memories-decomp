@@ -9,7 +9,7 @@
  * variables, which keeps slide_in local to the setup block and in $s0. */
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "input.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"

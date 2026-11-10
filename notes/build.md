@@ -747,7 +747,7 @@ and the answer follows the include graph rather than the name.
 `gMovie_bPlaybackState` is a movie playback state byte. `movie_playback_control.h`
 describes exactly what its bits mean and is the obvious home by name, but
 `main_boot_frontend.c` does not include that header at all, while all three
-consumers already include `graphics_frame.h`. Placing the declaration by what
+consumers already include `main.h` (formerly `graphics_frame.h`). Placing the declaration by what
 the include graph is, rather than by which subsystem the name sounds like,
 costs no new include and cannot strand a consumer.
 
@@ -894,7 +894,7 @@ A scan over declaration spellings reports both of these, and neither is work:
 
 - **Arms already in place.** Three guarded branches for one symbol inside one
   header are three spellings by text and one declaration in fact.
-  `gGraphics_bSyncVBlankTarget` in `graphics_frame.h` reads as a three-way conflict to a
+  `gGraphics_bSyncVBlankTarget` in `main.h` (formerly `graphics_frame.h`) reads as a three-way conflict to a
   regular expression.
 - **A semantic type against a raw view.** When some consumers have adopted a
   real type and others still reach the bytes, that is type adoption partly
@@ -989,7 +989,7 @@ scheduling lever for the exact 60-byte function.
 An earlier draft of this section claimed the opposite: that because
 `graphics_frame.c` *defines* its symbols rather than declaring them -- the
 definition being the lever that makes the assembler resolve a small global
-gp-relative -- `graphics_frame.h` could not declare them without colliding
+gp-relative -- `main.h` (formerly `graphics_frame.h`) could not declare them without colliding
 with the definition or quietly changing how the symbol resolves. That was
 wrong, and the tree now shows it plainly.
 

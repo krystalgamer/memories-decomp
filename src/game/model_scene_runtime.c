@@ -813,7 +813,7 @@ int Model_IsCameraMoveComplete(int arg)
     return result;
 }
 
-#include "graphics_frame.h"
+#include "main.h"
 #include "gpu_packets.h"
 #include "model_graphics_state.h"
 #include "model_slot_properties.h"

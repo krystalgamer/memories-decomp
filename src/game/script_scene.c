@@ -55,7 +55,7 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
 
 #include "fade.h"
 #include "file_transfer.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
@@ -171,7 +171,6 @@ void Script_OpShowDialog(void)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "script_state.h"
 #include "script_image_objects.h"
@@ -1276,7 +1275,6 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 
 #include "display_object.h"
 #include "file_transfer.h"
-#include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "menu_record_reset.h"
 #include "script_state.h"

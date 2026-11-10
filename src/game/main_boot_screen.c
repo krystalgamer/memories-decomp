@@ -13,7 +13,7 @@
 #include "high_memory_addresses.h"
 #include "european_text_bank_views.h"
 #endif
-#include "main_frame.h"
+#include "main.h"
 #include "../psyq/libgs.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"

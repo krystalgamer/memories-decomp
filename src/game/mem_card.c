@@ -5,7 +5,7 @@
 
 #include "save_data.h"
 #include "player_name_glyphs.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
 #include "util_memory.h"

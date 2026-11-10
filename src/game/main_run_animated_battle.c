@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "model_scene_states.h"
 #include "model_debug_controller.h"
 #include "../psyq/libgte.h"

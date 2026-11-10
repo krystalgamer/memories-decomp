@@ -1,9 +1,9 @@
-#ifndef YUGIOH_GAME_GRAPHICS_FRAME_H
-#define YUGIOH_GAME_GRAPHICS_FRAME_H
-
+#ifndef MEMORIES_DECOMP_MAIN_H
+#define MEMORIES_DECOMP_MAIN_H
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "graphics_base_frame_step.h"
 
 #define GRAPHICS_PACKET_BUFFER_SIZE 140000
 
@@ -37,8 +37,6 @@
  * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
  * all. */
 extern u8 gMovie_bPlaybackState;
-
-#include "graphics_base_frame_step.h"
 
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)`, so this byte is how many frames the
@@ -295,5 +293,24 @@ extern s32 D_8009B0A4;
 extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
+
+/* The VSync callback installed by Main_Init: ticks the three frame counters,
+   reads the raw pads, and runs the sound driver's per-frame work under a
+   reentrancy flag. */
+void Main_VBlankCB(void);
+
+/* Advance one frame: run the pending frame work, wait for the previous frame
+   to finish drawing, start the next one, and fold the raw pads into the
+   held/pressed/repeat state. It is the only frame-advance primitive, and
+   every one of its call sites is a loop body -- the busy-waits spin on their
+   own condition, Main_Loop is the frontend loop itself, and the counted ones
+   count passes through this. */
+void Main_AdvanceFrame(void);
+
+/* Advance `count` frames through Main_AdvanceFrame. The count is not
+   checked, so zero means 2^32. */
+void Main_AdvanceFrames(s32 count);
+
+extern u8 gMain_bSoundVSyncBusy;
 
 #endif

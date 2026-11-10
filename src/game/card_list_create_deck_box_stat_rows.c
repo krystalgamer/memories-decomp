@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "display_object.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"

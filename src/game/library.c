@@ -9,7 +9,7 @@ static PADDING_VARIABLE(4);
 
 #include "../ygo_types.h"
 #include "text_box_blocking_build.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "library.h"
 #include "card_constants.h"
 #include "../psyq/libgs.h"

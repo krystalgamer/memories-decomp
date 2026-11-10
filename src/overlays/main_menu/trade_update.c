@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 #include "../../game/display_object_core.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"

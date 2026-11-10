@@ -1,6 +1,6 @@
 # Graphics frame environment contracts
 
-`graphics_frame.h` owns the game-facing declarations for the SDK drawing and
+`main.h` (formerly `graphics_frame.h`) owns the game-facing declarations for the SDK drawing and
 display environments and the three background-tint bytes. These are declarations
 of existing addresses, not C data ownership. The display environment carries
 libgs's public `GsDISPENV` name, which `src/psyq/libgs.h` declares with the
@@ -34,7 +34,7 @@ Startup (`Main_InitHardware`) already copies this value into the typed
 
 The existing movie stop path (`Movie_StopStream`) independently confirms the
 red/green/blue order through `ClearImage`. It now takes its existing absolute
-tint declarations from `graphics_frame.h` instead of repeating them privately.
+tint declarations from `main.h` (formerly `graphics_frame.h`) instead of repeating them privately.
 Five offset assertions and the SDK `DRAWENV`/`DISPENV` size assertions protect
 the views. No inferred aggregate joins the two separately relocated symbols;
 the four bytes after the `0x5C` drawing environment are not claimed.
@@ -55,7 +55,7 @@ The resident candidates currently contain no direct environment/tint consumer;
 all 19 candidate fingerprints must still pass because this shared header has
 transitive users. The completed source move carries the startup's two selector
 macros and five typed stores in `src/game/main.c`, with
-`graphics_frame.h` visible before use. The shortened
+`main.h` (formerly `graphics_frame.h`) visible before use. The shortened
 `movie_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array

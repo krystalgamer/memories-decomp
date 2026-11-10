@@ -408,7 +408,7 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "display_object.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "text_box_draw_entries.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
@@ -1766,7 +1766,6 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
     return 0;
 }
 
-#include "graphics_frame.h"
 #include "display_object.h"
 #include "widget_update_pulse_colour.h"
 
@@ -2089,7 +2088,6 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
@@ -4094,7 +4092,6 @@ next_opcode:
 #endif
 }
 
-#include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_process_menu_records.h"
 #include "duel_effect.h"
@@ -4308,7 +4305,6 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
 #include "duel_effect.h"
-#include "graphics_frame.h"
 #include "display_object_fade.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"

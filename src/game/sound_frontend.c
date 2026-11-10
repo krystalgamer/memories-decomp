@@ -1,7 +1,7 @@
 #include "../types.h"
 
 #include "file_transfer.h"
-#include "main_frame.h"
+#include "main.h"
 #include "file_constants.h"
 #include "sound.h"
 #include "sound_output_state.h"

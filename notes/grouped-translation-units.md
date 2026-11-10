@@ -198,7 +198,7 @@ merging must change a load. The first clause is right and the conclusion does
 not follow, because the width is not a property of the declaration. gcc 2.8.1
 picks the narrow load from the *use*: `(u8)` and `(u16)` on an `int` global
 emit `lbu` and `lhu` against that same symbol. One `s32` declaration in
-`graphics_frame.h` therefore carries both loads above -- `func_8003AD6C`
+`main.h` (formerly `graphics_frame.h`) therefore carries both loads above -- `func_8003AD6C`
 reads it plain and `func_8003B054` reads it `(u16)` -- and the two are now one
 unit, `display_effect_update_callbacks.c`, with the executable byte-identical.
 This unit first reached the second load through a second name for the symbol,
