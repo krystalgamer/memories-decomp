@@ -399,8 +399,8 @@ and zero Z. The eight-byte stride and halfword stores reuse the existing
 SDK vector declaration; padding remains untouched. The width is used as a
 32-bit value and height is sign-extended from a halfword.
 
-The follow-up experiments used the current shared declarations and existing
-`gcc_2_8_1_g0_split` and `gcc_2_8_1_g0_split_no_cse_follow_jumps` profiles.
+The follow-up experiments used the current shared declarations and the
+`gcc_2_8_1_g0_split` and (since retired) `gcc_2_8_1_g0_split_no_cse_follow_jumps` profiles.
 Both profiles gave the same failed results:
 
 | Source experiment | Exact mismatch |
