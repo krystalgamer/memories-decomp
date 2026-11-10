@@ -3355,7 +3355,7 @@ u8 gText_BranchSelectorB;
 u8 gText_BranchSelectorA;
 
 #ifdef VERSION_EUROPE
-#include "save_data.h"
+#include "mem_card.h"
 #include "player_name_glyphs.h"
 
 #endif

@@ -5,7 +5,7 @@
 #include "../game/main_start_duel.h"
 #include "../game/main.h"
 #include "../game/build_deck.h"
-#include "../game/save_data.h"
+#include "../game/mem_card.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
 #include "../game/main_modes.h"

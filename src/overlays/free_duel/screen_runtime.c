@@ -19,7 +19,7 @@
 #include "../../game/text_constants.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
-#include "../../game/save_data.h"
+#include "../../game/mem_card.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/display_object_core.h"
 #include "../../game/text_box_update_channels.h"

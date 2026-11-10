@@ -3,7 +3,7 @@
 #include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "../external_funcs.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"

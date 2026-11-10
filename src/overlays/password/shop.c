@@ -24,7 +24,7 @@
 #include "../../game/card_preview_objects.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
-#include "../../game/save_data.h"
+#include "../../game/mem_card.h"
 #include "../../game/duel_effect_resource_record.h"
 #include "../../game/main_mode_state.h"
 

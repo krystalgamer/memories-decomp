@@ -1,9 +1,8 @@
 #include "../types.h"
 
 #include "text_box_blocking_build.h"
-#include "mem_card_dialog.h"
+#include "mem_card.h"
 
-#include "save_data.h"
 #include "player_name_glyphs.h"
 #include "main.h"
 #include "sound.h"
@@ -340,7 +339,6 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
 #undef gCampaignSceneIndex
 
 #include "duel_effect.h"
-#include "mem_card_work_initialize_operation.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
 
@@ -354,7 +352,6 @@ void MemCardWork_InitializeOperation(u8 value)
     gMemCardWork_OperationMode = value;
 }
 
-#include "checkerboard_background.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -438,7 +435,6 @@ void Checkerboard_DrawBackground(
 #include "text_box_runtime.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
-#include "duel_effect_create_channel.h"
 #include "dialog_layout.h"
 #include "mem_card_work.h"
 
@@ -494,9 +490,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 #include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
 #include "text_box_update_channels.h"
-#include "duel_effect_create_channel.h"
-#include "dialog_transition.h"
-#include "dialog_update_message_transition.h"
 #include "dialog_layout.h"
 #include "dialog_choice.h"
 
@@ -768,10 +761,8 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "display_object_core.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/strings.h"
-#include "data_transfer_request.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "mem_card.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 /* The Japanese and PAL executables also link the PocketStation library
  * (LIBMCX); the save dialog brackets its card session with McxStartCom and
@@ -779,7 +770,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
  * McxSync. See notes/psyq.md. */
 #include "../psyq/libmcx.h"
 #endif
-#include "save_data.h"
 #include "save_pair_workspace.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
@@ -799,16 +789,12 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
 #include "mem_card_diagnostic_strings.h"
-#include "duel_effect_create_channel.h"
 #include "dialog_choice.h"
 #include "file_constants.h"
 #include "util_memory.h"
 #include "card_constants.h"
 #include "input.h"
-#include "save_data_update_trade_load.h"
-#include "save_data_update_load_pair.h"
 #include "text_sjis_to_glyph_codes.h"
-#include "two_player_save_setup.h"
 #include "sound.h"
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
@@ -2644,8 +2630,6 @@ void SaveData_RequestTradeWrite(void)
         4
     );
 }
-
-#include "save_data.h"
 
 void SaveData_SetMaskSeed(u32 value)
 {

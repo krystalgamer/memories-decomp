@@ -55,8 +55,6 @@
 #include "duel_side_state.h"
 #include "build_deck.h"
 #include "main_start_duel.h"
-#include "save_data_update_trade_load.h"
-#include "two_player_save_setup.h"
 #include "movie_playback_control.h"
 #include "duel_session_controls.h"
 #include "main_services.h"

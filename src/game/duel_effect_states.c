@@ -364,9 +364,7 @@ s32 DuelEffect_UpdateState(void) {
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "duel_effect_state_latch.h"
-#include "data_transfer_request.h"
 #include "mem_card.h"
-#include "save_data.h"
 
 #endif
 

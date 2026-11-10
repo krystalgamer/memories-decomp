@@ -33,7 +33,7 @@ and duplicate-state staging layout is documented in
 
 ## Shared live-workspace contract
 
-[`save_data.h`](../../src/game/save_data.h) owns `gSaveData_Workspace` and the
+[`mem_card.h`](../../src/game/mem_card.h) owns `gSaveData_Workspace` and the
 independently labeled chest, player-name and Free Duel record interiors.
 The live `SaveDataWorkspace.state` starts at `+0x200`, while `SaveDataState`
 remains a prefix of the persisted block, not a replacement allocation:

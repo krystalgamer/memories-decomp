@@ -4,7 +4,7 @@
 #include "../overlays/overworld/campaign_map.h"
 #include "build_deck.h"
 #include "file_transfer.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "main.h"
 #include "main_init_free_duel_menu.h"
 #include "main_services.h"

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
 #include "save_data_workspace.h"

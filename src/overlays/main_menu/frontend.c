@@ -8,9 +8,7 @@
 /* Each input branch of the update samples the pressed-pad word
  * independently; no other function in this unit reads pad state. */
 #include "../../types.h"
-#include "../../game/two_player_save_setup.h"
-#include "../../game/save_data.h"
-#include "../../game/save_data_update_trade_load.h"
+#include "../../game/mem_card.h"
 #include "../../game/input.h"
 #include "../../game/display_object.h"
 #include "../../game/display_object_core.h"
@@ -23,8 +21,6 @@
 #include "../../game/sound_driver.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_constants.h"
-#include "../../game/data_transfer_request.h"
-#include "../../game/mem_card.h"
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 #include "../../overlays/main_menu/frontend.h"
