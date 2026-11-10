@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant433_rings.h"
+#include "variant433_entry.h"
 
 /* Header 433's rings: sixteen rings of nine points grown from the centre by
  * a per-point amount, projected with RotTransPers4 and drawn as quads from
@@ -12,7 +13,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     long p;
     SVECTOR rot;
     u8 *words;
-    u8 *work;
+    Variant433EntryState *work;
     GsOT *ot;
     VECTOR scale;
     long flag;
@@ -39,18 +40,18 @@ void ModelVariant433_DrawRings(u8 *ctx)
     s32 radius;
     s32 half_radius;
 
-    work = ctx;
+    work = (Variant433EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x4298), MODEL_VARIANT_WORD(work, 0x4290)) + 0xC00;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x4294), MODEL_VARIANT_WORD(work, 0x4290)) + 0xC00;
-    if (!(MODEL_VARIANT_WORD(work, 0x42A8) & 1)) {
-        size = MODEL_VARIANT_HALF(work, 0x42CE);
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    if (!(work->clock.frame_count & 1)) {
+        size = work->radius;
         if (size < 0) {
             size += 0x7F;
         }
         size = (u32)size >> 7;
     } else {
-        size = MODEL_VARIANT_HALF(work, 0x42CE) * 12;
+        size = work->radius * 12;
         if (size < 0) {
             size += 0x3FF;
         }
@@ -61,9 +62,9 @@ void ModelVariant433_DrawRings(u8 *ctx)
     ang2 = 0;
     reach = (s16)size;
     limit = 0x400;
-    ring = (Variant433Ring *)(work + 0x1518);
+    ring = (Variant433Ring *)work->rings;
     for (; i < 16; i++, ring++, ang1 += 0x708, ang2 += 0x514) {
-        wave = MODEL_VARIANT_WORD(work, 0x42E4);
+        wave = work->ripple;
         for (j = 0; j < 9; j++, wave += 0x514) {
             level = ring->amount[j];
             radius = 0x400;
@@ -83,10 +84,10 @@ void ModelVariant433_DrawRings(u8 *ctx)
             edge->vz = pt->vz + (rsin(yaw) * reach >> 12);
             level = ring->amount[j];
             if (level <= 0x400) {
-                ring->amount[j] += MODEL_VARIANT_WORD(work, 0x42B4) << 7;
+                ring->amount[j] += work->clock.step << 7;
                 if (ring->amount[j] >= 0x400) {
                     ring->amount[j] = limit;
-                    if ((u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x42BC), 0x20) < (u32)MODEL_VARIANT_WORD(work, 0x42AC)) {
+                    if ((u32)MODEL_VARIANT_WORD(work->config, 0x20) < (u32)work->clock.frame) {
                         ring->amount[j] = limit;
                         if (j == 8) {
                             *(s32 *)((u8 *)ring + 0x204) = 1;
@@ -103,9 +104,9 @@ void ModelVariant433_DrawRings(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x4268);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x426C);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x4270);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
@@ -116,7 +117,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ring = (Variant433Ring *)(work + 0x1518);
+    ring = (Variant433Ring *)work->rings;
     for (i = 0; i < 16; i++, ring++) {
         for (j = 0; j < 9; j++) {
 #ifdef VERSION_FRENCH
@@ -169,13 +170,13 @@ void ModelVariant433_DrawRings(u8 *ctx)
             }
         }
     }
-    ring = (Variant433Ring *)(work + 0x1518);
+    ring = (Variant433Ring *)work->rings;
     for (i = 0; i < 16; i++, ring++) {
         for (j = 0; j < 8; j++) {
-            if ((s16)(j % 2) == (MODEL_VARIANT_WORD(work, 0x42A8) & 1)) {
-                quad = (POLY_FT4 *)(work + 0x41E0);
+            if ((s16)(j % 2) == (work->clock.frame_count & 1)) {
+                quad = work->flat_extra;
             } else {
-                quad = (POLY_FT4 *)(work + 0x4208);
+                quad = &work->flat_extra[1];
             }
 #ifdef VERSION_FRENCH
             quad->x0 = ring->s[j].point.vx + ring->xo[j];

@@ -1,10 +1,11 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
+#include "../model_variant/variant428_entry.h"
 
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
  * path, fading its radius in and out with the two phases of the timing record at
- * work + 0x1590. */
+ * (u8 *)work + 0x1590. */
 void ModelVariant428_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
@@ -14,7 +15,7 @@ void ModelVariant428_DrawBands(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag[1][9];
-    u8 *work;
+    Variant428EntryState *work;
     GsOT *ot;
     s32 angle;
     POLY_GT4 *poly;
@@ -24,16 +25,16 @@ void ModelVariant428_DrawBands(u8 *ctx)
     s16 j;
     s16 r;
 
-    work = ctx;
+    work = (Variant428EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x1418);
-    angle = ratan2(MODEL_VARIANT_HALF(work, 0x1562), MODEL_VARIANT_HALF(work, 0x1560)) + 0x800;
-    if (!(MODEL_VARIANT_WORD(work, 0x157C) & 1)) {
-        r = MODEL_VARIANT_HALF(work, 0x15B0) * 48 / 4096;
+    poly = work->textured;
+    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    if (!(work->clock.frame_count & 1)) {
+        r = work->scale * 48 / 4096;
     } else {
-        r = MODEL_VARIANT_HALF(work, 0x15B0) * 56 / 4096;
+        r = work->scale * 56 / 4096;
     }
-    band = (ModelVariantBand *)(work + 0xAB0);
+    band = (ModelVariantBand *)work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 9; j++) {
             setVector(&band->a[j], rcos(0x400) * r >> 12, rsin(0x400) * r >> 12, 0);
@@ -43,13 +44,13 @@ void ModelVariant428_DrawBands(u8 *ctx)
             rot.vy = 0;
             rot.vz = angle;
             if (j == 0) {
-                m.t[0] = MODEL_VARIANT_WORD(work, 0x153C);
-                m.t[1] = MODEL_VARIANT_WORD(work, 0x1540);
-                m.t[2] = MODEL_VARIANT_WORD(work, 0x1544);
+                m.t[0] = work->matrix.t[0];
+                m.t[1] = work->matrix.t[1];
+                m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = MODEL_VARIANT_WORD(work, 0x153C) + MODEL_VARIANT_WORD(work, 0x1550) * MODEL_VARIANT_WORD(work, 0x15B4) / 1024 * j / 8;
-                m.t[1] = MODEL_VARIANT_WORD(work, 0x1540) + MODEL_VARIANT_WORD(work, 0x1554) * MODEL_VARIANT_WORD(work, 0x15B4) / 1024 * j / 8;
-                m.t[2] = MODEL_VARIANT_WORD(work, 0x1544) + MODEL_VARIANT_WORD(work, 0x1558) * MODEL_VARIANT_WORD(work, 0x15B4) / 1024 * j / 8;
+                m.t[0] = work->matrix.t[0] + work->direction.vx * work->progress / 1024 * j / 8;
+                m.t[1] = work->matrix.t[1] + work->direction.vy * work->progress / 1024 * j / 8;
+                m.t[2] = work->matrix.t[2] + work->direction.vz * work->progress / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
@@ -69,7 +70,7 @@ void ModelVariant428_DrawBands(u8 *ctx)
                                          &band->sc[j], &p, &flag[i][j]);
         }
     }
-    band = (ModelVariantBand *)(work + 0xAB0);
+    band = (ModelVariantBand *)work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = band->sa[j];
@@ -133,22 +134,22 @@ void ModelVariant428_DrawBands(u8 *ctx)
         }
     }
     col = NULL;
-    if (MODEL_VARIANT_WORD(work, 0x15BC) == 1) {
-        if (MODEL_VARIANT_WORD(work, 0x15B4) < 0x401) {
-            MODEL_VARIANT_WORD(work, 0x15B4) = (u32)((MODEL_VARIANT_WORD(work, 0x1580) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x20)) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x24) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x20));
-            if (MODEL_VARIANT_WORD(work, 0x15B4) >= 0x400) {
-                MODEL_VARIANT_WORD(work, 0x15B4) = 0x400;
-                MODEL_VARIANT_WORD(work, 0x15BC) = 2;
+    if (work->tail.phase == 1) {
+        if (work->progress < 0x401) {
+            work->progress = (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x20)) << 10) /
+                             (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - MODEL_VARIANT_WORD(work->config, 0x20));
+            if (work->progress >= 0x400) {
+                work->progress = 0x400;
+                work->tail.phase = 2;
             }
         }
-    } else if (MODEL_VARIANT_WORD(work, 0x15BC) < 3 && MODEL_VARIANT_HALF(work, 0x15B0) > 0) {
-        if ((u32)MODEL_VARIANT_WORD(work, 0x1580) >= (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x28)) {
-            MODEL_VARIANT_HALF(work, 0x15B0) = 0x1000 - (u32)(((u32)MODEL_VARIANT_WORD(work, 0x1580) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x28)) << 12) /
-                                          (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x2C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1590), 0x28));
-            if (MODEL_VARIANT_HALF(work, 0x15B0) <= 0) {
-                MODEL_VARIANT_HALF(work, 0x15B0) = 0;
-                MODEL_VARIANT_WORD(work, 0x15BC) = 3;
+    } else if (work->tail.phase < 3 && work->scale > 0) {
+        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
+            work->scale = 0x1000 - (u32)(((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
+                                          (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
+            if (work->scale <= 0) {
+                work->scale = 0;
+                work->tail.phase = 3;
             }
         }
     }

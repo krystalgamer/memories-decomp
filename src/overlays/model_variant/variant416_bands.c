@@ -1,10 +1,11 @@
 #include "../../types.h"
 
 #include "variant416_bands.h"
+#include "variant416_entry.h"
 
 /* Draws two pairs of POLY_GT4 wings, each a two-point band projected with
  * RotTransPers3, and grows each wing's level by step * 64 until both are
- * full; the phase word at work + 0x1A84 moves to 2 when the first wing is
+ * full; the phase word at (u8 *)work + 0x1A84 moves to 2 when the first wing is
  * full and to 3 when the last one is done. */
 void ModelVariant416_DrawBands(u8 *ctx)
 {
@@ -15,7 +16,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     GsCOORDINATE2 coord;
     long flag[2][2];
     long p;
-    u8 *work;
+    Variant416EntryState *work;
     GsOT *ot;
     POLY_GT4 *poly;
     Variant416Band *band;
@@ -26,19 +27,19 @@ void ModelVariant416_DrawBands(u8 *ctx)
     s16 r;
     s32 size;
 
-    work = ctx;
+    work = (Variant416EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
-    angle = ratan2(MODEL_VARIANT_HALF(work, 0x1A32), MODEL_VARIANT_HALF(work, 0x1A30)) + 0x800;
-    poly = (POLY_GT4 *)(work + 0x18E8);
+    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    poly = work->textured;
     /* Both arms fold to the same division, so the test leaves no code; the
      * split assignment keeps the srl/sll/sra form of the radius. */
-    if (!(MODEL_VARIANT_WORD(work, 0x1A4C) & 1)) {
-        r = MODEL_VARIANT_HALF(work, 0x1A78) / 256;
+    if (!(work->clock.frame_count & 1)) {
+        r = work->field_1A78 / 256;
     } else {
-        r = MODEL_VARIANT_HALF(work, 0x1A78) * 16 / 4096;
+        r = work->field_1A78 * 16 / 4096;
     }
-    band = (Variant416Band *)(work + 0xF60);
+    band = (Variant416Band *)work->bands;
     for (i = 0; i < 2; i++, band++) {
         for (j = 0; j < 2; j++) {
             if (band->level[j] <= 0) {
@@ -54,9 +55,9 @@ void ModelVariant416_DrawBands(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = angle;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1A0C) + MODEL_VARIANT_WORD(work, 0x1A20) * size / 1024;
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1A10) + MODEL_VARIANT_WORD(work, 0x1A24) * size / 1024;
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1A14) + MODEL_VARIANT_WORD(work, 0x1A28) * size / 1024;
+            m.t[0] = work->matrix.t[0] + work->direction.vx * size / 1024;
+            m.t[1] = work->matrix.t[1] + work->direction.vy * size / 1024;
+            m.t[2] = work->matrix.t[2] + work->direction.vz * size / 1024;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;
@@ -73,16 +74,16 @@ void ModelVariant416_DrawBands(u8 *ctx)
             band->otz[j] = RotTransPers3(&band->a[j], &band->b[j], &band->c[j],
                                          &band->sa[j], &band->sb[j],
                                          &band->sc[j], &p, &flag[i][j]);
-            if (MODEL_VARIANT_WORD(work, 0x1A84) < 3) {
+            if (work->tail.phase < 3) {
                 if (band->level[j] < 0x400) {
-                    band->level[j] += MODEL_VARIANT_WORD(work, 0x1A58) << 6;
+                    band->level[j] += work->clock.step << 6;
                     if (band->level[j] >= 0x400) {
-                        if (i == 0 && j == 0 && MODEL_VARIANT_WORD(work, 0x1A84) < 2) {
-                            MODEL_VARIANT_WORD(work, 0x1A84) = 2;
+                        if (i == 0 && j == 0 && work->tail.phase < 2) {
+                            work->tail.phase = 2;
                         }
                         if (band->level[1] >= 0x400) {
-                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1A60), 0x28) <=
-                                (u32)MODEL_VARIANT_WORD(work, 0x1A50)) {
+                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1A60), 0x28) <=
+                                (u32)work->clock.frame) {
                                 band->level[j] = 0x400;
                                 band->done[j] = 1;
                             } else {
@@ -95,13 +96,13 @@ void ModelVariant416_DrawBands(u8 *ctx)
                     /* After the reset loop j is 2 here, as in the original. */
                     done *= band->done[j];
                 }
-                if (i + 1 == 2 && j == 1 && done == 1 && MODEL_VARIANT_WORD(work, 0x1A84) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x1A84) = 3;
+                if (i + 1 == 2 && j == 1 && done == 1 && work->tail.phase == 2) {
+                    work->tail.phase = 3;
                 }
             }
         }
     }
-    band = (Variant416Band *)(work + 0xF60);
+    band = (Variant416Band *)work->bands;
     for (i = 0; i < 2; i++, band++) {
         for (j = 0; j < 1; j++) {
             poly->x0 = band->sa[j];
