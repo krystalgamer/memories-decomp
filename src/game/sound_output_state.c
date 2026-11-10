@@ -6,10 +6,9 @@
    CD-level measurement and busy-state completion. */
 
 #include "../types.h"
-#include "sd_set_cd_volume.h"
+#include "sound_output_state.h"
 #include "sound.h"
 #include "../psyq/libcd.h"
-#include "sound_mix.h"
 
 void SD_InitBufferState(void)
 {
@@ -115,7 +114,6 @@ s32 SD_GetCdVolume(void)
 #include "../psyq/libspu.h"
 
 #include "sound.h"
-#include "sound_output_state.h"
 
 /* Queues CD fade command 41: arg1 is the signed per-update step and
    value the target volume, loaded into s_wSD_CD_FADE_STEP/s_bSD_CD_FADE_TARGET when
@@ -138,7 +136,6 @@ void SD_StartCdFade(s16 step, u8 target, s32 unused)
 }
 
 #ifndef VERSION_JAPAN
-#include "sound_mix.h"
 
 /* Sums the squares of the current decoded CD half into s_uSD_OUTPUT_LEVEL and
  * returns its high half, or 0 while the output is gated. Every access goes
