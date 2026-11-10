@@ -687,7 +687,9 @@ typedef struct {
     u8 pad_08[0x3C];
     s16 scale_x;
     s16 scale_y;
-    u32 field_48;
+    /* GsSPRITE mx/my (x low, y high): the renderer copies the word into
+       SpritePrim.mxmy, so the pulse scales about it. The spawner sets 8/8. */
+    u32 pivot;
     DuelEffectEntry *sourceGlyph;
     u8 pad_50[0xA];
     s16 savedSourceX;

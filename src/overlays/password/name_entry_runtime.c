@@ -599,7 +599,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
             256, 240
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     return obj;
@@ -633,7 +633,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
             640, 224
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     ((DisplayObject *)obj)->field_6B = 0;
@@ -728,7 +728,7 @@ draw:
             256, 240
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     return obj;
