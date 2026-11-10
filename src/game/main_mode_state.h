@@ -5,7 +5,9 @@
 
 /* Cross-subsystem frontend mode state.
  *
- * D_8009B0D1 is cleared during startup and when starting a new campaign.
+ * D_8009B0D1 is cleared during startup, when starting a new campaign and by
+ * SaveData_RequestLoad (its SAVE_DATA_LOAD_STATUS_ADDRESS store); no code
+ * reads it.
  * Startup keeps its volatile small-data view; the menu transition requires
  * an absolute .data store.
  *

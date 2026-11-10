@@ -270,9 +270,10 @@ void Graphics_BeginFrame(void)
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in gMain_apFrameServiceCallbacks and the single gMain_pfnExtraFrameService callback if set. If
-   neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
-   the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
-   and re-syncs both progress pairs. Finishes with
+   neither of the two progress pairs (D_8009B0B0/D_8009B0A4,
+   D_8009B0BC/D_8009B0D4) has advanced and the watchdog counter
+   gMain_nServiceResyncCountdown underflows, resets the counter to 0x3C and
+   re-syncs both progress pairs. Finishes with
    File_ServiceTransfers/func_800136D4. */
 void Main_RunFrameServices(void) {
     void (*fn)(void);
