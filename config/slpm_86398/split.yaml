@@ -253,7 +253,6 @@ segments:
       - [0x41230, c, game/model_slot_row_tables]
       - [0x41c10, c, game/model_slot_part_animation]
       - [0x41f20, c, game/japanese/model]
-      - [0x4be68, c, game/model_queue_tint_request]
       - [0x4c0ac, c, game/model_texture_upload]
       - [0x4c3f0, c, game/japanese/model_slot_getters]
       - [0x4c540, asm, func_8005BD40]

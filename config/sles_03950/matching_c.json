@@ -5660,15 +5660,15 @@
     },
     {
       "address": "0x8005B9D0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x100",
-      "source": "src/game/model_queue_tint_request.c"
+      "source": "src/game/european/model.c"
     },
     {
       "address": "0x8005BAD0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x144",
-      "source": "src/game/model_queue_tint_request.c"
+      "source": "src/game/european/model.c"
     },
     {
       "address": "0x8005BC14",
