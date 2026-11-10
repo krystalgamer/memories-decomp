@@ -163,11 +163,14 @@ thumbnail block. Neither path interprets or rearranges the payload.
 Only their destination selection changes from byte multiplication to
 block indexing.
 
-`gDuel_CardThumbnailClutBase` (formerly `D_8018C7D8`) remains the existing byte-addressed interior alias, `0x500`
-bytes beyond the block array's base; setup retains its independent symbol materialization
-and block-stride multiplication for the CLUT upload. No linker binding,
-allocation, regional mapping, preview layout or opaque staging-buffer
-lifetime changes.
+`gDuel_CardThumbnailClutBase` (formerly `D_8018C7D8`) is the byte-addressed
+interior label for `gDuel_aCardThumbnailBlocks[0].clut`. The linker scripts
+bind it as `gDuel_aCardThumbnailBlocks + 0x500` rather than as a second
+absolute address. Setup keeps the separate label because retail materializes
+the CLUT address and repeats the block-stride multiplication for that upload.
+Spelling it as `gDuel_aCardThumbnailBlocks[block_index].clut`, or as
+`gDuel_aCardThumbnailBlocks[0].clut` plus the stride, lets GCC reuse the
+block base and product, which is 8 bytes longer.
 
 ## Marker data record
 
