@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "sd_reset_music_state.h"
+#include "sound_effect_request.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
 

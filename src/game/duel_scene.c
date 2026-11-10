@@ -6498,7 +6498,7 @@ m3:
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_card_display_objects.h"
 #include "sound_output.h"
-#include "sound_sequence_state.h"
+#include "sound_effect_request.h"
 #include "model_scene_states.h"
 #include "display_object_motion.h"
 #include "duel_field_card_render_data.h"

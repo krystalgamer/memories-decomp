@@ -337,7 +337,7 @@ void SD_UpdateBankLoad(void) {
 
 #include "../psyq/libspu.h"
 #include "sound.h"
-#include "sound_sequence_state.h"
+#include "sound_effect_request.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
