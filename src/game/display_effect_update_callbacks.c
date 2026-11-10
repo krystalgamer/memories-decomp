@@ -19,13 +19,9 @@
 #include "display_effect_build_resource_objects.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
-#include "display_object_position.h"
+#include "display_effect_update_callbacks.h"
 #include "menu_record.h"
 #include "trig_constants.h"
-#include "display_effect_update_position_tween.h"
-#include "display_effect_fade_in_record.h"
-#include "display_effect_fade_out_record.h"
-#include "display_effect_update_callbacks.h"
 #include "graphics_frame_controls.h"
 
 /* Regional value: the screen sprite's field_40, its CLUT x (0x200 -> 0x280).
