@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant476_screen_grid.h"
+#include "../spanish_model_variant/variant459_entry.h"
 
 void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
 {
@@ -13,17 +14,17 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     Variant476ScreenGrid *grid;
     GsOT *ot;
     POLY_GT4 *poly;
-    u8 *work;
+    Variant459EntryState *work;
     s32 i;
     s32 j;
     s32 active;
     s32 tpage;
     s32 otz;
 
-    work = ctx;
+    work = (Variant459EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
-    rot.vx = -MODEL_VARIANT_HALF(work, 0x2834) - 1024;
+    rot.vx = -work->sheets[4].v3[1].vz - 1024;
     rot.vy = 0;
     rot.vz = 0;
     m.t[0] = MODEL_VARIANT_WORD(work, 0x274C);
@@ -39,8 +40,8 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    grid = (Variant476ScreenGrid *)(work + 0x14E4);
-    poly = (POLY_GT4 *)(work + 0x2390);
+    grid = (Variant476ScreenGrid *)((u8 *)work + 0x14E4);
+    poly = (POLY_GT4 *)((u8 *)work + 0x2390);
     if (MODEL_VARIANT_WORD(work, 0x284C) < 5) {
         MODEL_VARIANT_WORD(work, 0x2828) = 1024 - (MODEL_VARIANT_WORD(work, 0x2818) - 8192) / 8;
         for (i = 0; i < 9; i++) {

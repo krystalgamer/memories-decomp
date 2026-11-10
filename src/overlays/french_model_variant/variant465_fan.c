@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant465_fan.h"
+#include "../model_variant/variant448_entry.h"
 
 void ModelVariant448_DrawRadialDisc(u8 *ctx)
 {
@@ -13,23 +14,23 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
     GsOT *ot;
     s32 i;
     s32 j;
-    u8 *work;
+    Variant448EntryState *work;
     Variant465Fan *fan;
     POLY_G3 *triangle;
     POLY_G4 *quad;
     s32 otz;
 
-    work = ctx;
+    work = (Variant448EntryState *)ctx;
     fan = (Variant465Fan *)work;
-    triangle = (POLY_G3 *)(work + 0x1948);
+    triangle = &work->triangle;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = (POLY_G4 *)(work + 0x1964);
+    quad = &work->quad;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1AB8);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1ABC);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1AC0);
+    m.t[0] = work->position.vx;
+    m.t[1] = work->position.vy;
+    m.t[2] = work->position.vz;
     scale.vx = fan->size;
     scale.vy = fan->size;
     scale.vz = fan->size;
@@ -77,28 +78,28 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)otz, 1);
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x1B3C) == 0) {
+        if (work->phase == 0) {
             if (fan->size < 0x1000) {
-                fan->size = (u32)((MODEL_VARIANT_WORD(work, 0x1B00) -
-                    MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B10), 0x1C)) << 12) /
-                    (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B10), 0x20) -
-                    MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B10), 0x1C));
+                fan->size = (u32)((work->clock.frame -
+                    work->config->start) << 12) /
+                    (u32)(MODEL_VARIANT_WORD(work->config, 0x20) -
+                    work->config->start);
                 if (fan->size >= 0x1000) {
                     fan->size = 0x1000;
                     if (i + 1 == 1) {
-                        MODEL_VARIANT_WORD(work, 0x1B3C) = i + 1;
+                        work->phase = i + 1;
                     }
                 }
             }
-        } else if ((u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B10), 0x24) <=
-                   (u32)MODEL_VARIANT_WORD(work, 0x1B00)) {
+        } else if ((u32)MODEL_VARIANT_WORD(work->config, 0x24) <=
+                   (u32)work->clock.frame) {
             if (fan->size > 0) {
-                fan->size -= MODEL_VARIANT_WORD(work, 0x1B08) << 7;
+                fan->size -= work->clock.step << 7;
                 if (fan->size <= 0) {
                     fan->size = 0;
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x1B3C) == 2) {
-                MODEL_VARIANT_WORD(work, 0x1B3C) = 3;
+            } else if (work->phase == 2) {
+                work->phase = 3;
             }
         }
     }

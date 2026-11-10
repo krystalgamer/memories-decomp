@@ -1,12 +1,13 @@
 #include "../../types.h"
 #include "../model_variant/variant448_orbit.h"
+#include "../model_variant/variant448_entry.h"
 
 void ModelVariant448_DrawOrbitSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant448EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -23,7 +24,7 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     s32 count;
     s32 otz;
 
-    work = ctx;
+    work = (Variant448EntryState *)ctx;
     object = ctx + 0xBD8;
     sheet = (Variant448Orbit *)(ctx + 0x11F0);
     ot = Graphics_GetDefaultOrderingTable();
@@ -34,15 +35,15 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
             if (MODEL_VARIANT_WORD(object - -(j * 4), 0x200) > 0) {
                 for (k = 0, angle = jangle + iangle; k < 3; k++, angle = jangle + iangle + (k << 12) / 3) {
                     bias = 0;
-                    if (MODEL_VARIANT_WORD(work, 0x1AFC) & 1) {
+                    if (work->clock.frame_count & 1) {
                         bias = sheet->size[i][j][k] / 8;
                     }
                     rot.vx = 0;
                     rot.vy = 0;
                     rot.vz = 0;
-                    m.t[0] = MODEL_VARIANT_WORD(work, 0x1AB8) + (((rcos(angle) * 3 << 6) * (j + 1)) >> 12);
-                    m.t[1] = MODEL_VARIANT_WORD(work, 0x1ABC);
-                    m.t[2] = MODEL_VARIANT_WORD(work, 0x1AC0) + (((rsin(angle) * 3 << 6) * (j + 1)) >> 12);
+                    m.t[0] = work->position.vx + (((rcos(angle) * 3 << 6) * (j + 1)) >> 12);
+                    m.t[1] = work->position.vy;
+                    m.t[2] = work->position.vz + (((rsin(angle) * 3 << 6) * (j + 1)) >> 12);
                     scale.vx = sheet->size[i][j][k] + bias;
                     scale.vy = sheet->size[i][j][k] + bias;
                     scale.vz = sheet->size[i][j][k] + bias;
@@ -76,21 +77,21 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
                         }
                     }
                     if (sheet->size[i][j][k] < 8192 && sheet->done[i][j][k] == 0) {
-                        sheet->size[i][j][k] += MODEL_VARIANT_WORD(work, 0x1B08) << 10;
+                        sheet->size[i][j][k] += work->clock.step << 10;
                         if (sheet->size[i][j][k] >= 8192) {
                             sheet->size[i][j][k] = 8192;
                             sheet->done[i][j][k] = 1;
                         }
                     } else if (sheet->size[i][j][k] > 0 && sheet->done[i][j][k] == 1) {
-                        sheet->size[i][j][k] -= MODEL_VARIANT_WORD(work, 0x1B08) << 8;
+                        sheet->size[i][j][k] -= work->clock.step << 8;
                         if (sheet->size[i][j][k] <= 0) {
                             sheet->size[i][j][k] = 0;
                             sheet->done[i][j][k] = 2;
                         }
                     }
                     count += sheet->done[i][j][k];
-                    if (count >= 36 && MODEL_VARIANT_WORD(work, 0x1B3C) == 6) {
-                        MODEL_VARIANT_WORD(work, 0x1B3C) = 7;
+                    if (count >= 36 && work->phase == 6) {
+                        work->phase = 7;
                     }
                 }
             }

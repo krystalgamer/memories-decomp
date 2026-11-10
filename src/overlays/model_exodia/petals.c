@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "petals.h"
+#include "entry_second.h"
 
 void ModelExodia_DrawPetals(u8 *ctx)
 {
@@ -11,7 +12,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    ExodiaSecondEntryState *work;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -30,26 +31,26 @@ void ModelExodia_DrawPetals(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (ExodiaSecondEntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0xC50), MODEL_VARIANT_WORD(work, 0xC48)) + 0xC00;
-    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
-    poly = (POLY_GT4 *)(work + 0xAC0);
-    radius = MODEL_VARIANT_HALF(work, 0xC90) * 4;
-    eighth = MODEL_VARIANT_HALF(work, 0xC90) / 8;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
+    poly = work->textured;
+    radius = work->petal_radius * 4;
+    eighth = work->petal_radius / 8;
     /* The template tests retain both products, but their assignments are dead. */
-    if (radius * MODEL_VARIANT_HALF(work, 0xC8E) < 0) {
+    if (radius * work->field_C8E < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0xC8E) < 0) {
+    if (eighth * work->field_C8E < 0) {
         length = 0;
     }
-    spread = 0x400 - MODEL_VARIANT_HALF(work, 0xC92);
+    spread = 0x400 - work->field_C92;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0xC8C) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0xC8C);
+        phi = (i << 12) / 12 + work->petal_angle * 2;
+        theta = (i << 13) / 12 + work->petal_angle;
         for (k = 0; k < 2; k++) {
-            if (!(MODEL_VARIANT_WORD(work, 0xC60) & 1)) {
+            if (!(work->frame_count & 1)) {
                 length = (k * 128 + 0x30) * spread / 1024;
             } else {
                 length = (k * 64 + 0x18) * spread / 1024;
@@ -66,7 +67,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0xC60) & 1)) {
+    if (!(work->frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -74,9 +75,9 @@ void ModelExodia_DrawPetals(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0xC2C);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0xC2E);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0xC30);
+    m.t[0] = work->origin.vx;
+    m.t[1] = work->origin.vy;
+    m.t[2] = work->origin.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -87,7 +88,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
+    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -113,7 +114,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x438);
+    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];
@@ -168,11 +169,11 @@ void ModelExodia_DrawPetals(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_HALF(work, 0xC8C) += MODEL_VARIANT_WORD(work, 0xC6C) * 16;
-    if (MODEL_VARIANT_HALF(work, 0xC90) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0xC90) += MODEL_VARIANT_WORD(work, 0xC6C) * 64;
-        if (MODEL_VARIANT_HALF(work, 0xC90) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0xC90) = 0x400;
+    work->petal_angle += work->step * 16;
+    if (work->petal_radius < 0x400) {
+        work->petal_radius += work->step * 64;
+        if (work->petal_radius >= 0x400) {
+            work->petal_radius = 0x400;
         }
     }
 }

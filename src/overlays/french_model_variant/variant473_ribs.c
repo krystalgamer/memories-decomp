@@ -1,17 +1,18 @@
 #include "../../types.h"
 #include "variant473_ribs.h"
+#include "variant473_entry.h"
 
 #define VARIANT473_UWORD(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 /* Five nine-point ribs. While a rib's size is positive, its spine grows from
- * the origin toward the anchor at work + 0x3B70 (state below 2) or runs from
+ * the origin toward the anchor at (u8 *)work + 0x3B70 (state below 2) or runs from
  * fade/1024 of the anchor to the anchor (state 2 and above), each point bent
  * by a sine of its length; a copy moved along the view by the spread is
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples at work + 0x3C4C/0x3C50 advance by 850 and 128 per step, and
- * once the clock passes the fade start work + 0x3C00 falls linearly from
+ * The ripples at (u8 *)work + 0x3C4C/0x3C50 advance by 850 and 128 per step, and
+ * once the clock passes the fade start (u8 *)work + 0x3C00 falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero.
  *
  * The loop increment's dead angle and the empty loop in the projection keep
@@ -27,7 +28,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     long p;
     long flag;
     long flags[5][9];
-    u8 *work;
+    EntryState473 *work;
     GsOT *ot;
     s16 j;
     s16 i;
@@ -45,17 +46,17 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     s32 k;
     s32 n;
 
-    work = ctx;
+    work = (EntryState473 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x3BCC), MODEL_VARIANT_WORD(work, 0x3BC4)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x3BC8), MODEL_VARIANT_WORD(work, 0x3BC4));
-    poly = (POLY_GT4 *)(work + 0x39D0);
-    if (!(MODEL_VARIANT_WORD(work, 0x3BDC) & 1)) {
-        spread = MODEL_VARIANT_WORD(work, 0x3C00) / 16;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    poly = work->textured;
+    if (!(work->frame_count & 1)) {
+        spread = work->width / 16;
     } else {
-        spread = MODEL_VARIANT_WORD(work, 0x3C00) * 72 / 1024;
+        spread = work->width * 72 / 1024;
     }
-    rec = (Variant473Rib *)(work + 0x18D8);
+    rec = (Variant473Rib *)work->ribbons;
     for (j = 0; j < 5; j++, rec++, angle0 = (j << 11) / 5 + 0x400) {
         if (rec->size > 0) {
             if (rec->state == 0) {
@@ -68,7 +69,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             } else {
                 angle0 = (j << 11) / 5 + 0xC00;
             }
-            pos = work + j * 16;
+            pos = (u8 *)work + j * 16;
             for (i = 0; i < 9; i++) {
                 s32 dz;
                 s32 oy;
@@ -108,9 +109,9 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x3AFC);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x3B00);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x3B04);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
@@ -121,7 +122,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    rec = (Variant473Rib *)(work + 0x18D8);
+    rec = (Variant473Rib *)work->ribbons;
     for (j = 0; j < 5; j++, rec++) {
         if (rec->size > 0) {
             for (i = 0; i < 9; i++) {
@@ -158,7 +159,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             }
         }
     }
-    rec = (Variant473Rib *)(work + 0x18D8);
+    rec = (Variant473Rib *)work->ribbons;
     for (j = 0; j < 5; j++, rec++) {
         if (rec->size > 0) {
             for (i = 0; i < 8; i++) {
@@ -199,31 +200,31 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             }
         }
         if (rec->size < 0x400 && rec->state < 2) {
-            rec->size += MODEL_VARIANT_WORD(work, 0x3BE8) * 32;
+            rec->size += work->step * 32;
             if (rec->size >= 0x400) {
                 rec->size = 0x400;
                 rec->state = 2;
-                if (MODEL_VARIANT_WORD(work, 0x3C5C) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x3C5C) = 3;
+                if (work->phase == 2) {
+                    work->phase = 3;
                 }
             }
         } else if (rec->fade < 0x400 && rec->state == 2) {
-            rec->fade += MODEL_VARIANT_WORD(work, 0x3BE8) * 32;
+            rec->fade += work->step * 32;
             rec->size = 0x400;
             rec->fade = 0x400;
             rec->state = 3;
         }
     }
-    MODEL_VARIANT_WORD(work, 0x3C4C) += MODEL_VARIANT_WORD(work, 0x3BE8) * 850;
-    MODEL_VARIANT_WORD(work, 0x3C50) += MODEL_VARIANT_WORD(work, 0x3BE8) * 128;
-    timing = *(u8 **)(work + 0x3BF0);
-    if (VARIANT473_UWORD(timing, 0x24) <= VARIANT473_UWORD(work, 0x3BE0) && MODEL_VARIANT_WORD(work, 0x3C00) > 0) {
-        MODEL_VARIANT_WORD(work, 0x3C00) = 0x400 - ((VARIANT473_UWORD(work, 0x3BE0) - VARIANT473_UWORD(timing, 0x24)) << 10) /
+    work->ribbon_sway += work->step * 850;
+    work->field_3C50 += work->step * 128;
+    timing = *(u8 **)((u8 *)work + 0x3BF0);
+    if (VARIANT473_UWORD(timing, 0x24) <= VARIANT473_UWORD(work, 0x3BE0) && work->width > 0) {
+        work->width = 0x400 - ((VARIANT473_UWORD(work, 0x3BE0) - VARIANT473_UWORD(timing, 0x24)) << 10) /
                                       (VARIANT473_UWORD(timing, 0x28) - VARIANT473_UWORD(timing, 0x24));
-        if (MODEL_VARIANT_WORD(work, 0x3C00) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x3C00) = 0;
-            if (MODEL_VARIANT_WORD(work, 0x3C5C) == 4) {
-                MODEL_VARIANT_WORD(work, 0x3C5C) = 5;
+        if (work->width <= 0) {
+            work->width = 0;
+            if (work->phase == 4) {
+                work->phase = 5;
             }
         }
     }

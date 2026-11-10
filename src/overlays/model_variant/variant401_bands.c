@@ -26,7 +26,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
     GsOT *ot;
     Variant401EntryBand *rec;
     s16 j3, j4;
-    u8 *work;
+    Variant401EntryState *work;
     POLY_GT4 *poly;
     s16 j, q5, q6;
     u16 i;
@@ -40,14 +40,14 @@ void ModelVariant401_DrawBand(u8 *ctx)
     s32 off4, off8, lo, lo2, yv2, yv3, yv4;
     u8 *p0, *q1, *q2;
 
-    work = ctx;
-    poly = (POLY_GT4 *)(work + 0x197C);
+    work = (Variant401EntryState *)ctx;
+    poly = work->textured;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_HALF(work, 0x1AC6), MODEL_VARIANT_HALF(work, 0x1AC4)) + 0x800;
+    yaw = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
     if (yaw != 0) {
         lo = 0;
     }
-    tr = MODEL_VARIANT_HALF(work, 0x1B0C) * 21;
+    tr = work->scale * 21;
     if (tr < 0) {
         tr += 0xFFF;
     }
@@ -56,7 +56,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
     if (tr != 0) {
         lo = 0;
     }
-    rec = (Variant401EntryBand *)(work + 0xF60);
+    rec = work->bands;
     for (j3 = 0; (s16)j3 < 1; j3++, rec++) {
         for (j = 0; j < 9; j++) {
             off4 = j * 4;
@@ -87,9 +87,9 @@ void ModelVariant401_DrawBand(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = yaw;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1AA0) + MODEL_VARIANT_WORD(work, 0x1AB4) * a / 1024;
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1AA4) + MODEL_VARIANT_WORD(work, 0x1AB8) * a / 1024;
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1AA8) + MODEL_VARIANT_WORD(work, 0x1ABC) * a / 1024;
+            m.t[0] = work->matrix.t[0] + work->direction.vx * a / 1024;
+            m.t[1] = work->matrix.t[1] + work->direction.vy * a / 1024;
+            m.t[2] = work->matrix.t[2] + work->direction.vz * a / 1024;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;
@@ -109,18 +109,18 @@ void ModelVariant401_DrawBand(u8 *ctx)
                                                    (long *)((u8 *)rec + (off4 + 0xFC)),
                                                    (long *)((u8 *)rec + (off4 + 0x120)),
                                                    &p, &flags[j3][j]);
-            if (MODEL_VARIANT_WORD(work, 0x1B18) < 3 && *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x1D4) < 0x400) {
+            if (work->tail.phase < 3 && *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x1D4) < 0x400) {
                 if (j == 0) {
-                    t = MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1AF4), 0x20);
-                    rec->offset[0] = (u32)((MODEL_VARIANT_WORD(work, 0x1AE4) - t) << 10) /
-                                     (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1AF4), 0x24) - t);
+                    t = work->config->burst_start;
+                    rec->offset[0] = (u32)((work->clock.frame - t) << 10) /
+                                     (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - t);
                 } else {
-                    *(s32 *)((u8 *)rec + off4 + 0x1D4) += MODEL_VARIANT_WORD(work, 0x1AEC) << 6;
+                    *(s32 *)((u8 *)rec + off4 + 0x1D4) += work->clock.step << 6;
                 }
                 if (rec->offset[j] >= 0x400) {
                     rec->offset[j] = 0x400;
                     if (j == 0) {
-                        MODEL_VARIANT_WORD(work, 0x1B18) = 2;
+                        work->tail.phase = 2;
                     }
                 }
             }
@@ -129,7 +129,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
             }
         }
     }
-    rec = (Variant401EntryBand *)(work + 0xF60);
+    rec = work->bands;
     for (j3 = 0; (s16)j3 < 1; j3++, rec++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = rec->screen[0][j];
@@ -177,14 +177,14 @@ void ModelVariant401_DrawBand(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1B18) == 2 && MODEL_VARIANT_HALF(work, 0x1B0C) > 0) {
-        t = MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1AF4), 0x28);
-        if ((u32)MODEL_VARIANT_WORD(work, 0x1AE4) >= (u32)t) {
-            MODEL_VARIANT_HALF(work, 0x1B0C) = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x1AE4) - t) << 12) /
-                                               (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1AF4), 0x2C) - t);
-            if (MODEL_VARIANT_HALF(work, 0x1B0C) <= 0) {
-                MODEL_VARIANT_HALF(work, 0x1B0C) = 0;
-                MODEL_VARIANT_WORD(work, 0x1B18) = 3;
+    if (work->tail.phase == 2 && work->scale > 0) {
+        t = MODEL_VARIANT_WORD(work->config, 0x28);
+        if ((u32)work->clock.frame >= (u32)t) {
+            work->scale = 0x1000 - (u32)((work->clock.frame - t) << 12) /
+                                               (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - t);
+            if (work->scale <= 0) {
+                work->scale = 0;
+                work->tail.phase = 3;
             }
         }
     }
