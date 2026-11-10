@@ -1,19 +1,152 @@
-/* Duel effect text: the text-box lifecycle, the occupancy table and entry
- * markers, the glyph draw callback, entry appending, the little-endian
- * stream readers, the choice widget layout, cursor and update, the pulse
- * colour, entry control, the text state callbacks and line wrapping. In
- * every executable these are one contiguous run of text
- * (0x80035B7C-0x80037D2C in the US build). */
+/* Duel effect text: channel setup (the state reset, text-box rectangle and
+ * entry initialisation), the text-box lifecycle, the occupancy table and
+ * entry markers, the glyph draw callback, entry appending, the
+ * little-endian stream readers, the choice widget layout, cursor and update,
+ * the pulse colour, entry control, the text state callbacks and line
+ * wrapping. In every executable these are one contiguous run of text
+ * (0x80035A64-0x80037D2C in the US build). */
 #include "../types.h"
 
-#include "duel_effect_init_entry.h"
-#include "duel_effect_entry_occupancy.h"
-#include "text_box_lifecycle.h"
-#include "display_object_core.h"
-#include "text_box_set_rect.h"
-#ifdef VERSION_EUROPE
 #include "duel_effect.h"
 #include "text_channel_state.h"
+#include "duel_effect_entry_occupancy.h"
+#include "duel_effect_reset_state.h"
+#include "text_box_set_rect.h"
+#include "duel_effect_entry_ranges.h"
+#include "duel_effect_init_entry.h"
+#include "text_box_lifecycle.h"
+#include "display_object_core.h"
+
+void DuelEffect_ResetState(void)
+{
+    s32 i = 4;
+    DuelEffectChannel *entry = gText_aChannels;
+
+    do {
+        entry->flags_34 = 0;
+        entry->prompt_object = 0;
+        entry->aux_object = 0;
+        entry->render_object = 0;
+#ifdef VERSION_JAPAN
+        entry = (DuelEffectChannel *)((u8 *)entry + 0x60);
+#elif defined(VERSION_EUROPE)
+        /* The European channel is 100 bytes. */
+        entry = (DuelEffectChannel *)((u8 *)entry + 100);
+#else
+        entry++;
+#endif
+    } while (--i != 0);
+#ifndef VERSION_EUROPE
+    /* The European build makes no occupancy reset here. */
+    DuelEffect_ResetOccupancy();
+#endif
+    DuelEffect_ResetEntryMarkers();
+}
+
+void TextBox_SetRect(int index, int x, int y, int width, int height)
+{
+    DuelEffectChannel *entry = &gText_aChannels[index];
+    entry->rect_x = x;
+    entry->rect_y = y;
+    entry->rect_width = width;
+    entry->rect_height = height;
+}
+
+#ifdef VERSION_EUROPE
+/* The European channel is 100 bytes. The low two flag bits pick one of
+   four text sizes, the same four as the European Text_SetFontMode (8 and 16
+   by default), and the halfword at 0x62 is cleared. */
+DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
+{
+    DuelEffectChannel *e;
+    unsigned short *range;
+    s32 narrow;
+    s32 wide;
+    s32 size;
+
+    e = (DuelEffectChannel *)((u8 *)gText_aChannels + index * 100);
+    e->flags_34 = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
+    e->initial_string_id = value;
+    narrow = 8;
+    wide = 16;
+    size = flags & 3;
+    e->channel_index = index;
+    e->color_index_54 = 0;
+    e->pen_x = 0;
+    e->pen_y = 0;
+    e->glyph_advance_x = narrow;
+    e->line_advance_y = wide;
+    switch (size) {
+    case 1:
+        e->glyph_advance_x = narrow;
+        e->line_advance_y = narrow;
+        break;
+    case 2:
+        e->glyph_advance_x = 12;
+        e->line_advance_y = wide;
+        break;
+    case 3:
+        e->glyph_advance_x = wide;
+        e->line_advance_y = wide;
+        break;
+    }
+    e->glyph_delay = 1;
+    range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
+    e->depth_offset = 0;
+    *(u16 *)((u8 *)e + 0x62) = 0;
+    e->entry_range_start = range[0];
+    e->entry_range_count = range[1] - range[0];
+    return e;
+}
+#else
+DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
+{
+    int offset = index << 1;
+    DuelEffectChannel *e;
+#ifdef VERSION_JAPAN
+    unsigned char *range;
+#else
+    unsigned short *range;
+#endif
+    e = &gText_aChannels[index];
+    flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
+    /* The do/while (0) loop notes are a barrier to GCC's first scheduling
+       pass, which would otherwise sink the flags OR to its store; retail
+       ORs right after the channel address. */
+    do {
+#ifdef VERSION_JAPAN
+        e->line_advance_y = 16;
+        e->glyph_advance_x = 16;
+#else
+        e->glyph_advance_x = 8;
+        e->line_advance_y = 12;
+#endif
+    } while (0);
+    e->glyph_delay = 2;
+#ifdef VERSION_JAPAN
+    /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
+    range = (unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset;
+#else
+    range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset);
+#endif
+    e->channel_index = index;
+    e->initial_string_id = value;
+    e->color_index_54 = 0;
+    e->flags_34 = flags;
+    e->pen_x = 0;
+    e->pen_y = 0;
+    e->depth_offset = 0;
+#ifdef VERSION_JAPAN
+    e->output_limit = 0;
+    e->entry_range_start = range[0];
+    e->entry_range_count = range[2] - range[0];
+#else
+    e->output_limit = 0;
+    e->entry_range_start = range[0];
+    e->entry_range_count = range[1] - range[0];
+#endif
+    return (DuelEffectChannel *)e;
+}
 #endif
 
 void TextBox_Destroy(DuelEffectChannel *record)

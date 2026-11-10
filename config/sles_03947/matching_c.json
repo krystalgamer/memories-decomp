@@ -2529,21 +2529,21 @@
     },
     {
       "address": "0x80035D78",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/european/text_channel_setup.c"
+      "source": "src/game/european/duel_effect_text.c"
     },
     {
       "address": "0x80035DC4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/european/text_channel_setup.c"
+      "source": "src/game/european/duel_effect_text.c"
     },
     {
       "address": "0x80035DFC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF0",
-      "source": "src/game/european/duel_effect_init_entry.c"
+      "source": "src/game/european/duel_effect_text.c"
     },
     {
       "address": "0x80035EEC",
