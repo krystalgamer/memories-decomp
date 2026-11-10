@@ -244,7 +244,7 @@ The resident calls are `DisplayObject_UpdateResourceVariant` at `0x80040748`
 (40 bytes) and `Main_RequestLanguageBootPackage` (formerly `func_80043BC8`) at `0x80043DC8` (116 bytes). Their accepted
 shared declarations, selected compiled C objects, final section-defined
 functions and complete retail bodies are verified. The loader's declaration
-is exposed through its existing `main_run_boot_sequence.h` owner.
+is exposed through its existing `main_boot_frontend.h` (formerly `main_run_boot_sequence.h`) owner.
 
 The language-image update reuses `graphics_frame.h`'s two-element `RECT`
 array (`D_800E9D70`, French `0x8009C838`, 16 bytes) and `unmatched.h`'s
@@ -277,7 +277,7 @@ at `0x80042BD8` (68 bytes), `DisplayObject_SetDepthOffset` at `0x80042C1C`
 input objects and full final retail bodies are independently verified.
 
 The existing font setup `Main_InitDebugFont` (formerly `func_80043B7C`) is accepted C at French `0x80043D7C`
-(76 bytes), declared through `main_run_boot_sequence.h`. Adding its
+(76 bytes), declared through `main_boot_frontend.h` (formerly `main_run_boot_sequence.h`). Adding its
 prototype preserves all twenty previously configured resident/overlay
 source-profile consumers as complete ELF objects, including relocations.
 The SDK dependencies are **DrawSync** at `0x8007FC64` (104 bytes),
