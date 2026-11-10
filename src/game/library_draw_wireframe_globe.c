@@ -11,7 +11,7 @@
 #include "../game/model_draw_slot.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"
-#include "library_card_grid.h"
+#include "library.h"
 #include "duel_projection_axes.h"
 #include "library_draw_wireframe_globe.h"
 
