@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant448_fan.h"
+#include "variant448_entry.h"
 
 /* Header 448's fans: three 0x208-byte fan units at `work + 0xBD8`, each two
  * arms of three fans. Per unit it builds the fans' spines and their copies
@@ -51,16 +52,16 @@ void ModelVariant448_DrawFans(u8 *ctx)
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     count = 0;
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
-    ratan2(MODEL_VARIANT_HALF(work, 0x1AE2), MODEL_VARIANT_HALF(work, 0x1AE0));
-    poly = (POLY_GT4 *)(work + 0x1988);
+    turn = ratan2(((Variant448EntryState *)work)->view_delta.vz, ((Variant448EntryState *)work)->view_delta.vx) + 0xC00;
+    ratan2(((Variant448EntryState *)work)->screen_delta.vy, ((Variant448EntryState *)work)->screen_delta.vx);
+    poly = ((Variant448EntryState *)work)->textured;
     if ((MODEL_VARIANT_WORD(work, 0x1AFC) & 1) == 0) {
         i = 0;
     } else {
         s32 s = work - (u8 *)poly;
         work = (u8 *)poly + s;
     }
-    unit = (Variant448FanUnit *)(work + 0xBD8);
+    unit = ((Variant448EntryState *)work)->fans;
     i = 0;
     iangle = 0;
     length = 0x20;
@@ -144,9 +145,9 @@ void ModelVariant448_DrawFans(u8 *ctx)
                         s32 a; a = i2 + ip5 + j; *(u8 *)a = unit->ca[j][2] * f / 512;
                     }
                 }
-                if (MODEL_VARIANT_WORD(work, 0x1B3C) < 4) {
+                if (((Variant448EntryState *)work)->phase < 4) {
                     if (unit->amount[t][1] < 0x400) {
-                        unit->amount[t][j] += MODEL_VARIANT_WORD(work, 0x1B08) << 5;
+                        unit->amount[t][j] += ((Variant448EntryState *)work)->clock.step << 5;
                         if (unit->amount[t][1] >= 0x400) {
                             if (*(u32 *)(MODEL_VARIANT_WORD(work, 0x1B10) + 0x24) <= (u32)MODEL_VARIANT_WORD(work, 0x1B00)) {
                                 for (j = 0; j < 2; j++) {
@@ -163,9 +164,9 @@ void ModelVariant448_DrawFans(u8 *ctx)
                     }
                 } else {
                     if (unit->amount[t][1] > 0) {
-                        unit->amount[t][j] -= MODEL_VARIANT_WORD(work, 0x1B08) << 6;
-                        if (unit->amount[0][0] <= 0 && MODEL_VARIANT_WORD(work, 0x1B3C) == 4) {
-                            MODEL_VARIANT_WORD(work, 0x1B3C) = 5;
+                        unit->amount[t][j] -= ((Variant448EntryState *)work)->clock.step << 6;
+                        if (unit->amount[0][0] <= 0 && ((Variant448EntryState *)work)->phase == 4) {
+                            ((Variant448EntryState *)work)->phase = 5;
                         }
                         if (unit->amount[t][0] <= 0) {
                             st = 1;
@@ -181,11 +182,11 @@ void ModelVariant448_DrawFans(u8 *ctx)
                 }
             }
             count += unit->stage[t];
-            if (count >= 6 && MODEL_VARIANT_WORD(work, 0x1B3C) == 1) {
-                MODEL_VARIANT_WORD(work, 0x1B3C) = 2;
+            if (count >= 6 && ((Variant448EntryState *)work)->phase == 1) {
+                ((Variant448EntryState *)work)->phase = 2;
             }
-            if (count >= 12 && MODEL_VARIANT_WORD(work, 0x1B3C) == 5) {
-                MODEL_VARIANT_WORD(work, 0x1B3C) = 6;
+            if (count >= 12 && ((Variant448EntryState *)work)->phase == 5) {
+                ((Variant448EntryState *)work)->phase = 6;
             }
         }
         i++;
@@ -194,10 +195,10 @@ void ModelVariant448_DrawFans(u8 *ctx)
     } while (i < 3);
     i = 0;
     setVector(&rot, 0, 0, 0);
-    unit = (Variant448FanUnit *)(work + 0xBD8);
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1AB8);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1ABC);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1AC0);
+    unit = ((Variant448EntryState *)work)->fans;
+    m.t[0] = ((Variant448EntryState *)work)->position.vx;
+    m.t[1] = ((Variant448EntryState *)work)->position.vy;
+    m.t[2] = ((Variant448EntryState *)work)->position.vz;
     setVector(&scale, 0x1000, 0x1000, 0x1000);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -281,8 +282,8 @@ void ModelVariant448_DrawFans(u8 *ctx)
         i++;
         unit++;
     } while (i < 3);
-    unit = (Variant448FanUnit *)(work + 0xBD8);
-    if (MODEL_VARIANT_WORD(work, 0x1B3C) == 3) {
+    unit = ((Variant448EntryState *)work)->fans;
+    if (((Variant448EntryState *)work)->phase == 3) {
         i = 0;
         do {
             for (t = 0; t < 2; t++) {
@@ -294,6 +295,6 @@ void ModelVariant448_DrawFans(u8 *ctx)
             i++;
             unit++;
         } while (i < 3);
-        MODEL_VARIANT_WORD(work, 0x1B3C) = 4;
+        ((Variant448EntryState *)work)->phase = 4;
     }
 }

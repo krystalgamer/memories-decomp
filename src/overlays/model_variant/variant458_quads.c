@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant458_quads.h"
+#include "../french_model_variant/variant475_entry.h"
 
 /* Draws the visible quads, fading past scale 0x600, then advances the
  * timed quad count. The packet is reused for each submitted quad. */
@@ -26,16 +27,16 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     s32 otz;
 
     work = ctx;
-    sheet = (ModelVariantSheet *)(work + 0x1904);
+    sheet = (ModelVariantSheet *)((Variant475EntryState *)work)->sheets;
     quads = (Variant458Quads *)work;
-    poly = (POLY_FT4 *)(work + 0x2D98);
+    poly = &((Variant475EntryState *)work)->extra_flat;
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2F90), MODEL_VARIANT_WORD(work, 0x2F94));
-    ratan2(MODEL_VARIANT_HALF(work, 0x2F9E), MODEL_VARIANT_HALF(work, 0x2F9C));
+    ratan2(((Variant475EntryState *)work)->direction.vy, ((Variant475EntryState *)work)->direction.vz);
+    ratan2(((Variant475EntryState *)work)->screen_delta.vy, ((Variant475EntryState *)work)->screen_delta.vx);
     do {
         j = 0;
-        while (j < MODEL_VARIANT_WORD(work, 0x2FFC)) {
+        while (j < ((Variant475EntryState *)work)->quad_count) {
             if (quads->level[j] > 0x600) {
                 fade = 0x800 - quads->level[j];
                 r = quads->color.r * fade / 512;
@@ -52,7 +53,7 @@ void ModelVariant458_DrawQuads(u8 *ctx)
             m.t[0] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E0C);
             m.t[1] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E10);
             m.t[2] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E14);
-            if (MODEL_VARIANT_WORD(work, 0x3020) >= 4) {
+            if (((Variant475EntryState *)work)->tail.phase >= 4) {
                 scale.vx = sheet->size;
                 scale.vy = sheet->size;
                 scale.vz = sheet->size;
@@ -86,12 +87,12 @@ void ModelVariant458_DrawQuads(u8 *ctx)
         i++;
         quads++;
     } while (i < 1);
-    if (MODEL_VARIANT_WORD(work, 0x2FFC) < 8) {
-        MODEL_VARIANT_WORD(work, 0x2FFC) =
-            (u32)((MODEL_VARIANT_WORD(work, 0x2FBC) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2FCC), 0x20)) << 3) /
-            (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2FCC), 0x24) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2FCC), 0x20));
-        if (MODEL_VARIANT_WORD(work, 0x2FFC) >= 8 && MODEL_VARIANT_WORD(work, 0x3020) == 0) {
-            MODEL_VARIANT_WORD(work, 0x3020) = 1;
+    if (((Variant475EntryState *)work)->quad_count < 8) {
+        ((Variant475EntryState *)work)->quad_count =
+            (u32)((MODEL_VARIANT_WORD(work, 0x2FBC) - MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x20)) << 3) /
+            (u32)(MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x24) - MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x20));
+        if (((Variant475EntryState *)work)->quad_count >= 8 && ((Variant475EntryState *)work)->tail.phase == 0) {
+            ((Variant475EntryState *)work)->tail.phase = 1;
         }
     }
 }
