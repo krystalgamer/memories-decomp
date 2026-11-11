@@ -6478,7 +6478,7 @@
       "address": "0x80067220",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x134",
-      "source": "src/game/shared_primitive_cache_prepare.c"
+      "source": "src/game/shared_polygon_renderers.c"
     },
     {
       "address": "0x80067354",
