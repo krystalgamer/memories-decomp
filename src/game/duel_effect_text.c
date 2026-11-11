@@ -1347,48 +1347,46 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     if (flags & 0x100) {
         entry->pad_0D[1] = tagged_value;
         entry->entry_flags = 0xC0;
-        goto append;
+    } else {
+        glyph = (tagged_value >> 20) & 0xFF;
+        mode = flags & 3;
+        if (glyph == 0) {
+            if (mode != 3) {
+                return -1;
+            }
+            return 0;
+        }
+
+        entry->pad_0D[1] = glyph;
+        entry->pad_14[0] = channel->color_index_54;
+        entry->entry_flags = mode | 0x80;
+
+        if (mode == 3) {
+            entry->local_x += 2;
+        }
+        if (mode == 2) {
+            if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
+                entry->local_x -= 2;
+                result = -4;
+            }
+            if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
+        if (mode == 0) {
+            if (glyph == 7) {
+                entry->local_x -= 3;
+                result = -6;
+            }
+            if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
+                glyph == 0xE || glyph == 0xC) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
     }
 
-    glyph = (tagged_value >> 20) & 0xFF;
-    mode = flags & 3;
-    if (glyph == 0) {
-        if (mode != 3) {
-            return -1;
-        }
-        return 0;
-    }
-
-    entry->pad_0D[1] = glyph;
-    entry->pad_14[0] = channel->color_index_54;
-    entry->entry_flags = mode | 0x80;
-
-    if (mode == 3) {
-        entry->local_x += 2;
-    }
-    if (mode == 2) {
-        if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
-            entry->local_x -= 2;
-            result = -4;
-        }
-        if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-    if (mode == 0) {
-        if (glyph == 7) {
-            entry->local_x -= 3;
-            result = -6;
-        }
-        if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
-            glyph == 0xE || glyph == 0xC) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-
-append:
     if (channel->flags_34 & 0x1C00) {
         entry->handler_state = 0;
     }
