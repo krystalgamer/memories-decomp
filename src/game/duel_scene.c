@@ -6370,10 +6370,10 @@ void DuelScene_UpdateBattle(void)
 
                         id = ((DuelCardReplayRecordBlock *)(
                             pw1 + gDisplayObject_apWorkSlots.slots[1]->field_6A * 0x1C + big1))->record.card_id;
-                        goto request;
+                        CardPreview_RequestResourceTransfer(1, id);
+                        return;
                     }
                 } else {
-                request:
                     CardPreview_RequestResourceTransfer(1, id);
                     return;
                 }
@@ -11606,7 +11606,10 @@ s32 Ai_SelectFieldPlay(void)
                     do {
                         if (Duel_CheckEquip((s16)ea->card_id,
                                             (s16)eb->card_id)) {
-                            goto found;
+                            gAi_Selection.fields.source_code = (s8)ea->table_index % 5 + 6;
+                            gAi_Selection.fields.target_code = (s8)eb->table_index % 5 + 1;
+                            gAi_Selection.fields.field_0B = 0;
+                            return 0;
                         }
                         pb++;
                         eb = *pb;
@@ -11626,11 +11629,6 @@ s32 Ai_SelectFieldPlay(void)
         }
         gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
         gAi_Selection.fields.target_code = 0;
-        gAi_Selection.fields.field_0B = 0;
-        return 0;
-found:
-        gAi_Selection.fields.source_code = (s8)ea->table_index % 5 + 6;
-        gAi_Selection.fields.target_code = (s8)eb->table_index % 5 + 1;
         gAi_Selection.fields.field_0B = 0;
         return 0;
 no_equip:
