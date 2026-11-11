@@ -90,7 +90,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
     for (i = 0; i < 4; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
-                ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
                                               &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                               &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                               &interpolation, &flags[i][k]);
@@ -99,10 +99,10 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
                 dy = RIBBONS449_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
                 ribbon->width[k] = RIBBONS449_CLOSING(sb).point.vx - RIBBONS449_CLOSING(sa).point.vx;
-                ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
-                ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &interpolation, &flags[i][k]);
@@ -117,8 +117,8 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
                 dy = RIBBONS449_NEXT(k).point.vy - ribbon->sa[k].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
                 ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
-                ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
         }
     }
@@ -137,19 +137,19 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = RIBBONS449_START(k).point.vx + ribbon->ox[k];
-            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = RIBBONS449_NEXT(k).point.vx + ribbon->ox[k + 1];
-            poly->y1 = (RIBBONS449_NEXT(k).packed >> 16) + ribbon->oy[k + 1];
-            poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = RIBBONS449_NEXT(k).point.vx - ribbon->ox[k + 1];
-            poly->y3 = (RIBBONS449_NEXT(k).packed >> 16) - ribbon->oy[k + 1];
+            poly->x0 = RIBBONS449_START(k).point.vx + ribbon->offsets.ox[k];
+            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->offsets.oy[k];
+            poly->x1 = RIBBONS449_NEXT(k).point.vx + ribbon->offsets.ox[k + 1];
+            poly->y1 = (RIBBONS449_NEXT(k).packed >> 16) + ribbon->offsets.oy[k + 1];
+            poly->x2 = ribbon->sa[k].point.vx - ribbon->offsets.ox[k];
+            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->offsets.oy[k];
+            poly->x3 = RIBBONS449_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
+            poly->y3 = (RIBBONS449_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];
-            if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
-                GsSortPoly(poly, ot, ribbon->otz[k]);
+            if (ribbon->offsets.otz[k] >= 0 && flags[i][k] >= 0) {
+                GsSortPoly(poly, ot, ribbon->offsets.otz[k]);
             }
         }
         if (!(i & 1)) {

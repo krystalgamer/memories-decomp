@@ -20,9 +20,7 @@ typedef struct {
     CVECTOR color[17];
     u8 unknown_2A8[0x28];
     long flag[17];
-    s32 depth[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
     s32 progress[17];
     s32 done;
 } Ribbon389;

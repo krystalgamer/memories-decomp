@@ -82,7 +82,7 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
     for (i = 0; i < 1; i++, ribbon++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
-                ribbon->otz[j] = RotTransPers4(&ribbon->a[j - 1], &ribbon->a[j], &ribbon->a[j - 1], &ribbon->a[j],
+                ribbon->offsets.otz[j] = RotTransPers4(&ribbon->a[j - 1], &ribbon->a[j], &ribbon->a[j - 1], &ribbon->a[j],
                                                &ribbon->sa[j - 1].packed, &ribbon->sa[j].packed,
                                                &ribbon->sa[j - 1].packed, &ribbon->sa[j].packed,
                                                &interpolation, &flags[i][j]);
@@ -93,10 +93,10 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
                 dy = (screen.packed >> 16) - prev;
                 ribbon->angle[j] = ratan2(dy, dx) - 0x400;
                 ribbon->width[j] = RIBBON426_SB(j).point.vx - RIBBON426_SA(j).point.vx;
-                ribbon->ox[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;
-                ribbon->oy[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;
+                ribbon->offsets.ox[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;
+                ribbon->offsets.oy[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;
             } else {
-                ribbon->otz[j] = RotTransPers4(&ribbon->a[j], &ribbon->a[j + 1], &ribbon->a[j], &ribbon->a[j + 1],
+                ribbon->offsets.otz[j] = RotTransPers4(&ribbon->a[j], &ribbon->a[j + 1], &ribbon->a[j], &ribbon->a[j + 1],
                                                &ribbon->sa[j].packed, &ribbon->sa[j + 1].packed,
                                                &ribbon->sa[j].packed, &ribbon->sa[j + 1].packed,
                                                &interpolation, &flags[i][j]);
@@ -105,8 +105,8 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
                 dy = RIBBON426_SA(j + 1).point.vy - RIBBON426_SA(j).point.vy;
                 ribbon->angle[j] = ratan2(dy, dx) - 0x400;
                 ribbon->width[j] = RIBBON426_SB(j).point.vx - RIBBON426_SA(j).point.vx;
-                ribbon->ox[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;
-                ribbon->oy[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;
+                ribbon->offsets.ox[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;
+                ribbon->offsets.oy[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;
             }
         }
     }
@@ -118,27 +118,27 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
             setRGB1(poly, 0, 0, 255);
             setRGB2(poly, 192, 192, 192);
             setRGB3(poly, 192, 192, 192);
-            poly->x0 = RIBBON426_SA(j).point.vx + ribbon->ox[j];
-            poly->y0 = (RIBBON426_SA(j).packed >> 16) + ribbon->oy[j];
-            poly->x1 = RIBBON426_SA(j + 1).point.vx + ribbon->ox[j + 1];
-            poly->y1 = (RIBBON426_SA(j + 1).packed >> 16) + ribbon->oy[j + 1];
+            poly->x0 = RIBBON426_SA(j).point.vx + ribbon->offsets.ox[j];
+            poly->y0 = (RIBBON426_SA(j).packed >> 16) + ribbon->offsets.oy[j];
+            poly->x1 = RIBBON426_SA(j + 1).point.vx + ribbon->offsets.ox[j + 1];
+            poly->y1 = (RIBBON426_SA(j + 1).packed >> 16) + ribbon->offsets.oy[j + 1];
             poly->x2 = RIBBON426_SA(j).point.vx;
             poly->y2 = (RIBBON426_SA(j).packed >> 16);
             poly->x3 = RIBBON426_SA(j + 1).point.vx;
             poly->y3 = (RIBBON426_SA(j + 1).packed >> 16);
-            if (ribbon->otz[j] >= 0 && flags[i][j] >= 0) {
-                GsSortPoly(poly, ot, (u16)ribbon->otz[j]);
+            if (ribbon->offsets.otz[j] >= 0 && flags[i][j] >= 0) {
+                GsSortPoly(poly, ot, (u16)ribbon->offsets.otz[j]);
             }
-            poly->x0 = RIBBON426_SA(j).point.vx - ribbon->ox[j];
-            poly->y0 = (RIBBON426_SA(j).packed >> 16) - ribbon->oy[j];
-            poly->x1 = RIBBON426_SA(j + 1).point.vx - ribbon->ox[j + 1];
-            poly->y1 = (RIBBON426_SA(j + 1).packed >> 16) - ribbon->oy[j + 1];
+            poly->x0 = RIBBON426_SA(j).point.vx - ribbon->offsets.ox[j];
+            poly->y0 = (RIBBON426_SA(j).packed >> 16) - ribbon->offsets.oy[j];
+            poly->x1 = RIBBON426_SA(j + 1).point.vx - ribbon->offsets.ox[j + 1];
+            poly->y1 = (RIBBON426_SA(j + 1).packed >> 16) - ribbon->offsets.oy[j + 1];
             poly->x2 = RIBBON426_SA(j).point.vx;
             poly->y2 = (RIBBON426_SA(j).packed >> 16);
             poly->x3 = RIBBON426_SA(j + 1).point.vx;
             poly->y3 = (RIBBON426_SA(j + 1).packed >> 16);
-            if (ribbon->otz[j] >= 0 && flags[i][j] >= 0) {
-                GsSortPoly(poly, ot, (u16)ribbon->otz[j]);
+            if (ribbon->offsets.otz[j] >= 0 && flags[i][j] >= 0) {
+                GsSortPoly(poly, ot, (u16)ribbon->offsets.otz[j]);
             }
         }
     }
