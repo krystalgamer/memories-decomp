@@ -58,8 +58,8 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
             work->sparks_per_bloom = 16;
             break;
         }
-        work->radius = gModelVariant666_aConfigs[command].radius;
-        work->height = gModelVariant666_aConfigs[command].height;
+        work->place.radius = gModelVariant666_aConfigs[command].radius;
+        work->place.height = gModelVariant666_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->blooms[i].head.duration = 480;
             work->blooms[i].head.active = 0;
@@ -75,11 +75,11 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
             setVector(&work->blooms[i].xform.scale, 4096, 4096, 4096);
             setVector(&work->blooms[i].target, 0, 0, 0);
             setVector(&work->blooms[i].xform.rotation, 0, work->head.slot * 2048, 0);
-            value = work->radius;
+            value = work->place.radius;
             k = (i << 12) / 3 + 0x800;
             setVector(&work->blooms[i].xform.position,
                 work->origin.vx + value * rsin(work->head.slot * 2048 + k) / 4096,
-                work->origin.vy - work->height,
+                work->origin.vy - work->place.height,
                 work->origin.vz + value * rcos(work->head.slot * 2048 + k) / 4096);
             work->blooms[i].cursor = 0;
         }
@@ -96,10 +96,10 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].spawned = 0;
                 setVector(&work->sparks[i][j].xform.scale, 4096, 4096, 4096);
                 sign = i % 2 * 2 - 1;
-                value = work->height;
+                value = work->place.height;
                 setVector(&work->sparks[i][j].target,
                     sign * value * rsin(i << 8) / 4096,
-                    work->height * 3,
+                    work->place.height * 3,
                     sign * value * rcos(i << 8) / 4096);
                 setVector(&work->sparks[i][j].xform.rotation, 0, work->head.slot * 2048, 0);
                 work->sparks[i][j].xform.position = work->blooms[j].xform.position;
@@ -121,36 +121,36 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 setVector(&work->rings[i][j].target, 0, 0, 0);
                 setVector(&work->rings[i][j].xform.rotation, 0, work->head.slot * 2048, 0);
                 sign = i % 2 * 2 - 1;
-                value = work->height / 2;
+                value = work->place.height / 2;
                 setVector(&work->rings[i][j].xform.position,
                     work->blooms[j].xform.position.vx + sign * value * rsin(i << 8) / 4096,
-                    work->origin.vy + work->radius * rsin((i + j) % 8 << 9) / 4096,
+                    work->origin.vy + work->place.radius * rsin((i + j) % 8 << 9) / 4096,
                     work->blooms[j].xform.position.vz + sign * value * rcos(i << 8) / 4096);
             }
         }
-        work->delay = gModelVariant666_aConfigs[command].delay;
+        work->place.delay = gModelVariant666_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->flare[0], -value, -value, 0);
         setVector(&work->flare[1], value, -value, 0);
         setVector(&work->flare[2], -value, value, 0);
         setVector(&work->flare[3], value, value, 0);
         setVector(&work->root, 0, 0, 0);
         /* Reassigning the radius here keeps the original store order. */
-        value = work->radius;
+        value = work->place.radius;
         for (i = 0; i < 9; i++) {
             setVector(&work->rim[i], value * rsin(i << 9) / 4096, value * rcos(i << 9) / 4096, 0);
         }
-        value = work->radius / 2;
+        value = work->place.radius / 2;
         setVector(&work->ring[0], -value, -value, 0);
         setVector(&work->ring[1], value, -value, 0);
         setVector(&work->ring[2], -value, value, 0);
         setVector(&work->ring[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {

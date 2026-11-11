@@ -19,8 +19,7 @@
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
+    ModelVariantEntryPlacement place;
     u16 tpage[2], unknown_16;
     u16 clut[2], unknown_1C[2];
     POLY_GT3 triangle;

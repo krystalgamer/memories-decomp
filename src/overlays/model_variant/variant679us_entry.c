@@ -94,8 +94,8 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
             work->count = count;
             break;
         }
-        work->radius = gModelVariant679Us_aConfigs[command].radius;
-        work->height = gModelVariant679Us_aConfigs[command].height;
+        work->place.radius = gModelVariant679Us_aConfigs[command].radius;
+        work->place.height = gModelVariant679Us_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->shells[i].head.duration = 16;
             work->shells[i].head.active = 0;
@@ -142,7 +142,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->bursts[i].xform.scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].target, 0, 0, 0);
             setVector(&work->bursts[i].xform.rotation, 0, work->head.slot * 2048, 0);
-            value = work->radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
+            value = work->place.radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
             sign = i % 2 * 2 - 1;
             setVector(&work->bursts[i].xform.position,
                 sign * value * rsin((i % 16) << 8) / 4096,
@@ -151,7 +151,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
             work->bursts[i].xform.position.vy -= 350;
             work->bursts[i].xform.position.vz += work->direction * 450;
         }
-        setVector(&offset, work->radius * 5, 0, 0);
+        setVector(&offset, work->place.radius * 5, 0, 0);
         for (i = 0; i < 5; i++) {
             PushMatrix();
             rotation = GsIDMATRIX;
@@ -159,7 +159,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
             ApplyMatrixLV(&rotation, &offset, &work->spark_offsets[i]);
             PopMatrix();
         }
-        setVector(&offset, 0, work->radius * 20, 0);
+        setVector(&offset, 0, work->place.radius * 20, 0);
         for (i = 0; i < 5; i++) {
             PushMatrix();
             rotation = GsIDMATRIX;
@@ -168,44 +168,44 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
             ApplyMatrixLV(&rotation, &offset, &work->trail_offsets[i]);
             PopMatrix();
         }
-        sign = work->height * work->direction;
+        sign = work->place.height * work->direction;
         for (i = 0; i < 5; i++) {
-            value = work->radius * rcos(i * 819 / 4) / 4096;
+            value = work->place.radius * rcos(i * 819 / 4) / 4096;
             for (j = 0; j < 5; j++) {
                 setVector(&work->grid[j][i], value * rsin(j << 10) / 4096, value * rcos(j << 10) / 4096,
                     i * sign / 4);
             }
         }
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->square[0], -value, -value, 0);
         setVector(&work->square[1], value, -value, 0);
         setVector(&work->square[2], -value, value, 0);
         setVector(&work->square[3], value, value, 0);
-        value = work->radius * 2;
-        sign = work->radius * 4;
+        value = work->place.radius * 2;
+        sign = work->place.radius * 4;
         for (i = 0; i < 6; i++) {
             angle = (i << 12) / 5;
             setVector(&work->inner[i], value * rsin(angle) / 4096, value * rcos(angle) / 4096, 0);
             setVector(&work->outer[i], sign * rsin(angle) / 4096, sign * rcos(angle) / 4096,
-                work->height * 2 / 3 * work->direction);
+                work->place.height * 2 / 3 * work->direction);
         }
-        value = work->radius * 7;
+        value = work->place.radius * 7;
         setVector(&work->burst[0], -value, -value, 0);
         setVector(&work->burst[1], value, -value, 0);
         setVector(&work->burst[2], -value, value, 0);
         setVector(&work->burst[3], value, value, 0);
-        value = work->radius * 4;
+        value = work->place.radius * 4;
         setVector(&work->trail[0], -value, -value, 0);
         setVector(&work->trail[1], value, -value, 0);
         setVector(&work->trail[2], -value, value, 0);
         setVector(&work->trail[3], value, value, 0);
-        work->delay = gModelVariant679Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant679Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {

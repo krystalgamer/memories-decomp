@@ -61,8 +61,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             work->count = 1;
             break;
         }
-        work->radius = gModelVariant674_aConfigs[command].radius;
-        work->height = gModelVariant674_aConfigs[command].height;
+        work->place.radius = gModelVariant674_aConfigs[command].radius;
+        work->place.height = gModelVariant674_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -107,19 +107,19 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             setVector(&work->domes[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant674_aConfigs[command].delay;
+        work->place.delay = gModelVariant674_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius;
+        n = work->place.radius;
         /* Shifting the field (not n) keeps the srl; n and d are reused
          * throughout to pin their registers. */
-        d = work->radius >> 3;
+        d = work->place.radius >> 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_upper[i], n * rsin(i << 8) / 4096, d, n * rcos(i << 8) / 4096);
             setVector(&work->ring_lower[i], n * rsin(i << 8) / 4096, -d, n * rcos(i << 8) / 4096);
@@ -127,7 +127,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 (work->ring_upper[i].vy + work->ring_lower[i].vy) / 2,
                 (work->ring_upper[i].vz + work->ring_lower[i].vz) / 2);
         }
-        n = work->radius;
+        n = work->place.radius;
         nn = n * n;
         for (i = 0; i < 9; i++) {
             for (k = 0; k < 17; k++) {
@@ -137,8 +137,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                     SquareRoot0(nn - n * rcos(i << 8) / 4096 * (n * rcos(i << 8) / 4096)) * rcos(k << 8) / 4096);
             }
         }
-        n = work->radius / 2;
-        d = work->radius * 2;
+        n = work->place.radius / 2;
+        d = work->place.radius * 2;
         for (i = 0; i < 9; i++) {
             setVector(&work->cone_inner[i], n * rsin(i << 9) / 4096, n * rcos(i << 9) / 4096, 0);
             setVector(&work->cone_outer[i], d * rsin(i << 9) / 4096, d * rcos(i << 9) / 4096, 0);
@@ -147,8 +147,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 (work->cone_inner[i].vz + work->cone_outer[i].vz) / 2);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

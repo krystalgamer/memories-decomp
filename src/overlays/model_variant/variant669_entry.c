@@ -122,8 +122,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             work->trail_length = 32;
             break;
         }
-        work->radius = gModelVariant669_aConfigs[command].radius;
-        work->height = gModelVariant669_aConfigs[command].height;
+        work->place.radius = gModelVariant669_aConfigs[command].radius;
+        work->place.height = gModelVariant669_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -245,32 +245,32 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             setVector(&work->streaks[i].xform.rotation, 0, 0, 0);
             setVector(&work->streaks[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant669_aConfigs[command].delay;
+        work->place.delay = gModelVariant669_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
         for (i = 0; i < 33; i++) {
-            setVector(&work->inner[i], 0, work->radius * rsin(i * 64 + 1024) / 4096,
-                work->radius + work->radius * rcos(i * 64 + 1024) / 4096);
-            setVector(&work->outer[i], 0, work->radius * rsin(i * 64 + 1024) / 4096,
-                work->radius + (work->radius * rcos(i * 64 + 1024) / 4096 - work->height * rsin(i << 6) / 4096));
+            setVector(&work->inner[i], 0, work->place.radius * rsin(i * 64 + 1024) / 4096,
+                work->place.radius + work->place.radius * rcos(i * 64 + 1024) / 4096);
+            setVector(&work->outer[i], 0, work->place.radius * rsin(i * 64 + 1024) / 4096,
+                work->place.radius + (work->place.radius * rcos(i * 64 + 1024) / 4096 - work->place.height * rsin(i << 6) / 4096));
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->corners[0], -value, -value, 0);
         setVector(&work->corners[1], value, -value, 0);
         setVector(&work->corners[2], -value, value, 0);
         setVector(&work->corners[3], value, value, 0);
         /* Reloading the radius here, rather than reusing value, keeps the
          * original copy through a scratch register. */
-        value = work->radius / 2;
-        amount = work->radius;
+        value = work->place.radius / 2;
+        amount = work->place.radius;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, amount);
             setVector(&work->rim[i], amount * rsin(i << 8) / 4096, amount * rcos(i << 8) / 4096, amount * 5 / 4);
         }
         /* The radius term first: it fixes the order of the two loads. */
-        value = work->radius / 3;
-        amount = work->height * 2;
+        value = work->place.radius / 3;
+        amount = work->place.height * 2;
         setVector(&point[0], -amount, 0, 0);
         setVector(&point[1], 0, value, 0);
         setVector(&point[2], 0, -value, 0);
@@ -282,14 +282,14 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
             ApplyMatrixSV(&m, &point[i], &work->spikes[i]);
             PopMatrix();
         }
-        value = work->radius * 3 / 2;
+        value = work->place.radius * 3 / 2;
         setVector(&work->flash_corners[0], -value, -value, 0);
         setVector(&work->flash_corners[1], value, -value, 0);
         setVector(&work->flash_corners[2], -value, value, 0);
         setVector(&work->flash_corners[3], value, value, 0);
         /* Recomputed rather than reused, as the original does. */
-        value = work->radius * 3 / 2;
-        amount = work->radius * 3;
+        value = work->place.radius * 3 / 2;
+        amount = work->place.radius * 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->cone_inner[i], value * rsin(i << 8) / 4096, 0, value * rcos(i << 8) / 4096);
             setVector(&work->cone_outer[i], amount * rsin(i << 8) / 4096, 0, amount * rcos(i << 8) / 4096);
@@ -304,7 +304,7 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 }
             }
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->echo_corners[0], -value, -value, 0);
         setVector(&work->echo_corners[1], value, -value, 0);
         setVector(&work->echo_corners[2], -value, value, 0);
@@ -382,8 +382,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
     if (work->flags[3] == 0) {
         work->flags[3]++;
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else if (work->flags[3] != 0) {
         switch (work->head.command) {
         case 0:
@@ -519,7 +519,7 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 RotMatrixY(work->rings[i].xform.rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->rings[i].xform.position.vx;
                 unit.matrix.t[1] = work->rings[i].xform.position.vy;
-                unit.matrix.t[2] = work->rings[i].xform.position.vz + work->radius * work->direction;
+                unit.matrix.t[2] = work->rings[i].xform.position.vz + work->place.radius * work->direction;
                 unit.super = work->rings[i].xform.coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);

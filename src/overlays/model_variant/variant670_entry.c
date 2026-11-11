@@ -59,8 +59,8 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
             work->count = 16;
             break;
         }
-        work->radius = gModelVariant670_aConfigs[command].radius;
-        work->height = gModelVariant670_aConfigs[command].height;
+        work->place.radius = gModelVariant670_aConfigs[command].radius;
+        work->place.height = gModelVariant670_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->shells[i].head.duration = 0x30;
             work->shells[i].head.active = 0;
@@ -94,31 +94,31 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
             setVector(&work->rings[i].xform.rotation, 0, work->head.slot * 2048, 0);
             /* n and h are shared scratch variables throughout; reusing them
              * here keeps the original register assignment. */
-            h = work->radius;
+            h = work->place.radius;
             n = i % 2 * 2 - 1;
             setVector(&work->rings[i].xform.position,
                 work->position[0] + n * h * rsin((i << 12) / work->count) / 4096,
                 work->position[1] + n * -h * rcos((i << 12) / work->count) / 4096,
                 work->position[2] + n * h * rcos((i << 12) / work->count) / 4096);
         }
-        work->delay = gModelVariant670_aConfigs[command].delay;
+        work->place.delay = gModelVariant670_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius / 3;
+        n = work->place.radius / 3;
         for (i = 0; i < 8; i++) {
             setVector(&work->base[0][i], n * rsin(i << 9) / 4096, n * rcos(i << 9) / 4096, 0);
             setVector(&work->base[1][i], n * rsin((i << 9) + 0x800) / 4096,
                 n * rcos((i << 9) + 0x800) / 4096, 0);
         }
         for (i = 0; i < 4; i++) {
-            n = work->radius * rsin(i << 8) / 4096 + work->radius;
-            h = work->height * -rcos(i * 819 / 4) / 4096;
+            n = work->place.radius * rsin(i << 8) / 4096 + work->place.radius;
+            h = work->place.height * -rcos(i * 819 / 4) / 4096;
             for (j = 0; j < 8; j++) {
                 /* (i + 8) * 0x80 becomes the inner loop's start angle, which the
                  * outer loop then steps by 0x80 in a stack slot. */
@@ -126,13 +126,13 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
                 setVector(&work->dome[j][i], n * rsin(k) / 4096, n * rcos(k) / 4096, h);
             }
         }
-        n = work->radius;
+        n = work->place.radius;
         h = n * 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->inner[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
             setVector(&work->outer[i], h * rsin(i << 8) / 4096, h * rcos(i << 8) / 4096, 0);
         }
-        n = work->radius * 2;
+        n = work->place.radius * 2;
         setVector(&work->corners[0], -n, -n, 0);
         setVector(&work->corners[1], n, -n, 0);
         setVector(&work->corners[2], -n, n, 0);
@@ -150,8 +150,8 @@ s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
             }
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

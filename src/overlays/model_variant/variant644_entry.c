@@ -56,9 +56,9 @@ static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte
  * radius * (cos * scale) from being reassociated into (radius * scale) * cos;
  * two variables keep retail's temporaries apart. */
 #define MODEL644_CAGE_REACH(scale, square)                                           \
-    SquareRoot0(work->radius * square * work->radius                                 \
-        - work->radius * (rise = rcos(i << 8) * scale) / 4096                        \
-            * (work->radius * (rise2 = rcos(i << 8) * scale) / 4096))
+    SquareRoot0(work->place.radius * square * work->place.radius                                 \
+        - work->place.radius * (rise = rcos(i << 8) * scale) / 4096                        \
+            * (work->place.radius * (rise2 = rcos(i << 8) * scale) / 4096))
 
 s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
 {
@@ -104,8 +104,8 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             work->count[2] = 32;
             break;
         }
-        work->radius = gModelVariant644_aConfigs[command].radius;
-        work->height = gModelVariant644_aConfigs[command].height;
+        work->place.radius = gModelVariant644_aConfigs[command].radius;
+        work->place.height = gModelVariant644_aConfigs[command].height;
         for (i = 0; i < work->count[0]; i++) {
             work->glows[i].head.active = 0;
             work->glows[i].head.elapsed = 0;
@@ -170,13 +170,13 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             /* The "<< 2" factors (and "<< 1" and "value << 2" below) keep
              * GCC from moving the constant onto the radius. */
             setVector(&work->bursts[i].xform.position,
-                ((i % 7) % 2 * 2 - 1) * (work->radius * ((i % 3 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096),
-                ((i % 3) % 2 * 2 - 1) * -(work->radius * ((i % 4 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096),
-                (i % 2 * 2 - 1) * (work->radius * ((i % 5 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096));
+                ((i % 7) % 2 * 2 - 1) * (work->place.radius * ((i % 3 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096),
+                ((i % 3) % 2 * 2 - 1) * -(work->place.radius * ((i % 4 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096),
+                (i % 2 * 2 - 1) * (work->place.radius * ((i % 5 + 1) << 2) * rsin((i << 12) / work->count[2]) / 4096));
             work->bursts[i].xform.position.vy -= 350;
             work->bursts[i].xform.position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant644_aConfigs[command].delay;
+        work->place.delay = gModelVariant644_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -184,16 +184,16 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             value = rsin((j + 1) << 8);
             value = value * value / 4096;
             for (i = 0; i < 9; i++) {
-                setVector(&work->band[i][j], work->radius * value / 4096 * rsin(i << 9) / 4096,
-                    work->radius * value / 4096 * rcos(i << 9) / 4096, 0);
-                setVector(&work->band[i][j + 4], work->radius * (value << 2) / 4096 * rsin(i << 9) / 4096,
-                    work->radius * (value << 2) / 4096 * rcos(i << 9) / 4096,
-                    work->height * -rcos(j << 8) / 4096);
+                setVector(&work->band[i][j], work->place.radius * value / 4096 * rsin(i << 9) / 4096,
+                    work->place.radius * value / 4096 * rcos(i << 9) / 4096, 0);
+                setVector(&work->band[i][j + 4], work->place.radius * (value << 2) / 4096 * rsin(i << 9) / 4096,
+                    work->place.radius * (value << 2) / 4096 * rcos(i << 9) / 4096,
+                    work->place.height * -rcos(j << 8) / 4096);
             }
         }
         for (i = 0; i < 9; i++) {
-            setVector(&work->rim[i], work->radius * (rsin(i << 9) << 1) / 4096,
-                work->radius * (rcos(i << 9) << 1) / 4096, 0);
+            setVector(&work->rim[i], work->place.radius * (rsin(i << 9) << 1) / 4096,
+                work->place.radius * (rcos(i << 9) << 1) / 4096, 0);
         }
         for (i = 0; i < 8; i++) {
             /* Assigning SPREAD inside the product keeps i * (sign * 10)
@@ -201,23 +201,23 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             setVector(&work->spokes[i].from, i * (spread = (i % 2 * 2 - 1) * 10) * rsin(i << 9) / 4096,
                 i * spread * rcos(i << 9) / 4096, 0);
             setVector(&work->spokes[i].to, i * spread * rsin(i << 9) / 4096,
-                i * spread * rcos(i << 9) / 4096, -(work->height * 3));
+                i * spread * rcos(i << 9) / 4096, -(work->place.height * 3));
         }
         for (i = 0; i < 9; i++) {
             /* j * 512 rather than j << 9 keeps the angle out of loop
              * strength reduction, as in retail. */
             for (j = 0; j < 8; j++) {
                 setVector(&work->cage[j][i].from, MODEL644_CAGE_REACH(6, 36) * rsin(j * 512) / 4096,
-                    work->radius * -(rcos(i << 8) * 6) / 4096,
+                    work->place.radius * -(rcos(i << 8) * 6) / 4096,
                     MODEL644_CAGE_REACH(6, 36) * rcos(j * 512) / 4096);
                 setVector(&work->cage[j][i].to, MODEL644_CAGE_REACH(10, 100) * rsin(j * 512) / 4096,
-                    work->radius * -(rcos(i << 8) * 10) / 4096,
+                    work->place.radius * -(rcos(i << 8) * 10) / 4096,
                     MODEL644_CAGE_REACH(10, 100) * rcos(j * 512) / 4096);
             }
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {
@@ -327,7 +327,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                     }
                 }
             }
-            setVector(&middle, 0, 0, -(work->height * 3) / 2);
+            setVector(&middle, 0, 0, -(work->place.height * 3) / 2);
             for (j = 0; j < 8; j++) {
                 setPolyGT3(&work->fan);
                 work->fan.tpage = work->tpage[0];

@@ -69,8 +69,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->trail_count = 8;
             break;
         }
-        work->radius = gModelVariant675Us_aConfigs[command].radius;
-        work->height = gModelVariant675Us_aConfigs[command].height;
+        work->place.radius = gModelVariant675Us_aConfigs[command].radius;
+        work->place.height = gModelVariant675Us_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -109,7 +109,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->bolts[i].head.color[2] = gModelVariant675Us_aConfigs[command].bolt_blue;
             setVector(&work->bolts[i].xform.scale, 0x1000, 0x1000, 0x1000);
             d = i % 2 * 2 - 1;
-            n = work->height / 3;
+            n = work->place.height / 3;
             setVector(&work->bolts[i].growth,
                 d * n * rsin((i << 12) / work->bolt_count) / 4096 + work->origin.vx, 0,
                 n * rcos((i << 12) / work->bolt_count) / 4096 + work->origin.vz * 2);
@@ -149,17 +149,17 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->sparks[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->sparks[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant675Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant675Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius;
-        d = work->radius >> 3;
+        n = work->place.radius;
+        d = work->place.radius >> 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_upper[i], n * rsin(i << 8) / 4096, d, n * rcos(i << 8) / 4096);
             setVector(&work->ring_lower[i], n * rsin(i << 8) / 4096, -d, n * rcos(i << 8) / 4096);
@@ -167,14 +167,14 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 (work->ring_upper[i].vy + work->ring_lower[i].vy) / 2,
                 (work->ring_upper[i].vz + work->ring_lower[i].vz) / 2);
         }
-        n = work->radius * 2;
+        n = work->place.radius * 2;
         for (i = 0; i < 17; i++) {
             setVector(&work->fan[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
         }
         setVector(&work->center, 0, 0, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
@@ -402,7 +402,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 work->line.g = work->bolts[i].head.color[1];
                 work->line.b = work->bolts[i].head.color[2];
                 d = i % 2 * 2 - 1;
-                n = work->radius;
+                n = work->place.radius;
                 tip.vx = (work->bolts[i].growth.vx - work->bolts[i].xform.position.vx) * work->bolts[i].head.elapsed
                     / work->bolts[i].head.duration
                     + n * rsin(d * (work->bolts[i].head.elapsed << 12) / work->bolts[i].head.duration
@@ -427,7 +427,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     work->sparks[i].xform.position.vy = 0;
                     k = 0;
                     do {
-                        n = work->radius;
+                        n = work->place.radius;
                         setVector(&work->curtain_upper[k][i],
                             (work->bolts[i].growth.vx - work->bolts[i].xform.position.vx) * k / 8
                                 + n * rsin(d * (k << 12) / 8 + (i << 12) / work->bolt_count) / 4096,
@@ -450,7 +450,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                             s32 h;
 
                             n = rcos(k << 7);
-                            h = work->height;
+                            h = work->place.height;
                             work->curtain_lower[k][i].vy = -h + h * n / 4096;
                         }
                     } while (++k < 9);

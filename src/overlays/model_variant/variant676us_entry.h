@@ -24,8 +24,7 @@ typedef struct {
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
+    ModelVariantEntryPlacement place;
     u16 tpage[5];
     u16 clut[5];
     u16 unknown_26;

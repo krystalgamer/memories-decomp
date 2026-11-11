@@ -103,8 +103,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             work->dome_count = 32;
             break;
         }
-        work->radius = gModelVariant667_aConfigs[command].radius;
-        work->height = gModelVariant667_aConfigs[command].height;
+        work->place.radius = gModelVariant667_aConfigs[command].radius;
+        work->place.height = gModelVariant667_aConfigs[command].height;
         for (i = 0; i < work->rows; i++) {
             work->ribbons[i].head.active = 0;
             work->ribbons[i].head.elapsed = 0;
@@ -139,7 +139,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             setVector(&work->sprites[i].unknown_40, 0, 0, 0);
             setVector(&work->sprites[i].xform.rotation, 0, work->head.slot * 2048, 0);
             scale = (i % 2) * 2 - 1;
-            value = work->height;
+            value = work->place.height;
             angle = (i % 8) << 9;
             scale *= value;
             setVector(&work->sprites[i].xform.position, scale * rsin(angle) / 4096,
@@ -176,13 +176,13 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             arc = i << 12;
             setVector(&work->domes[i].xform.rotation, arc / work->dome_count + 0x111, (i % 8) << 9,
                 scale * arc / work->dome_count + 0x111);
-            value = work->height * rsin((i % 8) << 9) / 4096;
+            value = work->place.height * rsin((i % 8) << 9) / 4096;
             setVector(&work->domes[i].xform.position,
                 work->origin[0] + scale * value * rsin(arc / work->dome_count) / 4096,
                 work->origin[1] + 700,
                 work->origin[2] + value * rcos(arc / work->dome_count) / 4096);
         }
-        work->delay = gModelVariant667_aConfigs[command].delay;
+        work->place.delay = gModelVariant667_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -193,7 +193,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 }
             }
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->corners[0], -value, -value, 0);
         setVector(&work->corners[1], value, -value, 0);
         setVector(&work->corners[2], -value, value, 0);
@@ -206,11 +206,11 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 setVector(&work->heads[i][j], 0, 0, 0);
             }
         }
-        value = work->radius / 3;
+        value = work->place.radius / 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->fan_rim[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
         }
-        t = work->radius;
+        t = work->place.radius;
         value = ((t << 1) + t) / 2;
         radius = t;
         t = -value;
@@ -234,7 +234,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         value = radius;
         /* The halfword radius makes this zero; reusing radius orders the
          * zero after the copy above. */
-        radius = work->radius >> 16;
+        radius = work->place.radius >> 16;
         work->cap[4].vy = radius;
         work->cap[5].vy = radius;
         scale = value * 2;
@@ -297,8 +297,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
     if (work->flags[0] == 0) {
         work->flags[0]++;
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else if (work->flags[0] != 0) {
         switch (work->head.command) {
         case 0:

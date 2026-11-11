@@ -124,8 +124,8 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->burst_count = 4;
             break;
         }
-        work->radius = gModelVariant663_aConfigs[command].radius;
-        work->height = gModelVariant663_aConfigs[command].height;
+        work->place.radius = gModelVariant663_aConfigs[command].radius;
+        work->place.height = gModelVariant663_aConfigs[command].height;
         for (i = 0; i < work->column_count; i++) {
             work->columns[i].head.active = 0;
             work->columns[i].head.elapsed = 0;
@@ -172,7 +172,7 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
             work->bursts[i].xform.position.vy -= 350;
             work->bursts[i].xform.position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant663_aConfigs[command].delay;
+        work->place.delay = gModelVariant663_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -181,45 +181,45 @@ s32 ModelVariant663_HandleRequest(u8 *context, s32 command)
         case 10:
         case 11:
             for (i = 0; i < 17; i++) {
-                setVector(&work->spokes[i][0], 0, work->radius * rcos(i << 7) / 4096,
-                    work->radius * rsin(i << 7) / 4096);
-                setVector(&work->spokes[i][1], 0, work->radius * rcos(i << 7) / 4096,
-                    work->height + work->radius * rsin(i << 7) / 4096);
+                setVector(&work->spokes[i][0], 0, work->place.radius * rcos(i << 7) / 4096,
+                    work->place.radius * rsin(i << 7) / 4096);
+                setVector(&work->spokes[i][1], 0, work->place.radius * rcos(i << 7) / 4096,
+                    work->place.height + work->place.radius * rsin(i << 7) / 4096);
             }
             break;
         case 13:
             for (i = 0; i < 17; i++) {
-                setVector(&work->spokes[i][0], work->radius * -rcos(i << 7) / 4096,
-                    work->radius * -rsin(i << 7) / 4096, 0);
+                setVector(&work->spokes[i][0], work->place.radius * -rcos(i << 7) / 4096,
+                    work->place.radius * -rsin(i << 7) / 4096, 0);
                 /* Negated as "* -1" so the sum is formed in the sine's register. */
-                setVector(&work->spokes[i][1], work->radius * -rcos(i << 7) / 4096,
-                    (work->radius * rsin(i << 7) / 4096 + work->height) * -1, 0);
+                setVector(&work->spokes[i][1], work->place.radius * -rcos(i << 7) / 4096,
+                    (work->place.radius * rsin(i << 7) / 4096 + work->place.height) * -1, 0);
             }
             break;
         case 14:
             for (i = 0; i < 17; i++) {
-                setVector(&work->spokes[i][0], work->radius * -rcos(i << 7) / 4096, 0,
-                    work->radius * -rsin(i << 7) / 4096);
-                setVector(&work->spokes[i][1], work->radius * -rcos(i << 7) / 4096, 0,
-                    work->height + work->radius * -rsin(i << 7) / 4096);
+                setVector(&work->spokes[i][0], work->place.radius * -rcos(i << 7) / 4096, 0,
+                    work->place.radius * -rsin(i << 7) / 4096);
+                setVector(&work->spokes[i][1], work->place.radius * -rcos(i << 7) / 4096, 0,
+                    work->place.height + work->place.radius * -rsin(i << 7) / 4096);
             }
             break;
         }
         for (i = 0; i < 33; i++) {
-            setVector(&work->rays[i][0], work->radius * rcos(i << 7) / 4096,
-                work->radius * rsin(i << 7) / 4096, 0);
-            setVector(&work->rays[i][1], (work->radius * 2 + work->radius * (i % 2)) * rcos(i << 7) / 4096,
-                (work->radius * 2 + work->radius * (i % 2)) * rsin(i << 7) / 4096, 0);
+            setVector(&work->rays[i][0], work->place.radius * rcos(i << 7) / 4096,
+                work->place.radius * rsin(i << 7) / 4096, 0);
+            setVector(&work->rays[i][1], (work->place.radius * 2 + work->place.radius * (i % 2)) * rcos(i << 7) / 4096,
+                (work->place.radius * 2 + work->place.radius * (i % 2)) * rsin(i << 7) / 4096, 0);
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->fan[i][0], (work->radius >> 1) * rsin(i << 8) / 4096,
-                (work->radius >> 1) * rcos(i << 8) / 4096, 0);
-            setVector(&work->fan[i][1], (work->radius * 3 >> 1) * rsin(i << 8) / 4096,
-                (work->radius * 3 >> 1) * rcos(i << 8) / 4096, 0);
+            setVector(&work->fan[i][0], (work->place.radius >> 1) * rsin(i << 8) / 4096,
+                (work->place.radius >> 1) * rcos(i << 8) / 4096, 0);
+            setVector(&work->fan[i][1], (work->place.radius * 3 >> 1) * rsin(i << 8) / 4096,
+                (work->place.radius * 3 >> 1) * rcos(i << 8) / 4096, 0);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

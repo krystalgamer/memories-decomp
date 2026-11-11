@@ -55,8 +55,8 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
             work->count = 32;
             break;
         }
-        work->radius = gModelVariant671_aConfigs[command].radius;
-        work->height = gModelVariant671_aConfigs[command].height;
+        work->place.radius = gModelVariant671_aConfigs[command].radius;
+        work->place.height = gModelVariant671_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->blooms[i].head.duration = 48;
             work->blooms[i].head.active = 0;
@@ -87,24 +87,24 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
             setVector(&work->rings[i].xform.scale, 4096, 4096, 4096);
             setVector(&work->rings[i].target, 0, 0, 0);
             setVector(&work->rings[i].xform.rotation, 0, work->head.slot * 2048, 0);
-            sign = work->radius;
+            sign = work->place.radius;
             value = i % 2 * 2 - 1;
             setVector(&work->rings[i].xform.position,
                 work->origin.vx + value * sign * rsin((i << 12) / work->count) / 4096,
                 work->origin.vy + value * -sign * rcos((i << 12) / work->count) / 4096,
                 work->origin.vz + value * sign * rcos((i << 12) / work->count) / 4096);
         }
-        work->delay = gModelVariant671_aConfigs[command].delay;
+        work->place.delay = gModelVariant671_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius;
-        sign = work->height;
+        value = work->place.radius;
+        sign = work->place.height;
         setVector(&work->flare[0], -value, -value, 0);
         setVector(&work->flare[1], value, -value, 0);
         setVector(&work->flare[2], -value, value, 0);
         setVector(&work->flare[3], value, value, 0);
-        value = work->radius / 4;
+        value = work->place.radius / 4;
         setVector(&pts[0], value, 0, 0);
         setVector(&pts[1], -value, 0, 0);
         setVector(&pts[2], 0, sign, 0);
@@ -121,20 +121,20 @@ s32 ModelVariant671_HandleRequest(u8 *context, s32 command)
                 PopMatrix();
             }
         }
-        value = work->radius;
+        value = work->place.radius;
         sign = value * 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->rim[0][i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
             setVector(&work->rim[1][i], sign * rsin(i << 8) / 4096, sign * rcos(i << 8) / 4096, 0);
         }
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->ring[0], -value, -value, 0);
         setVector(&work->ring[1], value, -value, 0);
         setVector(&work->ring[2], -value, value, 0);
         setVector(&work->ring[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {

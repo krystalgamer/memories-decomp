@@ -86,13 +86,13 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
             work->rows = 1;
             work->columns = 1;
         }
-        work->radius = gModelVariant678Us_aConfigs[command].radius;
-        work->height = gModelVariant678Us_aConfigs[command].height;
+        work->place.radius = gModelVariant678Us_aConfigs[command].radius;
+        work->place.height = gModelVariant678Us_aConfigs[command].height;
         for (i = 0; i < 5; i++) {
             PushMatrix();
             m = GsIDMATRIX;
             if (command == 0) {
-                setVector(&axis, work->radius * 2, 0, -(work->radius * work->direction));
+                setVector(&axis, work->place.radius * 2, 0, -(work->place.radius * work->direction));
                 RotMatrixZ((i << 12) / 5, &m);
                 RotMatrixX((s32)((u32)work->direction << 9), &m);
             }
@@ -103,7 +103,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
             PushMatrix();
             m = GsIDMATRIX;
             if (command == 0) {
-                setVector(&axis, 0, work->radius * 2, 0);
+                setVector(&axis, 0, work->place.radius * 2, 0);
                 RotMatrixZ(i << 7, &m);
                 RotMatrixY((i % 3 << 12) / 3, &m);
             }
@@ -123,7 +123,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 work->bubbles[i][j].head.u = 0;
                 work->bubbles[i][j].head.v = 0;
                 setVector(&work->bubbles[i][j].xform.scale, 4096, 4096, 4096);
-                setVector(&work->bubbles[i][j].target, 0, -work->height, work->direction * 450);
+                setVector(&work->bubbles[i][j].target, 0, -work->place.height, work->direction * 450);
                 setVector(&work->bubbles[i][j].xform.rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bubbles[i][j].xform.position, 0, 0, 0);
             }
@@ -164,27 +164,27 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 setVector(&work->sprays[i][j].xform.position, 0, 0, 0);
             }
         }
-        work->delay = gModelVariant678Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant678Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->bubble_corners[0], -value, -value, corner_z);
         setVector(&work->bubble_corners[1], value, -value, 0);
         setVector(&work->bubble_corners[2], -value, value, 0);
         setVector(&work->bubble_corners[3], value, value, 0);
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->burst_corners[0], -value, -value, 0);
         setVector(&work->burst_corners[1], value, -value, 0);
         setVector(&work->burst_corners[2], -value, value, 0);
         setVector(&work->burst_corners[3], value, value, 0);
-        value = work->radius >> 1;
+        value = work->place.radius >> 1;
         setVector(&work->spray_corners[0], -value, -value, 0);
         setVector(&work->spray_corners[1], value, -value, 0);
         setVector(&work->spray_corners[2], -value, value, 0);
         setVector(&work->spray_corners[3], value, value, 0);
-        value = work->radius * 2;
-        span = work->radius * 4;
+        value = work->place.radius * 2;
+        span = work->place.radius * 4;
         for (i = 0; i < 17; i++) {
             setVector(&work->inner_ring[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
             setVector(&work->outer_ring[i], span * rsin(i << 8) / 4096, span * rcos(i << 8) / 4096, 0);
@@ -192,14 +192,14 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 (work->inner_ring[i].vy + work->outer_ring[i].vy) / 2,
                 (work->inner_ring[i].vz + work->outer_ring[i].vz) / 2);
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->shard_corners[0], -value, -value, 0);
         setVector(&work->shard_corners[1], value, -value, 0);
         setVector(&work->shard_corners[2], -value, value, 0);
         setVector(&work->shard_corners[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     if (work->head.command == 0 && work->flags[0] < work->columns && work->head.elapsed == 0) {

@@ -52,8 +52,8 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             work->count = 64;
             break;
         }
-        work->radius = gModelVariant673_aConfigs[command].radius;
-        work->height = gModelVariant673_aConfigs[command].height;
+        work->place.radius = gModelVariant673_aConfigs[command].radius;
+        work->place.height = gModelVariant673_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->rising[i].head.duration = 0x20;
             work->rising[i].head.active = 0;
@@ -66,10 +66,10 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             work->rising[i].head.u = 0;
             work->rising[i].head.v = 0;
             setVector(&work->rising[i].xform.scale, 0x1000, 0x1000, 0x1000);
-            n = work->radius * rsin((i << 12) / work->count) / 4096;
+            n = work->place.radius * rsin((i << 12) / work->count) / 4096;
             d = i % 2 * 2 - 1;
             k = i % 8 << 9;
-            setVector(&work->rising[i].growth, d * n * rsin(k) / 4096, -work->height,
+            setVector(&work->rising[i].growth, d * n * rsin(k) / 4096, -work->place.height,
                 n * rcos(k) / 4096);
             setVector(&work->rising[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rising[i].xform.position, 0, 0, 0);
@@ -89,12 +89,12 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             setVector(&work->falling[i].xform.rotation, 0, work->head.slot * 2048, 0);
             s = i % 16 << 8;
             n = rsin(s);
-            n = work->radius * ((n << 1) + n) / 4096;
+            n = work->place.radius * ((n << 1) + n) / 4096;
             d = i % 2 * 2 - 1;
-            setVector(&work->falling[i].growth, 0, work->height * 2 + d * work->height * rsin(s) / 4096, 0);
+            setVector(&work->falling[i].growth, 0, work->place.height * 2 + d * work->place.height * rsin(s) / 4096, 0);
             s = i % 8 << 9;
             setVector(&work->falling[i].xform.position, work->position[0] + d * n * rsin(s) / 4096,
-                work->position[1] - work->height * 2, work->position[2] + n * rcos(s) / 4096);
+                work->position[1] - work->place.height * 2, work->position[2] + n * rcos(s) / 4096);
         }
         for (i = 0; i < work->count; i++) {
             work->fans[i].head.active = 0;
@@ -112,28 +112,28 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
             setVector(&work->fans[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->fans[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant673_aConfigs[command].delay;
+        work->place.delay = gModelVariant673_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius * 3;
+        n = work->place.radius * 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->centre, 0, 0, 0);
         setVector(&work->corners[0], -n, -n, 0);
         setVector(&work->corners[1], n, -n, 0);
         setVector(&work->corners[2], -n, n, 0);
         setVector(&work->corners[3], n, n, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
