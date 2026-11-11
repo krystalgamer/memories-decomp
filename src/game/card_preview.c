@@ -495,88 +495,69 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_67 = index;
     object->field_68 = (u8)variant;
 
-    if (variant == 0x15) {
-        goto disp_15;
-    }
-    if (variant >= 0x16) {
-        goto disp_ge16;
-    }
-    if (variant == 0x14) {
-        goto disp_14;
-    }
-    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
-    goto path_a;
+    switch (variant) {
+    case 0x16:
+        setup = 0x103;
+        variant = 1;
+        break;
 
-disp_ge16:
-    if (variant == 0x16) {
-        goto disp_16;
-    }
-    if (variant == 0x17) {
-        goto disp_17;
-    }
-    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
-    goto path_a;
+    case 0x17:
+        byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
+            DUEL_RESOURCE_VARIANT_BYTE];
+        byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
+        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+            byte_value;
+        /* fall through */
+    case 0x14:
+        setup = 0x101;
+        variant = 1;
+        break;
 
-disp_16:
-    setup = 0x103;
-    variant = 1;
-    goto shared_tail;
+    case 0x15:
+        setup = 0x102;
+        byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
+            DUEL_RESOURCE_VARIANT_BYTE];
+        variant = 1;
+        byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
+        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+            byte_value;
+        break;
 
-disp_17:
-    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
-        DUEL_RESOURCE_VARIANT_BYTE];
-    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
-    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-        byte_value;
-    /* fallthrough */
-disp_14:
-    setup = 0x101;
-    variant = 1;
-    goto shared_tail;
-
-disp_15:
-    setup = 0x102;
-    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
-        DUEL_RESOURCE_VARIANT_BYTE];
-    variant = 1;
-    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
-    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-        byte_value;
-    goto shared_tail;
-
-path_a:
-    object->xy.h.y = DUEL_RESOURCE_PATH_Y;
-    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-        DUEL_RESOURCE_PATH_FIELD_5E;
-    object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
-    object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
+    default:
+        object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
+        object->xy.h.y = DUEL_RESOURCE_PATH_Y;
+        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+            DUEL_RESOURCE_PATH_FIELD_5E;
+        object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
+        object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
 #ifdef VERSION_EUROPE
-    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[1] =
-        (gText_bLanguageIndex << 4) - 0x60;
+        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[1] =
+            (gText_bLanguageIndex << 4) - 0x60;
 #endif
 
-    {
-        s16 attack_value = setup;
-        entry->attack = attack_value;
-        if (attack_value < 0) {
-            entry->attack =
-                (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
+        {
+            s16 attack_value = setup;
+            entry->attack = attack_value;
+            if (attack_value < 0) {
+                entry->attack =
+                    (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
+            }
         }
-    }
-    {
-        s16 defense_value = defense;
-        entry->defense = defense_value;
-        if (defense_value < 0) {
-            entry->defense =
-                (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
+        {
+            s16 defense_value = defense;
+            entry->defense = defense_value;
+            if (defense_value < 0) {
+                entry->defense =
+                    (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
+            }
         }
+        setup = 0x100;
+        variant = 0;
+        entry->defense_adjustment = 0;
+        entry->attack_adjustment = 0;
+        break;
     }
-    setup = 0x100;
-    variant = 0;
-    entry->defense_adjustment = 0;
-    entry->attack_adjustment = 0;
 
-shared_tail:
     entry->attribute_icon = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
     entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
     entry->stat_palette_flags = 0;

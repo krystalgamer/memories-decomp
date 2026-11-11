@@ -1246,18 +1246,18 @@ u8 *Text_FindRecordById(s32 id) {
     rec = gText_aGlyphRecordBitmaps;
     key = gText_aGlyphRecordKeys;
 
-loop_check:
-    v = key[0] << 8;
-    v |= key[1];
-    if (v == 0) {
-        return 0;
+    for (;;) {
+        v = key[0] << 8;
+        v |= key[1];
+        if (v == 0) {
+            return 0;
+        }
+        if (v == id) {
+            return rec;
+        }
+        key += 2;
+        rec += 0x1E;
     }
-    if (v == id) {
-        return rec;
-    }
-    key += 2;
-    rec += 0x1E;
-    goto loop_check;
 }
 #endif
 
@@ -1347,48 +1347,46 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     if (flags & 0x100) {
         entry->pad_0D[1] = tagged_value;
         entry->entry_flags = 0xC0;
-        goto append;
+    } else {
+        glyph = (tagged_value >> 20) & 0xFF;
+        mode = flags & 3;
+        if (glyph == 0) {
+            if (mode != 3) {
+                return -1;
+            }
+            return 0;
+        }
+
+        entry->pad_0D[1] = glyph;
+        entry->pad_14[0] = channel->color_index_54;
+        entry->entry_flags = mode | 0x80;
+
+        if (mode == 3) {
+            entry->local_x += 2;
+        }
+        if (mode == 2) {
+            if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
+                entry->local_x -= 2;
+                result = -4;
+            }
+            if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
+        if (mode == 0) {
+            if (glyph == 7) {
+                entry->local_x -= 3;
+                result = -6;
+            }
+            if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
+                glyph == 0xE || glyph == 0xC) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
     }
 
-    glyph = (tagged_value >> 20) & 0xFF;
-    mode = flags & 3;
-    if (glyph == 0) {
-        if (mode != 3) {
-            return -1;
-        }
-        return 0;
-    }
-
-    entry->pad_0D[1] = glyph;
-    entry->pad_14[0] = channel->color_index_54;
-    entry->entry_flags = mode | 0x80;
-
-    if (mode == 3) {
-        entry->local_x += 2;
-    }
-    if (mode == 2) {
-        if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
-            entry->local_x -= 2;
-            result = -4;
-        }
-        if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-    if (mode == 0) {
-        if (glyph == 7) {
-            entry->local_x -= 3;
-            result = -6;
-        }
-        if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
-            glyph == 0xE || glyph == 0xC) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-
-append:
     if (channel->flags_34 & 0x1C00) {
         entry->handler_state = 0;
     }
@@ -1915,56 +1913,20 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
    if that flag clears, the count runs out, or the range is empty. */
 int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     int v0;
-#ifdef VERSION_EUROPE
     int count;
-    u32 address;
-    u8 *v1;
+    DUEL_EFFECT_ENTRY_TYPE *entry;
+
     v0 = DUEL_EFFECT_RANGE_START(a0);
     count = DUEL_EFFECT_RANGE_COUNT(a0);
-    address = (u32)&DUEL_EFFECT_ENTRIES[v0];
-    if (count == 0) {
-        goto ret_zero_a;
+    entry = &DUEL_EFFECT_ENTRIES[v0];
+    for (; count != 0; count--, entry++) {
+        if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
+            return 0;
+        }
+        if (entry->handler_state != 0) {
+            return 1;
+        }
     }
-    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_13_OFFSET);
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return 0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count--;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#else
-    int count;
-    u8 *v1;
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        goto ret_zero_a;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_13_OFFSET;
-loop:
-    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
-    if (v0 == 0) {
-        return v0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count = count - 1;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#endif
-ret_zero_a:
     return 0;
 }
 
@@ -1972,7 +1934,6 @@ ret_zero_a:
    for each active entry, writes a1 to handler_state and a2 to render_mode,
    stopping at the first entry with that flag clear or when the count runs
    out. */
-#ifdef VERSION_EUROPE
 void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
     int start;
     int count;
@@ -1992,33 +1953,6 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
         entry->render_mode = a2;
     }
 }
-#else
-void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
-    int v0;
-    int count;
-    u8 *v1;
-
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        return;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_15_OFFSET;
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return;
-    }
-    count = count - 1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->handler_state = a1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->render_mode = a2;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-}
-#endif
 
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
