@@ -4108,7 +4108,8 @@ void DuelScene_UpdateCardMove(void)
     if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         if (gDuel_wSceneStateFlags & 0x4000) {
-            goto state_four;
+            gDuel_bSceneSubStep = 4;
+            return;
         }
         if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0 &&
             object->field_68 < 0x14) {
@@ -4116,7 +4117,8 @@ void DuelScene_UpdateCardMove(void)
             if (gAi_Selection.bytes[7] & 1) {
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
-            goto state_four;
+            gDuel_bSceneSubStep = 4;
+            return;
         }
         gDuel_bSceneSubStep = 1;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
@@ -4176,7 +4178,6 @@ void DuelScene_UpdateCardMove(void)
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             TextBox_Destroy(gText_aChannels);
-state_four:
             gDuel_bSceneSubStep = 4;
             break;
         }
