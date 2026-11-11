@@ -51,6 +51,11 @@ segments:
   - - 2048
     - rodata
     - initial_data
+  - - 2104
+    - .rodata
+    - game/european/file_set_position_table
+  - - 2115
+    - pad
   - - 2116
     - .rodata
     - game/file_transfer_runtime

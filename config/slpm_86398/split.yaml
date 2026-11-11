@@ -65,6 +65,8 @@ segments:
     align: 4
     subsegments:
       - [0x800, rodata, initial_data]
+      - [0x838, .rodata, game/file_set_position_table]
+      - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
       - [0x860, rodata, initial_data_860]
       - [0x8c0, .rodata, game/japanese/duel_scene]

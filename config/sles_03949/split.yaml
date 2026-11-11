@@ -64,6 +64,8 @@ segments:
     align: 4
     subsegments:
       - {start: 0x800, type: bin, name: german_raw_80010000, linker_section_order: .rodata}
+      - [0x838, .rodata, game/european/file_set_position_table]
+      - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
       - {start: 0x860, type: bin, name: german_raw_80010060, linker_section_order: .rodata}
       - [0x8B0, .rodata, game/spanish/duel_scene]

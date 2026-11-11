@@ -4,7 +4,6 @@ gModel_Slot0PrimaryDataAddress = 0x8001001C;
 gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 gModel_Slot1VariantDataAddress = 0x80010028;
-gFile_szPositionFormat = 0x80010038;
 gFile_pScreenBankBase = 0x800101D8;
 gSD_awNotePitchTable = 0x80010760;
 gSD_adwVoiceMasks = 0x80011360;
