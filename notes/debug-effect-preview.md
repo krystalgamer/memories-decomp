@@ -3,7 +3,7 @@
 The complete three-function `duel_scene.c` group contains
 `DebugEffect_UpdateViewControls`, `DebugEffect_UpdatePreview` and the already
 named `DuelScene_UpdateEffectPreview` scene entry. Canonical declarations are
-isolated in `debug_effect_preview.h`; every existing header remains unchanged.
+isolated in `duel_scene.h` (formerly `debug_effect_preview.h`); every existing header remains unchanged.
 
 ## View controls and preview update
 

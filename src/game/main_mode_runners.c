@@ -66,9 +66,7 @@ void Main_RunCampaign(void) {
 }
 
 #include "../game/ai_opponent_data.h"
-#include "../game/duel_check_quit_input.h"
-#include "../game/duel_init_scene.h"
-#include "../game/main_start_duel.h"
+#include "../game/duel_scene.h"
 #include "../game/main.h"
 #include "../game/build_deck.h"
 #include "../game/mem_card.h"
@@ -81,8 +79,6 @@ void Main_RunCampaign(void) {
 #include "../game/sound_pending_entries.h"
 #include "../game/sound_voice_selection.h"
 #include "../game/library.h"
-#include "../game/duel_scene_update.h"
-#include "../game/duel_side_state.h"
 #include "duel_session_controls.h"
 
 u8 gMain_bActiveModeState;
@@ -168,7 +164,6 @@ void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&0x40
 #include "sound.h"
 #include "main_modes.h"
 #include "model_scene_runtime.h"
-#include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
 /* Small globals other units own, declared here as common symbols the
@@ -325,8 +320,6 @@ void Main_RunFreeDuelMenu(void) {
 #include "text_message_staging.h"
 #include "main.h"
 #include "model_scene_states.h"
-#include "duel_side_state.h"
-#include "main_start_duel.h"
 #include "card_constants.h"
 #include "../overlays/main_menu/value_setup.h"
 #include "duel_session_controls.h"

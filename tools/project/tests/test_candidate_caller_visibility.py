@@ -63,9 +63,9 @@ PAIRS = [
     ("src/game/debug_menu.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_system.h"'),
     ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_system.h"'),
     ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_system.h"'),
-    ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
+    ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_scene.h"'),
     ("src/game/duel_scene.c", "SD_SEPlayFull", '#include "sound.h"'),
-    ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
+    ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_scene.h"'),
     (
         "src/game/duel_scene.c",
         "DisplayObject_SetResourceVariant",
@@ -146,6 +146,7 @@ def implicit_calls(
 FOLDED_SHADOW_OWNERS = (
     "build_deck.h",
     "display_object_system.h",
+    "duel_scene.h",
     "model.h",
 )
 
@@ -257,10 +258,10 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "card_preview.h",
                     "model_slot_control.h",
                     "model.h",
-                    "duel_field_display_objects.h",
-                    "duel_hand_position_selection_cursor.h",
-                    "duel_hand_selection_cursor.h",
-                    "duel_card_object_helpers.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
                     "build_deck.h",
                     "text_encode_decimal_no_padding.h",
                 )
@@ -279,7 +280,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         '#include "../psyq/libgte.h"\n#include "../psyq/libgpu.h"\n'
                         + layout.group() + "\n"
                     )
-                if "duel_field_display_objects.h" in include:
+                if "duel_scene.h" in include:
                     # Retain actual data types, not the lost function declarations.
                     replacement = (
                         '#include "duel_selection_layout.h"\n'
@@ -418,7 +419,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
                         '#include "duel_cursor_grid_direction.h"\n'
-                        + '#include "duel_cursor_held_grid_direction.h"\n'
+                        + '#include "duel_scene.h"\n'
                         + "DisplayObject **object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
                         + "s8 *column_view(DuelSelectionRecord *cursor) "

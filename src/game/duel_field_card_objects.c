@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_card.h"
 #include "card_presentation.h"
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "display_object.h"
 
 #define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \

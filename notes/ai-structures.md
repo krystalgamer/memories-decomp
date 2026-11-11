@@ -40,7 +40,7 @@ types unchanged; no loop bound or clearing behavior changes.
 
 ### Snapshot producers and storage alias
 
-[`ai_board_snapshot.h`](../src/game/ai_board_snapshot.h) is the shared home
+[`duel_scene.h`](../src/game/duel_scene.h) is the shared home
 for the side exporter, the board refresh and their typed interior array
 alias. It replaces the address-named exporter header, the refresh-only
 `duel_card_state_helpers.h` and the `D_801AB00C_VISIBLE` declaration arm
@@ -321,7 +321,7 @@ gate; regional builds use their existing wrappers and PR validation.
 ## Script-side duel-state queries
 
 The script handlers read the canonical `0x20`-byte `DuelSideState` in
-[`duel_side_state.h`](../src/game/duel_side_state.h), not a separate
+[`duel_scene.h`](../src/game/duel_scene.h), not a separate
 AI-only duelist record.
 
 | Offset | Field | Evidence |

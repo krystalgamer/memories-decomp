@@ -8,7 +8,7 @@
 #include "../../game/display_object_system.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/file_transfer.h"
-#include "../../game/duel_rewards.h"
+#include "../../game/duel_scene.h"
 #include "../../game/text_helpers.h"
 #include "../../game/duel_effect_text.h"
 #include "../../game/text_constants.h"

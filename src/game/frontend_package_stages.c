@@ -8,7 +8,7 @@
 #include "file_constants.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "text_constants.h"
-#include "duel_load_package_stage.h"
+#include "duel_scene.h"
 #include "campaign_flags.h"
 #include "card_preview.h"
 #include "frontend_package_stages.h"
