@@ -1,0 +1,29 @@
+#include "../../types.h"
+
+/* SLES-03947 to SLES-03951 build of src/game/card_preview.c. Values that
+ * differ in the European release; the shared source names each with an
+ * #ifndef default. */
+#define VERSION_EUROPE
+#define FUNC_800289BC_PHASE_SIZE 0x4000
+#define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x3560
+#define FUNC_80028B08_CLUT_Y 0xE8
+#define FUNC_80028B08_CLUT_X 0x340
+#define FUNC_80028B08_FRAME_ATTRIBUTE 0x50000000
+#define FUNC_80028B08_ATK_X 0x30
+#define FUNC_80028B08_ATK_Y 0xBD
+#define FUNC_80028B08_DEF_X 0x63
+#define FUNC_80028B08_DEF_Y 0xBD
+#define DUEL_RESOURCE_TRANSFER_POSITION(value) \
+    ((value) * 8 + CARD_COUNT - 8)
+#define DUEL_RESOURCE_TRANSFER_SECTORS 8
+#define DUEL_RESOURCE_DEFAULT_X 0x18
+#define DUEL_RESOURCE_VARIANT_BYTE 0
+#define DUEL_RESOURCE_VARIANT_17_DELTA 0x80
+#define DUEL_RESOURCE_VARIANT_15_DELTA 0x40
+#define DUEL_RESOURCE_PATH_Y 0xBE
+#define DUEL_RESOURCE_PATH_FIELD_5E 0xC0
+#define DUEL_RESOURCE_PATH_WIDTH 0x1C
+#define DUEL_RESOURCE_PATH_HEIGHT 9
+#define DUEL_RESOURCE_SECONDARY_X 0
+#define DUEL_RESOURCE_SECONDARY_Y 0x6A
+#include "../card_preview.c"

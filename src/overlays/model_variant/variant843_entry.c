@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant843_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 843's entry: while the ambient light dims, orbs and comets leave
  * two model parts for jittered points on the opposing slot, the orbs

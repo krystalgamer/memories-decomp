@@ -2,7 +2,7 @@
 #include "variant665_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 665's entry: rings of shaded strips fly out of the slot while
  * quads rise from model points, sparks fall from another point, a burst

@@ -42,9 +42,8 @@ LOADER_SOURCES = (
     "src/game/duel_scene.c", "src/game/european/duel_scene.c",
     "src/game/japanese/duel_scene.c",
     "src/game/main_menu_load_package_stage.c", "src/game/european/main_menu_load_package_stage.c",
-    "src/game/name_entry_load_package_stage.c", "src/game/japanese/name_entry_load_package_stage.c",
-    "src/game/european/name_entry_load_package_stage.c",
-    "src/game/frontend_package_stages.c", "src/game/european/options_package_stages.c",
+    "src/game/frontend_package_stages.c", "src/game/japanese/frontend_package_stages.c",
+    "src/game/european/frontend_package_stages.c",
 )
 
 

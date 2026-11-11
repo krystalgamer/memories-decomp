@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant167_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The North American build reports the work size once per setup command. */
 #if defined(VARIANT167_PRINT_WORK_SIZE)

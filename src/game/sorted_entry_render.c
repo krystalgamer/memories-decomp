@@ -2,7 +2,7 @@
 #include "../types.h"
 
 #include "../psyq/libgte.h"
-#include "sorted_entry.h"
+#include "sorted_entry_render.h"
 
 void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
     SortedEntry *p;
@@ -30,9 +30,7 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/inline_c.h"
-#include "sorted_entry.h"
 #include "gpu_packets.h"
-#include "hmd_fog_textured_drivers.h"
 #include "direct_polygon_renderers.h"
 
 /* The two HMD primitive drivers for fog-shaded textured polygons that
@@ -539,8 +537,6 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     return (u32 *)primp + 2;
 }
 
-#include "sorted_entry.h"
-
 /* Zero-initialized storage this unit owns. Each build's generated
  * sorted_entry_render_commons subsegment places it at the retail addresses. */
 u32 gModel_dwFogBaseColor;
@@ -598,9 +594,6 @@ void SortedEntry_SortAndRelink(void)
     gSortedEntry_nCount = 0;
     gSortedEntry_pCursor = gSortedEntry_pBase;
 }
-
-#include "sorted_entry.h"
-#include "text_render_state.h"
 
 void Model_SetFogDrawFlags(u32 value)
 {

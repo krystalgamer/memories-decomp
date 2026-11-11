@@ -41,7 +41,7 @@ D_8016A274 = 0x8016A274;
 // European symbols retained by the shared C source.
 D_8016A278_EuropeRaw = 0x8016A278;
 gCampaignMapAlt_pLocationMarker = 0x8016A2A0;
-D_8016A288 = 0x8016A2AC;
+gCampaignMapAlt_pSpotlight = 0x8016A2AC;
 gCampaignMapAlt_bTransitionFlags = 0x8016A280;
 gCampaignMapAlt_MoveState = 0x8016A2C0;
 gCampaignMapAlt_Location = 0x8016A28C;

@@ -2,7 +2,7 @@
 
 `Checkerboard_DrawBackground` (`0x8003D334`, `src/game/mem_card.c`)
 tiles the screen with alternating sprite cells. It has no caller, so its two
-records in `src/game/checkerboard_background.h` are described only by this
+records in `src/game/mem_card.h` are described only by this
 function. Every member it touches now has a name. The renames are spelling
 only: offsets, widths, signedness and the `uv` union's layout are unchanged,
 and every image still matches byte for byte.

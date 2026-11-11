@@ -2,9 +2,9 @@
 #define FRENCH_MODEL_VARIANT107_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_camera_effects.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"

@@ -2,11 +2,9 @@
 #define FRENCH_MODEL_VARIANT101_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"

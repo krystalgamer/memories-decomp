@@ -2,7 +2,7 @@
 #include "variant673_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 673's entry: textured quads rise from the slot one after another,
  * fade out and hand over to quads falling around the slot position, and

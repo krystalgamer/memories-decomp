@@ -1,7 +1,7 @@
 # Save integrity record views
 
 `SaveDataPrimaryIntegrity`, `SaveDataSecondaryIntegrity` and
-`SaveDataTertiaryIntegrity` in `src/game/save_data.h` describe the three
+`SaveDataTertiaryIntegrity` in `src/game/mem_card.h` describe the three
 sealed regions reached by the matched writers and validator in
 `src/game/mem_card.c`. They are views of those regions, not a
 replacement for the independently named `SaveDataState` gameplay fields.

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant470_entry.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 
 #ifndef MODEL_VARIANT470_CLUT_X
 #define MODEL_VARIANT470_CLUT_X 640
@@ -301,12 +301,12 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         work->field_261C = 0;
         work->field_2602 = 0;
         work->motion = 0;
-        work->frame_count = 0;
-        work->elapsed = 0;
-        work->animation = 0;
-        work->step = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
         work->phase = 0;
-        work->fade = 0;
+        work->clock.fade = 0;
         work->ambient = 2048;
         work->command = command;
     } else {
@@ -314,25 +314,25 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         setVector(&work->view_delta, view->vrx - view->vpx,
             view->vry - view->vpy, view->vrz - view->vpz);
         Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
             Model_CopySlotPosition(0, (u16 *)&work->target);
         }
-        if (work->elapsed < work->config->matrix_end) {
+        if (work->clock.frame < work->config->matrix_end) {
             GsGetLwUnit(work->parts[0], &work->matrix);
         }
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
-        if (work->config->move_start <= work->elapsed && work->elapsed < work->config->move_end) {
-            work->motion = (work->elapsed - work->config->move_start) * 61440 /
+        if (work->config->move_start <= work->clock.frame && work->clock.frame < work->config->move_end) {
+            work->motion = (work->clock.frame - work->config->move_start) * 61440 /
                 (work->config->move_end - work->config->move_start);
         } else {
             work->motion = 0;
         }
-        if (work->config->draw_start <= work->elapsed) {
+        if (work->config->draw_start <= work->clock.frame) {
             pair = work->pairs;
             for (n = 0; n < 2; n++, pair++) {
                 for (k = 0, angle = 0; k < 10; k++, angle += 1300) {
@@ -381,18 +381,18 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
-        if (work->config->draw_start <= work->elapsed) {
+        if (work->config->draw_start <= work->clock.frame) {
             FrenchModelVariant470_DrawQuadPairs((u8 *)point);
         }
         if (work->phase >= 2) {
             SpanishModelVariant470_DrawQuads((u8 *)point);
         }
-        work->frame_count++;
+        work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
-        if (frame != work->animation) {
-            work->elapsed += Model_GetFrameStep();
-            work->step = Model_GetFrameStep();
-            work->animation = frame;
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
         }
     }
     setVector(&work->camera_offset, -512, -256, 0);
@@ -406,7 +406,7 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
             }
         }
     } else {
-        work->ambient = work->fade << 5;
+        work->ambient = work->clock.fade << 5;
     }
     if ((u32)(work->phase - 2) < 3) {
         result = 4;
@@ -414,10 +414,10 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         result = 1;
         work->phase = 6;
     } else if (work->phase == 6) {
-        if (work->fade < 64) {
-            work->fade += work->step;
-            if (work->fade >= 64) {
-                work->fade = 64;
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
                 work->phase = 7;
             }
         }

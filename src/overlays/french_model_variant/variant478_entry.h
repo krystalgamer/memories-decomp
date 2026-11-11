@@ -6,8 +6,8 @@
 #include "../french_model_variant/variant478_swarm.h"
 #include "../spanish_model_variant/variant478_quads.h"
 #include "../spanish_model_variant/variant478_rings.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_camera_effects.h"
 
 typedef struct {
     CVECTOR inner, outer, grid;
@@ -70,9 +70,7 @@ typedef struct {
     VECTOR direction;
     DVECTOR screen_delta;
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     EntryConfig478 *config;
     s32 field_2A00;
     GsCOORDUNIT *parts[3];

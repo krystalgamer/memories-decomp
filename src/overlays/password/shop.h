@@ -3,8 +3,8 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
-#include "../../game/duel_effect.h"
-#include "../../game/save_data.h"
+#include "../../game/duel_effect_states.h"
+#include "../../game/mem_card.h"
 #include "module_state.h"
 #include "../../game/file_staging_buffer.h"
 

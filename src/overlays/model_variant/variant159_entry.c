@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant159_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 159's entry: a rainbow curtain of five rows rises out of the
  * floor, waves and slides towards the other slot, then eight glowing

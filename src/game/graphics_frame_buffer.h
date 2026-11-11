@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "../psyq/libgs.h"
-#include "graphics_frame.h"
+#include "main.h"
 
 struct GraphicsFrameBuffer {
     u8 ordering_table_tags[0x5110];

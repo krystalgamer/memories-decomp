@@ -1,11 +1,197 @@
 #ifndef MEMORIES_DECOMP_DUEL_EFFECT_OBJECT_POOL_H
 #define MEMORIES_DECOMP_DUEL_EFFECT_OBJECT_POOL_H
+#include "../types.h"
+#include "card_constants.h"
+#include "mem_card.h"
 
-#include "duel_effect_request.h"
+struct DuelEffectRequest;
+
+/* Initializes a free request and raises its ACTIVE flag, or returns 0 when
+ * full. The separate pool-status latch is raised by DuelEffect_CreateRequest. */
+struct DuelEffectRequest *DuelEffect_AllocateRequest(s32 id);
+
+#define DUEL_EFFECT_REQUEST_OFFSET(member) \
+    ((u32)&(((DuelEffectRequest *)0)->member))
+#define DUEL_EFFECT_REQUEST_COUNT 8
+#define DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING 0x20
+#define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
+#define DUEL_EFFECT_REQUEST_FLAG_ACTIVE 0x80
+
+#define DUEL_EFFECT_REQUEST_STATUS_BLOCKING 0x01
+#define DUEL_EFFECT_REQUEST_STATUS_ACTIVE 0x80
+
+/* The record DuelEffect_CreateRequest hands a duel effect handler.
+ *
+ * DuelEffect_AllocateRequest is where the layout comes from: it takes a free entry from
+ * DuelEffect_FindFreeRequest and fills every field below, so each one is a store in the
+ * function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
+ * +0x12, writes 8 at +0x10, the effect id at +0x18, zero at +0x1A, the shared
+ * buffer gRuntime_pSharedWorkBase + 0x3800 at +0x14, two words copied out of gGraphics_apOrderingTables at
+ * +0x08 and +0x0C, 0x80 at +0x1C and zero at +0x1D.
+ *
+ * The three halfwords at +0x00, +0x02 and +0x04 are the request's payload and
+ * their meaning is the effect id's business, not the record's, which is why
+ * they are not named here. Two callers disagree about them and both are
+ * right for their own id: DuelEffect_StartSwords (id 0x12) writes 0xA0/0x78
+ * into +0x00 and +0x02, the centre of a 320x240 screen, while
+ * DuelScene_UpdateResume (id 0xB) and duel_scene.c (id 8) copy a card
+ * record's +0x30/+0x32/+0x34 triple straight into all three, and
+ * DuelEffect_ApplyHarpiesFeatherDuster (id 0x17) reads +0x04 back as a y
+ * coordinate. Naming the pair
+ * x/y, which two of the private copies did, asserts the first reading over
+ * the others. */
+typedef struct DuelEffectRequest {
+    s16 field_00;   /* 0x00 */
+    s16 field_02;   /* 0x02 */
+    s16 field_04;   /* 0x04 */
+    u8 pad_06[2];   /* 0x06 */
+    s32 ordering_table_2;   /* 0x08 */
+    s32 ordering_table_1;   /* 0x0C */
+    s16 base_priority;   /* 0x10 */
+    /* The signed number the effect draws. The dispatcher hands it only to
+     * DuelEffect_RunAttackSlash (id 2: the battle damage) and
+     * DuelEffect_RunStatPenalty (id 0xD: the negative stat change), and both
+     * store it as their work record's number. */
+    s16 number;     /* 0x12 */
+    void *buffer;   /* 0x14 */
+    s16 id;         /* 0x18 */
+    s16 phase;      /* 0x1A */
+    u8 flags;       /* 0x1C */
+    u8 progress;    /* 0x1D */
+} DuelEffectRequest;
+
+typedef char DuelEffectRequest_size_must_be_0x20[
+    sizeof(DuelEffectRequest) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectRequest_field_04_offset_must_be_0x4[
+    DUEL_EFFECT_REQUEST_OFFSET(field_04) == 0x4 ? 1 : -1
+];
+typedef char DuelEffectRequest_ordering_table_2_offset_must_be_0x8[
+    DUEL_EFFECT_REQUEST_OFFSET(ordering_table_2) == 0x8 ? 1 : -1
+];
+typedef char DuelEffectRequest_buffer_offset_must_be_0x14[
+    DUEL_EFFECT_REQUEST_OFFSET(buffer) == 0x14 ? 1 : -1
+];
+typedef char DuelEffectRequest_id_offset_must_be_0x18[
+    DUEL_EFFECT_REQUEST_OFFSET(id) == 0x18 ? 1 : -1
+];
+typedef char DuelEffectRequest_phase_offset_must_be_0x1A[
+    DUEL_EFFECT_REQUEST_OFFSET(phase) == 0x1A ? 1 : -1
+];
+typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
+    DUEL_EFFECT_REQUEST_OFFSET(flags) == 0x1C ? 1 : -1
+];
+
+#undef DUEL_EFFECT_REQUEST_OFFSET
+
+/* The allocator starts phase at zero. The updater saves its signed value
+ * before replacing an uninitialized request's stored phase with -1, then
+ * dispatches the saved value. Controllers and Swords can publish later
+ * positive or negative commands; it is not just an initialization flag.
+ * Progress is handler-defined: row strike writes a hit count and Swords
+ * writes both 1 and 2. It is separate from flags and the shared finished
+ * byte that releases an active request. */
+
+/* The request tracked by the duel's phase/effect controllers across updates,
+ * not the dispatcher's current request or the only active pool entry.
+ * Every observed non-null writer stores an entry from the request pool,
+ * including handlers that retain larger partial effect-object views. Those
+ * views read only the request prefix through this handle; they do not make
+ * it a display-object allocation. Allocation returns this request type;
+ * effect-specific payload and larger partial views remain explicit.
+ * Retail reaches the four-byte handle gp-relative at every site: the
+ * measured 17 lw and 14 sw keep their width and placement. */
+extern DuelEffectRequest *gDuelEffect_pTrackedRequest;
+
+/* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
+ * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses
+ * that bit to find a free one. DuelEffect_UpdateRequests raises INITIALIZED
+ * immediately before the first handler call and clears the whole byte when the
+ * handler reports completion.
+ * NONBLOCKING excludes long-running field effects from the pool's blocking
+ * status while still dispatching them normally.
+ *
+ * The request pool's status byte below is separate. DuelEffect_CreateRequest
+ * raises bit 7 when it hands out a request and DuelEffect_ResetRequestPool
+ * clears the byte; DuelEffect_UpdateRequests clears bit 0, raises it again
+ * while walking blocking records and returns it; DuelScene_Update drops bit 7
+ * unless bit 0 is set; DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty
+ * and DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu everywhere and
+ * one byte wide (c_symbols.ld names gDuelEffect_bRequestFinished next).
+ * Retail reaches it through $gp in DuelEffect_UpdateRequests,
+ * DuelEffect_CreateRequest and DuelEffect_ResetRequestPool, and through
+ * %hi/%lo in DuelScene_Update, DuelEffect_ApplyRaigeki,
+ * DuelEffect_ApplyStatPenalty, DuelEffect_ApplyDarkPiercingLight and
+ * DuelScene_UpdateExodiaResult: the plain declaration, as every other unit
+ * assembled at -G0, gives the absolute accesses as the bare macro form.
+ *
+ * That form is measured rather than assumed for DuelScene_UpdateExodiaResult:
+ * retail leaves the delay slot before its request-status test empty, and the
+ * bare form is one pseudo-instruction to the delay-slot filler, so there is
+ * nothing for it to hoist into the slot. The unsized
+ * array the unit declared privately gives cc1psx's own splittable pair
+ * instead, and the lui half lands in the slot. */
+extern u8 gDuel_bEffectRequestStatus;
+
+/* Allocates a request for the given effect id, marks the pool active, and
+ * returns it, or 0 when the pool is full. */
+DuelEffectRequest *DuelEffect_CreateRequest(s32 id);
+DuelEffectRequest *DuelEffect_FindFreeRequest(void);
+s32 DuelEffect_UpdateRequests(void);
+
+/* The pool those requests live in: the eight records this header already
+ * fixes the shape and count of, DUEL_EFFECT_REQUEST_COUNT of them at 0x20
+ * bytes each, both asserted above.
+ *
+ * The bound is kept rather than dropped. Both declarers already spelled it
+ * `[DUEL_EFFECT_REQUEST_COUNT]`, and an array's declared size is a -G input
+ * for this toolchain, so leaving it unsized would not be a neutral tidy-up.
+ *
+ * All three accessors are matching C and all three take its address:
+ * DuelEffect_ResetRequestPool and DuelEffect_FindFreeRequest walk it from the base, and DuelEffect_UpdateRequests
+ * starts from `&gDuelEffect_aRequests[0]`, retaining the same first-entry
+ * address and eight-record walk. */
+extern DuelEffectRequest gDuelEffect_aRequests[DUEL_EFFECT_REQUEST_COUNT];
 
 void DuelEffect_ResetRequestPool(void);
 
 extern u8 gDuelEffect_bRequestFinished;
 extern DuelEffectRequest *gDuelEffect_pActiveRequest;
+
+/* Optional ritual-match output: the three matched tribute display objects,
+ * followed by a word the function clears. */
+typedef struct DuelRitualResult {
+    void *tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
+    s32 field_0C;
+} DuelRitualResult;
+
+typedef char DuelRitualResult_size_must_be_0x10[
+    sizeof(DuelRitualResult) == 0x10 ? 1 : -1
+];
+typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
+    (u32)&((DuelRitualResult *)0)->field_0C == 0x0C ? 1 : -1
+];
+
+/* The recipe table that Duel_CheckRitual walks.
+ * Duel_LoadPackageStage's case 4 fills it, handing the address to a transfer
+ * as both sector_destination and alternate_sector_destination with mode 0x800, the same way its case 3 fills
+ * gDuel_aFusionTable. Duel_CheckRitual then scans it as fixed-size records --
+ * id first, stepping by DUEL_RITUAL_RECIPE_HALFWORD_COUNT -- and stops on a
+ * zero id, so the loaded data is self-terminating.
+ *
+ * The same memory is also borrowed as scratch once the duel is over:
+ * DuelScene_UpdateResultOutro casts it to DuelResultSpriteSlot * for the outro, which
+ * duel_result_outro.h documents as "the gDuel_awRitualData scratch". That reuse is
+ * why the array stays unsized here -- the two consumers disagree about the
+ * element type, and only the halfword view belongs to this header.
+ *
+ * DuelScene_UpdateResultRewards reuses the same backing for a complete
+ * 0x40-byte result display record after recipe processing has ended, and
+ * casts it to DuelResultDisplayState * the same way. */
+extern u16 gDuel_awRitualData[];
+
+s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
+
+s32 Library_CheckCardInChest(s32 card_id);
 
 #endif

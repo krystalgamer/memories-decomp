@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant151_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry launches 30 rings one after another from a slot part towards
  * points on a circle in front of the other slot. Each ring grows and turns

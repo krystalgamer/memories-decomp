@@ -258,8 +258,8 @@ Every consumer (`Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`,
 `Main_InitFreeDuelMenu`, overworld `set_location.c`, `Campaign_LoadScenePackage`,
 `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`,
 `FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `Movie_OpenStream`,
-`Model_AdvanceSlotLoad`, `Duel_InitModelScene`, `main_run_duel_and_library.c`,
-`main_run_selection_menus.c`) shares the one plain pointer declaration.
+`Model_AdvanceSlotLoad`, `Duel_InitModelScene`, `Main_RunDuel` and
+`Main_RunCampaignMap` in `main_mode_runners.c`) shares the one plain pointer declaration.
 
 `Duel_InitModelScene`, `Main_RunBuildDeckMenu` and `Main_RunDuel` used to read the word through an incomplete
 `HighMemoryModelAddressPrefix D_80010000[]` view (three payload bases and

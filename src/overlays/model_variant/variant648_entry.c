@@ -2,7 +2,7 @@
 #include "variant648_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 648's entry: one or two rows of up to 48 elements, each set up from
  * a command row and released in waves; every element spins a cluster of

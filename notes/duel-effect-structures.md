@@ -1,7 +1,7 @@
 # DuelEffect Shared Structures
 
 This pass is limited to the shared records rooted at `D_800EB0F8` and
-`D_800EB288`. The types in `src/game/duel_effect.h` describe verified storage
+`D_800EB288`. The types in `src/game/duel_effect_states.h` describe verified storage
 widths and offsets, not recovered original Konami names. Offset-based field
 names remain where semantics or signedness are uncertain.
 
@@ -41,7 +41,7 @@ Verified channel fields used by matching C include:
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`text_commands.c`](../src/game/text_commands.c), and [`text_commands.c`](../src/game/text_commands.c) |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep` and [`duel_effect_text.c`](../src/game/duel_effect_text.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x60` | `output_count` | NA byte count; PAL halfword pixel view includes +0x61 |
 | `0x61` | `output_limit` | NA byte threshold cleared in `DuelEffect_InitEntry`; PAL high counter byte |
@@ -496,7 +496,7 @@ and bit `0x40` records that its choice object was opened.
 from `gDuel_bEffectState` before the request byte receives its started bit.
 
 The former address-named `D_8009B244`/`D_8009B248`/`D_8009B24A` extern views
-in `duel_effect.h` were removed; each byte now has one declaration. The
+in `duel_effect_states.h` (formerly `duel_effect.h`) were removed; each byte now has one declaration. The
 symbols stay separate because the bytes between their addresses are live or
 unexplained; this is not a claim that they form a single packed structure.
 
@@ -537,9 +537,11 @@ Six pure-C functions now use the shared declaration:
 ## Typed effect-request allocation and retained ownership
 
 The existing `DuelEffectRequest` layout is a tagged `0x20`-byte record.
-Its forward declaration lets `duel_effect_allocate_request.h` return the
-actual request type without importing the pool globals or creating an
-include cycle. `DuelEffect_AllocateRequest` returns the selected initialized
+Its forward declaration let the former narrow
+`duel_effect_allocate_request.h` return the actual request type without
+importing the pool globals or creating an include cycle. That declaration now
+lives in `duel_effect_object_pool.h`, which also declares the pool globals; the
+tagged forward declaration still avoids the include cycle. `DuelEffect_AllocateRequest` returns the selected initialized
 record or zero when all eight entries are active. Every resident allocation
 caller now receives that type directly; redundant record-cast macros are
 removed, not replaced with new byte-buffer aliases.
@@ -659,7 +661,7 @@ The completed pass retained the full executable SHA-256
 ## PAL binding for the active-entry test
 
 Every region declares `DuelEffect_HasActiveEntry` with the same plain
-prototype in `duel_effect_entry_control.h`. Each PAL symbol file binds the
+prototype in `duel_effect_text.h` (formerly `duel_effect_entry_control.h`). Each PAL symbol file binds the
 name at its own address (`0x800370E0` in the UK image, `0x800372E0` in the
 other PAL images), so the former `func_800370E0` asm-label alias and the
 `VERSION_EUROPE` declaration split are gone.

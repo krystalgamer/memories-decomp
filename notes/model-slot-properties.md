@@ -22,7 +22,7 @@ bindings follow the same identity; French and Spanish imports still use
 only, not values, stubs, assertions or execution paths.
 
 Thirty historical overlay caller bodies remain byte-for-byte unchanged.
-Three explicit identifier bridges in `model_slot_properties.h` let their
+Three explicit identifier bridges in `model_slot_support.h` (formerly `model_slot_properties.h`) let their
 frozen numeric spellings emit the canonical resident symbols without
 rewriting terminal attempt fingerprints or shared-source dependency
 ledgers. These are preprocessor spellings, not extra linker aliases,

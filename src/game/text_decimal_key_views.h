@@ -2,7 +2,7 @@
 #define GAME_TEXT_DECIMAL_KEY_VIEWS_H
 
 #include "../types.h"
-#include "text_init_decimal_digit_glyph_map.h"
+#include "text_helpers.h"
 
 extern const TextGlyphLookupEntry gText_aGlyphSearchEntries[];
 

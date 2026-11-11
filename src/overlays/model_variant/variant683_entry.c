@@ -2,7 +2,7 @@
 #include "variant683_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 683's entry: a stream of blinking orbs spirals in towards the other

@@ -2,7 +2,7 @@
 #include "variant634_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 634's entry: tilted rings of gouraud bands open one a frame in front
  * of the slot and grow, while a cluster of sparks flashes through four frames

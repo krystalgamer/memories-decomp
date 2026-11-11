@@ -115,7 +115,7 @@ The two resident functions have package-wide roles:
 - `Campaign_LoadScenePackage` requests that package, initializes event state,
   uploads the portrait atlas, and creates the initial scene object.
 
-The portrait constants belong in `campaign_scene_package.h`, where the loader
+The portrait constants belong in `script_scene.h` (formerly `campaign_scene_package.h`), where the loader
 and renderer share them. No global portrait-bank symbol is applied to
 `gRuntime_pSharedWorkBase`; the semantic object is the transient data at its pointed-to
 arena, not the reused pointer constant itself.

@@ -43,7 +43,7 @@ precede one PR rather than publishing this header checkpoint on its own.
 
 ## Boot callback bridge and declaration owner
 
-`main_boot_load_stages.h` owns the existing package and image callbacks.
+`main_boot_screen.h` (formerly `main_boot_load_stages.h`) owns the existing package and image callbacks.
 The grouped implementation and `Main_RunBootSequence` both include it.
 The declarations retain `FileTransferDescriptor *` and signed stage/mode
 arguments; the generic transfer interface no longer carries a private boot
@@ -57,7 +57,7 @@ in their original order.
 
 Japan compiles and calls `Main_LoadBootImageStage` under that name;
 `config/slpm_86398/symbols.txt` binds it at `0x80042B64`, the address of the
-former native label `func_80042B64`. `main_boot_load_stages.h` declares it
+former native label `func_80042B64`. `main_boot_screen.h` (formerly `main_boot_load_stages.h`) declares it
 the same way in every region, with no assembler label or wrapper macro, and
 the Japanese inventory entry carries the canonical name. Fixed bindings and the compiled definition are
 unchanged. The European numeric-to-canonical caller
@@ -94,7 +94,7 @@ are unchanged, with regional/cloud validation left to the bundled PR.
 
 `DuelResult_LoadPackageStage` names the existing `func_8002F4C0` entry,
 installed by `Script_OpDuelResult` for its menu-asset request. The public
-declaration moves to `duel_result_load_package_stage.h`, retaining
+declaration moves to `script_scene.h` (formerly `duel_result_load_package_stage.h`), retaining
 `FileTransferDescriptor *d, s32 mode`. The generic unprototyped callback
 typedef and caller's existing request/wait timing remain unchanged.
 

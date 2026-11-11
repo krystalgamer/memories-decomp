@@ -28,7 +28,7 @@ resident API spelling; no overlay behavior or implementation is recovered.
 | `sles_03947` | `0x80029198` | `0x78` | European wrapper |
 | `sles_03948`–`sles_03951` | `0x800292DC` | `0x78` | European wrapper |
 
-Both functions remain contiguous in each `duel_effect_resource_setup.c`
+Both functions remain contiguous in each `card_preview.c`
 object, with the existing `gcc_2_8_1_g8_split` profile and constructor
 definition order. No source owners move. US/Japan keep seven sectors per
 card and `((card_id - 1) * 7 + CARD_COUNT)`; Europe keeps eight sectors and

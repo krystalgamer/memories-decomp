@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "variant398_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */
@@ -289,16 +289,16 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_1960 = 0;
-        work->field_1964 = 4096;
+        work->band_scale = 4096;
         work->field_1966 = 1024;
-        work->field_1968 = 0;
+        work->displacement = 0;
         work->outer.r = work->config->outer.r;
         work->outer.g = work->config->outer.g;
         work->outer.b = work->config->outer.b;
         work->inner.r = work->config->inner.r;
         work->inner.g = work->config->inner.g;
         work->inner.b = work->config->inner.b;
-        work->field_1978 = 0;
+        work->curtain_angle = 0;
         work->field_196C = 0;
         work->field_1962 = 0;
         work->frame_count = 0;

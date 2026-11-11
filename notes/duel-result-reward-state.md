@@ -98,7 +98,7 @@ The campaign credit path:
 4. awards `dropped_card_id`.
 
 The password shop reads and deducts the same `gLibrary_dwStarchips` object.
-Its declaration now lives in `save_data.h`; the module-specific `shop.h`
+Its declaration now lives in `mem_card.h` (formerly `save_data.h`); the module-specific `shop.h`
 declaration was redundant.
 
 The alternate post-duel branch increments per-save win/loss halfwords at

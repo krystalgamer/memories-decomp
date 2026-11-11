@@ -71,14 +71,13 @@ void SD_UpdateVoiceSlots(void)
             }
             if (g_SDValue->s_abSD_VOICE_FADE_LEVEL[i] != 0) {
                 SD_ApplyVoiceSlotVolume(i);
-                goto tail;
+            } else {
+                g_SDValue->s_bSD_VOICE_ACTIVE_MASK &= ~bit2;
+                g_SDValue->s_abSD_VOICE_FADE_STEP[i] = 0;
+                SpuSetKey(SPU_OFF, mask);
+                accum |= mask;
             }
-            g_SDValue->s_bSD_VOICE_ACTIVE_MASK &= ~bit2;
-            g_SDValue->s_abSD_VOICE_FADE_STEP[i] = 0;
-            SpuSetKey(SPU_OFF, mask);
-            accum |= mask;
         }
-    tail:
         timer = g_SDValue->s_awSD_VOICE_TIMER[i];
         if (timer != 0) {
             timer -= 1;

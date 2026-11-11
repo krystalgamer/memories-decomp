@@ -347,9 +347,9 @@ handle set, `_card_clear` against the alternate set using channel byte
 resetting the shared result before every stage and waiting for a nonnegative
 event result after each one. It does not reinterpret those three results.
 
-Six of the seven wrappers have one caller, the `func_8003DC1C` controller, and
-its arguments agree with the table: it issues `MemCard_ReqLoadDirectory`
-straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
+Six of the seven wrappers have one caller, the `MemCardWork_UpdateOperation`
+controller, and its arguments agree with the table: it issues
+`MemCard_ReqLoadDirectory` straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
 at offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
 `0xA00`-byte image at offset `0` that starts with `gSaveData_aHeaderTemplate`,
 creates the file only when the free count is at least its block count, and
@@ -368,7 +368,7 @@ The controller's bounded workspace, absolute directory view, frame backing,
 and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
 [memory-card-work-controller.md](memory-card-work-controller.md). The request
 prototypes live in `mem_card.h`; event initialization remains in
-`io_event_helpers.h`. The grouped driver remains separate from the matching
+`mem_card_driver.h` (formerly `io_event_helpers.h`). The grouped driver remains separate from the matching
 request controller in `src/game/mem_card_driver.c`.
 
 ## Directory enumeration
@@ -393,8 +393,8 @@ own name and treats a zero count as the name being free.
 
 The matching producer in `mem_card_driver.c` and matching controller in
 `src/game/mem_card_driver.c` consume the request declarations in `mem_card.h`,
-the directory API in `mem_card_directory.h`, and the existing event API in
-`io_event_helpers.h`.
+the directory API in `mem_card_driver.h` (formerly `mem_card_directory.h`), and the existing event API in
+`mem_card_driver.h` (formerly `io_event_helpers.h`).
 The earlier ownership migration removed eight driver-local globals and
 fourteen globals plus three function prototypes from the then-candidate
 controller. The matching source retains those owning-header contracts without
@@ -490,9 +490,9 @@ paths do not gain a clear. Cancelled or failed requests do not acquire a
 new reset either. Preserve the raw `u8`, full zero/nonzero tests and
 shared lifetime rather than introducing a Boolean, setter or new policy.
 
-The declaration moves from `mem_card.h` to `save_data.h` as one plain
-declaration shared by the main-menu and European effect writers and the
-modal readers. The ownership-only checkpoint reproduces all 940 complete
+The declaration now lives in `mem_card.h`, after its intermediate
+`save_data.h` owner, as one plain declaration shared by the main-menu and
+European effect writers and the modal readers. The ownership-only checkpoint reproduces all 940 complete
 compiler/MASPSX outputs raw-identically before naming.
 
 `DuelEffect_UpdateIdentitySave` names the existing state-table entry four.
@@ -580,7 +580,7 @@ added. This remains part of the larger unpublished save-identity bundle.
 `gScript_SavePromptSceneOperand` retains the second little-endian
 halfword decoded by `Script_OpSavePrompt`. Its exact plain `u16`
 declaration moves from the shared `script_state.h` to the command's
-existing `script_op_save_prompt.h`. The neighboring event-script flags
+existing `script_scene.h` (formerly `script_op_save_prompt.h`). The neighboring event-script flags
 stay in their original owner and location; no shared allocation or packed
 command record is inferred from the adjacent addresses.
 
@@ -726,7 +726,7 @@ wrappers and the actual frontend/debug reset paths:
 | `0x8009B3ED` | `gSaveData_PairSetupState` | Shared wrapper entry guard, with only bit `0x80` established |
 | `0x8009B3C0` | `gSaveData_PairMessageCode` | Raw paired-workflow presentation byte |
 
-Their declarations belong to `two_player_save_setup.h`, which already
+Their declarations belong to `mem_card.h` (formerly `two_player_save_setup.h`), which already
 owns the duel/trade setup API, rather than the modal-card header.
 `debug_menu.c` explicitly includes that owner; the other
 resident and Main Menu consumers already include it. All three identities
@@ -807,7 +807,7 @@ partway leaves the cards at most one chunk apart.
 
 The `0x680`-byte state contains three independently protected regions.
 `SaveData_CalcCrc16` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
-initial value. `save_data.h` names the polynomial as
+initial value. `mem_card.h` (formerly `save_data.h`) names the polynomial as
 `SAVE_DATA_CRC16_POLYNOMIAL` and the width as `SAVE_DATA_CRC16_BITS`.
 The value mask (`0xFFFF`) and high-bit test (`0x8000`) are derived from that
 width as `SAVE_DATA_CRC16_MASK` and `SAVE_DATA_CRC16_HIGH_BIT`. The writers and
@@ -874,7 +874,7 @@ to the existing modal owner, without introducing a packed result record.
 | `0x8009B3F4` | `gMemCardDialog_SyncResult` | `s32` |
 
 The operation byte, sync status and sync result declarations move from
-`src/unmatched.h` to `src/game/mem_card.h` with exactly those plain
+the former `unmatched.h` to `src/game/mem_card.h` with exactly those plain
 types. The command word already belonged there. No qualifier, size,
 pointer cast, small-data arm, initialized definition or SDK prototype
 changes. Ownership alone leaves all 940 complete compiler/MASPSX outputs
@@ -972,7 +972,7 @@ not a packed descriptor, new allocation or immutable request snapshot.
 | `0x8009B3C4` | `gMemCardDialog_TransferOffset` | `u16` |
 | `0x8009B3DC` | `gMemCardDialog_BlockCount` | `u8` |
 
-The port and two halfword declarations move from `src/unmatched.h` to
+The port and two halfword declarations move from the former `unmatched.h` to
 their existing consumer owner, `src/game/mem_card.h`, with their exact
 plain types. The filename and block byte already belonged there. No
 qualifier, initialized definition, SDK signature, pointer view or
@@ -1218,7 +1218,7 @@ The Japanese and PAL step-three callback is
 It latches the existing callback entered bit once, clears both the transfer
 offset and operation state, raises modal flag `0x100`, and calls
 `MemCardDialog_UpdateSave` on every pass, including the first. Native
-declarations belong to `mem_card_dialog.h`, selected by the existing regional
+declarations belong to `mem_card.h` (formerly `mem_card_dialog.h`), selected by the existing regional
 defines; no replacement owner, adapter or runtime gate is introduced.
 
 | Function | Japan | UK | France / Germany / Italy / Spain |
@@ -1234,7 +1234,7 @@ changes: its C definition, shared declaration and native linker symbol
 already agree on `SaveData_RequestLoad`.
 
 `SaveData_RequestOptionsWrite` takes no arguments. Its existing
-`data_transfer_request.h` owner declares it for Japan only, with no
+`mem_card.h` (formerly `data_transfer_request.h`) owner declares it for Japan only, with no
 assembler label; the Japanese symbols.txt binds the name at `0x8003EFA8`,
 the former native `func_8003EFA8`. The real `Options_Update` caller
 sets its entered bit before calling once in state two, polls

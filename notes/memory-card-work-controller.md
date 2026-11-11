@@ -121,8 +121,9 @@ The constants preserve those literal request arguments. No equivalence with
 other RAM aliases or assumptions about extra physical RAM are introduced.
 
 `MEM_CARD_WORK_FRAME_BYTES` is a bounded 128-byte view at the literal
-`0x80210000` address. Bytes `D_8021007A` through `D_8021007E` and
-`gMemCardWork_bFrameChecksum` (`+0x7F`) are existing
+`0x80210000` address; `gMemCardWork_abFrame` (formerly `D_80210000`) is the
+declaration-only linker identity for the same range. Bytes `D_8021007A`
+through `D_8021007E` and `gMemCardWork_bFrameChecksum` (`+0x7F`) are existing
 absolute linker identities inside that same range. They are **not** six
 independent allocations. The controller modifies `+0x7A..+0x7E`, reads
 `+0..+0x7E`, and writes the XOR to `+0x7F`. Native witnesses place one

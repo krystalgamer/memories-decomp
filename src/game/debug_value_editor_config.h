@@ -2,7 +2,7 @@
 #define GAME_DEBUG_VALUE_EDITOR_CONFIG_H
 
 #include "../types.h"
-#include "frontend_debug_state.h"
+#include "debug_menu.h"
 
 /* Three editor rows: caret anchor column and digit width per row. */
 extern FrontendDebugColumns gDebug_abEditorCaretColumns;

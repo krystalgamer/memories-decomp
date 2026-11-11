@@ -2,7 +2,7 @@
 #include "variant674_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 674's entry: a pulsing ring of shaded strips spins up around a
  * model point and hands over to a growing dome of sprites wrapped in a

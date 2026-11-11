@@ -6,7 +6,6 @@
 #include "../psyq/stdio.h"
 #include "model.h"
 #include "model_packet_handlers.h"
-#include "../unmatched.h"
 #include "../psyq/exit.h"
 #include "model_handler_state.h"
 #include "model_sequence_descriptor.h"

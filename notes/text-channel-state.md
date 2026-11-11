@@ -3,7 +3,7 @@
 The four records initialized by `DuelEffect_InitEntry`, reset by
 `DuelEffect_ResetState` and pumped by `TextBox_UpdateChannels` are
 `gText_aChannels`. This is the existing channel pool, not a new allocation.
-`text_channel_state.h` provides canonical declarations without changing any
+`duel_effect_text.h` (formerly `text_channel_state.h`) provides canonical declarations without changing any
 existing header or frozen overlay C.
 
 ## Native views and storage
@@ -18,11 +18,11 @@ exist. Every Japanese unit that touches the pool therefore defines
 `VERSION_JAPAN`, and native strides follow `sizeof(DuelEffectChannel)`.
 
 Canonical includes follow the original selector-dependent declarations.
-Moving `duel_effect.h` ahead of existing per-source selector macros can change
+Moving `duel_effect_states.h` (formerly `duel_effect.h`) ahead of existing per-source selector macros can change
 old-GCC external-symbol directives even when the C instruction text looks
 unchanged; complete compiler and MASPSX output must both be preserved.
 
-Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect.h`,
+Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect_states.h` (formerly `duel_effect.h`),
 which is `&gText_aChannels[index]` with the regional record size. The
 constant offset folds into the
 relocation exactly as the former per-channel names (`D_800EB15C`,
@@ -36,7 +36,7 @@ and the high halfword is its string ID. No halfword load replaces the
 original word loads or masks.
 
 Each region's text-box unit defines `gText_aChannels` through the shared
-`src/game/text_commands.c` as `DuelEffectChannel[4]`; in Japan that is
+`src/game/duel_effect_text.c` as `DuelEffectChannel[4]`; in Japan that is
 `0x180` bytes at `0x800EAFD8`. The literal `D_800EB0F8` address is channel 3
 (`0x800EAFD8 + 3 * 0x60`). Overlays bind only `gText_aChannels` itself.
 
@@ -53,7 +53,7 @@ change the done bit, advance a frame, destroy an object or yield the current
 text pass.
 
 The flag's owner is visible in `TextBox_UpdateChannels`
-(`src/game/text_commands.c`). When building first reaches done with this flag
+(`src/game/duel_effect_text.c`). When building first reaches done with this flag
 set, it creates the existing completion prompt with `Dialog_OpenChoice`.
 On a later update, confirmation clears the flag, releases that prompt and
 plays sound `0xB`. `Script_RunTick`, the memory-card result path and
@@ -70,7 +70,7 @@ calls remain as before.
 ## Preservation boundary
 
 The completion command remains inside the complete existing
-`text_commands.c` group. Function order, sizes, compiler
+`duel_effect_text.c` group. Function order, sizes, compiler
 profiles and every sibling body remain unchanged, including Europe's extra
 player-name stream command.
 
