@@ -24,7 +24,7 @@ conversion, not an inferred alternate ABI.
 ## Supported inputs and producers
 
 The selected model record is the complete `0xB2` bytes described by
-`model_graphics_state.h`. `Model_SetSlotProperties`, in
+`model_slot_getters.h` (formerly `model_graphics_state.h`). `Model_SetSlotProperties`, in
 `model_scene_controllers.c`, selects it from `gModel_abBackgroundRecords` using stride `0xB2`.
 The owning `display_object_stream_read_next_command.c` defines 1,248 bytes: seven complete
 records and two trailing bytes. Their initialized texture depth codes are
@@ -59,7 +59,7 @@ arbitrary corrupt records, null pointers, or oversized table lengths are safe.
 `.sdata` owner remains `model_graphics_state.c`; the historical COMMON
 definition in `func_8004E7B0.c` remains COMMON under its existing named
 compiler profile. The latter still resolves to the strong owner rather than
-allocating a second handle. The declaration in `model_graphics_state.h`
+allocating a second handle. The declaration in `model_slot_getters.h` (formerly `model_graphics_state.h`)
 forward-declares the record tag so unrelated graphics users need not import
 the complete model-background layout.
 

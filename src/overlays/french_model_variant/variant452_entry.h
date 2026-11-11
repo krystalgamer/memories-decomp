@@ -1,7 +1,7 @@
 #ifndef MEMORIES_FRENCH_MODEL_VARIANT452_ENTRY_H
 #define MEMORIES_FRENCH_MODEL_VARIANT452_ENTRY_H
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_copy_slot_position.h"
 #include "variant439_entry.h"
 #include "variant452_streamers.h"

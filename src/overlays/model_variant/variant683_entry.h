@@ -3,12 +3,10 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_update_view_metrics.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/model_state_setters.h"
 #include "../../game/camera_view.h"

@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "variant402_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */

@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/model_copy_slot_position.h"
 #include "variant411us_entry.h"
 
@@ -413,6 +412,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
 #ifndef VERSION_FRENCH
 /* The helpers are the French header-428 swarm and quads, built here with
  * gcc 2.7.2; the swarm sits four bytes later in this image. */
+#include "../../game/model_slot_getters.h"
 #include "../french_model_variant/variant428_swarm.c"
 #include "../french_model_variant/variant428_quads.c"
 #endif

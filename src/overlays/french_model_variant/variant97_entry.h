@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT97_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_slot_properties.h"

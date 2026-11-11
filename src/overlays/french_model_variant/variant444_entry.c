@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "variant444_entry.h"
 
 #ifndef MODEL_VARIANT444_CLUT_X

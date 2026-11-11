@@ -10,7 +10,7 @@
 
 #include "model_record_tables.h"
 #include "model_background.h"
-#include "model_graphics_state.h"
+#include "model_slot_getters.h"
 #include "graphics_frame_controls.h"
 
 ModelBackgroundRecord *gModel_pBackgroundRecord =
@@ -630,7 +630,6 @@ ModelTintRequest gModel_aTintRequests[10];
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 #include "model_slot_control.h"
-#include "model_get_frame_step.h"
 #include "sound.h"
 #include "sd_calc_spatial_volume_pan.h"
 #include "model_view_adjustments.h"
@@ -3263,13 +3262,11 @@ char gModel_szTermTrace[8] = "TERM\n";
  */
 #include "graphics_packet_submission.h"
 #include "../game/model.h"
-#include "../game/model_graphics_state.h"
 #include "../game/model_background.h"
 #include "../game/model_handler_state.h"
 #include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
 #include "../game/ordering_tables.h"
-#include "../game/model_get_frame_step.h"
 #include "../game/model_slot_control.h"
 #include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/model_update_coordinate_unit_matrix.h"

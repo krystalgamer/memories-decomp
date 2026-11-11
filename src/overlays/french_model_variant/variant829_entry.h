@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT829_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_camera_effects.h"

@@ -6,7 +6,7 @@
 #include "variant411_tube.h"
 #include "../spanish_model_variant/variant411_funnels.h"
 #include "../model_variant/variant411_beams.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     ModelVariantTubeView tubes[1];
