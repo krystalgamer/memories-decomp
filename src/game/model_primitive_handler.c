@@ -10,11 +10,19 @@
 #include "shared_primitive_renderers.h"
 #include "model_handler_registry.h"
 
-u32 *(*Model_GetImagePrimitiveHandler(u32 v))(GsARGUNIT *){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return GsU_02000000;b:return GsU_02000001;d:
+u32 *(*Model_GetImagePrimitiveHandler(u32 v))(GsARGUNIT *)
+{
+    switch (v) {
+    case 0x2000000:
+        return GsU_02000000;
+    case 0x2000001:
+        return GsU_02000001;
+    }
 #ifdef VERSION_EUROPE
-printf("unsupported IMAGE primitive 0x%08lx.\n", v);
+    printf("unsupported IMAGE primitive 0x%08lx.\n", v);
 #endif
-return GsU_00000000;}
+    return GsU_00000000;
+}
 
 void *Model_GetPrimitiveHandler(u32 primitive_code) {
     s32 fog_type;
