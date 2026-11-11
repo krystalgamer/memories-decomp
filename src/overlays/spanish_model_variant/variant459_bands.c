@@ -30,7 +30,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     work = (Variant459EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->textured;
-    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(MODEL_VARIANT_WORD(work, 0x3080) & 1)) {
         r = work->scale * *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x2A) / 4096;
     } else {

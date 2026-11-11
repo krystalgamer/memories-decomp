@@ -34,11 +34,11 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
 
     work = (Variant404EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    ratan2(work->view_delta.vy, work->view_delta.vx);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     ribbon = (ModelVariantRibbonShort *)work->unknown_AB0;
-    tilt = ratan2(work->direction.vz, work->direction.vy) + 0x400;
-    ratan2(work->direction.vz, work->direction.vx);
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
     timing = (u8 *)work + 0xFD8;
     prim = &work->triangle;
     if (work->slot == 1) {
@@ -61,9 +61,9 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024;
-    m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024;
-    m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024;
+    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
+    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
+    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
     scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vz = MODEL_VARIANT_WORD(timing, 0x88);

@@ -35,11 +35,11 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
 
     work = (Variant388EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    ratan2(work->view_delta.vy, work->view_delta.vx);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     ribbon = (Ribbon388 *)work->unknown_228;
-    tilt = ratan2(work->direction.vz, work->direction.vy) + 0x400;
-    ratan2(work->direction.vz, work->direction.vx);
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
     timing = (u8 *)work + 0xF8;
     prim = &work->triangle;
     if (work->slot == 1) {
@@ -62,9 +62,9 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = work->matrix.t[0] + work->direction.vx * work->progress / 1024;
-    m.t[1] = work->matrix.t[1] + work->direction.vy * work->progress / 1024;
-    m.t[2] = work->matrix.t[2] + work->direction.vz * work->progress / 1024;
+    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
+    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
+    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
     scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
