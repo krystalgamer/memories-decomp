@@ -1080,6 +1080,44 @@ typedef struct {
     s32 field_548;
 } ModelVariantTubeView;
 
+/* The colours that start a bolt entry's config row (e.g. Model793Config):
+ * r, g, b tint the muzzle sprite (setRGB0 on its POLY_FT4), and on launch
+ * the entry copies bolt_r..b into each bolt's trail colour (later faded by
+ * the row's fade step) and glow_r..b into its impact glow colour. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+} ModelVariantBoltColors;
+
+/* A bolt config row's flight: size is the radius of the sprite ring around
+ * each bolt and the half-size of its quads and trail, steps divides the
+ * distance to the target into each bolt's per-frame step, and count is the
+ * number of bolts. */
+typedef struct {
+    u16 size;
+    u16 steps;
+    u16 count;
+} ModelVariantBoltFlight;
+
+/* A bolt config row's smoke puffs: each bolt seeds count puffs at a
+ * random offset scaled by spread, moving by the same offset scaled by speed,
+ * drawn as quads of half-size size. */
+typedef struct {
+    u16 spread;
+    u16 count;
+    u16 speed;
+    u16 size;
+} ModelVariantPuffParams;
+
+/* A bolt config row's impact sparks: count sparks seeded at a random
+ * offset of up to spread on each axis, drawn as quads of half-size size. */
+typedef struct {
+    u16 spread;
+    u16 size;
+    u16 count;
+} ModelVariantSparkParams;
+
 /* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
  * ray colours, the model point the bolts leave from, the muzzle size, the
  * flight length, the bolt count, the ring of sprites and spinning strips
@@ -1087,29 +1125,20 @@ typedef struct {
  * the two fade steps, the two bolts' launch times and the CLUT mode of
  * the second and fourth textures. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 ring_count;
     u16 strip_width;
     u16 strip_radius;
     u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
     u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_33;
     u8 ray_fade, unknown_35;
     u16 start;
@@ -1464,23 +1493,16 @@ typedef struct {
  * fan, the sparks, the two fade steps, the two fan growth rates and the
  * start time. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part;
     u8 unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 ring_count;
     u16 strip_width;
     u16 strip_radius;
     u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
@@ -1488,9 +1510,7 @@ typedef struct {
     u16 fan_radius;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_39;
     u8 ray_fade, unknown_3B;
     u32 grow;
@@ -1505,29 +1525,20 @@ typedef struct {
  * around each bolt, the smoke puffs, the impact glow, its rays and sparks,
  * the two fade steps and the spawn period, start and end. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 ring_count;
     u16 strip_width;
     u16 strip_radius;
     u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
     u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_33;
     u8 ray_fade, unknown_35;
     u16 period;
@@ -1542,31 +1553,22 @@ typedef struct {
  * sparks, the fade step, the fan growth rates, the four launch times and
  * the camera cue times. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 unknown_09[3];
     u8 part;
     u8 unknown_0D[3];
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 ring_count;
     u16 strip_width;
     u16 strip_radius;
     u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 unknown_28;
     u16 fan_radius;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_37;
     u32 unknown_38;
     u32 grow;
