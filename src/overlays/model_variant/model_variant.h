@@ -198,8 +198,9 @@ typedef struct {
 /* The block that follows ModelVariantEntryHead and the s32 side sign
  * (head.slot * 2 - 1) in the small entry states (e.g. Model651State). On a
  * request the entry copies delay, radius and height from its config row.
- * Each tick it counts delay down by Model_GetFrameStep() and only runs its
- * command script once delay reaches 0; radius and height size the effect's
+ * Each tick a positive delay is decremented by Model_GetFrameStep(); on a
+ * later tick whose delay is not positive, the entry's existing script gate
+ * may run its command script. radius and height size the effect's
  * rings, corners and rise. The side sign stays outside: with it the block
  * would be 4-aligned and padded to 12 bytes, moving the u16 that follows. */
 typedef struct {
