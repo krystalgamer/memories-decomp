@@ -9998,9 +9998,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
             return;
         }
         gDuel_wTrapPresentationMode = 0;
-        goto block_9;
     }
-block_9:
     if (gDuel_wCardEffectFlags & 0x20) {
         if (Duel_UpdateTrapPresentation() == 0) {
             gDuel_wCardEffectFlags &= 0xFFDF;
