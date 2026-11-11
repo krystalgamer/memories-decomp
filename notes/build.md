@@ -1191,10 +1191,12 @@ declarations would become eight local `#define`s and one indirection -- churn
 without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
-unmatched symbol, so it is out of scope for the `unmatched.h` work: two
-units define it -- `main_mode_runners.c`, which now also holds the two-player
-duel setup, and `Main_RunAnimatedBattle` (now `main_mode_runners.c`) -- as common symbols under the `*_comm`
-profiles. And nothing anywhere indexes above `[0]`, which is what the next
+unmatched symbol, so it is out of scope for the `unmatched.h` work. Two
+units used to define it as common symbols under the `*_comm` profiles: the
+runner unit that also held the two-player duel setup, and the one holding
+`Main_RunAnimatedBattle`. Both now belong to the one combined
+`main_mode_runners.c`, which keeps each of those repeated tentative definitions
+where the former units had it. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `debug_menu.c` and
 [`Script_OpSavePrompt`](../src/game/script_scene.c). `D_8009B26C` is a
