@@ -6710,35 +6710,33 @@ void DuelScene_UpdateBattle(void)
                 gDuel_bSceneSubStep = flags | 0xC0;
                 *(u32 *)&side->position = *(u32 *)&side->xy;
                 wins = gDuel_abBattleOutcome;
-                if (wins[ix] != 0) {
-                    req =
-                        DuelEffect_AllocateRequest(2);
-                    req->field_00 = side->xy.h.x + 0x46;
-                    req->field_02 =
-                        side->xy.h.y +
-                        DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
-                    result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
-                    gDuelEffect_pTrackedRequest = req;
-                    req->number = result;
-                    result = (result < 0 ? -result : result) / 1000;
-                    if (result >= 3) {
-                        result = 2;
-                    }
-                    req->phase = result;
-                    if (wins[gDuel_bPresentationCursor] > 0) {
-                        gDuel_bSceneSubStep |= 0x20;
-                    }
-                    arg = result + 0x10;
-                    if (gDuel_bPresentationCursor == 0) {
-                        arg = result + 0xD;
-                    }
-                    SD_SEPlayFull(arg);
-                    goto shake;
+                if (wins[ix] == 0) {
+                    gDuel_bSceneSubStep = 6;
+                    return;
                 }
-                gDuel_bSceneSubStep = 6;
-                return;
+                req =
+                    DuelEffect_AllocateRequest(2);
+                req->field_00 = side->xy.h.x + 0x46;
+                req->field_02 =
+                    side->xy.h.y +
+                    DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
+                result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
+                gDuelEffect_pTrackedRequest = req;
+                req->number = result;
+                result = (result < 0 ? -result : result) / 1000;
+                if (result >= 3) {
+                    result = 2;
+                }
+                req->phase = result;
+                if (wins[gDuel_bPresentationCursor] > 0) {
+                    gDuel_bSceneSubStep |= 0x20;
+                }
+                arg = result + 0x10;
+                if (gDuel_bPresentationCursor == 0) {
+                    arg = result + 0xD;
+                }
+                SD_SEPlayFull(arg);
             }
-        shake:
         {
             s32 f = gDuel_bSceneSubStep;
 
