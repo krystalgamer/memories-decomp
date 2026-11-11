@@ -13,6 +13,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
+#include "model_variant.h"
 
 /* One 0x38-byte command row: the bolt, glow and ring sprite colours, the
  * three model points (the bolt's source and the two aim points), the
@@ -29,9 +30,7 @@ typedef struct {
     u8 aim_part;
     u8 charge_part;
     u16 depth;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 glow_size;
     u16 ring_count;
     u16 ring_width;

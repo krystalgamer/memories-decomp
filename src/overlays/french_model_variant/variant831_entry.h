@@ -13,35 +13,27 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
+#include "../model_variant/model_variant.h"
 
 /* One 0x48-byte command row: the header-792 row with the ray fan replaced by
  * a two-ring flare (inner and outer radii and depth), byte fade steps, the
  * near and far flare growth rates and a third launch time. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 ring_count;
     u16 strip_width;
     u16 strip_radius;
     u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 field_26;
     u16 ray_inner;
     u16 ray_outer;
     u16 ray_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_35;
     u8 ray_fade, unknown_37;
     u32 grow_near;
