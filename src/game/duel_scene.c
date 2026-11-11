@@ -595,15 +595,13 @@ void Duel_DrawFieldCards(void) {
             if (a != 0) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
-                    n++;
-                    goto next;
+                } else {
+                    *p4 = a->rgb;
+                    Duel_RenderFieldCard3D(e, p3, p1, p4);
                 }
-                *p4 = a->rgb;
-                Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }
         n++;
-    next:
         e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
@@ -617,15 +615,13 @@ void Duel_DrawFieldCards(void) {
             if (a != 0) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
-                    n++;
-                    goto next2;
+                } else {
+                    *p4 = a->rgb;
+                    Duel_RenderFieldCard3D(e, p3, p1, p4);
                 }
-                *p4 = a->rgb;
-                Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }
         n++;
-    next2:
         e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
