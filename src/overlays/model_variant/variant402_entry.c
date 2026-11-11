@@ -53,16 +53,16 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         work->parts[1] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[2]);
         if (work->tail.slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
         outer = 0;
-        setVector(&work->direction,
-                  work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1],
-                  work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT402_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
@@ -120,9 +120,9 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
             swarm->size[outer] = -(outer * 32);
             swarm->done[outer] = 0;
             swarm->reset[outer] = 0;
-            swarm->position[outer].vx = work->matrix.t[0] + work->direction.vx;
-            swarm->position[outer].vy = work->matrix.t[1] + work->direction.vy;
-            swarm->position[outer].vz = work->matrix.t[2] + work->direction.vz;
+            swarm->position[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+            swarm->position[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+            swarm->position[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
         }
         for (quads = work->quads, i = 0; i < 1; i++, quads++) {
             for (outer = 0; outer < 10; outer++) {
@@ -138,9 +138,9 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
                 MODEL_VARIANT_WORD(quads, 0x20C + outer * 4) = 0;
                 quads->reset[outer] = 0;
                 quads->size[outer] = -((outer << 12) / 10);
-                quads->position[outer].vx = work->matrix.t[0] + work->direction.vx;
-                quads->position[outer].vy = work->matrix.t[1] + work->direction.vy;
-                quads->position[outer].vz = work->matrix.t[2] + work->direction.vz;
+                quads->position[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+                quads->position[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+                quads->position[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (i = 0; i < 1; i++, band++) {
@@ -298,36 +298,36 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         work->tail.command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->tail.slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
         if (work->config->follow_limit >= work->clock.frame) {
             GsGetLwUnit(work->parts[0], &work->matrix);
         }
-        setVector(&work->direction,
-                  work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1],
-                  work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = (u16)projection.target.vx - screen_x;
-        work->screen_delta.vx = dx;
+        work->aim.screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
             FrenchModelVariant419_DrawSwarm((u8 *)point);
         }

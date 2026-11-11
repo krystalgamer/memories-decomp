@@ -66,10 +66,7 @@ typedef struct {
     POLY_FT4 flat[2], swarm_packet;
     u8 unknown_2970[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     EntryConfig478 *config;
     s32 field_2A00;

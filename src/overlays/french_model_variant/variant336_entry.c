@@ -41,18 +41,18 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         work->part0 = Model_GetSlotDataEntry(work->slot, work->config->part0);
         work->part1 = Model_GetSlotDataEntry(work->slot, work->config->part1);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->part0, &work->matrix0);
         GsGetLwUnit(work->part1, &work->matrix1);
         work->origin[0] = (work->matrix0.t[0] + work->matrix1.t[0]) / 2;
         work->origin[1] = (work->matrix0.t[1] + work->matrix1.t[1]) / 2;
         work->origin[2] = (work->matrix0.t[2] + work->matrix1.t[2]) / 2;
-        work->direction.vx = work->target.vx - work->origin[0];
-        work->direction.vy = work->target.vy - work->origin[1];
-        work->direction.vz = work->target.vz - work->origin[2];
+        work->aim.direction.vx = work->aim.target.vx - work->origin[0];
+        work->aim.direction.vy = work->aim.target.vy - work->origin[1];
+        work->aim.direction.vz = work->aim.target.vz - work->origin[2];
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT336_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
@@ -186,18 +186,18 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         work->rotation[2] = 0;
     } else {
         view = Model_GetCameraViewBuffer();
-        work->view_delta.vx = view->vrx - view->vpx;
-        work->view_delta.vy = view->vry - view->vpy;
-        work->view_delta.vz = view->vrz - view->vpz;
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->aim.view_delta.vx = view->vrx - view->vpx;
+        work->aim.view_delta.vy = view->vry - view->vpy;
+        work->aim.view_delta.vz = view->vrz - view->vpz;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
-            work->target.vy = 0;
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            work->aim.target.vy = 0;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
-            work->target.vy = 0;
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            work->aim.target.vy = 0;
         }
         if (work->clock.frame < work->config->end) {
             GsGetLwUnit(work->part0, &work->matrix0);
@@ -205,9 +205,9 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
             work->origin[0] = (work->matrix0.t[0] + work->matrix1.t[0]) / 2;
             work->origin[1] = (work->matrix0.t[1] + work->matrix1.t[1]) / 2;
             work->origin[2] = (work->matrix0.t[2] + work->matrix1.t[2]) / 2;
-            work->direction.vx = work->target.vx - work->origin[0];
-            work->direction.vy = work->target.vy - work->origin[1];
-            work->direction.vz = work->target.vz - work->origin[2];
+            work->aim.direction.vx = work->aim.target.vx - work->origin[0];
+            work->aim.direction.vy = work->aim.target.vy - work->origin[1];
+            work->aim.direction.vz = work->aim.target.vz - work->origin[2];
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->origin[0], work->origin[1], work->origin[2]);
@@ -215,13 +215,13 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
                      &projection.interpolation, &projection.flag);
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = projection.target.vx - screen_x;
-        work->screen_delta.vx = dx;
+        work->aim.screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vy = dy;
         if (work->config->start < work->clock.frame) {
             FrenchModelVariant336_DrawStreamers((u8 *)point);
         }

@@ -33,10 +33,7 @@ typedef struct {
     u8 unknown_1AD0[0x24];
     MATRIX matrix;
     VECTOR vertex_position;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     s16 spiral_angle, field_1B6E, spiral_size, spiral_shrink;
     Variant418EntryConfig *config;
