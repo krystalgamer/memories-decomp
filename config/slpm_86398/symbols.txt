@@ -2217,7 +2217,6 @@ Model_CorrectViewPitch = 0x80055D7C; // type:func size:0x16C
 Model_CorrectViewDistance = 0x80055EE8; // type:func size:0x1DC
 gFile_ActiveRequestSlot = 0x801D4200;
 gTextBox_apfnStateCallbacks = 0x80090D14;
-gAiScript_szSourceLineFormat = 0x8009AF74;
 gDebugMenu_wMessageId = 0x8009AE8C;
 gDebugMenu_wCampaignScene = 0x8009AE8E;
 gDisplayObject_awListKeys = 0x800EFF50;
