@@ -3,7 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "model_texture_upload.h"
-#include "file_query_wrappers.h"
+#include "model_scene_runtime.h"
 
 #ifndef MODEL_TEXTURE_PACK_DECL
 #define MODEL_TEXTURE_PACK_DECL u32

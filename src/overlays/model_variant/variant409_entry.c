@@ -264,14 +264,14 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         work->streamer.rotation_y = 0;
         work->streamer.rotation_z = 0;
         work->progress = 0;
-        work->frame_count = 0;
-        work->elapsed = 0;
-        work->animation = 0;
-        work->step = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
         work->phase = 0;
         work->field_2184 = 0;
         work->field_2188 = 0;
-        work->fade = 0;
+        work->clock.fade = 0;
         work->ambient = 2048;
         work->command = command;
     } else {
@@ -279,8 +279,8 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         setVector(&work->view_delta, view->vrx - view->vpx,
             view->vry - view->vpy, view->vrz - view->vpz);
         Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
@@ -300,7 +300,7 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
             &projection.interpolation, &projection.flag);
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
-        if (work->config->draw_start <= work->elapsed) {
+        if (work->config->draw_start <= work->clock.frame) {
             SpanishModelVariant426_DrawSheets(context);
         }
         if (work->phase >= 3) {
@@ -310,19 +310,19 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         if (work->phase > 0) {
             FrenchModelVariant426_DrawRibbon(context);
         }
-        if (work->config->spiral_start <= work->elapsed) {
+        if (work->config->spiral_start <= work->clock.frame) {
             SpanishModelVariant426_DrawSpiral(context);
         }
-        work->frame_count++;
+        work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
-        if (frame != work->animation) {
-            work->elapsed += Model_GetFrameStep();
-            work->step = Model_GetFrameStep();
-            work->animation = frame;
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
         }
-        if (work->config->travel_start <= work->elapsed) {
+        if (work->config->travel_start <= work->clock.frame) {
             if (work->travel < 1024) {
-                work->travel = ((work->elapsed - work->config->travel_start) << 10) /
+                work->travel = ((work->clock.frame - work->config->travel_start) << 10) /
                     (work->config->travel_end - work->config->travel_start);
                 if (work->travel >= 1024) {
                     work->travel = 1024;
@@ -339,7 +339,7 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
             }
         }
     } else {
-        work->ambient = work->fade << 5;
+        work->ambient = work->clock.fade << 5;
     }
     if ((u32)(work->phase - 3) < 2) {
         result = 4;
@@ -347,10 +347,10 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         result = 1;
         work->phase = 7;
     } else if (work->phase == 7) {
-        if (work->fade < 64) {
-            work->fade += work->step;
-            if (work->fade >= 64) {
-                work->fade = 64;
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
                 work->phase = 8;
             }
         }

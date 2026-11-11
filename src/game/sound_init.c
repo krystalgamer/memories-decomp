@@ -1,13 +1,12 @@
 #include "../types.h"
-#include "sd_reset_music_state.h"
+#include "sound_effect_request.h"
 #include "sd_reset_secondary_playback_thunk.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
 #include "sound_event_runtime.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-#include "../unmatched.h"
 
 void SD_RequestBgmPlaybackDefaultStep(s32 command_id)
 {

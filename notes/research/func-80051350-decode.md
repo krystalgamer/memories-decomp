@@ -3,7 +3,7 @@
 The function is matched in pure C in
 [`src/game/model.c`](../../src/game/model.c) under
 `gcc_2_8_1_g8_split`, with its prototype in
-[`model_separate_view.h`](../../src/game/model_separate_view.h). This note preserves the
+[`model.h`](../../src/game/model.h). This note preserves the
 structural decode that preceded the match; the levers the compiler needed are
 in the source comment.
 

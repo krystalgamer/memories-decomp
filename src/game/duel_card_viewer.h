@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* The card id the viewer screen is currently showing.
  *

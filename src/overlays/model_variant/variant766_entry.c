@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant766_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 766's entry, a sibling of the French header-770 entry: a gouraud
  * trail between two parts of the active slot, then a flash that spins and

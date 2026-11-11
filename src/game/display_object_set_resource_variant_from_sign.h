@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_SET_RESOURCE_VARIANT_FROM_SIGN_H
 
 #include "../types.h"
-#include "display_object_config.h"
+#include "display_object_system.h"
 
 /* Facing-result callback installed by the card and icon factories at +0x10.
    DisplayObject_ProjectRotationFacing supplies the projected-area word.

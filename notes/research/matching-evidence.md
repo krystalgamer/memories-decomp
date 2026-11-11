@@ -6969,7 +6969,7 @@ bytes of text.
 
 `save_data_payload.c` (then `save_data_checksum.c`) / `gSaveData_dwMaskStateLow` and
 `gSaveData_dwMaskStateHigh` are genuinely declared twice, on purpose.
-`save_data.h` wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
+`mem_card.h` (formerly `save_data.h`) wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
 and the consumer `#define`s that macro immediately before including the header,
 so it can keep its own declarations further down the file, where the comment
 says the source position preserves GCC 2.8.1's allocation in
@@ -7151,7 +7151,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `SD_PollSequenceState` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `sound_runtime.c`), where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `sound_output_state.c`), where the
 result is compared:
 
     if (... SD_PollSequenceState() != 1)
@@ -7488,7 +7488,7 @@ run it before deciding rather than after the build fails.
 
 ## A narrowing parameter is only load bearing if the caller has something to narrow
 
-`duel_effect_entry_control.h` held `func_800373C8` back from the header on the
+`duel_effect_text.h` (formerly `duel_effect_entry_control.h`) held `func_800373C8` back from the header on the
 grounds that it is defined `(DuelEffectChannel *, u8, u8)` while both callers
 declared `(DuelEffectChannel *, s32, s32)`. The caution was reasonable: a
 narrowing parameter changes what the caller has to do to the argument register,
@@ -7593,7 +7593,7 @@ The historical canonical match and six inline-refinement rows remain intact.
 The new `post_terminal_resolution` record identifies the pointer view and
 source-level exit structure as the discriminator beyond that deferred series.
 
-## func_80051610: the intended last -fno-strength-reduce holdout
+## func_80051610: the last -fno-strength-reduce unit, resolved by typed records
 
 The European slot-decoder build of `model_slot_row_tables.c`
 (`src/game/european/func_80051610.c`, `0x80051610`,
@@ -7640,5 +7640,16 @@ Recorded experiments, each with its measured distance:
 | index loop `record = primitive_record + i * stride` | ~465 |
 | permuter: 15 minutes on the best form, 13 on the user-`q` form | no improvement |
 
-The `while (remaining_records-- != 0)` variant is the only one that moves the
-offset to `$a0`. It is the most promising lead if this unit is revisited.
+None of those experiments changed what the source said the data was. The kind
+switch on `(u16)unit->type` is a type discriminator: each arm selects one Psy-Q
+HMD textured polygon layout (flat/gouraud triangle/quad, the `0x200` kinds with
+a four-byte colour/code prefix), and its constants are that layout's `tsb` and
+`cba` offsets, `sizeof` and GPU packet size. Writing the European body around
+those typed records, with one local per role (tpage, colour depth, CLUT value,
+CLUT row/column, current maximum), matches retail at plain
+`gcc_2_8_1_g0_split`. The arms store the `cba` offset in `value`, the local
+that later holds each normal-index candidate, and the loop takes
+`s32 cba_offset = value;` in its guard. That shared lifetime is what gives the
+offset `$a0`; giving every role a fresh local is 184 lines off, and the typed
+member reads alone change nothing. The unit therefore leaves
+`gcc_2_8_1_g0_split_no_strength_reduce`, which no manifest selects any more.

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant175_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Two waves of rings leave one of this slot's parts, swing sideways and fly
  * to the other slot. While a ring spins in and out it warps the screen behind

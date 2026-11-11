@@ -79,7 +79,7 @@ subtract-one-sector expression is not folded into
 `gFile_abPackageStagingBuffer`, even where the resulting numeric address
 coincides.
 
-The existing declaration owner, `file_transfer_steps.h`, declares only the
+The existing declaration owner, `model.h` (formerly `file_transfer_steps.h`), declares only the
 canonical name, with no assembler label.
 
 All seven resident images bind the canonical name directly as an absolute

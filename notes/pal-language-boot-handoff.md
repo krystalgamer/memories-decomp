@@ -9,7 +9,7 @@ existing PAL language-options commit path:
 | `Main_RequestLanguageBootPackage` | `func_80043BC8` | `0x80043BC8` / `0x74` | `0x80043DC8` / `0x74` |
 
 These are source names for existing functions, not new implementations,
-resident storage or linker-defined replacements. `main_run_boot_sequence.h`
+resident storage or linker-defined replacements. `main_boot_frontend.h` (formerly `main_run_boot_sequence.h`)
 declares them under these names with no assembler label; every PAL symbol
 file, and the PAL options overlay's linker symbols, bind the names at the
 former native labels' addresses. The regional

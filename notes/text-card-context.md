@@ -1,10 +1,8 @@
 # Shared selected-card text context and selector jumps
 
 This contract covers the matching regional bodies in
-[`text_commands.c`](../src/game/text_commands.c), the two indexed
-jumps in
-[`text_commands.c`](../src/game/text_commands.c)
-and their
+[`duel_effect_text.c`](../src/game/duel_effect_text.c), the two indexed
+jumps in the same file and their
 [`secondary dispatch table`](../src/game/duel_effect_command_table.c).
 It follows actual producers and consumers; it does not assign every shared
 text cell a universal duel-only meaning.

@@ -2,6 +2,7 @@
 
 /* SLES-03947 build of src/game/main_mode_runners.c. */
 #define VERSION_EUROPE
+#define ANIMATED_BATTLE_GEOM_OFFSET_Y 0x80
 #define OPTIONS_INIT_ARGS s32 slot
 #define MAIN_RUN_OPTIONS_INIT() Options_Init(0)
 #define MAIN_RUN_OPTIONS_IS_DONE(result) ((result) >= 0)

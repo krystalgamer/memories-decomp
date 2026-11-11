@@ -5,7 +5,9 @@
 
 /* Cross-subsystem frontend mode state.
  *
- * D_8009B0D1 is cleared during startup and when starting a new campaign.
+ * D_8009B0D1 is cleared during startup, when starting a new campaign and by
+ * SaveData_RequestLoad (its SAVE_DATA_LOAD_STATUS_ADDRESS store); no code
+ * reads it.
  * Startup keeps its volatile small-data view; the menu transition requires
  * an absolute .data store.
  *
@@ -23,5 +25,10 @@ extern u8 D_8009B0D1;
 extern u8 gCampaignSceneIndex;
 
 #include "main_mode_controls.h"
+
+/* The frontend mode runner's step byte, tentatively defined by
+ * main_mode_runners.c, twice (from Main_RunDuel and the later runners). It is deliberately
+ * separate from the guarded mode bytes declared in main_mode_controls.h. */
+extern u8 gMain_bModeRunnerStep;
 
 #endif

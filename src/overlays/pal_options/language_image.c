@@ -1,6 +1,5 @@
 #include "../../types.h"
-#include "../../unmatched.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 #include "../../game/image_transfer_rects.h"
 #include "helpers.h"
 

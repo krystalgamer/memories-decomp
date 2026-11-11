@@ -1077,7 +1077,7 @@ address,size,name,status,module,notes
 0x80065B28,0x32C,Model_DrawTwoSidedSemiGt3WindowRecordPrimitives,matching_c,game,"Same name, size and instruction shape as North American 0x80066828; built from src/game/european/polygon_renderers.c."
 0x80065E54,0x30C,Model_DrawTwoSidedSemiFt4WindowRecordPrimitives,matching_c,game,"Same name, size and instruction shape as North American 0x80066B54; built from src/game/european/polygon_renderers.c."
 0x80066160,0x3C0,Model_DrawTwoSidedSemiGt4WindowRecordPrimitives,matching_c,game,"Same name, size and instruction shape as North American 0x80066E60; built from src/game/european/polygon_renderers.c."
-0x80066520,0x134,Model_PrepareSharedPrimitiveCaches,matching_c,game,"Same name, size and instruction shape as North American 0x80067220; built from src/game/shared_primitive_cache_prepare.c."
+0x80066520,0x134,Model_PrepareSharedPrimitiveCaches,matching_c,game,"Same name, size and instruction shape as North American 0x80067220; built from src/game/shared_polygon_renderers.c."
 0x80066654,0x248,Model_DrawSharedGt3Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x80067354; built from src/game/shared_polygon_renderers.c."
 0x8006689C,0x2BC,Model_DrawSharedGt4Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x8006759C; built from src/game/shared_polygon_renderers.c."
 0x80066B58,0x264,Model_DrawSharedGt3WindowRecordPrimitives,matching_c,game,"Same name, size and instruction shape as North American 0x80067858; built from src/game/shared_polygon_renderers.c."

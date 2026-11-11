@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT385_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/french_model_variant/variant337_entry.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 /* One 0x4C-byte command record of the table at gSpanishModelVariant385_aConfigs. */
 typedef struct {

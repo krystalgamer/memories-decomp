@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 

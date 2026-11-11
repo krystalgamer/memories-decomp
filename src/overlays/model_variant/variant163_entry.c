@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant163_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 163's entry: after the start delay a disc grows on one of the

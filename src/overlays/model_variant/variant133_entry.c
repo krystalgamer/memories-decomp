@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant133_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 133's entry: after the start delay latches a slot part's position, a
  * fan of quads between two rings around the part opens and closes (drawn

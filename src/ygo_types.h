@@ -687,7 +687,9 @@ typedef struct {
     u8 pad_08[0x3C];
     s16 scale_x;
     s16 scale_y;
-    u32 field_48;
+    /* GsSPRITE mx/my (x low, y high): the renderer copies the word into
+       SpritePrim.mxmy, so the pulse scales about it. The spawner sets 8/8. */
+    u32 pivot;
     DuelEffectEntry *sourceGlyph;
     u8 pad_50[0xA];
     s16 savedSourceX;
@@ -857,7 +859,8 @@ typedef struct {
     s16 x;
     s16 y;
     u16 input_mask;
-    u8 field_08;
+    /* Exit sprite variant by direction: right 0, down 2, left 4, up 6, as input_mask. */
+    u8 direction_variant;
     u8 destination;
     u8 move_steps;
     u8 pad_0B;
@@ -1163,7 +1166,7 @@ typedef struct FadeTransitionState {
     u8 target_level;
     u8 flags;
     u8 step;
-    u16 field_08;
+    u16 sweep_head;
     u8 band_levels[FADE_BAND_COUNT];
 } FadeTransitionState;
 
@@ -1182,8 +1185,8 @@ typedef char FadeTransitionState_flags_offset_must_be_0x06[
 typedef char FadeTransitionState_step_offset_must_be_0x07[
     (u32)&((FadeTransitionState *)0)->step == 0x07 ? 1 : -1
 ];
-typedef char FadeTransitionState_field_08_offset_must_be_0x08[
-    (u32)&((FadeTransitionState *)0)->field_08 == 0x08 ? 1 : -1
+typedef char FadeTransitionState_sweep_head_offset_must_be_0x08[
+    (u32)&((FadeTransitionState *)0)->sweep_head == 0x08 ? 1 : -1
 ];
 typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1

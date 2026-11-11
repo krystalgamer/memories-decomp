@@ -2,7 +2,7 @@
 #include "variant675us_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 675's entry: a pulsing ring of shaded strips spins over a fan of
  * triangles while bolts of light leap from the model out to a circle of

@@ -3,7 +3,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
-#include "../../game/display_object_core.h"
+#include "../../game/display_object_system.h"
 #include "../../game/display_object.h"
 #include "../../game/main_services.h"
 #include "../../ygo_types.h"

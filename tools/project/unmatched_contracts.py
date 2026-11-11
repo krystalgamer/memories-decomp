@@ -26,7 +26,7 @@ COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 # resident code cannot see.
 HOME_HEADER_EXCLUDED = {"overlays"}
 SHARED_OWNER_HEADERS = {
-    "DisplayObject_SubmitPacket": "src/game/display_object_packet_submit.h",
+    "DisplayObject_SubmitPacket": "src/game/display_object_system.h",
     "Model_InitSlot": "src/game/model_slot_control.h",
 }
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
@@ -784,7 +784,13 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     }
     errors: list[str] = []
 
-    central_source = read_text(root / UNMATCHED_HEADER)
+    # The central header was retired once no game function remained
+    # unmatched; its data declarations moved to their owner headers.
+    central_source = (
+        read_text(root / UNMATCHED_HEADER)
+        if (root / UNMATCHED_HEADER).exists()
+        else ""
+    )
     central_pairs = declarations(central_source)
     central = defaultdict(list)
     for name, statement in central_pairs:
@@ -844,9 +850,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     linker = linker_symbols(root)
     profiles_by_source = source_profiles(root)
     defines_by_profile = profile_defines(root)
-    central_data_pairs = extern_object_declarations(
-        read_text(root / UNMATCHED_HEADER),
-    )
+    central_data_pairs = extern_object_declarations(central_source)
     central_data = defaultdict(list)
     for name, statement in central_data_pairs:
         central_data[name].append(statement)

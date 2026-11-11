@@ -29,10 +29,10 @@ typedef struct {
     ModelVariantWebConfig *config;
     u32 field_1950;
     GsCOORDUNIT *parts[3];
-    s16 field_1960, field_1962, field_1964, field_1966;
-    s32 field_1968, field_196C;
+    s16 field_1960, field_1962, band_scale, field_1966;
+    s32 displacement, field_196C;
     CVECTOR outer, inner;
-    s32 field_1978, phase;
+    s32 curtain_angle, phase;
     u8 unknown_1980[8];
     s32 tint;
     s16 slot, command;

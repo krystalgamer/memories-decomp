@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant178_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* A square of grid lines fades in around the slot, a strip wall rises from
  * two of its edges, rows of boxes grow upwards at random grid crossings and

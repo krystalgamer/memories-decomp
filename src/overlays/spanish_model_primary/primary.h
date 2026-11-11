@@ -3,9 +3,8 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_control.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_queries.h"
-#include "../../game/model_queue_relative_camera_orbit.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_camera_effects.h"
 
 typedef struct {
     u16 frames;

@@ -2,15 +2,14 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_4_H
 
 #include "../../types.h"
-#include "../../game/duel_effect_request.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/duel_effect_object_pool.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "utility_helpers.h"
 #include "layered_drawing.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"
-#include "../../unmatched.h"
 
 typedef struct {
     CVECTOR color;

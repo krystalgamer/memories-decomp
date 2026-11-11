@@ -1,16 +1,12 @@
 #include "../types.h"
-#include "display_object_config.h"
+#include "display_object_system.h"
 #include "rand_get_interval.h"
 #include "display_object.h"
-#include "display_object_core.h"
 #include "fade.h"
 #include "graphics_constants.h"
 #include "input.h"
-#include "display_object_helpers.h"
 #include "sound.h"
-#include "display_object_config.h"
 #include "game_over.h"
-#include "../unmatched.h"
 #include "display_asset_banks.h"
 
 /* Small globals other units own, declared here as common symbols the

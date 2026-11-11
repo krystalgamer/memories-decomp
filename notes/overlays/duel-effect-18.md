@@ -81,7 +81,8 @@ proves two records in `D_8015B078`, with total extent 60 bytes. The initial
 
 Both objects remain generated data storage with explicit extents, not C
 definitions or absolute aliases. The resident request and completion globals
-reuse `DuelEffectRequest` and `src/unmatched.h`; the frame-step and SDK calls
+reuse `DuelEffectRequest` and the canonical owner headers (the former
+`unmatched.h` is retired); the frame-step and SDK calls
 reuse their canonical declarations and Spanish bindings.
 
 ## Caller-backed helper contracts

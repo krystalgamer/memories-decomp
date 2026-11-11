@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant142_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 142's entry: up to 64 textured quads leave the command's slot part
  * and fly to points spread around the other slot, each bursting into four

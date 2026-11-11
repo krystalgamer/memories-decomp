@@ -5,7 +5,7 @@
 #include "duel_grid.h"
 #include "card_constants.h"
 #include "duel_card_effects.h"
-#include "duel_effect_request.h"
+#include "duel_effect_object_pool.h"
 
 /* The two 0x20-byte per-side duel records at gDuel_aSideStates, one per duellist.
  * gDuel_bActiveSide selects the side, and code that switches turns writes
@@ -177,7 +177,7 @@ extern u8 *gDuel_pActiveFieldGrid;
  * below; Duel_InitSideStates, when both gDuel_bSide0ControllerSelector[0] and
  * gDuel_bOpponentID are negative, copies it into card_view_mode of both
  * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is
- * a byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39,
+ * a byte or an address (lbu Duel_InitSideStates.s:65, sb Main_Init.s:39,
  * the lui/addiu pair at 0x8002DC60), and the PAL images place it at an odd
  * address (0x8009C0F1 in SLES-03947), so it is a u8. The following halfword is
  * separate storage. Initial value not read. */
@@ -221,7 +221,7 @@ extern s8 gDuel_bOutroWinnerSide;
  * continuations with it (`table[gDuel_bPlayerLost * 2]`), and the free_duel
  * overlay's FreeDuel_Init steps from the wins halfword to the losses halfword
  * of the duelist record when it is 1. The `u8 [9]`
- * main_run_duel_and_library.c used to declare was, as the note on
+ * Main_RunDuel (main_mode_runners.c) used to declare was, as the note on
  * gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, a
  * threshold, not a length. */
 extern u8 gDuel_bPlayerLost;
