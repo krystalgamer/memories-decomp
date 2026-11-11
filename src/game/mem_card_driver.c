@@ -342,25 +342,22 @@ s32 MemCard_DoLoadDirectory(void) {
 
 state0:
     v1 = gMemCard_nIOResult;
-    if (v1 == 1) {
-        goto state0_info;
-    }
-    if (v1 < 2) {
-        if (v1 != 0) {
+    if (v1 != 1) {
+        if (v1 < 2) {
+            if (v1 != 0) {
+                return gMemCard_nIOResult;
+            }
+        } else {
+            if (v1 == 2) {
+                return gMemCard_nIOResult;
+            }
+            if (v1 == 3) {
+                goto sub_poll_entry;
+            }
             return gMemCard_nIOResult;
         }
-    } else {
-        if (v1 == 2) {
-            return gMemCard_nIOResult;
-        }
-        if (v1 == 3) {
-            goto sub_poll_entry;
-        }
-        return gMemCard_nIOResult;
+        goto state0_zero;
     }
-    goto state0_zero;
-
-state0_info:
     v0 = gMemCard_bRetries - 1;
     gMemCard_bRetries = (u8)v0;
     if ((s8)v0 == 0) {
@@ -390,21 +387,18 @@ sub_retry:
 
 state1:
     v0 = gMemCard_nIOResult;
-    if (v0 == 0) {
-        goto state1_zero;
-    }
-    v1 = gMemCard_nIOResult;
-    if (v1 != 2) {
+    if (v0 != 0) {
+        v1 = gMemCard_nIOResult;
+        if (v1 != 2) {
+            return gMemCard_nIOResult;
+        }
+        v0 = gMemCard_bRetries - 1;
+        gMemCard_bRetries = (u8)v0;
+        if ((s8)v0 > 0) {
+            goto sub_retry;
+        }
         return gMemCard_nIOResult;
     }
-    v0 = gMemCard_bRetries - 1;
-    gMemCard_bRetries = (u8)v0;
-    if ((s8)v0 > 0) {
-        goto sub_retry;
-    }
-    return gMemCard_nIOResult;
-
-state1_zero:
     gMemCard_bRetries = 0xA;
     gMemCard_bLoadStep = 2;
 load_retry:
@@ -424,17 +418,14 @@ state2:
 
     gMemCard_bDirFlags |= 0x80;
     v1 = gMemCard_nIOResult;
-    if (v1 != 0) {
-        goto after_load;
+    if (v1 == 0) {
+        gMemCard_pDirEntries = gMemCard_aDirEntries;
+        MemCard_FindFiles(gMemCard_bChannel, (const char *)gMemCard_szAllFilesPattern,
+                          gMemCard_aDirEntries,
+                          &gMemCard_nDirEntries);
+        gMemCard_nFreeBlocks =
+            MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries);
     }
-    gMemCard_pDirEntries = gMemCard_aDirEntries;
-    MemCard_FindFiles(gMemCard_bChannel, (const char *)gMemCard_szAllFilesPattern,
-                      gMemCard_aDirEntries,
-                      &gMemCard_nDirEntries);
-    gMemCard_nFreeBlocks =
-        MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries);
-
-after_load:
     if (gMemCard_nIOResult == 3) {
         gMemCard_nIOResult = 4;
     }
