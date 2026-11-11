@@ -5453,19 +5453,19 @@
       "address": "0x8004F66C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x338",
-      "source": "src/game/card_list_deck_box.c"
+      "source": "src/game/japanese/card_list_deck_box.c"
     },
     {
       "address": "0x8004F9A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x198",
-      "source": "src/game/card_list_deck_box.c"
+      "source": "src/game/japanese/card_list_deck_box.c"
     },
     {
       "address": "0x8004FB3C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/japanese/card_list_create_deck_box_stat_rows.c"
+      "source": "src/game/japanese/card_list_deck_box.c"
     },
     {
       "address": "0x8004FC0C",

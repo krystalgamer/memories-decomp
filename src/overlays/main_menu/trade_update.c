@@ -13,7 +13,7 @@
 #include "../../game/sound.h"
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
-#include "../../game/card_list_create_deck_box_stat_rows.h"
+#include "../../game/card_list_deck_box.h"
 #include "../../game/trade_confirmation_widgets.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
