@@ -809,7 +809,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                                       g->x0 + (s16)e->field_18.center.x,
                                       g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
-                        goto next;
+                        continue;
                     }
                     v = v | 0x4000000;
                 }
@@ -834,8 +834,6 @@ void DisplayObject_RenderGouraudQuadList(void) {
                                                e->ot_depth | bit, h);
                 }
             }
-        next:
-            ;
         } while (i >= 0);
     }
 }
@@ -927,7 +925,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                                       g->x0 + (s16)e->field_18.center.x,
                                       g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
-                        goto next;
+                        continue;
                     }
                     v = v | 0x4000000;
                 }
@@ -951,8 +949,6 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                                                e->ot_depth | bit, h);
                 }
             }
-        next:
-            ;
         } while (i >= 0);
     }
 }
@@ -1377,14 +1373,14 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         if (object->flags & 0x100) {
             object->attribute = mask | 0x800000;
         }
-        goto call_it;
+        DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
+        return;
     }
 
     if (!(object->flags & 3) && object->field_5A != 0) {
         s16 remain = (u16)object->field_5A - (u16)gGraphics_nBaseFrameStep;
         object->field_5A = remain;
         if (remain <= 0) {
-call_it:
             DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
         }
     }

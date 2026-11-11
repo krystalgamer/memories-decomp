@@ -894,7 +894,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x800577B0,Model_LoadSpecialBattlePackageStage,matching_c,game,C,src/game/model_slot_control.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F8,gFile_ReadySourceCursor,gFile_ReadySourceCursor,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/file_transfer_runtime.c,read_write,32,gFile_ReadySourceCursor += FILE_SECTOR_SIZE / sizeof(u32); | gFile_ReadySourceCursor = (u32 *)((u8 *)gFile_ReadySourceCursor + n); | (+1 more)
-0x8009B0FC,D_8009B0FC,D_8009B0FC,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_transfer_runtime.c,write,32,D_8009B0FC = 1;
+0x8009B0FC,gFile_DsInitialized,gFile_DsInitialized,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_transfer_runtime.c,write,32,gFile_DsInitialized = 1;
 0x8009B100,gFile_wStepState,gFile_wStepState,0x80014220,File_HandleRangePauseEvent,matching_c,game,C,src/game/file_transfer_runtime.c,write,16,gFile_wStepState = event;
 0x8009B100,gFile_wStepState,gFile_wStepState,0x80014294,File_HandleSetFilterEvent,matching_c,game,C,src/game/file_transfer_runtime.c,write,16,gFile_wStepState = 4;
 0x8009B100,gFile_wStepState,gFile_wStepState,0x80014308,File_HandleRangeReadEvent,matching_c,game,C,src/game/file_transfer_runtime.c,write,16,gFile_wStepState = 5;

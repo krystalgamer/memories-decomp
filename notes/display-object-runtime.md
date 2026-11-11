@@ -254,7 +254,7 @@ pointer after processing it. When the caller's clear argument is nonzero, it
 also clears both pointers in every row after attaching their objects.
 
 This proves an eleven-object traversal shape: one standalone base plus two
-lanes across five duel columns. `display_parent_links.h` now owns the parent
+lanes across five duel columns. `duel_scene.h` (formerly `display_parent_links.h`) now owns the parent
 and 12-byte row-entry layouts, including assertions for the entry stride,
 entries pointer, index byte, and parent extent; the already established duel
 row count remains shared through `duel_grid.h`.

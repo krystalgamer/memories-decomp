@@ -38,10 +38,10 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant633_szWorkSizeFormat, sizeof(Model633State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant633_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant633_Image);
         work->tpage = tex >> 16;
         work->clut = tex;
         switch (command) {
@@ -129,16 +129,16 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             setVector(&work->trails[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->trails[i].rotation, 0, work->slot * 2048, ((i % 4) << 8) - 0x180);
-                setVector(&work->trails[i].position, 0, 0, (work->slot * 2 - 1) * 100);
+                setVector(&work->trails[i].rotation, 0, work->head.slot * 2048, ((i % 4) << 8) - 0x180);
+                setVector(&work->trails[i].position, 0, 0, (work->head.slot * 2 - 1) * 100);
                 break;
             case 1:
-                setVector(&work->trails[i].rotation, 0, work->slot * 2048,
+                setVector(&work->trails[i].rotation, 0, work->head.slot * 2048,
                     ((i % 2) << 11) + (i << 12) / work->trail_count);
                 setVector(&work->trails[i].position, 0, 0, 0);
                 break;
             case 2:
-                setVector(&work->trails[i].rotation, 0, work->slot * 2048, ((i % 5) << 10) / 5 - 0x180);
+                setVector(&work->trails[i].rotation, 0, work->head.slot * 2048, ((i % 5) << 10) / 5 - 0x180);
                 setVector(&work->trails[i].position, 0, 0, 0);
                 break;
             }
@@ -156,12 +156,12 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             setVector(&work->bursts[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
-                setVector(&work->bursts[i].position, 0, 0, (work->slot * 2 - 1) * 100);
+                setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
+                setVector(&work->bursts[i].position, 0, 0, (work->head.slot * 2 - 1) * 100);
                 break;
             case 1:
             case 2:
-                setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bursts[i].position, 0, 0, 0);
                 break;
             }
@@ -179,15 +179,15 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                 setVector(&work->sparks[k][i].scale, 0x1000, 0x1000, 0x1000);
                 n = (k << 12) / 3 + ((i % 2) << 11);
                 setVector(&work->sparks[k][i].growth, rsin(n) * 20 / 4096, rcos(n) * 20 / 4096,
-                    (work->slot * 2 - 1) * 5);
+                    (work->head.slot * 2 - 1) * 5);
                 switch (command) {
                 case 0:
-                    setVector(&work->sparks[k][i].rotation, 0, work->slot * 2048, 0);
-                    setVector(&work->sparks[k][i].position, 0, 0, (work->slot * 2 - 1) * 100);
+                    setVector(&work->sparks[k][i].rotation, 0, work->head.slot * 2048, 0);
+                    setVector(&work->sparks[k][i].position, 0, 0, (work->head.slot * 2 - 1) * 100);
                     break;
                 case 1:
                 case 2:
-                    setVector(&work->sparks[k][i].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->sparks[k][i].rotation, 0, work->head.slot * 2048, 0);
                     setVector(&work->sparks[k][i].position, 0, 0, 0);
                     break;
                 }
@@ -217,7 +217,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                 case 0:
                 case 1:
                 case 2:
-                    setVector(&work->flares[k][i].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->flares[k][i].rotation, 0, work->head.slot * 2048, 0);
                     setVector(&work->flares[k][i].position, 0, 0, 0);
                     break;
                 }
@@ -238,7 +238,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             case 0:
             case 1:
             case 2:
-                setVector(&work->glows[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->glows[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->glows[i].position, 0, 0, 0);
                 break;
             }
@@ -287,85 +287,85 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
             idx = -1;
             switch (work->flags[0]) {
             case 0:
-                if (work->elapsed == 0) {
+                if (work->head.elapsed == 0) {
                     idx = 0;
                     work->flags[0]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 15) {
+                if (work->head.elapsed >= 15) {
                     idx = 2;
                     work->flags[0]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 31) {
+                if (work->head.elapsed >= 31) {
                     idx = 1;
                     work->flags[0]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 47) {
+                if (work->head.elapsed >= 47) {
                     idx = 3;
                     work->flags[0]++;
                 }
                 break;
             case 4:
-                if (work->elapsed >= 63) {
+                if (work->head.elapsed >= 63) {
                     idx = 4;
                     work->flags[0]++;
                 }
                 break;
             case 5:
-                if (work->elapsed >= 79) {
+                if (work->head.elapsed >= 79) {
                     idx = 6;
                     work->flags[0]++;
                 }
                 break;
             case 6:
-                if (work->elapsed >= 93) {
+                if (work->head.elapsed >= 93) {
                     idx = 5;
                     work->flags[0]++;
                 }
                 break;
             case 7:
-                if (work->elapsed >= 109) {
+                if (work->head.elapsed >= 109) {
                     idx = 7;
                     work->flags[0]++;
                 }
                 break;
             case 8:
-                if (work->elapsed >= 125) {
+                if (work->head.elapsed >= 125) {
                     idx = 8;
                     work->flags[0]++;
                 }
                 break;
             case 9:
-                if (work->elapsed >= 141) {
+                if (work->head.elapsed >= 141) {
                     idx = 10;
                     work->flags[0]++;
                 }
                 break;
             case 10:
-                if (work->elapsed >= 155) {
+                if (work->head.elapsed >= 155) {
                     idx = 9;
                     work->flags[0]++;
                 }
                 break;
             case 11:
-                if (work->elapsed >= 169) {
+                if (work->head.elapsed >= 169) {
                     idx = 11;
                     work->flags[0]++;
                 }
                 break;
             }
             if (idx >= 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 10);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[idx].active = 1;
                 work->bursts[idx].active = 1;
@@ -384,8 +384,8 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 1:
-            if (work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->trail_count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 0);
+            if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->trail_count) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[work->flags[0]].active = 1;
                 work->trails[work->flags[0]].position.vx += ls.t[0];
@@ -408,38 +408,38 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             idx = -1;
             switch (work->flags[0]) {
             case 0:
-                if (work->elapsed == 0) {
+                if (work->head.elapsed == 0) {
                     idx = 0;
                     work->flags[0]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 63) {
+                if (work->head.elapsed >= 63) {
                     idx = 2;
                     work->flags[0]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 125) {
+                if (work->head.elapsed >= 125) {
                     idx = 1;
                     work->flags[0]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 187) {
+                if (work->head.elapsed >= 187) {
                     idx = 3;
                     work->flags[0]++;
                 }
                 break;
             case 4:
-                if (work->elapsed >= 241) {
+                if (work->head.elapsed >= 241) {
                     idx = 4;
                     work->flags[0]++;
                 }
                 break;
             }
             if (idx >= 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 5);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[idx].active = 1;
                 work->bursts[idx].active = 1;
@@ -577,11 +577,11 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                 work->bursts[i].scale.vy = (work->bursts[i].elapsed << 14) / work->bursts[i].duration;
                 work->bursts[i].scale.vz = (work->bursts[i].elapsed << 14) / work->bursts[i].duration;
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
-                    work->bursts[i].red = gModelVariant633_aConfigs[work->command].spark_red * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
+                    work->bursts[i].red = gModelVariant633_aConfigs[work->head.command].spark_red * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
                         / work->bursts[i].duration;
-                    work->bursts[i].green = gModelVariant633_aConfigs[work->command].spark_green * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
+                    work->bursts[i].green = gModelVariant633_aConfigs[work->head.command].spark_green * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
                         / work->bursts[i].duration;
-                    work->bursts[i].blue = gModelVariant633_aConfigs[work->command].spark_blue * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
+                    work->bursts[i].blue = gModelVariant633_aConfigs[work->head.command].spark_blue * ((work->bursts[i].duration - work->bursts[i].elapsed) << 1)
                         / work->bursts[i].duration;
                 }
                 for (k = 0; k < 32; k++) {
@@ -612,7 +612,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&unit.matrix, &work->sparks[i][k].scale);
                     RotMatrixZ(work->sparks[i][k].rotation.vz, &unit.matrix);
                     RotMatrixX(work->sparks[i][k].rotation.vx
-                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
+                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1),
                         &unit.matrix);
                     RotMatrixY(work->sparks[i][k].rotation.vy - (*(s16 *)&view.bytes[2] - 0xC06), &unit.matrix);
                     unit.matrix.t[0] = work->sparks[i][k].position.vx;
@@ -625,11 +625,11 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     work->sparks[i][k].position.vy += work->sparks[i][k].growth.vy;
                     work->sparks[i][k].position.vz += work->sparks[i][k].growth.vz;
                     if ((u16)(work->sparks[i][k].duration / 10) < work->sparks[i][k].elapsed) {
-                        work->sparks[i][k].red = gModelVariant633_aConfigs[work->command].spark_red
+                        work->sparks[i][k].red = gModelVariant633_aConfigs[work->head.command].spark_red
                             * ((work->sparks[i][k].duration - work->sparks[i][k].elapsed) * 5 << 1) / (work->sparks[i][k].duration * 9);
-                        work->sparks[i][k].green = gModelVariant633_aConfigs[work->command].spark_green
+                        work->sparks[i][k].green = gModelVariant633_aConfigs[work->head.command].spark_green
                             * ((work->sparks[i][k].duration - work->sparks[i][k].elapsed) * 5 << 1) / (work->sparks[i][k].duration * 9);
-                        work->sparks[i][k].blue = gModelVariant633_aConfigs[work->command].spark_blue
+                        work->sparks[i][k].blue = gModelVariant633_aConfigs[work->head.command].spark_blue
                             * ((work->sparks[i][k].duration - work->sparks[i][k].elapsed) * 5 << 1) / (work->sparks[i][k].duration * 9);
                     }
                     setPolyFT4(&work->flat);
@@ -668,7 +668,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&unit.matrix, &work->flares[i][k].scale);
                     RotMatrixZ(work->flares[i][k].rotation.vz, &unit.matrix);
                     RotMatrixX(work->flares[i][k].rotation.vx
-                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
+                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1),
                         &unit.matrix);
                     RotMatrixY(work->flares[i][k].rotation.vy - (*(s16 *)&view.bytes[2] - 0xC06), &unit.matrix);
                     unit.matrix.t[0] = work->flares[i][k].position.vx;
@@ -681,11 +681,11 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     work->flares[i][k].position.vy += work->flares[i][k].growth.vy;
                     work->flares[i][k].position.vz += work->flares[i][k].growth.vz;
                     if ((u16)(work->flares[i][k].duration / 10) < work->flares[i][k].elapsed) {
-                        work->flares[i][k].red = gModelVariant633_aConfigs[work->command].spark_red
+                        work->flares[i][k].red = gModelVariant633_aConfigs[work->head.command].spark_red
                             * ((work->flares[i][k].duration - work->flares[i][k].elapsed) * 5 << 1) / (work->flares[i][k].duration * 9);
-                        work->flares[i][k].green = gModelVariant633_aConfigs[work->command].spark_green
+                        work->flares[i][k].green = gModelVariant633_aConfigs[work->head.command].spark_green
                             * ((work->flares[i][k].duration - work->flares[i][k].elapsed) * 5 << 1) / (work->flares[i][k].duration * 9);
-                        work->flares[i][k].blue = gModelVariant633_aConfigs[work->command].spark_blue
+                        work->flares[i][k].blue = gModelVariant633_aConfigs[work->head.command].spark_blue
                             * ((work->flares[i][k].duration - work->flares[i][k].elapsed) * 5 << 1) / (work->flares[i][k].duration * 9);
                     }
                     setPolyFT4(&work->flat);
@@ -736,11 +736,11 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                 work->glows[i].scale.vy = (work->glows[i].elapsed << 14) / work->glows[i].duration;
                 work->glows[i].scale.vz = (work->glows[i].elapsed << 14) / work->glows[i].duration;
                 if (work->glows[i].duration / 2 < work->glows[i].elapsed) {
-                    work->glows[i].red = gModelVariant633_aConfigs[work->command].spark_red * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
+                    work->glows[i].red = gModelVariant633_aConfigs[work->head.command].spark_red * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
                         / work->glows[i].duration;
-                    work->glows[i].green = gModelVariant633_aConfigs[work->command].spark_green * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
+                    work->glows[i].green = gModelVariant633_aConfigs[work->head.command].spark_green * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
                         / work->glows[i].duration;
-                    work->glows[i].blue = gModelVariant633_aConfigs[work->command].spark_blue * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
+                    work->glows[i].blue = gModelVariant633_aConfigs[work->head.command].spark_blue * ((work->glows[i].duration - work->glows[i].elapsed) << 1)
                         / work->glows[i].duration;
                 }
                 for (k = 0; k < 32; k++) {
@@ -768,10 +768,10 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
             result = 1;
             work->flags[4] = 2;
         }
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->trail_count * 6 + work->burst_count + work->spark_count * 3) {
-            if (work->command == 2) {
-                if (work->elapsed >= 0x10F) {
+            if (work->head.command == 2) {
+                if (work->head.elapsed >= 0x10F) {
                     result = 2;
                 }
             } else {

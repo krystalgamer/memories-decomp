@@ -60,10 +60,7 @@ typedef struct {
     u8 unknown_2E60[0x24];
     MATRIX matrix;
     VECTOR origin;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;

@@ -47,13 +47,13 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+            work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT455_CLUT_X, 244);
         beam_tpage = GetTPage(1, 1, 896, 0);
@@ -239,27 +239,27 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
             view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
-        setVector(&work->origin, work->target.vx, -1024, work->target.vz);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+            work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
+        setVector(&work->origin, work->aim.target.vx, -1024, work->aim.target.vz);
         for (i = 0, n = 0, bloom = work->blooms; i < 8; i++, n = i * 512, bloom++) {
-            bloom->origin.vx = work->target.vx;
+            bloom->origin.vx = work->aim.target.vx;
             bloom->origin.vy = -1024;
-            bloom->origin.vz = work->target.vz;
-            bloom->point.vx = work->target.vx + (rcos(n) * 512 >> 12);
+            bloom->origin.vz = work->aim.target.vz;
+            bloom->point.vx = work->aim.target.vx + (rcos(n) * 512 >> 12);
             bloom->point.vy = 0;
-            bloom->point.vz = work->target.vz + (rsin(n) * 512 >> 12);
+            bloom->point.vz = work->aim.target.vz + (rsin(n) * 512 >> 12);
             bloom->direction.vx = bloom->point.vx - bloom->origin.vx;
             bloom->direction.vy = bloom->point.vy - bloom->origin.vy;
             bloom->direction.vz = bloom->point.vz - bloom->origin.vz;
@@ -270,13 +270,13 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
             &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
             &projection.interpolation, &projection.flag);
         dx = (u16)projection.target.vx - screen_x;
-        work->screen_delta.vx = dx;
+        work->aim.screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vy = dy;
         if (work->config->fan_start <= work->elapsed) {
             SpanishModelVariant472_DrawSheets(context);
             SpanishModelVariant472_DrawSpiral(context);

@@ -1396,7 +1396,7 @@ The calculation is not clamped or redefined as cards played; its neighboring
 LP readouts still use the interpolated display value at `+0x12`.
 
 The matching score calculation uses `DUEL_RANK_RULE_*` names from
-`src/game/duel_rank.h` for these ten threshold-table rows. They are not the
+`src/game/duel_scene.h` for these ten threshold-table rows. They are not the
 indices of the sixteen displayed statistics: the raw-stat copy order and
 the score-rule call order remain separate. The same header names the starting
 value as `DUEL_RANK_SCORE_INITIAL` (`50`) and retains
@@ -1415,7 +1415,7 @@ resolution paths write the following byte into the selected winner's
 | Draw exhaustion | `0xD8` | `-40` | Matching [`DuelScene_UpdateDrawResolution`](../../src/game/duel_scene.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
 | Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `DuelScene_UpdateExodiaResult` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
 
-`duel_rank.h` names the two special adjustments as
+`duel_scene.h` (formerly `duel_rank.h`) names the two special adjustments as
 `DUEL_RANK_ADJUST_EXODIA_WIN` (`40`) and `DUEL_RANK_ADJUST_DECK_OUT_WIN`
 (`-40`). They remain separate from `DECK_SIZE`, which names the draw-counter
 limit in `DuelScene_UpdateDrawResolution` despite its equal magnitude. The deck-out writer

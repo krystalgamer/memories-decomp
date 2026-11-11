@@ -64,10 +64,7 @@ typedef struct {
     POLY_FT4 point_packet;
     u8 unknown_238C[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     EntryConfig373 *config;
     u32 field_241C;

@@ -14,9 +14,9 @@
     if ((element).duration / 2 < (element).elapsed) {                          \
         value = ((element).duration - (element).elapsed) * 2;                  \
         amount = (element).duration;                                           \
-        (element).color[0] = gModelVariant677_aConfigs[work->command].color[first] * value / amount; \
-        (element).color[1] = gModelVariant677_aConfigs[work->command].color[first + 1] * value / amount; \
-        (element).color[2] = gModelVariant677_aConfigs[work->command].color[first + 2] * value / amount; \
+        (element).color[0] = gModelVariant677_aConfigs[work->head.command].color[first] * value / amount; \
+        (element).color[1] = gModelVariant677_aConfigs[work->head.command].color[first + 1] * value / amount; \
+        (element).color[2] = gModelVariant677_aConfigs[work->head.command].color[first + 2] * value / amount; \
     }
 
 #define DRAW_SPRITE(page, u0, v0, u1, v1, u2, v2, u3, v3, element, a, b, c, d)   \
@@ -59,10 +59,10 @@
     (element).color[2] = gModelVariant677_aConfigs[command].color[first + 2]
 
 #define START_SPARKS(index)                                                    \
-    if (work->flags[0] < work->row_count && work->elapsed >= work->flags[0] * 20) { \
+    if (work->flags[0] < work->row_count && work->head.elapsed >= work->flags[0] * 20) { \
         for (i = 0; i < work->column_count; i++) {                             \
             work->sparks[work->flags[0]][i].active = 1;                        \
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, index);  \
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);  \
             GsGetLwUnit(&unit, &ls);                                           \
             setVector(&work->sparks[work->flags[0]][i].position, ls.t[0], ls.t[1], ls.t[2]); \
             work->bursts[work->flags[0]][i].active = 1;                        \
@@ -94,10 +94,10 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant677_szWorkSizeFormat, sizeof(Model677State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         for (i = 0; i < 8; i++) {
             work->cell_u[i] = i % 4 * 64;
             work->cell_v[i] = i / 4 * 64 - 128;
@@ -109,23 +109,23 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
         columns = 2;
         do {
         } while (0);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[8]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[9]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[10]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[10]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant677_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant677_aImages[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         switch (command) {
@@ -174,7 +174,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].v = 0;
                 setVector(&work->sparks[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->sparks[i][j].target, 0, 0, work->direction * 450);
-                setVector(&work->sparks[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i][j].position, 0, 0, 0);
             }
         }
@@ -185,7 +185,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 work->rings[i][j].v = 0;
                 setVector(&work->rings[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->rings[i][j].target, 0, 0, 0);
-                setVector(&work->rings[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->rings[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->rings[i][j].position, 0, 0, 0);
             }
         }
@@ -196,7 +196,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 work->bursts[i][j].v = 32;
                 setVector(&work->bursts[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->bursts[i][j].target, 0, 0, 0);
-                setVector(&work->bursts[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bursts[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bursts[i][j].position, 0, 0, 0);
             }
         }
@@ -242,7 +242,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
             START_SPARKS(i * 2 + 3);
             break;
@@ -358,7 +358,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                             &work->ring_middle[k], &work->ring_middle[k + 1]);
                         DRAW_STRIP(work->rings[i][j], &work->ring_outer[k], &work->ring_outer[k + 1],
                             &work->ring_middle[k], &work->ring_middle[k + 1]);
-                        if (work->command == 1) {
+                        if (work->head.command == 1) {
                             DRAW_STRIP(work->rings[i][j], &work->cone_inner[k], &work->cone_inner[k + 1],
                                 &work->cone_middle[k], &work->cone_middle[k + 1]);
                             DRAW_STRIP(work->rings[i][j], &work->cone_outer[k], &work->cone_outer[k + 1],
@@ -423,7 +423,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == (work->column_count * 2 + work->column_count) * work->row_count) {
             result = 1;
             if (work->flags[4] == 1) {

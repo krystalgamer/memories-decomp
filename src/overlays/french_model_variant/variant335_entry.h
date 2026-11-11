@@ -36,10 +36,7 @@ typedef struct {
     u8 unknown_2DB8[16];
     MATRIX matrix;
     VECTOR origin, end, delta;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Model335EntryConfig *config;
     u8 unknown_2E64[4];

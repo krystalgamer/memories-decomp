@@ -29,9 +29,7 @@ typedef struct {
 } Model672Element;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, height;

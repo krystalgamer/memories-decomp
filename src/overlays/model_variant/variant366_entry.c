@@ -51,13 +51,13 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT366_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
@@ -224,33 +224,33 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = (u16)projection.target.vx - screen_x;
         work->index = 0;
-        work->screen_delta.vx = dx;
+        work->aim.screen_delta.vx = dx;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vy = dy;
         if (work->config->count != 0) {
             do {
                 if (work->index == 0) {
@@ -260,9 +260,9 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
                 } else if (work->index == 2) {
                     GsGetLwUnit(work->parts[2], &work->matrix);
                 }
-                setVector(&work->direction, work->target.vx - work->matrix.t[0],
-                          work->target.vy - work->matrix.t[1],
-                          work->target.vz - work->matrix.t[2]);
+                setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+                          work->aim.target.vy - work->matrix.t[1],
+                          work->aim.target.vz - work->matrix.t[2]);
                 if (work->phase > 0) {
                     FrenchModelVariant383_DrawRays(context);
                 }

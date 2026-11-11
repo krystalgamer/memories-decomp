@@ -37,10 +37,7 @@ typedef struct {
     MATRIX matrices[6];
     VECTOR points[6];
     VECTOR directions[6];
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     s16 spiral_angle, field_3096, spiral_size, field_309A;
     Variant459EntryConfig *config;

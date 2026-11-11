@@ -19,9 +19,7 @@
  * spin, the domes keep their row count in vx; the sparks their rise. */
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s32 other_slot;
     s16 delay;

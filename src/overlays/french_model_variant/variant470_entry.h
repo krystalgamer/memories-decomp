@@ -35,10 +35,7 @@ typedef struct {
     GsGLINE line;
     u8 unknown_2574[0x10];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     ModelVariantMoveConfig *config;
     u32 field_25F0;

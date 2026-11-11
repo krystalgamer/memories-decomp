@@ -8,7 +8,7 @@
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "view_state_orbit.h"
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "duel_card.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
