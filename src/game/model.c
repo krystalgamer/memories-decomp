@@ -1603,7 +1603,8 @@ void Model_UpdateCreditsPresentation(void)
       SD_SetMusicTrackBuffer((u16 *)gModel_pCreditsMusicTrackBuffer);
       SD_BGMPlayDefaultStep(29488);
       phase_value = gModel_bPresentationPhase + 1;
-      goto store_phase;
+      gModel_bPresentationPhase = phase_value;
+      break;
     case 0:
       load_check_base = gModel_aSlots;
       active_offset = (u32)&((ModelSlot *)0)[(u8)gModel_bCreditsActiveSlot];
@@ -1709,7 +1710,7 @@ void Model_UpdateCreditsPresentation(void)
                  (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active )
           Model_RequestCameraMoveToSlots(1, -1, (u8)gModel_bCreditsActiveSlot, 30);
       }
-      goto poll_module;
+      break;
     case 1:
       crossfade_base = gModel_aSlots;
       crossfade_offset = 904 * (u8)gModel_bCreditsActiveSlot;
@@ -1783,18 +1784,16 @@ set_phase_and_tick:
       gModel_bPresentationPhase = next_phase;
 tick_active_slot:
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-      goto poll_module;
+      break;
     case 3:
       SD_ResetMusicTrackBuffer();
       SD_ResetPendingEntries();
       phase_value = -2;
-store_phase:
       gModel_bPresentationPhase = phase_value;
-      goto poll_module;
+      break;
     default:
-      goto poll_module;
+      break;
   }
-poll_module:
       if ( D_8009B004.fields.credits_update_enabled )
       {
         result = func_80180A24();
