@@ -57,8 +57,8 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
     for (; i < 3; i++, curtain++) {
         if (curtain->scale > 0) {
             size = curtain->scale;
-            for (j = 0, angle = work->field_1978; j < 17;
-                 j++, angle = work->field_1978 + j * 256) {
+            for (j = 0, angle = work->curtain_angle; j < 17;
+                 j++, angle = work->curtain_angle + j * 256) {
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&curtain->b[j], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, lift + 0x80);
             }
@@ -130,5 +130,5 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
             }
         }
     }
-    work->field_1978 += work->step * 80;
+    work->curtain_angle += work->step * 80;
 }
