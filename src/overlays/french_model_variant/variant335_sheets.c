@@ -28,7 +28,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
     sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->textured[1];
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     rotation_bias = work->spin + 3072;
     turn += rotation_bias;
     for (i = 0; i < 4; i++, sheet++) {
@@ -38,9 +38,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
         }
         setVector(&rot, 0, 0, 0);
         if (i == 3) {
-            matrix.t[0] = work->target.vx;
-            matrix.t[1] = work->target.vy;
-            matrix.t[2] = work->target.vz;
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy;
+            matrix.t[2] = work->aim.target.vz;
         } else {
             angle = turn + (i << 12) / 3;
             radius = work->orbit_diameter / 2;

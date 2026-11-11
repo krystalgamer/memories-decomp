@@ -43,9 +43,9 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
             if (MODEL_VARIANT_WORD(record, 0x1F4) > 0) {
                 amount = MODEL_VARIANT_WORD(record, 0x1F4);
             }
-            m.t[0] = work->matrix.t[0] + work->direction.vx * amount / 0x400;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * amount / 0x400;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * amount / 0x400;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * amount / 0x400;
             scale.vx = sheet->size;
             scale.vy = sheet->size;
             scale.vz = sheet->size;
@@ -56,9 +56,9 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
             if (MODEL_VARIANT_WORD(record, 0x1D4) > 0) {
                 amount = MODEL_VARIANT_WORD(record, 0x1D4);
             }
-            m.t[0] = work->matrix.t[0] + work->direction.vx * amount / 0x400;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * amount / 0x400;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * amount / 0x400;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * amount / 0x400;
             scale.vx = sheet->size + bias;
             scale.vy = sheet->size + bias;
             scale.vz = sheet->size + bias;

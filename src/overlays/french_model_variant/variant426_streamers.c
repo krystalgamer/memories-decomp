@@ -47,7 +47,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     work = (EntryState426 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->flat2;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0x240;
     step = 0x400;
     if (!(work->frame_count & 1)) {
@@ -93,9 +93,9 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     work->streamer.rotation_y += 0x20;
     /* A zero step: the PAL build drops it, the USA build keeps its load. */
     work->streamer.rotation_z += 0;
-    m.t[0] = work->target.vx;
-    m.t[1] = work->target.vy;
-    m.t[2] = work->target.vz;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;

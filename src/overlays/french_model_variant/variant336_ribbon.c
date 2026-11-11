@@ -27,14 +27,14 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
 
     work = (Variant336EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase > 0) {
         ribbon = (ModelVariant336Ribbon *)work;
         for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 0x400) {
             len = ribbon->extent * 48 / 1024;
-            ribbon->origin.vx = work->direction.vx * (i + 1) / 4;
+            ribbon->origin.vx = work->aim.direction.vx * (i + 1) / 4;
             ribbon->origin.vy = -1024;
-            ribbon->origin.vz = work->direction.vz * (i + 1) / 4;
+            ribbon->origin.vz = work->aim.direction.vz * (i + 1) / 4;
             ribbon->end.vx = ribbon->origin.vx;
             ribbon->end.vy = 0;
             ribbon->end.vz = ribbon->origin.vz;

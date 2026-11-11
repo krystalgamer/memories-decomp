@@ -38,7 +38,7 @@ void FrenchModelVariant336_DrawStreamers(u8 *ctx)
     work = (Variant336EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->extra_textured;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0x80;
     step = 0x400;
     if (!(work->clock.frame_count & 1)) {

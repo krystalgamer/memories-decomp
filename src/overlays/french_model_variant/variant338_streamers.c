@@ -46,7 +46,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     work = (Variant338EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->extra_textured;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = work->rings[1].size / 32;
     step = 0x400;
     if (!(work->clock.frame_count & 1)) {
@@ -88,9 +88,9 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
         work->streamer_rotation_y += 0x514;
     }
     work->streamer_rotation_y += 0x20;
-    m.t[0] = work->target.vx;
-    m.t[1] = work->target.vy;
-    m.t[2] = work->target.vz;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;

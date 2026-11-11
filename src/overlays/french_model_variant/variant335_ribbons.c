@@ -43,13 +43,13 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
 
     work = (Model335EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
-    ratan2(work->view_delta.vy, work->view_delta.vx);
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 3072;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     work->origin.vx = work->matrix.t[0]
-        + (rsin(work->travel_angle) * work->direction.vx >> 12);
+        + (rsin(work->travel_angle) * work->aim.direction.vx >> 12);
     work->origin.vy = work->matrix.t[1] - work->lift;
     work->origin.vz = work->matrix.t[2]
-        + (rsin(work->travel_angle) * work->direction.vz >> 12);
+        + (rsin(work->travel_angle) * work->aim.direction.vz >> 12);
     work->end.vx = work->origin.vx;
     work->end.vy = 0;
     work->end.vz = work->origin.vz;
