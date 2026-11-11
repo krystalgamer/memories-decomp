@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "duel_card.h"
-#include "duel_deck_card.h"
+#include "duel_scene.h"
 
 /* gDuel_abCardStagingBuffer is reused for card transfers, GPU readback and duel scratch.
  * These are offset views, not a declaration of one allocation's lifetime. */

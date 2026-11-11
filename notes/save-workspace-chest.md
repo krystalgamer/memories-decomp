@@ -7,7 +7,7 @@ storage, a new layout or a new caller.
 
 ## Workspace evidence and views
 
-The unchanged `save_data.h` places the observed `SaveDataWorkspace.state`
+The unchanged `mem_card.h` (formerly `save_data.h`) places the observed `SaveDataWorkspace.state`
 prefix at `+0x200`, with card quantities at state `+0x50`.
 `Campaign_TestStoryFlag` reads its campaign flags through the recovered
 structure. The existing campaign-bit writer

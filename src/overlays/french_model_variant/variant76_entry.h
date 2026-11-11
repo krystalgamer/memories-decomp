@@ -2,11 +2,9 @@
 #define FRENCH_MODEL_VARIANT76_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/rand.h"

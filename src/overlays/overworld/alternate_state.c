@@ -11,7 +11,7 @@
 u32 D_8016A274 ALTERNATE_STATE = 0;
 AlternateObject *gCampaignMapAlt_pLocationMarker ALTERNATE_STATE = 0;
 u32 D_8016A27C[3] ALTERNATE_STATE = {0};
-AlternateObject *D_8016A288 ALTERNATE_STATE = 0;
+AlternateObject *gCampaignMapAlt_pSpotlight ALTERNATE_STATE = 0;
 u32 D_8016A28C[4] ALTERNATE_STATE = {0};
 u8 gCampaignMapAlt_bTransitionFlags ALTERNATE_STATE = 0;
 u8 D_8016A29D ALTERNATE_STATE = 0;

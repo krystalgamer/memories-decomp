@@ -36,10 +36,7 @@ typedef struct {
     s32 origin[3];
     MATRIX matrix0, matrix1;
     u8 unknown_1F80[16];
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant336EntryConfig *config;
     u8 unknown_1FDC[4];

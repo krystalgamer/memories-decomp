@@ -47,7 +47,7 @@ Memories symbols have been recovered.
 `gDuel_bTerrain` is the only name for the byte at `0x8009B364`.
 `Duel_GetTerrainBoost` once used a second linker name for the same byte to
 reproduce its two address materializations; the shared `.data` declaration in
-`duel_terrain_boost.h` gives the same assembler macro form, so no
+`duel_scene.h` (formerly `duel_terrain_boost.h`) gives the same assembler macro form, so no
 code-generation alias is needed. Do not add one name per compiler identity
 for a single object.
 

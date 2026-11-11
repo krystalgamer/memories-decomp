@@ -12,9 +12,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL666_FADE(e, offset, value, divisor)                                      \
-    (e).color[0] = gModelVariant666_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant666_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant666_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant666_aConfigs[work->head.command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant666_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant666_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
 s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
 {
@@ -38,18 +38,18 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant666_szWorkSizeFormat, sizeof(Model666State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_aImages[2]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant666_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -74,13 +74,13 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
             work->blooms[i].v = 32;
             setVector(&work->blooms[i].scale, 4096, 4096, 4096);
             setVector(&work->blooms[i].target, 0, 0, 0);
-            setVector(&work->blooms[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->blooms[i].rotation, 0, work->head.slot * 2048, 0);
             value = work->radius;
             k = (i << 12) / 3 + 0x800;
             setVector(&work->blooms[i].position,
-                work->origin.vx + value * rsin(work->slot * 2048 + k) / 4096,
+                work->origin.vx + value * rsin(work->head.slot * 2048 + k) / 4096,
                 work->origin.vy - work->height,
-                work->origin.vz + value * rcos(work->slot * 2048 + k) / 4096);
+                work->origin.vz + value * rcos(work->head.slot * 2048 + k) / 4096);
             work->blooms[i].cursor = 0;
         }
         for (j = 0; j < work->count; j++) {
@@ -101,7 +101,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                     sign * value * rsin(i << 8) / 4096,
                     work->height * 3,
                     sign * value * rcos(i << 8) / 4096);
-                setVector(&work->sparks[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i][j].rotation, 0, work->head.slot * 2048, 0);
                 work->sparks[i][j].position = work->blooms[j].position;
             }
         }
@@ -119,7 +119,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 work->rings[i][j].v = 0;
                 setVector(&work->rings[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->rings[i][j].target, 0, 0, 0);
-                setVector(&work->rings[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->rings[i][j].rotation, 0, work->head.slot * 2048, 0);
                 sign = i % 2 * 2 - 1;
                 value = work->height / 2;
                 setVector(&work->rings[i][j].position,
@@ -153,14 +153,14 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed == 0) {
+        if (work->head.elapsed == 0) {
             for (i = 0; i < work->count; i++) {
                 work->blooms[i].active = 1;
             }
         }
-        if (work->flags[4] == 0 && work->elapsed > 432) {
+        if (work->flags[4] == 0 && work->head.elapsed > 432) {
             result = 1;
             work->flags[4] = result;
         }
@@ -219,9 +219,9 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
             if (ended == 1) {
                 work->sparks[work->blooms[i].cursor][i].active = ended;
                 work->sparks[work->blooms[i].cursor][i].elapsed = 0;
-                work->sparks[work->blooms[i].cursor][i].color[0] = gModelVariant666_aConfigs[work->command].color[0];
-                work->sparks[work->blooms[i].cursor][i].color[1] = gModelVariant666_aConfigs[work->command].color[1];
-                work->sparks[work->blooms[i].cursor][i].color[2] = gModelVariant666_aConfigs[work->command].color[2];
+                work->sparks[work->blooms[i].cursor][i].color[0] = gModelVariant666_aConfigs[work->head.command].color[0];
+                work->sparks[work->blooms[i].cursor][i].color[1] = gModelVariant666_aConfigs[work->head.command].color[1];
+                work->sparks[work->blooms[i].cursor][i].color[2] = gModelVariant666_aConfigs[work->head.command].color[2];
                 work->sparks[work->blooms[i].cursor][i].spawned = 0;
                 if (++work->blooms[i].cursor >= work->sparks_per_bloom) {
                     work->blooms[i].cursor = 0;
@@ -286,9 +286,9 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 if (work->sparks[i][j].duration / 4 < work->sparks[i][j].elapsed && work->sparks[i][j].spawned == 0) {
                     work->rings[i][j].active = 1;
                     work->rings[i][j].elapsed = 0;
-                    work->rings[i][j].color[0] = gModelVariant666_aConfigs[work->command].color[3];
-                    work->rings[i][j].color[1] = gModelVariant666_aConfigs[work->command].color[4];
-                    work->rings[i][j].color[2] = gModelVariant666_aConfigs[work->command].color[5];
+                    work->rings[i][j].color[0] = gModelVariant666_aConfigs[work->head.command].color[3];
+                    work->rings[i][j].color[1] = gModelVariant666_aConfigs[work->head.command].color[4];
+                    work->rings[i][j].color[2] = gModelVariant666_aConfigs[work->head.command].color[5];
                     work->rings[i][j].u = 0;
                     work->sparks[i][j].spawned = 1;
                 }
@@ -371,7 +371,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->count * (work->sparks_per_bloom * 2 + 1)) {
         result = 2;
     }

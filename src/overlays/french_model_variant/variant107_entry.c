@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant107_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../psyq/libhmd.h"
 
 static const VECTOR gFrenchModelVariant107_UnitScale = {4096, 4096, 4096, 0};

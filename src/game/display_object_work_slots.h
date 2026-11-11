@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
-#include "duel_check_ritual.h"
+#include "duel_effect_object_pool.h"
 
 #define DISPLAY_OBJECT_WORK_SLOT_COUNT 5
 

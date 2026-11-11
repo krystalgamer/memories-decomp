@@ -1,22 +1,14 @@
 #include "../types.h"
 
 #include "model.h"
-#include "model_copy_slot_position.h"
-#include "model_init_light_triplet.h"
-#include "model_slot_data.h"
-#include "../game/model_draw_slot.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
-#include "model_slot_support.h"
-#include "../unmatched.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "model_update_coordinate_unit_matrix.h"
 #include "../psyq/memory.h"
-#include "model_slot_properties.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */

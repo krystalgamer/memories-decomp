@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_CARD_LIST_ROWS_H
 
 #include "../types.h"
-#include "duel_card_display_state.h"
+#include "duel_scene.h"
 #include "file_staging_buffer.h"
 
 #define CARD_LIST_ROW_SET_OFFSET(member) \

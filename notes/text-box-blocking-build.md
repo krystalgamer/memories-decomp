@@ -6,7 +6,7 @@ existing done bit `0x2000` is set. `TextBox_BuildBlockingWithGlyphScratch`
 (`0x80039A60`) preserves the same loop and literal `0xA00`, additionally setting
 the legacy glyph-scratch bit `0x200`. Neither helper waits for GPU completion.
 
-The three-function text-box runtime run (now in `text_commands.c`) retains its accepted
+The three-function text-box runtime run (now in `duel_effect_text.c`) retains its accepted
 `TextBox_SetPos` sibling and all seven `gcc_2_8_1_g8` selections. Definition
 order and `0xE0/0x4C/0x4C` extents remain unchanged. No flags are cleared
 before the first iteration and no timeout, frame advance or new guard is added.
@@ -34,9 +34,9 @@ claim that every region rasterizes or uploads the same way.
 ## Compatibility and exactness
 
 All existing headers and frozen overlay C remain byte-identical. Canonical
-declarations are isolated in `text_box_blocking_build.h`, using the existing
+declarations are isolated in `duel_effect_text.h` (formerly `text_box_blocking_build.h`), using the existing
 channel tag rather than importing the shared channel typedef: Free Duel has
-a private byte-array view that would collide with `duel_effect.h`.
+a private byte-array view that would collide with `duel_effect_states.h` (formerly `duel_effect.h`).
 
 Resident calls use the canonical APIs. Every registered frozen consumer's
 actual independent import map exposes the required native canonical binding

@@ -29,7 +29,7 @@ using the unchanged
 `gcc_2_8_1_g8_split` profile. The Japanese and European wrappers retain
 their existing source ownership and regional constants. All seven
 resident inventories and linker bindings follow the semantic name;
-the header becomes `duel_draw_card_frame.h`. Historical attempt records,
+the header becomes `duel_scene.h` (formerly `duel_draw_card_frame.h`). Historical attempt records,
 generated reports and frozen `display_object.h` comments intentionally
 retain the old address spelling.
 

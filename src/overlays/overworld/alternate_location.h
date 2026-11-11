@@ -57,7 +57,8 @@ typedef char AlternateExit_size_must_be_12[
     sizeof(AlternateExit) == 12 ? 1 : -1
 ];
 
-/* The alternate marker/map object held in gCampaignMapAlt_pLocationMarker and D_8016A288.
+/* The alternate marker/map object held in gCampaignMapAlt_pLocationMarker
+   and gCampaignMapAlt_pSpotlight.
    CampaignMap_UpdateAlternateLocation toggles bit 0x40 of `f8` and writes the
    location record's pair into `f48`/`f50`. */
 typedef struct {
@@ -83,7 +84,7 @@ typedef struct {
  * The adjacent controller state is defined in alternate_state.c. */
 extern AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT];
 extern AlternateObject *gCampaignMapAlt_pLocationMarker;
-extern AlternateObject *D_8016A288;
+extern AlternateObject *gCampaignMapAlt_pSpotlight;
 extern u8 gCampaignMapAlt_bTransitionFlags;
 extern s32 gCampaignMapAlt_MoveState;
 extern u8 gCampaignMapAlt_Location;

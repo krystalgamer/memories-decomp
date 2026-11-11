@@ -23,7 +23,7 @@ The generated report may predate a promotion until it is regenerated.
 ## Typed setup result and publication
 
 `Duel_SetupCardRecord` exposes its existing `DuelCardRecord *` result in
-`duel_deck_card.h`. Every return is the selected `gDuel_aCardRecords`
+`duel_scene.h` (formerly `duel_deck_card.h`). Every return is the selected `gDuel_aCardRecords`
 element already initialized by the body. Four callers discard that
 pointer unchanged; `Duel_SetupFieldCardFromDeck` keeps it as a record and publishes the
 new display object through its `object` member rather than a raw pointer
@@ -142,7 +142,7 @@ addresses.
 ## Copied thumbnail blocks
 
 `gDuel_aCardThumbnailBlocks` is an unsized array of `DuelCardThumbnailBlock`, owned beside
-the deck records in `duel_deck_card.h`. Each `0x580`-byte element holds
+the deck records in `duel_scene.h` (formerly `duel_deck_card.h`). Each `0x580`-byte element holds
 `0x500` bytes of 40-by-32 8-bpp thumbnail pixels and 64 halfword CLUT
 entries. Header layout contracts retain that total stride and the CLUT's
 `+0x500` offset. `Duel_PopulateCombinedDeckData` still copies the complete
@@ -163,11 +163,14 @@ thumbnail block. Neither path interprets or rearranges the payload.
 Only their destination selection changes from byte multiplication to
 block indexing.
 
-`gDuel_CardThumbnailClutBase` (formerly `D_8018C7D8`) remains the existing byte-addressed interior alias, `0x500`
-bytes beyond the block array's base; setup retains its independent symbol materialization
-and block-stride multiplication for the CLUT upload. No linker binding,
-allocation, regional mapping, preview layout or opaque staging-buffer
-lifetime changes.
+`gDuel_CardThumbnailClutBase` (formerly `D_8018C7D8`) is the byte-addressed
+interior label for `gDuel_aCardThumbnailBlocks[0].clut`. The linker scripts
+bind it as `gDuel_aCardThumbnailBlocks + 0x500` rather than as a second
+absolute address. Setup keeps the separate label because retail materializes
+the CLUT address and repeats the block-stride multiplication for that upload.
+Spelling it as `gDuel_aCardThumbnailBlocks[block_index].clut`, or as
+`gDuel_aCardThumbnailBlocks[0].clut` plus the stride, lets GCC reuse the
+block base and product, which is 8 bytes longer.
 
 ## Marker data record
 

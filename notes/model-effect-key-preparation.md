@@ -107,7 +107,7 @@ or layout. The profile remains `gcc_2_8_1_g8_split`, and the extent remains
 | European base | `0x8004E614` |
 | French, German, Italian, Spanish | `0x8004E818` |
 
-The existing `Key *` interface stays in `model_keyframe_spline.h`.
+The existing `Key *` interface stays in `model_camera_effects.h` (formerly `model_keyframe_spline.h`).
 Implementation, callers and native witnesses change only the symbol and
 necessary source locator/include paths. Complete fixture oracles, event
 data, four-halfword coordinate buffers, callback state and ownership

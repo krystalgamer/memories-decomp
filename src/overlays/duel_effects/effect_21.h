@@ -2,16 +2,15 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_21_H
 
 #include "../../types.h"
-#include "../../game/duel_effect_request.h"
+#include "../../game/duel_effect_object_pool.h"
 #include "../../game/high_memory_addresses.h"
-#include "../../game/screen_projection.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 #include "utility_helpers.h"
 #include "display_quads.h"
 #include "color_helpers.h"
-#include "../../unmatched.h"
 
 typedef struct {
     SVECTOR positions[10];

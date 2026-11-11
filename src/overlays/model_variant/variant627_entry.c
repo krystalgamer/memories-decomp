@@ -2,7 +2,7 @@
 #include "variant627_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 627's entry: two shaded rings and ten fans of lines that open out
  * of a cone in front of the active slot, each growing and fading over the

@@ -2,7 +2,7 @@
 #include "../types.h"
 
 #include "../psyq/libgte.h"
-#include "sorted_entry.h"
+#include "sorted_entry_render.h"
 
 void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
     SortedEntry *p;
@@ -30,9 +30,7 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/inline_c.h"
-#include "sorted_entry.h"
 #include "gpu_packets.h"
-#include "hmd_fog_textured_drivers.h"
 #include "direct_polygon_renderers.h"
 
 /* The two HMD primitive drivers for fog-shaded textured polygons that
@@ -62,6 +60,14 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
 
 #define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
 #define PACKET_OBJECT_VIEW(type, packet) (*(type *)(packet))
+
+static inline s32 SortedEntry_PopPosition(void)
+{
+    s32 z = gSortedEntry_pCursor->sorted_position;
+
+    gSortedEntry_pCursor++;
+    return z;
+}
 
 u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 {
@@ -119,43 +125,39 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         CVECTOR_WORD(white) = mask;
         CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
         while (--n != -1) {
-            if (gModel_dwFogDrawFlags & 2) {
-                z = gSortedEntry_pCursor->sorted_position;
-                gSortedEntry_pCursor++;
-                if (z < gSortedEntry_nCount) {
-                    gte_ldv0(&vertop[rec[7]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x0);
-                    gte_stflg(&scr[0]);
-                    gte_ldv0(&nortop[rec[6]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r0);
-                    gte_stszotz(&scr[4]);
-                    gte_ldv0(&vertop[rec[9]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x1);
-                    gte_stflg(&scr[1]);
-                    gte_ldv0(&nortop[rec[8]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r1);
-                    gte_stszotz(&scr[5]);
-                    gte_ldv0(&vertop[rec[11]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x2);
-                    gte_stflg(&scr[2]);
-                    gte_ldv0(&nortop[rec[10]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r2);
-                    gte_stszotz(&scr[6]);
-                    gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
-                    gte_nclip();
-                    gte_stopz(&z);
-                    if (z <= 0 || (scr[0] | scr[1] | scr[2]) < 0) {
-                        goto next;
-                    }
+            if ((gModel_dwFogDrawFlags & 2) &&
+                (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
+                gte_ldv0(&vertop[rec[7]]);
+                gte_rtps();
+                gte_stsxy(&gt->x0);
+                gte_stflg(&scr[0]);
+                gte_ldv0(&nortop[rec[6]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r0);
+                gte_stszotz(&scr[4]);
+                gte_ldv0(&vertop[rec[9]]);
+                gte_rtps();
+                gte_stsxy(&gt->x1);
+                gte_stflg(&scr[1]);
+                gte_ldv0(&nortop[rec[8]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r1);
+                gte_stszotz(&scr[5]);
+                gte_ldv0(&vertop[rec[11]]);
+                gte_rtps();
+                gte_stsxy(&gt->x2);
+                gte_stflg(&scr[2]);
+                gte_ldv0(&nortop[rec[10]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r2);
+                gte_stszotz(&scr[6]);
+                gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+                gte_nclip();
+                gte_stopz(&z);
+                if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
                     setPolyGT3(gt);
                     *(u16 *)&gt->u0 = rec[0];
                     *(u16 *)&gt->u1 = rec[2];
@@ -166,50 +168,48 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                     addPrim(&arg->tagp->org[z], out);
                     out += sizeof(POLY_GT3);
-                    goto next;
+                }
+            } else {
+                gte_ldv0(&vertop[rec[7]]);
+                gte_rtps();
+                gte_stsxy(&lg->x0);
+                gte_stflg(&scr[0]);
+                gte_ldv0(&nortop[rec[6]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r0);
+                gte_stszotz(&scr[4]);
+                c0 = LINE_G4_WORD_VIEW(lg)[1];
+                c1 = LINE_G4_WORD_VIEW(lg)[2];
+                v1 = &vertop[rec[9]];
+                LINE_G4_WORD_VIEW(lg)[7] = c0;
+                LINE_G4_WORD_VIEW(lg)[8] = c1;
+                gte_ldv0(v1);
+                gte_rtps();
+                gte_stsxy(&lg->x1);
+                gte_stflg(&scr[1]);
+                gte_ldv0(&nortop[rec[8]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r1);
+                gte_stszotz(&scr[5]);
+                gte_ldv0(&vertop[rec[11]]);
+                gte_rtps();
+                gte_stsxy(&lg->x2);
+                gte_stflg(&scr[2]);
+                gte_ldv0(&nortop[rec[10]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r2);
+                gte_stszotz(&scr[6]);
+                if ((scr[0] | scr[1] | scr[2]) >= 0) {
+                    setLineG4(lg);
+                    PACKET_OBJECT_VIEW(LINE_G4, out) = *lg;
+                    z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
+                    addPrim(&arg->tagp->org[z], out);
+                    out += sizeof(LINE_G4);
                 }
             }
-            gte_ldv0(&vertop[rec[7]]);
-            gte_rtps();
-            gte_stsxy(&lg->x0);
-            gte_stflg(&scr[0]);
-            gte_ldv0(&nortop[rec[6]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r0);
-            gte_stszotz(&scr[4]);
-            c0 = LINE_G4_WORD_VIEW(lg)[1];
-            c1 = LINE_G4_WORD_VIEW(lg)[2];
-            v1 = &vertop[rec[9]];
-            LINE_G4_WORD_VIEW(lg)[7] = c0;
-            LINE_G4_WORD_VIEW(lg)[8] = c1;
-            gte_ldv0(v1);
-            gte_rtps();
-            gte_stsxy(&lg->x1);
-            gte_stflg(&scr[1]);
-            gte_ldv0(&nortop[rec[8]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r1);
-            gte_stszotz(&scr[5]);
-            gte_ldv0(&vertop[rec[11]]);
-            gte_rtps();
-            gte_stsxy(&lg->x2);
-            gte_stflg(&scr[2]);
-            gte_ldv0(&nortop[rec[10]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r2);
-            gte_stszotz(&scr[6]);
-            if ((scr[0] | scr[1] | scr[2]) < 0) {
-                goto next;
-            }
-            setLineG4(lg);
-            PACKET_OBJECT_VIEW(LINE_G4, out) = *lg;
-            z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
-            addPrim(&arg->tagp->org[z], out);
-            out += sizeof(LINE_G4);
-        next:
             rec += 11;
             rec++;
         }
@@ -361,43 +361,39 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
         CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
         while (--n != -1) {
             flg = (s32 *)0x1F8003E8;
-            if (gModel_dwFogDrawFlags & 2) {
-                z = gSortedEntry_pCursor->sorted_position;
-                gSortedEntry_pCursor++;
-                if (z < gSortedEntry_nCount) {
-                    gte_ldv0(&vertop[rec[7]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x0);
-                    gte_stflg(&scr[0]);
-                    gte_ldv0(&nortop[rec[5]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r0);
-                    gte_stszotz(&scr[4]);
-                    gte_ldv0(&vertop[rec[9]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x1);
-                    gte_stflg(&scr[1]);
-                    gte_ldv0(&nortop[rec[8]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r1);
-                    gte_stszotz(&scr[5]);
-                    gte_ldv0(&vertop[rec[11]]);
-                    gte_rtps();
-                    gte_stsxy(&gt->x2);
-                    gte_stflg(flg);
-                    gte_ldv0(&nortop[rec[10]]);
-                    gte_ldrgb(grey);
-                    gte_ncds();
-                    gte_strgb(&gt->r2);
-                    gte_stszotz(&scr[6]);
-                    gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
-                    gte_nclip();
-                    gte_stopz(&z);
-                    if (z <= 0 || (scr[0] | scr[1] | scr[2]) < 0) {
-                        goto next;
-                    }
+            if ((gModel_dwFogDrawFlags & 2) &&
+                (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
+                gte_ldv0(&vertop[rec[7]]);
+                gte_rtps();
+                gte_stsxy(&gt->x0);
+                gte_stflg(&scr[0]);
+                gte_ldv0(&nortop[rec[5]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r0);
+                gte_stszotz(&scr[4]);
+                gte_ldv0(&vertop[rec[9]]);
+                gte_rtps();
+                gte_stsxy(&gt->x1);
+                gte_stflg(&scr[1]);
+                gte_ldv0(&nortop[rec[8]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r1);
+                gte_stszotz(&scr[5]);
+                gte_ldv0(&vertop[rec[11]]);
+                gte_rtps();
+                gte_stsxy(&gt->x2);
+                gte_stflg(flg);
+                gte_ldv0(&nortop[rec[10]]);
+                gte_ldrgb(grey);
+                gte_ncds();
+                gte_strgb(&gt->r2);
+                gte_stszotz(&scr[6]);
+                gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+                gte_nclip();
+                gte_stopz(&z);
+                if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
                     gte_ldv0(&vertop[rec[13]]);
                     gte_rtps();
                     gte_stsxy(&gt->x3);
@@ -418,61 +414,59 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
                     addPrim(&arg->tagp->org[z], out);
                     out += 0x34;
-                    goto next;
+                }
+            } else {
+                gte_ldv0(&vertop[rec[7]]);
+                gte_rtps();
+                gte_stsxy(&lg->x0);
+                gte_stflg(&scr[0]);
+                gte_ldv0(&nortop[rec[5]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r0);
+                gte_stszotz(&scr[4]);
+                gte_ldv0(&vertop[rec[9]]);
+                gte_rtps();
+                gte_stsxy(&lg->x1);
+                gte_stflg(flg);
+                gte_ldv0(&nortop[rec[8]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r1);
+                gte_stszotz(&scr[5]);
+                gte_ldv0(&vertop[rec[13]]);
+                gte_rtps();
+                gte_stsxy(&lg->x2);
+                gte_stflg(flg);
+                gte_ldv0(&nortop[rec[12]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r2);
+                gte_stszotz(&scr[6]);
+                gte_ldv0(&vertop[rec[11]]);
+                gte_rtps();
+                gte_stsxy(&lg->x3);
+                gte_stflg(&scr[3]);
+                gte_ldv0(&nortop[rec[10]]);
+                gte_ldrgb(white);
+                gte_ncds();
+                gte_strgb(&lg->r3);
+                gte_stszotz(&scr[7]);
+                if ((scr[0] | scr[1] | scr[2] | scr[3]) >= 0) {
+                    setLineG4(lg);
+                    *(LINE_G4 *)out = *lg;
+                    z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
+                    addPrim(&arg->tagp->org[z], out);
+                    out += 0x28;
+                    *(u32 *)&LINE_G2_VIEW(out)->x0 = *(u32 *)&lg->x0;
+                    *(u32 *)&LINE_G2_VIEW(out)->x1 = *(u32 *)&lg->x3;
+                    *(u32 *)&LINE_G2_VIEW(out)->r0 = *(u32 *)&lg->r0;
+                    *(u32 *)&LINE_G2_VIEW(out)->r1 = *(u32 *)&lg->r3;
+                    setLineG2(LINE_G2_VIEW(out));
+                    addPrim(&arg->tagp->org[z], out);
+                    out += 0x14;
                 }
             }
-            gte_ldv0(&vertop[rec[7]]);
-            gte_rtps();
-            gte_stsxy(&lg->x0);
-            gte_stflg(&scr[0]);
-            gte_ldv0(&nortop[rec[5]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r0);
-            gte_stszotz(&scr[4]);
-            gte_ldv0(&vertop[rec[9]]);
-            gte_rtps();
-            gte_stsxy(&lg->x1);
-            gte_stflg(flg);
-            gte_ldv0(&nortop[rec[8]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r1);
-            gte_stszotz(&scr[5]);
-            gte_ldv0(&vertop[rec[13]]);
-            gte_rtps();
-            gte_stsxy(&lg->x2);
-            gte_stflg(flg);
-            gte_ldv0(&nortop[rec[12]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r2);
-            gte_stszotz(&scr[6]);
-            gte_ldv0(&vertop[rec[11]]);
-            gte_rtps();
-            gte_stsxy(&lg->x3);
-            gte_stflg(&scr[3]);
-            gte_ldv0(&nortop[rec[10]]);
-            gte_ldrgb(white);
-            gte_ncds();
-            gte_strgb(&lg->r3);
-            gte_stszotz(&scr[7]);
-            if ((scr[0] | scr[1] | scr[2] | scr[3]) < 0) {
-                goto next;
-            }
-            setLineG4(lg);
-            *(LINE_G4 *)out = *lg;
-            z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-            addPrim(&arg->tagp->org[z], out);
-            out += 0x28;
-            *(u32 *)&LINE_G2_VIEW(out)->x0 = *(u32 *)&lg->x0;
-            *(u32 *)&LINE_G2_VIEW(out)->x1 = *(u32 *)&lg->x3;
-            *(u32 *)&LINE_G2_VIEW(out)->r0 = *(u32 *)&lg->r0;
-            *(u32 *)&LINE_G2_VIEW(out)->r1 = *(u32 *)&lg->r3;
-            setLineG2(LINE_G2_VIEW(out));
-            addPrim(&arg->tagp->org[z], out);
-            out += 0x14;
-        next:
             rec += 14;
         }
     } else {
@@ -539,8 +533,6 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     return (u32 *)primp + 2;
 }
 
-#include "sorted_entry.h"
-
 /* Zero-initialized storage this unit owns. Each build's generated
  * sorted_entry_render_commons subsegment places it at the retail addresses. */
 u32 gModel_dwFogBaseColor;
@@ -598,9 +590,6 @@ void SortedEntry_SortAndRelink(void)
     gSortedEntry_nCount = 0;
     gSortedEntry_pCursor = gSortedEntry_pBase;
 }
-
-#include "sorted_entry.h"
-#include "text_render_state.h"
 
 void Model_SetFogDrawFlags(u32 value)
 {

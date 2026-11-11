@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant123_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 123's entry: rings of 16 textured quads grow and fade around this

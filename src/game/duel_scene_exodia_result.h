@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_DUEL_SCENE_EXODIA_RESULT_H
-#define MEMORIES_DECOMP_DUEL_SCENE_EXODIA_RESULT_H
-
-void DuelScene_UpdateExodiaResult(void);
-
-#endif

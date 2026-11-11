@@ -4,12 +4,9 @@
  * build), ending where the embedded Graphics_GetDefaultOrderingTable getter
  * begins. */
 #include "../types.h"
-#include "model_graphics_state.h"
+#include "model_slot_getters.h"
 #include "graphics_frame_controls.h"
 #include "model.h"
-#include "model_get_slot_readiness.h"
-#include "model_get_frame_step.h"
-#include "model_slot_queries.h"
 
 /* Small globals src/game/model.c owns, declared here as common symbols the
  * way the original read them through $gp. */

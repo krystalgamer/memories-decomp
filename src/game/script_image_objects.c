@@ -1,14 +1,12 @@
 #include "../types.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "file_transfer.h"
-#include "display_object_helpers.h"
-#include "../unmatched.h"
 #include "script_image_objects.h"
 #ifdef SCRIPT_IMAGE_LOCALIZED_IDS
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 /* Regional values: the image row's upload position, (0, 0xF0) in the US build

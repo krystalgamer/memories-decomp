@@ -11,11 +11,18 @@ AiScriptState gAiScript_State;
 #include "ai_script_commands.h"
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
-#include "ai_script_opcodes.h"
-#include "ai_script_read_byte.h"
-#include "ai_script_read_short.h"
-#include "../unmatched.h"
-#include "ai_controller_handoff.h"
+#include "ai_script.h"
+
+/* Read-only data this unit owns ahead of its jump tables, in the order the
+ * nest/return traps and AiScript_Print first print them. The European build
+ * makes none of these printf calls. */
+#ifndef VERSION_EUROPE
+const char gAiScript_szNestOverflowError[] = "ERROR:Sub Routine Nest Over !!\n";
+const char gAiScript_szSourceFile[] = "src/hirata/H_mctrl1.c";
+const char gAiScript_szReturnUnderflowError[] = "ERROR:Can't Return From Routine !!\n";
+const char gAiScript_szCheckpoint[] = "check_point\n";
+const char gAiScript_szCheckpointFormat[] = "---- %d ------------------------------------\n";
+#endif
 
 /* Initialized data this unit owns at 0x800916E0: the opcode dispatch table AiScript_Run
    indexes. Opcode 0 is unused and its slot is null. */
@@ -202,7 +209,7 @@ s32 Ai_GetHandSearchCount(void)
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "ai_script_source_line_format.h"
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
@@ -637,8 +644,6 @@ void AiScript_LoadLifePoint(void) {
     s32 i = p[AiScript_ReadByte()];
     p[AiScript_ReadByte()] = gDuel_aSideStates[1 - i].life_points.signed_value;
 }
-
-#include "duel_terrain_boost.h"
 
 void AiScript_LoadOpponentID(void)
 {
@@ -1223,48 +1228,39 @@ void AiScript_MatchType(void)
     Ai_GetCardRange(range, &start, &end);
 
     index = start;
-    if (end < index) {
-        goto zero;
-    }
-
-    one = 1;
-    while (1) {
-        if (gDuel_aActiveCards[index].card_id == 0) {
-            goto next;
-        }
-        if (gDuel_aActiveCards[index].card_type != type) {
-            goto next;
-        }
-        if (range == one || range == 3 || range == 6 || range == 8) {
-            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
-                goto next;
+    if (end >= index) {
+        one = 1;
+        do {
+            if (gDuel_aActiveCards[index].card_id == 0) {
+                continue;
             }
-        }
-        if (set == one && range >= 5) {
-            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
-                goto next;
+            if (gDuel_aActiveCards[index].card_type != type) {
+                continue;
             }
-        }
-        if (Ai_IsCardInSets(sets, index) == 0) {
-            break;
-        }
-next:
-        index++;
-        if (end < index) {
-            break;
-        }
+            if (range == one || range == 3 || range == 6 || range == 8) {
+                if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+                    continue;
+                }
+            }
+            if (set == one && range >= 5) {
+                if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+                    continue;
+                }
+            }
+            if (Ai_IsCardInSets(sets, index) == 0) {
+                break;
+            }
+        } while (++index <= end);
     }
 
     if (end < index) {
-zero:
         gAiScript_aMemory[output] = 0;
     } else {
         gAiScript_aMemory[output] = index;
     }
 }
 
-#include "duel_check_ritual.h"
-#include "duel_card_checks.h"
+#include "duel_effect_object_pool.h"
 
 void AiScript_FindEquipTarget(void)
 {

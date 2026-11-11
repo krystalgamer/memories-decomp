@@ -1,0 +1,28 @@
+#ifndef MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
+#define MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
+#include "../types.h"
+
+/* Resets the frontend runtime once, before Main_Loop begins dispatching
+ * modes. It is not itself a mode runner: main_modes.h owns those, including
+ * Main_RunDebugMenu. */
+void Main_PrepareFrontendLoop(void);
+
+void Main_Loop(void);
+
+typedef enum {
+    MAIN_MENU_SELECTION_NEW_GAME = 0,
+    MAIN_MENU_SELECTION_LOAD = 1,
+    MAIN_MENU_SELECTION_TWO_PLAYER_DUEL = 2,
+    MAIN_MENU_SELECTION_TRADE = 3,
+    MAIN_MENU_SELECTION_OPTIONS = 4,
+    MAIN_MENU_SELECTION_CAMPAIGN = 5,
+    MAIN_MENU_SELECTION_FREE_DUEL = 6,
+    MAIN_MENU_SELECTION_BUILD_DECK = 7,
+    MAIN_MENU_SELECTION_LIBRARY = 8,
+    MAIN_MENU_SELECTION_PASSWORD = 9,
+    MAIN_MENU_SELECTION_SAVE = 10
+} MainMenuSelection;
+
+void Main_ApplyMenuSelection(MainMenuSelection selection);
+
+#endif

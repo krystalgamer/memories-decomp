@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant174_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* The entry is the French header-177 entry with sparks added: a spinning grid

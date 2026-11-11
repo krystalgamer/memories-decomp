@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant838_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 838's entry: a comet forms on a model part as a spinning fan with
