@@ -60,7 +60,7 @@ contract and are deliberately unchanged.
 | `0x02` | `x` | `s16` | The spawning path passes it through `DisplayObject_ConfigureSpriteAtPositionWithResource` to `DisplayObject_ConfigureSpriteAtPosition`'s X argument. |
 | `0x04` | `y` | `s16` | The same chain uses it as Y. |
 | `0x06` | `input_mask` | `u16` | The selector ANDs it with the held-input word. |
-| `0x08` | `field_08` | `u8` | Spawning passes it as `DisplayObject_ConfigureSpriteAtPositionWithResource`'s `arg5`, then `DisplayObject_ConfigureSpriteAtPosition`'s `field_69`. No stronger sprite/resource meaning is asserted. |
+| `0x08` | `direction_variant` | `u8` | Spawning passes it as `DisplayObject_ConfigureSpriteAtPositionWithResource`'s `resource_variant`, then `DisplayObject_ConfigureSpriteAtPosition`'s `field_69`. In the table it follows `input_mask`: every right (`0x2000`) exit but one has 0, every down (`0x4000`) exit 2, every left (`0x8000`) exit but one 4, every up (`0x1000`) exit 6; the two exceptions are 1 (right) and 3 (left), the diagonal steps between. It selects the exit sprite's direction frame (formerly `field_08`). |
 | `0x09` | `destination` | `u8` | Both paths skip the sentinel `16`; the selector returns the value for an eligible exit. |
 | `0x0A` | `move_steps` | `u8` | Selection copies it to `gCampaignMap_MoveState`; the transition uses that state as its camera-tween step count and marker interpolation divisor. |
 | `0x0B` | `pad_0B` | `u8` | No live access identified; preserved, not interpreted. |

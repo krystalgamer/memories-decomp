@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "variant448_fan.h"
 #include "variant448_orbit.h"
 #include "variant448_radial.h"

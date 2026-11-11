@@ -2,14 +2,11 @@
 #define FRENCH_MODEL_IMAGE5996_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_state_updates.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/graphics_packet_submission.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"

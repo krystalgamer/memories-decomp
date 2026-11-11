@@ -2,7 +2,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "../unmatched.h"
 #include "display_effect_load_resource_stage.h"
 
 /* Regional value: the load descriptor's x (0x200 -> 0x280). The European

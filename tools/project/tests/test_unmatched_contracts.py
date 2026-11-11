@@ -787,12 +787,12 @@ extern s32 data;
     def test_shared_abi_dispatcher_may_own_an_unmatched_function(self) -> None:
         self.write_inventory("DisplayObject_SubmitPacket", "unmatched_asm")
         self.write(
-            "src/game/display_object_packet_submit.h",
+            "src/game/display_object_system.h",
             "void DisplayObject_SubmitPacket(s32 value);\n",
         )
         self.write(
             "src/game/caller.c",
-            '#include "display_object_packet_submit.h"\n'
+            '#include "display_object_system.h"\n'
             "void caller(void) { DisplayObject_SubmitPacket(1); }\n",
         )
 

@@ -157,7 +157,7 @@ cloud-fixture execution.
 
 ## Shared index and allocation API
 
-[`display_object_core.h`](../src/game/display_object_core.h) is the sole C
+[`display_object_system.h`](../src/game/display_object_system.h) is the sole C
 declaration point for the general-use index scan and indexed allocator:
 
 ```c
@@ -175,7 +175,7 @@ C declaration sites and remain unchanged.
 
 The former aggregate API header also declared `DisplayObject_FindAllocatedByTag`, even though
 `display_object_helpers.c` defines it. Its declaration now lives in
-`display_object_helpers.h`; each caller includes only the core, helper, or both
+`display_object_system.h` (formerly `display_object_helpers.h`); each caller includes only the core, helper, or both
 owners needed by the functions it uses.
 
 The getter returns an **integer slot index**, 16-95, or signed `-1` when
@@ -522,7 +522,7 @@ before projecting the prepared quad, and test bit 30 before routing it through
 
 ## Two-phase glyph-entry transitions
 
-`src/game/display_object_fade.h` defines two bits in object byte `+0x13`:
+`src/game/duel_effect_text.h` defines two bits in object byte `+0x13`:
 
 | Flag | Value | Matching behavior |
 |---|---:|---|

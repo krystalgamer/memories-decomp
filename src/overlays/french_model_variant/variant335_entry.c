@@ -197,9 +197,9 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         work->extent = 1024;
-        work->field_2E78 = 0;
-        work->field_2E6C = 0;
-        work->field_2E70 = 0;
+        work->orbit_diameter = 0;
+        work->travel_angle = 0;
+        work->lift = 0;
         work->spin = 0;
         work->count = 0;
         work->field_2E8E = 0;

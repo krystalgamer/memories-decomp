@@ -33,7 +33,7 @@ and duplicate-state staging layout is documented in
 
 ## Shared live-workspace contract
 
-[`save_data.h`](../../src/game/save_data.h) owns `gSaveData_Workspace` and the
+[`mem_card.h`](../../src/game/mem_card.h) owns `gSaveData_Workspace` and the
 independently labeled chest, player-name and Free Duel record interiors.
 The live `SaveDataWorkspace.state` starts at `+0x200`, while `SaveDataState`
 remains a prefix of the persisted block, not a replacement allocation:
@@ -164,7 +164,7 @@ the tester and a clear operation for the updater; it is not a stored flag bit.
 
 The event-script handler
 [`Script_OpStoryFlag`](../../src/game/script_scene.c) and text handler
-[`Text_HandleCampaignFlagCommand`](../../src/game/text_commands.c)
+[`Text_HandleCampaignFlagCommand`](../../src/game/duel_effect_text.c)
 interprets
 `CAMPAIGN_FLAG_COMMAND_WRITE` (`0x4000`) before calling either helper.
 Write commands pass `command & 0xBFFF`, retaining the clear modifier:

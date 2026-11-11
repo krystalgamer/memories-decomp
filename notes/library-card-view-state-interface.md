@@ -14,7 +14,7 @@ eventually returns the owner to grid state 1. It is not a grid renderer or
 a monster-only model updater: non-monster cards still use its card/text
 path. The existing typed `void` interface and every phase remain unchanged.
 
-The owner was already `library_runtime.h`, which includes the canonical
+The owner was already `library.h` (formerly `library_runtime.h`), which includes the canonical
 Library state header. The dispatcher keeps its existing byte cursor and
 uses an explicit owner view at this call, just as it does for the grid
 handler. No other state-handler contract is changed.

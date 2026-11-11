@@ -1,7 +1,9 @@
 #ifndef YUGIOH_GAME_MODEL_H
 #define YUGIOH_GAME_MODEL_H
-
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../ygo_types.h"
 
 #define MODEL_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
@@ -928,5 +930,331 @@ s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
 void Model_SetSlotDrawMode(s32 index, s32 value);
+
+extern u8 gMainMenu_PackageStageRect[];
+extern u8 gModel_abAuxiliaryPaletteSector[];
+
+/* The file-transfer phase callbacks Model_LoadMonsterMerge installs
+ * through File_TryRequestAsyncTransfer: Model_LoadMonsterMergeStage for duel slots,
+ * Model_LoadAuxiliaryPackageStage for another monster record and Model_LoadSpecialBattlePackageStage for the
+ * 0x309 special case.
+ *
+ * That file declared them as `void func(void);`. The declarations were only
+ * ever used to take the functions' addresses -- FileTransferCallback is
+ * `void (*)()`, which accepts any function pointer -- so neither the wrong
+ * parameter count nor the wrong types were ever checked against anything,
+ * and the build matched with the old spellings live in the tree. */
+void Model_LoadMonsterMergeStage(FileTransferDescriptor *object, s32 mode);
+void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode);
+void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mode);
+
+/* Recolours one duel side's 256x8 VRAM strip while copying it up from y=0xF8
+ * to y=0xF0. side selects the half of the framebuffer through `side << 8`, so
+ * 0 reads x=0 and 1 reads x=256, and the function returns without drawing for
+ * any other value.
+ *
+ * The slow path walks the strip in two 256x4 bands: StoreImage2 pulls a band
+ * into a local buffer, every one of its 0x400 pixels goes through
+ * Color_TintBgr555Pixel(pixel, tint, level), and LoadImage2 writes the
+ * result back eight rows higher. When the tint keeps the hue, is not
+ * inverted, and level is at or above COLOR_FIXED_ONE the recolour is the
+ * identity apart from the tint's zero-channel clamp, so the whole strip moves
+ * in one MoveImage instead; notes/color-transform-runtime.md measures that
+ * difference.
+ *
+ * Its RECT scratch is the four halfwords gModel_sTextureTintRectX/Y/W/H,
+ * declared centrally in unmatched.h; this function is their only user.
+ *
+ * model_slot_control.c is the only caller and supplies the tint and level from
+ * the slot's texture_tint_control and texture_tint_scale. */
+void Model_ApplyTextureTint(s32 side, s32 tint, s32 level);
+
+typedef union {
+    u16 packed;
+    struct {
+        u8 v;
+        u8 upper;
+    } bytes;
+} ModelBackgroundVPage;
+
+/* The selector also chooses the auxiliary model file; the scene controller
+ * and VRAM animation step switch on the same byte. Flags bit 0 enables the
+ * floor bands and shadow clipping, while bit 1 disables model shadows.
+ * The renderer reads +0xAC both as a V byte and as packed texture-page bits. */
+typedef struct ModelBackgroundRecord {
+    u8 pad_00[0xA0];
+    u8 selector;
+    u8 flags;
+    s16 shadow_y_offset;
+    u16 stage_height;
+    u16 texture_width;
+    /* Low 13 bits bound vertical clipping; high bits select texture modes. */
+    u16 texture_height_flags;
+    /* Low six bits feed U; the next four contribute to the texture page. */
+    u16 texture_u_page;
+    ModelBackgroundVPage texture_v_page;
+    u16 clut_x;
+    u16 clut_y;
+} ModelBackgroundRecord;
+
+typedef char ModelBackgroundVPage_size_must_be_2[
+    sizeof(ModelBackgroundVPage) == 2 ? 1 : -1
+];
+typedef char ModelBackgroundVPage_v_offset_must_be_0[
+    ((u32)&(((ModelBackgroundVPage *)0)->bytes.v)) == 0 ? 1 : -1
+];
+typedef char ModelBackgroundVPage_upper_offset_must_be_1[
+    ((u32)&(((ModelBackgroundVPage *)0)->bytes.upper)) == 1 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_selector_offset_must_be_0xA0[
+    ((u32)&(((ModelBackgroundRecord *)0)->selector)) == 0xA0 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_flags_offset_must_be_0xA1[
+    ((u32)&(((ModelBackgroundRecord *)0)->flags)) == 0xA1 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_shadow_y_offset_must_be_0xA2[
+    ((u32)&(((ModelBackgroundRecord *)0)->shadow_y_offset)) == 0xA2 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_stage_height_offset_must_be_0xA4[
+    ((u32)&(((ModelBackgroundRecord *)0)->stage_height)) == 0xA4 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_texture_width_offset_must_be_0xA6[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_width)) == 0xA6 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_texture_height_flags_offset_must_be_0xA8[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_height_flags)) == 0xA8 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_texture_u_page_offset_must_be_0xAA[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_u_page)) == 0xAA ? 1 : -1
+];
+typedef char ModelBackgroundRecord_texture_v_page_offset_must_be_0xAC[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_v_page)) == 0xAC ? 1 : -1
+];
+typedef char ModelBackgroundRecord_clut_x_offset_must_be_0xAE[
+    ((u32)&(((ModelBackgroundRecord *)0)->clut_x)) == 0xAE ? 1 : -1
+];
+typedef char ModelBackgroundRecord_clut_y_offset_must_be_0xB0[
+    ((u32)&(((ModelBackgroundRecord *)0)->clut_y)) == 0xB0 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_size_must_be_0xB2[
+    sizeof(ModelBackgroundRecord) == 0xB2 ? 1 : -1
+];
+
+typedef struct {
+    SVECTOR values[2];
+} BackgroundNormals;
+
+/* Draws the model-scene backdrop. Unless slot 2 is inactive (is_active) or
+ * its three ambient words are all -4096, it calls
+ * Model_UpdateBackgroundScroll(0) to update the scroll, lights a colour from
+ * slot 2's flat lights and ambient and, unless the vertical offset
+ * gModel_wBackgroundOffsetY clips the band away, sorts 64-wide GsSPRITE tiles of up to 256
+ * rows across the 320-pixel screen from x = gModel_wBackgroundScrollX / 10 less a
+ * width-derived base, wrapping U within the record's texture width. If bit 0
+ * of record byte 0xA1 is set it then sorts sixteen 256-step segments of three
+ * Gouraud POLY_G4 floor bands (radii 1000-1600-2200-2800) at slot 2's
+ * coordinate Y + 300, shaded from the dimmer colour constants down to black.
+ *
+ * Draws from model slot 2 and the selected 0xB2-byte model record.
+ * Both the active record and slot coordinate must be valid before the
+ * active-byte guard. Texture depth must be 0..2, a visible tile period
+ * nonzero, and ordering-table length below 32. See
+ * notes/model-background-renderer.md for the measured input contract. */
+void Model_DrawBackground(void);
+
+/* Loads missing scene slots and handles the model-selection debug display.
+ * The animated-battle frame uses the completion sentinel return value. */
+s32 ModelDebug_UpdateController(void);
+
+extern const char gModelDebug_szLoadStageFormat[];
+extern const char gModelDebug_szLoadModel0Format[];
+extern const char gModelDebug_szLoadModel1Format[];
+extern const char gModelDebug_szSlotFlagsFormat[];
+extern const char gModelDebug_szStageFormat[];
+
+/* Per-frame draw pass for model slot `index` (0 and 1 are the two duel sides,
+ * 2 the shared scene slot): lights, colour fade into the primitive templates,
+ * unit sort, bounding volume, ground shadow and palette flash. It returns
+ * early while the slot is unloaded or fully faded out.
+ *
+ * Six callers, all with this spelling: model_scene_controllers.c,
+ * model_scene_services.c, model_slot_support.c, duel_scene.c,
+ * library_draw_wireframe_globe.c and the overworld overlay's set_location.c. */
+void Model_DrawSlot(s32 index);
+
+void Model_GetSlotDimensionsWithMinimums(s32 index, ModelEffectAdjustment *out);
+
+extern const char gModel_szLoadModelTraceFormat[];
+
+/* Executes one phase of an already-started model-slot load and publishes its
+ * next phase. Phase 0 and the 0xFF idle/finished marker do not advance. A set
+ * is_active ends the phase sequence; callers poll readiness separately. */
+void Model_AdvanceSlotLoad(s32 index);
+
+/* Steps one of two VRAM copy animations, gated on gModel_aSlots[2].is_active and selected
+ * by byte 0xA0 of the selected background record at gModel_pBackgroundRecord (the intro
+ * controller switches on the same byte, values 0 to 6). Model_UpdateScene
+ * calls it every scene update, directly after the background renderer
+ * Model_DrawBackground. Both arms build the same four-halfword RECT
+ * at gModel_ImageCopyRectX and hand it to MoveImage; they differ in the source region and
+ * in how the frame is derived from VSync(-1) -- case 1 cycles three 16-pixel
+ * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector
+ * value does nothing.
+ *
+ * gModel_pBackgroundRecord comes from model_graphics_state.h.
+ *
+ * Model_UpdateScene in model_scene_services.c is the only caller and held the only
+ * declaration. */
+void Model_StepBackgroundVramAnimation(void);
+/* Four separate halfword globals, like gModel_sTextureTintRectX..H: each
+ * store keeps its own gp-relative relocation, which a single RECT would lose
+ * because GCC reuses the struct base for the y/w/h members. */
+extern s16 gModel_ImageCopyRectX;
+extern s16 gModel_ImageCopyRectY;
+extern s16 gModel_ImageCopyRectW;
+extern s16 gModel_ImageCopyRectH;
+#define MODEL_IMAGE_COPY_RECT ((RECT *)&gModel_ImageCopyRectX)
+
+extern const u8 gModel_szAnimationSoundTraceFormat[];
+
+/* Model_UpdateAnimatedBattle's per-slot action: plays animation
+ * guardian_star_selection + 3 when it has frames, moves the camera towards the other slot
+ * for two thirds of that length (at least 60, or the record's override), and
+ * sets gModel_bCameraHoldState from the record's flag bits. */
+void Model_StartBattleSlotAction(s32 index);
+void Model_PlaySlotAnimationSounds(s32 index);
+
+/* Last selected model IDs (including slot 2's stage) and the two model flags
+ * mirrored by Model_SetSlotProperties and edited by
+ * ModelDebug_UpdateController. */
+extern s16 gModel_awSlotModelIds[MODEL_SLOT_COUNT];
+extern u8 gModelDebug_abSlotAfFlags[2];
+extern u8 gModelDebug_abSlotGfFlags[2];
+
+/* Resets the model scene: clears the two counters at gModel_wBackgroundScrollX/gModel_wBackgroundOffsetY and
+ * the packed state words, and rebuilds the coordinate unit. Three units call it
+ * to enter a scene; Main_RunCredits also calls it before starting its scene. */
+void Model_ResetSceneView(void);
+
+/* Sets one model slot's properties. Variadic on purpose, and the arity is the
+ * argument: slot 2 takes one property, slots 0 and 1 take five, and a first
+ * property below zero leaves the current one alone. The definition reads them
+ * with va_arg in that order, so a caller passing the wrong count for its slot
+ * reads whatever follows on the stack. */
+void Model_SetSlotProperties(s32 idx, ...);
+
+/* Clears the scene's 256-entry table to VRAM, resets the three transfer
+ * channels and the model slot flags, and drops the scene counters. Like
+ * Model_ResetSceneView above it is also called from Main_RunCredits through
+ * this declaration. */
+void Model_ResetSceneState(void);
+
+/* Keeps the viewpoint out of the two model slots. For each slot with
+ * is_active set (bar one whose tint[3] is at least 2 while the low 24
+ * bits of tint are clear) it measures the horizontal distance from the
+ * yaw-offset viewpoint (gModel_RView.vpx/vpz) to that slot and, when the
+ * distance is below the slot's larger half-extent, pushes the viewpoint away
+ * by the overlap; the slots themselves do not move. `mode` 0 only measures,
+ * `min_extent` bounds the half-extents and the viewpoint offset, and `depth`
+ * counts the recursive retries (up to three). Returns the limit of the last
+ * move, or 0. */
+s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth);
+
+/* Reads back where a slot part stands, roughly inverting
+   Model_SeekSlotPartAnimation. It returns 0 if the part is missing or its
+   current command (ti) is negative. Otherwise it finds the first sequence row
+   animation_row in 1..9 whose entry index is not 0xFFFF and whose header entry (the one
+   before the row's first entry) is at or before ti, with ti no further than
+   the header's halfword counted from the table base. It sums byte 2 of the
+   row's entries before ti and adds (tframe - rframe) / 16 unless rframe holds
+   one of the dispatcher's 0x6000/0x7000 overrun markers. The result packs animation_row
+   into the high byte above that sum, or is 0 when no row matches. No caller
+   was found in SLUS_014.11, SU.MRG or WA_MRG.MRG. */
+s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index);
+
+/* Seeks channel part_index of a model slot to position scaled_position within sequence animation_row.
+ *
+ * An earlier note here said the definition could not take a ModelSlot,
+ * because introducing the cast changed the entry instruction. That was the
+ * member spelling, not the type. `(u8 *)slot->animation_command_indices + offset` reassociates
+ * so that the slot pointer becomes the second operand of the addu, and
+ * retail has it first. A plain `slot->animation_command_indices[animation_row][part_index]` index keeps it first, as
+ * long as the two channel offsets are still computed up front for cse to
+ * reuse. The definition takes the typed slot and all three callers pass it
+ * directly. */
+void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_row, u32 scaled_position);
+
+/* Camera move request. It fills the gModel_CameraMove transition record from the live
+ * camera at gModel_RView and a model slot's +0xDD0 vector, and writes the result
+ * back immediately when the duration is zero.
+ *
+ * Both consumers already spelled it this way. model_scene_services.c wraps it
+ * in two guarded requests, described in its own header; Model_ResetSceneView,
+ * in model_scene_controllers.c beside the definition, asks for the all-zero move.
+ *
+ * The transition record is the ModelCameraMove gModel_CameraMove, and its guarded
+ * wrappers are Model_RequestCameraMove and Model_RequestCameraMoveToSlots, so
+ * the request is named with that Model_ owner. */
+void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_transport, s32 timing_work);
+
+/* The fifth argument is stored by every caller but never read. */
+void Model_StepViewOrbit(s32 direction, s32 yaw, s32 pitch, s32 distance, s32 unused);
+
+/* Scrolls the model-scene background with the view. The yaw change since the
+ * snapshot (gModel_ViewSnapshot +2), wrapped the short way round a full turn, moves the
+ * horizontal scroll gModel_wBackgroundScrollX by that change * 1280 / 384 modulo the
+ * background texture width; the renderer divides it by 10 for the sprite x.
+ * When the pitch changed, gModel_wBackgroundOffsetY is rederived from the absolute pitch:
+ * below 0x801 it is pitch * 26 / 85, capped at 0x139 from a quarter turn up;
+ * from 0x801 the pitch is read as wrapped and gives minus its distance from
+ * a full turn times 26 / 85, floored at -0x139 beyond a quarter turn. The
+ * renderer uses it as the sprite y offset. A non-zero argument forces both
+ * updates; Model_ResetSceneView passes 1 after resetting the view and the
+ * background renderer passes 0. Finally the eight-byte view snapshot at
+ * gModel_ViewSnapshot is refreshed from gModel_wViewDistance.
+ *
+ * Only the function is declared here. That unit also carries tentative
+ * definitions of gModel_pBackgroundRecord, gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY and the
+ * gModel_wViewDistance group, and its comment records that they are a
+ * codegen input -- making them extern shortens the function by four bytes --
+ * so they stay where they are.
+ * Direct angle differences and a semantic absolute-value predicate remove
+ * the former register bindings without changing those storage contracts. */
+void Model_UpdateBackgroundScroll(s32 force);
+
+/* Per-frame tint pass over the ten requests at gModel_aTintRequests. Each live request
+ * interpolates its start colour towards its end colour by elapsed/duration,
+ * drops the result into the model slot's tint, redraws the slot through
+ * Model_DrawSlot with its saved nonzero animation-row override, then
+ * restores the colour, the part records and current_animation_row and advances the
+ * request's clock. Requests whose clock reaches their duration clear their
+ * live bit.
+ *
+ * It takes no arguments and returns nothing: the request table and the slots
+ * it walks are both reached through globals. Model_UpdateScene in
+ * model_scene_services.c is the only consumer and drives it once per frame,
+ * between Model_StepBackgroundVramAnimation and the Model_UpdateSlotAnimation slot ticks.
+ *
+ * The request table is the one Model_QueueTintRequest and
+ * Model_QueueTintRequestForParts fill, and every request redraws a model slot
+ * through Model_DrawSlot, so the pass is named with the Model_ owner of that
+ * queue. */
+void Model_UpdateTintRequests(void);
+
+/* The pitch correction Model_CorrectViewDistance runs: while gModel_wViewPitch
+ * is above 0x800 it steps the pitch through Model_StepViewOrbit into a band
+ * around a target interpolated between 3968 and 3755 by gModel_RView.vry,
+ * and otherwise steps it down by 4. */
+void Model_CorrectViewPitch(void);
+/* The second camera/view correction pass Model_UpdateCamera runs. It takes
+ * a 0x2BC-0x3E8 distance range adjusted by Model_AdjustCameraDistanceForSlot,
+ * pushes the viewpoint out of each model slot (Model_SeparateViewFromSlots),
+ * steps the camera-move field_04 outside Japan, runs Model_CorrectViewPitch, then steps
+ * gModel_wViewDistance up towards the range's lower bound, down towards that
+ * bound when arg0 is set, and down to the upper bound when it is exceeded. */
+void Model_CorrectViewDistance(s32 arg0);
+
+void SD_ApplyPositionalSound(
+    s32 sound_id, s32 play, s32 world_x, s32 world_z);
 
 #endif

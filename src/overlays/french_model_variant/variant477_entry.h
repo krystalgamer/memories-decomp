@@ -3,15 +3,12 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 
 typedef struct {
     SVECTOR a[1], b[1], c[1], d[1], positions[1];
@@ -42,9 +39,7 @@ typedef struct {
     VECTOR direction;
     DVECTOR screen_delta;
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     ModelVariantMoveConfig *config;
     u32 field_207C;
     GsCOORDUNIT *parts[2];

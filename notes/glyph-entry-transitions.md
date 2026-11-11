@@ -76,7 +76,7 @@ new rounding or saturation.
 | France / Germany / Italy / Spain | `0x80039C6C` | `0xD0` |
 
 The existing `DisplayObjectFade_ReleaseChannel` prototype moves exactly
-from its numeric header into `display_object_fade.h`, beside the already
+from its numeric header into `duel_effect_text.h` (formerly `display_object_fade.h`), beside the already
 owned initialization helper and flag constants. Both implementation and
 callback units already include that owner, so only the obsolete includes
 and header retire. Its original struct-pointer spelling, helper bodies,

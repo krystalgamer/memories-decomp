@@ -4,7 +4,7 @@
 #ifdef VERSION_JAPAN
 #include "../psyq/libetc.h"
 #endif
-#include "graphics_frame.h"
+#include "main.h"
 #include "input.h"
 #include "graphics_frame_controls.h"
 

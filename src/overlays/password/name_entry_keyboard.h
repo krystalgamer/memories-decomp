@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
-#include "../../game/duel_effect.h"
+#include "../../game/duel_effect_states.h"
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset);
 void NameEntry_UpdateKeyboard(void);

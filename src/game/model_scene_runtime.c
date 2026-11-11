@@ -32,10 +32,8 @@ GsCOORDUNIT gModel_CameraCoordinateUnit;
 GsRVIEW2 gModel_RView;
 GsRVIEW2 gModel_SavedRefView;
 
-#include "model_slot_part_animation.h"
 #include "model.h"
-#include "model_slot_state_updates.h"
-#include "model_slot_updates.h"
+#include "model_scene_runtime.h"
 
 void Model_SetSlotPlaybackSpeed(s32 slot_index, s32 speed)
 {
@@ -130,7 +128,6 @@ void Model_SeekSlotAnimation(s32 slot_index, s32 animation_row, s32 frame_positi
 }
 
 #include "../psyq/libsn.h"
-#include "file_query_wrappers.h"
 
 int HostFile_GetSize(char *path)
 {
@@ -186,8 +183,6 @@ s32 HostFile_ReadRange(char *path, char *destination, s32 offset, s32 length)
 }
 
 #include "model_texture_upload.h"
-#include "model.h"
-#include "model_set_slot_shadow_enabled.h"
 
 void ModelTexture_UploadTimFile(char *path, int destination_mode, int blend_mode, int pixel_x, int pixel_y, int clut_x, int clut_y)
 {
@@ -224,8 +219,7 @@ int Model_SetSlotShadowEnabled(int index, int value)
     return old;
 }
 
-#include "model_graphics_state.h"
-#include "model_state_setters.h"
+#include "model_slot_getters.h"
 #include "graphics_frame_controls.h"
 
 void Model_SetScreenYOverride(int value)
@@ -289,20 +283,12 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 }
 
 #include "camera_view.h"
-#include "model_scene_controllers.h"
-#include "model_update_tint_requests.h"
 #include "model_slot_control.h"
-#include "model_remap_primitive_handlers.h"
-#include "model_background.h"
-#include "model_cleanup.h"
 #include "model_handler_registry.h"
 #include "primitive_handler_modes.h"
 #include "model_scene_states.h"
-#include "model_slot_properties.h"
-#include "model_effect_state.h"
-#include "model_transfer_state.h"
-#include "../unmatched.h"
-#include "../game/model_draw_slot.h"
+#include "model_slot_support.h"
+#include "model_camera_effects.h"
 
 void Model_SetPresentationBgmCommand(s32 value)
 {
@@ -403,9 +389,6 @@ void Model_RunSlotHandlers(s32 index)
     }
 }
 
-#include "model_start_camera_move.h"
-#include "model_transfer_flags.h"
-#include "model_effect_requests.h"
 #include "model_camera_state.h"
 
 void Model_RequestCameraMove(s32 mode_request)
@@ -499,13 +482,9 @@ void Model_SetCameraOrbitStep(s32 orbit_step_request)
     camera_move->orbit_step = orbit_step_request;
 }
 
-#include "model_lock_orbit_direction.h"
-
 void Model_LockOrbitDirection(int value){int one=1;if(Model_GetCameraHoldState()!=one||Model_GetHandlerCallbackState()!=one){if(value>=0)gModel_bOrbitDirection=one;else gModel_bOrbitDirection=-1;gModel_bOrbitDirectionTimer=255;}}
 
-#include "model.h"
 #include "camera_view.h"
-#include "model_distance_queries.h"
 
 #define MODEL_SLOT_HALFWORDS(slots, index) \
     ((u16 *)((u8 *)(slots) + (index) * MODEL_SLOT_SIZE))
@@ -541,8 +520,6 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
         output.vx * output.vx + output.vy * output.vy + output.vz * output.vz
     );
 }
-
-#include "model_parent_search.h"
 
 s32 Model_FindBranchingChildCoord(ModelSlot *model, GsCOORDUNIT *parent)
 {
@@ -590,10 +567,6 @@ next:
 done:
     return child_index;
 }
-
-#include "model_slot_updates.h"
-
-#include "model_update_coordinate_unit_matrix.h"
 
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
 
@@ -674,7 +647,6 @@ void Model_SetSlotRootTransform(ModelSlot *slot_state, int translation_x, int tr
 }
 
 #include "model_handler_registry.h"
-#include "model_remap_primitive_handlers.h"
 
 void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntry *descriptor, s32 arg2,
                    s32 descriptor_count)
@@ -706,8 +678,6 @@ void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntr
     }
 }
 
-#include "model_effect_coefficients.h"
-#include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 
 s32 Model_GetSlotCameraPresetYaw(s32 slot_index)
@@ -738,7 +708,6 @@ s32 Model_GetSlotCameraPresetYaw(s32 slot_index)
 }
 
 #include "camera_view.h"
-#include "sd_calc_spatial_volume_pan.h"
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
  * the distance from the listener record at gModel_RView, minus 700, sets the
@@ -800,8 +769,6 @@ void SD_CalcSpatialVolumePan(s32 source_x, s32 source_z, u8 *volume, u8 *pan) {
     }
 }
 
-#include "model.h"
-#include "model_is_camera_move_complete.h"
 #include "model_camera_state.h"
 
 int Model_IsCameraMoveComplete(int arg)
@@ -814,11 +781,8 @@ int Model_IsCameraMoveComplete(int arg)
     return result;
 }
 
-#include "graphics_frame.h"
+#include "main.h"
 #include "gpu_packets.h"
-#include "model_graphics_state.h"
-#include "model_slot_properties.h"
-#include "model_has_insufficient_buffer_space.h"
 
 #define MODEL_SLOT_AT_OFFSET(slots, offset) \
     ((ModelSlot *)((u8 *)(slots) + (offset)))

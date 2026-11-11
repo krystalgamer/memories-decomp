@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant170_entry.h"
 #include "../../game/graphics_constants.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Three white flashes frame the effect while a glow gathers at one of this
  * slot's parts and leaves a sparkling trail on its way back to this slot; a

@@ -79,7 +79,7 @@ PAL table contents or a different dispatch allocation.
 ## Native conservation and evidence scope
 
 A separate `VERSION_EUROPE`-guarded header,
-`european_glyph_fade_callbacks.h`, declares the six names with their
+`duel_effect_text.h` (formerly `european_glyph_fade_callbacks.h`), declares the six names with their
 original signatures. It used to map them onto the `func_` labels with
 `__asm__` aliases and kept a separate `func_80039B3C.h`; both are gone, and
 the symbol files bind the names directly.

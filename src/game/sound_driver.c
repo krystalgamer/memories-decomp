@@ -3,13 +3,25 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
-#include "sound_output_transition.h"
+#include "sound_driver.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * sound_driver_commons subsegment places it at the retail addresses. */
 SDSecondaryState *gSD_pSecondaryState;
 SDValue *g_SDValue;
 FileRequestSlot *gSD_pFileRequest;
+
+/* Read-only data this unit owns ahead of its jump tables: the archive names
+ * SD_InitState copies into the file requests, then the debug formats
+ * SD_UpdateBankLoad prints. The European build makes none of those calls. */
+const char gSD_szBgmFileName[] = "SD_bgm.dat";
+const char gSD_szSeFileName[] = "SD_se.dat";
+const char gSD_szMasterXaFileName[] = "MASTER.XA";
+#ifndef VERSION_EUROPE
+const char gSD_szSeGroupCountFormat[] = "g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n";
+const char gSD_szSmfMixerOutFormat[] = "Set SMF Mixer Out:%d\n";
+const char gSD_szCdMixerOutFormat[] = "Set CD Mixer Out:%d\n";
+#endif
 
 void SD_FadeInStreamAudio(void)
 {
@@ -67,9 +79,8 @@ void SD_InitSpuCommonVolume(void)
 
 #include "file_transfer.h"
 #include "sound.h"
-#include "sound_mix.h"
+#include "sound_output_state.h"
 #include "sound_init.h"
-#include "sound_output_transition.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
@@ -143,7 +154,6 @@ void SD_InitState(u8 master_xa_lba_byte)
 }
 
 #include "sound.h"
-#include "sound_state_control.h"
 
 void SD_SetSequenceVSyncMode(s32 vsync_mode)
 {
@@ -170,10 +180,8 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 }
 
 #include "../psyq/stdio.h"
-#include "../unmatched.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
-#include "sound_output.h"
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (248 instructions,
  * the sound bank loader state machine: SE header, SE groups, then the SMF and
@@ -324,11 +332,9 @@ void SD_UpdateBankLoad(void) {
     return;
 }
 
-#include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
-#include "sound_sequence_state.h"
-#include "sound_output_state.h"
+#include "sound_effect_request.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
@@ -396,7 +402,6 @@ void SD_ResetRuntime(void)
 
 #include "sound_init.h"
 #include "sound_pending_entries.h"
-#include "sound_output.h"
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();

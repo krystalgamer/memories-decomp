@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_DUEL_EFFECT_PROCESS_ENTRIES_H
 #define MEMORIES_DECOMP_DUEL_EFFECT_PROCESS_ENTRIES_H
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Four entry handlers, defined after the primary text commands in
  * duel_effect_command_table.c. Keep this two-argument ABI and unsized spelling. */

@@ -35,7 +35,7 @@ halves directly to `func_800291E0`, then position the returned display object
 separately. In the default constructor path, the values go to resource
 `attack/defense` at resource offsets `0x32/0x34`, not the screen-position members.
 
-The independent renderer in `card_preview_draw_detail_panel.c` also reads
+The independent renderer in `card_preview.c` also reads
 `attack + attack_adjustment` into `buf1` and draws those digits at its ATK
 row; `defense + defense_adjustment` goes to `buf2` and its DEF row.
 This corroborates the argument roles without changing the renderer's
@@ -114,7 +114,7 @@ Target guards fix both signed two-byte members and their original offsets.
 ## Confirmed paired-object constructor name
 
 The constructor is now `CardPreview_CreateResourceObjects`, declared with
-the release helper in `card_preview_objects.h`. It is distinct from the
+the release helper in `card_preview.h` (formerly `card_preview_objects.h`). It is distinct from the
 resource-transfer requester: it allocates and configures two display-pool
 objects from an already-selected resource slot, without requesting artwork.
 

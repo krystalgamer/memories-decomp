@@ -9,7 +9,7 @@ and `gModel_CameraMove`.
 
 ## Record evidence and boundaries
 
-The recovered `ViewState` in `src/game/view_state.h` remains unchanged:
+The recovered `ViewState` in `src/game/view_state_orbit.h` remains unchanged:
 signed halfword prefix fields, heading at `+2`, projection at `+0xE`, and
 the SDK `GsRVIEW2` at `+0x10`. `Duel_InitGroundProjectionReference` passes
 the projection member to `SetGeomScreen`.
@@ -85,7 +85,7 @@ aliases remain available. The French literal `D_800F2848_French` at
 
 All pre-existing headers and overworld source, import maps and inventory
 notes remain unchanged. Resident consumers use the isolated
-`view_state_current.h` declarations. The two existing result-controller and
+`view_state_orbit.h` (formerly `view_state_current.h`) declarations. The two existing result-controller and
 Library-target controls change only the record identifier; their assertions,
 mutations, generators and case counts are preserved, with no added harness
 or test case. Regional image and witness execution belongs to PR validation.

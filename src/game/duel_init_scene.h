@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_INIT_SCENE_H
 
 #include "display_object.h"
-#include "save_data.h"
+#include "mem_card.h"
 
 /* The duel entry point, and the two banner display objects it builds.
 
@@ -12,7 +12,7 @@
    other consumers use the typed view. The Exodia candidate takes the guarded
    byte-pointer arm because its offset-based accesses are codegen-sensitive.
 
-   The prototype is the one main_run_duel_and_library.c held as its own
+   The prototype is the one Main_RunDuel (main_mode_runners.c) held as its own
    extern, which was the only declaration anywhere. */
 void Duel_InitScene(void);
 

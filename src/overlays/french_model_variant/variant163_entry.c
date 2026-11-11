@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant163_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../psyq/libhmd.h"
 
 /* PAL height; the North American wrappers define 240. */

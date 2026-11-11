@@ -2,7 +2,7 @@
 #include "variant647_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 647's entry: one or two bursts of rings, each set up from a command
  * row; every burst grows from the camera unit for 64 frames and

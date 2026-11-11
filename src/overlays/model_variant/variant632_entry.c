@@ -2,7 +2,7 @@
 #include "variant632_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 632's entry: 32 camera-facing flares (two mirrored sets for command
  * 1) flash on a disc in front of the slot and fade, a dotted sphere grows

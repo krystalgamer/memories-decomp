@@ -2,7 +2,7 @@
 #include "variant654_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 654's entry: bursts of textured quads fly out of the slot one column
  * at a time, or start together in front of it, and each column's first burst

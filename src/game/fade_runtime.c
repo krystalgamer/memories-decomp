@@ -3,14 +3,12 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "graphics_frame.h"
-#include "main_frame.h"
+#include "main.h"
 #include "ordering_tables.h"
 
 #include "fade.h"
 
 #include "fade_overlay_controls.h"
-#include "../unmatched.h"
 #include "graphics_frame_controls.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
@@ -48,7 +46,7 @@ void Fade_Init(void)
 
 /* Refills mirrored band pairs using the configured step. Increasing
    transitions visit the middle pair first and subtract step from the signed
-   field_08 accumulator; decreasing transitions visit the outer pair first
+   sweep_head accumulator; decreasing transitions visit the outer pair first
    and add step. Values are clamped between level and target_level. After
    the pass, the head update uses the opposite sign, scaled by gGraphics_nBaseFrameStep. */
 void Fade_StepBands(void)
@@ -60,7 +58,7 @@ void Fade_StepBands(void)
     s32 acc;
 
     if (state->level < state->target_level) {
-        acc = (s16)state->field_08;
+        acc = (s16)state->sweep_head;
         for (i = FADE_BAND_COUNT / 2 - 1; i >= 0; i--) {
             acc = acc - step;
             level = acc;
@@ -73,10 +71,10 @@ void Fade_StepBands(void)
             state->band_levels[i] = level;
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
-        state->field_08 =
-            state->field_08 + step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+        state->sweep_head =
+            state->sweep_head + step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     } else {
-        acc = (s16)state->field_08;
+        acc = (s16)state->sweep_head;
         for (i = 0; i < FADE_BAND_COUNT / 2; i++) {
             acc = acc + step;
             level = acc;
@@ -89,8 +87,8 @@ void Fade_StepBands(void)
             state->band_levels[i] = level;
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
-        state->field_08 =
-            state->field_08 - step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+        state->sweep_head =
+            state->sweep_head - step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     }
     if (level == state->target_level) {
         state->level = level;
@@ -114,52 +112,50 @@ void Fade_Update(FadeTransitionState *p)
     delta = p->step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     lvl = p->level;
     tgt = p->target_level;
-    if (lvl != tgt) {
-        goto step;
-    }
-    f = gFade_State.flags;
-    gFade_State.flags = f & ~FADE_FLAG_ACTIVE;
-    if (lvl == 0xFF) {
-        gFade_State.flags =
-            f & ~(FADE_FLAG_ACTIVE | FADE_FLAG_KEEP_OVERLAY |
-                  FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
-        Fade_EnableOrderingTables();
-        gFade_bKeepOverlayDepth = 0;
-        gFade_bWhiteLatch = 0;
+    if (lvl == tgt) {
+        f = gFade_State.flags;
+        gFade_State.flags = f & ~FADE_FLAG_ACTIVE;
+        if (lvl == 0xFF) {
+            gFade_State.flags =
+                f & ~(FADE_FLAG_ACTIVE | FADE_FLAG_KEEP_OVERLAY |
+                      FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
+            Fade_EnableOrderingTables();
+            gFade_bKeepOverlayDepth = 0;
+            gFade_bWhiteLatch = 0;
+            gGraphics_bClearRed = gFade_bTargetRed;
+            gGraphics_bClearGreen = gFade_bTargetGreen;
+            gGraphics_bClearBlue = gFade_bTargetBlue;
+        }
+        if (lvl != 0) {
+            return;
+        }
+        f = gFade_State.flags;
+        if (f & FADE_FLAG_KEEP_OVERLAY) {
+            if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
+                return;
+            }
+            gFade_bOrderingTableMode = FADE_ORDERING_TABLE_HIDE_SECONDARY;
+        } else {
+            Fade_DisableOrderingTables();
+        }
         gGraphics_bClearRed = gFade_bTargetRed;
         gGraphics_bClearGreen = gFade_bTargetGreen;
         gGraphics_bClearBlue = gFade_bTargetBlue;
-    }
-    if (lvl != 0) {
-        return;
-    }
-    f = gFade_State.flags;
-    if (f & FADE_FLAG_KEEP_OVERLAY) {
-        if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
+        g = gFade_State.flags;
+        if ((g & FADE_FLAG_TINTED) == 0) {
             return;
         }
-        gFade_bOrderingTableMode = FADE_ORDERING_TABLE_HIDE_SECONDARY;
-    } else {
-        Fade_DisableOrderingTables();
-    }
-    gGraphics_bClearRed = gFade_bTargetRed;
-    gGraphics_bClearGreen = gFade_bTargetGreen;
-    gGraphics_bClearBlue = gFade_bTargetBlue;
-    g = gFade_State.flags;
-    if ((g & FADE_FLAG_TINTED) == 0) {
+        if ((g & FADE_FLAG_RESTORE_TINT_AFTER_BLACK) == 0) {
+            return;
+        }
+        gFade_State.flags = g & ~FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
+        gGraphics_bClearRed = p->tint_r;
+        gGraphics_bClearGreen = p->tint_g;
+        gGraphics_bClearBlue = p->tint_b;
+        Fade_EnableOrderingTables();
+        gFade_State.flags = gFade_State.flags | FADE_FLAG_ACTIVE;
         return;
     }
-    if ((g & FADE_FLAG_RESTORE_TINT_AFTER_BLACK) == 0) {
-        return;
-    }
-    gFade_State.flags = g & ~FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
-    gGraphics_bClearRed = p->tint_r;
-    gGraphics_bClearGreen = p->tint_g;
-    gGraphics_bClearBlue = p->tint_b;
-    Fade_EnableOrderingTables();
-    gFade_State.flags = gFade_State.flags | FADE_FLAG_ACTIVE;
-    return;
-step:
     if (gFade_State.flags & FADE_FLAG_BANDED) {
         Fade_StepBands();
         return;
@@ -333,7 +329,7 @@ void Fade_InitIn(void)
     state->target_level = 0xFF;
     state->flags = FADE_FLAG_ACTIVE;
     gFade_bOrderingTableMode &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
-    state->field_08 = 0;
+    state->sweep_head = 0;
     Fade_FillBandLevels(state->level);
     state->step = 0xC;
     Fade_ApplyWhiteLatchToFadeIn();
@@ -387,7 +383,7 @@ void Fade_InitOut(void)
 {
     FadeTransitionState *state = &gFade_State;
 
-    state->field_08 = 0xFF;
+    state->sweep_head = 0xFF;
     state->target_level = 0;
     state->flags = FADE_FLAG_ACTIVE;
     Fade_FillBandLevels(state->level);

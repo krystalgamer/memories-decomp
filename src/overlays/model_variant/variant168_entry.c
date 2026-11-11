@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant168_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry is the French header-178 particles with a cone added: particles
  * rise from one of the slot's parts, fly to endpoints around the other slot

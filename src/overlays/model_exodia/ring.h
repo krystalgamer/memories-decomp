@@ -5,7 +5,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 typedef struct {
     u8 prefix[28];

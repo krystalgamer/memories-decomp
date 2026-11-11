@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant113_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Four pulsing horizontal 3x3 grids scroll vertically through the other
  * slot's position, a pulsing burst quad flashes there on even frames, and

@@ -154,7 +154,7 @@
 #include "display_object.h"
 #include "display_object_work_slots.h"
 #include "display_projection.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -506,18 +506,16 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     GsSortPoly(sprite, tab[2], 0xFFF);
 }
 
-#include "view_state.h"
+#include "view_state_orbit.h"
 #include "duel_card_layout.h"
 #include "duel_display.h"
 #include "duel_grid.h"
-#include "sorted_entry.h"
+#include "sorted_entry_render.h"
 #include "duel_card.h"
 #include "card_presentation.h"
 #include "display_projection.h"
 #include "duel_field_card_render.h"
-#include "../unmatched.h"
-#include "../game/model_draw_slot.h"
-#include "view_state_current.h"
+#include "../game/model.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
  * European build (src/game/european/) defines its own. */
@@ -639,7 +637,7 @@ void Duel_DrawFieldCards(void) {
     SetGeomOffset(0, 0);
 }
 
-#include "display_object_config.h"
+#include "display_object_system.h"
 #include "display_object_set_resource_variant_from_sign.h"
 
 void DisplayObject_SetResourceVariantFromSign(
@@ -676,13 +674,11 @@ void DisplayObject_SetResourceVariantFromSign(
 #include "../psyq/libgpu.h"
 #include "text_encode_decimal_digits.h"
 #include "duel_card.h"
-#include "display_object_projection.h"
 #include "display_object_layout.h"
 #include "display_object.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "sprite_primitive.h"
-#include "display_object_packet_submit.h"
 #include "duel_draw_card_frame.h"
 #include "duel_draw_card_output_position.h"
 #include "../psyq/libgs.h"
@@ -1101,9 +1097,6 @@ s32 Duel_CalcCardStats(DuelCardRecord *card)
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "view_state_reset_defaults.h"
-#include "model.h"
-#include "view_state.h"
-#include "view_state_current.h"
 
 void ViewState_ResetDefaults(void)
 {
@@ -1131,18 +1124,17 @@ void ViewState_ResetDefaults(void)
     ViewState_ApplyOrbit();
 }
 
-#include "duel_check_ritual.h"
+#include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
 #include "file_transfer.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "image_transfer_rects.h"
-#include "../unmatched.h"
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 #include "high_memory_addresses.h"
@@ -1371,7 +1363,6 @@ europe_transfer_tail:
 
 #include "duel_init_model_scene.h"
 #include "model_slot_control.h"
-#include "model_scene_controllers.h"
 
 #include "shared_work_base.h"
 
@@ -1392,14 +1383,13 @@ void Duel_InitModelScene(void)
 }
 
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
+#include "ai_script.h"
 #include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 #include "duel_card.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
@@ -1524,17 +1514,13 @@ void Duel_ResetCardRecords(void)
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "duel_card.h"
-#include "screen_projection.h"
-#include "view_state.h"
 #include "duel_screen_tables.h"
 #ifdef DUEL_RESULT_LANGUAGE_SPRITE_TABLES
 #include "duel_result_localized_sprites.h"
 #endif
 #include "duel_init_ground_projection_reference.h"
 #include "duel_side_view_angles.h"
-#include "../unmatched.h"
 #include "view_state_reset_defaults.h"
-#include "view_state_current.h"
 #include "duel_result_outro.h"
 
 /* Small data at 0x8009AF20: opposing headings for the two duel sides.
@@ -1987,23 +1973,19 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_deck_card.h"
 #include "duel_display.h"
 #include "duel_card_display_state.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "save_pair_workspace.h"
 #include "duel_grid.h"
 #include "duel_card_pick_cursor.h"
 #include "duel_selection_layout.h"
 #include "duel_hand.h"
-#include "main_frame.h"
 #include "duel_side_state.h"
 #include "duel_shuffle_deck.h"
 #include "duel_check_quit_input.h"
-#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
-#include "display_object_helpers.h"
-#include "view_state.h"
 #include "main_services.h"
 #include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
@@ -2011,20 +1993,16 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_action_lock.h"
 #include "duel_draw_card_output_position.h"
 #include "display_object_set_resource_variant_from_sign.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "duel_init_scene.h"
 #include "duel_init_model_scene.h"
-#include "duel_effect_object_pool.h"
-#include "card_preview_objects.h"
-#include "text_render_state.h"
+#include "card_preview.h"
 #include "duel_init_ground_projection_reference.h"
 #include "trig_constants.h"
 #include "duel_terrain_boost.h"
 #include "duel_view_tween.h"
 #include "ai_opponent_data.h"
-#include "view_state_current.h"
 #include "duel_card_object_helpers.h"
 #include "duel_card_layout.h"
 #include "duel_card_display_objects.h"
@@ -2245,9 +2223,9 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 
     p->out_x = x;
     p->out_y = y;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-    p->field_10.callback = DisplayObject_SetResourceVariantFromSign;
+    p->back_face_handler.callback = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
-    p->field_4C = Duel_DrawCardAtOutputPosition;
+    p->draw_callback = Duel_DrawCardAtOutputPosition;
     Duel_UpdateCardDisplayState(p);
     Duel_UpdateCardDisplayMarker(p);
     return p;
@@ -2341,7 +2319,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_card.h"
 #include "card_presentation.h"
 #include "duel_card_object_helpers.h"
-#include "duel_effect_request.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_side_state.h"
@@ -2350,7 +2327,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_scene_resume.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"
-#include "view_state.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
 #include "duel_hand.h"
@@ -2363,12 +2339,10 @@ int Duel_GetCardEffectVariant(CardObject *object)
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_card_display_objects.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
-#include "view_state_current.h"
 #include "duel_battle_removal_slots.h"
 
 /* Regional values: the record's panel_target_y (0xAE -> 0xBE), the base of
@@ -2708,13 +2682,10 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "duel_deck_card.h"
 #include "duel_rank.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "duel_card_display_objects.h"
 #include "duel_update_draw_card_slide.h"
-#include "display_object_helpers.h"
-#include "duel_effect_request.h"
 #include "duel_card_pick_cursor.h"
 #include "duel_selection_layout.h"
 #include "duel_scene_card_placement.h"
@@ -2725,14 +2696,11 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "fade.h"
 #include "display_object_motion.h"
 #include "display_object_work_slots.h"
-#include "display_object_core.h"
 #include "duel_init_scene.h"
-#include "duel_effect.h"
-#include "duel_effect_allocate_request.h"
-#include "sound_output.h"
+#include "duel_effect_states.h"
+#include "sound_driver.h"
 #include "model_scene_states.h"
 #include "main_modes.h"
-#include "model.h"
 #include "../psyq/rand.h"
 #include "main_mode_state.h"
 #include "../psyq/libgte.h"
@@ -2741,10 +2709,7 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "display_object.h"
 #include "duel_display.h"
 #include "duel_card_capture_rounded_texture.h"
-#include "graphics_frame.h"
 #include "image_transfer_rects.h"
-#include "display_object_interpolation.h"
-#include "display_object_lifecycle.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->progress)
@@ -3122,9 +3087,6 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
 }
 
 #include "display_object.h"
-#include "display_object_config.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "duel_create_card_effect_overlay.h"
 
 /* Regional value: the sprite's height argument and the half of it stored
@@ -3170,15 +3132,10 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
 #include "duel_side_state.h"
 #include "duel_scene_state.h"
 #include "display_object_layout.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
 #include "duel_field_effects.h"
-#include "card_preview_objects.h"
-#include "duel_effect_resource_setup.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
@@ -3451,7 +3408,6 @@ void DisplayObject_StartAlphaTransition(DisplayObject *object, u8 start, s16 tar
 }
 
 #include "display_object.h"
-#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_scene_card_placement.h"
@@ -3489,7 +3445,6 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
 
 #include "ai_opponent_data.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "campaign_flags.h"
 #include "duel_ritual_controller.h"
 
@@ -3502,9 +3457,6 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 
 #include "../psyq/rand.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
-#include "display_object_interpolation.h"
 #include "display_object_work_slots.h"
 #include "duel_scene_state.h"
 #include "duel_selection_layout.h"
@@ -3518,18 +3470,12 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 #include "duel_deck_card.h"
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
-#include "duel_effect_request.h"
 #include "duel_effect_resource_record.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_ritual_controller.h"
 #include "display_object_start_alpha_transition.h"
-#include "card_preview_objects.h"
-#include "text_box_lifecycle.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
+#include "duel_effect_text.h"
 #include "file_transfer.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"
@@ -4186,10 +4132,7 @@ finish_effect_step:
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-#include "screen_projection.h"
-#include "view_state.h"
 #include "duel_screen_tables.h"
-#include "view_state_current.h"
 
 /* Projects one live-slot ground pair at height -24; returns signed screen X. */
 s16 Duel_ProjectCardSlotScreenX(s32 index)
@@ -4220,34 +4163,23 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "duel_scene_state.h"
 #include "ai.h"
 #include "display_object_work_slots.h"
-#include "display_object_interpolation.h"
-#include "display_object_core.h"
 #include "duel_card_display_objects.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "duel_scene_callbacks.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
-#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_trap_resolution.h"
 #include "duel_screen_tables.h"
 #include "dialog_choice.h"
-#include "dialog_read_choice_input.h"
-#include "text_box_lifecycle.h"
-#include "text_box_update_channels.h"
 #include "duel_select_trap_by_card_id.h"
-#include "duel_effect_set_entry_range_layout.h"
-#include "display_object_config.h"
+#include "text_helpers.h"
 #include "display_object.h"
 #include "card_constants.h"
 #include "duel_card_display_state.h"
 #include "duel_selection_layout.h"
 #include "sound.h"
-#include "display_object_helpers.h"
 #include "duel_hand_position_selection_cursor.h"
 #include "duel_hand_selection_cursor.h"
 #include "duel_display.h"
@@ -4257,7 +4189,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "ai_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-#include "../unmatched.h"
 #include "duel_field_selection.h"
 
 /* One screen height above the top: -0xF0 in the US build, -0x100 in the
@@ -4267,7 +4198,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #endif
 #include "input.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 #ifndef DUEL_CARD_STAGING_CONFIRM_MASK
@@ -4685,12 +4615,7 @@ int Duel_CheckQuitInput(void)
 #include "duel_grid.h"
 #include "duel_action_lock.h"
 #include "duel_card_viewer.h"
-#include "duel_effect.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_config.h"
-#include "display_object_helpers.h"
-#include "display_object_interpolation.h"
 #include "display_object_motion.h"
 #include "display_object_work_slots.h"
 #include "duel_hand_position_selection_cursor.h"
@@ -4699,13 +4624,10 @@ int Duel_CheckQuitInput(void)
 #include "duel_check_quit_input.h"
 #include "input.h"
 #include "ai.h"
-#include "ai_controller_handoff.h"
 #include "script_state.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"
 
@@ -5318,8 +5240,6 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
     }
 }
 
-#include "display_object_interpolation.h"
-#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "display_object.h"
 #include "trig_constants.h"
@@ -5379,13 +5299,9 @@ void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
  if(o->field_60>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.rotation_y=target;o->xy.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
 }
 
-#include "display_object_core.h"
 #include "display_object_layout.h"
-#include "display_object_helpers.h"
-#include "display_object_config.h"
 #include "display_object.h"
 #include "display_projection.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_action_ready_marker.h"
 #include "duel_grid.h"
@@ -5445,23 +5361,17 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #include "duel_update_card_use_confirmation.h"
 #include "duel_action_lock.h"
 #include "duel_card_viewer.h"
-#include "duel_effect.h"
 #include "duel_check_quit_input.h"
 #include "duel_side_view_angles.h"
 #include "ai.h"
-#include "ai_controller_handoff.h"
 #include "duel_load_package_stage.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "display_object_work_slots.h"
 #include "duel_get_card_viewer_request_id.h"
 #include "duel_view_tween.h"
 #include "input.h"
-#include "sorted_entry.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
@@ -6104,9 +6014,7 @@ void DuelScene_UpdateFieldActions(void)
 }
 
 #include "display_object_motion.h"
-#include "display_object_interpolation.h"
 #include "display_object.h"
-#include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "trig_constants.h"
 #include "display_callback_transitions.h"
@@ -6163,16 +6071,11 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_card_layout.h"
-#include "duel_effect.h"
-#include "duel_effect_request.h"
 #include "duel_grid.h"
 #include "sound.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_trap_resolution.h"
-#include "view_state_current.h"
 
 /* Battle arithmetic between two duel cards, built up in address order.
 
@@ -6511,13 +6414,7 @@ m3:
 #include "duel_card_pick_cursor.h"
 #include "fade.h"
 #include "main_mode_state.h"
-#include "duel_effect_request.h"
-#include "duel_effect_allocate_request.h"
 #include "duel_effect_resource_record.h"
-#include "duel_effect_resource_setup.h"
-#include "card_preview_objects.h"
-#include "display_object_helpers.h"
-#include "display_object_core.h"
 #include "display_object_start_alpha_transition.h"
 #include "duel_battle_stats.h"
 #include "duel_trap_resolution.h"
@@ -6531,11 +6428,9 @@ m3:
 #include "main_modes.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_card_display_objects.h"
-#include "sound_output.h"
-#include "sound_sequence_state.h"
+#include "sound_effect_request.h"
 #include "model_scene_states.h"
 #include "display_object_motion.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "display_callback_transitions.h"
@@ -7199,11 +7094,8 @@ void DuelScene_UpdateTurnSwitch(void){if(!(gDuel_wSceneStateFlags&DUEL_SCENE_FLA
  if(!gDuel_wDisplayTransitionFlags){gDuel_bActiveSide^=1;gDuel_wSceneStateFlags=2;gDuel_pActiveSideState=&gDuel_aSideStates[gDuel_bActiveSide];gDuel_pActiveFieldGrid=gDuel_abFieldGridCardRecordIndices.flat+gDuel_bActiveSide*DUEL_FIELD_SIDE_GRID_SLOT_COUNT;}}
 
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "input.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_update_card_use_confirmation.h"
 
@@ -7319,7 +7211,6 @@ s32 Duel_UpdateCardUseConfirmation(void) {
 #include "file_transfer.h"
 #include "duel_result_load_outro_package_stage.h"
 #include "../ygo_types.h"
-#include "../unmatched.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {
@@ -7403,19 +7294,13 @@ tail:
     p->transfer_mode = one;
 }
 
-#include "text_box_blocking_build.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_lifecycle.h"
-#include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "duel_card_display_state.h"
 #include "duel_scene_state.h"
-#include "duel_check_ritual.h"
 #include "../psyq/rand.h"
 #include "display_object_motion.h"
 #include "input.h"
@@ -7425,15 +7310,12 @@ tail:
 #include "file_transfer.h"
 #include "duel_result_load_outro_package_stage.h"
 #include "sound.h"
-#include "sound_output.h"
 #include "fade.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "duel_screen_tables.h"
 #include "duel_result_outro.h"
-#include "save_data.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
 #include "duel_grid.h"
@@ -7442,19 +7324,11 @@ tail:
 #include "duel_rewards.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
-#include "display_object_config.h"
 #include "text_constants.h"
 #include "display_asset_banks.h"
-#include "view_state.h"
 #include "duel_check_quit_input.h"
-#include "duel_effect.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "view_state_current.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
 #endif
 
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
@@ -8176,28 +8050,19 @@ show_page:
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "card_preview_objects.h"
-#include "duel_effect_resource_setup.h"
-#include "duel_effect_request.h"
-#include "main_frame.h"
-#include "display_object_core.h"
 #include "duel_card.h"
 #include "file_transfer.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "input.h"
-#include "view_state.h"
 #include "display_object.h"
 #include "duel_card_display_state.h"
 #include "duel_scene_state.h"
-#include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "duel_scene_state.h"
 #include "duel_check_quit_input.h"
-#include "sorted_entry.h"
 #include "debug_effect_screen.h"
 #include "debug_effect_preview.h"
 #include "debug_effect_state.h"
-#include "view_state_current.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -8428,14 +8293,9 @@ void DuelScene_UpdateEffectPreview(void) {
 #include "duel_card_turn_animations.h"
 #include "duel_card_display_state.h"
 #include "duel_card_display_objects.h"
-#include "display_object_lifecycle.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
-#include "view_state_current.h"
 #include "duel_selection_layout.h"
 #include "duel_selection_update_linked_object.h"
-#include "display_object_core.h"
 
 /* The mirror of Duel_UpdateCardToFieldView: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when DisplayObject_MarkInitialized says
@@ -8869,37 +8729,25 @@ void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear)
     }
 }
 
-#include "text_box_blocking_build.h"
 #include "card_constants.h"
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "ai.h"
-#include "display_object_core.h"
 #include "display_projection.h"
 
 #include "duel_card.h"
 #include "card_presentation.h"
 #include "display_object.h"
-#include "display_object_config.h"
 #include "duel_field_display_objects.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
 #include "duel_selection_layout.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
-#include "display_object_helpers.h"
-#include "display_object_interpolation.h"
 #include "duel_card_object_helpers.h"
 #include "duel_card_staging.h"
 #include "duel_card_turn_animations.h"
 #include "duel_side_view_angles.h"
 #include "duel_view_tween.h"
-#include "view_state.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "view_state_current.h"
 #include "sound.h"
 #include "duel_cursor_grid_direction.h"
 
@@ -9460,14 +9308,12 @@ s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object)
 }
 
 #include "duel_side_state.h"
-#include "duel_effect.h"
 #include "duel_grid.h"
 #include "duel_card_pick_cursor.h"
 #include "duel_cursor_status.h"
 #include "duel_card.h"
 #include "duel_get_card_viewer_request_id.h"
 #include "input.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 
 /* Regional value: the record's panel_target_y (0x74 -> 0x84). The European build
@@ -9569,16 +9415,11 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 #include "duel_side_state.h"
 #include "input.h"
 #include "duel_check_quit_input.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
-#include "text_box_update_channels.h"
 #include "duel_scene_callbacks.h"
 #include "duel_scene_state.h"
 #include "duel_scene_update.h"
-#include "duel_effect.h"
-#include "duel_effect_request.h"
 #include "duel_field_display_objects.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_field_effects.h"
 #include "dialog_choice.h"
@@ -9890,7 +9731,6 @@ int Util_CompareS16(const short *left, const short *right)
 #include "util_compare_s16.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
@@ -9899,7 +9739,6 @@ int Util_CompareS16(const short *left, const short *right)
 #include "duel_screen_tables.h"
 #include "duel_terrain_boost.h"
 #include "display_object_set_resource_variant_from_sign.h"
-#include "../unmatched.h"
 
 /* Initialized data this unit owns at 0x800909D4: the terrain attack modifiers, in card-type
    order. */
@@ -10119,15 +9958,15 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
 
     obj->out_y = -0x18;
     obj->out_x = x;
-    obj->field_34 = y;
+    obj->z = y;
     obj->deck_number_marker = 0;
     obj->is_back_facing = 0;
     obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];
-    obj->field_10.callback = DisplayObject_SetResourceVariantFromSign;
+    obj->back_face_handler.callback = DisplayObject_SetResourceVariantFromSign;
     obj->icon_state = 0;
-    obj->field_5D = 0xC0;
+    obj->texture_v = 0xC0;
 
     type = (s32)desc >> CARD_STAT_TYPE_SHIFT;
     type &= CARD_STAT_TYPE_MASK;
@@ -10189,8 +10028,6 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 
 #include "main_start_duel.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
-#include "../unmatched.h"
 #include "duel_session_controls.h"
 #include "main_mode_state.h"
 #include "ai_opponent_data.h"
@@ -10227,19 +10064,15 @@ void DuelEffect_ClearCardEffect(void)
     gDuel_wCardEffectFlags = 0;
 }
 
-#include "duel_effect_allocate_request.h"
 #include "duel_init_scene.h"
 #include "duel_terrain_boost.h"
 #include "duel_side_state.h"
-#include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "sound.h"
-#include "display_object_config.h"
-#include "../unmatched.h"
 #include "duel_effect_apply_terrain.h"
 
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
@@ -10362,11 +10195,9 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
 #include "duel_trap_resolution.h"
 #include "duel_select_trap_by_card_id.h"
 #include "duel_card_object_helpers.h"
-#include "../unmatched.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
-#include "duel_effect_request.h"
 #include "duel_monster_removal_rules.h"
 #include "sound.h"
 #include "duel_card_layout.h"
@@ -10376,13 +10207,9 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
 #include "display_object_start_alpha_transition.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_display_objects.h"
-#include "duel_effect.h"
-#include "view_state.h"
 #include "duel_view_tween.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_card_effects.h"
-#include "display_object_helpers.h"
 
 /* Initialized data this unit owns at 0x80090A4C. Each pair stores the card ID minus 600 and
    the monster-type selector; Crush Card instead stores its 1500-ATK threshold
@@ -10954,54 +10781,37 @@ void DuelEffect_ApplyStatPenalty(void) {
 
 #include "ai.h"
 #include "duel_side_state.h"
-#include "ai_controller_handoff.h"
 #include "duel_grid.h"
 #include "../psyq/stdio.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"
-#include "duel_effect_request.h"
 #include "duel_card.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_effect_tables.h"
 #include "duel_magic_effect_format.h"
 #include "duel_card_checks.h"
 #include "duel_field_effects.h"
-#include "../unmatched.h"
 #include "duel_field_card_render_data.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
-#include "display_object_helpers.h"
 #include "sound.h"
 #include "duel_card_effects.h"
 #include "duel_swords_effect.h"
-#include "duel_check_ritual.h"
 #include "duel_ritual_controller.h"
 #include "duel_card_display_state.h"
 #include "duel_card_staging.h"
 #include "duel_deck_card.h"
 #include "display_object_work_slots.h"
-#include "display_object_interpolation.h"
 #include "display_object_motion.h"
-#include "display_object_core.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
-#include "card_preview_objects.h"
-#include "duel_effect_allocate_request.h"
-#include "text_box_lifecycle.h"
-#include "dialog_read_choice_input.h"
 #include "dialog_choice.h"
 #include "input.h"
-#include "text_box_update_channels.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
-#include "duel_effect_noop_handlers.h"
 #include "duel_effect_apply_terrain.h"
 #include "duel_effect_dialog_state.h"
-#include "duel_effect_card_viewer_state.h"
 
 /* Initialized data this unit owns at 0x80090A5C: two handlers per effect group, in group
    order. */
@@ -11808,7 +11618,6 @@ s32 Duel_SelectTrapPlay(void) {
 #include "duel_check_quit_input.h"
 #include "ai_turn_action.h"
 #include "duel_battle_stats.h"
-#include "../unmatched.h"
 #include "duel_card_staging.h"
 #include "duel_card_display_state.h"
 #include "duel_deck_card.h"
