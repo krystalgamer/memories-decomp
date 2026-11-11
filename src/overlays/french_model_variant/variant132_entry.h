@@ -7,7 +7,7 @@
 #include "../../game/model_slot_data.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/gpu_packets.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/sdk_internal.h"

@@ -11,7 +11,7 @@
 #include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
 #include "../../game/screen_projection.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_graphics_state.h"
 
 /* One 0x2B0-byte ribbon: a thirteen-point spine and a copy of it moved along
