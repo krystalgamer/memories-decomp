@@ -5377,18 +5377,16 @@ void DuelScene_UpdateFieldActions(void)
                 f = card->flags;
                 gDuel_wActionSubstate = flags | 0x8000;
                 if (f & 0x8000) {
-                    if (f & 0x800) {
-                        card->flags = f | 0x4000;
-                        Duel_UpdateCardDisplayState(card->object);
-                        goto back_to_menu;
+                    if (!(f & 0x800)) {
+                        o = card->object;
+                        DISPLAY_OBJECT_VIEW(o)->update =
+                            (DisplayObjectCallback)DuelCard_UpdateDefenseRotation;
+                        DISPLAY_OBJECT_VIEW(o)->field_6C = 0xF;
+                        return;
                     }
-                    o = card->object;
-                    DISPLAY_OBJECT_VIEW(o)->update =
-                        (DisplayObjectCallback)DuelCard_UpdateDefenseRotation;
-                    DISPLAY_OBJECT_VIEW(o)->field_6C = 0xF;
-                    return;
+                    card->flags = f | 0x4000;
+                    Duel_UpdateCardDisplayState(card->object);
                 }
-            back_to_menu:
                 gDuel_bSceneSubStep = 2;
                 return;
             }
