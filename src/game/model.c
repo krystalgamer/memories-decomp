@@ -1315,15 +1315,13 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) {
-                goto check_ready;
+            if (((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0) {
+                Model_LoadMonsterMerge(
+                    0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
             }
-            Model_LoadMonsterMerge(
-                0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
         } else {
             Model_AdvanceSlotLoad(0);
         }
-check_ready:
         load_slots = gModel_aSlots;
         if (!load_slots->is_active) {
             break;
@@ -2783,12 +2781,10 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
             camera_move->target.slot = -1;
             camera_move->target.pair_slot = -1;
         }
-        if (mode_request < 0) {
-            goto have_flags;
-        }
     }
-    gModel_CameraMove.mode = mode_request;
-have_flags:
+    if (mode_request >= 0) {
+        gModel_CameraMove.mode = mode_request;
+    }
     {
         ModelCameraMove *camera_move = &gModel_CameraMove;
 
@@ -3319,6 +3315,28 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
     return value + offset;
 }
 
+/* Neutral grey tint and the default primitive templates. */
+static inline void Model_ResetDrawTint(void)
+{
+    B(&gModel_wDrawTintRedGreen, 0) = 0x80;
+    B(&gModel_wDrawTintRedGreen, 1) = 0x80;
+    gModel_bDrawTintBlue = 0x80;
+    gModel_dwPolyFt3Template = 0x24808080;
+    gModel_dwPolyFt4Template = 0x2C808080;
+    gModel_dwPolyGt3Template = 0x34808080;
+    gModel_dwPolyGt4Template = 0x3C808080;
+    gModel_dwLineF3Template = 0x4A808080;
+    gModel_dwLineF4Template = 0x4E808080;
+    gModel_dwPolyFt3SemiTemplate = 0x26808080;
+    gModel_dwPolyFt4SemiTemplate = 0x2E808080;
+    gModel_dwPolyGt3SemiTemplate = 0x36808080;
+    gModel_dwPolyGt4SemiTemplate = 0x3E808080;
+    gModel_dwTpageBlendRateBits = 0;
+    gModel_dwSecondPassClutBits = 0;
+    gModel_bBlendRateActive = 0;
+    gModel_dwDrawModeTemplate = 0xE1000220;
+}
+
 void Model_DrawSlot(s32 index)
 {
     MATRIX hidden_matrix;
@@ -3431,27 +3449,10 @@ void Model_DrawSlot(s32 index)
             }
             slot->tint[7] = 0;
         } else {
-            goto neutral;
+            Model_ResetDrawTint();
         }
     } else {
-    neutral:
-        B(&gModel_wDrawTintRedGreen, 0) = 0x80;
-        B(&gModel_wDrawTintRedGreen, 1) = 0x80;
-        gModel_bDrawTintBlue = 0x80;
-        gModel_dwPolyFt3Template = 0x24808080;
-        gModel_dwPolyFt4Template = 0x2C808080;
-        gModel_dwPolyGt3Template = 0x34808080;
-        gModel_dwPolyGt4Template = 0x3C808080;
-        gModel_dwLineF3Template = 0x4A808080;
-        gModel_dwLineF4Template = 0x4E808080;
-        gModel_dwPolyFt3SemiTemplate = 0x26808080;
-        gModel_dwPolyFt4SemiTemplate = 0x2E808080;
-        gModel_dwPolyGt3SemiTemplate = 0x36808080;
-        gModel_dwPolyGt4SemiTemplate = 0x3E808080;
-        gModel_dwTpageBlendRateBits = 0;
-        gModel_dwSecondPassClutBits = 0;
-        gModel_bBlendRateActive = 0;
-        gModel_dwDrawModeTemplate = 0xE1000220;
+        Model_ResetDrawTint();
     }
 
     head_unit = slot->hmd_units;
@@ -4131,173 +4132,171 @@ void Model_UpdateSlotControl(s32 index)
     if (state == 2) {
         return;
     }
-    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] < 0) {
-        goto no_handler;
-    }
-    if (index != 0) {
-        handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
-    } else {
-        handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
-    }
-    if (slot->animation_control_state == 7) {
-        Model_SetHandlerCallbackState(1);
-        {
-            s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
-            handler(secondary, request % 1000);
+    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] >= 0) {
+        if (index != 0) {
+            handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
+        } else {
+            handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
         }
-        Model_SetHandlerCallbackState(0);
-        slot->animation_control_state = 8;
-        slot->animation_sound_position = 0;
-    }
-    if (slot->current_animation_row != slot->guardian_star_selection + 3
-        && slot->model_id != MODEL_SPECIAL_BATTLE_ID) {
-        s32 eligible = slot->animation_control_state;
-        if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
-            return;
-        }
-    }
-    {
-        s32 selected;
-        s32 base;
-        s32 stat_base;
-        s32 own_offset;
-        s32 other_offset;
-        s32 own_record;
-        s32 other_record;
-        other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        do { base = (s32)gModel_aSlots; } while (0);
-        other = (ModelSlot *)(other_offset + base);
-        own_offset = index * MODEL_SLOT_SIZE;
-        stat_base = base + (u32)&((ModelSlot *)0)->metadata;
-        own_record = own_offset + stat_base;
-        other_record = other_offset + stat_base;
-        if (other->defense_position != 0) {
+        if (slot->animation_control_state == 7) {
+            Model_SetHandlerCallbackState(1);
             {
+                s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
+                handler(secondary, request % 1000);
+            }
+            Model_SetHandlerCallbackState(0);
+            slot->animation_control_state = 8;
+            slot->animation_sound_position = 0;
+        }
+        if (slot->current_animation_row != slot->guardian_star_selection + 3
+            && slot->model_id != MODEL_SPECIAL_BATTLE_ID) {
+            s32 eligible = slot->animation_control_state;
+            if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
+                return;
+            }
+        }
+        {
+            s32 selected;
+            s32 base;
+            s32 stat_base;
+            s32 own_offset;
+            s32 other_offset;
+            s32 own_record;
+            s32 other_record;
+            other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
+            do { base = (s32)gModel_aSlots; } while (0);
+            other = (ModelSlot *)(other_offset + base);
+            own_offset = index * MODEL_SLOT_SIZE;
+            stat_base = base + (u32)&((ModelSlot *)0)->metadata;
+            own_record = own_offset + stat_base;
+            other_record = other_offset + stat_base;
+            if (other->defense_position != 0) {
+                {
+                    u16 own_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    u16 other_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                    selected = own_value > other_value ? 6 : 8;
+                }
+            } else {
                 u16 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u16 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
-                selected = own_value > other_value ? 6 : 8;
-            }
-        } else {
-            u16 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
-            u16 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
-            selected = own_value > other_value ? 6 : 5;
-            if (own_value == other_value) {
-                selected |= 0x80;
-                if (index != 0) {
-                    selected = 6;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                selected = own_value > other_value ? 6 : 5;
+                if (own_value == other_value) {
+                    selected |= 0x80;
+                    if (index != 0) {
+                        selected = 6;
+                    }
                 }
             }
+            action = selected;
         }
-        action = selected;
-    }
-    Model_SetHandlerCallbackState(1);
-    slot->animation_control_state = handler(secondary, -1);
-    Model_SetHandlerCallbackState(0);
-    switch (slot->animation_control_state) {
-    case 0:
-        MODEL_CONTROL_TRACE(gModel_szContinueTrace);
-        return;
-    case 5:
-        MODEL_CONTROL_TRACE(gModel_szBackTrace);
-        if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
-            Model_ControlSlotAnimation(index ^ 1, 1, 1);
-        }
-        return;
-    case 3:
-        MODEL_CONTROL_TRACE(gModel_szStoneTrace);
-        if (action == 6) {
-            other->stone_texture_state = 0x80;
-            Model_ControlSlotAnimation(index ^ 1, 6, 1);
+        Model_SetHandlerCallbackState(1);
+        slot->animation_control_state = handler(secondary, -1);
+        Model_SetHandlerCallbackState(0);
+        switch (slot->animation_control_state) {
+        case 0:
+            MODEL_CONTROL_TRACE(gModel_szContinueTrace);
             return;
-        }
-        if (action & 0x80) {
-            other->stone_texture_state = 0xFF;
-            Model_ControlSlotAnimation(index ^ 1, 5, 1);
+        case 5:
+            MODEL_CONTROL_TRACE(gModel_szBackTrace);
+            if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
+                Model_ControlSlotAnimation(index ^ 1, 1, 1);
+            }
             return;
-        }
-    case 1:
-    case 4: {
-        s32 reaction;
-        s32 offset;
-        s32 own_record;
-        s32 other_record;
-        amount = Model_GetFrameStep();
-        offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
-        offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&gModel_aSlots[0].metadata;
-        amount = slot->playback_speed * (amount + 1);
-        if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
-            {
+        case 3:
+            MODEL_CONTROL_TRACE(gModel_szStoneTrace);
+            if (action == 6) {
+                other->stone_texture_state = 0x80;
+                Model_ControlSlotAnimation(index ^ 1, 6, 1);
+                return;
+            }
+            if (action & 0x80) {
+                other->stone_texture_state = 0xFF;
+                Model_ControlSlotAnimation(index ^ 1, 5, 1);
+                return;
+            }
+        case 1:
+        case 4: {
+            s32 reaction;
+            s32 offset;
+            s32 own_record;
+            s32 other_record;
+            amount = Model_GetFrameStep();
+            offset = index * MODEL_SLOT_SIZE;
+            do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
+            offset = (index ^ 1) * MODEL_SLOT_SIZE;
+            other_record = offset + (s32)&gModel_aSlots[0].metadata;
+            amount = slot->playback_speed * (amount + 1);
+            if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+                {
+                    u32 own_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    u32 other_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                    reaction = other_value < own_value ? 6 : 8;
+                }
+            } else {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u32 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
-                reaction = other_value < own_value ? 6 : 8;
-            }
-        } else {
-            u32 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
-            u32 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
-            reaction = other_value < own_value ? 6 : 5;
-            if (own_value == other_value) {
-                reaction |= 0x80;
-                if (index != 0) {
-                    reaction = 6;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                reaction = other_value < own_value ? 6 : 5;
+                if (own_value == other_value) {
+                    reaction |= 0x80;
+                    if (index != 0) {
+                        reaction = 6;
+                    }
                 }
             }
-        }
-        command = reaction & 0x7F;
-        changed = 0;
-        if (slot->animation_control_state == 1) {
-            MODEL_CONTROL_TRACE(gModel_szHitTrace);
-        }
-        if (slot->animation_control_state == 4) {
-            MODEL_CONTROL_TRACE(gModel_szOuchTrace);
-            if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
-                command = 5;
+            command = reaction & 0x7F;
+            changed = 0;
+            if (slot->animation_control_state == 1) {
+                MODEL_CONTROL_TRACE(gModel_szHitTrace);
             }
-        }
-        if (other->active_animation_command_row == command) {
-            if (other->playback_state != 0x23 && other->animation_position >= 0xA0 &&
-                ((rand() >> 8) & 3) != 0) {
-                other->animation_position -= amount;
-                frame = other->animation_position;
-                for (part = 0; part < other->animation_sequence_count; part++) {
-                    Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
-                }
-                if ((rand() >> 8) & 1) {
-                    changed++;
+            if (slot->animation_control_state == 4) {
+                MODEL_CONTROL_TRACE(gModel_szOuchTrace);
+                if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
+                    command = 5;
                 }
             }
-        } else {
-            Model_ControlSlotAnimation(index ^ 1, command, 1);
-            changed++;
+            if (other->active_animation_command_row == command) {
+                if (other->playback_state != 0x23 && other->animation_position >= 0xA0 &&
+                    ((rand() >> 8) & 3) != 0) {
+                    other->animation_position -= amount;
+                    frame = other->animation_position;
+                    for (part = 0; part < other->animation_sequence_count; part++) {
+                        Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
+                    }
+                    if ((rand() >> 8) & 1) {
+                        changed++;
+                    }
+                }
+            } else {
+                Model_ControlSlotAnimation(index ^ 1, command, 1);
+                changed++;
+            }
+            if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
+                u32 card_id;
+                s32 sound_id;
+                do { card_id = other->model_id; } while (0);
+                sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
+                SD_SEPlay(sound_id, 0xFF, 0);
+            }
+            return;
         }
-        if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
-            u32 card_id;
-            s32 sound_id;
-            do { card_id = other->model_id; } while (0);
-            sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
-            SD_SEPlay(sound_id, 0xFF, 0);
+        case 2:
+            MODEL_CONTROL_TRACE(gModel_szTermTrace);
+            return;
+        default:
+            MODEL_CONTROL_TRACE(gModel_szWhyTrace);
+            slot->animation_control_state = 2;
+            return;
         }
-        return;
-    }
-    case 2:
-        MODEL_CONTROL_TRACE(gModel_szTermTrace);
-        return;
-    default:
-        MODEL_CONTROL_TRACE(gModel_szWhyTrace);
-        slot->animation_control_state = 2;
-        return;
     }
 
-no_handler:
     {
         s32 fallback_action;
         s32 offset;
