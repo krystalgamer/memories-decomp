@@ -496,27 +496,25 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             mode = 0x8001;
             if (gMemCard_bRequest == 4)
                 mode = 0x8002;
-            tries = 0xA;
-            do {
+            for (tries = 0xA;;) {
                 fd = open(gMemCard_szRequestPath, mode);
                 tries--;
                 if (fd != -1)
-                    goto opened;
-            } while (tries >= 0);
-            return 0;
-opened:
-            tries = 0xA;
-            do {
+                    break;
+                if (tries < 0)
+                    return 0;
+            }
+            for (tries = 0xA;;) {
                 r = lseek(fd, gMemCard_wRequestOffset, 0);
                 if (r != -1)
-                    goto seeked;
-            } while (--tries >= 0);
-            close(fd);
-            return 0;
-seeked:
+                    break;
+                if (--tries < 0) {
+                    close(fd);
+                    return 0;
+                }
+            }
             MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-            tries = 0xA;
-            do {
+            for (tries = 0xA;;) {
                 s32 transfer_result;
 
                 if (gMemCard_bRequest == 4) {
@@ -527,11 +525,12 @@ seeked:
                                            gMemCard_wRequestSize);
                 }
                 if (transfer_result == 0)
-                    goto transferred;
-            } while (--tries >= 0);
-            close(fd);
-            return 0;
-transferred:
+                    break;
+                if (--tries < 0) {
+                    close(fd);
+                    return 0;
+                }
+            }
             gMemCard_bRetries = 0x14;
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
             close(fd);
