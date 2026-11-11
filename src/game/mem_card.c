@@ -945,7 +945,9 @@ void MemCardWork_UpdateOperation(void)
         gMemCardWork_wFlags &= ~0x1000;
         if (gMemCardWork_bOperationResult == 2) {
             message = 0xD2;
-            goto show_message;
+            DuelEffect_CreateChannel(message, 1);
+            gMemCardWork_wFlags |= 0x400;
+            break;
         }
         if (!(gMemCardWork_OperationMode & 1))
             gMemCardWork_OperationState = 5;
@@ -958,7 +960,9 @@ void MemCardWork_UpdateOperation(void)
             index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
             if (index < 0 || (gMemCardWork_wFlags & 2)) {
                 message = 0xD3;
-                goto show_message;
+                DuelEffect_CreateChannel(message, 1);
+                gMemCardWork_wFlags |= 0x400;
+                break;
             }
             MemCard_ReqReadSector(zero, MEM_CARD_WORK_FRAME_ADDRESS,
                 gMemCard_pDirEntries[index].head / 64);
@@ -966,7 +970,9 @@ void MemCardWork_UpdateOperation(void)
         }
         if (gMemCardWork_bOperationResult) {
             message = 0xD8;
-            goto show_message;
+            DuelEffect_CreateChannel(message, 1);
+            gMemCardWork_wFlags |= 0x400;
+            break;
         }
         gMemCardWork_OperationState = 6;
     case 6:
@@ -975,8 +981,11 @@ void MemCardWork_UpdateOperation(void)
             name = gMemCard_szSaveFileName;
             index = MemCard_FindLoadedEntry(name);
             message = 0xD3;
-            if (index < 0 || (gMemCardWork_wFlags & 2))
-                goto show_message;
+            if (index < 0 || (gMemCardWork_wFlags & 2)) {
+                DuelEffect_CreateChannel(message, 1);
+                gMemCardWork_wFlags |= 0x400;
+                break;
+            }
             DuelEffect_CreateChannel(0x80D5, 0);
             slot->entry_index = index;
             gMemCardWork_wFlags |= 0x1000;
@@ -992,7 +1001,9 @@ void MemCardWork_UpdateOperation(void)
         message = 0xD7;
         if (gMemCardWork_bOperationResult == 1)
             message = 0xD8;
-        goto show_message;
+        DuelEffect_CreateChannel(message, 1);
+        gMemCardWork_wFlags |= 0x400;
+        break;
     case 7: {
         s32 wait;
         s32 result;
@@ -1071,7 +1082,6 @@ void MemCardWork_UpdateOperation(void)
         if (!gMemCardWork_bOperationResult)
             break;
         message = 0xD9;
-show_message:
         DuelEffect_CreateChannel(message, 1);
         gMemCardWork_wFlags |= 0x400;
         break;
