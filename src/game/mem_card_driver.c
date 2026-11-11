@@ -557,61 +557,60 @@ sub_two:
         gMemCard_bRequestStep = resume_step;
         return 0;
     case 7:
-        if (gMemCard_bRequestStep == 0)
-            goto poll_write;
-        if (gMemCard_bRequestStep == 1)
-            goto reopen;
-        *out_result = gMemCard_nIOResult;
-        *out_state = gMemCard_bRequest;
-        gMemCard_bRequest = -1;
-        return 1;
-poll_write:
-        {
-            s32 directory_result = MemCard_DoLoadDirectory();
-            if (directory_result < 0)
-                return 0;
-            if (directory_result == 0)
-                goto check_size;
-        }
-        gMemCard_nIOResult = 2;
-        goto finish;
-check_size:
-        if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
-            goto write_dirent;
-        gMemCard_nIOResult = 7;
-        *out_result = gMemCard_nIOResult;
-        *out_state = gMemCard_bRequest;
-        gMemCard_bRequest = -1;
-        return 1;
-write_dirent:
-        if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
-                              gMemCard_pDirEntries, 0) == 0)
-            goto start_reopen;
-        gMemCard_nIOResult = 6;
-        *out_result = gMemCard_nIOResult;
-        *out_state = gMemCard_bRequest;
-        gMemCard_bRequest = -1;
-        return 1;
-opened_ok:
-        close(fd);
-        gMemCard_nIOResult = 0;
-        goto finish;
-start_reopen:
-        gMemCard_bRetries = 0xA;
-        gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
-reopen:
-        /* Ten retries after the first BIOS open attempt. */
-        for (tries = 0xA;;) {
-            fd = open(gMemCard_szRequestPath,
-                      (gMemCard_wRequestSize << 16) | 0x200);
-            if (fd != -1)
-                goto opened_ok;
-            if (--tries < 0) {
-                gMemCard_bRetries = gMemCard_bRetries - 1;
-                if ((s8)gMemCard_bRetries > 0)
+        switch (gMemCard_bRequestStep) {
+        default:
+            *out_result = gMemCard_nIOResult;
+            *out_state = gMemCard_bRequest;
+            gMemCard_bRequest = -1;
+            return 1;
+        case 0:
+            {
+                s32 directory_result = MemCard_DoLoadDirectory();
+                if (directory_result < 0)
                     return 0;
-                gMemCard_nIOResult = 2;
-                goto finish;
+                if (directory_result == 0)
+                    goto check_size;
+            }
+            gMemCard_nIOResult = 2;
+            goto finish;
+check_size:
+            if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
+                goto write_dirent;
+            gMemCard_nIOResult = 7;
+            *out_result = gMemCard_nIOResult;
+            *out_state = gMemCard_bRequest;
+            gMemCard_bRequest = -1;
+            return 1;
+write_dirent:
+            if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
+                                  gMemCard_pDirEntries, 0) == 0)
+                goto start_reopen;
+            gMemCard_nIOResult = 6;
+            *out_result = gMemCard_nIOResult;
+            *out_state = gMemCard_bRequest;
+            gMemCard_bRequest = -1;
+            return 1;
+opened_ok:
+            close(fd);
+            gMemCard_nIOResult = 0;
+            goto finish;
+start_reopen:
+            gMemCard_bRetries = 0xA;
+            gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
+        case 1:
+            /* Ten retries after the first BIOS open attempt. */
+            for (tries = 0xA;;) {
+                fd = open(gMemCard_szRequestPath,
+                          (gMemCard_wRequestSize << 16) | 0x200);
+                if (fd != -1)
+                    goto opened_ok;
+                if (--tries < 0) {
+                    gMemCard_bRetries = gMemCard_bRetries - 1;
+                    if ((s8)gMemCard_bRetries > 0)
+                        return 0;
+                    gMemCard_nIOResult = 2;
+                    goto finish;
+                }
             }
         }
     }
