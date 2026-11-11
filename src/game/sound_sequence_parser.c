@@ -153,7 +153,8 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
     switch (mode) {
     case SD_SEQUENCE_META_END_OF_TRACK:
         p->ended = 1;
-        goto one;
+        SD_ReadSequenceByte(p);
+        break;
 
     case SD_SEQUENCE_META_TEMPO:
         z = 0;
@@ -212,7 +213,6 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
     three:
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
-    one:
         SD_ReadSequenceByte(p);
         break;
 
