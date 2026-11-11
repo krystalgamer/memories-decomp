@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant172_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 172's entry: groups of dots appear around one of the slot's parts
  * after their delays, gather as one-pixel boxes onto points spread through a

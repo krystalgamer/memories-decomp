@@ -501,7 +501,7 @@ knowing because a scan reports all of them as clean:
   load-bearing.
 
 - **The width or signedness of the read does not match the named field.**
-  `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
+  `SD_UpdateFades` (`sound_output_state.c`) reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
   `s32`, and `e[2]` where `field_0002` is `s16`. Each such site needs a
   `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
   pays noise.
@@ -586,11 +586,11 @@ before the source was read:
   halfwords as `extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")`
   plus a `#define`. The alias identifier is not declared in any header, so it
   scans as an unhoused symbol needing a home, while the real name is already
-  declared in `graphics_frame.h` and the divergent spelling is deliberate.
+  declared in `main.h` (formerly `graphics_frame.h`) and the divergent spelling is deliberate.
 
 - **A file can opt out of a guarded header declaration.** `save_data_payload.c`
   defines `SAVE_DATA_DECLARE_MASK_STATE_LOCALLY` before including
-  `save_data.h`, so the header's copies are suppressed and its local ones are
+  `mem_card.h` (formerly `save_data.h`), so the header's copies are suppressed and its local ones are
   the only declarations in scope. A scan that does not evaluate the
   preprocessor sees a file redundantly repeating its own header. That file's
   comment records that the local position preserves the register allocation, so
@@ -625,14 +625,14 @@ adds two more of its own:
   that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
   normalises widths to compare shapes reports them as one record and hides the
   single distinction the header exists to record. Duplication worth collecting
-  looks like what `screen_projection.h` originally collected before the two
+  looks like what `model_slot_support.h` (formerly `screen_projection.h`) originally collected before the two
   proven projection values moved to their single owner in `ygo_types.h`:
   three textually identical spellings of one GTE result, in three files, for
   one address.
 
   Large game-owned records follow the same ownership rule even when they have
   only one current definition. `DuelEffectChannel` therefore lives beside its
-  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect_states.h` (formerly `duel_effect.h`) retains
   channel counts, state flags, storage declarations, and the duel-effect API.
   The measured size and member-offset assertions move with the record.
 
@@ -659,7 +659,7 @@ An API-shaped header still is not an owner when it combines unrelated
 translation units. The old `display_object_api.h` mixed eight functions from
 `display_object_core.c` with `DisplayObject_FindAllocatedByTag` from
 `display_object_helpers.c`. Those declarations now live in
-`display_object_core.h` and `display_object_helpers.h`, and callers include
+`display_object_system.h` (formerly `display_object_core.h`) and `display_object_system.h` (formerly `display_object_helpers.h`), and callers include
 only the owner or owners they use.
 
 Aggregate entrypoint headers are transitional, not permanent owners. Once a

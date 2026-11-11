@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "duel_effect_noop_handlers.h"
+#include "duel_effect_states.h"
 
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
  * for a delay-slot candidate, so the DuelEffect_ClearResourceObjectPointers call cannot take its own
@@ -7,33 +7,25 @@
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "duel_effect_state_latch.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "input.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
 #include "duel_card_viewer.h"
 #include "duel_effect_tables.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_object.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
-#include "card_preview_objects.h"
-#include "duel_effect_resource_setup.h"
-#include "display_object_interpolation.h"
+#include "card_preview.h"
 #include "file_transfer.h"
-#include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
-#include "duel_effect_card_viewer_state.h"
 #include "main_mode_state.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -315,16 +307,11 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 #else
-    if ((gMain_bActiveModeState & 0x1F) == 0xE) {
-        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) != 0) {
-            goto press;
-        }
+    if ((gMain_bActiveModeState & 0x1F) == 0xE
+            ? ((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) == 0
+            : (gInput_awPadPressed[0] & 0x20) == 0) {
         return;
     }
-    if ((gInput_awPadPressed[0] & 0x20) == 0) {
-        return;
-    }
-press:
 #endif
     slide_out = 0x400;
     DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(gDuel_pCardViewerBackground));
@@ -362,11 +349,8 @@ s32 DuelEffect_UpdateState(void) {
 
 #ifdef VERSION_EUROPE
 #include "../psyq/rand.h"
-#include "duel_effect.h"
 #include "duel_effect_state_latch.h"
-#include "data_transfer_request.h"
 #include "mem_card.h"
-#include "save_data.h"
 
 #endif
 

@@ -7,10 +7,9 @@ static PADDING_VARIABLE(1);
 static PADDING_VARIABLE(2);
 static u32 D_8009B42C;
 
-#include "graphics_frame.h"
+#include "main.h"
 #include "main_boot_screen.h"
-#include "main_frame.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
@@ -19,21 +18,19 @@ static u32 D_8009B42C;
 #include "file_transfer.h"
 #include "main_boot_frontend.h"
 #include "graphics_constants.h"
-#include "display_object_helpers.h"
 #include "main_reset_frontend_runtime.h"
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
 #include "display_asset_banks.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
+#include "duel_effect_states.h"
+#include "duel_effect_text.h"
 #include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "movie_playback_control.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 /* The boot sequence and the front-end loop that follows it, one translation

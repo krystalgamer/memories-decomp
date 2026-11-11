@@ -2,7 +2,7 @@
 #define MEMORIES_MODEL_VARIANT397_ENTRY_H
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     CVECTOR inner, outer, web;
@@ -39,10 +39,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_E88[0x24];
     MATRIX matrix, matrix0, matrix1;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant397EntryConfig *config;
     u32 field_F58;

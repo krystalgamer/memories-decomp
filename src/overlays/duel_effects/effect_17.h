@@ -2,8 +2,8 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_17_H
 
 #include "../../types.h"
-#include "../../game/model_state_setters.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_scene_runtime.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/display_object.h"
 #include "../../game/duel_card.h"
 #include "../../psyq/string.h"

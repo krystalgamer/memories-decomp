@@ -3,8 +3,8 @@
 
 #include "../../types.h"
 #include "../../game/display_object.h"
-#include "../../game/display_object_config.h"
-#include "../../game/duel_effect_resource_setup.h"
+#include "../../game/display_object_system.h"
+#include "../../game/card_preview.h"
 #include "../../game/main_boot_frontend.h"
 #include "../../game/text_constants.h"
 

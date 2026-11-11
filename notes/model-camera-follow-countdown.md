@@ -43,7 +43,7 @@ The same seven camera-request functions, now in `model_scene_runtime.c` under
 | European base | `0x8005E5A0` |
 | French, German, Italian, Spanish | `0x8005D1E4` |
 
-The owning declaration remains in `model_effect_requests.h`. Complete
+The owning declaration remains in `model_scene_runtime.h` (formerly `model_effect_requests.h`). Complete
 implementation/caller comparisons differ only by the identifier, and
 strict owner controls preserve the full-width request interface.
 No source move, SDK/overlay implementation, selector enum, compiler flag,

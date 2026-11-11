@@ -37,11 +37,11 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant668_szWorkSizeFormat, sizeof(Model668State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant668_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant668_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {
@@ -65,7 +65,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
             work->shells[i].v = 0;
             setVector(&work->shells[i].scale, 4096, 4096, 4096);
             setVector(&work->shells[i].spin, 0, 0, 0);
-            setVector(&work->shells[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->shells[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->shells[i].position, 0, 0, 0);
             work->shells[i].position.vy -= 350;
             work->shells[i].position.vz += work->direction * 450;
@@ -121,10 +121,10 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
         case 1:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->shell_count; i++) {
                     work->shells[i].active = 1;
                 }
@@ -146,9 +146,9 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
                 if (work->shells[i].duration / 2 < work->shells[i].elapsed) {
                     value = (work->shells[i].duration - work->shells[i].elapsed) * 2;
                     duration = work->shells[i].duration;
-                    work->shells[i].color[0] = gModelVariant668_aConfigs[work->command].color[0] * value / duration;
-                    work->shells[i].color[1] = gModelVariant668_aConfigs[work->command].color[1] * value / duration;
-                    work->shells[i].color[2] = gModelVariant668_aConfigs[work->command].color[2] * value / duration;
+                    work->shells[i].color[0] = gModelVariant668_aConfigs[work->head.command].color[0] * value / duration;
+                    work->shells[i].color[1] = gModelVariant668_aConfigs[work->head.command].color[1] * value / duration;
+                    work->shells[i].color[2] = gModelVariant668_aConfigs[work->head.command].color[2] * value / duration;
                 }
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
@@ -238,9 +238,9 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
             if (work->flash.elapsed < work->flash.duration) {
                 value = work->flash.duration - work->flash.elapsed;
                 duration = work->flash.duration;
-                work->flash.color[0] = gModelVariant668_aConfigs[work->command].color[3] * value / duration;
-                work->flash.color[1] = gModelVariant668_aConfigs[work->command].color[4] * value / duration;
-                work->flash.color[2] = gModelVariant668_aConfigs[work->command].color[5] * value / duration;
+                work->flash.color[0] = gModelVariant668_aConfigs[work->head.command].color[3] * value / duration;
+                work->flash.color[1] = gModelVariant668_aConfigs[work->head.command].color[4] * value / duration;
+                work->flash.color[2] = gModelVariant668_aConfigs[work->head.command].color[5] * value / duration;
             }
             setPolyF4(&work->flash_poly);
 #ifdef VERSION_FRENCH
@@ -258,7 +258,7 @@ s32 ModelVariant668_HandleRequest(u8 *context, s32 command)
             inactive++;
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->shell_count + 1) {
             result = 1;
             if (work->flags[4] == 1) {

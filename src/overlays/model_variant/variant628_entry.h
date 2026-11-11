@@ -3,14 +3,12 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/libhmd.h"
@@ -48,9 +46,7 @@ typedef struct {
  * the dome grid (17 meridians of 9 points) and its spun copy, the burst
  * ring, the flags and counts, and the four part families. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, height;
     u16 tpage[3];

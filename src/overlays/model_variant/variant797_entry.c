@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant797_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 797's entry: two glowing flares beside a model part spin sixteen
  * rays each while the light dims; then animated strikes land on the opposing

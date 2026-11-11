@@ -2,8 +2,7 @@
 #define FRENCH_MODEL_VARIANT116_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/gpu_packets.h"
 #include "../../psyq/sdk_internal.h"

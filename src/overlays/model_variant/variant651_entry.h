@@ -3,15 +3,13 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/sdk_internal.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/libhmd.h"
@@ -23,9 +21,7 @@
  * the dome rows, the outer ring, the flags, the dome row timers and three
  * strip arrays: the spinning rings, the domes and the rising cones. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, height;

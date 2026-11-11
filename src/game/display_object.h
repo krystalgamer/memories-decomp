@@ -68,7 +68,7 @@ typedef struct DisplayObject {
        returns a negative facing area unchanged; any nonzero value mirrors the
        X and Z matrix columns and reprojects instead, and a negative one -- a
        code address -- is first called as void (*)(DisplayObject *, s32) with
-       the area. The preview constructor in duel_effect_resource_setup.c
+       the area. The preview constructor in card_preview.c
        stores CardPreview_UpdateVariant here, and the duel card objects store
        DisplayObject_SetResourceVariantFromSign through DuelCardDisplayObject's
        view, so a card turned away selects its back-face variant.

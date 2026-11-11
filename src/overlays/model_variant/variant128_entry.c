@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant128_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 128's entry: the command's slot parts flash grey and recover, a
  * gradient fills the screen around the slot, 64 random points around the

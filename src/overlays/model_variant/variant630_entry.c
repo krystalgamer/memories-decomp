@@ -20,9 +20,9 @@ static const char gModelVariant630_szWorkSizeFormat[24] = "E_DATA size = %x byte
  * life. The step is spelled out twice rather than kept in a temporary,
  * which keeps retail's register choice. */
 #define MODEL630_FADE(c)                                                                         \
-    if (gModelVariant630_aConfigs[work->command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
+    if (gModelVariant630_aConfigs[work->head.command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
         < work->rings[i].color[c]) {                                                             \
-        work->rings[i].color[c] -= gModelVariant630_aConfigs[work->command].color[c]                            \
+        work->rings[i].color[c] -= gModelVariant630_aConfigs[work->head.command].color[c]                            \
             / (work->rings[i].duration / 2 - 1) * step;                                          \
     } else {                                                                                     \
         work->rings[i].color[c] = 0;                                                             \
@@ -49,13 +49,13 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant630_szWorkSizeFormat, sizeof(Model630State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant630_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant630_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant630_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 0, &gModelVariant630_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -79,12 +79,12 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
             work->orbs[i].v = 32;
             setVector(&work->orbs[i].scale, 4096, 4096, 4096);
             setVector(&work->orbs[i].target,
-                work->radius * rsin(i * 56 + (i << 12) / work->count) / 4096 * (work->slot * 2 - 1) * (i % 2 * 2 - 1),
-                work->radius * rsin(i * 113 + (i << 12) / work->count) / 4096 * (work->slot * 2 - 1),
-                work->radius * rcos(i * 170 + (i << 12) / work->count) / 4096 * (work->slot * 2 - 1));
+                work->radius * rsin(i * 56 + (i << 12) / work->count) / 4096 * (work->head.slot * 2 - 1) * (i % 2 * 2 - 1),
+                work->radius * rsin(i * 113 + (i << 12) / work->count) / 4096 * (work->head.slot * 2 - 1),
+                work->radius * rcos(i * 170 + (i << 12) / work->count) / 4096 * (work->head.slot * 2 - 1));
             switch (command) {
             case 0:
-                setVector(&work->orbs[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->orbs[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->orbs[i].position, 0, 0, 0);
                 break;
             }
@@ -108,9 +108,9 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
             setVector(&vec, 20 * rsin(angle) / 4096, 20 * rcos(angle) / 4096, 0);
             switch (command) {
             case 0:
-                setVector(&work->sparks[i][0].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i][0].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i][0].position, 0, 0, 0);
-                setVector(&rot, -((work->slot * 2 - 1) * 455), 0, 0);
+                setVector(&rot, -((work->head.slot * 2 - 1) * 455), 0, 0);
                 RotMatrix(&rot, &m);
                 ApplyMatrix(&m, &vec, &work->sparks[i][0].target);
                 break;
@@ -138,18 +138,18 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->flags[0] < 3 && work->elapsed >= work->flags[0] * 8) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 12);
+        if (work->flags[0] < 3 && work->head.elapsed >= work->flags[0] * 8) {
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
             GsGetLwUnit(&unit, &ls);
             /* "+ -1" keeps retail's negation of the side factor; "- 1"
              * folds into "1 - slot * 2". */
             for (i = work->flags[0] * 3; i < (work->flags[0] + 1) * 3; i++) {
                 work->orbs[i].active = 1;
-                work->orbs[i].position.vx += ls.t[0] * -(work->slot * 2 + -1);
+                work->orbs[i].position.vx += ls.t[0] * -(work->head.slot * 2 + -1);
                 work->orbs[i].position.vy += ls.t[1];
-                work->orbs[i].position.vz += ls.t[2] * -(work->slot * 2 + -1);
+                work->orbs[i].position.vz += ls.t[2] * -(work->head.slot * 2 + -1);
             }
             for (i = 0; i < 10; i++) {
                 work->sparks[i][work->flags[0]].active = 1;
@@ -170,7 +170,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
             unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->orbs[i].scale);
             RotMatrixZ(work->orbs[i].rotation.vz, &unit.matrix);
-            RotMatrixX(work->orbs[i].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
+            RotMatrixX(work->orbs[i].rotation.vx - (view.pitch - 0x1000) * (work->head.slot * 2 - 1), &unit.matrix);
             /* The 0xC06 yaw offset goes through a variable so that GCC adds
              * it before subtracting the view yaw. */
             angle = 0xC06;
@@ -179,12 +179,12 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
              * y and 450 in z; adding each constant before the target keeps
              * retail's operand order. */
             unit.matrix.t[0] = ((work->orbs[i].position.vx + work->orbs[i].target.vx) * work->orbs[i].elapsed
-                    / work->orbs[i].duration - work->orbs[i].position.vx) * (work->slot * 2 - 1);
+                    / work->orbs[i].duration - work->orbs[i].position.vx) * (work->head.slot * 2 - 1);
             unit.matrix.t[1] = work->orbs[i].position.vy
                 - (work->orbs[i].position.vy + 350 + work->orbs[i].target.vy) * work->orbs[i].elapsed
                     / work->orbs[i].duration;
             unit.matrix.t[2] = ((work->orbs[i].position.vz + 450 + work->orbs[i].target.vz) * work->orbs[i].elapsed
-                    / work->orbs[i].duration - work->orbs[i].position.vz) * (work->slot * 2 - 1);
+                    / work->orbs[i].duration - work->orbs[i].position.vz) * (work->head.slot * 2 - 1);
             unit.super = work->orbs[i].coord;
             GsGetLsUnit(&unit, &ls);
             GsSetLsMatrix(&ls);
@@ -226,7 +226,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
             unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->rings[i].scale);
             RotMatrixZ(work->rings[i].rotation.vz, &unit.matrix);
-            RotMatrixX(work->rings[i].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
+            RotMatrixX(work->rings[i].rotation.vx - (view.pitch - 0x1000) * (work->head.slot * 2 - 1), &unit.matrix);
             angle = 0xC06;
             RotMatrixY(work->rings[i].rotation.vy + angle - view.yaw, &unit.matrix);
             unit.matrix.t[0] = work->rings[i].position.vx;
@@ -295,7 +295,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sparks[i][k].scale);
                 RotMatrixZ(work->sparks[i][k].rotation.vz, &unit.matrix);
-                RotMatrixX(work->sparks[i][k].rotation.vx - (view.pitch - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
+                RotMatrixX(work->sparks[i][k].rotation.vx - (view.pitch - 0x1000) * (work->head.slot * 2 - 1), &unit.matrix);
                 angle = 0xC06;
                 RotMatrixY(work->sparks[i][k].rotation.vy + angle - view.yaw, &unit.matrix);
                 unit.matrix.t[0] = work->sparks[i][k].position.vx;
@@ -338,7 +338,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == (work->rows * 5 + work->count) * 2) {
         result = 1;
         if (work->flags[4] == 1) {

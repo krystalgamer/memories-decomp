@@ -65,13 +65,13 @@ extern u16 gText_StagedStringId;
 extern u8 gText_abColorSlots[];
 
 /* The Shift-JIS key table: four-byte entries whose low halfword is the key.
- * Text_SjisToGlyphCodes (text_sjis_to_glyph_codes.c) walks it from entry 1
+ * Text_SjisToGlyphCodes (frontend_package_stages.c) walks it from entry 1
  * for a non-zero key, compares the low halfword against each source
  * halfword, stops at a zero word, and emits the entry index as the glyph
  * code; TextBox_BuildStep (text_box_build_step.c) reads packed at a
  * script byte's index and masks it with 0x8FF0FFFF.
  * TextBox_UpdateChannels (text_box_runtime.c) reads bits 0-2 of halves.upper;
- * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
+ * Text_InitDecimalDigitGlyphMap (text_helpers.c) reaches entry 1 under its own name,
  * gText_aGlyphSearchEntries, with a const that its note explains. Spelling
  * that as gText_aGlyphLookup + 1 (cast to const, or through a const arm of
  * this declaration) does not match: GCC 2.8.1 treats symbol+4 differently

@@ -70,17 +70,12 @@ u8 gSD_szMidiTrackMarker[8] = "MTrk";
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_config.h"
-#include "display_object_helpers.h"
+#include "display_object_system.h"
 #include "display_object_depth_bases.h"
 #include "display_object_layout.h"
-#include "display_object_projection.h"
-#include "display_object_render_sprite_list.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
-#include "display_object_packet_submit.h"
 #include "view_state_orbit.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
@@ -437,9 +432,6 @@ void DisplayObject_RenderSpriteList(void) {
 
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "display_object_update_command_stream.h"
-#include "display_object_runtime.h"
-#include "display_object_render_sprite_sheet_list.h"
 
 #include "ordering_tables.h"
 
@@ -480,20 +472,12 @@ void DisplayObject_RenderSpriteSheetList(void) {
 #include "../psyq/rand.h"
 /* The explicit viewport .data view keeps both offsets absolute under the
  * uniform -G8 compiler/assembler profile used by these renderers. */
-#include "graphics_frame.h"
 #include "display_flat_lights.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "display_object_projection.h"
 #include "display_object_list_renderer_table.h"
-#include "display_object_stream_state.h"
-#include "display_object_render_frame.h"
 #include "sprite_primitive.h"
-#include "display_object_packet_submit.h"
-#include "display_object_runtime.h"
 #include "ordering_tables.h"
-#include "display_object_render_sprite_list.h"
-#include "display_object_render_sprite_sheet_list.h"
 
 /* Initialized data this unit owns at 0x80090FB0: the per-list display object renderers.
  *
@@ -825,7 +809,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                                       g->x0 + (s16)e->field_18.center.x,
                                       g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
-                        goto next;
+                        continue;
                     }
                     v = v | 0x4000000;
                 }
@@ -850,8 +834,6 @@ void DisplayObject_RenderGouraudQuadList(void) {
                                                e->ot_depth | bit, h);
                 }
             }
-        next:
-            ;
         } while (i >= 0);
     }
 }
@@ -943,7 +925,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                                       g->x0 + (s16)e->field_18.center.x,
                                       g->y0 + (s16)e->field_18.center.y,
                                       (struct ProjectionOut *)h) <= 0) {
-                        goto next;
+                        continue;
                     }
                     v = v | 0x4000000;
                 }
@@ -967,8 +949,6 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                                                e->ot_depth | bit, h);
                 }
             }
-        next:
-            ;
         } while (i >= 0);
     }
 }
@@ -1279,8 +1259,6 @@ next:
 }
 
 #include "model_record_tables.h"
-#include "display_object_stream_read_next_command.h"
-#include "display_object_stream_state.h"
 
 /* Initialized data this unit owns at 0x80090FEC, previously a generated blob
    (#2602).
@@ -1337,9 +1315,6 @@ void DisplayObjectStream_ReadNextCommand(
 }
 
 #include "display_object.h"
-#include "display_object_update_command_stream.h"
-#include "display_object_stream_read_next_command.h"
-#include "graphics_frame.h"
 #include "graphics_frame_controls.h"
 
 /* If object's 0x10 state bit isn't set yet: marks it set, resets
@@ -1398,14 +1373,14 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         if (object->flags & 0x100) {
             object->attribute = mask | 0x800000;
         }
-        goto call_it;
+        DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
+        return;
     }
 
     if (!(object->flags & 3) && object->field_5A != 0) {
         s16 remain = (u16)object->field_5A - (u16)gGraphics_nBaseFrameStep;
         object->field_5A = remain;
         if (remain <= 0) {
-call_it:
             DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
         }
     }
@@ -1416,7 +1391,6 @@ call_it:
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "display_object.h"
-#include "display_object_projection.h"
 #include "model.h"
 
 /* Contiguous projection helpers sharing the scratchpad matrix/vector layout.
@@ -1570,16 +1544,10 @@ s32 DisplayObject_ProjectRotationFacing(
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "gpu_packets.h"
-#include "display_object_config.h"
-#include "display_object_core.h"
 #include "display_object_layout.h"
-#include "display_object_lifecycle.h"
 #include "display_object.h"
-#include "display_object_packet_submit.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
 #include "trig_constants.h"
-#include "display_object_interpolation.h"
 
 /* Regional value: DIVPOLYGON4 piv (272 -> 288). The European build
  * (src/game/european/) defines its own. */

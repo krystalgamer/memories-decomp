@@ -25,28 +25,15 @@ void Text_EncodeDecimalDigits(s32 value, s32 digit_count, u8 *digits) {
     }
 }
 
-void Text_EncodeDecimalNoPadding(s32 value, s32 count_arg, u8 *data_arg) {
-    s32 count;
-    u8 *data;
-    u8 *position;
-    u8 current;
-
-    count = count_arg;
-    data = data_arg;
+void Text_EncodeDecimalNoPadding(s32 value, s32 count, u8 *data) {
     Text_EncodeDecimalDigits(value, count, data);
-decrement:
-    count = count - 1;
-scan:
-    if (count <= 0) {
-        return;
+    for (;;) {
+        count--;
+        if (count <= 0) {
+            return;
+        }
+        if (data[count] >= TEXT_DECIMAL_RADIX) {
+            data[count] = 0;
+        }
     }
-    position = data + count;
-    current = *position;
-    count--;
-    if (current < TEXT_DECIMAL_RADIX) {
-        goto scan;
-    }
-    count++;
-    *position = 0;
-    goto decrement;
 }

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant461_entry.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 
 #ifndef MODEL_VARIANT461_CLUT_X
 #define MODEL_VARIANT461_CLUT_X 640

@@ -2,7 +2,7 @@
 
 #include "movie_pipeline.h"
 
-#include "graphics_frame.h"
+#include "main.h"
 
 #include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
@@ -329,7 +329,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
                 continue;
             }
             if (gMovie_bStreamEnded != 0) {
-                goto fail;
+                return 1;
             }
             timeouts++;
             if (resync != 0 || timeouts >= 10) {
@@ -341,11 +341,6 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
                variables into retail's callee-saved registers. */
             last = now;
             continue;
-        /* The label sits after the back jump on purpose. A `return 1`
-           block that is only reached by a jump is what stops GCC
-           cross-jumping the first early return into it. */
-        fail:
-            return 1;
         }
 
         if (CdPosToInt(&hdr->loc) + hdr->nSectors * 2 >= gMovie_dwEndSector) {

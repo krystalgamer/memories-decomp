@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant135_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry throws 48 textured sparks from one slot part towards the other
  * slot, bursts beam crosses over the targets and then sweeps a ribbon of grid

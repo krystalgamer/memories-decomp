@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant847_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 847's entry: two model points leave trails of four-point stars while

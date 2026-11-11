@@ -16,4 +16,11 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot);
 
 void CardList_BuildRowSetTextBoxes(u16 *entries, s32 side, s32 flag, s32 ignored);
 
+/* Builds the two card-list row sets at gFile_StagingBuffer, one per player, anchored
+ * at (x0, y0) and (x1, y1). Each gets a fresh display object whose render
+ * hook is CardList_RenderDeckBoxStats, and the viewport origin is reset to
+ * zero. The Trade
+ * screen calls it once on entry. */
+void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1);
+
 #endif

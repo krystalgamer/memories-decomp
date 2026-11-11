@@ -2,16 +2,13 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_INTRO_RUNTIME_H
 
 #include "../../types.h"
-#include "../../game/duel_effect.h"
-#include "../../game/duel_effect_entry_control.h"
+#include "../../game/duel_effect_states.h"
+#include "../../game/duel_effect_text.h"
 #include "../../game/duel_effect_process_entries.h"
-#include "../../game/text_box_lifecycle.h"
-#include "../../game/text_box_runtime.h"
 #include "../../game/display_object.h"
-#include "../../game/display_object_core.h"
-#include "../../game/display_object_helpers.h"
+#include "../../game/display_object_system.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 
 typedef struct {
     u8 text;

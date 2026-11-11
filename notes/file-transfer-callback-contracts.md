@@ -94,7 +94,7 @@ are unchanged, with regional/cloud validation left to the bundled PR.
 
 `DuelResult_LoadPackageStage` names the existing `func_8002F4C0` entry,
 installed by `Script_OpDuelResult` for its menu-asset request. The public
-declaration moves to `duel_result_load_package_stage.h`, retaining
+declaration moves to `script_scene.h` (formerly `duel_result_load_package_stage.h`), retaining
 `FileTransferDescriptor *d, s32 mode`. The generic unprototyped callback
 typedef and caller's existing request/wait timing remain unchanged.
 

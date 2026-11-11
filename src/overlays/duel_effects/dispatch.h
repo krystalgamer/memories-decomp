@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_DISPATCH_H
 
 #include "../../types.h"
-#include "../../game/duel_effect_request.h"
+#include "../../game/duel_effect_object_pool.h"
 #include "drawing_helpers.h"
 #include "textured_quads.h"
 #include "image_inputs.h"

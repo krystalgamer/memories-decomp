@@ -39,17 +39,17 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model660UsState));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant660Us_aImages[2]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant660Us_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant660Us_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant660Us_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant660Us_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant660Us_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -82,7 +82,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             work->glows[i].v = 0;
             setVector(&work->glows[i].scale, 0, 0, 0);
             setVector(&work->glows[i].offset, 0, 0, 0);
-            setVector(&work->glows[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->glows[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
                 setVector(&work->glows[i].position, 0, 0, 0);
@@ -112,7 +112,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             value = (i % 2) * 2 - 1;
             /* i * 398 * sign folds into i * (sign * 398); the sign shares `value`,
              * which keeps it in retail's register. */
-            setVector(&work->shards[i][0].rotation, i * 398 * value, i * 739 * value + work->slot * 2048,
+            setVector(&work->shards[i][0].rotation, i * 398 * value, i * 739 * value + work->head.slot * 2048,
                 i * 1080 * value);
             switch (command) {
             case 0:
@@ -158,7 +158,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             }
             setVector(&work->orbs[i][0].scale, 2048, 2048, 2048);
             setVector(&work->orbs[i][0].offset, 0, 0, 0);
-            setVector(&work->orbs[i][0].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->orbs[i][0].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
                 setVector(&work->orbs[i][0].position, 0, 0, 0);
@@ -183,7 +183,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->rings[i][0].offset, 0, 0, 0);
             /* Grouping the slot angle with the offset keeps i * 284 + 1704 as the
              * induction value, as in retail. */
-            setVector(&work->rings[i][0].rotation, i * 170 + 1190, i * 284 + (work->slot * 2048 + 1704),
+            setVector(&work->rings[i][0].rotation, i * 170 + 1190, i * 284 + (work->head.slot * 2048 + 1704),
                 i * 398 + 1990);
             switch (command) {
             case 0:
@@ -207,7 +207,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             work->rays[i][0].v = 0;
             setVector(&work->rays[i][0].scale, 0, 0, 0);
             setVector(&work->rays[i][0].offset, 0, 0, 0);
-            setVector(&work->rays[i][0].rotation, i * 170 + 850, i * 284 + (work->slot * 2048 + 1704),
+            setVector(&work->rays[i][0].rotation, i * 170 + 850, i * 284 + (work->head.slot * 2048 + 1704),
                 i * 398 + 2786);
             switch (command) {
             case 0:
@@ -242,7 +242,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     RotMatrixX(work->direction * 512, &spin);
                     ApplyMatrixLV(&spin, &offset, &work->sparks[i][j][n].offset);
                     PopMatrix();
-                    setVector(&work->sparks[i][j][n].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->sparks[i][j][n].rotation, 0, work->head.slot * 2048, 0);
                     switch (command) {
                     case 0:
                         setVector(&work->sparks[i][j][n].position, 0, 0, 0);
@@ -293,9 +293,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->copies; i++) {
                     work->glows[i].active = 1;
                     for (j = 0; j < work->shard_count; j++) {
@@ -303,8 +303,8 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     }
                 }
             }
-            if (work->flags[0] < work->orb_count && work->flags[0] * 40 + 72 < work->elapsed) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 23);
+            if (work->flags[0] < work->orb_count && work->flags[0] * 40 + 72 < work->head.elapsed) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 23);
                 GsGetLwUnit(&unit, &ls);
                 work->orbs[work->flags[0]][0].active = 1;
                 applyVector(&work->orbs[work->flags[0]][0].position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -314,8 +314,8 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                 }
                 work->flags[0]++;
             }
-            if (work->flags[1] < work->orb_count && work->flags[1] * 40 + 92 < work->elapsed) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 25);
+            if (work->flags[1] < work->orb_count && work->flags[1] * 40 + 92 < work->head.elapsed) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 25);
                 GsGetLwUnit(&unit, &ls);
                 work->orbs[work->flags[1]][1].active = 1;
                 applyVector(&work->orbs[work->flags[1]][1].position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -330,14 +330,14 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
         PushMatrix();
         view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 23);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 23);
             GsGetLwUnit(&unit, &lw[1]);
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 25);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 25);
             break;
         default:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 1);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
             break;
         }
         GsGetLwUnit(&unit, &lw[0]);
@@ -364,9 +364,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     value = (work->glows[i].duration - work->glows[i].elapsed) * 2;
                     /* Copying the duration first gives retail's divisor register. */
                     duration = work->glows[i].duration;
-                    work->glows[i].color[0] = gModelVariant660Us_aConfigs[work->command].color[0] * value / duration;
-                    work->glows[i].color[1] = gModelVariant660Us_aConfigs[work->command].color[1] * value / duration;
-                    work->glows[i].color[2] = gModelVariant660Us_aConfigs[work->command].color[2] * value / duration;
+                    work->glows[i].color[0] = gModelVariant660Us_aConfigs[work->head.command].color[0] * value / duration;
+                    work->glows[i].color[1] = gModelVariant660Us_aConfigs[work->head.command].color[1] * value / duration;
+                    work->glows[i].color[2] = gModelVariant660Us_aConfigs[work->head.command].color[2] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -423,9 +423,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     if (work->shards[i][j].duration / 2 < work->shards[i][j].elapsed) {
                         value = (work->shards[i][j].duration - work->shards[i][j].elapsed) * 2;
                         duration = work->shards[i][j].duration;
-                        work->shards[i][j].color[0] = gModelVariant660Us_aConfigs[work->command].color[0] * value / duration;
-                        work->shards[i][j].color[1] = gModelVariant660Us_aConfigs[work->command].color[1] * value / duration;
-                        work->shards[i][j].color[2] = gModelVariant660Us_aConfigs[work->command].color[2] * value / duration;
+                        work->shards[i][j].color[0] = gModelVariant660Us_aConfigs[work->head.command].color[0] * value / duration;
+                        work->shards[i][j].color[1] = gModelVariant660Us_aConfigs[work->head.command].color[1] * value / duration;
+                        work->shards[i][j].color[2] = gModelVariant660Us_aConfigs[work->head.command].color[2] * value / duration;
                     }
                     setPolyGT3(&work->shard);
                     work->shard.tpage = work->tpage[1];
@@ -529,9 +529,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     if (work->rings[i][j].duration / 2 < work->rings[i][j].elapsed) {
                         value = (work->rings[i][j].duration - work->rings[i][j].elapsed) * 2;
                         duration = work->rings[i][j].duration;
-                        work->rings[i][j].color[0] = gModelVariant660Us_aConfigs[work->command].color[3] * value / duration;
-                        work->rings[i][j].color[1] = gModelVariant660Us_aConfigs[work->command].color[4] * value / duration;
-                        work->rings[i][j].color[2] = gModelVariant660Us_aConfigs[work->command].color[5] * value / duration;
+                        work->rings[i][j].color[0] = gModelVariant660Us_aConfigs[work->head.command].color[3] * value / duration;
+                        work->rings[i][j].color[1] = gModelVariant660Us_aConfigs[work->head.command].color[4] * value / duration;
+                        work->rings[i][j].color[2] = gModelVariant660Us_aConfigs[work->head.command].color[5] * value / duration;
                     }
                     value = step * ((i % 2) * 2 - 1) * ((j % 2) * 2 - 1);
                     /* Written as k * 2 * spin, the front end folds the constant onto the
@@ -591,9 +591,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     if (work->rays[i][j].duration / 2 < work->rays[i][j].elapsed) {
                         value = (work->rays[i][j].duration - work->rays[i][j].elapsed) * 2;
                         duration = work->rays[i][j].duration;
-                        work->rays[i][j].color[0] = gModelVariant660Us_aConfigs[work->command].color[3] * value / duration;
-                        work->rays[i][j].color[1] = gModelVariant660Us_aConfigs[work->command].color[4] * value / duration;
-                        work->rays[i][j].color[2] = gModelVariant660Us_aConfigs[work->command].color[5] * value / duration;
+                        work->rays[i][j].color[0] = gModelVariant660Us_aConfigs[work->head.command].color[3] * value / duration;
+                        work->rays[i][j].color[1] = gModelVariant660Us_aConfigs[work->head.command].color[4] * value / duration;
+                        work->rays[i][j].color[2] = gModelVariant660Us_aConfigs[work->head.command].color[5] * value / duration;
                     }
                     setVector(&origin, 0, 0, 0);
                     for (k = 1; k < 8; k++) {
@@ -654,9 +654,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                         if (work->sparks[i][j][n].duration / 2 < work->sparks[i][j][n].elapsed) {
                             value = (work->sparks[i][j][n].duration - work->sparks[i][j][n].elapsed) * 2;
                             duration = work->sparks[i][j][n].duration;
-                            work->sparks[i][j][n].color[0] = gModelVariant660Us_aConfigs[work->command].color[3] * value / duration;
-                            work->sparks[i][j][n].color[1] = gModelVariant660Us_aConfigs[work->command].color[4] * value / duration;
-                            work->sparks[i][j][n].color[2] = gModelVariant660Us_aConfigs[work->command].color[5] * value / duration;
+                            work->sparks[i][j][n].color[0] = gModelVariant660Us_aConfigs[work->head.command].color[3] * value / duration;
+                            work->sparks[i][j][n].color[1] = gModelVariant660Us_aConfigs[work->head.command].color[4] * value / duration;
+                            work->sparks[i][j][n].color[2] = gModelVariant660Us_aConfigs[work->head.command].color[5] * value / duration;
                         }
                         setPolyFT4(&work->sprite);
                         work->sprite.tpage = work->tpage[2];
@@ -691,9 +691,9 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         /* The +1 sits before the orb term, as retail adds it first. */
-        if (work->elapsed > 64 && inactive == work->copies * (work->shard_count + 1 + work->orb_count * 3 + work->orb_count * work->spark_count)) {
+        if (work->head.elapsed > 64 && inactive == work->copies * (work->shard_count + 1 + work->orb_count * 3 + work->orb_count * work->spark_count)) {
             result = 1;
             if (work->flags[4] == 1) {
                 result = 2;

@@ -8,28 +8,22 @@
 /* Each input branch of the update samples the pressed-pad word
  * independently; no other function in this unit reads pad state. */
 #include "../../types.h"
-#include "../../game/two_player_save_setup.h"
-#include "../../game/save_data.h"
-#include "../../game/save_data_update_trade_load.h"
+#include "../../game/mem_card.h"
 #include "../../game/input.h"
 #include "../../game/display_object.h"
-#include "../../game/display_object_core.h"
+#include "../../game/display_object_system.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
 #include "frontend.h"
-#include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
-#include "../../game/display_object_config.h"
 #include "../../game/sound_driver.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_constants.h"
-#include "../../game/data_transfer_request.h"
-#include "../../game/mem_card.h"
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 #include "../../overlays/main_menu/frontend.h"
 #include "../../overlays/main_menu/ordering_tables.h"
-#include "../../game/graphics_frame.h"
+#include "../../game/main.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_INIT_FRONTEND_MENU) || \

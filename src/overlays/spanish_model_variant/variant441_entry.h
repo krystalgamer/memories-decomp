@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT441_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/french_model_variant/variant337_entry.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 /* One 0x30-byte command record of the table at gSpanishModelVariant441_aConfigs. */
 typedef struct {
@@ -34,10 +34,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_2658[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count;
     s32 frame;

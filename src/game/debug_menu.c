@@ -33,36 +33,23 @@
 #include "sound_voice_selection.h"
 #include "../psyq/stdio.h"
 #include "frontend_debug_constants.h"
-#include "campaign_scene_package.h"
+#include "script_scene.h"
 #include "duel_effect_entry_ranges.h"
-#include "dialog_choice_state.h"
-#include "text_box_lifecycle.h"
-#include "text_box_update_channels.h"
-#include "input_is_pad1_confirm_pressed.h"
-#include "display_object_core.h"
-#include "duel_effect_set_entry_range_layout.h"
-#include "campaign_create_primary_display_object.h"
+#include "duel_effect_text.h"
+#include "text_helpers.h"
+#include "display_object_system.h"
 #include "main_mode_state.h"
 #include "debug_font_format_data.h"
-#include "text_channel_state.h"
 #include "duel_effect_entry_state.h"
-#include "text_box_blocking_build.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "fade.h"
-#include "display_object_helpers.h"
-#include "text_box_runtime.h"
-#include "secondary_scene_commands.h"
 #include "mem_card.h"
-#include "duel_side_state.h"
-#include "duel_effect_mode_7.h"
-#include "main_start_duel.h"
-#include "save_data_update_trade_load.h"
-#include "two_player_save_setup.h"
+#include "duel_scene.h"
+#include "build_deck.h"
 #include "movie_playback_control.h"
 #include "duel_session_controls.h"
 #include "main_services.h"
 #include "../psyq/setjmp.h"
-#include "duel_effect_reset_state.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
@@ -407,12 +394,12 @@ out:
 }
 
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 #ifdef VERSION_EUROPE
 /* A European-only debug-menu entry, with its own slot in the menu's handler
-   table: it edits gText_bLanguageIndex (the index duel_effect_resource_setup.c
+   table: it edits gText_bLanguageIndex (the index card_preview.c
    reads) through the same editor as the sound entry, and sets it back to
    BUILD_LANGUAGE_INDEX from 5 up. */
 void DebugMenu_UpdateLanguageEntry(void)

@@ -1050,9 +1050,9 @@ void SD_RestoreSecondaryVoiceVolumes(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *gSD_pSecondaryState and refreshes the object volumes unless sequence_state is
- * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
+ * 2. SD_UpdateFades (src/game/sound_output_state.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
- * takes. It is not the only caller -- sd_step_active_command.c calls it with two
+ * takes. It is not the only caller -- SD_StepActiveCommand calls it with two
  * literal zeros, and used to declare it as an s32 pair of its own. */
 void SD_SetSecondaryMasterLevels(s16 left, s16 right);
 void SD_KeyOffVoiceSlots(void);

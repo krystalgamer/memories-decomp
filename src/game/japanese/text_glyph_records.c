@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../duel_effect_entries.h"
+#include "../duel_effect_text.h"
 
 /* The Japanese build's extra glyphs, which Text_FindRecordById looks up for
  * DuelEffect_RasterizeGlyph: a zero-terminated list of big-endian Shift-JIS

@@ -10,7 +10,7 @@
 #include "variant373_ribbons.h"
 #include "variant373_quads.h"
 #include "variant373_rays.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
@@ -64,13 +64,8 @@ typedef struct {
     POLY_FT4 point_packet;
     u8 unknown_238C[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantAim aim;
+    ModelVariantClock clock;
     EntryConfig373 *config;
     u32 field_241C;
     GsCOORDUNIT *parts[3];

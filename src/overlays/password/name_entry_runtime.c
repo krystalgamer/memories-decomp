@@ -6,19 +6,14 @@
 #include "../../psyq/libgs.h"
 #include "../../game/color_constants.h"
 #include "../../game/input.h"
-#include "../../game/display_object_config.h"
+#include "../../game/display_object_system.h"
 #include "../../game/text_constants.h"
-#include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
-#include "../../game/display_object_lifecycle.h"
-#include "../../game/display_object_helpers.h"
-#include "../../game/text_box_runtime.h"
-#include "../../game/text_box_blocking_build.h"
-#include "../../game/text_box_update_channels.h"
-#include "../../game/duel_effect_set_entry_range_layout.h"
+#include "../../game/duel_effect_text.h"
+#include "../../game/text_helpers.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
-#include "../../game/save_data.h"
+#include "../../game/mem_card.h"
 #include "../../game/player_name_glyphs.h"
 #include "../../game/fade.h"
 #include "name_entry_keyboard.h"
@@ -26,12 +21,8 @@
 #include "name_entry_state.h"
 #include "../../game/dialog_choice.h"
 #include "../../game/rand_get_interval.h"
-#include "../../game/text_box_lifecycle.h"
-#include "../../game/dialog_choice_state.h"
-#include "../../game/display_object_interpolation.h"
-#include "../../game/text_sjis_to_glyph_codes.h"
-#include "../../game/duel_effect_entry_occupancy.h"
-#include "../../game/duel_effect_resource_setup.h"
+#include "../../game/frontend_package_stages.h"
+#include "../../game/card_preview.h"
 #include "../../overlays/password/name_entry_keyboard.h"
 #include "../../overlays/password/name_entry_frame.h"
 #include "../../overlays/password/name_entry_state.h"
@@ -599,7 +590,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
             256, 240
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     return obj;
@@ -633,7 +624,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
             640, 224
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     ((DisplayObject *)obj)->field_6B = 0;
@@ -728,7 +719,7 @@ draw:
             256, 240
         );
     }
-    obj->field_48 = 0x80008;
+    obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
     return obj;

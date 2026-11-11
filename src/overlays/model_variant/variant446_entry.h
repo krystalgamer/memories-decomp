@@ -2,7 +2,7 @@
 #define MEMORIES_MODEL_VARIANT446_ENTRY_H
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 
 /* The 0x4C-byte effect configuration the entry picks by command. */
 typedef struct {

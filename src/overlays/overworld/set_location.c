@@ -1,32 +1,25 @@
 #include "../../types.h"
-#include "../../game/model_draw_slot.h"
+#include "../../game/model.h"
 #include "camera_state.h"
 #include "camera_transition.h"
 #include "location_objects.h"
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/model_slot_control.h"
-#include "../../game/model.h"
-#include "../../game/model_scene_controllers.h"
-#include "../../game/display_object_core.h"
+#include "../../game/display_object_system.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/sound.h"
-#include "../../game/display_object_helpers.h"
-#include "../../game/text_box_runtime.h"
-#include "../../game/text_box_blocking_build.h"
+#include "../../game/duel_effect_text.h"
 #include "../../game/input.h"
 #include "../../game/sorted_entry_render.h"
 #include "../../game/trig_constants.h"
-#include "../../game/display_object_interpolation.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
 #include "../../game/view_state_orbit.h"
 #include "../../game/main_services.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_update_coordinate_unit_matrix.h"
-#include "../../game/text_box_lifecycle.h"
+#include "../../game/model_slot_support.h"
 
 #include "../../game/high_memory_addresses.h"
 #include "../../game/shared_work_base.h"
@@ -67,7 +60,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                 object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPositionWithResource(
                     object, entry->x, entry->y, 0, 2,
-                    entry->field_08, 0x17, 0x100, gDisplay_abResourceBank0
+                    entry->direction_variant, 0x17, 0x100, gDisplay_abResourceBank0
                 );
                 DisplayObject_SetDepthOffset(object, 5);
                 *(u16 *)(object + 8) |=

@@ -4,8 +4,8 @@
 #include "../../types.h"
 #include "effect_6.h"
 #include "../../game/display_object.h"
-#include "../../game/duel_check_ritual.h"
-#include "../../game/screen_projection.h"
+#include "../../game/duel_effect_object_pool.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/sound.h"
 
 typedef struct {

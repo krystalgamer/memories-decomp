@@ -25,8 +25,8 @@ void FrenchModelVariant481_DrawBand(u8 *context)
 
     band = state->bands;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(state->view_delta.vz, state->view_delta.vx) + 0xC00;
-    ratan2(state->view_delta.vy, state->view_delta.vx);
+    yaw = ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx) + 0xC00;
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
     side = -1;
     if (state->slot == 0) {
         side = 1;
@@ -51,9 +51,9 @@ void FrenchModelVariant481_DrawBand(u8 *context)
             if (unclamped < 0) {
                 unclamped = state->bands[j].offset[i];
             }
-            setVector(&band->spine[i], state->direction.vx * progress / 1024,
-                      state->direction.vy * progress / 1024 + (rsin(progress * 2) * 512 >> 12),
-                      state->direction.vz * progress / 1024);
+            setVector(&band->spine[i], state->aim.direction.vx * progress / 1024,
+                      state->aim.direction.vy * progress / 1024 + (rsin(progress * 2) * 512 >> 12),
+                      state->aim.direction.vz * progress / 1024);
             setVector(&band->edge[i], band->spine[i].vx + (rcos(yaw) * width >> 12), band->spine[i].vy,
                       band->spine[i].vz + (rsin(yaw) * width >> 12));
             if (band->offset[i] < 0x800) {
@@ -91,7 +91,7 @@ void FrenchModelVariant481_DrawBand(u8 *context)
                                              &band->screen[i], &band->screen[i - 1],
                                              &band->screen[i], &interpolation, &band->flag[i]);
                 RotTransPers(&band->edge[i], &band->edge_screen[i], &interpolation, &flag);
-                band->heading[i] = ratan2(state->screen_delta.vy, state->screen_delta.vx) - 0x400;
+                band->heading[i] = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx) - 0x400;
                 band->length[i] = (s16)band->edge_screen[i] - (s16)band->screen[i];
                 band->dx[i] = rcos(band->heading[i]) * band->length[i] >> 12;
                 band->dy[i] = rsin(band->heading[i]) * band->length[i] >> 12;
@@ -101,7 +101,7 @@ void FrenchModelVariant481_DrawBand(u8 *context)
                                              &band->screen[i + 1], &band->screen[i],
                                              &band->screen[i + 1], &interpolation, &band->flag[i]);
                 RotTransPers(&band->edge[i], &band->edge_screen[i], &interpolation, &flag);
-                band->heading[i] = ratan2(state->screen_delta.vy, state->screen_delta.vx) - 0x400;
+                band->heading[i] = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx) - 0x400;
                 band->length[i] = (s16)band->edge_screen[i] - (s16)band->screen[i];
                 band->dx[i] = rcos(band->heading[i]) * band->length[i] >> 12;
                 band->dy[i] = rsin(band->heading[i]) * band->length[i] >> 12;

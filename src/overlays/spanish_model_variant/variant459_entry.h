@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT459_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/french_model_variant/variant337_entry.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 /* One 0x48-byte command record of the table at gSpanishModelVariant459_aConfigs. */
 typedef struct {
@@ -37,10 +37,7 @@ typedef struct {
     MATRIX matrices[6];
     VECTOR points[6];
     VECTOR directions[6];
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     s16 spiral_angle, field_3096, spiral_size, field_309A;
     Variant459EntryConfig *config;

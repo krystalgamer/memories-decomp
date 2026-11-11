@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant76_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
 {

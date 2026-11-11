@@ -10,9 +10,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL680US_FADE(e, offset, value, divisor)                                     \
-    (e).color[0] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant680Us_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant680Us_aConfigs[work->head.command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant680Us_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant680Us_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
 /* Loads the camera-facing rotation of element E into UNIT. */
 #define MODEL680US_FACE(e)                                                              \
@@ -65,10 +65,10 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant680Us_szWorkSizeFormat, sizeof(Model680UsState));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         switch (command) {
         case 0:
             work->joints[1] = 1;
@@ -88,23 +88,23 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
         corner = 0;
         do {
         } while (0);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[8]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[9]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant680Us_aImages[10]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant680Us_aImages[10]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         switch (command) {
@@ -146,7 +146,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 64;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
             setVector(&work->rings[i].target, 0, 0, 0);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->count; i++) {
@@ -162,7 +162,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->bursts[i].v = 32;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].target, 0, 0, 0);
-            setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
             value = work->radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
             sign = i % 2 * 2 - 1;
             setVector(&work->bursts[i].position, sign * value * rsin(i % 16 << 8) / 4096,
@@ -257,13 +257,13 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed >= 98 && work->elapsed < 204) {
-                if (work->elapsed >= work->flags[0] * 3 + 98 && work->flags[0] < work->count) {
+            if (work->head.elapsed >= 98 && work->head.elapsed < 204) {
+                if (work->head.elapsed >= work->flags[0] * 3 + 98 && work->flags[0] < work->count) {
                     work->blooms[work->flags[0]].active = 1;
                     unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(
-                        work->slot, (work->joints[work->flags[0] & 3] >> 1) + 29);
+                        work->head.slot, (work->joints[work->flags[0] & 3] >> 1) + 29);
                     GsGetLwUnit(&unit, &ls);
                     (work->blooms + work->flags[0])->position.vx = ls.t[0];
                     (work->blooms + work->flags[0])->position.vy = ls.t[1];
@@ -273,15 +273,15 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                     work->flags[0]++;
                 }
             }
-            if (work->elapsed < 78 || (work->elapsed >= 257 && work->elapsed < 358)) {
+            if (work->head.elapsed < 78 || (work->head.elapsed >= 257 && work->head.elapsed < 358)) {
                 for (i = 0; i < work->rows; i++) {
                     work->sparks[work->flags[1]][i].active = 1;
                     work->sparks[work->flags[1]][i].elapsed = 0;
                     work->sparks[work->flags[1]][i].u = (i * 5 + work->flags[1] * 3) % 8 << 5;
-                    work->sparks[work->flags[1]][i].color[0] = gModelVariant680Us_aConfigs[work->command].color[0];
-                    work->sparks[work->flags[1]][i].color[1] = gModelVariant680Us_aConfigs[work->command].color[1];
-                    work->sparks[work->flags[1]][i].color[2] = gModelVariant680Us_aConfigs[work->command].color[2];
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, i + 34);
+                    work->sparks[work->flags[1]][i].color[0] = gModelVariant680Us_aConfigs[work->head.command].color[0];
+                    work->sparks[work->flags[1]][i].color[1] = gModelVariant680Us_aConfigs[work->head.command].color[1];
+                    work->sparks[work->flags[1]][i].color[2] = gModelVariant680Us_aConfigs[work->head.command].color[2];
+                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 34);
                     GsGetLwUnit(&unit, &ls);
                     (work->sparks[work->flags[1]] + i)->position.vx = ls.t[0];
                     (work->sparks[work->flags[1]] + i)->position.vy = ls.t[1];
@@ -292,10 +292,10 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                     work->flags[1] = 0;
                 }
             }
-            if (work->elapsed >= 301) {
+            if (work->head.elapsed >= 301) {
                 work->flags[2] = 1;
             }
-            if (work->elapsed >= 223 && work->flags[4] == 0) {
+            if (work->head.elapsed >= 223 && work->flags[4] == 0) {
                 work->flags[4] = result = 1;
             }
             break;
@@ -492,7 +492,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&unit.matrix, &offset);
                     RotMatrixZ(0, &unit.matrix);
                     RotMatrixX(-((view.pitch - 0x1000) * work->direction), &unit.matrix);
-                    RotMatrixY(work->slot * 2048 + (0xC06 - view.yaw), &unit.matrix);
+                    RotMatrixY(work->head.slot * 2048 + (0xC06 - view.yaw), &unit.matrix);
                     unit.matrix.t[0] = work->sparks[i][j].position.vx;
                     unit.matrix.t[1] = work->sparks[i][j].position.vy;
                     unit.matrix.t[2] = work->sparks[i][j].position.vz;
@@ -519,7 +519,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->count * 3 + work->rows * work->cols && work->flags[2] == 1) {
             result = 2;
         }

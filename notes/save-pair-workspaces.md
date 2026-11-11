@@ -62,7 +62,7 @@ integrity calls, failure behavior and transfer length remain unchanged.
 
 ## Declaration and native boundaries
 
-The narrow workspace header follows the existing `save_data.h` owner
+The narrow workspace header follows the existing `mem_card.h` (formerly `save_data.h`) owner
 in four root sources. The interior transfer-view header follows
 `unmatched.h` only in the memory-card dialog unit. The old headers,
 guards, regional wrappers and compiler profiles stay unchanged.

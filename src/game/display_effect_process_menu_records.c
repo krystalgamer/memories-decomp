@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
-#include "display_object_config.h"
+#include "display_object_system.h"
 #include "display_effect_update_menu_record.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
@@ -9,10 +9,9 @@
 #include "display_object.h"
 #include "display_effect_step_table.h"
 #include "display_effect_resource_setup.h"
-#include "dialog_transition.h"
+#include "mem_card.h"
 #include "display_effect_lifecycle.h"
 #include "display_effect_update_callbacks.h"
-#include "dialog_update_message_transition.h"
 #include "mem_card_work.h"
 
 /* Initialized data this unit owns at 0x80090F68: the display effect step

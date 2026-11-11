@@ -8,67 +8,51 @@ static PADDING_VARIABLE(2);
 static PADDING_VARIABLE(4);
 
 #include "../ygo_types.h"
-#include "text_box_blocking_build.h"
-#include "graphics_frame.h"
+#include "duel_effect_text.h"
+#include "main.h"
 #include "library.h"
 #include "card_constants.h"
 #include "../psyq/libgs.h"
 #include "ordering_tables.h"
 #include "card_grid.h"
 #include "display_object.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
+#include "duel_effect_states.h"
 #include "sound.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "input.h"
 #include "main_mode_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "model_get_slot_readiness.h"
+#include "model_slot_getters.h"
 #include "camera_view.h"
 #include "file_transfer.h"
 #include "image_transfer_rects.h"
 #include "library_reference_y.h"
-#include "model_copy_slot_position.h"
+#include "model_slot_support.h"
 #include "model_update_view_metrics.h"
 #include "sound_voice_data.h"
 #include "view_state_orbit.h"
 #include "../psyq/rand.h"
-#include "model_slot_queries.h"
 #include "model_slot_control.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "campaign_flags.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_object_layout.h"
-#include "duel_effect_set_entry_range_layout.h"
+#include "text_helpers.h"
 #include "main_services.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
-#include "display_object_helpers.h"
 #include "duel_deck_lookup.h"
 #include "library_create_grid_section_sprites.h"
 #include "sorted_entry_render.h"
-#include "display_object_config.h"
-#include "display_object_interpolation.h"
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #include "fade.h"
-#include "card_preview_objects.h"
 #include "library_draw_wireframe_globe.h"
-#include "text_box_update_channels.h"
-#include "model_set_slot_shadow_enabled.h"
-#include "model_effect_coefficients.h"
+#include "model_scene_runtime.h"
+#include "model_camera_effects.h"
 #include "model.h"
-#include "model_load_step.h"
-#include "model_scene_controllers.h"
-#include "model_slot_properties.h"
-#include "model_slot_state_updates.h"
-#include "model_slot_support.h"
-#include "model_state_setters.h"
 #include "graphics_packet_submission.h"
-#include "display_object_projection.h"
 #include "gpu_packets.h"
 
 /* The Library screen, one translation unit from 0x80029EB0 to the end of the
@@ -527,7 +511,7 @@ void Library_UpdateGridCursor(LibraryState *state)
                             if (row < 0x27) {
                                 column = 0;
                                 row += 1;
-                                goto wrap_delay;
+                                frames *= 4;
                             }
                         }
                     } else {
@@ -537,7 +521,6 @@ void Library_UpdateGridCursor(LibraryState *state)
                             if (row != 0) {
                                 column = 0x13;
                                 row -= 1;
-wrap_delay:
                                 frames *= 4;
                             }
                         }

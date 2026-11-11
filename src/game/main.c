@@ -15,7 +15,7 @@ u8 gMain_bSoundVSyncBusy = 0;
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 #include "../psyq/sdk_internal.h"
-#include "graphics_frame.h"
+#include "main.h"
 #include "fade.h"
 #include "fade_constants.h"
 #include "graphics_frame_buffer.h"
@@ -58,18 +58,17 @@ GsOT *gGraphics_apOrderingTables[4];
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 
-#include "duel_side_state.h"
-#include "duel_effect_resource_setup.h"
-#include "display_object_core.h"
+#include "duel_scene.h"
+#include "card_preview.h"
+#include "display_object_system.h"
 #include "sound.h"
-#include "text_init_decimal_digit_glyph_map.h"
-#include "main_frame.h"
+#include "text_helpers.h"
 #include "../psyq/libapi.h"
 #include "../psyq/crt.h"
 #include "../psyq/rand.h"
 #include "file_transfer.h"
 #include "main_mode_runners.h"
-#include "duel_effect_reset_state.h"
+#include "duel_effect_text.h"
 #include "main_boot_frontend.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
@@ -79,11 +78,10 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "graphics_frame_controls.h"
 #include "input.h"
 #include "sound_driver.h"
-#include "model_graphics_state.h"
+#include "model_slot_getters.h"
 #include "../external_funcs.h"
 #include "../psyq/libmcrd.h"
 #include "func_800136D4.h"
-#include "display_object_render_frame.h"
 #include "graphics_constants.h"
 #include "model.h"
 #include "ordering_tables.h"
@@ -276,7 +274,6 @@ void Graphics_BeginFrame(void)
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
-    s32 cnt;
 
     Fade_DrawOverlay();
     DisplayObject_RenderFrame();
@@ -293,13 +290,8 @@ void Main_RunFrameServices(void) {
         fn();
     }
 
-    if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
-        goto reset;
-    }
-    cnt = gMain_nServiceResyncCountdown - 1;
-    gMain_nServiceResyncCountdown = cnt;
-    if (cnt < 0) {
-    reset:
+    if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4 ||
+        --gMain_nServiceResyncCountdown < 0) {
         gMain_nServiceResyncCountdown = 0x3C;
         D_8009B0B0 = D_8009B0A4;
         D_8009B0BC = D_8009B0D4;

@@ -6,16 +6,15 @@
  * Scratchpad C stores and official Psy-Q GTE macros reproduce the projection
  * block. The compiler profile normalizes Psy-Q's RTPS placeholder opcode. */
 #include "../types.h"
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "display_object.h"
 #include "display_projection.h"
 #include "model.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-#include "duel_draw_card_frame.h"
 #include "ordering_tables.h"
 
 void DisplayObject_ProjectGroundPosition(DisplayObject *object)

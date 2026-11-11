@@ -132,6 +132,22 @@ typedef struct {
     u8 bytes[8];
 } ModelVariantViewSnapshotBytes;
 
+/* The aim block an entry state keeps beside its matrices (e.g.
+ * Variant428EntryState). Each tick the entry stores the view reference
+ * less the view point in view_delta (its ratan2 angles fill the clock),
+ * copies the point it aims at into target (a slot position or a fixed
+ * point), sets direction to target less an entry-specific origin, and
+ * projects target and that origin with RotTransPers, keeping their screen
+ * difference in screen_delta. The origin is usually the entry matrix's
+ * translation; some families (e.g. Variant336EntryState) use the midpoint
+ * of two matrices' translations instead. */
+typedef struct {
+    SVECTOR target;
+    VECTOR direction;
+    DVECTOR screen_delta;
+    VECTOR view_delta;
+} ModelVariantAim;
+
 /* The control block an entry state keeps ahead of its config pointer
  * (e.g. Variant428EntryState): the entry zeroes the counters and fade, then
  * stores the view pitch and yaw in angles (ratan2 of its view delta, the yaw
@@ -163,6 +179,21 @@ typedef struct {
     s16 slot;
     s16 command;
 } ModelVariantEntryTail;
+
+/* The block that starts an entry state (e.g. Model628State). On a request
+ * the entry stores the request's command index in command (the one that
+ * picks its config row), Model_GetActiveSlotIndex() in slot (later passed to
+ * the slot texture and animation calls such as
+ * ModelTexture_PackPageClutCopy) and zeroes elapsed. Each tick it adds
+ * Model_GetFrameStep() to elapsed, the frame counter its timings compare
+ * against.
+ * unknown_01 stays opaque: these entries never touch it. */
+typedef struct {
+    u8 command;
+    u8 unknown_01;
+    u16 elapsed;
+    s32 slot;
+} ModelVariantEntryHead;
 
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the

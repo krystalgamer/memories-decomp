@@ -63,7 +63,7 @@ grid. Both facts are real; they are simply about different things.
 The value appears in `name_entry_runtime.c` and `free_duel/screen_runtime.c`,
 and in resident `card_list_deck_box.c`. The only constant with
 that value is
-`DUEL_DISPLAY_COLOR_DIMMED` in [`../../src/game/duel_display.h`](../../src/game/duel_display.h).
+`DUEL_DISPLAY_COLOR_DIMMED` in [`../../src/game/duel_scene.h`](../../src/game/duel_scene.h).
 
 All three sites write a colour field — two through `*(u32 *)&obj->r` and
 `*(u32 *)&sp->r`, packing an RGB triple, and the third through
