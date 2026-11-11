@@ -2104,11 +2104,11 @@ void Duel_InitScene(void)
             gDuel_pSide0SaveData = (SaveDataState *)p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
-                goto shuffle;
+                Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
+                return;
             }
         }
         q = p;
-    shuffle:
         Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
     }
 }
@@ -10010,7 +10010,8 @@ void DuelEffect_ApplyLifePointRecovery(void) {
                 gDuel_pActiveSideState->life_points.unsigned_value =
                     (u16) gDuel_pActiveSideState->max_life_points;
             }
-            goto block_14;
+            gDuel_wCardEffectFlags = 0;
+            return;
         }
         gDuel_wTrapPresentationMode = 0;
         goto block_9;
@@ -10032,7 +10033,6 @@ block_9:
         if ((s16) v1 < 0) {
             gDuel_pActiveSideState->life_points.unsigned_value = 0;
         }
-block_14:
         gDuel_wCardEffectFlags = 0;
     }
 }
@@ -10341,7 +10341,8 @@ void DuelEffect_ApplyRaigeki(void) {
         p->field_00 = w;
         a = 0x15;
         p->field_04 = (u16)e->y;
-        goto call;
+        SD_SEPlayFull(a);
+        return;
     }
 
     if ((gDuel_bEffectRequestStatus & 1) == 0) {
@@ -10367,7 +10368,6 @@ void DuelEffect_ApplyRaigeki(void) {
             q->phase = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
             a = 0x1F;
-call:
             SD_SEPlayFull(a);
         }
     }
