@@ -44,6 +44,9 @@ void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
     }
 }
 
+/* The absolute difference between two angles. */
+#define MODEL_ANGLE_DISTANCE(a, b) ((a) - (b) < 0 ? (b) - (a) : (a) - (b))
+
 void *Model_GetAnimationInterpolationHandler(u32 value)
 {
     u32 interpolation_type;
@@ -289,69 +292,33 @@ int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
     source_ry = interpolation_parameters->source->ry;
     source_rz = interpolation_parameters->source->rz;
     if (total_duration == 16) {
-        if ((s16)source_rx - (s16)target_rx < 0) {
-            goto n0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rx, (s16)target_rx) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rx;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_rx = adjusted_target_angle;
         }
-        if ((s16)source_rx - (s16)target_rx >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_ry, (s16)target_ry) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_ry;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_ry = adjusted_target_angle;
         }
-        goto d0;
-    n0:
-        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rz, (s16)target_rz) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rz;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_rz = adjusted_target_angle;
         }
-    w0:
-        adjusted_target_angle = (s16)target_rx;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_rx = adjusted_target_angle;
-    d0:
-        ;
-        if ((s16)source_ry - (s16)target_ry < 0) {
-            goto n1;
-        }
-        if ((s16)source_ry - (s16)target_ry >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w1;
-        }
-        goto d1;
-    n1:
-        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d1;
-        }
-    w1:
-        adjusted_target_angle = (s16)target_ry;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_ry = adjusted_target_angle;
-    d1:
-        ;
-        if ((s16)source_rz - (s16)target_rz < 0) {
-            goto n2;
-        }
-        if ((s16)source_rz - (s16)target_rz >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w2;
-        }
-        goto d2;
-    n2:
-        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d2;
-        }
-    w2:
-        adjusted_target_angle = (s16)target_rz;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_rz = adjusted_target_angle;
-    d2:
-        ;
     }
     coordinate_unit->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (total_duration - remaining_duration)) / total_duration;
     coordinate_unit->rot.vy = ((s16)source_ry * remaining_duration + (s16)target_ry * (total_duration - remaining_duration)) / total_duration;
@@ -436,57 +403,35 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     source_rz = interpolation_slots->sample_1->rotation_z;
 
     if (total_duration == 0x10) {
-        s32 signed_angle_delta;
-        signed_angle_delta = (s16)source_rx - (s16)target_rx;
-        if (signed_angle_delta < 0) goto negative_x;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_x;
-        goto done_x;
-negative_x:
-        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) goto done_x;
-wrap_x:
-        adjusted_target_angle = (s16)target_rx;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rx, (s16)target_rx) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rx;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_rx = adjusted_target_angle;
         }
-        target_rx = adjusted_target_angle;
-done_x:
-        ;
 
-        signed_angle_delta = (s16)source_ry - (s16)target_ry;
-        if (signed_angle_delta < 0) goto negative_y;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_y;
-        goto done_y;
-negative_y:
-        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) goto done_y;
-wrap_y:
-        adjusted_target_angle = (s16)target_ry;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_ry, (s16)target_ry) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_ry;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_ry = adjusted_target_angle;
         }
-        target_ry = adjusted_target_angle;
-done_y:
-        ;
 
-        signed_angle_delta = (s16)source_rz - (s16)target_rz;
-        if (signed_angle_delta < 0) goto negative_z;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_z;
-        goto done_z;
-negative_z:
-        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) goto done_z;
-wrap_z:
-        adjusted_target_angle = (s16)target_rz;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rz, (s16)target_rz) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rz;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_rz = adjusted_target_angle;
         }
-        target_rz = adjusted_target_angle;
-done_z:
-        ;
     }
 
     node->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (rotation_scale_elapsed = total_duration - remaining_duration)) / total_duration;
