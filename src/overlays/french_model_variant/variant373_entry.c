@@ -33,7 +33,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->frame_count = 0;
+        work->clock.frame_count = 0;
         work->config = gFrenchModelVariant373_aConfigs + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
@@ -254,11 +254,11 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         work->field_246C = 0;
         work->field_246E = 0;
         work->field_2470 = 0;
-        work->frame_count = 0;
-        work->elapsed = 0;
-        work->animation = 0;
-        work->step = 0;
-        work->fade = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
+        work->clock.fade = 0;
         work->phase = 0;
         work->field_2488 = 0;
         work->field_248C = 0;
@@ -269,8 +269,8 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         setVector(&work->view_delta, view->vrx - view->vpx,
             view->vry - view->vpy, view->vrz - view->vpz);
         Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
             Model_CopySlotPosition(1, (u16 *)&work->target);
         } else {
@@ -292,10 +292,10 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             &projection.interpolation, &projection.flag);
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
-        if (work->config->layers_start <= work->elapsed && work->phase < 8) {
+        if (work->config->layers_start <= work->clock.frame && work->phase < 8) {
             FrenchModelVariant373_DrawLayers((u8 *)point);
         }
-        if (work->config->grid_start <= work->elapsed && work->phase < 8) {
+        if (work->config->grid_start <= work->clock.frame && work->phase < 8) {
             if (work->phase >= 6) {
                 packed = ModelTexture_PackPageClutCopy(work->slot, 2, &gFrenchModelVariant373_aImages[0]);
                 tpage0 = packed >> 16;
@@ -310,15 +310,15 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             }
             FrenchModelVariant373_DrawGrid((u8 *)point);
         }
-        if (work->config->points_start <= work->elapsed) {
+        if (work->config->points_start <= work->clock.frame) {
             FrenchModelVariant373_DrawPoints((u8 *)point);
         }
-        work->frame_count++;
+        work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
-        if (frame != work->animation) {
-            work->elapsed += Model_GetFrameStep();
-            work->step = Model_GetFrameStep();
-            work->animation = frame;
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
         }
     }
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
@@ -330,7 +330,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             }
         }
     } else {
-        work->ambient = work->fade << 5;
+        work->ambient = work->clock.fade << 5;
     }
     if (work->phase >= 3 && work->phase <= 6) {
         result = 4;
@@ -338,10 +338,10 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         result = 1;
         work->phase = 8;
     } else if (work->phase == 8) {
-        if (work->fade < 64) {
-            work->fade += work->step;
-            if (work->fade >= 64) {
-                work->fade = 64;
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
                 work->phase = 9;
             }
         }
