@@ -210,10 +210,14 @@ typedef struct {
  * active to spawn it; each tick it skips an element whose active flag is
  * clear, adds the frame step to elapsed and clears active once elapsed
  * passes duration. The draw code lights the element's primitive with color
- * (setRGB0, or the line and Gouraud colours), takes its texture coordinates
- * from u and v (setUV4; header 677's rings index their UV cell table with
- * u instead) and, where it draws through Graphics_SubmitDrawModePacket,
- * passes mode as the draw mode; the other entries only set mode.
+ * (setRGB0, or the line and Gouraud colours) and, where it draws through
+ * Graphics_SubmitDrawModePacket, passes mode as the draw mode; the other
+ * entries only set mode. u and v keep their per-array record-view byte
+ * names; their role depends on the array rather than being fixed texture
+ * axes. Many arrays pass them to setUV4 as the texture coordinates, but
+ * header 667's sprites and domes, header 677's rings and the 678us, 679us
+ * and 680us bursts use u as an index into a UV cell or frame table, and in
+ * the 677 rings and those bursts v supplies the horizontal U.
  * unknown_06 stays opaque: these entries never touch it. */
 typedef struct {
     u8 active;
