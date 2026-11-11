@@ -59,7 +59,7 @@ void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 
 #include "duel_side_state.h"
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #include "display_object_core.h"
 #include "sound.h"
 #include "text_helpers.h"

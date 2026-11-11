@@ -11,7 +11,7 @@
 #include "../../game/text_box_blocking_build.h"
 #include "../../game/text_staging.h"
 #include "../../game/duel_effect.h"
-#include "../../game/duel_effect_resource_setup.h"
+#include "../../game/card_preview.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/duel_session_controls.h"
 #include "../../game/main.h"

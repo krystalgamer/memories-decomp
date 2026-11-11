@@ -32,7 +32,7 @@ static u32 D_8009B42C;
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 /* The boot sequence and the front-end loop that follows it, one translation

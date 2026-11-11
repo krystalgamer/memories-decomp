@@ -5,7 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../file_transfer.h"
-#include "../duel_effect_resource_setup.h"
+#include "../card_preview.h"
 
 /* The second earlier PAL frontend package callback: like the first, with a
    48-sector opening phase.

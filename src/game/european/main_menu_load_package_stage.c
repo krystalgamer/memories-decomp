@@ -6,7 +6,7 @@
 
 /* The package's first sector is gText_bLanguageIndex * 0x88 (gText_bLanguageIndex read
  * through $at). */
-#include "../duel_effect_resource_setup.h"
 #define MAIN_MENU_PACKAGE_FIRST_SECTOR (gText_bLanguageIndex * 0x88)
 
+#include "../card_preview.h"
 #include "../main_menu_load_package_stage.c"
