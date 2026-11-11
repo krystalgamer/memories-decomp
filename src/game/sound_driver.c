@@ -434,7 +434,7 @@ s32 SD_GetOutputType(void)
     return g_SDValue->s_bSD_OUTPUT_TYPE;
 }
 
-void tent_SD_SetDataSourceFlags(s32 value)
+void SD_SetDataSourceFlags(s32 value)
 {
     g_SDValue->s_bSD_DATA_SOURCE =
         (g_SDValue->s_bSD_DATA_SOURCE & 0xF0) | value;
@@ -577,7 +577,7 @@ void SD_BGMFade(s32 step, s32 target)
     SD_StartBgmFade(step, target);
 }
 
-void tent_SD_BGMFadeCopy(s32 value, s32 flag)
+void SD_BGMFadeCopy(s32 value, s32 flag)
 {
-    tent_SD_StartBgmFadeCopy(value, flag);
+    SD_StartBgmFadeCopy(value, flag);
 }
