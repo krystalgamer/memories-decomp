@@ -10806,7 +10806,7 @@ void DuelEffect_ApplyRitual(void)
             gDuelEffect_pTrackedRequest->phase = gDuel_wEffectCardID;
             SD_CdSoundPlay(0x8022);
         } else {
-            goto done;
+            gDuel_wCardEffectFlags = 0;
         }
         return;
     }
@@ -11020,7 +11020,6 @@ void DuelEffect_ApplyRitual(void)
         object->field_60 = phase;
         if (phase >= 0) {
             *(s16 *)&object->xy.h.y = -24;
-done:
             gDuel_wCardEffectFlags = 0;
         }
         break;
