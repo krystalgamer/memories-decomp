@@ -9694,7 +9694,6 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
     u32 desc;
     s32 type;
-    s16 val;
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 0);
 
@@ -9715,30 +9714,24 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     obj->card_type = (u8)type;
     obj->icon_variant = 0;
 
-    if (type < CARD_TYPE_MAGIC) {
-        goto end;
-    }
-    obj->icon_state = 0x38;
+    if (type >= CARD_TYPE_MAGIC) {
+        obj->icon_state = 0x38;
 
-    switch (type) {
-        case CARD_TYPE_EQUIP:
-            obj->icon_variant = 1;
-            goto end;
-        case CARD_TYPE_MAGIC:
-            val = 1;
-            break;
-        case CARD_TYPE_TRAP:
-            val = 2;
-            break;
-        case CARD_TYPE_RITUAL:
-            val = 3;
-            break;
-        default:
-            goto end;
+        switch (type) {
+            case CARD_TYPE_EQUIP:
+                obj->icon_variant = 1;
+                break;
+            case CARD_TYPE_MAGIC:
+                obj->icon_variant = 1;
+                break;
+            case CARD_TYPE_TRAP:
+                obj->icon_variant = 2;
+                break;
+            case CARD_TYPE_RITUAL:
+                obj->icon_variant = 3;
+                break;
+        }
     }
-    obj->icon_variant = val;
-
-end:
     return obj;
 }
 
