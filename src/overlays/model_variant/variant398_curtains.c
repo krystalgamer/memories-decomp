@@ -41,10 +41,10 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
     work = (Variant398EntryState *)ctx;
     curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->direction.vz, work->direction.vx) + 0x800;
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
     sheet = work->sheets;
     poly = &work->curtain_poly;
-    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
@@ -65,9 +65,9 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
             rot.vx = -pitch;
             rot.vy = yaw;
             rot.vz = 0;
-            m.t[0] = work->target.vx;
-            m.t[1] = work->target.vy;
-            m.t[2] = work->target.vz;
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;

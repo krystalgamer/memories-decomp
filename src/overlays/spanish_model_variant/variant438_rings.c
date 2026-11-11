@@ -45,9 +45,9 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
     first = 1;
     pulse = (u8 *)work + 0x1938;
     poly = &work->ray;
-    yaw = ratan2(work->direction.vz, work->direction.vx);
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx);
     heading = yaw + 0x800;
-    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (heading < 0x800) {
         heading = -heading + 0x400;
     } else {
@@ -87,9 +87,9 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->target.vx;
-                m.t[1] = work->target.vy;
-                m.t[2] = work->target.vz;
+                m.t[0] = work->aim.target.vx;
+                m.t[1] = work->aim.target.vy;
+                m.t[2] = work->aim.target.vz;
             }
             scale.vx = size;
             scale.vy = size;
