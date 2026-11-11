@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant459_curtains.h"
-#include "../spanish_model_variant/variant459_entry.h"
+#include "variant459_entry.h"
 
 /* Draws five rotating curtains of sixteen textured strips. Each grows and
  * fades from 0x1400 to 0x1800, wraps with a new rotation until its deadline,
@@ -41,9 +41,9 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
             rot.vx = curtain->rotation.vx;
             rot.vy = curtain->rotation.vy;
             rot.vz = curtain->rotation.vz;
-            m.t[0] = work->sheets[3].v1[1].vx;
-            m.t[1] = work->sheets[3].v1[1].vy;
-            m.t[2] = work->sheets[3].v1[1].vz;
+            m.t[0] = work->target.vx;
+            m.t[1] = work->target.vy;
+            m.t[2] = work->target.vz;
             scale.vx = curtain->scale;
             scale.vy = curtain->scale;
             scale.vz = curtain->scale;
@@ -92,12 +92,12 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
             }
         }
         if (curtain->scale < 0x1800) {
-            curtain->scale += work->sheets[3].size << 7;
+            curtain->scale += work->clock.step << 7;
             if (curtain->scale >= 0x1800) {
                 curtain->scale -= 0x1800;
                 curtain->rotation.vx += 0x180;
                 curtain->rotation.vz += 0x320;
-                if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) > (u32)MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x34)) {
+                if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) > (u32)MODEL_VARIANT_WORD(work->config, 0x34)) {
                     curtain->scale = 0x1800;
                 }
             }
