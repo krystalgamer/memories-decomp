@@ -10,9 +10,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL672_FADE(e, offset, value, divisor)                                      \
-    (e).color[0] = gModelVariant672_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant672_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant672_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant672_aConfigs[work->head.command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant672_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant672_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
 s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
 {
@@ -36,18 +36,18 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant672_szWorkSizeFormat, sizeof(Model672State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[2]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant672_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant672_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant672_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant672_aImages[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -75,7 +75,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
                 work->origin.vx + sign * value * rsin(angle = (i % 8) << 9) / 4096,
                 work->origin.vy + value * rcos(angle) / 4096,
                 work->origin.vz * 2);
-            setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->sparks[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->sparks[i].position, 0, 0, 0);
             work->sparks[i].spawned = 0;
         }
@@ -91,7 +91,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->flares[k].u = 0;
             work->flares[k].v = 32;
             setVector(&work->flares[k].scale, 4096, 4096, 4096);
-            setVector(&work->flares[k].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->flares[k].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->flares[k].target, 0, 0, 0);
             value = work->radius * rsin((k << 12) / work->count) / 4096;
             sign = k % 2 * 2 - 1;
@@ -113,7 +113,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
             setVector(&work->rings[i].target, 0, 0, work->height * 2);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
         work->delay = gModelVariant672_aConfigs[command].delay;
@@ -140,12 +140,12 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed < 100 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 4);
+        if (work->head.elapsed < 100 && work->flags[0] < work->count) {
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 4);
             GsGetLwUnit(&unit, &lw);
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 5);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
             GsGetLwUnit(&unit, &lw2);
             (work->sparks + work->flags[0])->position.vx = (lw.t[0] + lw2.t[0]) / 2;
             (work->sparks + work->flags[0])->position.vy = (lw.t[1] + lw2.t[1]) / 2;
@@ -157,8 +157,8 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
         }
         break;
     case 1:
-        if (work->elapsed < 200 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 22);
+        if (work->head.elapsed < 200 && work->flags[0] < work->count) {
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 22);
             GsGetLwUnit(&unit, &lw);
             work->sparks[work->flags[0]].position.vx = lw.t[0];
             work->sparks[work->flags[0]].position.vy = lw.t[1];
@@ -170,8 +170,8 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
         }
         break;
     case 2:
-        if (work->elapsed < 84 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, (u8)(work->flags[0] % 5) * 3 + 9);
+        if (work->head.elapsed < 84 && work->flags[0] < work->count) {
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (u8)(work->flags[0] % 5) * 3 + 9);
             GsGetLwUnit(&unit, &lw);
             (work->sparks + work->flags[0])->position.vx = lw.t[0];
             (work->sparks + work->flags[0])->position.vy = lw.t[1];
@@ -353,7 +353,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->count * 3) {
         result = 1;
         if (work->flags[4] == 1) {
