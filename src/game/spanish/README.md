@@ -10,7 +10,7 @@ external reference.
 | `duel_scene.c` | `0x8002416C` | 1 | 336 | Card ID at `0x8009C5D8`, Y offset at `0x8009C5DD` |
 | `save_data_payload.c` | `0x8003D040` | 9 | 1,164 | Campaign scene index at `0x8009C638` |
 | `mem_card_io_result_callbacks.c` | `0x800451B8` | 4 | 76 | Result word at `0x800A0000 - 0x3844 = 0x8009C7BC` |
-| `sd_arm_busy_callback.c` | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
+| `sound_output_state.c` (`SD_ArmBusyCallback`) | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
 | `card_list_create_deck_box_stat_rows.c` | `0x8006B080` | 1 | 240 | Viewport X/Y at `0x8009C4C0` / `0x8009C4C2` |
 
 The literals were recovered from Spanish load/store instruction operands, not

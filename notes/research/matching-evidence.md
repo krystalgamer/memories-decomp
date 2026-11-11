@@ -7151,7 +7151,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `SD_PollSequenceState` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `sound_runtime.c`), where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `sound_output_state.c`), where the
 result is compared:
 
     if (... SD_PollSequenceState() != 1)
