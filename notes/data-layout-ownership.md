@@ -360,7 +360,7 @@ orbit and movie units come before `model_graphics_state`. Its split places
 eighteen owners from `main_services` (`0x8009BE84`) to
 `main_menu_load_package_stage`. That includes `european/data_8009af6c`,
 whose PAL strings lack the North American directory-entry format
-(`gMemCard_szDirectoryEntryFormat`, guarded by `VERSION_EUROPE`); all five
+(the `"%s\n"` literal, guarded by `VERSION_EUROPE`); all five
 PAL builds compile it at the US unit's `gcc_2_8_1_g8` profile. Europe has no
 small data
 for `duel_field_effects`, `options_layout_position_data` or

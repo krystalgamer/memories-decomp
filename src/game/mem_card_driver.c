@@ -5,10 +5,8 @@
 #include "../psyq/strings.h"
 
 #include "mem_card_driver.h"
-#include "mem_card_directory_patterns.h"
 #include "mem_card_io_result_callbacks.h"
 #include "mem_card.h"
-#include "mem_card_request_inputs.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * mem_card_driver_commons subsegments place it at the retail addresses. */
@@ -180,7 +178,7 @@ int MemCard_ReqReadFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 3)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, "bu%02X:%s", chan, name);
         gMemCard_wRequestOffset = offset;
         gMemCard_pRequestBuf = buf;
         gMemCard_wRequestSize = size;
@@ -214,7 +212,7 @@ int MemCard_ReqWriteFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 4)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, "bu%02X:%s", chan, name);
         gMemCard_wRequestOffset = offset;
         gMemCard_pRequestBuf = buf;
         gMemCard_wRequestSize = size;
@@ -248,7 +246,7 @@ int MemCard_ReqCreateFile(int chan, int name, int blocks)
     int result;
 
     if (MemCard_BeginRequest(chan, 8)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, "bu%02X:%s", chan, name);
         gMemCard_wRequestSize = blocks;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
@@ -266,7 +264,7 @@ s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
     s32 retry;
     s32 count;
 
-    sprintf(work, (char *)gMemCard_szDevicePathFormat, chan, pattern);
+    sprintf(work, "bu%02X:%s", chan, pattern);
     retry = MEM_CARD_DIRECTORY_RETRIES;
     while (firstfile(work, cursor) != cursor) {
         retry--;
@@ -397,7 +395,7 @@ load_retry:
         v1 = gMemCard_nIOResult;
         if (v1 == 0) {
             gMemCard_pDirEntries = gMemCard_aDirEntries;
-            MemCard_FindFiles(gMemCard_bChannel, (const char *)gMemCard_szAllFilesPattern,
+            MemCard_FindFiles(gMemCard_bChannel, "*",
                               gMemCard_aDirEntries,
                               &gMemCard_nDirEntries);
             gMemCard_nFreeBlocks =
