@@ -46,32 +46,30 @@ void SD_UpdateSecondaryObjectVoices(void) {
             if (e->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
                 SD_UpdateSecondaryObjectPitch(e, 0);
             }
-            if (*q == SPU_OFF) {
-                if (e->lifecycle_stage == 0) {
-                    goto next;
+            if (*q != SPU_OFF || e->lifecycle_stage != 0) {
+                if (*q == SPU_OFF) {
+                    r = &gSD_pSecondaryState->channels[e->channel_index];
+                    a = r->voice_usage;
+                    if ((a & 0xF) != 0) {
+                        r->voice_usage = a - 1;
+                    }
+                    e->lifecycle_stage = 0;
+                    e->reuse_countdown = 0;
+                    e->channel_index = SD_SECONDARY_RECORD_NONE;
                 }
-                r = &gSD_pSecondaryState->channels[e->channel_index];
-                a = r->voice_usage;
-                if ((a & 0xF) != 0) {
-                    r->voice_usage = a - 1;
+
+                b = e->lifecycle_stage;
+                c = b & 0xFF;
+                if (c != 0 && *q == SPU_ON_ENV_OFF) {
+                    if (c >= 2) {
+                        m = m | *t;
+                        SD_KeyOffSecondaryObject(i);
+                    } else {
+                        e->lifecycle_stage = b + 1;
+                    }
                 }
-                e->lifecycle_stage = 0;
-                e->reuse_countdown = 0;
-                e->channel_index = SD_SECONDARY_RECORD_NONE;
             }
 
-            b = e->lifecycle_stage;
-            c = b & 0xFF;
-            if (c != 0 && *q == SPU_ON_ENV_OFF) {
-                if (c >= 2) {
-                    m = m | *t;
-                    SD_KeyOffSecondaryObject(i);
-                } else {
-                    e->lifecycle_stage = b + 1;
-                }
-            }
-
-next:
             if (e->key_held == 0 && (u32)(*q - SPU_ON) < 2) {
                 u = t;
                 while (1) {
