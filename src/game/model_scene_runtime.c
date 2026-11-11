@@ -60,18 +60,13 @@ void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign)
 
         slot = slot_base + slot_index;
     }
-    if (sign > 0)
-        goto state_62;
-    if (sign >= 0)
-        goto state_35;
-    slot->playback_state = 60;
-    goto update;
-state_35:
-    slot->playback_state = 35;
-    goto update;
-state_62:
-    slot->playback_state = 62;
-update:
+    if (sign <= 0) {
+        if (sign < 0)
+            slot->playback_state = 60;
+        else
+            slot->playback_state = 35;
+    } else
+        slot->playback_state = 62;
     {
         ModelSlot *speed_slot = &gModel_aSlots[slot_index];
 
