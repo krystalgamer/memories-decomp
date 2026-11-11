@@ -328,49 +328,39 @@ s32 MemCard_DoLoadDirectory(void) {
     v1 = gMemCard_bLoadStep;
     switch (v1) {
     case 0:
-        v1 = gMemCard_nIOResult;
-        if (v1 != 1) {
-            if (v1 < 2) {
-                if (v1 != 0) {
-                    return gMemCard_nIOResult;
-                }
-            } else {
-                if (v1 == 2) {
-                    return gMemCard_nIOResult;
-                }
-                if (v1 == 3) {
-                    goto sub_poll_entry;
-                }
+        switch (gMemCard_nIOResult) {
+        case 1:
+            v0 = gMemCard_bRetries - 1;
+            gMemCard_bRetries = (u8)v0;
+            if ((s8)v0 == 0) {
                 return gMemCard_nIOResult;
             }
-            goto state0_zero;
-        }
-        v0 = gMemCard_bRetries - 1;
-        gMemCard_bRetries = (u8)v0;
-        if ((s8)v0 == 0) {
-            return gMemCard_nIOResult;
-        }
-        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-        _card_info(gMemCard_bChannel);
-        return -1;
+            MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
+            _card_info(gMemCard_bChannel);
+            return -1;
 
-state0_zero:
-        if (gMemCard_bDirFlags & 0x80) {
-            if (gMemCard_bRequest != 8) {
+        case 0:
+            if (gMemCard_bDirFlags & 0x80) {
+                if (gMemCard_bRequest != 8) {
+                    return gMemCard_nIOResult;
+                }
+            }
+            gMemCard_nIOResult = 3;
+            /* fall through */
+        case 3:
+            if (gMemCard_bRequest == 1) {
                 return gMemCard_nIOResult;
             }
-        }
-        gMemCard_nIOResult = 3;
-sub_poll_entry:
-        if (gMemCard_bRequest == 1) {
-            return gMemCard_nIOResult;
-        }
-        gMemCard_bRetries = 0xA;
-        gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
+            gMemCard_bRetries = 0xA;
+            gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
 sub_retry:
-        MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
-        _card_clear(gMemCard_bChannel);
-        return -1;
+            MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
+            _card_clear(gMemCard_bChannel);
+            return -1;
+        case 2:
+            break;
+        }
+        return gMemCard_nIOResult;
 
     case 1:
         v0 = gMemCard_nIOResult;
