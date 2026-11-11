@@ -62,7 +62,7 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "duel_effect_resource_setup.h"
 #include "display_object_core.h"
 #include "sound.h"
-#include "text_init_decimal_digit_glyph_map.h"
+#include "text_helpers.h"
 #include "../psyq/libapi.h"
 #include "../psyq/crt.h"
 #include "../psyq/rand.h"

@@ -15,7 +15,7 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_box_blocking_build.h"
 #include "../../game/text_box_update_channels.h"
-#include "../../game/duel_effect_set_entry_range_layout.h"
+#include "../../game/text_helpers.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/mem_card.h"

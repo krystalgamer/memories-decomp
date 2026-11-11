@@ -4215,7 +4215,7 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "text_box_lifecycle.h"
 #include "text_box_update_channels.h"
 #include "duel_select_trap_by_card_id.h"
-#include "duel_effect_set_entry_range_layout.h"
+#include "text_helpers.h"
 #include "display_object_config.h"
 #include "display_object.h"
 #include "card_constants.h"

@@ -108,7 +108,7 @@ void Script_OpLoadImageScene(void)
 
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "duel_effect_set_entry_range_layout.h"
+#include "text_helpers.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
 #include "duel_effect_mark_object_if_active.h"
@@ -487,7 +487,6 @@ void Script_OpJump(void)
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "text_box_update_channels.h"
-#include "duel_effect_set_entry_range_layout.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"

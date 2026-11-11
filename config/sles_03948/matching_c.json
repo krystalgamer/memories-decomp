@@ -3245,37 +3245,37 @@
       "address": "0x8003B958",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/text_init_decimal_digit_glyph_map.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003B990",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/text_init_decimal_digit_glyph_map.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003BA04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x20",
-      "source": "src/game/duel_effect_init_entry_default_flags.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003BA24",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
-      "source": "src/game/input_is_pad1_confirm_pressed.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003BA34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/european/text_lookup_string.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003BACC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/european/text_lookup_string.c"
+      "source": "src/game/european/text_helpers.c"
     },
     {
       "address": "0x8003BAF4",

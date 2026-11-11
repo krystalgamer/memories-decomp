@@ -42,7 +42,7 @@ static PADDING_VARIABLE(4);
 #include "campaign_flags.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"
-#include "duel_effect_set_entry_range_layout.h"
+#include "text_helpers.h"
 #include "main_services.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
