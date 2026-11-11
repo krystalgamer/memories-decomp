@@ -3329,6 +3329,28 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
     return value + offset;
 }
 
+/* Neutral grey tint and the default primitive templates. */
+static inline void Model_ResetDrawTint(void)
+{
+    B(&gModel_wDrawTintRedGreen, 0) = 0x80;
+    B(&gModel_wDrawTintRedGreen, 1) = 0x80;
+    gModel_bDrawTintBlue = 0x80;
+    gModel_dwPolyFt3Template = 0x24808080;
+    gModel_dwPolyFt4Template = 0x2C808080;
+    gModel_dwPolyGt3Template = 0x34808080;
+    gModel_dwPolyGt4Template = 0x3C808080;
+    gModel_dwLineF3Template = 0x4A808080;
+    gModel_dwLineF4Template = 0x4E808080;
+    gModel_dwPolyFt3SemiTemplate = 0x26808080;
+    gModel_dwPolyFt4SemiTemplate = 0x2E808080;
+    gModel_dwPolyGt3SemiTemplate = 0x36808080;
+    gModel_dwPolyGt4SemiTemplate = 0x3E808080;
+    gModel_dwTpageBlendRateBits = 0;
+    gModel_dwSecondPassClutBits = 0;
+    gModel_bBlendRateActive = 0;
+    gModel_dwDrawModeTemplate = 0xE1000220;
+}
+
 void Model_DrawSlot(s32 index)
 {
     MATRIX hidden_matrix;
@@ -3441,27 +3463,10 @@ void Model_DrawSlot(s32 index)
             }
             slot->tint[7] = 0;
         } else {
-            goto neutral;
+            Model_ResetDrawTint();
         }
     } else {
-    neutral:
-        B(&gModel_wDrawTintRedGreen, 0) = 0x80;
-        B(&gModel_wDrawTintRedGreen, 1) = 0x80;
-        gModel_bDrawTintBlue = 0x80;
-        gModel_dwPolyFt3Template = 0x24808080;
-        gModel_dwPolyFt4Template = 0x2C808080;
-        gModel_dwPolyGt3Template = 0x34808080;
-        gModel_dwPolyGt4Template = 0x3C808080;
-        gModel_dwLineF3Template = 0x4A808080;
-        gModel_dwLineF4Template = 0x4E808080;
-        gModel_dwPolyFt3SemiTemplate = 0x26808080;
-        gModel_dwPolyFt4SemiTemplate = 0x2E808080;
-        gModel_dwPolyGt3SemiTemplate = 0x36808080;
-        gModel_dwPolyGt4SemiTemplate = 0x3E808080;
-        gModel_dwTpageBlendRateBits = 0;
-        gModel_dwSecondPassClutBits = 0;
-        gModel_bBlendRateActive = 0;
-        gModel_dwDrawModeTemplate = 0xE1000220;
+        Model_ResetDrawTint();
     }
 
     head_unit = slot->hmd_units;
