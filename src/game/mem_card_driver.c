@@ -568,20 +568,18 @@ sub_two:
                 s32 directory_result = MemCard_DoLoadDirectory();
                 if (directory_result < 0)
                     return 0;
-                if (directory_result == 0)
-                    goto check_size;
+                if (directory_result != 0) {
+                    gMemCard_nIOResult = 2;
+                    goto finish;
+                }
             }
-            gMemCard_nIOResult = 2;
-            goto finish;
-check_size:
-            if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
-                goto write_dirent;
-            gMemCard_nIOResult = 7;
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-write_dirent:
+            if (gMemCard_nFreeBlocks + gMemCard_wRequestSize >= 0x10) {
+                gMemCard_nIOResult = 7;
+                *out_result = gMemCard_nIOResult;
+                *out_state = gMemCard_bRequest;
+                gMemCard_bRequest = -1;
+                return 1;
+            }
             if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
                                   gMemCard_pDirEntries, 0) == 0)
                 goto start_reopen;
