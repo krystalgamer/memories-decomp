@@ -253,7 +253,6 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
     FileTransferDescriptor *q;
     FileTransferDescriptor *r;
     FileTransferDescriptor *image;
-    FileTransferDescriptor *counter;
     FileTransferDescriptor *t;
     u8 *dst;
     u32 *src;
@@ -308,7 +307,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
             q->phase_remaining = q->phase_size;
         }
         if (gFile_ReadyTransferDescriptor->total_bytes <= 0) {
-            goto clear;
+            gFile_dwTransferState &= ~0x100;
         }
         return;
     case 2:
@@ -353,10 +352,23 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         }
         q = gFile_ReadyTransferDescriptor;
         q->phase_remaining -= FILE_SECTOR_SIZE;
-        if (q->phase_remaining > 0) {
-            goto counter;
+        if (q->phase_remaining <= 0) {
+            q->phase_size = 0;
+            if (q->phase_callback != 0) {
+                q->phase_callback(q, q->phase_index++);
+            }
+            q->phase_remaining = q->phase_size;
         }
-        goto step;
+        {
+            FileTransferDescriptor *c = gFile_ReadyTransferDescriptor;
+
+            c->buffer_index++;
+            if (c->total_bytes > 0) {
+                return;
+            }
+        }
+        gFile_dwTransferState &= ~0x100;
+        return;
     case 3:
         n = FILE_SECTOR_SIZE;
         dst = (u8 *)p->sector_destination;
@@ -382,22 +394,21 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         q = gFile_ReadyTransferDescriptor;
         q->field_30.word += n;
         q->phase_remaining -= FILE_SECTOR_SIZE;
-        if (q->phase_remaining > 0) {
-            goto counter;
+        if (q->phase_remaining <= 0) {
+            q->phase_size = 0;
+            if (q->phase_callback != 0) {
+                q->phase_callback(q, q->phase_index++);
+            }
+            q->phase_remaining = q->phase_size;
         }
-    step:
-        q->phase_size = 0;
-        if (q->phase_callback != 0) {
-            q->phase_callback(q, q->phase_index++);
+        {
+            FileTransferDescriptor *c = gFile_ReadyTransferDescriptor;
+
+            c->buffer_index++;
+            if (c->total_bytes > 0) {
+                return;
+            }
         }
-        q->phase_remaining = q->phase_size;
-    counter:
-        counter = gFile_ReadyTransferDescriptor;
-        counter->buffer_index++;
-        if (counter->total_bytes > 0) {
-            return;
-        }
-    clear:
         gFile_dwTransferState &= ~0x100;
         return;
     }
