@@ -43,6 +43,10 @@ void DebugEffect_UpdatePreview(void);
 extern u8 *gDebugEffect_pPreviewCard0;
 extern u8 *gDebugEffect_pPreviewCard1;
 extern DuelCardRecord gDebugEffect_aPreviewCardRecords[];
+/* DuelScene_UpdateEffectPreview's FntPrint strings stay in generated
+ * .rodata: retail keeps them, after gDuel_szComSelCardError, ahead of every
+ * duel_scene jump table, while GCC would emit them as literals after the
+ * tables of earlier functions (Duel_LoadPackageStage's is the first). */
 extern u8 gDebugEffect_szOperandsFormat[];
 extern u8 gDebugEffect_szSecondOperandMarker[];
 extern u8 gDebugEffect_szFirstOperandMarker[];
@@ -1555,8 +1559,9 @@ extern u16 gDuel_wAiSelectionStepDelay;
 
 /* "Com Error SelCard\n", the scripted path's complaint about a selection byte
  * below 0xB. It stays in generated .rodata: retail keeps the string at
- * 0x80010060, four strings and three other units' tables ahead of this
- * function's jump table at 0x80010148, so one object cannot emit both. */
+ * 0x80010060, ahead of every duel_scene jump table, but a literal would be
+ * emitted after the tables of the earlier functions (from
+ * Duel_LoadPackageStage's on). */
 extern const char gDuel_szComSelCardError[];
 
 /* The hand card's display object as DuelScene_UpdateHandActions reads it.
