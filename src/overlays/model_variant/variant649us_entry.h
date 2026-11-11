@@ -6,7 +6,7 @@
 #include "../../game/model_slot_support.h"
 #include "../../game/model_camera_effects.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_state_updates.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/sdk_internal.h"

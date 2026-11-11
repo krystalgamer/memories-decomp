@@ -6,7 +6,7 @@
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_queue_tint_request.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../game/graphics_constants.h"

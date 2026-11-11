@@ -79,7 +79,7 @@ PAIRS = [
     ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
-    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
+    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
@@ -370,7 +370,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
         source = "src/game/model_init_slot.c"
-        include = '#include "../game/model_parent_search.h"\n'
+        include = '#include "../game/model_scene_runtime.h"\n'
         text = (REPOSITORY / source).read_text(encoding="utf-8")
         self.assertIn(include, text)
         self.assertNotRegex(text, r"extern[^\n]*\bModel_FindBranchingChildCoord\b")
@@ -501,7 +501,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
     def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/model_scene_runtime.c"
         self.assertIn(
-            '#include "model_parent_search.h"',
+            '#include "model_scene_runtime.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),
         )
         views = [
@@ -514,7 +514,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for parameters, accepted in views:
                 with self.subTest(parameters=parameters):
                     path.write_text(
-                        '#include "model_parent_search.h"\n'
+                        '#include "model_scene_runtime.h"\n'
                         + f"s32 (*view)({parameters}) = Model_FindBranchingChildCoord;\n",
                         encoding="utf-8",
                     )

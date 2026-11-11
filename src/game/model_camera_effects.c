@@ -10,7 +10,7 @@
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
 #include "model_effect_endpoints.h"
-#include "model_effect_requests.h"
+#include "model_scene_runtime.h"
 
 /* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
  *

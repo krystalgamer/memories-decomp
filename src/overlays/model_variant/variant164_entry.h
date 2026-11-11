@@ -5,7 +5,7 @@
 #include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
-#include "../../game/model_slot_state_updates.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"
 #include "../../game/graphics_packet_submission.h"
