@@ -46,14 +46,14 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
         work->head.slot = Model_GetActiveSlotIndex();
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[1]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[0]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[2]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
             work->count = 1;
@@ -231,8 +231,8 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                 GsSetLsMatrix(&ls);
                 setPolyFT4(&work->flat);
                 setSemiTrans(&work->flat, 1);
-                work->flat.tpage = work->tpage[0];
-                work->flat.clut = work->clut[0];
+                work->flat.tpage = work->textures.tpage[0];
+                work->flat.clut = work->textures.clut[0];
                 setUV4(&work->flat, work->balls[i].head.u, work->balls[i].head.v, work->balls[i].head.u + 31,
                     work->balls[i].head.v, work->balls[i].head.u, work->balls[i].head.v + 31,
                     work->balls[i].head.u + 31, work->balls[i].head.v + 31);
@@ -289,8 +289,8 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                     }
                     setPolyFT4(&work->flat);
                     setSemiTrans(&work->flat, 1);
-                    work->flat.tpage = work->tpage[1];
-                    work->flat.clut = work->clut[1];
+                    work->flat.tpage = work->textures.tpage[1];
+                    work->flat.clut = work->textures.clut[1];
                     setUV4(&work->flat, work->sparks[i][j].head.u, work->sparks[i][j].head.v, work->sparks[i][j].head.u + 31,
                         work->sparks[i][j].head.v, work->sparks[i][j].head.u, work->sparks[i][j].head.v + 31,
                         work->sparks[i][j].head.u + 31, work->sparks[i][j].head.v + 31);
@@ -389,8 +389,8 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         for (l = 0; l < 16; l++) {
                             setPolyGT4(&work->shaded);
                             setSemiTrans(&work->shaded, 1);
-                            work->shaded.tpage = work->tpage[2];
-                            work->shaded.clut = work->clut[2];
+                            work->shaded.tpage = work->textures.tpage[2];
+                            work->shaded.clut = work->textures.clut[2];
                             setUV4(&work->shaded, work->domes[i][j].head.u, work->domes[i][j].head.v + k * 2,
                                 work->domes[i][j].head.u + 63, work->domes[i][j].head.v + k * 2,
                                 work->domes[i][j].head.u, work->domes[i][j].head.v + (k + 1) * 2,
@@ -491,8 +491,8 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         }
                         setPolyGT4(&work->shaded);
                         setSemiTrans(&work->shaded, 1);
-                        work->shaded.tpage = work->tpage[2];
-                        work->shaded.clut = work->clut[2];
+                        work->shaded.tpage = work->textures.tpage[2];
+                        work->shaded.clut = work->textures.clut[2];
                         setUV4(&work->shaded, work->bursts[i][j].head.u + 0x30, work->bursts[i][j].head.v + 0x10,
                             work->bursts[i][j].head.u + 0x10, work->bursts[i][j].head.v + 0x10,
                             work->bursts[i][j].head.u + 0x30, work->bursts[i][j].head.v + 8,
@@ -511,8 +511,8 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         }
                         setPolyGT4(&work->shaded);
                         setSemiTrans(&work->shaded, 1);
-                        work->shaded.tpage = work->tpage[2];
-                        work->shaded.clut = work->clut[2];
+                        work->shaded.tpage = work->textures.tpage[2];
+                        work->shaded.clut = work->textures.clut[2];
                         setUV4(&work->shaded, work->bursts[i][j].head.u + 0x30, work->bursts[i][j].head.v + 8,
                             work->bursts[i][j].head.u + 0x10, work->bursts[i][j].head.v + 8,
                             work->bursts[i][j].head.u + 0x30, work->bursts[i][j].head.v,

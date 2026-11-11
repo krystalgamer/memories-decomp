@@ -88,8 +88,8 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant644_Image);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -306,8 +306,8 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                 blue = gModelVariant644_aConfigs[work->head.command].color[2] * value / divisor;
                 for (j = 0; j < 8; j++) {
                     setPolyGT4(&work->strip);
-                    work->strip.tpage = work->tpage[0];
-                    work->strip.clut = work->clut[0];
+                    work->strip.tpage = work->textures.tpage[0];
+                    work->strip.clut = work->textures.clut[0];
                     setSemiTrans(&work->strip, 1);
                     setUV4(&work->strip, work->glows[i].head.u, work->glows[i].head.v,
                         work->glows[i].head.u + 31, work->glows[i].head.v,
@@ -330,8 +330,8 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             setVector(&middle, 0, 0, -(work->place.height * 3) / 2);
             for (j = 0; j < 8; j++) {
                 setPolyGT3(&work->fan);
-                work->fan.tpage = work->tpage[0];
-                work->fan.clut = work->clut[0];
+                work->fan.tpage = work->textures.tpage[0];
+                work->fan.clut = work->textures.clut[0];
                 setSemiTrans(&work->fan, 1);
                 setUV3(&work->fan, work->glows[i].head.u, work->glows[i].head.v,
                     work->glows[i].head.u + 31, work->glows[i].head.v,

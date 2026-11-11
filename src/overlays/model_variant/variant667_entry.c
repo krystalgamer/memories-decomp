@@ -79,14 +79,14 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
         } while (0);
         Model_CopySlotPosition(k, (u16 *)work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[0]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[2]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[1]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
             work->rows = 1;
@@ -472,8 +472,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                     work->sprites[i].head.color[2] = gModelVariant667_aConfigs[work->head.command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
-                work->sprite.tpage = work->tpage[0];
-                work->sprite.clut = work->clut[0];
+                work->sprite.tpage = work->textures.tpage[0];
+                work->sprite.clut = work->textures.clut[0];
                 setSemiTrans(&work->sprite, 1);
                 setUV4(&work->sprite, work->cell_u[work->sprites[i].head.u], work->cell_v[work->sprites[i].head.u],
                     work->cell_u[work->sprites[i].head.u] + 31, work->cell_v[work->sprites[i].head.u],
@@ -573,8 +573,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                     work->domes[i].head.color[2] = gModelVariant667_aConfigs[work->head.command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
-                work->sprite.tpage = work->tpage[0];
-                work->sprite.clut = work->clut[0];
+                work->sprite.tpage = work->textures.tpage[0];
+                work->sprite.clut = work->textures.clut[0];
                 setSemiTrans(&work->sprite, 1);
                 setUV4(&work->sprite, work->cell_u[work->domes[i].head.u], work->cell_v[work->domes[i].head.u],
                     work->cell_u[work->domes[i].head.u] + 31, work->cell_v[work->domes[i].head.u],
@@ -589,8 +589,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                     GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                 }
                 setPolyFT4(&work->sprite);
-                work->sprite.tpage = work->tpage[1];
-                work->sprite.clut = work->clut[1];
+                work->sprite.tpage = work->textures.tpage[1];
+                work->sprite.clut = work->textures.clut[1];
                 setSemiTrans(&work->sprite, 1);
                 setUV4(&work->sprite, 0, 255, 31, 255, 0, 128, 31, 128);
                 setRGB0(&work->sprite, work->domes[i].head.color[0], work->domes[i].head.color[1], work->domes[i].head.color[2]);
@@ -618,8 +618,8 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (j = 0; j < 16; j++) {
                         setPolyGT4(&work->strip);
-                        work->strip.tpage = work->tpage[2];
-                        work->strip.clut = work->clut[2];
+                        work->strip.tpage = work->textures.tpage[2];
+                        work->strip.clut = work->textures.clut[2];
                         setSemiTrans(&work->strip, 1);
                         setUV4(&work->strip, 32, 128, 63, 128, 32, 255, 63, 255);
                         setRGB0(&work->strip, 0, 0, 0);

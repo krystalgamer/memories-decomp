@@ -208,6 +208,16 @@ typedef struct {
     u16 radius, height;
 } ModelVariantEntryPlacement;
 
+/* The texture ids that follow the placement in the small entry states
+ * (e.g. Model651State). On a request the entry stores each of its images'
+ * ModelTexture_PackPageClutCopy() result as tpage[i] (high half) and clut[i]
+ * (low half); the drawers copy a pair into a packet's tpage and clut before
+ * sorting it. Entries with fewer images leave the later slots unused. */
+typedef struct {
+    u16 tpage[3];
+    u16 clut[3];
+} ModelVariantTextureIds;
+
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the
  * sprites' colour, then the sprite size, the bounce height, the sway and

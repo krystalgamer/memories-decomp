@@ -50,16 +50,16 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
         work->head.elapsed = 0;
         Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[2]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[1]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[4]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[0]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[3]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -258,8 +258,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[0];
-                work->flat.clut = work->clut[0];
+                work->flat.tpage = work->textures.tpage[0];
+                work->flat.clut = work->textures.clut[0];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->rings[i].head.u, work->rings[i].head.v, work->rings[i].head.u + 63,
                     work->rings[i].head.v, work->rings[i].head.u, work->rings[i].head.v + 63,
@@ -298,8 +298,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (m = 0; m < 16; m++) {
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         u[0] = work->rings[i].head.u;
                         v[0] = work->rings[i].head.v + 128;
@@ -318,8 +318,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         setUV4(&work->shaded, u[0], v[0], u[1], v[0], u[0], v[1], u[1], v[1]);
                         setRGB2(&work->shaded, 0, 0, 0);
@@ -363,8 +363,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 v[0] = frame - 64;
                 for (k = 0; k < 16; k++) {
                     setPolyGT3(&work->fan_tri);
-                    work->fan_tri.tpage = work->tpage[2];
-                    work->fan_tri.clut = work->clut[2];
+                    work->fan_tri.tpage = work->textures.tpage[2];
+                    work->fan_tri.clut = work->textures.clut[2];
                     setSemiTrans(&work->fan_tri, 1);
                     setUV3(&work->fan_tri, u[0], v[0], u[1], v[1], u[2], v[2]);
                     setRGB0(&work->fan_tri, work->rings[i].head.color[0], work->rings[i].head.color[1], work->rings[i].head.color[2]);
@@ -543,8 +543,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                         mids[m].vy = (work->curtain_upper[k + m][i].vy + work->curtain_lower[k + m][i].vy) / 2;
                     }
                     setPolyGT4(&work->shaded);
-                    work->shaded.tpage = work->tpage[1];
-                    work->shaded.clut = work->clut[1];
+                    work->shaded.tpage = work->textures.tpage[1];
+                    work->shaded.clut = work->textures.clut[1];
                     setSemiTrans(&work->shaded, 1);
                     setUV4(&work->shaded, work->sparks[i].head.u, work->sparks[i].head.v + 63,
                         work->sparks[i].head.u + 63, work->sparks[i].head.v + 63, work->sparks[i].head.u,
@@ -565,8 +565,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     setPolyGT4(&work->shaded);
-                    work->shaded.tpage = work->tpage[1];
-                    work->shaded.clut = work->clut[1];
+                    work->shaded.tpage = work->textures.tpage[1];
+                    work->shaded.clut = work->textures.clut[1];
                     setSemiTrans(&work->shaded, 1);
                     setUV4(&work->shaded, work->sparks[i].head.u, work->sparks[i].head.v + 63,
                         work->sparks[i].head.u + 63, work->sparks[i].head.v + 63, work->sparks[i].head.u,

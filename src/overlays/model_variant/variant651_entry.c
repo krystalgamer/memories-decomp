@@ -42,8 +42,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant651_Image);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         switch (command) {
         case 0:
             work->ring_count = 4;
@@ -215,8 +215,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
-                    work->quad.tpage = work->tpage[0];
-                    work->quad.clut = work->clut[0];
+                    work->quad.tpage = work->textures.tpage[0];
+                    work->quad.clut = work->textures.clut[0];
                     setSemiTrans(&work->quad, 1);
                     u0 = work->rings[i].head.u + k * 127 / 16;
                     u1 = work->rings[i].head.u + (k + 1) * 127 / 16;
@@ -268,8 +268,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                     if (work->row_timer[t] < work->domes[i].head.duration) {
                         for (k = 0; k < 16; k++) {
                             setPolyGT4(&work->quad);
-                            work->quad.tpage = work->tpage[0];
-                            work->quad.clut = work->clut[0];
+                            work->quad.tpage = work->textures.tpage[0];
+                            work->quad.clut = work->textures.clut[0];
                             setSemiTrans(&work->quad, 1);
                             u0 = work->domes[i].head.u + k * 127 / 16;
                             u1 = work->domes[i].head.u + (k + 1) * 127 / 16;
@@ -333,8 +333,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
-                    work->quad.tpage = work->tpage[0];
-                    work->quad.clut = work->clut[0];
+                    work->quad.tpage = work->textures.tpage[0];
+                    work->quad.clut = work->textures.clut[0];
                     setSemiTrans(&work->quad, 1);
                     u0 = work->cones[i].head.u + k % 4 * 127 / 4;
                     u1 = work->cones[i].head.u + (k % 4 + 1) * 127 / 4;

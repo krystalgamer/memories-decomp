@@ -24,8 +24,8 @@ typedef struct {
     s32 other_slot;
     s16 delay;
     u16 radius, height;
-    u16 tpage[3];
-    u16 clut[3], unknown_22;
+    ModelVariantTextureIds textures;
+    u16 unknown_22;
     POLY_GT3 fan;
     POLY_GT4 strip;
     POLY_FT4 sprite;

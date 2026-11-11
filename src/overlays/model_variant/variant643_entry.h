@@ -27,8 +27,8 @@ typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
     ModelVariantEntryPlacement place;
-    u16 tpage[3];
-    u16 clut[3], unknown_1E;
+    ModelVariantTextureIds textures;
+    u16 unknown_1E;
     POLY_GT4 strip;
     POLY_G4 band;
     POLY_FT4 quad;

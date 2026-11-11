@@ -24,8 +24,7 @@ typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
     ModelVariantEntryPlacement place;
-    u16 tpage[3];
-    u16 clut[3];
+    ModelVariantTextureIds textures;
     u16 unknown_1E;
     POLY_GT4 quad;
     SVECTOR ring[17][2];

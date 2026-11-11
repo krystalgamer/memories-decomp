@@ -44,14 +44,14 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
         work->head.elapsed = 0;
         Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[2]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[0]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant666_aImages[1]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
             work->count = 3;
@@ -201,8 +201,8 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 ended = 0;
             }
             setPolyFT4(&work->quad);
-            work->quad.tpage = work->tpage[0];
-            work->quad.clut = work->clut[0];
+            work->quad.tpage = work->textures.tpage[0];
+            work->quad.clut = work->textures.clut[0];
             setSemiTrans(&work->quad, 1);
             setUV4(&work->quad, work->blooms[i].head.u, work->blooms[i].head.v,
                 work->blooms[i].head.u + 63, work->blooms[i].head.v,
@@ -325,8 +325,8 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 8; k++) {
                     setPolyFT3(&work->fan);
-                    work->fan.tpage = work->tpage[1];
-                    work->fan.clut = work->clut[1];
+                    work->fan.tpage = work->textures.tpage[1];
+                    work->fan.clut = work->textures.clut[1];
                     setSemiTrans(&work->fan, 1);
                     setUV3(&work->fan, 32, work->rings[i][j].head.v + 96,
                         0, work->rings[i][j].head.v + 159,
@@ -340,8 +340,8 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
                     }
                 }
                 setPolyFT4(&work->quad);
-                work->quad.tpage = work->tpage[2];
-                work->quad.clut = work->clut[2];
+                work->quad.tpage = work->textures.tpage[2];
+                work->quad.clut = work->textures.clut[2];
                 setSemiTrans(&work->quad, 1);
                 setUV4(&work->quad, work->rings[i][j].head.u, work->rings[i][j].head.v,
                     work->rings[i][j].head.u + 31, work->rings[i][j].head.v,

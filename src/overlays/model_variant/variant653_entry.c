@@ -44,8 +44,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         work->other_slot = work->head.slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant653_Image);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         if (command == 0) {
             work->emitter_count = 1;
             work->shell_count = 32;
@@ -259,8 +259,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                 for (k = 0; k < 6; k++) {
                     for (j = 0; j < 16; j++) {
                         setPolyGT4(&work->quad);
-                        work->quad.tpage = work->tpage[0];
-                        work->quad.clut = work->clut[0];
+                        work->quad.tpage = work->textures.tpage[0];
+                        work->quad.clut = work->textures.clut[0];
                         setSemiTrans(&work->quad, 1);
                         setUV4(&work->quad, work->emitters[i].head.u, work->emitters[i].head.v + 32,
                             work->emitters[i].head.u + 255, work->emitters[i].head.v + 32,
@@ -321,8 +321,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                     for (k = 0; k < 6; k++) {
                         for (j = 0; j < 16; j++) {
                             setPolyGT4(&work->quad);
-                            work->quad.tpage = work->tpage[0];
-                            work->quad.clut = work->clut[0];
+                            work->quad.tpage = work->textures.tpage[0];
+                            work->quad.clut = work->textures.clut[0];
                             setSemiTrans(&work->quad, 1);
                             setUV4(&work->quad, work->shells[l + i].head.u, work->shells[l + i].head.v + 32,
                                 work->shells[l + i].head.u + 255, work->shells[l + i].head.v + 32,
