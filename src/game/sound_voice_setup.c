@@ -49,11 +49,8 @@ void SD_ResetSecondaryPlayback(void) {
     s32 mask;
     s32 i;
     s32 track_off;
-    s32 off;
-    s32 *tbl;
     s32 key;
     SDSecondaryObject *obj;
-    s32 k40;
     s32 c72;
     s32 cff;
     s32 one;
@@ -92,34 +89,21 @@ void SD_ResetSecondaryPlayback(void) {
         track_off += SD_SEQUENCE_TRACK_RECORD_SIZE;
     } while (i < SD_SEQUENCE_TRACK_COUNT);
 
-    do {
-    base = gSD_pSecondaryState;
-    if (base->object_count > 0) {
-        i = 0;
-        k40 = 0x40;
-        tbl = gSD_adwVoiceMasks;
-        off = (u32)&((SDSecondaryState *)0)->objects;
-    top2:
-            obj = SD_SECONDARY_OFFSET_VIEW(SDSecondaryObject, base, off);
-            key = *tbl;
-            obj->channel_index = SD_SECONDARY_RECORD_NONE;
-            obj->voice_index = i;
-            obj->lifecycle_stage = 0;
-            obj->key_held = 0;
-            obj->pan = 0x40;
-            obj->cached_pitch_bend = k40;
-            obj->key_on_pitch_bend = k40;
-            obj->reuse_countdown = 0;
-            SD_ResetVoiceEnvelope(i);
-            SpuSetKey(SPU_OFF, key);
-            tbl++;
-            off += SD_SECONDARY_OBJECT_SIZE;
-            base = gSD_pSecondaryState;
-            i++;
-            mask |= key;
-        if (i < base->object_count) goto top2;
+    for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
+        obj = &gSD_pSecondaryState->objects[i];
+        key = gSD_adwVoiceMasks[i];
+        obj->channel_index = SD_SECONDARY_RECORD_NONE;
+        obj->voice_index = i;
+        obj->lifecycle_stage = 0;
+        obj->key_held = 0;
+        obj->pan = 0x40;
+        obj->cached_pitch_bend = 0x40;
+        obj->key_on_pitch_bend = 0x40;
+        obj->reuse_countdown = 0;
+        SD_ResetVoiceEnvelope(i);
+        SpuSetKey(SPU_OFF, key);
+        mask |= key;
     }
-    } while (0);
 
     i = 0;
     b40 = 0x40;
