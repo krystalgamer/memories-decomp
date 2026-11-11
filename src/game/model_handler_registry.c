@@ -1,10 +1,12 @@
 /* The model handler registry and the two maps that search it.
  *
  * gModel_aHandlerKeyRegistry is the eighty-entry table; Model_RegisterHandlerKey fills it and
- * Model_FindHandlerKey reads it back. Model_MapToWireframePrimitiveHandler and Model_MapToBasePrimitiveHandler open-code
- * that same reverse lookup -- same sentinel, same eighty-entry scan, same -1 --
- * and then dispatch on the packed id it returns, which is why they belong here
- * rather than beside the handlers they name. */
+ * Model_FindHandlerKey reads it back. All three use the static inline
+ * Model_LookupHandlerKey; Model_MapToWireframePrimitiveHandler and
+ * Model_MapToBasePrimitiveHandler inline that reverse lookup -- same sentinel,
+ * same eighty-entry scan, same -1 -- and then dispatch on the packed id it
+ * returns, which is why they belong here rather than beside the handlers they
+ * name. */
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
@@ -30,6 +32,24 @@ ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
 
 #define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
 
+/* The registry's reverse lookup, shared by both maps and Model_FindHandlerKey:
+   the matching entry's key, or -1 for the sentinel or no match after all 80. */
+static inline s32 Model_LookupHandlerKey(s32 handler_value)
+{
+    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
+    s32 registry_index;
+
+    if (handler_value == (s32)GsU_00000000) {
+        return -1;
+    }
+    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
+        if (registry_entry->handler_value == handler_value) {
+            return registry_entry->key;
+        }
+    }
+    return -1;
+}
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at gModel_aHandlerKeyRegistry (GsU_00000000 is the sentinel that
@@ -37,29 +57,10 @@ ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
  * low halfword's kind. Returns handler_value unchanged when nothing matches. */
 
 s32 Model_MapToWireframePrimitiveHandler(s32 handler_value) {
-    ModelHandlerRegistryEntry *registry_entry;
-    s32 registry_index;
     s32 type_key;
     u32 type_family;
 
-    registry_entry = gModel_aHandlerKeyRegistry;
-    registry_index = 0;
-
-    if (handler_value == (s32)GsU_00000000) {
-        type_key = -1;
-    } else {
-        do {
-            if (registry_entry->handler_value == handler_value) {
-                type_key = registry_entry->key;
-                goto have;
-            }
-            registry_index++;
-            registry_entry++;
-        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
-        type_key = -1;
-    }
-
-have:
+    type_key = Model_LookupHandlerKey(handler_value);
     type_family = type_key & 0xFFFF0000;
 
     switch (type_family) {
@@ -109,29 +110,10 @@ have:
  * registry id. The case order is retail's own arm order in memory. */
 
 s32 Model_MapToBasePrimitiveHandler(s32 handler_value) {
-    ModelHandlerRegistryEntry *registry_entry;
-    s32 registry_index;
     s32 type_key;
     u32 type_family;
 
-    registry_entry = gModel_aHandlerKeyRegistry;
-    registry_index = 0;
-
-    if (handler_value == (s32)GsU_00000000) {
-        type_key = -1;
-    } else {
-        do {
-            if (registry_entry->handler_value == handler_value) {
-                type_key = registry_entry->key;
-                goto have;
-            }
-            registry_index++;
-            registry_entry++;
-        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
-        type_key = -1;
-    }
-
-have:
+    type_key = Model_LookupHandlerKey(handler_value);
     type_family = type_key & 0xFFFF0000;
 
     switch (type_family) {
@@ -231,17 +213,7 @@ void Model_RegisterHandlerKey(s32 type_key, s32 handler_value) {
 /* Reverse lookup: finds the entry whose handler_value matches, returns its key (or -1
    if handler_value is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 handler_value) {
-    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
-    s32 registry_index;
-    if (handler_value == (s32) GsU_00000000) {
-        return -1;
-    }
-    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
-        if (registry_entry->handler_value == handler_value) {
-            return registry_entry->key;
-        }
-    }
-    return -1;
+    return Model_LookupHandlerKey(handler_value);
 }
 #endif
 
