@@ -204,6 +204,37 @@ typedef struct {
     u8 pad84[0x0C];
 } ModelVariantQuad;
 
+/* The 0x10-byte block that starts the effect elements of the header 627-682
+ * entries (ModelVariantElement and its relatives below). An entry sets up
+ * an element's color, u, v, mode and duration, zeroes elapsed and sets
+ * active to spawn it; each tick it skips an element whose active flag is
+ * clear, adds the frame step to elapsed and clears active once elapsed
+ * passes duration. The draw code lights the element's primitive with color
+ * (setRGB0, or the line and Gouraud colours), takes its texture coordinates
+ * from u and v (setUV4; header 677's rings index their UV cell table with
+ * u instead) and, where it draws through Graphics_SubmitDrawModePacket,
+ * passes mode as the draw mode; the other entries only set mode.
+ * unknown_06 stays opaque: these entries never touch it. */
+typedef struct {
+    u8 active;
+    u8 color[3];
+    u8 u, v, unknown_06[2];
+    s32 mode;
+    u16 elapsed, duration;
+} ModelVariantElementHead;
+
+/* The 0x2C-byte transform an effect element is drawn through: the entries
+ * set coord to Model_GetCameraCoordinateUnit() and, per draw, link it as
+ * the super of a local GsCOORDUNIT whose matrix is ScaleMatrix(scale),
+ * then RotMatrixZ/X/Y(rotation) and translation position, before
+ * GsGetLsUnit. */
+typedef struct {
+    GsCOORDUNIT *coord;
+    SVECTOR rotation;
+    VECTOR scale;
+    VECTOR position;
+} ModelVariantElementTransform;
+
 /* One 0x4C-byte effect element of the header 630-682 entries: an active
  * flag, a colour, texture coordinates, a draw mode, its age and lifetime,
  * the coordinate unit it is placed through, a rotation, a scale and a
@@ -213,22 +244,17 @@ typedef struct {
  * the arc height in target.vy (see each entry header); headers 645, 646,
  * 658, 659, 663 and 682 only clear it. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
     VECTOR target;
 } ModelVariantElement;
 
 /* ModelVariantElement with the last vector labelled `spin`, as headers 650
  * and 652 name it; the label is a record view: header 650 keeps the
  * sprites' spin speed in spin.vz, header 652 the dome row count and the
- * spark rise (see each entry header). */
+ * spark rise (see each entry header). Its fields stay spelled out instead
+ * of ModelVariantElementTransform: header 652's sparks keep an outward
+ * drift in scale and add it to the translation, not a scale. */
 typedef struct {
     u8 active;
     u8 color[3];
@@ -245,46 +271,25 @@ typedef struct {
 /* ModelVariantElement with a growth vector in place of the target, as
  * headers 656 and 665 use it. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
     VECTOR growth;
 } ModelVariantGrowthElement;
 
 /* ModelVariantElement with an offset from a centre in place of the
  * target, as headers 657, 660 and 662 use it. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
     VECTOR offset;
 } ModelVariantOffsetElement;
 
 /* The 0x4C-byte burst record of header 647, shared by headers 627-673:
- * the ModelVariantElement fields with the colour as separate bytes and a
- * growth vector last (the flight or cone growth; headers 632, 634 and 647
+ * ModelVariantElement with a growth vector last (the flight or cone growth; headers 632, 634 and 647
  * only clear it). */
 typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
     VECTOR growth;
 } ModelVariantBurst;
 
@@ -316,15 +321,9 @@ typedef struct {
 /* The 0x50-byte record of headers 674 and 675: ModelVariantBurst with a
  * tick counter after the lifetime. */
 typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     u16 ticks, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR growth;
 } ModelVariantTickedBurst;
 
@@ -333,16 +332,9 @@ typedef struct {
  * and ribbons (667) clear both at setup, test done and grow count, which
  * shapes their geometry; header 667's fans also test and set done. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     u8 done, count, unknown_12[2];
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR unknown_40;
 } ModelVariantCountedElement;
 
