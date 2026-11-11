@@ -1326,15 +1326,13 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) {
-                goto check_ready;
+            if (((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0) {
+                Model_LoadMonsterMerge(
+                    0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
             }
-            Model_LoadMonsterMerge(
-                0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
         } else {
             Model_AdvanceSlotLoad(0);
         }
-check_ready:
         load_slots = gModel_aSlots;
         if (!load_slots->is_active) {
             break;
