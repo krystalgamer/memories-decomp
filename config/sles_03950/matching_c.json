@@ -1738,55 +1738,55 @@
       "address": "0x8002CFBC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/main_debug.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002CFDC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/main_debug.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D038",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x84",
-      "source": "src/game/main_run_campaign.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D0BC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel_and_library.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D2B4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/main_run_duel_and_library.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D354",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x158",
-      "source": "src/game/european/main_run_animated_battle.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D4AC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D544",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D5CC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D62C",

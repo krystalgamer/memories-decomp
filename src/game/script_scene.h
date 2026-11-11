@@ -114,7 +114,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode);
 /* Unsized: a declared size is a -G input for this toolchain, and no consumer
  * needs the bound. The count is above, with what it was derived from.
  *
- * main_run_campaign.c defines only three records: that is all the room
+ * Main_RunCampaign (main_mode_runners.c) defines only three records: that is all the room
  * before gDebug_szEditorCaretLine, and SceneScript_UpdateSlots sweeps three.
  * Package initialization's -1 store at slot three's head (+0x3C) lands in
  * the four bytes left before that next object.

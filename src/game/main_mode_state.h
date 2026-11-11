@@ -27,7 +27,7 @@ extern u8 gCampaignSceneIndex;
 #include "main_mode_controls.h"
 
 /* The frontend mode runner's step byte, tentatively defined by
- * main_mode_runners.c and main_run_duel_and_library.c. It is deliberately
+ * main_mode_runners.c, twice (from Main_RunDuel and the later runners). It is deliberately
  * separate from the guarded mode bytes declared in main_mode_controls.h. */
 extern u8 gMain_bModeRunnerStep;
 

@@ -14,7 +14,7 @@ void Text_OpenCampaignMap(struct DuelEffectChannel *object);
  *
  * debug_menu.c clears it, and duel_effect_sound_commands.c and
  * script_scene.c (Script_OpOpenCampaignMap) store the unsigned script operand into it.
- * Main_RunCampaignMap in main_run_selection_menus.c only reads it and passes
+ * Main_RunCampaignMap in main_mode_runners.c only reads it and passes
  * it to CampaignMap_SetLocation.
  *
  * It is a single byte: c_symbols.ld has gDuel_bTerrain at 0x8009B364,

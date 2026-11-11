@@ -81,8 +81,8 @@ PAIRS = [
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
-    ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
-    ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
+    ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
+    ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
 ]
 
 

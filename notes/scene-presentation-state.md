@@ -33,7 +33,7 @@ and both object lifecycles remain independent.
 
 `gSceneScript_Slots` is declared as an incomplete `SceneScriptSlot []`, with
 the original signed first-word storage and 0x14-byte stride.
-`main_run_campaign.c` defines it as `SceneScriptSlot[3]` after the 12-byte
+`Main_RunCampaign`'s unit, `main_mode_runners.c`, defines it as `SceneScriptSlot[3]` after the 12-byte
 `gAi_Selection` (formerly both were views into one `u8 D_800EAE88[0x50]`);
 the common's alignment places it at +0x10, and the 0x40 bytes up to
 `gDebug_szEditorCaretLine` hold three records plus four bytes. Those

@@ -1,4 +1,309 @@
 #include "../types.h"
+#include "debug_menu.h"
+#include "main_modes.h"
+#include "main_reset_frontend_runtime.h"
+#include "main_mode_state.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bReturnMode;
+u8 gMain_bActiveModeState;
+
+void Main_PrepareFrontendLoop(void)
+{
+    Main_ResetFrontendRuntime();
+}
+
+void Main_RunDebugMenu(void)
+{
+    u8 flags = gMain_bActiveModeState;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        DebugMenu_Init();
+    } else {
+        DebugMenu_Update();
+        if ((gMain_bActiveModeState & 0x40) == 0)
+            gMain_bReturnMode = 0;
+    }
+}
+
+#include "ai.h"
+#include "script_scene.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, in
+ * address order (#2602). Each common is aligned by its size, so the slot
+ * table starts at +0x10; only three slots fit before
+ * gDebug_szEditorCaretLine, matching SceneScript_UpdateSlots' sweep. */
+AiSelection gAi_Selection;
+SceneScriptSlot gSceneScript_Slots[3];
+
+#include "duel_effect.h"
+#include "fade.h"
+#include "sound.h"
+#include "main_mode_state.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bActiveModeState;
+
+void Main_RunCampaign(void) {
+    u8 flags = gMain_bActiveModeState;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        Campaign_LoadScenePackage(gCampaignSceneIndex);
+        gDuel_bEffectState = 0;
+        return;
+    }
+
+    SceneScript_UpdateSlots(gSceneScript_Slots);
+    Script_RunTick();
+    if (gMain_bActiveModeState & 0x40)
+        return;
+    SD_BGMFadeOut();
+    Fade_WaitOut();
+}
+
+#include "../game/ai_opponent_data.h"
+#include "../game/duel_check_quit_input.h"
+#include "../game/duel_init_scene.h"
+#include "../game/main_start_duel.h"
+#include "../game/main.h"
+#include "../game/build_deck.h"
+#include "../game/mem_card.h"
+#include "../game/fade.h"
+#include "../game/file_transfer.h"
+#include "../game/main_modes.h"
+#include "../game/main_reset_frontend_runtime.h"
+#include "../game/main_services.h"
+#include "../game/sound.h"
+#include "../game/sound_pending_entries.h"
+#include "../game/sound_voice_selection.h"
+#include "../game/library.h"
+#include "../game/duel_scene_update.h"
+#include "../game/duel_side_state.h"
+#include "duel_session_controls.h"
+
+u8 gMain_bActiveModeState;
+
+#include "../game/shared_work_base.h"
+#include "../game/main_mode_state.h"
+#include "build_deck_draw_card_list_page_data.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bModeRunnerStep;
+
+void Main_RunDuel(void)
+{
+    u8 value = gMain_bActiveModeState;
+    int state;
+
+    if (!(value & 0x40)) {
+        gMain_bActiveModeState = value | 0x40;
+        gMain_bModeRunnerStep = 1;
+        if (!gDuel_bResumeFromAnimatedBattle && gDuel_bOpponentID >= 0)
+            gMain_bModeRunnerStep = 0;
+        gGraphics_abOrderingTableLengths[3] = 10;
+        return;
+    }
+
+    value = gMain_bModeRunnerStep;
+    state = value & 0xF;
+    switch (state) {
+    case 0:
+        if (!(value & 0x80)) {
+            gMain_bModeRunnerStep = value | 0x80;
+            gBuildDeck_bConfirmMode = 0x80;
+            BuildDeck_InitScreen(
+                (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
+                (u8 *)gDuel_awPlayerDeck, 0, 0x80);
+            Fade_WaitIn();
+        } else if (BuildDeck_Update() == 0) {
+            SD_BGMFadeOut();
+            Fade_WaitOut();
+            Main_ResetFrontendRuntime();
+            gMain_bModeRunnerStep = 1;
+        }
+        break;
+    case 1:
+        if (!(value & 0x80)) {
+            gMain_bModeRunnerStep = value | 0x80;
+            Duel_InitScene();
+        } else {
+            DuelScene_UpdateWithSideInput();
+            if (gDuel_wOutcomeFlags & 0x2000)
+                gMain_bModeRunnerStep = 2;
+        }
+        break;
+    case 2:
+    {
+        u16 *table = gDuel_awCampaignSceneByOutcome;
+        u8 next;
+
+        Fade_WaitOut();
+        SD_BGMFadeOut();
+        SD_ReplaceValueLink(2);
+        Main_ClearFrameServiceCallbacks();
+        gGraphics_abOrderingTableLengths[3] = 6;
+        Main_AdvanceFrames(4);
+        File_WaitForTransfers();
+        next = gDuel_bPostDuelMainMode;
+        gMain_bActiveModeState = next;
+        if (gMain_bActiveModeState == state)
+            gCampaignSceneIndex = table[gDuel_bPlayerLost];
+        break;
+    }
+    }
+}
+
+void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;Library_InitializeScreen();Fade_WaitIn();}else{Library_UpdateScreen();if((gMain_bActiveModeState&0x40)==0){gGraphics_bSyncVBlankTarget=0;SD_BGMFadeOut();Fade_WaitOut();Main_ClearFrameServiceCallbacks();SD_ResetPendingEntries();SD_ReplaceValueLink(2);Main_AdvanceFrames(4);File_WaitForTransfers();}}}
+
+#include "main.h"
+#include "model_scene_states.h"
+#include "model_debug_controller.h"
+#include "../psyq/libgte.h"
+#include "fade.h"
+#include "sound.h"
+#include "main_modes.h"
+#include "model_cleanup.h"
+#include "model.h"
+#include "model_scene_controllers.h"
+#include "duel_terrain_boost.h"
+#include "main_mode_state.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bReturnMode;
+
+/* Regional value: the geometry offset y, half the screen height (0x78 ->
+ * 0x80). The European build (src/game/european/) defines its own. */
+#ifndef ANIMATED_BATTLE_GEOM_OFFSET_Y
+#define ANIMATED_BATTLE_GEOM_OFFSET_Y 0x78
+#endif
+
+/* Defined rather than declared: the assembler only resolves a small global
+   gp-relative when the translation unit defines it, and that is what supplies
+   the load-delay nop before the first read of it below. c_symbols.ld overrides
+   this common symbol, so no storage is allocated here. */
+u8 gMain_bActiveModeState;
+
+void Main_RunAnimatedBattle(void)
+{
+    AnimatedBattleModelProperties *p;
+    u8 f;
+    s32 v;
+
+    SetGeomOffset(0xA0, ANIMATED_BATTLE_GEOM_OFFSET_Y);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
+    f = gMain_bActiveModeState;
+    if ((f & 0x40) == 0) {
+        gMain_bActiveModeState = f | 0x40;
+        gGraphics_bSyncVBlankTarget = 1;
+        Model_ResetSceneView();
+        Model_ResetSceneState();
+        p = gMain_aAnimatedBattleModels;
+        if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
+            gMain_bActiveModeState = gMain_bActiveModeState | 0x20;
+            Model_StartExodiaPresentation();
+        } else {
+            Model_SetSlotProperties(
+                0,
+                p->model_id - 1,
+                p->attack_compare_override,
+                p->defense_compare_override,
+                p->guardian_star_selection,
+                p->defense_position
+            );
+            p++;
+            Model_SetSlotProperties(
+                1,
+                p->model_id - 1,
+                p->attack_compare_override,
+                p->defense_compare_override,
+                p->guardian_star_selection,
+                p->defense_position
+            );
+            Model_SetSlotProperties(2, gDuel_bTerrain);
+        }
+        Fade_WaitInitIn();
+    } else {
+        if (f & 0x20) {
+            v = Model_IsExodiaPresentationComplete();
+        } else {
+            v = ModelDebug_UpdateController();
+        }
+        if (v != 0) {
+            SD_KeyOffVoiceSlots();
+            SD_BGMFadeOut();
+            gMain_bActiveModeState = gMain_bReturnMode;
+        }
+        Model_UpdateScene();
+    }
+}
+
+#include "secondary_scene_commands.h"
+#include "../overlays/free_duel/free_duel.h"
+#include "../overlays/overworld/campaign_map.h"
+#include "build_deck.h"
+#include "file_transfer.h"
+#include "mem_card.h"
+#include "main.h"
+#include "main_init_free_duel_menu.h"
+#include "main_services.h"
+#include "main_modes.h"
+#include "fade.h"
+#include "sound.h"
+#include "high_memory_addresses.h"
+#include "shared_work_base.h"
+#include "main_mode_state.h"
+#include "build_deck_draw_card_list_page_data.h"
+
+/* Small globals other units own, declared here as common symbols the
+ * way the original read them through $gp. */
+u8 gMain_bReturnMode;
+
+void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;gGraphics_abOrderingTableLengths[3]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_abOrderingTableLengths[3]=6;Main_AdvanceFrame();}}}
+
+/* The common definition makes MASPSX preserve the load-delay nop before the
+ * final gMain_bActiveModeState store. c_symbols.ld supplies the retail storage address. */
+u8 gMain_bActiveModeState;
+
+void Main_RunBuildDeckMenu(void)
+{
+    unsigned char flags = gMain_bActiveModeState;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        BuildDeck_InitScreen(
+            (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
+            (unsigned char *)gDuel_awPlayerDeck,
+            0,
+            gBuildDeck_bConfirmMode
+        );
+        Fade_WaitIn();
+    } else if (BuildDeck_Update() == 0) {
+        unsigned char value;
+
+        SD_BGMFadeOut();
+        Fade_WaitOut();
+        value = gMain_bReturnMode;
+        gMain_bActiveModeState = value;
+    }
+}
+
+void Main_RunFreeDuelMenu(void) {
+    unsigned char flags = gMain_bActiveModeState;
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        Main_InitFreeDuelMenu();
+        Fade_WaitIn();
+    }
+    FreeDuel_Entry();
+    if ((gMain_bActiveModeState & 0x40) == 0) SD_BGMFadeOut();
+}
+
 #include "text_box_blocking_build.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
@@ -40,7 +345,6 @@
 #include "card_constants.h"
 #include "../overlays/main_menu/value_setup.h"
 #include "duel_session_controls.h"
-#include "main_debug.h"
 #include "main_mode_runners.h"
 #include "main_reset_frontend_runtime.h"
 #include "../overlays/password/name_entry_main.h"

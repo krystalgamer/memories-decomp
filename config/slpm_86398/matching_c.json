@@ -1673,13 +1673,13 @@
       "address": "0x8002CBC8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/main_debug.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CBE8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/main_debug.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D5AC",
@@ -1697,43 +1697,43 @@
       "address": "0x8002CC44",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x84",
-      "source": "src/game/main_run_campaign.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CCC8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel_and_library.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CEC0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/main_run_duel_and_library.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CF60",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x158",
-      "source": "src/game/main_run_animated_battle.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D0B8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D150",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D1D8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/main_run_selection_menus.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D238",
