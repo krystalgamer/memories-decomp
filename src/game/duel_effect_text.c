@@ -3067,12 +3067,11 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
         obj->flags_34 |= 0x1000;
 }
 
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "ai_script.h"
 #include "duel_session_controls.h"
 
 #include "ai_opponent_data.h"
-#include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))

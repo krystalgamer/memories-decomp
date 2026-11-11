@@ -1152,7 +1152,7 @@ void Script_RunTick(void)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_load_package_stage.h"
+#include "duel_scene.h"
 #include "../ygo_types.h"
 
 #include "high_memory_addresses.h"

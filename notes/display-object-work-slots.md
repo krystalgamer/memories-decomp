@@ -27,7 +27,7 @@ not a sixth display-object slot; it has no separate symbol.
 The header checks the 20-byte pointer span and every newly named object-field
 offset used by these consumers.
 
-`duel_screen_tables.h` now records the corresponding source-table shape.
+`duel_scene.h` (formerly `duel_screen_tables.h`) now records the corresponding source-table shape.
 `gDuel_ExodiaCardPoses` contains five `DuelExodiaCardPose` records selected by card IDs
 `0x11` through `0x15`. Each record maps the card to a work-slot index and
 stores the x/y values with the `0x1A`/`0x1E` biases that `DuelScene_UpdateExodiaResult`

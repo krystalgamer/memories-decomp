@@ -58,7 +58,7 @@ GsOT *gGraphics_apOrderingTables[4];
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "card_preview.h"
 #include "display_object_system.h"
 #include "sound.h"

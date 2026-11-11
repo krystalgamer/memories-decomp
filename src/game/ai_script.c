@@ -209,7 +209,7 @@ s32 Ai_GetHandSearchCount(void)
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
-#include "duel_side_state.h"
+#include "duel_scene.h"
 #include "ai_script_source_line_format.h"
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
@@ -644,8 +644,6 @@ void AiScript_LoadLifePoint(void) {
     s32 i = p[AiScript_ReadByte()];
     p[AiScript_ReadByte()] = gDuel_aSideStates[1 - i].life_points.signed_value;
 }
-
-#include "duel_terrain_boost.h"
 
 void AiScript_LoadOpponentID(void)
 {
@@ -1271,7 +1269,6 @@ zero:
 }
 
 #include "duel_effect_object_pool.h"
-#include "duel_card_checks.h"
 
 void AiScript_FindEquipTarget(void)
 {
