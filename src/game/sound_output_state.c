@@ -869,7 +869,7 @@ void SD_CancelMusicRequests(void)
             offset = i * SD_COMMAND_RECORD_SIZE;
             next_offset = (i + 1) * SD_COMMAND_RECORD_SIZE;
             if (base->s_wSD_NUM_COMMAND == 0) {
-                goto after;
+                break;
             }
             command = base->s_uSD_COMMAND_QUEUE.b[offset];
             switch (command) {
@@ -880,24 +880,23 @@ void SD_CancelMusicRequests(void)
             case 0x48:
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
-                goto decrement;
+                g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
+                break;
             case 0x20:
                 /* Keep the byte-cursor sum: direct member access reschedules
                    the queue-base add and the following load. */
                 if (*(s32 *)(STATE_BYTES + offset +
                         SD_COMMAND_QUEUE_BYTE_OFFSET +
                         (u32)&((SDCommand *)0)->transfer_selector) != 0x20) {
-                    goto test;
+                    break;
                 }
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
-decrement:
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
-                goto test;
+                break;
             default:
                 i++;
             }
-test:
             base = g_SDValue;
             if (i >= base->s_wSD_NUM_COMMAND) {
                 break;
@@ -907,7 +906,6 @@ test:
             }
         }
     }
-after:
     switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
     case 0x42:
     case 0x43:
