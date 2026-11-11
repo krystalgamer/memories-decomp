@@ -11570,11 +11570,7 @@ s32 Ai_SelectFieldPlay(void)
     if (gDuel_wOutcomeFlags & 0x1000) {
         return 0;
     }
-    if ((rand() & 3) != 0) {
-        slot = 0xA;
-        goto walk;
-    }
-    {
+    if ((rand() & 3) == 0) {
         Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x17);
         Duel_CollectFieldCardsByType((DuelCardRecord **)listb, 5, -1);
         ea = lista[0];
@@ -11611,9 +11607,8 @@ s32 Ai_SelectFieldPlay(void)
             gAi_Selection.fields.field_0B = 0;
             return 0;
         }
-        slot = 0xA;
     }
-walk:
+    slot = 0xA;
     grid = gDuel_abFieldGridCardRecordIndices.flat;
     out = &gAi_Selection.fields;
     recs = gDuel_aCardRecords;
