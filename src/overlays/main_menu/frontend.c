@@ -179,7 +179,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bTradeLoadPending != 0) {
@@ -194,7 +194,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bTradeLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bDuelLoadPending != 0) {
@@ -209,16 +209,16 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bDuelLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bSaveWritePending != 0) {
         if (MemCardDialog_Poll() == 0) {
-            goto ret_m1;
+            return -1;
         }
         Input_ResetPads();
         gMainMenu_bSaveWritePending = 0;
-        goto ret_m1;
+        return -1;
     }
 
     step = gMainMenu_nFadeDirection;
@@ -231,10 +231,10 @@ s32 MainMenu_UpdateFrontendMenu(void)
             }
         }
         if (step >= 0) {
-            goto ret_m1;
+            return -1;
         }
         if ((u8)level != 0) {
-            goto ret_m1;
+            return -1;
         }
     fade_done:
         if (gMainMenu_nFadeDirection < 0) {
@@ -247,7 +247,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
         }
         gMainMenu_nFadeDirection = 0;
-        goto ret_m1;
+        return -1;
     }
 
     entry = gMainMenu_pStartPrompt;
@@ -413,7 +413,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
-        goto ret_m1;
+        return -1;
     }
 
     if ((gInput_awPadPressed[0] & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
