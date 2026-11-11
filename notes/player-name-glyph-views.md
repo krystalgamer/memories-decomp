@@ -69,7 +69,7 @@ No production address is pinned or invented, and the existing
 positive/missing-target import controls remain unchanged.
 
 The paired-output header follows `unmatched.h` only in the paired
-consumer. The current-output header follows the original `save_data.h`
+consumer. The current-output header follows the original `mem_card.h` (formerly `save_data.h`)
 owner in its four roots. In the text-command source it remains inside
 the existing European guard, preserving the complete North American
 and Japanese absence. Old owner headers and all regional wrappers

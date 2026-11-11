@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant770_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 770's entry, the header-766 effect run as two streams: each stream
  * draws a gouraud trail between two parts of the active slot, then a flash

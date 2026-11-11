@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant157_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* A textured streak flies in an arc from a joint of the active model to the
  * other slot, growing as it goes and trailed by ten fading copies, then a

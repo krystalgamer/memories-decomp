@@ -39,9 +39,9 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         work->config = gFrenchModelVariant338_aConfigs + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
             Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
@@ -52,9 +52,9 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         } else {
             GsGetLwUnit(work->part, &work->matrix);
         }
-        work->direction.vx = work->target.vx - work->matrix.t[0];
-        work->direction.vy = work->target.vy - work->matrix.t[1];
-        work->direction.vz = work->target.vz - work->matrix.t[2];
+        work->aim.direction.vx = work->aim.target.vx - work->matrix.t[0];
+        work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
+        work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT338_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
@@ -195,16 +195,16 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        work->view_delta.vx = view->vrx - view->vpx;
-        work->view_delta.vy = view->vry - view->vpy;
-        work->view_delta.vz = view->vrz - view->vpz;
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->aim.view_delta.vx = view->vrx - view->vpx;
+        work->aim.view_delta.vy = view->vry - view->vpy;
+        work->aim.view_delta.vz = view->vrz - view->vpz;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
         if (work->config->mode == 1) {
             Model_TransformPartVertex(work->slot, work->config->part, work->config->vertex,
@@ -215,22 +215,22 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         } else {
             GsGetLwUnit(work->part, &work->matrix);
         }
-        work->direction.vx = work->target.vx - work->matrix.t[0];
-        work->direction.vy = work->target.vy - work->matrix.t[1];
-        work->direction.vz = work->target.vz - work->matrix.t[2];
+        work->aim.direction.vx = work->aim.target.vx - work->matrix.t[0];
+        work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
+        work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vx = dx;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vx = dx;
+        work->aim.screen_delta.vy = dy;
         ModelVariant321_DrawRibbon((u8 *)point);
         if (work->config->start <= work->clock.frame) {
             ModelVariant321_DrawRings((u8 *)point);

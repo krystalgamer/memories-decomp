@@ -10,16 +10,13 @@
 u8 gBuildDeck_bConfirmMode;
 struct BuildDeckTransitionState *gBuildDeck_pState;
 
-#include "display_object_lifecycle.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "sound.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "display_object.h"
-#include "duel_card_stat_display.h"
-#include "display_object_config.h"
+#include "build_deck.h"
 #include "duel_card.h"
 #include "card_constants.h"
 
@@ -156,14 +153,11 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
     }
 }
 
-#include "display_object_config.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "card_constants.h"
-#include "display_object_helpers.h"
 #include "duel_card.h"
-#include "duel_card_stat_display.h"
 
 /* Regional value: the digit sprites' texture v (0x70 -> 0x40). The European
  * build (src/game/european/) defines its own. */
@@ -199,10 +193,7 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "text_encode_decimal_no_padding.h"
 #include "build_deck_transition_state.h"
 #include "color_constants.h"
-#include "duel_card_stat_display.h"
-#include "build_deck_draw_sort_icons.h"
-#include "graphics_frame.h"
-#include "build_deck_draw_card_list_page.h"
+#include "main.h"
 #include "card_list_sort_icons.h"
 
 /* Initialized data this unit owns at 0x80090DD8: two 16-byte rows used by card-list sorting
@@ -529,17 +520,13 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
    BuildDeck_TakeCardFromChest: the per-slot card-list text box and the loop
    that builds every visible slot, then the count-box refresh and the two
    transfers that move one card between the chest and the deck. */
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "card_constants.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "duel_effect.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
+#include "duel_effect_states.h"
 #include "card_list_text_boxes.h"
-#include "build_deck_card_counts.h"
 #include "build_deck_transition_state.h"
-#include "card_list_sort.h"
 #include "duel_card.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
@@ -688,7 +675,6 @@ void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id)
     }
 }
 
-#include "build_deck_card_counts.h"
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
@@ -728,13 +714,9 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
     }
 }
 
-#include "../game/build_deck_card_counts.h"
 #include "../game/card_constants.h"
-#include "../game/card_list_sort.h"
 #include "../game/display_object_layout.h"
 #include "../game/duel_card.h"
-#include "../game/text_box_lifecycle.h"
-#include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
 
 /* The Build Deck screen's card counts: the count box refresh, returning a
@@ -785,14 +767,11 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "card_constants.h"
-#include "graphics_frame.h"
 #include "image_transfer_rects.h"
-#include "card_list_setup.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 #include "../ygo_types.h"
-#include "../unmatched.h"
 
 #ifdef VERSION_EUROPE
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
@@ -886,7 +865,6 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 }
 #else
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
-    s32 one;
     s32 w;
     s32 v;
     s32 t0;
@@ -898,80 +876,64 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     s32 m;
     s32 m2v;
 
-    one = 1;
+    switch (mode) {
+    case 0:
+        m = 0xFFDDFFFF;
+        *(s16 *)&p->field_30.h.counter = 0x300;
+        *(s16 *)&p->field_30.h.field_32 = 0x100;
+        *(u16 *)&p->w = 0x40;
+        t0 = gFile_dwTransferState;
+        *(u16 *)&p->h = 0x10;
+        gFile_dwTransferState = t0 & m;
+        gFile_dwTransferState = gFile_dwTransferState | 0x10000;
+        p->transfer_mode = 2;
+        v = gFile_TransferBufferBase;
+        w = 0x20000;
+        *(s32 *)&p->phase_size = w;
+        p->sector_destination = v;
+        v += 0x800;
+        p->alternate_sector_destination = v;
+        break;
 
-    if (mode == one) {
-        goto m1;
+    case 1:
+        m = 0xFFDDFFFF;
+        *(s16 *)&p->field_30.h.counter = 0x340;
+        *(u16 *)&p->w = 0x40;
+        t1 = gFile_dwTransferState;
+        *(u16 *)&p->h = 0x10;
+        gFile_dwTransferState = t1 & m;
+        u = gFile_dwTransferState;
+        n = 0x10000;
+        p->field_30.h.field_32 = 0;
+        gFile_dwTransferState = u | n;
+        p->transfer_mode = 2;
+        v = gFile_TransferBufferBase;
+        w = 0x4000;
+        *(s32 *)&p->phase_size = w;
+        p->sector_destination = v;
+        v += 0x800;
+        p->alternate_sector_destination = v;
+        break;
+
+    case 2:
+        m2v = 0xFFDCFFFF;
+        *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState = gFile_dwTransferState & m2v;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
+        p->transfer_mode = 1;
+        break;
+
+    case 3:
+        g = (s16 *)gGraphics_aImageTransferRects;
+        c = 0x100;
+        g[0] = c;
+        g[1] = 0xF0;
+        g[2] = c;
+        g[3] = 0x10;
+        LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
+        break;
     }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto m0;
-        }
-        return;
-    }
-    if (mode == 2) {
-        goto m2;
-    }
-    if (mode == 3) {
-        goto m3;
-    }
-    return;
-
-m0:
-    m = 0xFFDDFFFF;
-    *(s16 *)&p->field_30.h.counter = 0x300;
-    *(s16 *)&p->field_30.h.field_32 = 0x100;
-    *(u16 *)&p->w = 0x40;
-    t0 = gFile_dwTransferState;
-    *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState = t0 & m;
-    gFile_dwTransferState = gFile_dwTransferState | 0x10000;
-    p->transfer_mode = 2;
-    v = gFile_TransferBufferBase;
-    w = 0x20000;
-    *(s32 *)&p->phase_size = w;
-    p->sector_destination = v;
-    v += 0x800;
-    p->alternate_sector_destination = v;
-    return;
-
-m1:
-    m = 0xFFDDFFFF;
-    *(s16 *)&p->field_30.h.counter = 0x340;
-    *(u16 *)&p->w = 0x40;
-    t1 = gFile_dwTransferState;
-    *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState = t1 & m;
-    u = gFile_dwTransferState;
-    n = 0x10000;
-    p->field_30.h.field_32 = 0;
-    gFile_dwTransferState = u | n;
-    p->transfer_mode = 2;
-    v = gFile_TransferBufferBase;
-    w = 0x4000;
-    *(s32 *)&p->phase_size = w;
-    p->sector_destination = v;
-    v += 0x800;
-    p->alternate_sector_destination = v;
-    return;
-
-m2:
-    m2v = 0xFFDCFFFF;
-    *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
-    gFile_dwTransferState = gFile_dwTransferState & m2v;
-    p->alternate_sector_destination = gFile_TransferBufferBase;
-    p->sector_destination = gFile_TransferBufferBase;
-    p->transfer_mode = 1;
-    return;
-
-m3:
-    g = (s16 *)gGraphics_aImageTransferRects;
-    c = 0x100;
-    g[0] = c;
-    g[1] = 0xF0;
-    g[2] = c;
-    g[3] = 0x10;
-    LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
 }
 #endif
 
@@ -1043,19 +1005,10 @@ void Library_PruneRecentCardDrops(void)
  *
  * The display objects keep their raw slot offsets on the record.
  */
-#include "graphics_frame.h"
-#include "card_list_setup.h"
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
-#include "build_deck_card_counts.h"
-#include "card_list_sort.h"
-#include "build_deck_draw_card_list_page.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "sound.h"
-#include "build_deck_init_screen.h"
 #include "card_list_sort_icons.h"
-#include "build_deck_test_and_set_initialized.h"
 
 #ifndef BUILD_DECK_CURSOR_Y
 #define BUILD_DECK_CURSOR_Y 0x29
@@ -1298,34 +1251,18 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "rand_get_interval.h"
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
-#include "card_list_sort.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
 #include "card_list_sort_icons.h"
-#include "build_deck_test_and_set_initialized.h"
 #include "duel_card_viewer.h"
-#include "build_deck_card_counts.h"
-#include "duel_card_stat_display.h"
-#include "duel_effect.h"
-#include "../unmatched.h"
-#include "build_deck_pane_input.h"
-#include "graphics_frame.h"
-#include "build_deck_update_pane_transition.h"
-#include "text_channel_state.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
-#include "text_box_lifecycle.h"
-#include "text_box_update_channels.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
-#include "build_deck_update.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
-#include "card_list_setup.h"
 #include "dialog_choice.h"
 #include "build_deck_draw_card_list_page_data.h"
-#include "duel_effect_mode_7.h"
 #include "main_mode_state.h"
 
 s32 BuildDeck_CompareSortKeyDescending(
@@ -2144,7 +2081,6 @@ void BuildDeck_EnterWideConfirmMode(void)
     gMain_bActiveModeState = 7;
 }
 
-#include "card_list_update_sort_mode.h"
 #include "card_list_sort_icons.h"
 
 void CardList_UpdateSortMode(CardList *a0) {

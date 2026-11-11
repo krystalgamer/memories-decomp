@@ -10,7 +10,7 @@
 #include "../game/model_primitive_handler.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_packet_handlers.h"
-#include "../game/model_parent_search.h"
+#include "../game/model_scene_runtime.h"
 #include "../game/model_slot_control.h"
 
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))

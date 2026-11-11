@@ -42,7 +42,7 @@ The work argument is intentionally ignored: two `0x80`-byte state views
 occupy offsets `0x2800` and `0x2880` from the existing resident payload
 pointer `gRuntime_pSharedWorkBase`. No new global storage or payload allocation is created.
 
-The canonical `high_memory_addresses.h`, `screen_projection.h` and resident
+The canonical `high_memory_addresses.h`, `model_slot_support.h` (formerly `screen_projection.h`) and resident
 request declarations supply the real owners. The matrix getter binds to
 resident `Model_GetLightSourceMatrix` at Spanish `8005C328`, rather than a
 guessed overlay alias or an independently redeclared function.

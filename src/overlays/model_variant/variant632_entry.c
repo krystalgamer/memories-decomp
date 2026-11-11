@@ -2,7 +2,7 @@
 #include "variant632_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 632's entry: 32 camera-facing flares (two mirrored sets for command
  * 1) flash on a disc in front of the slot and fade, a dotted sphere grows
@@ -40,13 +40,13 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model632State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant632_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant632_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant632_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant632_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -99,7 +99,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             case 2:
             case 3:
             case 4:
-                setVector(&work->flares[i][0].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->flares[i][0].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->flares[i][0].position,
                     work->radius / 2 * (i % 3 + 1) * rsin(i * 4096 / work->flare_count) / 4096,
                     work->radius / 2 * ((work->flare_count / 2 - i) % 3) * (i % 2 * 2 - 1),
@@ -114,10 +114,10 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                     work->flares[i][j].position.vz = swap;
                 }
                 work->flares[i][j].position.vy -= 350;
-                work->flares[i][j].position.vz += (work->slot * 2 - 1) * 450;
+                work->flares[i][j].position.vz += (work->head.slot * 2 - 1) * 450;
             }
             work->flares[i][0].position.vy -= 350;
-            work->flares[i][0].position.vz += (work->slot * 2 - 1) * 450;
+            work->flares[i][0].position.vz += (work->head.slot * 2 - 1) * 450;
         }
         for (i = 0; i < work->sphere_count; i++) {
             work->spheres[i].duration = 32;
@@ -136,12 +136,12 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             case 2:
             case 3:
             case 4:
-                setVector(&work->spheres[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->spheres[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->spheres[i].position, 0, 0, 0);
                 break;
             }
             work->spheres[i].position.vy -= 350;
-            work->spheres[i].position.vz += (work->slot * 2 - 1) * 450;
+            work->spheres[i].position.vz += (work->head.slot * 2 - 1) * 450;
         }
         for (i = 0; i < 10; i++) {
             work->strips[i].duration = 32;
@@ -180,16 +180,16 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             }
         }
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
         for (i = 10; i > 0; i--) {
             work->trail[i].first = work->trail[i - 1].first;
             work->trail[i].second = work->trail[i - 1].second;
         }
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 15);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 15);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].first, ls.t[0], ls.t[1], ls.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 18);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].second, ls.t[0], ls.t[1], ls.t[2]);
         break;
@@ -198,10 +198,10 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             work->trail[i].first = work->trail[i - 1].first;
             work->trail[i].second = work->trail[i - 1].second;
         }
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 16);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 16);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].first, ls.t[0], ls.t[1], ls.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 17);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 17);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].second, ls.t[0], ls.t[1], ls.t[2]);
         break;
@@ -209,9 +209,9 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed >= 109 && work->flags[0] == 0) {
+            if (work->head.elapsed >= 109 && work->flags[0] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][0].active = 1;
                 }
@@ -222,20 +222,20 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                 work->strips[work->flags[2]].active = 1;
                 work->flags[2]++;
             }
-            if (work->elapsed >= 141) {
+            if (work->head.elapsed >= 141) {
                 for (i = 0; i < 10; i++) {
                     work->strips[i].active = 0;
                 }
             }
             break;
         case 1:
-            if (work->elapsed == 0 && work->flags[0] == 0) {
+            if (work->head.elapsed == 0 && work->flags[0] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][0].active = 1;
                 }
                 work->flags[0] = 1;
             }
-            if (work->elapsed >= 29 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 29 && work->flags[1] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][1].active = 1;
                 }
@@ -243,7 +243,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 2:
-            if (work->elapsed == 0 && work->flags[0] == 0) {
+            if (work->head.elapsed == 0 && work->flags[0] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][0].active = 1;
                 }
@@ -252,7 +252,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 3:
-            if (work->elapsed >= 51 && work->flags[0] == 0) {
+            if (work->head.elapsed >= 51 && work->flags[0] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][0].active = 1;
                 }
@@ -263,14 +263,14 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                 work->strips[work->flags[2]].active = 1;
                 work->flags[2]++;
             }
-            if (work->elapsed >= 181) {
+            if (work->head.elapsed >= 181) {
                 for (i = 0; i < 10; i++) {
                     work->strips[i].active = 0;
                 }
             }
             break;
         case 4:
-            if (work->elapsed == 0 && work->flags[0] == 0) {
+            if (work->head.elapsed == 0 && work->flags[0] == 0) {
                 for (i = 0; i < work->flare_count; i++) {
                     work->flares[i][0].active = 1;
                 }
@@ -290,7 +290,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&unit.matrix, &work->flares[i][j].scale);
                     RotMatrixZ(work->flares[i][j].rotation.vz, &unit.matrix);
                     RotMatrixX(work->flares[i][j].rotation.vx
-                        - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
+                        - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1), &unit.matrix);
                     /* A quarter turn added through a variable, so the rotation loads
                      * before the view yaw. */
                     value = 0xC06;
@@ -304,13 +304,13 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                     /* `* 5 << 1` keeps the 10 on the remaining time: a plain `* 10`
                      * is folded onto the colour instead. */
                     if ((u16)(work->flares[i][j].duration / 10) < work->flares[i][j].elapsed) {
-                        work->flares[i][j].red = gModelVariant632_aConfigs[work->command].red
+                        work->flares[i][j].red = gModelVariant632_aConfigs[work->head.command].red
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
-                        work->flares[i][j].green = gModelVariant632_aConfigs[work->command].green
+                        work->flares[i][j].green = gModelVariant632_aConfigs[work->head.command].green
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
-                        work->flares[i][j].blue = gModelVariant632_aConfigs[work->command].blue
+                        work->flares[i][j].blue = gModelVariant632_aConfigs[work->head.command].blue
                             * ((work->flares[i][j].duration - work->flares[i][j].elapsed) * 5 << 1)
                             / (work->flares[i][j].duration * 9);
                     }
@@ -367,11 +367,11 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
                 work->spheres[i].scale.vy = (work->spheres[i].elapsed << 12) / work->spheres[i].duration;
                 work->spheres[i].scale.vz = (work->spheres[i].elapsed << 12) / work->spheres[i].duration;
                 if (work->spheres[i].duration / 2 < work->spheres[i].elapsed) {
-                    work->spheres[i].red = gModelVariant632_aConfigs[work->command].sphere_red
+                    work->spheres[i].red = gModelVariant632_aConfigs[work->head.command].sphere_red
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
-                    work->spheres[i].green = gModelVariant632_aConfigs[work->command].sphere_green
+                    work->spheres[i].green = gModelVariant632_aConfigs[work->head.command].sphere_green
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
-                    work->spheres[i].blue = gModelVariant632_aConfigs[work->command].sphere_blue
+                    work->spheres[i].blue = gModelVariant632_aConfigs[work->head.command].sphere_blue
                         * ((work->spheres[i].duration - work->spheres[i].elapsed) << 1) / work->spheres[i].duration;
                 }
                 for (j = 0; j < 8; j++) {
@@ -482,7 +482,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
             result = 1;
             work->flags[4] = 2;
         }
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->flare_count * work->copies + work->sphere_count + 10) {
             result = 2;
         }

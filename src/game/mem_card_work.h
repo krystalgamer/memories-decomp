@@ -83,7 +83,7 @@ extern void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
  * bytes of this same 128-byte range, never separate storage.
  * Existing absolute linker symbols supply those identities. No RAM-mirror
  * equivalence with other addresses is assumed by this view. */
-extern u8 D_80210000[MEM_CARD_WORK_FRAME_SIZE];
+extern u8 gMemCardWork_abFrame[MEM_CARD_WORK_FRAME_SIZE];
 extern u8 D_8021007A;
 extern u8 D_8021007B;
 extern u8 D_8021007C;

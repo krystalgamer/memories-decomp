@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant177_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry is a vertical relative of the French header-131 beam. A spinning
  * tube of fourteen-point rings grows up from the other slot, scrolls its

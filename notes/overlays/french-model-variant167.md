@@ -38,7 +38,7 @@ signed divisions. Copied opposite-slot Y becomes-350. The two image page/CLUT pa
 use modes2 and1 respectively; both packed texture high halves use `lhu`.
 
 The initial active-slot query remains even though its result is unused.
-The established `model_slot_properties.h` signature is retained under
+The established `model_slot_support.h` (formerly `model_slot_properties.h`) signature is retained under
 `Model_SetSlotAmbient` (formerly `func_800595C8`): the helper clamps and
 writes the three components passed directly to `GsSetAmbient` by the
 resident model renderers. The entry ramps slot2 from2048 to-4096 and later

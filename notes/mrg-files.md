@@ -210,7 +210,7 @@ requested `0x18800` bytes exactly, and none supplies an executable module.
 See the [complete upload and F6 selection contract](dialog-portrait-bank.md).
 
 The argument initializes the event-script state at `D_8009B2A4`, not the
-archive location. Matching [`Main_RunCampaign`](../src/game/main_run_campaign.c)
+archive location. Matching [`Main_RunCampaign`](../src/game/main_mode_runners.c)
 passes `gCampaignSceneIndex`. When neither dialog-active nor started state
 intervenes, [`Script_RunTick`](../src/game/script_scene.c) uses a nonzero
 value directly to index the script's `u16` offset table. A zero state does

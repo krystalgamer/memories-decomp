@@ -40,7 +40,7 @@ remains unsized; there is no new eighteen-entry guard or assumption that
 all masked indexes are valid.
 
 The table is defined as `gTextBox_apfnStateCallbacks` in
-`text_commands.c`; its pointer types, initializers and call
+`duel_effect_text.c`; its pointer types, initializers and call
 expressions are unchanged.
 
 ## Regional expansion and linker names
@@ -65,7 +65,7 @@ The PAL-only pen helper consumes one little-endian halfword through
 `TextStream_ReadU16LE` and stores it into channel `+0x3A`, the existing
 unsigned pen-Y halfword. Its adjacent X setter and the reset-X/advance-Y
 handler independently establish that role. Only the definition identifier
-changes. `duel_effect_command.h` declares it under the existing
+changes. `duel_effect_text.h` (formerly `duel_effect_command.h`) declares it under the existing
 `VERSION_EUROPE` selector, and each PAL symbol file binds `Text_SetPenY` at
 its own address (`0x80038168` UK, `0x80038368` elsewhere).
 
@@ -76,7 +76,7 @@ claim the helper occupies NA's slot seven; native image adjacency is not
 a table-position proof. See [text-layout-commands.md](text-layout-commands.md).
 
 The script-completion callback already has its canonical C name, and
-`duel_effect_state_callbacks.h` declares it identically for every region.
+`duel_effect_text.h` (formerly `duel_effect_state_callbacks.h`) declares it identically for every region.
 Each PAL symbol file binds `TextBox_WaitForScriptCompletion` at its own
 address (`0x80037544` UK, `0x80037744` elsewhere) instead of the former
 `func_80037544` asm-label alias. It tests the existing
@@ -90,7 +90,7 @@ state table keeps this callback at slot ten. No identical regional table
 contents or lengths are inferred. See [text-script-bridge.md](text-script-bridge.md).
 
 The Japanese `Dialog_OpenChoice` entry was already canonical in the real
-C definition, `dialog_choice_state.h` and native linker symbols; only its
+C definition, `duel_effect_text.h` (formerly `dialog_choice_state.h`) and native linker symbols; only its
 inventory name was stale. It still returns the unchecked cursor allocation,
 configures the existing record-derived position, sets its sprite flags,
 selects ordering table one and applies the signed-byte depth offset from

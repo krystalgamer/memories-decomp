@@ -6,7 +6,7 @@ void CampaignMap_UpdateAlternateLocation(void)
     s32 r;
 
     if (D_800C4E68 & 4) {
-        D_8016A288->f8 ^= 0x40;
+        gCampaignMapAlt_pSpotlight->f8 ^= 0x40;
     }
     if (gCampaignMapAlt_bTransitionFlags != 0) {
         if (func_80169230()) {

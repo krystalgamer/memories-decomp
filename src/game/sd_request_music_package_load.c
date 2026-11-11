@@ -1,12 +1,11 @@
 #include "../types.h"
-#include "sd_reset_music_state.h"
+#include "sound_effect_request.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
 
 #include "sound.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 #include "sd_request_music_package_load.h"
-#include "../unmatched.h"
 
 s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
     SDValue *p = g_SDValue;

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant141_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* The entry scrolls a wavy background in and out, grows a tube from one of

@@ -2,11 +2,9 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT629_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/libgte.h"

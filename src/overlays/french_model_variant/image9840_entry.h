@@ -3,8 +3,8 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"
@@ -31,9 +31,7 @@ typedef struct {
 } Image9840Part;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, length, start_radius, end_radius;
     u16 tpage;

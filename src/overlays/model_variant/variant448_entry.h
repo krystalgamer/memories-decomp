@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "variant448_fan.h"
 #include "variant448_orbit.h"
 #include "variant448_radial.h"
@@ -36,10 +36,7 @@ typedef struct {
     u8 unknown_1A74[0x24];
     MATRIX matrix;
     VECTOR position;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant448EntryConfig *config;
     u32 field_1B14;

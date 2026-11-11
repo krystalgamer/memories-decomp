@@ -3,14 +3,9 @@
 #include "../../types.h"
 #include "model_variant.h"
 #include "../../game/camera_view.h"
-#include "../../game/model_copy_slot_position.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
 /* One 0x18-byte command record of the table at gModelVariant366_aConfigs. */
@@ -58,10 +53,7 @@ typedef struct {
     POLY_FT4 flat[2];
     u8 unknown_14AC[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant366Config *config;
     u8 unknown_153C[4];

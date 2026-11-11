@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
-#include "sound_output.h"
+#include "sound_driver.h"
 
 #define SD_VALUE_LINK_BLOCK_SIZE 0x800
 

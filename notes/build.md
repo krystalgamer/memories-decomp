@@ -508,7 +508,7 @@ directly, spimdisasm also emitted names at `0x8009AF76` and `0x8009AF7A`.
 Defining those two as separate objects would have produced byte-identical
 output and still been wrong, since they are positions inside an array rather
 than things in their own right. The bytes cannot detect this error, so the
-check has to come from the consumers: `display_object_helpers.h` had already
+check has to come from the consumers: `display_object_system.h` (formerly `display_object_helpers.h`) had already
 worked out the array shape and recorded that the two inner labels were once
 spelled privately.
 
@@ -747,12 +747,12 @@ and the answer follows the include graph rather than the name.
 `gMovie_bPlaybackState` is a movie playback state byte. `movie_playback_control.h`
 describes exactly what its bits mean and is the obvious home by name, but
 `main_boot_frontend.c` does not include that header at all, while all three
-consumers already include `graphics_frame.h`. Placing the declaration by what
+consumers already include `main.h` (formerly `graphics_frame.h`). Placing the declaration by what
 the include graph is, rather than by which subsystem the name sounds like,
 costs no new include and cannot strand a consumer.
 
-The same test decides whether a symbol is `unmatched.h` material at all. That
-header says it is for symbols that are still homeless, and the difference
+The same test decided whether a symbol was `unmatched.h` material at all. That
+header, now retired, was for symbols that are still homeless, and the difference
 between *homeless* and *merely undeclared* is whether the consumers share
 anything above `types.h`:
 
@@ -766,7 +766,7 @@ anything above `types.h`:
 
 `make check-unmatched-contracts` enforces both sides of that boundary. For
 functions it cross-references `functions.csv`, the matching-C source manifest,
-and `unmatched.h`: an unmatched function referenced by matching C must have
+and the central header if present: an unmatched function referenced by matching C must have
 one central declaration, and a file-local declaration is rejected unless its
 exact source and spelling appear in
 `unmatched_contract_exceptions.json`. The same check rejects declarations that
@@ -789,7 +789,7 @@ exception manifest; a recorded site that no longer calls implicitly is an
 error, so that list cannot go stale.
 
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
-matching C, and all resident headers. A symbol centralized in `unmatched.h`
+matching C, and all resident headers. A centrally declared symbol
 cannot remain locally declared, lose its linker assignment, or gain a
 subsystem-header declaration without making the check fail. Distinct guarded
 central views are allowed; exact duplicates are not. A measured local
@@ -806,17 +806,17 @@ thirty-one matching-C sites already including `unmatched.h`.
 
 The next batch demonstrates why the include intersection is evidence only
 after checking behavior. Twelve globals locally declared by
-`duel_scene.c` also appeared in files including `view_state.h`, but their
+`duel_scene.c` also appeared in files including `view_state_orbit.h` (formerly `view_state.h`), but their
 actual contract is narrower: the matching function publishes four targets,
 four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in
-`duel_view_tween.h`. The neighbouring frame count `D_8009B204` stays local:
+`duel_scene.h` (formerly `duel_view_tween.h`). The neighbouring frame count `D_8009B204` stays local:
 another writer declares it unsigned, so it is a separate divergent-contract
 question rather than a thirteenth member of the batch.
 
 Three multi-consumer symbols show the three outcomes of the same ownership
 test. `D_8009B2A0` is created by the scene-package initializer and toggled by
-its result-screen consumer, so it lives in `campaign_scene_package.h`.
+its result-screen consumer, so it lives in `script_scene.h` (formerly `campaign_scene_package.h`).
 `D_800EB184`, once named a four-object brightness pool, was an alias at
 `gText_aChannels + 0x8C`: the debug dim/restore helpers and the bust-up entry
 read text channel 1's `render_object`, now spelled
@@ -829,8 +829,7 @@ exit. The second combines the active mode with lifecycle flags 0x20, 0x40 and
 0x80. The current 38 resident/candidate/overlay consumers use plain byte
 scalars, incomplete arrays, and scalars forced into `.data`.
 `main_mode_state.h` is their single declaration owner, with independent
-selectors for each byte; `unmatched.h` forwards to it without repeating the
-declarations. Defaults deliberately preserve the current contract: scalar
+selectors for each byte. Defaults deliberately preserve the current contract: scalar
 NEXT and array ACTIVE. In particular, selecting only NEXT's `.data` view
 must not introduce an ACTIVE scalar into `Main_Init`.
 
@@ -895,7 +894,7 @@ A scan over declaration spellings reports both of these, and neither is work:
 
 - **Arms already in place.** Three guarded branches for one symbol inside one
   header are three spellings by text and one declaration in fact.
-  `gGraphics_bSyncVBlankTarget` in `graphics_frame.h` reads as a three-way conflict to a
+  `gGraphics_bSyncVBlankTarget` in `main.h` (formerly `graphics_frame.h`) reads as a three-way conflict to a
   regular expression.
 - **A semantic type against a raw view.** When some consumers have adopted a
   real type and others still reach the bytes, that is type adoption partly
@@ -953,7 +952,7 @@ declared it three ways:
 | `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
 | `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
 | `duel_scene.c` | `extern u8 gDuel_wOutcomeFlags[4]`, byte 2 | `R_MIPS_GPREL16` |
-| `src/game/main_run_duel_and_library.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/main_mode_runners.c` (`Main_RunDuel`) | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The byte view was a misreading. The `u16` users only test bits `0x1000` and
 `0x2000` at offset 0, `duel_scene.c` only touches byte 2, and the
@@ -990,7 +989,7 @@ scheduling lever for the exact 60-byte function.
 An earlier draft of this section claimed the opposite: that because
 `graphics_frame.c` *defines* its symbols rather than declaring them -- the
 definition being the lever that makes the assembler resolve a small global
-gp-relative -- `graphics_frame.h` could not declare them without colliding
+gp-relative -- `main.h` (formerly `graphics_frame.h`) could not declare them without colliding
 with the definition or quietly changing how the symbol resolves. That was
 wrong, and the tree now shows it plainly.
 
@@ -1149,7 +1148,7 @@ centralization target and is not one.
 
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
 `D_8009B26C[0]`: `debug_menu.c`,
-`duel_effect_sound_commands.c` (now `text_commands.c`), `build_deck.c`, `func_8002FA28.c`,
+`duel_effect_sound_commands.c` (now `duel_effect_text.c`), `build_deck.c`, `func_8002FA28.c`,
 `script_op_open_campaign_map.c`, `script_runtime.c` (both now in
 `script_scene.c`) and
 `debug_menu.c`. Seven identical
@@ -1177,7 +1176,7 @@ apart it takes `gDebug_nSceneOrSoundID` `GPREL16` and `D_8009B26C`
 small data; it is this symbol, at this site.
 
 **The profile does not choose the spelling.** All eight array-spelling
-consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
+consumers compile at `gcc_2_8_1_g8`. So does `Main_RunDebugMenu` (`main_mode_runners.c`), which uses the
 plain scalar, as did the former `main_run_credits.c`, `debug_menu_campaign_entry.c` and
 the former `func_8002A788.c`. Same compiler, same `-G8`, opposite spellings,
 both matching.
@@ -1192,10 +1191,12 @@ declarations would become eight local `#define`s and one indirection -- churn
 without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
-unmatched symbol, so it is out of scope for the `unmatched.h` work: two
-units define it -- `main_mode_runners.c`, which now also holds the two-player
-duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_comm`
-profiles. And nothing anywhere indexes above `[0]`, which is what the next
+unmatched symbol, so it is out of scope for the `unmatched.h` work. Two
+units used to define it as common symbols under the `*_comm` profiles: the
+runner unit that also held the two-player duel setup, and the one holding
+`Main_RunAnimatedBattle`. Both now belong to the one combined
+`main_mode_runners.c`, which keeps each of those repeated tentative definitions
+where the former units had it. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `debug_menu.c` and
 [`Script_OpSavePrompt`](../src/game/script_scene.c). `D_8009B26C` is a

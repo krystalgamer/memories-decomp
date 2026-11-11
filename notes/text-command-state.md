@@ -1,7 +1,7 @@
 # Shared text command publication and continuation state
 
 Four existing identities connect the
-[`TextBox_BuildStep`](../src/game/text_commands.c) dispatcher,
+[`TextBox_BuildStep`](../src/game/duel_effect_text.c) dispatcher,
 its command handlers and choice-label layout. They are shared cells and
 an interior table alias, not a new interpreter object or per-channel state.
 

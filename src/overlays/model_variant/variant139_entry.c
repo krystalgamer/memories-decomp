@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant139_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry spins two textured tubes that swirl around a centre sliding
  * towards the other slot, trails a column of beam sprites behind each swirl

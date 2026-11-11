@@ -6,14 +6,12 @@
 #include "../psyq/strings.h"
 #include "../psyq/stdio.h"
 #include "model_geometry_tables.h"
-#include "model_get_slot_dimensions_with_minimums.h"
-#include "model_get_frame_step.h"
-#include "model_copy_slot_position.h"
+#include "model.h"
+#include "model_slot_getters.h"
+#include "model_slot_support.h"
 #include "gpu_packets.h"
 #include "model_subdivided_effect.h"
 #include "triangle_subdivision.h"
-#include "model_graphics_state.h"
-#include "screen_projection.h"
 
 /* Initialized data this unit owns at 0x800915E8 through 0x800916E0, previously a generated
    blob (#2602).

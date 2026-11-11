@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant72_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 72's entry: a ribbon trails behind the slot's parts, one row recorded
  * a frame and shaded from the start to the end colour; two fans of triangles

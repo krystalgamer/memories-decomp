@@ -8,7 +8,7 @@ its display-object and score prefix. The unmatched `DuelScene_UpdateResultReward
 the same record through offset `+0x3D`, covering page selection, rank axis,
 starchip prize, and the selected card drop.
 
-`DuelResultDisplayState` in `duel_result_display.h` now models the complete
+`DuelResultDisplayState` in `duel_scene.h` (formerly `duel_result_display.h`) now models the complete
 `0x40`-byte extent used by the result flow.
 
 ## Layout
@@ -98,7 +98,7 @@ The campaign credit path:
 4. awards `dropped_card_id`.
 
 The password shop reads and deducts the same `gLibrary_dwStarchips` object.
-Its declaration now lives in `save_data.h`; the module-specific `shop.h`
+Its declaration now lives in `mem_card.h` (formerly `save_data.h`); the module-specific `shop.h`
 declaration was redundant.
 
 The alternate post-duel branch increments per-save win/loss halfwords at

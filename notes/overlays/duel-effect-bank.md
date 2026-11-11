@@ -259,7 +259,7 @@ observed call at `0x80086B38` binds to SDK `csin`, not `rsin`
 | Explicit radius and sine temporaries with conditional negation | Complete image is 68 bytes short, with different expression scheduling. |
 | Conditional expressions containing each sine call | Complete image is 144 bytes too long. |
 | Explicit temporaries with `gcc_2_8_1_g0_split_no_cse_follow_jumps` | Same 68-byte-short output. |
-| Explicit temporaries with `gcc_2_8_1_g0_split_no_strength_reduce` | Same 68-byte-short output. |
+| Explicit temporaries with `gcc_2_8_1_g0_split_no_strength_reduce` (since retired) | Same 68-byte-short output. |
 | Single sine call assigned within each coordinate expression | Complete image is 12 bytes too long. |
 
 Sources and trial logs for these rejected experiments remain under
@@ -378,7 +378,7 @@ was not used as a substitute for the independent French build.
 
 The only new external binding is `D_8009B300 = 0x8009C688`, independently
 confirmed by the French resident linker map. The color header already reuses
-the resident declaration from `src/game/sorted_entry.h`. This word remains
+the resident declaration from `src/game/sorted_entry_render.h`. This word remains
 resident-owned; no overlay storage, guessed allocation or overriding alias
 for module data is introduced. Existing packet globals and texture-prefix
 data retain their generated storage.

@@ -3,16 +3,11 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_frame_step.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 
 /* One 0x34-byte command record of the table at 0x8013DD30. */
 typedef struct {
@@ -65,10 +60,7 @@ typedef struct {
     u8 unknown_2E60[0x24];
     MATRIX matrix;
     VECTOR origin;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;

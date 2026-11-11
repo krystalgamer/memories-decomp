@@ -2040,8 +2040,9 @@ remain unchanged.
 
 `SD_StepActiveCommand` owns the 82-entry dispatch table at `0x80010578`:
 `split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
-`src/game/sd_step_active_command.c`. The remaining prefix of `initial_data_1e3`
-and the following `SD_CancelMusicRequests` table retain their existing owners.
+`src/game/sound_output_state.c`, which now also owns the `SD_CancelMusicRequests`
+table after it. The remaining prefix of `initial_data_1e3`
+retains its existing owner.
 
 The command pump keeps the target's cached-versus-reloaded state pointers.
 In particular, it reads packed command words and transfer offsets before

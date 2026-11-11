@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "duel_card_stat_rules.h"
-#include "duel_terrain_boost.h"
+#include "duel_scene.h"
 #include "card_constants.h"
 #include "duel_card.h"
 

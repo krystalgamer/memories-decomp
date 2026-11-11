@@ -1,25 +1,15 @@
 #include "../types.h"
 #include "model_update_view_metrics.h"
-#include "model_copy_slot_position.h"
+#include "model_slot_support.h"
 #include "../psyq/memory.h"
 #include "model.h"
-#include "model_transfer_flags.h"
-#include "model_queue_relative_camera_orbit.h"
-#include "model_effect_state.h"
+#include "model_camera_effects.h"
 #include "camera_view.h"
-#include "model_keyframe_spline.h"
-#include "model_get_slot_readiness.h"
-#include "model_get_frame_step.h"
-#include "model_step_view_orbit.h"
+#include "model_slot_getters.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
-#include "../unmatched.h"
-#include "model_effect_coefficients.h"
 #include "model_effect_endpoints.h"
-#include "model_effect_requests.h"
-#include "model_slot_support.h"
-#include "model_transfer_state.h"
-#include "model_cubic_coefficients.h"
+#include "model_scene_runtime.h"
 
 /* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
  *
@@ -1004,17 +994,10 @@ void Model_QueueEffectEndpointSequences(
             p2 = p2 + 1;
         }
 
-        if (p1 != 0 &&
-            *(s16 *)&p1->kind != 0) {
-            goto cont;
-        }
-        if (p2 == 0) {
+        if ((p1 == 0 || *(s16 *)&p1->kind == 0) &&
+            (p2 == 0 || *(s16 *)&p2->kind == 0)) {
             return;
         }
-        if (*(s16 *)&p2->kind == 0) {
-            return;
-        }
-cont:
         if (count > 0) {
             count--;
         }
@@ -1041,65 +1024,55 @@ void Model_ApplyEffectKeyQueueCommand(
         return;
     }
 
-    if (mode == one) {
-        goto m1;
-    }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto m0;
+    switch (mode) {
+    case 0:
+        Model_RequestCameraMove(-1);
+        gModel_pCurrentEffectKey = gModel_aEffectKeys;
+        gModel_bEffectKeyCount = 0;
+        if (first == (ModelEffectEndpoint *)0 &&
+            second == (ModelEffectEndpoint *)0 &&
+            (magnitude == 0 || magnitude == 0x4000)) {
+            return;
         }
-        return;
-    }
-    if (mode == 2) {
-        goto m2;
-    }
-    return;
+        Model_CaptureKeyframePose(0);
+        gModel_bEffectKeyPreparationPending = 1;
+        /* fall through */
 
-m0:
-    Model_RequestCameraMove(-1);
-    gModel_pCurrentEffectKey = gModel_aEffectKeys;
-    gModel_bEffectKeyCount = 0;
-    if (first == (ModelEffectEndpoint *)0 &&
-        second == (ModelEffectEndpoint *)0 &&
-        (magnitude == 0 || magnitude == 0x4000)) {
-        return;
-    }
-    Model_CaptureKeyframePose(0);
-    gModel_bEffectKeyPreparationPending = 1;
-
-m1:
-    if (gModel_bEffectKeyCount < 0xA) {
-        Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
-        append_key_bytes = KEY_BYTES(key);
-        if (first != (ModelEffectEndpoint *)0) {
-            key->requested[0] = *first;
-        } else {
-            key->requested[0].kind = 0;
+    case 1:
+        if (gModel_bEffectKeyCount < 0xA) {
+            Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
+            append_key_bytes = KEY_BYTES(key);
+            if (first != (ModelEffectEndpoint *)0) {
+                key->requested[0] = *first;
+            } else {
+                key->requested[0].kind = 0;
+            }
+            if (second != (ModelEffectEndpoint *)0) {
+                key->requested[1] = *second;
+                key->ready = 0;
+            } else {
+                key->requested[1].kind = 0;
+                key->ready = 0;
+            }
+            queued_count = gModel_bEffectKeyCount;
+            key->magnitude = magnitude;
+            key->duration = 0;
+            key->progress = 0;
+            gModel_bEffectKeyCount = queued_count + 1;
         }
-        if (second != (ModelEffectEndpoint *)0) {
-            key->requested[1] = *second;
-            key->ready = 0;
-        } else {
-            key->requested[1].kind = 0;
-            key->ready = 0;
-        }
-        queued_count = gModel_bEffectKeyCount;
-        key->magnitude = magnitude;
-        key->duration = 0;
-        key->progress = 0;
-        gModel_bEffectKeyCount = queued_count + 1;
-    }
-    return;
+        break;
 
-m2:
-    next_key_bytes = KEY_BYTES(gModel_aEffectKeys);
-    for (key_index = 0; key_index < gModel_bEffectKeyCount; key_index++) {
-        prepare_key_bytes = next_key_bytes;
-        next_key_bytes += 0x28;
-        Model_PrepareEffectKey((Key *)prepare_key_bytes);
+    case 2:
+        next_key_bytes = KEY_BYTES(gModel_aEffectKeys);
+        for (key_index = 0; key_index < gModel_bEffectKeyCount; key_index++) {
+            prepare_key_bytes = next_key_bytes;
+            next_key_bytes += 0x28;
+            Model_PrepareEffectKey((Key *)prepare_key_bytes);
+        }
+        gModel_bEffectKeyPreparationPending = 0;
+        gModel_nEffectKeyBatchOrdinal = -1;
+        break;
     }
-    gModel_bEffectKeyPreparationPending = 0;
-    gModel_nEffectKeyBatchOrdinal = -1;
 }
 
 void Model_ResetEffectKeyQueue(void)

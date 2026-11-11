@@ -2,23 +2,17 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT121_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_queries.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_state_updates.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_effect_state.h"
-#include "../../game/model_effect_requests.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_camera_effects.h"
 #include "../../game/model_queue_tint_request.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "../../game/screen_projection.h"
 
 /* One 0x20-byte command row: the box and line, trail and flash colours, the
  * glow colour and camera part, the particle spread, the trail and glow quad
