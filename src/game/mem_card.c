@@ -2242,19 +2242,18 @@ void MemCardDialog_Update(void)
                 return;
             }
             TextBox_BuildBlocking(p);
-            goto b14;
-        }
-        TextBox_UpdateChannels();
-        p = &gText_aChannels[gMemCardDialog_ChannelIndex];
+        } else {
+            TextBox_UpdateChannels();
+            p = &gText_aChannels[gMemCardDialog_ChannelIndex];
 #ifdef VERSION_EUROPE
-        if ((*(s32 *)&p->flags_34 & 0x2010) !=
+            if ((*(s32 *)&p->flags_34 & 0x2010) !=
 #else
-        if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
+            if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
 #endif
-            TEXT_BOX_FLAG_DONE) {
-            return;
+                TEXT_BOX_FLAG_DONE) {
+                return;
+            }
         }
-    b14:
         t = gMemCard_wDialogFlags;
         u = t & 8;
         gMemCard_wDialogFlags =
