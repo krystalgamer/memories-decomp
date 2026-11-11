@@ -354,21 +354,12 @@ s32 SD_HasQueuedStreamCommand(void) {
 
     for (i = 1; i < g_SDValue->s_wSD_NUM_COMMAND; i++) {
         s32 c = g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command;
-        if (c == 0x20) {
-            goto found;
+        switch (c) {
+        case 0x11:
+        case 0x20:
+        case 0x24:
+            return 1;
         }
-        if (c < 0x21) {
-            if (c == 0x11) {
-                goto found;
-            }
-            continue;
-        } else {
-            if (c != 0x24) {
-                continue;
-            }
-        }
-    found:
-        return 1;
     }
     return 0;
 }
@@ -655,22 +646,18 @@ s32 SD_EnqueueCommand(SDCommand *src) {
 
     capacity_state = g_SDValue;
     capacity_count = capacity_state->s_wSD_NUM_COMMAND;
-    if (capacity_count >= SD_COMMAND_QUEUE_COUNT) {
-        goto full;
-    }
-    {
+    if (capacity_count < SD_COMMAND_QUEUE_COUNT) {
         capacity_state->s_uSD_COMMAND_QUEUE.c[capacity_count].command = src->command;
+
+        write_state = g_SDValue;
+        write_index = write_state->s_wSD_NUM_COMMAND;
+        write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
+
+        count_state = g_SDValue;
+        one = 1;
+        count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
+        return one;
     }
-
-    write_state = g_SDValue;
-    write_index = write_state->s_wSD_NUM_COMMAND;
-    write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
-
-    count_state = g_SDValue;
-    one = 1;
-    count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
-    return one;
-full:
     return 0;
 }
 
