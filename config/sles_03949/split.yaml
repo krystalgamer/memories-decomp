@@ -81,8 +81,7 @@ segments:
       - [0xCA4, .rodata, game/european/main_boot_screen]
       - {start: 0xCC4, type: bin, name: german_raw_800104c4, linker_section_order: .rodata}
       - [0xCD4, .rodata, game/mem_card_driver]
-      - [0xD04, .rodata, game/sd_step_active_command]
-      - [0xE4C, .rodata, game/sd_cancel_music_requests]
+      - [0xD04, .rodata, game/sound_output_state]
       - [0xF10, .rodata, game/european/sound_driver]
       - {start: 0xF60, type: bin, name: german_raw_80010760, linker_section_order: .rodata}
       - [0x1BF0, .rodata, game/european/model]
@@ -170,12 +169,6 @@ segments:
       - [0x34A04, c, game/mem_card_driver]
       - [0x359B8, c, game/spanish/mem_card_io_result_callbacks]
       - [0x35A04, c, game/sound_output_state]
-      - [0x36118, c, game/sd_arm_busy_callback]
-      - [0x36140, c, game/sd_has_queued_stream_command]
-      - [0x361D0, c, game/sd_step_active_command]
-      - [0x368A4, c, game/sound_runtime]
-      - [0x36F50, c, game/sd_cancel_music_requests]
-      - [0x371AC, c, game/sd_drop_queued_cd_play_commands]
       - [0x37328, c, game/european/sound_driver]
       - [0x38110, c, game/sd_init_voice_state]
       - [0x382CC, c, game/sound_pending_entries]

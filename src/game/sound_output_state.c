@@ -333,3 +333,656 @@ void SD_ClearBusyFlag(void)
     g_SDValue->s_bSD_BUSY = 0;
 }
 #endif
+
+#include "file_transfer.h"
+#include "sound.h"
+#include "sound_output_state.h"
+
+/* Retail stores through both globals with the one-line macro form (lui and
+ * %lo at each use, never $gp). */
+void SD_ArmBusyCallback(void) {
+    g_SDValue->s_bSD_BUSY = 1;
+    gFile_SecondaryPayloadCompleteCallback = SD_ClearBusyFlag;
+}
+
+#include "sound.h"
+
+/* Scans entries [1, count) for one carrying a space (0x20), the 0x11
+   CD-track marker, or a '$' (0x24) in f0; returns 1 on the first hit. */
+s32 SD_HasQueuedStreamCommand(void) {
+    s32 i;
+
+    for (i = 1; i < g_SDValue->s_wSD_NUM_COMMAND; i++) {
+        s32 c = g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command;
+        if (c == 0x20) {
+            goto found;
+        }
+        if (c < 0x21) {
+            if (c == 0x11) {
+                goto found;
+            }
+            continue;
+        } else {
+            if (c != 0x24) {
+                continue;
+            }
+        }
+    found:
+        return 1;
+    }
+    return 0;
+}
+
+#include "sound_transfer_lifecycle.h"
+#include "file_transfer.h"
+#include "sound.h"
+#include "sound_pending_entries.h"
+#include "sound_output_state.h"
+#include "sound_sequence_timing.h"
+#include "../ygo_types.h"
+
+#include "sound_command_index.h"
+
+void SD_StepActiveCommand(void)
+{
+    SDValue *entry_state;
+    u32 first_word;
+    u32 second_word;
+
+    switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
+    case 81:
+        SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2,
+                     (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
+        goto clear_7d_7c;
+
+    case 32:
+        switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
+        case 0:
+            if (File_RequestSecondarySlot(0, 0) != 0) {
+                return;
+            }
+            if (g_SDValue->s_dwSD_TRANSFER_HOLD != 0) {
+                return;
+            }
+            {
+                SDValue *transfer_state = g_SDValue;
+                FileRequestSlot *request = gSD_pFileRequest;
+                s32 spu_size;
+
+                request->ram_destination = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[4];
+                request->spu_destination = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[3];
+                request->sector_offset = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[1];
+                request->ram_transfer_size = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[6];
+                spu_size = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[5];
+                request->cd_filter_channel = 0;
+                request->range_sector_count = 0;
+                request->spu_transfer_size = spu_size;
+                gSD_pFileRequest->cd_filter_file = 0;
+            }
+            gSD_pFileRequest->file_selector = (s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0];
+            if (gSD_pFileRequest->ram_transfer_size == 0 && gSD_pFileRequest->spu_transfer_size == 0) {
+                g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+                goto clear_7c;
+            }
+            switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
+            case 0x10:
+                gSD_pFileRequest->file_selector = 4;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_SE_FILE);
+                break;
+            case 0x20:
+                gSD_pFileRequest->file_selector = 5;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_BGM_FILE);
+                break;
+            case 0x40:
+                gSD_pFileRequest->file_selector = 6;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_MASTER_XA_FILE);
+                break;
+            }
+            SD_ArmBusyCallback();
+            g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE + 1;
+            return;
+        case 1:
+            break;
+        default:
+            return;
+        }
+        if (g_SDValue->s_bSD_BUSY != 0) {
+            return;
+        }
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
+            return;
+        }
+        g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFFFC;
+        return;
+
+    case 17:
+        switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
+        case 0:
+            if (g_SDValue->s_wSD_CD_VOLUME == 0) {
+                g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 1;
+                return;
+            }
+            if (g_SDValue->s_wSD_CD_FADE_STEP < 0) {
+                return;
+            }
+            g_SDValue->s_wSD_CD_FADE_STEP = -0x20;
+            g_SDValue->s_bSD_CD_FADE_TARGET = 0;
+            return;
+        case 1:
+            break;
+        default:
+            return;
+        }
+        g_SDValue->s_wSD_CD_REQUEST_CODE = 0xFFFF;
+        if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
+            goto clear_7d_7c;
+        }
+        {
+            SDValue *sd = g_SDValue;
+            u16 flags = sd->s_wSD_STATUS;
+            sd->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+            sd->s_wSD_STATUS = flags & 0xFFF8;
+            g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        }
+        return;
+
+    case 33:
+        if (File_RequestSecondarySlot(0, 0) != 0) {
+            goto clear_7d_7c;
+        }
+        {
+            SoundCommandPair *descriptor;
+            s32 bank_sector_offset;
+
+            first_word = 0xFFFFFF;
+            descriptor = (SoundCommandPair *)(
+                (u32)&((SoundCommandPair *)0)[g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE]
+                + (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2);
+            second_word = descriptor->a;
+
+            gSD_pFileRequest->ram_destination = 0;
+            gSD_pFileRequest->ram_transfer_size = 0;
+            gSD_pFileRequest->spu_destination = 0;
+            gSD_pFileRequest->spu_transfer_size = 0;
+            gSD_pFileRequest->range_sector_count = 0;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->s_bSD_CD_FILTER_CHANNEL;
+            second_word &= first_word;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
+            bank_sector_offset = (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
+            gSD_pFileRequest->file_selector = 6;
+            second_word += bank_sector_offset;
+            gSD_pFileRequest->sector_offset = second_word;
+            File_RequestSecondarySlot(gSD_pFileRequest, 0);
+        }
+        goto clear_7d_7c;
+
+    case 36:
+        if (File_RequestSecondarySlot(0, 0) != 0) {
+            goto clear_7d_7c;
+        }
+        {
+            u32 value_mask = 0xFFFFFF;
+            SoundCommandPair *descriptor;
+            s32 start_sector_offset;
+            u32 relative_start_sector;
+
+            entry_state = g_SDValue;
+            descriptor = (SoundCommandPair *)((u32)entry_state->s_wSD_ACTIVE_COMMAND_VALUE * 8
+                                     + (u32)entry_state->s_dwSD_ACTIVE_COMMAND_ARG2);
+            first_word = descriptor->a;
+            second_word = descriptor->b;
+
+            relative_start_sector = first_word & value_mask;
+            value_mask &= second_word;
+            entry_state->s_dwSD_CD_START_SECTOR = relative_start_sector;
+            entry_state->s_bSD_CD_FILTER_FILE = (first_word & 0x1F000000) >> 24;
+            entry_state->s_dwSD_CD_END_SECTOR = value_mask;
+            g_SDValue->s_bSD_CD_FILTER_CHANNEL = (second_word & 0x1F000000) >> 24;
+            second_word >>= 31;
+            g_SDValue->s_bSD_CD_DESCRIPTOR_FLAG = second_word;
+            first_word >>= 29;
+            g_SDValue->s_bSD_CD_MIX_MULTIPLIER = first_word;
+            g_SDValue->s_dwSD_CD_START_SECTOR =
+                g_SDValue->s_dwSD_CD_START_SECTOR + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
+            g_SDValue->s_dwSD_CD_END_SECTOR =
+                g_SDValue->s_dwSD_CD_END_SECTOR + (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
+            gSD_pFileRequest->ram_destination = 0;
+            gSD_pFileRequest->ram_transfer_size = 0;
+            gSD_pFileRequest->spu_destination = 0;
+            gSD_pFileRequest->spu_transfer_size = 0;
+            gSD_pFileRequest->range_sector_count = (u16)g_SDValue->s_dwSD_CD_END_SECTOR
+                                   - (u16)g_SDValue->s_dwSD_CD_START_SECTOR + 0x10;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->s_bSD_CD_FILTER_CHANNEL;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
+            start_sector_offset = g_SDValue->s_dwSD_CD_START_SECTOR;
+            gSD_pFileRequest->file_selector = 6;
+            gSD_pFileRequest->sector_offset = start_sector_offset;
+            File_RequestSecondarySlot(gSD_pFileRequest, 0);
+        }
+        goto clear_7d_7c;
+
+    case 41:
+    case 42:
+        if (g_SDValue->s_bSD_ACTIVE_CD_FADE_WAIT != 0 && g_SDValue->s_wSD_CD_FADE_STEP != 0) {
+            return;
+        }
+        g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        goto clear_7d;
+
+    case 72:
+        if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
+            SDMusicPackage *list = (SDMusicPackage *)g_SDValue->s_pwSD_MUSIC_TRACK;
+
+            g_SDValue->s_wSD_MUSIC_VAB_ID = SD_VabOpenHead(
+                &list->vab_header, 0, list->spu_address
+            );
+            if ((s16)g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
+                g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+                return;
+            }
+        }
+        if (g_SDValue->s_wSD_SEQ_ACCESS == 0) {
+            if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
+                SD_StopSequence(0);
+                SD_SetSecondaryMasterLevels(0, 0);
+                g_SDValue->s_wSD_SEQ_FADE_LEVEL = 0;
+                g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+                g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
+            }
+            SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
+            g_SDValue->s_wSD_SEQ_ACCESS = -1;
+        }
+        {
+            CommandIndexTable *l;
+            u32 i;
+
+            entry_state = g_SDValue;
+            l = (CommandIndexTable *)entry_state->s_pwSD_MUSIC_TRACK;
+            i = entry_state->s_wSD_ACTIVE_COMMAND_VALUE & 0xF;
+
+            if (i >= l->count) {
+                g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+                return;
+            }
+            g_SDValue->s_wSD_SEQ_ACCESS = SD_OpenSequence(
+                (u8 *)(
+                    (u32)&((u8 (*)[16])0)[l->index_records[i][0]] + (u32)l),
+                                             entry_state->s_wSD_MUSIC_VAB_ID);
+            if ((s16)g_SDValue->s_wSD_SEQ_ACCESS == 0) {
+                g_SDValue->s_wSD_OPEN_SEQUENCE_COMMAND = g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE;
+                SD_PlaySequence(1, 1);
+                {
+                    SDValue *sd = g_SDValue;
+                    sd->s_bSD_SEQ_FADE_TARGET = 0xFF;
+                    sd->s_wSD_STATUS = sd->s_wSD_STATUS | 0x80;
+                    sd->s_wSD_SEQ_FADE_STEP = (u16)sd->s_dwSD_ACTIVE_COMMAND_ARG1;
+                }
+            }
+        }
+        g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        goto clear_7d;
+
+    case 0:
+        break;
+    }
+
+    goto clear_7d_7c;
+
+clear_7d:
+    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+    return;
+
+clear_7d_7c:
+    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+clear_7c:
+    g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+}
+
+#include "sound_output_state.h"
+#include "../psyq/libspu.h"
+#include "sound.h"
+#include "sound_voice_constants.h"
+
+s32 SD_EnqueueCommand(SDCommand *src) {
+    SDValue *capacity_state;
+    SDValue *write_state;
+    SDValue *count_state;
+    s32 capacity_count;
+    s32 write_index;
+    s32 one;
+
+    capacity_state = g_SDValue;
+    capacity_count = capacity_state->s_wSD_NUM_COMMAND;
+    if (capacity_count >= SD_COMMAND_QUEUE_COUNT) {
+        goto full;
+    }
+    {
+        capacity_state->s_uSD_COMMAND_QUEUE.c[capacity_count].command = src->command;
+    }
+
+    write_state = g_SDValue;
+    write_index = write_state->s_wSD_NUM_COMMAND;
+    write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
+
+    count_state = g_SDValue;
+    one = 1;
+    count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
+    return one;
+full:
+    return 0;
+}
+
+void SD_UpdateFades(void) {
+    u8 secondary_mix_changed;
+    s16 output_level;
+
+    secondary_mix_changed = 0;
+    if (g_SDValue->s_wSD_SEQ_FADE_STEP != 0) {
+        g_SDValue->s_wSD_SEQ_FADE_LEVEL += g_SDValue->s_wSD_SEQ_FADE_STEP;
+        secondary_mix_changed = 1;
+        if (g_SDValue->s_wSD_SEQ_FADE_LEVEL <= g_SDValue->s_bSD_SEQ_FADE_TARGET &&
+            g_SDValue->s_wSD_SEQ_FADE_STEP < 0) {
+            g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+            g_SDValue->s_wSD_SEQ_FADE_LEVEL = g_SDValue->s_bSD_SEQ_FADE_TARGET;
+        }
+        if (g_SDValue->s_wSD_SEQ_FADE_LEVEL >= g_SDValue->s_bSD_SEQ_FADE_TARGET &&
+            g_SDValue->s_wSD_SEQ_FADE_STEP > 0) {
+            g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
+            g_SDValue->s_wSD_SEQ_FADE_LEVEL = g_SDValue->s_bSD_SEQ_FADE_TARGET;
+        }
+    }
+    if (g_SDValue->s_wSD_BGM_FADE_STEP != 0) {
+        g_SDValue->s_wSD_BGM_FADE_LEVEL += g_SDValue->s_wSD_BGM_FADE_STEP;
+        secondary_mix_changed = 1;
+        if (g_SDValue->s_wSD_BGM_FADE_LEVEL <= g_SDValue->s_bSD_BGM_FADE_TARGET &&
+            g_SDValue->s_wSD_BGM_FADE_STEP < 0) {
+            g_SDValue->s_wSD_BGM_FADE_STEP = 0;
+            g_SDValue->s_wSD_BGM_FADE_LEVEL = g_SDValue->s_bSD_BGM_FADE_TARGET;
+        }
+        if (g_SDValue->s_wSD_BGM_FADE_LEVEL >= g_SDValue->s_bSD_BGM_FADE_TARGET &&
+            g_SDValue->s_wSD_BGM_FADE_STEP > 0) {
+            g_SDValue->s_wSD_BGM_FADE_STEP = 0;
+            g_SDValue->s_wSD_BGM_FADE_LEVEL = g_SDValue->s_bSD_BGM_FADE_TARGET;
+        }
+    }
+    if (secondary_mix_changed) {
+        u16 scaled_mix;
+
+        scaled_mix = g_SDValue->s_wSD_SMF_MIXER_OUT;
+        if (scaled_mix) {
+            scaled_mix *= g_SDValue->s_wSD_BGM_FADE_LEVEL + 1;
+            scaled_mix >>= 8;
+        } else {
+            scaled_mix = 0;
+        }
+        if (scaled_mix) {
+            scaled_mix *= g_SDValue->s_wSD_SEQ_FADE_LEVEL + 1;
+            scaled_mix >>= 8;
+        } else {
+            scaled_mix = 0;
+        }
+        output_level = scaled_mix;
+        SD_SetSecondaryMasterLevels(output_level, output_level);
+    }
+    if (g_SDValue->s_wSD_CD_FADE_STEP != 0) {
+        g_SDValue->s_wSD_CD_VOLUME += g_SDValue->s_wSD_CD_FADE_STEP;
+        if (g_SDValue->s_wSD_CD_VOLUME <= g_SDValue->s_bSD_CD_FADE_TARGET &&
+            g_SDValue->s_wSD_CD_FADE_STEP < 0) {
+            g_SDValue->s_wSD_CD_FADE_STEP = 0;
+            g_SDValue->s_wSD_CD_VOLUME = g_SDValue->s_bSD_CD_FADE_TARGET;
+        }
+        if (g_SDValue->s_wSD_CD_VOLUME >= g_SDValue->s_bSD_CD_FADE_TARGET &&
+            g_SDValue->s_wSD_CD_FADE_STEP > 0) {
+            g_SDValue->s_wSD_CD_FADE_STEP = 0;
+            g_SDValue->s_wSD_CD_VOLUME = g_SDValue->s_bSD_CD_FADE_TARGET;
+        }
+        output_level = g_SDValue->s_wSD_CD_VOLUME;
+        SD_SetCdVolume(output_level);
+    }
+}
+
+void SD_UpdateRuntime(void)
+{
+    SDValue *state;
+    SDCommand *command_cursor;
+    s32 key_off_mask;
+    s32 shifted_count;
+    s32 queue_byte_offset;
+    s32 flags_or_command;
+    SDValue *loop_state;
+    SDValue *queue_state;
+    SDValue *tail_state;
+
+    SpuGetAllKeysStatus((char *)g_SDValue->s_abSD_VOICE_KEY_STATUS);
+    state = g_SDValue;
+    key_off_mask = (state->s_abSD_VOICE_KEY_STATUS[20] == 3) << SD_VOICE_SLOT_KEY_SHIFT;
+    if (state->s_abSD_VOICE_KEY_STATUS[21] == 3) {
+        key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 1;
+    }
+    if (state->s_abSD_VOICE_KEY_STATUS[22] == 3) {
+        key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 2;
+    }
+    if (state->s_abSD_VOICE_KEY_STATUS[23] == 3) {
+        key_off_mask |= SD_VOICE_SLOT_MASK_BASE << 3;
+    }
+    if (key_off_mask != 0) {
+        SpuSetKey(0, key_off_mask);
+    }
+
+    state = g_SDValue;
+    if ((state->s_wSD_STATUS & 0x80) != 0 &&
+        state->s_wSD_SEQ_ACCESS != -1 &&
+        SD_PollSequenceState() != 1) {
+        SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
+        state = g_SDValue;
+        flags_or_command = state->s_wSD_STATUS;
+        state->s_wSD_SEQ_FADE_STEP = -0x80;
+        state->s_bSD_SEQ_FADE_TARGET = 0;
+        flags_or_command &= 0xFF7F;
+        state->s_wSD_STATUS = flags_or_command;
+    }
+
+    SD_UpdateFades();
+    state = g_SDValue;
+    if (state->s_bSD_ACTIVE_COMMAND != 0) {
+        SD_StepActiveCommand();
+        return;
+    }
+    if (state->s_wSD_NUM_COMMAND == 0) {
+        return;
+    }
+    command_cursor = &state->s_uSD_COMMAND_QUEUE.c[0];
+    /* Separate bodies preserve equality dispatch instead of case ranges;
+       cross-jumping still shares the emitted bodies. */
+    flags_or_command = state->s_uSD_COMMAND_QUEUE.c[0].command;
+    switch (flags_or_command) {
+    case 0x44:
+        if (state->s_wSD_SEQ_FADE_STEP == 0) {
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->args.fade.step;
+            state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
+        }
+        break;
+    case 0x45:
+        if (state->s_wSD_SEQ_FADE_STEP == 0) {
+            state->s_wSD_SEQ_FADE_STEP = (u16)command_cursor->args.fade.step;
+            state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
+        }
+        break;
+    case 0x29:
+        if (state->s_wSD_CD_FADE_STEP == 0) {
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->args.fade.step;
+            state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
+        }
+        break;
+    case 0x2A:
+        if (state->s_wSD_CD_FADE_STEP == 0) {
+            state->s_wSD_CD_FADE_STEP = (u16)command_cursor->args.fade.step;
+            state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
+        }
+        break;
+    }
+
+    state = g_SDValue;
+    state->s_bSD_ACTIVE_COMMAND = command_cursor->command;
+    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+    state = g_SDValue;
+    state->s_wSD_ACTIVE_COMMAND_VALUE = (u16)command_cursor->value;
+    state->s_dwSD_ACTIVE_COMMAND_ARG0 = command_cursor->args.raw.arg0;
+    state->s_dwSD_ACTIVE_COMMAND_ARG1 = command_cursor->args.raw.arg1;
+    state->s_dwSD_ACTIVE_COMMAND_ARG2 = command_cursor->args.raw.arg2;
+    state->s_bSD_ACTIVE_CD_FADE_WAIT = command_cursor->wait_for_cd_fade;
+    /* The second global read preserves separate pointers for the tail copy
+       and queue bookkeeping after CSE. */
+    tail_state = g_SDValue;
+    *(SDCommandTail *)&tail_state->s_adwSD_ACTIVE_COMMAND_TAIL[0] = *(SDCommandTail *)&command_cursor->transfer_selector;
+    queue_state = g_SDValue;
+    queue_state->s_wSD_DEQUEUE_MARK = 8;
+    queue_state->s_wSD_NUM_COMMAND = queue_state->s_wSD_NUM_COMMAND - 1;
+    SD_StepActiveCommand();
+
+    loop_state = g_SDValue;
+    command_cursor++;
+    shifted_count = 0;
+    if (loop_state->s_wSD_NUM_COMMAND <= 0) {
+        return;
+    }
+    queue_byte_offset = 0;
+    do {
+        /* Base-plus-offset order matters here. The byte store indexes the
+           queue's byte view, whose ARRAY_REF keeps it; the block copy stays
+           a byte-address sum, because &commands.b[queue_byte_offset] puts the offset
+           first. sound.h checks the queue offset. */
+        loop_state->s_uSD_COMMAND_QUEUE.b[queue_byte_offset] = command_cursor->command;
+        *(SDCommand *)((u8 *)g_SDValue + queue_byte_offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
+            *command_cursor;
+        queue_byte_offset += sizeof(SDCommand);
+        loop_state = g_SDValue;
+        shifted_count += 1;
+        command_cursor++;
+    } while (shifted_count < loop_state->s_wSD_NUM_COMMAND);
+}
+
+#include "sound.h"
+
+#define STATE_BYTES ((u8 *)g_SDValue)
+
+void SD_CancelMusicRequests(void)
+{
+    s32 i;
+    s32 offset;
+    s32 next_offset;
+    s32 command;
+    SDValue *base;
+
+    base = g_SDValue;
+    /* Flattening this initialization changes GCC 2.8.1's loop-register
+     * allocation; the table and both byte offsets must remain independent. */
+    do {
+        i = 0;
+    } while (0);
+    if (base->s_wSD_NUM_COMMAND > 0) {
+        while (1) {
+            offset = i * SD_COMMAND_RECORD_SIZE;
+            next_offset = (i + 1) * SD_COMMAND_RECORD_SIZE;
+            if (base->s_wSD_NUM_COMMAND == 0) {
+                goto after;
+            }
+            command = base->s_uSD_COMMAND_QUEUE.b[offset];
+            switch (command) {
+            case 0x42:
+            case 0x43:
+            case 0x45:
+            case 0x46:
+            case 0x48:
+                *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
+                    *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
+                goto decrement;
+            case 0x20:
+                /* Keep the byte-cursor sum: direct member access reschedules
+                   the queue-base add and the following load. */
+                if (*(s32 *)(STATE_BYTES + offset +
+                        SD_COMMAND_QUEUE_BYTE_OFFSET +
+                        (u32)&((SDCommand *)0)->transfer_selector) != 0x20) {
+                    goto test;
+                }
+                *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
+                    *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
+decrement:
+                g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
+                goto test;
+            default:
+                i++;
+            }
+test:
+            base = g_SDValue;
+            if (i >= base->s_wSD_NUM_COMMAND) {
+                break;
+            }
+            if (i < 0) {
+                break;
+            }
+        }
+    }
+after:
+    switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
+    case 0x42:
+    case 0x43:
+    case 0x45:
+    case 0x46:
+    case 0x48:
+        g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        break;
+    }
+
+    if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
+        if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
+            if (SD_PollSequenceState() == 1) {
+                SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
+            }
+            g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
+        }
+    }
+}
+
+#include "sound.h"
+
+/* Drops every queued 0x24, 0x29 and 0x2B command, shifting the next record
+ * down over each one and shortening the queue, then clears the pending
+ * 0x7C/0x7D pair when it holds one of those commands.
+ *
+ * The queue walk tests the count, the index sign and an empty queue in that
+ * order: GCC rotates the three-part condition so its entry check is only
+ * count > 0 and the back edge re-enters at the empty-queue test, which is
+ * the retail loop shape. The switches give the retail 0x29-first compare
+ * tree. */
+void SD_DropQueuedCdPlayCommands(void)
+{
+    s32 i;
+
+    for (i = 0; i < g_SDValue->s_wSD_NUM_COMMAND && i >= 0 &&
+                g_SDValue->s_wSD_NUM_COMMAND != 0; ) {
+        switch (g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command) {
+        case 0x24:
+        case 0x29:
+        case 0x2B:
+            g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
+                ((SDCommandShiftView *)g_SDValue)->c[i + 1];
+            g_SDValue->s_wSD_NUM_COMMAND--;
+            break;
+        default:
+            i++;
+            break;
+        }
+    }
+    switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
+    case 0x24:
+    case 0x29:
+    case 0x2B:
+        g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        break;
+    }
+}

@@ -501,7 +501,7 @@ knowing because a scan reports all of them as clean:
   load-bearing.
 
 - **The width or signedness of the read does not match the named field.**
-  `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
+  `SD_UpdateFades` (`sound_output_state.c`) reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
   `s32`, and `e[2]` where `field_0002` is `s16`. Each such site needs a
   `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
   pays noise.
