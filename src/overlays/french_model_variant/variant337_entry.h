@@ -41,9 +41,7 @@ typedef struct {
     Variant337EntryRecord records[1];
     ModelVariantPointSheet rings[2];
     Variant337EntryStreamer streamers[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_CBC[0xCCC - 0xCBC];
     MATRIX matrix;

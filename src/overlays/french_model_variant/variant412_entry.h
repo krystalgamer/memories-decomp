@@ -20,9 +20,7 @@ typedef struct {
     u8 unknown_13E0[0x2C0];
     ModelVariantCurtain bands[2];
     u8 unknown_18D0[0x34];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 extra, band_packet;
     POLY_FT4 flat_textured[2];
     u8 unknown_1A64[0x4C];

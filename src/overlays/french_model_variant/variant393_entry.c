@@ -16,11 +16,11 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
     Variant337EntryRecord *record = work->records;
     ModelVariantPointSheet *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_FT4 *extra_flat = work->extra_flat;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result = 0;
     s32 ring_index, ring_point;
     s32 i, j, angle;

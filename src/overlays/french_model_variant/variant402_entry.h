@@ -35,9 +35,7 @@ typedef struct {
     Variant402EntryRing rings[2];
     u8 unknown_178[0x438 - 0x178];
     ModelVariantCurtain bands[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 extra, band_packet;
     POLY_FT4 flat_textured[2];
     u8 unknown_7C8[0x814 - 0x7C8];

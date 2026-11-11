@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT372_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
@@ -73,9 +74,7 @@ typedef struct {
 typedef struct {
     Model372Ribbon ribbons[8];
     Model372Sheet sheets[16];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 extra;
     u8 unknown_29BC[0x18];
     POLY_FT4 flat[2];

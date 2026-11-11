@@ -16,10 +16,10 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
     Variant400EntryNode *node = work->nodes;
     ModelVariantPointSheet *sheet = work->sheets;
     ModelVariantStreamer *column = work->columns;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result;
     s32 sheet_index, sheet_point;
     s32 i, j, angle;

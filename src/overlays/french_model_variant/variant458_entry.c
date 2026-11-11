@@ -16,9 +16,9 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
     EntryStrand458 *strand = work->strands;
     ModelVariantQuadSheet *sheet = work->sheets;
     EntryStreamer458 *streamer = work->streamers;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *strand_flat = work->strand_flat;
     s32 result = 0;

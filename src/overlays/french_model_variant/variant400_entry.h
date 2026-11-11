@@ -30,9 +30,7 @@ typedef struct {
     ModelVariantPointSheet sheets[7];
     ModelVariantStreamer columns[2];
     u8 unknown_1BC0[0x1ED8 - 0x1BC0];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_1FD0[0x10];
     MATRIX matrix;
