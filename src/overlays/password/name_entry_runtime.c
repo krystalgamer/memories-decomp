@@ -694,17 +694,16 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
                         case 0x81BD: u = 240; v = 120; shift = -2; break;
                         }
                     }
-                    goto draw;
+                    break;
                 }
                 if (tbl[i] < 0) {
+                    u = 0;
+                    v = 120;
                     break;
                 }
                 i++;
             }
-            u = 0;
-            v = 120;
         }
-draw:
         DisplayObject_ConfigureScreenSprite(
             obj,
             p->rect_x + w->x_0C + shift, p->rect_y + w->y_0E,
