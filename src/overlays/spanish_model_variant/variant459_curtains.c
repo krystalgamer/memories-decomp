@@ -58,10 +58,10 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     work = ctx;
     curtain = ((Variant459EntryState *)work)->rings;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(((Variant459EntryState *)work)->direction.vz, ((Variant459EntryState *)work)->direction.vx) + 0x800;
+    yaw = ratan2(((Variant459EntryState *)work)->aim.direction.vz, ((Variant459EntryState *)work)->aim.direction.vx) + 0x800;
     sheet = ((Variant459EntryState *)work)->sheets;
     poly = &((Variant459EntryState *)work)->ray;
-    pitch = ratan2(((Variant459EntryState *)work)->direction.vy, ((Variant459EntryState *)work)->direction.vz) + 0x800;
+    pitch = ratan2(((Variant459EntryState *)work)->aim.direction.vy, ((Variant459EntryState *)work)->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {

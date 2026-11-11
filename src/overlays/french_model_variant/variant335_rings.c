@@ -32,9 +32,9 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = ((Model335EntryState *)work)->target.vx;
-            matrix.t[1] = ((Model335EntryState *)work)->target.vy;
-            matrix.t[2] = ((Model335EntryState *)work)->target.vz;
+            matrix.t[0] = ((Model335EntryState *)work)->aim.target.vx;
+            matrix.t[1] = ((Model335EntryState *)work)->aim.target.vy;
+            matrix.t[2] = ((Model335EntryState *)work)->aim.target.vz;
             scale.vx = ring->scale;
             scale.vy = ring->scale;
             scale.vz = ring->scale;

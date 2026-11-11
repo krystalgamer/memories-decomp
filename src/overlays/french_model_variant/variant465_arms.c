@@ -51,8 +51,8 @@ void ModelVariant448_DrawFans(u8 *ctx)
     work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     count = 0;
-    turn = ratan2(((Variant448EntryState *)work)->view_delta.vz, ((Variant448EntryState *)work)->view_delta.vx) + 0xC00;
-    ratan2(((Variant448EntryState *)work)->screen_delta.vy, ((Variant448EntryState *)work)->screen_delta.vx);
+    turn = ratan2(((Variant448EntryState *)work)->aim.view_delta.vz, ((Variant448EntryState *)work)->aim.view_delta.vx) + 0xC00;
+    ratan2(((Variant448EntryState *)work)->aim.screen_delta.vy, ((Variant448EntryState *)work)->aim.screen_delta.vx);
     poly = ((Variant448EntryState *)work)->textured;
     if ((MODEL_VARIANT_WORD(work, 0x1AFC) & 1) == 0) {
         i = 0;
