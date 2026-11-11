@@ -60,7 +60,7 @@ jmp_buf gMain_RecoveryJmpBuf;
 
 #include "duel_side_state.h"
 #include "card_preview.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "sound.h"
 #include "text_helpers.h"
 #include "../psyq/libapi.h"
@@ -82,7 +82,6 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "../external_funcs.h"
 #include "../psyq/libmcrd.h"
 #include "func_800136D4.h"
-#include "display_object_render_frame.h"
 #include "graphics_constants.h"
 #include "model.h"
 #include "ordering_tables.h"

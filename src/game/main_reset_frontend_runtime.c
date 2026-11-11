@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "main.h"
 #include "duel_effect_reset_state.h"
 #include "input.h"

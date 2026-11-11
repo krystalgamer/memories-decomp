@@ -305,14 +305,13 @@ void Main_RunFreeDuelMenu(void) {
 }
 
 #include "text_box_blocking_build.h"
-#include "display_object_interpolation.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "input.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "display_object_core.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/trade_helpers.h"
 #include "fade.h"
@@ -322,7 +321,6 @@ void Main_RunFreeDuelMenu(void) {
 #include "main_services.h"
 #include "options.h"
 #include "sound.h"
-#include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "build_deck.h"
 #include "display_object_work_slots.h"

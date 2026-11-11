@@ -91,12 +91,11 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 }
 
 #include "text_encode_decimal_digits.h"
-#include "display_object_projection.h"
+#include "display_object_system.h"
 #include "duel_effect_resource_record.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "sprite_primitive.h"
-#include "display_object_packet_submit.h"
 #include "card_constants.h"
 #include "../ygo_types.h"
 
@@ -381,9 +380,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         CARD_PANEL_ORIGIN_BYTES(origin));
 }
 
-#include "display_object_config.h"
 #include "display_object.h"
-#include "display_object_update_command_stream.h"
 
 void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 {
@@ -405,9 +402,6 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "display_object_config.h"
-#include "display_object_helpers.h"
 #include "duel_card.h"
 
 #ifndef DUEL_RESOURCE_TRANSFER_POSITION

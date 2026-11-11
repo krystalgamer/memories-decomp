@@ -7,7 +7,7 @@
  * DisplayEffect_FadeOutRecord and DisplayEffect_CrossfadeResources read it plain, and DisplayEffect_UpdatePortraitTransition reads it
  * `(u16)` twice, which is the halfword load its retail code does. */
 #include "../types.h"
-#include "display_object_config.h"
+#include "display_object_system.h"
 #include "display_effect_lifecycle.h"
 #include "script_scene.h"
 #include "color_constants.h"
@@ -16,8 +16,6 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_effect_resource_setup.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "display_effect_update_callbacks.h"
 #include "menu_record.h"
 #include "trig_constants.h"

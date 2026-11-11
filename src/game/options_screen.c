@@ -14,9 +14,7 @@ s8 gOptions_bSelection;
 DisplayObject *gOptions_pSelectionCursor;
 static u32 D_8009B38C;
 
-#include "display_object_core.h"
-#include "display_object_config.h"
-#include "display_object_helpers.h"
+#include "display_object_system.h"
 #include "display_object_layout.h"
 #include "mem_card.h"
 #include "duel_effect.h"

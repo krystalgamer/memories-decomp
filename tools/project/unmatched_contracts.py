@@ -26,7 +26,7 @@ COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 # resident code cannot see.
 HOME_HEADER_EXCLUDED = {"overlays"}
 SHARED_OWNER_HEADERS = {
-    "DisplayObject_SubmitPacket": "src/game/display_object_packet_submit.h",
+    "DisplayObject_SubmitPacket": "src/game/display_object_system.h",
     "Model_InitSlot": "src/game/model_slot_control.h",
 }
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")

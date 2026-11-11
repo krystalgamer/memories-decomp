@@ -508,7 +508,7 @@ directly, spimdisasm also emitted names at `0x8009AF76` and `0x8009AF7A`.
 Defining those two as separate objects would have produced byte-identical
 output and still been wrong, since they are positions inside an array rather
 than things in their own right. The bytes cannot detect this error, so the
-check has to come from the consumers: `display_object_helpers.h` had already
+check has to come from the consumers: `display_object_system.h` (formerly `display_object_helpers.h`) had already
 worked out the array shape and recorded that the two inner labels were once
 spelled privately.
 

@@ -10,16 +10,13 @@
 u8 gBuildDeck_bConfirmMode;
 struct BuildDeckTransitionState *gBuildDeck_pState;
 
-#include "display_object_lifecycle.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "sound.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "display_object.h"
 #include "build_deck.h"
-#include "display_object_config.h"
 #include "duel_card.h"
 #include "card_constants.h"
 
@@ -156,12 +153,10 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
     }
 }
 
-#include "display_object_config.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "card_constants.h"
-#include "display_object_helpers.h"
 #include "duel_card.h"
 
 /* Regional value: the digit sprites' texture v (0x70 -> 0x40). The European
@@ -1033,8 +1028,6 @@ void Library_PruneRecentCardDrops(void)
  */
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
 #include "sound.h"
 #include "card_list_sort_icons.h"
 
@@ -1290,7 +1283,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "fade_overlay_controls.h"
 #include "text_box_lifecycle.h"
 #include "text_box_update_channels.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"

@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "display_object.h"
-#include "display_object_packet_submit.h"
+#include "display_object_system.h"
 
 /* The scratch record at 0x1F8003E0. DisplayObject_ProjectRotationFacing
    projects into its head and DisplayObject_SubmitPacket reads that head back as
