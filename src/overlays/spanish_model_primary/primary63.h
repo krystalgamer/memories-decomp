@@ -10,9 +10,7 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/screen_projection.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 
 typedef struct {

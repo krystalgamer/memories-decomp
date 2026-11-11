@@ -3,12 +3,9 @@
 #include "../../types.h"
 #include "model_variant.h"
 #include "../../game/camera_view.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
 /* One 0x18-byte command record of the table at gModelVariant366_aConfigs. */

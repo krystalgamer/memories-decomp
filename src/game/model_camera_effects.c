@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "model_update_view_metrics.h"
-#include "model_copy_slot_position.h"
+#include "model_slot_support.h"
 #include "../psyq/memory.h"
 #include "model.h"
 #include "model_camera_effects.h"
@@ -11,7 +11,6 @@
 #include "../psyq/libgte.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
-#include "model_slot_support.h"
 
 /* The model transfer family's .sdata block, 0x8009B074 to 0x8009B07F.
  *

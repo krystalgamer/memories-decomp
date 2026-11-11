@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant149_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* The entry gathers five spinning orbs on one slot part, flies each to a

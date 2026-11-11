@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant110_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 110's entry: after the delay two fans of triangles open and fade in
  * front of the slot, a sprite plays eight frames of the texture, a cloud of

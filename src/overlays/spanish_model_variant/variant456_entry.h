@@ -2,7 +2,7 @@
 #define MEMORIES_SPANISH_MODEL_VARIANT456_ENTRY_H
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_support.h"
 #include "../french_model_variant/variant337_entry.h"
 
 /* One 0x2C-byte row of header 456's command table. */

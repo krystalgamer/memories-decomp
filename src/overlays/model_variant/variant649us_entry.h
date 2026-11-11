@@ -3,11 +3,9 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_camera_effects.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
 #include "../../game/model_slot_state_updates.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"

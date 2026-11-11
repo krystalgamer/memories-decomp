@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant829_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 829's entry: a camera sequence follows the duel, then streaks of
  * light leave a model part in fours and fly towards the other slot, each one

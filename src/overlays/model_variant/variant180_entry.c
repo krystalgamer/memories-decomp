@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant180_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry draws expanding, fading rings at this slot, a screen flash, and
  * then pairs of rays that grow upwards around the other slot. A negative

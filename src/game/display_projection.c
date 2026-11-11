@@ -10,7 +10,7 @@
 #include "display_object.h"
 #include "display_projection.h"
 #include "model.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

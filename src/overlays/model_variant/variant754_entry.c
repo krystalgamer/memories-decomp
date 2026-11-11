@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant754_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 754's entry: while the camera moves through the row's presets and the

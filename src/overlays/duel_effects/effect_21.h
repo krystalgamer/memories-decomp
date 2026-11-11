@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "../../game/duel_effect_request.h"
 #include "../../game/high_memory_addresses.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_state_setters.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"

@@ -154,7 +154,7 @@
 #include "display_object.h"
 #include "display_object_work_slots.h"
 #include "display_projection.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -1518,7 +1518,6 @@ void Duel_ResetCardRecords(void)
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "duel_card.h"
-#include "screen_projection.h"
 #include "duel_screen_tables.h"
 #ifdef DUEL_RESULT_LANGUAGE_SPRITE_TABLES
 #include "duel_result_localized_sprites.h"
@@ -4164,7 +4163,6 @@ finish_effect_step:
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
-#include "screen_projection.h"
 #include "duel_screen_tables.h"
 
 /* Projects one live-slot ground pair at height -24; returns signed screen X. */

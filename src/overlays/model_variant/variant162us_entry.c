@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant162us_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry spins a textured tube that swirls around the active slot, raises
  * a spinning ring of beam sprites along the swirl trail and releases 96

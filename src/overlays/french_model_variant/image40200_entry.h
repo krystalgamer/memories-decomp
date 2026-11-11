@@ -2,11 +2,9 @@
 #define FRENCH_MODEL_IMAGE40200_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../psyq/rand.h"

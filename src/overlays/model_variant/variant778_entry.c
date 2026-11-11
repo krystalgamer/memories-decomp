@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant778_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 778's entry: smoke puffs rise from random model parts while the
  * ambient light dims; then glows swirl around the opposing slot and rings of

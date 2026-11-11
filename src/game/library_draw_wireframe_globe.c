@@ -7,7 +7,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/inline_c.h"
 #include "../psyq/libgs.h"
-#include "screen_projection.h"
+#include "model_slot_support.h"
 #include "../game/model_draw_slot.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"

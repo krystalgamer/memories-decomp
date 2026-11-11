@@ -3,14 +3,12 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_copy_slot_position.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "../../game/screen_projection.h"
 
 /* One 0x1C-byte command row: the sprite colour, the slot part the shots
  * leave from, the launch sprite size, the launch offset, the target spread,

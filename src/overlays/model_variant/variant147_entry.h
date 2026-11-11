@@ -3,12 +3,10 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_properties.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_copy_slot_position.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/graphics_packet_submission.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"

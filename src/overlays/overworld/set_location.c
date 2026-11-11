@@ -24,8 +24,7 @@
 #include "campaign_map.h"
 #include "../../game/view_state_orbit.h"
 #include "../../game/main_services.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_update_coordinate_unit_matrix.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"

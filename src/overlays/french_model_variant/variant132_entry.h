@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "../../game/model.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"

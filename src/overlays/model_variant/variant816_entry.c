@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant816_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 816's entry: while the ambient light dims, orbs, comets and
  * spinners leave a model part and fly to jittered points on the opposing

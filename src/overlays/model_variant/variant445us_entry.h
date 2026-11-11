@@ -3,13 +3,11 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../../game/model_slot_properties.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
 #include "../../game/model_camera_effects.h"
 
 /* One 0x2B0-byte ribbon: a thirteen-point spine and a copy of it moved along

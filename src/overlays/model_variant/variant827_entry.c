@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant827_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 827's entry, a sibling of header 828's with 64 embers and larger grey
  * sparks: one of three camera sequences, picked at random, follows the slot

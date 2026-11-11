@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant158_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Particles leave one of this slot's parts on a rising arc, fly to random
  * targets on a sphere around the other slot and stretch upwards as they fade

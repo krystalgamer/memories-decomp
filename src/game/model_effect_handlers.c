@@ -9,12 +9,10 @@
 #include "../game/model_subdivided_effect.h"
 #include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/model_slot_getters.h"
-#include "../game/model_copy_slot_position.h"
+#include "../game/model_slot_support.h"
 #include "../game/gpu_packets.h"
 #include "../game/model_geometry_tables.h"
-#include "../game/model_slot_properties.h"
 #include "../game/model_state_setters.h"
-#include "../game/screen_projection.h"
 #include "../game/sound.h"
 
 /* Three of the four handlers in the gModel_apfnEffectHandlers model effect table, which sit

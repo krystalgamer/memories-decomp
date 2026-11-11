@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "../../game/model_copy_slot_position.h"
 #include "variant413_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */
@@ -405,5 +404,6 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
 #ifndef VERSION_FRENCH
 /* The swarm body is the header-430 French helper, compiled here with GCC 2.7.2. */
 #include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../french_model_variant/image132118_swarm.c"
 #endif

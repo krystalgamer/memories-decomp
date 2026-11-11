@@ -2,7 +2,7 @@
 #include "variant633_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 633's entry: twelve arcing trails sweep a fan of spokes away from
  * a model point, each trail sheds a ring of sparks and a pair of glowing
