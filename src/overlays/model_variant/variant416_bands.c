@@ -30,7 +30,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     work = (Variant416EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
-    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     poly = work->textured;
     /* Both arms fold to the same division, so the test leaves no code; the
      * split assignment keeps the srl/sll/sra form of the radius. */
@@ -55,9 +55,9 @@ void ModelVariant416_DrawBands(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = angle;
-            m.t[0] = work->matrix.t[0] + work->direction.vx * size / 1024;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * size / 1024;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * size / 1024;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * size / 1024;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * size / 1024;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * size / 1024;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;
