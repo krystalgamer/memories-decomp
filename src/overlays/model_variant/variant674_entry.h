@@ -31,9 +31,7 @@ typedef struct {
  * points), the inner, outer and middle cone outlines, the flags, and the
  * ring and dome records. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s16 delay;
     u16 radius, height;

@@ -272,7 +272,7 @@ not advance the view.
 American `0x8009B204`) is that scalar counter. Init clears it, setup
 narrows the unchanged full-word input into the halfword, and the stepper
 uses the existing unsigned decrement and zero test. It is one `s16`
-object with a single declaration in `duel_view_tween.h`; the former
+object with a single declaration in `duel_scene.h` (formerly `duel_view_tween.h`); the former
 unsigned initializer view and its `D_8009B204_UNSIGNED` selector were
 removed without changing the GP addressing or zero/wrap behavior. The unrelated French SDK label at the same numeric address is
 untouched.

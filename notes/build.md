@@ -810,7 +810,7 @@ after checking behavior. Twelve globals locally declared by
 actual contract is narrower: the matching function publishes four targets,
 four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in
-`duel_view_tween.h`. The neighbouring frame count `D_8009B204` stays local:
+`duel_scene.h` (formerly `duel_view_tween.h`). The neighbouring frame count `D_8009B204` stays local:
 another writer declares it unsigned, so it is a separate divergent-contract
 question rather than a thirteenth member of the batch.
 

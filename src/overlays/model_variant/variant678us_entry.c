@@ -10,9 +10,9 @@
 
 /* Fades COLOR[0..2] of element E from the command colour at OFFSET. */
 #define MODEL678_FADE(e, offset, value, divisor)                                      \
-    (e).color[0] = gModelVariant678Us_aConfigs[work->command].color[(offset) + 0] * (value) / (divisor); \
-    (e).color[1] = gModelVariant678Us_aConfigs[work->command].color[(offset) + 1] * (value) / (divisor); \
-    (e).color[2] = gModelVariant678Us_aConfigs[work->command].color[(offset) + 2] * (value) / (divisor)
+    (e).color[0] = gModelVariant678Us_aConfigs[work->head.command].color[(offset) + 0] * (value) / (divisor); \
+    (e).color[1] = gModelVariant678Us_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
+    (e).color[2] = gModelVariant678Us_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
 /* Builds the coordinate unit of element E facing the camera. */
 #define MODEL678_BILLBOARD(e)                                                         \
@@ -48,10 +48,10 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model678UsState));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         for (i = 0; i < 8; i++) {
             work->cell_u[i] = (i % 4) * 64;
             work->cell_v[i] = (i / 4) * 64 - 128;
@@ -63,23 +63,23 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         corner_z = 0;
         do {
         } while (0);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[3]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[8]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[9]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[10]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[3]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[10]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant678Us_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant678Us_aImages[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         if (command == 0) {
@@ -124,7 +124,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 work->bubbles[i][j].v = 0;
                 setVector(&work->bubbles[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->bubbles[i][j].target, 0, -work->height, work->direction * 450);
-                setVector(&work->bubbles[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bubbles[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bubbles[i][j].position, 0, 0, 0);
             }
         }
@@ -142,7 +142,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 work->bursts[i][j].v = 0;
                 setVector(&work->bursts[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->bursts[i][j].target, 0, 0, 0);
-                setVector(&work->bursts[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bursts[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bursts[i][j].position, 0, 0, 0);
             }
         }
@@ -160,7 +160,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
                 work->sprays[i][j].v = 32;
                 setVector(&work->sprays[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->sprays[i][j].target, 0, 0, 0);
-                setVector(&work->sprays[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sprays[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sprays[i][j].position, 0, 0, 0);
             }
         }
@@ -202,10 +202,10 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    if (work->command == 0 && work->flags[0] < work->columns && work->elapsed == 0) {
+    if (work->head.command == 0 && work->flags[0] < work->columns && work->head.elapsed == 0) {
         for (i = 0; i < work->rows; i++) {
             work->bubbles[work->flags[0]][i].active = 1;
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 10);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
             GsGetLwUnit(&unit, &ls);
             (work->bubbles[work->flags[0]] + i)->position.vx = ls.t[0];
             (work->bubbles[work->flags[0]] + i)->position.vy = ls.t[1];
@@ -440,7 +440,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->rows * (work->columns * 3)) {
         result = 1;
         if (work->flags[4] == 1) {

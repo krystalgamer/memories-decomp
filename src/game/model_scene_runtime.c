@@ -60,18 +60,13 @@ void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign)
 
         slot = slot_base + slot_index;
     }
-    if (sign > 0)
-        goto state_62;
-    if (sign >= 0)
-        goto state_35;
-    slot->playback_state = 60;
-    goto update;
-state_35:
-    slot->playback_state = 35;
-    goto update;
-state_62:
-    slot->playback_state = 62;
-update:
+    if (sign <= 0) {
+        if (sign < 0)
+            slot->playback_state = 60;
+        else
+            slot->playback_state = 35;
+    } else
+        slot->playback_state = 62;
     {
         ModelSlot *speed_slot = &gModel_aSlots[slot_index];
 
@@ -523,49 +518,20 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
 
 s32 Model_FindBranchingChildCoord(ModelSlot *model, GsCOORDUNIT *parent)
 {
-    s32 entry_count_snapshot = model->entry_count;
-    s32 child_index = 0;
-    s32 coordinate_byte_offset;
-    s32 grandchild_index;
-    s32 entry_count_limit;
-    GsCOORDUNIT *child_candidate;
-    GsCOORDUNIT *candidate_coordinate;
-    GsCOORDUNIT *grandchild_candidate;
-    u8 *coordinate_bytes;
+    s32 i;
+    s32 j;
 
-    if (entry_count_snapshot == 0)
-        goto done;
-    coordinate_byte_offset = child_index;
-    child_candidate = (GsCOORDUNIT *)model->entries;
-    do {
-        grandchild_index = 0;
-        if (child_candidate->super != parent)
-            goto next;
-        if (entry_count_snapshot == 0)
-            goto next;
-        entry_count_limit = entry_count_snapshot;
-        coordinate_bytes = model->entries;
-        candidate_coordinate = (GsCOORDUNIT *)(coordinate_bytes + coordinate_byte_offset);
-        grandchild_candidate = (GsCOORDUNIT *)coordinate_bytes;
-inner:
-        if (grandchild_candidate->super == candidate_coordinate)
-            goto after_inner;
-        grandchild_index++;
-        if (grandchild_index < entry_count_limit) {
-            grandchild_candidate++;
-            goto inner;
+    for (i = 0; i < model->entry_count; i++) {
+        if (((GsCOORDUNIT *)model->entries)[i].super != parent)
+            continue;
+        for (j = 0; j < model->entry_count; j++) {
+            if (((GsCOORDUNIT *)model->entries)[j].super == &((GsCOORDUNIT *)model->entries)[i])
+                break;
         }
-after_inner:
-        if (grandchild_index < model->entry_count)
-            goto done;
-next:
-        coordinate_byte_offset += sizeof(GsCOORDUNIT);
-        child_candidate++;
-        entry_count_snapshot = model->entry_count;
-        child_index++;
-    } while (child_index < entry_count_snapshot);
-done:
-    return child_index;
+        if (j < model->entry_count)
+            break;
+    }
+    return i;
 }
 
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))

@@ -39,10 +39,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_E88[0x24];
     MATRIX matrix, matrix0, matrix1;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant397EntryConfig *config;
     u32 field_F58;

@@ -203,24 +203,23 @@ loop:
                 u32 count = entry->delta_remaining;
                 if (count != 0 && gSD_pSecondaryState->fast_forward_target_address == 0) {
                     entry->delta_remaining = count - 1;
-                    goto accumulate;
+                } else {
+                    for (;;) {
+                        SD_ReadSequenceEvent(entry);
+                        if (entry->ended != 0)
+                            break;
+                        entry->delta_remaining = SD_ReadVariableLengthValue(entry);
+                        if (entry->delta_remaining == 0)
+                            continue;
+                        if (gSD_pSecondaryState->delta_scale_gate != 0)
+                            SD_ScaleSequenceDelta(entry);
+                        if (entry->delta_remaining != 0)
+                            break;
+                    }
+                    if (entry->delta_remaining != 0)
+                        entry->delta_remaining--;
                 }
-retry:
-                SD_ReadSequenceEvent(entry);
-                if (entry->ended == 0) {
-                    int value = SD_ReadVariableLengthValue(entry);
-                    entry->delta_remaining = value;
-                    if (value == 0)
-                        goto retry;
-                    if (gSD_pSecondaryState->delta_scale_gate != 0)
-                        SD_ScaleSequenceDelta(entry);
-                    if (entry->delta_remaining == 0)
-                        goto retry;
-                }
-                if (entry->delta_remaining != 0)
-                    entry->delta_remaining--;
             }
-accumulate:
             {
                 SDSecondaryState *root = gSD_pSecondaryState;
                 int total = (int)root->sequence_read_base + entry->pos;

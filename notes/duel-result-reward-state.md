@@ -8,7 +8,7 @@ its display-object and score prefix. The unmatched `DuelScene_UpdateResultReward
 the same record through offset `+0x3D`, covering page selection, rank axis,
 starchip prize, and the selected card drop.
 
-`DuelResultDisplayState` in `duel_result_display.h` now models the complete
+`DuelResultDisplayState` in `duel_scene.h` (formerly `duel_result_display.h`) now models the complete
 `0x40`-byte extent used by the result flow.
 
 ## Layout

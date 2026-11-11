@@ -865,7 +865,6 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 }
 #else
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
-    s32 one;
     s32 w;
     s32 v;
     s32 t0;
@@ -877,80 +876,64 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     s32 m;
     s32 m2v;
 
-    one = 1;
+    switch (mode) {
+    case 0:
+        m = 0xFFDDFFFF;
+        *(s16 *)&p->field_30.h.counter = 0x300;
+        *(s16 *)&p->field_30.h.field_32 = 0x100;
+        *(u16 *)&p->w = 0x40;
+        t0 = gFile_dwTransferState;
+        *(u16 *)&p->h = 0x10;
+        gFile_dwTransferState = t0 & m;
+        gFile_dwTransferState = gFile_dwTransferState | 0x10000;
+        p->transfer_mode = 2;
+        v = gFile_TransferBufferBase;
+        w = 0x20000;
+        *(s32 *)&p->phase_size = w;
+        p->sector_destination = v;
+        v += 0x800;
+        p->alternate_sector_destination = v;
+        break;
 
-    if (mode == one) {
-        goto m1;
+    case 1:
+        m = 0xFFDDFFFF;
+        *(s16 *)&p->field_30.h.counter = 0x340;
+        *(u16 *)&p->w = 0x40;
+        t1 = gFile_dwTransferState;
+        *(u16 *)&p->h = 0x10;
+        gFile_dwTransferState = t1 & m;
+        u = gFile_dwTransferState;
+        n = 0x10000;
+        p->field_30.h.field_32 = 0;
+        gFile_dwTransferState = u | n;
+        p->transfer_mode = 2;
+        v = gFile_TransferBufferBase;
+        w = 0x4000;
+        *(s32 *)&p->phase_size = w;
+        p->sector_destination = v;
+        v += 0x800;
+        p->alternate_sector_destination = v;
+        break;
+
+    case 2:
+        m2v = 0xFFDCFFFF;
+        *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState = gFile_dwTransferState & m2v;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
+        p->transfer_mode = 1;
+        break;
+
+    case 3:
+        g = (s16 *)gGraphics_aImageTransferRects;
+        c = 0x100;
+        g[0] = c;
+        g[1] = 0xF0;
+        g[2] = c;
+        g[3] = 0x10;
+        LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
+        break;
     }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto m0;
-        }
-        return;
-    }
-    if (mode == 2) {
-        goto m2;
-    }
-    if (mode == 3) {
-        goto m3;
-    }
-    return;
-
-m0:
-    m = 0xFFDDFFFF;
-    *(s16 *)&p->field_30.h.counter = 0x300;
-    *(s16 *)&p->field_30.h.field_32 = 0x100;
-    *(u16 *)&p->w = 0x40;
-    t0 = gFile_dwTransferState;
-    *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState = t0 & m;
-    gFile_dwTransferState = gFile_dwTransferState | 0x10000;
-    p->transfer_mode = 2;
-    v = gFile_TransferBufferBase;
-    w = 0x20000;
-    *(s32 *)&p->phase_size = w;
-    p->sector_destination = v;
-    v += 0x800;
-    p->alternate_sector_destination = v;
-    return;
-
-m1:
-    m = 0xFFDDFFFF;
-    *(s16 *)&p->field_30.h.counter = 0x340;
-    *(u16 *)&p->w = 0x40;
-    t1 = gFile_dwTransferState;
-    *(u16 *)&p->h = 0x10;
-    gFile_dwTransferState = t1 & m;
-    u = gFile_dwTransferState;
-    n = 0x10000;
-    p->field_30.h.field_32 = 0;
-    gFile_dwTransferState = u | n;
-    p->transfer_mode = 2;
-    v = gFile_TransferBufferBase;
-    w = 0x4000;
-    *(s32 *)&p->phase_size = w;
-    p->sector_destination = v;
-    v += 0x800;
-    p->alternate_sector_destination = v;
-    return;
-
-m2:
-    m2v = 0xFFDCFFFF;
-    *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
-    gFile_dwTransferState = gFile_dwTransferState & m2v;
-    p->alternate_sector_destination = gFile_TransferBufferBase;
-    p->sector_destination = gFile_TransferBufferBase;
-    p->transfer_mode = 1;
-    return;
-
-m3:
-    g = (s16 *)gGraphics_aImageTransferRects;
-    c = 0x100;
-    g[0] = c;
-    g[1] = 0xF0;
-    g[2] = c;
-    g[3] = 0x10;
-    LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
 }
 #endif
 

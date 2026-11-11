@@ -259,73 +259,58 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 
     one = 1;
 
-    if (mode == one) {
-        goto m1;
+    switch (mode) {
+    case 0:
+        m = 0xFFDDFFFF;
+        p->field_30.h.counter = 0xC0;
+        p->field_30.h.field_32 = 0x100;
+        v = gFile_dwTransferState;
+        f = 0x40;
+        p->w = f;
+        gFile_dwTransferState = v & m;
+        w = gFile_dwTransferState;
+        m = 0x10000;
+        do {
+            p->phase_size = m;
+            gFile_dwTransferState = w | m;
+            p->transfer_mode = 2;
+            d = gFile_TransferBufferBase;
+            p->h = 0x10;
+        } while (0);
+        p->sector_destination = d;
+        p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
+        break;
+
+    case 1:
+        p->phase_size = FILE_SECTOR_SIZE;
+        gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
+        p->transfer_mode = one;
+        break;
+
+    case 2:
+        p->x = 0x280;
+        p->y = 0xE0;
+        p->w = 0x100;
+        p->h = 4;
+        LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
+        p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
+        p->sector_destination = (u32)gDisplay_abResourceBank0;
+        x = gFile_dwTransferState;
+        p->phase_size = 0x800;
+        gFile_dwTransferState = x & 0xFFDCFFFF;
+        p->transfer_mode = one;
+        break;
+
+    case 3:
+        p->phase_size = 3 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
+        p->alternate_sector_destination = (u32)gFile_pScreenBankBase;
+        p->sector_destination = (u32)gFile_pScreenBankBase;
+        p->transfer_mode = one;
+        break;
     }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto m0;
-        }
-        return;
-    }
-    if (mode == 2) {
-        goto m2;
-    }
-    if (mode == 3) {
-        goto m3;
-    }
-    return;
-
-m0:
-    m = 0xFFDDFFFF;
-    p->field_30.h.counter = 0xC0;
-    p->field_30.h.field_32 = 0x100;
-    v = gFile_dwTransferState;
-    f = 0x40;
-    p->w = f;
-    gFile_dwTransferState = v & m;
-    w = gFile_dwTransferState;
-    m = 0x10000;
-    do {
-        p->phase_size = m;
-        gFile_dwTransferState = w | m;
-        p->transfer_mode = 2;
-        d = gFile_TransferBufferBase;
-        p->h = 0x10;
-    } while (0);
-    p->sector_destination = d;
-    p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
-    return;
-
-m1:
-    p->phase_size = FILE_SECTOR_SIZE;
-    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->alternate_sector_destination = gFile_TransferBufferBase;
-    p->sector_destination = gFile_TransferBufferBase;
-    goto tail;
-
-m2:
-    p->x = 0x280;
-    p->y = 0xE0;
-    p->w = 0x100;
-    p->h = 4;
-    LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
-    p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
-    p->sector_destination = (u32)gDisplay_abResourceBank0;
-    x = gFile_dwTransferState;
-    p->phase_size = 0x800;
-    gFile_dwTransferState = x & 0xFFDCFFFF;
-    p->transfer_mode = one;
-    return;
-
-m3:
-    p->phase_size = 3 * FILE_SECTOR_SIZE;
-    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->alternate_sector_destination = (u32)gFile_pScreenBankBase;
-    p->sector_destination = (u32)gFile_pScreenBankBase;
-
-tail:
-    p->transfer_mode = one;
 }
 #else
 void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
@@ -342,72 +327,60 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 
     one = 1;
 
-    if (mode == one) {
-        goto m1;
+    switch (mode) {
+    case 0:
+        m = 0xFFDDFFFF;
+        p->field_30.h.field_32 = 0x100;
+        v = gFile_dwTransferState;
+        f = 0x40;
+        do {
+            p->field_30.h.counter = 0;
+        } while (0);
+        p->w = f;
+        gFile_dwTransferState = v & m;
+        w = gFile_dwTransferState;
+        m = 0x10000;
+        do {
+            p->phase_size = m;
+            gFile_dwTransferState = w | m;
+            p->transfer_mode = 2;
+            d = gFile_TransferBufferBase;
+            p->h = 0x10;
+        } while (0);
+        p->sector_destination = d;
+        p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
+        break;
+
+    case 1:
+        p->phase_size = FILE_SECTOR_SIZE;
+        gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
+        p->transfer_mode = one;
+        break;
+
+    case 2:
+        do {
+            hun = 0x100;
+        } while (0);
+        /* The RECT halves are stored through the members' addresses as u16.
+         * A plain member store, or an s16 cast that fold turns back into one,
+         * is an in-struct reference and is reordered against the gFile_TransferBufferBase
+         * load; retail keeps these in source order around LoadImage2. */
+        *(u16 *)&p->y = 0xF0;
+        e = gFile_TransferBufferBase;
+        *(u16 *)&p->x = hun;
+        *(u16 *)&p->w = hun;
+        *(u16 *)&p->h = 4;
+        LoadImage2((RECT *)p, (u32 *)e);
+        p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
+        p->sector_destination = (u32)gDisplay_abResourceBank0;
+        x = gFile_dwTransferState;
+        p->phase_size = 0x800;
+        gFile_dwTransferState = x & 0xFFDCFFFF;
+        p->transfer_mode = one;
+        break;
     }
-    if (mode < 2) {
-        if (mode == 0) {
-            goto m0;
-        }
-        return;
-    }
-    if (mode == 2) {
-        goto m2;
-    }
-    return;
-
-m0:
-    m = 0xFFDDFFFF;
-    p->field_30.h.field_32 = 0x100;
-    v = gFile_dwTransferState;
-    f = 0x40;
-    do {
-        p->field_30.h.counter = 0;
-    } while (0);
-    p->w = f;
-    gFile_dwTransferState = v & m;
-    w = gFile_dwTransferState;
-    m = 0x10000;
-    do {
-        p->phase_size = m;
-        gFile_dwTransferState = w | m;
-        p->transfer_mode = 2;
-        d = gFile_TransferBufferBase;
-        p->h = 0x10;
-    } while (0);
-    p->sector_destination = d;
-    p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
-    return;
-
-m1:
-    p->phase_size = FILE_SECTOR_SIZE;
-    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->alternate_sector_destination = gFile_TransferBufferBase;
-    p->sector_destination = gFile_TransferBufferBase;
-    goto tail;
-
-m2:
-    do {
-        hun = 0x100;
-    } while (0);
-    /* The RECT halves are stored through the members' addresses as u16.
-     * A plain member store, or an s16 cast that fold turns back into one,
-     * is an in-struct reference and is reordered against the gFile_TransferBufferBase
-     * load; retail keeps these in source order around LoadImage2. */
-    *(u16 *)&p->y = 0xF0;
-    e = gFile_TransferBufferBase;
-    *(u16 *)&p->x = hun;
-    *(u16 *)&p->w = hun;
-    *(u16 *)&p->h = 4;
-    LoadImage2((RECT *)p, (u32 *)e);
-    p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
-    p->sector_destination = (u32)gDisplay_abResourceBank0;
-    x = gFile_dwTransferState;
-    p->phase_size = 0x800;
-    gFile_dwTransferState = x & 0xFFDCFFFF;
-
-tail:
-    p->transfer_mode = one;
 }
 #endif
 

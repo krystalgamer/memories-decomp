@@ -855,7 +855,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         gFile_dwTransferState = t1 & m2;
         d->alternate_sector_destination = v1;
         d->sector_destination = v1;
-        goto join;
+        d->transfer_mode = one;
+        break;
 
     case 2:
 #ifdef VERSION_EUROPE
@@ -879,7 +880,6 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         t2 = gFile_dwTransferState;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = t2 & m2;
-join:
         d->transfer_mode = one;
         break;
     }
@@ -1152,7 +1152,7 @@ void Script_RunTick(void)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_load_package_stage.h"
+#include "duel_scene.h"
 #include "../ygo_types.h"
 
 #include "high_memory_addresses.h"

@@ -20,16 +20,16 @@
         (work)->puffs[(work)->flags[0]].duration = 32;                                           \
         (work)->puffs[(work)->flags[0]].mode = 1;                                                \
         (work)->puffs[(work)->flags[0]].coord = Model_GetCameraCoordinateUnit();                 \
-        (work)->puffs[(work)->flags[0]].color[0] = gModelVariant645_aConfigs[(work)->command].color[0];         \
-        (work)->puffs[(work)->flags[0]].color[1] = gModelVariant645_aConfigs[(work)->command].color[1];         \
-        (work)->puffs[(work)->flags[0]].color[2] = gModelVariant645_aConfigs[(work)->command].color[2];         \
+        (work)->puffs[(work)->flags[0]].color[0] = gModelVariant645_aConfigs[(work)->head.command].color[0];         \
+        (work)->puffs[(work)->flags[0]].color[1] = gModelVariant645_aConfigs[(work)->head.command].color[1];         \
+        (work)->puffs[(work)->flags[0]].color[2] = gModelVariant645_aConfigs[(work)->head.command].color[2];         \
         (work)->puffs[(work)->flags[0]].u = 0;                                                   \
         (work)->puffs[(work)->flags[0]].v = 128;                                                 \
         value = 2048;                                                                            \
         setVector(&(work)->puffs[(work)->flags[0]].scale, value, value, value);                  \
         setVector(&(work)->puffs[(work)->flags[0]].target, 0, 0, 0);                         \
         setVector(&(work)->puffs[(work)->flags[0]].rotation, 0, 0, 0);                           \
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry((work)->slot, joint);                      \
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry((work)->head.slot, joint);                      \
         GsGetLwUnit(&unit, &ls);                                                                 \
         setVector(&here, ls.t[0], ls.t[1], ls.t[2]);                                             \
         (work)->joints[(work)->flags[0]] = ls;                                                   \
@@ -82,14 +82,14 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model645State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant645_aImages[0]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant645_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant645_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant645_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         /* Retail keeps three identical case bodies for the one-halo commands. */
@@ -161,7 +161,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             value = 2048;
             setVector(&work->halos[i].scale, value, value, value);
             setVector(&work->halos[i].target, 0, 0, 0);
-            setVector(&work->halos[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->halos[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 3:
             case 4:
@@ -256,11 +256,11 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed < 100) {
+            if (work->head.elapsed < 100) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 10);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 11);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 11);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&there, ls.t[0], ls.t[1], ls.t[2]);
                 setVector(&work->puffs[work->flags[0]].position, (here.vx + there.vx) / 2,
@@ -268,52 +268,52 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 MODEL645_NEXT_PUFF(work);
             }
             /* The flag stores come before the result so they reuse its register. */
-            if (work->elapsed >= 45 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 45 && work->flags[1] == 0) {
                 work->halos[0].active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
             break;
         case 1:
-            if (work->elapsed < 100) {
+            if (work->head.elapsed < 100) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 4);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
-            if (work->elapsed >= 61 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 61 && work->flags[1] == 0) {
                 work->halos[0].active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
             break;
         case 2:
-            if (work->elapsed < 142) {
+            if (work->head.elapsed < 142) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 5);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed >= 21) {
+                if (work->head.elapsed >= 21) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 56) {
+                if (work->head.elapsed >= 56) {
                     work->halos[1].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 91) {
+                if (work->head.elapsed >= 91) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 126) {
+                if (work->head.elapsed >= 126) {
                     work->halos[3].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -326,7 +326,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         case 6:
         case 7:
         case 10:
-            if (work->elapsed == 0 && work->flags[1] == 0) {
+            if (work->head.elapsed == 0 && work->flags[1] == 0) {
                 for (i = 0; i < work->halo_count; i++) {
                     work->halos[i].active = 1;
                 }
@@ -335,34 +335,34 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 5:
-            if (work->elapsed < 130) {
+            if (work->head.elapsed < 130) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 15);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed >= 51) {
+                if (work->head.elapsed >= 51) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 61) {
+                if (work->head.elapsed >= 61) {
                     work->halos[1].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 71) {
+                if (work->head.elapsed >= 71) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 81) {
+                if (work->head.elapsed >= 81) {
                     work->halos[3].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -371,22 +371,22 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 8:
-            if (work->elapsed < 90) {
+            if (work->head.elapsed < 90) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 0);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
-            if (work->elapsed >= 19 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 19 && work->flags[1] == 0) {
                 work->halos[0].active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
             break;
         case 9:
-            if (work->elapsed < 130) {
+            if (work->head.elapsed < 130) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 3);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
-            if (work->elapsed >= 51 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 51 && work->flags[1] == 0) {
                 work->halos[0].active = 1;
                 work->flags[1] = 1;
                 result = 1;
@@ -395,28 +395,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         case 11:
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed == 0) {
+                if (work->head.elapsed == 0) {
                     work->halos[3].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 11) {
+                if (work->head.elapsed >= 11) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 21) {
+                if (work->head.elapsed >= 21) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 31) {
+                if (work->head.elapsed >= 31) {
                     work->halos[1].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -425,45 +425,45 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 12:
-            if (work->elapsed < 80) {
+            if (work->head.elapsed < 80) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 3);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
-            if (work->elapsed >= 41 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 41 && work->flags[1] == 0) {
                 work->halos[0].active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
             break;
         case 13:
-            if (work->elapsed < 160) {
+            if (work->head.elapsed < 160) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 3);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed >= 101) {
+                if (work->head.elapsed >= 101) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 121) {
+                if (work->head.elapsed >= 121) {
                     work->halos[1].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 141) {
+                if (work->head.elapsed >= 141) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 161) {
+                if (work->head.elapsed >= 161) {
                     work->halos[3].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -472,34 +472,34 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 14:
-            if (work->elapsed < 110) {
+            if (work->head.elapsed < 110) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 1);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed >= 31) {
+                if (work->head.elapsed >= 31) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 51) {
+                if (work->head.elapsed >= 51) {
                     work->halos[1].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 71) {
+                if (work->head.elapsed >= 71) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 91) {
+                if (work->head.elapsed >= 91) {
                     work->halos[3].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -508,34 +508,34 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 15:
-            if (work->elapsed < 82) {
+            if (work->head.elapsed < 82) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 3);
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             switch (work->flags[1]) {
             case 0:
-                if (work->elapsed >= 15) {
+                if (work->head.elapsed >= 15) {
                     work->halos[0].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
-                if (work->elapsed >= 33) {
+                if (work->head.elapsed >= 33) {
                     work->halos[1].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
-                if (work->elapsed >= 55) {
+                if (work->head.elapsed >= 55) {
                     work->halos[2].active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
-                if (work->elapsed >= 77) {
+                if (work->head.elapsed >= 77) {
                     work->halos[3].active = 1;
                     result = 1;
                     work->flags[1]++;
@@ -563,9 +563,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 if (work->puffs[i].duration / 2 < work->puffs[i].elapsed) {
                     value = (work->puffs[i].duration - work->puffs[i].elapsed) * 2;
                     divisor = work->puffs[i].duration;
-                    work->puffs[i].color[0] = gModelVariant645_aConfigs[work->command].color[0] * value / divisor;
-                    work->puffs[i].color[1] = gModelVariant645_aConfigs[work->command].color[1] * value / divisor;
-                    work->puffs[i].color[2] = gModelVariant645_aConfigs[work->command].color[2] * value / divisor;
+                    work->puffs[i].color[0] = gModelVariant645_aConfigs[work->head.command].color[0] * value / divisor;
+                    work->puffs[i].color[1] = gModelVariant645_aConfigs[work->head.command].color[1] * value / divisor;
+                    work->puffs[i].color[2] = gModelVariant645_aConfigs[work->head.command].color[2] * value / divisor;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->strip);
@@ -635,9 +635,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
                     value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
                     divisor = work->halos[i].duration;
-                    work->halos[i].color[0] = gModelVariant645_aConfigs[work->command].color[3] * value / divisor;
-                    work->halos[i].color[1] = gModelVariant645_aConfigs[work->command].color[4] * value / divisor;
-                    work->halos[i].color[2] = gModelVariant645_aConfigs[work->command].color[5] * value / divisor;
+                    work->halos[i].color[0] = gModelVariant645_aConfigs[work->head.command].color[3] * value / divisor;
+                    work->halos[i].color[1] = gModelVariant645_aConfigs[work->head.command].color[4] * value / divisor;
+                    work->halos[i].color[2] = gModelVariant645_aConfigs[work->head.command].color[5] * value / divisor;
                 }
                 setVector(&here, 0, 0, 0);
                 for (k = 0; k < 32; k++) {
@@ -728,7 +728,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->puff_count + work->halo_count) {
             result = 2;
         }

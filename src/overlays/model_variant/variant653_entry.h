@@ -34,9 +34,7 @@ typedef struct {
  * the line spheres. Shells, cones and spheres are indexed by the sum of the
  * emitter and child indices. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s32 direction;
     s32 other_slot;
     s32 shadow;
