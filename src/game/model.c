@@ -3712,7 +3712,7 @@ void Model_DrawSlot(s32 index)
         } else {
             slot->cached_dimensions[2] = d;
         }
-        if (slot->shadow_enabled != 0) {
+        if (slot->shadow_enabled != 0 && gModel_bCurrentDrawMode != 1) {
             SVECTOR shadow_center;
             SVECTOR next_shadow_edge;
             SVECTOR previous_shadow_edge;
@@ -3721,9 +3721,6 @@ void Model_DrawSlot(s32 index)
             s32 clamped_shadow_extent;
             s32 shadow_depth;
 
-            if (gModel_bCurrentDrawMode == 1) {
-                goto finish_ot;
-            }
             setlen(&shadow_triangle, 6);
             setcode(&shadow_triangle, 0x30);
             shadow_triangle.r0 = B(&gModel_wDrawTintRedGreen, 0);
@@ -3802,7 +3799,6 @@ void Model_DrawSlot(s32 index)
         }
     }
     if (gModel_bCurrentDrawMode == 1) {
-    finish_ot:
         if (index < 2) {
             ordering_table->length = 0xC;
         }
