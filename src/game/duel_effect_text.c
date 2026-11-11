@@ -1915,56 +1915,20 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
    if that flag clears, the count runs out, or the range is empty. */
 int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     int v0;
-#ifdef VERSION_EUROPE
     int count;
-    u32 address;
-    u8 *v1;
+    DUEL_EFFECT_ENTRY_TYPE *entry;
+
     v0 = DUEL_EFFECT_RANGE_START(a0);
     count = DUEL_EFFECT_RANGE_COUNT(a0);
-    address = (u32)&DUEL_EFFECT_ENTRIES[v0];
-    if (count == 0) {
-        goto ret_zero_a;
+    entry = &DUEL_EFFECT_ENTRIES[v0];
+    for (; count != 0; count--, entry++) {
+        if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
+            return 0;
+        }
+        if (entry->handler_state != 0) {
+            return 1;
+        }
     }
-    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_13_OFFSET);
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return 0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count--;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#else
-    int count;
-    u8 *v1;
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        goto ret_zero_a;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_13_OFFSET;
-loop:
-    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
-    if (v0 == 0) {
-        return v0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count = count - 1;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#endif
-ret_zero_a:
     return 0;
 }
 
