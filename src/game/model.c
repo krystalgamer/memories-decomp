@@ -373,20 +373,15 @@ void Model_DrawBackground(void)
             s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
             s32 texture_input_height;
             s32 texture_trim_amount;
-            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (texture_limit_v < texture_end_v)
-                    goto trim_texture;
-                goto tiles;
+            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? texture_limit_v < texture_end_v
+                    : texture_end_v >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                texture_input_height = sprite.h;
+                texture_trim_amount =
+                    sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
+                sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
             }
-            if (texture_end_v < BACKGROUND_RENDER_CLIP_LIMIT)
-                goto tiles;
-trim_texture:
-            texture_input_height = sprite.h;
-            texture_trim_amount =
-                sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-            sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
         }
-tiles:
         sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
