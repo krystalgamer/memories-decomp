@@ -1936,7 +1936,6 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
    for each active entry, writes a1 to handler_state and a2 to render_mode,
    stopping at the first entry with that flag clear or when the count runs
    out. */
-#ifdef VERSION_EUROPE
 void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
     int start;
     int count;
@@ -1956,33 +1955,6 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
         entry->render_mode = a2;
     }
 }
-#else
-void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
-    int v0;
-    int count;
-    u8 *v1;
-
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        return;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_15_OFFSET;
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return;
-    }
-    count = count - 1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->handler_state = a1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->render_mode = a2;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-}
-#endif
 
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
