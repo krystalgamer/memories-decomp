@@ -453,16 +453,16 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
     node->flg = 0;
-    if (interpolation_slots->output == 0) goto finished;
-    interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
-    interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
-    interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
-    interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
-    interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
-    interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
-    interpolation_slots->output[6] = *(u16 *)&scale[0];
-    interpolation_slots->output[7] = *(u16 *)&scale[1];
-    interpolation_slots->output[8] = *(u16 *)&scale[2];
-finished:
+    if (interpolation_slots->output != 0) {
+        interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
+        interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
+        interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
+        interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
+        interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
+        interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
+        interpolation_slots->output[6] = *(u16 *)&scale[0];
+        interpolation_slots->output[7] = *(u16 *)&scale[1];
+        interpolation_slots->output[8] = *(u16 *)&scale[2];
+    }
     return 0;
 }
