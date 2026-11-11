@@ -433,7 +433,7 @@ void Checkerboard_DrawBackground(
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
-#include "display_object_helpers.h"
+#include "display_object_system.h"
 #include "display_object_depth_bases.h"
 #include "dialog_layout.h"
 #include "mem_card_work.h"
@@ -481,12 +481,9 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 #undef gDialog_bChoice
 
 #include "display_object.h"
-#include "display_object_interpolation.h"
-#include "display_object_core.h"
 
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
 #include "text_box_update_channels.h"
@@ -756,9 +753,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
  * through that dialog. */
 
 #include "display_object.h"
-#include "display_object_interpolation.h"
-#include "display_object_lifecycle.h"
-#include "display_object_core.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/strings.h"
 #include "duel_effect.h"
@@ -775,7 +769,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "text_message_staging.h"
 #include "file_transfer.h"
 #include "text_box_lifecycle.h"
-#include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "text_box_update_channels.h"
 #include "duel_effect_mark_object_if_active.h"

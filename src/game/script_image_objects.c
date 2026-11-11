@@ -1,10 +1,9 @@
 #include "../types.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "file_transfer.h"
-#include "display_object_helpers.h"
 #include "script_image_objects.h"
 #ifdef SCRIPT_IMAGE_LOCALIZED_IDS
 #include "card_preview.h"

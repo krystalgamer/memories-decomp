@@ -77,7 +77,7 @@ ones are not; no packed structure or region-independent stride follows.
 The isolated depth and fade headers mirror their respective old owner
 contracts and are included after those owners/selector definitions.
 The initialized data unit includes only the depth family.
-Old `display_object_helpers.h`, `fade.h`, wrappers, overlays/imports,
+Old `display_object_system.h` (formerly `display_object_helpers.h`), `fade.h`, wrappers, overlays/imports,
 profiles, source grouping and every earlier accepted namespace remain.
 
 No existing test module names this family, so all existing tests stay

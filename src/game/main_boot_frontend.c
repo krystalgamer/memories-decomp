@@ -9,7 +9,7 @@ static u32 D_8009B42C;
 
 #include "main.h"
 #include "main_boot_screen.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
@@ -18,7 +18,6 @@ static u32 D_8009B42C;
 #include "file_transfer.h"
 #include "main_boot_frontend.h"
 #include "graphics_constants.h"
-#include "display_object_helpers.h"
 #include "main_reset_frontend_runtime.h"
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"

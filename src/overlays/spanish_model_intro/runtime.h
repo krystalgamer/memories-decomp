@@ -8,8 +8,7 @@
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/display_object.h"
-#include "../../game/display_object_core.h"
-#include "../../game/display_object_helpers.h"
+#include "../../game/display_object_system.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/main.h"
 

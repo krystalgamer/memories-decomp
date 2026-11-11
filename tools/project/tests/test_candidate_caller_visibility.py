@@ -44,7 +44,7 @@ PAIRS = [
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
-    ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_projection.h"'),
+    ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_system.h"'),
     ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
     ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
     ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
@@ -59,24 +59,24 @@ PAIRS = [
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/sd_update_secondary_object_voices.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/debug_menu.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_system.h"'),
+    ("src/game/debug_menu.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_system.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_system.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_system.h"'),
     ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
     ("src/game/duel_scene.c", "SD_SEPlayFull", '#include "sound.h"'),
     ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
     (
         "src/game/duel_scene.c",
         "DisplayObject_SetResourceVariant",
-        '#include "display_object_config.h"',
+        '#include "display_object_system.h"',
     ),
     ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
     ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
     ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
     ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
-    ("src/game/card_preview.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
-    ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
+    ("src/game/card_preview.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
+    ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
@@ -145,6 +145,7 @@ def implicit_calls(
 # the shared-owner probe shadows them instead of dropping their include.
 FOLDED_SHADOW_OWNERS = (
     "build_deck.h",
+    "display_object_system.h",
 )
 
 
@@ -250,7 +251,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 owner in include
                 for owner in (
                     "build_deck.h",
-                    "display_object_packet_submit.h",
+                    "display_object_system.h",
                     "card_preview.h",
                     "card_preview.h",
                     "model_slot_control.h",
@@ -268,9 +269,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
                 replacement = ""
-                if source == "src/game/card_preview.c" and "display_object_packet_submit.h" in include:
+                if source == "src/game/card_preview.c" and "display_object_system.h" in include:
                     # Preserve the real layout, not the lost function declaration.
-                    owner = (REPOSITORY / "src/game/display_object_packet_submit.h").read_text()
+                    owner = (REPOSITORY / "src/game/display_object_system.h").read_text()
                     layout = re.search(r"typedef struct \{[^}]*\} DisplayObjectPacketOrigin;", owner)
                     self.assertIsNotNone(layout)
                     replacement = (

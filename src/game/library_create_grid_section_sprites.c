@@ -1,8 +1,7 @@
 #include "../types.h"
 #include "display_object.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_object_layout.h"
-#include "display_object_helpers.h"
 #include "library.h"
 
 /* Zero-initialized storage this unit owns at 0x800EA1E8-0x800EAD88, defined in

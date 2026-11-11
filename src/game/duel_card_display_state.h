@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "duel_card.h"
-#include "display_object_config.h"
+#include "display_object_system.h"
 
 #define DUEL_CARD_DISPLAY_FACE_DOWN_VALUE 0x80
 #define DUEL_CARD_DISPLAY_DEFENSE_VALUE 0xC0

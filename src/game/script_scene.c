@@ -40,9 +40,8 @@ void Script_OpHalt(void)
     ScriptCommand_MarkStarted();
 }
 
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_object_layout.h"
-#include "display_object_helpers.h"
 
 DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
     DisplayObject *object =
@@ -163,11 +162,9 @@ void Script_OpShowDialog(void)
 }
 
 #include "campaign_flags.h"
-#include "display_object_config.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
 #include "display_object.h"
-#include "display_object_core.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
@@ -488,7 +485,6 @@ void Script_OpJump(void)
 #include "text_box_runtime.h"
 #include "text_box_update_channels.h"
 #include "display_object.h"
-#include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"
 #include "dialog_choice_control.h"
@@ -899,15 +895,12 @@ join:
     }
 }
 
-#include "display_object_config.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "fade.h"
-#include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "script_state.h"
 #include "script_image_objects.h"

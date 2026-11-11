@@ -15,11 +15,10 @@
 #endif
 #include "main.h"
 #include "../psyq/libgs.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 #include "display_object_layout.h"
 #include "input.h"
 #include "display_object.h"
-#include "display_object_helpers.h"
 
 /* Main_RunBootSequence queues the boot image with Main_LoadBootImageStage
    and the boot package with Main_LoadBootPackageStage. Both declarations
