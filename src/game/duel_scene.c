@@ -11620,18 +11620,16 @@ s32 Ai_SelectFieldPlay(void)
             } while (ea != 0);
         }
         n = Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x14);
-        if (n == 0) {
-            goto no_equip;
-        }
-        n--;
         if (n != 0) {
-            n = Rand_GetInterval(n + 1);
+            n--;
+            if (n != 0) {
+                n = Rand_GetInterval(n + 1);
+            }
+            gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
+            gAi_Selection.fields.target_code = 0;
+            gAi_Selection.fields.field_0B = 0;
+            return 0;
         }
-        gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
-        gAi_Selection.fields.target_code = 0;
-        gAi_Selection.fields.field_0B = 0;
-        return 0;
-no_equip:
         slot = 0xA;
     }
 walk:
