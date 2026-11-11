@@ -872,32 +872,21 @@ void Model_UpdateAnimatedBattle(void)
 
                 preset_index = gModel_aSlots[0].metadata.prefix.bytes.guardian_star_options[gModel_aSlots[0].guardian_star_selection] & 0x1F;
                 key_magnitude = -0x14;
-                if (preset_index == 1) {
-                    goto s10_m0;
+                switch (preset_index) {
+                case 1:
+                    preset_index = 0;
+                    break;
+                case 2:
+                    preset_index = 1;
+                    break;
+                case 3:
+                    preset_index = 2;
+                    break;
+                case 0:
+                default:
+                    preset_index = 3;
+                    break;
                 }
-                if (preset_index < 2) {
-                    goto s10_m3;
-                }
-                if (preset_index == 2) {
-                    goto s10_m1;
-                }
-                if (preset_index == 3) {
-                    goto s10_m2;
-                }
-                preset_index = 3;
-                goto s10_teste;
-            s10_m0:
-                preset_index = 0;
-                goto s10_teste;
-            s10_m1:
-                preset_index = 1;
-                goto s10_teste;
-            s10_m2:
-                preset_index = 2;
-                goto s10_teste;
-            s10_m3:
-                preset_index = 3;
-            s10_teste:
                 if ((u32)preset_index < 2) {
                     key_magnitude = key_magnitude / 2;
                 }
