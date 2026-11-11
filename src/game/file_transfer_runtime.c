@@ -556,7 +556,8 @@ void File_StepActiveTransfer(void)
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x8000;
             if ((gFile_wTransferStepFlags & 3) == 0) {
                 gFile_wTransferStepFlags = 0;
-                goto call_144B8;
+                File_FinishActiveTransfer();
+                return;
             }
             if (!(gFile_wTransferStepFlags & 0x2000)) {
                 gFile_wStepState = 0;
@@ -577,17 +578,17 @@ void File_StepActiveTransfer(void)
             }
             gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
             pause_callback = gFile_RangePauseCallback;
-            goto call_back;
+            if (pause_callback != 0) {
+                pause_callback();
+            }
+            return;
         case 2:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xDFFF;
-            if (gFile_wTransferStepFlags & 1) {
-                goto set_state3;
+            if (!(gFile_wTransferStepFlags & 1)) {
+                gFile_wTransferStepFlags = 0;
+                File_FinishActiveTransfer();
+                return;
             }
-            gFile_wTransferStepFlags = 0;
-call_144B8:
-            File_FinishActiveTransfer();
-            return;
-set_state3:
             gFile_wStepState = 3;
         case 3:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x1000;
@@ -632,7 +633,6 @@ set_state3:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0x3FFC;
             pause_callback = gFile_RangePauseCallback;
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
-call_back:
             if (pause_callback != 0) {
                 pause_callback();
             }
@@ -652,7 +652,8 @@ call_back:
         case 1:
             DsEndReadySystem();
             CdReadyCallback(0);
-            goto call_144B8;
+            File_FinishActiveTransfer();
+            return;
         }
         return;
     }
@@ -660,12 +661,14 @@ call_back:
         if (gFile_dwTransferState & 0x100) {
             return;
         }
-        goto call_144B8;
+        File_FinishActiveTransfer();
+        return;
     }
     CdIntToPos_8007E600(transfer->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
     if (gFile_dwTransferState & 0x100000) {
         if ((s32)gFile_dwTransferState < 0) {
-            goto call_144B8;
+            File_FinishActiveTransfer();
+            return;
         }
         if (DsPacket(
                 0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 0x15,
