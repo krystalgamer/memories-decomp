@@ -20,7 +20,7 @@ The shared `FadeTransitionState` layout is:
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
 | `0x06` | `flags` | 1 | byte bit tests/writes named by `FADE_FLAG_*` in `fade_constants.h` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
-| `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
+| `0x08` | `sweep_head` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)sweep_head`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `Fade_FillBandLevels` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
@@ -41,7 +41,7 @@ declarations were used.
 ## Band-ramp mechanics
 
 The [`Fade_StepBands`](../src/game/fade_runtime.c) source establishes
-**high-confidence static semantics** for `field_08` in band mode: it is a
+**high-confidence static semantics** for `sweep_head` (originally `field_08`) in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
 the starting value to `s16`, so values below zero and above `0xFF` can
@@ -59,7 +59,7 @@ band `29 - i`:
 Both paths clamp to the interval between `L` and `T`. The unscaled `step`
 sets the spacing between unclamped pair values; only the head advance is
 multiplied by `gGraphics_nBaseFrameStep`. The head update therefore uses the opposite sign
-to the within-pass accumulator. A post-call sample of `field_08` already
+to the within-pass accumulator. A post-call sample of `sweep_head` already
 contains the next head, whereas the band array was generated from the old
 one.
 
