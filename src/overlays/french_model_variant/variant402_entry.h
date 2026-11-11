@@ -2,10 +2,9 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT402_ENTRY_H
 #include "../../types.h"
 #include "variant402_bands.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"

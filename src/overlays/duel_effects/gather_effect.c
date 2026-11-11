@@ -3,7 +3,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/memory.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_state_setters.h"
 #include "utility_helpers.h"
 #include "drawing_helpers.h"

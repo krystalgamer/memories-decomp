@@ -8,7 +8,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_texture_upload.h"

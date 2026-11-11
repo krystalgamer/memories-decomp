@@ -78,7 +78,7 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "graphics_frame_controls.h"
 #include "input.h"
 #include "sound_driver.h"
-#include "model_graphics_state.h"
+#include "model_slot_getters.h"
 #include "../external_funcs.h"
 #include "../psyq/libmcrd.h"
 #include "func_800136D4.h"

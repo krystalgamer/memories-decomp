@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT184_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/screen_projection.h"
 #include "../../game/model_texture_upload.h"

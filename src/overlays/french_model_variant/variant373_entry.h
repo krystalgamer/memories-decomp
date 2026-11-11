@@ -10,7 +10,7 @@
 #include "variant373_ribbons.h"
 #include "variant373_quads.h"
 #include "variant373_rays.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];

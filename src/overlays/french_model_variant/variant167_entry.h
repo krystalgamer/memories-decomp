@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_copy_slot_u16_values.h"

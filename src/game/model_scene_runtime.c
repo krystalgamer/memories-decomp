@@ -224,7 +224,7 @@ int Model_SetSlotShadowEnabled(int index, int value)
     return old;
 }
 
-#include "model_graphics_state.h"
+#include "model_slot_getters.h"
 #include "model_state_setters.h"
 #include "graphics_frame_controls.h"
 
@@ -812,7 +812,6 @@ int Model_IsCameraMoveComplete(int arg)
 
 #include "main.h"
 #include "gpu_packets.h"
-#include "model_graphics_state.h"
 #include "model_slot_properties.h"
 #include "model_has_insufficient_buffer_space.h"
 

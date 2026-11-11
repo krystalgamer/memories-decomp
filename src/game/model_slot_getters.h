@@ -1,8 +1,18 @@
-#ifndef MEMORIES_DECOMP_MODEL_GRAPHICS_STATE_H
-#define MEMORIES_DECOMP_MODEL_GRAPHICS_STATE_H
-
+#ifndef MEMORIES_DECOMP_MODEL_SLOT_GETTERS_H
+#define MEMORIES_DECOMP_MODEL_SLOT_GETTERS_H
 #include "../types.h"
-#include "model_get_frame_step.h"
+
+/* Returns the frame step: the volatile counter at gGraphics_bFrameStep clamped to at
+ * most 6. Callers scale an animation rate by it (m->playback_speed * step) or test
+ * it directly against 2, so the result is consumed as a signed value even
+ * though the definition computes it in an unsigned register. */
+s32 Model_GetFrameStep(void);
+
+/* Returns 2 while the load phase differs from 0xFF, otherwise the active
+ * byte's nonzero test. Load requests, transfer completion and
+ * Model_AdvanceSlotLoad establish the phase sequence; this is not a Boolean
+ * predicate. Slot lookup, int ABI and the phase-before-active read stay exact. */
+int Model_GetSlotReadiness(int index);
 
 /* Shared model/graphics state at 0x8009AF88-0x8009AFAB.
  *
@@ -57,5 +67,26 @@ extern volatile u8 gGraphics_bFrameStep;
  * (returned by func_80058DC0) and gModel_bCreditsActiveSlot, the credits' active slot (0/1). */
 
 s32 Model_GetActiveSlotIndex(void);
+
+/* Four reads of one model slot, each selected by slot index rather than by a
+ * slot pointer, so a caller needs nothing of the record's layout.
+ *
+ * Model_GetSlotAnimationFrame returns the slot's 12.4 fixed-point animation
+ * position shifted right by four.
+ *
+ * Model_GetSlotAnimationLength takes two steps: it reads the animation index
+ * at 0xBF5 that Model_GetSlotAnimationIndex also returns, then uses it to
+ * index animation_duration_rows and hands back that row's `max`. Its return type is `u16`
+ * because `max` is one (model.h:44); model.h:39-40 lists it among the four
+ * functions that read the same halfword.
+ *
+ * Model_GetSlotAnimationSpeed, Model_GetSlotAnimationFrame and
+ * Model_GetSlotAnimationLength have no caller yet -- none in C and none in the
+ * generated assembly. They are declared here anyway so that whoever
+ * decompiles their callers finds a signature instead of inventing one. */
+s32 Model_GetSlotAnimationSpeed(s32 index);
+s32 Model_GetSlotAnimationIndex(s32 index);
+s32 Model_GetSlotAnimationFrame(s32 index);
+u16 Model_GetSlotAnimationLength(s32 idx);
 
 #endif

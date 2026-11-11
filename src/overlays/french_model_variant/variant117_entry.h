@@ -2,9 +2,8 @@
 #define FRENCH_MODEL_VARIANT117_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_data.h"
-#include "../../game/model_slot_queries.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../psyq/libhmd.h"

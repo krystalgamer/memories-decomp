@@ -2,8 +2,7 @@
 #define FRENCH_MODEL_IMAGE32768_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_graphics_state.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_state_setters.h"
 #include "../../game/model_camera_effects.h"

@@ -6,7 +6,7 @@
 #include "../french_model_variant/variant478_swarm.h"
 #include "../spanish_model_variant/variant478_quads.h"
 #include "../spanish_model_variant/variant478_rings.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
 
 typedef struct {
