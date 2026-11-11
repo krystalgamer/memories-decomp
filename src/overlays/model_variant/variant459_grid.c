@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant459_grid.h"
-#include "../spanish_model_variant/variant459_entry.h"
+#include "variant459_entry.h"
 
 /* Draws the header-459 grid at (u8 *)work + 0xFF8 (nine rows of seventeen points)
  * as POLY_GT4 strips shaded per row, sorted when the depth and the flag are
@@ -31,15 +31,16 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
     ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
     grid = (ModelVariantMesh *)((u8 *)work + 0xFF8);
-    poly = (POLY_GT4 *)&work->sheets[2].v1[3];
-    if (work->sheets[5].v0[0].vx == 0) {
-        setVector(&rot, work->sheets[4].v1[3].vz, 0, 0);
+    poly = &work->veil;
+    /* Retail reads only the signed low halfword of globe_rotation_x here. */
+    if (work->slot == 0) {
+        setVector(&rot, MODEL_VARIANT_HALF(work, 0x2804), 0, 0);
     } else {
-        setVector(&rot, -work->sheets[4].v1[3].vz, 0, 0);
+        setVector(&rot, -MODEL_VARIANT_HALF(work, 0x2804), 0, 0);
     }
-    m.t[0] = work->sheets[3].v1[1].vx;
-    m.t[1] = work->sheets[3].v1[1].vy;
-    m.t[2] = work->sheets[3].v1[1].vz;
+    m.t[0] = work->target.vx;
+    m.t[1] = work->target.vy;
+    m.t[2] = work->target.vz;
     scale.vx = MODEL_VARIANT_WORD(work, 0x27FC);
     scale.vy = MODEL_VARIANT_WORD(work, 0x27FC);
     scale.vz = MODEL_VARIANT_WORD(work, 0x27FC);
@@ -94,7 +95,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     }
     if (MODEL_VARIANT_WORD(work, 0x284C) < 3) {
         if (MODEL_VARIANT_WORD(work, 0x27FC) < 0x2000) {
-            MODEL_VARIANT_WORD(work, 0x27FC) += work->sheets[3].size << 9;
+            MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step << 9;
             if (MODEL_VARIANT_WORD(work, 0x27FC) >= 0x2000) {
                 MODEL_VARIANT_WORD(work, 0x27FC) = 0x2000;
                 MODEL_VARIANT_WORD(work, 0x284C) = 3;
@@ -102,25 +103,25 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
         }
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 3) {
         MODEL_VARIANT_WORD(work, 0x27FC) = (rcos(MODEL_VARIANT_WORD(work, 0x2808)) * 0x800 >> 12) + 0x1800;
-        MODEL_VARIANT_WORD(work, 0x2808) += work->sheets[3].size << 6;
+        MODEL_VARIANT_WORD(work, 0x2808) += work->clock.step << 6;
         if (*(u32 *)(*(u8 **)((u8 *)work + 0x27C0) + 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
             MODEL_VARIANT_WORD(work, 0x284C) = 4;
         }
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 4) {
-        MODEL_VARIANT_WORD(work, 0x27FC) += work->sheets[3].size << 8;
+        MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step << 8;
         if (MODEL_VARIANT_WORD(work, 0x27FC) >= 0x4000) {
             MODEL_VARIANT_WORD(work, 0x284C) = 5;
             MODEL_VARIANT_WORD(work, 0x280C) = 0x400;
         }
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 5) {
-        MODEL_VARIANT_WORD(work, 0x27FC) += work->sheets[3].size << 8;
+        MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step << 8;
         if (MODEL_VARIANT_WORD(work, 0x280C) > 0) {
-            MODEL_VARIANT_WORD(work, 0x280C) -= work->sheets[3].size << 5;
+            MODEL_VARIANT_WORD(work, 0x280C) -= work->clock.step << 5;
             if (MODEL_VARIANT_WORD(work, 0x280C) <= 0) {
                 MODEL_VARIANT_WORD(work, 0x280C) = 0;
                 MODEL_VARIANT_WORD(work, 0x284C) = 6;
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x2804) += work->sheets[3].size << 6;
+    MODEL_VARIANT_WORD(work, 0x2804) += work->clock.step << 6;
 }
