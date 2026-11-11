@@ -50,10 +50,10 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
     quad_record = work->quads;
     web = work->webs;
     glow = work->glows;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat_textured;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     extra = &work->extra;
     result = 0;
     if (command >= 0) {

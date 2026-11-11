@@ -84,9 +84,8 @@ typedef struct {
     Variant456EntryLine lines[16];
     Variant456EntrySheet sheets[8];
     ModelVariantStreamer streamers[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2], glow;
+    ModelVariantPackets packets;
+    POLY_GT4 glow;
     POLY_FT4 flat[2];
     POLY_FT4 flat_extra[2];
     u8 unknown_22A4[0x24];

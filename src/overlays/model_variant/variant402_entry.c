@@ -26,9 +26,9 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *fan = work->fans;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantTrail *streak = work->streaks;
-    POLY_GT4 *textured = work->textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_GT4 *textured = work->packets.textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     POLY_FT4 *flat = work->flat_textured;
     POLY_FT4 *glow = &work->glow;
     Variant402EntryQuads *quads;
