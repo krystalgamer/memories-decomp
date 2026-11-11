@@ -595,15 +595,13 @@ void Duel_DrawFieldCards(void) {
             if (a != 0) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
-                    n++;
-                    goto next;
+                } else {
+                    *p4 = a->rgb;
+                    Duel_RenderFieldCard3D(e, p3, p1, p4);
                 }
-                *p4 = a->rgb;
-                Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }
         n++;
-    next:
         e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
@@ -617,15 +615,13 @@ void Duel_DrawFieldCards(void) {
             if (a != 0) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
-                    n++;
-                    goto next2;
+                } else {
+                    *p4 = a->rgb;
+                    Duel_RenderFieldCard3D(e, p3, p1, p4);
                 }
-                *p4 = a->rgb;
-                Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }
         n++;
-    next2:
         e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
@@ -2108,11 +2104,11 @@ void Duel_InitScene(void)
             gDuel_pSide0SaveData = (SaveDataState *)p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
-                goto shuffle;
+                Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
+                return;
             }
         }
         q = p;
-    shuffle:
         Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
     }
 }
@@ -3861,7 +3857,8 @@ request_combination:
                     s32 phase = gDuel_bSceneSubStep;
                     if (phase & 0x20) {
                         phase_clear = phase & 0x9F;
-                        goto finish_effect_step;
+                        gDuel_bSceneSubStep = phase_clear;
+                        return;
                     }
                 }
                 {
@@ -4146,7 +4143,8 @@ void DuelScene_UpdateCardMove(void)
         /* Fall through to the next presentation phase in the same frame. */
     case 2:
         if (object->field_68 >= 0x14) {
-            goto state_four;
+            gDuel_bSceneSubStep = 4;
+            break;
         }
         gDuel_bSceneSubStep = 3;
         /* Fall through to initialize the choice dialog. */
@@ -6372,10 +6370,10 @@ void DuelScene_UpdateBattle(void)
 
                         id = ((DuelCardReplayRecordBlock *)(
                             pw1 + gDisplayObject_apWorkSlots.slots[1]->field_6A * 0x1C + big1))->record.card_id;
-                        goto request;
+                        CardPreview_RequestResourceTransfer(1, id);
+                        return;
                     }
                 } else {
-                request:
                     CardPreview_RequestResourceTransfer(1, id);
                     return;
                 }
@@ -9696,7 +9694,6 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
     u32 desc;
     s32 type;
-    s16 val;
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 0);
 
@@ -9717,30 +9714,24 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     obj->card_type = (u8)type;
     obj->icon_variant = 0;
 
-    if (type < CARD_TYPE_MAGIC) {
-        goto end;
-    }
-    obj->icon_state = 0x38;
+    if (type >= CARD_TYPE_MAGIC) {
+        obj->icon_state = 0x38;
 
-    switch (type) {
-        case CARD_TYPE_EQUIP:
-            obj->icon_variant = 1;
-            goto end;
-        case CARD_TYPE_MAGIC:
-            val = 1;
-            break;
-        case CARD_TYPE_TRAP:
-            val = 2;
-            break;
-        case CARD_TYPE_RITUAL:
-            val = 3;
-            break;
-        default:
-            goto end;
+        switch (type) {
+            case CARD_TYPE_EQUIP:
+                obj->icon_variant = 1;
+                break;
+            case CARD_TYPE_MAGIC:
+                obj->icon_variant = 1;
+                break;
+            case CARD_TYPE_TRAP:
+                obj->icon_variant = 2;
+                break;
+            case CARD_TYPE_RITUAL:
+                obj->icon_variant = 3;
+                break;
+        }
     }
-    obj->icon_variant = val;
-
-end:
     return obj;
 }
 
@@ -10012,7 +10003,8 @@ void DuelEffect_ApplyLifePointRecovery(void) {
                 gDuel_pActiveSideState->life_points.unsigned_value =
                     (u16) gDuel_pActiveSideState->max_life_points;
             }
-            goto block_14;
+            gDuel_wCardEffectFlags = 0;
+            return;
         }
         gDuel_wTrapPresentationMode = 0;
         goto block_9;
@@ -10034,7 +10026,6 @@ block_9:
         if ((s16) v1 < 0) {
             gDuel_pActiveSideState->life_points.unsigned_value = 0;
         }
-block_14:
         gDuel_wCardEffectFlags = 0;
     }
 }
@@ -10343,7 +10334,8 @@ void DuelEffect_ApplyRaigeki(void) {
         p->field_00 = w;
         a = 0x15;
         p->field_04 = (u16)e->y;
-        goto call;
+        SD_SEPlayFull(a);
+        return;
     }
 
     if ((gDuel_bEffectRequestStatus & 1) == 0) {
@@ -10369,7 +10361,6 @@ void DuelEffect_ApplyRaigeki(void) {
             q->phase = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
             a = 0x1F;
-call:
             SD_SEPlayFull(a);
         }
     }
@@ -10968,7 +10959,8 @@ void DuelEffect_ApplyRitual(void)
             card->flags &= ~0x200;
             if (rand() & 1)
                 card->flags |= 0x200;
-            goto state_five;
+            gDuel_wTrapPresentationMode = 5;
+            break;
         }
         gDisplayObject_apWorkSlots.slots[1] =
             (DisplayObject *)Duel_CreateCardDisplayObject(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
@@ -11022,7 +11014,6 @@ void DuelEffect_ApplyRitual(void)
             }
         } else if (!DisplayObject_FindAllocatedByTag(1)) {
             DisplayObject_ReleaseIfPresent(object);
-state_five:
             gDuel_wTrapPresentationMode = 5;
         }
         break;
@@ -11608,7 +11599,10 @@ s32 Ai_SelectFieldPlay(void)
                     do {
                         if (Duel_CheckEquip((s16)ea->card_id,
                                             (s16)eb->card_id)) {
-                            goto found;
+                            gAi_Selection.fields.source_code = (s8)ea->table_index % 5 + 6;
+                            gAi_Selection.fields.target_code = (s8)eb->table_index % 5 + 1;
+                            gAi_Selection.fields.field_0B = 0;
+                            return 0;
                         }
                         pb++;
                         eb = *pb;
@@ -11619,23 +11613,16 @@ s32 Ai_SelectFieldPlay(void)
             } while (ea != 0);
         }
         n = Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x14);
-        if (n == 0) {
-            goto no_equip;
-        }
-        n--;
         if (n != 0) {
-            n = Rand_GetInterval(n + 1);
+            n--;
+            if (n != 0) {
+                n = Rand_GetInterval(n + 1);
+            }
+            gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
+            gAi_Selection.fields.target_code = 0;
+            gAi_Selection.fields.field_0B = 0;
+            return 0;
         }
-        gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
-        gAi_Selection.fields.target_code = 0;
-        gAi_Selection.fields.field_0B = 0;
-        return 0;
-found:
-        gAi_Selection.fields.source_code = (s8)ea->table_index % 5 + 6;
-        gAi_Selection.fields.target_code = (s8)eb->table_index % 5 + 1;
-        gAi_Selection.fields.field_0B = 0;
-        return 0;
-no_equip:
         slot = 0xA;
     }
 walk:

@@ -532,15 +532,13 @@ void Model_UpdateBackgroundScroll(s32 force)
             goto low;
         }
         initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-        if (initial_turn_difference < 0) {
-            goto neg_side;
+        if (initial_turn_difference >= 0) {
+            background_offset_y = -0x139;
+            if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                goto compute;
+            }
+            goto store;
         }
-        background_offset_y = -0x139;
-        if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-            goto compute;
-        }
-        goto store;
-neg_side:
         background_offset_y = -0x139;
         if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
             goto store;
@@ -548,21 +546,17 @@ neg_side:
 compute:
         reloaded_pitch = gModel_wViewPitch;
         reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-        if (reloaded_turn_difference < 0) {
-            goto sub_form;
+        if (reloaded_turn_difference >= 0) {
+            background_offset_y = -(reloaded_turn_difference * 26) / 85;
+            goto store;
         }
-        background_offset_y = -(reloaded_turn_difference * 26) / 85;
-        goto store;
-sub_form:
         background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
         goto store;
 low:
-        if (initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
-            goto clamp_pos;
+        if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+            background_offset_y = (initial_pitch * 26) / 85;
+            goto store;
         }
-        background_offset_y = (initial_pitch * 26) / 85;
-        goto store;
-clamp_pos:
         background_offset_y = 0x139;
 store:
         gModel_wBackgroundOffsetY = background_offset_y;
@@ -1697,7 +1691,8 @@ void Model_UpdateCreditsPresentation(void)
               Model_ControlSlotAnimation((u8)gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
-          goto tick_active_slot;
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
         }
       }
       else
@@ -1746,7 +1741,8 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bCreditsActiveSlot ^= 1u;
         }
       }
-      goto tick_active_slot;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+      break;
     case 2:
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
@@ -1772,7 +1768,8 @@ void Model_UpdateCreditsPresentation(void)
         || fade_slot_base[1].tint[0]
         || slot1_tint[1] || slot1_tint[2] )
       {
-        goto tick_active_slot;
+        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+        break;
       }
       fade_slot_base[1].is_active = 0;
       fade_slot_base[0].is_active = 0;
@@ -2188,58 +2185,56 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
         if (radial_distance >= separation_limit) {
             continue;
         }
-        if (separation_extent != 0) {
-            goto hit;
-        }
-        if (apply_request != 0) {
-            s32 penetration_scale;
-            s32 push_x;
-            s32 push_z;
+        if (separation_extent == 0) {
+            if (apply_request != 0) {
+                s32 penetration_scale;
+                s32 push_x;
+                s32 push_z;
 
-            penetration_scale = ((separation_limit - radial_distance) << 12) / separation_limit;
-            push_x = e0.values[slot_index] * penetration_scale / 4096;
-            if (dx.values[slot_index] <= 0) {
-                push_x = -push_x;
-            }
-            push_z = e2.values[slot_index] * penetration_scale / 4096;
-            if (dz.values[slot_index] <= 0) {
-                push_z = -push_z;
-            }
-            {
-                s32 target_x = gModel_RView.vrx;
-                s32 eye_z = gModel_RView.vpz;
-                s32 target_z = gModel_RView.vrz;
-                s32 eye_x = gModel_RView.vpx;
-                s32 normal_x = target_z - eye_z;
-                s32 normal_z = eye_x - target_x;
-                s32 pushed_eye_x = eye_x + push_x;
-                s32 pushed_eye_z = eye_z + push_z;
-                s32 line_constant = target_x * eye_z - eye_x * target_z;
-                s32 normal_length = SquareRoot0(normal_x * normal_x + normal_z * normal_z);
-                s32 side_distance = 0;
-
-                if (normal_length != 0) {
-                    do {
-                        side_distance = (pushed_eye_x * normal_x + pushed_eye_z * normal_z + line_constant) / normal_length;
-                    } while (0);
+                penetration_scale = ((separation_limit - radial_distance) << 12) / separation_limit;
+                push_x = e0.values[slot_index] * penetration_scale / 4096;
+                if (dx.values[slot_index] <= 0) {
+                    push_x = -push_x;
                 }
-                if (gModel_bOrbitDirectionTimer == 0) {
-                    if (side_distance < 0) {
-                        gModel_bOrbitDirection = -1;
-                    } else {
-                        gModel_bOrbitDirection = 1;
+                push_z = e2.values[slot_index] * penetration_scale / 4096;
+                if (dz.values[slot_index] <= 0) {
+                    push_z = -push_z;
+                }
+                {
+                    s32 target_x = gModel_RView.vrx;
+                    s32 eye_z = gModel_RView.vpz;
+                    s32 target_z = gModel_RView.vrz;
+                    s32 eye_x = gModel_RView.vpx;
+                    s32 normal_x = target_z - eye_z;
+                    s32 normal_z = eye_x - target_x;
+                    s32 pushed_eye_x = eye_x + push_x;
+                    s32 pushed_eye_z = eye_z + push_z;
+                    s32 line_constant = target_x * eye_z - eye_x * target_z;
+                    s32 normal_length = SquareRoot0(normal_x * normal_x + normal_z * normal_z);
+                    s32 side_distance = 0;
+
+                    if (normal_length != 0) {
+                        do {
+                            side_distance = (pushed_eye_x * normal_x + pushed_eye_z * normal_z + line_constant) / normal_length;
+                        } while (0);
                     }
-                    gModel_bOrbitDirectionTimer = 0x1E;
-                } else if (gModel_bOrbitDirectionTimer < 0xFF) {
-                    gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
+                    if (gModel_bOrbitDirectionTimer == 0) {
+                        if (side_distance < 0) {
+                            gModel_bOrbitDirection = -1;
+                        } else {
+                            gModel_bOrbitDirection = 1;
+                        }
+                        gModel_bOrbitDirectionTimer = 0x1E;
+                    } else if (gModel_bOrbitDirectionTimer < 0xFF) {
+                        gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
+                    }
                 }
+                gModel_RView.vpx = gModel_RView.vpx + push_x;
+                gModel_RView.vpz = gModel_RView.vpz + push_z;
             }
-            gModel_RView.vpx = gModel_RView.vpx + push_x;
-            gModel_RView.vpz = gModel_RView.vpz + push_z;
+            separation_extent = separation_limit;
+            continue;
         }
-        separation_extent = separation_limit;
-        continue;
-    hit:
         extra_overlap_count = extra_overlap_count + 1;
     }
 
@@ -2657,63 +2652,61 @@ void Model_UpdateTintRequests(void)
         if (gModel_aSlots[request->slot].is_active == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode)) {
-            goto tail;
-        }
-        flag_work = *(u16 *)request;
-        request_animation_position = request->animation_position_snapshot;
-        elapsed = request->elapsed;
-        duration = request->duration;
-        slot_index = (flag_work >> 1) & 1;
-        flag_work = flag_work >> 3;
-        slot_state = &gModel_aSlots[slot_index];
-        saved_animation_position = slot_state->animation_position;
-        request_animation_row = flag_work & 0x1F;
-        saved_animation_row = slot_state->current_animation_row;
-        saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
-        draw_animation_row = request_animation_row;
-        saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
-        draw_tint.blend_mode = request->start.blend_mode;
-        draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
-        draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
-        draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
-        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
+        if (!(Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode))) {
+            flag_work = *(u16 *)request;
+            request_animation_position = request->animation_position_snapshot;
+            elapsed = request->elapsed;
+            duration = request->duration;
+            slot_index = (flag_work >> 1) & 1;
+            flag_work = flag_work >> 3;
+            slot_state = &gModel_aSlots[slot_index];
+            saved_animation_position = slot_state->animation_position;
+            request_animation_row = flag_work & 0x1F;
+            saved_animation_row = slot_state->current_animation_row;
+            saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
+            draw_animation_row = request_animation_row;
+            saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
+            draw_tint.blend_mode = request->start.blend_mode;
+            draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
+            draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
+            draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
+            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
 
-        draw_position = request_animation_position;
-        for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
-            s32 part_row = slot_state->current_animation_row;
+            draw_position = request_animation_position;
+            for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
+                s32 part_row = slot_state->current_animation_row;
+                if (draw_animation_row != 0) {
+                    slot_state->animation_sequences[draw_part_index]->sid = draw_animation_row;
+                    part_row = draw_animation_row;
+                }
+                Model_SeekSlotPartAnimation(slot_state, draw_part_index, part_row, draw_position);
+            }
             if (draw_animation_row != 0) {
-                slot_state->animation_sequences[draw_part_index]->sid = draw_animation_row;
-                part_row = draw_animation_row;
+                slot_state->current_animation_row = draw_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot_state, draw_part_index, part_row, draw_position);
-        }
-        if (draw_animation_row != 0) {
-            slot_state->current_animation_row = draw_animation_row;
-        }
 
-        gModel_PartMaskAddress = request_offset + mask_base_address;
-        gModel_bDrawMaskedPartsOnly = request->masked_parts_only;
-        Model_DrawSlot(slot_index);
-        gModel_PartMaskAddress = 0;
-        gModel_bDrawMaskedPartsOnly = 0;
+            gModel_PartMaskAddress = request_offset + mask_base_address;
+            gModel_bDrawMaskedPartsOnly = request->masked_parts_only;
+            Model_DrawSlot(slot_index);
+            gModel_PartMaskAddress = 0;
+            gModel_bDrawMaskedPartsOnly = 0;
 
-        restore_position = saved_animation_position;
-        for (restore_part_index = 0; restore_part_index < slot_state->animation_sequence_count; restore_part_index++) {
-            s32 part_row = slot_state->current_animation_row;
+            restore_position = saved_animation_position;
+            for (restore_part_index = 0; restore_part_index < slot_state->animation_sequence_count; restore_part_index++) {
+                s32 part_row = slot_state->current_animation_row;
+                if (saved_animation_row != 0) {
+                    slot_state->animation_sequences[restore_part_index]->sid = saved_animation_row;
+                    part_row = saved_animation_row;
+                }
+                Model_SeekSlotPartAnimation(slot_state, restore_part_index, part_row, restore_position);
+            }
             if (saved_animation_row != 0) {
-                slot_state->animation_sequences[restore_part_index]->sid = saved_animation_row;
-                part_row = saved_animation_row;
+                slot_state->current_animation_row = saved_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot_state, restore_part_index, part_row, restore_position);
-        }
-        if (saved_animation_row != 0) {
-            slot_state->current_animation_row = saved_animation_row;
-        }
 
-        Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
-        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
-tail:
+            Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
+            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
+        }
         request->elapsed += Model_GetFrameStep();
         if (request->elapsed >= request->duration) {
             request->active = 0;
