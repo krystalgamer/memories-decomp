@@ -12,7 +12,7 @@
 #include "../../game/duel_effect_states.h"
 #include "../../game/sound.h"
 #include "../../game/input.h"
-#include "../../game/text_box_lifecycle.h"
+#include "../../game/duel_effect_text.h"
 #include "../../game/card_list_deck_box.h"
 #include "../../game/trade_confirmation_widgets.h"
 

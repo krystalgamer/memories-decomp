@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "../duel_effect_entry_occupancy.h"
 
 /* SLPM-86398 build of src/game/duel_effect_text.c. The Japanese release
  * swaps Cross and Circle, so both choice confirm masks are named here. */
@@ -20,4 +19,5 @@
 #define DUEL_EFFECT_ENTRY_STORAGE_TYPE JapaneseDuelEffectEntry
 #define DUEL_EFFECT_ENTRY_STORAGE_COUNT JAPANESE_DUEL_EFFECT_ENTRY_COUNT
 #define DUEL_EFFECT_PROCESS_ENTRY_TYPE JapaneseDuelEffectEntry
+#include "../duel_effect_text.h"
 #include "../duel_effect_text.c"

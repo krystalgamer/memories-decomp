@@ -520,13 +520,11 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
    BuildDeck_TakeCardFromChest: the per-slot card-list text box and the loop
    that builds every visible slot, then the count-box refresh and the two
    transfers that move one card between the chest and the deck. */
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "card_constants.h"
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "duel_effect_states.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "card_list_text_boxes.h"
 #include "build_deck_transition_state.h"
 #include "duel_card.h"
@@ -719,8 +717,6 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
 #include "../game/card_constants.h"
 #include "../game/display_object_layout.h"
 #include "../game/duel_card.h"
-#include "../game/text_box_lifecycle.h"
-#include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
 
 /* The Build Deck screen's card counts: the count box refresh, returning a
@@ -1277,11 +1273,8 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "sound.h"
 #include "card_list_sort_icons.h"
 #include "duel_card_viewer.h"
-#include "text_channel_state.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
-#include "text_box_lifecycle.h"
-#include "text_box_update_channels.h"
 #include "display_object_depth_bases.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"

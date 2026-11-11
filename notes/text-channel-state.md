@@ -3,7 +3,7 @@
 The four records initialized by `DuelEffect_InitEntry`, reset by
 `DuelEffect_ResetState` and pumped by `TextBox_UpdateChannels` are
 `gText_aChannels`. This is the existing channel pool, not a new allocation.
-`text_channel_state.h` provides canonical declarations without changing any
+`duel_effect_text.h` (formerly `text_channel_state.h`) provides canonical declarations without changing any
 existing header or frozen overlay C.
 
 ## Native views and storage

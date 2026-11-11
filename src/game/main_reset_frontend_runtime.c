@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "display_object_system.h"
 #include "main.h"
-#include "duel_effect_reset_state.h"
+#include "duel_effect_text.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
-#include "menu_record_reset.h"
 #include "duel_effect_states.h"
 
 void Main_ResetFrontendRuntime(void)

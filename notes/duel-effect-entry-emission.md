@@ -4,7 +4,7 @@ The existing `DuelEffect_AppendEntry` API now names every C call and native
 definition, rather than leaving the builder and commands on the
 `func_80036C14` linker alias. Its grouped source/header paths remain
 [`duel_effect_text.c`](../src/game/duel_effect_text.c) and
-[`duel_effect_entries.h`](../src/game/duel_effect_entries.h).
+[`duel_effect_text.h`](../src/game/duel_effect_text.h).
 
 The adjacent ownership contract names the NA/Japanese
 `DuelEffect_FindFreeOccupancySlot` query and its two byte-valued start

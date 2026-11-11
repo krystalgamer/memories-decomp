@@ -7,7 +7,7 @@
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "duel_effect_state_latch.h"
 #include "main.h"
 #include "input.h"
@@ -15,17 +15,14 @@
 #include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
-#include "text_channel_state.h"
 #include "duel_card_viewer.h"
 #include "duel_effect_tables.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
 #include "display_object_system.h"
 #include "display_object.h"
 #include "display_object_depth_bases.h"
 #include "card_preview.h"
 #include "file_transfer.h"
-#include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"

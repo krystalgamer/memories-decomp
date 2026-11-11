@@ -7488,7 +7488,7 @@ run it before deciding rather than after the build fails.
 
 ## A narrowing parameter is only load bearing if the caller has something to narrow
 
-`duel_effect_entry_control.h` held `func_800373C8` back from the header on the
+`duel_effect_text.h` (formerly `duel_effect_entry_control.h`) held `func_800373C8` back from the header on the
 grounds that it is defined `(DuelEffectChannel *, u8, u8)` while both callers
 declared `(DuelEffectChannel *, s32, s32)`. The caution was reasonable: a
 narrowing parameter changes what the caller has to do to the argument register,

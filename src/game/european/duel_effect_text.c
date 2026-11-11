@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "../duel_effect_entry_occupancy.h"
 
 /* SLES-03947 build of src/game/duel_effect_text.c, with the European
  * bodies, glyph-fade callbacks and 0x16-byte entries. Values that differ in
@@ -24,4 +23,5 @@
 #define DUEL_EFFECT_ENTRY_STORAGE_TYPE EuropeanDuelEffectEntry
 #define DUEL_EFFECT_ENTRY_STORAGE_COUNT EUROPEAN_DUEL_EFFECT_ENTRY_COUNT
 #define DUEL_EFFECT_PROCESS_ENTRY_TYPE EuropeanDuelEffectEntry
+#include "../duel_effect_text.h"
 #include "../duel_effect_text.c"

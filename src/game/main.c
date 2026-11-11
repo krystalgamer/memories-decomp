@@ -68,7 +68,7 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "../psyq/rand.h"
 #include "file_transfer.h"
 #include "main_mode_runners.h"
-#include "duel_effect_reset_state.h"
+#include "duel_effect_text.h"
 #include "main_boot_frontend.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"

@@ -661,7 +661,7 @@ The completed pass retained the full executable SHA-256
 ## PAL binding for the active-entry test
 
 Every region declares `DuelEffect_HasActiveEntry` with the same plain
-prototype in `duel_effect_entry_control.h`. Each PAL symbol file binds the
+prototype in `duel_effect_text.h` (formerly `duel_effect_entry_control.h`). Each PAL symbol file binds the
 name at its own address (`0x800370E0` in the UK image, `0x800372E0` in the
 other PAL images), so the former `func_800370E0` asm-label alias and the
 `VERSION_EUROPE` declaration split are gone.

@@ -10,10 +10,8 @@
 #include "card_list_deck_box.h"
 #include "card_list_rows.h"
 #include "card_list_sort_icons.h"
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "duel_effect_states.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
 

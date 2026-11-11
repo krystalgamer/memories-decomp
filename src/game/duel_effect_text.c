@@ -13,13 +13,8 @@
 #include "../types.h"
 
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
-#include "duel_effect_entry_occupancy.h"
-#include "duel_effect_reset_state.h"
-#include "text_box_set_rect.h"
+#include "duel_effect_text.h"
 #include "duel_effect_entry_ranges.h"
-#include "duel_effect_init_entry.h"
-#include "text_box_lifecycle.h"
 #include "display_object_system.h"
 
 void DuelEffect_ResetState(void)
@@ -228,7 +223,6 @@ void *TextBox_CreateFlagged(
 }
 
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entry_occupancy.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAF08-0x800EAFF8 in the
  * US build; the generated duel_effect_text_commons subsegment places it.
@@ -405,9 +399,7 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "text_channel_state.h"
 #include "main.h"
-#include "text_box_draw_entries.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -1231,11 +1223,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 }
 #endif
 
-#include "text_box_blocking_build.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entries.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-#include "duel_effect_entry_occupancy.h"
 #endif
 #ifdef VERSION_JAPAN
 #include "../psyq/libapi.h"
@@ -1506,8 +1495,6 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 }
 #endif
 
-#include "text_stream_read_le.h"
-
 int TextStream_ReadU16LE(DuelEffectChannel *object)
 {
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
@@ -1529,7 +1516,6 @@ u32 TextStream_ReadU32LE(TextStreamOwner *object)
 #include "duel_effect_entry_state.h"
 #include "display_object.h"
 #include "duel_effect_entry_ranges.h"
-#include "duel_effect_update_object_layout.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 
@@ -1680,13 +1666,10 @@ u16 gDuelEffect_awEntryRangeBoundaries[] = {
 #endif
 };
 
-#include "dialog_highlight_choice.h"
-#include "duel_effect_update_object_layout.h"
 #include "dialog_choice.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
-#include "dialog_read_choice_input.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -1761,7 +1744,6 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
 }
 
 #include "display_object.h"
-#include "widget_update_pulse_colour.h"
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 
@@ -1797,15 +1779,11 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "dialog_highlight_choice.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
-#include "dialog_read_choice_input.h"
-#include "dialog_choice_state.h"
-#include "widget_update_pulse_colour.h"
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
@@ -1892,10 +1870,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 }
 
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entry_control.h"
 
 #ifdef VERSION_JAPAN
-#include "duel_effect_entry_occupancy.h"
 
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
 #define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)gDuelEffect_aEntries)
@@ -1904,7 +1880,6 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 #define DUEL_EFFECT_RANGE_COUNT(channel) \
     (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_count)
 #elif defined(VERSION_EUROPE)
-#include "duel_effect_entry_occupancy.h"
 
 /* The European entries are 0x16 bytes, with handler_state and render_mode at 0x11
    and 0x13. */
@@ -2070,16 +2045,12 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #endif
 }
 
-#include "text_stream_read_le.h"
 #include "../psyq/rand.h"
-#include "dialog_choice_state.h"
-#include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
-#include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
 #include "sound_effect_request.h"
@@ -2393,7 +2364,6 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
     p->delay_countdown = 1;
 }
 
-#include "text_box_wrap_line.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
@@ -2477,14 +2447,11 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 }
 
 #include "card_constants.h"
-#include "duel_effect_entries.h"
 #include "duel_card.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
 #include "text_encode_decimal_digits.h"
-#include "text_stream_read_le.h"
-#include "duel_effect_command.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAFF8-0x800EB010 in the
  * US build. */
@@ -3100,8 +3067,6 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
         obj->flags_34 |= 0x1000;
 }
 
-#include "text_start_campaign_duel.h"
-#include "text_stream_read_le.h"
 #include "duel_side_state.h"
 #include "ai_script.h"
 #include "duel_session_controls.h"
@@ -3183,12 +3148,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
  * the handler that reads one byte into gCampaignMap_bEntryLocation and moves the scene mode
  * to 5. */
 
-#include "secondary_scene_commands.h"
-#include "duel_effect_sound_commands.h"
-#include "text_stream_read_le.h"
 #include "sound.h"
-#include "duel_effect_play_sound_command.h"
-#include "duel_effect_fade_out_bgm_command.h"
 #include "main_mode_state.h"
 #include "sound_bgm_commands.h"
 
@@ -3290,7 +3250,6 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 #include "fade.h"
 #include "fade_overlay_controls.h"
 #include "display_object_depth_bases.h"
-#include "duel_effect_sound_commands.h"
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {
@@ -3324,11 +3283,8 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     }
 }
 
-#include "text_stream_read_le.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "text_channel_state.h"
-#include "duel_effect_object_commands.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
 u8 gText_BranchSelectorB;
@@ -3439,12 +3395,9 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
    box's frame object. */
 
 #include "duel_effect_command_table.h"
-#include "text_stream_read_le.h"
 #include "text_stream_commands.h"
-#include "duel_effect_entry_occupancy.h"
 #include "dialog_choice.h"
 #include "campaign_flags.h"
-#include "text_box_wrap_line.h"
 #include "display_effect_lifecycle.h"
 
 #include "menu_record.h"
@@ -3456,9 +3409,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "color_constants.h"
-#include "text_box_draw_entries.h"
-#include "text_box_runtime.h"
-#include "text_control_commands.h"
 #include "dialog_choice_control.h"
 
 /* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8 in the
@@ -3813,23 +3763,15 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     }
 }
 
-#include "text_box_wrap_line.h"
 #include "input.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_state_callbacks.h"
-#include "duel_effect_entry_control.h"
-#include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "text_box_runtime.h"
-#include "duel_effect_entries.h"
-#include "menu_record_reset.h"
 #include "script_command_table.h"
 #include "script_state.h"
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
-#include "dialog_choice_state.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -4070,15 +4012,9 @@ next_opcode:
 #include "input.h"
 #include "display_effect_process_menu_records.h"
 
-#include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
 #include "sound.h"
 #include "display_object.h"
-#include "text_box_update_channels.h"
-#include "text_box_runtime.h"
-#include "text_box_blocking_build.h"
-#include "duel_effect_update_object_layout.h"
-#include "dialog_choice_state.h"
 #include "text_constants.h"
 
 /* Zero-initialized storage this unit owns (0x800EB0F8-0x800EB288 in North
@@ -4229,13 +4165,11 @@ void TextBox_BuildBlockingWithGlyphScratch(DuelEffectChannel *object)
 }
 
 #include "duel_effect_entry_state.h"
-#include "display_object_fade.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
 s32 gDuelEffect_nCompactionRequested;
 
 #ifdef VERSION_EUROPE
-#include "duel_effect_entry_occupancy.h"
 
 #endif
 
@@ -4276,12 +4210,8 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
-#include "display_object_fade.h"
-#include "display_object_fade_callbacks.h"
-#include "duel_effect_entry_occupancy.h"
 #include "graphics_frame_controls.h"
 #ifdef VERSION_EUROPE
-#include "european_glyph_fade_callbacks.h"
 #endif
 
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
@@ -4679,7 +4609,6 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
 #include "display_effect_resource_setup.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
-#include "menu_record_reset.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
