@@ -6,7 +6,7 @@
 #include "../psyq/strings.h"
 #include "../psyq/stdio.h"
 #include "model_geometry_tables.h"
-#include "model_get_slot_dimensions_with_minimums.h"
+#include "model.h"
 #include "model_slot_getters.h"
 #include "model_slot_support.h"
 #include "gpu_packets.h"

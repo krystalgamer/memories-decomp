@@ -7,7 +7,7 @@
 #include "../psyq/memory.h"
 #include "../psyq/rand.h"
 #include "../game/model_subdivided_effect.h"
-#include "../game/model_get_slot_dimensions_with_minimums.h"
+#include "../game/model.h"
 #include "../game/model_slot_getters.h"
 #include "../game/model_slot_support.h"
 #include "../game/gpu_packets.h"

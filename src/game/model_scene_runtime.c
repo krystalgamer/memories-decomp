@@ -32,7 +32,6 @@ GsCOORDUNIT gModel_CameraCoordinateUnit;
 GsRVIEW2 gModel_RView;
 GsRVIEW2 gModel_SavedRefView;
 
-#include "model_slot_part_animation.h"
 #include "model.h"
 #include "model_scene_runtime.h"
 
@@ -184,7 +183,6 @@ s32 HostFile_ReadRange(char *path, char *destination, s32 offset, s32 length)
 }
 
 #include "model_texture_upload.h"
-#include "model.h"
 
 void ModelTexture_UploadTimFile(char *path, int destination_mode, int blend_mode, int pixel_x, int pixel_y, int clut_x, int clut_y)
 {
@@ -285,16 +283,12 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 }
 
 #include "camera_view.h"
-#include "model_scene_controllers.h"
-#include "model_update_tint_requests.h"
 #include "model_slot_control.h"
-#include "model_background.h"
 #include "model_handler_registry.h"
 #include "primitive_handler_modes.h"
 #include "model_scene_states.h"
 #include "model_slot_support.h"
 #include "model_camera_effects.h"
-#include "../game/model_draw_slot.h"
 
 void Model_SetPresentationBgmCommand(s32 value)
 {
@@ -395,7 +389,6 @@ void Model_RunSlotHandlers(s32 index)
     }
 }
 
-#include "model_start_camera_move.h"
 #include "model_camera_state.h"
 
 void Model_RequestCameraMove(s32 mode_request)
@@ -491,7 +484,6 @@ void Model_SetCameraOrbitStep(s32 orbit_step_request)
 
 void Model_LockOrbitDirection(int value){int one=1;if(Model_GetCameraHoldState()!=one||Model_GetHandlerCallbackState()!=one){if(value>=0)gModel_bOrbitDirection=one;else gModel_bOrbitDirection=-1;gModel_bOrbitDirectionTimer=255;}}
 
-#include "model.h"
 #include "camera_view.h"
 
 #define MODEL_SLOT_HALFWORDS(slots, index) \
@@ -777,7 +769,6 @@ void SD_CalcSpatialVolumePan(s32 source_x, s32 source_z, u8 *volume, u8 *pan) {
     }
 }
 
-#include "model.h"
 #include "model_camera_state.h"
 
 int Model_IsCameraMoveComplete(int arg)

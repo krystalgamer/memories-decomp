@@ -5,7 +5,7 @@
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_get_slot_dimensions_with_minimums.h"
+#include "../../game/model.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
