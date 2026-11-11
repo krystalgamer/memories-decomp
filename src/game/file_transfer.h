@@ -328,7 +328,7 @@ extern s32 D_8009B12C;
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
  * immediately after it, so no element can hide inside. File_InitTransferState
- * stores the transfer buffer's address into it; campaign_map_load_package_stage.c
+ * stores the transfer buffer's address into it; CampaignMap_LoadPackageStage (frontend_package_stages.c)
  * passes it to LoadImage2 as (u32 *) and adds 0x800 to it, and the PAL options
  * overlay reads and writes its first byte. It is declared as the address it
  * holds; every consumer, including file_transfer_runtime.c's integer uses

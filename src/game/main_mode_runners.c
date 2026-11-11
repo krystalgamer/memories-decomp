@@ -250,7 +250,7 @@ void Main_RunAnimatedBattle(void)
 #include "file_transfer.h"
 #include "mem_card.h"
 #include "main.h"
-#include "main_init_free_duel_menu.h"
+#include "frontend_package_stages.h"
 #include "main_services.h"
 #include "main_modes.h"
 #include "fade.h"
