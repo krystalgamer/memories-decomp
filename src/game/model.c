@@ -9,7 +9,7 @@
 #include "../types.h"
 
 #include "model_record_tables.h"
-#include "model_background.h"
+#include "model.h"
 #include "model_slot_getters.h"
 #include "graphics_frame_controls.h"
 
@@ -51,8 +51,6 @@ static u16 sModelGraphicsState_PadAA
     = 0;
 #endif
 
-#include "model.h"
-
 /* Small zero-initialized storage this unit owns. Each build's generated
  * model_commons subsegment places it at the retail addresses. */
 s16 gModel_ImageCopyRectX;
@@ -79,13 +77,11 @@ u8 gModelDebug_abSlotGfFlags[2];
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_slot_support.h"
-#include "model_update_background_scroll.h"
 #include "camera_view.h"
 #include "ordering_tables.h"
 #include "model_scene_controllers_data.h"
 #include "model_primitive_templates.h"
 #include "primitive_handler_modes.h"
-#include "model_slot_part_animation.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 
@@ -578,10 +574,7 @@ store:
 #include "model_subdivided_effect.h"
 #include "model_scene_effect_handler_table.h"
 #include "file_names.h"
-#include "model_scene_controllers.h"
-#include "model_debug_controller.h"
 #include "model_handler_state.h"
-#include "model_load_step.h"
 
 /* The effect handlers the scene controllers dispatch to, and the paths and
  * trace formats the scene controllers, debug controller and slot control
@@ -631,10 +624,6 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 #include "model_slot_control.h"
 #include "sound.h"
-#include "model_view_adjustments.h"
-#include "model_separate_view.h"
-#include "model_update_tint_requests.h"
-#include "model_start_camera_move.h"
 #include "model_update_view_metrics.h"
 #include "duel_card.h"
 #include "sound_driver.h"
@@ -651,10 +640,8 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "card_constants.h"
 #include "model_scene_imports.h"
 #include "sound_init.h"
-#include "model_step_view_orbit.h"
 #include "../psyq/memory.h"
 #include "../ygo_types.h"
-#include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
 #include "model_camera_state.h"
 
@@ -3249,18 +3236,14 @@ char gModel_szTermTrace[8] = "TERM\n";
  *   and the shadow colour reads the template bytes directly.
  */
 #include "graphics_packet_submission.h"
-#include "../game/model.h"
-#include "../game/model_background.h"
 #include "../game/model_handler_state.h"
 #include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
 #include "../game/ordering_tables.h"
 #include "../game/model_slot_control.h"
-#include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/color.h"
 #include "../game/gpu_packets.h"
 #include "../game/model_handler_registry.h"
-#include "../game/model_draw_slot.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -3967,10 +3950,8 @@ void Model_DrawSlot(s32 index)
 #define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
 #define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 
-#include "model_get_slot_dimensions_with_minimums.h"
 #include "color_constants.h"
 #include "color.h"
-#include "model_apply_texture_tint.h"
 
 /*
  * The per-slot model runtime: the per-frame slot animation tick
@@ -3985,7 +3966,6 @@ void Model_DrawSlot(s32 index)
 #include "model_slot_row_tables.h"
 #include "shared_work_base.h"
 #include "file_package_staging.h"
-#include "file_transfer_steps.h"
 #include "sound_voice_data.h"
 #include "script_state.h"
 #include "duel_load_package_stage.h"
@@ -5800,8 +5780,6 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
         orbit_position[2] = pivot_position[2] + z_offset * direction_scale;
     }
 }
-
-#include "positional_sound.h"
 
 #define POSITIONAL_SOUND_PAN_PTR(buffer) ((s8 *)&(buffer)[1])
 

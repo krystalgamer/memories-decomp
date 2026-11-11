@@ -2,7 +2,6 @@
 
 #include "model.h"
 #include "model_slot_support.h"
-#include "../game/model_draw_slot.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "../psyq/libgte.h"

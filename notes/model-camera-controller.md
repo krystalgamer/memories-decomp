@@ -146,7 +146,7 @@ the hold-state binding between its real definition and callers.
 | `Model_CorrectViewDistance` | `0x80055EE8` (`func_80055EE8`) | `0x1DC` |
 | `Model_SetCameraHoldState` | `0x8004EBD0` (`func_8004EBD0`) | `0xC` |
 
-`model_view_adjustments.h` now owns the two correction declarations and
+`model.h` (formerly `model_view_adjustments.h`) now owns the two correction declarations and
 `model_camera_effects.h` (formerly `model_transfer_flags.h`) owns the hold-state setter declaration, the same in
 every region and with no assembler label; the Japanese symbols.txt binds the
 three canonical names at those addresses. Native providers, profiles, grouped object order and all common

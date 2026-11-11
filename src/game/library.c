@@ -56,8 +56,6 @@ static PADDING_VARIABLE(4);
 #include "model_scene_runtime.h"
 #include "model_camera_effects.h"
 #include "model.h"
-#include "model_load_step.h"
-#include "model_scene_controllers.h"
 #include "graphics_packet_submission.h"
 #include "gpu_packets.h"
 

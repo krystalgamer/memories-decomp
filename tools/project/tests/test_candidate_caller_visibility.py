@@ -78,7 +78,7 @@ PAIRS = [
     ("src/game/card_preview.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
     ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
-    ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
+    ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
@@ -146,6 +146,7 @@ def implicit_calls(
 FOLDED_SHADOW_OWNERS = (
     "build_deck.h",
     "display_object_system.h",
+    "model.h",
 )
 
 
@@ -255,7 +256,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "card_preview.h",
                     "card_preview.h",
                     "model_slot_control.h",
-                    "model_load_step.h",
+                    "model.h",
                     "duel_field_display_objects.h",
                     "duel_hand_position_selection_cursor.h",
                     "duel_hand_selection_cursor.h",
@@ -287,13 +288,28 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 shadow_name = "model_slot_control.h"
                 folded = any(owner in include for owner in FOLDED_SHADOW_OWNERS)
                 if folded:
+                    # A callee this unit defines above its first call needs no
+                    # prototype, so losing the owner header cannot hide it.
+                    definition = re.search(
+                        rf"(?m)^[^\n;#]*\b{callee}\s*\([^;]*\)\s*\{{", text
+                    )
+                    calls = [
+                        m.start() for m in re.finditer(rf"\b{callee}\s*\(", text)
+                        if not definition
+                        or not definition.start() <= m.start() < definition.end()
+                    ]
+                    if definition and calls and definition.start() < calls[0]:
+                        continue
                     # Keep the owner's types; lose only the callee's
                     # prototype, and include the shadow first so its guard
                     # wins over any transitive include of the real owner.
                     shadow_name = re.search(r'"([^"]+)"', include).group(1)
                     owner = (REPOSITORY / Path(source).parent / shadow_name).read_text()
                     shadow, count = re.subn(
-                        rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$", "", owner, count=1
+                        rf"(?m)^(?![ \t]*(?:/?\*|//))[^\n]*\b{callee}\s*\([^;{{}}]*;\s*$",
+                        "",
+                        owner,
+                        count=1,
                     )
                     self.assertEqual(count, 1)
                     replacement = ""
@@ -327,8 +343,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         shadow_path.write_text(shadow, encoding="utf-8")
                     probe_text = text.replace(include + "\n", replacement, 1)
                     if folded:
-                        first, rest = probe_text.split("\n", 1)
-                        probe_text = first + "\n" + include + "\n" + rest
+                        head, sep, rest = probe_text.partition("#include")
+                        line, nl, rest = rest.partition("\n")
+                        probe_text = head + sep + line + nl + include + "\n" + rest
                     probe.write_text(probe_text, encoding="utf-8")
                     found = implicit_calls(
                         probe, self.profile(source), (REPOSITORY / source).parent

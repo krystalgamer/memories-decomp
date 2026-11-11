@@ -6,7 +6,6 @@
 #include "model_camera_effects.h"
 #include "camera_view.h"
 #include "model_slot_getters.h"
-#include "model_step_view_orbit.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
 #include "model_effect_endpoints.h"

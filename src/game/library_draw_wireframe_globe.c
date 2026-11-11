@@ -8,7 +8,7 @@
 #include "../psyq/inline_c.h"
 #include "../psyq/libgs.h"
 #include "model_slot_support.h"
-#include "../game/model_draw_slot.h"
+#include "../game/model.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"
 #include "library.h"

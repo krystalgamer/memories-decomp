@@ -515,7 +515,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 #include "card_presentation.h"
 #include "display_projection.h"
 #include "duel_field_card_render.h"
-#include "../game/model_draw_slot.h"
+#include "../game/model.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
  * European build (src/game/european/) defines its own. */
@@ -1097,7 +1097,6 @@ s32 Duel_CalcCardStats(DuelCardRecord *card)
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "view_state_reset_defaults.h"
-#include "model.h"
 
 void ViewState_ResetDefaults(void)
 {
@@ -1364,7 +1363,6 @@ europe_transfer_tail:
 
 #include "duel_init_model_scene.h"
 #include "model_slot_control.h"
-#include "model_scene_controllers.h"
 
 #include "shared_work_base.h"
 
@@ -2707,7 +2705,6 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "sound_driver.h"
 #include "model_scene_states.h"
 #include "main_modes.h"
-#include "model.h"
 #include "../psyq/rand.h"
 #include "main_mode_state.h"
 #include "../psyq/libgte.h"
