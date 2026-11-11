@@ -36,14 +36,14 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model648State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant648_aImages[0]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant648_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant648_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant648_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -117,7 +117,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                 setVector(&work->bursts[i][j].unknown_44, 4096, 4096, 4096);
                 value = (j % 2) * 2 - 1;
                 setVector(&work->bursts[i][j].rotation, value * (j * 50 + i * 400 + 200) * 100,
-                    value * (j * 160 + i * 300 + 150) * 150 + work->slot * 2048,
+                    value * (j * 160 + i * 300 + 150) * 150 + work->head.slot * 2048,
                     value * -(j * 270 + i * 200 + 100) * 200);
                 switch (command) {
                 case 0:
@@ -182,9 +182,9 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed < 88 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 88 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -192,7 +192,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 1:
-            if (work->elapsed < 50 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 50 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -200,7 +200,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 2:
-            if (work->elapsed < 124 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 124 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -224,7 +224,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
         case 25:
         case 26:
         case 28:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (j = 0; j < work->rows; j++) {
                     for (i = 0; i < work->cols; i++) {
                         work->bursts[j][i].active = 1;
@@ -233,12 +233,12 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 4:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[0][i].active = 1;
                 }
             }
-            if (work->flags[0] == 0 && work->elapsed > 20) {
+            if (work->flags[0] == 0 && work->head.elapsed > 20) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[1][i].active = 1;
                 }
@@ -246,7 +246,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 6:
-            if (work->elapsed < 48 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 48 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -254,7 +254,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 7:
-            if (work->elapsed < 36 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 36 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -263,12 +263,12 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             break;
         case 8:
         case 12:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[0][i].active = 1;
                 }
             }
-            if (work->flags[0] == 0 && work->elapsed > 12) {
+            if (work->flags[0] == 0 && work->head.elapsed > 12) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[1][i].active = 1;
                 }
@@ -276,7 +276,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 15:
-            if (work->elapsed < 56 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 56 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -284,12 +284,12 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 16:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[0][i].active = 1;
                 }
             }
-            if (work->flags[0] == 0 && work->elapsed > 16) {
+            if (work->flags[0] == 0 && work->head.elapsed > 16) {
                 for (i = 0; i < work->cols; i++) {
                     work->bursts[1][i].active = 1;
                 }
@@ -297,7 +297,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 24:
-            if (work->elapsed < 36 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 36 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -306,7 +306,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             Model_SetFrameStepOverride(1);
             break;
         case 27:
-            if (work->elapsed < 24 && work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
+            if (work->head.elapsed < 24 && work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->cols) {
                 for (j = 0; j < work->rows; j++) {
                     work->bursts[j][work->flags[0]].active = 1;
                 }
@@ -323,12 +323,12 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                     duration = work->bursts[i][j].duration;
                     if (duration / 2 < work->bursts[i][j].elapsed) {
                         value = (duration - work->bursts[i][j].elapsed) * 2;
-                        work->bursts[i][j].color[0] = gModelVariant648_aConfigs[work->command].color[0] * value / duration;
-                        work->bursts[i][j].color[1] = gModelVariant648_aConfigs[work->command].color[1] * value / duration;
-                        work->bursts[i][j].color[2] = gModelVariant648_aConfigs[work->command].color[2] * value / duration;
-                        work->bursts[i][j].color[3] = gModelVariant648_aConfigs[work->command].color[3] * value / duration;
-                        work->bursts[i][j].color[4] = gModelVariant648_aConfigs[work->command].color[4] * value / duration;
-                        work->bursts[i][j].color[5] = gModelVariant648_aConfigs[work->command].color[5] * value / duration;
+                        work->bursts[i][j].color[0] = gModelVariant648_aConfigs[work->head.command].color[0] * value / duration;
+                        work->bursts[i][j].color[1] = gModelVariant648_aConfigs[work->head.command].color[1] * value / duration;
+                        work->bursts[i][j].color[2] = gModelVariant648_aConfigs[work->head.command].color[2] * value / duration;
+                        work->bursts[i][j].color[3] = gModelVariant648_aConfigs[work->head.command].color[3] * value / duration;
+                        work->bursts[i][j].color[4] = gModelVariant648_aConfigs[work->head.command].color[4] * value / duration;
+                        work->bursts[i][j].color[5] = gModelVariant648_aConfigs[work->head.command].color[5] * value / duration;
                     }
                     grow = (work->bursts[i][j].elapsed << 12) / work->bursts[i][j].duration + 0xAAA;
                     RotMatrix(&work->bursts[i][j].rotation, &rotation);
@@ -353,7 +353,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                             ScaleMatrix(&unit.matrix, &work->bursts[i][j].scale);
                             RotMatrixZ(0, &unit.matrix);
                             RotMatrixX(-((view.pitch - 4096) * work->direction), &unit.matrix);
-                            RotMatrixY(work->slot * 2048 + (0xC06 - view.yaw), &unit.matrix);
+                            RotMatrixY(work->head.slot * 2048 + (0xC06 - view.yaw), &unit.matrix);
                             unit.matrix.t[0] = work->bursts[i][j].position.vx
                                 + offset.vx * work->bursts[i][j].elapsed / work->bursts[i][j].duration;
                             unit.matrix.t[1] = work->bursts[i][j].position.vy
@@ -439,7 +439,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->rows * work->cols) {
             result = 1;
             if (work->flags[4] == 1) {

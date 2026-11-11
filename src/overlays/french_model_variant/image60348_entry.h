@@ -32,9 +32,8 @@ typedef struct {
 } Image60348Element;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot, direction;
+    ModelVariantEntryHead head;
+    s32 direction;
     s16 delay;
     u16 radius, height, tpage[3], clut[3], unknown_1E;
     POLY_FT4 sprite;

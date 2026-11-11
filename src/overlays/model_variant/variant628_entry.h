@@ -46,9 +46,7 @@ typedef struct {
  * the dome grid (17 meridians of 9 points) and its spun copy, the burst
  * ring, the flags and counts, and the four part families. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, height;
     u16 tpage[3];

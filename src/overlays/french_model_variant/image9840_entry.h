@@ -31,9 +31,7 @@ typedef struct {
 } Image9840Part;
 
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, length, start_radius, end_radius;
     u16 tpage;

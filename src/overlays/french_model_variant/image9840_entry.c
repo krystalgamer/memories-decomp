@@ -8,27 +8,27 @@
 #endif
 
 #define FADE_PRIMARY(c) \
-    if (gFrenchModelVariant648_aConfigs[work->command].c / ((u16)(work->primary[i].duration / 10) - 1) * step \
+    if (gFrenchModelVariant648_aConfigs[work->head.command].c / ((u16)(work->primary[i].duration / 10) - 1) * step \
         < work->primary[i].c) { \
-        work->primary[i].c -= gFrenchModelVariant648_aConfigs[work->command].c \
+        work->primary[i].c -= gFrenchModelVariant648_aConfigs[work->head.command].c \
             / ((u16)(work->primary[i].duration / 10) - 1) * step; \
     } else { \
         work->primary[i].c = 0; \
     }
 
 #define FADE_SECONDARY(c) \
-    if (gFrenchModelVariant648_aConfigs[work->command].secondary_##c / (work->secondary[i].duration / 2 - 1) * step \
+    if (gFrenchModelVariant648_aConfigs[work->head.command].secondary_##c / (work->secondary[i].duration / 2 - 1) * step \
         < work->secondary[i].c) { \
-        work->secondary[i].c -= gFrenchModelVariant648_aConfigs[work->command].secondary_##c \
+        work->secondary[i].c -= gFrenchModelVariant648_aConfigs[work->head.command].secondary_##c \
             / (work->secondary[i].duration / 2 - 1) * step; \
     } else { \
         work->secondary[i].c = 0; \
     }
 
 #define FADE_BURST(c) \
-    if (gFrenchModelVariant648_aConfigs[work->command].c / (work->bursts[i].duration / 2 - 1) * step \
+    if (gFrenchModelVariant648_aConfigs[work->head.command].c / (work->bursts[i].duration / 2 - 1) * step \
         < work->bursts[i].c) { \
-        work->bursts[i].c -= gFrenchModelVariant648_aConfigs[work->command].c \
+        work->bursts[i].c -= gFrenchModelVariant648_aConfigs[work->head.command].c \
             / (work->bursts[i].duration / 2 - 1) * step; \
     } else { \
         work->bursts[i].c = 0; \
@@ -56,10 +56,10 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
 #ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
         printf(gModelVariant631Us_szWorkSizeFormat, sizeof(Image9840State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant648_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        texture = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gFrenchModelVariant648_Image);
         work->tpage = texture >> 16;
         work->clut = texture;
         switch (command) {
@@ -86,7 +86,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             setVector(&work->primary[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->primary[i].rotation, 0, work->slot * 2048, i * 256);
+                setVector(&work->primary[i].rotation, 0, work->head.slot * 2048, i * 256);
                 setVector(&work->primary[i].position, -5 + i * 10, -10, -30);
                 break;
             }
@@ -109,7 +109,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             switch (command) {
             case 0:
                 setVector(&work->secondary[i].position, 0, -10, -30);
-                setVector(&work->secondary[i].rotation, 0, work->slot * 2048 + 2048, 0);
+                setVector(&work->secondary[i].rotation, 0, work->head.slot * 2048 + 2048, 0);
                 break;
             }
         }
@@ -130,7 +130,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             case 0: {
                 s32 vertical;
 
-                setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->bursts[i].position,
                     work->radius * ((i % 3 + 1) << 1)
                         * rsin((i << 12) / work->burst_count) / 4096 * (i % 2 * 2 - 1) / 2,
@@ -142,7 +142,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             }
             work->bursts[i].position.vy -= 350;
-            work->bursts[i].position.vz += (work->slot * 2 - 1) * 450;
+            work->bursts[i].position.vz += (work->head.slot * 2 - 1) * 450;
         }
         work->delay = gFrenchModelVariant648_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
@@ -172,9 +172,9 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed == 0) {
+        if (work->head.elapsed == 0) {
             u8 active;
 
             active = 1;
@@ -182,8 +182,8 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
                 work->primary[i].active = active;
             }
         }
-        if (work->elapsed >= 45 && work->flags[0] == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 7);
+        if (work->head.elapsed >= 45 && work->flags[0] == 0) {
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->secondary_count; i++) {
                 work->secondary[i].active = 1;
@@ -193,7 +193,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             }
             work->flags[0] = 1;
         }
-        if (work->elapsed >= 45 && work->flags[1] < work->burst_count) {
+        if (work->head.elapsed >= 45 && work->flags[1] < work->burst_count) {
             work->bursts[work->flags[1]].active = 1;
             work->flags[1]++;
         }
@@ -202,7 +202,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     PushMatrix();
     view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
     inactive = 0;
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 7);
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
     GsGetLwUnit(&unit, &world);
     for (i = 0; i < work->primary_count; i++) {
         if (work->primary[i].active == 1) {
@@ -212,7 +212,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&unit.matrix, &work->primary[i].scale);
             RotMatrixZ(work->primary[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->primary[i].rotation.vx
-                - (*(s16 *)&view.bytes[4] - 4096) * (work->slot * 2 - 1), &unit.matrix);
+                - (*(s16 *)&view.bytes[4] - 4096) * (work->head.slot * 2 - 1), &unit.matrix);
             {
                 s32 heading;
 
@@ -388,7 +388,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&unit.matrix, &work->bursts[i].scale);
             RotMatrixZ(work->bursts[i].rotation.vz, &unit.matrix);
             RotMatrixX(work->bursts[i].rotation.vx
-                - (*(s16 *)&view.bytes[4] - 4096) * (work->slot * 2 - 1), &unit.matrix);
+                - (*(s16 *)&view.bytes[4] - 4096) * (work->head.slot * 2 - 1), &unit.matrix);
             {
                 s32 heading;
 
@@ -436,12 +436,12 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
             inactive++;
         }
     }
-    if (work->elapsed > 80 && work->flags[4] == 0) {
+    if (work->head.elapsed > 80 && work->flags[4] == 0) {
         result = 3;
         work->flags[4] = 1;
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->primary_count + work->secondary_count + work->burst_count) {
         result = 2;
     }
