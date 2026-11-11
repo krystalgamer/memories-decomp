@@ -969,7 +969,7 @@ void DisplayObject_RenderFrame(void)
     }
 }
 
-/* Entries 0 through 4 of tent_DisplayObjectStreamCommandTable. */
+/* Entries 0 through 4 of gDisplayObjectStream_apfnCommandHandlers. */
 s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
 {
     object->frame_delay = 0;
@@ -1263,7 +1263,7 @@ next:
 /* Initialized data this unit owns at 0x80090FEC, previously a generated blob
    (#2602).
 
-   tent_DisplayObjectStreamCommandTable is the display-object stream handler table.
+   gDisplayObjectStream_apfnCommandHandlers is the display-object stream handler table.
    DisplayObjectStream_ReadNextCommand dispatches table[op ^ 0xFF] for opcodes
    from 0xF0 up. All seven callbacks receive the shared DisplayObjectStreamState
    and operand cursor, including the reset and no-op entries that do not need
@@ -1273,7 +1273,7 @@ next:
    The background records and shadow fan steps that follow it in this image
    belong to model_background_records.c: Japan links the movie-stream and
    model-effect data between the two. */
-s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const u8 *) = {
+s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,
     DisplayObjectStream_Noop,
@@ -1297,7 +1297,7 @@ void DisplayObjectStream_ReadNextCommand(
     p++;
 
     if (op >= 0xF0) {
-        table = tent_DisplayObjectStreamCommandTable;
+        table = gDisplayObjectStream_apfnCommandHandlers;
         do {
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;
