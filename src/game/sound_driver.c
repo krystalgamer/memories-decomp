@@ -11,18 +11,6 @@ SDSecondaryState *gSD_pSecondaryState;
 SDValue *g_SDValue;
 FileRequestSlot *gSD_pFileRequest;
 
-/* Read-only data this unit owns ahead of its jump tables: the archive names
- * SD_InitState copies into the file requests, then the debug formats
- * SD_UpdateBankLoad prints. The European build makes none of those calls. */
-const char gSD_szBgmFileName[] = "SD_bgm.dat";
-const char gSD_szSeFileName[] = "SD_se.dat";
-const char gSD_szMasterXaFileName[] = "MASTER.XA";
-#ifndef VERSION_EUROPE
-const char gSD_szSeGroupCountFormat[] = "g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n";
-const char gSD_szSmfMixerOutFormat[] = "Set SMF Mixer Out:%d\n";
-const char gSD_szCdMixerOutFormat[] = "Set CD Mixer Out:%d\n";
-#endif
-
 void SD_FadeInStreamAudio(void)
 {
     SDValue *first = g_SDValue;
@@ -121,11 +109,11 @@ void SD_InitState(u8 master_xa_lba_byte)
     gFile_RangeReadCallback = SD_FadeInStreamAudio;
     gFile_RangePauseCallback = SD_FadeOutStreamAudio;
     *SD_INIT_BLOCK_11_VIEW(g_SDValue->s_szSD_BGM_FILE) =
-        *SD_INIT_BLOCK_11_VIEW(gSD_szBgmFileName);
+        *SD_INIT_BLOCK_11_VIEW("SD_bgm.dat");
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_SE_FILE) =
-        *SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
+        *SD_INIT_BLOCK_10_VIEW("SD_se.dat");
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_MASTER_XA_FILE) =
-        *SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
+        *SD_INIT_BLOCK_10_VIEW("MASTER.XA");
     g_SDValue->s_bSD_DATA_SOURCE = 3;
     if (master_xa_lba_byte != 0) {
         g_SDValue->s_bSD_DATA_SOURCE |= 0xF0;
@@ -234,7 +222,7 @@ void SD_UpdateBankLoad(void) {
         return;
     case 2:
 #ifndef VERSION_EUROPE
-        printf(gSD_szSeGroupCountFormat, g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP);
+        printf("g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n", g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP);
 #endif
         ram_destination = (u8 *)0x801E2800;
         sector_offset = 1;
@@ -284,7 +272,7 @@ void SD_UpdateBankLoad(void) {
                     g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT = bank_tail->volume;
                     g_SDValue->s_wSD_SMF_MIXER_OUT = g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT;
 #ifndef VERSION_EUROPE
-                    printf(gSD_szSmfMixerOutFormat, g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT);
+                    printf("Set SMF Mixer Out:%d\n", g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT);
 #endif
                 }
             }
@@ -315,7 +303,7 @@ void SD_UpdateBankLoad(void) {
                     g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT = bank_tail->volume;
                     g_SDValue->s_wSD_CD_MIXER_OUT = g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT;
 #ifndef VERSION_EUROPE
-                    printf(gSD_szCdMixerOutFormat, g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT);
+                    printf("Set CD Mixer Out:%d\n", g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT);
 #endif
                 }
             }
