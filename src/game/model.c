@@ -2795,12 +2795,10 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
             camera_move->target.slot = -1;
             camera_move->target.pair_slot = -1;
         }
-        if (mode_request < 0) {
-            goto have_flags;
-        }
     }
-    gModel_CameraMove.mode = mode_request;
-have_flags:
+    if (mode_request >= 0) {
+        gModel_CameraMove.mode = mode_request;
+    }
     {
         ModelCameraMove *camera_move = &gModel_CameraMove;
 
