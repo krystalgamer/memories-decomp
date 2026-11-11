@@ -19,9 +19,7 @@ typedef struct {
     s32 amp;
     u8 unknown244[0x98];
     long flags[17];
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
 } Ribbon379;
 
 

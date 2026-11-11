@@ -807,6 +807,30 @@ typedef struct {
     u8 unknown7C[8];
 } ModelVariantFlaggedSpiralArm;
 
+/* The projected spine of a seventeen-point streamer or ribbon. The drawers
+ * build the points a and their copy b moved along the view, project them
+ * with RotTransPers4 / RotTransPers into the packed screen points sa and sb,
+ * keep per point the screen angle ratan2 takes from sa[k] to sa[k + 1],
+ * turned a quarter, and the projected width, (s16)sb[k] - (s16)sa[k]. */
+typedef struct {
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+} ModelVariantStripSpine;
+
+/* Per point of a seventeen-point streamer or ribbon: the depth RotTransPers4
+ * returns for the segment, which the drawers pass to GsSortPoly, and the
+ * screen offset of the strip's edges from the spine, rcos / rsin of the
+ * point's angle times its width; the quad corners are sa[k] +/- (ox, oy). */
+typedef struct {
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantStripOffsets;
+
 /* One 0x378-byte streamer: a seventeen-point spine and a copy of it moved
  * along the view, both projected, and per point the screen angle, the
  * projected width, a colour, the projection flag, the depth and the width's

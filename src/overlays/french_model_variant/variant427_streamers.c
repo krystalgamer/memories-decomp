@@ -70,11 +70,11 @@ void FrenchModelVariant427_DrawStreamers(u8 *ctx)
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
             length = MODEL_VARIANT_WORD(work, 0x3798) / 64;
-            setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
+            setVector(&streamer->spine.a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
-            setVector(&streamer->b[k], streamer->a[k].vx + (rcos(turn) * (s16)length >> 12), streamer->a[k].vy,
-                      streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
+            setVector(&streamer->spine.b[k], streamer->spine.a[k].vx + (rcos(turn) * (s16)length >> 12), streamer->spine.a[k].vy,
+                      streamer->spine.a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
     rot.vx = MODEL_VARIANT_HALF(work, 0x379C) + rx;
@@ -103,54 +103,54 @@ void FrenchModelVariant427_DrawStreamers(u8 *ctx)
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
-                streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
-                                                  &streamer->sa[15], &streamer->sa[16],
-                                                  &streamer->sa[15], &streamer->sa[16], &p, &flag);
-                RotTransPers(&streamer->b[16], &streamer->sb[16], &p, &flag);
-                dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
-                dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
-                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
+                streamer->offsets.otz[k] = RotTransPers4(&streamer->spine.a[15], &streamer->spine.a[16], &streamer->spine.a[15], &streamer->spine.a[16],
+                                                  &streamer->spine.sa[15], &streamer->spine.sa[16],
+                                                  &streamer->spine.sa[15], &streamer->spine.sa[16], &p, &flag);
+                RotTransPers(&streamer->spine.b[16], &streamer->spine.sb[16], &p, &flag);
+                dx = (s16)streamer->spine.sa[k] - (s16)streamer->spine.sa[15];
+                dy = (streamer->spine.sa[k] >> 16) - (streamer->spine.sa[15] >> 16);
+                streamer->spine.angle[k] = ratan2(dy, dx) + 0xC00;
                 if (MODEL_VARIANT_WORD(work, 0x3798) > 0x200) {
-                    streamer->width[k] = 2;
+                    streamer->spine.width[k] = 2;
                 } else {
-                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
+                    streamer->spine.width[k] = (s16)streamer->spine.sb[k] - (s16)streamer->spine.sa[k];
                 }
-                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
-                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->offsets.ox[k] = rcos(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
+                streamer->offsets.oy[k] = rsin(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
             } else {
-                streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
-                                                 &streamer->sa[k], &streamer->sa[k + 1],
-                                                 &streamer->sa[k], &streamer->sa[k + 1], &p, &flag);
-                RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
-                dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
-                dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
-                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
+                streamer->offsets.otz[k] = RotTransPers4(&streamer->spine.a[k], &streamer->spine.a[k + 1], &streamer->spine.a[k], &streamer->spine.a[k + 1],
+                                                 &streamer->spine.sa[k], &streamer->spine.sa[k + 1],
+                                                 &streamer->spine.sa[k], &streamer->spine.sa[k + 1], &p, &flag);
+                RotTransPers(&streamer->spine.b[k], &streamer->spine.sb[k], &p, &flag);
+                dx = (s16)streamer->spine.sa[k + 1] - (s16)streamer->spine.sa[k];
+                dy = (streamer->spine.sa[k + 1] >> 16) - (streamer->spine.sa[k] >> 16);
+                streamer->spine.angle[k] = ratan2(dy, dx) + 0xC00;
                 if (MODEL_VARIANT_WORD(work, 0x3798) > 0x200) {
-                    streamer->width[k] = 2;
+                    streamer->spine.width[k] = 2;
                 } else {
-                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
+                    streamer->spine.width[k] = (s16)streamer->spine.sb[k] - (s16)streamer->spine.sa[k];
                 }
-                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
-                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->offsets.ox[k] = rcos(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
+                streamer->offsets.oy[k] = rsin(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
             }
         }
     }
     streamer = (Streamer427 *)(work + 0x2388);
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
-            poly->x0 = streamer->sa[k] + streamer->ox[k];
-            poly->y0 = (streamer->sa[k] >> 16) + streamer->oy[k];
-            poly->x1 = streamer->sa[k + 1] + streamer->ox[k + 1];
-            poly->y1 = (streamer->sa[k + 1] >> 16) + streamer->oy[k + 1];
-            poly->x2 = streamer->sa[k] - streamer->ox[k];
-            poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
-            poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
-            poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
+            poly->x0 = streamer->spine.sa[k] + streamer->offsets.ox[k];
+            poly->y0 = (streamer->spine.sa[k] >> 16) + streamer->offsets.oy[k];
+            poly->x1 = streamer->spine.sa[k + 1] + streamer->offsets.ox[k + 1];
+            poly->y1 = (streamer->spine.sa[k + 1] >> 16) + streamer->offsets.oy[k + 1];
+            poly->x2 = streamer->spine.sa[k] - streamer->offsets.ox[k];
+            poly->y2 = (streamer->spine.sa[k] >> 16) - streamer->offsets.oy[k];
+            poly->x3 = streamer->spine.sa[k + 1] - streamer->offsets.ox[k + 1];
+            poly->y3 = (streamer->spine.sa[k + 1] >> 16) - streamer->offsets.oy[k + 1];
             poly->r0 = streamer->color[k][0];
             poly->g0 = streamer->color[k][1];
             poly->b0 = streamer->color[k][2];
-            if (streamer->otz[k] > 0) {
-                GsSortPoly(poly, ot, streamer->otz[k]);
+            if (streamer->offsets.otz[k] > 0) {
+                GsSortPoly(poly, ot, streamer->offsets.otz[k]);
             }
         }
     }

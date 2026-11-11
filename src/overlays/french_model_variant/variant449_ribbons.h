@@ -20,9 +20,7 @@ typedef struct {
     u8 unknown_224[0xA4];
     VECTOR position;
     VECTOR delta;
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
     s32 start;
     s32 end;
     s32 state;
