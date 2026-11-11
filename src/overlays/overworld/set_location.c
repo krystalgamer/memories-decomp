@@ -13,8 +13,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/sound.h"
-#include "../../game/text_box_runtime.h"
-#include "../../game/text_box_blocking_build.h"
+#include "../../game/duel_effect_text.h"
 #include "../../game/input.h"
 #include "../../game/sorted_entry_render.h"
 #include "../../game/trig_constants.h"
@@ -23,7 +22,6 @@
 #include "../../game/view_state_orbit.h"
 #include "../../game/main_services.h"
 #include "../../game/model_slot_support.h"
-#include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
 #include "../../game/shared_work_base.h"

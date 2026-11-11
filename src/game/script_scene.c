@@ -106,9 +106,8 @@ void Script_OpLoadImageScene(void)
 }
 
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
+#include "duel_effect_text.h"
 #include "text_helpers.h"
-#include "text_box_lifecycle.h"
 #include "script_state.h"
 #include "duel_effect_mark_object_if_active.h"
 
@@ -335,7 +334,6 @@ void Script_UpdateViewportTween(void) {
     }
 }
 
-#include "secondary_scene_commands.h"
 #include "script_state.h"
 #include "main_mode_state.h"
 
@@ -351,7 +349,6 @@ void Script_OpOpenCampaignMap(void)
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
-#include "menu_record_reset.h"
 #include "script_state.h"
 
 void Script_OpShowMenu(void)
@@ -478,18 +475,12 @@ void Script_OpJump(void)
 #include "build_deck.h"
 #include "input.h"
 
-#include "text_channel_state.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
-#include "text_box_runtime.h"
-#include "text_box_update_channels.h"
 #include "display_object.h"
 #include "script_state.h"
 #include "main_services.h"
 #include "dialog_choice_control.h"
-#include "dialog_read_choice_input.h"
 #include "duel_effect_mark_object_if_active.h"
-#include "duel_effect_entry_control.h"
 #include "dialog_choice.h"
 #include "main_mode_state.h"
 #include "duel_effect_object_pool.h"
@@ -1059,8 +1050,6 @@ void Script_OpWait(void)
 }
 
 #include "../psyq/rand.h"
-#include "text_channel_state.h"
-#include "text_box_update_channels.h"
 #include "script_command_table.h"
 #include "script_state.h"
 #include "main_services.h"
@@ -1265,7 +1254,6 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 #include "display_object.h"
 #include "file_transfer.h"
 #include "image_transfer_rects.h"
-#include "menu_record_reset.h"
 #include "script_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

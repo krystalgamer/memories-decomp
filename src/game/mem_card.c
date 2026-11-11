@@ -1,6 +1,6 @@
 #include "../types.h"
 
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "mem_card.h"
 
 #include "player_name_glyphs.h"
@@ -429,9 +429,6 @@ void Checkerboard_DrawBackground(
     } while (y < CHECKERBOARD_SCREEN_HEIGHT);
 }
 
-#include "text_box_blocking_build.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "display_object_system.h"
 #include "display_object_depth_bases.h"
 #include "dialog_layout.h"
@@ -481,10 +478,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #include "display_object.h"
 
-#include "text_channel_state.h"
 #include "display_object_depth_bases.h"
-#include "text_box_runtime.h"
-#include "text_box_update_channels.h"
 #include "dialog_layout.h"
 #include "dialog_choice.h"
 
@@ -753,7 +747,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "display_object.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/strings.h"
-#include "text_channel_state.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 /* The Japanese and PAL executables also link the PocketStation library
  * (LIBMCX); the save dialog brackets its card session with McxStartCom and
@@ -765,9 +758,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "file_transfer.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
-#include "text_box_update_channels.h"
 #include "duel_effect_mark_object_if_active.h"
 #include "mem_card_dialog_steps.h"
 #include "dialog_layout.h"

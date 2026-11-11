@@ -6,7 +6,7 @@ overlays. It is not a replacement for the single-channel
 `TextBox_BuildStep` or either synchronous build wrapper.
 The matching source/header paths remain
 [`duel_effect_text.c`](../src/game/duel_effect_text.c) and
-[`text_box_update_channels.h`](../src/game/text_box_update_channels.h).
+[`duel_effect_text.h`](../src/game/duel_effect_text.h).
 
 ## One record pointer, two registers
 

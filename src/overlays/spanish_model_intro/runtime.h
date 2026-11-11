@@ -3,10 +3,8 @@
 
 #include "../../types.h"
 #include "../../game/duel_effect_states.h"
-#include "../../game/duel_effect_entry_control.h"
+#include "../../game/duel_effect_text.h"
 #include "../../game/duel_effect_process_entries.h"
-#include "../../game/text_box_lifecycle.h"
-#include "../../game/text_box_runtime.h"
 #include "../../game/display_object.h"
 #include "../../game/display_object_system.h"
 #include "../../game/gpu_packets.h"

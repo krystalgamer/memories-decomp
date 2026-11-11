@@ -32,7 +32,7 @@ OTHER-HEADER rows are that second shape, and #4131 proposes one of them
 not merged. So OTHER-HEADER
 means "read the headers first", not "do not merge". Which of the two shapes a
 row is cannot be told apart mechanically here: the headers that gave the
-strongest JOIN evidence -- duel_effect_command.h, sound_voice_selection.h,
+strongest JOIN evidence -- duel_effect_text.h, sound_voice_selection.h,
 mem_card_io_result_callbacks.h -- each span several sources too, precisely
 because their unit is split, so "spans many sources" separates nothing.
 

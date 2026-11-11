@@ -1,7 +1,7 @@
 #ifdef VERSION_JAPAN
 #endif
 #include "../types.h"
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "../ygo_types.h"
 #include "display_object.h"
 
@@ -18,15 +18,12 @@ static u32 D_8009B38C;
 #include "display_object_layout.h"
 #include "mem_card.h"
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
 #include "fade.h"
 #include "input.h"
 #include "options.h"
 #include "options_layout_position_data.h"
 #include "options_screen.h"
 #include "sound.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "text_constants.h"
 #include "display_asset_banks.h"
 

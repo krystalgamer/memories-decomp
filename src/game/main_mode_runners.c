@@ -243,7 +243,7 @@ void Main_RunAnimatedBattle(void)
     }
 }
 
-#include "secondary_scene_commands.h"
+#include "duel_effect_text.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
 #include "build_deck.h"
@@ -304,14 +304,11 @@ void Main_RunFreeDuelMenu(void) {
     if ((gMain_bActiveModeState & 0x40) == 0) SD_BGMFadeOut();
 }
 
-#include "text_box_blocking_build.h"
 #include "display_object_system.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "input.h"
-#include "text_channel_state.h"
-#include "text_box_lifecycle.h"
 #include "../overlays/main_menu/trade_helpers.h"
 #include "fade.h"
 #include "file_transfer.h"
@@ -320,7 +317,6 @@ void Main_RunFreeDuelMenu(void) {
 #include "main_services.h"
 #include "options.h"
 #include "sound.h"
-#include "text_box_runtime.h"
 #include "build_deck.h"
 #include "display_object_work_slots.h"
 #include "main_mode_state.h"
@@ -329,13 +325,10 @@ void Main_RunFreeDuelMenu(void) {
 #include "credits_secret_numbers.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
-#include "text_box_update_channels.h"
 #include "main.h"
 #include "model.h"
 #include "model_scene_controllers.h"
 #include "model_scene_states.h"
-#include "duel_effect_reset_state.h"
-#include "menu_record_reset.h"
 #include "duel_side_state.h"
 #include "main_start_duel.h"
 #include "card_constants.h"

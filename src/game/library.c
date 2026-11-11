@@ -8,7 +8,7 @@ static PADDING_VARIABLE(2);
 static PADDING_VARIABLE(4);
 
 #include "../ygo_types.h"
-#include "text_box_blocking_build.h"
+#include "duel_effect_text.h"
 #include "main.h"
 #include "library.h"
 #include "card_constants.h"
@@ -17,10 +17,7 @@ static PADDING_VARIABLE(4);
 #include "card_grid.h"
 #include "display_object.h"
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
 #include "sound.h"
-#include "text_box_lifecycle.h"
-#include "text_box_runtime.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "input.h"
@@ -52,7 +49,6 @@ static PADDING_VARIABLE(4);
 #include "card_preview.h"
 #include "fade.h"
 #include "library_draw_wireframe_globe.h"
-#include "text_box_update_channels.h"
 #include "model_scene_runtime.h"
 #include "model_camera_effects.h"
 #include "model.h"

@@ -2,12 +2,9 @@
 
 #include "duel_effect_state_latch.h"
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
-#include "text_box_lifecycle.h"
+#include "duel_effect_text.h"
 #include "sound.h"
 #include "duel_effect_dialog_state.h"
-#include "dialog_choice_state.h"
-#include "text_box_update_channels.h"
 #include "text_helpers.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated

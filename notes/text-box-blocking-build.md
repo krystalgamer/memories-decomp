@@ -34,7 +34,7 @@ claim that every region rasterizes or uploads the same way.
 ## Compatibility and exactness
 
 All existing headers and frozen overlay C remain byte-identical. Canonical
-declarations are isolated in `text_box_blocking_build.h`, using the existing
+declarations are isolated in `duel_effect_text.h` (formerly `text_box_blocking_build.h`), using the existing
 channel tag rather than importing the shared channel typedef: Free Duel has
 a private byte-array view that would collide with `duel_effect_states.h` (formerly `duel_effect.h`).
 

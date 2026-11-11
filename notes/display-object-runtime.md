@@ -522,7 +522,7 @@ before projecting the prepared quad, and test bit 30 before routing it through
 
 ## Two-phase glyph-entry transitions
 
-`src/game/display_object_fade.h` defines two bits in object byte `+0x13`:
+`src/game/duel_effect_text.h` defines two bits in object byte `+0x13`:
 
 | Flag | Value | Matching behavior |
 |---|---:|---|

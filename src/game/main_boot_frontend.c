@@ -23,12 +23,11 @@ static u32 D_8009B42C;
 #include "../external_funcs.h"
 #include "display_asset_banks.h"
 #include "duel_effect_states.h"
-#include "text_channel_state.h"
+#include "duel_effect_text.h"
 #include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "movie_playback_control.h"
-#include "text_box_lifecycle.h"
 #include "sound.h"
 #ifdef VERSION_EUROPE
 #include "card_preview.h"
