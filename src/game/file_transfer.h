@@ -320,7 +320,8 @@ extern volatile u16 gFile_ServiceCallGate;
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 /* Set to 1 by File_InitTransferState once its DsInit retry loop succeeds;
- * nothing in retail reads it. */
+ * no direct named reader was found in tracked C/header sources; indirect or
+ * generated/untracked retail accesses are not ruled out. */
 extern s32 gFile_DsInitialized;
 
 /* Loader state defined by file_transfer_runtime.c whose roles are not yet
