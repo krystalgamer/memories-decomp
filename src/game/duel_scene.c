@@ -1137,7 +1137,7 @@ void ViewState_ResetDefaults(void)
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 #include "high_memory_addresses.h"
@@ -2005,7 +2005,7 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_init_scene.h"
 #include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
-#include "card_preview_objects.h"
+#include "card_preview.h"
 #include "duel_init_ground_projection_reference.h"
 #include "trig_constants.h"
 #include "duel_terrain_boost.h"
@@ -3157,8 +3157,6 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
 #include "duel_field_effects.h"
-#include "card_preview_objects.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_field_card_render_data.h"
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
@@ -3499,10 +3497,8 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
 #include "duel_effect_resource_record.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_ritual_controller.h"
 #include "display_object_start_alpha_transition.h"
-#include "card_preview_objects.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -6478,8 +6474,6 @@ m3:
 #include "duel_effect_request.h"
 #include "duel_effect_allocate_request.h"
 #include "duel_effect_resource_record.h"
-#include "duel_effect_resource_setup.h"
-#include "card_preview_objects.h"
 #include "display_object_helpers.h"
 #include "display_object_core.h"
 #include "display_object_start_alpha_transition.h"
@@ -7407,7 +7401,6 @@ tail:
 #include "duel_effect.h"
 #include "duel_field_card_render_data.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
 #endif
 
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
@@ -8129,8 +8122,6 @@ show_page:
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "card_preview_objects.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_effect_request.h"
 #include "display_object_core.h"
 #include "duel_card.h"
@@ -10916,7 +10907,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "display_object_core.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
-#include "card_preview_objects.h"
 #include "duel_effect_allocate_request.h"
 #include "text_box_lifecycle.h"
 #include "dialog_read_choice_input.h"
@@ -10927,7 +10917,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_noop_handlers.h"
 #include "duel_effect_apply_terrain.h"

@@ -7,7 +7,7 @@ level icons, and draws the card-detail attribute tile through
 `DisplayObject_SubmitPacket`.
 
 The producer is the paired resource constructor in
-`src/game/duel_effect_resource_setup.c`. It installs this callback on the
+`src/game/card_preview.c`. It installs this callback on the
 secondary object, publishes that object as `secondary_object`, and links its
 `field_54` to the allocated-second primary window. The renderer follows
 that link and the resource-slot index. The existing
@@ -25,8 +25,8 @@ name; this is not just a stat-only renderer or a new allocation API.
 | `sles_03951` | `0x80028C0C` | `0x674` | European wrapper |
 
 All entries retain `gcc_2_8_1_g8_split`. The main owner is
-`src/game/card_preview_draw_detail_panel.c`, with
-`src/game/european/card_preview_draw_detail_panel.c` supplying the original
+`src/game/card_preview.c`, with
+`src/game/european/card_preview.c` supplying the original
 European constants and conditional body. The obsolete European function
 alias is removed from this wrapper and its constructor because both now
 refer to the same canonical logical symbol.

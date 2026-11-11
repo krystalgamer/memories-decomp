@@ -45,16 +45,16 @@ PAIRS = [
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_projection.h"'),
-    ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/library.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_scene.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview_objects.h"'),
+    ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/library.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/game/duel_scene.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview.h"'),
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "sound.h"'),
     ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
-    ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/duel_effect_resource_setup.h"'),
+    ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/card_preview.h"'),
     ("src/game/sound_secondary_playback.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
@@ -75,7 +75,7 @@ PAIRS = [
     ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
     ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
     ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
-    ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
+    ("src/game/card_preview.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
@@ -251,8 +251,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 for owner in (
                     "build_deck.h",
                     "display_object_packet_submit.h",
-                    "duel_effect_resource_setup.h",
-                    "card_preview_objects.h",
+                    "card_preview.h",
+                    "card_preview.h",
                     "model_slot_control.h",
                     "model_load_step.h",
                     "duel_field_display_objects.h",
@@ -268,7 +268,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
                 replacement = ""
-                if source == "src/game/card_preview_draw_detail_panel.c" and "display_object_packet_submit.h" in include:
+                if source == "src/game/card_preview.c" and "display_object_packet_submit.h" in include:
                     # Preserve the real layout, not the lost function declaration.
                     owner = (REPOSITORY / "src/game/display_object_packet_submit.h").read_text()
                     layout = re.search(r"typedef struct \{[^}]*\} DisplayObjectPacketOrigin;", owner)
@@ -335,7 +335,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 self.assertIn(callee, found)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
-        source = "src/game/card_preview_draw_detail_panel.c"
+        source = "src/game/card_preview.c"
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")

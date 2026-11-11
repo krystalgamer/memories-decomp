@@ -168,7 +168,7 @@ only its addresses or geometry:
 | `duel_effect_text.c` (choice cursor) | `0x80036EF0` | 2 | 420 | clears R1 from `gInput_dwPreviousHeld` before the tests |
 | Total | | 29 | 6,884 | |
 
-The language index is `BUILD_LANGUAGE_INDEX` in `duel_effect_resource_setup.h`,
+The language index is `BUILD_LANGUAGE_INDEX` in `card_preview.h` (formerly `duel_effect_resource_setup.h`),
 next to `gText_bLanguageIndex`, with the European 0 as its default. The choice cursor's
 store is behind `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, and it reaches
 `gInput_dwPreviousHeld` through `$at`, so the wrapper also selects that

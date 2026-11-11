@@ -229,7 +229,7 @@ not absolute linker aliases:
 
 The external bindings reference separately verified resident owners.
 `D_8009C02B` is the existing unsigned byte declaration in
-`src/game/duel_effect_resource_setup.h`, relocated to French `0x8009C44B`.
+`src/game/card_preview.h`, relocated to French `0x8009C44B`.
 `gText_abColorSlots` retains its incomplete byte-array declaration in
 `src/game/text_constants.h` at `0x801BF98C`; no array bound is invented.
 Both lie inside the actual selected `resident_tail_8cb98` raw input object,

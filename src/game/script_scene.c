@@ -915,7 +915,7 @@ join:
 #include "display_asset_banks.h"
 
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 /* The menu assets' first sector in WA.MRG. A regional build defines its own. */

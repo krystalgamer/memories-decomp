@@ -31,7 +31,7 @@
 #include "../../game/display_object_interpolation.h"
 #include "../../game/text_sjis_to_glyph_codes.h"
 #include "../../game/duel_effect_entry_occupancy.h"
-#include "../../game/duel_effect_resource_setup.h"
+#include "../../game/card_preview.h"
 #include "../../overlays/password/name_entry_keyboard.h"
 #include "../../overlays/password/name_entry_frame.h"
 #include "../../overlays/password/name_entry_state.h"

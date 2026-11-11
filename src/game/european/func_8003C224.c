@@ -5,7 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../file_transfer.h"
-#include "../duel_effect_resource_setup.h"
+#include "../card_preview.h"
 
 /* The first of two earlier PAL frontend package callbacks: 640x224 upload
    coordinates and two- and six-sector later phases.

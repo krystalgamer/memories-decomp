@@ -1,10 +1,100 @@
 #include "../types.h"
+
+/* The duel card preview, one translation unit from CardPreview_HandleResourceTransfer
+ * (US 0x800289BC) through DuelEffect_ClearResourceObjectPointers: the preview
+ * resource transfer stage, the detail panel draw callback, the facing variant
+ * update, and the request, creation and release of the preview resource
+ * objects. */
+
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "file_transfer.h"
+#include "duel_effect_resource_record.h"
+#include "card_preview.h"
+
+#define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
+
+/* Regional values: the package size and the offset of its last image. The
+   European package holds one 0x2A0-byte third image per text language
+   (gText_bLanguageIndex, below), so the fourth image moves from 0x2AE0 to 0x3560.
+   The European build (src/game/european/) defines its own. */
+#ifndef FUNC_800289BC_PHASE_SIZE
+#define FUNC_800289BC_PHASE_SIZE 0x3800
+#endif
+#ifndef FUNC_800289BC_FOURTH_IMAGE_OFFSET
+#define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x2AE0
+#endif
+
+void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode)
+{
+    DuelEffectResourceRecord *e;
+    RECT *rect;
+    u8 *image_source;
+    s32 x;
+#ifdef VERSION_EUROPE
+    s32 offset;
+#endif
+
+    if (mode == 0) {
+        object->phase_size = FUNC_800289BC_PHASE_SIZE;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        object->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        object->sector_destination = (u32)gFile_TransferBufferBase;
+        object->transfer_mode = 1;
+        return;
+    }
+
+    e = &gCardPreview_Resources[(s32)object->callback_data];
+
+    rect = &e->rects[0];
+    image_source = gFile_TransferBufferBase;
+    e->rects[0].w = 0x33;
+    e->rects[0].h = 0x60;
+    e->rects[0].x = e->src_x;
+    e->rects[0].y = e->src_y;
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+
+    rect = &e->rects[1];
+    x = e->clut_x;
+    image_source = gFile_TransferBufferBase + 0x2640;
+    e->rects[1].w = 0x100;
+    e->rects[1].h = 1;
+    e->rects[1].x = x;
+    e->rects[1].y = e->clut_y;
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+
+    rect = &e->rects[2];
+#ifdef VERSION_EUROPE
+    /* The third image of the current text language. */
+    offset = gText_bLanguageIndex * 0x2A0 + 0x2840;
+    image_source = gFile_TransferBufferBase + offset;
+    e->rects[2].w = 0x18;
+    e->rects[2].h = 0xE;
+    e->rects[2].x = e->src_x;
+#else
+    x = e->src_x;
+    image_source = gFile_TransferBufferBase + 0x2840;
+    e->rects[2].w = 0x18;
+    e->rects[2].h = 0xE;
+    e->rects[2].x = x;
+#endif
+    e->rects[2].y = e->src_y + 0x60;
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+
+    rect = &e->rects[3];
+    image_source = gFile_TransferBufferBase + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
+    e->rects[3].w = 8;
+    e->rects[3].h = 0x58;
+    e->rects[3].x = e->src_x + 0x38;
+    e->rects[3].y = e->src_y;
+    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+}
+
 #include "text_encode_decimal_digits.h"
 #include "display_object_projection.h"
 #include "duel_effect_resource_record.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "card_preview_callbacks.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
 #include "card_constants.h"
@@ -291,3 +381,263 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         CARD_PANEL_ORIGIN_BYTES(origin));
 }
 
+#include "display_object_config.h"
+#include "display_object.h"
+#include "display_object_update_command_stream.h"
+
+void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
+{
+    DisplayObjectConfig *object = (DisplayObjectConfig *)source;
+    int requested_variant = 2;
+
+    if (facing_area >= 0) {
+        requested_variant = source->field_6A;
+    }
+    if (requested_variant != object->resource_variant) {
+        DisplayObject_SetResourceVariant(object, requested_variant);
+        DisplayObject_UpdateCommandStream((DisplayObject *)object);
+        gDisplayObject_fRenderRetry = 1;
+    }
+}
+
+#define DISPLAY_OBJECT_RESOURCE_UV_BYTES(object) ((u8 *)&(object)->resource_uv)
+#include "card_constants.h"
+#include "file_transfer.h"
+#include "duel_effect_resource_record.h"
+#include "display_object.h"
+#include "display_object_core.h"
+#include "display_object_config.h"
+#include "display_object_helpers.h"
+#include "duel_card.h"
+
+#ifndef DUEL_RESOURCE_TRANSFER_POSITION
+#define DUEL_RESOURCE_TRANSFER_POSITION(value) \
+    (((value) - 1) * 7 + CARD_COUNT)
+#endif
+#ifndef DUEL_RESOURCE_TRANSFER_SECTORS
+#define DUEL_RESOURCE_TRANSFER_SECTORS 7
+#endif
+#ifndef DUEL_RESOURCE_DEFAULT_X
+#define DUEL_RESOURCE_DEFAULT_X 0x48
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_BYTE
+#define DUEL_RESOURCE_VARIANT_BYTE 1
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_17_DELTA
+#define DUEL_RESOURCE_VARIANT_17_DELTA 0x20
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_15_DELTA
+#define DUEL_RESOURCE_VARIANT_15_DELTA 0x10
+#endif
+#ifndef DUEL_RESOURCE_PATH_Y
+#define DUEL_RESOURCE_PATH_Y 0x9E
+#endif
+#ifndef DUEL_RESOURCE_PATH_FIELD_5E
+#define DUEL_RESOURCE_PATH_FIELD_5E 0xCE
+#endif
+#ifndef DUEL_RESOURCE_PATH_WIDTH
+#define DUEL_RESOURCE_PATH_WIDTH 0x18
+#endif
+#ifndef DUEL_RESOURCE_PATH_HEIGHT
+#define DUEL_RESOURCE_PATH_HEIGHT 0xC
+#endif
+#ifndef DUEL_RESOURCE_SECONDARY_X
+#define DUEL_RESOURCE_SECONDARY_X 4
+#endif
+#ifndef DUEL_RESOURCE_SECONDARY_Y
+#define DUEL_RESOURCE_SECONDARY_Y 0x62
+#endif
+
+FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_id)
+{
+    FileTransferDescriptor *object;
+
+    gCardPreview_Resources[slot].card_id = card_id;
+    object = File_TryRequestAsyncTransfer(
+        0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
+        DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);
+    object->callback_data = (void *)slot;
+    gFile_dwTransferState =
+        object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+    return object;
+}
+
+/*
+ * Retail leaves the primary preview object in $v0 and callers consume that
+ * pointer. The stat overrides feed the default path before setup is reused;
+ * a negative signed low halfword selects the packed base-stat fallback.
+ * The primary object is published at record offset zero
+ * and linked from the secondary object at offset four.
+ */
+DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defense)
+{
+    DuelEffectResourceRecord *entry;
+    DisplayObject *object;
+    s32 variant;
+    s32 setup;
+    s32 card_id;
+    u8 byte_value;
+
+    setup = attack;
+    entry = &gCardPreview_Resources[index];
+
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
+    DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x66, 0x60, 0, 0,
+        ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
+        (s16)entry->clut_x, (s16)entry->clut_y);
+
+    object->xy.word = 0x001F0048;
+    object->field_3C.word = 0x00100038;
+#ifdef VERSION_EUROPE
+    object->attribute |= 0x01000000;
+    object->resource_uv = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
+#else
+    object->resource_uv = 0x9E00;
+    object->attribute |= 0x01000000;
+#endif
+
+    card_id = (s16)entry->card_id;
+    variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
+    object->field_67 = index;
+    object->field_68 = (u8)variant;
+
+    if (variant == 0x15) {
+        goto disp_15;
+    }
+    if (variant >= 0x16) {
+        goto disp_ge16;
+    }
+    if (variant == 0x14) {
+        goto disp_14;
+    }
+    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
+    goto path_a;
+
+disp_ge16:
+    if (variant == 0x16) {
+        goto disp_16;
+    }
+    if (variant == 0x17) {
+        goto disp_17;
+    }
+    object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
+    goto path_a;
+
+disp_16:
+    setup = 0x103;
+    variant = 1;
+    goto shared_tail;
+
+disp_17:
+    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
+        DUEL_RESOURCE_VARIANT_BYTE];
+    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        byte_value;
+    /* fallthrough */
+disp_14:
+    setup = 0x101;
+    variant = 1;
+    goto shared_tail;
+
+disp_15:
+    setup = 0x102;
+    byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
+        DUEL_RESOURCE_VARIANT_BYTE];
+    variant = 1;
+    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        byte_value;
+    goto shared_tail;
+
+path_a:
+    object->xy.h.y = DUEL_RESOURCE_PATH_Y;
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        DUEL_RESOURCE_PATH_FIELD_5E;
+    object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
+    object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
+#ifdef VERSION_EUROPE
+    DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[1] =
+        (gText_bLanguageIndex << 4) - 0x60;
+#endif
+
+    {
+        s16 attack_value = setup;
+        entry->attack = attack_value;
+        if (attack_value < 0) {
+            entry->attack =
+                (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
+        }
+    }
+    {
+        s16 defense_value = defense;
+        entry->defense = defense_value;
+        if (defense_value < 0) {
+            entry->defense =
+                (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
+        }
+    }
+    setup = 0x100;
+    variant = 0;
+    entry->defense_adjustment = 0;
+    entry->attack_adjustment = 0;
+
+shared_tail:
+    entry->attribute_icon = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
+    entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
+    entry->stat_palette_flags = 0;
+
+    object->field_4C = (s32)CardPreview_DrawDetailPanel;
+    DisplayObject_SelectOrderingTable1(object);
+
+    entry->secondary_object = object;
+
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 2, DUEL_RESOURCE_SECONDARY_X, 1, 0, variant, 0x1C,
+        setup + 8);
+
+    object->field_18.center.x = 0x46;
+    object->field_48.pivot.x = 0x46;
+    object->field_18.center.y = DUEL_RESOURCE_SECONDARY_Y;
+    object->field_48.pivot.y = DUEL_RESOURCE_SECONDARY_Y;
+    object->field_6A = (u8)variant;
+    object->attribute |= 0x01000000;
+    object->flags |= 8;
+
+    DisplayObject_SelectOrderingTable1(object);
+    DisplayObject_SetDepthOffset(object, -1);
+
+    ((DisplayObject *)entry->secondary_object)->subdivisions = 3;
+    object->subdivisions = 3;
+    object->back_face_handler = (u32)CardPreview_UpdateVariant;
+
+    {
+        DisplayObject *secondary = entry->secondary_object;
+        DisplayObject *primary;
+
+        primary = object;
+
+        entry->primary_object = primary;
+        secondary->field_54 = primary;
+    }
+    return object;
+}
+
+void DuelEffect_ReleaseResourceObjects(s32 index)
+{
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
+
+    DisplayObject_ReleaseIfPresent(entry->primary_object);
+    DisplayObject_ReleaseIfPresent(entry->secondary_object);
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
+}
+
+void DuelEffect_ClearResourceObjectPointers(int index)
+{
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
+
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
+}

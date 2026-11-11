@@ -1,8 +1,31 @@
-#ifndef MEMORIES_DECOMP_DUEL_EFFECT_RESOURCE_SETUP_H
-#define MEMORIES_DECOMP_DUEL_EFFECT_RESOURCE_SETUP_H
-
+#ifndef MEMORIES_DECOMP_CARD_PREVIEW_H
+#define MEMORIES_DECOMP_CARD_PREVIEW_H
 #include "../types.h"
+#include "display_object.h"
 #include "file_transfer.h"
+
+/* Draws the paired preview's frame, image, stat rows and card-detail tiles. */
+void CardPreview_DrawDetailPanel(DisplayObject *object, s32 arg1);
+/* Uses the stored variant for nonnegative reference-triangle facing area,
+ * otherwise variant 2, then redraws and requests the display-list pass again. */
+void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area);
+
+struct DisplayObject;
+
+/* Builds the paired objects in one effect-resource slot and returns its
+ * primary object, allocated second. Default-path attack/defense overrides
+ * are narrowed to s16 before testing: a negative low halfword selects the
+ * corresponding packed base stat. Special card types keep their preset
+ * setup. Callers retain their explicit partial-view casts. */
+struct DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defense);
+
+/* Releases both display-object words of one record through DisplayObject_ReleaseIfPresent and
+ * zeroes them. */
+void DuelEffect_ReleaseResourceObjects(s32 index);
+
+/* Clears both stored object pointers in one gCardPreview_Resources resource slot without
+ * releasing them. Takes the slot index, not a record pointer. */
+void DuelEffect_ClearResourceObjectPointers(s32 index);
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * gCardPreview_Resources record array. The low halfword of `card_id` is stored at +0x30;

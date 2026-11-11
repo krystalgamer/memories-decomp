@@ -403,12 +403,12 @@ out:
 }
 
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 
 #ifdef VERSION_EUROPE
 /* A European-only debug-menu entry, with its own slot in the menu's handler
-   table: it edits gText_bLanguageIndex (the index duel_effect_resource_setup.c
+   table: it edits gText_bLanguageIndex (the index card_preview.c
    reads) through the same editor as the sound entry, and sets it back to
    BUILD_LANGUAGE_INDEX from 5 up. */
 void DebugMenu_UpdateLanguageEntry(void)

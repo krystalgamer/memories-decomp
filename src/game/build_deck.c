@@ -778,7 +778,7 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "card_constants.h"
 #include "image_transfer_rects.h"
 #ifdef VERSION_EUROPE
-#include "duel_effect_resource_setup.h"
+#include "card_preview.h"
 #endif
 #include "../ygo_types.h"
 
