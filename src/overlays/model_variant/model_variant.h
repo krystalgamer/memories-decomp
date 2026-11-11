@@ -132,13 +132,15 @@ typedef struct {
     u8 bytes[8];
 } ModelVariantViewSnapshotBytes;
 
-/* The aim block an entry state keeps after its matrix (e.g.
+/* The aim block an entry state keeps beside its matrices (e.g.
  * Variant428EntryState). Each tick the entry stores the view reference
  * less the view point in view_delta (its ratan2 angles fill the clock),
  * copies the point it aims at into target (a slot position or a fixed
- * point), sets direction to target less the matrix translation, and
- * projects target and the matrix origin with RotTransPers, keeping their
- * screen difference in screen_delta. */
+ * point), sets direction to target less an entry-specific origin, and
+ * projects target and that origin with RotTransPers, keeping their screen
+ * difference in screen_delta. The origin is usually the entry matrix's
+ * translation; some families (e.g. Variant336EntryState) use the midpoint
+ * of two matrices' translations instead. */
 typedef struct {
     SVECTOR target;
     VECTOR direction;
