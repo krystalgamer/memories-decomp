@@ -354,21 +354,12 @@ s32 SD_HasQueuedStreamCommand(void) {
 
     for (i = 1; i < g_SDValue->s_wSD_NUM_COMMAND; i++) {
         s32 c = g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command;
-        if (c == 0x20) {
-            goto found;
+        switch (c) {
+        case 0x11:
+        case 0x20:
+        case 0x24:
+            return 1;
         }
-        if (c < 0x21) {
-            if (c == 0x11) {
-                goto found;
-            }
-            continue;
-        } else {
-            if (c != 0x24) {
-                continue;
-            }
-        }
-    found:
-        return 1;
     }
     return 0;
 }
@@ -393,7 +384,7 @@ void SD_StepActiveCommand(void)
     case 81:
         SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2,
                      (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
-        goto clear_7d_7c;
+        break;
 
     case 32:
         switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
@@ -422,7 +413,8 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->file_selector = (s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0];
             if (gSD_pFileRequest->ram_transfer_size == 0 && gSD_pFileRequest->spu_transfer_size == 0) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-                goto clear_7c;
+                g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+                return;
             }
             switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
             case 0x10:
@@ -477,7 +469,7 @@ void SD_StepActiveCommand(void)
         }
         g_SDValue->s_wSD_CD_REQUEST_CODE = 0xFFFF;
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             SDValue *sd = g_SDValue;
@@ -490,7 +482,7 @@ void SD_StepActiveCommand(void)
 
     case 33:
         if (File_RequestSecondarySlot(0, 0) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             SoundCommandPair *descriptor;
@@ -516,11 +508,11 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->sector_offset = second_word;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
-        goto clear_7d_7c;
+        break;
 
     case 36:
         if (File_RequestSecondarySlot(0, 0) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             u32 value_mask = 0xFFFFFF;
@@ -561,7 +553,7 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->sector_offset = start_sector_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
-        goto clear_7d_7c;
+        break;
 
     case 41:
     case 42:
@@ -569,7 +561,8 @@ void SD_StepActiveCommand(void)
             return;
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
-        goto clear_7d;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        return;
 
     case 72:
         if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
@@ -622,21 +615,14 @@ void SD_StepActiveCommand(void)
             }
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
-        goto clear_7d;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        return;
 
     case 0:
         break;
     }
 
-    goto clear_7d_7c;
-
-clear_7d:
     g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-    return;
-
-clear_7d_7c:
-    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-clear_7c:
     g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
 }
 
@@ -655,22 +641,18 @@ s32 SD_EnqueueCommand(SDCommand *src) {
 
     capacity_state = g_SDValue;
     capacity_count = capacity_state->s_wSD_NUM_COMMAND;
-    if (capacity_count >= SD_COMMAND_QUEUE_COUNT) {
-        goto full;
-    }
-    {
+    if (capacity_count < SD_COMMAND_QUEUE_COUNT) {
         capacity_state->s_uSD_COMMAND_QUEUE.c[capacity_count].command = src->command;
+
+        write_state = g_SDValue;
+        write_index = write_state->s_wSD_NUM_COMMAND;
+        write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
+
+        count_state = g_SDValue;
+        one = 1;
+        count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
+        return one;
     }
-
-    write_state = g_SDValue;
-    write_index = write_state->s_wSD_NUM_COMMAND;
-    write_state->s_uSD_COMMAND_QUEUE.c[write_index] = *src;
-
-    count_state = g_SDValue;
-    one = 1;
-    count_state->s_wSD_NUM_COMMAND = count_state->s_wSD_NUM_COMMAND + one;
-    return one;
-full:
     return 0;
 }
 
@@ -887,7 +869,7 @@ void SD_CancelMusicRequests(void)
             offset = i * SD_COMMAND_RECORD_SIZE;
             next_offset = (i + 1) * SD_COMMAND_RECORD_SIZE;
             if (base->s_wSD_NUM_COMMAND == 0) {
-                goto after;
+                break;
             }
             command = base->s_uSD_COMMAND_QUEUE.b[offset];
             switch (command) {
@@ -898,24 +880,23 @@ void SD_CancelMusicRequests(void)
             case 0x48:
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
-                goto decrement;
+                g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
+                break;
             case 0x20:
                 /* Keep the byte-cursor sum: direct member access reschedules
                    the queue-base add and the following load. */
                 if (*(s32 *)(STATE_BYTES + offset +
                         SD_COMMAND_QUEUE_BYTE_OFFSET +
                         (u32)&((SDCommand *)0)->transfer_selector) != 0x20) {
-                    goto test;
+                    break;
                 }
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
-decrement:
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
-                goto test;
+                break;
             default:
                 i++;
             }
-test:
             base = g_SDValue;
             if (i >= base->s_wSD_NUM_COMMAND) {
                 break;
@@ -925,7 +906,6 @@ test:
             }
         }
     }
-after:
     switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
     case 0x42:
     case 0x43:

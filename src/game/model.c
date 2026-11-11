@@ -3968,7 +3968,7 @@ void Model_DrawSlot(s32 index)
 #include "file_package_staging.h"
 #include "sound_voice_data.h"
 #include "script_state.h"
-#include "duel_load_package_stage.h"
+#include "duel_scene.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this

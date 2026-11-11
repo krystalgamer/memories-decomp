@@ -31,14 +31,14 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant656_szWorkSizeFormat, sizeof(Model656State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant656_aImages[0]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 0, &gModelVariant656_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant656_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant656_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -82,7 +82,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
                 break;
             }
             setVector(&work->sprites[i].growth, value, 0, work->direction * 200);
-            setVector(&work->sprites[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->sprites[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->sprites[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->count; i++) {
@@ -106,7 +106,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
             work->cones[i].v = 16;
             setVector(&work->cones[i].scale, 4096, 4096, 4096);
             setVector(&work->cones[i].growth, 0, 0, 0);
-            setVector(&work->cones[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->cones[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->cones[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->count; i++) {
@@ -130,7 +130,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
             work->domes[i].v = 16;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
             setVector(&work->domes[i].growth, 0, 0, 0);
-            setVector(&work->domes[i].rotation, 0, work->slot * 2048, (i << 12) / work->count);
+            setVector(&work->domes[i].rotation, 0, work->head.slot * 2048, (i << 12) / work->count);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
         work->delay = gModelVariant656_aConfigs[command].delay;
@@ -185,16 +185,16 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 18);
+            if (work->head.elapsed == 0) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->count; i++) {
                     work->sprites[i].active = 1;
                     setVector(&work->sprites[i].position, ls.t[0], ls.t[1], ls.t[2]);
                 }
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 21);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->count; i++) {
                     work->cones[i].active = 1;
@@ -210,12 +210,12 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 1:
-            if (work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 18);
+            if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
                 GsGetLwUnit(&unit, &ls);
                 work->sprites[work->flags[0]].active = 1;
                 setVector(&work->sprites[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 21);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 work->cones[work->flags[0]].active = 1;
                 setVector(&work->cones[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
@@ -231,13 +231,13 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 2:
-            if (work->elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 21);
+            if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 work->sprites[work->flags[0]].active = 1;
                 setVector(&work->sprites[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
                 m = ls;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 20);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 20);
                 GsGetLwUnit(&unit, &ls);
                 work->cones[work->flags[0]].active = 1;
                 setVector(&work->cones[work->flags[0]].position, ls.t[0], ls.t[1], ls.t[2]);
@@ -331,9 +331,9 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
                 if (work->cones[i].duration / 2 < work->cones[i].elapsed) {
                     value = (work->cones[i].duration - work->cones[i].elapsed) * 2;
                     duration = work->cones[i].duration;
-                    work->cones[i].color[0] = gModelVariant656_aConfigs[work->command].color[0] * value / duration;
-                    work->cones[i].color[1] = gModelVariant656_aConfigs[work->command].color[1] * value / duration;
-                    work->cones[i].color[2] = gModelVariant656_aConfigs[work->command].color[2] * value / duration;
+                    work->cones[i].color[0] = gModelVariant656_aConfigs[work->head.command].color[0] * value / duration;
+                    work->cones[i].color[1] = gModelVariant656_aConfigs[work->head.command].color[1] * value / duration;
+                    work->cones[i].color[2] = gModelVariant656_aConfigs[work->head.command].color[2] * value / duration;
                 }
                 for (j = 0; j < 8; j++) {
                     for (k = 0; k < 8; k++) {
@@ -407,9 +407,9 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     value = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     duration = work->domes[i].duration;
-                    work->domes[i].color[0] = gModelVariant656_aConfigs[work->command].color[0] * value / duration;
-                    work->domes[i].color[1] = gModelVariant656_aConfigs[work->command].color[1] * value / duration;
-                    work->domes[i].color[2] = gModelVariant656_aConfigs[work->command].color[2] * value / duration;
+                    work->domes[i].color[0] = gModelVariant656_aConfigs[work->head.command].color[0] * value / duration;
+                    work->domes[i].color[1] = gModelVariant656_aConfigs[work->head.command].color[1] * value / duration;
+                    work->domes[i].color[2] = gModelVariant656_aConfigs[work->head.command].color[2] * value / duration;
                 }
                 for (k = 0; k < work->dome_count; k++) {
                     for (j = 0; j < 8; j++) {
@@ -445,7 +445,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->count * 3) {
             result = 1;
             if (work->flags[4] == 1) {

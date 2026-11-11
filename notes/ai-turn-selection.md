@@ -2,7 +2,7 @@
 
 This is one static contract for the six-function run in
 [`duel_scene.c`](../src/game/duel_scene.c), its
-[`shared API`](../src/game/ai_turn_action.h), and the battle-strength helper
+[`shared API`](../src/game/duel_scene.h), and the battle-strength helper
 in [`duel_scene.c`](../src/game/duel_scene.c). Names describe
 the matching code, not recovered original symbols or a claim that every
 entry is called during normal play.
@@ -49,7 +49,7 @@ This replaces the selector-only `DuelSelectionSource` and
 record's object-offset and `0x1C`-stride contracts already live in
 `duel_card.h`; the object index remains an unsigned byte. The argument is
 not an object pointer itself, and no new record or display-object storage is
-allocated. The old `duel_card_selection.h` is replaced by `ai_turn_action.h`
+allocated. The old `duel_card_selection.h` is replaced by `duel_scene.h` (formerly `ai_turn_action.h`)
 with prototypes for the complete family.
 
 Both helpers scan grid positions five through nine in their original order.

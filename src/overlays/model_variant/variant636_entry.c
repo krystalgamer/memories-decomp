@@ -42,10 +42,10 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model636State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant636_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant636_Image);
         work->tpage = tex >> 16;
         work->clut = tex;
         /* Two tests rather than one &&, which the front end would fold into
@@ -72,7 +72,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             setVector(&work->streaks[i].target, 0, 0, 0);
             if (command < 3) {
                 if (command >= 0) {
-                    setVector(&work->streaks[i].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->streaks[i].rotation, 0, work->head.slot * 2048, 0);
                     setVector(&work->streaks[i].position, 0, 0, 0);
                 }
             }
@@ -157,7 +157,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             setVector(&work->domes[i].target, 0, 0, 0);
             if (command < 3) {
                 if (command >= 0) {
-                    setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->domes[i].rotation, 0, work->head.slot * 2048, 0);
                     setVector(&work->domes[i].position, 0, 0, 0);
                 }
             }
@@ -177,7 +177,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                     work->radius / 2 * (i % 3 + 1), work->radius * rcos((i << 12) / work->cols) / 4096);
                 if (command < 3) {
                     if (command >= 0) {
-                        setVector(&work->sprites[i][j].rotation, 0, work->slot * 2048, 0);
+                        setVector(&work->sprites[i][j].rotation, 0, work->head.slot * 2048, 0);
                         setVector(&work->sprites[i][j].position, 0, 0, 0);
                     }
                 }
@@ -207,15 +207,15 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 6);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
             GsGetLwUnit(&unit, &ls);
-            if (work->elapsed == 0 && work->flags[0] == 0) {
+            if (work->head.elapsed == 0 && work->flags[0] == 0) {
                 for (j = 0; j < 2; j++) {
                     work->streaks[j].active = 1;
-                    setVector(&work->streaks[j].target, (work->slot * 2 - 1) * -ls.t[0], ls.t[1],
-                        (work->slot * 2 - 1) * -ls.t[2]);
+                    setVector(&work->streaks[j].target, (work->head.slot * 2 - 1) * -ls.t[0], ls.t[1],
+                        (work->head.slot * 2 - 1) * -ls.t[2]);
                     for (i = 0; i < 17; i++) {
                         setVector(&work->trail[i][j], work->streaks[j].target.vx, work->streaks[j].target.vy,
                             work->streaks[j].target.vz);
@@ -223,11 +223,11 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                 }
                 work->flags[0] = 1;
             }
-            if (work->elapsed > 10 && work->flags[1] == 0) {
+            if (work->head.elapsed > 10 && work->flags[1] == 0) {
                 for (j = 2; j < 4; j++) {
                     work->streaks[j].active = 1;
-                    setVector(&work->streaks[j].target, (work->slot * 2 - 1) * -ls.t[0], ls.t[1],
-                        (work->slot * 2 - 1) * -ls.t[2]);
+                    setVector(&work->streaks[j].target, (work->head.slot * 2 - 1) * -ls.t[0], ls.t[1],
+                        (work->head.slot * 2 - 1) * -ls.t[2]);
                     for (i = 0; i < 17; i++) {
                         setVector(&work->trail[i][j], work->streaks[j].target.vx, work->streaks[j].target.vy,
                             work->streaks[j].target.vz);
@@ -235,11 +235,11 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                 }
                 work->flags[1] = 1;
             }
-            if (work->elapsed > 20 && work->flags[2] == 0) {
+            if (work->head.elapsed > 20 && work->flags[2] == 0) {
                 for (j = 4; j < 6; j++) {
                     work->streaks[j].active = 1;
-                    setVector(&work->streaks[j].target, (work->slot * 2 - 1) * -ls.t[0], ls.t[1],
-                        (work->slot * 2 - 1) * -ls.t[2]);
+                    setVector(&work->streaks[j].target, (work->head.slot * 2 - 1) * -ls.t[0], ls.t[1],
+                        (work->head.slot * 2 - 1) * -ls.t[2]);
                     for (i = 0; i < 17; i++) {
                         setVector(&work->trail[i][j], work->streaks[j].target.vx, work->streaks[j].target.vy,
                             work->streaks[j].target.vz);
@@ -249,12 +249,12 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 1:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 6);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
             GsGetLwUnit(&unit, &ls);
-            if (work->flags[0] < work->rows && work->elapsed >= work->flags[0] * 15) {
+            if (work->flags[0] < work->rows && work->head.elapsed >= work->flags[0] * 15) {
                 work->streaks[work->flags[0]].active = 1;
-                setVector(&work->streaks[work->flags[0]].target, (work->slot * 2 - 1) * -ls.t[0], ls.t[1],
-                    (work->slot * 2 - 1) * -ls.t[2]);
+                setVector(&work->streaks[work->flags[0]].target, (work->head.slot * 2 - 1) * -ls.t[0], ls.t[1],
+                    (work->head.slot * 2 - 1) * -ls.t[2]);
                 for (i = 0; i < 17; i++) {
                     setVector(&work->trail[i][work->flags[0]], work->streaks[work->flags[0]].target.vx,
                         work->streaks[work->flags[0]].target.vy, work->streaks[work->flags[0]].target.vz);
@@ -263,12 +263,12 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 2:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 2);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 2);
             GsGetLwUnit(&unit, &ls);
-            if (work->flags[0] < work->rows && work->elapsed >= work->flags[0] * 30) {
+            if (work->flags[0] < work->rows && work->head.elapsed >= work->flags[0] * 30) {
                 work->streaks[work->flags[0]].active = 1;
-                setVector(&work->streaks[work->flags[0]].target, (work->slot * 2 - 1) * -ls.t[0], ls.t[1],
-                    (work->slot * 2 - 1) * -ls.t[2]);
+                setVector(&work->streaks[work->flags[0]].target, (work->head.slot * 2 - 1) * -ls.t[0], ls.t[1],
+                    (work->head.slot * 2 - 1) * -ls.t[2]);
                 for (i = 0; i < 17; i++) {
                     setVector(&work->trail[i][work->flags[0]], work->streaks[work->flags[0]].target.vx,
                         work->streaks[work->flags[0]].target.vy, work->streaks[work->flags[0]].target.vz);
@@ -310,13 +310,13 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                     /* The mirrored landing point; the shift keeps the
                      * doubled slot as the multiplier. */
                     work->domes[i].active = 1;
-                    setVector(&work->domes[i].position, work->trail[0][i].vx - (work->slot << 1) * work->trail[0][i].vx,
-                        work->trail[0][i].vy, work->trail[0][i].vz - (work->slot << 1) * work->trail[0][i].vz);
+                    setVector(&work->domes[i].position, work->trail[0][i].vx - (work->head.slot << 1) * work->trail[0][i].vx,
+                        work->trail[0][i].vy, work->trail[0][i].vz - (work->head.slot << 1) * work->trail[0][i].vz);
                     for (j = 0; j < work->cols; j++) {
                         work->sprites[j][i].active = 1;
                         setVector(&work->sprites[j][i].position,
-                            work->trail[0][i].vx - (work->slot << 1) * work->trail[0][i].vx, work->trail[0][i].vy,
-                            work->trail[0][i].vz - (work->slot << 1) * work->trail[0][i].vz);
+                            work->trail[0][i].vx - (work->head.slot << 1) * work->trail[0][i].vx, work->trail[0][i].vy,
+                            work->trail[0][i].vz - (work->head.slot << 1) * work->trail[0][i].vz);
                     }
                     work->streaks[i].stage = 1;
                 }
@@ -363,15 +363,15 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 3 < work->domes[i].elapsed) {
                     /* The tripled remaining time is spelt as a shift and an
                      * add, which keeps the 3 off the table colour. */
-                    work->domes[i].color[0] = gModelVariant636_aConfigs[work->command].color[0]
+                    work->domes[i].color[0] = gModelVariant636_aConfigs[work->head.command].color[0]
                         * (((work->domes[i].duration - work->domes[i].elapsed) << 1)
                             + (work->domes[i].duration - work->domes[i].elapsed))
                         / (work->domes[i].duration * 2);
-                    work->domes[i].color[1] = gModelVariant636_aConfigs[work->command].color[1]
+                    work->domes[i].color[1] = gModelVariant636_aConfigs[work->head.command].color[1]
                         * (((work->domes[i].duration - work->domes[i].elapsed) << 1)
                             + (work->domes[i].duration - work->domes[i].elapsed))
                         / (work->domes[i].duration * 2);
-                    work->domes[i].color[2] = gModelVariant636_aConfigs[work->command].color[2]
+                    work->domes[i].color[2] = gModelVariant636_aConfigs[work->head.command].color[2]
                         * (((work->domes[i].duration - work->domes[i].elapsed) << 1)
                             + (work->domes[i].duration - work->domes[i].elapsed))
                         / (work->domes[i].duration * 2);
@@ -418,7 +418,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                     unit.flg = 0;
                     unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sprites[i][j].scale);
-                    RotMatrixX(work->sprites[i][j].rotation.vx - (view.pitch - 4096) * (work->slot * 2 - 1),
+                    RotMatrixX(work->sprites[i][j].rotation.vx - (view.pitch - 4096) * (work->head.slot * 2 - 1),
                         &unit.matrix);
                     /* Grouped so the 3078 is added to the rotation first. */
                     RotMatrixY(work->sprites[i][j].rotation.vy - (view.yaw - 3078), &unit.matrix);
@@ -434,11 +434,11 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
                     if (work->sprites[i][j].duration / 2 < work->sprites[i][j].elapsed) {
                         duration = work->sprites[i][j].duration;
                         value = (duration - work->sprites[i][j].elapsed) << 1;
-                        work->sprites[i][j].color[0] = gModelVariant636_aConfigs[work->command].color[3] * value
+                        work->sprites[i][j].color[0] = gModelVariant636_aConfigs[work->head.command].color[3] * value
                             / duration;
-                        work->sprites[i][j].color[1] = gModelVariant636_aConfigs[work->command].color[4] * value
+                        work->sprites[i][j].color[1] = gModelVariant636_aConfigs[work->head.command].color[4] * value
                             / duration;
-                        work->sprites[i][j].color[2] = gModelVariant636_aConfigs[work->command].color[5] * value
+                        work->sprites[i][j].color[2] = gModelVariant636_aConfigs[work->head.command].color[5] * value
                             / duration;
                     }
                     setPolyFT4(&work->sprite);
@@ -472,7 +472,7 @@ s32 ModelVariant636_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->rows * (work->cols + 2)) {
             result = 1;
             if (work->flags[4] == 1) {

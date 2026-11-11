@@ -66,9 +66,7 @@ void Main_RunCampaign(void) {
 }
 
 #include "../game/ai_opponent_data.h"
-#include "../game/duel_check_quit_input.h"
-#include "../game/duel_init_scene.h"
-#include "../game/main_start_duel.h"
+#include "../game/duel_scene.h"
 #include "../game/main.h"
 #include "../game/build_deck.h"
 #include "../game/mem_card.h"
@@ -81,8 +79,6 @@ void Main_RunCampaign(void) {
 #include "../game/sound_pending_entries.h"
 #include "../game/sound_voice_selection.h"
 #include "../game/library.h"
-#include "../game/duel_scene_update.h"
-#include "../game/duel_side_state.h"
 #include "duel_session_controls.h"
 
 u8 gMain_bActiveModeState;
@@ -168,7 +164,6 @@ void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&0x40
 #include "sound.h"
 #include "main_modes.h"
 #include "model_scene_runtime.h"
-#include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
 /* Small globals other units own, declared here as common symbols the
@@ -325,8 +320,6 @@ void Main_RunFreeDuelMenu(void) {
 #include "text_message_staging.h"
 #include "main.h"
 #include "model_scene_states.h"
-#include "duel_side_state.h"
-#include "main_start_duel.h"
 #include "card_constants.h"
 #include "../overlays/main_menu/value_setup.h"
 #include "duel_session_controls.h"
@@ -701,80 +694,69 @@ void Main_RunCredits(void)
     one = 1;
     phase = state & 0xF;
 
-    if (phase == one) {
-        goto show_secret_number;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto save_completion;
+    switch (phase) {
+    case 0:
+        if ((state & 0x80) == 0) {
+            gMain_bModeRunnerStep = state | 0x80;
+            SaveData_RequestWrite();
+        }
+        state = MemCardDialog_Poll();
+        if (state == 0) {
+            return;
+        }
+        if (state == 2) {
+            goto initialize_completion;
+        }
+        gMain_bModeRunnerStep = one;
+        return;
+
+    case 1:
+        if ((state & 0x80) == 0) {
+            gMain_bModeRunnerStep = state | 0x80;
+            state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
+                CREDITS_SECRET_NUMBER_COUNT;
+            table = (u16 *)gCredits_awSecretNumbers;
+            number = &table[state * 2];
+            gText_StagedValues[0].pair.lo = number[0];
+            gText_StagedValues[0].pair.hi = number[1];
+            TextBox_CreateFlagged(
+                0,
+                0x23,
+                0x10,
+                0x70,
+                0x120,
+                MAIN_RUN_CREDITS_TEXT_BOX_Y,
+                MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
+            );
+        }
+        TextBox_UpdateChannels();
+        textbox = gText_aChannels;
+        if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
+            TextBox_Destroy(textbox);
+            gMain_bModeRunnerStep = 2;
         }
         return;
-    }
-    if (phase == 2) {
-        goto run_credits_scene;
-    }
-    return;
 
-save_completion:
-    if ((state & 0x80) == 0) {
-        gMain_bModeRunnerStep = state | 0x80;
-        SaveData_RequestWrite();
-    }
-    state = MemCardDialog_Poll();
-    if (state == 0) {
-        return;
-    }
-    if (state == 2) {
-        goto initialize_completion;
-    }
-    gMain_bModeRunnerStep = one;
-    return;
-
-show_secret_number:
-    if ((state & 0x80) == 0) {
-        gMain_bModeRunnerStep = state | 0x80;
-        state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
-            CREDITS_SECRET_NUMBER_COUNT;
-        table = (u16 *)gCredits_awSecretNumbers;
-        number = &table[state * 2];
-        gText_StagedValues[0].pair.lo = number[0];
-        gText_StagedValues[0].pair.hi = number[1];
-        TextBox_CreateFlagged(
-            0,
-            0x23,
-            0x10,
-            0x70,
-            0x120,
-            MAIN_RUN_CREDITS_TEXT_BOX_Y,
-            MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
-        );
-    }
-    TextBox_UpdateChannels();
-    textbox = gText_aChannels;
-    if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
-        TextBox_Destroy(textbox);
-        gMain_bModeRunnerStep = 2;
-    }
-    return;
-
-run_credits_scene:
-    if ((state & 0x80) == 0) {
-        gMain_bModeRunnerStep = state | 0x80;
+    case 2:
+        if ((state & 0x80) == 0) {
+            gMain_bModeRunnerStep = state | 0x80;
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-        DuelEffect_ResetState();
-        DisplayEffect_ResetMenuRecords();
+            DuelEffect_ResetState();
+            DisplayEffect_ResetMenuRecords();
 #endif
-        gGraphics_bSyncVBlankTarget = one;
-        Model_ResetSceneView();
-        Model_ResetSceneState();
-        Model_StartCreditsPresentation();
-        return;
-    }
-    Model_IsCreditsPresentationComplete();
+            gGraphics_bSyncVBlankTarget = one;
+            Model_ResetSceneView();
+            Model_ResetSceneState();
+            Model_StartCreditsPresentation();
+            return;
+        }
+        Model_IsCreditsPresentationComplete();
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-    TextBox_UpdateChannels();
+        TextBox_UpdateChannels();
 #endif
-    Model_UpdateScene();
+        Model_UpdateScene();
+        break;
+    }
 }
 
 /* The first text box's x and width; the Japanese build draws it wider. */

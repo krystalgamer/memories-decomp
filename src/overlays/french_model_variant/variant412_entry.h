@@ -27,10 +27,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_1A64[0x4C];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, current_animation_frame, elapsed, animation_frame;
     s32 step, captured_count, field_1B1C;

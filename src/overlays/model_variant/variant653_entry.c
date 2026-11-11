@@ -37,13 +37,13 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant653_szWorkSizeFormat, sizeof(Model653State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        work->other_slot = work->slot == 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        work->other_slot = work->head.slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant653_Image);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant653_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         if (command == 0) {
@@ -66,7 +66,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
             work->emitters[i].v = 0;
             setVector(&work->emitters[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->emitters[i].growth, 200, 0, work->target.vz);
-            setVector(&work->emitters[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->emitters[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->emitters[i].position, 0, 0, 0);
         }
         /* Shells, cones and spheres are indexed by the emitter plus child index.
@@ -86,7 +86,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                 work->shells[j + i].v = 0;
                 setVector(&(&work->shells[i])[j].scale, 0x1000, 0x1000, 0x1000);
                 setVector(&(&work->shells[i])[j].growth, 0, 0, 0);
-                setVector(&(&work->shells[i])[j].rotation, 0, work->slot * 2048, 0);
+                setVector(&(&work->shells[i])[j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&(&work->shells[i])[j].position, 0, 0, 0);
             }
         }
@@ -103,7 +103,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                 setVector(&(&work->cones[i])[j].scale, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].rotation, 0,
-                    (i << 12) / work->cone_count + work->slot * 2048, 0);
+                    (i << 12) / work->cone_count + work->head.slot * 2048, 0);
                 if (i == 0) {
                     setVector(&work->cones[j].position, 0, 0, 0);
                 } else {
@@ -126,7 +126,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                 setVector(&(&work->spheres[i])[j].scale, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].rotation, (i << 12) / work->cone_count,
-                    (i << 12) / work->cone_count + work->slot * 2048, (i << 12) / work->cone_count);
+                    (i << 12) / work->cone_count + work->head.slot * 2048, (i << 12) / work->cone_count);
                 setVector(&(&work->spheres[i])[j].position, 0, 0, 0);
             }
         }
@@ -165,14 +165,14 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
     } else {
         /* Nested tests: a combined && lets GCC merge the byte and halfword
          * loads into one masked word compare. */
-        if (work->command == 0) {
-            if (work->elapsed == 0) {
-                Model_CopySlotPosition(work->slot, (u16 *)&pos);
+        if (work->head.command == 0) {
+            if (work->head.elapsed == 0) {
+                Model_CopySlotPosition(work->head.slot, (u16 *)&pos);
                 work->emitters[0].active = 1;
                 work->emitters[0].position.vx += pos.vx;
                 work->emitters[0].position.vy -= 140;
                 work->emitters[0].position.vz += pos.vz;
-                work->shadow = Model_SetSlotShadowEnabled(work->slot, 0);
+                work->shadow = Model_SetSlotShadowEnabled(work->head.slot, 0);
             }
         }
         PushMatrix();
@@ -245,16 +245,16 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                 if (work->emitters[i].elapsed < (u16)(work->emitters[i].duration / 5)) {
                     n = work->emitters[i].elapsed * 5;
                     d = work->emitters[i].duration;
-                    work->emitters[i].red = gModelVariant653_aConfigs[work->command].red * n / d;
-                    work->emitters[i].green = gModelVariant653_aConfigs[work->command].green * n / d;
-                    work->emitters[i].blue = gModelVariant653_aConfigs[work->command].blue * n / d;
+                    work->emitters[i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                    work->emitters[i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                    work->emitters[i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                 }
                 if (work->emitters[i].duration * 9 / 10 < work->emitters[i].elapsed) {
                     n = (work->emitters[i].duration - work->emitters[i].elapsed) * 10;
                     d = work->emitters[i].duration;
-                    work->emitters[i].red = gModelVariant653_aConfigs[work->command].red * n / d;
-                    work->emitters[i].green = gModelVariant653_aConfigs[work->command].green * n / d;
-                    work->emitters[i].blue = gModelVariant653_aConfigs[work->command].blue * n / d;
+                    work->emitters[i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                    work->emitters[i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                    work->emitters[i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                 }
                 for (k = 0; k < 6; k++) {
                     for (j = 0; j < 16; j++) {
@@ -314,9 +314,9 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                     if (work->shells[l + i].duration / 2 < work->shells[l + i].elapsed) {
                         n = (work->shells[l + i].duration - work->shells[l + i].elapsed) * 2;
                         d = work->shells[l + i].duration;
-                        work->shells[l + i].red = gModelVariant653_aConfigs[work->command].red * n / d;
-                        work->shells[l + i].green = gModelVariant653_aConfigs[work->command].green * n / d;
-                        work->shells[l + i].blue = gModelVariant653_aConfigs[work->command].blue * n / d;
+                        work->shells[l + i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                        work->shells[l + i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                        work->shells[l + i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                     }
                     for (k = 0; k < 6; k++) {
                         for (j = 0; j < 16; j++) {
@@ -442,9 +442,9 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                     if (work->spheres[l + i].duration / 2 < work->spheres[l + i].elapsed) {
                         n = (work->spheres[l + i].duration - work->spheres[l + i].elapsed) * 2;
                         d = work->spheres[l + i].duration;
-                        work->spheres[l + i].red = gModelVariant653_aConfigs[work->command].line_red * n / d;
-                        work->spheres[l + i].green = gModelVariant653_aConfigs[work->command].line_green * n / d;
-                        work->spheres[l + i].blue = gModelVariant653_aConfigs[work->command].line_blue * n / d;
+                        work->spheres[l + i].red = gModelVariant653_aConfigs[work->head.command].line_red * n / d;
+                        work->spheres[l + i].green = gModelVariant653_aConfigs[work->head.command].line_green * n / d;
+                        work->spheres[l + i].blue = gModelVariant653_aConfigs[work->head.command].line_blue * n / d;
                     }
                     for (j = 1; j < 8; j++) {
                         for (k = 0; k < 8; k++) {
@@ -473,10 +473,10 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->emitter_count * (work->shell_count + 1 + work->cone_count * 2)) {
             result = 2;
-            Model_SetSlotShadowEnabled(work->slot, work->shadow);
+            Model_SetSlotShadowEnabled(work->head.slot, work->shadow);
         }
     }
     return result;

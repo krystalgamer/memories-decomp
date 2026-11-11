@@ -10,7 +10,7 @@
  * prints the work-area size. */
 
 #define TRACK_POINT(index, point)                                              \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, index);          \
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &ls);                                                   \
     (point).vx = ls.t[0];                                                      \
     (point).vy = ls.t[1];                                                      \
@@ -44,14 +44,14 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model661State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant661_aImages[0]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant661_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant661_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant661_aImages[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -173,7 +173,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].unknown_40, 0, 0, 0);
-            setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 1:
                 setVector(&work->bursts[i].position, 0, 0, -(work->direction * 200));
@@ -210,7 +210,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 setVector(&work->sparks[i][j].unknown_40, 0, 0, work->radius * 10);
                 setVector(&work->sparks[i][j].rotation,
                     (i << 12) / work->spark_count + j * 113,
-                    work->slot * 2048 + (i << 12) / work->spark_count + j * 113,
+                    work->head.slot * 2048 + (i << 12) / work->spark_count + j * 113,
                     (i << 12) / work->spark_count + j * 113);
                 switch (command) {
                 case 1:
@@ -283,7 +283,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
     }
     for (i = 0; i < work->rows; i++) {
         if (work->streaks[i].done == 0) {
-            switch (work->command) {
+            switch (work->head.command) {
             case 0:
                 switch (i) {
                 case 0:
@@ -393,14 +393,14 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else if (work->flags[0] != 0) {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 100) {
+            if (work->flags[1] == 0 && work->head.elapsed > 100) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -412,12 +412,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 1:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 16) {
+            if (work->flags[1] == 0 && work->head.elapsed > 16) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -433,7 +433,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
         case 5:
         case 13:
         case 16:
-            if (work->flags[1] == 0 && work->elapsed == 0) {
+            if (work->flags[1] == 0 && work->head.elapsed == 0) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -445,12 +445,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 3:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 74) {
+            if (work->flags[1] == 0 && work->head.elapsed > 74) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -462,12 +462,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 6:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 24) {
+            if (work->flags[1] == 0 && work->head.elapsed > 24) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -479,12 +479,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 7:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 24) {
+            if (work->flags[1] == 0 && work->head.elapsed > 24) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -496,12 +496,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 8:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 302) {
+            if (work->flags[1] == 0 && work->head.elapsed > 302) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -513,12 +513,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 9:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 46) {
+            if (work->flags[1] == 0 && work->head.elapsed > 46) {
                 work->bursts[0].active = 1;
                 work->bursts[0].duration = 32;
                 for (j = 0; j < work->spark_count; j++) {
@@ -528,7 +528,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->flags[1] = 1;
                 result = 4;
             }
-            if (work->flags[2] == 0 && work->elapsed > 74) {
+            if (work->flags[2] == 0 && work->head.elapsed > 74) {
                 work->bursts[1].active = 1;
                 work->bursts[1].duration = 32;
                 for (j = 0; j < work->spark_count; j++) {
@@ -538,7 +538,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->flags[2] = 1;
                 result = 4;
             }
-            if (work->flags[3] == 0 && work->elapsed > 102) {
+            if (work->flags[3] == 0 && work->head.elapsed > 102) {
                 work->bursts[2].active = 1;
                 for (j = 0; j < work->spark_count; j++) {
                     work->sparks[j][2].active = 1;
@@ -548,12 +548,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 10:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 30) {
+            if (work->flags[1] == 0 && work->head.elapsed > 30) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -565,12 +565,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 11:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 12) {
+            if (work->flags[1] == 0 && work->head.elapsed > 12) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -582,12 +582,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 12:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 24) {
+            if (work->flags[1] == 0 && work->head.elapsed > 24) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -599,12 +599,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 14:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 24) {
+            if (work->flags[1] == 0 && work->head.elapsed > 24) {
                 for (i = 0; i < work->burst_count; i++) {
                     work->bursts[i].active = 1;
                     for (j = 0; j < work->spark_count; j++) {
@@ -616,12 +616,12 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
             break;
         case 15:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->streaks[i].active = 1;
                 }
             }
-            if (work->flags[1] == 0 && work->elapsed > 46) {
+            if (work->flags[1] == 0 && work->head.elapsed > 46) {
                 work->bursts[0].active = 1;
                 work->bursts[0].duration = 32;
                 for (j = 0; j < work->spark_count; j++) {
@@ -631,7 +631,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->flags[1] = 1;
                 result = 4;
             }
-            if (work->flags[2] == 0 && work->elapsed > 76) {
+            if (work->flags[2] == 0 && work->head.elapsed > 76) {
                 work->bursts[1].active = 1;
                 for (j = 0; j < work->spark_count; j++) {
                     work->sparks[j][1].active = 1;
@@ -658,9 +658,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 duration = work->streaks[i].duration;
                 if (duration * 4 / 5 < work->streaks[i].elapsed) {
                     value = (duration - work->streaks[i].elapsed) * 5;
-                    work->streaks[i].color[0] = gModelVariant661_aConfigs[work->command].color[0] * value / duration;
-                    work->streaks[i].color[1] = gModelVariant661_aConfigs[work->command].color[1] * value / duration;
-                    work->streaks[i].color[2] = gModelVariant661_aConfigs[work->command].color[2] * value / duration;
+                    work->streaks[i].color[0] = gModelVariant661_aConfigs[work->head.command].color[0] * value / duration;
+                    work->streaks[i].color[1] = gModelVariant661_aConfigs[work->head.command].color[1] * value / duration;
+                    work->streaks[i].color[2] = gModelVariant661_aConfigs[work->head.command].color[2] * value / duration;
                 }
                 for (j = 0; j < work->streaks[i].count * 2 - 1; j++) {
                     scale = j + 1;
@@ -772,9 +772,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     duration = work->bursts[i].duration;
-                    work->bursts[i].color[0] = gModelVariant661_aConfigs[work->command].color[3] * value / duration;
-                    work->bursts[i].color[1] = gModelVariant661_aConfigs[work->command].color[4] * value / duration;
-                    work->bursts[i].color[2] = gModelVariant661_aConfigs[work->command].color[5] * value / duration;
+                    work->bursts[i].color[0] = gModelVariant661_aConfigs[work->head.command].color[3] * value / duration;
+                    work->bursts[i].color[1] = gModelVariant661_aConfigs[work->head.command].color[4] * value / duration;
+                    work->bursts[i].color[2] = gModelVariant661_aConfigs[work->head.command].color[5] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -841,9 +841,9 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                     if (work->sparks[i][j].duration / 2 < work->sparks[i][j].elapsed) {
                         value = (work->sparks[i][j].duration - work->sparks[i][j].elapsed) * 2;
                         duration = work->sparks[i][j].duration;
-                        work->sparks[i][j].color[0] = gModelVariant661_aConfigs[work->command].color[3] * value / duration;
-                        work->sparks[i][j].color[1] = gModelVariant661_aConfigs[work->command].color[4] * value / duration;
-                        work->sparks[i][j].color[2] = gModelVariant661_aConfigs[work->command].color[5] * value / duration;
+                        work->sparks[i][j].color[0] = gModelVariant661_aConfigs[work->head.command].color[3] * value / duration;
+                        work->sparks[i][j].color[1] = gModelVariant661_aConfigs[work->head.command].color[4] * value / duration;
+                        work->sparks[i][j].color[2] = gModelVariant661_aConfigs[work->head.command].color[5] * value / duration;
                     }
                     for (k = 0; k < 8; k++) {
                         unit.flg = 0;
@@ -889,7 +889,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->rows + work->burst_count * (work->spark_count + 1)) {
             result = 2;
         }

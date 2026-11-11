@@ -49,10 +49,7 @@ typedef struct {
     u8 unknown_1AD0[0x38];
     GsGLINE line;
     MATRIX matrix, second_matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation, step;
     s32 fade;

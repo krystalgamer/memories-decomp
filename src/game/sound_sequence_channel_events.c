@@ -160,35 +160,32 @@ u8 velocity;
         tone = &((SDVabTone *)(vab + SD_VAB_TONE_TABLE_OFFSET))
                     [used * SD_VAB_TONES_PER_PROGRAM + (tidx & 0xFFFF)];
         if (key < tone->note_min) {
-            goto next;
+            continue;
         }
         if (tone->note_max < key) {
-            goto next;
+            continue;
         }
         {
             u32 limit = rec->voice_usage & 0xF0;
 
             stolen = 0;
-            if (limit != 0) {
-                if ((rec->voice_usage & 0xF) >= (limit >> 4)) {
-                    idx = SD_FindLowestPrioritySecondaryObject(ch);
-                    if (idx == -1) {
-                        idx = SD_SelectSecondaryObject(ch, key);
-                        goto have;
-                    }
+            if (limit != 0 && (rec->voice_usage & 0xF) >= (limit >> 4)) {
+                idx = SD_FindLowestPrioritySecondaryObject(ch);
+                if (idx == -1) {
+                    idx = SD_SelectSecondaryObject(ch, key);
+                } else {
                     stolen = 1;
-                    goto have;
                 }
+            } else {
+                do {
+                    do {
+                        idx = SD_SelectSecondaryObject(channel & 0xFF, key);
+                    } while (0);
+                } while (0);
             }
         }
-        do {
-            do {
-                idx = SD_SelectSecondaryObject(channel & 0xFF, key);
-            } while (0);
-        } while (0);
-    have:
         if (idx == -1) {
-            goto next;
+            continue;
         }
         i = 0;
         sum = 0;
@@ -291,7 +288,5 @@ u8 velocity;
                 SpuSetReverbVoice(SPU_OFF, *m);
             } while ((SpuGetReverbVoice() & *m) != 0);
         }
-    next:
-        tidx++;
-    } while ((tidx & 0xFFFF) < prog->tone_count);
+    } while ((++tidx & 0xFFFF) < prog->tone_count);
 }

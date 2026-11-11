@@ -9,7 +9,7 @@
 /* Rings drop fading echoes and release camera-facing sprite/shard/cone bursts. */
 
 #define START_RING(index)                                                       \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, index);            \
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);            \
     GsGetLwUnit(&unit, &ls);                                                     \
     work->rings[work->flags[1]].active = 1;                                      \
     setVector(&work->rings[work->flags[1]].position, ls.t[0], ls.t[1], ls.t[2]);  \
@@ -40,23 +40,23 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
 #ifdef MODEL_IMAGE60348_WORK_SIZE_PRINTF
         printf(gModelVariant664_szWorkSizeFormat, sizeof(Image60348State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         work->tint_start.r = 128;
         work->tint_start.g = 128;
         work->tint_start.b = 128;
         work->tint_end.r = 0;
         work->tint_end.g = 0;
         work->tint_end.b = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gFrenchModelVariant681_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gFrenchModelVariant681_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gFrenchModelVariant681_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -85,7 +85,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
             setVector(&work->rings[i].target, 0, 0, work->direction * 1350);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
             work->rings[i].echo = 0;
             work->rings[i].released = 0;
@@ -104,7 +104,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                 work->echoes[i][j].v = 0;
                 setVector(&work->echoes[i][j].scale, 4096, 4096, 4096);
                 setVector(&work->echoes[i][j].target, 0, 0, 0);
-                setVector(&work->echoes[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->echoes[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->echoes[i][j].position, 0, 0, 0);
             }
         }
@@ -121,7 +121,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].target, 0, 0, 0);
-            setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bursts[i].position, 0, 0, 0);
         }
         work->delay = gFrenchModelVariant681_aConfigs[command].delay;
@@ -181,14 +181,14 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->flags[1] * 35 + 116 < work->elapsed && work->flags[1] < work->ring_count) {
+            if (work->flags[1] * 35 + 116 < work->head.elapsed && work->flags[1] < work->ring_count) {
                 START_RING(21);
             }
-            if (work->elapsed < 100) {
+            if (work->head.elapsed < 100) {
                 if (work->flags[0] >= 3) {
-                    Model_QueueTintRequestForParts(work->slot, 2, work->tint_start, work->tint_end, 10, 21, -1);
+                    Model_QueueTintRequestForParts(work->head.slot, 2, work->tint_start, work->tint_end, 10, 21, -1);
                     work->flags[0] = 0;
                 } else {
                     work->flags[0] += step;
@@ -197,12 +197,12 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             Model_SetFrameStepOverride(1);
             break;
         case 1:
-            if (work->flags[1] + 148 < work->elapsed && work->flags[1] < work->ring_count) {
+            if (work->flags[1] + 148 < work->head.elapsed && work->flags[1] < work->ring_count) {
                 START_RING(10);
             }
-            if (work->elapsed < 120) {
+            if (work->head.elapsed < 120) {
                 if (work->flags[0] >= 3) {
-                    Model_QueueTintRequestForParts(work->slot, 2, work->tint_start, work->tint_end, 10, 12, -1);
+                    Model_QueueTintRequestForParts(work->head.slot, 2, work->tint_start, work->tint_end, 10, 12, -1);
                     work->flags[0] = 0;
                 } else {
                     work->flags[0] += step;
@@ -211,7 +211,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             Model_SetFrameStepOverride(1);
             break;
         case 2:
-            if (work->flags[1] * 40 < work->elapsed && work->flags[1] < work->ring_count) {
+            if (work->flags[1] * 40 < work->head.elapsed && work->flags[1] < work->ring_count) {
                 START_RING(7);
             }
             break;
@@ -238,9 +238,9 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     value = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     amount = work->rings[i].duration;
-                    work->rings[i].color[0] = gFrenchModelVariant681_aConfigs[work->command].color[0] * value / amount;
-                    work->rings[i].color[1] = gFrenchModelVariant681_aConfigs[work->command].color[1] * value / amount;
-                    work->rings[i].color[2] = gFrenchModelVariant681_aConfigs[work->command].color[2] * value / amount;
+                    work->rings[i].color[0] = gFrenchModelVariant681_aConfigs[work->head.command].color[0] * value / amount;
+                    work->rings[i].color[1] = gFrenchModelVariant681_aConfigs[work->head.command].color[1] * value / amount;
+                    work->rings[i].color[2] = gFrenchModelVariant681_aConfigs[work->head.command].color[2] * value / amount;
                 }
                 for (j = 0; j < 32; j++) {
                     setPolyFT4(&work->sprite);
@@ -273,7 +273,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].echo >= work->echo_count) {
                     work->rings[i].echo = 0;
                 }
-                if (work->rings[i].elapsed > gFrenchModelVariant681_aConfigs[work->command].release && work->rings[i].released == 0) {
+                if (work->rings[i].elapsed > gFrenchModelVariant681_aConfigs[work->head.command].release && work->rings[i].released == 0) {
                     work->rings[i].released = 1;
                     work->bursts[i].active = 1;
                     setVector(&work->bursts[i].position, unit.matrix.t[0], unit.matrix.t[1], unit.matrix.t[2]);
@@ -385,9 +385,9 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     amount = work->bursts[i].duration;
-                    work->bursts[i].color[0] = gFrenchModelVariant681_aConfigs[work->command].color[3] * value / amount;
-                    work->bursts[i].color[1] = gFrenchModelVariant681_aConfigs[work->command].color[4] * value / amount;
-                    work->bursts[i].color[2] = gFrenchModelVariant681_aConfigs[work->command].color[5] * value / amount;
+                    work->bursts[i].color[0] = gFrenchModelVariant681_aConfigs[work->head.command].color[3] * value / amount;
+                    work->bursts[i].color[1] = gFrenchModelVariant681_aConfigs[work->head.command].color[4] * value / amount;
+                    work->bursts[i].color[2] = gFrenchModelVariant681_aConfigs[work->head.command].color[5] * value / amount;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -515,7 +515,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->ring_count * (work->echo_count + 2) && work->flags[2] == 1) {
             result = 1;
             if (work->flags[4] == 1) {

@@ -35,9 +35,7 @@ typedef struct {
  * template, two 32-point rings, the spark square, the trail heads, the
  * flags and counts, the per-trail arc parameters and five element banks. */
 typedef struct {
-    u8 command, unknown_01;
-    u16 elapsed;
-    s32 slot;
+    ModelVariantEntryHead head;
     s16 delay;
     u16 radius, height;
     u16 tpage;

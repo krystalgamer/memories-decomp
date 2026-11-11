@@ -6959,7 +6959,7 @@ as deliberate as its neighbours and had to be measured rather than assumed.
 **Three traps, each a different kind.**
 
 `duel_effect_apply_terrain.c` / `gDuel_bTerrain` is not a declaration at all. The survey
-believes `duel_terrain_boost.h` declares this symbol; it declares only
+believes `duel_scene.h` (formerly `duel_terrain_boost.h`) declares this symbol; it declares only
 `gDuel_aTerrainBoost` and `Duel_GetTerrainBoost`. What a regex finds is the
 header's own comment, which lists five example spellings while explaining why
 they differ. Strip comments before scanning and it disappears. The real
@@ -7198,7 +7198,7 @@ from every header?
 Three ways it misses a declaration that is really there:
 
   - A declaration inside a header comment is counted as code.
-    `duel_terrain_boost.h` lists five example spellings of `gDuel_bTerrain`
+    `duel_scene.h` (formerly `duel_terrain_boost.h`) lists five example spellings of `gDuel_bTerrain`
     while explaining why they differ, and a scan reads all five.
 
   - A declaration inside `#ifdef` is invisible as a declaration and invisible

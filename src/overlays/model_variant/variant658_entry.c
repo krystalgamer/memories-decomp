@@ -36,21 +36,21 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model658State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         work->darken = 0;
         work->brighten = 0;
         work->fade = 0;
         work->projection = 100;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant658_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant658_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant658_aImages[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -91,7 +91,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             work->halos[i].v = 0;
             setVector(&work->halos[i].scale, 4096, 4096, 4096);
             setVector(&work->halos[i].target, 0, 0, 0);
-            setVector(&work->halos[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->halos[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
                 setVector(&work->halos[i].position, 0, 150, 0);
@@ -206,11 +206,11 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     }
     if (work->fade == 0) {
         work->darken += step;
-        if (gModelVariant658_aConfigs[work->command].fade_duration < work->darken) {
-            work->darken = gModelVariant658_aConfigs[work->command].fade_duration;
+        if (gModelVariant658_aConfigs[work->head.command].fade_duration < work->darken) {
+            work->darken = gModelVariant658_aConfigs[work->head.command].fade_duration;
             work->fade = 1;
         }
-        value = 2048 - ((work->darken * 3) << 10) / gModelVariant658_aConfigs[work->command].fade_duration;
+        value = 2048 - ((work->darken * 3) << 10) / gModelVariant658_aConfigs[work->head.command].fade_duration;
         if (value < -1024) {
             value = -1024;
         }
@@ -223,9 +223,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed >= 243 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 243 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -235,7 +235,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 1:
-        if (work->elapsed >= 67 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 67 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -245,7 +245,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 2:
-        if (work->elapsed >= 141 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -255,7 +255,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 3:
-        if (work->elapsed >= 53 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 53 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -265,7 +265,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 4:
-        if (work->elapsed >= 143 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 143 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -275,7 +275,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 5:
-        if (work->elapsed >= 141 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -285,13 +285,13 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 6:
-        if (work->elapsed >= 59 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 59 && work->flags[2] == 0) {
             result = 4;
             work->halos[0].active = 1;
             work->halos[0].duration = 24;
             work->flags[2] = 1;
         }
-        if (work->elapsed >= 81 && work->flags[5] == 0) {
+        if (work->head.elapsed >= 81 && work->flags[5] == 0) {
             work->halos[1].active = 1;
             work->flags[5] = 1;
             result = 1;
@@ -299,7 +299,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 7:
-        if (work->elapsed >= 143 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 143 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -309,7 +309,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 8:
-        if (work->elapsed >= 141 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -319,7 +319,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 9:
-        if (work->elapsed >= 47 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 47 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -329,7 +329,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 10:
-        if (work->elapsed >= 101 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 101 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -339,7 +339,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 11:
-        if (work->elapsed >= 77 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 77 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -349,7 +349,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         skip = 0;
         break;
     case 12:
-        if (work->elapsed >= 207 && work->flags[2] == 0) {
+        if (work->head.elapsed >= 207 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
                 work->halos[i].active = 1;
             }
@@ -363,26 +363,26 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         break;
     }
     if (skip == 0) {
-        if (work->elapsed < gModelVariant658_aConfigs[work->command].emit_end) {
+        if (work->head.elapsed < gModelVariant658_aConfigs[work->head.command].emit_end) {
             for (i = work->flags[0] * 4; i < (work->flags[0] + 1) * 4; i++) {
                 work->bursts[i].active = 1;
                 work->bursts[i].elapsed = 0;
-                work->bursts[i].color[0] = gModelVariant658_aConfigs[work->command].color[3];
-                work->bursts[i].color[1] = gModelVariant658_aConfigs[work->command].color[4];
-                work->bursts[i].color[2] = gModelVariant658_aConfigs[work->command].color[5];
+                work->bursts[i].color[0] = gModelVariant658_aConfigs[work->head.command].color[3];
+                work->bursts[i].color[1] = gModelVariant658_aConfigs[work->head.command].color[4];
+                work->bursts[i].color[2] = gModelVariant658_aConfigs[work->head.command].color[5];
             }
             work->flags[0]++;
             if ((work->burst_count >> 2) - 1 < work->flags[0]) {
                 work->flags[0] = 0;
             }
         }
-        if (work->elapsed < gModelVariant658_aConfigs[work->command].emit_end) {
+        if (work->head.elapsed < gModelVariant658_aConfigs[work->head.command].emit_end) {
             if (work->flags[3] >= 25) {
                 work->sparks[work->flags[1]].active = 1;
                 work->sparks[work->flags[1]].elapsed = 0;
-                work->sparks[work->flags[1]].color[0] = gModelVariant658_aConfigs[work->command].color[3];
-                work->sparks[work->flags[1]].color[1] = gModelVariant658_aConfigs[work->command].color[4];
-                work->sparks[work->flags[1]].color[2] = gModelVariant658_aConfigs[work->command].color[5];
+                work->sparks[work->flags[1]].color[0] = gModelVariant658_aConfigs[work->head.command].color[3];
+                work->sparks[work->flags[1]].color[1] = gModelVariant658_aConfigs[work->head.command].color[4];
+                work->sparks[work->flags[1]].color[2] = gModelVariant658_aConfigs[work->head.command].color[5];
                 work->flags[1]++;
                 if (work->spark_count - 1 < work->flags[1]) {
                     work->flags[1] = 0;
@@ -391,7 +391,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             }
             work->flags[3] += step;
         }
-        if (work->elapsed == 0) {
+        if (work->head.elapsed == 0) {
             work->flash.active = 1;
         }
     }
@@ -423,9 +423,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
                 value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
                 duration = work->halos[i].duration;
-                work->halos[i].color[0] = gModelVariant658_aConfigs[work->command].color[0] * value / duration;
-                work->halos[i].color[1] = gModelVariant658_aConfigs[work->command].color[1] * value / duration;
-                work->halos[i].color[2] = gModelVariant658_aConfigs[work->command].color[2] * value / duration;
+                work->halos[i].color[0] = gModelVariant658_aConfigs[work->head.command].color[0] * value / duration;
+                work->halos[i].color[1] = gModelVariant658_aConfigs[work->head.command].color[1] * value / duration;
+                work->halos[i].color[2] = gModelVariant658_aConfigs[work->head.command].color[2] * value / duration;
             }
             setPolyFT4(&work->sprite);
             work->sprite.tpage = work->tpage[0];
@@ -528,9 +528,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             if (work->bursts[i].elapsed < work->bursts[i].duration / 2) {
                 value = work->bursts[i].elapsed * 2;
                 duration = work->bursts[i].duration;
-                work->bursts[i].color[0] = gModelVariant658_aConfigs[work->command].color[3] * value / duration;
-                work->bursts[i].color[1] = gModelVariant658_aConfigs[work->command].color[4] * value / duration;
-                work->bursts[i].color[2] = gModelVariant658_aConfigs[work->command].color[5] * value / duration;
+                work->bursts[i].color[0] = gModelVariant658_aConfigs[work->head.command].color[3] * value / duration;
+                work->bursts[i].color[1] = gModelVariant658_aConfigs[work->head.command].color[4] * value / duration;
+                work->bursts[i].color[2] = gModelVariant658_aConfigs[work->head.command].color[5] * value / duration;
             }
             work->line.attribute = 0x50000000;
             work->line.r0 = work->bursts[i].color[0];
@@ -601,9 +601,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             if (work->sparks[i].elapsed < work->sparks[i].duration / 2) {
                 value = work->sparks[i].elapsed * 2;
                 duration = work->sparks[i].duration;
-                work->sparks[i].color[0] = gModelVariant658_aConfigs[work->command].color[3] * value / duration;
-                work->sparks[i].color[1] = gModelVariant658_aConfigs[work->command].color[4] * value / duration;
-                work->sparks[i].color[2] = gModelVariant658_aConfigs[work->command].color[5] * value / duration;
+                work->sparks[i].color[0] = gModelVariant658_aConfigs[work->head.command].color[3] * value / duration;
+                work->sparks[i].color[1] = gModelVariant658_aConfigs[work->head.command].color[4] * value / duration;
+                work->sparks[i].color[2] = gModelVariant658_aConfigs[work->head.command].color[5] * value / duration;
             }
             for (j = 0; j < 16; j++) {
                 setPolyGT4(&work->strip);
@@ -660,9 +660,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             value = (work->flash.duration - work->flash.elapsed) * 10;
             duration = work->flash.duration;
         }
-        work->flash.color[0] = gModelVariant658_aConfigs[work->command].color[6] * value / duration;
-        work->flash.color[1] = gModelVariant658_aConfigs[work->command].color[7] * value / duration;
-        work->flash.color[2] = gModelVariant658_aConfigs[work->command].color[8] * value / duration;
+        work->flash.color[0] = gModelVariant658_aConfigs[work->head.command].color[6] * value / duration;
+        work->flash.color[1] = gModelVariant658_aConfigs[work->head.command].color[7] * value / duration;
+        work->flash.color[2] = gModelVariant658_aConfigs[work->head.command].color[8] * value / duration;
         setPolyFT4(&work->sprite);
         work->sprite.tpage = work->tpage[2];
         work->sprite.clut = work->clut[2];
@@ -696,7 +696,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         inactive++;
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->halo_count + work->burst_count + work->spark_count + 1) {
         if (work->flags[4] == 1) {
             result = 2;
@@ -704,12 +704,12 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         }
         if (work->fade == 1) {
             work->brighten += step;
-            if (gModelVariant658_aConfigs[work->command].fade_duration < work->brighten) {
-                work->brighten = gModelVariant658_aConfigs[work->command].fade_duration;
+            if (gModelVariant658_aConfigs[work->head.command].fade_duration < work->brighten) {
+                work->brighten = gModelVariant658_aConfigs[work->head.command].fade_duration;
                 work->fade = 2;
                 work->flags[4] = 1;
             }
-            value = ((work->brighten * 3) << 10) / gModelVariant658_aConfigs[work->command].fade_duration - 1024;
+            value = ((work->brighten * 3) << 10) / gModelVariant658_aConfigs[work->head.command].fade_duration - 1024;
             if (value > 2048) {
                 value = 2048;
             }
