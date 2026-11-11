@@ -30,9 +30,9 @@ void ModelVariant398_DrawBand(u8 *ctx)
     poly = work->textured;
     angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
     if (!(work->frame_count & 1)) {
-        r = work->field_1964 / 64;
+        r = work->band_scale / 64;
     } else {
-        r = work->field_1964 * 70 / 4096;
+        r = work->band_scale * 70 / 4096;
     }
     band = (ModelVariantBand *)work->bands;
     for (i = 0; i < 1; i++, band++) {
@@ -48,9 +48,9 @@ void ModelVariant398_DrawBand(u8 *ctx)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->matrix.t[0] + work->direction.vx * work->field_1968 / 1024 * j / 8;
-                m.t[1] = work->matrix.t[1] + work->direction.vy * work->field_1968 / 1024 * j / 8;
-                m.t[2] = work->matrix.t[2] + work->direction.vz * work->field_1968 / 1024 * j / 8;
+                m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024 * j / 8;
+                m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024 * j / 8;
+                m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
@@ -145,20 +145,20 @@ void ModelVariant398_DrawBand(u8 *ctx)
     }
     col = NULL;
     if (work->phase == 1) {
-        if (work->field_1968 < 0x401) {
-            work->field_1968 = (u32)((work->frame - work->config->burst_start) << 10) /
+        if (work->displacement < 0x401) {
+            work->displacement = (u32)((work->frame - work->config->burst_start) << 10) /
                              (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - work->config->burst_start);
-            if (work->field_1968 >= 0x400) {
-                work->field_1968 = 0x400;
+            if (work->displacement >= 0x400) {
+                work->displacement = 0x400;
                 work->phase = 2;
             }
         }
-    } else if (work->phase < 3 && work->field_1964 > 0) {
+    } else if (work->phase < 3 && work->band_scale > 0) {
         if ((u32)work->frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
-            work->field_1964 = 0x1000 - (u32)(((u32)work->frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
+            work->band_scale = 0x1000 - (u32)(((u32)work->frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
-            if (work->field_1964 <= 0) {
-                work->field_1964 = 0;
+            if (work->band_scale <= 0) {
+                work->band_scale = 0;
                 work->phase = 3;
             }
         }

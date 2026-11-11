@@ -41,10 +41,10 @@ void ModelVariant398_DrawSheets(u8 *ctx)
             m.t[0] = work->matrix.t[0];
             m.t[1] = work->matrix.t[1];
             m.t[2] = work->matrix.t[2];
-        } else if (work->field_1968 < 0x400) {
-            m.t[0] = work->matrix.t[0] + work->direction.vx * work->field_1968 / 1024;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * work->field_1968 / 1024;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * work->field_1968 / 1024;
+        } else if (work->displacement < 0x400) {
+            m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024;
+            m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024;
+            m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024;
         } else {
             m.t[0] = work->target.vx;
             m.t[1] = work->target.vy;
@@ -95,11 +95,11 @@ void ModelVariant398_DrawSheets(u8 *ctx)
                     }
                 }
             } else {
-                sheet->size = work->field_1964;
+                sheet->size = work->band_scale;
             }
         } else if (work->phase == 0) {
             sheet->size = 0;
-        } else if (work->field_1968 >= 0x400 && work->phase == 2) {
+        } else if (work->displacement >= 0x400 && work->phase == 2) {
             if (sheet->size < 0x2000) {
                 sheet->size += work->step << 10;
                 if (sheet->size >= 0x2000) {
