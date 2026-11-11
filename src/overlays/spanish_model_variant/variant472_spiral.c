@@ -52,7 +52,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     work = (EntryState455 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->textured;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase < 3) {
         spread = 0x400;
         r = work->spiral_size / 2;
@@ -60,9 +60,9 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
         r = 0x200;
         spread = work->spiral_size;
     }
-    ux = work->direction.vx * work->spiral_size / 1024;
-    uy = work->direction.vy * work->spiral_size / 1024;
-    uz = work->direction.vz * work->spiral_size / 1024;
+    ux = work->aim.direction.vx * work->spiral_size / 1024;
+    uy = work->aim.direction.vy * work->spiral_size / 1024;
+    uz = work->aim.direction.vz * work->spiral_size / 1024;
     eighth = work->spiral_size / 8;
     if (r * work->field_2F28 < 0) {
         length = 0;
