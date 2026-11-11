@@ -12,7 +12,7 @@
    other consumers use the typed view. The Exodia candidate takes the guarded
    byte-pointer arm because its offset-based accesses are codegen-sensitive.
 
-   The prototype is the one main_run_duel_and_library.c held as its own
+   The prototype is the one Main_RunDuel (main_mode_runners.c) held as its own
    extern, which was the only declaration anywhere. */
 void Duel_InitScene(void);
 

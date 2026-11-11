@@ -952,7 +952,7 @@ declared it three ways:
 | `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
 | `src/game/duel_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
 | `duel_scene.c` | `extern u8 gDuel_wOutcomeFlags[4]`, byte 2 | `R_MIPS_GPREL16` |
-| `src/game/main_run_duel_and_library.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/main_mode_runners.c` (`Main_RunDuel`) | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The byte view was a misreading. The `u16` users only test bits `0x1000` and
 `0x2000` at offset 0, `duel_scene.c` only touches byte 2, and the
@@ -1176,7 +1176,7 @@ apart it takes `gDebug_nSceneOrSoundID` `GPREL16` and `D_8009B26C`
 small data; it is this symbol, at this site.
 
 **The profile does not choose the spelling.** All eight array-spelling
-consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
+consumers compile at `gcc_2_8_1_g8`. So does `Main_RunDebugMenu` (`main_mode_runners.c`), which uses the
 plain scalar, as did the former `main_run_credits.c`, `debug_menu_campaign_entry.c` and
 the former `func_8002A788.c`. Same compiler, same `-G8`, opposite spellings,
 both matching.
@@ -1191,10 +1191,12 @@ declarations would become eight local `#define`s and one indirection -- churn
 without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
-unmatched symbol, so it is out of scope for the `unmatched.h` work: two
-units define it -- `main_mode_runners.c`, which now also holds the two-player
-duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_comm`
-profiles. And nothing anywhere indexes above `[0]`, which is what the next
+unmatched symbol, so it is out of scope for the `unmatched.h` work. Two
+units used to define it as common symbols under the `*_comm` profiles: the
+runner unit that also held the two-player duel setup, and the one holding
+`Main_RunAnimatedBattle`. Both now belong to the one combined
+`main_mode_runners.c`, which keeps each of those repeated tentative definitions
+where the former units had it. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `debug_menu.c` and
 [`Script_OpSavePrompt`](../src/game/script_scene.c). `D_8009B26C` is a

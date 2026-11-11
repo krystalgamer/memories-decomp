@@ -1035,7 +1035,7 @@ position again that turn. See the
 ### 5.9 The 3-D battle and the "Poly Mode"
 
 The duel's 3-D presentation runs through matching
-[`Main_RunAnimatedBattle`](../../src/game/main_run_animated_battle.c)
+[`Main_RunAnimatedBattle`](../../src/game/main_mode_runners.c)
 (`0x8002D180`). This is a stateful mode tick, not a read-only display of
 two combatants. Every call sets the GTE projection center to `(160, 120)`
 and projection-plane distance to `300`, before testing the initialization
@@ -1986,7 +1986,7 @@ campaign duelist available.
 >   requests the fixed package; callback `Campaign_LoadScenePackageStage`
 >   routes the script phase]. Its argument initializes
 >   `D_8009B2A4`, not a per-scene archive-page address. Matching
->   [`Main_RunCampaign`](../../src/game/main_run_campaign.c) supplies
+>   [`Main_RunCampaign`](../../src/game/main_mode_runners.c) supplies
 >   `gCampaignSceneIndex`; on normal entry, the event driver uses a nonzero
 >   unstarted value to select the corresponding script entry.
 >   The script begins with a `u16 offset[199]`

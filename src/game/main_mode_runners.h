@@ -2,6 +2,11 @@
 #define MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
 #include "../types.h"
 
+/* Resets the frontend runtime once, before Main_Loop begins dispatching
+ * modes. It is not itself a mode runner: main_modes.h owns those, including
+ * Main_RunDebugMenu. */
+void Main_PrepareFrontendLoop(void);
+
 void Main_Loop(void);
 
 typedef enum {

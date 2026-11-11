@@ -221,7 +221,7 @@ extern s8 gDuel_bOutroWinnerSide;
  * continuations with it (`table[gDuel_bPlayerLost * 2]`), and the free_duel
  * overlay's FreeDuel_Init steps from the wins halfword to the losses halfword
  * of the duelist record when it is 1. The `u8 [9]`
- * main_run_duel_and_library.c used to declare was, as the note on
+ * Main_RunDuel (main_mode_runners.c) used to declare was, as the note on
  * gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, a
  * threshold, not a length. */
 extern u8 gDuel_bPlayerLost;
