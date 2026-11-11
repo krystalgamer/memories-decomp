@@ -384,7 +384,7 @@ void SD_StepActiveCommand(void)
     case 81:
         SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2,
                      (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
-        goto clear_7d_7c;
+        break;
 
     case 32:
         switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
@@ -413,7 +413,8 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->file_selector = (s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0];
             if (gSD_pFileRequest->ram_transfer_size == 0 && gSD_pFileRequest->spu_transfer_size == 0) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-                goto clear_7c;
+                g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
+                return;
             }
             switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
             case 0x10:
@@ -468,7 +469,7 @@ void SD_StepActiveCommand(void)
         }
         g_SDValue->s_wSD_CD_REQUEST_CODE = 0xFFFF;
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             SDValue *sd = g_SDValue;
@@ -481,7 +482,7 @@ void SD_StepActiveCommand(void)
 
     case 33:
         if (File_RequestSecondarySlot(0, 0) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             SoundCommandPair *descriptor;
@@ -507,11 +508,11 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->sector_offset = second_word;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
-        goto clear_7d_7c;
+        break;
 
     case 36:
         if (File_RequestSecondarySlot(0, 0) != 0) {
-            goto clear_7d_7c;
+            break;
         }
         {
             u32 value_mask = 0xFFFFFF;
@@ -552,7 +553,7 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->sector_offset = start_sector_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
-        goto clear_7d_7c;
+        break;
 
     case 41:
     case 42:
@@ -560,7 +561,8 @@ void SD_StepActiveCommand(void)
             return;
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
-        goto clear_7d;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        return;
 
     case 72:
         if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
@@ -613,21 +615,14 @@ void SD_StepActiveCommand(void)
             }
         }
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
-        goto clear_7d;
+        g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
+        return;
 
     case 0:
         break;
     }
 
-    goto clear_7d_7c;
-
-clear_7d:
     g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-    return;
-
-clear_7d_7c:
-    g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-clear_7c:
     g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
 }
 
