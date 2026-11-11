@@ -37,10 +37,10 @@ void ModelVariant418_DrawWebs(u8 *ctx)
     done = 1;
     i = 0;
     line = (GsGLINE *)((u8 *)work + 0x1AE0);
-    ratan2(work->view_delta.vz, work->view_delta.vx);
-    ratan2(work->view_delta.vy, work->view_delta.vx);
-    ratan2(work->direction.vz, work->direction.vy);
-    ratan2(work->screen_delta.vy, work->screen_delta.vx);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;

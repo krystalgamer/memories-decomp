@@ -43,8 +43,8 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     poly = &work->halo_poly;
     ot = Graphics_GetDefaultOrderingTable();
     halo = &work->halo;
-    ratan2(work->direction.vz, work->direction.vx);
-    ratan2(work->direction.vy, work->direction.vz);
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     for (i = 0; i < 5; i++) {
         if (halo->rise[i] <= 0) {
             rise = 0;
@@ -101,9 +101,9 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = work->target.vx;
+    m.t[0] = work->aim.target.vx;
     m.t[1] = 0;
-    m.t[2] = work->target.vz;
+    m.t[2] = work->aim.target.vz;
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;

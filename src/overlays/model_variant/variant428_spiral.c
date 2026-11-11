@@ -37,7 +37,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
 
     work = (Variant428EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = work->textured;
     r = work->spiral_size / 2;
     eighth = work->spiral_size / 8;

@@ -39,8 +39,8 @@ void ModelVariant405_DrawVeils(u8 *ctx)
     all = 1;
     buff = GsGetActiveBuff();
     poly = &work->extra;
-    ratan2(work->direction.vz, work->direction.vx);
-    ratan2(work->direction.vy, work->direction.vz);
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     for (i = 0; i < 5; i++, veil++) {
         if (veil->scale > 0) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {

@@ -36,10 +36,10 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
 
     work = (Variant418EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    ux = work->direction.vx;
-    uy = work->direction.vy;
-    uz = work->direction.vz;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ux = work->aim.direction.vx;
+    uy = work->aim.direction.vy;
+    uz = work->aim.direction.vz;
     arm = work->arms;
     poly = work->textured;
     spread = 0x400 - work->spiral_shrink;

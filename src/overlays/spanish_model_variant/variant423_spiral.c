@@ -43,7 +43,7 @@ void SpanishModelVariant423_DrawSpiral(u8 *ctx)
     work = (EntryState423 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->textured;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase >= 0) {
     r = work->spiral.size;
     eighth = r / 8;
