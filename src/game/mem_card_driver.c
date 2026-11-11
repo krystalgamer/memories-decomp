@@ -333,12 +333,12 @@ s32 MemCard_DoLoadDirectory(void) {
         if (v1 == 0) {
             goto state0;
         }
-        goto ret;
+        return gMemCard_nIOResult;
     }
     if (v1 == 2) {
         goto state2;
     }
-    goto ret;
+    return gMemCard_nIOResult;
 
 state0:
     v1 = gMemCard_nIOResult;
@@ -347,16 +347,16 @@ state0:
     }
     if (v1 < 2) {
         if (v1 != 0) {
-            goto ret;
+            return gMemCard_nIOResult;
         }
     } else {
         if (v1 == 2) {
-            goto ret;
+            return gMemCard_nIOResult;
         }
         if (v1 == 3) {
             goto sub_poll_entry;
         }
-        goto ret;
+        return gMemCard_nIOResult;
     }
     goto state0_zero;
 
@@ -364,7 +364,7 @@ state0_info:
     v0 = gMemCard_bRetries - 1;
     gMemCard_bRetries = (u8)v0;
     if ((s8)v0 == 0) {
-        goto ret;
+        return gMemCard_nIOResult;
     }
     MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
     _card_info(gMemCard_bChannel);
@@ -373,13 +373,13 @@ state0_info:
 state0_zero:
     if (gMemCard_bDirFlags & 0x80) {
         if (gMemCard_bRequest != 8) {
-            goto ret;
+            return gMemCard_nIOResult;
         }
     }
     gMemCard_nIOResult = 3;
 sub_poll_entry:
     if (gMemCard_bRequest == 1) {
-        goto ret;
+        return gMemCard_nIOResult;
     }
     gMemCard_bRetries = 0xA;
     gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
@@ -395,14 +395,14 @@ state1:
     }
     v1 = gMemCard_nIOResult;
     if (v1 != 2) {
-        goto ret;
+        return gMemCard_nIOResult;
     }
     v0 = gMemCard_bRetries - 1;
     gMemCard_bRetries = (u8)v0;
     if ((s8)v0 > 0) {
         goto sub_retry;
     }
-    goto ret;
+    return gMemCard_nIOResult;
 
 state1_zero:
     gMemCard_bRetries = 0xA;
@@ -438,7 +438,6 @@ after_load:
     if (gMemCard_nIOResult == 3) {
         gMemCard_nIOResult = 4;
     }
-ret:
     return gMemCard_nIOResult;
 }
 
@@ -507,7 +506,10 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
                     return 0;
                 if (directory_result != 0) {
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    *out_result = gMemCard_nIOResult;
+                    *out_state = gMemCard_bRequest;
+                    gMemCard_bRequest = -1;
+                    return 1;
                 }
             }
             gMemCard_bTransferRetriesRemaining = 0x14;
@@ -516,7 +518,10 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             gMemCard_bRetries = gMemCard_bRetries - 1;
             if ((s8)gMemCard_bRetries < 0) {
                 gMemCard_nIOResult = 2;
-                goto finish;
+                *out_result = gMemCard_nIOResult;
+                *out_state = gMemCard_bRequest;
+                gMemCard_bRequest = -1;
+                return 1;
             }
             mode = 0x8001;
             if (gMemCard_bRequest == 4)
@@ -566,11 +571,19 @@ transferred:
         }
         goto finish;
 sub_two:
-        if (gMemCard_nIOResult == 0)
-            goto finish;
+        if (gMemCard_nIOResult == 0) {
+            *out_result = gMemCard_nIOResult;
+            *out_state = gMemCard_bRequest;
+            gMemCard_bRequest = -1;
+            return 1;
+        }
         gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
-        if ((s8)gMemCard_bTransferRetriesRemaining < 0)
-            goto finish;
+        if ((s8)gMemCard_bTransferRetriesRemaining < 0) {
+            *out_result = gMemCard_nIOResult;
+            *out_state = gMemCard_bRequest;
+            gMemCard_bRequest = -1;
+            return 1;
+        }
         gMemCard_bRequestStep = resume_step;
         return 0;
     case 7:
@@ -578,7 +591,10 @@ sub_two:
             goto poll_write;
         if (gMemCard_bRequestStep == 1)
             goto reopen;
-        goto finish;
+        *out_result = gMemCard_nIOResult;
+        *out_state = gMemCard_bRequest;
+        gMemCard_bRequest = -1;
+        return 1;
 poll_write:
         {
             s32 directory_result = MemCard_DoLoadDirectory();
@@ -593,13 +609,19 @@ check_size:
         if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
             goto write_dirent;
         gMemCard_nIOResult = 7;
-        goto finish;
+        *out_result = gMemCard_nIOResult;
+        *out_state = gMemCard_bRequest;
+        gMemCard_bRequest = -1;
+        return 1;
 write_dirent:
         if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
                               gMemCard_pDirEntries, 0) == 0)
             goto start_reopen;
         gMemCard_nIOResult = 6;
-        goto finish;
+        *out_result = gMemCard_nIOResult;
+        *out_state = gMemCard_bRequest;
+        gMemCard_bRequest = -1;
+        return 1;
 opened_ok:
         close(fd);
         gMemCard_nIOResult = 0;
