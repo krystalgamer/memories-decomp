@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_9_H
 
 #include "../../types.h"
-#include "../../game/duel_effect_request.h"
+#include "../../game/duel_effect_object_pool.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_scene_runtime.h"
 #include "../../game/sound.h"

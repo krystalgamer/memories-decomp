@@ -8,14 +8,11 @@
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "view_state_orbit.h"
-#include "save_data_workspace.h"
-#include "duel_check_ritual.h"
 #include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
-#include "duel_effect_request.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * duel_effect_object_pool_commons subsegments place it at the retail

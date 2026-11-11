@@ -5,7 +5,7 @@
 #include "duel_grid.h"
 #include "card_constants.h"
 #include "duel_card_effects.h"
-#include "duel_effect_request.h"
+#include "duel_effect_object_pool.h"
 
 /* The two 0x20-byte per-side duel records at gDuel_aSideStates, one per duellist.
  * gDuel_bActiveSide selects the side, and code that switches turns writes
