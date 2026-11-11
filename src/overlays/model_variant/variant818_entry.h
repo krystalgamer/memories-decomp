@@ -25,10 +25,7 @@ typedef struct {
     ModelVariantBoltColors color;
     u8 part;
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 flare_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 unknown_22;

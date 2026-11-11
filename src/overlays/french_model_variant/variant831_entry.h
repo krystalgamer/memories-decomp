@@ -23,10 +23,7 @@ typedef struct {
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 field_26;
