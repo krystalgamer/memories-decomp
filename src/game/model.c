@@ -359,18 +359,15 @@ void Model_DrawBackground(void)
             s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)background_offset_bits;
             s32 screen_input_height;
             s32 screen_trim_amount;
-            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (screen_limit_y >= screen_end_y)
-                    goto second_clip;
-            } else if (screen_end_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                goto second_clip;
+            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? screen_limit_y < screen_end_y
+                    : screen_end_y >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                screen_input_height = sprite.h;
+                screen_trim_amount = sprite.y + screen_input_height -
+                    ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
+                sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
             }
-            screen_input_height = sprite.h;
-            screen_trim_amount = sprite.y + screen_input_height -
-                ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
-            sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
         }
-second_clip:
         {
             s32 texture_end_v = sprite.v + sprite.h;
             s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
