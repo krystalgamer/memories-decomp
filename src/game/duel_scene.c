@@ -7778,7 +7778,8 @@ void DuelScene_UpdateResultRewards(void)
             object->flags |= 0x20;
             gDuel_pResultDisplayState->children[1] = object;
         }
-        goto show_page;
+        Duel_ShowResultPage((s8)gDuel_pResultDisplayState->page_index);
+        return;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
         if (!(gFade_State.flags & 0x80)) {
@@ -7826,7 +7827,6 @@ void DuelScene_UpdateResultRewards(void)
         if ((s8)gDuel_pResultDisplayState->page_index >= 3)
             gDuel_pResultDisplayState->page_index = 0;
         SD_SEPlayFull(6);
-show_page:
         Duel_ShowResultPage((s8)gDuel_pResultDisplayState->page_index);
     } else if (gInput_awPadPressed[0] & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
