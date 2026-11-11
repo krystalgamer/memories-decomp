@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DIALOG_CHOICE_STATE_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Dialog_OpenChoice builds the choice/page cursor for a dialog record and hands
  * it back -- the caller stores it at the record's +0x30 and releases it through

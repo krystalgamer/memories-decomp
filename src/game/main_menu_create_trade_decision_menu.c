@@ -2,7 +2,7 @@
 #include "text_box_blocking_build.h"
 #include "trade_confirmation_widgets.h"
 #include "display_object.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "display_object_system.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "duel_effect_noop_handlers.h"
+#include "duel_effect_states.h"
 
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
  * for a delay-slot candidate, so the DuelEffect_ClearResourceObjectPointers call cannot take its own
@@ -15,7 +15,6 @@
 #include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "duel_card_viewer.h"
 #include "duel_effect_tables.h"
@@ -30,7 +29,6 @@
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
-#include "duel_effect_card_viewer_state.h"
 #include "main_mode_state.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -359,7 +357,6 @@ s32 DuelEffect_UpdateState(void) {
 
 #ifdef VERSION_EUROPE
 #include "../psyq/rand.h"
-#include "duel_effect.h"
 #include "duel_effect_state_latch.h"
 #include "mem_card.h"
 

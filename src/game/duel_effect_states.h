@@ -1,6 +1,6 @@
-#ifndef YUGIOH_GAME_DUEL_EFFECT_H
-#define YUGIOH_GAME_DUEL_EFFECT_H
-
+#ifndef MEMORIES_DECOMP_DUEL_EFFECT_STATES_H
+#define MEMORIES_DECOMP_DUEL_EFFECT_STATES_H
+#include "../types.h"
 #include "../ygo_types.h"
 
 #define DUEL_EFFECT_CHANNEL_COUNT 4
@@ -208,5 +208,18 @@ extern u8 gDuel_bActiveEffectState;
 extern u8 gDuel_bEffectState;
 
 s32 DuelEffect_UpdateState(void);
+
+/* gDuelEffect_apfnStateHandler entry: the card-detail effect screen. Builds the
+ * portrait, the stat text boxes and the sliding background, and steps the slide
+ * each frame. Its body is register-pinned -- see the note in the source -- so
+ * it is worth reading before touching. */
+void DuelEffect_UpdateCardViewerState(void);
+
+/* State-table slots 3 and 4. The first remains an unknown empty handler.
+ * IdentitySave is also empty in NA/Japan; Europe generates a live identity,
+ * requests a save and marks completion for any nonzero dialog outcome.
+ * The dispatcher consumes that completion on a later invocation. */
+void func_800289AC(void);
+void DuelEffect_UpdateIdentitySave(void);
 
 #endif

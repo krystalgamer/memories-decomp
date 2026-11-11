@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_INTRO_RUNTIME_H
 
 #include "../../types.h"
-#include "../../game/duel_effect.h"
+#include "../../game/duel_effect_states.h"
 #include "../../game/duel_effect_entry_control.h"
 #include "../../game/duel_effect_process_entries.h"
 #include "../../game/text_box_lifecycle.h"

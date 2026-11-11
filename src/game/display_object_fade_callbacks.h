@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_FADE_CALLBACKS_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* The four duel effect entry handlers in gDuelEffect_EntryHandlers
  * (duel_effect_command_table.c), in table order: DuelEffect_UpdateGlyphConceal,

@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "../ygo_types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Reads the next little-endian halfword from one of the byte streams held at
  * the front of an object and advances that stream past it.

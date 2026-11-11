@@ -22,7 +22,7 @@ static u32 D_8009B42C;
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
 #include "display_asset_banks.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_channel_state.h"
 #include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"

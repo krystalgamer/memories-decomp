@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_OBJECT_COMMANDS_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Secondary commands 0x17/0x18: index a u16 target table with independent
  * shared selectors, then patch the same post-read stream pointer's low half.

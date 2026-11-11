@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_COMMAND_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Secondary command zero: reads a modifier byte and expands the selected
  * card's name/description, type or guardian field, or applies its staged

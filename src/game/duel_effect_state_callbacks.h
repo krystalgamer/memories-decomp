@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_STATE_CALLBACKS_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Fifteen entries of the gTextBox_apfnStateCallbacks text-box state table, plus the choice
  * object constructor used by the first interaction state. Each callback takes

@@ -38,7 +38,7 @@ void Main_RunDebugMenu(void)
 AiSelection gAi_Selection;
 SceneScriptSlot gSceneScript_Slots[3];
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "fade.h"
 #include "sound.h"
 #include "main_mode_state.h"
@@ -310,7 +310,6 @@ void Main_RunFreeDuelMenu(void) {
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "input.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/trade_helpers.h"

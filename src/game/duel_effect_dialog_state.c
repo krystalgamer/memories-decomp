@@ -1,7 +1,7 @@
 #include "../types.h"
 
 #include "duel_effect_state_latch.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_channel_state.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"

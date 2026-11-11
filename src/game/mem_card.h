@@ -6,7 +6,7 @@
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "menu_record.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "../ygo_types.h"
 #include "card_constants.h"
 #include "campaign_flags.h"

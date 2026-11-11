@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "../ygo_types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* gText_SecondaryCommandHandlers entry, and the dispatcher for the whole table: it reads one byte
  * from the object's current stream, advances the cursor past it, and calls

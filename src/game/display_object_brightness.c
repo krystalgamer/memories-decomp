@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_brightness.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 

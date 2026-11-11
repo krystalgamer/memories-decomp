@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_ENTRY_CONTROL_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 typedef struct {
     u8 pad_00[0x5C];

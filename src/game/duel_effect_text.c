@@ -12,7 +12,7 @@
  * run of text (0x80035A64-0x80039F1C in the US build). */
 #include "../types.h"
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_channel_state.h"
 #include "duel_effect_entry_occupancy.h"
 #include "duel_effect_reset_state.h"
@@ -227,7 +227,6 @@ void *TextBox_CreateFlagged(
 #endif
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entry_occupancy.h"
 
@@ -406,7 +405,6 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "main.h"
 #include "text_box_draw_entries.h"
@@ -1234,7 +1232,6 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #endif
 
 #include "text_box_blocking_build.h"
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entries.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
@@ -1509,7 +1506,6 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 }
 #endif
 
-#include "duel_effect.h"
 #include "text_stream_read_le.h"
 
 int TextStream_ReadU16LE(DuelEffectChannel *object)
@@ -1530,7 +1526,6 @@ u32 TextStream_ReadU32LE(TextStreamOwner *object)
            (current[1] << 8) | current[0];
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "display_object.h"
 #include "duel_effect_entry_ranges.h"
@@ -1692,7 +1687,6 @@ u16 gDuelEffect_awEntryRangeBoundaries[] = {
 #include "input.h"
 #include "sound.h"
 #include "dialog_read_choice_input.h"
-#include "duel_effect.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -1811,7 +1805,6 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
 #include "dialog_choice_state.h"
-#include "duel_effect.h"
 #include "widget_update_pulse_colour.h"
 
 /* Small global another unit owns, declared here as a common symbol the
@@ -1898,7 +1891,6 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     }
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entry_control.h"
 
@@ -2087,7 +2079,6 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "input.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
-#include "duel_effect.h"
 #include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
@@ -2472,7 +2463,6 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
 }
 
 #include "text_stream_commands.h"
-#include "duel_effect.h"
 #include "dialog_choice.h"
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
@@ -2492,7 +2482,6 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
 #include "text_stream_read_le.h"
 #include "duel_effect_command.h"
@@ -3112,7 +3101,6 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 }
 
 #include "text_start_campaign_duel.h"
-#include "duel_effect.h"
 #include "text_stream_read_le.h"
 #include "duel_side_state.h"
 #include "ai_script.h"
@@ -3199,7 +3187,6 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
 #include "duel_effect_sound_commands.h"
 #include "text_stream_read_le.h"
 #include "sound.h"
-#include "duel_effect.h"
 #include "duel_effect_play_sound_command.h"
 #include "duel_effect_fade_out_bgm_command.h"
 #include "main_mode_state.h"
@@ -3340,7 +3327,6 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
 #include "text_stream_read_le.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "duel_effect_object_commands.h"
 /* Small globals other units own, declared here as common symbols the
@@ -3453,7 +3439,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
    box's frame object. */
 
 #include "duel_effect_command_table.h"
-#include "duel_effect.h"
 #include "text_stream_read_le.h"
 #include "text_stream_commands.h"
 #include "duel_effect_entry_occupancy.h"
@@ -3830,7 +3815,6 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
 
 #include "text_box_wrap_line.h"
 #include "input.h"
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_state_callbacks.h"
 #include "duel_effect_entry_control.h"
@@ -4085,7 +4069,6 @@ next_opcode:
 
 #include "input.h"
 #include "display_effect_process_menu_records.h"
-#include "duel_effect.h"
 
 #include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
@@ -4245,7 +4228,6 @@ void TextBox_BuildBlockingWithGlyphScratch(DuelEffectChannel *object)
     } while (!(object->flags_34 & TEXT_BOX_FLAG_DONE));
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "display_object_fade.h"
 /* Small globals other units own, declared here as common symbols the
@@ -4294,7 +4276,6 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
-#include "duel_effect.h"
 #include "display_object_fade.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
@@ -4645,7 +4626,6 @@ void DuelEffect_UpdateGlyphFadeOut(DuelEffectChannel *record)
 }
 #endif
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "main_modes.h"
 #include "duel_effect_process_entries.h"

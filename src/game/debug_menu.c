@@ -45,7 +45,7 @@
 #include "text_channel_state.h"
 #include "duel_effect_entry_state.h"
 #include "text_box_blocking_build.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "fade.h"
 #include "text_box_runtime.h"
 #include "secondary_scene_commands.h"

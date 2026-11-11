@@ -16,7 +16,7 @@ static PADDING_VARIABLE(4);
 #include "ordering_tables.h"
 #include "card_grid.h"
 #include "display_object.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_channel_state.h"
 #include "sound.h"
 #include "text_box_lifecycle.h"

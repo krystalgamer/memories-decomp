@@ -11,7 +11,7 @@
 #include "card_list_rows.h"
 #include "card_list_sort_icons.h"
 #include "text_box_blocking_build.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
