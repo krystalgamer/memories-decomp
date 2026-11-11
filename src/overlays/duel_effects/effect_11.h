@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_slot_support.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"

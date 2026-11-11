@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "../../game/duel_effect_request.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "utility_helpers.h"
 #include "layered_drawing.h"

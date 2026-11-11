@@ -10,7 +10,7 @@
 #include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/graphics_constants.h"
 #include "../../game/graphics_packet_submission.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"

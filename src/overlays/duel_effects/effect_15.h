@@ -6,7 +6,7 @@
 #include "../../game/display_object.h"
 #include "../../game/duel_effect_request.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../game/model_slot_support.h"
 #include "../../psyq/string.h"
 #include "utility_helpers.h"
