@@ -48,23 +48,15 @@ void *Model_GetAnimationInterpolationHandler(u32 value)
 {
     u32 interpolation_type;
 
-    if ((value & 0xFFFF0000) != 0x03000000) {
-        goto default_case;
+    if ((value & 0xFFFF0000) == 0x03000000) {
+        interpolation_type = value & 0xFFFF;
+        switch (interpolation_type) {
+        case 0x2019:
+            return Model_InterpolateTransRot;
+        case 0x2119:
+            return Model_InterpolateTransRotScale;
+        }
     }
-    interpolation_type = value & 0xFFFF;
-    if (interpolation_type == 0x2019) {
-        goto case_2019;
-    }
-    if (interpolation_type == 0x2119) {
-        goto case_2119;
-    }
-    goto default_case;
-
-case_2019:
-    return Model_InterpolateTransRot;
-case_2119:
-    return Model_InterpolateTransRotScale;
-default_case:
 #ifdef VERSION_EUROPE
     printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);
 #endif
