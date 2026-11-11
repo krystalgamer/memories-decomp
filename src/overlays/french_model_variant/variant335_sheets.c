@@ -43,7 +43,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             matrix.t[2] = work->target.vz;
         } else {
             angle = turn + (i << 12) / 3;
-            radius = work->field_2E78 / 2;
+            radius = work->orbit_diameter / 2;
             matrix.t[0] = work->origin.vx + (rcos(angle) * radius >> 12);
             matrix.t[1] = work->origin.vy;
             matrix.t[2] = work->origin.vz + (rsin(angle) * radius >> 12);
@@ -110,35 +110,35 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                     }
                 }
             } else if (work->phase == 1) {
-                if (work->field_2E78 < 1024) {
-                    work->field_2E78 = (((u32)work->clock.frame
+                if (work->orbit_diameter < 1024) {
+                    work->orbit_diameter = (((u32)work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)) << 10)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10));
-                    if (work->field_2E78 >= 1024) {
-                        work->field_2E78 = 1024;
+                    if (work->orbit_diameter >= 1024) {
+                        work->orbit_diameter = 1024;
                         work->phase = 2;
                     }
                 }
             } else if (work->phase == 2) {
-                if (work->field_2E70 < 256) {
-                    work->field_2E70 = (((u32)work->clock.frame
+                if (work->lift < 256) {
+                    work->lift = (((u32)work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)) << 8)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14));
-                    if (work->field_2E70 >= 256) {
-                        work->field_2E70 = 256;
+                    if (work->lift >= 256) {
+                        work->lift = 256;
                         work->phase = 3;
                     }
                 }
             } else if (work->phase == 3) {
-                if (work->field_2E6C < 1024) {
-                    work->field_2E6C = (((u32)work->clock.frame
+                if (work->travel_angle < 1024) {
+                    work->travel_angle = (((u32)work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)) << 10)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18));
-                    if (work->field_2E6C >= 1024) {
-                        work->field_2E6C = 1024;
+                    if (work->travel_angle >= 1024) {
+                        work->travel_angle = 1024;
                         work->phase = 4;
                     }
                 }

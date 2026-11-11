@@ -46,10 +46,10 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     ratan2(work->view_delta.vy, work->view_delta.vx);
     work->origin.vx = work->matrix.t[0]
-        + (rsin(work->field_2E6C) * work->direction.vx >> 12);
-    work->origin.vy = work->matrix.t[1] - work->field_2E70;
+        + (rsin(work->travel_angle) * work->direction.vx >> 12);
+    work->origin.vy = work->matrix.t[1] - work->lift;
     work->origin.vz = work->matrix.t[2]
-        + (rsin(work->field_2E6C) * work->direction.vz >> 12);
+        + (rsin(work->travel_angle) * work->direction.vz >> 12);
     work->end.vx = work->origin.vx;
     work->end.vy = 0;
     work->end.vz = work->origin.vz;
