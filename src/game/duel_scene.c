@@ -6372,29 +6372,25 @@ void DuelScene_UpdateBattle(void)
                         CardPreview_RequestResourceTransfer(1, id);
                         return;
                     }
-                } else {
-                    CardPreview_RequestResourceTransfer(1, id);
-                    return;
+                    break;
                 }
-            } else {
-                gDuel_bSceneSubStep |= 0x80;
-                goto wait;
-            }
-        } else {
-        wait:
-            if (!(gDuel_bSceneSubStep & 0x20) && gDuel_wDisplayTransitionFlags == 0) {
-                if (!(gDuel_bSceneSubStep & 0x10)) {
-                    gDuel_bSceneSubStep |= 0x10;
-                    gDuel_wDisplayTransitionFlags = 0xC;
-                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
-                } else {
-                    gDuel_bSceneSubStep |= 0x20;
-                }
-            }
-            if ((gDuel_bSceneSubStep & 0xA0) == 0xA0 && DisplayObject_FindAllocatedByTag(1) == 0) {
-                gDuel_bSceneSubStep = 2;
+                CardPreview_RequestResourceTransfer(1, id);
                 return;
             }
+            gDuel_bSceneSubStep |= 0x80;
+        }
+        if (!(gDuel_bSceneSubStep & 0x20) && gDuel_wDisplayTransitionFlags == 0) {
+            if (!(gDuel_bSceneSubStep & 0x10)) {
+                gDuel_bSceneSubStep |= 0x10;
+                gDuel_wDisplayTransitionFlags = 0xC;
+                gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)((gDuel_abSelectionSides + 2 * DUEL_SELECTION_RECORD_SIZE) + gDuel_bActiveSide * 0x70);
+            } else {
+                gDuel_bSceneSubStep |= 0x20;
+            }
+        }
+        if ((gDuel_bSceneSubStep & 0xA0) == 0xA0 && DisplayObject_FindAllocatedByTag(1) == 0) {
+            gDuel_bSceneSubStep = 2;
+            return;
         }
         break;
 
