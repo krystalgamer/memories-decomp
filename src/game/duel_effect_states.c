@@ -310,16 +310,11 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 #else
-    if ((gMain_bActiveModeState & 0x1F) == 0xE) {
-        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) != 0) {
-            goto press;
-        }
+    if ((gMain_bActiveModeState & 0x1F) == 0xE
+            ? ((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) == 0
+            : (gInput_awPadPressed[0] & 0x20) == 0) {
         return;
     }
-    if ((gInput_awPadPressed[0] & 0x20) == 0) {
-        return;
-    }
-press:
 #endif
     slide_out = 0x400;
     DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(gDuel_pCardViewerBackground));

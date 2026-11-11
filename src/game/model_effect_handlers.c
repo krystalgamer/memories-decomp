@@ -409,221 +409,219 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                 }
             }
         }
-        if (e->phase == 0) {
-            goto stage_test;
-        }
     }
 
-    if (HI16(e, 0xD9C) != 0 || e->flash_b != 0) {
-        setRGB0(f, e->flash_r, e->flash_g, e->flash_b);
-        sign = 1;
-        for (j = 0; j < 4; j++) {
-            sign = sign * -1;
-            for (i = 0; i < 4; i++) {
-                s32 lo;
-                s32 hi;
-                for (l = 0, lo = -1, hi = 1; l < 4; lo--, l++, hi++) {
-                    setVector(&q[0], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? lo : hi));
-                    setVector(&q[1], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? lo : hi));
-                    setVector(&q[2], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? -l : l));
-                    setVector(&q[3], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? -l : l));
-                    setUVWH(f, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
-                    otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
-                                      (long *)&f->x1, (long *)&f->x2,
-                                      (long *)&f->x3, (long *)&p, (long *)&flag);
-                    if (otz >= 0 && flag >= 0) {
+    if (e->phase != 0) {
+        if (HI16(e, 0xD9C) != 0 || e->flash_b != 0) {
+            setRGB0(f, e->flash_r, e->flash_g, e->flash_b);
+            sign = 1;
+            for (j = 0; j < 4; j++) {
+                sign = sign * -1;
+                for (i = 0; i < 4; i++) {
+                    s32 lo;
+                    s32 hi;
+                    for (l = 0, lo = -1, hi = 1; l < 4; lo--, l++, hi++) {
+                        setVector(&q[0], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? lo : hi));
+                        setVector(&q[1], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? lo : hi));
+                        setVector(&q[2], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? -l : l));
+                        setVector(&q[3], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? -l : l));
+                        setUVWH(f, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
+                        otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
+                                          (long *)&f->x1, (long *)&f->x2,
+                                          (long *)&f->x3, (long *)&p, (long *)&flag);
+                        if (otz >= 0 && flag >= 0) {
+                            Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                        }
+                    }
+                }
+            }
+            if (e->stage >= 2) {
+                if (e->flash_r >= 9) {
+                    e->flash_r = e->flash_r - 8;
+                } else {
+                    e->flash_r = 0;
+                }
+                if (e->flash_g >= 9) {
+                    e->flash_g = e->flash_g - 8;
+                } else {
+                    e->flash_g = 0;
+                }
+                if (e->flash_b >= 9) {
+                    e->flash_b = e->flash_b - 8;
+                } else {
+                    e->flash_b = 0;
+                }
+                e->radius += 2;
+            } else if (e->phase == 1) {
+                if (e->flash_r < 0xF6) {
+                    e->flash_r = e->flash_r + 8;
+                } else {
+                    e->flash_r = 0xFF;
+                }
+                if (e->flash_g < 0xF6) {
+                    e->flash_g = e->flash_g + 8;
+                } else {
+                    e->flash_g = 0xFF;
+                }
+                if (e->flash_b < 0xF6) {
+                    e->flash_b = e->flash_b + 8;
+                } else {
+                    e->flash_b = 0xFF;
+                }
+                e->radius += 4;
+                if (HI16(e, 0xD9C) == 0xFFFF0000 && e->flash_b == 0xFF) {
+                    e->phase = 2;
+                }
+            } else if (e->phase == 2) {
+                if (e->flash_r < 0x89) {
+                    e->flash_r = 0x80;
+                } else {
+                    e->flash_r = e->flash_r - 8;
+                }
+                if (e->flash_g < 0x89) {
+                    e->flash_g = 0x80;
+                } else {
+                    e->flash_g = e->flash_g - 8;
+                }
+                if (e->flash_b < 0x89) {
+                    e->flash_b = 0x80;
+                } else {
+                    e->flash_b = e->flash_b - 8;
+                }
+                e->radius -= 2;
+                if (HI16(e, 0xD9C) == 0x80800000 && e->flash_b == 0x80) {
+                    e->phase = 1;
+                }
+            }
+        }
+
+        if ((HI16(e, 0xD90) != 0 || e->colors[0].b != 0) &&
+            (HI16(e, 0xD94) != 0 || e->colors[1].b != 0) &&
+            (HI16(e, 0xD98) != 0 || e->colors[2].b != 0)) {
+            GsSetLsMatrix(&ls);
+            RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
+            RotMatrix(&rot, &m);
+            ScaleMatrix(&m, &scale);
+            GsSetLsMatrix(&m);
+            for (i = 0; i < 64; i++) {
+                setRGB0(f, e->colors[i % 3].r, e->colors[i % 3].g, e->colors[i % 3].b);
+                setUVWH(f, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F, 0x1F);
+                setVector(&q[0], -0x20, -0x20, 0);
+                setVector(&q[1], 0x20, -0x20, 0);
+                setVector(&q[2], -0x20, 0x20, 0);
+                setVector(&q[3], 0x20, 0x20, 0);
+                for (l = 0; l < 4; l++) {
+                    addVector(&q[l], &e->dust[i]);
+                }
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
+                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                if (otz >= 0) {
+                    if (flag >= 0) {
                         Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                    }
+                }
+                addVector(&e->dust[i], &e->dust_speed[i]);
+                e->dust_frame[i] = (e->dust_frame[i] + 1) % 4;
+            }
+            for (i = 0; i < 3; i++) {
+                if (e->colors[i].r >= 0x10) {
+                    e->colors[i].r = e->colors[i].r - 0xF;
+                } else {
+                    e->colors[i].r = 0;
+                }
+                if (e->colors[i].g >= 0x10) {
+                    e->colors[i].g = e->colors[i].g - 0xF;
+                } else {
+                    e->colors[i].g = 0;
+                }
+                if (e->colors[i].b >= 0x10) {
+                    e->colors[i].b = e->colors[i].b - 0xF;
+                } else {
+                    e->colors[i].b = 0;
+                }
+            }
+        }
+
+        f->tpage = e->spark_texture[0].tpage;
+        f->clut = e->spark_texture[0].clut;
+        setVector(&q[0], -0x40, -0x100, 0);
+        setVector(&q[1], 0x40, -0x100, 0);
+        setVector(&q[2], -0x40, 0, 0);
+        setVector(&q[3], 0x40, 0, 0);
+        for (i = 0; i < e->spark_count; i++) {
+            if (e->spark_colors[i].r != 0 || e->spark_colors[i].g != 0 ||
+                e->spark_colors[i].b != 0) {
+                copyVector(&pos, &e->origin);
+                addVector(&pos, &e->sparks[i]);
+                GsSetLsMatrix(&ls);
+                RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
+                RotMatrix(&rot, &m);
+                ScaleMatrix(&m, &scale);
+                GsSetLsMatrix(&m);
+                setUVWH(f, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
+                setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
+                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                if (otz >= 0 && flag >= 0) {
+                    Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
+                }
+                e->spark_frame[i] = (e->spark_frame[i] + 1) % 8;
+                if (e->stage < 2) {
+                    if (e->spark_colors[i].r < 0x61) {
+                        e->spark_colors[i].r = e->spark_colors[i].r + 0x1F;
+                    } else {
+                        e->spark_colors[i].r = 0x80;
+                    }
+                    if (e->spark_colors[i].g < 0x61) {
+                        e->spark_colors[i].g = e->spark_colors[i].g + 0x1F;
+                    } else {
+                        e->spark_colors[i].g = 0x80;
+                    }
+                    if (e->spark_colors[i].b < 0x61) {
+                        e->spark_colors[i].b = e->spark_colors[i].b + 0x1F;
+                    } else {
+                        e->spark_colors[i].b = 0x80;
+                    }
+                }
+                if (e->stage == 1) {
+                    addVector(&e->sparks[i], &e->spark_drift[i]);
+                }
+                if (e->stage == 2) {
+                    addVector(&e->sparks[i], &e->spark_rise[i]);
+                    e->spark_rise[i].vy += 2;
+                    if (e->spark_colors[i].r >= 9) {
+                        e->spark_colors[i].r = e->spark_colors[i].r - 8;
+                    } else {
+                        e->spark_colors[i].r = 0;
+                    }
+                    if (e->spark_colors[i].g >= 9) {
+                        e->spark_colors[i].g = e->spark_colors[i].g - 8;
+                    } else {
+                        e->spark_colors[i].g = 0;
+                    }
+                    if (e->spark_colors[i].b >= 9) {
+                        e->spark_colors[i].b = e->spark_colors[i].b - 8;
+                    } else {
+                        e->spark_colors[i].b = 0;
                     }
                 }
             }
         }
-        if (e->stage >= 2) {
-            if (e->flash_r >= 9) {
-                e->flash_r = e->flash_r - 8;
-            } else {
-                e->flash_r = 0;
-            }
-            if (e->flash_g >= 9) {
-                e->flash_g = e->flash_g - 8;
-            } else {
-                e->flash_g = 0;
-            }
-            if (e->flash_b >= 9) {
-                e->flash_b = e->flash_b - 8;
-            } else {
-                e->flash_b = 0;
-            }
-            e->radius += 2;
-        } else if (e->phase == 1) {
-            if (e->flash_r < 0xF6) {
-                e->flash_r = e->flash_r + 8;
-            } else {
-                e->flash_r = 0xFF;
-            }
-            if (e->flash_g < 0xF6) {
-                e->flash_g = e->flash_g + 8;
-            } else {
-                e->flash_g = 0xFF;
-            }
-            if (e->flash_b < 0xF6) {
-                e->flash_b = e->flash_b + 8;
-            } else {
-                e->flash_b = 0xFF;
-            }
-            e->radius += 4;
-            if (HI16(e, 0xD9C) == 0xFFFF0000 && e->flash_b == 0xFF) {
-                e->phase = 2;
-            }
-        } else if (e->phase == 2) {
-            if (e->flash_r < 0x89) {
-                e->flash_r = 0x80;
-            } else {
-                e->flash_r = e->flash_r - 8;
-            }
-            if (e->flash_g < 0x89) {
-                e->flash_g = 0x80;
-            } else {
-                e->flash_g = e->flash_g - 8;
-            }
-            if (e->flash_b < 0x89) {
-                e->flash_b = 0x80;
-            } else {
-                e->flash_b = e->flash_b - 8;
-            }
-            e->radius -= 2;
-            if (HI16(e, 0xD9C) == 0x80800000 && e->flash_b == 0x80) {
-                e->phase = 1;
-            }
-        }
-    }
 
-    if ((HI16(e, 0xD90) != 0 || e->colors[0].b != 0) &&
-        (HI16(e, 0xD94) != 0 || e->colors[1].b != 0) &&
-        (HI16(e, 0xD98) != 0 || e->colors[2].b != 0)) {
-        GsSetLsMatrix(&ls);
-        RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
-        RotMatrix(&rot, &m);
-        ScaleMatrix(&m, &scale);
-        GsSetLsMatrix(&m);
-        for (i = 0; i < 64; i++) {
-            setRGB0(f, e->colors[i % 3].r, e->colors[i % 3].g, e->colors[i % 3].b);
-            setUVWH(f, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F, 0x1F);
-            setVector(&q[0], -0x20, -0x20, 0);
-            setVector(&q[1], 0x20, -0x20, 0);
-            setVector(&q[2], -0x20, 0x20, 0);
-            setVector(&q[3], 0x20, 0x20, 0);
-            for (l = 0; l < 4; l++) {
-                addVector(&q[l], &e->dust[i]);
+        if ((e->spark_colors[e->spark_count - 1].r >= 0x41 ||
+             e->spark_colors[e->spark_count - 1].g >= 0x41 ||
+             e->spark_colors[e->spark_count - 1].b >= 0x41) &&
+            e->stage == 0) {
+            if ((u16)(e->spark_count % 3) == 0) {
+                SD_SEPlay(1, 0xFF, 0);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
-            if (otz >= 0) {
-                if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
-                }
-            }
-            addVector(&e->dust[i], &e->dust_speed[i]);
-            e->dust_frame[i] = (e->dust_frame[i] + 1) % 4;
-        }
-        for (i = 0; i < 3; i++) {
-            if (e->colors[i].r >= 0x10) {
-                e->colors[i].r = e->colors[i].r - 0xF;
-            } else {
-                e->colors[i].r = 0;
-            }
-            if (e->colors[i].g >= 0x10) {
-                e->colors[i].g = e->colors[i].g - 0xF;
-            } else {
-                e->colors[i].g = 0;
-            }
-            if (e->colors[i].b >= 0x10) {
-                e->colors[i].b = e->colors[i].b - 0xF;
-            } else {
-                e->colors[i].b = 0;
+            e->spark_count++;
+            if (e->spark_count > 32) {
+                e->spark_count = 32;
+                e->stage = 1;
             }
         }
     }
-
-    f->tpage = e->spark_texture[0].tpage;
-    f->clut = e->spark_texture[0].clut;
-    setVector(&q[0], -0x40, -0x100, 0);
-    setVector(&q[1], 0x40, -0x100, 0);
-    setVector(&q[2], -0x40, 0, 0);
-    setVector(&q[3], 0x40, 0, 0);
-    for (i = 0; i < e->spark_count; i++) {
-        if (e->spark_colors[i].r != 0 || e->spark_colors[i].g != 0 ||
-            e->spark_colors[i].b != 0) {
-            copyVector(&pos, &e->origin);
-            addVector(&pos, &e->sparks[i]);
-            GsSetLsMatrix(&ls);
-            RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
-            RotMatrix(&rot, &m);
-            ScaleMatrix(&m, &scale);
-            GsSetLsMatrix(&m);
-            setUVWH(f, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
-            setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
-            if (otz >= 0 && flag >= 0) {
-                Graphics_SubmitDrawModePacket(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
-            }
-            e->spark_frame[i] = (e->spark_frame[i] + 1) % 8;
-            if (e->stage < 2) {
-                if (e->spark_colors[i].r < 0x61) {
-                    e->spark_colors[i].r = e->spark_colors[i].r + 0x1F;
-                } else {
-                    e->spark_colors[i].r = 0x80;
-                }
-                if (e->spark_colors[i].g < 0x61) {
-                    e->spark_colors[i].g = e->spark_colors[i].g + 0x1F;
-                } else {
-                    e->spark_colors[i].g = 0x80;
-                }
-                if (e->spark_colors[i].b < 0x61) {
-                    e->spark_colors[i].b = e->spark_colors[i].b + 0x1F;
-                } else {
-                    e->spark_colors[i].b = 0x80;
-                }
-            }
-            if (e->stage == 1) {
-                addVector(&e->sparks[i], &e->spark_drift[i]);
-            }
-            if (e->stage == 2) {
-                addVector(&e->sparks[i], &e->spark_rise[i]);
-                e->spark_rise[i].vy += 2;
-                if (e->spark_colors[i].r >= 9) {
-                    e->spark_colors[i].r = e->spark_colors[i].r - 8;
-                } else {
-                    e->spark_colors[i].r = 0;
-                }
-                if (e->spark_colors[i].g >= 9) {
-                    e->spark_colors[i].g = e->spark_colors[i].g - 8;
-                } else {
-                    e->spark_colors[i].g = 0;
-                }
-                if (e->spark_colors[i].b >= 9) {
-                    e->spark_colors[i].b = e->spark_colors[i].b - 8;
-                } else {
-                    e->spark_colors[i].b = 0;
-                }
-            }
-        }
-    }
-
-    if ((e->spark_colors[e->spark_count - 1].r >= 0x41 ||
-         e->spark_colors[e->spark_count - 1].g >= 0x41 ||
-         e->spark_colors[e->spark_count - 1].b >= 0x41) &&
-        e->stage == 0) {
-        if ((u16)(e->spark_count % 3) == 0) {
-            SD_SEPlay(1, 0xFF, 0);
-        }
-        e->spark_count++;
-        if (e->spark_count > 32) {
-            e->spark_count = 32;
-            e->stage = 1;
-        }
-    }
-stage_test:
     if (e->stage >= 2 && (HI16(e, 0xE20) != 0 || e->smoke_b != 0)) {
         f->tpage = e->tpage;
         f->clut = e->clut;
