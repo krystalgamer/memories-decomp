@@ -3151,12 +3151,10 @@ void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 
     if (opcode == 0) {
         SD_BGMFadeOut();
-        goto shared_test;
     } else {
         SD_BGMFadeOutWithStep(opcode);
     }
 
-shared_test:
     high_bit = saved_raw & 0x80;
     if (high_bit != 0) {
         command->command_state = 13;
