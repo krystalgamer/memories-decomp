@@ -350,7 +350,7 @@ s32 DebugMenu_UpdateValueEditor(void)
                 goto fill;
             }
             f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
-            goto setpos;
+            gDebug_bEditorDigit = f;
         }
     } else {
         gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
@@ -360,7 +360,6 @@ s32 DebugMenu_UpdateValueEditor(void)
             if (gDebug_bEditorRow < 0) {
                 f = gDebug_abEditorDigitCounts[0] - 1;
                 gDebug_bEditorRow = 0;
-            setpos:
                 gDebug_bEditorDigit = f;
             }
         }
