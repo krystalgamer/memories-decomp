@@ -1697,7 +1697,8 @@ void Model_UpdateCreditsPresentation(void)
               Model_ControlSlotAnimation((u8)gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
-          goto tick_active_slot;
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
         }
       }
       else
@@ -1746,7 +1747,8 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bCreditsActiveSlot ^= 1u;
         }
       }
-      goto tick_active_slot;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+      break;
     case 2:
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
@@ -1772,7 +1774,8 @@ void Model_UpdateCreditsPresentation(void)
         || fade_slot_base[1].tint[0]
         || slot1_tint[1] || slot1_tint[2] )
       {
-        goto tick_active_slot;
+        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+        break;
       }
       fade_slot_base[1].is_active = 0;
       fade_slot_base[0].is_active = 0;
