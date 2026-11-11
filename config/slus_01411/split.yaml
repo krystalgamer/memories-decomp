@@ -77,7 +77,7 @@ segments:
       - [0x9E0, .rodata, game/library]
       - [0xA24, .rodata, game/main_mode_runners]
       - [0xA50, .rodata, game/debug_menu]
-      - [0xA88, rodata, initial_data_1]
+      - [0xA93, pad]
       - [0xA94, .rodata, game/build_deck]
       - [0xAB8, .rodata, game/duel_effect_text]
       - [0xB30, rodata, initial_data_1a]
