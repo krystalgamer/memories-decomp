@@ -847,7 +847,8 @@ void MemCardWork_UpdateOperation(void)
                 gMemCardWork_wFlags |= 0x800;
             case 0:
                 slot->free_blocks = (u8)gMemCard_nFreeBlocks;
-                goto success;
+                gMemCardWork_bOperationResult = 0;
+                break;
             case 4:
                 gMemCardWork_wFlags |= 2;
                 gMemCardWork_bOperationResult = 1;
@@ -898,7 +899,6 @@ void MemCardWork_UpdateOperation(void)
             gMemCardWork_bOperationResult = 1;
             if (gMemCardWork_nRequestResult)
                 break;
-success:
             gMemCardWork_bOperationResult = 0;
             break;
         }
