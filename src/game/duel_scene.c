@@ -10959,7 +10959,8 @@ void DuelEffect_ApplyRitual(void)
             card->flags &= ~0x200;
             if (rand() & 1)
                 card->flags |= 0x200;
-            goto state_five;
+            gDuel_wTrapPresentationMode = 5;
+            break;
         }
         gDisplayObject_apWorkSlots.slots[1] =
             (DisplayObject *)Duel_CreateCardDisplayObject(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
@@ -11013,7 +11014,6 @@ void DuelEffect_ApplyRitual(void)
             }
         } else if (!DisplayObject_FindAllocatedByTag(1)) {
             DisplayObject_ReleaseIfPresent(object);
-state_five:
             gDuel_wTrapPresentationMode = 5;
         }
         break;
