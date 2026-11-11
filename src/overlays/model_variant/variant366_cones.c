@@ -41,9 +41,9 @@ void ModelVariant366_DrawCones(u8 *context)
     ribbon = work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     buff = GsGetActiveBuff();
-    ratan2(work->direction.vz, work->direction.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
     sign = -1;
-    ratan2(work->direction.vy, work->direction.vz);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     plain = &work->plain;
     mask = &work->mask;
     if (work->slot == 1) {
@@ -71,7 +71,7 @@ void ModelVariant366_DrawCones(u8 *context)
                 /* The division is repeated in each radius and shared by
                  * CSE. A named quotient changes its registers and lets
                  * reload reuse inner_r from t2 instead of reloading it. */
-                spread = (work->direction.vz * sign - 320) * work->cone_opening[k];
+                spread = (work->aim.direction.vz * sign - 320) * work->cone_opening[k];
                 inner_r = spread / 1024 + 320;
                 {
                     /* Block-scoped temporaries; a direct middle_r formula
@@ -107,9 +107,9 @@ void ModelVariant366_DrawCones(u8 *context)
             outer.g = 192;
             outer.b = white;
             setVector(&rotation, 0, 0, 0);
-            matrix.t[0] = work->target.vx;
-            matrix.t[1] = work->target.vy + (rcos(ribbon->progress) * 320 >> 12);
-            matrix.t[2] = work->target.vz;
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy + (rcos(ribbon->progress) * 320 >> 12);
+            matrix.t[2] = work->aim.target.vz;
             RotMatrix(&rotation, &matrix);
             coordinate.coord = matrix;
             coordinate.super = 0;

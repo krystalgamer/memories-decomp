@@ -45,9 +45,9 @@ void ModelVariant398_DrawRings(u8 *context)
 
     ring = work->screen_rings;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->direction.vz, work->direction.vx);
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx);
     heading = yaw + 0x800;
-    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     buff = GsGetActiveBuff();
     poly = &work->extra;
     if (heading < 0x800) {

@@ -132,6 +132,20 @@ typedef struct {
     u8 bytes[8];
 } ModelVariantViewSnapshotBytes;
 
+/* The aim block an entry state keeps after its matrix (e.g.
+ * Variant428EntryState). Each tick the entry stores the view reference
+ * less the view point in view_delta (its ratan2 angles fill the clock),
+ * copies the point it aims at into target (a slot position or a fixed
+ * point), sets direction to target less the matrix translation, and
+ * projects target and the matrix origin with RotTransPers, keeping their
+ * screen difference in screen_delta. */
+typedef struct {
+    SVECTOR target;
+    VECTOR direction;
+    DVECTOR screen_delta;
+    VECTOR view_delta;
+} ModelVariantAim;
+
 /* The control block an entry state keeps ahead of its config pointer
  * (e.g. Variant428EntryState): the entry zeroes the counters and fade, then
  * stores the view pitch and yaw in angles (ratan2 of its view delta, the yaw

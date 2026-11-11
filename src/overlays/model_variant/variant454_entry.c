@@ -75,15 +75,15 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
             work->parts[n] = Model_GetSlotDataEntry(work->slot, work->config->parts[n]);
         }
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->direction,
-                  work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1],
-                  work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT454_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
@@ -156,9 +156,9 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                 group->field_2D4[i] = 0;
                 group->field_314[i] = 0;
                 group->done[i] = 0;
-                group->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-                group->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-                group->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+                group->origin[i].vx = work->matrix.t[0] + work->aim.direction.vx;
+                group->origin[i].vy = work->matrix.t[1] + work->aim.direction.vy;
+                group->origin[i].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (cluster = work->clusters, n = 0; n < 1; n++, cluster++) {
@@ -175,9 +175,9 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                 cluster->done[i] = 0;
                 cluster->field_20C[i] = 0;
                 cluster->initialized[i] = 0;
-                cluster->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-                cluster->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-                cluster->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+                cluster->origin[i].vx = work->matrix.t[0] + work->aim.direction.vx;
+                cluster->origin[i].vy = work->matrix.t[1] + work->aim.direction.vy;
+                cluster->origin[i].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (n = 0; n < 1; n++, band++) {
@@ -336,24 +336,24 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        angle = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        Square0(&work->aim.view_delta, &squared);
+        angle = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[0] = angle;
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
         if (work->clock.frame < work->config->origin_end) {
             GsGetLwUnit(work->parts[0], &work->matrix);
         }
-        setVector(&work->direction,
-                  work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1],
-                  work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
         if (work->config->sweep_start <= work->clock.frame && work->clock.frame < work->config->sweep_end) {
             work->sweep = (work->clock.frame - work->config->sweep_start) * 61440 /
                           (work->config->sweep_end - work->config->sweep_start);
@@ -366,22 +366,22 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                     if (group->done[i] == 0) {
                         if (work->slot == 0) {
                             if ((i & 3) == 0) {
-                                setVector(&group->positions[i], work->target.vx, work->target.vy,
-                                          work->target.vz);
+                                setVector(&group->positions[i], work->aim.target.vx, work->aim.target.vy,
+                                          work->aim.target.vz);
                             } else {
                                 setVector(&group->positions[i],
-                                          work->target.vx + (rcos(angle) * 192 >> 12),
-                                          work->target.vy + (rsin(angle) * 192 >> 12),
-                                          work->target.vz);
+                                          work->aim.target.vx + (rcos(angle) * 192 >> 12),
+                                          work->aim.target.vy + (rsin(angle) * 192 >> 12),
+                                          work->aim.target.vz);
                             }
                         } else if ((i & 3) == 0) {
-                            setVector(&group->positions[i], work->target.vx, work->target.vy,
-                                      work->target.vz);
+                            setVector(&group->positions[i], work->aim.target.vx, work->aim.target.vy,
+                                      work->aim.target.vz);
                         } else {
                             setVector(&group->positions[i],
-                                      work->target.vx + (rcos(angle) * 192 >> 12),
-                                      work->target.vy + (rsin(angle) * 192 >> 12),
-                                      work->target.vz);
+                                      work->aim.target.vx + (rcos(angle) * 192 >> 12),
+                                      work->aim.target.vy + (rsin(angle) * 192 >> 12),
+                                      work->aim.target.vz);
                         }
                         group->origins[i].t[0] = work->matrix.t[0] + (rcos(angle + web_angle) * 256 >> 12);
                         group->origins[i].t[1] = work->matrix.t[1] + (rsin(angle) * 256 >> 12);
@@ -402,12 +402,12 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                      &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
-        work->screen_delta.vx = (u16)projection.target.vx - screen_x;
+        work->aim.screen_delta.vx = (u16)projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
             FrenchModelVariant471_DrawQuadGroup((u8 *)point);
         }
