@@ -632,7 +632,7 @@ adds two more of its own:
 
   Large game-owned records follow the same ownership rule even when they have
   only one current definition. `DuelEffectChannel` therefore lives beside its
-  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect_states.h` (formerly `duel_effect.h`) retains
   channel counts, state flags, storage declarations, and the duel-effect API.
   The measured size and member-offset assertions move with the record.
 

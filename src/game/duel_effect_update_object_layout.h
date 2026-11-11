@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_DUEL_EFFECT_UPDATE_OBJECT_LAYOUT_H
 #define MEMORIES_DECOMP_DUEL_EFFECT_UPDATE_OBJECT_LAYOUT_H
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Repositions the six corner pairs of the channel's attached object so the
  * highlight sits on the currently selected choice. The entry's layout_selector

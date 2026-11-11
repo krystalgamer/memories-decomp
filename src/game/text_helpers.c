@@ -5,7 +5,7 @@
 #include "european_text_bank_views.h"
 #include "text_string_bank_views.h"
 #include "text_stream_commands.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_entry_ranges.h"
 #include "duel_effect_init_entry.h"

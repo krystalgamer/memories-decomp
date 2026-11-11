@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_START_CAMPAIGN_DUEL_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* gText_SecondaryCommandHandlers entry: arms a campaign duel from the object's script stream. It
  * takes four bytes in order -- opponent id, gDuel_awCampaignSceneByOutcome[0], gDuel_awCampaignSceneByOutcome[1], terrain --

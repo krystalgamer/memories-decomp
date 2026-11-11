@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_SOUND_COMMANDS_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Four gText_SecondaryCommandHandlers entries. Text_OpenCampaignMap reads one byte from the object's
  * current stream into gCampaignMap_bEntryLocation and puts the scene mode at 5.

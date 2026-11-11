@@ -9,7 +9,7 @@
 #include "../../game/card_constants.h"
 #include "trade_helpers.h"
 #include "../../game/duel_card_viewer.h"
-#include "../../game/duel_effect.h"
+#include "../../game/duel_effect_states.h"
 #include "../../game/sound.h"
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"

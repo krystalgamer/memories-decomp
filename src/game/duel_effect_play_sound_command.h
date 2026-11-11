@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_PLAY_SOUND_COMMAND_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* The three gText_SecondaryCommandHandlers sound commands. All read their operand through
  * TextStream_ReadU16LE, which is the "next word of this object's current script

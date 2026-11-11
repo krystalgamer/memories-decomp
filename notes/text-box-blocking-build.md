@@ -36,7 +36,7 @@ claim that every region rasterizes or uploads the same way.
 All existing headers and frozen overlay C remain byte-identical. Canonical
 declarations are isolated in `text_box_blocking_build.h`, using the existing
 channel tag rather than importing the shared channel typedef: Free Duel has
-a private byte-array view that would collide with `duel_effect.h`.
+a private byte-array view that would collide with `duel_effect_states.h` (formerly `duel_effect.h`).
 
 Resident calls use the canonical APIs. Every registered frozen consumer's
 actual independent import map exposes the required native canonical binding

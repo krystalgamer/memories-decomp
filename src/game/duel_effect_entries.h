@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_ENTRIES_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 
 /* Returns the selected opaque payload byte address, or zero at the key

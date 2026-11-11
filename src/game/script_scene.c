@@ -105,7 +105,7 @@ void Script_OpLoadImageScene(void)
     }
 }
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "text_channel_state.h"
 #include "text_helpers.h"
 #include "text_box_lifecycle.h"
@@ -478,7 +478,6 @@ void Script_OpJump(void)
 #include "build_deck.h"
 #include "input.h"
 
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
@@ -1060,7 +1059,6 @@ void Script_OpWait(void)
 }
 
 #include "../psyq/rand.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "text_box_update_channels.h"
 #include "script_command_table.h"

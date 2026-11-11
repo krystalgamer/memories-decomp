@@ -6,7 +6,7 @@
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "menu_record_reset.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 void Main_ResetFrontendRuntime(void)
 {

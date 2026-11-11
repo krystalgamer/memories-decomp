@@ -2,7 +2,7 @@
 #define DISPLAY_OBJECT_FADE_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 #define DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE 0x40
 #define DISPLAY_OBJECT_FADE_FLAG_INITIALIZED 0x80

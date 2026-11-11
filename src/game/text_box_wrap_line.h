@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_BOX_WRAP_LINE_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Advances an object's scroll position by one step and reports whether it has
  * reached the end.

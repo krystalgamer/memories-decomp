@@ -1,7 +1,7 @@
 # DuelEffect Shared Structures
 
 This pass is limited to the shared records rooted at `D_800EB0F8` and
-`D_800EB288`. The types in `src/game/duel_effect.h` describe verified storage
+`D_800EB288`. The types in `src/game/duel_effect_states.h` describe verified storage
 widths and offsets, not recovered original Konami names. Offset-based field
 names remain where semantics or signedness are uncertain.
 
@@ -496,7 +496,7 @@ and bit `0x40` records that its choice object was opened.
 from `gDuel_bEffectState` before the request byte receives its started bit.
 
 The former address-named `D_8009B244`/`D_8009B248`/`D_8009B24A` extern views
-in `duel_effect.h` were removed; each byte now has one declaration. The
+in `duel_effect_states.h` (formerly `duel_effect.h`) were removed; each byte now has one declaration. The
 symbols stay separate because the bytes between their addresses are live or
 unexplained; this is not a claim that they form a single packed structure.
 

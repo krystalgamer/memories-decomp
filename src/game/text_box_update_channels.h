@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_BOX_UPDATE_CHANNELS_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Kind four reuses this byte; other indexed kinds replace it. Shared across
  * channels/frames, with no additional reset or initialization. */

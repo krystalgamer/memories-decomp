@@ -338,7 +338,7 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
 
 #undef gCampaignSceneIndex
 
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
 
@@ -430,7 +430,6 @@ void Checkerboard_DrawBackground(
 }
 
 #include "text_box_blocking_build.h"
-#include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "display_object_system.h"
@@ -482,7 +481,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #include "display_object.h"
 
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
@@ -755,7 +753,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "display_object.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/strings.h"
-#include "duel_effect.h"
 #include "text_channel_state.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 /* The Japanese and PAL executables also link the PocketStation library

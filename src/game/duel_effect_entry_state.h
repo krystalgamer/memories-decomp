@@ -2,7 +2,7 @@
 #define GAME_DUEL_EFFECT_ENTRY_STATE_H
 
 #include "../types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* The entry record and count differ by build; the units that define or walk
  * the regional records select them before including this header. */

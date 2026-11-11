@@ -4,7 +4,7 @@
 #include "../types.h"
 
 #ifdef VERSION_EUROPE
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context);
 void DuelEffect_StartGlyphSpiralReveal(DuelEffectChannel *record, void *context);
