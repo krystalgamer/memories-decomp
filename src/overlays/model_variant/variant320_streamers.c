@@ -46,7 +46,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
 
     work = (Variant337EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = (POLY_G4 *)work->flat_textured;
     reach = 0xC0;
     step = 0x400;
@@ -91,9 +91,9 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     }
     work->streamer.rotation_y += 0x20;
     work->streamer.rotation_z = work->streamer.rotation_z;
-    m.t[0] = work->target.vx;
-    m.t[1] = work->target.vy;
-    m.t[2] = work->target.vz;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;

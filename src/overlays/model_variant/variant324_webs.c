@@ -36,10 +36,10 @@ void ModelVariant324_DrawWebs(u8 *ctx)
     done = 1;
     i = 0;
     line = (GsGLINE *)((u8 *)work + 0xEB0);
-    ratan2(work->view_delta.vz, work->view_delta.vx);
-    ratan2(work->view_delta.vy, work->view_delta.vx);
-    ratan2(work->direction.vz, work->direction.vy);
-    ratan2(work->screen_delta.vy, work->screen_delta.vx);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;
@@ -66,9 +66,9 @@ void ModelVariant324_DrawWebs(u8 *ctx)
             m.t[1] = work->matrix.t[1];
             m.t[2] = work->matrix.t[2];
         } else {
-            m.t[0] = work->target.vx;
-            m.t[1] = work->target.vy;
-            m.t[2] = work->target.vz;
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = level;
         scale.vy = level;

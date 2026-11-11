@@ -39,8 +39,8 @@ void ModelVariant321_DrawRibbon(u8 *ctx)
 
     work = (Variant338EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;
     if (work->phase > 0) {
         len = work->width / 32;
         ribbon = (Variant321Ribbon *)work;
@@ -60,11 +60,11 @@ void ModelVariant321_DrawRibbon(u8 *ctx)
                 }
                 coil = k * 128;
                 setVector(&ribbon->a[k],
-                          work->direction.vx * k / 16 - (rcos(turn) * (rsin(coil) * 384 >> 12) >> 12) +
+                          work->aim.direction.vx * k / 16 - (rcos(turn) * (rsin(coil) * 384 >> 12) >> 12) +
                               (rcos(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
-                          work->direction.vy * k / 16 - (rsin(turn) * (rsin(coil) * 384 >> 12) >> 12) +
+                          work->aim.direction.vy * k / 16 - (rsin(turn) * (rsin(coil) * 384 >> 12) >> 12) +
                               (rsin(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
-                          work->direction.vz * k / 16);
+                          work->aim.direction.vz * k / 16);
                 setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
                           ribbon->a[k].vz + (rsin(yaw) * len >> 12));
             }

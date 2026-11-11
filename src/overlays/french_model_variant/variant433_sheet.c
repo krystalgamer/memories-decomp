@@ -37,9 +37,9 @@ void ModelVariant416_DrawSheets(u8 *ctx)
         rot.vy = 0;
         rot.vz = 0;
         if (i == 2) {
-            m.t[0] = work->target.vx;
-            m.t[1] = work->target.vy;
-            m.t[2] = work->target.vz;
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
             scale.vx = sheet->size + bias;
             scale.vy = sheet->size + bias;
             scale.vz = sheet->size + bias;
@@ -53,9 +53,9 @@ void ModelVariant416_DrawSheets(u8 *ctx)
                     amount = MODEL_VARIANT_WORD(record, 0x68);
                 }
             }
-            m.t[0] = work->matrix.t[0] + work->direction.vx * amount / 0x400;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * amount / 0x400;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * amount / 0x400;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * amount / 0x400;
             if (work->tail.phase < 3) {
                 scale.vx = 0x800;
                 scale.vy = 0x800;

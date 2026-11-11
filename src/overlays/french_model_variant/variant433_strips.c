@@ -27,7 +27,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     work = (Variant416EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
-    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     poly = work->textured;
     raw_radius = work->field_1A78;
     /* Branch-local shifts retain the target's signed16 narrowing. */
@@ -48,9 +48,9 @@ void ModelVariant416_DrawBands(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = angle;
-            m.t[0] = work->matrix.t[0] + work->direction.vx * amount / 0x400;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * amount / 0x400;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * amount / 0x400;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * amount / 0x400;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;

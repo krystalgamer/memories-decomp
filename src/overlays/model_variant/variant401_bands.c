@@ -43,7 +43,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
     work = (Variant401EntryState *)ctx;
     poly = work->textured;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    yaw = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (yaw != 0) {
         lo = 0;
     }
@@ -87,9 +87,9 @@ void ModelVariant401_DrawBand(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = yaw;
-            m.t[0] = work->matrix.t[0] + work->direction.vx * a / 1024;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * a / 1024;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * a / 1024;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * a / 1024;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * a / 1024;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * a / 1024;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;

@@ -29,7 +29,7 @@ void ModelVariant324_DrawBand(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     band = (Variant324Band *)work->bands;
     poly = work->textured;
-    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     r = work->radius / 32;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 9; j++) {
@@ -44,9 +44,9 @@ void ModelVariant324_DrawBand(u8 *ctx)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->matrix.t[0] + work->direction.vx * j / 8 * work->progress / 1024;
-                m.t[1] = work->matrix.t[1] + work->direction.vy * j / 8 * work->progress / 1024;
-                m.t[2] = work->matrix.t[2] + work->direction.vz * j / 8 * work->progress / 1024;
+                m.t[0] = work->matrix.t[0] + work->aim.direction.vx * j / 8 * work->progress / 1024;
+                m.t[1] = work->matrix.t[1] + work->aim.direction.vy * j / 8 * work->progress / 1024;
+                m.t[2] = work->matrix.t[2] + work->aim.direction.vz * j / 8 * work->progress / 1024;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;

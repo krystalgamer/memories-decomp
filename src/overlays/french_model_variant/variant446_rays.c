@@ -48,10 +48,10 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     work = (EntryState446 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
-    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    yaw = ratan2(work->direction.vz, work->direction.vx) + 0x800;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
     poly = work->textured;
-    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (work->slot == 0) {
         sign = 1;
     }
@@ -76,9 +76,9 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
             if (k == 0) {
                 setVector(&ray->a[k], 0, 0, 0);
             } else {
-                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + work->direction.vx * sign / 2 * k / 2,
-                          (rcos(phi) * (r * k / 2) >> 12) + work->direction.vy * sign / 2 * k / 2,
-                          work->direction.vz * sign / 2 * k / 2);
+                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + work->aim.direction.vx * sign / 2 * k / 2,
+                          (rcos(phi) * (r * k / 2) >> 12) + work->aim.direction.vy * sign / 2 * k / 2,
+                          work->aim.direction.vz * sign / 2 * k / 2);
             }
             setVector(&ray->b[k], ray->a[k].vx + (rcos(turn * sign) * length >> 12), ray->a[k].vy,
                       ray->a[k].vz + (rsin(turn * sign) * length >> 12));

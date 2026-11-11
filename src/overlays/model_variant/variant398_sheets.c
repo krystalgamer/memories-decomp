@@ -42,13 +42,13 @@ void ModelVariant398_DrawSheets(u8 *ctx)
             m.t[1] = work->matrix.t[1];
             m.t[2] = work->matrix.t[2];
         } else if (work->displacement < 0x400) {
-            m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024;
-            m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024;
-            m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
         } else {
-            m.t[0] = work->target.vx;
-            m.t[1] = work->target.vy;
-            m.t[2] = work->target.vz;
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;

@@ -28,7 +28,7 @@ void ModelVariant398_DrawBand(u8 *ctx)
     work = (Variant398EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->textured;
-    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->frame_count & 1)) {
         r = work->band_scale / 64;
     } else {
@@ -48,9 +48,9 @@ void ModelVariant398_DrawBand(u8 *ctx)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024 * j / 8;
-                m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024 * j / 8;
-                m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024 * j / 8;
+                m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024 * j / 8;
+                m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024 * j / 8;
+                m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
