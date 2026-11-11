@@ -1230,40 +1230,32 @@ void AiScript_MatchType(void)
     Ai_GetCardRange(range, &start, &end);
 
     index = start;
-    if (end < index) {
-        goto zero;
-    }
-
-    one = 1;
-    while (1) {
-        if (gDuel_aActiveCards[index].card_id == 0) {
-            goto next;
-        }
-        if (gDuel_aActiveCards[index].card_type != type) {
-            goto next;
-        }
-        if (range == one || range == 3 || range == 6 || range == 8) {
-            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
-                goto next;
+    if (end >= index) {
+        one = 1;
+        do {
+            if (gDuel_aActiveCards[index].card_id == 0) {
+                continue;
             }
-        }
-        if (set == one && range >= 5) {
-            if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
-                goto next;
+            if (gDuel_aActiveCards[index].card_type != type) {
+                continue;
             }
-        }
-        if (Ai_IsCardInSets(sets, index) == 0) {
-            break;
-        }
-next:
-        index++;
-        if (end < index) {
-            break;
-        }
+            if (range == one || range == 3 || range == 6 || range == 8) {
+                if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+                    continue;
+                }
+            }
+            if (set == one && range >= 5) {
+                if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+                    continue;
+                }
+            }
+            if (Ai_IsCardInSets(sets, index) == 0) {
+                break;
+            }
+        } while (++index <= end);
     }
 
     if (end < index) {
-zero:
         gAiScript_aMemory[output] = 0;
     } else {
         gAiScript_aMemory[output] = index;
