@@ -511,7 +511,7 @@ void Library_UpdateGridCursor(LibraryState *state)
                             if (row < 0x27) {
                                 column = 0;
                                 row += 1;
-                                goto wrap_delay;
+                                frames *= 4;
                             }
                         }
                     } else {
@@ -521,7 +521,6 @@ void Library_UpdateGridCursor(LibraryState *state)
                             if (row != 0) {
                                 column = 0x13;
                                 row -= 1;
-wrap_delay:
                                 frames *= 4;
                             }
                         }

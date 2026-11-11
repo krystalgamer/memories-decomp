@@ -274,7 +274,6 @@ void Graphics_BeginFrame(void)
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
-    s32 cnt;
 
     Fade_DrawOverlay();
     DisplayObject_RenderFrame();
@@ -291,13 +290,8 @@ void Main_RunFrameServices(void) {
         fn();
     }
 
-    if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
-        goto reset;
-    }
-    cnt = gMain_nServiceResyncCountdown - 1;
-    gMain_nServiceResyncCountdown = cnt;
-    if (cnt < 0) {
-    reset:
+    if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4 ||
+        --gMain_nServiceResyncCountdown < 0) {
         gMain_nServiceResyncCountdown = 0x3C;
         D_8009B0B0 = D_8009B0A4;
         D_8009B0BC = D_8009B0D4;
