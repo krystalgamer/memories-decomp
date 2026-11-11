@@ -3,11 +3,15 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "file_package_staging.h"
-#include "file_transfer_steps.h"
-#include "../unmatched.h"
+#include "model.h"
 #include "display_asset_banks.h"
 
 #include "high_memory_addresses.h"
+
+/* Read-only data this unit owns ahead of its jump table: the CD path
+ * File_RequestMainMenuPackage queues the package from. */
+u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
+    "M:/mrgSU/SU.mrg";
 
 /* Regional value: the main-menu package's first sector in SU.MRG. The US
  * package starts at 0; the European wrapper computes it from gText_bLanguageIndex. */

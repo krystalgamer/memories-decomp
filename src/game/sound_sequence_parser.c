@@ -4,7 +4,6 @@
 #include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_channel_events.h"
-#include "../unmatched.h"
 
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))

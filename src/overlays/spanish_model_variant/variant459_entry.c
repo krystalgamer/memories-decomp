@@ -51,9 +51,9 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->parts[4] = Model_GetSlotDataEntry(work->slot, work->config->parts[4]);
         work->parts[5] = Model_GetSlotDataEntry(work->slot, work->config->parts[5]);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         if (work->config->mode == 1) {
             Model_TransformPartVertex(work->slot, work->config->parts[0], work->config->vertices[0],
@@ -64,10 +64,10 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                                       &work->points[2]);
         } else {
             GsGetLwUnit(work->parts[0], &work->matrices[0]);
-            setVector(&work->direction,
-                      work->target.vx - work->matrices[0].t[0],
-                      work->target.vy - work->matrices[0].t[1],
-                      work->target.vz - work->matrices[0].t[2]);
+            setVector(&work->aim.direction,
+                      work->aim.target.vx - work->matrices[0].t[0],
+                      work->aim.target.vy - work->matrices[0].t[1],
+                      work->aim.target.vz - work->matrices[0].t[2]);
         }
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
@@ -269,32 +269,32 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
             side = -1;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
             side = 1;
         }
         GsGetLwUnit(work->parts[0], &work->matrices[0]);
-        setVector(&work->direction,
-                  work->target.vx - work->matrices[0].t[0],
-                  work->target.vy - work->matrices[0].t[1],
-                  work->target.vz - work->matrices[0].t[2]);
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrices[0].t[0],
+                  work->aim.target.vy - work->matrices[0].t[1],
+                  work->aim.target.vz - work->matrices[0].t[2]);
         if (work->config->spiral == 1) {
             for (i = 0, angle = -1024; i < work->config->count;
                  i++, angle = (i << 12) / work->config->count - 1024) {
                 setVector(&work->points[i], work->matrices[0].t[0] + (rcos(angle) * 24 >> 12),
                           work->matrices[0].t[1] + (rsin(angle) * 24 >> 12) - 64,
                           work->matrices[0].t[2] + side * 16);
-                setVector(&work->directions[i], work->target.vx - work->points[i].vx,
-                          work->target.vy - work->points[i].vy,
-                          work->target.vz - work->points[i].vz);
+                setVector(&work->directions[i], work->aim.target.vx - work->points[i].vx,
+                          work->aim.target.vy - work->points[i].vy,
+                          work->aim.target.vz - work->points[i].vz);
             }
         } else if (work->config->mode == 1) {
             for (i = 0; i < work->config->count; i++) {
@@ -308,9 +308,9 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                     Model_TransformPartVertex(work->slot, work->config->parts[2],
                                               work->config->vertices[2], &work->points[i]);
                 }
-                setVector(&work->directions[i], work->target.vx - work->points[i].vx,
-                          work->target.vy - work->points[i].vy,
-                          work->target.vz - work->points[i].vz);
+                setVector(&work->directions[i], work->aim.target.vx - work->points[i].vx,
+                          work->aim.target.vy - work->points[i].vy,
+                          work->aim.target.vz - work->points[i].vz);
             }
         } else {
             GsGetLwUnit(work->parts[1], &work->matrices[1]);
@@ -337,9 +337,9 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             work->points[5].vy = work->matrices[5].t[1];
             work->points[5].vz = work->matrices[5].t[2];
             for (i = 0; i < work->config->count; i++) {
-                setVector(&work->directions[i], work->target.vx - work->points[i].vx,
-                          work->target.vy - work->points[i].vy,
-                          work->target.vz - work->points[i].vz);
+                setVector(&work->directions[i], work->aim.target.vx - work->points[i].vx,
+                          work->aim.target.vy - work->points[i].vy,
+                          work->aim.target.vz - work->points[i].vz);
             }
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());
@@ -348,17 +348,17 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                      &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = (u16)projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;
-        work->screen_delta.vx = dx;
-        work->screen_delta.vy = dy;
+        work->aim.screen_delta.vx = dx;
+        work->aim.screen_delta.vy = dy;
         GsGetLwUnit(work->parts[0], &work->matrices[0]);
-        work->direction.vx = work->target.vx - work->matrices[0].t[0];
-        work->direction.vy = work->target.vy - work->matrices[0].t[1];
-        work->direction.vz = work->target.vz - work->matrices[0].t[2];
+        work->aim.direction.vx = work->aim.target.vx - work->matrices[0].t[0];
+        work->aim.direction.vy = work->aim.target.vy - work->matrices[0].t[1];
+        work->aim.direction.vz = work->aim.target.vz - work->matrices[0].t[2];
         if (work->config->start <= work->clock.frame) {
             SpanishModelVariant459_DrawPairedSheets((u8 *)point);
         }

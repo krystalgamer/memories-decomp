@@ -42,16 +42,16 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant628_szWorkSizeFormat, sizeof(Model628State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant628_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant628_aImages[2]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -76,7 +76,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->balls[i].u = 0;
             work->balls[i].v = 0x60;
             setVector(&work->balls[i].scale, 0x1000, 0x1000, 0x1000);
-            setVector(&work->balls[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->balls[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
                 setVector(&work->balls[i].velocity, -20, 2, 7);
@@ -99,10 +99,10 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->sparks[i][0].u = 0;
             work->sparks[i][0].v = 0;
             setVector(&work->sparks[i][0].scale, 0x1000, 0x1000, 0x1000);
-            setVector(&work->sparks[i][0].rotation, 0, work->slot * 2048, 0);
-            setVector(&rotation, (work->slot * 2 - 1) * 0x28000 / 360, 0, 0);
+            setVector(&work->sparks[i][0].rotation, 0, work->head.slot * 2048, 0);
+            setVector(&rotation, (work->head.slot * 2 - 1) * 0x28000 / 360, 0, 0);
             setVector(&vec, rsin((i << 12) / work->spark_count) * 10 / 4096,
-                rcos((i << 12) / work->spark_count) * 10 / 4096, -((work->slot * 2 - 1) * 10));
+                rcos((i << 12) / work->spark_count) * 10 / 4096, -((work->head.slot * 2 - 1) * 10));
             RotMatrix(&rotation, &m);
             ApplyMatrixLV(&m, &vec, &work->sparks[i][0].velocity);
             switch (command) {
@@ -126,7 +126,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->domes[i][0].u = 0;
             work->domes[i][0].v = 0x20;
             work->domes[i][0].stage = 0;
-            setVector(&work->domes[i][0].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->domes[i][0].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i][0].velocity, 0, 0, 0);
             switch (command) {
             case 0:
@@ -153,7 +153,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             work->bursts[i][0].blue = gModelVariant628_aConfigs[command].blue;
             work->bursts[i][0].u = 0;
             work->bursts[i][0].v = 0x20;
-            setVector(&work->bursts[i][0].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i][0].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bursts[i][0].velocity, 0, 0, 0);
             switch (command) {
             case 0:
@@ -189,17 +189,17 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed != 0) {
+            if (work->head.elapsed != 0) {
                 break;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 0xC);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xC);
             GsGetLwUnit(&unit, &ls);
             work->balls[0].active = 1;
             work->balls[0].position.vx += ls.t[0];
             work->balls[0].position.vy += ls.t[1];
-            work->balls[0].position.vz += ls.t[2] * -(work->slot * 2 + -1);
+            work->balls[0].position.vz += ls.t[2] * -(work->head.slot * 2 + -1);
             for (i = 0; i < work->spark_count; i++) {
                 work->sparks[i][0].active = 1;
                 work->sparks[i][0].position.vx += ls.t[0];
@@ -216,7 +216,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->balls[i].scale);
-                RotMatrixX(work->balls[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
+                RotMatrixX(work->balls[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1),
                     &unit.matrix);
                 RotMatrixY(work->balls[i].rotation.vy + (0xC06 - *(s16 *)&view.bytes[2]), &unit.matrix);
                 unit.matrix.t[0] = work->balls[i].position.vx;
@@ -225,7 +225,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         / (work->balls[i].duration * (work->balls[i].velocity.vy << 1))
                     + work->balls[i].velocity.vx * work->balls[i].elapsed + work->balls[i].position.vy;
                 unit.matrix.t[2] = ((work->balls[i].position.vz + 450) * work->balls[i].elapsed
-                        / work->balls[i].duration - work->balls[i].position.vz) * (work->slot * 2 - 1);
+                        / work->balls[i].duration - work->balls[i].position.vz) * (work->head.slot * 2 - 1);
                 unit.super = work->balls[i].coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
@@ -268,7 +268,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                     unit.matrix = GsIDMATRIX;
                     ScaleMatrix(&unit.matrix, &work->sparks[i][j].scale);
                     RotMatrixX(work->sparks[i][j].rotation.vx
-                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1),
+                            - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1),
                         &unit.matrix);
                     RotMatrixY(work->sparks[i][j].rotation.vy + (0xC06 - *(s16 *)&view.bytes[2]), &unit.matrix);
                     unit.matrix.t[0] = work->sparks[i][j].position.vx;
@@ -357,19 +357,19 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                     }
                     n = work->domes[i][j].duration / 3;
                     if (work->domes[i][j].duration * 2 / 3 < work->domes[i][j].elapsed) {
-                        fade = gModelVariant628_aConfigs[work->command].red / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].red / (n - 1) * step;
                         if (fade < work->domes[i][j].red) {
                             work->domes[i][j].red -= fade;
                         } else {
                             work->domes[i][j].red = 0;
                         }
-                        fade = gModelVariant628_aConfigs[work->command].green / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].green / (n - 1) * step;
                         if (fade < work->domes[i][j].green) {
                             work->domes[i][j].green -= fade;
                         } else {
                             work->domes[i][j].green = 0;
                         }
-                        fade = gModelVariant628_aConfigs[work->command].blue / (n - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].blue / (n - 1) * step;
                         if (fade < work->domes[i][j].blue) {
                             work->domes[i][j].blue -= fade;
                         } else {
@@ -417,7 +417,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                             }
                         }
                     }
-                    if (work->flags[0] < work->burst_count && work->flags[0] * 20 < work->elapsed
+                    if (work->flags[0] < work->burst_count && work->flags[0] * 20 < work->head.elapsed
                         && work->domes[i][j].elapsed < work->domes[i][j].duration * 4 / 5) {
                         work->bursts[work->flags[0]][j].active = 1;
                         work->bursts[work->flags[0]][j].position = work->domes[i][j].position;
@@ -462,21 +462,21 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
                         /* Reading each colour before its fade step keeps the
                          * burst address ahead of the table lookup. */
                         color = work->bursts[i][j].red;
-                        fade = gModelVariant628_aConfigs[work->command].red / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].red / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].red -= fade;
                         } else {
                             work->bursts[i][j].red = 0;
                         }
                         color = work->bursts[i][j].green;
-                        fade = gModelVariant628_aConfigs[work->command].green / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].green / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].green -= fade;
                         } else {
                             work->bursts[i][j].green = 0;
                         }
                         color = work->bursts[i][j].blue;
-                        fade = gModelVariant628_aConfigs[work->command].blue / (work->bursts[i][j].duration / 2 - 1) * step;
+                        fade = gModelVariant628_aConfigs[work->head.command].blue / (work->bursts[i][j].duration / 2 - 1) * step;
                         if (fade < color) {
                             work->bursts[i][j].blue -= fade;
                         } else {
@@ -548,7 +548,7 @@ s32 ModelVariant628_HandleRequest(u8 *context, s32 command)
             result = 1;
             work->flags[4] = 2;
         }
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->count * (1 + work->spark_count + work->dome_count + work->burst_count)) {
             result = 2;
         }

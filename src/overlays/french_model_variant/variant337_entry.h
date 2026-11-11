@@ -2,14 +2,11 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT337_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/model_variant/model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
 /* Entry initialization views; the accepted renderers retain their own views. */
@@ -50,10 +47,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_CBC[0xCCC - 0xCBC];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant337EntryConfig *config;
     u32 field_D38;

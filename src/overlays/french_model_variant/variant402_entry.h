@@ -2,14 +2,11 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT402_ENTRY_H
 #include "../../types.h"
 #include "variant402_bands.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
 typedef struct {
@@ -45,10 +42,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_7C8[0x814 - 0x7C8];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant402EntryConfig *config;
     u32 field_880;

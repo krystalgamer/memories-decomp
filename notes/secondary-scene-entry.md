@@ -56,7 +56,7 @@ different native identity and is not substituted.
 
 ## Preservation boundary
 
-Canonical declarations are isolated in `secondary_scene_commands.h`.
+Canonical declarations are isolated in `duel_effect_text.h` (formerly `secondary_scene_commands.h`).
 All pre-existing headers, every overlay C body, existing test files and
 overlay metadata remain unchanged. There is no overlay implementation
 rewrite, new allocation, validation, guard, timeout or frame advance.

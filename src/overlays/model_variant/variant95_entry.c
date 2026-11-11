@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant95_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 95's entry: a textured sphere grows on one of the slot's parts and

@@ -15,7 +15,7 @@ reads `matrix.t[1]` at coordinate offset `0x1C` and adds 300. The three
 `flat_lights` entries have the `GsF_LIGHT` size/layout, `ambient_rgb_scale` supplies
 the three ambient words, and `is_active` is the active byte.
 
-`Model_GetLightSourceMatrix` is owned by `screen_projection.h`, already included by its
+`Model_GetLightSourceMatrix` is owned by `model_slot_support.h` (formerly `screen_projection.h`), already included by its
 definition in `model_slot_support.c`. Its existing return type is `void *`,
 and its body returns `&gGraphics_LightSourceMatrix`, a real SDK `MATRIX`. Conversion to the
 `MATRIX *` parameter of `GsSetLsMatrix` is an ordinary C object-pointer
@@ -24,7 +24,7 @@ conversion, not an inferred alternate ABI.
 ## Supported inputs and producers
 
 The selected model record is the complete `0xB2` bytes described by
-`model_graphics_state.h`. `Model_SetSlotProperties`, in
+`model_slot_getters.h` (formerly `model_graphics_state.h`). `Model_SetSlotProperties`, in
 `model_scene_controllers.c`, selects it from `gModel_abBackgroundRecords` using stride `0xB2`.
 The owning `display_object_stream_read_next_command.c` defines 1,248 bytes: seven complete
 records and two trailing bytes. Their initialized texture depth codes are
@@ -59,7 +59,7 @@ arbitrary corrupt records, null pointers, or oversized table lengths are safe.
 `.sdata` owner remains `model_graphics_state.c`; the historical COMMON
 definition in `func_8004E7B0.c` remains COMMON under its existing named
 compiler profile. The latter still resolves to the strong owner rather than
-allocating a second handle. The declaration in `model_graphics_state.h`
+allocating a second handle. The declaration in `model_slot_getters.h` (formerly `model_graphics_state.h`)
 forward-declares the record tag so unrelated graphics users need not import
 the complete model-background layout.
 
@@ -103,7 +103,7 @@ conditions are added or relaxed.
 The source uses actual ILP32 SDK types: five `CVECTOR` colours, eight
 `SVECTOR` vertices, one `GsSPRITE`, three `POLY_G4` packets, four `long`
 projection outputs, and the `BackgroundNormals` wrapper owned by
-`src/game/model_background.h`. The 20-byte automatic colour
+`src/game/model.h`. The 20-byte automatic colour
 initializer precedes a function-local 16-byte static normal initializer, then
 the automatic aggregate copy. Keeping that sequence preserves the private
 36-byte data region and the retail stack frame. A direct automatic normal

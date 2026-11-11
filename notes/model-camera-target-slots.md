@@ -38,7 +38,7 @@ Every region, Japan included, now exports the shared
 `Model_SetCameraTargetSlots` name at its own address; the Japanese
 adapters no longer alias it to an address name.
 
-The owner declaration remains in `model_effect_requests.h`. Complete
+The owner declaration remains in `model_scene_runtime.h` (formerly `model_effect_requests.h`). Complete
 implementation/caller/adapter comparisons retain every token except the
 identifier. No source move, profile, stored layout, SDK/overlay
 implementation, integer-address ABI or guest-pointer cast changes.

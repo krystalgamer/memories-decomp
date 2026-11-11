@@ -65,18 +65,18 @@ extern u16 gText_StagedStringId;
 extern u8 gText_abColorSlots[];
 
 /* The Shift-JIS key table: four-byte entries whose low halfword is the key.
- * Text_SjisToGlyphCodes (text_sjis_to_glyph_codes.c) walks it from entry 1
+ * Text_SjisToGlyphCodes (frontend_package_stages.c) walks it from entry 1
  * for a non-zero key, compares the low halfword against each source
  * halfword, stops at a zero word, and emits the entry index as the glyph
  * code; TextBox_BuildStep (text_box_build_step.c) reads packed at a
  * script byte's index and masks it with 0x8FF0FFFF.
  * TextBox_UpdateChannels (text_box_runtime.c) reads bits 0-2 of halves.upper;
- * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
+ * Text_InitDecimalDigitGlyphMap (text_helpers.c) reaches entry 1 under its own name,
  * gText_aGlyphSearchEntries, with a const that its note explains. Spelling
  * that as gText_aGlyphLookup + 1 (cast to const, or through a const arm of
  * this declaration) does not match: GCC 2.8.1 treats symbol+4 differently
  * from a separate symbol, which swaps t3/t4 or adds a register move (+8
- * bytes). The separate label is a measured exception. 0x174 bytes to D_801D9174,
+ * bytes). The separate label is a measured exception. 0x174 bytes to gText_aGlyphRecordBitmaps,
  * 93 entries; the first word is zero in the image and no C unit writes the table.
  * Retail reaches it through %hi/%lo at every
  * site, which an incomplete array gives at any -G, so no unit needs an arm. */

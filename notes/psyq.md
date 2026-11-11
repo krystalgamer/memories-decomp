@@ -1441,7 +1441,7 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 
 Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
-migrations include `duel_scene.c`, `card_preview_handle_resource_transfer.c`,
+migrations include `duel_scene.c`, `card_preview.c`,
 `file_cd_helpers.c`, `model_slot_control.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `MainMenu_DrawValueSetup` in `value_setup.c` (formerly
@@ -1527,7 +1527,7 @@ without changing how the function pointer is installed.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
-callers, `duel_scene.c` and `card_preview_handle_resource_transfer.c`, use that interface.
+callers, `duel_scene.c` and `card_preview.c`, use that interface.
 `model_slot_control.c` likewise uses the shared `LoadImage2` prototype while
 retaining rectangle-compatible local storage. Other image-transfer callers
 may retain local record views where an SDK structure changes exact code
@@ -1980,7 +1980,7 @@ For one continuously held button starting from a zero counter and a unit
 increment on every update, the per-button generator emits on updates
 `1, 24, 28, 32, 36, ...`. The subsequent spacing is four updates, not twenty.
 This calculation precedes the saved-event merge and does not establish a
-frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
+frame or millisecond interval: `gGraphics_nBaseFrameStep` supplies the increment, and byte
 truncation occurs before the threshold comparison.
 
 The game-side consumers `Duel_UpdateCardUseConfirmation` and `DebugMenu_Update` use the named

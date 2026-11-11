@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "main_frame.h"
+#include "main.h"
 #include "file_transfer.h"
 
 void File_WaitForTransfers(void) {

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant770_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The burst CLUT differs by region; the North American wrappers set 0x3D20. */
 #ifndef VARIANT770_BURST_CLUT

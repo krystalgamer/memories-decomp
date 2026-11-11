@@ -48,14 +48,31 @@ live `gCampaignMap_` globals, and the raw callees stay unchanged. The US
 | `0x80169E54` | `D_80169E54` | `gCampaignMapAlt_aLocationTable` | Sixteen 66-byte `AlternateLocation` records indexed by the current location |
 | `0x8016A278` | `D_8016A278` | `gCampaignMapAlt_pLocationMarker` | Created for locations `>= 10`, receives the record's `a`/`b` pair, released and cleared below 10 |
 | `0x8016A29C` | `D_8016A29C` | `gCampaignMapAlt_bTransitionFlags` | Set after a new location is picked; while set the controller waits on the raw transition call, then clears it and rebuilds |
+| `0x8016A288` | `D_8016A288` | `gCampaignMapAlt_pSpotlight` | Its `f8` bit `0x40` toggles on input bit 4; same state offset and `0x40` flag as `gCampaignMap_pSpotlight` (below) |
 | `0x8016A2B8` | `D_8016A2B8` | `gCampaignMapAlt_MoveState` | The exit picker stores `24` or the exit's step byte before returning a destination |
 | `0x8016A2BC` | `D_8016A2BC` | `gCampaignMapAlt_Location` | Indexes the table, compared against 10, overwritten by a picked destination, stored `+ 32` into `D_800C4D82` on entry |
 | `0x8016A2BD` | `D_8016A2BD` | `gCampaignMapAlt_bEnterSceneState` | Set to 1 when the picker returns the location with bit `0x8000`; bit 0x80 latches its one-time setup block |
 | `0x8016A2C8` | `D_8016A2C8` | `gCampaignMapAlt_LocationPrev` | Receives the current location before each exit pick |
 
-`D_8016A288` (an object whose `0x40` flag toggles on input bit 4) and
-`D_8016A2C9` (a toggle that diverts the controller to a raw call) have no
-live counterpart and keep their offset names. `notes/semantic-symbol-map.csv`
+The named alternate state sits at a uniform `+0xCB0` from the live state in
+both orderings: US `gCampaignMap_pLocationMarker`/`gCampaignMap_pSpotlight`
+at `0x801695C8`/`0x801695D8` against `0x8016A278`/`0x8016A288`, and Europe at
+`0x801695F0`/`0x801695FC` against `0x8016A2A0`/`0x8016A2AC`; the transition
+flags, move state, location, enter-scene and previous-location bytes keep the
+same displacement in both regions. `gCampaignMapAlt_pSpotlight` is therefore
+the alternate copy of the spotlight slot, and its only alternate use, toggling
+bit `0x40` of `f8`, is the same bit `CampaignMap_SetLocation` clears and
+`CampaignMap_UpdateLocationTransition` sets on `gCampaignMap_pSpotlight`. The
+alternate controller never creates that object, so whether it is valid at
+runtime remains unproved.
+
+`D_8016A2C9` (a toggle that diverts the controller to a raw call) is the
+`+0xCB0` copy of the live `D_80169619`, but that live byte is only cleared by
+`CampaignMap_SetLocation` and the raw diverted call is unresolved, so both
+keep their offset names. The unconsumed alternate words and padding
+(`D_8016A274`, `D_8016A27C`, `D_8016A28C`, `D_8016A29D`, `D_8016A29E`,
+`D_8016A2A0`, `D_8016A2BE`, `D_8016A2C0`) also keep offset names; several are
+arrays spanning more than one live counterpart. `notes/semantic-symbol-map.csv`
 records each name once per overworld image.
 
 ## Equal bytes do not identify one object

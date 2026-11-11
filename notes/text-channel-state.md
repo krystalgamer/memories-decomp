@@ -3,7 +3,7 @@
 The four records initialized by `DuelEffect_InitEntry`, reset by
 `DuelEffect_ResetState` and pumped by `TextBox_UpdateChannels` are
 `gText_aChannels`. This is the existing channel pool, not a new allocation.
-`text_channel_state.h` provides canonical declarations without changing any
+`duel_effect_text.h` (formerly `text_channel_state.h`) provides canonical declarations without changing any
 existing header or frozen overlay C.
 
 ## Native views and storage
@@ -18,11 +18,11 @@ exist. Every Japanese unit that touches the pool therefore defines
 `VERSION_JAPAN`, and native strides follow `sizeof(DuelEffectChannel)`.
 
 Canonical includes follow the original selector-dependent declarations.
-Moving `duel_effect.h` ahead of existing per-source selector macros can change
+Moving `duel_effect_states.h` (formerly `duel_effect.h`) ahead of existing per-source selector macros can change
 old-GCC external-symbol directives even when the C instruction text looks
 unchanged; complete compiler and MASPSX output must both be preserved.
 
-Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect.h`,
+Channels 1-3 are reached through `TEXT_CHANNEL(index)` in `duel_effect_states.h` (formerly `duel_effect.h`),
 which is `&gText_aChannels[index]` with the regional record size. The
 constant offset folds into the
 relocation exactly as the former per-channel names (`D_800EB15C`,

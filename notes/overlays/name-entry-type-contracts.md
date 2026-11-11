@@ -76,7 +76,7 @@ field. The resident compactor copies whole `0x1C`-byte entries with aligned
 word loads/stores; the existing size, four-byte alignment and field-offset
 assertions move with it. `TextBox_GetGlyphAt` constrains the signed XY pair,
 glyph code and active flag that name-entry consumes. The declaration and
-APIs for the separate `DuelEffectChannel` stay in `duel_effect.h`.
+APIs for the separate `DuelEffectChannel` stay in `duel_effect_states.h` (formerly `duel_effect.h`).
 
 `NameEntryStarterDeckPool` likewise moves unchanged. Its first halfword is
 the draw count; the following `CARD_COUNT` halfwords are weights; 18 trailing

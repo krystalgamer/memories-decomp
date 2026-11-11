@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "effect_6.h"
 #include "display_quads.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 typedef struct {
     u8 color[3];

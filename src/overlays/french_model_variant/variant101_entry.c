@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant101_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 const VECTOR gFrenchModelVariant101_UnitScale = {4096, 4096, 4096, 0};
 

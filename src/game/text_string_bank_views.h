@@ -7,7 +7,7 @@
  * The Japanese lookup selects gText_GlobalStringOffsets for ids with bit 15 set and
  * gText_PrimaryStringOffsets otherwise, using a narrower bank-address mask.
  *
- * text_lookup_string.c resolves a string id by masking a bank's own address
+ * Text_LookupString (text_helpers.c) resolves a string id by masking a bank's own address
  * with TEXT_BANK_ADDRESS_MASK and ORing a halfword read out of it, so the
  * banks are both the addressing base and the table.
  *

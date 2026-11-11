@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "variant402_entry.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
@@ -49,10 +49,7 @@ typedef struct {
     u8 unknown_1AD0[0x38];
     GsGLINE line;
     MATRIX matrix, second_matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation, step;
     s32 fade;

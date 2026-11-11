@@ -1,19 +1,8 @@
 #include "../types.h"
-#include "secondary_scene_commands.h"
-#include "duel_effect_command.h"
+#include "duel_effect_text.h"
 #include "duel_effect_command_table.h"
-#include "text_control_commands.h"
-#include "duel_effect_object_commands.h"
-#include "duel_effect_fade_out_bgm_command.h"
 #include "text_stream_commands.h"
-#include "duel_effect_sound_commands.h"
-#include "duel_effect_play_sound_command.h"
-#include "../unmatched.h"
-#include "text_start_campaign_duel.h"
-#include "display_object_fade_callbacks.h"
-#include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
-#include "european_glyph_fade_callbacks.h"
 
 /* Initialized data at 0x80090EAC: three adjacent dispatch tables.
  *

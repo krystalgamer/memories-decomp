@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant129_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry is a relative of the header-118 entry. Up to sixteen points each
  * follow one of the slot's parts until their start time, then draw a growing,

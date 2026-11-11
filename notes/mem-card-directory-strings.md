@@ -23,7 +23,7 @@ or assigning one name to the other.
 Under its existing diagnostic flag, `MemCardWork_UpdateOperation` prints
 each directory-entry address using the `"%s\n"` format. The SDK
 `DIRENTRY.name` member starts at offset zero, as independently asserted by
-`mem_card_directory.h`. The same path prints the selected work slot's
+`mem_card_driver.h` (formerly `mem_card_directory.h`). The same path prints the selected work slot's
 free-block byte using `"\nFREE %d\n\n"`. Its argument is not the global
 free-block word directly; the existing narrowing and snapshot remain.
 

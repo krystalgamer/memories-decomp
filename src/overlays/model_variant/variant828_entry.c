@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant828_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 828's entry: one of three camera sequences, picked at random, follows
  * the slot while a fan of light rays opens in front of it and fades, sparks

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant756_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 756's entry, an extension of the header-766 entry: the same gouraud
  * trail, stars, sparks and light columns, plus a cloud of animated smoke

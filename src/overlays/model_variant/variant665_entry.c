@@ -2,7 +2,7 @@
 #include "variant665_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 665's entry: rings of shaded strips fly out of the slot while
  * quads rise from model points, sparks fall from another point, a burst
@@ -44,14 +44,14 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant665_szWorkSizeFormat, sizeof(Model665State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
         work->focal = 100;
         work->strip_u[1] = 0x30;
         work->strip_u[2] = 0x60;
         work->strip_u[3] = 0x90;
-        work->elapsed = 0;
+        work->head.elapsed = 0;
         work->fade_in = 0;
         work->fade_out = 0;
         work->fade_state = 0;
@@ -62,26 +62,26 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
         work->strip_v[3] = 0;
         work->strip_u[4] = 0xC0;
         work->strip_v[4] = 0;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[4]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[6]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[7]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[8]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[6]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[7]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[8]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[3]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[3]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[0]);
         work->tpage[4] = tex >> 16;
         work->clut[4] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant665_aImages[9]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant665_aImages[9]);
         work->tpage[5] = tex >> 16;
         work->clut[5] = tex;
         switch (command) {
@@ -128,7 +128,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                 setVector(&work->rising[i][j].scale, 0x1000, 0x1000, 0x1000);
                 setVector(&work->rising[i][j].growth, rsin(n) * 100 / 4096, rcos(n) * 100 / 4096,
                     -(work->direction * 400));
-                setVector(&work->rising[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->rising[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->rising[i][j].position, 0, 0, 0);
             }
         }
@@ -160,7 +160,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
         work->burst.v = 0x80;
         setVector(&work->burst.scale, 0x1000, 0x1000, 0x1000);
         setVector(&work->burst.growth, 0, 0, 0);
-        setVector(&work->burst.rotation, 0, work->slot * 2048, 0);
+        setVector(&work->burst.rotation, 0, work->head.slot * 2048, 0);
         setVector(&work->burst.position, 0, 0, 0);
         for (i = 0; i < work->fan_count; i++) {
             work->fans[i].active = 0;
@@ -174,7 +174,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             work->fans[i].v = 0x80;
             setVector(&work->fans[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->fans[i].growth, 0, 0, 0);
-            setVector(&work->fans[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->fans[i].rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
                 work->fans[i].duration = 0x20;
@@ -240,11 +240,11 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
     }
     if (work->fade_state == 0) {
         work->fade_in += step;
-        if (gModelVariant665_aConfigs[work->command].fade < work->fade_in) {
-            work->fade_in = gModelVariant665_aConfigs[work->command].fade;
+        if (gModelVariant665_aConfigs[work->head.command].fade < work->fade_in) {
+            work->fade_in = gModelVariant665_aConfigs[work->head.command].fade;
             work->fade_state = 1;
         }
-        n = 0x800 - work->fade_in * 0x1800 / gModelVariant665_aConfigs[work->command].fade;
+        n = 0x800 - work->fade_in * 0x1800 / gModelVariant665_aConfigs[work->head.command].fade;
         if (n < -0x1000) {
             n = -0x1000;
         }
@@ -256,34 +256,34 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->flags[0] * 8 + 6 < work->elapsed && work->flags[0] < work->rows) {
+            if (work->flags[0] * 8 + 6 < work->head.elapsed && work->flags[0] < work->rows) {
                 for (i = 0; i < work->cols; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, i + 31);
+                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 31);
                     GsGetLwUnit(&unit, &ls);
                     work->rising[work->flags[0]][i].active = 1;
                     setVector(&work->rising[work->flags[0]][i].position, ls.t[0], ls.t[1], ls.t[2]);
                 }
                 work->flags[0]++;
             }
-            if (work->elapsed >= 0x75 && work->elapsed < 0x116) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
+            if (work->head.elapsed >= 0x75 && work->head.elapsed < 0x116) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 work->sparks[work->flags[1]].active = 1;
                 work->sparks[work->flags[1]].elapsed = 0;
-                work->sparks[work->flags[1]].color[0] = gModelVariant665_aConfigs[work->command].spark_color[0];
-                work->sparks[work->flags[1]].color[1] = gModelVariant665_aConfigs[work->command].spark_color[1];
-                work->sparks[work->flags[1]].color[2] = gModelVariant665_aConfigs[work->command].spark_color[2];
+                work->sparks[work->flags[1]].color[0] = gModelVariant665_aConfigs[work->head.command].spark_color[0];
+                work->sparks[work->flags[1]].color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1];
+                work->sparks[work->flags[1]].color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2];
                 setVector(&work->sparks[work->flags[1]].position, ls.t[0], ls.t[1] + 70, ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 1);
-                work->sparks[work->flags[1]].rotation.vy = unit.rot.vy + 0x800 - work->slot * 2048;
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+                work->sparks[work->flags[1]].rotation.vy = unit.rot.vy + 0x800 - work->head.slot * 2048;
                 work->flags[1]++;
                 if (work->flags[1] >= work->spark_count) {
                     work->flags[1] = 0;
                 }
             }
-            if (work->elapsed >= 0xA1 && work->flags[5] == 0) {
+            if (work->head.elapsed >= 0xA1 && work->flags[5] == 0) {
                 work->fans[0].active = 1;
                 work->flags[5] = 1;
             }
@@ -291,41 +291,41 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             spawn = 0;
             break;
         case 1:
-            if (work->flags[0] * 10 + 6 < work->elapsed && work->flags[0] < work->rows) {
+            if (work->flags[0] * 10 + 6 < work->head.elapsed && work->flags[0] < work->rows) {
                 for (i = 0; i < work->cols; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, i + 31);
+                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 31);
                     GsGetLwUnit(&unit, &ls);
                     work->rising[work->flags[0]][i].active = 1;
                     setVector(&work->rising[work->flags[0]][i].position, ls.t[0], ls.t[1], ls.t[2]);
                 }
                 work->flags[0]++;
             }
-            if ((work->elapsed >= 0x79 && work->elapsed < 0xC8)
-                || (work->elapsed >= 0x141 && work->elapsed < 0x182)) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
+            if ((work->head.elapsed >= 0x79 && work->head.elapsed < 0xC8)
+                || (work->head.elapsed >= 0x141 && work->head.elapsed < 0x182)) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 work->sparks[work->flags[1]].active = 1;
                 work->sparks[work->flags[1]].elapsed = 0;
-                work->sparks[work->flags[1]].color[0] = gModelVariant665_aConfigs[work->command].spark_color[0];
-                work->sparks[work->flags[1]].color[1] = gModelVariant665_aConfigs[work->command].spark_color[1];
-                work->sparks[work->flags[1]].color[2] = gModelVariant665_aConfigs[work->command].spark_color[2];
+                work->sparks[work->flags[1]].color[0] = gModelVariant665_aConfigs[work->head.command].spark_color[0];
+                work->sparks[work->flags[1]].color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1];
+                work->sparks[work->flags[1]].color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2];
                 setVector(&work->sparks[work->flags[1]].position, ls.t[0], ls.t[1] + 70, ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 1);
-                work->sparks[work->flags[1]].rotation.vy = unit.rot.vy + 0x800 - work->slot * 2048;
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+                work->sparks[work->flags[1]].rotation.vy = unit.rot.vy + 0x800 - work->head.slot * 2048;
                 work->flags[1]++;
                 if (work->flags[1] >= work->spark_count) {
                     work->flags[1] = 0;
                 }
             }
-            if (work->elapsed >= work->flags[5] * 10 + 0xDC && work->flags[5] < work->fan_count) {
+            if (work->head.elapsed >= work->flags[5] * 10 + 0xDC && work->flags[5] < work->fan_count) {
                 work->fans[work->flags[5]].active = 1;
                 work->flags[5]++;
             }
-            if (work->elapsed >= 0xC9 && work->flags[6] == 0) {
+            if (work->head.elapsed >= 0xC9 && work->flags[6] == 0) {
                 work->burst.active = 1;
                 work->flags[6] = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
             GsGetLwUnit(&unit, &ls);
             setVector(&target, ls.t[0], ls.t[1], ls.t[2]);
             Model_SetFrameStepOverride(1);
@@ -336,13 +336,13 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             spawn = 1;
             break;
         }
-        if (spawn == 0 && work->elapsed < gModelVariant665_aConfigs[work->command].ring_until) {
-            if (work->elapsed == 0 || work->flags[3] >= 13) {
+        if (spawn == 0 && work->head.elapsed < gModelVariant665_aConfigs[work->head.command].ring_until) {
+            if (work->head.elapsed == 0 || work->flags[3] >= 13) {
                 work->rings[work->flags[2]].active = 1;
                 work->rings[work->flags[2]].elapsed = 0;
-                work->rings[work->flags[2]].color[0] = gModelVariant665_aConfigs[work->command].ring_color[0];
-                work->rings[work->flags[2]].color[1] = gModelVariant665_aConfigs[work->command].ring_color[1];
-                work->rings[work->flags[2]].color[2] = gModelVariant665_aConfigs[work->command].ring_color[2];
+                work->rings[work->flags[2]].color[0] = gModelVariant665_aConfigs[work->head.command].ring_color[0];
+                work->rings[work->flags[2]].color[1] = gModelVariant665_aConfigs[work->head.command].ring_color[1];
+                work->rings[work->flags[2]].color[2] = gModelVariant665_aConfigs[work->head.command].ring_color[2];
                 work->flags[2]++;
                 if (work->ring_count - 1 < work->flags[2]) {
                     work->flags[2] = 0;
@@ -359,9 +359,9 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].elapsed < work->rings[i].duration / 2) {
                     n = work->rings[i].elapsed * 2;
                     b = work->rings[i].duration;
-                    work->rings[i].color[0] = gModelVariant665_aConfigs[work->command].ring_color[0] * n / b;
-                    work->rings[i].color[1] = gModelVariant665_aConfigs[work->command].ring_color[1] * n / b;
-                    work->rings[i].color[2] = gModelVariant665_aConfigs[work->command].ring_color[2] * n / b;
+                    work->rings[i].color[0] = gModelVariant665_aConfigs[work->head.command].ring_color[0] * n / b;
+                    work->rings[i].color[1] = gModelVariant665_aConfigs[work->head.command].ring_color[1] * n / b;
+                    work->rings[i].color[2] = gModelVariant665_aConfigs[work->head.command].ring_color[2] * n / b;
                 }
                 for (j = 0; j < 16; j++) {
                     setPolyGT4(&work->strip);
@@ -431,9 +431,9 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                     if (work->rising[i][j].duration / 2 < work->rising[i][j].elapsed) {
                         n = (work->rising[i][j].duration - work->rising[i][j].elapsed) * 2;
                         b = work->rising[i][j].duration;
-                        work->rising[i][j].color[0] = gModelVariant665_aConfigs[work->command].rise_color[0] * n / b;
-                        work->rising[i][j].color[1] = gModelVariant665_aConfigs[work->command].rise_color[1] * n / b;
-                        work->rising[i][j].color[2] = gModelVariant665_aConfigs[work->command].rise_color[2] * n / b;
+                        work->rising[i][j].color[0] = gModelVariant665_aConfigs[work->head.command].rise_color[0] * n / b;
+                        work->rising[i][j].color[1] = gModelVariant665_aConfigs[work->head.command].rise_color[1] * n / b;
+                        work->rising[i][j].color[2] = gModelVariant665_aConfigs[work->head.command].rise_color[2] * n / b;
                     }
                     setPolyFT4(&work->flat);
                     work->flat.tpage = work->tpage[1];
@@ -475,9 +475,9 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                 GsSetLsMatrix(&ls);
                 n = work->sparks[i].duration - work->sparks[i].elapsed;
                 b = work->sparks[i].duration;
-                work->sparks[i].color[0] = gModelVariant665_aConfigs[work->command].spark_color[0] * n / b;
-                work->sparks[i].color[1] = gModelVariant665_aConfigs[work->command].spark_color[1] * n / b;
-                work->sparks[i].color[2] = gModelVariant665_aConfigs[work->command].spark_color[2] * n / b;
+                work->sparks[i].color[0] = gModelVariant665_aConfigs[work->head.command].spark_color[0] * n / b;
+                work->sparks[i].color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1] * n / b;
+                work->sparks[i].color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2] * n / b;
                 for (j = 0; j < 2; j++) {
                     setPolyGT4(&work->strip);
                     work->strip.tpage = work->tpage[2];
@@ -537,9 +537,9 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             if (work->burst.elapsed > work->burst.duration * 3 / 4) {
                 n = (work->burst.duration - work->burst.elapsed) * 4;
                 b = work->burst.duration;
-                work->burst.color[0] = gModelVariant665_aConfigs[work->command].spark_color[0] * n / b;
-                work->burst.color[1] = gModelVariant665_aConfigs[work->command].spark_color[1] * n / b;
-                work->burst.color[2] = gModelVariant665_aConfigs[work->command].spark_color[2] * n / b;
+                work->burst.color[0] = gModelVariant665_aConfigs[work->head.command].spark_color[0] * n / b;
+                work->burst.color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1] * n / b;
+                work->burst.color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2] * n / b;
             }
             setPolyFT4(&work->flat);
             work->flat.tpage = work->tpage[3];
@@ -582,9 +582,9 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                 if (work->fans[i].duration / 2 < work->fans[i].elapsed) {
                     n = (work->fans[i].duration - work->fans[i].elapsed) * 2;
                     b = work->fans[i].duration;
-                    work->fans[i].color[0] = gModelVariant665_aConfigs[work->command].spark_color[0] * n / b;
-                    work->fans[i].color[1] = gModelVariant665_aConfigs[work->command].spark_color[1] * n / b;
-                    work->fans[i].color[2] = gModelVariant665_aConfigs[work->command].spark_color[2] * n / b;
+                    work->fans[i].color[0] = gModelVariant665_aConfigs[work->head.command].spark_color[0] * n / b;
+                    work->fans[i].color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1] * n / b;
+                    work->fans[i].color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2] * n / b;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[5];
@@ -636,7 +636,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->ring_count + work->rows * work->cols + work->spark_count + 1 + work->fan_count) {
             if (work->flags[4] == 1) {
                 result = 2;
@@ -644,12 +644,12 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
             }
             if (work->fade_state == 1) {
                 work->fade_out += step;
-                if (gModelVariant665_aConfigs[work->command].fade < work->fade_out) {
-                    work->fade_out = gModelVariant665_aConfigs[work->command].fade;
+                if (gModelVariant665_aConfigs[work->head.command].fade < work->fade_out) {
+                    work->fade_out = gModelVariant665_aConfigs[work->head.command].fade;
                     work->fade_state = 2;
                     work->flags[4] = 1;
                 }
-                n = work->fade_out * 0x1800 / gModelVariant665_aConfigs[work->command].fade - 0x1000;
+                n = work->fade_out * 0x1800 / gModelVariant665_aConfigs[work->head.command].fade - 0x1000;
                 if (n > 0x800) {
                     n = 0x800;
                 }

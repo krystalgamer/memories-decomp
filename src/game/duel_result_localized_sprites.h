@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_RESULT_LOCALIZED_SPRITES_H
 
 #include "../types.h"
-#include "duel_result_outro.h"
+#include "duel_scene.h"
 
 /* Localized duel-result outro sprite tables, one opponent/no-opponent pair
  * per language. DuelScene_UpdateResultOutro selects the pair by the language

@@ -18,7 +18,7 @@ static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte
 
 /* Moves every glow and star to the joint's world position. */
 #define MODEL644_PLACE_ALL(joint)                                                    \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, joint);                \
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, joint);                \
     GsGetLwUnit(&unit, &ls);                                                         \
     for (i = 0; i < work->count[0]; i++) {                                           \
         work->glows[i].active = 1;                                                   \
@@ -38,13 +38,13 @@ static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte
 
 /* Starts the burst under the cursor, then advances the cursor. */
 #define MODEL644_SPAWN_BURST(limit)                                                  \
-    if (work->elapsed < limit) {                                                     \
+    if (work->head.elapsed < limit) {                                                     \
         work->bursts[work->flags[1]].active = 1;                                     \
         work->bursts[work->flags[1]].elapsed = 0;                                    \
         setVector(&work->bursts[work->flags[1]].scale, 0, 0, 0);                     \
-        work->bursts[work->flags[1]].color[0] = gModelVariant644_aConfigs[work->command].color[0];  \
-        work->bursts[work->flags[1]].color[1] = gModelVariant644_aConfigs[work->command].color[1];  \
-        work->bursts[work->flags[1]].color[2] = gModelVariant644_aConfigs[work->command].color[2];  \
+        work->bursts[work->flags[1]].color[0] = gModelVariant644_aConfigs[work->head.command].color[0];  \
+        work->bursts[work->flags[1]].color[1] = gModelVariant644_aConfigs[work->head.command].color[1];  \
+        work->bursts[work->flags[1]].color[2] = gModelVariant644_aConfigs[work->head.command].color[2];  \
         work->flags[1]++;                                                            \
         if (work->flags[1] >= work->count[2]) {                                      \
             work->flags[1] = 0;                                                      \
@@ -83,11 +83,11 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant644_szWorkSizeFormat, sizeof(Model644State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant644_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant644_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {
@@ -121,7 +121,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             setVector(&work->glows[i].unknown_40, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->glows[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->glows[i].rotation, 0, work->head.slot * 2048, 0);
                 break;
             case 1:
             case 2:
@@ -144,7 +144,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             setVector(&work->stars[i].unknown_40, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->stars[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->stars[i].rotation, 0, work->head.slot * 2048, 0);
                 break;
             case 1:
             case 2:
@@ -166,7 +166,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             setVector(&work->bursts[i].scale, 0, 0, 0);
             setVector(&work->bursts[i].unknown_40, 0, 0, 0);
             setVector(&work->bursts[i].rotation, 0,
-                work->slot * 2048 + (i << 12) / work->count[2], 512);
+                work->head.slot * 2048 + (i << 12) / work->count[2], 512);
             /* The "<< 2" factors (and "<< 1" and "value << 2" below) keep
              * GCC from moving the constant onto the radius. */
             setVector(&work->bursts[i].position,
@@ -220,38 +220,38 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed < 250 && work->flags[0] == 0) {
+        if (work->head.elapsed < 250 && work->flags[0] == 0) {
             MODEL644_PLACE_ALL(17);
         }
         MODEL644_TICK();
         MODEL644_SPAWN_BURST(250);
         break;
     case 1:
-        if (work->elapsed < 180 && work->flags[0] == 0) {
+        if (work->head.elapsed < 180 && work->flags[0] == 0) {
             MODEL644_PLACE_ALL(9);
         }
         MODEL644_TICK();
         MODEL644_SPAWN_BURST(180);
         break;
     case 2:
-        if (work->elapsed < 250 && work->flags[0] == 0) {
+        if (work->head.elapsed < 250 && work->flags[0] == 0) {
             MODEL644_PLACE_ALL(3);
         }
         MODEL644_TICK();
         MODEL644_SPAWN_BURST(250);
         break;
     case 3:
-        if (work->elapsed < 100 && work->flags[0] == 0) {
+        if (work->head.elapsed < 100 && work->flags[0] == 0) {
             for (i = 0; i < work->count[0]; i++) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, (i + 1) * 6);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
                 GsGetLwUnit(&unit, &ls);
                 work->glows[i].active = 1;
                 setVector(&work->glows[i].position, ls.t[0], ls.t[1], ls.t[2]);
             }
             for (i = 0; i < work->count[1]; i++) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, (i + 1) * 6);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
                 GsGetLwUnit(&unit, &ls);
                 work->stars[i].active = 1;
                 setVector(&work->stars[i].position, ls.t[0], ls.t[1], ls.t[2]);
@@ -264,20 +264,20 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     PushMatrix();
     view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
         world = GsIDMATRIX;
         break;
     case 1:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 9);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 9);
         GsGetLwUnit(&unit, &world);
         break;
     case 2:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
         GsGetLwUnit(&unit, &world);
         break;
     case 3:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 4);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 4);
         GsGetLwUnit(&unit, &world);
         break;
     }
@@ -301,9 +301,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                  * counter; VALUE holds k + 1 so it lands in retail's s0. */
                 divisor = 4;
                 value = k + 1;
-                red = gModelVariant644_aConfigs[work->command].color[0] * value / divisor;
-                green = gModelVariant644_aConfigs[work->command].color[1] * value / divisor;
-                blue = gModelVariant644_aConfigs[work->command].color[2] * value / divisor;
+                red = gModelVariant644_aConfigs[work->head.command].color[0] * value / divisor;
+                green = gModelVariant644_aConfigs[work->head.command].color[1] * value / divisor;
+                blue = gModelVariant644_aConfigs[work->head.command].color[2] * value / divisor;
                 for (j = 0; j < 8; j++) {
                     setPolyGT4(&work->strip);
                     work->strip.tpage = work->tpage[0];
@@ -359,7 +359,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
             unit.flg = 0;
             unit.matrix = GsIDMATRIX;
             ScaleMatrix(&unit.matrix, &work->stars[i].scale);
-            switch (work->command) {
+            switch (work->head.command) {
             case 0:
             case 2:
             case 3:
@@ -420,9 +420,9 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
                 value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                 /* The divisor is reloaded into DIVISOR, as in 659. */
                 divisor = work->bursts[i].duration;
-                work->bursts[i].color[0] = gModelVariant644_aConfigs[work->command].color[0] * value / divisor;
-                work->bursts[i].color[1] = gModelVariant644_aConfigs[work->command].color[1] * value / divisor;
-                work->bursts[i].color[2] = gModelVariant644_aConfigs[work->command].color[2] * value / divisor;
+                work->bursts[i].color[0] = gModelVariant644_aConfigs[work->head.command].color[0] * value / divisor;
+                work->bursts[i].color[1] = gModelVariant644_aConfigs[work->head.command].color[1] * value / divisor;
+                work->bursts[i].color[2] = gModelVariant644_aConfigs[work->head.command].color[2] * value / divisor;
             }
             value = work->bursts[i].elapsed * 3 * 8192 / work->bursts[i].duration;
             setVector(&work->bursts[i].scale, value, value, value);
@@ -452,7 +452,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->count[0] + work->count[1] + work->count[2]) {
         result = 1;
         if (work->flags[4] == 1) {

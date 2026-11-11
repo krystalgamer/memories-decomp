@@ -6,7 +6,7 @@
 #include "variant411_tube.h"
 #include "../spanish_model_variant/variant411_funnels.h"
 #include "../model_variant/variant411_beams.h"
-#include "../../game/model_get_frame_step.h"
+#include "../../game/model_slot_getters.h"
 
 typedef struct {
     ModelVariantTubeView tubes[1];
@@ -22,10 +22,7 @@ typedef struct {
     POLY_FT4 flat[2];
     u8 unknown_1598[0x4C];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation, step;
     s32 fade;

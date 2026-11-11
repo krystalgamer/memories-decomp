@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_FRAME_H
-#define MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_FRAME_H
-
-void DisplayObject_RenderFrame(void);
-
-#endif

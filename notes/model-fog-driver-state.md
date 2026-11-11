@@ -48,7 +48,7 @@ byte-identical; matching spelling does not imply matching identity.
 
 The legacy colour-command spelling bridge is confined to the overlay-private
 `duel_effects/color_helpers.h`, after the canonical declaration is included.
-It is deliberately not placed in public `sorted_entry.h`, where a global
+It is deliberately not placed in public `sorted_entry_render.h` (formerly `sorted_entry.h`), where a global
 macro could poison the unrelated Japanese alias through include expansion.
 The protected Japanese core translation unit must retain its complete
 compiler/MASPSX output, not merely its source-file hash.
