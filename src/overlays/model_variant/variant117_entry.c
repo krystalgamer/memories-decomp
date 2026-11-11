@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant117_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 117's entry: eight textured sprites fly out from a model part on
  * looping timers, a beam of quads then grows from the part towards the

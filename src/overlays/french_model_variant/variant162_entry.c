@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant162_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* PAL height; the North American wrappers define 240. */
 #ifndef GRAPHICS_DEFAULT_HEIGHT

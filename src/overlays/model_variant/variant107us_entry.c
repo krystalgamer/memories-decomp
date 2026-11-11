@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant107us_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The US header-107 entry: a star burst flashes and fades at the model
  * part, eight textured sprites fly out from the part on looping timers, a

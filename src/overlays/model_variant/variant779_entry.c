@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant779_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 779's entry: two ring-buffer trails that follow four parts of the
  * slot and fade towards their tails, then two bursts in front of the slot,

@@ -625,7 +625,7 @@ adds two more of its own:
   that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
   normalises widths to compare shapes reports them as one record and hides the
   single distinction the header exists to record. Duplication worth collecting
-  looks like what `screen_projection.h` originally collected before the two
+  looks like what `model_slot_support.h` (formerly `screen_projection.h`) originally collected before the two
   proven projection values moved to their single owner in `ygo_types.h`:
   three textually identical spellings of one GTE result, in three files, for
   one address.

@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_slot_state_updates.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"
@@ -14,7 +14,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
-#include "../../game/screen_projection.h"
 
 /* One 0x1A-byte command row: the blade and flash colours, the camera part
  * (0xFF for a fixed point), the number of waves, the blade shape, the slot

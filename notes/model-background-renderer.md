@@ -15,7 +15,7 @@ reads `matrix.t[1]` at coordinate offset `0x1C` and adds 300. The three
 `flat_lights` entries have the `GsF_LIGHT` size/layout, `ambient_rgb_scale` supplies
 the three ambient words, and `is_active` is the active byte.
 
-`Model_GetLightSourceMatrix` is owned by `screen_projection.h`, already included by its
+`Model_GetLightSourceMatrix` is owned by `model_slot_support.h` (formerly `screen_projection.h`), already included by its
 definition in `model_slot_support.c`. Its existing return type is `void *`,
 and its body returns `&gGraphics_LightSourceMatrix`, a real SDK `MATRIX`. Conversion to the
 `MATRIX *` parameter of `GsSetLsMatrix` is an ordinary C object-pointer

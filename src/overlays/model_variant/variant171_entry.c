@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant171_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 171's entry: groups of points spread through a sphere in front of the
  * other slot play an eight-frame texture as wobbling quads that converge on

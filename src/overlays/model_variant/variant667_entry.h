@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "model_variant.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/camera_view.h"
@@ -13,7 +13,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-#include "../../game/model_copy_slot_position.h"
 
 /* ModelVariantCountedElement here: a ribbon, a sprite, a fan or a dome. */
 

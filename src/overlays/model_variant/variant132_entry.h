@@ -3,9 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_copy_slot_position.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"
 #include "../../game/graphics_packet_submission.h"
@@ -13,7 +11,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/string.h"
-#include "../../game/screen_projection.h"
 
 /* One 0x24-byte command row: the orb, spark and flash colours, the ring
  * radius, the orbs' rise per frame and height, the approach swirl radius,

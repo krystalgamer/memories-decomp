@@ -3,8 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_slot_state_updates.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_camera_effects.h"
@@ -16,7 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "../../game/screen_projection.h"
 
 /* One 0x1C-byte command row: the sprite, blade and flash colours, the camera
  * part, the sprite half size, the blade width and height, the slot animation

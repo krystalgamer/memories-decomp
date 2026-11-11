@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant829_entry.h"
 #include "../../game/model_state_setters.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 static const VECTOR gFrenchModelVariant829_UnitScale = {4096, 4096, 4096, 0};
 

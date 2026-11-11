@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant173_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 173's entry: each particle starts at the active slot's position and
  * drifts to a point in front of it, drawn as a row of four spinning cubes

@@ -298,7 +298,7 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 #include "model_handler_registry.h"
 #include "primitive_handler_modes.h"
 #include "model_scene_states.h"
-#include "model_slot_properties.h"
+#include "model_slot_support.h"
 #include "model_camera_effects.h"
 #include "../game/model_draw_slot.h"
 
@@ -590,8 +590,6 @@ done:
 
 #include "model_slot_updates.h"
 
-#include "model_update_coordinate_unit_matrix.h"
-
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
 
 /* The slot data entries at ModelSlot.entries, the record root_coordinate points at
@@ -812,7 +810,6 @@ int Model_IsCameraMoveComplete(int arg)
 
 #include "main.h"
 #include "gpu_packets.h"
-#include "model_slot_properties.h"
 #include "model_has_insufficient_buffer_space.h"
 
 #define MODEL_SLOT_AT_OFFSET(slots, offset) \

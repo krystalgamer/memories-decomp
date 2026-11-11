@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "../../game/model_slot_data.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/gpu_packets.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
