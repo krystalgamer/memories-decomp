@@ -1246,18 +1246,18 @@ u8 *Text_FindRecordById(s32 id) {
     rec = gText_aGlyphRecordBitmaps;
     key = gText_aGlyphRecordKeys;
 
-loop_check:
-    v = key[0] << 8;
-    v |= key[1];
-    if (v == 0) {
-        return 0;
+    for (;;) {
+        v = key[0] << 8;
+        v |= key[1];
+        if (v == 0) {
+            return 0;
+        }
+        if (v == id) {
+            return rec;
+        }
+        key += 2;
+        rec += 0x1E;
     }
-    if (v == id) {
-        return rec;
-    }
-    key += 2;
-    rec += 0x1E;
-    goto loop_check;
 }
 #endif
 
