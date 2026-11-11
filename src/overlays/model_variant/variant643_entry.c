@@ -40,11 +40,11 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant643_aImages[1]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant643_aImages[0]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -256,8 +256,8 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
             }
             for (j = 0; j < 16; j++) {
                 setPolyGT4(&work->strip);
-                work->strip.tpage = work->tpage[0];
-                work->strip.clut = work->clut[0];
+                work->strip.tpage = work->textures.tpage[0];
+                work->strip.clut = work->textures.clut[0];
                 setSemiTrans(&work->strip, 1);
                 setUV4(&work->strip, work->cones[i].head.u, work->cones[i].head.v,
                     work->cones[i].head.u + 31, work->cones[i].head.v,
@@ -380,8 +380,8 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                     work->grid[i][j].head.color[2] = gModelVariant643_aConfigs[work->head.command].color[5] * value / sign;
                 }
                 setPolyFT4(&work->quad);
-                work->quad.tpage = work->tpage[1];
-                work->quad.clut = work->clut[1];
+                work->quad.tpage = work->textures.tpage[1];
+                work->quad.clut = work->textures.clut[1];
                 setSemiTrans(&work->quad, 1);
                 value = 1;
                 setUV4(&work->quad, work->grid[i][j].head.u, work->grid[i][j].head.v,
