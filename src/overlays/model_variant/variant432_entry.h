@@ -22,10 +22,7 @@ typedef struct {
 /* Four 0x380-byte ribbons at the start of the work area. */
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x130];
     s32 start, end, state, count;
 } Variant432EntryRibbon;

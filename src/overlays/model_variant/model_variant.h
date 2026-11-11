@@ -589,13 +589,23 @@ typedef struct {
     VECTOR delta;
 } ModelVariantRibbonTail;
 
-/* One 0x360-byte ribbon: two colours, a scale vector and a position. */
+/* The 0x20-byte style block that follows the 0x220-byte projected spine of
+ * the seventeen-point ribbon records: the inner (spine-side) and outer (edge)
+ * colours, a scale the entries set to 4096, and three members the entries
+ * clear. Header 410's ribbon drawer shades the spine side with `inner` and
+ * the edge with `outer`. The header-321/338 drawer reads `count` as the number
+ * of segments drawn so far, and that entry starts it at -16 * ribbon index. */
+typedef struct {
+    CVECTOR inner, outer;
+    VECTOR scale;
+    s16 field_18, count;
+    s32 field_1C;
+} ModelVariantStripStyle;
+
+/* One 0x360-byte ribbon: its style block and a position. */
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x88];
     VECTOR position;
     u8 unknown_2D8[0x88];
