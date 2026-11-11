@@ -21,13 +21,9 @@ typedef struct {
 } Image9840Command;
 
 typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale, position, growth;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
+    VECTOR growth;
 } Image9840Part;
 
 typedef struct {

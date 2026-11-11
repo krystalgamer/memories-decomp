@@ -25,19 +25,12 @@ typedef struct {
 
 /* One 0x54-byte element: a ring, a ring echo, a burst or a streak. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* Rings only: the next echo slot and the burst-released flag. */
     u16 echo, released;
     /* Streaks only. */
     u8 done, count, unknown_16[2];
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR target;
 } Model669Element;
 

@@ -15,16 +15,9 @@
 
 /* One 0x50-byte element: a flash, a shard, a burst, a ring or a wave. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     u16 ticks, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR target;
 } Model676UsElement;
 
