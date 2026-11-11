@@ -18,7 +18,7 @@
 #include "../../game/duel_effect_set_entry_range_layout.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
-#include "../../game/save_data.h"
+#include "../../game/mem_card.h"
 #include "../../game/player_name_glyphs.h"
 #include "../../game/fade.h"
 #include "name_entry_keyboard.h"

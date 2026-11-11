@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "campaign_flags.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "save_data_workspace.h"
 
 /* A normal query returns the bit mask, not a normalized Boolean. */

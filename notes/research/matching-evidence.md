@@ -6969,7 +6969,7 @@ bytes of text.
 
 `save_data_payload.c` (then `save_data_checksum.c`) / `gSaveData_dwMaskStateLow` and
 `gSaveData_dwMaskStateHigh` are genuinely declared twice, on purpose.
-`save_data.h` wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
+`mem_card.h` (formerly `save_data.h`) wraps its pair in `#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY`
 and the consumer `#define`s that macro immediately before including the header,
 so it can keep its own declarations further down the file, where the comment
 says the source position preserves GCC 2.8.1's allocation in

@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_INIT_SCENE_H
 
 #include "display_object.h"
-#include "save_data.h"
+#include "mem_card.h"
 
 /* The duel entry point, and the two banner display objects it builds.
 

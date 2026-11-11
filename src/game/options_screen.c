@@ -18,7 +18,7 @@ static u32 D_8009B38C;
 #include "display_object_config.h"
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
-#include "data_transfer_request.h"
+#include "mem_card.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "fade.h"

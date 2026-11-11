@@ -590,7 +590,7 @@ before the source was read:
 
 - **A file can opt out of a guarded header declaration.** `save_data_payload.c`
   defines `SAVE_DATA_DECLARE_MASK_STATE_LOCALLY` before including
-  `save_data.h`, so the header's copies are suppressed and its local ones are
+  `mem_card.h` (formerly `save_data.h`), so the header's copies are suppressed and its local ones are
   the only declarations in scope. A scan that does not evaluate the
   preprocessor sees a file redundantly repeating its own header. That file's
   comment records that the local position preserves the register allocation, so

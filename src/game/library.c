@@ -39,7 +39,7 @@ static PADDING_VARIABLE(4);
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "model_slot_control.h"
-#include "save_data.h"
+#include "mem_card.h"
 #include "campaign_flags.h"
 #include "display_object_core.h"
 #include "display_object_layout.h"

@@ -2,7 +2,7 @@
 #define GAME_SAVE_DATA_WORKSPACE_H
 
 #include "../types.h"
-#include "save_data.h"
+#include "mem_card.h"
 
 s32 Library_CheckCardInChest(s32 card_id);
 

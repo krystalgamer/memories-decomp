@@ -490,9 +490,9 @@ paths do not gain a clear. Cancelled or failed requests do not acquire a
 new reset either. Preserve the raw `u8`, full zero/nonzero tests and
 shared lifetime rather than introducing a Boolean, setter or new policy.
 
-The declaration moves from `mem_card.h` to `save_data.h` as one plain
-declaration shared by the main-menu and European effect writers and the
-modal readers. The ownership-only checkpoint reproduces all 940 complete
+The declaration now lives in `mem_card.h`, after its intermediate
+`save_data.h` owner, as one plain declaration shared by the main-menu and
+European effect writers and the modal readers. The ownership-only checkpoint reproduces all 940 complete
 compiler/MASPSX outputs raw-identically before naming.
 
 `DuelEffect_UpdateIdentitySave` names the existing state-table entry four.
@@ -726,7 +726,7 @@ wrappers and the actual frontend/debug reset paths:
 | `0x8009B3ED` | `gSaveData_PairSetupState` | Shared wrapper entry guard, with only bit `0x80` established |
 | `0x8009B3C0` | `gSaveData_PairMessageCode` | Raw paired-workflow presentation byte |
 
-Their declarations belong to `two_player_save_setup.h`, which already
+Their declarations belong to `mem_card.h` (formerly `two_player_save_setup.h`), which already
 owns the duel/trade setup API, rather than the modal-card header.
 `debug_menu.c` explicitly includes that owner; the other
 resident and Main Menu consumers already include it. All three identities
@@ -807,7 +807,7 @@ partway leaves the cards at most one chunk apart.
 
 The `0x680`-byte state contains three independently protected regions.
 `SaveData_CalcCrc16` computes CRC-16/XMODEM with polynomial `0x1021` and a zero
-initial value. `save_data.h` names the polynomial as
+initial value. `mem_card.h` (formerly `save_data.h`) names the polynomial as
 `SAVE_DATA_CRC16_POLYNOMIAL` and the width as `SAVE_DATA_CRC16_BITS`.
 The value mask (`0xFFFF`) and high-bit test (`0x8000`) are derived from that
 width as `SAVE_DATA_CRC16_MASK` and `SAVE_DATA_CRC16_HIGH_BIT`. The writers and
@@ -1218,7 +1218,7 @@ The Japanese and PAL step-three callback is
 It latches the existing callback entered bit once, clears both the transfer
 offset and operation state, raises modal flag `0x100`, and calls
 `MemCardDialog_UpdateSave` on every pass, including the first. Native
-declarations belong to `mem_card_dialog.h`, selected by the existing regional
+declarations belong to `mem_card.h` (formerly `mem_card_dialog.h`), selected by the existing regional
 defines; no replacement owner, adapter or runtime gate is introduced.
 
 | Function | Japan | UK | France / Germany / Italy / Spain |
@@ -1234,7 +1234,7 @@ changes: its C definition, shared declaration and native linker symbol
 already agree on `SaveData_RequestLoad`.
 
 `SaveData_RequestOptionsWrite` takes no arguments. Its existing
-`data_transfer_request.h` owner declares it for Japan only, with no
+`mem_card.h` (formerly `data_transfer_request.h`) owner declares it for Japan only, with no
 assembler label; the Japanese symbols.txt binds the name at `0x8003EFA8`,
 the former native `func_8003EFA8`. The real `Options_Update` caller
 sets its entered bit before calling once in state two, polls

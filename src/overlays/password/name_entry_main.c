@@ -3,7 +3,7 @@
 #include "name_entry_keyboard.h"
 #include "name_entry_starter_deck.h"
 #include "../../game/main.h"
-#include "../../game/save_data.h"
+#include "../../game/mem_card.h"
 #include "../../game/card_constants.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"

@@ -477,10 +477,9 @@ void Script_OpJump(void)
 }
 
 #include "card_constants.h"
-#include "data_transfer_request.h"
+#include "mem_card.h"
 #include "build_deck.h"
 #include "input.h"
-#include "save_data.h"
 
 #include "duel_effect.h"
 #include "text_channel_state.h"
