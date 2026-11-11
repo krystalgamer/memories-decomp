@@ -537,9 +537,11 @@ Six pure-C functions now use the shared declaration:
 ## Typed effect-request allocation and retained ownership
 
 The existing `DuelEffectRequest` layout is a tagged `0x20`-byte record.
-Its forward declaration lets `duel_effect_allocate_request.h` return the
-actual request type without importing the pool globals or creating an
-include cycle. `DuelEffect_AllocateRequest` returns the selected initialized
+Its forward declaration let the former narrow
+`duel_effect_allocate_request.h` return the actual request type without
+importing the pool globals or creating an include cycle. That declaration now
+lives in `duel_effect_object_pool.h`, which also declares the pool globals; the
+tagged forward declaration still avoids the include cycle. `DuelEffect_AllocateRequest` returns the selected initialized
 record or zero when all eight entries are active. Every resident allocation
 caller now receives that type directly; redundant record-cast macros are
 removed, not replaced with new byte-buffer aliases.

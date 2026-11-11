@@ -492,7 +492,7 @@ void Script_OpJump(void)
 #include "duel_effect_entry_control.h"
 #include "dialog_choice.h"
 #include "main_mode_state.h"
-#include "save_data_workspace.h"
+#include "duel_effect_object_pool.h"
 
 #define DISPLAY_OBJECT_X_HALFWORD_INDEX \
     ((u32)&((DisplayObject *)0)->xy.h.x / sizeof(s16))

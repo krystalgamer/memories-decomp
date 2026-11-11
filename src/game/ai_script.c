@@ -1270,7 +1270,7 @@ zero:
     }
 }
 
-#include "duel_check_ritual.h"
+#include "duel_effect_object_pool.h"
 #include "duel_card_checks.h"
 
 void AiScript_FindEquipTarget(void)

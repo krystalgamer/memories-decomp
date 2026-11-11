@@ -2,7 +2,7 @@
 #include "mem_card.h"
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
-#include "save_data_workspace.h"
+#include "duel_effect_object_pool.h"
 
 int Duel_FindPlayerDeckCard(int card_id)
 {

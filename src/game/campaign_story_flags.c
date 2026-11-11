@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "campaign_flags.h"
 #include "mem_card.h"
-#include "save_data_workspace.h"
+#include "duel_effect_object_pool.h"
 
 /* A normal query returns the bit mask, not a normalized Boolean. */
 s32 Campaign_TestStoryFlag(s32 flag)
