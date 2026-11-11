@@ -7736,9 +7736,8 @@ void DuelScene_UpdateResultRewards(void)
             count--;
         } while (count >= 0);
         gDuel_wSelectedCardID = 0;
-        if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0) {
-            if (gDuel_bWinnerSide)
-                goto side_result;
+        if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0 &&
+            !gDuel_bWinnerSide) {
             gDuel_pResultDisplayState->starchip_prize = gDuel_pResultDisplayState->rank_tier + 1;
             score = 2 * (gDuel_pResultDisplayState->is_tec_rank != 0);
             if (gDuel_pResultDisplayState->rank_tier < 3)
@@ -7763,7 +7762,6 @@ void DuelScene_UpdateResultRewards(void)
                 } while (count < gDuel_pResultDisplayState->starchip_prize);
             }
         }
-side_result:
         if (gDuel_bSide0ControllerSelector[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, gDuel_pResultDisplayState->is_tec_rank,
