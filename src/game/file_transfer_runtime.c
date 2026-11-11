@@ -748,48 +748,46 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
     void (*complete_callback)(void);
 
     request = &gFile_ActiveRequestSlot;
-    if (phase_index == 1)
-        goto reduced;
-    if (phase_index >= 2)
-        goto high;
-    if (phase_index == 0)
-        goto full;
-    return;
-high:
-    if (phase_index == 2)
-        goto tail;
-    return;
-full:
-    if (request->spu_transfer_size == 0) {
-        descriptor->phase_index = 2;
-        goto reduced;
+    switch (phase_index) {
+    case 0:
+        if (request->spu_transfer_size == 0) {
+            descriptor->phase_index = 2;
+        } else {
+            descriptor->transfer_mode = 3;
+            sector_buffer = (s32)gFile_TransferBufferBase;
+            descriptor->sector_destination = sector_buffer;
+            descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
+            descriptor->field_30.word = request->spu_destination;
+            phase_size = request->spu_transfer_size;
+            descriptor->phase_size = phase_size;
+            if (phase_size < 0)
+                descriptor->phase_size = -(phase_size << FILE_SECTOR_SHIFT);
+            break;
+        }
+        /* fall through */
+    case 1:
+        if (request->ram_transfer_size == 0) {
+            complete_callback = gFile_SecondaryPayloadCompleteCallback;
+            if (complete_callback != 0)
+                complete_callback();
+            break;
+        }
+        ram_destination = request->ram_destination;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        descriptor->alternate_sector_destination = ram_destination;
+        descriptor->sector_destination = ram_destination;
+        descriptor->transfer_mode = 1;
+        phase_size = request->ram_transfer_size;
+        descriptor->phase_size = phase_size;
+        if (phase_size < 0)
+            descriptor->phase_size = -(phase_size << FILE_SECTOR_SHIFT);
+        break;
+    case 2:
+        complete_callback = gFile_SecondaryPayloadCompleteCallback;
+        if (complete_callback != 0)
+            complete_callback();
+        break;
     }
-    descriptor->transfer_mode = 3;
-    sector_buffer = (s32)gFile_TransferBufferBase;
-    descriptor->sector_destination = sector_buffer;
-    descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
-    descriptor->field_30.word = request->spu_destination;
-    phase_size = request->spu_transfer_size;
-    descriptor->phase_size = phase_size;
-    goto fix;
-reduced:
-    if (request->ram_transfer_size == 0)
-        goto tail;
-    ram_destination = request->ram_destination;
-    gFile_dwTransferState &= 0xFFDCFFFF;
-    descriptor->alternate_sector_destination = ram_destination;
-    descriptor->sector_destination = ram_destination;
-    descriptor->transfer_mode = 1;
-    phase_size = request->ram_transfer_size;
-    descriptor->phase_size = phase_size;
-fix:
-    if (phase_size < 0)
-        descriptor->phase_size = -(phase_size << FILE_SECTOR_SHIFT);
-    return;
-tail:
-    complete_callback = gFile_SecondaryPayloadCompleteCallback;
-    if (complete_callback != 0)
-        complete_callback();
 }
 
 s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
