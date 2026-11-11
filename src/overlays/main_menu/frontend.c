@@ -225,18 +225,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
     if (step != 0) {
         level = gMainMenu_bShadeLevel + (step << 3);
         gMainMenu_bShadeLevel = level;
-        if (step > 0) {
-            if ((s8)level < 0) {
-                goto fade_done;
+        if (!(step > 0 && (s8)level < 0)) {
+            if (step >= 0) {
+                return -1;
+            }
+            if ((u8)level != 0) {
+                return -1;
             }
         }
-        if (step >= 0) {
-            return -1;
-        }
-        if ((u8)level != 0) {
-            return -1;
-        }
-    fade_done:
         if (gMainMenu_nFadeDirection < 0) {
             ent2 = gMainMenu_pStartPrompt;
             ((u8 *)&ent2->rgb)[2] = 0x80;
@@ -305,46 +301,36 @@ s32 MainMenu_UpdateFrontendMenu(void)
         timer = step - 1;
         eloop->field_60 = timer;
         first = (u32)gMain_bMenuID < 5;
-        if (first) {
-            if (i >= 5) {
-                goto hide_entry;
-            }
-        } else {
-            count = i;
-            if (count < 5) {
-                goto hide_entry;
-            }
-        }
-        eloop = (DisplayObject *)*slot;
-        first = eloop->field_38.h.field_38;
-        value = eloop->field_34.h.field_36;
-        delta = first - value;
-        value = eloop->field_60;
-        /* Keep the selector/endpoint scratch live as the phase limit. */
-        first = 0x10;
-        frame = first - value;
-        value = (u16)eloop->field_38.h.field_38;
-        if (frame != first) {
-            product = rsin(frame << 6) * delta;
+        if (first ? i < 5 : i >= 5) {
             eloop = (DisplayObject *)*slot;
-            /* In-place truncation avoids the old compiler's quotient copy. */
-            if (product < 0) {
-                product += 0xFFF;
+            first = eloop->field_38.h.field_38;
+            value = eloop->field_34.h.field_36;
+            delta = first - value;
+            value = eloop->field_60;
+            /* Keep the selector/endpoint scratch live as the phase limit. */
+            first = 0x10;
+            frame = first - value;
+            value = (u16)eloop->field_38.h.field_38;
+            if (frame != first) {
+                product = rsin(frame << 6) * delta;
+                eloop = (DisplayObject *)*slot;
+                /* In-place truncation avoids the old compiler's quotient copy. */
+                if (product < 0) {
+                    product += 0xFFF;
+                }
+                product >>= 12;
+                value = (u16)eloop->field_34.h.field_36 + product;
             }
-            product >>= 12;
-            value = (u16)eloop->field_34.h.field_36 + product;
+            *(volatile s16 *)&eloop->xy.h.x = value;
+            if ((frame & 1) != 0) {
+                MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
+            }
+            ((DisplayObject *)*slot)->flags =
+                ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
+        } else {
+            ((DisplayObject *)*slot)->flags =
+                ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        *(volatile s16 *)&eloop->xy.h.x = value;
-        if ((frame & 1) != 0) {
-            MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
-        }
-        ((DisplayObject *)*slot)->flags =
-            ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
-        goto tick_entry;
-    hide_entry:
-        ((DisplayObject *)*slot)->flags =
-            ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-    tick_entry:
         moved++;
         DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
     next_entry:
