@@ -5471,13 +5471,13 @@
       "address": "0x8004FC0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/main_menu_create_trade_ready_indicator.c"
+      "source": "src/game/trade_confirmation_widgets.c"
     },
     {
       "address": "0x8004FCFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/main_menu_create_trade_decision_menu.c"
+      "source": "src/game/trade_confirmation_widgets.c"
     },
     {
       "address": "0x8004FDEC",
