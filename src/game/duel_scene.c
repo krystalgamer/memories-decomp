@@ -3857,7 +3857,8 @@ request_combination:
                     s32 phase = gDuel_bSceneSubStep;
                     if (phase & 0x20) {
                         phase_clear = phase & 0x9F;
-                        goto finish_effect_step;
+                        gDuel_bSceneSubStep = phase_clear;
+                        return;
                     }
                 }
                 {
@@ -4142,7 +4143,8 @@ void DuelScene_UpdateCardMove(void)
         /* Fall through to the next presentation phase in the same frame. */
     case 2:
         if (object->field_68 >= 0x14) {
-            goto state_four;
+            gDuel_bSceneSubStep = 4;
+            break;
         }
         gDuel_bSceneSubStep = 3;
         /* Fall through to initialize the choice dialog. */
