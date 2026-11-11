@@ -451,9 +451,6 @@ segments:
     - game/european/polygon_renderers
   - - 350564
     - c
-    - game/shared_primitive_cache_prepare
-  - - 350872
-    - c
     - game/shared_polygon_renderers
   - - 361864
     - c
