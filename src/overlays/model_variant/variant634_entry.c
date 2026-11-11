@@ -2,7 +2,7 @@
 #include "variant634_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 634's entry: tilted rings of gouraud bands open one a frame in front
  * of the slot and grow, while a cluster of sparks flashes through four frames
@@ -37,13 +37,13 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model634State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant634_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant634_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant634_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant634_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -82,7 +82,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             switch (command) {
             case 0:
                 setVector(&work->rings[i].rotation, (i % 2 * 2 - 1) * (i / 8 * 0x71000 / 3 * (i % 8) / 8 + 398),
-                    ((i % 8 << 9) + 398) + work->slot * 2048, i % 8 << 9);
+                    ((i % 8 << 9) + 398) + work->head.slot * 2048, i % 8 << 9);
                 setVector(&work->rings[i].position, 0, 0, 0);
                 break;
             case 1:
@@ -92,12 +92,12 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             case 5:
             case 6:
                 setVector(&work->rings[i].rotation, (i % 2 * 2 - 1) * (i / 8 * 0x71000 / 3 * (i % 8) / 8 + 398),
-                    ((i % 8 << 9) + 398) + work->slot * 2048, i % 8 << 9);
+                    ((i % 8 << 9) + 398) + work->head.slot * 2048, i % 8 << 9);
                 setVector(&work->rings[i].position, 0, 0, 0);
                 break;
             }
             work->rings[i].position.vy -= 350;
-            work->rings[i].position.vz += (work->slot * 2 - 1) * 450;
+            work->rings[i].position.vz += (work->head.slot * 2 - 1) * 450;
         }
         for (i = 0; i < work->spark_count; i++) {
             work->sparks[i].active = 0;
@@ -118,7 +118,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             setVector(&work->sparks[i].growth, 0, 0, 0);
             switch (command) {
             case 0:
-                setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i].position,
                     work->radius / 2 * (i % 3 + 1) * rsin(i * 4096 / work->spark_count) / 4096,
                     work->radius / 2 * ((work->spark_count / 2 - i) % 3) * (i % 2 * 2 - 1),
@@ -130,7 +130,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             case 4:
             case 5:
             case 6:
-                setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i].position,
                     work->radius / 2 * (i % 3 + 1) * rsin(i * 4096 / work->spark_count) / 4096,
                     work->radius / 2 * ((work->spark_count / 2 - i) % 3) * (i % 2 * 2 - 1),
@@ -138,7 +138,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
                 break;
             }
             work->sparks[i].position.vy -= 350;
-            work->sparks[i].position.vz += (work->slot * 2 - 1) * 450;
+            work->sparks[i].position.vz += (work->head.slot * 2 - 1) * 450;
         }
         work->delay = gModelVariant634_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
@@ -158,7 +158,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
         case 1:
         case 2:
@@ -170,7 +170,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
                 work->rings[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->spark_count; i++) {
                     work->sparks[i].active = 1;
                 }
@@ -197,11 +197,11 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
                 setVector(&work->rings[i].scale, work->rings[i].elapsed * 0x6000 / work->rings[i].duration,
                     work->rings[i].elapsed * 0x6000 / work->rings[i].duration, work->rings[i].elapsed * 0x6000 / work->rings[i].duration);
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
-                    work->rings[i].red = gModelVariant634_aConfigs[work->command].red
+                    work->rings[i].red = gModelVariant634_aConfigs[work->head.command].red
                         * ((work->rings[i].duration - work->rings[i].elapsed) << 1) / work->rings[i].duration;
-                    work->rings[i].green = gModelVariant634_aConfigs[work->command].green
+                    work->rings[i].green = gModelVariant634_aConfigs[work->head.command].green
                         * ((work->rings[i].duration - work->rings[i].elapsed) << 1) / work->rings[i].duration;
-                    work->rings[i].blue = gModelVariant634_aConfigs[work->command].blue
+                    work->rings[i].blue = gModelVariant634_aConfigs[work->head.command].blue
                         * ((work->rings[i].duration - work->rings[i].elapsed) << 1) / work->rings[i].duration;
                 }
                 for (j = 0; j < 16; j++) {
@@ -248,7 +248,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&unit.matrix, &work->sparks[i].scale);
                 RotMatrixZ(work->sparks[i].rotation.vz, &unit.matrix);
                 RotMatrixX(work->sparks[i].rotation.vx
-                    - (*(s16 *)&view.bytes[4] - 0x1000) * (work->slot * 2 - 1), &unit.matrix);
+                    - (*(s16 *)&view.bytes[4] - 0x1000) * (work->head.slot * 2 - 1), &unit.matrix);
                 angle = 0xC06;
                 RotMatrixY(work->sparks[i].rotation.vy + angle - *(s16 *)&view.bytes[2], &unit.matrix);
                 unit.matrix.t[0] = work->sparks[i].position.vx;
@@ -258,11 +258,11 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 if (work->sparks[i].duration / 2 < work->sparks[i].elapsed) {
-                    work->sparks[i].red = gModelVariant634_aConfigs[work->command].spark_red
+                    work->sparks[i].red = gModelVariant634_aConfigs[work->head.command].spark_red
                         * ((work->sparks[i].duration - work->sparks[i].elapsed) << 1) / work->sparks[i].duration;
-                    work->sparks[i].green = gModelVariant634_aConfigs[work->command].spark_green
+                    work->sparks[i].green = gModelVariant634_aConfigs[work->head.command].spark_green
                         * ((work->sparks[i].duration - work->sparks[i].elapsed) << 1) / work->sparks[i].duration;
-                    work->sparks[i].blue = gModelVariant634_aConfigs[work->command].spark_blue
+                    work->sparks[i].blue = gModelVariant634_aConfigs[work->head.command].spark_blue
                         * ((work->sparks[i].duration - work->sparks[i].elapsed) << 1) / work->sparks[i].duration;
                 }
                 setPolyFT4(&work->flat);
@@ -302,7 +302,7 @@ s32 ModelVariant634_HandleRequest(u8 *context, s32 command)
             result = 1;
             work->flags[4] = 2;
         }
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->ring_count + work->spark_count) {
             result = 2;
         }

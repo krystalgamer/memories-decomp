@@ -165,8 +165,8 @@ step `8` and roughly 48-frame duration are not universal: the final color
 helpers can override a banded request with non-band flags and step `12`.
 
 There is also a bounded frame-advance factor. Matching `Graphics_SyncFrame`
-[`0x80012DB4`] samples the VBlank counter `D_8009B0C8`, takes its low byte,
-and publishes `D_8009B0D8 = 1` when that byte is zero or `2` otherwise.
+[`0x80012DB4`] samples the VBlank counter `gGraphics_dwSyncVBlankCounter`, takes its low byte,
+and publishes `gGraphics_nBaseFrameStep = 1` when that byte is zero or `2` otherwise.
 The band walker multiplies the head advance by this factor, not the unclamped
 level spacing between band pairs: with step `8`, the factor gives an advance of
 `8` or `16` per update. It is not an exact elapsed-time or unlimited
@@ -1035,7 +1035,7 @@ position again that turn. See the
 ### 5.9 The 3-D battle and the "Poly Mode"
 
 The duel's 3-D presentation runs through matching
-[`Main_RunAnimatedBattle`](../../src/game/main_run_animated_battle.c)
+[`Main_RunAnimatedBattle`](../../src/game/main_mode_runners.c)
 (`0x8002D180`). This is a stateful mode tick, not a read-only display of
 two combatants. Every call sets the GTE projection center to `(160, 120)`
 and projection-plane distance to `300`, before testing the initialization
@@ -1396,7 +1396,7 @@ The calculation is not clamped or redefined as cards played; its neighboring
 LP readouts still use the interpolated display value at `+0x12`.
 
 The matching score calculation uses `DUEL_RANK_RULE_*` names from
-`src/game/duel_rank.h` for these ten threshold-table rows. They are not the
+`src/game/duel_scene.h` for these ten threshold-table rows. They are not the
 indices of the sixteen displayed statistics: the raw-stat copy order and
 the score-rule call order remain separate. The same header names the starting
 value as `DUEL_RANK_SCORE_INITIAL` (`50`) and retains
@@ -1415,7 +1415,7 @@ resolution paths write the following byte into the selected winner's
 | Draw exhaustion | `0xD8` | `-40` | Matching [`DuelScene_UpdateDrawResolution`](../../src/game/duel_scene.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
 | Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `DuelScene_UpdateExodiaResult` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
 
-`duel_rank.h` names the two special adjustments as
+`duel_scene.h` (formerly `duel_rank.h`) names the two special adjustments as
 `DUEL_RANK_ADJUST_EXODIA_WIN` (`40`) and `DUEL_RANK_ADJUST_DECK_OUT_WIN`
 (`-40`). They remain separate from `DECK_SIZE`, which names the draw-counter
 limit in `DuelScene_UpdateDrawResolution` despite its equal magnitude. The deck-out writer
@@ -1574,7 +1574,7 @@ using entry `string_id - 0x8000` and bank base `0x801D0000`.
 
 Decoding IDs `0x8329..0x834F` through the executable's glyph-to-Shift-JIS
 table at `0x801D9000` (also used by
-[`Text_SjisToGlyphCodes`](../../src/game/text_sjis_to_glyph_codes.c))
+[`Text_SjisToGlyphCodes`](../../src/game/frontend_package_stages.c))
 agrees with all 39 names above after character-width normalization. Each
 glyph-table entry is four bytes; its low halfword supplies the Shift-JIS
 value. The remaining prose-spacing difference is that the raw strings say
@@ -1986,7 +1986,7 @@ campaign duelist available.
 >   requests the fixed package; callback `Campaign_LoadScenePackageStage`
 >   routes the script phase]. Its argument initializes
 >   `D_8009B2A4`, not a per-scene archive-page address. Matching
->   [`Main_RunCampaign`](../../src/game/main_run_campaign.c) supplies
+>   [`Main_RunCampaign`](../../src/game/main_mode_runners.c) supplies
 >   `gCampaignSceneIndex`; on normal entry, the event driver uses a nonzero
 >   unstarted value to select the corresponding script entry.
 >   The script begins with a `u16 offset[199]`

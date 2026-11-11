@@ -5,7 +5,7 @@
 #include "effect_6.h"
 #include "../../game/duel_card.h"
 #include "../../game/display_object.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/sound.h"
 
 typedef struct {

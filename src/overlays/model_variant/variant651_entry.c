@@ -37,11 +37,11 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant651_szWorkSizeFormat, sizeof(Model651State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant651_Image);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant651_Image);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         switch (command) {
@@ -69,7 +69,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->rings[i].growth, 0, 0, 0);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, (i << 12) / work->ring_count);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, (i << 12) / work->ring_count);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->dome_count; i++) {
@@ -85,7 +85,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->domes[i].v = 0;
             setVector(&work->domes[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->domes[i].growth, 0, 0, (work->height / 2 + 450) * work->direction);
-            setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->domes[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
         for (i = 0; i < 8; i++) {
@@ -101,7 +101,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->cones[i].v = 0;
             setVector(&work->cones[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->cones[i].growth, 0, 0, 0);
-            setVector(&work->cones[i].rotation, 0, work->slot * 2048, i << 9);
+            setVector(&work->cones[i].rotation, 0, work->head.slot * 2048, i << 9);
             setVector(&work->cones[i].position, 0, 0, 0);
             work->cones[i].position.vy -= 350;
             work->cones[i].position.vz += work->direction * 450;
@@ -147,19 +147,19 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
             if (work->flags[0] / 4 < work->ring_count) {
                 if ((work->flags[0] & 3) == 0) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 5);
+                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
                     GsGetLwUnit(&unit, &ls);
                     work->rings[work->flags[0] / 4].active = 1;
                     applyVector(&work->rings[work->flags[0] / 4].position, ls.t[0], ls.t[1], ls.t[2], +=);
                 }
                 work->flags[0]++;
             }
-            if (work->elapsed >= 11 && work->flags[1] == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 5);
+            if (work->head.elapsed >= 11 && work->flags[1] == 0) {
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
                 GsGetLwUnit(&unit, &ls);
                 work->domes[0].active = 1;
                 applyVector(&work->domes[0].position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -173,7 +173,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             break;
         case 1:
             if (work->flags[0] < 7) {
-                if (work->elapsed >= work->flags[0] * 16) {
+                if (work->head.elapsed >= work->flags[0] * 16) {
                     work->cones[work->flags[0]].active = 1;
                     /* The zero x/y adds keep the original's dead loads. */
                     applyVector(&work->cones[work->flags[0]].position, 0, 0, work->direction * 100, +=);
@@ -209,9 +209,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     d = work->rings[i].duration;
-                    work->rings[i].red = gModelVariant651_aConfigs[work->command].red * n / d;
-                    work->rings[i].green = gModelVariant651_aConfigs[work->command].green * n / d;
-                    work->rings[i].blue = gModelVariant651_aConfigs[work->command].blue * n / d;
+                    work->rings[i].red = gModelVariant651_aConfigs[work->head.command].red * n / d;
+                    work->rings[i].green = gModelVariant651_aConfigs[work->head.command].green * n / d;
+                    work->rings[i].blue = gModelVariant651_aConfigs[work->head.command].blue * n / d;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
@@ -327,9 +327,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 if (work->cones[i].duration / 2 < work->cones[i].elapsed) {
                     n = (work->cones[i].duration - work->cones[i].elapsed) * 2;
                     d = work->cones[i].duration;
-                    work->cones[i].red = gModelVariant651_aConfigs[work->command].red * n / d;
-                    work->cones[i].green = gModelVariant651_aConfigs[work->command].green * n / d;
-                    work->cones[i].blue = gModelVariant651_aConfigs[work->command].blue * n / d;
+                    work->cones[i].red = gModelVariant651_aConfigs[work->head.command].red * n / d;
+                    work->cones[i].green = gModelVariant651_aConfigs[work->head.command].green * n / d;
+                    work->cones[i].blue = gModelVariant651_aConfigs[work->head.command].blue * n / d;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
@@ -360,7 +360,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->ring_count + work->dome_count + 8) {
             result = 2;
         }

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant164_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* The entry draws particles that rise from one of the slot's parts, pulse

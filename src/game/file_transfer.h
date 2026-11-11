@@ -182,9 +182,9 @@ extern u32 gFile_dwCancelRequestState;
  * address: MemCardDialog_UpdateSave and MemCardDialog_UpdateTradeSave
  * (mem_card_dialog.c) pass it to MemCardReadFile as the destination of a
  * read whose last argument is 0x480, and compare it as a SaveDataState.
- * Every retail access is an address-take
- * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
- * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
+ * Every retail access is an address-take (one in File_SetPositionTable,
+ * two in each of MemCardDialog_UpdateSave and
+ * MemCardDialog_UpdateTradeSave), so the code says nothing
  * about the object's width; gFile_abPackageStagingBuffer
  * (file_package_staging.h) is named 0x1000 bytes higher and
  * gText_GlyphUploadScratch 0x2000 lower. The three units used to declare it
@@ -319,20 +319,27 @@ extern volatile u16 gFile_ServiceCallGate;
  * is File_ActivateTransfer, now in file_transfer_runtime.c. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
+/* Set to 1 by File_InitTransferState once its DsInit retry loop succeeds;
+ * no direct named reader was found in tracked C/header sources; indirect or
+ * generated/untracked retail accesses are not ruled out. */
+extern s32 gFile_DsInitialized;
+
 /* Loader state defined by file_transfer_runtime.c whose roles are not yet
  * named. */
-extern s32 D_8009B0FC;
 extern u8 D_8009B108;
 extern u8 D_8009B110;
 extern s32 D_8009B12C;
 
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
  * immediately after it, so no element can hide inside. File_InitTransferState
- * stores the transfer buffer's address into it; campaign_map_load_package_stage.c
+ * stores the transfer buffer's address into it; CampaignMap_LoadPackageStage (frontend_package_stages.c)
  * passes it to LoadImage2 as (u32 *) and adds 0x800 to it, and the PAL options
  * overlay reads and writes its first byte. It is declared as the address it
  * holds; every consumer, including file_transfer_runtime.c's integer uses
  * (cast at the site), builds byte-identically with this one declaration. */
 extern u8 *gFile_TransferBufferBase;
+
+/* The CD path of SU.MRG, the archive the main-menu package is read from. */
+extern u8 gFile_szSuMrgPath[];
 
 #endif

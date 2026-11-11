@@ -3,13 +3,25 @@
 #include "../psyq/libspu.h"
 
 #include "sound.h"
-#include "sound_output_transition.h"
+#include "sound_driver.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * sound_driver_commons subsegment places it at the retail addresses. */
 SDSecondaryState *gSD_pSecondaryState;
 SDValue *g_SDValue;
 FileRequestSlot *gSD_pFileRequest;
+
+/* Read-only data this unit owns ahead of its jump tables: the archive names
+ * SD_InitState copies into the file requests, then the debug formats
+ * SD_UpdateBankLoad prints. The European build makes none of those calls. */
+const char gSD_szBgmFileName[] = "SD_bgm.dat";
+const char gSD_szSeFileName[] = "SD_se.dat";
+const char gSD_szMasterXaFileName[] = "MASTER.XA";
+#ifndef VERSION_EUROPE
+const char gSD_szSeGroupCountFormat[] = "g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP:%d\n";
+const char gSD_szSmfMixerOutFormat[] = "Set SMF Mixer Out:%d\n";
+const char gSD_szCdMixerOutFormat[] = "Set CD Mixer Out:%d\n";
+#endif
 
 void SD_FadeInStreamAudio(void)
 {
@@ -67,9 +79,8 @@ void SD_InitSpuCommonVolume(void)
 
 #include "file_transfer.h"
 #include "sound.h"
-#include "sound_mix.h"
+#include "sound_output_state.h"
 #include "sound_init.h"
-#include "sound_output_transition.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
@@ -143,7 +154,6 @@ void SD_InitState(u8 master_xa_lba_byte)
 }
 
 #include "sound.h"
-#include "sound_state_control.h"
 
 void SD_SetSequenceVSyncMode(s32 vsync_mode)
 {
@@ -170,10 +180,8 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 }
 
 #include "../psyq/stdio.h"
-#include "../unmatched.h"
 #include "sd_queue_value_link_transfer.h"
 #include "sound.h"
-#include "sound_output.h"
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (248 instructions,
  * the sound bank loader state machine: SE header, SE groups, then the SMF and
@@ -182,10 +190,10 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
  * 8-byte SDGlobalHdrSE copied as ONE struct assignment (its halfword
  * alignment gives the two lwl/lwr pairs batched before the swl/swr pairs);
  * the state increment written INLINE in every arm rather than as a shared tail (retail cross-jumps the
- * identical ones itself); the shared SD_EnqueueRamTransfer call block placed
- * between cases 8 and 9 -- where retail has it -- so the return block is
- * preceded by the default arm and no store gets cross-jumped into it; case
- * 8's 0x3E7 arm out of line after that call block through a goto; the
+ * identical ones itself); likewise each transfer arm ends in its own
+ * SD_EnqueueRamTransfer call, increment and return, which GCC cross-jumps
+ * into case 8's copy between cases 8 and 9 -- where retail has it; case
+ * 8's 0x3E7 store follows its transfer arm; the
  * scaled argument in case 2 as two statements against one name; the buffer
  * base assigned before the signature test; the two leading signature bytes
  * gSD_SmfBankVolInfoTag/gSD_CdBankVolInfoTag in .data (bare form beside the gp-relative
@@ -211,7 +219,9 @@ void SD_UpdateBankLoad(void) {
             sector_offset = 0;
             ram_size = 0x800;
             source_selector = 0x10;
-            goto call;
+            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
+            return;
         }
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 6;
         return;
@@ -231,7 +241,9 @@ void SD_UpdateBankLoad(void) {
         ram_size = g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP;
         source_selector = 0x10;
         ram_size = ram_size * 8;
-        goto call;
+        SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+        g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
+        return;
     case 3:
         if ((SD_GetStatusFlags() & 7) == 0) {
             SD_InitVoiceState();
@@ -255,7 +267,9 @@ void SD_UpdateBankLoad(void) {
             sector_offset = 0;
             ram_size = 0x800;
             source_selector = 0x20;
-            goto call;
+            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
+            return;
         }
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 2;
         return;
@@ -279,18 +293,15 @@ void SD_UpdateBankLoad(void) {
         }
         break;
     case 8:
-        if ((g_SDValue->s_bSD_DATA_SOURCE & 0x80) == 0) {
-            goto no8;
+        if (g_SDValue->s_bSD_DATA_SOURCE & 0x80) {
+            ram_destination = (u8 *)0x801E8800;
+            sector_offset = 0;
+            ram_size = 0x2000;
+            source_selector = 0x40;
+            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
+            return;
         }
-        ram_destination = (u8 *)0x801E8800;
-        sector_offset = 0;
-        ram_size = 0x2000;
-        source_selector = 0x40;
-    call:
-        SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
-        g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
-        return;
-    no8:
         g_SDValue->s_dwSD_BANK_LOAD_PHASE = 0x3E7;
         return;
     case 9:
@@ -324,11 +335,9 @@ void SD_UpdateBankLoad(void) {
     return;
 }
 
-#include "sd_set_cd_volume.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
-#include "sound_sequence_state.h"
-#include "sound_output_state.h"
+#include "sound_effect_request.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
@@ -396,7 +405,6 @@ void SD_ResetRuntime(void)
 
 #include "sound_init.h"
 #include "sound_pending_entries.h"
-#include "sound_output.h"
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();

@@ -115,7 +115,7 @@ effect comparisons. Unrecognized effects still perform the preceding setup.
 Negative phase skips texture initialization, not effect dispatch.
 
 The dispatcher reuses the canonical 32-byte `DuelEffectRequest` from
-`src/game/duel_effect_request.h`, rather than declaring another prefix view.
+`src/game/duel_effect_object_pool.h`, rather than declaring another prefix view.
 `DuelEffect_UpdateRequests` passes that record and populates its words at
 8/12 from the projected/screen ordering tables. Explicit pointer casts
 reverse those existing integer-word stores without changing the resident

@@ -1,11 +1,8 @@
 #include "../types.h"
 
-#include "movie_open_stream.h"
+#include "movie_pipeline.h"
 
-#include "movie_seek_and_start_read.h"
-#include "movie_on_stream_end.h"
-#include "graphics_frame.h"
-#include "movie_frame_pipeline.h"
+#include "main.h"
 
 #include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
@@ -17,10 +14,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "file_cd_helpers.h"
-#include "mdec_sync.h"
-#include "sound_mix.h"
-#include "../unmatched.h"
+#include "sound_output_state.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * movie_pipeline_commons subsegments place it at the retail addresses. */
@@ -335,7 +329,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
                 continue;
             }
             if (gMovie_bStreamEnded != 0) {
-                goto fail;
+                return 1;
             }
             timeouts++;
             if (resync != 0 || timeouts >= 10) {
@@ -347,11 +341,6 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
                variables into retail's callee-saved registers. */
             last = now;
             continue;
-        /* The label sits after the back jump on purpose. A `return 1`
-           block that is only reached by a jump is what stops GCC
-           cross-jumping the first early return into it. */
-        fail:
-            return 1;
         }
 
         if (CdPosToInt(&hdr->loc) + hdr->nSectors * 2 >= gMovie_dwEndSector) {
@@ -489,13 +478,9 @@ void func_8005C374(s32 first, s32 second, s32 third)
     D_8009B4A2 = third;
 }
 
-#include "file_cd_helpers.h"
 #include "file_constants.h"
-#include "movie_open_stream.h"
-#include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
 #include "file_transfer.h"
-#include "../unmatched.h"
 #include "movie_stream_requests_data.h"
 
 /* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
@@ -578,8 +563,6 @@ s32 Movie_StartFileStream(
         arg3, arg4);
 }
 
-#include "file_cd_helpers.h"
-#include "movie_frame_pipeline.h"
 #include "../psyq/libds.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -615,12 +598,8 @@ int Movie_MoveDisplayImage(int first, int second)
 }
 
 #include "../psyq/libpress.h"
-#include "mdec_sync.h"
-#include "movie_frame_pipeline.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
-#include "movie_seek_and_start_read.h"
-#include "movie_on_stream_end.h"
 
 void Movie_StartFadeOut(void)
 {

@@ -76,7 +76,7 @@ are preserved separately from the five recovered functions.
 
 The cue and state types stay local. Existing headers supply `DuelEffectChannel`,
 `DisplayObject`, `LINE_F2`, `GsOT`, text-box and packet APIs. The owning
-`text_box_lifecycle.h` now declares the existing `TextBox_DestroyIndex(s32)`.
+`duel_effect_text.h` (formerly `text_box_lifecycle.h`) now declares the existing `TextBox_DestroyIndex(s32)`.
 The canonical channel-array symbol `gText_aChannels` binds to Spanish `0x800F0850`,
 and the canonical signed word `gGraphics_nBaseFrameStep` binds to `0x8009C43C`; its explicit
 `u16` view preserves the observed halfword load. Display brightness uses only

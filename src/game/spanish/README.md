@@ -10,8 +10,8 @@ external reference.
 | `duel_scene.c` | `0x8002416C` | 1 | 336 | Card ID at `0x8009C5D8`, Y offset at `0x8009C5DD` |
 | `save_data_payload.c` | `0x8003D040` | 9 | 1,164 | Campaign scene index at `0x8009C638` |
 | `mem_card_io_result_callbacks.c` | `0x800451B8` | 4 | 76 | Result word at `0x800A0000 - 0x3844 = 0x8009C7BC` |
-| `sd_arm_busy_callback.c` | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
-| `card_list_create_deck_box_stat_rows.c` | `0x8006B080` | 1 | 240 | Viewport X/Y at `0x8009C4C0` / `0x8009C4C2` |
+| `sound_output_state.c` (`SD_ArmBusyCallback`) | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
+| `card_list_deck_box.c` (`CardList_CreateDeckBoxStatRows`) | `0x8006B080` | 1 | 240 | Viewport X/Y at `0x8009C4C0` / `0x8009C4C2` |
 
 The literals were recovered from Spanish load/store instruction operands, not
 from assuming a fixed regional address delta. These operands are not ELF
@@ -26,7 +26,7 @@ definition order. Integration then passed the complete executable hash and
 exact linked-symbol extent checks.
 
 The same batch directly reuses the European bust-up entry wrapper (now part
-of `european/debug_menu.c`), `european/func_8003C224.c`, `sd_reset_secondary_playback_thunk.c` (now part of `sound_voice_setup.c`), and `func_8005C690.c` (now part of `movie_pipeline.c`) for another
+of `european/debug_menu.c`), `european/func_8003C224.c` (now part of `frontend_package_stages.c`), `sd_reset_secondary_playback_thunk.c` (now part of `sound_voice_setup.c`), and `func_8005C690.c` (now part of `movie_pipeline.c`) for another
 four functions / 476 bytes. These small units were selected from the remaining
 game-function inventory, then independently linked and byte-compared; a
 masked-instruction resemblance alone was not accepted.
@@ -168,7 +168,7 @@ only its addresses or geometry:
 | `duel_effect_text.c` (choice cursor) | `0x80036EF0` | 2 | 420 | clears R1 from `gInput_dwPreviousHeld` before the tests |
 | Total | | 29 | 6,884 | |
 
-The language index is `BUILD_LANGUAGE_INDEX` in `duel_effect_resource_setup.h`,
+The language index is `BUILD_LANGUAGE_INDEX` in `card_preview.h` (formerly `duel_effect_resource_setup.h`),
 next to `gText_bLanguageIndex`, with the European 0 as its default. The choice cursor's
 store is behind `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, and it reaches
 `gInput_dwPreviousHeld` through `$at`, so the wrapper also selects that

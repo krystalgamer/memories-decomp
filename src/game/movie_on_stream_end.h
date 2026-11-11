@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_MOVIE_ON_STREAM_END_H
-#define MEMORIES_DECOMP_MOVIE_ON_STREAM_END_H
-
-void Movie_OnStreamEnd(void);
-
-#endif

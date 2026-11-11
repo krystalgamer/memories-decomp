@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant111_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 111's entry: up to 64 textured quads start at a model part and,
  * spacing frames apart, run three legs of travel_duration frames each, with

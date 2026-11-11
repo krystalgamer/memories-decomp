@@ -2,19 +2,15 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT423_ENTRY_H
 
 #include "../../types.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 #include "../spanish_model_variant/variant423_mesh.h"
 #include "variant423_funnel.h"
 #include "../model_variant/variant458_streamers.h"
-#include "../../game/model_get_frame_step.h"
 
 typedef struct {
     CVECTOR outer, inner;
@@ -39,10 +35,7 @@ typedef struct {
     POLY_FT4 flat[2];
     u8 unknown_1D28[0x10];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;

@@ -8,7 +8,7 @@ Three adjacent resident helpers have high-confidence semantic names:
 | `0x8005FB08` | `Model_IsEffectKeyQueueEmpty` | `s32 (void)` |
 | `0x8005FB14` | `Model_GetCurrentEffectKeyAddress` | `s32 (void)` |
 
-The owner remains `model_transfer_state.h`. No type, return convention,
+The owner remains `model_camera_effects.h` (formerly `model_transfer_state.h`). No type, return convention,
 expression, branch, load/store order, or caller cast changes.
 
 ## Evidence and limits

@@ -32,7 +32,7 @@ The canonical declaration is the one plain `u8`.
 ## Shared callback state, not work-only or per-record state
 
 `gDialog_bCallbackState` (`0x8009B3C1`, formerly `D_8009B3C1`) is a plain `u8`,
-defined once in `mem_card_dialog.c` and declared once in `duel_effect.h`.
+defined once in `mem_card_dialog.c` and declared once in `duel_effect_states.h` (formerly `duel_effect.h`).
 Its users span the generic dialog transitions, memory-card work
 controller and prompted/unprompted load, save and trade modal callbacks.
 The name groups those already shared callback uses; it does not assign

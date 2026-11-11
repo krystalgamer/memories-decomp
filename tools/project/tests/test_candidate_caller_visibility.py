@@ -44,45 +44,45 @@ PAIRS = [
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
-    ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_projection.h"'),
-    ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/library.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/game/duel_scene.c", "CardPreview_RequestResourceTransfer", '#include "duel_effect_resource_setup.h"'),
-    ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview_objects.h"'),
-    ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview_objects.h"'),
+    ("src/game/display_object_system.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_system.h"'),
+    ("src/game/duel_effect_states.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/duel_effect_states.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/game/library.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/library.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/game/duel_scene.c", "CardPreview_RequestResourceTransfer", '#include "card_preview.h"'),
+    ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
+    ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview.h"'),
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "sound.h"'),
     ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
-    ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/duel_effect_resource_setup.h"'),
+    ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/card_preview.h"'),
     ("src/game/sound_secondary_playback.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/sd_update_secondary_object_voices.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/debug_menu.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
-    ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
-    ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_system.h"'),
+    ("src/game/debug_menu.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_system.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_AcquireSlot", '#include "display_object_system.h"'),
+    ("src/game/duel_scene.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_system.h"'),
+    ("src/game/duel_scene.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_scene.h"'),
     ("src/game/duel_scene.c", "SD_SEPlayFull", '#include "sound.h"'),
-    ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
+    ("src/game/duel_scene.c", "Duel_UpdateCardUseConfirmation", '#include "duel_scene.h"'),
     (
         "src/game/duel_scene.c",
         "DisplayObject_SetResourceVariant",
-        '#include "display_object_config.h"',
+        '#include "display_object_system.h"',
     ),
-    ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
-    ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
-    ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/game/card_preview_draw_detail_panel.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
-    ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
+    ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
+    ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
+    ("src/game/movie_pipeline.c", "CdIntToPos_8007E600", '#include "movie_pipeline.h"'),
+    ("src/game/movie_pipeline.c", "CdPosToInt_8007E710", '#include "movie_pipeline.h"'),
+    ("src/game/card_preview.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
+    ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
-    ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
-    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
+    ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model.h"'),
+    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
-    ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
-    ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
+    ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
+    ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
 ]
 
 
@@ -141,6 +141,16 @@ def implicit_calls(
     )))
 
 
+# Folded owners also carry the unit's types and are reached transitively, so
+# the shared-owner probe shadows them instead of dropping their include.
+FOLDED_SHADOW_OWNERS = (
+    "build_deck.h",
+    "display_object_system.h",
+    "duel_scene.h",
+    "model.h",
+)
+
+
 @unittest.skipUnless((REPOSITORY / COMPILER).is_file(), "needs the GCC 2.8.1 toolchain")
 class CandidateCallerVisibilityTests(unittest.TestCase):
     @classmethod
@@ -169,12 +179,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
     def test_lost_include_is_caught_while_the_prototype_still_exists(self) -> None:
         # Keep each selected prototype in its owner while hiding that owner
         # from the caller, reproducing the lost-include regression.
-        unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
         sound = (REPOSITORY / "src/game/sound.h").read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "unmatched.h" in include:
-                declarations = unmatched
-            elif callee == "SD_ResetSecondaryPlayback":
+            if callee == "SD_ResetSecondaryPlayback":
                 declarations = sound
             else:
                 continue
@@ -218,7 +225,11 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             REPOSITORY / "src/psyq/libcd_abi_variants.h"
         ).read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "file_cd_helpers.h" not in include:
+            if "movie_pipeline.h" not in include:
+                continue
+            # The helpers now live in movie_pipeline.c's own header, which
+            # that unit cannot lose; only outside callers are probed.
+            if source == "src/game/movie_pipeline.c":
                 continue
             with self.subTest(source=source, callee=callee):
                 self.assertRegex(header, rf"\b{callee}\s*\(")
@@ -241,16 +252,17 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             if not any(
                 owner in include
                 for owner in (
-                    "display_object_packet_submit.h",
-                    "duel_effect_resource_setup.h",
-                    "card_preview_objects.h",
+                    "build_deck.h",
+                    "display_object_system.h",
+                    "card_preview.h",
+                    "card_preview.h",
                     "model_slot_control.h",
-                    "model_load_step.h",
-                    "duel_field_display_objects.h",
-                    "duel_hand_position_selection_cursor.h",
-                    "duel_hand_selection_cursor.h",
-                    "duel_card_object_helpers.h",
-                    "duel_card_stat_display.h",
+                    "model.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
+                    "duel_scene.h",
+                    "build_deck.h",
                     "text_encode_decimal_no_padding.h",
                 )
             ):
@@ -259,23 +271,50 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
                 replacement = ""
-                if source == "src/game/card_preview_draw_detail_panel.c" and "display_object_packet_submit.h" in include:
+                if source == "src/game/card_preview.c" and "display_object_system.h" in include:
                     # Preserve the real layout, not the lost function declaration.
-                    owner = (REPOSITORY / "src/game/display_object_packet_submit.h").read_text()
+                    owner = (REPOSITORY / "src/game/display_object_system.h").read_text()
                     layout = re.search(r"typedef struct \{[^}]*\} DisplayObjectPacketOrigin;", owner)
                     self.assertIsNotNone(layout)
                     replacement = (
                         '#include "../psyq/libgte.h"\n#include "../psyq/libgpu.h"\n'
                         + layout.group() + "\n"
                     )
-                if "duel_field_display_objects.h" in include:
+                if "duel_scene.h" in include:
                     # Retain actual data types, not the lost function declarations.
                     replacement = (
                         '#include "duel_selection_layout.h"\n'
                     )
                 shadow = None
                 shadow_name = "model_slot_control.h"
-                if text.count(include + "\n") > 1:
+                folded = any(owner in include for owner in FOLDED_SHADOW_OWNERS)
+                if folded:
+                    # A callee this unit defines above its first call needs no
+                    # prototype, so losing the owner header cannot hide it.
+                    definition = re.search(
+                        rf"(?m)^[^\n;#]*\b{callee}\s*\([^;]*\)\s*\{{", text
+                    )
+                    calls = [
+                        m.start() for m in re.finditer(rf"\b{callee}\s*\(", text)
+                        if not definition
+                        or not definition.start() <= m.start() < definition.end()
+                    ]
+                    if definition and calls and definition.start() < calls[0]:
+                        continue
+                    # Keep the owner's types; lose only the callee's
+                    # prototype, and include the shadow first so its guard
+                    # wins over any transitive include of the real owner.
+                    shadow_name = re.search(r'"([^"]+)"', include).group(1)
+                    owner = (REPOSITORY / Path(source).parent / shadow_name).read_text()
+                    shadow, count = re.subn(
+                        rf"(?m)^(?![ \t]*(?:/?\*|//))[^\n]*\b{callee}\s*\([^;{{}}]*;\s*$",
+                        "",
+                        owner,
+                        count=1,
+                    )
+                    self.assertEqual(count, 1)
+                    replacement = ""
+                elif text.count(include + "\n") > 1:
                     # A grouped unit repeats the owner include; removing one
                     # copy hides nothing, so shadow the owner with a copy
                     # that loses only the callee's declaration.
@@ -300,20 +339,22 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     probe = Path(directory) / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
                     if shadow is not None:
-                        (probe.parent / shadow_name).write_text(
-                            shadow, encoding="utf-8"
-                        )
-                    probe.write_text(
-                        text.replace(include + "\n", replacement, 1),
-                        encoding="utf-8",
-                    )
+                        shadow_path = probe.parent / shadow_name
+                        shadow_path.parent.mkdir(parents=True, exist_ok=True)
+                        shadow_path.write_text(shadow, encoding="utf-8")
+                    probe_text = text.replace(include + "\n", replacement, 1)
+                    if folded:
+                        head, sep, rest = probe_text.partition("#include")
+                        line, nl, rest = rest.partition("\n")
+                        probe_text = head + sep + line + nl + include + "\n" + rest
+                    probe.write_text(probe_text, encoding="utf-8")
                     found = implicit_calls(
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
-        source = "src/game/card_preview_draw_detail_panel.c"
+        source = "src/game/card_preview.c"
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
@@ -348,7 +389,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
         source = "src/game/model_init_slot.c"
-        include = '#include "../game/model_parent_search.h"\n'
+        include = '#include "../game/model_scene_runtime.h"\n'
         text = (REPOSITORY / source).read_text(encoding="utf-8")
         self.assertIn(include, text)
         self.assertNotRegex(text, r"extern[^\n]*\bModel_FindBranchingChildCoord\b")
@@ -378,7 +419,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
                         '#include "duel_cursor_grid_direction.h"\n'
-                        + '#include "duel_cursor_held_grid_direction.h"\n'
+                        + '#include "duel_scene.h"\n'
                         + "DisplayObject **object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
                         + "s8 *column_view(DuelSelectionRecord *cursor) "
@@ -479,7 +520,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
     def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/model_scene_runtime.c"
         self.assertIn(
-            '#include "model_parent_search.h"',
+            '#include "model_scene_runtime.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),
         )
         views = [
@@ -492,7 +533,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for parameters, accepted in views:
                 with self.subTest(parameters=parameters):
                     path.write_text(
-                        '#include "model_parent_search.h"\n'
+                        '#include "model_scene_runtime.h"\n'
                         + f"s32 (*view)({parameters}) = Model_FindBranchingChildCoord;\n",
                         encoding="utf-8",
                     )

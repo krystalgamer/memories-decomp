@@ -3,7 +3,7 @@
 
 #include "../types.h"
 #include "../ygo_types.h"
-#include "duel_effect.h"
+#include "duel_effect_states.h"
 
 /* Reads one byte from the selected text stream and advances its cursor. */
 u8 TextStream_ReadByte(TextStreamOwner *object);

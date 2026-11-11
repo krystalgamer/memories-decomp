@@ -1,7 +1,6 @@
 #include "../types.h"
-#include "../game/graphics_frame.h"
+#include "../game/main.h"
 #include "startup_data.h"
-#include "../game/graphics_frame.h"
 
 u32 D_800906E0 __attribute__((section(".data"))) = 0;
 u32 D_800906E4 __attribute__((section(".data"))) = 0;

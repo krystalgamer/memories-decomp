@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant165_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* The entry draws particles that rise from one of the slot's parts, pulse
  * around their targets facing a point next to the other slot, gather onto

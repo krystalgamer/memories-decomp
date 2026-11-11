@@ -2,9 +2,9 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_24_H
 
 #include "../../types.h"
-#include "../../game/duel_effect_request.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_state_setters.h"
+#include "../../game/duel_effect_object_pool.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 #include "utility_helpers.h"
@@ -14,7 +14,6 @@
 #include "display_quads.h"
 #include "../../game/display_object.h"
 #include "../../game/display_object_work_slots.h"
-#include "../../unmatched.h"
 
 typedef struct {
     SVECTOR targets[5];

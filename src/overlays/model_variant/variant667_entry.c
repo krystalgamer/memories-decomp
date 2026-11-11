@@ -17,7 +17,7 @@ static const char gModelVariant667_szWorkSizeFormat[24] = "E_DATA size = %x byte
 #endif
 
 #define TRACK_POINT(index, point)                                              \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, index);          \
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &ls);                                                   \
     (point).vx = ls.t[0];                                                      \
     (point).vy = ls.t[1];                                                      \
@@ -59,10 +59,10 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant667_szWorkSizeFormat, sizeof(Model667State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         for (i = 0, k = 0; i < 3; i++, k += 3) {
             j = 0;
             hi = k;
@@ -72,19 +72,19 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 work->cell_v[hi + j] = lo;
             }
         }
-        k = work->slot == 0;
+        k = work->head.slot == 0;
         /* An empty loop: its notes keep the scheduler from hoisting the origin
          * argument into the slot load's delay slot. */
         do {
         } while (0);
         Model_CopySlotPosition(k, (u16 *)work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -137,7 +137,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             work->sprites[i].u = i % 9;
             setVector(&work->sprites[i].scale, 4096, 4096, 4096);
             setVector(&work->sprites[i].unknown_40, 0, 0, 0);
-            setVector(&work->sprites[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->sprites[i].rotation, 0, work->head.slot * 2048, 0);
             scale = (i % 2) * 2 - 1;
             value = work->height;
             angle = (i % 8) << 9;
@@ -156,7 +156,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             work->fans[i].color[2] = gModelVariant667_aConfigs[command].color[2];
             setVector(&work->fans[i].scale, 4096, 4096, 4096);
             setVector(&work->fans[i].unknown_40, 0, 0, 0);
-            setVector(&work->fans[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->fans[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->fans[i].position, 0, 0, 0);
             work->fans[i].done = 0;
         }
@@ -264,7 +264,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
     }
     for (i = 0; i < work->rows; i++) {
         if (work->ribbons[i].done == 0) {
-            if (work->command == 0) {
+            if (work->head.command == 0) {
                 TRACK_POINT(0x18, point[0]);
                 from.vx = ls.t[0];
                 from.vy = ls.t[1];
@@ -300,32 +300,32 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else if (work->flags[0] != 0) {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 for (i = 0; i < work->rows; i++) {
                     work->ribbons[i].active = 1;
                 }
             }
-            if (work->flags[1] * 10 + 40 < work->elapsed && work->flags[1] < work->sprite_count) {
+            if (work->flags[1] * 10 + 40 < work->head.elapsed && work->flags[1] < work->sprite_count) {
                 work->sprites[work->flags[1]].active = 1;
                 work->flags[1]++;
                 for (i = 0; i < work->fan_count; i++) {
                     work->fans[i].active = 1;
                 }
             }
-            if (work->elapsed >= 293 && work->flags[2] < work->dome_count) {
+            if (work->head.elapsed >= 293 && work->flags[2] < work->dome_count) {
                 work->domes[work->flags[2]].active = 1;
                 work->flags[2]++;
             }
             break;
         case 1:
             TRACK_POINT(2, center);
-            if (work->elapsed >= work->flags[1] * 10 && work->flags[1] < work->sprite_count) {
+            if (work->head.elapsed >= work->flags[1] * 10 && work->flags[1] < work->sprite_count) {
                 work->sprites[work->flags[1]].active = 1;
                 work->flags[1]++;
             }
-            if (work->elapsed >= 183 && work->flags[2] < work->dome_count) {
+            if (work->head.elapsed >= 183 && work->flags[2] < work->dome_count) {
                 work->domes[work->flags[2]].active = 1;
                 work->flags[2]++;
             }
@@ -348,9 +348,9 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 if (work->ribbons[i].duration * 4 / 5 < work->ribbons[i].elapsed) {
                     value = (work->ribbons[i].duration - work->ribbons[i].elapsed) * 5;
                     scale = work->ribbons[i].duration;
-                    work->ribbons[i].color[0] = gModelVariant667_aConfigs[work->command].color[0] * value / scale;
-                    work->ribbons[i].color[1] = gModelVariant667_aConfigs[work->command].color[1] * value / scale;
-                    work->ribbons[i].color[2] = gModelVariant667_aConfigs[work->command].color[2] * value / scale;
+                    work->ribbons[i].color[0] = gModelVariant667_aConfigs[work->head.command].color[0] * value / scale;
+                    work->ribbons[i].color[1] = gModelVariant667_aConfigs[work->head.command].color[1] * value / scale;
+                    work->ribbons[i].color[2] = gModelVariant667_aConfigs[work->head.command].color[2] * value / scale;
                 }
                 for (j = 0; j < work->ribbons[i].count * 2 - 1; j++) {
                     scale = j + 1;
@@ -467,9 +467,9 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 if (work->sprites[i].elapsed < work->sprites[i].duration / 4) {
                     scale = work->sprites[i].duration;
                     value = work->sprites[i].elapsed * 4;
-                    work->sprites[i].color[0] = gModelVariant667_aConfigs[work->command].color[3] * value / scale;
-                    work->sprites[i].color[1] = gModelVariant667_aConfigs[work->command].color[4] * value / scale;
-                    work->sprites[i].color[2] = gModelVariant667_aConfigs[work->command].color[5] * value / scale;
+                    work->sprites[i].color[0] = gModelVariant667_aConfigs[work->head.command].color[3] * value / scale;
+                    work->sprites[i].color[1] = gModelVariant667_aConfigs[work->head.command].color[4] * value / scale;
+                    work->sprites[i].color[2] = gModelVariant667_aConfigs[work->head.command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -562,15 +562,15 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].elapsed < work->domes[i].duration / 4) {
                     value = work->domes[i].elapsed * 4;
                     scale = work->domes[i].duration;
-                    work->domes[i].color[0] = gModelVariant667_aConfigs[work->command].color[3] * value / scale;
-                    work->domes[i].color[1] = gModelVariant667_aConfigs[work->command].color[4] * value / scale;
-                    work->domes[i].color[2] = gModelVariant667_aConfigs[work->command].color[5] * value / scale;
+                    work->domes[i].color[0] = gModelVariant667_aConfigs[work->head.command].color[3] * value / scale;
+                    work->domes[i].color[1] = gModelVariant667_aConfigs[work->head.command].color[4] * value / scale;
+                    work->domes[i].color[2] = gModelVariant667_aConfigs[work->head.command].color[5] * value / scale;
                 } else if (work->domes[i].elapsed > work->domes[i].duration * 3 / 4) {
                     value = (work->domes[i].duration - work->domes[i].elapsed) * 4;
                     scale = work->domes[i].duration;
-                    work->domes[i].color[0] = gModelVariant667_aConfigs[work->command].color[3] * value / scale;
-                    work->domes[i].color[1] = gModelVariant667_aConfigs[work->command].color[4] * value / scale;
-                    work->domes[i].color[2] = gModelVariant667_aConfigs[work->command].color[5] * value / scale;
+                    work->domes[i].color[0] = gModelVariant667_aConfigs[work->head.command].color[3] * value / scale;
+                    work->domes[i].color[1] = gModelVariant667_aConfigs[work->head.command].color[4] * value / scale;
+                    work->domes[i].color[2] = gModelVariant667_aConfigs[work->head.command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -648,7 +648,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->rows + work->sprite_count + work->fan_count + work->dome_count) {
             result = 2;
         }

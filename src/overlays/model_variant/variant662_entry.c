@@ -10,14 +10,14 @@
  * work-area size. */
 
 #define AIM_AT_POINT(index)                                                                     \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, index);                         \
+    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);                         \
     GsGetLwUnit(&unit, &ls);                                                                  \
     distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)           \
         + (ls.t[2] - work->direction * 450) * (ls.t[2] - work->direction * 450)));            \
     for (i = 0; i < work->tube_count; i++) {                                                  \
         setVector(&work->tubes[i].position, ls.t[0], ls.t[1], ls.t[2]);                       \
         setVector(&work->tubes[i].rotation, ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450), \
-            ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->slot * 2048, 0);          \
+            ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);          \
         work->cones[i].rotation = work->tubes[i].rotation;                                    \
         /* A separate variable for the cone's offset keeps it in s0. */                    \
         reach = work->direction * work->height / -5;                                          \
@@ -81,14 +81,14 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model662State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant662_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant662_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant662_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant662_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -145,7 +145,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             work->triggered[i] = 0;
             setVector(&work->tubes[i].scale, 4096, 4096, 4096);
             setVector(&work->tubes[i].offset, 0, 0, 0);
-            setVector(&work->tubes[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->tubes[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->tubes[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->tube_count; i++) {
@@ -161,7 +161,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             work->cones[i].v = 0;
             setVector(&work->cones[i].scale, 4096, 4096, 4096);
             setVector(&work->cones[i].offset, 0, 0, 0);
-            setVector(&work->cones[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->cones[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->cones[i].position, 0, 0, 0);
             work->cones[i].position.vy -= 350;
             work->cones[i].position.vz += work->direction * 450;
@@ -179,7 +179,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             work->domes[i].v = 0;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
             setVector(&work->domes[i].offset, 0, 0, 0);
-            setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->domes[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
         for (j = 0; j < work->tube_count; j++) {
@@ -204,7 +204,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                         work->radius * ((i % 2) * 2 - 1) * rsin(((i - 1) << 12) / (work->spark_count - 1)) / 4096
                             - work->radius);
                 }
-                setVector(&work->sparks[i][j].rotation, 0, work->slot * 2048, 0);
+                setVector(&work->sparks[i][j].rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i][j].position, 0, 0, 0);
             }
         }
@@ -233,7 +233,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
     case 1:
     case 3:
@@ -241,7 +241,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     case 5:
     case 6:
     case 7:
-        if (work->elapsed == 0) {
+        if (work->head.elapsed == 0) {
             for (i = 0; i < work->tube_count; i++) {
                 work->tubes[i].active = 1;
                 work->domes[i].active = 1;
@@ -250,7 +250,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         }
         break;
     case 2:
-        if (work->elapsed == 0) {
+        if (work->head.elapsed == 0) {
             work->cones[0].active = 1;
             work->cones[0].position.vz -= work->direction * 500;
             for (i = 0; i < work->spark_count; i++) {
@@ -258,7 +258,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                 PushMatrix();
                 offset = work->sparks[i][0].offset;
                 m = GsIDMATRIX;
-                RotMatrixY(work->slot * 2048, &m);
+                RotMatrixY(work->head.slot * 2048, &m);
                 ApplyMatrixLV(&m, &offset, &work->sparks[i][0].position);
                 applyVector(&work->sparks[i][0].position, 0, -350, work->direction * 450, +=);
                 PopMatrix();
@@ -267,7 +267,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         }
         break;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
         AIM_AT_POINT(7);
         break;
@@ -326,9 +326,9 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             if (work->tubes[i].duration * 9 / 10 < work->tubes[i].elapsed) {
                 value = (work->tubes[i].duration - work->tubes[i].elapsed) * 10;
                 duration = work->tubes[i].duration;
-                work->tubes[i].color[0] = gModelVariant662_aConfigs[work->command].color[0] * value / duration;
-                work->tubes[i].color[1] = gModelVariant662_aConfigs[work->command].color[1] * value / duration;
-                work->tubes[i].color[2] = gModelVariant662_aConfigs[work->command].color[2] * value / duration;
+                work->tubes[i].color[0] = gModelVariant662_aConfigs[work->head.command].color[0] * value / duration;
+                work->tubes[i].color[1] = gModelVariant662_aConfigs[work->head.command].color[1] * value / duration;
+                work->tubes[i].color[2] = gModelVariant662_aConfigs[work->head.command].color[2] * value / duration;
             }
             /* k runs the segments and j the ring points, so j keeps the
              * register it has in every other loop. */
@@ -405,9 +405,9 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             if (work->cones[i].duration * 9 / 10 < work->cones[i].elapsed) {
                 value = (work->cones[i].duration - work->cones[i].elapsed) * 10;
                 duration = work->cones[i].duration;
-                work->cones[i].color[0] = gModelVariant662_aConfigs[work->command].color[3] * value / duration;
-                work->cones[i].color[1] = gModelVariant662_aConfigs[work->command].color[4] * value / duration;
-                work->cones[i].color[2] = gModelVariant662_aConfigs[work->command].color[5] * value / duration;
+                work->cones[i].color[0] = gModelVariant662_aConfigs[work->head.command].color[3] * value / duration;
+                work->cones[i].color[1] = gModelVariant662_aConfigs[work->head.command].color[4] * value / duration;
+                work->cones[i].color[2] = gModelVariant662_aConfigs[work->head.command].color[5] * value / duration;
             }
             for (j = 0; j < 9; j++) {
                 /* The cone's depth shares duration's register (s0). */
@@ -491,9 +491,9 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             if (work->domes[i].duration * 9 / 10 < work->domes[i].elapsed) {
                 value = (work->domes[i].duration - work->domes[i].elapsed) * 10;
                 duration = work->domes[i].duration;
-                work->domes[i].color[0] = gModelVariant662_aConfigs[work->command].color[3] * value / duration;
-                work->domes[i].color[1] = gModelVariant662_aConfigs[work->command].color[4] * value / duration;
-                work->domes[i].color[2] = gModelVariant662_aConfigs[work->command].color[5] * value / duration;
+                work->domes[i].color[0] = gModelVariant662_aConfigs[work->head.command].color[3] * value / duration;
+                work->domes[i].color[1] = gModelVariant662_aConfigs[work->head.command].color[4] * value / duration;
+                work->domes[i].color[2] = gModelVariant662_aConfigs[work->head.command].color[5] * value / duration;
             }
             work->domes[i].v = work->domes[i].elapsed * 4 % 64;
             for (j = 0; j < 4; j++) {
@@ -553,9 +553,9 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                 if (work->sparks[i][j].duration * 9 / 10 < work->sparks[i][j].elapsed) {
                     value = (work->sparks[i][j].duration - work->sparks[i][j].elapsed) * 10;
                     duration = work->sparks[i][j].duration;
-                    work->sparks[i][j].color[0] = gModelVariant662_aConfigs[work->command].color[6] * value / duration;
-                    work->sparks[i][j].color[1] = gModelVariant662_aConfigs[work->command].color[7] * value / duration;
-                    work->sparks[i][j].color[2] = gModelVariant662_aConfigs[work->command].color[8] * value / duration;
+                    work->sparks[i][j].color[0] = gModelVariant662_aConfigs[work->head.command].color[6] * value / duration;
+                    work->sparks[i][j].color[1] = gModelVariant662_aConfigs[work->head.command].color[7] * value / duration;
+                    work->sparks[i][j].color[2] = gModelVariant662_aConfigs[work->head.command].color[8] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[1];
@@ -588,7 +588,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (work->flags[1] == 1) {
         if (inactive == work->tube_count * 3 + work->tube_count * work->spark_count) {
             result = 1;

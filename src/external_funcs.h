@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_EXTERNAL_FUNCS_H
 
 #include "types.h"
-#include "game/duel_effect_request.h"
+#include "game/duel_effect_object_pool.h"
 
 /* Address-qualified second copies and caller-side views of external code. */
 void DuelEffect_DispatchRequest(s16, s16, s32, DuelEffectRequest *);

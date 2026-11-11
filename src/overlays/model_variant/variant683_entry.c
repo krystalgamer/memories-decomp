@@ -2,7 +2,7 @@
 #include "variant683_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/graphics_constants.h"
 
 /* Header 683's entry: a stream of blinking orbs spirals in towards the other
@@ -37,23 +37,23 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant683_szWorkSizeFormat, sizeof(Model683State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[3]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[3]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[2]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[5]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[4]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant683_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant683_aImages[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
         if (command == 0) {
@@ -75,7 +75,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             work->orbs[i].v = 0;
             setVector(&work->orbs[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->orbs[i].spin, 0, 0, 0);
-            setVector(&work->orbs[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->orbs[i].rotation, 0, work->head.slot * 2048, 0);
             d = i % 2 * 2 - 1;
             n = work->radius * 4;
             setVector(&work->orbs[i].position, n * rsin((i % 10 << 12) / 10 + i * 50) / 4096 + work->origin.vx,
@@ -103,7 +103,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             work->bursts[i].v = 128;
             setVector(&work->bursts[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->bursts[i].spin, 0, 0, 0);
-            setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->bursts[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bursts[i].position, 0, 0, 0);
         }
         setVector(&offset, work->radius * 3, 0, 0);
@@ -159,15 +159,15 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        if (work->command == 0) {
-            if (work->elapsed < 210 && work->flags[0] < work->count) {
+        if (work->head.command == 0) {
+            if (work->head.elapsed < 210 && work->flags[0] < work->count) {
                 work->orbs[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
-            if (work->elapsed >= 307 && work->flags[1] == 0) {
+            if (work->head.elapsed >= 307 && work->flags[1] == 0) {
                 result = work->flags[1] = work->bursts[0].active = work->fade.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 12);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
             GsGetLwUnit(&unit, &ls);
             setVector(&target, ls.t[0], ls.t[1], ls.t[2]);
         } else {
@@ -209,9 +209,9 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->orbs[i].elapsed < work->orbs[i].duration / 2) {
                     n = work->orbs[i].elapsed * 2;
                     d = work->orbs[i].duration;
-                    work->orbs[i].red = gModelVariant683_aConfigs[work->command].orb[0] * n / d;
-                    work->orbs[i].green = gModelVariant683_aConfigs[work->command].orb[1] * n / d;
-                    work->orbs[i].blue = gModelVariant683_aConfigs[work->command].orb[2] * n / d;
+                    work->orbs[i].red = gModelVariant683_aConfigs[work->head.command].orb[0] * n / d;
+                    work->orbs[i].green = gModelVariant683_aConfigs[work->head.command].orb[1] * n / d;
+                    work->orbs[i].blue = gModelVariant683_aConfigs[work->head.command].orb[2] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];
@@ -239,9 +239,9 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             if (work->fade.elapsed < work->fade.duration) {
                 n = work->fade.duration - work->fade.elapsed;
                 d = work->fade.duration;
-                work->fade.red = gModelVariant683_aConfigs[work->command].fade[0] * n / d;
-                work->fade.green = gModelVariant683_aConfigs[work->command].fade[1] * n / d;
-                work->fade.blue = gModelVariant683_aConfigs[work->command].fade[2] * n / d;
+                work->fade.red = gModelVariant683_aConfigs[work->head.command].fade[0] * n / d;
+                work->fade.green = gModelVariant683_aConfigs[work->head.command].fade[1] * n / d;
+                work->fade.blue = gModelVariant683_aConfigs[work->head.command].fade[2] * n / d;
             }
             setPolyF4(&work->fill);
             setRGB0(&work->fill, work->fade.red, work->fade.green, work->fade.blue);
@@ -284,13 +284,13 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].elapsed < work->bursts[i].duration / 2) {
                     n = work->bursts[i].elapsed * 2;
                     d = work->bursts[i].duration;
-                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0] * n / d;
-                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1] * n / d;
-                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2] * n / d;
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->head.command].burst[0] * n / d;
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->head.command].burst[1] * n / d;
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->head.command].burst[2] * n / d;
                 } else {
-                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0];
-                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1];
-                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2];
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->head.command].burst[0];
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->head.command].burst[1];
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->head.command].burst[2];
                 }
                 work->bursts[i].v = (work->bursts[i].elapsed % 16) * 63 / 16 - 128;
                 for (j = 0; j < 8; j++) {
@@ -400,13 +400,13 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     n = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     d = work->bursts[i].duration;
-                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0] * n / d;
-                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1] * n / d;
-                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2] * n / d;
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->head.command].burst[0] * n / d;
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->head.command].burst[1] * n / d;
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->head.command].burst[2] * n / d;
                 } else {
-                    work->bursts[i].red = gModelVariant683_aConfigs[work->command].burst[0];
-                    work->bursts[i].green = gModelVariant683_aConfigs[work->command].burst[1];
-                    work->bursts[i].blue = gModelVariant683_aConfigs[work->command].burst[2];
+                    work->bursts[i].red = gModelVariant683_aConfigs[work->head.command].burst[0];
+                    work->bursts[i].green = gModelVariant683_aConfigs[work->head.command].burst[1];
+                    work->bursts[i].blue = gModelVariant683_aConfigs[work->head.command].burst[2];
                 }
                 for (j = 0; j < 32; j++) {
                     unit.flg = 0;
@@ -451,7 +451,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (work->flags[1] == 1 && inactive == work->count + 1 + work->burst_count) {
             result = 2;
         }

@@ -42,20 +42,20 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant652_szWorkSizeFormat, sizeof(Model652State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
         work->cursor = 0;
-        work->other_slot = work->slot == 0;
+        work->other_slot = work->head.slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_aImages[1]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant652_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant652_aImages[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_aImages[2]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant652_aImages[2]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -81,7 +81,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 32;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
             setVector(&work->rings[i].spin, 0, 0, 0);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->dome_count; i++) {
@@ -97,14 +97,14 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
             work->domes[i].v = 160;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
             setVector(&work->domes[i].spin, 8, 0, 0);
-            setVector(&work->domes[i].rotation, 0, (i << 12) / work->dome_count + work->slot * 2048, 0);
+            setVector(&work->domes[i].rotation, 0, (i << 12) / work->dome_count + work->head.slot * 2048, 0);
             if (i == 0) {
                 setVector(&work->domes[i].position, 0, 0, 0);
             } else {
                 setVector(&work->domes[i].position,
-                    work->radius * (rsin(work->slot * 2048 + (i - 1) * 4096 / (work->dome_count - 1)) << 1) / 4096,
+                    work->radius * (rsin(work->head.slot * 2048 + (i - 1) * 4096 / (work->dome_count - 1)) << 1) / 4096,
                     0,
-                    work->radius * (rcos(work->slot * 2048 + (i - 1) * 4096 / (work->dome_count - 1)) << 1) / 4096);
+                    work->radius * (rcos(work->head.slot * 2048 + (i - 1) * 4096 / (work->dome_count - 1)) << 1) / 4096);
             }
             applyVector(&work->domes[i].position, work->origin.vx, 0, work->origin.vz, +=);
         }
@@ -129,7 +129,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                         work->radius * (rsin((k << 9) + (i << 12) / work->spark_count) << 1) / 4096,
                         0,
                         work->radius * (rcos((k << 9) + (i << 12) / work->spark_count) << 1) / 4096);
-                    setVector(&work->sparks[i][k][j].rotation, 0, work->slot * 2048, 0);
+                    setVector(&work->sparks[i][k][j].rotation, 0, work->head.slot * 2048, 0);
                     setVector(&work->sparks[i][k][j].position, 0,
                         work->height * ~k / 8 + work->height / 16, 0);
                     applyVector(&work->sparks[i][k][j].position, work->domes[j].position.vx,
@@ -197,15 +197,15 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
         work->delay -= step;
         return result;
     }
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        if (work->elapsed < 280) {
+        if (work->head.elapsed < 280) {
             if ((work->cursor & 3) == 0) {
                 work->rings[work->cursor / 4].active = 1;
                 work->rings[work->cursor / 4].elapsed = 0;
-                work->rings[work->cursor / 4].color[0] = gModelVariant652_aConfigs[work->command].color[0];
-                work->rings[work->cursor / 4].color[1] = gModelVariant652_aConfigs[work->command].color[1];
-                work->rings[work->cursor / 4].color[2] = gModelVariant652_aConfigs[work->command].color[2];
+                work->rings[work->cursor / 4].color[0] = gModelVariant652_aConfigs[work->head.command].color[0];
+                work->rings[work->cursor / 4].color[1] = gModelVariant652_aConfigs[work->head.command].color[1];
+                work->rings[work->cursor / 4].color[2] = gModelVariant652_aConfigs[work->head.command].color[2];
             }
             work->cursor++;
             if (work->cursor >= work->ring_count * 4) {
@@ -223,13 +223,13 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
         }
         break;
     case 1:
-        if (work->elapsed < 150) {
+        if (work->head.elapsed < 150) {
             if ((work->cursor & 3) == 0) {
                 work->rings[work->cursor / 4].active = 1;
                 work->rings[work->cursor / 4].elapsed = 0;
-                work->rings[work->cursor / 4].color[0] = gModelVariant652_aConfigs[work->command].color[0];
-                work->rings[work->cursor / 4].color[1] = gModelVariant652_aConfigs[work->command].color[1];
-                work->rings[work->cursor / 4].color[2] = gModelVariant652_aConfigs[work->command].color[2];
+                work->rings[work->cursor / 4].color[0] = gModelVariant652_aConfigs[work->head.command].color[0];
+                work->rings[work->cursor / 4].color[1] = gModelVariant652_aConfigs[work->head.command].color[1];
+                work->rings[work->cursor / 4].color[2] = gModelVariant652_aConfigs[work->head.command].color[2];
             }
             work->cursor++;
             if (work->cursor >= work->ring_count * 4) {
@@ -250,18 +250,18 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
     PushMatrix();
     view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
-    switch (work->command) {
+    switch (work->head.command) {
     case 0:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 6);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
         GsGetLwUnit(&unit, &ls);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 13);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 13);
         GsGetLwUnit(&unit, &m);
         center.vx = (ls.t[0] + m.t[0]) / 2;
         center.vy = (ls.t[1] + m.t[1]) / 2;
         center.vz = (ls.t[2] + m.t[2]) / 2;
         break;
     case 1:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 19);
+        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 19);
         GsGetLwUnit(&unit, &ls);
         center.vx = ls.t[0];
         center.vy = ls.t[1];
@@ -287,9 +287,9 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
             if (work->rings[i].elapsed < work->rings[i].duration) {
                 value = work->rings[i].elapsed;
                 duration = work->rings[i].duration;
-                work->rings[i].color[0] = gModelVariant652_aConfigs[work->command].color[0] * value / duration;
-                work->rings[i].color[1] = gModelVariant652_aConfigs[work->command].color[1] * value / duration;
-                work->rings[i].color[2] = gModelVariant652_aConfigs[work->command].color[2] * value / duration;
+                work->rings[i].color[0] = gModelVariant652_aConfigs[work->head.command].color[0] * value / duration;
+                work->rings[i].color[1] = gModelVariant652_aConfigs[work->head.command].color[1] * value / duration;
+                work->rings[i].color[2] = gModelVariant652_aConfigs[work->head.command].color[2] * value / duration;
             }
             setVector(&origin, 0, 0, 0);
             m = GsIDMATRIX;
@@ -422,9 +422,9 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
                     duration = work->sparks[i][k][j].duration;
                     if (duration * 2 / 3 < work->sparks[i][k][j].elapsed) {
                         value = (duration - work->sparks[i][k][j].elapsed) * 3;
-                        work->sparks[i][k][j].color[0] = gModelVariant652_aConfigs[work->command].color[0] * value / duration;
-                        work->sparks[i][k][j].color[1] = gModelVariant652_aConfigs[work->command].color[1] * value / duration;
-                        work->sparks[i][k][j].color[2] = gModelVariant652_aConfigs[work->command].color[2] * value / duration;
+                        work->sparks[i][k][j].color[0] = gModelVariant652_aConfigs[work->head.command].color[0] * value / duration;
+                        work->sparks[i][k][j].color[1] = gModelVariant652_aConfigs[work->head.command].color[1] * value / duration;
+                        work->sparks[i][k][j].color[2] = gModelVariant652_aConfigs[work->head.command].color[2] * value / duration;
                     }
                     m = GsIDMATRIX;
                     RotMatrixZ((i + k + j) * 50 * ((i + k + j) % 2 * 2 - 1), &m);
@@ -489,9 +489,9 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
         if (work->flash.elapsed < work->flash.duration) {
             value = work->flash.duration - work->flash.elapsed;
             duration = work->flash.duration;
-            work->flash.color[0] = gModelVariant652_aConfigs[work->command].color[0] * value / duration;
-            work->flash.color[1] = gModelVariant652_aConfigs[work->command].color[1] * value / duration;
-            work->flash.color[2] = gModelVariant652_aConfigs[work->command].color[2] * value / duration;
+            work->flash.color[0] = gModelVariant652_aConfigs[work->head.command].color[0] * value / duration;
+            work->flash.color[1] = gModelVariant652_aConfigs[work->head.command].color[1] * value / duration;
+            work->flash.color[2] = gModelVariant652_aConfigs[work->head.command].color[2] * value / duration;
         }
         setPolyF4(&work->flash_poly);
         setRGB0(&work->flash_poly, work->flash.color[0], work->flash.color[1], work->flash.color[2]);
@@ -509,7 +509,7 @@ s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
         inactive++;
     }
     PopMatrix();
-    work->elapsed += step;
+    work->head.elapsed += step;
     if (inactive == work->ring_count + work->dome_count + work->spark_count * (work->dome_count << 3) + 1) {
         result = 2;
     }

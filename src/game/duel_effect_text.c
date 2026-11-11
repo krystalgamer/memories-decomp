@@ -12,15 +12,10 @@
  * run of text (0x80035A64-0x80039F1C in the US build). */
 #include "../types.h"
 
-#include "duel_effect.h"
-#include "text_channel_state.h"
-#include "duel_effect_entry_occupancy.h"
-#include "duel_effect_reset_state.h"
-#include "text_box_set_rect.h"
+#include "duel_effect_states.h"
+#include "duel_effect_text.h"
 #include "duel_effect_entry_ranges.h"
-#include "duel_effect_init_entry.h"
-#include "text_box_lifecycle.h"
-#include "display_object_core.h"
+#include "display_object_system.h"
 
 void DuelEffect_ResetState(void)
 {
@@ -227,10 +222,7 @@ void *TextBox_CreateFlagged(
 #endif
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entry_occupancy.h"
-#include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAF08-0x800EAFF8 in the
  * US build; the generated duel_effect_text_commons subsegment places it.
@@ -407,10 +399,7 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
-#include "graphics_frame.h"
-#include "text_box_draw_entries.h"
+#include "main.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -1234,13 +1223,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 }
 #endif
 
-#include "text_box_blocking_build.h"
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entries.h"
-#include "../unmatched.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-#include "duel_effect_entry_occupancy.h"
 #endif
 #ifdef VERSION_JAPAN
 #include "../psyq/libapi.h"
@@ -1259,21 +1243,21 @@ u8 *Text_FindRecordById(s32 id) {
     u8 *key;
     s32 v;
 
-    rec = D_801D9174;
-    key = D_801D9174_b;
+    rec = gText_aGlyphRecordBitmaps;
+    key = gText_aGlyphRecordKeys;
 
-loop_check:
-    v = key[0] << 8;
-    v |= key[1];
-    if (v == 0) {
-        return 0;
+    for (;;) {
+        v = key[0] << 8;
+        v |= key[1];
+        if (v == 0) {
+            return 0;
+        }
+        if (v == id) {
+            return rec;
+        }
+        key += 2;
+        rec += 0x1E;
     }
-    if (v == id) {
-        return rec;
-    }
-    key += 2;
-    rec += 0x1E;
-    goto loop_check;
 }
 #endif
 
@@ -1363,48 +1347,46 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     if (flags & 0x100) {
         entry->pad_0D[1] = tagged_value;
         entry->entry_flags = 0xC0;
-        goto append;
+    } else {
+        glyph = (tagged_value >> 20) & 0xFF;
+        mode = flags & 3;
+        if (glyph == 0) {
+            if (mode != 3) {
+                return -1;
+            }
+            return 0;
+        }
+
+        entry->pad_0D[1] = glyph;
+        entry->pad_14[0] = channel->color_index_54;
+        entry->entry_flags = mode | 0x80;
+
+        if (mode == 3) {
+            entry->local_x += 2;
+        }
+        if (mode == 2) {
+            if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
+                entry->local_x -= 2;
+                result = -4;
+            }
+            if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
+        if (mode == 0) {
+            if (glyph == 7) {
+                entry->local_x -= 3;
+                result = -6;
+            }
+            if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
+                glyph == 0xE || glyph == 0xC) {
+                entry->local_x -= 1;
+                result = -2;
+            }
+        }
     }
 
-    glyph = (tagged_value >> 20) & 0xFF;
-    mode = flags & 3;
-    if (glyph == 0) {
-        if (mode != 3) {
-            return -1;
-        }
-        return 0;
-    }
-
-    entry->pad_0D[1] = glyph;
-    entry->pad_14[0] = channel->color_index_54;
-    entry->entry_flags = mode | 0x80;
-
-    if (mode == 3) {
-        entry->local_x += 2;
-    }
-    if (mode == 2) {
-        if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
-            entry->local_x -= 2;
-            result = -4;
-        }
-        if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-    if (mode == 0) {
-        if (glyph == 7) {
-            entry->local_x -= 3;
-            result = -6;
-        }
-        if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
-            glyph == 0xE || glyph == 0xC) {
-            entry->local_x -= 1;
-            result = -2;
-        }
-    }
-
-append:
     if (channel->flags_34 & 0x1C00) {
         entry->handler_state = 0;
     }
@@ -1511,9 +1493,6 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 }
 #endif
 
-#include "duel_effect.h"
-#include "text_stream_read_le.h"
-
 int TextStream_ReadU16LE(DuelEffectChannel *object)
 {
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
@@ -1532,12 +1511,9 @@ u32 TextStream_ReadU32LE(TextStreamOwner *object)
            (current[1] << 8) | current[0];
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "display_object.h"
 #include "duel_effect_entry_ranges.h"
-#include "duel_effect_update_object_layout.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 
@@ -1688,14 +1664,10 @@ u16 gDuelEffect_awEntryRangeBoundaries[] = {
 #endif
 };
 
-#include "dialog_highlight_choice.h"
-#include "duel_effect_update_object_layout.h"
 #include "dialog_choice.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
-#include "dialog_read_choice_input.h"
-#include "duel_effect.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -1769,9 +1741,7 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
     return 0;
 }
 
-#include "graphics_frame.h"
 #include "display_object.h"
-#include "widget_update_pulse_colour.h"
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 
@@ -1807,19 +1777,11 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "dialog_highlight_choice.h"
 #include "display_object.h"
-#include "display_object_core.h"
 #include "input.h"
 #include "sound.h"
-#include "display_object_helpers.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
-#include "dialog_read_choice_input.h"
-#include "dialog_choice_state.h"
-#include "duel_effect.h"
-#include "widget_update_pulse_colour.h"
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
@@ -1905,12 +1867,9 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     }
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entry_control.h"
 
 #ifdef VERSION_JAPAN
-#include "duel_effect_entry_occupancy.h"
 
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
 #define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)gDuelEffect_aEntries)
@@ -1919,7 +1878,6 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 #define DUEL_EFFECT_RANGE_COUNT(channel) \
     (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_count)
 #elif defined(VERSION_EUROPE)
-#include "duel_effect_entry_occupancy.h"
 
 /* The European entries are 0x16 bytes, with handler_state and render_mode at 0x11
    and 0x13. */
@@ -1955,56 +1913,20 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
    if that flag clears, the count runs out, or the range is empty. */
 int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     int v0;
-#ifdef VERSION_EUROPE
     int count;
-    u32 address;
-    u8 *v1;
+    DUEL_EFFECT_ENTRY_TYPE *entry;
+
     v0 = DUEL_EFFECT_RANGE_START(a0);
     count = DUEL_EFFECT_RANGE_COUNT(a0);
-    address = (u32)&DUEL_EFFECT_ENTRIES[v0];
-    if (count == 0) {
-        goto ret_zero_a;
+    entry = &DUEL_EFFECT_ENTRIES[v0];
+    for (; count != 0; count--, entry++) {
+        if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
+            return 0;
+        }
+        if (entry->handler_state != 0) {
+            return 1;
+        }
     }
-    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_13_OFFSET);
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return 0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count--;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#else
-    int count;
-    u8 *v1;
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        goto ret_zero_a;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_13_OFFSET;
-loop:
-    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
-    if (v0 == 0) {
-        return v0;
-    }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
-        return 1;
-    }
-    count = count - 1;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-#endif
-ret_zero_a:
     return 0;
 }
 
@@ -2012,7 +1934,6 @@ ret_zero_a:
    for each active entry, writes a1 to handler_state and a2 to render_mode,
    stopping at the first entry with that flag clear or when the count runs
    out. */
-#ifdef VERSION_EUROPE
 void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
     int start;
     int count;
@@ -2032,33 +1953,6 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
         entry->render_mode = a2;
     }
 }
-#else
-void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
-    int v0;
-    int count;
-    u8 *v1;
-
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
-    if (count == 0) {
-        return;
-    }
-    v1 = v1 + DUEL_EFFECT_FIELD_15_OFFSET;
-loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
-         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
-        return;
-    }
-    count = count - 1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->handler_state = a1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->render_mode = a2;
-    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
-    if (count != 0) {
-        goto loop;
-    }
-}
-#endif
 
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
@@ -2085,24 +1979,15 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #endif
 }
 
-#include "text_stream_read_le.h"
 #include "../psyq/rand.h"
-#include "dialog_choice_state.h"
-#include "display_object_core.h"
-#include "display_object_helpers.h"
-#include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
-#include "duel_effect.h"
-#include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
-#include "sound_sequence_state.h"
-#include "../unmatched.h"
+#include "sound_effect_request.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -2413,8 +2298,6 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
     p->delay_countdown = 1;
 }
 
-#include "text_box_wrap_line.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
@@ -2459,7 +2342,6 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
 
 #include "text_constants.h"
 #include "text_stream_commands.h"
-#include "../unmatched.h"
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
@@ -2485,8 +2367,6 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
 }
 
 #include "text_stream_commands.h"
-#include "duel_effect.h"
-#include "../unmatched.h"
 #include "dialog_choice.h"
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
@@ -2501,16 +2381,11 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 }
 
 #include "card_constants.h"
-#include "duel_effect_entries.h"
 #include "duel_card.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
-#include "text_stream_read_le.h"
-#include "duel_effect_command.h"
-#include "../unmatched.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAFF8-0x800EB010 in the
  * US build. */
@@ -3126,16 +3001,11 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
         obj->flags_34 |= 0x1000;
 }
 
-#include "text_start_campaign_duel.h"
-#include "duel_effect.h"
-#include "text_stream_read_le.h"
-#include "duel_side_state.h"
-#include "ai_controller_handoff.h"
-#include "../unmatched.h"
+#include "duel_scene.h"
+#include "ai_script.h"
 #include "duel_session_controls.h"
 
 #include "ai_opponent_data.h"
-#include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
@@ -3211,15 +3081,8 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
  * the handler that reads one byte into gCampaignMap_bEntryLocation and moves the scene mode
  * to 5. */
 
-#include "secondary_scene_commands.h"
-#include "duel_effect_sound_commands.h"
-#include "text_stream_read_le.h"
 #include "sound.h"
-#include "duel_effect.h"
-#include "duel_effect_play_sound_command.h"
-#include "duel_effect_fade_out_bgm_command.h"
 #include "main_mode_state.h"
-#include "../unmatched.h"
 #include "sound_bgm_commands.h"
 
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
@@ -3319,9 +3182,7 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 
 #include "fade.h"
 #include "fade_overlay_controls.h"
-#include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
-#include "duel_effect_sound_commands.h"
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {
@@ -3355,20 +3216,15 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     }
 }
 
-#include "text_stream_read_le.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "display_object_core.h"
-#include "duel_effect.h"
-#include "text_channel_state.h"
-#include "duel_effect_object_commands.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
 u8 gText_BranchSelectorB;
 u8 gText_BranchSelectorA;
 
 #ifdef VERSION_EUROPE
-#include "save_data.h"
+#include "mem_card.h"
 #include "player_name_glyphs.h"
 
 #endif
@@ -3472,30 +3328,20 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
    box's frame object. */
 
 #include "duel_effect_command_table.h"
-#include "duel_effect.h"
-#include "text_stream_read_le.h"
 #include "text_stream_commands.h"
-#include "duel_effect_entry_occupancy.h"
 #include "dialog_choice.h"
 #include "campaign_flags.h"
-#include "text_box_wrap_line.h"
 #include "display_effect_lifecycle.h"
 
 #include "menu_record.h"
 #include "display_menu_records.h"
-#include "campaign_scene_package.h"
+#include "script_scene.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "display_object_core.h"
 #include "display_object_layout.h"
-#include "display_object_helpers.h"
 #include "color_constants.h"
-#include "text_box_draw_entries.h"
-#include "text_box_runtime.h"
-#include "text_control_commands.h"
-#include "../unmatched.h"
 #include "dialog_choice_control.h"
 
 /* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8 in the
@@ -3850,26 +3696,15 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     }
 }
 
-#include "text_box_wrap_line.h"
 #include "input.h"
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_state_callbacks.h"
-#include "duel_effect_entry_control.h"
-#include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "display_object_core.h"
-#include "text_box_runtime.h"
-#include "duel_effect_entries.h"
-#include "menu_record_reset.h"
 #include "script_command_table.h"
 #include "script_state.h"
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
-#include "dialog_choice_state.h"
-#include "../unmatched.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -4107,21 +3942,12 @@ next_opcode:
 #endif
 }
 
-#include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_process_menu_records.h"
-#include "duel_effect.h"
 
-#include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
 #include "sound.h"
 #include "display_object.h"
-#include "display_object_core.h"
-#include "text_box_update_channels.h"
-#include "text_box_runtime.h"
-#include "text_box_blocking_build.h"
-#include "duel_effect_update_object_layout.h"
-#include "dialog_choice_state.h"
 #include "text_constants.h"
 
 /* Zero-initialized storage this unit owns (0x800EB0F8-0x800EB288 in North
@@ -4271,15 +4097,12 @@ void TextBox_BuildBlockingWithGlyphScratch(DuelEffectChannel *object)
     } while (!(object->flags_34 & TEXT_BOX_FLAG_DONE));
 }
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
-#include "display_object_fade.h"
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
 s32 gDuelEffect_nCompactionRequested;
 
 #ifdef VERSION_EUROPE
-#include "duel_effect_entry_occupancy.h"
 
 #endif
 
@@ -4320,14 +4143,8 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
-#include "duel_effect.h"
-#include "graphics_frame.h"
-#include "display_object_fade.h"
-#include "display_object_fade_callbacks.h"
-#include "duel_effect_entry_occupancy.h"
 #include "graphics_frame_controls.h"
 #ifdef VERSION_EUROPE
-#include "european_glyph_fade_callbacks.h"
 #endif
 
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
@@ -4672,7 +4489,6 @@ void DuelEffect_UpdateGlyphFadeOut(DuelEffectChannel *record)
 }
 #endif
 
-#include "duel_effect.h"
 #include "duel_effect_entry_state.h"
 #include "main_modes.h"
 #include "duel_effect_process_entries.h"
@@ -4723,10 +4539,9 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
     }
 }
 
-#include "display_effect_update_resource_acquisition.h"
+#include "display_effect_resource_setup.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
-#include "menu_record_reset.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"

@@ -9,8 +9,8 @@
 #include "../types.h"
 
 #include "model_record_tables.h"
-#include "model_background.h"
-#include "model_graphics_state.h"
+#include "model.h"
+#include "model_slot_getters.h"
 #include "graphics_frame_controls.h"
 
 ModelBackgroundRecord *gModel_pBackgroundRecord =
@@ -51,8 +51,6 @@ static u16 sModelGraphicsState_PadAA
     = 0;
 #endif
 
-#include "model.h"
-
 /* Small zero-initialized storage this unit owns. Each build's generated
  * model_commons subsegment places it at the retail addresses. */
 s16 gModel_ImageCopyRectX;
@@ -78,14 +76,12 @@ u8 gModelDebug_abSlotGfFlags[2];
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "screen_projection.h"
-#include "model_update_background_scroll.h"
+#include "model_slot_support.h"
 #include "camera_view.h"
 #include "ordering_tables.h"
 #include "model_scene_controllers_data.h"
 #include "model_primitive_templates.h"
 #include "primitive_handler_modes.h"
-#include "model_slot_part_animation.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 
@@ -578,10 +574,7 @@ store:
 #include "model_subdivided_effect.h"
 #include "model_scene_effect_handler_table.h"
 #include "file_names.h"
-#include "model_scene_controllers.h"
-#include "model_debug_controller.h"
 #include "model_handler_state.h"
-#include "model_load_step.h"
 
 /* The effect handlers the scene controllers dispatch to, and the paths and
  * trace formats the scene controllers, debug controller and slot control
@@ -618,8 +611,8 @@ const char gModel_szLoadModelTraceFormat[] = "LoadModelDO(%d)=%03X\n";
 
 #include "../psyq/libetc.h"
 #include "model_image_copy_frames.h"
-#include "model_effect_requests.h"
-#include "model_transfer_flags.h"
+#include "model_scene_runtime.h"
+#include "model_camera_effects.h"
 #include "sound_output_state.h"
 #include "../psyq/stdio.h"
 
@@ -630,32 +623,13 @@ ModelTintRequest gModel_aTintRequests[10];
 ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 #include "model_slot_control.h"
-#include "model_get_frame_step.h"
 #include "sound.h"
-#include "sd_calc_spatial_volume_pan.h"
-#include "model_view_adjustments.h"
-#include "model_has_insufficient_buffer_space.h"
-#include "model_set_slot_shadow_enabled.h"
-#include "model_effect_coefficients.h"
-#include "model_separate_view.h"
-#include "model_update_tint_requests.h"
-#include "model_start_camera_move.h"
-#include "model_state_setters.h"
 #include "model_update_view_metrics.h"
 #include "duel_card.h"
-#include "model_slot_properties.h"
-#include "sound_output.h"
-#include "model_effect_state.h"
-#include "model_lock_orbit_direction.h"
-#include "model_is_camera_move_complete.h"
-#include "model_effect_wrapped_value.h"
-#include "model_transfer_state.h"
-#include "model_distance_queries.h"
+#include "sound_driver.h"
 #include "model_scene_states.h"
 #include "fade.h"
 #include "sound_pending_entries.h"
-#include "model_slot_state_updates.h"
-#include "model_queue_relative_camera_orbit.h"
 #include "model_queue_tint_request.h"
 #include "file_transfer.h"
 #include "high_memory_addresses.h"
@@ -664,16 +638,11 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
    it only parses after libgte.h, libgpu.h and libgs.h, all included above. */
 #include "../psyq/rand.h"
 #include "card_constants.h"
-#include "model_update_coordinate_unit_matrix.h"
-#include "model_cleanup.h"
 #include "model_scene_imports.h"
 #include "sound_init.h"
-#include "model_step_view_orbit.h"
 #include "../psyq/memory.h"
 #include "../ygo_types.h"
-#include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
-#include "../unmatched.h"
 #include "model_camera_state.h"
 
 void Model_StepBackgroundVramAnimation(void) {
@@ -3267,24 +3236,14 @@ char gModel_szTermTrace[8] = "TERM\n";
  *   and the shadow colour reads the template bytes directly.
  */
 #include "graphics_packet_submission.h"
-#include "../game/model.h"
-#include "../game/model_graphics_state.h"
-#include "../game/model_background.h"
 #include "../game/model_handler_state.h"
 #include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
 #include "../game/ordering_tables.h"
-#include "../game/model_get_frame_step.h"
 #include "../game/model_slot_control.h"
-#include "../game/model_get_slot_dimensions_with_minimums.h"
-#include "../game/model_update_coordinate_unit_matrix.h"
-#include "../game/model_slot_state_updates.h"
-#include "../game/model_remap_primitive_handlers.h"
 #include "../game/color.h"
 #include "../game/gpu_packets.h"
-#include "../game/screen_projection.h"
 #include "../game/model_handler_registry.h"
-#include "../game/model_draw_slot.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -3991,10 +3950,8 @@ void Model_DrawSlot(s32 index)
 #define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
 #define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 
-#include "model_get_slot_dimensions_with_minimums.h"
 #include "color_constants.h"
 #include "color.h"
-#include "model_apply_texture_tint.h"
 
 /*
  * The per-slot model runtime: the per-frame slot animation tick
@@ -4006,16 +3963,12 @@ void Model_DrawSlot(s32 index)
 
 #include "model_link_slot_animation_rows.h"
 #include "model_word_memory.h"
-#include "model_init_light_triplet.h"
 #include "model_slot_row_tables.h"
-#include "model_slot_support.h"
-#include "model_slot_updates.h"
 #include "shared_work_base.h"
 #include "file_package_staging.h"
-#include "file_transfer_steps.h"
 #include "sound_voice_data.h"
 #include "script_state.h"
-#include "duel_load_package_stage.h"
+#include "duel_scene.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
@@ -5827,8 +5780,6 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
         orbit_position[2] = pivot_position[2] + z_offset * direction_scale;
     }
 }
-
-#include "positional_sound.h"
 
 #define POSITIONAL_SOUND_PAN_PTR(buffer) ((s8 *)&(buffer)[1])
 

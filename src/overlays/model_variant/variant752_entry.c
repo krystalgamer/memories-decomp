@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant752_entry.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 752's entry, a sibling of header 754's: while the camera moves
  * through the row's presets and the slot's parts are tinted, a burst in front

@@ -2,7 +2,7 @@
 #define MEMORIES_MODEL_VARIANT454_ENTRY_H
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "variant412_entry.h"
 
 /* One group of 16 sprites at the start of the work area. */
@@ -35,10 +35,7 @@ typedef struct {
     POLY_FT4 flat_textured[2], sprite, glow;
     u8 unknown_236C[0x24];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     ModelVariantSweepConfig *config;
     u32 field_23FC;

@@ -2,16 +2,11 @@
 #define MEMORIES_DECOMP_FRENCH_MODEL_VARIANT410_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/model_variant/model_variant.h"
-#include "../../game/model_graphics_state.h"
-#include "../../game/model_slot_data.h"
-#include "../../game/model_slot_properties.h"
-#include "../../game/model_slot_queries.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/model_copy_slot_position.h"
 #include "../../game/camera_view.h"
-#include "../../game/screen_projection.h"
-#include "../../game/model_get_frame_step.h"
-#include "../../game/model_effect_state.h"
+#include "../../game/model_camera_effects.h"
 #include "../../psyq/libhmd.h"
 
 /* One 0x10-byte command row: the model part and the end frame. */
@@ -58,10 +53,7 @@ typedef struct {
     POLY_FT4 flat_textured[2];
     u8 unknown_2160[0x2170 - 0x2160];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     ModelVariantClock clock;
     Variant410EntryConfig *config;
     u32 field_21DC;

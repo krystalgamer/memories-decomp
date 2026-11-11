@@ -2,7 +2,7 @@
 #include "variant674_entry.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/stdio.h"
-#include "../../game/screen_projection.h"
+#include "../../game/model_slot_support.h"
 
 /* Header 674's entry: a pulsing ring of shaded strips spins up around a
  * model point and hands over to a growing dome of sprites wrapped in a
@@ -39,19 +39,19 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
 #ifndef VERSION_FRENCH
         printf(gModelVariant674_szWorkSizeFormat, sizeof(Model674State));
 #endif
-        work->command = command;
-        work->slot = Model_GetActiveSlotIndex();
-        work->direction = work->slot * 2 - 1;
-        work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_aImages[1]);
+        work->head.command = command;
+        work->head.slot = Model_GetActiveSlotIndex();
+        work->direction = work->head.slot * 2 - 1;
+        work->head.elapsed = 0;
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_aImages[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_aImages[2]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[0]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_aImages[3]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_aImages[4]);
+        ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[3]);
+        tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[4]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -80,7 +80,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->rings[i].growth, 0, 0, 0);
-            setVector(&work->rings[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->rings[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].position, 0, 0, 0);
         }
         for (i = 0; i < work->count; i++) {
@@ -104,7 +104,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             work->domes[i].v = 0x80;
             setVector(&work->domes[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->domes[i].growth, 0, 0, 0);
-            setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
+            setVector(&work->domes[i].rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
         work->delay = gModelVariant674_aConfigs[command].delay;
@@ -150,28 +150,28 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
     if (work->delay > 0) {
         work->delay -= step;
     } else {
-        switch (work->command) {
+        switch (work->head.command) {
         case 0:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->rings[0].active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 0x10);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0x10);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].position, ls.t[0], ls.t[1], ls.t[2]);
             break;
         case 1:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->domes[0].active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 3);
+                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->domes[0].position, ls.t[0], ls.t[1], ls.t[2]);
             }
             break;
         case 2:
-            if (work->elapsed == 0) {
+            if (work->head.elapsed == 0) {
                 work->rings[0].active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 0xE);
+            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xE);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].position, ls.t[0], ls.t[1], ls.t[2]);
             break;
@@ -311,13 +311,13 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = gModelVariant674_aConfigs[work->command].dome_red * n / d;
-                    work->domes[i].green = gModelVariant674_aConfigs[work->command].dome_green * n / d;
-                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].dome_blue * n / d;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->head.command].dome_red * n / d;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->head.command].dome_green * n / d;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->head.command].dome_blue * n / d;
                 } else {
-                    work->domes[i].red = gModelVariant674_aConfigs[work->command].dome_red;
-                    work->domes[i].green = gModelVariant674_aConfigs[work->command].dome_green;
-                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].dome_blue;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->head.command].dome_red;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->head.command].dome_green;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->head.command].dome_blue;
                 }
                 work->domes[i].v = work->domes[i].elapsed % 16 * 63 / 16 + 128;
                 for (k = 0; k < 8; k++) {
@@ -343,13 +343,13 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = gModelVariant674_aConfigs[work->command].red * n / d;
-                    work->domes[i].green = gModelVariant674_aConfigs[work->command].green * n / d;
-                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].blue * n / d;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->head.command].red * n / d;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->head.command].green * n / d;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->head.command].blue * n / d;
                 } else {
-                    work->domes[i].red = gModelVariant674_aConfigs[work->command].red;
-                    work->domes[i].green = gModelVariant674_aConfigs[work->command].green;
-                    work->domes[i].blue = gModelVariant674_aConfigs[work->command].blue;
+                    work->domes[i].red = gModelVariant674_aConfigs[work->head.command].red;
+                    work->domes[i].green = gModelVariant674_aConfigs[work->head.command].green;
+                    work->domes[i].blue = gModelVariant674_aConfigs[work->head.command].blue;
                 }
                 for (k = 0; k < 8; k++) {
                     work->domes[i].v = (work->domes[i].elapsed + k * 10) % 32 * 63 / 32 + 128;
@@ -416,7 +416,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             }
         }
         PopMatrix();
-        work->elapsed += step;
+        work->head.elapsed += step;
         if (inactive == work->count * 2) {
             result = 1;
             if (work->flags[4] == 1) {

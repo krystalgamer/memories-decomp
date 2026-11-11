@@ -14,7 +14,7 @@ The accepted regional `File_RequestOptionsPackage` requests
 consumes the preceding image/data blocks before copying the final six
 sectors to the pointer stored at `gFile_pScreenBankBase`. The independently
 checksum-verified French executable stores `0x80168000` there.
-See `src/game/european/options_package_stages.c` and its shared
+See `src/game/european/frontend_package_stages.c` and its shared
 `src/game/frontend_package_stages.c` body. The French resident inventory
 places these staged/request functions at `0x8003C76C` and `0x8003C90C`.
 
@@ -229,7 +229,7 @@ not absolute linker aliases:
 
 The external bindings reference separately verified resident owners.
 `D_8009C02B` is the existing unsigned byte declaration in
-`src/game/duel_effect_resource_setup.h`, relocated to French `0x8009C44B`.
+`src/game/card_preview.h`, relocated to French `0x8009C44B`.
 `gText_abColorSlots` retains its incomplete byte-array declaration in
 `src/game/text_constants.h` at `0x801BF98C`; no array bound is invented.
 Both lie inside the actual selected `resident_tail_8cb98` raw input object,
@@ -244,9 +244,9 @@ The resident calls are `DisplayObject_UpdateResourceVariant` at `0x80040748`
 (40 bytes) and `Main_RequestLanguageBootPackage` (formerly `func_80043BC8`) at `0x80043DC8` (116 bytes). Their accepted
 shared declarations, selected compiled C objects, final section-defined
 functions and complete retail bodies are verified. The loader's declaration
-is exposed through its existing `main_run_boot_sequence.h` owner.
+is exposed through its existing `main_boot_frontend.h` (formerly `main_run_boot_sequence.h`) owner.
 
-The language-image update reuses `graphics_frame.h`'s two-element `RECT`
+The language-image update reuses `main.h` (formerly `graphics_frame.h`)'s two-element `RECT`
 array (`D_800E9D70`, French `0x8009C838`, 16 bytes) and `unmatched.h`'s
 existing `D_8009B118_IS_POINTER_IN_DATA` arm: a four-byte `u8 *`
 transfer-buffer pointer at `0x8009C4B0`. Its initial retail value is zero,
@@ -277,7 +277,7 @@ at `0x80042BD8` (68 bytes), `DisplayObject_SetDepthOffset` at `0x80042C1C`
 input objects and full final retail bodies are independently verified.
 
 The existing font setup `Main_InitDebugFont` (formerly `func_80043B7C`) is accepted C at French `0x80043D7C`
-(76 bytes), declared through `main_run_boot_sequence.h`. Adding its
+(76 bytes), declared through `main_boot_frontend.h` (formerly `main_run_boot_sequence.h`). Adding its
 prototype preserves all twenty previously configured resident/overlay
 source-profile consumers as complete ELF objects, including relocations.
 The SDK dependencies are **DrawSync** at `0x8007FC64` (104 bytes),
