@@ -13,13 +13,13 @@ void DuelEffect_InitJaggedColumnVertices(u16 radius, u16 spread, u16 height, u16
     s16 x;
     s16 z;
     s16 step;
-    s16 a;
-    s16 b;
+    s16 radius_x;
+    s16 radius_z;
     u16 i;
-    s32 s;
-    s32 t;
-    s32 n;
-    SVECTOR *v;
+    s32 sine;
+    s32 angle_step;
+    s32 angle;
+    SVECTOR *vertex;
 
     x = spread * ((rand() - rand()) % 4096) / 4096;
     z = spread * ((rand() - rand()) % 4096) / 4096;
@@ -28,17 +28,17 @@ void DuelEffect_InitJaggedColumnVertices(u16 radius, u16 spread, u16 height, u16
     vertices[0].vy = -height;
     vertices[0].vz = z;
     for (i = 1; i < count; i++) {
-        a = radius + (radius >> 1) * ((rand() - rand()) % 4096) / 4096;
+        radius_x = radius + (radius >> 1) * ((rand() - rand()) % 4096) / 4096;
         do {
-            b = radius + (radius >> 1) * ((rand() - rand()) % 4096) / 4096;
-            n = 2048 / count * i;
-            vertices[i].vx = x + a * ((s = csin(n), x < 0) ? (s = -s) : s) / 4096;
+            radius_z = radius + (radius >> 1) * ((rand() - rand()) % 4096) / 4096;
+            angle = 2048 / count * i;
+            vertices[i].vx = x + radius_x * ((sine = csin(angle), x < 0) ? (sine = -sine) : sine) / 4096;
         } while (0);
         do {
-            t = 2048 / count;
-            v = (SVECTOR *)(i * sizeof(SVECTOR) + (s32)vertices);
-            v->vy = step * i - height;
-            v->vz = z + b * ((s = csin(t * i), z < 0) ? (s = -s) : s) / 4096;
+            angle_step = 2048 / count;
+            vertex = (SVECTOR *)(i * sizeof(SVECTOR) + (s32)vertices);
+            vertex->vy = step * i - height;
+            vertex->vz = z + radius_z * ((sine = csin(angle_step * i), z < 0) ? (sine = -sine) : sine) / 4096;
         } while (0);
     }
 }

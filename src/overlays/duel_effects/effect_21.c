@@ -16,8 +16,8 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
     SVECTOR rotation;
     VECTOR scale;
     s32 i;
-    s32 a;
-    s32 b;
+    s32 first;
+    s32 second;
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
@@ -35,10 +35,10 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
                            &gDuelEffect_SwordsFieldTilePositions[i][phase % 2]);
             }
             for (i = 0; i < 8; i++) {
-                a = rand() % 10;
-                b = rand() % 10;
-                DuelEffect_SwapVectorRecords(&slots[__builtin_abs(phase) % 2]->positions[a],
-                             &slots[__builtin_abs(phase) % 2]->positions[b]);
+                first = rand() % 10;
+                second = rand() % 10;
+                DuelEffect_SwapVectorRecords(&slots[__builtin_abs(phase) % 2]->positions[first],
+                             &slots[__builtin_abs(phase) % 2]->positions[second]);
             }
             DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 128);
             /* The original initializes only tile 8 after the eight swaps. */
