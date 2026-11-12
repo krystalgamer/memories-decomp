@@ -704,30 +704,37 @@ void Credits_StartLineGroup(s32 group)
 
     i = 0;
     line = gCredits_aLines;
-next:
-    if (line->entries == 0) {
-        line->height = 0;
-        line->width = 0;
+    /* The constant switch enters the search loop at its case label. Until
+       flow deletes the dead empty loop, that jump comes from outside the
+       loop, so loop.c leaves it alone (no hoisted 40), as with retail's goto
+       loop; jump2 then deletes the jump. */
+    switch (0) {
+        for (;;) {
+        }
         do {
-            line->page = 0;
-            if (Credits_BuildLineGlyphs(i, group) != 0) {
-                line->x = 40;
-                line->y = 40;
-                if (line->width > 160 || line->height > 120) {
-                    line->x = (320 - line->width) / 2;
-                    line->y = (240 - line->height) / 2 - 10;
-                }
-                line->state = 0;
-                line->timer = 152;
-                line->title_held = 0;
+    case 0:
+            if (line->entries == 0) {
+                line->height = 0;
+                line->width = 0;
+                do {
+                    line->page = 0;
+                    if (Credits_BuildLineGlyphs(i, group) != 0) {
+                        line->x = 40;
+                        line->y = 40;
+                        if (line->width > 160 || line->height > 120) {
+                            line->x = (320 - line->width) / 2;
+                            line->y = (240 - line->height) / 2 - 10;
+                        }
+                        line->state = 0;
+                        line->timer = 152;
+                        line->title_held = 0;
+                    }
+                    return;
+                } while (0);
             }
-            return;
-        } while (0);
-    }
-    i++;
-    line++;
-    if (i < 2) {
-        goto next;
+            i++;
+            line++;
+        } while (i < 2);
     }
 }
 
