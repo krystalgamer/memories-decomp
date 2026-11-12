@@ -953,11 +953,11 @@ typedef struct {
  * gGraphics_apOrderingTables[2] directly; the secondary-callback wrapper keeps
  * its word-shaped API and converts only at this boundary. Position widths
  * and the wrapper's partial first-object view remain unchanged. */
-void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3);
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_x, s32 screen_y);
 
 /* Draws one duel card using the output coordinates stored on its object. */
 void Duel_DrawCardAtOutputPosition(
-    DisplayObjectPosition *object, s32 value
+    DisplayObjectPosition *object, s32 ordering_table
 );
 
 /* Returns nonzero when all five Exodia pieces are in hand. It consumes a local
@@ -1052,8 +1052,8 @@ s32 Duel_FindFreeFieldSlot(s32 start);
  * did the opposite -- duel_scene.c passes DuelCardRecord *list0[6]
  * uncast, which warned, while casting a stale local type for another call in
  * the same file. */
-s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1, s32 arg2);
-s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1, s32 arg2);
+s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 start, s32 type_limit);
+s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start, s32 type);
 
 /* Returns 0 when it has written an equip pairing into gAi_Selection, 1 when
  * there is nothing to pair. */
