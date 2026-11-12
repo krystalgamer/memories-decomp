@@ -1760,7 +1760,6 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base[1].is_active = 0;
       fade_slot_base[0].is_active = 0;
       next_phase = gModel_bPresentationPhase + 1;
-      goto set_phase_and_tick;
 set_phase_and_tick:
       gModel_bPresentationPhase = next_phase;
 tick_active_slot:
