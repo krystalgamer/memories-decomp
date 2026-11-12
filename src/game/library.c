@@ -14,7 +14,6 @@ static PADDING_VARIABLE(4);
 #include "card_constants.h"
 #include "../psyq/libgs.h"
 #include "ordering_tables.h"
-#include "card_grid.h"
 #include "display_object.h"
 #include "duel_effect_states.h"
 #include "sound.h"
@@ -335,7 +334,7 @@ s32 Library_UpdateCursorMotion(void)
  * The reference's argument names are reversed relative to the confirmed grid
  * symbols: the first argument drives X/`gCardGrid_bCursorColumn`, and the second
  * drives Y/`gCardGrid_bCursorRow`. The matching source uses those existing
- * `card_grid.h` declarations, without adding duplicate address-named globals.
+ * `library.h` declarations, without adding duplicate address-named globals.
  *
  * The same signed `delta` is assigned and shifted in place for both 16.16
  * velocity divisions. The unsigned fractional fields preserve the positive
