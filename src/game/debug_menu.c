@@ -316,16 +316,21 @@ s32 DebugMenu_UpdateValueEditor(void)
                         if (i < (s8)digit_count) {
                             n = (s8)digit_count;
                             do {
+                                /* The empty nested loop stops expand_end_loop
+                                   from rotating the early breaks to the
+                                   bottom of the carry loop. */
+                                do {
+                                } while (0);
                                 cc = val & mask;
                                 val = val & ~mask;
                                 cc = cc + step;
                                 if (step >= 0) {
                                     if (cc < b[i]) {
-                                        goto joined;
+                                        break;
                                     }
                                 } else {
                                     if (cc >= 0) {
-                                        goto joined;
+                                        break;
                                     }
                                     val = val | ((b[i] - 1) & mask);
                                 }
@@ -335,7 +340,6 @@ s32 DebugMenu_UpdateValueEditor(void)
                                 i = i + 1;
                             } while (i < n);
                         }
-                    joined:
                         val = val | cc;
                     } else {
                         val = val + step;
