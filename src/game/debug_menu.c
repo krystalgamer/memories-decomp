@@ -541,16 +541,21 @@ void DebugMenu_UpdateCampaignEntry(void)
     s32 flags;
     u16 selection;
 
-    if ((gDebugMenu_bStep & 0x80) == 0) {
+    /* Entry and a Select press both reopen the editor for the chosen
+       field. */
+    switch (gDebugMenu_bStep & 0x80) {
+    case 0:
         gDebugMenu_bStep = gDebugMenu_bStep | 0x80;
         DebugMenu_DimPrimaryDisplayObject();
         Campaign_LoadScenePackage(0);
         gDebugMenu_bCampaignEditField = 0;
-        goto select_editor;
-    }
-    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
-        gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
-    select_editor:
+        if (0) {
+    default:
+            if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) == 0) {
+                break;
+            }
+            gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
+        }
         if (gDebugMenu_bCampaignEditField == 0) {
             selection = gDebugMenu_wMessageId;
             gDebug_nSceneOrSoundID = selection;
