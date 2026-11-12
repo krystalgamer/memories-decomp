@@ -92,7 +92,11 @@ segments:
       - [0x1034, rodata, initial_data_1e4]
       - [0x1CC4, .rodata, game/model]
       - [0x1FC8, .rodata, game/main_menu_load_package_stage]
-      - [0x1FEC, rodata, initial_data_1d]
+      - [0x1FEC, .rodata, game/model_animation_unit]
+      - [0x201F, pad]
+      - [0x2020, rodata, initial_data_1d]
+      - [0x206C, .rodata, game/model_subdivided_effect]
+      - [0x207C, rodata, initial_data_1d2]
       - [0x20AC, .rodata, game/ai_script]
       - [0x21A8, rodata, initial_data_2]
 

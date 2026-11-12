@@ -41,7 +41,6 @@ typedef char ModelSubdividedEffect_size_must_be_0x1318[
 extern VECTOR gModel_SubdividedEffectInitialScale;
 extern VECTOR gModel_BurstEffectInitialScale;
 extern VECTOR gModel_SparkEffectInitialScale;
-extern char gModel_szSubdividedEffectSizeFormat[];
 
 s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode);
 

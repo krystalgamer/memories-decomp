@@ -116,10 +116,7 @@ segments:
   - - 7924
     - .rodata
     - game/european/model_animation_unit
-  - - 8014
-    - rodata
-    - initial_data_1f4e
-  - - 8066
+  - - 8067
     - pad
   - - 8068
     - .rodata

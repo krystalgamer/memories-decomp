@@ -202,7 +202,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
             effect->field_130D = 0;
 #ifndef VERSION_EUROPE
             /* The European build makes no printf call here. */
-            printf(gModel_szSubdividedEffectSizeFormat, 0x1318, 0x1318);
+            printf("%d (0x%x) Byte\n", 0x1318, 0x1318);
 #endif
             return 0;
         }
