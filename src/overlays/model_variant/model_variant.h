@@ -623,8 +623,9 @@ typedef struct {
     VECTOR delta;
 } ModelVariantRibbonTail;
 
-/* The 0x20-byte style block that follows the 0x220-byte projected spine of
- * the seventeen-point ribbon records: the inner (spine-side) and outer (edge)
+/* The 0x20-byte style block that follows the projected spine of the ribbon
+ * records (0x220 bytes for the seventeen-point ribbons, 0x120 for the
+ * nine-point ribbons of headers 436 and 437): the inner (spine-side) and outer (edge)
  * colours, a scale the entries set to 4096, and three members the entries
  * clear. Header 410's ribbon drawer shades the spine side with `inner` and
  * the edge with `outer`. The header-321/338 drawer reads `count` as the number

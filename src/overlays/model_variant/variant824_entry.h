@@ -16,31 +16,6 @@
 #include "../../psyq/abs.h"
 #include "model_variant.h"
 
-/* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
- * ray colours, the model point the bolts leave from, the muzzle size, the
- * flight length, the bolt count, the ring of sprites and spinning strips
- * around each bolt, the smoke puffs, the impact glow, its rays, the sparks,
- * the two fade steps, the spawn period and the start and end times. */
-typedef struct {
-    ModelVariantBoltColors color;
-    u8 ray_r, ray_g, ray_b;
-    u8 part;
-    u8 unknown_0D;
-    ModelVariantBoltFlight flight;
-    ModelVariantBoltRing ring;
-    ModelVariantPuffParams puff;
-    u16 glow_size;
-    u16 ray_spread;
-    u16 ray_width;
-    u16 ray_count;
-    ModelVariantSparkParams spark;
-    u8 fade, unknown_33;
-    u8 ray_fade, unknown_35;
-    u16 period;
-    u16 start;
-    u16 end;
-} Model824Config;
-
 /* The work area: the command row; per bolt its position, step, strip
  * angle, ring offsets, target, sixteen-point trail, origin, smoke puffs and
  * their velocities, impact rays and sparks; the inner and outer shock-ring
@@ -49,7 +24,7 @@ typedef struct {
  * flags, phase, per-bolt shock-ring growth, ambient level, the shock-ring
  * texture page and CLUT, the textures and the per-bolt colours. */
 typedef struct {
-    Model824Config *config;
+    ModelVariantBoltStreamConfig *config;
     SVECTOR pos[28];
     SVECTOR step[28];
     SVECTOR angle[28];
@@ -92,7 +67,7 @@ typedef struct {
 } Model824State;
 
 extern GsIMAGE gModelVariant824_aImages[];
-extern Model824Config gModelVariant824_aConfigs[];
+extern ModelVariantBoltStreamConfig gModelVariant824_aConfigs[];
 
 s32 ModelVariant824_HandleRequest(u8 *context, s32 command);
 

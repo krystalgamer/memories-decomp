@@ -22,10 +22,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x120];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s16 field_138, field_13A;
-    s32 field_13C;
+    ModelVariantStripStyle style;
     u8 unknown_140[0xB0];
     s32 start, end, state, count;
 } Variant437EntryRibbon;
