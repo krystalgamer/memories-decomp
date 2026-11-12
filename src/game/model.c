@@ -520,37 +520,31 @@ void Model_UpdateBackgroundScroll(s32 force)
     }
     if (force != 0 || pitch_delta != 0) {
         initial_pitch = gModel_wViewPitch;
-        if (initial_pitch < 0x801) {
-            goto low;
-        }
-        initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-        if (initial_turn_difference >= 0) {
-            background_offset_y = -0x139;
-            if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-                goto compute;
+        if (initial_pitch >= 0x801) {
+            initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
+            if (initial_turn_difference >= 0) {
+                background_offset_y = -0x139;
+                if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                    goto compute;
+                }
+            } else {
+                background_offset_y = -0x139;
+                if (MODEL_ANGLE_FULL_TURN - initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+                compute:
+                    reloaded_pitch = gModel_wViewPitch;
+                    reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
+                    if (reloaded_turn_difference >= 0) {
+                        background_offset_y = -(reloaded_turn_difference * 26) / 85;
+                    } else {
+                        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
+                    }
+                }
             }
-            goto store;
-        }
-        background_offset_y = -0x139;
-        if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
-            goto store;
-        }
-compute:
-        reloaded_pitch = gModel_wViewPitch;
-        reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-        if (reloaded_turn_difference >= 0) {
-            background_offset_y = -(reloaded_turn_difference * 26) / 85;
-            goto store;
-        }
-        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
-        goto store;
-low:
-        if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+        } else if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
             background_offset_y = (initial_pitch * 26) / 85;
-            goto store;
+        } else {
+            background_offset_y = 0x139;
         }
-        background_offset_y = 0x139;
-store:
         gModel_wBackgroundOffsetY = background_offset_y;
     }
     gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
