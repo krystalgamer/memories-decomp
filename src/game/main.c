@@ -340,26 +340,33 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     ((volatile u8 *)gGraphics_abOrderingTableLengths)[1] = count;
     ((volatile u8 *)gGraphics_abOrderingTableLengths)[2] = 0xC;
     ((volatile u8 *)gGraphics_abOrderingTableLengths)[3] = count;
-next:
-    k = 3;
-    buf->ordering_tables[0].length = 2;
-    buf->ordering_tables[1].org =
-        (GsOT_TAG *)(buf->ordering_table_tags + 0x10);
-    buf->ordering_tables[2].length = 0xC;
-    buf->ordering_tables[2].org =
-        (GsOT_TAG *)(buf->ordering_table_tags + 0x110);
-    buf->ordering_tables[0].org = (GsOT_TAG *)buf->ordering_table_tags;
-    buf->ordering_tables[1].length = six;
-    buf->ordering_tables[3].length = six;
-    buf->ordering_tables[3].org =
-        (GsOT_TAG *)(buf->ordering_table_tags + 0x4110);
-    do {
-        GsClearOt(0, k, &buf->ordering_tables[k]);
-        k--;
-    } while (k >= 0);
-    buf++;
-    if ((s32)buf < (s32)(base + 2)) {
-        goto next;
+    /* The constant switch enters the buffer loop at its case label. Until
+       flow deletes the dead empty loop, that jump comes from outside the
+       loop, so loop.c leaves it alone, as with retail's goto loop; jump2
+       then deletes the jump. */
+    switch (0) {
+        for (;;) {
+        }
+        do {
+    case 0:
+            k = 3;
+            buf->ordering_tables[0].length = 2;
+            buf->ordering_tables[1].org =
+                (GsOT_TAG *)(buf->ordering_table_tags + 0x10);
+            buf->ordering_tables[2].length = 0xC;
+            buf->ordering_tables[2].org =
+                (GsOT_TAG *)(buf->ordering_table_tags + 0x110);
+            buf->ordering_tables[0].org = (GsOT_TAG *)buf->ordering_table_tags;
+            buf->ordering_tables[1].length = six;
+            buf->ordering_tables[3].length = six;
+            buf->ordering_tables[3].org =
+                (GsOT_TAG *)(buf->ordering_table_tags + 0x4110);
+            do {
+                GsClearOt(0, k, &buf->ordering_tables[k]);
+                k--;
+            } while (k >= 0);
+            buf++;
+        } while ((s32)buf < (s32)(base + 2));
     }
     gGraphics_DispEnv = GsDISPENV;
     InitGeom();
