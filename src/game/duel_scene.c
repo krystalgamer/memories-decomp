@@ -2835,27 +2835,33 @@ void DuelScene_UpdateExodiaResult(void)
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->xy.h.y;
         rec = (u8 *)gDuelHand_aSlots;
-next_obj:
-        obj = *(DisplayObject **)rec;
-        /* Keep the typed record offset left of the staging base. */
-        g = (DuelCardReplayRecordBlock *)(
-            (u32)&((DuelCardRecord *)0)[obj->field_6A] +
-            (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
-        );
-        anim = g->record.card_id - 0x11;
-        pose = (u8 *)(anim * 3 + (u32)poses);
-        obj->position.h.field_28 = pose[1] - 0x1A;
-        py = pose[2];
-        obj->field_2C.h.field_2C = 0xB4;
-        obj->field_6C = 1;
-        obj->update = (DisplayObjectCallback)fnv;
-        obj->position.h.field_2A = py - 0x1E;
-        objs[pose[0]] = obj;
-        *(DisplayObject **)rec = 0;
-        i++;
-        rec += sizeof(DuelHandSlot);
-        if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
-            goto next_obj;
+        /* The constant switch enters the slot loop at its case label, so
+           loop.c leaves it alone as with retail's goto loop (a plain
+           do-while hoists the pose constants out of the loop). */
+        switch (0) {
+            for (;;) {
+            }
+            do {
+        case 0:
+                obj = *(DisplayObject **)rec;
+                /* Keep the typed record offset left of the staging base. */
+                g = (DuelCardReplayRecordBlock *)(
+                    (u32)&((DuelCardRecord *)0)[obj->field_6A] +
+                    (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
+                );
+                anim = g->record.card_id - 0x11;
+                pose = (u8 *)(anim * 3 + (u32)poses);
+                obj->position.h.field_28 = pose[1] - 0x1A;
+                py = pose[2];
+                obj->field_2C.h.field_2C = 0xB4;
+                obj->field_6C = 1;
+                obj->update = (DisplayObjectCallback)fnv;
+                obj->position.h.field_2A = py - 0x1E;
+                objs[pose[0]] = obj;
+                *(DisplayObject **)rec = 0;
+                i++;
+                rec += sizeof(DuelHandSlot);
+            } while (i < DISPLAY_OBJECT_WORK_SLOT_COUNT);
         }
         gDisplayObject_apWorkSlots.slots[DISPLAY_OBJECT_WORK_SLOT_COUNT] = 0;
         DisplayObject_ReleaseIfPresent(
