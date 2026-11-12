@@ -57,11 +57,11 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     web = work->webs;
     fan = work->fans;
     arm = work->arms;
-    triangle = &work->triangle;
+    triangle = &work->packets.triangle;
     ray = work->rays;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat_textured;
-    quad = &work->quad;
+    quad = &work->packets.quad;
     extra = &work->extra;
     result = 0;
 

@@ -672,8 +672,8 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
 
 /* Regional value: the flags_34 bit set and cleared on the channel (0x4 ->
  * 0x8). The European build (src/game/european/) defines its own. */
-#ifndef FUNC_8003DA40_CHANNEL_FLAG
-#define FUNC_8003DA40_CHANNEL_FLAG 4
+#ifndef DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG
+#define DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG 4
 #endif
 
 void Dialog_UpdateMessageTransition(MenuRecord *record)
@@ -698,7 +698,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
-        q->flags_34 = q->flags_34 | FUNC_8003DA40_CHANNEL_FLAG;
+        q->flags_34 = q->flags_34 | DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG;
         do {
             TextBox_UpdateChannels();
         } while (q->prompt_object == 0);
@@ -727,7 +727,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
             *(s16 *)&e->xy.h.y = 0x50;
             h = q->flags_34;
             gDialog_bCallbackState = g | 0x40;
-            q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
+            q->flags_34 = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
         } else {
             Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);
         }

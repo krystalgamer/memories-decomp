@@ -24,11 +24,11 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
     Variant456EntryLine *line = work->lines;
     Variant456EntrySheet *sheet = work->sheets;
     ModelVariantStreamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->flat_extra;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *glow = &work->glow;
     s32 result = 0;
     s32 i, j, k, angle, angle2;

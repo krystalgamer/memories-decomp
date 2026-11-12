@@ -25,7 +25,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
 
     work = (Variant431EntryState *)ctx;
     band = work->bands;
-    poly = &work->textured[0];
+    poly = &work->packets.textured[0];
     ot = Graphics_GetDefaultOrderingTable();
     reset = 0;
     for (i = 0; i < 5; i++, band++) {

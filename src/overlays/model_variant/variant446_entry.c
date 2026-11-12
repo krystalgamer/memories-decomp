@@ -64,13 +64,13 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
     quad_record = work->quads;
     web = work->webs;
     record = work->records;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat_textured;
     ribbon = work->ribbons;
     trail = work->trails;
     sprites = &work->sprites;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();

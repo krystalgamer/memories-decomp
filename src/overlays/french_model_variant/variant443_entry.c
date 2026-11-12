@@ -35,9 +35,9 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
     EntryShape443 *shape = work->shapes;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *extra = &work->extra;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *additional = work->additional;

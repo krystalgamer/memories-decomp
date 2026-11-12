@@ -56,7 +56,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     timing = (u8 *)work + 0x1E68;
 #endif
-    poly = work->textured;
+    poly = work->packets.textured;
     r = 0x200;
     eighth = work->field_270C / 8;
     if (r * work->field_270A < 0) {
