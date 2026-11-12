@@ -3927,7 +3927,7 @@ void Model_DrawSlot(s32 index)
 #include "model_slot_row_tables.h"
 #include "shared_work_base.h"
 #include "file_package_staging.h"
-#include "sound_voice_data.h"
+#include "sound_effect_request.h"
 #include "script_scene.h"
 #include "duel_scene.h"
 

@@ -31,7 +31,7 @@ static PADDING_VARIABLE(4);
 #include "library_reference_y.h"
 #include "model_slot_support.h"
 #include "model_update_view_metrics.h"
-#include "sound_voice_data.h"
+#include "sound_effect_request.h"
 #include "view_state_orbit.h"
 #include "../psyq/rand.h"
 #include "model_slot_control.h"

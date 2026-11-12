@@ -8,7 +8,6 @@
 #include "sound_voice_constants.h"
 #include "sound_voice_selection.h"
 #include "sound_pending_entries.h"
-#include "sound_voice_data.h"
 #include "sound_init.h"
 
 void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
@@ -225,7 +224,7 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
  * Three spellings are load bearing, each measured against the retail words:
  *
  * - The definition is old style with u16/u8/u16 parameters. The callers and
- *   sound_voice_data.h still see three words, which old-style promotion keeps
+ *   sound_effect_request.h still see three words, which old-style promotion keeps
  *   compatible, but inside the function GCC keeps each incoming register and
  *   a narrowed copy apart. That is retail's shape: the early tests read
  *   $a0/$a2 and the voice loop reads the copies in $s2/$s3/$s7.
