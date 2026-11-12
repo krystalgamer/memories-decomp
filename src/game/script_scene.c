@@ -159,7 +159,6 @@ void Script_OpShowDialog(void)
 
 #include "campaign_flags.h"
 #include "fade.h"
-#include "fade_overlay_controls.h"
 #include "display_object.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

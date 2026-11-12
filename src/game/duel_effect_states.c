@@ -12,7 +12,6 @@
 #include "main.h"
 #include "input.h"
 #include "fade.h"
-#include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
 #include "duel_card_viewer.h"
