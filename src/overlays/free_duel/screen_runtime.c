@@ -145,18 +145,19 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 #define FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y 20
 #endif
 
-void FreeDuel_Init(u8 *src)
+/* Settles the returning duel's record, resets the grid and uploads the
+   portrait blocks; the upload stops as soon as the grid's last entry is
+   loaded. */
+static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
 {
     s32 i;
     s32 one;
-    s32 k;
     s32 row;
     s32 col;
     s32 count;
     u16 *rec;
     DisplayObject **slot;
     u8 *cell;
-    DisplayObject *obj;
     RECT *clut;
 
     if (gFreeDuel_bReturnFlags & 0x80) {
@@ -244,7 +245,7 @@ void FreeDuel_Init(u8 *src)
                        (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
             count++;
             if (count >= FREE_DUEL_GRID_ENTRY_COUNT) {
-                goto done;
+                return;
             }
             gGraphics_aImageTransferRects[0].x += 24;
             gGraphics_aImageTransferRects[1].y++;
@@ -255,7 +256,15 @@ void FreeDuel_Init(u8 *src)
             }
         }
     }
-done:
+}
+
+void FreeDuel_Init(u8 *src)
+{
+    s32 i;
+    s32 k;
+    DisplayObject *obj;
+
+    FreeDuel_InitRecordsAndPortraits(src);
     for (i = 0; i < 25; i++) {
         if (gFreeDuel_abGridAvailable[i] != 0) {
             obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
