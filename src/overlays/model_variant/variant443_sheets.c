@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant460_entry.h"
 
 /* Draws a variable set of sheets: the count and how many follow the variant's
  * own slots come from the timing record at work + 0x2E7C. The first sheets sit on
@@ -111,19 +112,19 @@ void ModelVariant443_DrawSheets(u8 *ctx)
             }
         }
         if (i < first) {
-            if (MODEL_VARIANT_WORD(work, 0x2EC4) == 0) {
+            if (((Variant460EntryState *)work)->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x2C)) << 12) /
-                                  (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x30) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x2C));
+                    sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C)) << 12) /
+                                  (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x30) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C));
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
-                        MODEL_VARIANT_WORD(work, 0x2EC4) = 1;
+                        ((Variant460EntryState *)work)->tail.phase = 1;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2EC4) == 3 && sheet->size > 0) {
-                if ((u32)MODEL_VARIANT_WORD(work, 0x2E6C) >= (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x38)) {
-                    sheet->size = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x38)) << 12) /
-                                  (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x3C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2E7C), 0x38));
+            } else if (((Variant460EntryState *)work)->tail.phase == 3 && sheet->size > 0) {
+                if ((u32)MODEL_VARIANT_WORD(work, 0x2E6C) >= (u32)MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) {
+                    sheet->size = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) << 12) /
+                                  (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x3C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38));
                 }
                 if (sheet->size <= 0) {
                     sheet->size = 0;
@@ -138,7 +139,7 @@ void ModelVariant443_DrawSheets(u8 *ctx)
                     sheet->size = MODEL_VARIANT_WORD(obj, 0x24C) * 16;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
-                        if (MODEL_VARIANT_WORD(work, 0x2EC4) < 4) {
+                        if (((Variant460EntryState *)work)->tail.phase < 4) {
                             sheet->shown = 0;
                         }
                     }
