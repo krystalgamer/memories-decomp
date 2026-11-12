@@ -186,7 +186,7 @@ void DisplayObject_ReleaseIfPresent(void *object)
     }
 }
 
-void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=gDisplayObject_awListKeys;b=gDisplayObject_awListHeads;gDisplayObject_wUnlinkCount=0;gDisplayObject_wAcquireCount=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
+void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*key; s16*head;key=gDisplayObject_awListKeys;head=gDisplayObject_awListHeads;gDisplayObject_wUnlinkCount=0;gDisplayObject_wAcquireCount=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*head=neg;*key=neg;key++;head++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
 
 void DisplayObject_Reset(void)
 {
@@ -309,11 +309,11 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
    instead. */
 void DisplayObject_RenderSpriteList(void) {
     SpritePrim *p;
-    POLY_FT4 *g;
-    ClipState *h;
-    DisplayObject *e;
-    GsOT **tb;
-    DisplayObjectCallback fn;
+    POLY_FT4 *packet;
+    ClipState *clip;
+    DisplayObject *object;
+    GsOT **table;
+    DisplayObjectCallback callback;
     s32 i;
     GsOT *ot;
     s32 mode;
@@ -321,66 +321,66 @@ void DisplayObject_RenderSpriteList(void) {
 
     i = gDisplayObject_awListHeads[1];
     if (i >= 0) {
-        g = (POLY_FT4 *)0x1F800344;
+        packet = (POLY_FT4 *)0x1F800344;
         p = (SpritePrim *)0x1F800320;
-        h = (ClipState *)0x1F800378;
-        tb = gGraphics_apOrderingTables;
+        clip = (ClipState *)0x1F800378;
+        table = gGraphics_apOrderingTables;
 
         do {
-            e = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);
-            i = e->next;
+            object = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);
+            i = object->next;
             while (1) {
-                fn = e->update;
-                if (fn != (DisplayObjectCallback)0) {
-                    fn((u8 *)e);
+                callback = object->update;
+                if (callback != (DisplayObjectCallback)0) {
+                    callback((u8 *)object);
                 }
-                if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+                if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                      DISPLAY_OBJECT_RENDERABLE_MASK) != 0) {
                     break;
                 }
-                p->attribute = e->attribute;
-                idx = e->ot_index;
-                p->rgb = e->rgb;
-                p->xy.word = e->xy.word;
-                p->extent.word = e->field_3C.word;
-                p->cxcy.word = e->field_40.word;
-                p->uv.word = e->texture_uv;
-                mode = e->ot_depth | 0x10000;
-                ot = tb[idx];
-                p->tpage = e->texture_page;
+                p->attribute = object->attribute;
+                idx = object->ot_index;
+                p->rgb = object->rgb;
+                p->xy.word = object->xy.word;
+                p->extent.word = object->field_3C.word;
+                p->cxcy.word = object->field_40.word;
+                p->uv.word = object->texture_uv;
+                mode = object->ot_depth | 0x10000;
+                ot = table[idx];
+                p->tpage = object->texture_page;
 
-                if ((e->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+                if ((object->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
                     p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
                 }
 
-                if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+                if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     gDisplayObject_fRenderRetry = 0;
                     if (DisplayObject_ProjectRotationFacing(
-                            e, (s16)p->xy.h.x + (s16)e->field_18.center.x,
-                            (s16)p->xy.h.y + (s16)e->field_18.center.y,
-                                      (struct ProjectionOut *)h->out) <= 0) {
+                            object, (s16)p->xy.h.x + (s16)object->field_18.center.x,
+                            (s16)p->xy.h.y + (s16)object->field_18.center.y,
+                                      (struct ProjectionOut *)clip->out) <= 0) {
                         break;
                     }
                     if (gDisplayObject_fRenderRetry != 0) {
                         continue;
                     }
-                    setlen(g, 9);
-                    *(s32 *)&g->r0 = p->rgb;
-                    g->code = 0x2C;
+                    setlen(packet, 9);
+                    *(s32 *)&packet->r0 = p->rgb;
+                    packet->code = 0x2C;
                     if ((p->attribute & GsALON) != 0) {
-                        SetSemiTrans(g, 1);
+                        SetSemiTrans(packet, 1);
                     }
-                    mode = e->ot_depth | 0xF0000;
+                    mode = object->ot_depth | 0xF0000;
                 } else if ((p->attribute & GsROTOFF) == 0) {
-                    p->rotate = e->field_20.h.rotation_z * 5760;
-                    p->scale = e->field_44.word;
-                    p->mxmy.word = e->field_48.word;
+                    p->rotate = object->field_20.h.rotation_z * 5760;
+                    p->scale = object->field_44.word;
+                    p->mxmy.word = object->field_48.word;
                     p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
-                    mode = e->ot_depth | 0x30000;
+                    mode = object->ot_depth | 0x30000;
                 }
-                DisplayObject_SubmitPacket(p, (u8 *)g, ot, mode, h->out);
+                DisplayObject_SubmitPacket(p, (u8 *)packet, ot, mode, clip->out);
                 break;
             }
         } while (i >= 0);
@@ -397,26 +397,26 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
-        GsOT **t = gGraphics_apOrderingTables;
+        GsOT **table = gGraphics_apOrderingTables;
 
         do {
-            DisplayObject *p =
+            DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
-            DisplayObjectCallback f = p->update;
-            u8 *q = (u8 *)p;
+            DisplayObjectCallback callback = object->update;
+            u8 *data = (u8 *)object;
 
-            i = p->next;
+            i = object->next;
 
-            if (f != 0) {
-                f(q);
+            if (callback != 0) {
+                callback(data);
             }
 
-            if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                DisplayObject_UpdateCommandStream((DisplayObject *)q);
+                DisplayObject_UpdateCommandStream((DisplayObject *)data);
                 DisplayObject_RenderSpriteSheet(
-                    (DisplayObject *)q, t[p->ot_index],
-                    (s16)p->ot_depth
+                    (DisplayObject *)data, table[object->ot_index],
+                    (s16)object->ot_depth
                 );
             }
         } while (i >= 0);
@@ -501,65 +501,65 @@ GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
    then walks the object's width through DisplayObject_SubmitPacket, advancing the
    position or the size and the texture coordinates (the page step depends on
    the depth bits of the tag) after each strip. */
-void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg) {
+void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_table, s32 mode_arg) {
     u16 mode16 = mode_arg;
     SpritePrim *p;
-    ClipState *c;
-    POLY_FT4 *g;
+    ClipState *clip;
+    POLY_FT4 *packet;
     s32 step;
     s32 mode;
     s32 remaining;
     s32 tag;
-    s32 fl;
+    s32 flags;
 
-    c = (ClipState *)0x1F800378;
+    clip = (ClipState *)0x1F800378;
     p = (SpritePrim *)0x1F800320;
-    g = (POLY_FT4 *)0x1F800344;
+    packet = (POLY_FT4 *)0x1F800344;
     step = 1;
 
-    tag = e->attribute;
+    tag = object->attribute;
     p->attribute = tag;
     if (tag & DISPLAY_OBJECT_ATTRIBUTE_16BPP) {
         step = 4;
     } else if (tag & DISPLAY_OBJECT_ATTRIBUTE_8BPP) {
         step = 2;
     }
-    p->tpage = e->texture_page;
-    p->xy.word = e->xy.word;
-    p->cxcy.word = e->field_40.word;
-    p->rgb = e->rgb;
-    fl = e->flags;
-    p->uv.word = e->texture_uv;
-    if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+    p->tpage = object->texture_page;
+    p->xy.word = object->xy.word;
+    p->cxcy.word = object->field_40.word;
+    p->rgb = object->rgb;
+    flags = object->flags;
+    p->uv.word = object->texture_uv;
+    if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
         p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
     }
-    p->extent.wh.h = e->field_3C.size.h;
-    remaining = e->field_3C.size.w;
-    c->flag = p->attribute & GsROTOFF;
+    p->extent.wh.h = object->field_3C.size.h;
+    remaining = object->field_3C.size.w;
+    clip->flag = p->attribute & GsROTOFF;
     mode = mode16 | 0x10000;
 
-    if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+    if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
         gDisplayObject_fRenderRetry = 0;
         if (DisplayObject_ProjectRotationFacing(
-                e, (s16)p->xy.h.x + (s16)e->field_18.center.x,
-                (s16)p->xy.h.y + (s16)e->field_18.center.y,
-                          (struct ProjectionOut *)c->out) <= 0) {
+                object, (s16)p->xy.h.x + (s16)object->field_18.center.x,
+                (s16)p->xy.h.y + (s16)object->field_18.center.y,
+                          (struct ProjectionOut *)clip->out) <= 0) {
             return;
         }
-        setlen(g, 9);
-        *(s32 *)&g->r0 = p->rgb;
-        g->code = 0x2C;
+        setlen(packet, 9);
+        *(s32 *)&packet->r0 = p->rgb;
+        packet->code = 0x2C;
         if ((p->attribute & GsALON) != 0) {
-            SetSemiTrans(g, 1);
+            SetSemiTrans(packet, 1);
         }
-        c->flag = GsROTOFF;
+        clip->flag = GsROTOFF;
         mode = mode16 | 0xF0000;
     } else if ((p->attribute & GsROTOFF) == 0) {
-        p->rotate = e->field_20.h.rotation_z * 5760;
-        p->scale = e->field_44.word;
+        p->rotate = object->field_20.h.rotation_z * 5760;
+        p->scale = object->field_44.word;
         mode = mode16 | 0x30000;
-        p->mxmy.word = e->field_48.word;
+        p->mxmy.word = object->field_48.word;
         p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
         p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
     }
@@ -572,8 +572,8 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        DisplayObject_SubmitPacket(p, (u8 *)g, ordering_table, mode, c->out);
-        if (c->flag != 0) {
+        DisplayObject_SubmitPacket(p, (u8 *)packet, ordering_table, mode, clip->out);
+        if (clip->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {
             p->mxmy.h.x = p->mxmy.h.x - p->extent.wh.w.word;
@@ -673,7 +673,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * literals because retail holds them in s8/s7 across the loop.
  *
  * Reads from the object that follow a store into the primitive are spelled
- * *(T *)&e->member, not e->member. A member read is a struct reference, the
+ * *(T *)&object->member, not object->member. A member read is a struct reference, the
  * word stores into the primitive are not, and GCC 2.8.1 lets a load at a
  * varying struct address float above a store to a fixed scalar one; taken
  * through the member's address the read stays scalar and keeps its place,
@@ -689,106 +689,106 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * the +0x5A flag asks for the second texture -- through
  * DisplayObject_SubmitPacket. */
 void DisplayObject_RenderGouraudQuadList(void) {
-    POLY_G4 *g;
-    u8 *h;
-    DisplayObject *e;
-    GsOT **tb;
-    DisplayObjectCallback fn;
+    POLY_G4 *packet;
+    u8 *projection;
+    DisplayObject *object;
+    GsOT **table;
+    DisplayObjectCallback callback;
     s32 eight;
     s32 hi;
     s32 bit;
-    s32 v;
+    s32 attribute;
     s32 i;
     s32 w0;
     s32 w1;
     s32 w2;
     s32 w3;
     s32 w4;
-    s32 fl;
+    s32 flags;
     s32 dx;
     s32 x0;
     s32 x1;
     s32 x2;
 
-    g = (POLY_G4 *)0x1F800344;
-    h = (u8 *)0x1F800398;
+    packet = (POLY_G4 *)0x1F800344;
+    projection = (u8 *)0x1F800398;
     i = gDisplayObject_awListHeads[4];
 
     if (i >= 0) {
         eight = 8;
         hi = 0x38;
-        tb = gGraphics_apOrderingTables;
+        table = gGraphics_apOrderingTables;
         bit = 0x40000;
 
         do {
-            e = &gDisplayObject_aPool[i];
-            fn = e->update;
-            i = e->next;
-            if (fn != (DisplayObjectCallback)0) {
-                fn(DISPLAY_OBJECT_BYTES(e));
+            object = &gDisplayObject_aPool[i];
+            callback = object->update;
+            i = object->next;
+            if (callback != (DisplayObjectCallback)0) {
+                callback(DISPLAY_OBJECT_BYTES(object));
             }
-            if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                v = e->attribute;
-                w0 = e->position.word;
-                w1 = e->xy.word;
-                w2 = e->field_38.word;
-                w3 = e->field_40.word;
-                *(s32 *)&g->x0 = w0;
-                *(s32 *)&g->x1 = w1;
-                *(s32 *)&g->x2 = w2;
-                *(s32 *)&g->x3 = w3;
-                *(s32 *)&g->r0 = *(s32 *)&e->field_2C;
-                *(s32 *)&g->r1 = *(s32 *)&e->field_34;
-                *(s32 *)&g->r2 = *(s32 *)&e->field_3C;
-                w4 = *(s32 *)&e->field_44;
-                setlen(g, eight);
-                setcode(g, hi);
-                fl = e->flags;
-                *(s32 *)&g->r3 = w4;
+                attribute = object->attribute;
+                w0 = object->position.word;
+                w1 = object->xy.word;
+                w2 = object->field_38.word;
+                w3 = object->field_40.word;
+                *(s32 *)&packet->x0 = w0;
+                *(s32 *)&packet->x1 = w1;
+                *(s32 *)&packet->x2 = w2;
+                *(s32 *)&packet->x3 = w3;
+                *(s32 *)&packet->r0 = *(s32 *)&object->field_2C;
+                *(s32 *)&packet->r1 = *(s32 *)&object->field_34;
+                *(s32 *)&packet->r2 = *(s32 *)&object->field_3C;
+                w4 = *(s32 *)&object->field_44;
+                setlen(packet, eight);
+                setcode(packet, hi);
+                flags = object->flags;
+                *(s32 *)&packet->r3 = w4;
 
-                if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+                if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
-                    g->x0 -= dx;
-                    g->x1 -= dx;
-                    g->x2 -= dx;
-                    g->x3 -= dx;
+                    packet->x0 -= dx;
+                    packet->x1 -= dx;
+                    packet->x2 -= dx;
+                    packet->x3 -= dx;
                     dx = gGraphics_sViewportY;
-                    g->y0 -= dx;
-                    g->y1 -= dx;
-                    g->y2 -= dx;
-                    g->y3 -= dx;
+                    packet->y0 -= dx;
+                    packet->y1 -= dx;
+                    packet->y2 -= dx;
+                    packet->y3 -= dx;
                 }
 
-                if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+                if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
-                                      e->field_20.word,
-                                      g->x0 + (s16)e->field_18.center.x,
-                                      g->y0 + (s16)e->field_18.center.y,
-                                      (struct ProjectionOut *)h) <= 0) {
+                                      object->field_20.word,
+                                      packet->x0 + (s16)object->field_18.center.x,
+                                      packet->y0 + (s16)object->field_18.center.y,
+                                      (struct ProjectionOut *)projection) <= 0) {
                         continue;
                     }
-                    v = v | 0x4000000;
+                    attribute = attribute | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket((SpritePrim *)v, POLY_G4_BYTES(g), tb[e->ot_index],
-                                           e->ot_depth | bit, h);
+                DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_G4_BYTES(packet), table[object->ot_index],
+                                           object->ot_depth | bit, projection);
 
-                if (*(u8 *)&e->field_5A != 0) {
-                    x0 = e->field_48.word;
-                    x1 = e->field_50.word;
-                    *(s32 *)&g->x0 = x0;
-                    *(s32 *)&g->x1 = x1;
+                if (*(u8 *)&object->field_5A != 0) {
+                    x0 = object->field_48.word;
+                    x1 = object->field_50.word;
+                    *(s32 *)&packet->x0 = x0;
+                    *(s32 *)&packet->x1 = x1;
                     /* field_4C is declared s32, so *(s32 *)& would fold
                        back into a member read and float; u32 keeps it
                        scalar. */
-                    *(s32 *)&g->r0 = *(u32 *)&e->field_4C;
-                    x2 = *(s32 *)&e->field_54;
-                    setlen(g, eight);
-                    setcode(g, hi);
-                    *(s32 *)&g->r1 = x2;
-                    DisplayObject_SubmitPacket((SpritePrim *)v, POLY_G4_BYTES(g), tb[e->ot_index],
-                                               e->ot_depth | bit, h);
+                    *(s32 *)&packet->r0 = *(u32 *)&object->field_4C;
+                    x2 = *(s32 *)&object->field_54;
+                    setlen(packet, eight);
+                    setcode(packet, hi);
+                    *(s32 *)&packet->r1 = x2;
+                    DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_G4_BYTES(packet), table[object->ot_index],
+                                               object->ot_depth | bit, projection);
                 }
             }
         } while (i >= 0);
@@ -801,109 +801,109 @@ void DisplayObject_RenderGouraudQuadList(void) {
  * the first two vertices from 0x58; display_object.h records why that reach
  * stays a byte reach. */
 void DisplayObject_RenderTexturedGouraudQuadList(void) {
-    POLY_GT4 *g;
-    u8 *h;
-    DisplayObject *e;
-    GsOT **tb;
-    DisplayObjectCallback fn;
+    POLY_GT4 *packet;
+    u8 *projection;
+    DisplayObject *object;
+    GsOT **table;
+    DisplayObjectCallback callback;
     s32 twelve;
     s32 hi;
     s32 bit;
-    s32 v;
+    s32 attribute;
     s32 i;
     s32 w0;
     s32 w1;
     s32 w2;
     s32 w3;
     s32 w4;
-    s32 fl;
+    s32 flags;
     s32 dx;
     s32 x0;
     s32 x1;
     s32 x2;
 
-    g = (POLY_GT4 *)0x1F800344;
-    h = (u8 *)0x1F800398;
+    packet = (POLY_GT4 *)0x1F800344;
+    projection = (u8 *)0x1F800398;
     i = gDisplayObject_awListHeads[5];
 
     if (i >= 0) {
         twelve = 0xC;
         hi = 0x3C;
-        tb = gGraphics_apOrderingTables;
+        table = gGraphics_apOrderingTables;
         bit = 0x50000;
 
         do {
-            e = &gDisplayObject_aPool[i];
-            fn = e->update;
-            i = e->next;
-            if (fn != (DisplayObjectCallback)0) {
-                fn(DISPLAY_OBJECT_BYTES(e));
+            object = &gDisplayObject_aPool[i];
+            callback = object->update;
+            i = object->next;
+            if (callback != (DisplayObjectCallback)0) {
+                callback(DISPLAY_OBJECT_BYTES(object));
             }
-            if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+            if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                v = e->attribute;
-                w0 = e->position.word;
-                w1 = e->field_34.word;
-                w2 = e->field_40.word;
-                w3 = e->field_4C;
-                *(s32 *)&g->x0 = w0;
-                *(s32 *)&g->x1 = w1;
-                *(s32 *)&g->x2 = w2;
-                *(s32 *)&g->x3 = w3;
-                *(s32 *)&g->r0 = *(s32 *)&e->field_2C;
-                *(s32 *)&g->r1 = *(s32 *)&e->field_38;
-                *(s32 *)&g->r2 = *(s32 *)&e->field_44;
-                *(s32 *)&g->r3 = *(s32 *)&e->field_50;
-                *(u16 *)&g->u0 = *(u16 *)&e->xy;
-                *(u16 *)&g->u1 = *(u16 *)&e->field_3C;
-                *(u16 *)&g->u2 = *(u16 *)&e->field_48;
-                w4 = *(u16 *)&e->field_54;
-                setlen(g, twelve);
-                setcode(g, hi);
-                fl = e->flags;
-                *(u16 *)&g->u3 = w4;
+                attribute = object->attribute;
+                w0 = object->position.word;
+                w1 = object->field_34.word;
+                w2 = object->field_40.word;
+                w3 = object->field_4C;
+                *(s32 *)&packet->x0 = w0;
+                *(s32 *)&packet->x1 = w1;
+                *(s32 *)&packet->x2 = w2;
+                *(s32 *)&packet->x3 = w3;
+                *(s32 *)&packet->r0 = *(s32 *)&object->field_2C;
+                *(s32 *)&packet->r1 = *(s32 *)&object->field_38;
+                *(s32 *)&packet->r2 = *(s32 *)&object->field_44;
+                *(s32 *)&packet->r3 = *(s32 *)&object->field_50;
+                *(u16 *)&packet->u0 = *(u16 *)&object->xy;
+                *(u16 *)&packet->u1 = *(u16 *)&object->field_3C;
+                *(u16 *)&packet->u2 = *(u16 *)&object->field_48;
+                w4 = *(u16 *)&object->field_54;
+                setlen(packet, twelve);
+                setcode(packet, hi);
+                flags = object->flags;
+                *(u16 *)&packet->u3 = w4;
 
-                if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
+                if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
-                    g->x0 -= dx;
-                    g->x1 -= dx;
-                    g->x2 -= dx;
-                    g->x3 -= dx;
+                    packet->x0 -= dx;
+                    packet->x1 -= dx;
+                    packet->x2 -= dx;
+                    packet->x3 -= dx;
                     dx = gGraphics_sViewportY;
-                    g->y0 -= dx;
-                    g->y1 -= dx;
-                    g->y2 -= dx;
-                    g->y3 -= dx;
+                    packet->y0 -= dx;
+                    packet->y1 -= dx;
+                    packet->y2 -= dx;
+                    packet->y3 -= dx;
                 }
 
-                if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+                if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
-                                      e->field_20.word,
-                                      g->x0 + (s16)e->field_18.center.x,
-                                      g->y0 + (s16)e->field_18.center.y,
-                                      (struct ProjectionOut *)h) <= 0) {
+                                      object->field_20.word,
+                                      packet->x0 + (s16)object->field_18.center.x,
+                                      packet->y0 + (s16)object->field_18.center.y,
+                                      (struct ProjectionOut *)projection) <= 0) {
                         continue;
                     }
-                    v = v | 0x4000000;
+                    attribute = attribute | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket((SpritePrim *)v, POLY_GT4_BYTES(g), tb[e->ot_index],
-                                           e->ot_depth | bit, h);
+                DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_GT4_BYTES(packet), table[object->ot_index],
+                                           object->ot_depth | bit, projection);
 
-                if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
-                    x0 = *(s32 *)&e->field_58;
-                    x1 = *(s32 *)&e->field_64;
-                    *(s32 *)&g->x0 = x0;
-                    *(s32 *)&g->x1 = x1;
-                    *(s32 *)&g->r0 = *(s32 *)&e->texture_uv;
-                    *(s32 *)&g->r1 = *(s32 *)&e->field_68;
-                    *(u16 *)&g->u0 = *(u16 *)&e->field_60;
-                    x2 = *(u16 *)&e->field_6C;
-                    setlen(g, twelve);
-                    setcode(g, hi);
-                    *(u16 *)&g->u1 = x2;
-                    DisplayObject_SubmitPacket((SpritePrim *)v, POLY_GT4_BYTES(g), tb[e->ot_index],
-                                               e->ot_depth | bit, h);
+                if (DISPLAY_OBJECT_BYTES(object)[0x72] != 0) {
+                    x0 = *(s32 *)&object->field_58;
+                    x1 = *(s32 *)&object->field_64;
+                    *(s32 *)&packet->x0 = x0;
+                    *(s32 *)&packet->x1 = x1;
+                    *(s32 *)&packet->r0 = *(s32 *)&object->texture_uv;
+                    *(s32 *)&packet->r1 = *(s32 *)&object->field_68;
+                    *(u16 *)&packet->u0 = *(u16 *)&object->field_60;
+                    x2 = *(u16 *)&object->field_6C;
+                    setlen(packet, twelve);
+                    setcode(packet, hi);
+                    *(u16 *)&packet->u1 = x2;
+                    DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_GT4_BYTES(packet), table[object->ot_index],
+                                               object->ot_depth | bit, projection);
                 }
             }
         } while (i >= 0);

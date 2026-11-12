@@ -407,7 +407,7 @@ void DisplayObject_RenderSpriteSheetList(void);
  * The caller loads the halfword signed (lh), and a u16 parameter turns that
  * into lhu. The callee masks with andi 0xFFFF either way, so the narrowing
  * belongs on its side of the call. */
-void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg);
+void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_table, s32 mode_arg);
 
 /* Three of the seven entries in gDisplayObject_ListRenderers. Each walks one
  * display object list from its head in gDisplayObject_awListHeads, runs every object's update

@@ -83,7 +83,7 @@ typedef struct DisplayObject {
     /* An ordering-table index, not a texture index. Duel_DrawDecimalDigits uses it
        to pick gGraphics_apOrderingTables[ot_index], a GsOT * element, and hands it
        to GsSortFastSprite as the ordering table; display_object_core.c indexes the
-       same array -- its local tb is assigned gGraphics_apOrderingTables -- and passes the
+       same array -- its local table is assigned gGraphics_apOrderingTables -- and passes the
        element to DisplayObject_SubmitPacket. ordering_tables.h shares the four-pointer
        array with the overlays. display_object_helpers.h's gDisplayObject_awOrderingTableDepthBases[4] is a
        parallel per-layer table indexed by the same byte, which agrees.
@@ -545,7 +545,7 @@ typedef struct DisplayObject {
    gViewState_Current begins. There is no room for a larger record.
 
    Yet DisplayObject_RenderTexturedGouraudQuadList walks this pool with that
-   stride and then tests e[0x72] as a flag, reading a second vertex set from
+   stride and then tests object[0x72] as a flag, reading a second vertex set from
    0x58, 0x64, 0x68 and 0x6C when it is set; and
    DisplayObject_InitializeTexturedGouraudQuad in display_object_helpers.c writes object[0x72]. Both
    land two bytes past the record, which is `next` of the following
@@ -553,14 +553,14 @@ typedef struct DisplayObject {
 
    What that means is not established here. The sibling renderer
    DisplayObject_RenderGouraudQuadList gates its second submission on
-   e[0x5A] instead, so the two list heads (gDisplayObject_awListHeads[4] and [5]) may simply
+   object[0x5A] instead, so the two list heads (gDisplayObject_awListHeads[4] and [5]) may simply
    carry differently shaped payloads. Recorded as an open question rather
    than guessed at.
 
-   Neither reach stops the file converting. e[0x72] stays a byte reach,
-   ((u8 *)e)[0x72], the spelling DisplayObject_InitializeTexturedGouraudQuad already uses for the
+   Neither reach stops the file converting. object[0x72] stays a byte reach,
+   ((u8 *)object)[0x72], the spelling DisplayObject_InitializeTexturedGouraudQuad already uses for the
    identical write, and the second vertex set is reached from the members
-   its words begin at: *(s32 *)&e->field_58, &e->field_64 and so on.
+   its words begin at: *(s32 *)&object->field_58, &object->field_64 and so on.
 
    What the earlier wording here called the real obstacle -- a member read
    is a struct reference, the scratchpad stores it sits between are not, and
@@ -569,7 +569,7 @@ typedef struct DisplayObject {
    in both renderers is a libgpu primitive, set up with setlen/setcode as
    POLY_G4 (8, 0x38) and POLY_GT4 (12, 0x3C), and every store into it is a
    store to one of that primitive's members. A read taken through the
-   member's address, *(s32 *)&e->field_2C, stays a scalar reference as the
+   member's address, *(s32 *)&object->field_2C, stays a scalar reference as the
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
    That is the same device duel_scene.c uses for its 0x0C colour word, and
