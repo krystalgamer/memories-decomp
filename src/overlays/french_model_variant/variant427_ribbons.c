@@ -45,7 +45,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
-    poly = work->textured;
+    poly = work->packets.textured;
     if (!(work->frame_count & 1)) {
         len = work->width / 16;
     } else {

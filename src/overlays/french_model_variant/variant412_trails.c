@@ -50,7 +50,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     coordinate.flg = 0;
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
-    quad = &work->quad;
+    quad = &work->packets.quad;
     if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
         < work->config->capture_start) {
         last = -1;

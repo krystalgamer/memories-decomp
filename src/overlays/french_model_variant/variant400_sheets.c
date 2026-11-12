@@ -25,7 +25,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     node = context;
     quad = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = &work->textured[1];
+    poly = &work->packets.textured[1];
     for (i = 0; i < 7; i++, quad++) {
         bias = 0;
         if (work->frame_count & 1) {

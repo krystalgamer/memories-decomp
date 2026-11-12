@@ -26,7 +26,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
-    poly = &work->textured[1];
+    poly = &work->packets.textured[1];
     for (i = 0; i < work->sheet_count; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {

@@ -42,7 +42,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
 
     work = (Variant388EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->textured;
+    poly = work->packets.textured;
     angle = ratan2(H(0x183E), H(0x183C)) + 0x800;
     if (W(0x1898) > 0) {
         unit = (Strip388Unit *)work;
