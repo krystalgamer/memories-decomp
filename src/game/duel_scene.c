@@ -10042,35 +10042,36 @@ void DuelEffect_ApplyDirectDamage(void) {
         return;
     }
     flags = gDuel_wCardEffectFlags;
-    if (!(flags & 0x40)) {
-        gDuel_wCardEffectFlags = flags | 0x60;
-        if (gDuel_wSelectedTrapCardId == 0) {
-            p = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
-            goto apply;
+    do {
+        if (!(flags & 0x40)) {
+            gDuel_wCardEffectFlags = flags | 0x60;
+            if (gDuel_wSelectedTrapCardId == 0) {
+                p = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
+                break;
+            }
+            gDuel_wTrapPresentationMode = 0;
         }
-        gDuel_wTrapPresentationMode = 0;
-    }
-    if (gDuel_wCardEffectFlags & 0x20) {
-        if (Duel_UpdateTrapPresentation() == 0) {
-            gDuel_wCardEffectFlags &= 0xFFDF;
-            obj = DuelEffect_CreateRequest(7);
-            obj->field_00 = 0xA0;
-            obj->field_02 = 0x78;
-            obj->phase = unit;
-            SD_SEPlayFull(0x1C);
+        if (gDuel_wCardEffectFlags & 0x20) {
+            if (Duel_UpdateTrapPresentation() == 0) {
+                gDuel_wCardEffectFlags &= 0xFFDF;
+                obj = DuelEffect_CreateRequest(7);
+                obj->field_00 = 0xA0;
+                obj->field_02 = 0x78;
+                obj->phase = unit;
+                SD_SEPlayFull(0x1C);
+            }
+            return;
         }
-    } else {
         p = &gDuel_aSideStates[gDuel_bActiveSide];
-apply:
-        remaining = p->life_points.unsigned_value -
-                    gDuel_abDirectDamageUnits[unit] *
-                        DUEL_DIRECT_DAMAGE_SCALE;
-        p->life_points.unsigned_value = remaining;
-        if ((s16) remaining < 0) {
-            p->life_points.unsigned_value = 0;
-        }
-        gDuel_wCardEffectFlags = 0;
+    } while (0);
+    remaining = p->life_points.unsigned_value -
+                gDuel_abDirectDamageUnits[unit] *
+                    DUEL_DIRECT_DAMAGE_SCALE;
+    p->life_points.unsigned_value = remaining;
+    if ((s16) remaining < 0) {
+        p->life_points.unsigned_value = 0;
     }
+    gDuel_wCardEffectFlags = 0;
 }
 
 void DuelEffect_ApplyMonsterRemoval(void) {
