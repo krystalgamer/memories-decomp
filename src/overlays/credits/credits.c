@@ -276,79 +276,80 @@ s32 Credits_BuildLineGlyphs(s32 index, s32 group)
     RECT rect;
     u16 buf[64];
     CreditsLine *line;
-    CreditsEntry *e;
+    CreditsEntry *entry;
     s32 count;
     u32 cur;
-    s32 h;
-    s32 m;
+    s32 page_height;
+    s32 keep_mask;
     u32 flags;
     u8 *text;
     s32 fg;
     s32 sh;
-    u32 g;
-    s32 w;
+    u32 page;
+    s32 width;
     u16 code;
     u8 *font;
-    u16 *p;
+    u16 *pixel_row;
     s32 k;
-    s32 v;
-    u8 b;
-    s32 t; /* one name for every p[k] read-modify-write: its single pseudo
-            * outranks `b` in global-alloc, so the loads take $a0 and `b` $a1 */
+    s32 nibbles;
+    u8 bits;
+    s32 word; /* one name for every pixel_row[k] read-modify-write: its
+               * single pseudo outranks `bits` in global-alloc, so the loads
+               * take $a0 and `bits` $a1 */
 
 top:  /* allocator steering: see the note at the end */
-    e = gCredits_aEntries;
+    entry = gCredits_aEntries;
     count = 0;
     cur = 0;
-    h = 0;
+    page_height = 0;
     rect.x = index * 192 + 512;
     rect.y = 256;
     rect.w = 4;
     rect.h = 16;
     line = &gCredits_aLines[index];
-    while (e->group >= 0) {
-        if (group < e->group) {
+    while (entry->group >= 0) {
+        if (group < entry->group) {
             break;
         }
-        if (e->group == group) {
-            flags = e->flags;
-            text = e->text;
+        if (entry->group == group) {
+            flags = entry->flags;
+            text = entry->text;
             fg = (flags & 0xF) + 1;
             sh = (flags & 0xF) + 4;
-            m = 15;
-            g = flags >> 4;
+            keep_mask = 15;
+            page = flags >> 4;
             if (line->entries == 0) {
-                line->entries = e;
-                cur = g;
+                line->entries = entry;
+                cur = page;
             }
-            if (cur == g) {
-                h += 16;
+            if (cur == page) {
+                page_height += 16;
             } else {
-                if (line->height < h) {
-                    line->height = h;
+                if (line->height < page_height) {
+                    line->height = page_height;
                 }
-                cur = g;
-                h = 0;
+                cur = page;
+                page_height = 0;
             }
             if (text != 0) {
-                w = strlen(text) / 2 * 16;
-                if (line->width < w) {
-                    line->width = w;
+                width = strlen(text) / 2 * 16;
+                if (line->width < width) {
+                    line->width = width;
                 }
-                if (line->page == 0 || line->page == g) {
+                if (line->page == 0 || line->page == page) {
                     rect.x = index * 192 + 512 + count / 15 * 96;
                     rect.y = count % 15 * 16 + 256;
                     while (*text != 0) {
                         code = text[1] | (text[0] << 8);
                         font = (u8 *)Krom2RawAdd2(code);
-                        p = buf;
+                        pixel_row = buf;
                         k = 63;
                     clear:
-                        *p++ = 0;
+                        *pixel_row++ = 0;
                         if (--k >= 0) {
                             goto clear;
                         }
-                        p = buf;
+                        pixel_row = buf;
                         if (code == 0xE056) {
                             font = gCredits_abGlyphE056;
                         }
@@ -356,93 +357,93 @@ top:  /* allocator steering: see the note at the end */
                             font = gCredits_abGlyph9B92;
                         }
                         for (k = 14; k != -1; k--) {
-                            b = font[0];
-                            v = 0;
-                            if (b & 0x80) v = sh << 4;
-                            if (b & 0x40) v |= sh << 8;
-                            t = p[4];
-                            p[4] = t | ((b & 0x20) ? v | sh << 12 : v);
-                            b = font[0];
-                            v = 0;
-                            if (b & 0x10) v = sh;
-                            if (b & 0x08) v |= sh << 4;
-                            if (b & 0x04) v |= sh << 8;
-                            t = p[5];
-                            p[5] = t | ((b & 0x02) ? v | sh << 12 : v);
-                            v = 0;
-                            if (font[0] & 0x01) v = sh;
-                            b = font[1];
-                            if (b & 0x80) v |= sh << 4;
-                            if (b & 0x40) v |= sh << 8;
-                            t = p[6];
-                            p[6] = t | ((b & 0x20) ? v | sh << 12 : v);
-                            b = font[1];
-                            v = 0;
-                            if (b & 0x10) v = sh;
-                            if (b & 0x08) v |= sh << 4;
-                            if (b & 0x04) v |= sh << 8;
-                            t = p[7];
-                            p[7] = t | ((b & 0x02) ? v | sh << 12 : v);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (bits & 0x80) nibbles = sh << 4;
+                            if (bits & 0x40) nibbles |= sh << 8;
+                            word = pixel_row[4];
+                            pixel_row[4] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (bits & 0x10) nibbles = sh;
+                            if (bits & 0x08) nibbles |= sh << 4;
+                            if (bits & 0x04) nibbles |= sh << 8;
+                            word = pixel_row[5];
+                            pixel_row[5] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
+                            nibbles = 0;
+                            if (font[0] & 0x01) nibbles = sh;
+                            bits = font[1];
+                            if (bits & 0x80) nibbles |= sh << 4;
+                            if (bits & 0x40) nibbles |= sh << 8;
+                            word = pixel_row[6];
+                            pixel_row[6] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
+                            bits = font[1];
+                            nibbles = 0;
+                            if (bits & 0x10) nibbles = sh;
+                            if (bits & 0x08) nibbles |= sh << 4;
+                            if (bits & 0x04) nibbles |= sh << 8;
+                            word = pixel_row[7];
+                            pixel_row[7] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
 
-                            b = font[0];
-                            v = 0;
-                            if (!(b & 0x80)) v = m;
-                            if (!(b & 0x40)) v |= m << 4;
-                            if (!(b & 0x20)) v |= m << 8;
-                            t = p[0];
-                            p[0] = t & (!(b & 0x10) ? v | m << 12 : v);
-                            b = font[0];
-                            v = 0;
-                            if (!(b & 0x08)) v = m;
-                            if (!(b & 0x04)) v |= m << 4;
-                            if (!(b & 0x02)) v |= m << 8;
-                            t = p[1];
-                            p[1] = t & (!(b & 0x01) ? v | m << 12 : v);
-                            b = font[1];
-                            v = 0;
-                            if (!(b & 0x80)) v = m;
-                            if (!(b & 0x40)) v |= m << 4;
-                            if (!(b & 0x20)) v |= m << 8;
-                            t = p[2];
-                            p[2] = t & (!(b & 0x10) ? v | m << 12 : v);
-                            b = font[1];
-                            v = 0;
-                            if (!(b & 0x08)) v = m;
-                            if (!(b & 0x04)) v |= m << 4;
-                            if (!(b & 0x02)) v |= m << 8;
-                            t = p[3];
-                            p[3] = t & (!(b & 0x01) ? v | m << 12 : v);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (!(bits & 0x80)) nibbles = keep_mask;
+                            if (!(bits & 0x40)) nibbles |= keep_mask << 4;
+                            if (!(bits & 0x20)) nibbles |= keep_mask << 8;
+                            word = pixel_row[0];
+                            pixel_row[0] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (!(bits & 0x08)) nibbles = keep_mask;
+                            if (!(bits & 0x04)) nibbles |= keep_mask << 4;
+                            if (!(bits & 0x02)) nibbles |= keep_mask << 8;
+                            word = pixel_row[1];
+                            pixel_row[1] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
+                            bits = font[1];
+                            nibbles = 0;
+                            if (!(bits & 0x80)) nibbles = keep_mask;
+                            if (!(bits & 0x40)) nibbles |= keep_mask << 4;
+                            if (!(bits & 0x20)) nibbles |= keep_mask << 8;
+                            word = pixel_row[2];
+                            pixel_row[2] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
+                            bits = font[1];
+                            nibbles = 0;
+                            if (!(bits & 0x08)) nibbles = keep_mask;
+                            if (!(bits & 0x04)) nibbles |= keep_mask << 4;
+                            if (!(bits & 0x02)) nibbles |= keep_mask << 8;
+                            word = pixel_row[3];
+                            pixel_row[3] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
 
-                            b = font[0];
-                            v = 0;
-                            if (b & 0x80) v = fg;
-                            if (b & 0x40) v |= fg << 4;
-                            if (b & 0x20) v |= fg << 8;
-                            t = p[0];
-                            p[0] = t | ((b & 0x10) ? v | fg << 12 : v);
-                            b = font[0];
-                            v = 0;
-                            if (b & 0x08) v = fg;
-                            if (b & 0x04) v |= fg << 4;
-                            if (b & 0x02) v |= fg << 8;
-                            t = p[1];
-                            p[1] = t | ((b & 0x01) ? v | fg << 12 : v);
-                            b = font[1];
-                            v = 0;
-                            if (b & 0x80) v = fg;
-                            if (b & 0x40) v |= fg << 4;
-                            if (b & 0x20) v |= fg << 8;
-                            t = p[2];
-                            p[2] = t | ((b & 0x10) ? v | fg << 12 : v);
-                            b = font[1];
-                            v = 0;
-                            if (b & 0x08) v = fg;
-                            if (b & 0x04) v |= fg << 4;
-                            if (b & 0x02) v |= fg << 8;
-                            t = p[3];
-                            p[3] = t | ((b & 0x01) ? v | fg << 12 : v);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (bits & 0x80) nibbles = fg;
+                            if (bits & 0x40) nibbles |= fg << 4;
+                            if (bits & 0x20) nibbles |= fg << 8;
+                            word = pixel_row[0];
+                            pixel_row[0] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
+                            bits = font[0];
+                            nibbles = 0;
+                            if (bits & 0x08) nibbles = fg;
+                            if (bits & 0x04) nibbles |= fg << 4;
+                            if (bits & 0x02) nibbles |= fg << 8;
+                            word = pixel_row[1];
+                            pixel_row[1] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
+                            bits = font[1];
+                            nibbles = 0;
+                            if (bits & 0x80) nibbles = fg;
+                            if (bits & 0x40) nibbles |= fg << 4;
+                            if (bits & 0x20) nibbles |= fg << 8;
+                            word = pixel_row[2];
+                            pixel_row[2] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
+                            bits = font[1];
+                            nibbles = 0;
+                            if (bits & 0x08) nibbles = fg;
+                            if (bits & 0x04) nibbles |= fg << 4;
+                            if (bits & 0x02) nibbles |= fg << 8;
+                            word = pixel_row[3];
+                            pixel_row[3] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
                             font += 2;
-                            p += 4;
+                            pixel_row += 4;
                         }
                         while (IsIdleGPU(3) != 0) {
                         }
@@ -458,7 +459,7 @@ top:  /* allocator steering: see the note at the end */
                     }
                 }
                 if (line->page == 0) {
-                    line->page = e[1].flags >> 4;
+                    line->page = entry[1].flags >> 4;
                 }
                 count++;
                 if (count >= 30) {
@@ -466,11 +467,11 @@ top:  /* allocator steering: see the note at the end */
                 }
             }
         }
-        e++;
+        entry++;
     }
-    line->end = e;
-    if (line->height < h) {
-        line->height = h;
+    line->end = entry;
+    if (line->height < page_height) {
+        line->height = page_height;
     }
     if (line->page != 0) {
         line->height += 16;
@@ -502,7 +503,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
     CreditsLine *line;
     CreditsEntry *entry;
     s32 drawn;
-    s32 d;
+    s32 full_level;
     s32 x;
     s32 y;
     s32 i;
@@ -521,7 +522,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
     entry = line->entries;
     x = line->x;
     y = line->y;
-    d = 0x80;
+    full_level = 0x80;
     if (entry == 0) {
         return;
     }
@@ -541,16 +542,16 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                 r2 = c2;
                 r3 = c3;
                 if (line->title_held != 0 && line->page != 0 && drawn == 0) {
-                    r0 = r1 = r2 = r3 = d;
+                    r0 = r1 = r2 = r3 = full_level;
                 }
-                setRGB0(&glyph, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
-                setRGB1(&glyph, r1 * 64 / d, r1 * 64 / d, r1 * 64 / d);
-                setRGB2(&glyph, r2 * 64 / d, r2 * 64 / d, r2 * 64 / d);
-                setRGB3(&glyph, r3 * 192 / d, r3 * 192 / d, r3 * 192 / d);
-                setRGB0(&shade, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
-                setRGB1(&shade, r1 * 192 / d, r1 * 192 / d, r1 * 192 / d);
-                setRGB2(&shade, r2 * 192 / d, r2 * 192 / d, r2 * 192 / d);
-                setRGB3(&shade, r3 * 192 / d, r3 * 192 / d, r3 * 192 / d);
+                setRGB0(&glyph, r0 * 192 / full_level, r0 * 192 / full_level, r0 * 192 / full_level);
+                setRGB1(&glyph, r1 * 64 / full_level, r1 * 64 / full_level, r1 * 64 / full_level);
+                setRGB2(&glyph, r2 * 64 / full_level, r2 * 64 / full_level, r2 * 64 / full_level);
+                setRGB3(&glyph, r3 * 192 / full_level, r3 * 192 / full_level, r3 * 192 / full_level);
+                setRGB0(&shade, r0 * 192 / full_level, r0 * 192 / full_level, r0 * 192 / full_level);
+                setRGB1(&shade, r1 * 192 / full_level, r1 * 192 / full_level, r1 * 192 / full_level);
+                setRGB2(&shade, r2 * 192 / full_level, r2 * 192 / full_level, r2 * 192 / full_level);
+                setRGB3(&shade, r3 * 192 / full_level, r3 * 192 / full_level, r3 * 192 / full_level);
                 for (i = 0; i < strlen(entry->text) / 2; i++) {
                     ox = i * 4;
                     u = (drawn / 15 * 96 + ox) % 64 * 4;
@@ -592,12 +593,12 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
     CreditsLine *line;
     CreditsEntry *entry;
     s32 drawn;
-    s32 d;
+    s32 full_level;
     s32 x;
     s32 nx;
     s32 y;
     s32 i;
-    u32 c;
+    u32 code;
     s32 u;
     s32 r0;
     s32 r1;
@@ -615,7 +616,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
     entry = line->entries;
     x = line->x;
     y = line->y;
-    d = 0x80;
+    full_level = 0x80;
     if (entry == 0) {
         return;
     }
@@ -643,28 +644,28 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                 r2 = c2;
                 r3 = c3;
                 if (line->title_held != 0 && line->page != 0 && drawn == 0) {
-                    r0 = r1 = r2 = r3 = d;
+                    r0 = r1 = r2 = r3 = full_level;
                 }
-                setRGB0(&glyph, r0 * 128 / d, r0 * 128 / d, r0 * 128 / d);
-                setRGB1(&glyph, r1 * 128 / d, r1 * 128 / d, r1 * 128 / d);
-                setRGB2(&glyph, r2 * 128 / d, r2 * 128 / d, r2 * 128 / d);
-                setRGB3(&glyph, r3 * 128 / d, r3 * 128 / d, r3 * 128 / d);
-                setRGB0(&shade, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
-                setRGB1(&shade, r1 * 192 / d, r1 * 192 / d, r1 * 192 / d);
-                setRGB2(&shade, r2 * 192 / d, r2 * 192 / d, r2 * 192 / d);
-                setRGB3(&shade, r3 * 192 / d, r3 * 192 / d, r3 * 192 / d);
+                setRGB0(&glyph, r0 * 128 / full_level, r0 * 128 / full_level, r0 * 128 / full_level);
+                setRGB1(&glyph, r1 * 128 / full_level, r1 * 128 / full_level, r1 * 128 / full_level);
+                setRGB2(&glyph, r2 * 128 / full_level, r2 * 128 / full_level, r2 * 128 / full_level);
+                setRGB3(&glyph, r3 * 128 / full_level, r3 * 128 / full_level, r3 * 128 / full_level);
+                setRGB0(&shade, r0 * 192 / full_level, r0 * 192 / full_level, r0 * 192 / full_level);
+                setRGB1(&shade, r1 * 192 / full_level, r1 * 192 / full_level, r1 * 192 / full_level);
+                setRGB2(&shade, r2 * 192 / full_level, r2 * 192 / full_level, r2 * 192 / full_level);
+                setRGB3(&shade, r3 * 192 / full_level, r3 * 192 / full_level, r3 * 192 / full_level);
                 for (i = 0; i < strlen(entry->text); i++) {
-                    c = entry->text[i];
-                    if (c >= 0x61) {
-                        c += 0x20;
+                    code = entry->text[i];
+                    if (code >= 0x61) {
+                        code += 0x20;
                     } else {
-                        c += 0x1F;
+                        code += 0x1F;
                     }
                     if ((*(u32 *)entry & 0xFFF) == 0x63) {
-                        glyph.clut = (c & 0xFF) == 0x69 ? 0x3DE0 : 0x3DA0;
+                        glyph.clut = (code & 0xFF) == 0x69 ? 0x3DE0 : 0x3DA0;
                     }
-                    u = (c & 0xF) * 8;
-                    v = (((c & 0xF0) >> 4) - 4) * 12;
+                    u = (code & 0xF) * 8;
+                    v = (((code & 0xF0) >> 4) - 4) * 12;
                     nx = x + 8;
                     setXY4(&glyph, x, y, nx, y, x, y + 12, nx, y + 12);
                     setUV4(&glyph, u, v, u + 8, v, u, v + 12, u + 8, v + 12);
