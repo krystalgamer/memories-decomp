@@ -37,7 +37,7 @@
 /* duel_update_card_use_confirmation */
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
-#define FUNC_80020988_CANCEL_BUTTON PAD_BUTTON_CROSS
+#define DUEL_CARD_USE_CONFIRMATION_CANCEL_BUTTON PAD_BUTTON_CROSS
 
 /* duel_result_runtime */
 #define DUEL_RESULT_OUTRO_START_SECTOR 0x1DB6

@@ -51,8 +51,10 @@ typedef struct {
     u8 resource_entry_index;
     u8 variant_update_flags;
     u8 state;
-    u16 field_34;
-    u16 field_36;
+    /* Not accessed through this view; named for the screen position that
+       MenuRecord and DisplayEffectState keep at 0x34/0x36 of the same record. */
+    u16 x;
+    u16 y;
     u8 pad_38[0x04];
     u8 slot_index;
     u8 pad_3D;

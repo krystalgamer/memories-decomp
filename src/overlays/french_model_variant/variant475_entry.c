@@ -42,11 +42,11 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
     quads = work->quads;
     sheet = work->sheets;
     streamer = work->streamers;
-    poly = work->textured;
+    poly = work->packets.textured;
     flat = work->flat;
     ribbon = work->ribbons;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     extra = &work->extra;
     extra_flat = &work->extra_flat;
     result = 0;
