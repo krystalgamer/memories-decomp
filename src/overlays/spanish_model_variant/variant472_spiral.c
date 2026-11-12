@@ -87,7 +87,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -194,15 +194,15 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     work->spiral_angle += 16;
     if (work->phase == 0) {
         if (work->spiral_size < 0x400) {
-            work->spiral_size = (u32)((work->elapsed - work->config->fan_start) << 10) /
+            work->spiral_size = (u32)((work->clock.frame - work->config->fan_start) << 10) /
                                                (u32)(work->config->mesh_start - work->config->fan_start);
             if (work->spiral_size >= 0x400) {
                 work->spiral_size = 0x400;
             }
         }
-    } else if ((u32)work->elapsed >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
+    } else if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
                work->spiral_size > 0) {
-        work->spiral_size = 0x400 - (u32)((work->elapsed - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
+        work->spiral_size = 0x400 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
                                            (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
         if (work->spiral_size <= 0) {
             work->spiral_size = 0;

@@ -51,7 +51,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
     poly = work->packets.textured;
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         spread = work->width / 16;
     } else {
         spread = work->width * 72 / 1024;
@@ -200,7 +200,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             }
         }
         if (rec->size < 0x400 && rec->state < 2) {
-            rec->size += work->step * 32;
+            rec->size += work->clock.step * 32;
             if (rec->size >= 0x400) {
                 rec->size = 0x400;
                 rec->state = 2;
@@ -209,14 +209,14 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
                 }
             }
         } else if (rec->fade < 0x400 && rec->state == 2) {
-            rec->fade += work->step * 32;
+            rec->fade += work->clock.step * 32;
             rec->size = 0x400;
             rec->fade = 0x400;
             rec->state = 3;
         }
     }
-    work->ribbon_sway += work->step * 850;
-    work->field_3C50 += work->step * 128;
+    work->ribbon_sway += work->clock.step * 850;
+    work->field_3C50 += work->clock.step * 128;
     timing = *(u8 **)((u8 *)work + 0x3BF0);
     if (VARIANT473_UWORD(timing, 0x24) <= VARIANT473_UWORD(work, 0x3BE0) && work->width > 0) {
         work->width = 0x400 - ((VARIANT473_UWORD(work, 0x3BE0) - VARIANT473_UWORD(timing, 0x24)) << 10) /

@@ -29,9 +29,7 @@ typedef struct {
     VECTOR origin, path_origins[5], path_targets[5], paths[5], direction;
     DVECTOR screen_delta;
     VECTOR ring_positions[24], ring_directions[24], view_delta;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     ModelVariantGrowConfig *config;
     u32 field_3370;
     GsCOORDUNIT *parts[3];

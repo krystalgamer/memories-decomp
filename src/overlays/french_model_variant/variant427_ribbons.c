@@ -46,7 +46,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
     poly = work->packets.textured;
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         len = work->width / 16;
     } else {
         len = work->width * 72 / 1024;
@@ -141,7 +141,7 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
             }
         }
         if (ribbon->amp < 0x400) {
-            ribbon->amp += work->step * 64;
+            ribbon->amp += work->clock.step * 64;
             if (ribbon->amp >= 0x400) {
                 ribbon->amp = 0x400;
                 if (work->phase == 2) {

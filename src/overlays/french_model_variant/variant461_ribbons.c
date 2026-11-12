@@ -126,7 +126,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
         }
         poly = work->flat;
         for (k = 0; k < n; k++) {
-            if ((u32)(work->frame_count & 1) == 1) {
+            if ((u32)(work->clock.frame_count & 1) == 1) {
                 if (!(k & 1)) {
                     poly++;
                 } else {
@@ -158,7 +158,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             if (ribbon->otz[k] >= 0 && flag[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
-            if (!(work->frame_count & 1)) {
+            if (!(work->clock.frame_count & 1)) {
                 if (!(k & 1)) {
                     poly++;
                 } else {
@@ -167,7 +167,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             }
         }
         if (ribbon->count < 10 && ribbon->state == 0) {
-            ribbon->count += work->step * 2;
+            ribbon->count += work->clock.step * 2;
             if (ribbon->count >= 10) {
                 ribbon->count = 10;
                 ribbon->state = 1;
@@ -176,7 +176,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
                 }
             }
         } else if (ribbon->state == 1 && ribbon->len > 0) {
-            ribbon->len -= work->step << 6;
+            ribbon->len -= work->clock.step << 6;
             if (ribbon->len <= 0) {
                 if (work->phase >= 5) {
                     ribbon->len = 0;
@@ -194,6 +194,6 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             work->phase = 6;
         }
     }
-    work->ribbon_wave += work->step * 384;
-    work->field_3394 += work->step << 7;
+    work->ribbon_wave += work->clock.step * 384;
+    work->field_3394 += work->clock.step << 7;
 }
