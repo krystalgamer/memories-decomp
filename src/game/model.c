@@ -359,37 +359,29 @@ void Model_DrawBackground(void)
             s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)background_offset_bits;
             s32 screen_input_height;
             s32 screen_trim_amount;
-            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (screen_limit_y >= screen_end_y)
-                    goto second_clip;
-            } else if (screen_end_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                goto second_clip;
+            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? screen_limit_y < screen_end_y
+                    : screen_end_y >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                screen_input_height = sprite.h;
+                screen_trim_amount = sprite.y + screen_input_height -
+                    ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
+                sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
             }
-            screen_input_height = sprite.h;
-            screen_trim_amount = sprite.y + screen_input_height -
-                ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
-            sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
         }
-second_clip:
         {
             s32 texture_end_v = sprite.v + sprite.h;
             s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
             s32 texture_input_height;
             s32 texture_trim_amount;
-            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (texture_limit_v < texture_end_v)
-                    goto trim_texture;
-                goto tiles;
+            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? texture_limit_v < texture_end_v
+                    : texture_end_v >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                texture_input_height = sprite.h;
+                texture_trim_amount =
+                    sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
+                sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
             }
-            if (texture_end_v < BACKGROUND_RENDER_CLIP_LIMIT)
-                goto tiles;
-trim_texture:
-            texture_input_height = sprite.h;
-            texture_trim_amount =
-                sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-            sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
         }
-tiles:
         sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
@@ -532,15 +524,13 @@ void Model_UpdateBackgroundScroll(s32 force)
             goto low;
         }
         initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-        if (initial_turn_difference < 0) {
-            goto neg_side;
+        if (initial_turn_difference >= 0) {
+            background_offset_y = -0x139;
+            if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                goto compute;
+            }
+            goto store;
         }
-        background_offset_y = -0x139;
-        if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-            goto compute;
-        }
-        goto store;
-neg_side:
         background_offset_y = -0x139;
         if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
             goto store;
@@ -548,21 +538,17 @@ neg_side:
 compute:
         reloaded_pitch = gModel_wViewPitch;
         reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-        if (reloaded_turn_difference < 0) {
-            goto sub_form;
+        if (reloaded_turn_difference >= 0) {
+            background_offset_y = -(reloaded_turn_difference * 26) / 85;
+            goto store;
         }
-        background_offset_y = -(reloaded_turn_difference * 26) / 85;
-        goto store;
-sub_form:
         background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
         goto store;
 low:
-        if (initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
-            goto clamp_pos;
+        if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+            background_offset_y = (initial_pitch * 26) / 85;
+            goto store;
         }
-        background_offset_y = (initial_pitch * 26) / 85;
-        goto store;
-clamp_pos:
         background_offset_y = 0x139;
 store:
         gModel_wBackgroundOffsetY = background_offset_y;
@@ -872,32 +858,21 @@ void Model_UpdateAnimatedBattle(void)
 
                 preset_index = gModel_aSlots[0].metadata.prefix.bytes.guardian_star_options[gModel_aSlots[0].guardian_star_selection] & 0x1F;
                 key_magnitude = -0x14;
-                if (preset_index == 1) {
-                    goto s10_m0;
+                switch (preset_index) {
+                case 1:
+                    preset_index = 0;
+                    break;
+                case 2:
+                    preset_index = 1;
+                    break;
+                case 3:
+                    preset_index = 2;
+                    break;
+                case 0:
+                default:
+                    preset_index = 3;
+                    break;
                 }
-                if (preset_index < 2) {
-                    goto s10_m3;
-                }
-                if (preset_index == 2) {
-                    goto s10_m1;
-                }
-                if (preset_index == 3) {
-                    goto s10_m2;
-                }
-                preset_index = 3;
-                goto s10_teste;
-            s10_m0:
-                preset_index = 0;
-                goto s10_teste;
-            s10_m1:
-                preset_index = 1;
-                goto s10_teste;
-            s10_m2:
-                preset_index = 2;
-                goto s10_teste;
-            s10_m3:
-                preset_index = 3;
-            s10_teste:
                 if ((u32)preset_index < 2) {
                     key_magnitude = key_magnitude / 2;
                 }
@@ -1326,15 +1301,13 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) {
-                goto check_ready;
+            if (((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0) {
+                Model_LoadMonsterMerge(
+                    0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
             }
-            Model_LoadMonsterMerge(
-                0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
         } else {
             Model_AdvanceSlotLoad(0);
         }
-check_ready:
         load_slots = gModel_aSlots;
         if (!load_slots->is_active) {
             break;
@@ -1614,7 +1587,8 @@ void Model_UpdateCreditsPresentation(void)
       SD_SetMusicTrackBuffer((u16 *)gModel_pCreditsMusicTrackBuffer);
       SD_BGMPlayDefaultStep(29488);
       phase_value = gModel_bPresentationPhase + 1;
-      goto store_phase;
+      gModel_bPresentationPhase = phase_value;
+      break;
     case 0:
       load_check_base = gModel_aSlots;
       active_offset = (u32)&((ModelSlot *)0)[(u8)gModel_bCreditsActiveSlot];
@@ -1709,7 +1683,8 @@ void Model_UpdateCreditsPresentation(void)
               Model_ControlSlotAnimation((u8)gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
-          goto tick_active_slot;
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
         }
       }
       else
@@ -1720,7 +1695,7 @@ void Model_UpdateCreditsPresentation(void)
                  (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active )
           Model_RequestCameraMoveToSlots(1, -1, (u8)gModel_bCreditsActiveSlot, 30);
       }
-      goto poll_module;
+      break;
     case 1:
       crossfade_base = gModel_aSlots;
       crossfade_offset = 904 * (u8)gModel_bCreditsActiveSlot;
@@ -1758,7 +1733,8 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bCreditsActiveSlot ^= 1u;
         }
       }
-      goto tick_active_slot;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+      break;
     case 2:
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
@@ -1784,7 +1760,8 @@ void Model_UpdateCreditsPresentation(void)
         || fade_slot_base[1].tint[0]
         || slot1_tint[1] || slot1_tint[2] )
       {
-        goto tick_active_slot;
+        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+        break;
       }
       fade_slot_base[1].is_active = 0;
       fade_slot_base[0].is_active = 0;
@@ -1794,18 +1771,16 @@ set_phase_and_tick:
       gModel_bPresentationPhase = next_phase;
 tick_active_slot:
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-      goto poll_module;
+      break;
     case 3:
       SD_ResetMusicTrackBuffer();
       SD_ResetPendingEntries();
       phase_value = -2;
-store_phase:
       gModel_bPresentationPhase = phase_value;
-      goto poll_module;
+      break;
     default:
-      goto poll_module;
+      break;
   }
-poll_module:
       if ( D_8009B004.fields.credits_update_enabled )
       {
         result = func_80180A24();
@@ -2202,58 +2177,56 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
         if (radial_distance >= separation_limit) {
             continue;
         }
-        if (separation_extent != 0) {
-            goto hit;
-        }
-        if (apply_request != 0) {
-            s32 penetration_scale;
-            s32 push_x;
-            s32 push_z;
+        if (separation_extent == 0) {
+            if (apply_request != 0) {
+                s32 penetration_scale;
+                s32 push_x;
+                s32 push_z;
 
-            penetration_scale = ((separation_limit - radial_distance) << 12) / separation_limit;
-            push_x = e0.values[slot_index] * penetration_scale / 4096;
-            if (dx.values[slot_index] <= 0) {
-                push_x = -push_x;
-            }
-            push_z = e2.values[slot_index] * penetration_scale / 4096;
-            if (dz.values[slot_index] <= 0) {
-                push_z = -push_z;
-            }
-            {
-                s32 target_x = gModel_RView.vrx;
-                s32 eye_z = gModel_RView.vpz;
-                s32 target_z = gModel_RView.vrz;
-                s32 eye_x = gModel_RView.vpx;
-                s32 normal_x = target_z - eye_z;
-                s32 normal_z = eye_x - target_x;
-                s32 pushed_eye_x = eye_x + push_x;
-                s32 pushed_eye_z = eye_z + push_z;
-                s32 line_constant = target_x * eye_z - eye_x * target_z;
-                s32 normal_length = SquareRoot0(normal_x * normal_x + normal_z * normal_z);
-                s32 side_distance = 0;
-
-                if (normal_length != 0) {
-                    do {
-                        side_distance = (pushed_eye_x * normal_x + pushed_eye_z * normal_z + line_constant) / normal_length;
-                    } while (0);
+                penetration_scale = ((separation_limit - radial_distance) << 12) / separation_limit;
+                push_x = e0.values[slot_index] * penetration_scale / 4096;
+                if (dx.values[slot_index] <= 0) {
+                    push_x = -push_x;
                 }
-                if (gModel_bOrbitDirectionTimer == 0) {
-                    if (side_distance < 0) {
-                        gModel_bOrbitDirection = -1;
-                    } else {
-                        gModel_bOrbitDirection = 1;
+                push_z = e2.values[slot_index] * penetration_scale / 4096;
+                if (dz.values[slot_index] <= 0) {
+                    push_z = -push_z;
+                }
+                {
+                    s32 target_x = gModel_RView.vrx;
+                    s32 eye_z = gModel_RView.vpz;
+                    s32 target_z = gModel_RView.vrz;
+                    s32 eye_x = gModel_RView.vpx;
+                    s32 normal_x = target_z - eye_z;
+                    s32 normal_z = eye_x - target_x;
+                    s32 pushed_eye_x = eye_x + push_x;
+                    s32 pushed_eye_z = eye_z + push_z;
+                    s32 line_constant = target_x * eye_z - eye_x * target_z;
+                    s32 normal_length = SquareRoot0(normal_x * normal_x + normal_z * normal_z);
+                    s32 side_distance = 0;
+
+                    if (normal_length != 0) {
+                        do {
+                            side_distance = (pushed_eye_x * normal_x + pushed_eye_z * normal_z + line_constant) / normal_length;
+                        } while (0);
                     }
-                    gModel_bOrbitDirectionTimer = 0x1E;
-                } else if (gModel_bOrbitDirectionTimer < 0xFF) {
-                    gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
+                    if (gModel_bOrbitDirectionTimer == 0) {
+                        if (side_distance < 0) {
+                            gModel_bOrbitDirection = -1;
+                        } else {
+                            gModel_bOrbitDirection = 1;
+                        }
+                        gModel_bOrbitDirectionTimer = 0x1E;
+                    } else if (gModel_bOrbitDirectionTimer < 0xFF) {
+                        gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
+                    }
                 }
+                gModel_RView.vpx = gModel_RView.vpx + push_x;
+                gModel_RView.vpz = gModel_RView.vpz + push_z;
             }
-            gModel_RView.vpx = gModel_RView.vpx + push_x;
-            gModel_RView.vpz = gModel_RView.vpz + push_z;
+            separation_extent = separation_limit;
+            continue;
         }
-        separation_extent = separation_limit;
-        continue;
-    hit:
         extra_overlap_count = extra_overlap_count + 1;
     }
 
@@ -2671,63 +2644,61 @@ void Model_UpdateTintRequests(void)
         if (gModel_aSlots[request->slot].is_active == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode)) {
-            goto tail;
-        }
-        flag_work = *(u16 *)request;
-        request_animation_position = request->animation_position_snapshot;
-        elapsed = request->elapsed;
-        duration = request->duration;
-        slot_index = (flag_work >> 1) & 1;
-        flag_work = flag_work >> 3;
-        slot_state = &gModel_aSlots[slot_index];
-        saved_animation_position = slot_state->animation_position;
-        request_animation_row = flag_work & 0x1F;
-        saved_animation_row = slot_state->current_animation_row;
-        saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
-        draw_animation_row = request_animation_row;
-        saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
-        draw_tint.blend_mode = request->start.blend_mode;
-        draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
-        draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
-        draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
-        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
+        if (!(Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode))) {
+            flag_work = *(u16 *)request;
+            request_animation_position = request->animation_position_snapshot;
+            elapsed = request->elapsed;
+            duration = request->duration;
+            slot_index = (flag_work >> 1) & 1;
+            flag_work = flag_work >> 3;
+            slot_state = &gModel_aSlots[slot_index];
+            saved_animation_position = slot_state->animation_position;
+            request_animation_row = flag_work & 0x1F;
+            saved_animation_row = slot_state->current_animation_row;
+            saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
+            draw_animation_row = request_animation_row;
+            saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
+            draw_tint.blend_mode = request->start.blend_mode;
+            draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
+            draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
+            draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
+            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
 
-        draw_position = request_animation_position;
-        for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
-            s32 part_row = slot_state->current_animation_row;
+            draw_position = request_animation_position;
+            for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
+                s32 part_row = slot_state->current_animation_row;
+                if (draw_animation_row != 0) {
+                    slot_state->animation_sequences[draw_part_index]->sid = draw_animation_row;
+                    part_row = draw_animation_row;
+                }
+                Model_SeekSlotPartAnimation(slot_state, draw_part_index, part_row, draw_position);
+            }
             if (draw_animation_row != 0) {
-                slot_state->animation_sequences[draw_part_index]->sid = draw_animation_row;
-                part_row = draw_animation_row;
+                slot_state->current_animation_row = draw_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot_state, draw_part_index, part_row, draw_position);
-        }
-        if (draw_animation_row != 0) {
-            slot_state->current_animation_row = draw_animation_row;
-        }
 
-        gModel_PartMaskAddress = request_offset + mask_base_address;
-        gModel_bDrawMaskedPartsOnly = request->masked_parts_only;
-        Model_DrawSlot(slot_index);
-        gModel_PartMaskAddress = 0;
-        gModel_bDrawMaskedPartsOnly = 0;
+            gModel_PartMaskAddress = request_offset + mask_base_address;
+            gModel_bDrawMaskedPartsOnly = request->masked_parts_only;
+            Model_DrawSlot(slot_index);
+            gModel_PartMaskAddress = 0;
+            gModel_bDrawMaskedPartsOnly = 0;
 
-        restore_position = saved_animation_position;
-        for (restore_part_index = 0; restore_part_index < slot_state->animation_sequence_count; restore_part_index++) {
-            s32 part_row = slot_state->current_animation_row;
+            restore_position = saved_animation_position;
+            for (restore_part_index = 0; restore_part_index < slot_state->animation_sequence_count; restore_part_index++) {
+                s32 part_row = slot_state->current_animation_row;
+                if (saved_animation_row != 0) {
+                    slot_state->animation_sequences[restore_part_index]->sid = saved_animation_row;
+                    part_row = saved_animation_row;
+                }
+                Model_SeekSlotPartAnimation(slot_state, restore_part_index, part_row, restore_position);
+            }
             if (saved_animation_row != 0) {
-                slot_state->animation_sequences[restore_part_index]->sid = saved_animation_row;
-                part_row = saved_animation_row;
+                slot_state->current_animation_row = saved_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot_state, restore_part_index, part_row, restore_position);
-        }
-        if (saved_animation_row != 0) {
-            slot_state->current_animation_row = saved_animation_row;
-        }
 
-        Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
-        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
-tail:
+            Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
+            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
+        }
         request->elapsed += Model_GetFrameStep();
         if (request->elapsed >= request->duration) {
             request->active = 0;
@@ -2795,12 +2766,10 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
             camera_move->target.slot = -1;
             camera_move->target.pair_slot = -1;
         }
-        if (mode_request < 0) {
-            goto have_flags;
-        }
     }
-    gModel_CameraMove.mode = mode_request;
-have_flags:
+    if (mode_request >= 0) {
+        gModel_CameraMove.mode = mode_request;
+    }
     {
         ModelCameraMove *camera_move = &gModel_CameraMove;
 
@@ -3331,6 +3300,28 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
     return value + offset;
 }
 
+/* Neutral grey tint and the default primitive templates. */
+static inline void Model_ResetDrawTint(void)
+{
+    B(&gModel_wDrawTintRedGreen, 0) = 0x80;
+    B(&gModel_wDrawTintRedGreen, 1) = 0x80;
+    gModel_bDrawTintBlue = 0x80;
+    gModel_dwPolyFt3Template = 0x24808080;
+    gModel_dwPolyFt4Template = 0x2C808080;
+    gModel_dwPolyGt3Template = 0x34808080;
+    gModel_dwPolyGt4Template = 0x3C808080;
+    gModel_dwLineF3Template = 0x4A808080;
+    gModel_dwLineF4Template = 0x4E808080;
+    gModel_dwPolyFt3SemiTemplate = 0x26808080;
+    gModel_dwPolyFt4SemiTemplate = 0x2E808080;
+    gModel_dwPolyGt3SemiTemplate = 0x36808080;
+    gModel_dwPolyGt4SemiTemplate = 0x3E808080;
+    gModel_dwTpageBlendRateBits = 0;
+    gModel_dwSecondPassClutBits = 0;
+    gModel_bBlendRateActive = 0;
+    gModel_dwDrawModeTemplate = 0xE1000220;
+}
+
 void Model_DrawSlot(s32 index)
 {
     MATRIX hidden_matrix;
@@ -3443,27 +3434,10 @@ void Model_DrawSlot(s32 index)
             }
             slot->tint[7] = 0;
         } else {
-            goto neutral;
+            Model_ResetDrawTint();
         }
     } else {
-    neutral:
-        B(&gModel_wDrawTintRedGreen, 0) = 0x80;
-        B(&gModel_wDrawTintRedGreen, 1) = 0x80;
-        gModel_bDrawTintBlue = 0x80;
-        gModel_dwPolyFt3Template = 0x24808080;
-        gModel_dwPolyFt4Template = 0x2C808080;
-        gModel_dwPolyGt3Template = 0x34808080;
-        gModel_dwPolyGt4Template = 0x3C808080;
-        gModel_dwLineF3Template = 0x4A808080;
-        gModel_dwLineF4Template = 0x4E808080;
-        gModel_dwPolyFt3SemiTemplate = 0x26808080;
-        gModel_dwPolyFt4SemiTemplate = 0x2E808080;
-        gModel_dwPolyGt3SemiTemplate = 0x36808080;
-        gModel_dwPolyGt4SemiTemplate = 0x3E808080;
-        gModel_dwTpageBlendRateBits = 0;
-        gModel_dwSecondPassClutBits = 0;
-        gModel_bBlendRateActive = 0;
-        gModel_dwDrawModeTemplate = 0xE1000220;
+        Model_ResetDrawTint();
     }
 
     head_unit = slot->hmd_units;
@@ -3723,7 +3697,7 @@ void Model_DrawSlot(s32 index)
         } else {
             slot->cached_dimensions[2] = d;
         }
-        if (slot->shadow_enabled != 0) {
+        if (slot->shadow_enabled != 0 && gModel_bCurrentDrawMode != 1) {
             SVECTOR shadow_center;
             SVECTOR next_shadow_edge;
             SVECTOR previous_shadow_edge;
@@ -3732,9 +3706,6 @@ void Model_DrawSlot(s32 index)
             s32 clamped_shadow_extent;
             s32 shadow_depth;
 
-            if (gModel_bCurrentDrawMode == 1) {
-                goto finish_ot;
-            }
             setlen(&shadow_triangle, 6);
             setcode(&shadow_triangle, 0x30);
             shadow_triangle.r0 = B(&gModel_wDrawTintRedGreen, 0);
@@ -3813,7 +3784,6 @@ void Model_DrawSlot(s32 index)
         }
     }
     if (gModel_bCurrentDrawMode == 1) {
-    finish_ot:
         if (index < 2) {
             ordering_table->length = 0xC;
         }
@@ -4143,173 +4113,171 @@ void Model_UpdateSlotControl(s32 index)
     if (state == 2) {
         return;
     }
-    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] < 0) {
-        goto no_handler;
-    }
-    if (index != 0) {
-        handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
-    } else {
-        handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
-    }
-    if (slot->animation_control_state == 7) {
-        Model_SetHandlerCallbackState(1);
-        {
-            s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
-            handler(secondary, request % 1000);
+    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] >= 0) {
+        if (index != 0) {
+            handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
+        } else {
+            handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
         }
-        Model_SetHandlerCallbackState(0);
-        slot->animation_control_state = 8;
-        slot->animation_sound_position = 0;
-    }
-    if (slot->current_animation_row != slot->guardian_star_selection + 3
-        && slot->model_id != MODEL_SPECIAL_BATTLE_ID) {
-        s32 eligible = slot->animation_control_state;
-        if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
-            return;
-        }
-    }
-    {
-        s32 selected;
-        s32 base;
-        s32 stat_base;
-        s32 own_offset;
-        s32 other_offset;
-        s32 own_record;
-        s32 other_record;
-        other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        do { base = (s32)gModel_aSlots; } while (0);
-        other = (ModelSlot *)(other_offset + base);
-        own_offset = index * MODEL_SLOT_SIZE;
-        stat_base = base + (u32)&((ModelSlot *)0)->metadata;
-        own_record = own_offset + stat_base;
-        other_record = other_offset + stat_base;
-        if (other->defense_position != 0) {
+        if (slot->animation_control_state == 7) {
+            Model_SetHandlerCallbackState(1);
             {
+                s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
+                handler(secondary, request % 1000);
+            }
+            Model_SetHandlerCallbackState(0);
+            slot->animation_control_state = 8;
+            slot->animation_sound_position = 0;
+        }
+        if (slot->current_animation_row != slot->guardian_star_selection + 3
+            && slot->model_id != MODEL_SPECIAL_BATTLE_ID) {
+            s32 eligible = slot->animation_control_state;
+            if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
+                return;
+            }
+        }
+        {
+            s32 selected;
+            s32 base;
+            s32 stat_base;
+            s32 own_offset;
+            s32 other_offset;
+            s32 own_record;
+            s32 other_record;
+            other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
+            do { base = (s32)gModel_aSlots; } while (0);
+            other = (ModelSlot *)(other_offset + base);
+            own_offset = index * MODEL_SLOT_SIZE;
+            stat_base = base + (u32)&((ModelSlot *)0)->metadata;
+            own_record = own_offset + stat_base;
+            other_record = other_offset + stat_base;
+            if (other->defense_position != 0) {
+                {
+                    u16 own_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    u16 other_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                    selected = own_value > other_value ? 6 : 8;
+                }
+            } else {
                 u16 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u16 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
-                selected = own_value > other_value ? 6 : 8;
-            }
-        } else {
-            u16 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
-            u16 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
-            selected = own_value > other_value ? 6 : 5;
-            if (own_value == other_value) {
-                selected |= 0x80;
-                if (index != 0) {
-                    selected = 6;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                selected = own_value > other_value ? 6 : 5;
+                if (own_value == other_value) {
+                    selected |= 0x80;
+                    if (index != 0) {
+                        selected = 6;
+                    }
                 }
             }
+            action = selected;
         }
-        action = selected;
-    }
-    Model_SetHandlerCallbackState(1);
-    slot->animation_control_state = handler(secondary, -1);
-    Model_SetHandlerCallbackState(0);
-    switch (slot->animation_control_state) {
-    case 0:
-        MODEL_CONTROL_TRACE(gModel_szContinueTrace);
-        return;
-    case 5:
-        MODEL_CONTROL_TRACE(gModel_szBackTrace);
-        if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
-            Model_ControlSlotAnimation(index ^ 1, 1, 1);
-        }
-        return;
-    case 3:
-        MODEL_CONTROL_TRACE(gModel_szStoneTrace);
-        if (action == 6) {
-            other->stone_texture_state = 0x80;
-            Model_ControlSlotAnimation(index ^ 1, 6, 1);
+        Model_SetHandlerCallbackState(1);
+        slot->animation_control_state = handler(secondary, -1);
+        Model_SetHandlerCallbackState(0);
+        switch (slot->animation_control_state) {
+        case 0:
+            MODEL_CONTROL_TRACE(gModel_szContinueTrace);
             return;
-        }
-        if (action & 0x80) {
-            other->stone_texture_state = 0xFF;
-            Model_ControlSlotAnimation(index ^ 1, 5, 1);
+        case 5:
+            MODEL_CONTROL_TRACE(gModel_szBackTrace);
+            if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
+                Model_ControlSlotAnimation(index ^ 1, 1, 1);
+            }
             return;
-        }
-    case 1:
-    case 4: {
-        s32 reaction;
-        s32 offset;
-        s32 own_record;
-        s32 other_record;
-        amount = Model_GetFrameStep();
-        offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
-        offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&gModel_aSlots[0].metadata;
-        amount = slot->playback_speed * (amount + 1);
-        if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
-            {
+        case 3:
+            MODEL_CONTROL_TRACE(gModel_szStoneTrace);
+            if (action == 6) {
+                other->stone_texture_state = 0x80;
+                Model_ControlSlotAnimation(index ^ 1, 6, 1);
+                return;
+            }
+            if (action & 0x80) {
+                other->stone_texture_state = 0xFF;
+                Model_ControlSlotAnimation(index ^ 1, 5, 1);
+                return;
+            }
+        case 1:
+        case 4: {
+            s32 reaction;
+            s32 offset;
+            s32 own_record;
+            s32 other_record;
+            amount = Model_GetFrameStep();
+            offset = index * MODEL_SLOT_SIZE;
+            do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
+            offset = (index ^ 1) * MODEL_SLOT_SIZE;
+            other_record = offset + (s32)&gModel_aSlots[0].metadata;
+            amount = slot->playback_speed * (amount + 1);
+            if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+                {
+                    u32 own_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    u32 other_value =
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                    reaction = other_value < own_value ? 6 : 8;
+                }
+            } else {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u32 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
-                reaction = other_value < own_value ? 6 : 8;
-            }
-        } else {
-            u32 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
-            u32 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
-            reaction = other_value < own_value ? 6 : 5;
-            if (own_value == other_value) {
-                reaction |= 0x80;
-                if (index != 0) {
-                    reaction = 6;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                reaction = other_value < own_value ? 6 : 5;
+                if (own_value == other_value) {
+                    reaction |= 0x80;
+                    if (index != 0) {
+                        reaction = 6;
+                    }
                 }
             }
-        }
-        command = reaction & 0x7F;
-        changed = 0;
-        if (slot->animation_control_state == 1) {
-            MODEL_CONTROL_TRACE(gModel_szHitTrace);
-        }
-        if (slot->animation_control_state == 4) {
-            MODEL_CONTROL_TRACE(gModel_szOuchTrace);
-            if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
-                command = 5;
+            command = reaction & 0x7F;
+            changed = 0;
+            if (slot->animation_control_state == 1) {
+                MODEL_CONTROL_TRACE(gModel_szHitTrace);
             }
-        }
-        if (other->active_animation_command_row == command) {
-            if (other->playback_state != 0x23 && other->animation_position >= 0xA0 &&
-                ((rand() >> 8) & 3) != 0) {
-                other->animation_position -= amount;
-                frame = other->animation_position;
-                for (part = 0; part < other->animation_sequence_count; part++) {
-                    Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
-                }
-                if ((rand() >> 8) & 1) {
-                    changed++;
+            if (slot->animation_control_state == 4) {
+                MODEL_CONTROL_TRACE(gModel_szOuchTrace);
+                if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
+                    command = 5;
                 }
             }
-        } else {
-            Model_ControlSlotAnimation(index ^ 1, command, 1);
-            changed++;
+            if (other->active_animation_command_row == command) {
+                if (other->playback_state != 0x23 && other->animation_position >= 0xA0 &&
+                    ((rand() >> 8) & 3) != 0) {
+                    other->animation_position -= amount;
+                    frame = other->animation_position;
+                    for (part = 0; part < other->animation_sequence_count; part++) {
+                        Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
+                    }
+                    if ((rand() >> 8) & 1) {
+                        changed++;
+                    }
+                }
+            } else {
+                Model_ControlSlotAnimation(index ^ 1, command, 1);
+                changed++;
+            }
+            if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
+                u32 card_id;
+                s32 sound_id;
+                do { card_id = other->model_id; } while (0);
+                sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
+                SD_SEPlay(sound_id, 0xFF, 0);
+            }
+            return;
         }
-        if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
-            u32 card_id;
-            s32 sound_id;
-            do { card_id = other->model_id; } while (0);
-            sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
-            SD_SEPlay(sound_id, 0xFF, 0);
+        case 2:
+            MODEL_CONTROL_TRACE(gModel_szTermTrace);
+            return;
+        default:
+            MODEL_CONTROL_TRACE(gModel_szWhyTrace);
+            slot->animation_control_state = 2;
+            return;
         }
-        return;
-    }
-    case 2:
-        MODEL_CONTROL_TRACE(gModel_szTermTrace);
-        return;
-    default:
-        MODEL_CONTROL_TRACE(gModel_szWhyTrace);
-        slot->animation_control_state = 2;
-        return;
     }
 
-no_handler:
     {
         s32 fallback_action;
         s32 offset;
@@ -4612,27 +4580,23 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
             gModel_aSlots[slot].load_step = 0;
         }
     } else {
-        if (model >= 0 && model < 7) {
-            model = gModel_abBackgroundRecords[
-                model * MODEL_AUX_LOOKUP_RECORD_SIZE
-                + MODEL_AUX_LOOKUP_VALUE_OFFSET];
-            if (model >= 0 && model < 7) {
-                goto found;
-            }
+        if (!(model >= 0 && model < 7
+              && (model = gModel_abBackgroundRecords[
+                      model * MODEL_AUX_LOOKUP_RECORD_SIZE
+                      + MODEL_AUX_LOOKUP_VALUE_OFFSET],
+                  model >= 0 && model < 7))) {
+            request_result++;
+        } else {
+            transfer = File_TryRequestAsyncTransfer(
+                1, gModel_szSuMrgPath,
+                model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
+                MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
+            );
+            gFile_dwTransferState = transfer->status_flags
+                | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+            gModel_aSlots[slot].load_step = 0;
         }
-        request_result++;
-        goto done;
-found:
-        transfer = File_TryRequestAsyncTransfer(
-            1, gModel_szSuMrgPath,
-            model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
-            MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
-        );
-        gFile_dwTransferState = transfer->status_flags
-            | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-        gModel_aSlots[slot].load_step = 0;
     }
-done:
     return request_result;
 }
 

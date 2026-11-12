@@ -4,13 +4,8 @@
 /* Conditional runtime imports; the function definitions live in main_menu. */
 gFile_pScreenBankBase = 0x800101D8;
 gDebugMenu_szCampaignValueFormat = 0x80010288;
-gMemCard_szSaveFileName = 0x80010384;
-gMemCard_szDevicePathFormat = 0x80010538;
 gSD_adwVoiceMasks = 0x80011434;
-gModelAnim_szAssertFormat = 0x800117EC;
-gModelAnim_szSourceFileName = 0x80011814;
 gModel_SubdividedEffectInitialScale = 0x8001185C;
-gModel_szSubdividedEffectSizeFormat = 0x8001186C;
 gModel_DiscEffectInitialScale = 0x8001187C;
 func_80024060 = 0x80024060;
 func_80024088 = 0x80024088;

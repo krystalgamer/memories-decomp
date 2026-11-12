@@ -527,8 +527,9 @@ typedef struct DisplayObject {
     u8 field_6A;                   /* 0x6A */
     /* The value-setup widgets in the main_menu overlay keep their own index
        here: MainMenu_StartValueWidgetTween stores it and the tween callback
-       reads it back to pick the value its target tracks and the D_801845BC
-       byte it settles into. One object kind, so the offset is the name. */
+       reads it back to pick the value its target tracks and the
+       gMainMenu_abValueSetupChoices byte it settles into. One object kind,
+       so the offset is the name. */
     u8 field_6B;                   /* 0x6B */
     u8 field_6C;                   /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];

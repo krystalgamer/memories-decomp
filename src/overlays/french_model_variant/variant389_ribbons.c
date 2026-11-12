@@ -113,7 +113,7 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
         GsSetLsMatrix(&light);
         for (k = 0; k < 17; k++) {
             if (k == 16) {
-                ribbon->depth[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
                                                &ribbon->a[k - 1], &ribbon->a[k],
                                                (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
                                                (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
@@ -123,10 +123,10 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
                 dy = (RIBBONS389_SA(k, 0).packed >> 16) - (RIBBONS389_SA(k, -1).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
                 ribbon->width[k] = RIBBONS389_SB(k).point.vx - RIBBONS389_SA(k, 0).point.vx;
-                ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
-                ribbon->depth[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
                                                &ribbon->a[k], &ribbon->a[k + 1],
                                                (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
                                                (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
@@ -136,8 +136,8 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
                 dy = (RIBBONS389_SA(k, 1).packed >> 16) - (RIBBONS389_SA(k, 0).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
                 ribbon->width[k] = RIBBONS389_SB(k).point.vx - RIBBONS389_SA(k, 0).point.vx;
-                ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
         }
     }
@@ -172,10 +172,10 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
                 quad->u3 = 127;
                 quad->v3 = 192;
             }
-            quad->x0 = RIBBONS389_SA(k, 0).point.vx + ribbon->ox[k];
-            quad->y0 = (RIBBONS389_SA(k, 0).packed >> 16) + ribbon->oy[k];
-            quad->x1 = RIBBONS389_SA(k, 1).point.vx + ribbon->ox[k + 1];
-            quad->y1 = (RIBBONS389_SA(k, 1).packed >> 16) + ribbon->oy[k + 1];
+            quad->x0 = RIBBONS389_SA(k, 0).point.vx + ribbon->offsets.ox[k];
+            quad->y0 = (RIBBONS389_SA(k, 0).packed >> 16) + ribbon->offsets.oy[k];
+            quad->x1 = RIBBONS389_SA(k, 1).point.vx + ribbon->offsets.ox[k + 1];
+            quad->y1 = (RIBBONS389_SA(k, 1).packed >> 16) + ribbon->offsets.oy[k + 1];
             quad->x2 = RIBBONS389_SA(k, 0).point.vx;
             quad->y2 = RIBBONS389_SA(k, 0).packed >> 16;
             quad->x3 = RIBBONS389_SA(k, 1).point.vx;
@@ -192,8 +192,8 @@ void FrenchModelVariant389_DrawRibbons(u8 *context)
             quad->r3 = ribbon->color[k + 1].r;
             quad->g3 = ribbon->color[k + 1].g;
             quad->b3 = ribbon->color[k + 1].b;
-            if (ribbon->depth[k] >= 0 && ribbon->flag[k] >= 0) {
-                GsSortPoly(quad, ot, (u16)ribbon->depth[k]);
+            if (ribbon->offsets.otz[k] >= 0 && ribbon->flag[k] >= 0) {
+                GsSortPoly(quad, ot, (u16)ribbon->offsets.otz[k]);
             }
         }
     }

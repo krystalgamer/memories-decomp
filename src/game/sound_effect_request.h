@@ -17,9 +17,9 @@ void SD_ResetMusicState(void);
  * and a target level in s_bSD_BGM_FADE_TARGET; SD_UpdateFades moves s_wSD_BGM_FADE_LEVEL by the
  * step until it reaches the target. Their bodies are identical -- retail has
  * two symbols for the same two stores. SD_BGMFade reaches SD_StartBgmFade;
- * tent_SD_StartBgmFadeCopy is reached only from tent_SD_BGMFadeCopy, which
+ * SD_StartBgmFadeCopy is reached only from SD_BGMFadeCopy, which
  * has no caller. */
-void tent_SD_StartBgmFadeCopy(s16 value, u8 flag);
+void SD_StartBgmFadeCopy(s16 value, u8 flag);
 void SD_StartBgmFade(s16 step, u8 target);
 
 /* The state query reads only g_SDValue. */

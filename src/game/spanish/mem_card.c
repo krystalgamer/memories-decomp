@@ -30,4 +30,10 @@
 #define SAVE_DATA_LOAD_BOX_FLAGS 0x1010
 #define SAVE_DATA_LOAD_CHANNEL_FLAG 0x10
 #define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009C435
+/* The card name carries the image's product code. The French, German and
+ * Italian wrappers include this file with their own. */
+#ifndef MEM_CARD_SAVE_FILE_NAME
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03951-YUGIOH")
+#endif
+
 #include "../mem_card.c"

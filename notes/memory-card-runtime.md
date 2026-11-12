@@ -350,7 +350,7 @@ event result after each one. It does not reinterpret those three results.
 Six of the seven wrappers have one caller, the `MemCardWork_UpdateOperation`
 controller, and its arguments agree with the table: it issues
 `MemCard_ReqLoadDirectory` straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
-at offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
+at offset `0x200` of the card save file into `0x80200000`, writes a
 `0xA00`-byte image at offset `0` that starts with `gSaveData_aHeaderTemplate`,
 creates the file only when the free count is at least its block count, and
 reads one sector to `0x80210000`, patches bytes `+0x7A..+0x7E`, recomputes the
@@ -447,10 +447,8 @@ header, and the poll now uses the producer's actual `MemCard_FindFiles`
 prototype, including its optional `s32 *out_count` (the poll passes null).
 The high-level dialog's `gMemCardDialog_DirectoryBuffer` remains an incomplete byte array with
 explicit casts at its directory API boundaries; its storage/addressing is
-not normalized. The low-level wildcard `gMemCard_szAllFilesPattern` gains a shared
-declaration consumed by its `.sdata` owner, but keeps its four-byte definition
-and remains distinct from the high-level wildcard
-`gMemCardDialog_szAllFilesPattern`.
+not normalized. The low-level `"*"` wildcard is a literal of
+`mem_card_driver.c`, separate from the dialog's own `"*"` in `mem_card.c`.
 
 The matching controller consumes all seventeen formerly bypassed dependencies
 directly from headers. Before promotion, that migration emptied the candidate's

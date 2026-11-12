@@ -63,7 +63,13 @@ extern volatile s32 gMemCard_nIOResult;
  * char spelling was the writer's, where a store shows no sign. */
 extern u8 gMemCard_bChannel;
 
+/* Japan's card save file name and MemCardWork_UpdateOperation diagnostics,
+ * linker symbols there (see japanese/mem_card.c); the other builds write them
+ * as literals in mem_card.c. */
 extern u8 gMemCard_szSaveFileName[];
+extern char gMemCard_szFreeBlockCountFormat[];
+extern char gMemCard_szMakeFileTrace[];
+extern char gMemCard_szFailFileTrace[];
 
 /* Japanese "BISLPMP86398-YUGIOH": the file name SaveData_RequestOptionsWrite
  * hands to MemCardDialog_Request, separate from the ordinary save name. */
@@ -702,7 +708,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
 
 /* Stages the runtime state into gSaveData_aTransferBuffer, builds the payload
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
- * write it under gMemCard_szSaveFileName.
+ * write it under the card save file name.
  *
  * Its earlier C caller, Script_OpSavePrompt (script_scene.c),
  * reached it with no declaration in scope at

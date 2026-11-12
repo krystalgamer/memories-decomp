@@ -154,22 +154,11 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                     if (type_unit.type == 0) {
                         goto evloop;
                     }
-                    if (type_tag < 2) {
-                        goto masktest;
-                    }
-                    if (type_tag < 7) {
-                        if (type_tag < 5) {
-                            goto dispatch;
-                        }
-                    } else {
-                        goto dispatch;
-                    }
-                masktest:
-                    if (type_unit.type & 0x800000) {
+                    if ((type_tag >= 2 ? (type_tag < 7 ? type_tag >= 5 : 0) : 1) &&
+                        (type_unit.type & 0x800000)) {
                         model_slot->entries = (u8 *)GsMapCoordUnit((u32 *)hmd, (u32 *)type_unit.ptr);
                         type_unit.type &= 0xFF7FFFFF;
                     }
-                dispatch:
                     switch (type_tag) {
                     case 0:
                         model_slot->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(

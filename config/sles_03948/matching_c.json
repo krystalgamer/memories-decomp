@@ -3419,241 +3419,241 @@
       "address": "0x8003D040",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D084",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D0E0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D194",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D208",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB8",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D2C0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x80",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D340",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x114",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D454",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D484",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D4CC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D4F8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D500",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D638",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAC",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D6E4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF8",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D7DC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003D914",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2F0",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003DC04",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1DC",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003DDE0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7E0",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003E5C0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003E5E4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x344",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003E928",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003E960",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003E9A8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7BC",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F164",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F19C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F1E4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3E0",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F5C4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD8",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F69C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xCC",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003F768",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C8",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FA30",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FA64",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FA7C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FAF8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FB34",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FBA0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FBF8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x404",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x8003FFFC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x80040038",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x100",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x80040138",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x80040194",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
-      "source": "src/game/spanish/mem_card.c"
+      "source": "src/game/french/mem_card.c"
     },
     {
       "address": "0x800401A4",
