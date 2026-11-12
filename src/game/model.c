@@ -1733,36 +1733,36 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(fade_slot_base) +
-                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) != 0 )
-        goto tick_active_slot;
-      slot0_tint = fade_slot_base[0].tint;
-      slot1_tint = fade_slot_base[1].tint;
-      if ( fade_slot_base[0].tint[0] )
-        --fade_slot_base[0].tint[0];
-      if ( slot0_tint[1] )
-        --slot0_tint[1];
-      if ( slot0_tint[2] )
-        --slot0_tint[2];
-      if ( fade_slot_base[1].tint[0] )
-        fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
-      if ( slot1_tint[1] )
-        --slot1_tint[1];
-      if ( slot1_tint[2] )
-        --slot1_tint[2];
-      if ( fade_slot_base[0].tint[0]
-        || slot0_tint[1] || slot0_tint[2]
-        || fade_slot_base[1].tint[0]
-        || slot1_tint[1] || slot1_tint[2] )
+                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) == 0 )
       {
-        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-        break;
-      }
-      fade_slot_base[1].is_active = 0;
-      fade_slot_base[0].is_active = 0;
-      next_phase = gModel_bPresentationPhase + 1;
+        slot0_tint = fade_slot_base[0].tint;
+        slot1_tint = fade_slot_base[1].tint;
+        if ( fade_slot_base[0].tint[0] )
+          --fade_slot_base[0].tint[0];
+        if ( slot0_tint[1] )
+          --slot0_tint[1];
+        if ( slot0_tint[2] )
+          --slot0_tint[2];
+        if ( fade_slot_base[1].tint[0] )
+          fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
+        if ( slot1_tint[1] )
+          --slot1_tint[1];
+        if ( slot1_tint[2] )
+          --slot1_tint[2];
+        if ( fade_slot_base[0].tint[0]
+          || slot0_tint[1] || slot0_tint[2]
+          || fade_slot_base[1].tint[0]
+          || slot1_tint[1] || slot1_tint[2] )
+        {
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
+        }
+        fade_slot_base[1].is_active = 0;
+        fade_slot_base[0].is_active = 0;
+        next_phase = gModel_bPresentationPhase + 1;
 set_phase_and_tick:
-      gModel_bPresentationPhase = next_phase;
-tick_active_slot:
+        gModel_bPresentationPhase = next_phase;
+      }
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
       break;
     case 3:
