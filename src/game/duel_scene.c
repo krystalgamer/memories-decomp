@@ -90,8 +90,9 @@
  *   constants that retail lifts to a block top (1 at entry, 2/3/4 in the
  *   attack branches) go through the multiply-assigned x and y.
  * - The row == 2 test lets cse fold row * 5 to 10 in the grid expression.
- * - commit: sits before sel = 0 so the store survives cse, and case 5 keeps
- *   its copy through the branch slot.
+ * - The commit block sits before sel = 0 so the store survives cse, and case 5
+ *   keeps its copy through the branch slot. Case 6's input handling lives in
+ *   an if (0) block so case 5 jumps over it straight into the commit block.
  * - The bank reads take the deck base through a pointer so the 0x36BC
  *   member offset stays in the load displacement.
  */
@@ -5577,58 +5578,58 @@ void DuelScene_UpdateFieldActions(void)
         if (DuelCursor_StepTowardTarget(side) != 0) {
             return;
         }
-        goto commit;
+        if (0) {
     case 6:
-        side = SEL_REC3 + gDuel_bActiveSide * SIDE_SIZE;
-        if (gDuel_bSceneSubStep & 0x80) {
-            gDuel_bSceneSubStep |= 0x80;
-            gDuel_pActiveSelectionRecord = side;
-        }
-        if (gDuel_bSceneSubStep & 0x40) {
-            if (gDuel_wDisplayTransitionFlags == 0) {
-                DisplayObject_ReleaseIfPresent(side->cursor_object);
-                side->cursor_object = 0;
-                gDuel_bSceneSubStep = 3;
-                gDuel_pActiveSelectionRecord =
-                    &((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2];
+            side = SEL_REC3 + gDuel_bActiveSide * SIDE_SIZE;
+            if (gDuel_bSceneSubStep & 0x80) {
+                gDuel_bSceneSubStep |= 0x80;
+                gDuel_pActiveSelectionRecord = side;
             }
-            return;
+            if (gDuel_bSceneSubStep & 0x40) {
+                if (gDuel_wDisplayTransitionFlags == 0) {
+                    DisplayObject_ReleaseIfPresent(side->cursor_object);
+                    side->cursor_object = 0;
+                    gDuel_bSceneSubStep = 3;
+                    gDuel_pActiveSelectionRecord =
+                        &((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2];
+                }
+                return;
+            }
+            if (DuelCursor_UpdateFromInput(side) != 0) {
+                return;
+            }
+            if (gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
+                Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
+                    gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][FIELD_CURSOR.field_actions_mode][FIELD_CURSOR.row]);
+                o = (u8 *)side->cursor_object;
+                other = (u8 *)FIELD_CURSOR.cursor_object;
+                DisplayObject_ResetVelocity((void *)o);
+                DISPLAY_OBJECT_VIEW(o)->field_60 = 0x10;
+                DISPLAY_OBJECT_VIEW(o)->field_6C = 0;
+                DISPLAY_OBJECT_VIEW(o)->field_34.h.field_36 =
+                    ((S(other, 0x28) - S(o, 0x28)) << 8) / 16;
+                DISPLAY_OBJECT_VIEW(o)->field_38.h.field_3A =
+                    ((S(other, 0x2A) - S(o, 0x2A)) << 8) / 16;
+                W(o, 0x2C) = W(other, 0x28);
+                gDuel_wDisplayTransitionFlags = 0x58;
+                gDuel_bSceneSubStep |= 0x40;
+                return;
+            }
+            a = Duel_GetCardViewerRequestId(GRID_CARD(side));
+            if (a != 0) {
+                gDuel_bCardViewerYOffset = 0x14;
+                gDuel_wViewerCardID = a;
+                gDuel_bEffectState = 2;
+                return;
+            }
+            if (!(gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CONFIRM_MASK)) {
+                return;
+            }
+            gDuel_bAnimatedBattleRequested = 0;
+            if (gInput_awPadPressed[0] & 0x80) {
+                gDuel_bAnimatedBattleRequested = 1;
+            }
         }
-        if (DuelCursor_UpdateFromInput(side) != 0) {
-            return;
-        }
-        if (gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
-            Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
-                gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][FIELD_CURSOR.field_actions_mode][FIELD_CURSOR.row]);
-            o = (u8 *)side->cursor_object;
-            other = (u8 *)FIELD_CURSOR.cursor_object;
-            DisplayObject_ResetVelocity((void *)o);
-            DISPLAY_OBJECT_VIEW(o)->field_60 = 0x10;
-            DISPLAY_OBJECT_VIEW(o)->field_6C = 0;
-            DISPLAY_OBJECT_VIEW(o)->field_34.h.field_36 =
-                ((S(other, 0x28) - S(o, 0x28)) << 8) / 16;
-            DISPLAY_OBJECT_VIEW(o)->field_38.h.field_3A =
-                ((S(other, 0x2A) - S(o, 0x2A)) << 8) / 16;
-            W(o, 0x2C) = W(other, 0x28);
-            gDuel_wDisplayTransitionFlags = 0x58;
-            gDuel_bSceneSubStep |= 0x40;
-            return;
-        }
-        a = Duel_GetCardViewerRequestId(GRID_CARD(side));
-        if (a != 0) {
-            gDuel_bCardViewerYOffset = 0x14;
-            gDuel_wViewerCardID = a;
-            gDuel_bEffectState = 2;
-            return;
-        }
-        if (!(gInput_awPadPressed[0] & DUEL_FIELD_ACTIONS_CONFIRM_MASK)) {
-            return;
-        }
-        gDuel_bAnimatedBattleRequested = 0;
-        if (gInput_awPadPressed[0] & 0x80) {
-            gDuel_bAnimatedBattleRequested = 1;
-        }
-    commit:
         a = 0;
         if (side->row == 1) {
             i = 5;
