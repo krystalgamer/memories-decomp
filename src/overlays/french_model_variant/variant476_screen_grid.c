@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant476_screen_grid.h"
-#include "../spanish_model_variant/variant459_entry.h"
+#include "../model_variant/variant459_entry.h"
 
 void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
 {
@@ -24,7 +24,7 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     work = (Variant459EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
-    rot.vx = -work->sheets[4].v3[1].vz - 1024;
+    rot.vx = -MODEL_VARIANT_HALF(work, 0x2834) - 1024;
     rot.vy = 0;
     rot.vz = 0;
     m.t[0] = MODEL_VARIANT_WORD(work, 0x274C);

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../model_variant/variant418_spiral.h"
-#include "../spanish_model_variant/variant459_entry.h"
+#include "../model_variant/variant459_entry.h"
 
 void FrenchModelVariant476_DrawSpiral(u8 *ctx)
 {
@@ -28,7 +28,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     s16 outer_rg, outer_blue;
 
     work = (Variant459EntryState *)ctx;
-    arm = (ModelVariantFlaggedSpiralArm *)&work->curtains[4].a[16];
+    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x279C), MODEL_VARIANT_WORD(work, 0x2794)) + 0xC00;
     poly = (POLY_GT4 *)((u8 *)work + 0x22B4);
@@ -78,7 +78,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantFlaggedSpiralArm *)&work->curtains[4].a[16];
+    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -104,7 +104,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantFlaggedSpiralArm *)&work->curtains[4].a[16];
+    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
     i = 0;
     inner_rg = 64;
     inner_blue = 0;
@@ -159,25 +159,25 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x20) &&
+        (u32)MODEL_VARIANT_WORD(work->config, 0x20) &&
         MODEL_VARIANT_WORD(work, 0x27E4) < 4096) {
         MODEL_VARIANT_WORD(work, 0x27E4) =
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x20)) << 12) /
-            (u32)(MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x24) -
-                  MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x20));
+                   MODEL_VARIANT_WORD(work->config, 0x20)) << 12) /
+            (u32)(MODEL_VARIANT_WORD(work->config, 0x24) -
+                  MODEL_VARIANT_WORD(work->config, 0x20));
         if (MODEL_VARIANT_WORD(work, 0x27E4) >= 4096) {
             MODEL_VARIANT_WORD(work, 0x27E4) = 4096;
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x24) &&
+        (u32)MODEL_VARIANT_WORD(work->config, 0x24) &&
         MODEL_VARIANT_WORD(work, 0x27EC) > 0) {
         MODEL_VARIANT_WORD(work, 0x27EC) = 1024 -
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x24)) << 10) /
-            (u32)(MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x28) -
-                  MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x27C0), 0x24));
+                   MODEL_VARIANT_WORD(work->config, 0x24)) << 10) /
+            (u32)(MODEL_VARIANT_WORD(work->config, 0x28) -
+                  MODEL_VARIANT_WORD(work->config, 0x24));
         if (MODEL_VARIANT_WORD(work, 0x27EC) <= 0) {
             MODEL_VARIANT_WORD(work, 0x27EC) = 0;
         }
