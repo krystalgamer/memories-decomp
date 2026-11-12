@@ -25,7 +25,8 @@ u8 D_8009B4A1;
 u8 D_8009B4A2;
 u8 gMovie_FileInfo[24];
 
-s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
+s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector,
+                     s32 rgb24, s32 copy_display_on_stop) {
     RECT rect;
     s32 m;
     s32 r;
@@ -33,16 +34,16 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     gMovie_bStreamEnded = 0;
     gMovie_bFadingOut = 0;
     gMovie_bCdVolume = 0xFF;
-    gMovie_dwEndSector = a3;
-    gMovie_bRgb24 = a4;
+    gMovie_dwEndSector = end_sector;
+    gMovie_bRgb24 = rgb24;
     gMovie_pWorkArea = gRuntime_pSharedWorkBase;
-    gMovie_bCopyDisplayOnStop = a5;
+    gMovie_bCopyDisplayOnStop = copy_display_on_stop;
     if (gMovie_bRgb24 != 0) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
            no arguments. The call goes through a two-argument view of the
            libgs.h declaration so that setup survives with the prototype in
            scope, instead of through an implicit declaration. */
-        m = ((int (*)(void *, s32))GsGetActiveBuff)(gRuntime_pSharedWorkBase, a5);
+        m = ((int (*)(void *, s32))GsGetActiveBuff)(gRuntime_pSharedWorkBase, copy_display_on_stop);
         rect.x = m * 0x140;
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.pixels;
@@ -78,13 +79,13 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     if (src != 0) {
         gMovie_StreamLoc = *src;
     }
-    if (a1 != 0) {
-        gMovie_dwStartFrame = a1;
+    if (start_frame != 0) {
+        gMovie_dwStartFrame = start_frame;
     } else {
         gMovie_dwStartFrame = 1;
     }
-    if (a2 != 0) {
-        gMovie_dwEndFrame = a2;
+    if (end_frame != 0) {
+        gMovie_dwEndFrame = end_frame;
     } else {
         gMovie_dwEndFrame = 0xFFFF;
     }
@@ -119,7 +120,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow File_RequestMainMenuPackage. */
 
-s32 Movie_StopStream(s32 arg0) {
+s32 Movie_StopStream(s32 copy_display) {
     RECT rect;
     u8 buf[0x3C0];
     s32 i;
@@ -135,7 +136,7 @@ s32 Movie_StopStream(s32 arg0) {
     StUnSetRing();
     while (CdControlB(9, 0, 0) == 0) {
     }
-    if (gMovie_bCopyDisplayOnStop != 0 || arg0 != 0) {
+    if (gMovie_bCopyDisplayOnStop != 0 || copy_display != 0) {
         Movie_MoveDisplayImage(0, 0x100);
     }
     if (gMovie_bRgb24 != 0) {
@@ -511,7 +512,8 @@ MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT] = {
     { 0x0000, 0x0000 },
 };
 
-void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
+void Movie_OpenIndexedStream(s32 index, s32 start_frame, s32 end_frame, s32 rgb24,
+                             s32 copy_display_on_stop)
 {
     CdlLOC position;
     MovieStreamRange *base;
@@ -539,7 +541,7 @@ void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 a
         value = CdPosToInt_8007E710(&position);
         table = gMovie_aStreamRanges;
         value += table[index].sector_count;
-        Movie_OpenStream(&position, arg1, end_frame, value, arg3, arg4);
+        Movie_OpenStream(&position, start_frame, end_frame, value, rgb24, copy_display_on_stop);
     }
 }
 
@@ -547,8 +549,8 @@ s32 Movie_StartFileStream(
     const char *path,
     s32 start_frame,
     s32 end_frame,
-    s32 arg3,
-    s32 arg4
+    s32 rgb24,
+    s32 copy_display_on_stop
 )
 {
     CdlFILE *file = (CdlFILE *)gMovie_FileInfo;
@@ -560,7 +562,7 @@ s32 Movie_StartFileStream(
         CdPosToInt_8007E710(&file->pos) +
             ((u32)(file->size + (FILE_SECTOR_SIZE - 1)) >>
              FILE_SECTOR_SHIFT),
-        arg3, arg4);
+        rgb24, copy_display_on_stop);
 }
 
 #include "../psyq/libds.h"
