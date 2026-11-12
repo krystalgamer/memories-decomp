@@ -349,17 +349,22 @@ top:  /* allocator steering: see the note at the end */
                         font = (u8 *)Krom2RawAdd2(code);
                         pixel_row = buf;
                         k = 63;
-                    clear:
-                        *pixel_row++ = 0;
-                        if (--k >= 0) {
-                            goto clear;
-                        }
+                        do {
+                            *pixel_row++ = 0;
+                        } while (--k >= 0);
                         pixel_row = buf;
+                        /* The wrappers weight the two glyph overrides so `font`
+                           keeps its register ahead of the cleared buffer's
+                           cursor. */
                         if (code == 0xE056) {
-                            font = gCredits_abGlyphE056;
+                            do {
+                                font = gCredits_abGlyphE056;
+                            } while (0);
                         }
                         if (code == 0x9B92) {
-                            font = gCredits_abGlyph9B92;
+                            do {
+                                font = gCredits_abGlyph9B92;
+                            } while (0);
                         }
                         for (k = 14; k != -1; k--) {
                             bits = font[0];
