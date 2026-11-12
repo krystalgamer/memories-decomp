@@ -105,13 +105,14 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
  * are written in this order to reproduce the target's scheduling; reversing
  * them changes six words. All 380 bytes match without instruction assembly.
  */
-DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
+DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 start_x, s32 start_y,
+                                                s32 target_x, s32 target_y)
 {
     s32 table_index = index;
-    s32 x = arg1;
-    s32 y = arg2;
+    s32 x = start_x;
+    s32 y = start_y;
     DisplayObjectConfigView *object;
-    s32 field_18 = arg3;
+    s32 field_18 = target_x;
     s32 bits;
     s32 kind;
     s32 *stats;
@@ -145,7 +146,7 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
         DisplayObject *output = DISPLAY_OBJECT_VIEW(object);
         output->field_44.word = 0;
         output->field_18.target.x = field_18;
-        output->field_18.target.y = arg4;
+        output->field_18.target.y = target_y;
         output->update = (DisplayObjectCallback)BuildDeck_UpdateCardTransferIcon;
         output->flags &= 0xFFF7;
         output->attribute &= ~GsROTOFF;
@@ -1266,17 +1267,17 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "main_mode_state.h"
 
 s32 BuildDeck_CompareSortKeyDescending(
-    CardEntry *arg0,
-    CardEntry *arg1
+    CardEntry *left,
+    CardEntry *right
 )
 {
-    u32 a = arg0->key;
-    u32 b = arg1->key;
+    u32 a = left->key;
+    u32 b = right->key;
 
     if (a == b) {
         if (
-            gCard_asNameSortKey[((s16)arg0->id) - 1] <
-            gCard_asNameSortKey[((s16)arg1->id) - 1]
+            gCard_asNameSortKey[((s16)left->id) - 1] <
+            gCard_asNameSortKey[((s16)right->id) - 1]
         )
             return -1;
         return 1;
@@ -1291,17 +1292,17 @@ s32 BuildDeck_CompareSortKeyDescending(
 #endif
 
 s32 BuildDeck_CompareSortKeyAscending(
-    CardEntry *arg0,
-    CardEntry *arg1
+    CardEntry *left,
+    CardEntry *right
 )
 {
-    u32 a = arg0->key;
-    u32 b = arg1->key;
+    u32 a = left->key;
+    u32 b = right->key;
 
     if (a == b) {
         if (
-            gCard_asNameSortKey[((s16)arg0->id) - 1] <
-            gCard_asNameSortKey[((s16)arg1->id) - 1]
+            gCard_asNameSortKey[((s16)left->id) - 1] <
+            gCard_asNameSortKey[((s16)right->id) - 1]
         )
             return -1;
         return 1;
@@ -1657,9 +1658,9 @@ s32 BuildDeck_GetActiveCardID(CardList *list)
     return (s16)entry->id;
 }
 
-/* Regional values: the two BuildDeck_CreateCardTransferIcon calls' x, y and last argument (deck
- * pane 0x234, 0x16, 0xA -> 0x235, 0x14, 0xC; chest pane y 0x18 -> 0x14 and
- * last argument 0xC -> 0xD). The European build (src/game/european/) defines
+/* Regional values: the two BuildDeck_CreateCardTransferIcon calls' start x,
+ * start y and target y (deck pane 0x234, 0x16, 0xA -> 0x235, 0x14, 0xC; chest
+ * pane start y 0x18 -> 0x14 and target y 0xC -> 0xD). The European build (src/game/european/) defines
  * its own. */
 #ifndef BUILD_DECK_DECK_PANE_X
 #define BUILD_DECK_DECK_PANE_X 0x234
@@ -1667,14 +1668,14 @@ s32 BuildDeck_GetActiveCardID(CardList *list)
 #ifndef BUILD_DECK_DECK_PANE_Y
 #define BUILD_DECK_DECK_PANE_Y 0x16
 #endif
-#ifndef BUILD_DECK_DECK_PANE_ARG4
-#define BUILD_DECK_DECK_PANE_ARG4 0xA
+#ifndef BUILD_DECK_DECK_PANE_TARGET_Y
+#define BUILD_DECK_DECK_PANE_TARGET_Y 0xA
 #endif
 #ifndef BUILD_DECK_CHEST_PANE_Y
 #define BUILD_DECK_CHEST_PANE_Y 0x18
 #endif
-#ifndef BUILD_DECK_CHEST_PANE_ARG4
-#define BUILD_DECK_CHEST_PANE_ARG4 0xC
+#ifndef BUILD_DECK_CHEST_PANE_TARGET_Y
+#define BUILD_DECK_CHEST_PANE_TARGET_Y 0xC
 #endif
 
 /* The cancel and confirm buttons. The Japanese release swaps Cross and Circle,
@@ -1730,7 +1731,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             BuildDeck_RecountDeckCards(state);
             BuildDeck_ReturnCardToChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            BuildDeck_CreateCardTransferIcon(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_ARG4);
+            BuildDeck_CreateCardTransferIcon(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_TARGET_Y);
             return;
         }
         SD_SEPlayFull(9);
@@ -1790,7 +1791,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             BuildDeck_AddCard((s32)state, r);
             BuildDeck_TakeCardFromChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            BuildDeck_CreateCardTransferIcon(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_ARG4);
+            BuildDeck_CreateCardTransferIcon(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_TARGET_Y);
             return;
         }
     }
