@@ -3886,20 +3886,30 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
     handlers = gText_apfnPrimaryCommands;
     object->delay_countdown = object->glyph_delay;
-next_opcode:
-    slot = &((TextStreamOwner *)object)->streams[object->stream_index];
-    script = *slot;
-    gText_CurrentStreamCode = script[0];
-    op = (s16)gText_CurrentStreamCode;
-    *slot = script + 1;
-    if (op >= 0xF0) {
-        gText_CommandDisposition = 0;
-        handlers[(s16)gText_CurrentStreamCode - 0xF0]((u8 *)object);
-        if (gText_CommandDisposition >= 0) {
-            if (gText_CommandDisposition == 1) {
-                return;
+    /* Entered through a constant switch: until flow deletes the dead empty
+       loop, that jump comes from outside the opcode loop, so loop.c leaves
+       it alone, and jump2 then deletes the jump. */
+    switch (0) {
+        for (;;) {
+        }
+        for (;;) {
+    case 0:
+            slot = &((TextStreamOwner *)object)->streams[object->stream_index];
+            script = *slot;
+            gText_CurrentStreamCode = script[0];
+            op = (s16)gText_CurrentStreamCode;
+            *slot = script + 1;
+            if (op >= 0xF0) {
+                gText_CommandDisposition = 0;
+                handlers[(s16)gText_CurrentStreamCode - 0xF0]((u8 *)object);
+                if (gText_CommandDisposition >= 0) {
+                    if (gText_CommandDisposition == 1) {
+                        return;
+                    }
+                    continue;
+                }
             }
-            goto next_opcode;
+            break;
         }
     }
     if (TextBox_WrapLineIfNeeded(object) != 0) {
