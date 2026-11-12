@@ -1862,32 +1862,23 @@ void MemCardDialog_UpdateSave(void)
                 if (mode == 1) {
                     gMemCardDialog_OperationState = 9;
                 }
+            } else if (gSaveData_AllowIdentityBypass == 0
+                       && SaveData_MatchesDuelistAndCurrentSequence(
+                              (SaveDataState *)gMemCard_pPrimaryTransferCursor,
+                              (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
+                if (gMemCardDialog_RetryCounter == 0) {
+                    gMemCardDialog_RetryCounter++;
+                    gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
+                    MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
+                                    (unsigned long *)gLibrary_aCardArtRecord,
+                                    gMemCardDialog_TransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
+                    gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
+                    break;
+                }
+                gMemCardDialog_OperationState = 0xE;
             } else {
-                if (gSaveData_AllowIdentityBypass != 0) {
-                    goto message_cf;
-                }
-                if (SaveData_MatchesDuelistAndCurrentSequence(
-                        (SaveDataState *)gMemCard_pPrimaryTransferCursor,
-                        (SaveDataState *)gLibrary_aCardArtRecord) != 0) {
-                    goto message_cf;
-                }
-                if (gMemCardDialog_RetryCounter != 0) {
-                    goto state_e;
-                }
-                gMemCardDialog_RetryCounter++;
-                gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-                MemCardReadFile(0, (char *)gMemCardDialog_FileNameBuffer,
-                                (unsigned long *)gLibrary_aCardArtRecord,
-                                gMemCardDialog_TransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
-                gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
-                break;
+                MemCardDialog_SetMessage(0xCF, 0x20);
             }
-            break;
-        state_e:
-            gMemCardDialog_OperationState = 0xE;
-            break;
-        message_cf:
-            MemCardDialog_SetMessage(0xCF, 0x20);
             break;
         }
         if (gDialog_bChoice == 0) {
