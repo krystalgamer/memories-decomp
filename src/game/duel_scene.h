@@ -160,7 +160,7 @@ extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
  *
  *     if (*(s8 *)&gDuel_bPendingDrawCount == 0)
  *
- * That is the same arrangement dialog_choice.h records for
+ * That is the same arrangement duel_effect_text.h records for
  * gDialog_bInputState: the declaration stays unsigned and the cast at the use
  * is what keeps retail's signed load, so resolving one into the other would
  * be a codegen change rather than a tidy-up. */

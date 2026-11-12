@@ -19,7 +19,6 @@
 #include "name_entry_keyboard.h"
 #include "name_entry_frame.h"
 #include "name_entry_state.h"
-#include "../../game/dialog_choice.h"
 #include "../../game/rand_get_interval.h"
 #include "../../game/frontend_package_stages.h"
 #include "../../game/card_preview.h"

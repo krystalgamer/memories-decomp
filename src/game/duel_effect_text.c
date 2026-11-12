@@ -14,7 +14,6 @@
 
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
-#include "duel_effect_entry_ranges.h"
 #include "display_object_system.h"
 
 void DuelEffect_ResetState(void)
@@ -1513,9 +1512,6 @@ u32 TextStream_ReadU32LE(TextStreamOwner *object)
 
 #include "duel_effect_entry_state.h"
 #include "display_object.h"
-#include "duel_effect_entry_ranges.h"
-#include "dialog_choice_control.h"
-#include "dialog_choice.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -1664,7 +1660,6 @@ u16 gDuelEffect_awEntryRangeBoundaries[] = {
 #endif
 };
 
-#include "dialog_choice.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
@@ -1780,8 +1775,6 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
-#include "dialog_choice_control.h"
-#include "dialog_choice.h"
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
@@ -2299,8 +2292,6 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
     p->delay_countdown = 1;
 }
 
-#include "dialog_choice_control.h"
-#include "dialog_choice.h"
 #include "text_stream_commands.h"
 
 /* Small global another unit owns, declared here as a common symbol the
@@ -2368,7 +2359,6 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
 }
 
 #include "text_stream_commands.h"
-#include "dialog_choice.h"
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
 {
@@ -3327,7 +3317,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 
 #include "duel_effect_command_table.h"
 #include "text_stream_commands.h"
-#include "dialog_choice.h"
 #include "campaign_flags.h"
 #include "display_effect_lifecycle.h"
 
@@ -3339,7 +3328,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "color_constants.h"
-#include "dialog_choice_control.h"
 
 /* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8 in the
  * US build. */
@@ -3698,7 +3686,6 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
 /* Small globals other units own, declared here as common symbols the

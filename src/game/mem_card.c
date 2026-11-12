@@ -478,7 +478,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 #include "display_object.h"
 
 #include "dialog_layout.h"
-#include "dialog_choice.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
@@ -765,7 +764,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "mem_card_driver.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
-#include "dialog_choice.h"
 #include "file_constants.h"
 #include "util_memory.h"
 #include "card_constants.h"

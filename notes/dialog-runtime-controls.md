@@ -87,7 +87,7 @@ mutations, fixture layouts, generator and oracle behavior are unchanged;
 no new harness, fixture, probe or testcase is added.
 
 The Password overlay reads the same choice index through the resident
-`gDialog_bChoice` declaration in `src/game/dialog_choice.h`; each region's
+`gDialog_bChoice` declaration in `src/game/duel_effect_text.h`; each region's
 `password_linker_symbols.txt` binds the name, so the overlay no longer carries
 a second `D_8009B34D` name for the byte.
 

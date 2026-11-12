@@ -1251,7 +1251,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "fade_overlay_controls.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
-#include "dialog_choice.h"
 #include "main_mode_state.h"
 
 s32 BuildDeck_CompareSortKeyDescending(

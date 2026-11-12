@@ -470,9 +470,7 @@ void Script_OpJump(void)
 #include "sound.h"
 #include "display_object.h"
 #include "main_services.h"
-#include "dialog_choice_control.h"
 #include "duel_effect_mark_object_if_active.h"
-#include "dialog_choice.h"
 #include "main_mode_state.h"
 #include "duel_effect_object_pool.h"
 
