@@ -273,67 +273,62 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
             gMainMenu_nFadeDirection = 1;
-            goto ret_m1;
+        } else {
+            ent6 = gMainMenu_pStartPrompt;
+            acc = (u16)ent6->field_34.h.field_36 + (u16)gGraphics_nBaseFrameStep;
+            ent6->field_34.h.field_36 = acc;
+            if ((s16)acc >= 0xBB8) {
+                return -2;
+            }
+            return -1;
         }
-        ent6 = gMainMenu_pStartPrompt;
-        acc = (u16)ent6->field_34.h.field_36 + (u16)gGraphics_nBaseFrameStep;
-        ent6->field_34.h.field_36 = acc;
-        if ((s16)acc >= 0xBB8) {
-            return -2;
-        }
-        return -1;
-    }
-
-    if (gMainMenu_bTransitionActive != 0) {
+    } else if (gMainMenu_bTransitionActive != 0) {
         moved = 0;
         i = 0;
         slot = gMain_apMenuEntries;
     entry_loop:
         eloop = (DisplayObject *)*slot;
-        if (eloop == 0) {
-            goto next_entry;
-        }
-        timer = eloop->field_60;
-        step = (u16)eloop->field_60;
-        if (timer <= 0) {
-            goto next_entry;
-        }
-        timer = step - 1;
-        eloop->field_60 = timer;
-        first = (u32)gMain_bMenuID < 5;
-        if (first ? i < 5 : i >= 5) {
-            eloop = (DisplayObject *)*slot;
-            first = eloop->field_38.h.field_38;
-            value = eloop->field_34.h.field_36;
-            delta = first - value;
-            value = eloop->field_60;
-            /* Keep the selector/endpoint scratch live as the phase limit. */
-            first = 0x10;
-            frame = first - value;
-            value = (u16)eloop->field_38.h.field_38;
-            if (frame != first) {
-                product = rsin(frame << 6) * delta;
-                eloop = (DisplayObject *)*slot;
-                /* In-place truncation avoids the old compiler's quotient copy. */
-                if (product < 0) {
-                    product += 0xFFF;
+        if (eloop != 0) {
+            timer = eloop->field_60;
+            step = (u16)eloop->field_60;
+            if (timer > 0) {
+                timer = step - 1;
+                eloop->field_60 = timer;
+                first = (u32)gMain_bMenuID < 5;
+                if (first ? i < 5 : i >= 5) {
+                    eloop = (DisplayObject *)*slot;
+                    first = eloop->field_38.h.field_38;
+                    value = eloop->field_34.h.field_36;
+                    delta = first - value;
+                    value = eloop->field_60;
+                    /* Keep the selector/endpoint scratch live as the phase limit. */
+                    first = 0x10;
+                    frame = first - value;
+                    value = (u16)eloop->field_38.h.field_38;
+                    if (frame != first) {
+                        product = rsin(frame << 6) * delta;
+                        eloop = (DisplayObject *)*slot;
+                        /* In-place truncation avoids the old compiler's quotient copy. */
+                        if (product < 0) {
+                            product += 0xFFF;
+                        }
+                        product >>= 12;
+                        value = (u16)eloop->field_34.h.field_36 + product;
+                    }
+                    *(volatile s16 *)&eloop->xy.h.x = value;
+                    if ((frame & 1) != 0) {
+                        MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
+                    }
+                    ((DisplayObject *)*slot)->flags =
+                        ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
+                } else {
+                    ((DisplayObject *)*slot)->flags =
+                        ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 }
-                product >>= 12;
-                value = (u16)eloop->field_34.h.field_36 + product;
+                moved++;
+                DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
             }
-            *(volatile s16 *)&eloop->xy.h.x = value;
-            if ((frame & 1) != 0) {
-                MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
-            }
-            ((DisplayObject *)*slot)->flags =
-                ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
-        } else {
-            ((DisplayObject *)*slot)->flags =
-                ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        moved++;
-        DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
-    next_entry:
         i++;
         slot++;
         if (i < 0xB) {
@@ -344,99 +339,97 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         vx3 = gMainMenu_bTransitionMode;
         gMainMenu_bTransitionActive = 0;
-        if (vx3 == 0) {
-            goto ret_m1;
-        }
-        if (gMainMenu_bBackRequested != 0) {
-            if ((u32)gMain_bMenuID < 5) {
-                i = 0;
-                slot2 = gMain_apMenuEntries;
-            /* Sharing i and omitting structured-loop notes preserves its
-               allocation without rotating the first loop's saved registers. */
-            clear_loop:
-                ent3 = (DisplayObject *)*slot2;
-                if (ent3 != 0) {
-                    ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        if (vx3 != 0) {
+            if (gMainMenu_bBackRequested != 0) {
+                if ((u32)gMain_bMenuID < 5) {
+                    i = 0;
+                    slot2 = gMain_apMenuEntries;
+                /* Sharing i and omitting structured-loop notes preserves its
+                   allocation without rotating the first loop's saved registers. */
+                clear_loop:
+                    ent3 = (DisplayObject *)*slot2;
+                    if (ent3 != 0) {
+                        ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                    }
+                    slot2++;
+                    i++;
+                    if (i < 0xB) {
+                        goto clear_loop;
+                    }
+                    gMainMenu_nFadeDirection = -1;
+                } else {
+                    MainMenu_StartFrontendEntryTransition(0);
+                    gMain_bMenuID = 1;
                 }
-                slot2++;
-                i++;
-                if (i < 0xB) {
-                    goto clear_loop;
-                }
-                gMainMenu_nFadeDirection = -1;
-            } else {
-                MainMenu_StartFrontendEntryTransition(0);
-                gMain_bMenuID = 1;
+                gMainMenu_bBackRequested = 0;
+                return -1;
             }
-            gMainMenu_bBackRequested = 0;
+            if (gMain_bMenuID != 1) {
+                return gMain_bMenuID;
+            }
+            MainMenu_StartFrontendEntryTransition(0);
+            gMain_bMenuID = 5;
             return -1;
         }
-        if (gMain_bMenuID != 1) {
-            return gMain_bMenuID;
-        }
-        MainMenu_StartFrontendEntryTransition(0);
-        gMain_bMenuID = 5;
-        return -1;
-    }
-
-    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-        if ((u32)gMain_bMenuID >= 5) {
-            base = 5;
-        } else {
-            base = 0;
-        }
-        if ((u32)gMain_bMenuID < 5) {
-            count = 5;
-        } else {
-            count = 6;
-        }
-        DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
-        /* Keep the store in each arm: the join controls high-half reuse. */
-        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
-            *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
-        } else {
-            *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
-        }
-        DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
-        SD_SEPlay(6, 0xFF, 0);
-        return -1;
-    }
-
-    if ((gInput_awPadPressed[0] & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
-        return -1;
-    }
-    if ((gInput_awPadPressed[0] & MAIN_MENU_FRONTEND_CANCEL_BUTTON) != 0) {
-        if ((u32)gMain_bMenuID < 5) {
-            SD_SEPlay(9, 0xFF, 0);
-            return -1;
-        }
-        SD_SEPlay(8, 0xFF, 0);
-        gMainMenu_bBackRequested = 1;
     } else {
-        SD_SEPlay(7, 0xFF, 0);
-        switch (gMain_bMenuID) {
-        case 1:
-            SaveData_RequestLoad();
-            gMainMenu_bLoadPending = gMainMenu_bLoadPending + 1;
-            return -1;
-        case 3:
-            gSaveData_PairSetupState = 0;
-            gSaveData_LoadPairState = 0;
-            gMainMenu_bTradeLoadPending = gMainMenu_bTradeLoadPending + 1;
-            return -1;
-        case 2:
-            gSaveData_PairSetupState = 0;
-            gSaveData_LoadPairState = 0;
-            gMainMenu_bDuelLoadPending = gMainMenu_bDuelLoadPending + 1;
-            return -1;
-        case 0xA:
-            SaveData_RequestWrite();
-            gMainMenu_bSaveWritePending = gMainMenu_bSaveWritePending + 1;
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+            if ((u32)gMain_bMenuID >= 5) {
+                base = 5;
+            } else {
+                base = 0;
+            }
+            if ((u32)gMain_bMenuID < 5) {
+                count = 5;
+            } else {
+                count = 6;
+            }
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+            /* Keep the store in each arm: the join controls high-half reuse. */
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
+                *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
+            } else {
+                *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
+            }
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+            SD_SEPlay(6, 0xFF, 0);
             return -1;
         }
+
+        if ((gInput_awPadPressed[0] & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
+            return -1;
+        }
+        if ((gInput_awPadPressed[0] & MAIN_MENU_FRONTEND_CANCEL_BUTTON) != 0) {
+            if ((u32)gMain_bMenuID < 5) {
+                SD_SEPlay(9, 0xFF, 0);
+                return -1;
+            }
+            SD_SEPlay(8, 0xFF, 0);
+            gMainMenu_bBackRequested = 1;
+        } else {
+            SD_SEPlay(7, 0xFF, 0);
+            switch (gMain_bMenuID) {
+            case 1:
+                SaveData_RequestLoad();
+                gMainMenu_bLoadPending = gMainMenu_bLoadPending + 1;
+                return -1;
+            case 3:
+                gSaveData_PairSetupState = 0;
+                gSaveData_LoadPairState = 0;
+                gMainMenu_bTradeLoadPending = gMainMenu_bTradeLoadPending + 1;
+                return -1;
+            case 2:
+                gSaveData_PairSetupState = 0;
+                gSaveData_LoadPairState = 0;
+                gMainMenu_bDuelLoadPending = gMainMenu_bDuelLoadPending + 1;
+                return -1;
+            case 0xA:
+                SaveData_RequestWrite();
+                gMainMenu_bSaveWritePending = gMainMenu_bSaveWritePending + 1;
+                return -1;
+            }
+        }
+        MainMenu_StartFrontendEntryTransition(1);
     }
-    MainMenu_StartFrontendEntryTransition(1);
-ret_m1:
     return -1;
 }
 #endif

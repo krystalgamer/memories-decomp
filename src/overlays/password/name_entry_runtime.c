@@ -843,99 +843,94 @@ void NameEntry_UpdateKeyboard(void)
                 work = (n != 0);
                 gNameEntry_bKeyboardColumn = 11;
                 gNameEntry_bSavedRow = gNameEntry_bKeyboardRow = gNameEntry_aRowLinks[(s8)gNameEntry_bKeyboardRow][work];
-                goto tail47;
 #endif
-            } else if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
-                gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow - 1;
-                if ((s8)gNameEntry_bKeyboardRow < 0) {
-                    gNameEntry_bKeyboardRow = 8;
-                }
             } else {
-                gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow + 1;
-                if ((s8)gNameEntry_bKeyboardRow >= 9) {
-                    gNameEntry_bKeyboardRow = 0;
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
+                    gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow - 1;
+                    if ((s8)gNameEntry_bKeyboardRow < 0) {
+                        gNameEntry_bKeyboardRow = 8;
+                    }
+                } else {
+                    gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow + 1;
+                    if ((s8)gNameEntry_bKeyboardRow >= 9) {
+                        gNameEntry_bKeyboardRow = 0;
+                    }
+                }
+                gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
+            }
+        }
+    tail47:
+        SD_SEPlayFull(47);
+#ifdef VERSION_EUROPE
+        {
+            s32 tableBase;
+
+            tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
+            do {
+            } while (0);
+            row = (s8)gNameEntry_bKeyboardRow;
+            {
+                PasswordGlyphCoordinates coords = {
+                    parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
+                };
+                col = coords.parts.column;
+                work = *(s8 *)((coords.parts.column + coords.parts.stride) +
+                               tableBase);
+                walkCol = col;
+                while (work < 0) {
+                    /* Preserve GCC's separate loop-invariant address lifetimes. */
+                    do {
+                        walkCol = walkCol + work;
+                        gNameEntry_bKeyboardColumn = walkCol;
+                        work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
+                                       tableBase);
+                    } while (0);
                 }
             }
-            gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
         }
-    } else {
-        goto alt800;
-    }
-tail47:
-    SD_SEPlayFull(47);
-#ifdef VERSION_EUROPE
-    {
-        s32 tableBase;
-
-        tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
-        do {
-        } while (0);
+#else
+        obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
         row = (s8)gNameEntry_bKeyboardRow;
         {
+            /* Keep the pair fully initialized; separate stores change allocation. */
             PasswordGlyphCoordinates coords = {
                 parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
             };
             col = coords.parts.column;
-            work = *(s8 *)((coords.parts.column + coords.parts.stride) +
-                           tableBase);
+            work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
             walkCol = col;
             while (work < 0) {
-                /* Preserve GCC's separate loop-invariant address lifetimes. */
-                do {
-                    walkCol = walkCol + work;
-                    gNameEntry_bKeyboardColumn = walkCol;
-                    work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
-                                   tableBase);
-                } while (0);
+                walkCol = walkCol + work;
+                gNameEntry_bKeyboardColumn = walkCol;
+                work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
             }
         }
-    }
-#else
-    obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
-    row = (s8)gNameEntry_bKeyboardRow;
-    {
-        /* Keep the pair fully initialized; separate stores change allocation. */
-        PasswordGlyphCoordinates coords = {
-            parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
-        };
-        col = coords.parts.column;
-        work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
-        walkCol = col;
-        while (work < 0) {
-            walkCol = walkCol + work;
-            gNameEntry_bKeyboardColumn = walkCol;
-            work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
-        }
-    }
 #endif
-    gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
-    w->widthBonus = 0;
-    if (work != 0) {
-        if ((work & 0x40) != 0) {
-            w->widthBonus = 20;
+        gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
+        w->widthBonus = 0;
+        if (work != 0) {
+            if ((work & 0x40) != 0) {
+                w->widthBonus = 20;
+            }
+            gNameEntry_bKeyboardRow = work & 0xF;
         }
-        gNameEntry_bKeyboardRow = work & 0xF;
+        gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
+        if ((s8)gNameEntry_bKeyboardColumn >= 11) {
+            gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
+        }
+        gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
+        w->timer = 8;
+        w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
+        w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
+        gNameEntry_wSelectionFrameFlags |= 0x4000;
+        return;
     }
-    gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
-    if ((s8)gNameEntry_bKeyboardColumn >= 11) {
-        gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
+        gNameEntry_bKeyboardColumn = 14;
+        gNameEntry_bKeyboardRow = 8;
+        goto tail47;
     }
-    gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
-    DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
-    w->timer = 8;
-    w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
-    w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
-    gNameEntry_wSelectionFrameFlags |= 0x4000;
-    return;
-
-alt800:
-    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) == 0) {
-        goto select;
-    }
-    gNameEntry_bKeyboardColumn = 14;
-    gNameEntry_bKeyboardRow = 8;
-    goto tail47;
-select:
 #ifdef VERSION_EUROPE
     if ((gInput_awPadRepeat[0] & 0xC) != 0) {
         work = 1;
@@ -948,156 +943,154 @@ select:
         return;
     }
 #endif
-    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CONFIRM_MASK) == 0) {
-        goto sel_ret;
-    }
+    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CONFIRM_MASK) != 0) {
 #ifdef VERSION_EUROPE
-    kind = 0;
-    work = -1;
-    gx = 0;
-    gy = 0;
-    glyphTable = &gNameEntry_aKeyboardCells[0][0];
-    glyphRow = (s8)gNameEntry_bKeyboardRow;
-    glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
-    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
-    if (glyphCode == 8) {
-        work = 2;
-        gy = 144;
-        gNameEntry_bStateFlags |= 0x40;
-    } else {
-        n = 41;
-        kind = 1;
-        gx = glyphCol * 20;
-        gy = glyphRow * 18;
-        if (glyphRow == 8 && (u8)(gNameEntry_bKeyboardColumn - 9) < 2) {
-            work = glyphCol - 9;
-            d = kind;
-            if (work == 0) {
-                d = -1;
+        kind = 0;
+        work = -1;
+        gx = 0;
+        gy = 0;
+        glyphTable = &gNameEntry_aKeyboardCells[0][0];
+        glyphRow = (s8)gNameEntry_bKeyboardRow;
+        glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
+        glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
+        if (glyphCode == 8) {
+            work = 2;
+            gy = 144;
+            gNameEntry_bStateFlags |= 0x40;
+        } else {
+            n = 41;
+            kind = 1;
+            gx = glyphCol * 20;
+            gy = glyphRow * 18;
+            if (glyphRow == 8 && (u8)(gNameEntry_bKeyboardColumn - 9) < 2) {
+                work = glyphCol - 9;
+                d = kind;
+                if (work == 0) {
+                    d = -1;
+                }
+                if (NameEntry_AdjustLength(d, 6) == 0) {
+                    n = 9;
+                }
             }
-            if (NameEntry_AdjustLength(d, 6) == 0) {
-                n = 9;
-            }
+            SD_SEPlayFull(n);
         }
-        SD_SEPlayFull(n);
-    }
-    if (work >= 0) {
-        object = gNameEntry_apKeySprites[work];
+        if (work >= 0) {
+            object = gNameEntry_apKeySprites[work];
+            object->field_6C = 1;
+            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            object->field_4C = 0;
+            object->field_6B = 1;
+            return;
+        }
+        node = TextBox_GetGlyphAt(kind, gx | 2, gy);
+        object = NameEntry_SpawnGlyphSprite(kind, node);
         object->field_6C = 1;
         object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-        object->field_4C = 0;
-        object->field_6B = 1;
+        if (node == 0) {
+            object->flags &= 0xFFBF;
+        }
+        if (kind == 1) {
+            u16 *slot;
+            gNameEntry_bStateFlags |= 0x80;
+            slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
+            *slot = 0;
+            if (node != 0) {
+                *slot = node->glyph_code;
+            }
+            object = NameEntry_SpawnGlyphSprite(1, node);
+            object->field_60 = 8;
+            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+            object->field_44.target.y = 204;
+            object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
+            object->field_6C = 6;
+        }
         return;
-    }
-    node = TextBox_GetGlyphAt(kind, gx | 2, gy);
-    object = NameEntry_SpawnGlyphSprite(kind, node);
-    object->field_6C = 1;
-    object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-    if (node == 0) {
-        object->flags &= 0xFFBF;
-    }
-    if (kind == 1) {
-        u16 *slot;
-        gNameEntry_bStateFlags |= 0x80;
-        slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
-        *slot = 0;
-        if (node != 0) {
-            *slot = node->glyph_code;
-        }
-        object = NameEntry_SpawnGlyphSprite(1, node);
-        object->field_60 = 8;
-        object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        object->field_44.target.y = 204;
-        object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
-        object->field_6C = 6;
-    }
-    return;
 #else
-    kind = 0;
-    work = kind;
+        kind = 0;
+        work = kind;
 #ifdef VERSION_JAPAN
-    gy = kind;
+        gy = kind;
 #endif
-    glyphTable = &gNameEntry_aKeyboardCells[0][0];
-    glyphRow = (s8)gNameEntry_bKeyboardRow;
-    glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
-    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
-    gx = kind;
-    switch (glyphCode) {
+        glyphTable = &gNameEntry_aKeyboardCells[0][0];
+        glyphRow = (s8)gNameEntry_bKeyboardRow;
+        glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
+        glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
+        gx = kind;
+        switch (glyphCode) {
 #ifdef VERSION_JAPAN
-    case 2:
-        /* The Japanese keyboard's mode key: it cycles the character set
-         * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
-        gNameEntry_bCharacterSet++;
-        if (gNameEntry_bCharacterSet >= 3) {
-            gNameEntry_bCharacterSet = 0;
-        }
-        NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
-        work = 2;
-        SD_SEPlayFull(7);
-        break;
+        case 2:
+            /* The Japanese keyboard's mode key: it cycles the character set
+             * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
+            gNameEntry_bCharacterSet++;
+            if (gNameEntry_bCharacterSet >= 3) {
+                gNameEntry_bCharacterSet = 0;
+            }
+            NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
+            work = 2;
+            SD_SEPlayFull(7);
+            break;
 #endif
-    case 4:
-        d = 1;
-        if (glyphCol == 11) {
-            d = -1;
-        } else {
-            gx = 20;
+        case 4:
+            d = 1;
+            if (glyphCol == 11) {
+                d = -1;
+            } else {
+                gx = 20;
+            }
+            if (NameEntry_AdjustLength(d, 6) == 0) {
+                SD_SEPlayFull(9);
+            }
+            gy = 36;
+            break;
+        case 6:
+            work = 2;
+            gy = 72;
+            gNameEntry_bStateFlags |= 0x40;
+            break;
+        default:
+            kind = 1;
+            gx = (s8)gNameEntry_bKeyboardColumn * 20;
+            gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
+            SD_SEPlayFull(41);
+            break;
         }
-        if (NameEntry_AdjustLength(d, 6) == 0) {
-            SD_SEPlayFull(9);
-        }
-        gy = 36;
-        break;
-    case 6:
-        work = 2;
-        gy = 72;
-        gNameEntry_bStateFlags |= 0x40;
-        break;
-    default:
-        kind = 1;
-        gx = (s8)gNameEntry_bKeyboardColumn * 20;
-        gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
-        SD_SEPlayFull(41);
-        break;
-    }
-    node = TextBox_GetGlyphAt(kind, gx, gy);
-    obj = NameEntry_SpawnGlyphSprite(kind, node);
-    ((DisplayObject *)obj)->field_6C = 1;
-    ((DisplayObject *)obj)->update =
-        (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-    if (node == 0) {
-        ((DisplayObject *)obj)->flags &= 0xFFBF;
-    }
-    if (work != 0) {
-        ((DisplayObject *)obj)->field_48.pivot.x = 20;
-        node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+        node = TextBox_GetGlyphAt(kind, gx, gy);
         obj = NameEntry_SpawnGlyphSprite(kind, node);
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update =
             (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-        ((DisplayObject *)obj)->field_48.pivot.x = 0;
-    }
-    if (kind == 1) {
-        u16 *slot;
-        gNameEntry_bStateFlags |= 0x80;
-        slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
-        *slot = 0;
-        if (node != 0) {
-            *slot = node->glyph_code;
+        if (node == 0) {
+            ((DisplayObject *)obj)->flags &= 0xFFBF;
         }
-        obj = NameEntry_SpawnGlyphSprite(1, node);
-        ((DisplayObject *)obj)->field_60 = 8;
-        ((DisplayObject *)obj)->update =
-            (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        ((DisplayObject *)obj)->field_44.target.y = 204;
-        ((DisplayObject *)obj)->field_44.target.x =
-            gNameEntry_bCaretPos * 16 + 112;
-        ((DisplayObject *)obj)->field_6C = 6;
-    }
-    return;
+        if (work != 0) {
+            ((DisplayObject *)obj)->field_48.pivot.x = 20;
+            node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+            obj = NameEntry_SpawnGlyphSprite(kind, node);
+            ((DisplayObject *)obj)->field_6C = 1;
+            ((DisplayObject *)obj)->update =
+                (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            ((DisplayObject *)obj)->field_48.pivot.x = 0;
+        }
+        if (kind == 1) {
+            u16 *slot;
+            gNameEntry_bStateFlags |= 0x80;
+            slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
+            *slot = 0;
+            if (node != 0) {
+                *slot = node->glyph_code;
+            }
+            obj = NameEntry_SpawnGlyphSprite(1, node);
+            ((DisplayObject *)obj)->field_60 = 8;
+            ((DisplayObject *)obj)->update =
+                (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+            ((DisplayObject *)obj)->field_44.target.y = 204;
+            ((DisplayObject *)obj)->field_44.target.x =
+                gNameEntry_bCaretPos * 16 + 112;
+            ((DisplayObject *)obj)->field_6C = 6;
+        }
+        return;
 #endif
-sel_ret:
+    }
 #ifdef VERSION_EUROPE
     if ((gInput_awPadRepeat[0] & NAME_ENTRY_CANCEL_MASK) != 0) {
         if (NameEntry_AdjustLength(-1, 6) != 0) {
