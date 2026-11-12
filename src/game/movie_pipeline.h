@@ -32,7 +32,7 @@ s32 Movie_WaitFrameDecoded(void);
  * queues the next output or marks the frame complete. Its exact void(void)
  * shape is load bearing. The decode timeout is separate: Movie_WaitFrameDecoded
  * in movie_pipeline.c (formerly mdec_sync.c) counts down and resets the MDEC itself. */
-s32 Movie_StopStream(s32 arg0);
+s32 Movie_StopStream(s32 copy_display);
 s32 Movie_DecodeAndPresentFrame(void);
 s32 Movie_WaitAndDecodeFrame(s32 resync);
 void Movie_OnDecodeOutput(void);
@@ -129,7 +129,8 @@ extern u8 D_8009B4A2;
 void Movie_OnStreamEnd(void);
 
 s32 Movie_OpenStream(
-    CdlLOC *src, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5
+    CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector, s32 rgb24,
+    s32 copy_display_on_stop
 );
 
 /* Re-issues the disc read at `loc`: sets the location, seeks to it, and
@@ -143,7 +144,8 @@ s32 Movie_OpenStream(
 void Movie_SeekAndStartRead(CdlLOC *loc);
 
 void Movie_OpenIndexedStream(
-    s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4
+    s32 index, s32 start_frame, s32 end_frame, s32 rgb24,
+    s32 copy_display_on_stop
 );
 /* Starts a movie from a disc file looked up by name. File_Exists fills the
  * CdlLOC and byte size at gMovie_FileInfo; the stream then runs from that sector
@@ -155,8 +157,8 @@ s32 Movie_StartFileStream(
     const char *path,
     s32 start_frame,
     s32 end_frame,
-    s32 arg3,
-    s32 arg4
+    s32 rgb24,
+    s32 copy_display_on_stop
 );
 
 #endif
