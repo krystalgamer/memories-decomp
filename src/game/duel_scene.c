@@ -4392,8 +4392,8 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
  * local availability list, swaps pool-card records into other occupied hand
  * slots, rebuilds their objects, and rewrites picks as hand-slot codes.
  *
- * The slot search is a goto loop inside a one-pass do/while, and the order
- * and card-record bases are added as integers: those forms keep the retail
+ * The slot search is entered through a constant switch, and the order and
+ * card-record bases are added as integers: those forms keep the retail
  * loop-invariant placement, operand order and register roles. */
 void Duel_ApplyAiHandSelection(void)
 {
@@ -4430,43 +4430,51 @@ void Duel_ApplyAiHandSelection(void)
             return;
         }
         if (v >= 0x10) {
-            do {
-                j = 0;
-                order = gDuel_abHandCardRecordIndices;
-                records = gDuel_aCardRecords;
-                slot = gDuelHand_aSlots;
-            search:
-                if (sel[j] >= 0) {
-                    card = &gDuel_aActiveCards[v];
-                    rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
-                    other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
-                            card->deck_index;
-                    v = rec->deck_index;
-                    rec->deck_index = other->deck_index;
-                    other->deck_index = v;
-                    tmp = *rec;
-                    *rec = *other;
-                    *other = tmp;
-                    k = gDuel_bActiveSide * HAND_SIZE;
-                    id = *(u8 *)((j + k) + (s32)order);
-                    spawned = (DuelCardDisplayObject *)slot->object;
-                    Duel_SetupCardRecord(id, rec->deck_index);
-                    slot->object = (DisplayObject *)((DuelCreateHandCardDisplayObjectAt)Duel_CreateHandCardDisplayObject)(
-                        (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
-                                           (s32)records),
-                        spawned->out_x, spawned->out_y);
-                    DisplayObject_ReleaseIfPresent(spawned);
-                    gDuel_pActiveSideState->hand[j] = rec->deck_index;
-                    gAi_Selection.bytes[i] = j + 0xB;
-                    sel[j] = -1;
-                    continue;
+            j = 0;
+            order = gDuel_abHandCardRecordIndices;
+            records = gDuel_aCardRecords;
+            slot = gDuelHand_aSlots;
+            /* The constant switch enters the hand scan at its case label, so
+               loop.c leaves it alone as with retail's goto loop (a structured
+               scan hoists an address and grows the frame). */
+            switch (0) {
+                for (;;) {
                 }
-                j++;
-                slot++;
-                if (j < HAND_SIZE) {
-                    goto search;
-                }
-            } while (0);
+                do {
+            case 0:
+                    if (sel[j] >= 0) {
+                        /* The empty loop keeps jump.c from moving this arm
+                           ahead of the slot test. */
+                        do {
+                        } while (0);
+                        card = &gDuel_aActiveCards[v];
+                        rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
+                        other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
+                                card->deck_index;
+                        v = rec->deck_index;
+                        rec->deck_index = other->deck_index;
+                        other->deck_index = v;
+                        tmp = *rec;
+                        *rec = *other;
+                        *other = tmp;
+                        k = gDuel_bActiveSide * HAND_SIZE;
+                        id = *(u8 *)((j + k) + (s32)order);
+                        spawned = (DuelCardDisplayObject *)slot->object;
+                        Duel_SetupCardRecord(id, rec->deck_index);
+                        slot->object = (DisplayObject *)((DuelCreateHandCardDisplayObjectAt)Duel_CreateHandCardDisplayObject)(
+                            (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
+                                               (s32)records),
+                            spawned->out_x, spawned->out_y);
+                        DisplayObject_ReleaseIfPresent(spawned);
+                        gDuel_pActiveSideState->hand[j] = rec->deck_index;
+                        gAi_Selection.bytes[i] = j + 0xB;
+                        sel[j] = -1;
+                        break;
+                    }
+                    j++;
+                    slot++;
+                } while (j < HAND_SIZE);
+            }
         }
     }
 }
