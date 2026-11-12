@@ -73,14 +73,14 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
         work->unknown_E45[1] = 0;
         work->unknown_E45[2] = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant669_aImages[1]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant669_aImages[2]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant669_aImages[0]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 2:
@@ -477,8 +477,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 }
                 for (j = 0; j < 32; j++) {
                     setPolyFT4(&work->sprite);
-                    work->sprite.tpage = work->tpage[0];
-                    work->sprite.clut = work->clut[0];
+                    work->sprite.tpage = work->textures.tpage[0];
+                    work->sprite.clut = work->textures.clut[0];
                     setSemiTrans(&work->sprite, 1);
                     setUV4(&work->sprite, work->rings[i].head.u + 64, work->rings[i].head.v,
                         work->rings[i].head.u + 64, work->rings[i].head.v + 63,
@@ -525,8 +525,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 GsSetLsMatrix(&ls);
                 for (j = 0; j < 16; j++) {
                     setPolyGT4(&work->strip);
-                    work->strip.tpage = work->tpage[1];
-                    work->strip.clut = work->clut[1];
+                    work->strip.tpage = work->textures.tpage[1];
+                    work->strip.clut = work->textures.clut[1];
                     setSemiTrans(&work->strip, 1);
                     setUV4(&work->strip, work->rings[i].head.u, work->rings[i].head.v + 64,
                         work->rings[i].head.u, work->rings[i].head.v + 191,
@@ -575,8 +575,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                     if (work->echoes[i][j].head.elapsed != 0) {
                         for (k = 0; k < 32; k++) {
                             setPolyFT4(&work->sprite);
-                            work->sprite.tpage = work->tpage[0];
-                            work->sprite.clut = work->clut[0];
+                            work->sprite.tpage = work->textures.tpage[0];
+                            work->sprite.clut = work->textures.clut[0];
                             setSemiTrans(&work->sprite, 1);
                             setUV4(&work->sprite, work->echoes[i][j].head.u + 64, work->echoes[i][j].head.v,
                                 work->echoes[i][j].head.u + 64, work->echoes[i][j].head.v + 63,
@@ -626,8 +626,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                     work->bursts[i].head.color[2] = gModelVariant669_aConfigs[work->head.command].color[5] * value / amount;
                 }
                 setPolyFT4(&work->sprite);
-                work->sprite.tpage = work->tpage[0];
-                work->sprite.clut = work->clut[0];
+                work->sprite.tpage = work->textures.tpage[0];
+                work->sprite.clut = work->textures.clut[0];
                 setSemiTrans(&work->sprite, 1);
                 setUV4(&work->sprite, work->bursts[i].head.u, work->bursts[i].head.v,
                     work->bursts[i].head.u + 63, work->bursts[i].head.v,
@@ -643,8 +643,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                 }
                 for (j = 0; j < 2; j++) {
                     setPolyGT3(&work->shard);
-                    work->shard.tpage = work->tpage[0];
-                    work->shard.clut = work->clut[0];
+                    work->shard.tpage = work->textures.tpage[0];
+                    work->shard.clut = work->textures.clut[0];
                     setSemiTrans(&work->shard, 1);
                     setUV3(&work->shard, work->bursts[i].head.u + 96, work->bursts[i].head.v,
                         work->bursts[i].head.u + 64, work->bursts[i].head.v + 63,
@@ -675,8 +675,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                     GsGetLsUnit(&unit, &ls);
                     GsSetLsMatrix(&ls);
                     setPolyFT4(&work->sprite);
-                    work->sprite.tpage = work->tpage[2];
-                    work->sprite.clut = work->clut[2];
+                    work->sprite.tpage = work->textures.tpage[2];
+                    work->sprite.clut = work->textures.clut[2];
                     setSemiTrans(&work->sprite, 1);
                     setUV4(&work->sprite, work->bursts[i].head.u, work->bursts[i].head.v + 192,
                         work->bursts[i].head.u + 63, work->bursts[i].head.v + 192,
@@ -706,8 +706,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (k = 0; k < 16; k++) {
                         setPolyGT4(&work->strip);
-                        work->strip.tpage = work->tpage[1];
-                        work->strip.clut = work->clut[1];
+                        work->strip.tpage = work->textures.tpage[1];
+                        work->strip.clut = work->textures.clut[1];
                         setSemiTrans(&work->strip, 1);
                         setUV4(&work->strip, work->bursts[i].head.u, work->bursts[i].head.v + 64,
                             work->bursts[i].head.u, work->bursts[i].head.v + 128,
@@ -726,8 +726,8 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->strip);
-                        work->strip.tpage = work->tpage[1];
-                        work->strip.clut = work->clut[1];
+                        work->strip.tpage = work->textures.tpage[1];
+                        work->strip.clut = work->textures.clut[1];
                         setSemiTrans(&work->strip, 1);
                         setUV4(&work->strip, work->bursts[i].head.u, work->bursts[i].head.v + 128,
                             work->bursts[i].head.u, work->bursts[i].head.v + 191,

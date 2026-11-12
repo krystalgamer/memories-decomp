@@ -36,14 +36,14 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
         work->head.elapsed = 0;
         Model_CopySlotPosition(work->head.slot == 0, (u16 *)work->position);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant673_aImages[2]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant673_aImages[0]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant673_aImages[1]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -199,8 +199,8 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                     work->rising[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[2];
-                work->flat.clut = work->clut[2];
+                work->flat.tpage = work->textures.tpage[2];
+                work->flat.clut = work->textures.clut[2];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->rising[i].head.u, work->rising[i].head.v, work->rising[i].head.u + 31,
                     work->rising[i].head.v, work->rising[i].head.u, work->rising[i].head.v + 31,
@@ -252,8 +252,8 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                     work->falling[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[2];
-                work->flat.clut = work->clut[2];
+                work->flat.tpage = work->textures.tpage[2];
+                work->flat.clut = work->textures.clut[2];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->falling[i].head.u, work->falling[i].head.v, work->falling[i].head.u + 31,
                     work->falling[i].head.v, work->falling[i].head.u, work->falling[i].head.v + 31,
@@ -303,8 +303,8 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                     work->fans[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].fan_blue * n / d;
                 }
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[0];
-                work->flat.clut = work->clut[0];
+                work->flat.tpage = work->textures.tpage[0];
+                work->flat.clut = work->textures.clut[0];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->fans[i].head.u, work->fans[i].head.v, work->fans[i].head.u + 63,
                     work->fans[i].head.v, work->fans[i].head.u, work->fans[i].head.v + 63,
@@ -318,8 +318,8 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT3(&work->fan);
-                    work->fan.tpage = work->tpage[1];
-                    work->fan.clut = work->clut[1];
+                    work->fan.tpage = work->textures.tpage[1];
+                    work->fan.clut = work->textures.clut[1];
                     setSemiTrans(&work->fan, 1);
                     setUV3(&work->fan, work->fans[i].head.u + 32, work->fans[i].head.v + 64, work->fans[i].head.u,
                         work->fans[i].head.v + 127, work->fans[i].head.u + 63, work->fans[i].head.v + 127);
