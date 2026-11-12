@@ -631,34 +631,34 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 
 void Model_StepBackgroundVramAnimation(void) {
     s32 k;
-    s32 u_0;
-    s32 u_1;
-    s32 r;
-    s32 r4;
+    s32 column_tick;
+    s32 row_tick;
+    s32 column_frame;
+    s32 row_frame;
     s32 n;
-    s32 q;
+    s32 frame_row;
 
     if (gModel_aSlots[2].is_active != 0) {
         k = gModel_pBackgroundRecord->selector;
         switch (k) {
         case 1:
-            u_0 = VSync(-1) / 8;
+            column_tick = VSync(-1) / 8;
             gModel_ImageCopyRectY = 0x1C0;
             gModel_ImageCopyRectW = 0x10;
             gModel_ImageCopyRectH = 0x40;
-            r = u_0 % 3;
-            gModel_ImageCopyRectX = r * 16 + 0x2D0;
+            column_frame = column_tick % 3;
+            gModel_ImageCopyRectX = column_frame * 16 + 0x2D0;
             MoveImage(MODEL_IMAGE_COPY_RECT, 0x2C0, 0x1C0);
             break;
         case 4:
             n = MODEL_IMAGE_COPY_FRAME_COUNT;
-            u_1 = VSync(-1) / 10;
-            r4 = u_1 % n;
+            row_tick = VSync(-1) / 10;
+            row_frame = row_tick % n;
             gModel_ImageCopyRectX = 0x260;
-            q = gModel_abImageCopyFrameRows[r4];
+            frame_row = gModel_abImageCopyFrameRows[row_frame];
             gModel_ImageCopyRectW = 0x20;
             gModel_ImageCopyRectH = 0x18;
-            gModel_ImageCopyRectY = q * 3 * 8 + 0x180;
+            gModel_ImageCopyRectY = frame_row * 3 * 8 + 0x180;
             MoveImage(MODEL_IMAGE_COPY_RECT, 0x220, 0x168);
             break;
         }

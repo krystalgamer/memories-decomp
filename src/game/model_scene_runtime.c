@@ -182,9 +182,9 @@ s32 HostFile_ReadRange(char *path, char *destination, s32 offset, s32 length)
 void ModelTexture_UploadTimFile(char *path, int destination_mode, int blend_mode, int pixel_x, int pixel_y, int clut_x, int clut_y)
 {
     /* The 32-byte retail scratch is one word larger than GsIMAGE. */
-    s32 local[8];
+    s32 tim_image[8];
 
-    ModelTexture_LoadTim((GsIMAGE *)local, path, destination_mode, blend_mode, pixel_x, pixel_y, clut_x, clut_y);
+    ModelTexture_LoadTim((GsIMAGE *)tim_image, path, destination_mode, blend_mode, pixel_x, pixel_y, clut_x, clut_y);
 }
 
 /* Copies the image header onto the stack before forwarding it, so the
