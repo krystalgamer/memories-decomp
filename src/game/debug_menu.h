@@ -3,6 +3,72 @@
 #include "../types.h"
 #include "display_object.h"
 
+extern u16 gDebugMenu_wMessageId;
+extern u16 gDebugMenu_wCampaignScene;
+/* The four nibble masks the value editor applies per digit.
+ * DebugMenu_UpdateValueEditor (debug_menu.c) copies all
+ * eight bytes with a Bytes8 assignment; the unsized declaration is what
+ * gives that read cc1psx's %hi/%lo pair rather than a gp-relative one. */
+extern u16 gDebugMenu_awNibbleMasks[];
+
+#define DEBUG_MENU_PAGE_PRIMARY 0
+#define DEBUG_MENU_PAGE_ALTERNATE 1
+#define DEBUG_MENU_COLUMN_ENTRY_COUNT 10
+#define DEBUG_MENU_ENTRY_COUNT 20
+
+#define DEBUG_MENU_ENTRY_3D 0
+#define DEBUG_MENU_ENTRY_CAMPAIGN 1
+#define DEBUG_MENU_ENTRY_DUEL 2
+#define DEBUG_MENU_ENTRY_DETAIL 3
+#define DEBUG_MENU_ENTRY_SOUND 4
+#define DEBUG_MENU_ENTRY_BUST_UP 5
+#define DEBUG_MENU_ENTRY_3D_MAP 6
+#define DEBUG_MENU_ENTRY_DECK_EDIT 7
+#define DEBUG_MENU_ENTRY_FREE_DUEL 8
+#define DEBUG_MENU_ENTRY_TITLE 9
+#define DEBUG_MENU_ENTRY_NAME 10
+#define DEBUG_MENU_ENTRY_PASSWORD 11
+#define DEBUG_MENU_ENTRY_MOVIE 12
+#define DEBUG_MENU_ENTRY_LOAD 13
+#define DEBUG_MENU_ENTRY_SAVE 14
+#define DEBUG_MENU_ENTRY_TRADE 15
+#define DEBUG_MENU_ENTRY_OPTION 16
+#define DEBUG_MENU_ENTRY_LOSE 17
+#define DEBUG_MENU_ENTRY_HIRATA 18
+#define DEBUG_MENU_ENTRY_EXIT 19
+
+/* The six frontend debug HUD format strings and the scene index table,
+   declared here so the source that defines them and the four that read
+   them cannot drift apart. DebugMenu_UpdateCampaignEntry reads gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat
+   when switching between its message and campaign editors. */
+extern u8 gDebugMenu_szSoundEditorFormat[0x28];
+extern u8 gDebugMenu_szMessageEditorFormat[0x18];
+extern u8 gDebugMenu_szCampaignEditorFormat[0x18];
+extern u8 gDebugMenu_szMapEditorFormat[0x1C];
+extern u8 gDebugMenu_szMenuEditorFormat[0x1C];
+extern u8 gDebugMenu_szMovieEditorFormat[0x24];
+#ifdef VERSION_EUROPE
+/* The "LANGUAGE = %X" editor format of the European-only language entry
+ * (DebugMenu_UpdateLanguageEntry), beside the other gDebugMenu_sz*EditorFormat strings. */
+extern u8 gDebugMenu_szLanguageEditorFormat[0x1C];
+#endif
+extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
+
+/* DebugMenu_EnterMappedMode reads it as the index into gDebugMenu_abMainModeByEntry (`s32 i =
+   gDebugMenu_bCursor;` at debug_menu.c:70, `v = p[i];` at :74);
+   DebugMenu_UpdateCursorLayout reads it as `s32 index = gDebugMenu_bCursor;`.
+   DebugMenu_Update
+   is the only C writer: it adds 0xA when the sum is below 0x14
+   (debug_menu.c:224-228), subtracts 0xA when the difference is not negative
+   (:230-233), steps it by -1 with wraps to 0x13 and 9 (:236-251) and by +1 with
+   wraps to 0xA and 0 (:252-267), stores 0x13 (:271-273) and stores
+   `gDebugMenu_bCursor + 1` into gDebugMenu_bStep (:304). s8 because all three units
+   declared it s8 when they matched and :230 tests `gDebugMenu_bCursor - 0xA >= 0`;
+   retail loads it lb at debug_menu_mapped_mode.s:5 and debug_menu_update.s:59/:68/:82/
+   :109/:141, and every access is %gp_rel, so this is the plain declaration.
+   No prototype takes &gDebugMenu_bCursor. Initial value not read. */
+extern s8 gDebugMenu_bCursor;
+
 /* The primary debug page's value editor (DebugMenu_UpdateValueEditor, declared in
  * frontend_debug_state.h) and its two entries, adjacent in the image at
  * 0x800307B8 and 0x80030998. Both entries drive the digit editor and
@@ -40,7 +106,7 @@ void DebugMenu_EnterCredits(void);
  *
  * It reads gDebugMenu_bCursor as an index into gDebugMenu_abMainModeByEntry and publishes that byte as
  * the next mode in gMain_bActiveModeState, clearing gFreeDuel_bReturnFlags and D_8009B2B2
- * on the way. frontend_debug_tables.h documents both the index and the table
+ * on the way. debug_menu.h documents both the index and the table
  * it selects from. */
 void DebugMenu_EnterMappedMode(void);
 
@@ -184,4 +250,11 @@ void DebugMenu_UpdateTradeEntry(void); /* 16: polls SaveData_UpdateTradeLoad, th
 void DebugMenu_EnterDuel(void); /* 3: arms a duel through Main_StartDuel */
 void DebugMenu_EnterDeckEditor(void); /* 8: enters narrow-confirm Build Deck */
 
+/* Three editor rows: caret anchor column and digit width per row. */
+extern FrontendDebugColumns gDebug_abEditorCaretColumns;
+extern FrontendDebugDigitCounts gDebug_abEditorDigitCounts;
+extern u8 gDebug_bEditorLeadingLineCount;
+extern u8 gDebug_bEditorRowCount;
+extern u8 gDebug_bEditorFlags;
+extern u8 *gDebug_pszEditorFormat;
 #endif

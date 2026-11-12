@@ -10,7 +10,7 @@ any assembly.
 
 ## Configuration identities
 
-`debug_value_editor_config.h` declares the editor configuration, defined
+`debug_menu.h` declares the editor configuration, defined
 under these names by `debug_menu.c` (or its regional block):
 
 | NA address | Former identity | Name |
