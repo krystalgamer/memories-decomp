@@ -3917,19 +3917,17 @@ void DuelScene_UpdateCardPlacement(void)
                 return;
                 {
                     s32 phase = gDuel_bSceneSubStep;
-                    if (phase & 0x20) {
-                        phase_clear = phase & 0x9F;
-                        goto finish_effect_step;
+                    if (!(phase & 0x20)) {
+                        slots = gDisplayObject_apWorkSlots.slots;
+                        gDuel_bSceneSubStep |= 0x20;
+                        DisplayObject_StartAlphaTransition(slots[1], 192, 0, 8);
+                        PLACEMENT_PX(slots[1]) = 140;
+                        gDisplayObject_apWorkSlots.slots[0]->flags |= 0x40;
+                        DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots.slots[0], 192, 0, 8);
+                        return;
                     }
+                    phase_clear = phase & 0x9F;
                 }
-                slots = gDisplayObject_apWorkSlots.slots;
-                gDuel_bSceneSubStep |= 0x20;
-                DisplayObject_StartAlphaTransition(slots[1], 192, 0, 8);
-                PLACEMENT_PX(slots[1]) = 140;
-                gDisplayObject_apWorkSlots.slots[0]->flags |= 0x40;
-                DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots.slots[0], 192, 0, 8);
-                return;
-finish_effect_step:
                 gDuel_bSceneSubStep = phase_clear;
                 return;
             }
