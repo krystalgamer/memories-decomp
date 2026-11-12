@@ -1,7 +1,6 @@
 #include "../types.h"
 
 #include "script_scene.h"
-#include "script_state.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * script_scene_commons subsegment places it at the retail addresses. */
@@ -55,7 +54,6 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
 #include "fade.h"
 #include "file_transfer.h"
 #include "main.h"
-#include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 
@@ -108,7 +106,6 @@ void Script_OpLoadImageScene(void)
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
 #include "text_helpers.h"
-#include "script_state.h"
 #include "duel_effect_mark_object_if_active.h"
 
 /* Regional values, which the European wrapper defines for itself: the
@@ -168,7 +165,6 @@ void Script_OpShowDialog(void)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "image_transfer_rects.h"
-#include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 
@@ -334,7 +330,6 @@ void Script_UpdateViewportTween(void) {
     }
 }
 
-#include "script_state.h"
 #include "main_mode_state.h"
 
 void Script_OpOpenCampaignMap(void)
@@ -348,8 +343,6 @@ void Script_OpOpenCampaignMap(void)
 #include "display_effect_lifecycle.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
-#include "display_menu_records.h"
-#include "script_state.h"
 
 void Script_OpShowMenu(void)
 {
@@ -389,7 +382,6 @@ void Script_OpShowMenu(void)
 
 #include "sound.h"
 #include "file_transfer.h"
-#include "script_state.h"
 #include "sound_bgm_commands.h"
 
 void Script_OpSound(void)
@@ -477,7 +469,6 @@ void Script_OpJump(void)
 
 #include "sound.h"
 #include "display_object.h"
-#include "script_state.h"
 #include "main_services.h"
 #include "dialog_choice_control.h"
 #include "duel_effect_mark_object_if_active.h"
@@ -773,7 +764,6 @@ void Script_OpUnusedHalt15(void)
 }
 
 #include "fade.h"
-#include "script_state.h"
 
 void Script_OpFadeOut(void)
 {
@@ -892,7 +882,6 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 #include "display_object_layout.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "script_state.h"
 #include "script_image_objects.h"
 #include "sound_driver.h"
 #include "display_asset_banks.h"
@@ -1022,7 +1011,6 @@ void Script_OpDuelResult(void) {
     }
 }
 
-#include "script_state.h"
 #include "main_mode_state.h"
 
 void Script_OpGameOver(void)
@@ -1050,8 +1038,6 @@ void Script_OpWait(void)
 }
 
 #include "../psyq/rand.h"
-#include "script_command_table.h"
-#include "script_state.h"
 #include "main_services.h"
 #include "main_mode_state.h"
 
@@ -1254,14 +1240,12 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 #include "display_object.h"
 #include "file_transfer.h"
 #include "image_transfer_rects.h"
-#include "script_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "trig_constants.h"
-#include "scene_script_record_callbacks.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef CAMPAIGN_SCENE_PACKAGE_START_SECTOR
@@ -1431,8 +1415,6 @@ void SceneScript_UpdateSlots(SceneScriptSlot *records) {
         records++;
     }
 }
-
-#include "script_state.h"
 
 int Script_ReadByte(void)
 {

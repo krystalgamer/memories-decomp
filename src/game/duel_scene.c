@@ -4455,7 +4455,7 @@ int Duel_CheckQuitInput(void)
 #include "display_object_work_slots.h"
 #include "input.h"
 #include "ai.h"
-#include "script_state.h"
+#include "script_scene.h"
 #include "sound.h"
 #include "display_object_layout.h"
 

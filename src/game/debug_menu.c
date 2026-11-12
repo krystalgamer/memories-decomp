@@ -53,7 +53,6 @@
 #include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
 #include "menu_record.h"
-#include "display_menu_records.h"
 #include "display_object_layout.h"
 #include "../psyq/rand.h"
 

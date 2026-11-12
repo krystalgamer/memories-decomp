@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "menu_record.h"
-#include "display_menu_records.h"
+#include "script_scene.h"
 #include "duel_effect_mark_object_if_active.h"
 
 /* Regional value: the flags_34 bit this sets (0x2 -> 0x4). The European

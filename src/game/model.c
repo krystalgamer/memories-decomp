@@ -3926,7 +3926,7 @@ void Model_DrawSlot(s32 index)
 #include "shared_work_base.h"
 #include "file_package_staging.h"
 #include "sound_voice_data.h"
-#include "script_state.h"
+#include "script_scene.h"
 #include "duel_scene.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
