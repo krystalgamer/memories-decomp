@@ -708,7 +708,7 @@ void DisplayObject_SetResourceVariantFromSign(
  * reference and GCC 2.8.1 floats one across stores that are not. With the
  * scratchpad records typed, those stores are struct references too, the
  * reads stay put, and every offset this function touches is a member. */
-void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3) {
+void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_x, s32 screen_y) {
     u8 sp18[8];
     u8 sp20[8];
     DuelCardRecord *card;
@@ -724,16 +724,16 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s
     SpritePrim *z;
     POLY_FT4 *y;
 
-    if ((u32)(arg2 + 0x33) < 0x173) {
-        if (arg3 >= -0x3B) {
-            if (arg3 < DUEL_CARD_FRAME_SCREEN_HEIGHT) {
+    if ((u32)(screen_x + 0x33) < 0x173) {
+        if (screen_y >= -0x3B) {
+            if (screen_y < DUEL_CARD_FRAME_SCREEN_HEIGHT) {
                 o = (CardFrameScratch *)0x1F8003E0;
                 k = (SpritePrim *)0x1F800320;
                 y = (POLY_FT4 *)0x1F800344;
                 z = (SpritePrim *)0x1F800000;
                 card = &gDuel_aCardRecords[object->field_6A];
-                o->pos.h.x = arg2;
-                o->pos.h.y = arg3;
+                o->pos.h.x = screen_x;
+                o->pos.h.y = screen_y;
                 fl = object->ot_depth | 0x10000;
                 t = object->attribute;
                 k->attribute = t;
@@ -867,9 +867,9 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s
     }
 }
 
-void Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 arg1)
+void Duel_DrawCardAtOutputPosition(DisplayObjectPosition *object, s32 ordering_table)
 {
-    Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)arg1, object->out_x, object->out_y);
+    Duel_DrawCardFrame((DisplayObject *)object, (GsOT *)ordering_table, object->out_x, object->out_y);
 }
 
 void Duel_DrawDecimalDigits(
@@ -938,14 +938,14 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
    gDuel_bActiveSide selects which side (0 or 1) currently renders in the "active"
    grey shade (0x808080) vs the dim shade (0x404040); the other side always
    gets the opposite shade. Each side draws two digit groups (4-digit then
-   2-digit) offset from the display object arg0->field_50 points at. The values
+   2-digit) offset from the display object widget->field_50 points at. The values
    are displayed life points and DECK_SIZE minus the signed deck_draw_cursor
    of the corresponding gDuel_aSideStates entry. */
 
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
-void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
+void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
 {
     DisplayObject *pos;
     DuelStatusDigitPacket *scratch;
@@ -953,7 +953,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     Duel_UpdateLifePointDisplay(&gDuel_aSideStates[0]);
     Duel_UpdateLifePointDisplay(&gDuel_aSideStates[1]);
-    pos = (DisplayObject *)arg0->field_50.word;
+    pos = (DisplayObject *)widget->field_50.word;
 
     scratch = SCRATCH;
     scratch->attribute = 0x09000000;
@@ -7162,45 +7162,45 @@ s32 gDuelResult_nOutroSpriteCount = 0;
    sub_table_lookup_set_flag using depth_offset-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
-void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
+void DuelResult_UpdateOrbitSprite(DisplayObject *object) {
     s16 timer;
     u16 angle;
     DisplayObject *slot;
     s32 vy;
 
-    timer = (s16)arg0->position.h.field_28 - 2;
-    arg0->position.h.field_28 = timer;
+    timer = (s16)object->position.h.field_28 - 2;
+    object->position.h.field_28 = timer;
     if (timer <= 0) {
-        arg0->field_6C = 0;
-        arg0->update = 0;
-        arg0->xy.word = arg0->field_2C.word;
+        object->field_6C = 0;
+        object->update = 0;
+        object->xy.word = object->field_2C.word;
         return;
     }
 
     if (gGraphics_dwSyncedFrameCount & 1) {
         slot = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         if (slot != 0) {
-            DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->xy.h.x,
-                                   (s16)arg0->xy.h.y, 0,
-                                   arg0->field_68, arg0->field_69, 0x11, 9,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)object->xy.h.x,
+                                   (s16)object->xy.h.y, 0,
+                                   object->field_68, object->field_69, 0x11, 9,
                                    gDisplay_abResourceBank0);
-            slot->field_40.clut.x = (u16)arg0->field_40.clut.x + 0x80;
+            slot->field_40.clut.x = (u16)object->field_40.clut.x + 0x80;
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             slot->attribute |= (GsALON | GsAONE);
-            DisplayObject_SetDepthOffset(slot, (u8)arg0->depth_offset - 1);
+            DisplayObject_SetDepthOffset(slot, (u8)object->depth_offset - 1);
             slot->field_60 = 8;
             slot->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
         }
     }
 
-    angle = arg0->position.h.field_2A + DUEL_RESULT_ORBIT_ANGLE_STEP;
-    arg0->position.h.field_2A = angle;
-    arg0->xy.h.x =
-        (s16)arg0->field_2C.h.field_2C +
-        rcos((s16) angle) * (s16)arg0->position.h.field_28 / ONE;
-    vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
-    arg0->xy.h.y = arg0->field_2C.h.field_2E + vy / ONE;
+    angle = object->position.h.field_2A + DUEL_RESULT_ORBIT_ANGLE_STEP;
+    object->position.h.field_2A = angle;
+    object->xy.h.x =
+        (s16)object->field_2C.h.field_2C +
+        rcos((s16) angle) * (s16)object->position.h.field_28 / ONE;
+    vy = rsin((s16) object->position.h.field_2A) * (s16)object->position.h.field_28;
+    object->xy.h.y = object->field_2C.h.field_2E + vy / ONE;
 }
 
 void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
@@ -7514,12 +7514,12 @@ void Duel_ShowResultPage(s32 page)
     TextBox_BuildBlocking(object);
 }
 
-s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
+s32 Duel_CalcRankScoreChange(s32 rule, s32 value)
 {
-    DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
+    DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[rule][0];
 
     while (1) {
-        if (arg1 < p->threshold) {
+        if (value < p->threshold) {
             return p->score_change;
         }
         p++;
@@ -11049,7 +11049,7 @@ void DuelEffect_StartCardEffect(int value, int flag)
 #define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \
     ((DuelCardRecord *)((u8 *)(records) + (offset)))
 
-s32 Duel_FindFreeFieldSlot(s32 arg0)
+s32 Duel_FindFreeFieldSlot(s32 start)
 {
     s32 base;
     s32 off;
@@ -11057,7 +11057,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
     s32 i;
 
     do {
-        base = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
+        base = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start;
         off = base << 3;
         off -= base;
         off <<= 2;
@@ -11065,7 +11065,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
-                return gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
+                return gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start + i;
             }
             p++;
         }
@@ -11073,15 +11073,15 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
     return -1;
 }
 
-s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
-                                    s32 arg2)
+s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 start,
+                                    s32 type_limit)
 {
     s32 count = 0;
     s32 i = 0;
     s32 d = gDuel_bActiveSide;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + start];
     s32 k;
 
     do {
@@ -11089,7 +11089,7 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
             k = (s16)r->card_id;
             k--;
             if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
-                 CARD_STAT_TYPE_MASK) < arg2) {
+                 CARD_STAT_TYPE_MASK) < type_limit) {
                 *out++ = r;
                 count++;
             }
@@ -11102,14 +11102,14 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
     return count;
 }
 
-s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
-                                 s32 arg2) {
+s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start,
+                                 s32 type) {
     s32 count = 0;
     s32 i = 0;
     s32 d = gDuel_bActiveSide;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
-        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + start];
     s32 k;
 
     do {
@@ -11121,10 +11121,10 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
          * see docs/PARKED.txt's former entry. */
         do {
             if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
-                if (arg2 < 0 ||
+                if (type < 0 ||
                     (k = (s16)r->card_id, k--,
                      ((t[k] >> CARD_STAT_TYPE_SHIFT) &
-                      CARD_STAT_TYPE_MASK) == arg2)) {
+                      CARD_STAT_TYPE_MASK) == type)) {
                     *out++ = r;
                     count++;
                 }
