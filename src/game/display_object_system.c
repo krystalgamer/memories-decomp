@@ -1,7 +1,7 @@
 
 #include "../types.h"
 
-#include "display_object_depth_bases.h"
+#include "display_object_system.h"
 #include "mem_card_work.h"
 #include "mem_card_driver.h"
 
@@ -28,7 +28,6 @@ volatile u16 gDisplayObject_awOrderingTableDepthBases[4] = {
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_object_system.h"
-#include "display_object_depth_bases.h"
 #include "display_object_layout.h"
 #include "main.h"
 #include "ordering_tables.h"
@@ -429,10 +428,8 @@ void DisplayObject_RenderSpriteSheetList(void) {
 #include "../psyq/rand.h"
 /* The explicit viewport .data view keeps both offsets absolute under the
  * uniform -G8 compiler/assembler profile used by these renderers. */
-#include "display_flat_lights.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "display_object_list_renderer_table.h"
 #include "sprite_primitive.h"
 #include "ordering_tables.h"
 
@@ -1511,7 +1508,6 @@ s32 DisplayObject_ProjectRotationFacing(
 #include "gpu_packets.h"
 #include "display_object_layout.h"
 #include "display_object.h"
-#include "display_object_depth_bases.h"
 #include "trig_constants.h"
 
 /* Regional value: DIVPOLYGON4 piv (272 -> 288). The European build

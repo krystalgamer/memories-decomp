@@ -3181,7 +3181,6 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 
 #include "fade.h"
 #include "fade_overlay_controls.h"
-#include "display_object_depth_bases.h"
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {

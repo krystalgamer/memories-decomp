@@ -20,7 +20,6 @@
 #include "sound.h"
 #include "display_object_system.h"
 #include "display_object.h"
-#include "display_object_depth_bases.h"
 #include "card_preview.h"
 #include "file_transfer.h"
 #include "duel_card.h"
