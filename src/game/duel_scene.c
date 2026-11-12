@@ -6917,8 +6917,8 @@ void DuelScene_UpdateTurnSwitch(void){if(!(gDuel_wSceneStateFlags&DUEL_SCENE_FLA
 /* The cancel button. The Japanese release swaps Cross and Circle, so a regional
  * build names its own. The function's combined confirm|cancel test is 0xE0 in
  * both builds and keeps its spelling. */
-#ifndef FUNC_80020988_CANCEL_BUTTON
-#define FUNC_80020988_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#ifndef DUEL_CARD_USE_CONFIRMATION_CANCEL_BUTTON
+#define DUEL_CARD_USE_CONFIRMATION_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #endif
 
 s32 Duel_UpdateCardUseConfirmation(void) {
@@ -7009,7 +7009,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
          (PAD_BUTTON_CONFIRM_MASK | PAD_BUTTON_CANCEL)) != 0) {
         DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
         DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
-        if ((gInput_awPadPressed[0] & FUNC_80020988_CANCEL_BUTTON) != 0) {
+        if ((gInput_awPadPressed[0] & DUEL_CARD_USE_CONFIRMATION_CANCEL_BUTTON) != 0) {
             return -1;
         }
         if (q->field_20.b.rotation_y == 0) {
