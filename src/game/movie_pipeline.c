@@ -4,7 +4,6 @@
 
 #include "main.h"
 
-#include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libpress.h"
 #include "graphics_constants.h"
@@ -480,9 +479,7 @@ void func_8005C374(s32 first, s32 second, s32 third)
 }
 
 #include "file_constants.h"
-#include "movie_stream_ranges.h"
 #include "file_transfer.h"
-#include "movie_stream_requests_data.h"
 
 /* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
    rest are reached through the running sum, which is zero for all of them. */
