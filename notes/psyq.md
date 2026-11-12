@@ -380,6 +380,26 @@ byte-identical pair the catalogue reports without call-site evidence.
 Each rename has a `regional/<image>/function` row in
 `semantic-symbol-map.csv`.
 
+### Regional LIBPRESS helpers anchored by their neighbours
+
+Three LIBPRESS helpers were still `func_` placeholders in every regional
+inventory: `MDEC_in_sync`, `MDEC_out_sync` and `MDEC_status`. Each regional
+body has the same size and masked words as its North American namesake, but
+the masked body also matches another North American function:
+`MDEC_in_sync` and `MDEC_out_sync` differ only in immediates, and
+`MDEC_status` has the same shape as the LIBGPU `_status`. The library keeps
+the same order in every image, so the nearest named rows on each side,
+`MDEC_out` and `DecDCTvlcSize2`, fix the shift. A placeholder takes the North
+American inventory name only when the function at the same offset from both
+neighbours has that name, the same size and the same masked body, the name
+is unused in the image's inventory and `symbols.txt`/`link_symbols.ld`, and
+no source or linker file spells the placeholder. All six images gain the
+three names, 18 rows in total. Only the name column of the six
+`functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`. The regional
+copies of the following `timeout_800901EC` stay placeholders, because the
+North American name is address-qualified.
+
 ### Patched LIBDS cross-reference
 
 The one 4.7 catalogue permitted above is LIBDS, so the sweep can be run
