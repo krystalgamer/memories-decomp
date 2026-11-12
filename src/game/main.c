@@ -437,15 +437,15 @@ void Graphics_AdjustScreenOffset(void)
 /* Zeroes gMain_apFrameServiceCallbacks[0..3] and gMain_pfnExtraFrameService. */
 void Main_ClearFrameServiceCallbacks(void)
 {
-    void (**v0)(void);
-    int v1;
+    void (**slot)(void);
+    int index;
 
-    v1 = 3;
-    v0 = &gMain_apFrameServiceCallbacks[v1];
+    index = 3;
+    slot = &gMain_apFrameServiceCallbacks[index];
     do {
-        *v0 = 0;
-        v1 -= 1;
-        v0 -= 1;
-    } while (v1 >= 0);
+        *slot = 0;
+        index -= 1;
+        slot -= 1;
+    } while (index >= 0);
     gMain_pfnExtraFrameService = 0;
 }
