@@ -166,6 +166,7 @@ segments:
       - [0x8B780, .sdata, game/sound_find_midi_track_chunk]
       - [0x8B785, pad]
       - [0x8B788, .sdata, game/model]
+      - [0x8B856, pad]
       - [0x8B858, .sdata, game/main_menu_load_package_stage]
       - [0x8B860, .sdata, game/movie_pipeline]
       - [0x8B874, .sdata, game/model_camera_effects]

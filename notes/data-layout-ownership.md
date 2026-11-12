@@ -227,8 +227,8 @@ from the owner to its furthest gp-relative reader:
   in the span reaches the owner's variables gp-relative, and the absolute
   (view) readers lie outside it.
 - The two exceptions are initialized `.sdata` strings (`gDebugMenu_szLineBreak`,
-  `gModel_szWhyTrace`), char arrays that are reachable through incomplete-array
-  externs.
+  `gModel_szWhyTrace`), char arrays that were reachable through incomplete-array
+  externs. The model strings are now string literals in `model.c`.
 
 The spans outline the original units:
 - the duel code from `duel_field_card_render`'s block through about 55 current

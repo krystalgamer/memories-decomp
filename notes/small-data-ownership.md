@@ -192,12 +192,13 @@ those commons allocate no storage.
 
 ## `0x8009AFE4` is one C-owned model-handler state block
 
-The 116 bytes from `D_8009AFE4` through the end of `gModel_szTermTrace` are emitted by
+The 116 bytes from `D_8009AFE4` through the end of the `"TERM\n"` literal are emitted by
 `model_scene_controllers.c`. The prefix contains five byte/halfword state labels,
 including a private halfword continuation that preserves the unnamed bytes at
 `0x8009AFEA`. Two word pairs and two mutable words follow. The rest of the
-block is eleven fixed-size diagnostic strings and formatting fragments used by
-the adjacent unmatched model handlers.
+block is eleven diagnostic strings and formatting fragments, now written as
+string literals at their `model.c` call sites; the unit's split entry is
+followed by a two-byte `pad` for the word-aligned tail after `"TERM\n"`.
 
 An isolated GCC 2.8.1 probe reproduced the entire prefix byte-for-byte:
 
