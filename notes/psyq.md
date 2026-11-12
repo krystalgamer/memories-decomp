@@ -255,6 +255,26 @@ two after `McxGetApl` in `MCXCMD1`, keep their `func_` names. Each rename
 has a `regional/<image>/function` row in
 `semantic-symbol-map.csv`.
 
+### Regional LIBGPU helpers anchored by their neighbours
+
+Four private `LIBGPU.LIB/SYS.OBJ` helpers were left by both carry-over passes
+in every regional image: `get_cs`, `get_ce`, `_status` and `_getctl`. Each
+regional body has the same size and masked words as its North American
+namesake, but the masked body also matches other North American functions:
+`get_cs` and `get_ce` differ only in immediates, `_status` has the same shape
+as `MDEC_status`, and the two-instruction `_getctl` matches many getters.
+`SYS.OBJ` keeps the same order in every image, so the nearest named rows on
+each side fix the shift (`get_mode`/`get_ofs`, `get_tw`/`_otc` and
+`_ctl`/`_cwb`). A placeholder takes the North American inventory name only
+when the function at the same offset from both neighbours has that name, the
+same size and the same masked body, the name is unused in the image's
+inventory and `symbols.txt`/`link_symbols.ld`, and no source or linker file
+spells the placeholder. All six images gain the four names, 24 rows in total.
+Only the name column of the six `functions.csv` files changes, and each
+rename has a `regional/<image>/function` row in `semantic-symbol-map.csv`.
+The regional copies of `memset_80082228` stay placeholders, because the North
+American name is address-qualified.
+
 ### Catalogue input contract
 
 Treat the third-party directory as untrusted input rather than partial
