@@ -24,7 +24,6 @@ gModel_Slot1VariantDataAddress = 0x80010028;
 gMainMenu_dwSuModuleBase = 0x8001002C;
 gModel_CreditsModuleAddress = 0x80010030;
 gModel_pCreditsMusicTrackBuffer = 0x80010034;
-gFile_szPositionFormat = 0x80010038;
 gFile_pScreenBankBase = 0x800101D8;
 gFile_pDuelBankBase = 0x800101DC;
 gFile_pBootTextStage5Destination = 0x800101E0;

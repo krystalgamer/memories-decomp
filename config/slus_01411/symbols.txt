@@ -2182,7 +2182,6 @@ Model_UpdateSlotControl = 0x800559D4; // type:func
 Model_GetHandlerCallbackState = 0x8005F18C; // type:func
 
 Model_SetHandlerCallbackState = 0x8005F198; // type:func
-gFile_szPositionFormat = 0x80010038;
 gFile_dwTransferState = 0x8009B0F4;
 gFile_wStepState = 0x8009B100;
 gFile_TargetLoc = 0x8009B104;

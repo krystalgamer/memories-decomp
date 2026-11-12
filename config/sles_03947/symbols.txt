@@ -2048,7 +2048,6 @@ gModelDebug_szLineBreak = 0x8009BFB4;
 gDebugMenu_szLineBreak = 0x8009BEC8;
 gDebugMenu_szStringLineFormat = 0x8009BECC;
 gDebug_szEditorCaretLine = 0x800EBE40;
-gFile_szPositionFormat = 0x80010038;
 gModelDebug_abSlotAfFlags = 0x8009C3FE;
 gModelDebug_abSlotGfFlags = 0x8009C400;
 gDuel_dwFieldDimTarget = 0x8009C0D0;

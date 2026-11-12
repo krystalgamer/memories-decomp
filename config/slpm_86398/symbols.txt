@@ -2187,7 +2187,6 @@ gModel_CreditsModuleAddress = 0x80010030;
 gModel_pCreditsMusicTrackBuffer = 0x80010034;
 
 Model_SetHandlerCallbackState = 0x8004EBE8; // type:func
-gFile_szPositionFormat = 0x80010038;
 gDebugMenu_szMessageEditorFormat = 0x80090B8C;
 gDebugMenu_szCampaignEditorFormat = 0x80090BA4;
 
