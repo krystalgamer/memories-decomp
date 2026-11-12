@@ -29,7 +29,7 @@ kept on absolute addresses because member stores through the vector pointers
 reorder the setup; and the unsigned `(u16)` first read of `y0`, which is
 retail's `lhu`. The globe radius is `LibraryMotionState.globe_radius`, the
 halfword at `gLibrary_State.motion.globe_radius`, declared by
-`src/game/library_state.h`. The card-view controller owns the separate
+`src/game/library_create_grid_section_sprites.h`. The card-view controller owns the separate
 narrow-then-signed-cap growth sequence documented in `library-state-layout.md`;
 the renderer's three signed consumers remain unchanged. The axis helpers' shared header records
 their actual packet, ordering-table, vector, and control-pointer signatures.

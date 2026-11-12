@@ -5,7 +5,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "library_state.h"
+#include "library_create_grid_section_sprites.h"
 #include "file_transfer.h"
 #include "../ygo_types.h"
 
