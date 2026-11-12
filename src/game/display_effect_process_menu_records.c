@@ -93,7 +93,10 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     }
 
     g = p->variant_update_flags;
-    if ((g & 2) != 0) {
+    /* The slow countdown sits after the shared variant request; the switch
+       lets the clear-flag arm reach it with a break. */
+    switch (g & 2) {
+    default:
         c = p->variant_update_counter - 1;
         p->variant_update_counter = c;
         if (((DisplayObject *)p->grid[0][2])->field_5A != 0) {
@@ -107,20 +110,20 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             p->variant_update_flags = p->variant_update_flags & 0xFD;
             return;
         }
-    } else {
-        if (n < 0) {
-            goto slow;
+        if (0) {
+        case 0:
+            if (n < 0) {
+                break;
+            }
+            p->variant_update_flags = g | 2;
         }
-        p->variant_update_flags = g | 2;
+        p->variant_update_counter = 6;
+        p->requested_variant = n;
+        DisplayObject_SetResourceVariant(
+            DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]), n);
+        return;
     }
 
-    p->variant_update_counter = 6;
-    p->requested_variant = n;
-    DisplayObject_SetResourceVariant(
-        DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]), n);
-    return;
-
-slow:
     p->variant_update_counter = p->variant_update_counter + 1;
     if ((s8)p->variant_update_counter < 6) {
         return;
