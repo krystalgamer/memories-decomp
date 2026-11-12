@@ -55,7 +55,7 @@ void SD_UpdateVoiceSlots(void)
     s32 bit2;
     s32 accum;
     s32 i;
-    s32 v0;
+    s32 key_status;
     u16 timer;
 
     mask = SD_VOICE_SLOT_MASK_BASE;
@@ -83,15 +83,15 @@ void SD_UpdateVoiceSlots(void)
             timer -= 1;
             g_SDValue->s_awSD_VOICE_TIMER[i] = timer;
             if (timer == 0) {
-                v0 = SpuGetKeyStatus(mask);
-                if (v0 != SPU_OFF) {
+                key_status = SpuGetKeyStatus(mask);
+                if (key_status != SPU_OFF) {
                     SpuSetKey(SPU_OFF, mask);
                     accum |= mask;
                 }
             }
         }
-        v0 = SpuGetKeyStatus(mask);
-        if (v0 == SPU_ON_ENV_OFF && !(accum & mask)) {
+        key_status = SpuGetKeyStatus(mask);
+        if (key_status == SPU_ON_ENV_OFF && !(accum & mask)) {
             SpuSetKey(SPU_OFF, mask);
             accum |= mask;
         }
@@ -300,24 +300,24 @@ s32 SD_KeyOffVoiceGroup(u8 group)
 /* Counts how many of the four voice slots are playing this sound id: an id
    match in s_awSD_VOICE_SE_ID paired with a non-zero SPU envelope, which is what
    distinguishes a slot still sounding from one that has already decayed. */
-s16 SD_CountActiveSoundEffectVoices(s32 a0) {
-    u16 s1 = 0;
-    s32 s0;
-    u16 s2 = a0 & 0xFFFF;
+s16 SD_CountActiveSoundEffectVoices(s32 sound_id) {
+    u16 active_count = 0;
+    s32 slot;
+    u16 match_id = sound_id & 0xFFFF;
 
-    for (s0 = 0; s0 < SD_VOICE_SLOT_COUNT; s0++) {
-        s16 local;
+    for (slot = 0; slot < SD_VOICE_SLOT_COUNT; slot++) {
+        s16 envelope;
 
-        SpuGetVoiceEnvelope(s0 + SD_VOICE_SLOT_FIRST_VOICE, &local);
+        SpuGetVoiceEnvelope(slot + SD_VOICE_SLOT_FIRST_VOICE, &envelope);
 
-        if (g_SDValue->s_awSD_VOICE_SE_ID[s0] == s2) {
-            if (local != 0) {
-                s1++;
+        if (g_SDValue->s_awSD_VOICE_SE_ID[slot] == match_id) {
+            if (envelope != 0) {
+                active_count++;
             }
         }
     }
 
-    return (s16)s1;
+    return (s16)active_count;
 }
 
 /* Starts a sound-effect voice: looks the sound id up in the voice index table,

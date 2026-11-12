@@ -10,15 +10,15 @@
    final field group is read via a fresh g_SDValue dereference rather
    than the cached local (see project_d8009b45c_reload_pointer_trick). */
 void SD_ResetPendingEntries(void) {
-    SDValue *a1 = g_SDValue;
-    s32 i = a1->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
+    SDValue *state = g_SDValue;
+    s32 i = state->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
 
-    a1->s_wSD_SEGROUP_REQUEST = SD_VALUE_LINK_INDEX_NONE;
-    if (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE) {
+    state->s_wSD_SEGROUP_REQUEST = SD_VALUE_LINK_INDEX_NONE;
+    if (i < state->s_stGlobalHdrSE.s_wSD_NUM_SE) {
         do {
-            a1->s_pwSD_SE_INDEX[i] = SD_PENDING_ENTRY_NONE;
+            state->s_pwSD_SE_INDEX[i] = SD_PENDING_ENTRY_NONE;
             i++;
-        } while (i < a1->s_stGlobalHdrSE.s_wSD_NUM_SE);
+        } while (i < state->s_stGlobalHdrSE.s_wSD_NUM_SE);
     }
     g_SDValue->s_wSD_NEXT_SE_INDEX = g_SDValue->s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START;
     g_SDValue->s_dwSD_SEGROUP_SPU_ADDR =
