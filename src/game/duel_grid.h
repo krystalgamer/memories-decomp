@@ -23,7 +23,7 @@ typedef struct {
     (DUEL_FIELD_SIDE_GRID_SLOT_COUNT * sizeof(DuelFieldPosition))
 
 /* Cursor coordinates are the signed col/row members of the actual
- * DuelSelectionRecord in duel_selection_layout.h, not a separate object. */
+ * DuelSelectionRecord in duel_scene.h, not a separate object. */
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a gDuel_aCardRecords record index. The shape is not a guess --

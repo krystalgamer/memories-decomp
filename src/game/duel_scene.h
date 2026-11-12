@@ -8,16 +8,417 @@
 #include "duel_card.h"
 #include "display_object.h"
 #include "display_object_system.h"
-#include "duel_selection_layout.h"
 #include "duel_grid.h"
 #include "card_constants.h"
 #include "duel_effect_object_pool.h"
 #include "../ygo_types.h"
 #include "file_transfer.h"
-#include "duel_cursor_grid_direction.h"
 #include "color_constants.h"
 #include "mem_card.h"
 #include "file_staging_buffer.h"
+
+/* The developer effect-preview screen's state: the index of the operand being
+ * edited, the two tuned operands and the page. The operand pair is a byte
+ * array, which GCC word-aligns, so the gap after the index is one byte in the
+ * North American, Japanese and European builds and three in the four language
+ * builds. */
+extern u8 gDebugEffect_bEditedOperand;
+extern u8 gDebugEffect_abOperands[2];
+extern u8 gDebugEffect_bPage;
+
+/* The two card-record indices the battle removes, -1 when unused. The
+ * phase entry walks them by presentation cursor; DUEL_BATTLE_REMOVAL_SLOT
+ * indexes the pair starting at the first. */
+extern s8 gDuel_bBattleRemovalSlot0;
+extern s8 gDuel_bBattleRemovalSlot1;
+
+#define DUEL_BATTLE_REMOVAL_SLOT(index) ((&gDuel_bBattleRemovalSlot0)[index])
+
+/* Duel small data that duel_scene.c defines (#2602), for the
+ * units that reach it without the render prototypes. */
+/* Active duel display-transition request/status flags. Every consumer uses
+ * this same scalar view; it is not the separate view-tween frame counter.
+ *
+ * gDuel_wDisplayTransitionFlags is pinned by its neighbour: gDuel_bQuitDialogState sits
+ * two bytes later, so it has no room for an element to carry its own name.
+ * gDuel_wSceneStateFlags has moved to its owner, duel_scene.h. */
+extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
+/* Three more undefined globals, moved together for the same reason as the
+ * batch above: this header is a serialisation point, so separate changes for
+ * separate symbols conflict with each other without making any of them
+ * easier to review.
+ *
+ * All three are one-byte state bytes that every consumer spells `extern u8`
+ * and reads or writes whole. None is ever indexed, so there is no array
+ * hiding behind the scalar and no per-consumer addressing form to preserve.
+ *
+ * gMemCardDialog_Port is the strongest of the three structurally: c_symbols.ld names
+ * gMemCard_wDialogFlags one byte later, so the object is exactly one byte and
+ * nothing can carry a second name inside it. It is the memory card slot the
+ * MemCard* calls are issued against.
+ *
+ * gMemCardDialog_OperationState and gDuel_bSceneSubStep have larger gaps to the next name -- two bytes
+ * and eight -- but those are upper bounds rather than sizes, like the gap
+ * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
+ * consumer of either reads past the byte, so the u8 all five consumers agree
+ * on is what is declared and the bytes above stay unclaimed.
+ *
+ * Both of the latter two are packed state bytes rather than plain counters,
+ * which is why the byte width matters to every reader: gMemCardDialog_OperationState is switched
+ * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
+ * gDuel_bSceneSubStep carries a step in its low nibble with 0x20, 0x40 and 0x80 used
+ * as independent flags. The modal port and internal-state declarations live in
+ * game/mem_card.h; the width/addressing evidence above remains historical. */
+extern u8 gDuel_bSceneSubStep;   /* five declarers */
+/* Five more undefined scalars, batched for the reason the two batches above
+ * give: this header serialises, so one change per symbol buys nothing and
+ * conflicts with every other one in flight.
+ *
+ * None of the five is ever indexed anywhere in the tree, so each is a plain
+ * scalar rather than an array wearing a scalar's spelling, and every consumer
+ * already writes the same declaration. Neither the width nor the addressing
+ * form is being changed here; the spellings below are copied from the
+ * consumers that had them.
+ *
+ * Three are pinned exactly, with the next name sitting at precisely the end
+ * of the declared width, so no element can hide inside them: gMemCardDialog_TransferSize and
+ * gMemCardDialog_TransferOffset are two bytes each with a name two bytes on, and gDuel_wStepCounter is
+ * two bytes with gDuel_wEffectCardID immediately after it.
+ *
+ * gMemCardDialog_SyncResult has a larger gap than its width and is treated as an upper
+ * bound rather than a size. Nothing is named
+ * inside that gap and no consumer reads past the declared width, so the
+ * agreed type is what is declared and the bytes above stay unclaimed.
+ *
+ * The first four are memory card state, shared by the create, load, save and
+ * dialog paths together with mem_card_dialog.c. gDuel_wStepCounter is
+ * unrelated to them and belongs to the duel side; it is here because it
+ * passed the same checks, not because it is part of that group. The modal
+ * transfer halfwords and sync result live in game/mem_card.h with the same types. */
+extern u16 gDuel_wStepCounter;   /* four declarers */
+extern u8 gDuel_bSelectedTrapSlot;
+/* Duel_UpdateCardUseConfirmation's step flags: bit 7 once it has created the
+ * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
+ * DuelScene_UpdateFieldActions clears the byte before the step starts. */
+extern u8 gDuel_bConfirmFlags;
+/* The two sprites placed beside the card being flipped, 8 pixels left of it
+ * and 0x3C right of it, 0x1E down. The confirmation step and the hand step
+ * create them; both release them once the choice is made. */
+extern DisplayObject *gDuel_pFlipLeftMarker;
+extern DisplayObject *gDuel_pFlipRightMarker;
+/* The field-action card: DuelScene_UpdateFieldActions moves it to (0x86, 0x5A)
+ * and Duel_UpdateCardUseConfirmation flips it face up or down. */
+extern DisplayObject *gDuel_pActionCard;
+extern DisplayObject *gDuel_pActionReadyMarker;
+
+struct DisplayObject;
+
+#define DUEL_HAND_SLOT_OFFSET(member) ((u32)&(((DuelHandSlot *)0)->member))
+
+/* One of the HAND_SIZE hand slots at gDuelHand_aSlots.
+ *
+ * `object` is the card object the draw spawns for the slot; `order_marker` is the
+ * sprite DuelHand_CreateSelectionOrderMarker stacks on top of it. Both refer to display-pool slots;
+ * consumers retain their context-specific views where needed. `selection_order`
+ * is zero for an unmarked slot and holds its one-based order while selecting.
+ * Duel_ClearHandSlots zeroes it alongside the two pointers; marker creation
+ * publishes the running count, and cancellation renumbers later selections.
+ */
+typedef struct DuelHandSlot {
+    struct DisplayObject *object;
+    struct DisplayObject *order_marker;
+    u8 pad_08;
+    u8 selection_order;
+    u8 pad_0A[2];
+} DuelHandSlot;
+
+typedef char DuelHandSlot_object_offset_must_be_0x00[
+    DUEL_HAND_SLOT_OFFSET(object) == 0x00 ? 1 : -1
+];
+typedef char DuelHandSlot_size_must_be_0xC[
+    sizeof(DuelHandSlot) == 0xC ? 1 : -1
+];
+typedef char DuelHandSlot_order_marker_offset_must_be_0x04[
+    DUEL_HAND_SLOT_OFFSET(order_marker) == 0x04 ? 1 : -1
+];
+typedef char DuelHandSlot_selection_order_offset_must_be_0x09[
+    DUEL_HAND_SLOT_OFFSET(selection_order) == 0x09 ? 1 : -1
+];
+
+#undef DUEL_HAND_SLOT_OFFSET
+
+extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
+
+/* How many cards are still to be drawn into those slots. duel_scene.c
+ * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing
+ * hand back up -- and duel_scene.c spends it, taking one off per
+ * card as the draw animation retires each one and raising bit 0x4000 in the
+ * scene state gDuel_wSceneStateFlags once it reaches zero.
+ *
+ * Declared u8, which is what both sources say, with the one signed read left
+ * spelled as a cast where it is:
+ *
+ *     if (*(s8 *)&gDuel_bPendingDrawCount == 0)
+ *
+ * That is the same arrangement dialog_choice.h records for
+ * gDialog_bInputState: the declaration stays unsigned and the cast at the use
+ * is what keeps retail's signed load, so resolving one into the other would
+ * be a codegen change rather than a tidy-up. */
+extern u8 gDuel_bPendingDrawCount;
+
+void Duel_ClearHandSlots(void);
+
+#define DUEL_MONSTER_REMOVAL_CARD_ID_BASE 600
+#define DUEL_MONSTER_REMOVAL_RULE_SIZE 2
+#define DUEL_MONSTER_REMOVAL_SELECTOR_OFFSET 1
+#define DUEL_MONSTER_REMOVAL_RULE_COUNT 7
+
+extern u8 gDuel_abMonsterRemovalRules[];
+
+extern s8 gDuel_bPresentationCursor;
+
+extern s8 gDuel_bPlacementNeedsCardMoveSetup;
+extern u8 gDuel_bFieldActionAutoCommit;
+
+#define DUEL_SCENE_PHASE_MASK 0xF
+#define DUEL_SCENE_FLAG_INITIALIZED 0x8000
+
+/* Scene phase and update flags. All measured accesses use this halfword;
+ * the gap up to gDuel_wEffectDialogTextID (0x8009B244) is not evidence of a wider object. */
+extern u16 gDuel_wSceneStateFlags;
+
+#define DUEL_SELECTION_RECORD_SIZE 0x1C
+#define DUEL_SELECTION_RECORDS_PER_SIDE 4
+#define DUEL_SELECTION_SIDE_SIZE \
+    (DUEL_SELECTION_RECORDS_PER_SIDE * DUEL_SELECTION_RECORD_SIZE)
+
+/* One whole selection record, DUEL_SELECTION_RECORD_SIZE bytes, four to a
+ * side. Duel_InitSelectionRecords resets the three leading words and bytes
+ * at 0x13, 0x14, 0x17 and 0x18. Cursor and mode code supply the other named
+ * fields; this is not a claim that initialization clears the whole record.
+ *
+ * Cursor input/status APIs use this actual record and its real stride. */
+typedef struct DuelSelectionRecord {
+    /* The record's sliding field-card information panel, stored by the
+     * field-display transition; its text box and linked display objects
+     * are positioned from it. */
+    struct DisplayObject *info_panel;
+    /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
+     * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
+     * it. */
+    struct DisplayObject *cursor_object;
+    DuelHandSlot *hand;
+    /* Target y of the record's information panel: the field-display
+     * transition stores it as the panel's slide-to y; the cursor paths
+     * write regional screen constants. */
+    s16 panel_target_y;
+    /* The hand slot the side's cursor is on: DuelHand_RefreshSelectionColors indexes
+     * gDuelHand_aSlots with it to pick the card it leaves undimmed, and
+     * DuelScene_UpdateHandActions clears it beside ordered_pick_count. Read signed at
+     * that index. */
+    u8 hand_cursor_slot;
+    /* Signed grid coordinates, also consumed by the input/status APIs. */
+    s8 col;
+    s8 row;
+    /* Allowed rows are [row_min, row_end) through the existing signed views. */
+    u8 row_min;
+    u8 row_end;
+    /* Nonzero: resource variant applied to the information panel, whose
+     * text box then moves up. */
+    u8 panel_variant;
+    /* Text-box channel of the record's information panel. TextBox_Create
+     * receives this raw numeric index; only TextBox_SetPos and
+     * TextBox_Destroy convert it to &gText_aChannels[index] through
+     * DUEL_FIELD_DISPLAY_CHANNEL. Japanese keeps the record index; North
+     * America maps index 3 to 1. */
+    u8 text_channel;
+    /* Number of hand cards marked in pick order on the hand record:
+     * DuelHand_CreateSelectionOrderMarker numbers each new mark from it,
+     * cancelling a mark decrements it, and zero means a single-card play. */
+    u8 ordered_pick_count;
+    s8 text_y_offset;
+    /* Ordinal within the side's four records; also tags linked objects and
+     * selects the field-cursor graphic and information-box mode. */
+    u8 record_index;
+    /* Nonzero only while DuelScene_UpdateFieldActions browses the field
+     * with this record; init, pick, placement and targeting clear it. It
+     * selects the field-browse page of gDuel_awFieldGridRowViewTargetZ and,
+     * on record 2, the Swords turn count in the information panel. */
+    u8 field_actions_mode;
+    /* Cursor input/status byte. */
+    u8 status;
+    u8 pad_1A[2];
+} DuelSelectionRecord;
+
+typedef char DuelSelectionRecord_info_panel_offset_must_be_0[
+    (u32)&(((DuelSelectionRecord *)0)->info_panel) == 0 ? 1 : -1
+];
+typedef char DuelSelectionRecord_cursor_object_offset_must_be_4[
+    (u32)&(((DuelSelectionRecord *)0)->cursor_object) == 4 ? 1 : -1
+];
+typedef char DuelSelectionRecord_hand_offset_must_be_8[
+    (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
+];
+typedef char DuelSelectionRecord_hand_cursor_slot_offset_must_be_0xE[
+    (u32)&(((DuelSelectionRecord *)0)->hand_cursor_slot) == 0xE ? 1 : -1
+];
+typedef char DuelSelectionRecord_col_offset_must_be_0xF[
+    (u32)&(((DuelSelectionRecord *)0)->col) == 0xF ? 1 : -1
+];
+typedef char DuelSelectionRecord_row_offset_must_be_0x10[
+    (u32)&(((DuelSelectionRecord *)0)->row) == 0x10 ? 1 : -1
+];
+typedef char DuelSelectionRecord_text_y_offset_must_be_0x16[
+    (u32)&(((DuelSelectionRecord *)0)->text_y_offset) == 0x16 ? 1 : -1
+];
+typedef char DuelSelectionRecord_record_index_offset_must_be_0x17[
+    (u32)&(((DuelSelectionRecord *)0)->record_index) == 0x17 ? 1 : -1
+];
+typedef char DuelSelectionRecord_status_offset_must_be_0x19[
+    (u32)&(((DuelSelectionRecord *)0)->status) == 0x19 ? 1 : -1
+];
+typedef char DuelSelectionRecord_ordered_pick_count_offset_must_be_0x15[
+    (u32)&(((DuelSelectionRecord *)0)->ordered_pick_count) == 0x15 ? 1 : -1
+];
+typedef char DuelSelectionRecord_panel_variant_offset_must_be_0x13[
+    (u32)&(((DuelSelectionRecord *)0)->panel_variant) == 0x13 ? 1 : -1
+];
+typedef char DuelSelectionRecord_field_actions_mode_offset_must_be_0x18[
+    (u32)&(((DuelSelectionRecord *)0)->field_actions_mode) == 0x18 ? 1 : -1
+];
+typedef char DuelSelectionRecord_size_must_be_record_size[
+    sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1
+];
+
+/* Both hand and field controllers keep record 2's 0x38 (and record 3's 0x54)
+ * inside their load displacements through this actual four-record side. */
+typedef struct {
+    DuelSelectionRecord records[DUEL_SELECTION_RECORDS_PER_SIDE];
+} DuelSelectionSide;
+
+typedef char DuelSelectionSide_size_must_be_side_size[
+    sizeof(DuelSelectionSide) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
+];
+
+/* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side.
+ * Callers that start from record N of the active side form
+ * gDuel_abSelectionSides + N * DUEL_SELECTION_RECORD_SIZE and add the side
+ * stride. */
+extern u8 gDuel_abSelectionSides[];
+
+/* Active record in the selection table. Every writer selects a whole
+ * DuelSelectionRecord of gDuel_abSelectionSides with the side-stride
+ * arithmetic above. Phase entry writes
+ * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
+ * the cursor/viewer paths read the shared coordinates and status.
+ *
+ * Cursor, pick and field-display APIs use this same actual record; no
+ * standalone prefix allocation or alternate active-pointer declaration
+ * exists. Record-array views retain the measured interior displacements.
+ *
+ * The global itself is still one four-byte pointer, accessed gp-relative;
+ * gDuel_bSelectedTrapSlot follows at +4. No new initial-value or nullability claim is made. */
+extern DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+
+/* Resets that table. For both sides it walks the four records, zeroing the
+ * first three words and the byte at 0x18, then writing 1 to 0x13, the record
+ * index to 0x17, and to 0x14 the index again except for record 3, which gets
+ * 1. Afterwards it clears 0x13 on the first record of each side, so the value
+ * written in the loop survives only for records 1 to 3.
+ *
+ * Declared here because this header owns everything it touches: gDuel_abSelectionSides
+ * above, DuelSelectionRecord, which the walk now names those fields through,
+ * and the three size constants it is written in terms of.
+ * Duel_InitScene (src/game/duel_scene.c) is the only caller, and
+ * its old duel_scene.c held the only declaration. */
+void Duel_InitSelectionRecords(void);
+
+/* Opposing view headings, indexed by duel side. */
+extern u16 gDuel_awSideViewHeadings[2];
+
+/* The byte these two report on. They run a cursor update and then hand back
+ * the status byte at 0x19, so the return is that byte widened rather than a
+ * result of their own.
+ *
+ * The callers use different checked views of DuelCursor_UpdateDirection --
+ * see the note in duel_scene.c. */
+
+/* Direction selected by the cursor path plus the target column and row used
+ * by DuelCursor_StepTowardTarget, which compares them as signed bytes. */
+extern s8 gDuelCursor_Direction;
+extern s8 gDuelCursor_TargetColumn;
+extern s8 gDuelCursor_TargetRow;
+
+s32 DuelCursor_UpdateFromInput(DuelSelectionRecord *object);
+
+s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object);
+/* Callers that also load the direction into $a1 for the ambient
+ * DuelCursor_ProcessGridDirection argument call through this type. */
+typedef s32 (*DuelCursorUpdateDirectionWithDir)(DuelSelectionRecord *cursor, s8 dir);
+
+#define DUEL_CURSOR_MOTION_OFFSET(member) \
+    ((u32)&(((DisplayObject *)0)->member))
+
+typedef char DuelCursorMotion_position_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(position.h.field_28) == 0x28 &&
+    DUEL_CURSOR_MOTION_OFFSET(position.h.field_2A) == 0x2A ? 1 : -1
+];
+typedef char DuelCursorMotion_target_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2C) == 0x2C &&
+    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2E) == 0x2E ? 1 : -1
+];
+typedef char DuelCursorMotion_step_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_34.h.field_36) == 0x36 &&
+    DUEL_CURSOR_MOTION_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1
+];
+typedef char DuelCursorMotion_control_offsets_must_match[
+    DUEL_CURSOR_MOTION_OFFSET(field_60) == 0x60 &&
+    DUEL_CURSOR_MOTION_OFFSET(field_6C) == 0x6C ? 1 : -1
+];
+
+#undef DUEL_CURSOR_MOTION_OFFSET
+
+#define DUEL_CURSOR_RECORD_OFFSET(member) \
+    ((u32)&(((DuelSelectionRecord *)0)->member))
+
+typedef char DuelCursor_record_offsets_must_match[
+    DUEL_CURSOR_RECORD_OFFSET(cursor_object) == 0x04 &&
+    DUEL_CURSOR_RECORD_OFFSET(col) == 0x0F &&
+    DUEL_CURSOR_RECORD_OFFSET(row) == 0x10 &&
+    DUEL_CURSOR_RECORD_OFFSET(row_min) == 0x11 &&
+    DUEL_CURSOR_RECORD_OFFSET(row_end) == 0x12 &&
+    DUEL_CURSOR_RECORD_OFFSET(field_actions_mode) == 0x18 &&
+    DUEL_CURSOR_RECORD_OFFSET(status) == 0x19 ? 1 : -1
+];
+
+#undef DUEL_CURSOR_RECORD_OFFSET
+
+/* One step of the duel field cursor. `dir` is the direction index
+ * DuelCursor_ProcessHeldGridDirection priority-encodes out of the held pad bits: negative for no
+ * direction, bit 0 picking the axis and bit 1 the sign. A set 0x80 flag means
+ * a move is still settling, and that arm ignores `dir` entirely.
+ *
+ * DuelCursor_UpdateDirection reaches it with the object alone. Its prologue
+ * assigns only $a0, so `dir` arrives as whatever that function's own caller
+ * left in $a1, and there is no expression duel_scene.c could write for
+ * it -- the call site does not compute one. The arm below preserves that
+ * one-argument call through DuelCursorProcessGridDirectionAmbient, while
+ * DuelCursor_ProcessHeldGridDirection, which does compute the argument, uses
+ * the real prototype. */
+void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir);
+typedef void (*DuelCursorProcessGridDirectionAmbient)(DuelSelectionRecord *o);
+
+/* The duel scene's phase callback table at 0x80090998.
+ *
+ * Deliberately left unsized. DuelScene_Update reaches it through
+ * `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
+ * DUEL_SCENE_PHASE_MASK]`, and the mask permits an index the fifteen
+ * defined entries do not cover, so a bound here would assert something the
+ * call site does not. */
+extern void (*gDuel_apfnSceneStateHandler[])(void);
+
+/* Card-move presentation, position choice, and deferred stat adjustment. */
+void DuelScene_UpdateCardMove(void);
 
 /* Interior alias of gDuel_aActiveCards[AI_SLOT_OWN_MONSTER_FIRST], not a
  * separate allocation. Retain the alias as the refresh routine's base. */
@@ -1542,7 +1943,7 @@ extern s16 gDuel_wAiHandStackPending;
  *
  * Declared u8, as the private declaration had it: the single load is lbu and
  * the two stores are sb, and the signed views are casts at the use sites --
- * the arrangement duel_hand.h records for gDuel_bPendingDrawCount, where the declaration
+ * the arrangement duel_scene.h records for gDuel_bPendingDrawCount, where the declaration
  * stays unsigned and the cast at the use is what keeps the signed read. The
  * next named symbol, gDuel_wAiSelectionStepDelay below, is two bytes on, so
  * the one-byte gap is not evidence of a wider object. */
@@ -1607,7 +2008,7 @@ void DuelScene_UpdateHandActions(void);
  * occupied record of both card ranges, restoring the flags and position each
  * one had, spawns the side indicator objects, and then either replays the
  * field effects or starts the BGM before fading in. Later ticks walk the
- * gDuel_bBattleRemovalSlot0 replay list (duel_battle_removal_slots.h)
+ * gDuel_bBattleRemovalSlot0 replay list (duel_scene.h)
  * one entry per tick. */
 void DuelScene_UpdateResume(void);
 
@@ -1873,4 +2274,24 @@ int Util_CompareS16(const short *left, const short *right);
  * or claim that every byte of a larger backing allocation is cleared. */
 void ViewState_ResetDefaults(void);
 
+/* Localized duel-result outro sprite tables, one opponent/no-opponent pair
+ * per language. DuelScene_UpdateResultOutro selects the pair by the language
+ * index gText_bLanguageIndex, whose boot/reset default each single-language build sets
+ * through BUILD_LANGUAGE_INDEX (1 French, 2 German, 3 Italian, 4 Spanish);
+ * the debug language editor can store any value 1-4 in any of these builds,
+ * so a table is chosen by the selector value rather than by the build. The
+ * table within the pair is chosen by gDuel_bOpponentID >= 0, as the North
+ * American path
+ * chooses gDuelResult_aSpriteSpecsOpponent/NoOpponent. Each is indexed by
+ * the winning side, then by up to ten specs. All four localized images bind
+ * all eight tables at the same addresses. */
+extern DuelResultSpriteSpec gDuelResult_aFrenchSpriteSpecsOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aFrenchSpriteSpecsNoOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aGermanSpriteSpecsOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aGermanSpriteSpecsNoOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aItalianSpriteSpecsOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aItalianSpriteSpecsNoOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aSpanishSpriteSpecsOpponent[2][10];
+extern DuelResultSpriteSpec gDuelResult_aSpanishSpriteSpecsNoOpponent[2][10];
+extern s32 gDuelResult_nOutroSpriteCount;
 #endif

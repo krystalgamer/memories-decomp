@@ -29,7 +29,7 @@ bounded slot index. Byte wrapping, signed comparisons, the -1 sentinel,
 texture cycling, offsets and all existing casts remain.
 
 The byte is one `s8` object, defined once in `duel_scene.c`
-and declared once in `duel_presentation_controls.h`. Exodia's texture
+and declared once in `duel_scene.h`. Exodia's texture
 cycle reads it as `(u8)` before masking with `& 3`; that unsigned read is
 the only place the retail code zero-extends it. The former `u8` default
 view and its `D_8009B1B9_AS_SIGNED` selector were removed.
@@ -79,7 +79,7 @@ The auto-commit and placement-setup bytes are defined once per image under
 their canonical names, in the duel storage unit (`duel_scene.c`,
 or the European wrapper); Japan and the non-English PAL images bind their
 addresses in `symbols.txt` and `link_symbols.ld`. No `D_8009B218` alias
-remains, and `duel_presentation_controls.h` holds the only declaration of
+remains, and `duel_scene.h` holds the only declaration of
 the placement-setup byte outside the storage unit.
 
 All old headers, wrapper macros, overlays/imports, function records,
