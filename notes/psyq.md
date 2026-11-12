@@ -539,6 +539,17 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
+The French, German, Italian and Spanish inventories still called
+`GsSetProjection` (`0x80085748`) and `GsSetWorkBase` (`0x80086248`) by `func_`
+placeholders, although each image's `link_symbols.ld` already binds both names
+to those addresses. The English European and Japanese inventories carry both
+names, and each English European copy has the same size and masked words at
+the same offset from the shared neighbours (`GsInit3D`/`GsSetFlatLight` and
+`Gssub_make_matrix`/`GsGetLs`). The four inventories now spell the two names
+too, 8 rows in total. Only the inventory name column changes. The French and
+Spanish `GsGetActiveBuff` copy at `0x800852A8` stays a placeholder, for the
+MODEL linker-symbol reason given under the regional-only library objects.
+
 Two further identifications originally used address-qualified aliases in
 a `libgte_abi_variants.h` header to preserve candidate caller views. Both
 projection helpers now use the canonical three-input declaration directly,
