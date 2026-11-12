@@ -578,18 +578,10 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
                 return 1;
             }
             if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
-                                  gMemCard_pDirEntries, 0) == 0)
-                goto start_reopen;
-            gMemCard_nIOResult = 6;
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-opened_ok:
-            close(fd);
-            gMemCard_nIOResult = 0;
-            goto finish;
-start_reopen:
+                                  gMemCard_pDirEntries, 0) != 0) {
+                gMemCard_nIOResult = 6;
+                break;
+            }
             gMemCard_bRetries = 0xA;
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
         case 1:
@@ -597,19 +589,21 @@ start_reopen:
             for (tries = 0xA;;) {
                 fd = open(gMemCard_szRequestPath,
                           (gMemCard_wRequestSize << 16) | 0x200);
-                if (fd != -1)
-                    goto opened_ok;
+                if (fd != -1) {
+                    close(fd);
+                    gMemCard_nIOResult = 0;
+                    break;
+                }
                 if (--tries < 0) {
                     gMemCard_bRetries = gMemCard_bRetries - 1;
                     if ((s8)gMemCard_bRetries > 0)
                         return 0;
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
         }
     }
-finish:
     *out_result = gMemCard_nIOResult;
     *out_state = gMemCard_bRequest;
     gMemCard_bRequest = -1;
