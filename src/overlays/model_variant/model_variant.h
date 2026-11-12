@@ -1110,6 +1110,18 @@ typedef struct {
     u16 count;
 } ModelVariantBoltFlight;
 
+/* The ring that follows a bolt config row's flight: each bolt carries count
+ * sprites whose quads reach size from their centre (a square on most rows,
+ * four mirrored quarters on others), and with each sprite a G3 strip of
+ * half-width strip_width whose tip turns on a circle of radius strip_radius
+ * (strip_radius * ccos / csin of the elapsed time). */
+typedef struct {
+    u16 count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 size;
+} ModelVariantBoltRing;
+
 /* A bolt config row's smoke puffs: each bolt seeds count puffs at a
  * random offset scaled by spread, moving by the same offset scaled by speed,
  * drawn as quads of half-size size. */
@@ -1139,10 +1151,7 @@ typedef struct {
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
@@ -1508,10 +1517,7 @@ typedef struct {
     u8 part;
     u8 unknown_0D;
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
@@ -1539,10 +1545,7 @@ typedef struct {
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
@@ -1568,10 +1571,7 @@ typedef struct {
     u8 part;
     u8 unknown_0D[3];
     ModelVariantBoltFlight flight;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
+    ModelVariantBoltRing ring;
     ModelVariantPuffParams puff;
     u16 glow_size;
     u16 unknown_28;
