@@ -79,8 +79,6 @@ u8 gModelDebug_abSlotGfFlags[2];
 #include "model_slot_support.h"
 #include "camera_view.h"
 #include "ordering_tables.h"
-#include "model_scene_controllers_data.h"
-#include "model_primitive_templates.h"
 #include "primitive_handler_modes.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
@@ -3195,7 +3193,6 @@ s32 ModelDebug_UpdateController(void)
  */
 #include "graphics_packet_submission.h"
 #include "../game/model_handler_state.h"
-#include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
 #include "../game/ordering_tables.h"
 #include "../game/model_slot_control.h"
