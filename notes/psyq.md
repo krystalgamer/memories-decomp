@@ -604,6 +604,23 @@ from the permitted 4.7 LIBDS catalogue. `0x8008B580` falls between
 looks like code that the memory-card patch routines copy into place rather
 than call.
 
+### Regional LIBSPU delay setters anchored by their neighbours
+
+The two LIBSPU delay setters `_spu_FsetDelayW` and `_spu_FsetDelayR` were
+still `func_` placeholders in every regional inventory. The two regional
+bodies have the same size and masked words as their North American
+namesakes, but they differ from each other only in immediates, so the masked
+body matches both North American functions and the earlier unique-body passes
+skipped them. The library keeps the same order in every image, so the
+nearest named rows on each side, `_spu_FsetPCR` and `_spu_Fw1ts`, fix the
+shift. A placeholder takes the North American inventory name only when the
+function at the same offset from both neighbours has that name, the same
+size and the same masked body, the name is unused in the image's inventory
+and `symbols.txt`/`link_symbols.ld`, and no source or linker file spells the
+placeholder. All six images gain both names, 12 rows in total. Only the name
+column of the six `functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`.
+
 ## CRT startup routines
 
 The PS-X EXE header and [memory map](memory-map.md) place the entry point at

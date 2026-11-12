@@ -1297,8 +1297,8 @@ address,size,name,status,module,notes
 0x80075EA8,0xA4,_spu_FsetRXXa,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x80075F4C,0x3C,_spu_FgetRXXa,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x80075F88,0x58,_spu_FsetPCR,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
-0x80075FE0,0x28,func_80075FE0,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
-0x80076008,0x28,func_80076008,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80075FE0,0x28,_spu_FsetDelayW,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
+0x80076008,0x28,_spu_FsetDelayR,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x80076030,0x5C,_spu_Fw1ts,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x80076098,0xC,DeliverEvent,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
 0x800760A8,0x24,_SpuDataCallback,sdk_asm,psyq/sdk,Inside a complete French CRT/SDK interval byte-identical to the independently classified Spanish region; internal disassembler boundaries remain provisional.
