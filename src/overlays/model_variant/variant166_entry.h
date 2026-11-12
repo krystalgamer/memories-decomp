@@ -14,21 +14,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
-/* The 0x63C-byte work area: the command row, 64 particle positions and 64
- * target points, the gather centre, a 66-point double ring, five texture
- * words, the completion flag, the elapsed time and a frame count. */
-typedef struct {
-    ModelVariantGatherConfig *config;
-    SVECTOR positions[64];
-    SVECTOR targets[64];
-    SVECTOR centre;
-    SVECTOR ring[66];
-    u32 texture[5];
-    u8 completed, unknown_631[3];
-    s32 elapsed;
-    s32 frames;
-} Model166State;
-
 extern GsIMAGE gModelVariant166_aImages[];
 extern ModelVariantGatherConfig gModelVariant166_aConfigs[];
 

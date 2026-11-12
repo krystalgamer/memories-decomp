@@ -5,7 +5,7 @@ static const VECTOR gFrenchModelVariant131_UnitScale = {4096, 4096, 4096, 0};
 
 s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
 {
-    Model131State *work;
+    ModelVariantBeamParticleState *work;
     ModelVariantBeamParticleConfig *config;
     s32 direction;
     MATRIX base, matrix;
@@ -26,7 +26,7 @@ s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant131_UnitScale;
-    work = (Model131State *)context;
+    work = (ModelVariantBeamParticleState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

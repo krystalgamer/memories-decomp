@@ -11,20 +11,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/sdk_internal.h"
 
-/* The 0x18C-byte work area: the command row, the fourteen ring points, the
- * origin next to the other slot, 32 particles (the padding halfword is the
- * particle's animation frame, or -1 once it is spent), two texture words, the
- * elapsed time, the command group (command / 100) and the completion flag. */
-typedef struct {
-    ModelVariantBeamParticleConfig *config;
-    SVECTOR ring[14];
-    SVECTOR origin;
-    SVECTOR particles[32];
-    s32 texture[2];
-    s32 elapsed;
-    u8 command_group, completed, unknown_18A[2];
-} Model177State;
-
 extern GsIMAGE gModelVariant177_aImages[];
 extern ModelVariantBeamParticleConfig gModelVariant177_aConfigs[];
 

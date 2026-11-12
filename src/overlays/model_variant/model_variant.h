@@ -947,6 +947,22 @@ typedef struct {
     s16 delay, delay2, start;
 } ModelVariantGatherConfig;
 
+/* The 0x63C-byte work area of the gather entries (headers 165 and 166): the
+ * command row, 64 particle positions and 64 target points, the gather
+ * centre, a 66-point double ring, five texture words, the completion flag,
+ * the elapsed time and a frame count. */
+typedef struct {
+    ModelVariantGatherConfig *config;
+    SVECTOR positions[64];
+    SVECTOR targets[64];
+    SVECTOR centre;
+    SVECTOR ring[66];
+    u32 texture[5];
+    u8 completed, unknown_631[3];
+    s32 elapsed;
+    s32 frames;
+} ModelVariantGatherState;
+
 /* A 0x4F8-byte record read only for its size at + 0x4EC, which scales the
  * funnels or curtains drawn over it. */
 typedef struct {
@@ -1491,6 +1507,22 @@ typedef struct {
     s16 radius, particle_half_size, spin, fade, duration, delay;
 } ModelVariantBeamParticleConfig;
 
+/* The 0x18C-byte work area of the beam-particle entries (US header 177,
+ * French header 131): the command row, the fourteen ring points, the origin
+ * next to the other slot, 32 particles (the padding halfword is the
+ * particle's animation frame, or -1 once it is spent), two texture words,
+ * the elapsed time, the command group (command / 100) and the completion
+ * flag. */
+typedef struct {
+    ModelVariantBeamParticleConfig *config;
+    SVECTOR ring[14];
+    SVECTOR origin;
+    SVECTOR particles[32];
+    s32 texture[2];
+    s32 elapsed;
+    u8 command_group, completed, unknown_18A[2];
+} ModelVariantBeamParticleState;
+
 /* One 0x26-byte command row of the beam-and-ring entries: the beam and ring
  * colours, the beam height, half width and spread, the ring radius,
  * thickness and height, and the durations, spacings and start times of the
@@ -1515,6 +1547,20 @@ typedef struct {
     s16 beam_begin;
     s16 flash_begin;
 } ModelVariantBeamRingConfig;
+
+/* The work area of the beam-ring entries (French images 16740 and 24764):
+ * the command row, 32 beam points, the origin, a 66-point double ring, the
+ * translation, two texture words, the time and the completion flag. */
+typedef struct {
+    ModelVariantBeamRingConfig *config;
+    SVECTOR beams[32];
+    SVECTOR origin;
+    SVECTOR ring[66];
+    SVECTOR translation;
+    s32 textures[2];
+    s32 time;
+    u8 completed;
+} ModelVariantBeamRingState;
 
 /* One 0x48-byte command row: the muzzle sprite colour, the bolt, glow and
  * ray colours, the model point the bolt leaves from, the muzzle size, the
