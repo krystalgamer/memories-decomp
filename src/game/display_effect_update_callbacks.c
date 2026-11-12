@@ -67,63 +67,63 @@ void DisplayPositionGroup_SetPosition(
    callback argument type stored by gDisplayEffect_apfnSteps.
 
    Every use goes through that local, including the two calls that want a
-   u8 * again. That is not tidiness: leaving `p` live alongside `r` makes
+   u8 * again. That is not tidiness: leaving `p` live alongside `record` makes
    GCC 2.8.1 hold both in callee-saved registers, which grows the frame by
    eight bytes and the function with it. One name, one register. */
 void DisplayEffect_UpdatePositionTween(MenuRecord *p)
 {
-    MenuRecord *r = p;
-    s32 d;
-    s32 t;
-    s32 c;
+    MenuRecord *record = p;
+    s32 angle_step;
+    s32 angle;
+    s32 cosine;
     s32 dx;
     s32 dy;
 
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(r)) == 0) {
-        r->tween_angle = TRIG_ANGLE_QUARTER_TURN;
-        d = TRIG_ANGLE_QUARTER_TURN / r->field_44;
-        r->tween_angle_step = d;
-        if (d >= 0) {
-            r->tween_angle = 0;
+    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
+        record->tween_angle = TRIG_ANGLE_QUARTER_TURN;
+        angle_step = TRIG_ANGLE_QUARTER_TURN / record->field_44;
+        record->tween_angle_step = angle_step;
+        if (angle_step >= 0) {
+            record->tween_angle = 0;
         }
-        r->field_44 = *(u16 *)&r->field_40 - r->x;
-        r->tween_delta_y = *(u16 *)&r->tween_target_y - r->y;
+        record->field_44 = *(u16 *)&record->field_40 - record->x;
+        record->tween_delta_y = *(u16 *)&record->tween_target_y - record->y;
     }
 
-    t = *(u16 *)&r->tween_angle + *(u16 *)&r->tween_angle_step;
-    r->tween_angle = t;
+    angle = *(u16 *)&record->tween_angle + *(u16 *)&record->tween_angle_step;
+    record->tween_angle = angle;
 
-    if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
+    if ((u16)(angle - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         DisplayPositionGroup_SetPosition(
-            DISPLAY_POSITION_GROUP_VIEW(r),
-            r->field_40,
-            r->tween_target_y
+            DISPLAY_POSITION_GROUP_VIEW(record),
+            record->field_40,
+            record->tween_target_y
         );
-        r->display_effect_step = 0;
+        record->display_effect_step = 0;
     } else {
-        c = rcos((s16)t);
-        dx = c * r->field_44 / ONE;
-        dy = c * r->tween_delta_y / ONE;
-        if (r->tween_angle_step < 0) {
-            dx = r->field_44 - dx;
-            dy = r->tween_delta_y - dy;
+        cosine = rcos((s16)angle);
+        dx = cosine * record->field_44 / ONE;
+        dy = cosine * record->tween_delta_y / ONE;
+        if (record->tween_angle_step < 0) {
+            dx = record->field_44 - dx;
+            dy = record->tween_delta_y - dy;
         }
         DisplayPositionGroup_SetPosition(
-            DISPLAY_POSITION_GROUP_VIEW(r),
-            (s16)(*(u16 *)&r->field_40 - dx),
-            (s16)(*(u16 *)&r->tween_target_y - dy)
+            DISPLAY_POSITION_GROUP_VIEW(record),
+            (s16)(*(u16 *)&record->field_40 - dx),
+            (s16)(*(u16 *)&record->tween_target_y - dy)
         );
     }
 }
 
 void DisplayEffect_FadeInRecord(MenuRecord *p) {
-    DisplayObject *q;
-    s32 *e;
-    s32 *c;
-    s32 a;
-    s32 b;
-    s32 v;
-    s32 m;
+    DisplayObject *first;
+    s32 *row;
+    s32 *cell;
+    s32 depth;
+    s32 resource_index;
+    s32 level;
+    s32 color;
     s32 i;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
@@ -137,18 +137,18 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
             *(s16 *)&p->x,
             *(s16 *)&p->y
         );
-        q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        a = q->depth_offset;
-        b = q->field_67;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), a);
-        e = p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)e, b);
-        DisplayEffect_SetObjectRowBlend((u8 **)e, (GsALON | GsATWO), a - 1);
+        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        depth = first->depth_offset;
+        resource_index = first->field_67;
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
+        row = p->grid[1];
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
+        DisplayEffect_SetObjectRowBlend((u8 **)row, (GsALON | GsATWO), depth - 1);
         p->field_40 = 0;
     }
 
-    v = (u16)p->field_40 + gGraphics_nBaseFrameStep * 8;
-    p->field_40 = v;
+    level = (u16)p->field_40 + gGraphics_nBaseFrameStep * 8;
+    p->field_40 = level;
 
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
@@ -157,14 +157,14 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         p->variant_update_flags &= 0xEF;
     } else {
-        m = p->field_40;
-        m |= (m << 8) | (m << 16);
-        for (i = 2, c = &p->grid[0][2]; i >= 0; i--, c--) {
-            if (c[0] != 0) {
-                DISPLAY_OBJECT_VIEW(c[0])->rgb = m;
+        color = p->field_40;
+        color |= (color << 8) | (color << 16);
+        for (i = 2, cell = &p->grid[0][2]; i >= 0; i--, cell--) {
+            if (cell[0] != 0) {
+                DISPLAY_OBJECT_VIEW(cell[0])->rgb = color;
             }
-            if (c[3] != 0) {
-                DISPLAY_OBJECT_VIEW(c[3])->rgb = m;
+            if (cell[3] != 0) {
+                DISPLAY_OBJECT_VIEW(cell[3])->rgb = color;
             }
         }
     }
@@ -172,46 +172,46 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
 
 void DisplayEffect_FadeOutRecord(MenuRecord *p)
 {
-    DisplayObject *h;
-    u8 **d;
-    DisplayObject *e;
-    s32 x;
-    s32 y;
-    s32 t;
+    DisplayObject *first;
+    u8 **row;
+    DisplayObject *object;
+    s32 depth;
+    s32 resource_index;
+    s32 level;
     s32 u;
-    s32 m;
+    s32 color;
     s32 i;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->variant_update_flags |= 0x10;
-        h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        x = h->depth_offset;
-        y = h->field_67;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), x);
-        d = (u8 **)p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)d, y);
-        DisplayEffect_SetObjectRowBlend(d, (GsALON | GsATWO), x - 1);
+        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        depth = first->depth_offset;
+        resource_index = first->field_67;
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
+        row = (u8 **)p->grid[1];
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
+        DisplayEffect_SetObjectRowBlend(row, (GsALON | GsATWO), depth - 1);
         p->field_40 = 0x80;
     }
 
-    t = *(u16 *)&p->field_40 - (gGraphics_nBaseFrameStep << 3);
-    p->field_40 = t;
-    u = (s16)t;
+    level = *(u16 *)&p->field_40 - (gGraphics_nBaseFrameStep << 3);
+    p->field_40 = level;
+    u = (s16)level;
     if (u <= 0) {
         p->display_effect_step = 0;
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         DisplayEffect_ReleaseRecord(p);
     } else {
-        m = u;
-        m |= (m << 8) | (m << 16);
+        color = u;
+        color |= (color << 8) | (color << 16);
         for (i = 2; i >= 0; i--) {
-            e = DISPLAY_OBJECT_VIEW(p->grid[0][i]);
-            if (e != 0) {
-                e->rgb = m;
+            object = DISPLAY_OBJECT_VIEW(p->grid[0][i]);
+            if (object != 0) {
+                object->rgb = color;
             }
-            e = DISPLAY_OBJECT_VIEW(p->grid[1][i]);
-            if (e != 0) {
-                e->rgb = m;
+            object = DISPLAY_OBJECT_VIEW(p->grid[1][i]);
+            if (object != 0) {
+                object->rgb = color;
             }
         }
     }
@@ -220,42 +220,42 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
 void DisplayEffect_CrossfadeResources(MenuRecord *p)
 {
     s32 dd[2];
-    DisplayObject *r;
-    s32 a;
-    s32 b;
-    s32 d;
+    DisplayObject *first;
+    s32 resource_index;
+    s32 depth;
+    s32 lower_depth;
     s32 m;
-    s16 n;
-    s32 c;
+    s16 level;
+    s32 color;
     s32 w;
     s16 y;
     s32 x;
-    DisplayObject *o;
+    DisplayObject *object;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->variant_update_flags |= 0x10;
-        r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        a = r->field_67;
-        b = r->depth_offset;
+        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        resource_index = first->field_67;
+        depth = first->depth_offset;
         DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
         DisplayEffect_BuildResourceObjects(
             p, (DisplayObject **)p->grid[0], p->resource_entry_index);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), b);
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
         DisplayEffect_BuildResourceObjects(
             p, (DisplayObject **)p->grid[1], p->resource_entry_index);
-        d = b - 1;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[1], (GsALON | GsATWO), d);
+        lower_depth = depth - 1;
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[1], (GsALON | GsATWO), lower_depth);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[2], a);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[2], (GsALON | GsAONE), b);
+            p, (DisplayObject **)p->grid[2], resource_index);
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[2], (GsALON | GsAONE), depth);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[3], a);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[3], (GsALON | GsATWO), d);
+            p, (DisplayObject **)p->grid[3], resource_index);
+        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[3], (GsALON | GsATWO), lower_depth);
         p->field_40 = 0x80;
     }
-    n = (u16)p->field_40 - gGraphics_nBaseFrameStep * 8;
-    p->field_40 = n;
-    if (n <= 0) {
+    level = (u16)p->field_40 - gGraphics_nBaseFrameStep * 8;
+    p->field_40 = level;
+    if (level <= 0) {
         p->display_effect_step = 0;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
@@ -270,28 +270,28 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         p->variant_update_flags &= 0xEF;
         return;
     }
-    c = n;
-    c |= (c << 8) | (c << 0x10);
+    color = level;
+    color |= (color << 8) | (color << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)&p->grid[2][m];
-        if (o != 0) {
-            o->rgb = c;
+        object = *(DisplayObject **)&p->grid[2][m];
+        if (object != 0) {
+            object->rgb = color;
         }
-        o = *(DisplayObject **)&p->grid[3][m];
-        if (o != 0) {
-            o->rgb = c;
+        object = *(DisplayObject **)&p->grid[3][m];
+        if (object != 0) {
+            object->rgb = color;
         }
     }
-    c = 0x80 - p->field_40;
-    c |= (c << 8) | (c << 0x10);
+    color = 0x80 - p->field_40;
+    color |= (color << 8) | (color << 0x10);
     for (m = 2; m >= 0; m--) {
-        o = *(DisplayObject **)&p->grid[0][m];
-        if (o != 0) {
-            o->rgb = c;
+        object = *(DisplayObject **)&p->grid[0][m];
+        if (object != 0) {
+            object->rgb = color;
         }
-        o = *(DisplayObject **)&p->grid[1][m];
-        if (o != 0) {
-            o->rgb = c;
+        object = *(DisplayObject **)&p->grid[1][m];
+        if (object != 0) {
+            object->rgb = color;
         }
     }
     dd[0] = p->field_40 / 8;
@@ -324,8 +324,8 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     DisplayObject *o2;
     s32 id;
     s32 idx;
-    s32 c;
-    s32 q;
+    s32 shade;
+    s32 scale_x;
 
     /* A portrait record keeps its two display objects in the first two
        words of grid, as integers like the rest of that array. */
@@ -394,17 +394,17 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         record->display_effect_step = 0;
         return;
     }
-    c = -0x80 - o->field_60 * 6;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[2] = c;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[1] = c;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[0] = c;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[2] = c;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[1] = c;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[0] = c;
+    shade = -0x80 - o->field_60 * 6;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[2] = shade;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[1] = shade;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[0] = shade;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[2] = shade;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[1] = shade;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[0] = shade;
     idx = o->field_60 * 204 + 0x1000;
     *(u16 *)&o2->field_44.scale.y = idx;
     *(u16 *)&o->field_44.scale.y = idx;
-    q = DISPLAY_OBJECT_COLOR_BYTES(o)[0] << 5;
-    *(u16 *)&o2->field_44.scale.x = q;
-    *(u16 *)&o->field_44.scale.x = q;
+    scale_x = DISPLAY_OBJECT_COLOR_BYTES(o)[0] << 5;
+    *(u16 *)&o2->field_44.scale.x = scale_x;
+    *(u16 *)&o->field_44.scale.x = scale_x;
 }
