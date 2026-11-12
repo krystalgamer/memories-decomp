@@ -455,6 +455,41 @@ Using its canonical three-input call removes both projection helpers' former
 `$a3` register bindings and matches their retail instruction bytes. The fourth
 pointer in the historical alias was unnecessary, so the alias is retired.
 
+#### Regional LIBDS copies anchored by their neighbours
+
+Twenty LIBDS functions stayed `func_` placeholders in the regional
+inventories after both carry-over passes. Each regional body has the same
+size and masked instruction words as one North American function, but that
+masked body also matches several other North American functions (the
+four-word `DS_*_callback` setters, the `DS_last*` getters, `parcpy`/`rescpy`
+and so on), so neither unique-body pass could pick one. The library is
+linked in the same order in every image, so the nearest named rows on each
+side fix the shift. A placeholder takes the North American inventory name
+only when the function at the same offset from both of those neighbours
+has that name, the same size and the same masked body, the name is unused
+in the image's inventory and `symbols.txt`/`link_symbols.ld`, and no source
+or linker file spells the placeholder. Wherever both images name a `jal`
+target, they name the same one.
+
+| Image | Renamed |
+|---|---:|
+| `sles_03947` | 20 |
+| `sles_03948` | 20 |
+| `sles_03949` | 20 |
+| `sles_03950` | 20 |
+| `sles_03951` | 20 |
+| `slpm_86398` | 4 |
+
+The PAL images gain `DsQueueLen`, `DS_vsync_callback`, `DS_sync_callback`,
+`DS_ready_callback`, `DS_start_callback`, `DS_lastcom`, `DS_lastmode`,
+`DS_lastpos`, `DS_lastseek`, `DS_lastread`, `DS_status`, `DS_shell_open`,
+`DS_restart`, `DS_system_active`, `parcpy`, `rescpy`, `StCdInterrupt2`,
+`DS_sync`, `DS_ready` and `DsShellOpen`. Japan gains the last four; its
+`DSSYS` neighbours differ, so the rest of its copies stay placeholders. Only
+the name column of the six `functions.csv` files changes, and each rename
+has a `regional/<image>/function` row in `semantic-symbol-map.csv`. The
+file-local helpers in the table below keep their regional placeholders too.
+
 `DisplayObject_ProjectPackedRotationFacing` reads GTE data register 24
 through official `gte_stopz`, so its result is the signed NCLIP area in MAC0, not the depth in OTZ (register 7).
 The packed rotation bytes, full-width geometry offsets, wrapped output
