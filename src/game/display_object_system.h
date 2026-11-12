@@ -6,9 +6,31 @@
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "display_asset_banks.h"
-#include "display_object_depth_bases.h"
 #include "../ygo_types.h"
 #include "sprite_primitive.h"
+#include "display_object_layout.h"
+
+/* The two flat lights at 0x80090FCC, declared with the type GsSetFlatLight
+ * takes rather than as byte arrays its caller has to cast: one along +y at
+ * 0x60 grey and one along -y at 0x30 grey. The display-object runtime installs
+ * them as GsSetFlatLight 0 and 1/2. */
+extern GsF_LIGHT gDisplayObject_FlatLightDown;
+extern GsF_LIGHT gDisplayObject_FlatLightUp;
+
+extern volatile u16 gDisplayObject_awOrderingTableDepthBases[4];
+
+/* The per-list display object renderers at 0x80090FB0.
+ *
+ * Sized, unlike the other tables carved alongside it. DISPLAY_OBJECT_LIST_COUNT
+ * is seven, equals the entry count, and is the same constant that bounds the
+ * list heads in display_object.h and DisplayObject_ResetPool's loop. */
+extern void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void);
+
+/* Renders the untextured Gouraud-quad list in renderer-table slot 4. */
+void DisplayObject_RenderGouraudQuadList(void);
+
+/* Renders the textured Gouraud-quad list in renderer-table slot 5. */
+void DisplayObject_RenderTexturedGouraudQuadList(void);
 
 /* The canonical record, declared in display_object.h. Named rather than
  * included so this header stays the narrow-view header it is meant to be;
@@ -530,5 +552,4 @@ s32 DisplayObjectStream_ConfigureRotation(
 );
 
 void DisplayObject_UpdateCommandStream(DisplayObject *object);
-
 #endif

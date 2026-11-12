@@ -430,7 +430,6 @@ void Checkerboard_DrawBackground(
 }
 
 #include "display_object_system.h"
-#include "display_object_depth_bases.h"
 #include "dialog_layout.h"
 #include "mem_card_work.h"
 
@@ -478,7 +477,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #include "display_object.h"
 
-#include "display_object_depth_bases.h"
 #include "dialog_layout.h"
 #include "dialog_choice.h"
 
