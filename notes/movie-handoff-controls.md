@@ -8,7 +8,7 @@
 | `D_800FE0CC` | `gLibGs_sActiveBufferIndex` | LIBGS-owned `s16`, `.data` caller view |
 | `D_800F5D44` | `gLibCd_nDeferredStreamInterrupt` | LIBCD-owned `s32`, `.data` caller view |
 
-The interrupt word is declared once, in `movie_handoff_state.h`. Each
+The interrupt word is declared once, in `movie_pipeline.h`. Each
 image labels it at its own address (NA `0x800F5D44`, Japan `0x800F3434`,
 UK `0x800F6CD4`, other PAL `0x800F70F4`), with no `D_` alias.
 

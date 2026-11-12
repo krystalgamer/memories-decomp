@@ -5,6 +5,26 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libcd_abi_variants.h"
+#include "../ygo_types.h"
+
+#define MOVIE_STREAM_COUNT 13
+
+/* src/game/movie_pipeline.c owns the table at 0x8009151C. */
+extern MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT];
+
+/* Zero-initialized data that movie_pipeline.c defines (#2602), for the units that
+ * reach it without the unit's other declarations. */
+
+extern u8 gMovie_FileInfo[];
+
+extern u8 gMovie_bCopyDisplayOnStop;
+extern s16 gLibGs_sActiveBufferIndex;
+/* The pending-interrupt word Movie_OnDecodeOutput tests, and clears after calling
+ * StCdInterrupt, while the stream is running (gMovie_bRgb24). Four bytes, so at
+ * -G8 a plain declaration would land in sdata and both accesses would come out
+ * gp-relative; retail reaches it through lui %hi / %lo, which the .data
+ * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
+extern s32 gLibCd_nDeferredStreamInterrupt;
 
 s32 File_Exists(const char *path, CdlFILE *file);
 s32 Movie_StepPlayback(void);
@@ -76,7 +96,7 @@ extern u32 gMovie_dwEndSector;
  * The current LIBGS graph/display width and height each have a 16-bit RECT
  * view and a 32-bit arithmetic view. GraphicsDimension records that overlay
  * directly instead of making each consumer cast the global's address.
- * gLibGs_sActiveBufferIndex (movie_handoff_state.h) is the halfword
+ * gLibGs_sActiveBufferIndex (movie_pipeline.h) is the halfword
  * GsGetActiveBuff returns and GsSwapDispBuff updates. Movie open/stop set it
  * to 1 before their existing graph/swap setup.
  *
@@ -160,5 +180,4 @@ s32 Movie_StartFileStream(
     s32 rgb24,
     s32 copy_display_on_stop
 );
-
 #endif
