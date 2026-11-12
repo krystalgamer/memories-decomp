@@ -79,40 +79,40 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
         work->radius = gModelVariant658_aConfigs[command].radius;
         work->height = gModelVariant658_aConfigs[command].height;
         for (i = 0; i < work->halo_count; i++) {
-            work->halos[i].active = 0;
-            work->halos[i].elapsed = 0;
-            work->halos[i].duration = 48;
-            work->halos[i].mode = 0;
-            work->halos[i].coord = Model_GetCameraCoordinateUnit();
-            work->halos[i].color[0] = gModelVariant658_aConfigs[command].color[0];
-            work->halos[i].color[1] = gModelVariant658_aConfigs[command].color[1];
-            work->halos[i].color[2] = gModelVariant658_aConfigs[command].color[2];
-            work->halos[i].u = 0;
-            work->halos[i].v = 0;
-            setVector(&work->halos[i].scale, 4096, 4096, 4096);
+            work->halos[i].head.active = 0;
+            work->halos[i].head.elapsed = 0;
+            work->halos[i].head.duration = 48;
+            work->halos[i].head.mode = 0;
+            work->halos[i].xform.coord = Model_GetCameraCoordinateUnit();
+            work->halos[i].head.color[0] = gModelVariant658_aConfigs[command].color[0];
+            work->halos[i].head.color[1] = gModelVariant658_aConfigs[command].color[1];
+            work->halos[i].head.color[2] = gModelVariant658_aConfigs[command].color[2];
+            work->halos[i].head.u = 0;
+            work->halos[i].head.v = 0;
+            setVector(&work->halos[i].xform.scale, 4096, 4096, 4096);
             setVector(&work->halos[i].target, 0, 0, 0);
-            setVector(&work->halos[i].rotation, 0, work->head.slot * 2048, 0);
+            setVector(&work->halos[i].xform.rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 0:
-                setVector(&work->halos[i].position, 0, 150, 0);
+                setVector(&work->halos[i].xform.position, 0, 150, 0);
                 break;
             case 1:
-                setVector(&work->halos[i].position, 0, 100, work->direction * 100);
+                setVector(&work->halos[i].xform.position, 0, 100, work->direction * 100);
                 break;
             case 3:
             case 10:
-                setVector(&work->halos[i].position, 0, -50, 0);
+                setVector(&work->halos[i].xform.position, 0, -50, 0);
                 break;
             case 8:
             case 12:
-                setVector(&work->halos[i].position, 0, 50, 0);
+                setVector(&work->halos[i].xform.position, 0, 50, 0);
                 break;
             default:
-                setVector(&work->halos[i].position, 0, 0, 0);
+                setVector(&work->halos[i].xform.position, 0, 0, 0);
                 break;
             }
-            work->halos[i].position.vy -= 350;
-            work->halos[i].position.vz += work->direction * 450;
+            work->halos[i].xform.position.vy -= 350;
+            work->halos[i].xform.position.vz += work->direction * 450;
         }
         for (i = 0; i < work->burst_count; i++) {
             work->bursts[i].active = 0;
@@ -227,7 +227,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 0:
         if (work->head.elapsed >= 243 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -237,7 +237,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 1:
         if (work->head.elapsed >= 67 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -247,7 +247,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 2:
         if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -257,7 +257,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 3:
         if (work->head.elapsed >= 53 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -267,7 +267,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 4:
         if (work->head.elapsed >= 143 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -277,7 +277,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 5:
         if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -287,12 +287,12 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 6:
         if (work->head.elapsed >= 59 && work->flags[2] == 0) {
             result = 4;
-            work->halos[0].active = 1;
-            work->halos[0].duration = 24;
+            work->halos[0].head.active = 1;
+            work->halos[0].head.duration = 24;
             work->flags[2] = 1;
         }
         if (work->head.elapsed >= 81 && work->flags[5] == 0) {
-            work->halos[1].active = 1;
+            work->halos[1].head.active = 1;
             work->flags[5] = 1;
             result = 1;
         }
@@ -301,7 +301,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 7:
         if (work->head.elapsed >= 143 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -311,7 +311,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 8:
         if (work->head.elapsed >= 141 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -321,7 +321,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 9:
         if (work->head.elapsed >= 47 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -331,7 +331,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 10:
         if (work->head.elapsed >= 101 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -341,7 +341,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 11:
         if (work->head.elapsed >= 77 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -351,7 +351,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     case 12:
         if (work->head.elapsed >= 207 && work->flags[2] == 0) {
             for (i = 0; i < work->halo_count; i++) {
-                work->halos[i].active = 1;
+                work->halos[i].head.active = 1;
             }
             work->flags[2] = 1;
             result = 1;
@@ -399,43 +399,43 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
     inactive = 0;
     for (i = 0; i < work->halo_count; i++) {
-        if (work->halos[i].active == 1) {
+        if (work->halos[i].head.active == 1) {
             unit.flg = 0;
             unit.matrix = GsIDMATRIX;
             /* An if/else, not a preset 0x1400, keeps the original order of
              * the hoisted &unit and &unit.matrix spill slots. */
-            if (work->halos[i].elapsed < work->halos[i].duration) {
-                value = (work->halos[i].elapsed << 12) / work->halos[i].duration + 0x400;
+            if (work->halos[i].head.elapsed < work->halos[i].head.duration) {
+                value = (work->halos[i].head.elapsed << 12) / work->halos[i].head.duration + 0x400;
             } else {
                 value = 0x1400;
             }
-            setVector(&work->halos[i].scale, value, value, value);
-            ScaleMatrix(&unit.matrix, &work->halos[i].scale);
-            RotMatrixZ(work->halos[i].rotation.vz, &unit.matrix);
-            RotMatrixX(work->halos[i].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
-            RotMatrixY(work->halos[i].rotation.vy + (0xC06 - view.yaw), &unit.matrix);
-            unit.matrix.t[0] = work->halos[i].position.vx;
-            unit.matrix.t[1] = work->halos[i].position.vy;
-            unit.matrix.t[2] = work->halos[i].position.vz;
-            unit.super = work->halos[i].coord;
+            setVector(&work->halos[i].xform.scale, value, value, value);
+            ScaleMatrix(&unit.matrix, &work->halos[i].xform.scale);
+            RotMatrixZ(work->halos[i].xform.rotation.vz, &unit.matrix);
+            RotMatrixX(work->halos[i].xform.rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
+            RotMatrixY(work->halos[i].xform.rotation.vy + (0xC06 - view.yaw), &unit.matrix);
+            unit.matrix.t[0] = work->halos[i].xform.position.vx;
+            unit.matrix.t[1] = work->halos[i].xform.position.vy;
+            unit.matrix.t[2] = work->halos[i].xform.position.vz;
+            unit.super = work->halos[i].xform.coord;
             GsGetLsUnit(&unit, &ls);
             GsSetLsMatrix(&ls);
-            if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
-                value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
-                duration = work->halos[i].duration;
-                work->halos[i].color[0] = gModelVariant658_aConfigs[work->head.command].color[0] * value / duration;
-                work->halos[i].color[1] = gModelVariant658_aConfigs[work->head.command].color[1] * value / duration;
-                work->halos[i].color[2] = gModelVariant658_aConfigs[work->head.command].color[2] * value / duration;
+            if (work->halos[i].head.duration / 2 < work->halos[i].head.elapsed) {
+                value = (work->halos[i].head.duration - work->halos[i].head.elapsed) * 2;
+                duration = work->halos[i].head.duration;
+                work->halos[i].head.color[0] = gModelVariant658_aConfigs[work->head.command].color[0] * value / duration;
+                work->halos[i].head.color[1] = gModelVariant658_aConfigs[work->head.command].color[1] * value / duration;
+                work->halos[i].head.color[2] = gModelVariant658_aConfigs[work->head.command].color[2] * value / duration;
             }
             setPolyFT4(&work->sprite);
             work->sprite.tpage = work->tpage[0];
             work->sprite.clut = work->clut[0];
             setSemiTrans(&work->sprite, 1);
-            setUV4(&work->sprite, work->halos[i].u, work->halos[i].v,
-                work->halos[i].u + 63, work->halos[i].v,
-                work->halos[i].u, work->halos[i].v + 63,
-                work->halos[i].u + 63, work->halos[i].v + 63);
-            setRGB0(&work->sprite, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
+            setUV4(&work->sprite, work->halos[i].head.u, work->halos[i].head.v,
+                work->halos[i].head.u + 63, work->halos[i].head.v,
+                work->halos[i].head.u, work->halos[i].head.v + 63,
+                work->halos[i].head.u + 63, work->halos[i].head.v + 63);
+            setRGB0(&work->sprite, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
             depth = RotAverage4(&work->corners[0], &work->corners[1], &work->corners[2], &work->corners[3],
                 (long *)&work->sprite.x0, (long *)&work->sprite.x1,
                 (long *)&work->sprite.x2, (long *)&work->sprite.x3,
@@ -448,14 +448,14 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->strip.tpage = work->tpage[1];
                 work->strip.clut = work->clut[1];
                 setSemiTrans(&work->strip, 1);
-                setUV4(&work->strip, work->halos[i].u, work->halos[i].v + 64,
-                    work->halos[i].u, work->halos[i].v + 128,
-                    work->halos[i].u + 31, work->halos[i].v + 64,
-                    work->halos[i].u + 31, work->halos[i].v + 128);
+                setUV4(&work->strip, work->halos[i].head.u, work->halos[i].head.v + 64,
+                    work->halos[i].head.u, work->halos[i].head.v + 128,
+                    work->halos[i].head.u + 31, work->halos[i].head.v + 64,
+                    work->halos[i].head.u + 31, work->halos[i].head.v + 128);
                 setRGB0(&work->strip, 0, 0, 0);
                 setRGB2(&work->strip, 0, 0, 0);
-                setRGB1(&work->strip, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
-                setRGB3(&work->strip, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
+                setRGB1(&work->strip, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
+                setRGB3(&work->strip, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
                 depth = RotAverage4(&work->inner[j], &work->middle[j], &work->inner[j + 1], &work->middle[j + 1],
                     (long *)&work->strip.x0, (long *)&work->strip.x1,
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
@@ -467,14 +467,14 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                 work->strip.tpage = work->tpage[1];
                 work->strip.clut = work->clut[1];
                 setSemiTrans(&work->strip, 1);
-                setUV4(&work->strip, work->halos[i].u, work->halos[i].v + 128,
-                    work->halos[i].u, work->halos[i].v + 191,
-                    work->halos[i].u + 31, work->halos[i].v + 128,
-                    work->halos[i].u + 31, work->halos[i].v + 191);
+                setUV4(&work->strip, work->halos[i].head.u, work->halos[i].head.v + 128,
+                    work->halos[i].head.u, work->halos[i].head.v + 191,
+                    work->halos[i].head.u + 31, work->halos[i].head.v + 128,
+                    work->halos[i].head.u + 31, work->halos[i].head.v + 191);
                 setRGB1(&work->strip, 0, 0, 0);
                 setRGB3(&work->strip, 0, 0, 0);
-                setRGB0(&work->strip, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
-                setRGB2(&work->strip, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
+                setRGB0(&work->strip, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
+                setRGB2(&work->strip, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
                 depth = RotAverage4(&work->middle[j], &work->outer[j], &work->middle[j + 1], &work->outer[j + 1],
                     (long *)&work->strip.x0, (long *)&work->strip.x1,
                     (long *)&work->strip.x2, (long *)&work->strip.x3,
@@ -485,14 +485,14 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
             }
             unit.flg = 0;
             unit.matrix = GsIDMATRIX;
-            ScaleMatrix(&unit.matrix, &work->halos[i].scale);
-            RotMatrixZ(work->halos[i].rotation.vz, &unit.matrix);
-            RotMatrixX(work->halos[i].rotation.vx, &unit.matrix);
-            RotMatrixY(work->halos[i].rotation.vy, &unit.matrix);
-            unit.matrix.t[0] = work->halos[i].position.vx;
-            unit.matrix.t[1] = work->halos[i].position.vy;
-            unit.matrix.t[2] = work->halos[i].position.vz;
-            unit.super = work->halos[i].coord;
+            ScaleMatrix(&unit.matrix, &work->halos[i].xform.scale);
+            RotMatrixZ(work->halos[i].xform.rotation.vz, &unit.matrix);
+            RotMatrixX(work->halos[i].xform.rotation.vx, &unit.matrix);
+            RotMatrixY(work->halos[i].xform.rotation.vy, &unit.matrix);
+            unit.matrix.t[0] = work->halos[i].xform.position.vx;
+            unit.matrix.t[1] = work->halos[i].xform.position.vy;
+            unit.matrix.t[2] = work->halos[i].xform.position.vz;
+            unit.super = work->halos[i].xform.coord;
             GsGetLsUnit(&unit, &ls);
             GsSetLsMatrix(&ls);
             for (k = 0; k < 8; k++) {
@@ -501,12 +501,12 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                     work->shard.tpage = work->tpage[0];
                     work->shard.clut = work->clut[0];
                     setSemiTrans(&work->shard, 1);
-                    setUV3(&work->shard, work->halos[i].u + 64, work->halos[i].v,
-                        work->halos[i].u + 127, work->halos[i].v,
-                        work->halos[i].u + 96, work->halos[i].v + 63);
+                    setUV3(&work->shard, work->halos[i].head.u + 64, work->halos[i].head.v,
+                        work->halos[i].head.u + 127, work->halos[i].head.v,
+                        work->halos[i].head.u + 96, work->halos[i].head.v + 63);
                     setRGB2(&work->shard, 0, 0, 0);
-                    setRGB0(&work->shard, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
-                    setRGB1(&work->shard, work->halos[i].color[0], work->halos[i].color[1], work->halos[i].color[2]);
+                    setRGB0(&work->shard, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
+                    setRGB1(&work->shard, work->halos[i].head.color[0], work->halos[i].head.color[1], work->halos[i].head.color[2]);
                     depth = RotAverage3(&work->shards[0][j][k], &work->shards[1][j][k], &work->shards[2][j][k],
                         (long *)&work->shard.x0, (long *)&work->shard.x1,
                         (long *)&work->shard.x2, &interpolation, &flag);
@@ -515,9 +515,9 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
                     }
                 }
             }
-            work->halos[i].elapsed += step;
-            if (work->halos[i].duration < work->halos[i].elapsed) {
-                work->halos[i].active = 0;
+            work->halos[i].head.elapsed += step;
+            if (work->halos[i].head.duration < work->halos[i].head.elapsed) {
+                work->halos[i].head.active = 0;
             }
         } else {
             inactive++;
