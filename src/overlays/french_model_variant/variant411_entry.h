@@ -15,9 +15,7 @@ typedef struct {
     ModelVariantSpokeColorRing rings[4];
     ModelVariantBeam extras[2];
     Beam411 beams[16];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 extra, ring_packet, secondary;
     POLY_FT4 flat[2];
     u8 unknown_1598[0x4C];

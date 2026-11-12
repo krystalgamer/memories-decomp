@@ -36,7 +36,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     work = (Variant388EntryState *)ctx;
     arm = (ModelVariantFlaggedSpiralArm *)work->arms;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->textured;
+    poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase >= 0) {
         radius = work->spiral_size / 2;

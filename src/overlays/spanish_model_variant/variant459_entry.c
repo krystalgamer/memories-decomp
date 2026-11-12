@@ -19,9 +19,9 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantSpiral *glow = work->glows;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *plain = &work->plain;
     POLY_GT4 *ray = &work->ray;
     POLY_FT4 *flat = work->flat_textured;

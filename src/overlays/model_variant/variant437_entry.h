@@ -95,9 +95,7 @@ typedef struct {
     ModelVariantRing discs[6];
     ModelVariantRing rings[4];
     Variant437Star star;
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     u8 unknown2D28[0x34];
     POLY_FT4 flat[2];
     POLY_FT4 bloom;

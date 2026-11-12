@@ -25,9 +25,7 @@ typedef struct {
     ModelVariantMesh grid;
     Variant476ScreenGrid screen_grid;
     Variant459Curtain curtains[5];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_236C[0x24];
     POLY_GT4 plain;

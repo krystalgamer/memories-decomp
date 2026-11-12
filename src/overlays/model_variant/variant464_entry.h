@@ -41,9 +41,7 @@ typedef struct {
     POLY_GT4 special;
     u8 unknown_1E38[0x34];
     POLY_GT4 beams[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2];
     u8 unknown_1FCC[0x10];
     MATRIX matrix;

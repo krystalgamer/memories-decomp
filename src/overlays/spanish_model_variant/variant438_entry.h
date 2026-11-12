@@ -40,9 +40,7 @@ typedef struct {
     ModelVariantColorRing spokes[6];
     ModelVariantColorRing petals[4];
     Variant438EntryStar stars[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 ray;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];

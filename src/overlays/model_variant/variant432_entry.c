@@ -24,11 +24,11 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
     Variant432EntryRibbon *ribbon = work->ribbons;
     Sheet437 *sheet = work->sheets;
     Variant437Streamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->extra;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result = 0;
     s32 i, j;
     u16 tpage, clut, flat_texture;

@@ -148,6 +148,17 @@ typedef struct {
     VECTOR view_delta;
 } ModelVariantAim;
 
+/* The packet block an entry state keeps for its shaded primitives (e.g.
+ * Variant388EntryState): on a request the entry initializes triangle with
+ * SetPolyG3, quad with SetPolyG4 and both textured packets with SetPolyGT4
+ * (semi-transparent), and each tick its drawers fill these templates and
+ * copy them into the ordering table. */
+typedef struct {
+    POLY_G3 triangle;
+    POLY_G4 quad;
+    POLY_GT4 textured[2];
+} ModelVariantPackets;
+
 /* The control block an entry state keeps ahead of its config pointer
  * (e.g. Variant428EntryState): the entry zeroes the counters and fade, then
  * stores the view pitch and yaw in angles (ratan2 of its view delta, the yaw

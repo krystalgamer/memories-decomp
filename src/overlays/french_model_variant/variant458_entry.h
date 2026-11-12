@@ -41,9 +41,7 @@ typedef struct {
     ModelVariantBandTriple ribbons[1];
     EntryStreamer458 streamers[3];
     u8 unknown_17C8[0x318];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2], strand_flat[2];
     u8 unknown_1C28[0x10];
     MATRIX matrix;

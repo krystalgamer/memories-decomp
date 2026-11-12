@@ -68,9 +68,7 @@ typedef struct {
     Variant433EntryBand rings[16];
     Variant433EntrySheet sheets[7];
     Variant433EntryStreamer streamers[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2];
     POLY_FT4 flat_extra[2];
     u8 unknown_4230[0x24];

@@ -38,7 +38,7 @@ void SpanishModelVariant417_DrawSpiral(u8 *ctx)
 
     work = (Variant417EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->textured;
+    poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase >= 0) {
     r = work->spiral_size / 2;

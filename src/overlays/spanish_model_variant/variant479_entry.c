@@ -17,11 +17,11 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;
     Variant479SpiralArm *arm = work->arms;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *frame = &work->frame_poly;
     POLY_GT4 *glow = &work->glow;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     POLY_FT4 *flat = work->flat_textured;
     POLY_GT4 *strip = &work->strip;
     s32 result = 0;

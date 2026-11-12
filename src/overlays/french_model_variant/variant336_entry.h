@@ -24,9 +24,7 @@ typedef struct {
     ModelVariantPointSheet sheets[8];
     Variant337EntryStreamer streamers[2];
     u8 unknown_1AB0[0x1DC8 - 0x1AB0];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     POLY_FT4 extra_textured[2];
     u8 unknown_1F10[0x1F34 - 0x1F10];

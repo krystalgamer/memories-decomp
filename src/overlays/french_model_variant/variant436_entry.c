@@ -19,11 +19,11 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
     EntryRibbon436 *ribbon = work->ribbons;
     Sheet436 *sheet = work->sheets;
     ModelVariantShortStreamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->extra;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result = 0;
     u16 tpage, clut, flat_texture;
     s32 packed, flat_page, extra_page;

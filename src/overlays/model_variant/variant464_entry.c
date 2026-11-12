@@ -22,9 +22,9 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantStreamer *streamer = work->streamers;
     ModelVariantSpiralWide *spiral = work->spirals;
     POLY_GT4 *special = &work->special;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_GT4 *beams = work->beams;
     s32 result = 0;

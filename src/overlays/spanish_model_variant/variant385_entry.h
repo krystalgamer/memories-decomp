@@ -39,9 +39,7 @@ typedef struct {
     Variant385EntrySheet sheets[2];
     u8 unknown_68C[0x300];
     ModelVariantCurtain curtains[4];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 plain;
     POLY_GT4 paged;
     POLY_FT4 flat_textured[2];

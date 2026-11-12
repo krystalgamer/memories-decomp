@@ -33,9 +33,7 @@ typedef struct {
     ModelVariantBandTriple records[1];
     Variant437Streamer streamers[3];
     u8 unknown_1698[0x318];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2], extra[2];
     u8 unknown_1AF8[0x10];
     MATRIX matrix;
