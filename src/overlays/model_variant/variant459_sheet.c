@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../spanish_model_variant/variant459_entry.h"
+#include "variant459_entry.h"
 
 /* Draws a four-quad sheet at the variant origin. It grows to 0x1000 on
  * the first timing interval, expands to 0x2000, then shrinks to zero. */
@@ -74,20 +74,20 @@ void ModelVariant459_DrawSheet(u8 *ctx)
             }
         }
         if (sheet->size < 0x1000 && MODEL_VARIANT_WORD(work, 0x284C) == 0) {
-            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x1C)) << 12) /
-                          (u32)(MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x20) - MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x1C));
+            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x1C)) << 12) /
+                          (u32)(MODEL_VARIANT_WORD(work->config, 0x20) - MODEL_VARIANT_WORD(work->config, 0x1C));
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
                 MODEL_VARIANT_WORD(work, 0x284C) = 1;
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x24)) {
-            sheet->size += work->sheets[3].size * 512;
+        } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(work->config, 0x24)) {
+            sheet->size += work->clock.step * 512;
             if (sheet->size >= 0x2000) {
                 sheet->size = 0x2000;
             }
         } else {
-            sheet->size = 0x2000 - (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x24)) << 13) /
-                          (u32)(MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x28) - MODEL_VARIANT_WORD(work->sheets[3].field_90, 0x24));
+            sheet->size = 0x2000 - (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x24)) << 13) /
+                          (u32)(MODEL_VARIANT_WORD(work->config, 0x28) - MODEL_VARIANT_WORD(work->config, 0x24));
             if (sheet->size <= 0) {
                 sheet->size = 0;
             }
