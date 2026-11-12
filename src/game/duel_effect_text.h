@@ -202,9 +202,11 @@ s32 DuelEffect_HasActiveEntry(DuelEffectChannel *channel);
 void Text_CompletePageAdvance(DuelEffectChannel *object);
 
 /* Starting from the record's entry range, walks up to its regional count;
- * for each with entry_flags & 0x80 set, writes a1 to field_13 and a2 to
- * field_15, stopping at the first entry with that flag clear. */
-void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 a1, u8 a2);
+ * for each with entry_flags & 0x80 set, writes handler_state and render_mode
+ * to the entry members of those names (+0x13 and +0x15), stopping at the
+ * first entry with that flag clear. */
+void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_state,
+                                     u8 render_mode);
 
 #define JAPANESE_DUEL_EFFECT_ENTRY_COUNT 300
 

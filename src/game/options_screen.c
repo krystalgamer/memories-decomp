@@ -44,11 +44,11 @@ static u32 D_8009B38C;
 #define OPTIONS_TEXT_BOX_STRING 0xEF
 #endif
 
-void Options_InitTextDisplay(s32 arg0) {
+void Options_InitTextDisplay(s32 slot) {
     u8 *t = gText_abColorSlots;
     t[0]=4; t[1]=4; t[2]=4; t[3]=4; t[4]=4;
-    t[arg0]=0;
-    if (arg0 != 0) t[3]=2; else t[4]=2;
+    t[slot]=0;
+    if (slot != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
     TextBox_BuildBlocking(TEXT_CHANNEL(1));
 }
