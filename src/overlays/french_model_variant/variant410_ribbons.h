@@ -23,9 +23,7 @@ typedef struct {
     CVECTOR inner;
     CVECTOR outer;
     u8 unknown_228[0x28];
-    s32 depth[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
     s32 progress[17];
 } Family410Ribbon;
 

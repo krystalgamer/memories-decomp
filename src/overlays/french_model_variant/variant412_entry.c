@@ -17,9 +17,9 @@ s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
     Variant402EntryRecord *record = work->records;
     Variant402EntryRing *ring = work->rings;
     ModelVariantCurtain *band = work->bands;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *band_packet = &work->band_packet;
     POLY_FT4 *flat = work->flat_textured;

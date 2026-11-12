@@ -20,9 +20,9 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpiral *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *funnel_packet = &work->funnel_packet;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_GT4 *special = &work->special;
     s32 result = 0;
@@ -39,13 +39,13 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->config = gFrenchModelVariant425_aConfigs + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         GsGetLwUnit(work->part, &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+            work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT425_CLUT_X, 244);
         other_tpage = GetTPage(1, 1, 896, 0);
@@ -139,16 +139,16 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         for (i = 0; i < 1; i++, ribbon++) {
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->colors[0].r = 128;
-            ribbon->colors[0].g = 128;
-            ribbon->colors[0].b = 128;
-            ribbon->colors[1].r = 0;
-            ribbon->colors[1].g = 16;
-            ribbon->colors[1].b = 128;
-            ribbon->field_238 = 0;
-            ribbon->field_23C = 0;
-            ribbon->field_23A = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = 128;
+            ribbon->style.inner.g = 128;
+            ribbon->style.inner.b = 128;
+            ribbon->style.outer.r = 0;
+            ribbon->style.outer.g = 16;
+            ribbon->style.outer.b = 128;
+            ribbon->style.field_18 = 0;
+            ribbon->style.field_1C = 0;
+            ribbon->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i / 2 * 2 == i - 1) {
@@ -259,36 +259,36 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
             view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
-            work->target.vy = 0;
-            target_z = work->target.vz + 1400;
-            work->target.vz = target_z - work->travel * 1400 / 1024;
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            work->aim.target.vy = 0;
+            target_z = work->aim.target.vz + 1400;
+            work->aim.target.vz = target_z - work->travel * 1400 / 1024;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
-            work->target.vy = 0;
-            target_z = work->target.vz - 1400;
-            work->target.vz = target_z + work->travel * 1400 / 1024;
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            work->aim.target.vy = 0;
+            target_z = work->aim.target.vz - 1400;
+            work->aim.target.vz = target_z + work->travel * 1400 / 1024;
         }
         GsGetLwUnit(work->part, &work->matrix);
-        setVector(&work->direction, work->target.vx - work->matrix.t[0],
-            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+            work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (long *)&projection.projected,
             &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, &projection.target,
             &projection.interpolation, &projection.flag);
-        work->screen_delta.vx = (u16)projection.target - screen_x;
-        work->screen_delta.vy = (projection.target >> 16) - screen_y;
+        work->aim.screen_delta.vx = (u16)projection.target - screen_x;
+        work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->elapsed) {
             SpanishModelVariant425_DrawSheets((u8 *)point);
         }

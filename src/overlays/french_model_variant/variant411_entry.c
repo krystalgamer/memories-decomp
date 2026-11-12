@@ -18,9 +18,9 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFunnel *funnel = work->funnels;
     ModelVariantSpokeColorRing *ring = work->rings;
     ModelVariantBeam *extra_record = work->extras;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *secondary = &work->secondary;

@@ -22,9 +22,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
     Variant437Star *star = &work->star;
     Variant437Cone *cone = work->cones;
     Variant437Ribbon *ribbon = work->ribbons;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *bloom = &work->bloom;
     s32 result = 0;

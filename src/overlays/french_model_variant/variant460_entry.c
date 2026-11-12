@@ -17,10 +17,10 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
     Variant460EntryRecord *record = work->records;
     ModelVariantSheetSet *sheet = work->sheets;
     Variant337EntryStreamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *extra = &work->extra;
     s32 result = 0;
     s32 ring_index, ring_point;

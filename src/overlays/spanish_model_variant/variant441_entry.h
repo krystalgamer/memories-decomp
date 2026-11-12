@@ -27,9 +27,7 @@ typedef struct {
     ModelVariantTripleCurtain curtains[5];
     ModelVariantColorRing spokes[4];
     ModelVariantSpiral glows[12];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];
     u8 unknown_2658[0x24];

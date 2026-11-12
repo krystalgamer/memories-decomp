@@ -2,6 +2,7 @@
 #define MEMORIES_MODEL_VARIANT408_ENTRY_H
 
 #include "../../types.h"
+#include "../model_variant/model_variant.h"
 #include "variant408_update.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
@@ -30,9 +31,7 @@ typedef struct {
 typedef struct {
     ModelVariant408Mesh meshes[1];
     ModelVariant408Ring rings[4];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 other;
     POLY_GT4 opaque;
     POLY_FT4 sprites[2];

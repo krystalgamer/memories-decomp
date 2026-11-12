@@ -19,9 +19,7 @@ typedef struct {
     ModelVariantSheetSet quads[10];
     ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     u8 unknown_2E34[0x34];
     POLY_FT4 flat[2], ring_packet;
     GsGLINE line;

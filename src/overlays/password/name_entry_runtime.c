@@ -694,17 +694,16 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
                         case 0x81BD: u = 240; v = 120; shift = -2; break;
                         }
                     }
-                    goto draw;
+                    break;
                 }
                 if (tbl[i] < 0) {
+                    u = 0;
+                    v = 120;
                     break;
                 }
                 i++;
             }
-            u = 0;
-            v = 120;
         }
-draw:
         DisplayObject_ConfigureScreenSprite(
             obj,
             p->rect_x + w->x_0C + shift, p->rect_y + w->y_0E,
@@ -1024,60 +1023,44 @@ select:
     glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
     glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
     gx = kind;
-#ifdef VERSION_JAPAN
     switch (glyphCode) {
+#ifdef VERSION_JAPAN
     case 2:
-        goto arm2;
-    case 4:
-        goto arm4;
-    case 6:
-        goto arm6;
-    }
-    goto arme;
-arm2:
-    /* The Japanese keyboard's mode key: it cycles the character set
-     * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
-    gNameEntry_bCharacterSet++;
-    if (gNameEntry_bCharacterSet >= 3) {
-        gNameEntry_bCharacterSet = 0;
-    }
-    NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
-    work = 2;
-    SD_SEPlayFull(7);
-    goto join;
-#else
-    if (glyphCode == 4) {
-        goto arm4;
-    }
-    if (glyphCode == 6) {
-        goto arm6;
-    }
-    goto arme;
+        /* The Japanese keyboard's mode key: it cycles the character set
+         * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
+        gNameEntry_bCharacterSet++;
+        if (gNameEntry_bCharacterSet >= 3) {
+            gNameEntry_bCharacterSet = 0;
+        }
+        NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
+        work = 2;
+        SD_SEPlayFull(7);
+        break;
 #endif
-arm4:
-    d = 1;
-    if (glyphCol == 11) {
-        d = -1;
-    } else {
-        gx = 20;
+    case 4:
+        d = 1;
+        if (glyphCol == 11) {
+            d = -1;
+        } else {
+            gx = 20;
+        }
+        if (NameEntry_AdjustLength(d, 6) == 0) {
+            SD_SEPlayFull(9);
+        }
+        gy = 36;
+        break;
+    case 6:
+        work = 2;
+        gy = 72;
+        gNameEntry_bStateFlags |= 0x40;
+        break;
+    default:
+        kind = 1;
+        gx = (s8)gNameEntry_bKeyboardColumn * 20;
+        gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
+        SD_SEPlayFull(41);
+        break;
     }
-    if (NameEntry_AdjustLength(d, 6) == 0) {
-        SD_SEPlayFull(9);
-    }
-    gy = 36;
-    goto join;
-arm6:
-    work = 2;
-    gy = 72;
-    gNameEntry_bStateFlags |= 0x40;
-    goto join;
-arme:
-    kind = 1;
-    gx = (s8)gNameEntry_bKeyboardColumn * 20;
-    gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
-    SD_SEPlayFull(41);
-join:
-    ;
     node = TextBox_GetGlyphAt(kind, gx, gy);
     obj = NameEntry_SpawnGlyphSprite(kind, node);
     ((DisplayObject *)obj)->field_6C = 1;

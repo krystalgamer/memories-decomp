@@ -15,27 +15,19 @@
 
 /* One 0x54-byte element: a bloom, a spark or a ring. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* Bloom frame counter, spark cursor and spark ring latch. */
     u16 frame, cursor, spawned, unknown_16;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR target;
 } Model666Element;
 
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
-    u16 tpage[3];
-    u16 clut[3], unknown_1E;
+    ModelVariantEntryPlacement place;
+    ModelVariantTextureIds textures;
+    u16 unknown_1E;
     POLY_FT4 quad;
     POLY_FT3 fan;
     GsGLINE line;

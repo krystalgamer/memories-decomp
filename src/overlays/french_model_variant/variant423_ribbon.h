@@ -16,9 +16,7 @@ typedef struct {
     Ribbon423Screen sb[17];
     s32 width[17];
     u8 unknown220[0xB8];
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
 } Ribbon423;
 
 typedef struct {

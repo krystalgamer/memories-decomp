@@ -16,27 +16,19 @@
 
 /* One 0x50-byte element: a cone ring, the flat band or a grid sprite. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* Next grid row to spawn; only the first row's copy is used. */
     u8 cursor, unknown_11[3];
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR target;
 } Model643Element;
 
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
-    u16 tpage[3];
-    u16 clut[3], unknown_1E;
+    ModelVariantEntryPlacement place;
+    ModelVariantTextureIds textures;
+    u16 unknown_1E;
     POLY_GT4 strip;
     POLY_G4 band;
     POLY_FT4 quad;

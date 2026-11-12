@@ -157,16 +157,16 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(extra, 1);
         SetShadeTex(extra, 0);
         for (j = 0; j < 3; j++, ribbon++) {
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->inner.r = work->config->inner[0][j];
-            ribbon->inner.g = work->config->inner[1][j];
-            ribbon->inner.b = work->config->inner[2][j];
-            ribbon->outer.r = work->config->inner[0][j];
-            ribbon->outer.g = work->config->inner[1][j];
-            ribbon->outer.b = work->config->inner[2][j];
-            ribbon->field_238 = 0;
-            ribbon->field_23A = 0;
-            ribbon->field_23C = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = work->config->inner[0][j];
+            ribbon->style.inner.g = work->config->inner[1][j];
+            ribbon->style.inner.b = work->config->inner[2][j];
+            ribbon->style.outer.r = work->config->inner[0][j];
+            ribbon->style.outer.g = work->config->inner[1][j];
+            ribbon->style.outer.b = work->config->inner[2][j];
+            ribbon->style.field_18 = 0;
+            ribbon->style.count = 0;
+            ribbon->style.field_1C = 0;
             if (j == 0) {
                 bearing = 1024;
             } else if (j / 2 * 2 == j - 1) {

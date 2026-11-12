@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant414_fan.h"
+#include "../french_model_variant/variant431_entry.h"
 
 /* Draws five four-quad fans. The selected timing deadline starts their
  * growth, and each fan shrinks after its own done flag is set. */
@@ -13,7 +14,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
     long p;
     long flag;
     GsOT *ot;
-    u8 *work;
+    Variant431EntryState *work;
     Variant414Fan *rec;
     POLY_G4 *poly;
     s32 i;
@@ -21,7 +22,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = ctx;
+    work = (Variant431EntryState *)ctx;
     rec = (Variant414Fan *)(ctx + 0x13B0);
     poly = (POLY_G4 *)(ctx + 0x1610);
     ot = Graphics_GetDefaultOrderingTable();
@@ -32,10 +33,10 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)(work + 0x18DC);
-        m.t[0] = MODEL_VARIANT_WORD(work + i * 32, 0x1794);
-        m.t[1] = MODEL_VARIANT_WORD(work + i * 32, 0x1798);
-        m.t[2] = MODEL_VARIANT_WORD(work + i * 32, 0x179C);
+        rot.vz = *(u16 *)((u8 *)work + 0x18DC);
+        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1794);
+        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1798);
+        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x179C);
         scale.vx = rec->size + bias;
         scale.vy = rec->size + bias;
         scale.vz = rec->size + bias;
@@ -89,20 +90,20 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if ((u32)MODEL_VARIANT_WORD(work, 0x18A0) >= (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x18B0) + MODEL_VARIANT_WORD(work, 0x18D8) * 4, 0x2C) - 8)) {
+        if ((u32)MODEL_VARIANT_WORD(work, 0x18A0) >= (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x18B0) + work->start_index * 4, 0x2C) - 8)) {
             if (rec->size < 0x1000 && rec->done == 0) {
-                rec->size += MODEL_VARIANT_WORD(work, 0x18A8) << 10;
+                rec->size += work->step << 10;
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     rec->done = 1;
                 }
             } else if (rec->size > 0 && rec->done == 1) {
-                rec->size -= MODEL_VARIANT_WORD(work, 0x18A8) << 8;
+                rec->size -= work->step << 8;
                 if (rec->size <= 0) {
                     rec->size = 0;
                 }
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x18DC) += MODEL_VARIANT_WORD(work, 0x18A8) * 0xC0;
+    work->spin += work->step * 0xC0;
 }

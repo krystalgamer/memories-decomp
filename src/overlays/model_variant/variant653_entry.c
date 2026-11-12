@@ -44,8 +44,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         work->other_slot = work->head.slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant653_Image);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         if (command == 0) {
             work->emitter_count = 1;
             work->shell_count = 32;
@@ -54,60 +54,60 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         work->radius = gModelVariant653_aConfigs[command].radius;
         work->height = gModelVariant653_aConfigs[command].height;
         for (i = 0; i < work->emitter_count; i++) {
-            work->emitters[i].duration = 500;
-            work->emitters[i].active = 0;
-            work->emitters[i].elapsed = 0;
-            work->emitters[i].mode = 1;
-            work->emitters[i].coord = Model_GetCameraCoordinateUnit();
-            work->emitters[i].red = gModelVariant653_aConfigs[command].red;
-            work->emitters[i].green = gModelVariant653_aConfigs[command].green;
-            work->emitters[i].blue = gModelVariant653_aConfigs[command].blue;
-            work->emitters[i].u = 0;
-            work->emitters[i].v = 0;
-            setVector(&work->emitters[i].scale, 0x1000, 0x1000, 0x1000);
+            work->emitters[i].head.duration = 500;
+            work->emitters[i].head.active = 0;
+            work->emitters[i].head.elapsed = 0;
+            work->emitters[i].head.mode = 1;
+            work->emitters[i].xform.coord = Model_GetCameraCoordinateUnit();
+            work->emitters[i].head.color[0] = gModelVariant653_aConfigs[command].red;
+            work->emitters[i].head.color[1] = gModelVariant653_aConfigs[command].green;
+            work->emitters[i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+            work->emitters[i].head.u = 0;
+            work->emitters[i].head.v = 0;
+            setVector(&work->emitters[i].xform.scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->emitters[i].growth, 200, 0, work->target.vz);
-            setVector(&work->emitters[i].rotation, 0, work->head.slot * 2048, 0);
-            setVector(&work->emitters[i].position, 0, 0, 0);
+            setVector(&work->emitters[i].xform.rotation, 0, work->head.slot * 2048, 0);
+            setVector(&work->emitters[i].xform.position, 0, 0, 0);
         }
         /* Shells, cones and spheres are indexed by the emitter plus child index.
          * The vector fields go through (&array[child])[emitter], whose separate
          * address arithmetic gives the original's second strength-reduced pointer. */
         for (j = 0; j < work->emitter_count; j++) {
             for (i = 0; i < work->shell_count; i++) {
-                work->shells[j + i].duration = 0x40;
-                work->shells[j + i].active = 0;
-                work->shells[j + i].elapsed = 0;
-                work->shells[j + i].mode = 1;
-                work->shells[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->shells[j + i].red = gModelVariant653_aConfigs[command].red;
-                work->shells[j + i].green = gModelVariant653_aConfigs[command].green;
-                work->shells[j + i].blue = gModelVariant653_aConfigs[command].blue;
-                work->shells[j + i].u = 0;
-                work->shells[j + i].v = 0;
-                setVector(&(&work->shells[i])[j].scale, 0x1000, 0x1000, 0x1000);
+                work->shells[j + i].head.duration = 0x40;
+                work->shells[j + i].head.active = 0;
+                work->shells[j + i].head.elapsed = 0;
+                work->shells[j + i].head.mode = 1;
+                work->shells[j + i].xform.coord = Model_GetCameraCoordinateUnit();
+                work->shells[j + i].head.color[0] = gModelVariant653_aConfigs[command].red;
+                work->shells[j + i].head.color[1] = gModelVariant653_aConfigs[command].green;
+                work->shells[j + i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+                work->shells[j + i].head.u = 0;
+                work->shells[j + i].head.v = 0;
+                setVector(&(&work->shells[i])[j].xform.scale, 0x1000, 0x1000, 0x1000);
                 setVector(&(&work->shells[i])[j].growth, 0, 0, 0);
-                setVector(&(&work->shells[i])[j].rotation, 0, work->head.slot * 2048, 0);
-                setVector(&(&work->shells[i])[j].position, 0, 0, 0);
+                setVector(&(&work->shells[i])[j].xform.rotation, 0, work->head.slot * 2048, 0);
+                setVector(&(&work->shells[i])[j].xform.position, 0, 0, 0);
             }
         }
         for (j = 0; j < work->emitter_count; j++) {
             for (i = 0; i < work->cone_count; i++) {
-                work->cones[j + i].duration = 0x50;
-                work->cones[j + i].active = 0;
-                work->cones[j + i].elapsed = 0;
-                work->cones[j + i].mode = 1;
-                work->cones[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->cones[j + i].red = gModelVariant653_aConfigs[command].red;
-                work->cones[j + i].green = gModelVariant653_aConfigs[command].green;
-                work->cones[j + i].blue = gModelVariant653_aConfigs[command].blue;
-                setVector(&(&work->cones[i])[j].scale, 0, 0, 0);
+                work->cones[j + i].head.duration = 0x50;
+                work->cones[j + i].head.active = 0;
+                work->cones[j + i].head.elapsed = 0;
+                work->cones[j + i].head.mode = 1;
+                work->cones[j + i].xform.coord = Model_GetCameraCoordinateUnit();
+                work->cones[j + i].head.color[0] = gModelVariant653_aConfigs[command].red;
+                work->cones[j + i].head.color[1] = gModelVariant653_aConfigs[command].green;
+                work->cones[j + i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+                setVector(&(&work->cones[i])[j].xform.scale, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].growth, 0, 0, 0);
-                setVector(&(&work->cones[i])[j].rotation, 0,
+                setVector(&(&work->cones[i])[j].xform.rotation, 0,
                     (i << 12) / work->cone_count + work->head.slot * 2048, 0);
                 if (i == 0) {
-                    setVector(&work->cones[j].position, 0, 0, 0);
+                    setVector(&work->cones[j].xform.position, 0, 0, 0);
                 } else {
-                    setVector(&(&work->cones[i])[j].position,
+                    setVector(&(&work->cones[i])[j].xform.position,
                         work->radius / 2 * rsin(((i - 1) << 12) / (work->cone_count - 1)) / 4096, 0,
                         work->radius / 2 * rcos(((i - 1) << 12) / (work->cone_count - 1)) / 4096);
                 }
@@ -115,19 +115,19 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         }
         for (j = 0; j < work->emitter_count; j++) {
             for (i = 0; i < work->cone_count; i++) {
-                work->spheres[j + i].duration = 0x50;
-                work->spheres[j + i].active = 0;
-                work->spheres[j + i].elapsed = 0;
-                work->spheres[j + i].mode = 1;
-                work->spheres[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->spheres[j + i].red = gModelVariant653_aConfigs[command].line_red;
-                work->spheres[j + i].green = gModelVariant653_aConfigs[command].line_green;
-                work->spheres[j + i].blue = gModelVariant653_aConfigs[command].line_blue;
-                setVector(&(&work->spheres[i])[j].scale, 0, 0, 0);
+                work->spheres[j + i].head.duration = 0x50;
+                work->spheres[j + i].head.active = 0;
+                work->spheres[j + i].head.elapsed = 0;
+                work->spheres[j + i].head.mode = 1;
+                work->spheres[j + i].xform.coord = Model_GetCameraCoordinateUnit();
+                work->spheres[j + i].head.color[0] = gModelVariant653_aConfigs[command].line_red;
+                work->spheres[j + i].head.color[1] = gModelVariant653_aConfigs[command].line_green;
+                work->spheres[j + i].head.color[2] = gModelVariant653_aConfigs[command].line_blue;
+                setVector(&(&work->spheres[i])[j].xform.scale, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].growth, 0, 0, 0);
-                setVector(&(&work->spheres[i])[j].rotation, (i << 12) / work->cone_count,
+                setVector(&(&work->spheres[i])[j].xform.rotation, (i << 12) / work->cone_count,
                     (i << 12) / work->cone_count + work->head.slot * 2048, (i << 12) / work->cone_count);
-                setVector(&(&work->spheres[i])[j].position, 0, 0, 0);
+                setVector(&(&work->spheres[i])[j].xform.position, 0, 0, 0);
             }
         }
         work->delay = gModelVariant653_aConfigs[command].delay;
@@ -168,114 +168,114 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         if (work->head.command == 0) {
             if (work->head.elapsed == 0) {
                 Model_CopySlotPosition(work->head.slot, (u16 *)&pos);
-                work->emitters[0].active = 1;
-                work->emitters[0].position.vx += pos.vx;
-                work->emitters[0].position.vy -= 140;
-                work->emitters[0].position.vz += pos.vz;
+                work->emitters[0].head.active = 1;
+                work->emitters[0].xform.position.vx += pos.vx;
+                work->emitters[0].xform.position.vy -= 140;
+                work->emitters[0].xform.position.vz += pos.vz;
                 work->shadow = Model_SetSlotShadowEnabled(work->head.slot, 0);
             }
         }
         PushMatrix();
         inactive = 0;
         for (i = 0; i < work->emitter_count; i++) {
-            if (work->emitters[i].active == 1) {
+            if (work->emitters[i].head.active == 1) {
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
-                ScaleMatrix(&unit.matrix, &work->emitters[i].scale);
-                RotMatrixY(work->emitters[i].rotation.vy, &unit.matrix);
-                unit.matrix.t[0] = work->emitters[i].position.vx;
-                unit.matrix.t[1] = work->emitters[i].position.vy;
-                if (work->emitters[i].elapsed < 160) {
-                    unit.matrix.t[2] = work->emitters[i].position.vz;
-                } else if (work->emitters[i].elapsed < 250) {
-                    unit.matrix.t[0] = work->emitters[i].position.vx
+                ScaleMatrix(&unit.matrix, &work->emitters[i].xform.scale);
+                RotMatrixY(work->emitters[i].xform.rotation.vy, &unit.matrix);
+                unit.matrix.t[0] = work->emitters[i].xform.position.vx;
+                unit.matrix.t[1] = work->emitters[i].xform.position.vy;
+                if (work->emitters[i].head.elapsed < 160) {
+                    unit.matrix.t[2] = work->emitters[i].xform.position.vz;
+                } else if (work->emitters[i].head.elapsed < 250) {
+                    unit.matrix.t[0] = work->emitters[i].xform.position.vx
                         + work->emitters[i].growth.vx
-                            * rsin(((work->emitters[i].elapsed - 160) << 13) / 90) / 4096;
-                    unit.matrix.t[2] = work->emitters[i].position.vz
-                        + (work->emitters[i].growth.vz - work->emitters[i].position.vz)
-                            * (work->emitters[i].elapsed - 160) / 90;
+                            * rsin(((work->emitters[i].head.elapsed - 160) << 13) / 90) / 4096;
+                    unit.matrix.t[2] = work->emitters[i].xform.position.vz
+                        + (work->emitters[i].growth.vz - work->emitters[i].xform.position.vz)
+                            * (work->emitters[i].head.elapsed - 160) / 90;
                     if ((work->flags[1] & 3) == 3) {
-                        work->shells[i + work->flags[0]].active = 1;
-                        work->shells[i + work->flags[0]].elapsed = 0;
-                        work->shells[i + work->flags[0]].v = work->emitters[i].v;
-                        (&work->shells[work->flags[0]])[i].position.vx = unit.matrix.t[0];
-                        (&work->shells[work->flags[0]])[i].position.vy = unit.matrix.t[1];
-                        (&work->shells[work->flags[0]])[i].position.vz = unit.matrix.t[2];
+                        work->shells[i + work->flags[0]].head.active = 1;
+                        work->shells[i + work->flags[0]].head.elapsed = 0;
+                        work->shells[i + work->flags[0]].head.v = work->emitters[i].head.v;
+                        (&work->shells[work->flags[0]])[i].xform.position.vx = unit.matrix.t[0];
+                        (&work->shells[work->flags[0]])[i].xform.position.vy = unit.matrix.t[1];
+                        (&work->shells[work->flags[0]])[i].xform.position.vz = unit.matrix.t[2];
                         if (++work->flags[0] >= work->shell_count) {
                             work->flags[0] = 0;
                         }
                     }
                     work->flags[1]++;
-                } else if (work->emitters[i].elapsed < 340) {
+                } else if (work->emitters[i].head.elapsed < 340) {
                     unit.matrix.t[2] = work->emitters[i].growth.vz;
                     work->flags[1] = 0;
                     if (work->flags[2] == 0) {
                         for (j = 0; j < work->cone_count; j++) {
-                            work->cones[i + j].active = 1;
-                            applyVector(&(&work->cones[j])[i].position, unit.matrix.t[0], unit.matrix.t[1],
+                            work->cones[i + j].head.active = 1;
+                            applyVector(&(&work->cones[j])[i].xform.position, unit.matrix.t[0], unit.matrix.t[1],
                                 unit.matrix.t[2], +=);
                         }
                         work->flags[2] = 1;
                     }
-                } else if (work->emitters[i].elapsed < 430) {
-                    unit.matrix.t[0] = work->emitters[i].position.vx
+                } else if (work->emitters[i].head.elapsed < 430) {
+                    unit.matrix.t[0] = work->emitters[i].xform.position.vx
                         + work->emitters[i].growth.vx
-                            * rsin(((work->emitters[i].elapsed - 340) << 13) / 90) / 4096;
+                            * rsin(((work->emitters[i].head.elapsed - 340) << 13) / 90) / 4096;
                     unit.matrix.t[2] = work->emitters[i].growth.vz
-                        + (work->emitters[i].position.vz - work->emitters[i].growth.vz)
-                            * (work->emitters[i].elapsed - 340) / 90;
+                        + (work->emitters[i].xform.position.vz - work->emitters[i].growth.vz)
+                            * (work->emitters[i].head.elapsed - 340) / 90;
                     if ((work->flags[1] & 3) == 3) {
-                        work->shells[i + work->flags[0]].active = 1;
-                        work->shells[i + work->flags[0]].elapsed = 0;
-                        work->shells[i + work->flags[0]].v = work->emitters[i].v;
-                        (&work->shells[work->flags[0]])[i].position.vx = unit.matrix.t[0];
-                        (&work->shells[work->flags[0]])[i].position.vy = unit.matrix.t[1];
-                        (&work->shells[work->flags[0]])[i].position.vz = unit.matrix.t[2];
+                        work->shells[i + work->flags[0]].head.active = 1;
+                        work->shells[i + work->flags[0]].head.elapsed = 0;
+                        work->shells[i + work->flags[0]].head.v = work->emitters[i].head.v;
+                        (&work->shells[work->flags[0]])[i].xform.position.vx = unit.matrix.t[0];
+                        (&work->shells[work->flags[0]])[i].xform.position.vy = unit.matrix.t[1];
+                        (&work->shells[work->flags[0]])[i].xform.position.vz = unit.matrix.t[2];
                         if (++work->flags[0] >= work->shell_count) {
                             work->flags[0] = 0;
                         }
                     }
                     work->flags[1]++;
                 } else {
-                    unit.matrix.t[2] = work->emitters[i].position.vz;
+                    unit.matrix.t[2] = work->emitters[i].xform.position.vz;
                 }
-                unit.super = work->emitters[i].coord;
+                unit.super = work->emitters[i].xform.coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
-                if (work->emitters[i].elapsed < (u16)(work->emitters[i].duration / 5)) {
-                    n = work->emitters[i].elapsed * 5;
-                    d = work->emitters[i].duration;
-                    work->emitters[i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                    work->emitters[i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                    work->emitters[i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                if (work->emitters[i].head.elapsed < (u16)(work->emitters[i].head.duration / 5)) {
+                    n = work->emitters[i].head.elapsed * 5;
+                    d = work->emitters[i].head.duration;
+                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                 }
-                if (work->emitters[i].duration * 9 / 10 < work->emitters[i].elapsed) {
-                    n = (work->emitters[i].duration - work->emitters[i].elapsed) * 10;
-                    d = work->emitters[i].duration;
-                    work->emitters[i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                    work->emitters[i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                    work->emitters[i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                if (work->emitters[i].head.duration * 9 / 10 < work->emitters[i].head.elapsed) {
+                    n = (work->emitters[i].head.duration - work->emitters[i].head.elapsed) * 10;
+                    d = work->emitters[i].head.duration;
+                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                 }
                 for (k = 0; k < 6; k++) {
                     for (j = 0; j < 16; j++) {
                         setPolyGT4(&work->quad);
-                        work->quad.tpage = work->tpage[0];
-                        work->quad.clut = work->clut[0];
+                        work->quad.tpage = work->textures.tpage[0];
+                        work->quad.clut = work->textures.clut[0];
                         setSemiTrans(&work->quad, 1);
-                        setUV4(&work->quad, work->emitters[i].u, work->emitters[i].v + 32,
-                            work->emitters[i].u + 255, work->emitters[i].v + 32,
-                            work->emitters[i].u, work->emitters[i].v,
-                            work->emitters[i].u + 255, work->emitters[i].v);
+                        setUV4(&work->quad, work->emitters[i].head.u, work->emitters[i].head.v + 32,
+                            work->emitters[i].head.u + 255, work->emitters[i].head.v + 32,
+                            work->emitters[i].head.u, work->emitters[i].head.v,
+                            work->emitters[i].head.u + 255, work->emitters[i].head.v);
                         n = 6 - k;
-                        r = work->emitters[i].red * n / 6;
-                        g = work->emitters[i].green * n / 6;
-                        b = work->emitters[i].blue * n / 6;
+                        r = work->emitters[i].head.color[0] * n / 6;
+                        g = work->emitters[i].head.color[1] * n / 6;
+                        b = work->emitters[i].head.color[2] * n / 6;
                         setRGB0(&work->quad, r, g, b);
                         setRGB1(&work->quad, r, g, b);
                         n = 5 - k;
-                        r = work->emitters[i].red * n / 6;
-                        g = work->emitters[i].green * n / 6;
-                        b = work->emitters[i].blue * n / 6;
+                        r = work->emitters[i].head.color[0] * n / 6;
+                        g = work->emitters[i].head.color[1] * n / 6;
+                        b = work->emitters[i].head.color[2] * n / 6;
                         setRGB2(&work->quad, r, g, b);
                         setRGB3(&work->quad, r, g, b);
                         depth = RotAverage4(&work->shell[j][k], &work->shell[j + 1][k], &work->shell[j][k + 1],
@@ -286,13 +286,13 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                         }
                     }
                 }
-                work->emitters[i].v += step;
-                if (work->emitters[i].v >= 32) {
-                    work->emitters[i].v = 0;
+                work->emitters[i].head.v += step;
+                if (work->emitters[i].head.v >= 32) {
+                    work->emitters[i].head.v = 0;
                 }
-                work->emitters[i].elapsed += step;
-                if (work->emitters[i].duration < work->emitters[i].elapsed) {
-                    work->emitters[i].active = 0;
+                work->emitters[i].head.elapsed += step;
+                if (work->emitters[i].head.duration < work->emitters[i].head.elapsed) {
+                    work->emitters[i].head.active = 0;
                 }
             } else {
                 inactive++;
@@ -300,44 +300,44 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         }
         for (l = 0; l < work->emitter_count; l++) {
             for (i = 0; i < work->shell_count; i++) {
-                if (work->shells[l + i].active == 1) {
+                if (work->shells[l + i].head.active == 1) {
                     unit.flg = 0;
                     unit.matrix = GsIDMATRIX;
-                    ScaleMatrix(&unit.matrix, &(&work->shells[i])[l].scale);
-                    RotMatrixY(work->shells[l + i].rotation.vy, &unit.matrix);
-                    unit.matrix.t[0] = work->shells[l + i].position.vx;
-                    unit.matrix.t[1] = work->shells[l + i].position.vy;
-                    unit.matrix.t[2] = work->shells[l + i].position.vz;
-                    unit.super = work->shells[l + i].coord;
+                    ScaleMatrix(&unit.matrix, &(&work->shells[i])[l].xform.scale);
+                    RotMatrixY(work->shells[l + i].xform.rotation.vy, &unit.matrix);
+                    unit.matrix.t[0] = work->shells[l + i].xform.position.vx;
+                    unit.matrix.t[1] = work->shells[l + i].xform.position.vy;
+                    unit.matrix.t[2] = work->shells[l + i].xform.position.vz;
+                    unit.super = work->shells[l + i].xform.coord;
                     GsGetLsUnit(&unit, &ls);
                     GsSetLsMatrix(&ls);
-                    if (work->shells[l + i].duration / 2 < work->shells[l + i].elapsed) {
-                        n = (work->shells[l + i].duration - work->shells[l + i].elapsed) * 2;
-                        d = work->shells[l + i].duration;
-                        work->shells[l + i].red = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                        work->shells[l + i].green = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                        work->shells[l + i].blue = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                    if (work->shells[l + i].head.duration / 2 < work->shells[l + i].head.elapsed) {
+                        n = (work->shells[l + i].head.duration - work->shells[l + i].head.elapsed) * 2;
+                        d = work->shells[l + i].head.duration;
+                        work->shells[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
+                        work->shells[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
+                        work->shells[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
                     }
                     for (k = 0; k < 6; k++) {
                         for (j = 0; j < 16; j++) {
                             setPolyGT4(&work->quad);
-                            work->quad.tpage = work->tpage[0];
-                            work->quad.clut = work->clut[0];
+                            work->quad.tpage = work->textures.tpage[0];
+                            work->quad.clut = work->textures.clut[0];
                             setSemiTrans(&work->quad, 1);
-                            setUV4(&work->quad, work->shells[l + i].u, work->shells[l + i].v + 32,
-                                work->shells[l + i].u + 255, work->shells[l + i].v + 32,
-                                work->shells[l + i].u, work->shells[l + i].v,
-                                work->shells[l + i].u + 255, work->shells[l + i].v);
+                            setUV4(&work->quad, work->shells[l + i].head.u, work->shells[l + i].head.v + 32,
+                                work->shells[l + i].head.u + 255, work->shells[l + i].head.v + 32,
+                                work->shells[l + i].head.u, work->shells[l + i].head.v,
+                                work->shells[l + i].head.u + 255, work->shells[l + i].head.v);
                             n = 6 - k;
-                            r = work->shells[l + i].red * n / 6;
-                            g = work->shells[l + i].green * n / 6;
-                            b = work->shells[l + i].blue * n / 6;
+                            r = work->shells[l + i].head.color[0] * n / 6;
+                            g = work->shells[l + i].head.color[1] * n / 6;
+                            b = work->shells[l + i].head.color[2] * n / 6;
                             setRGB0(&work->quad, r, g, b);
                             setRGB1(&work->quad, r, g, b);
                             n = 5 - k;
-                            r = work->shells[l + i].red * n / 6;
-                            g = work->shells[l + i].green * n / 6;
-                            b = work->shells[l + i].blue * n / 6;
+                            r = work->shells[l + i].head.color[0] * n / 6;
+                            g = work->shells[l + i].head.color[1] * n / 6;
+                            b = work->shells[l + i].head.color[2] * n / 6;
                             setRGB2(&work->quad, r, g, b);
                             setRGB3(&work->quad, r, g, b);
                             depth = RotAverage4(&work->shell[j][k], &work->shell[j + 1][k],
@@ -349,9 +349,9 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             }
                         }
                     }
-                    work->shells[l + i].elapsed += step;
-                    if (work->shells[l + i].duration < work->shells[l + i].elapsed) {
-                        work->shells[l + i].active = 0;
+                    work->shells[l + i].head.elapsed += step;
+                    if (work->shells[l + i].head.duration < work->shells[l + i].head.elapsed) {
+                        work->shells[l + i].head.active = 0;
                     }
                 } else {
                     inactive++;
@@ -360,24 +360,24 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         }
         for (l = 0; l < work->emitter_count; l++) {
             for (i = 0; i < work->cone_count; i++) {
-                if (work->cones[l + i].active == 1) {
+                if (work->cones[l + i].head.active == 1) {
                     unit.flg = 0;
                     unit.matrix = GsIDMATRIX;
                     n = 0x1000;
-                    if (work->cones[l + i].elapsed < (u16)(work->cones[l + i].duration / 10)) {
-                        n = work->cones[l + i].elapsed * 0xA000 / work->cones[l + i].duration;
+                    if (work->cones[l + i].head.elapsed < (u16)(work->cones[l + i].head.duration / 10)) {
+                        n = work->cones[l + i].head.elapsed * 0xA000 / work->cones[l + i].head.duration;
                     }
-                    if (work->cones[l + i].elapsed > work->cones[l + i].duration * 9 / 10) {
-                        n = (work->cones[l + i].duration - work->cones[l + i].elapsed) * 0xA000
-                            / work->cones[l + i].duration;
+                    if (work->cones[l + i].head.elapsed > work->cones[l + i].head.duration * 9 / 10) {
+                        n = (work->cones[l + i].head.duration - work->cones[l + i].head.elapsed) * 0xA000
+                            / work->cones[l + i].head.duration;
                     }
-                    setVector(&(&work->cones[i])[l].scale, n, n, n);
-                    ScaleMatrix(&unit.matrix, &(&work->cones[i])[l].scale);
-                    RotMatrixY(work->cones[l + i].rotation.vy, &unit.matrix);
-                    unit.matrix.t[0] = work->cones[l + i].position.vx;
-                    unit.matrix.t[1] = work->cones[l + i].position.vy;
-                    unit.matrix.t[2] = work->cones[l + i].position.vz;
-                    unit.super = work->cones[l + i].coord;
+                    setVector(&(&work->cones[i])[l].xform.scale, n, n, n);
+                    ScaleMatrix(&unit.matrix, &(&work->cones[i])[l].xform.scale);
+                    RotMatrixY(work->cones[l + i].xform.rotation.vy, &unit.matrix);
+                    unit.matrix.t[0] = work->cones[l + i].xform.position.vx;
+                    unit.matrix.t[1] = work->cones[l + i].xform.position.vy;
+                    unit.matrix.t[2] = work->cones[l + i].xform.position.vz;
+                    unit.super = work->cones[l + i].xform.coord;
                     GsGetLsUnit(&unit, &ls);
                     GsSetLsMatrix(&ls);
                     pos.vx = 0;
@@ -388,15 +388,15 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                         n = rsin(j << 8);
                         /* Folding the absolute value into the red product loads red before
                          * the sign test, as the original does. */
-                        r = work->cones[l + i].red * (n = ABS(n)) / 4096;
-                        g = work->cones[l + i].green * n / 4096;
-                        b = work->cones[l + i].blue * n / 4096;
+                        r = work->cones[l + i].head.color[0] * (n = ABS(n)) / 4096;
+                        g = work->cones[l + i].head.color[1] * n / 4096;
+                        b = work->cones[l + i].head.color[2] * n / 4096;
                         setRGB1(&work->tri, r, g, b);
                         setRGB0(&work->tri, r, g, b);
                         n = rsin((j + 1) << 8);
-                        r = work->cones[l + i].red * (n = ABS(n)) / 4096;
-                        g = work->cones[l + i].green * n / 4096;
-                        b = work->cones[l + i].blue * n / 4096;
+                        r = work->cones[l + i].head.color[0] * (n = ABS(n)) / 4096;
+                        g = work->cones[l + i].head.color[1] * n / 4096;
+                        b = work->cones[l + i].head.color[2] * n / 4096;
                         setRGB2(&work->tri, r, g, b);
                         depth = RotAverage3(&pos, &work->ring[j], &work->ring[j + 1], (long *)&work->tri.x0,
                             (long *)&work->tri.x1, (long *)&work->tri.x2, &interpolation, &flag);
@@ -404,18 +404,18 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->tri, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                     }
-                    if ((u16)(work->cones[l + i].duration / 20) < work->cones[l + i].elapsed
+                    if ((u16)(work->cones[l + i].head.duration / 20) < work->cones[l + i].head.elapsed
                         && work->cones[l + i].growth.vx == 0) {
-                        work->spheres[l + i].active = 1;
-                        setVector(&(&work->spheres[i])[l].position, unit.matrix.t[0], -350, unit.matrix.t[2]);
+                        work->spheres[l + i].head.active = 1;
+                        setVector(&(&work->spheres[i])[l].xform.position, unit.matrix.t[0], -350, unit.matrix.t[2]);
                         work->cones[l + i].growth.vx = 1;
                         if (i == 0 && l == 0) {
                             result = 1;
                         }
                     }
-                    work->cones[l + i].elapsed += step;
-                    if (work->cones[l + i].duration < work->cones[l + i].elapsed) {
-                        work->cones[l + i].active = 0;
+                    work->cones[l + i].head.elapsed += step;
+                    if (work->cones[l + i].head.duration < work->cones[l + i].head.elapsed) {
+                        work->cones[l + i].head.active = 0;
                     }
                 } else {
                     inactive++;
@@ -424,37 +424,37 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
         }
         for (l = 0; l < work->emitter_count; l++) {
             for (i = 0; i < work->cone_count; i++) {
-                if (work->spheres[l + i].active == 1) {
+                if (work->spheres[l + i].head.active == 1) {
                     unit.flg = 0;
                     unit.matrix = GsIDMATRIX;
-                    n = (work->spheres[l + i].elapsed << 12) / work->spheres[l + i].duration;
-                    setVector(&(&work->spheres[i])[l].scale, n, n, n);
-                    ScaleMatrix(&unit.matrix, &(&work->spheres[i])[l].scale);
-                    RotMatrixZ(work->spheres[l + i].rotation.vz, &unit.matrix);
-                    RotMatrixX(work->spheres[l + i].rotation.vx, &unit.matrix);
-                    RotMatrixY(work->spheres[l + i].rotation.vy, &unit.matrix);
-                    unit.matrix.t[0] = work->spheres[l + i].position.vx;
-                    unit.matrix.t[1] = work->spheres[l + i].position.vy;
-                    unit.matrix.t[2] = work->spheres[l + i].position.vz;
-                    unit.super = work->spheres[l + i].coord;
+                    n = (work->spheres[l + i].head.elapsed << 12) / work->spheres[l + i].head.duration;
+                    setVector(&(&work->spheres[i])[l].xform.scale, n, n, n);
+                    ScaleMatrix(&unit.matrix, &(&work->spheres[i])[l].xform.scale);
+                    RotMatrixZ(work->spheres[l + i].xform.rotation.vz, &unit.matrix);
+                    RotMatrixX(work->spheres[l + i].xform.rotation.vx, &unit.matrix);
+                    RotMatrixY(work->spheres[l + i].xform.rotation.vy, &unit.matrix);
+                    unit.matrix.t[0] = work->spheres[l + i].xform.position.vx;
+                    unit.matrix.t[1] = work->spheres[l + i].xform.position.vy;
+                    unit.matrix.t[2] = work->spheres[l + i].xform.position.vz;
+                    unit.super = work->spheres[l + i].xform.coord;
                     GsGetLsUnit(&unit, &ls);
                     GsSetLsMatrix(&ls);
-                    if (work->spheres[l + i].duration / 2 < work->spheres[l + i].elapsed) {
-                        n = (work->spheres[l + i].duration - work->spheres[l + i].elapsed) * 2;
-                        d = work->spheres[l + i].duration;
-                        work->spheres[l + i].red = gModelVariant653_aConfigs[work->head.command].line_red * n / d;
-                        work->spheres[l + i].green = gModelVariant653_aConfigs[work->head.command].line_green * n / d;
-                        work->spheres[l + i].blue = gModelVariant653_aConfigs[work->head.command].line_blue * n / d;
+                    if (work->spheres[l + i].head.duration / 2 < work->spheres[l + i].head.elapsed) {
+                        n = (work->spheres[l + i].head.duration - work->spheres[l + i].head.elapsed) * 2;
+                        d = work->spheres[l + i].head.duration;
+                        work->spheres[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].line_red * n / d;
+                        work->spheres[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].line_green * n / d;
+                        work->spheres[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].line_blue * n / d;
                     }
                     for (j = 1; j < 8; j++) {
                         for (k = 0; k < 8; k++) {
                             work->line.attribute = 0x50000000;
-                            work->line.r0 = work->spheres[l + i].red;
-                            work->line.g0 = work->spheres[l + i].green;
-                            work->line.b0 = work->spheres[l + i].blue;
-                            work->line.r1 = work->spheres[l + i].red;
-                            work->line.g1 = work->spheres[l + i].green;
-                            work->line.b1 = work->spheres[l + i].blue;
+                            work->line.r0 = work->spheres[l + i].head.color[0];
+                            work->line.g0 = work->spheres[l + i].head.color[1];
+                            work->line.b0 = work->spheres[l + i].head.color[2];
+                            work->line.r1 = work->spheres[l + i].head.color[0];
+                            work->line.g1 = work->spheres[l + i].head.color[1];
+                            work->line.b1 = work->spheres[l + i].head.color[2];
                             RotTransPers(&work->sphere[k][j], (long *)&work->line.x0, &interpolation, &flag);
                             depth = RotTransPers(&work->sphere[k][j], (long *)&work->line.x1,
                                 &interpolation, &flag);
@@ -463,9 +463,9 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             }
                         }
                     }
-                    work->spheres[l + i].elapsed += step;
-                    if (work->spheres[l + i].duration < work->spheres[l + i].elapsed) {
-                        work->spheres[l + i].active = 0;
+                    work->spheres[l + i].head.elapsed += step;
+                    if (work->spheres[l + i].head.duration < work->spheres[l + i].head.elapsed) {
+                        work->spheres[l + i].head.active = 0;
                     }
                 } else {
                     inactive++;

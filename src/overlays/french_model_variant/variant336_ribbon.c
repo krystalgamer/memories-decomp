@@ -47,14 +47,14 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
                 } else {
                     bend = phase - k * 384 + work->wave1;
                 }
-                setVector(&ribbon->a[k],
+                setVector(&ribbon->spine.a[k],
                           ribbon->origin.vx + MODEL_VARIANT_WORD(work, 0x1F80) * k / 16
                               + (rcos(yaw) * ((rsin(bend) * 64 >> 12) + (rsin(wave) * 48 >> 12)) >> 12),
                           ribbon->origin.vy + MODEL_VARIANT_WORD(work, 0x1F84) * k / 16,
                           ribbon->origin.vz + MODEL_VARIANT_WORD(work, 0x1F88) * k / 16
                               + (rsin(yaw) * ((rsin(bend) * 64 >> 12) + (rsin(wave) * 48 >> 12)) >> 12));
-                setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
-                          ribbon->a[k].vz + (rsin(yaw) * len >> 12));
+                setVector(&ribbon->spine.b[k], ribbon->spine.a[k].vx + (rcos(yaw) * len >> 12), ribbon->spine.a[k].vy,
+                          ribbon->spine.a[k].vz + (rsin(yaw) * len >> 12));
             }
         }
         setVector(&rot, 0, 0, 0);
@@ -73,27 +73,27 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
         for (i = 0; i < 4; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
-                    ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],
-                                                 &ribbon->sa[15], &ribbon->sa[k], &ribbon->sa[15], &ribbon->sa[k],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->spine.a[15], &ribbon->spine.a[k], &ribbon->spine.a[15], &ribbon->spine.a[k],
+                                                 &ribbon->spine.sa[15], &ribbon->spine.sa[k], &ribbon->spine.sa[15], &ribbon->spine.sa[k],
                                                  &p, &ribbon->flag[k]);
-                    RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
-                    dx = (s16)ribbon->sa[k] - (s16)ribbon->sa[15];
-                    dy = (ribbon->sa[k] >> 16) - (ribbon->sa[15] >> 16);
-                    ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                    ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
-                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    RotTransPers(&ribbon->spine.b[k], &ribbon->spine.sb[k], &p, &flag);
+                    dx = (s16)ribbon->spine.sa[k] - (s16)ribbon->spine.sa[15];
+                    dy = (ribbon->spine.sa[k] >> 16) - (ribbon->spine.sa[15] >> 16);
+                    ribbon->spine.angle[k] = ratan2(dy, dx) - 0x400;
+                    ribbon->spine.width[k] = (s16)ribbon->spine.sb[k] - (s16)ribbon->spine.sa[k];
+                    ribbon->offsets.ox[k] = rcos(ribbon->spine.angle[k]) * ribbon->spine.width[k] >> 12;
+                    ribbon->offsets.oy[k] = rsin(ribbon->spine.angle[k]) * ribbon->spine.width[k] >> 12;
                 } else {
-                    ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
-                                                 &ribbon->sa[k], &ribbon->sa[k + 1], &ribbon->sa[k], &ribbon->sa[k + 1],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->spine.a[k], &ribbon->spine.a[k + 1], &ribbon->spine.a[k], &ribbon->spine.a[k + 1],
+                                                 &ribbon->spine.sa[k], &ribbon->spine.sa[k + 1], &ribbon->spine.sa[k], &ribbon->spine.sa[k + 1],
                                                  &p, &ribbon->flag[k]);
-                    RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
-                    dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k];
-                    dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[k] >> 16);
-                    ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                    ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
-                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    RotTransPers(&ribbon->spine.b[k], &ribbon->spine.sb[k], &p, &flag);
+                    dx = (s16)ribbon->spine.sa[k + 1] - (s16)ribbon->spine.sa[k];
+                    dy = (ribbon->spine.sa[k + 1] >> 16) - (ribbon->spine.sa[k] >> 16);
+                    ribbon->spine.angle[k] = ratan2(dy, dx) - 0x400;
+                    ribbon->spine.width[k] = (s16)ribbon->spine.sb[k] - (s16)ribbon->spine.sa[k];
+                    ribbon->offsets.ox[k] = rcos(ribbon->spine.angle[k]) * ribbon->spine.width[k] >> 12;
+                    ribbon->offsets.oy[k] = rsin(ribbon->spine.angle[k]) * ribbon->spine.width[k] >> 12;
                 }
             }
         }
@@ -102,19 +102,19 @@ void FrenchModelVariant336_DrawRibbon(u8 *ctx)
             k = 0;
             poly = work->flat_textured;
             for (; k < ribbon->count; k++) {
-                poly->x0 = ribbon->sa[k] + ribbon->ox[k];
-                poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
-                poly->x1 = ribbon->sa[k + 1] + ribbon->ox[k + 1];
-                poly->y1 = (ribbon->sa[k + 1] >> 16) + ribbon->oy[k + 1];
-                poly->x2 = ribbon->sa[k] - ribbon->ox[k];
-                poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
-                poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
-                poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
+                poly->x0 = ribbon->spine.sa[k] + ribbon->offsets.ox[k];
+                poly->y0 = (ribbon->spine.sa[k] >> 16) + ribbon->offsets.oy[k];
+                poly->x1 = ribbon->spine.sa[k + 1] + ribbon->offsets.ox[k + 1];
+                poly->y1 = (ribbon->spine.sa[k + 1] >> 16) + ribbon->offsets.oy[k + 1];
+                poly->x2 = ribbon->spine.sa[k] - ribbon->offsets.ox[k];
+                poly->y2 = (ribbon->spine.sa[k] >> 16) - ribbon->offsets.oy[k];
+                poly->x3 = ribbon->spine.sa[k + 1] - ribbon->offsets.ox[k + 1];
+                poly->y3 = (ribbon->spine.sa[k + 1] >> 16) - ribbon->offsets.oy[k + 1];
                 poly->r0 = ribbon->color[0];
                 poly->g0 = ribbon->color[1];
                 poly->b0 = ribbon->color[2];
-                if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
-                    GsSortPoly(poly, ot, ribbon->otz[k]);
+                if (ribbon->offsets.otz[k] >= 0 && ribbon->flag[k] >= 0) {
+                    GsSortPoly(poly, ot, ribbon->offsets.otz[k]);
                 }
                 if (!(k & 1)) {
                     poly++;

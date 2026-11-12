@@ -292,7 +292,7 @@ void Ai_CompleteFusion(s32 card_id);
 /* AI script diagnostics. AiScript_Print passes the checkpoint string and its
  * format to printf (the format also receives the checkpoint byte); the
  * nest-overflow and return-underflow errors print with gAiScript_szSourceFile
- * through gAiScript_szSourceLineFormat. */
+ * through a "%s:%d\n" format. */
 extern const char gAiScript_szCheckpoint[];
 extern const char gAiScript_szCheckpointFormat[];
 extern const char gAiScript_szNestOverflowError[];

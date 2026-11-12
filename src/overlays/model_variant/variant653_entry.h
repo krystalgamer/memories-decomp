@@ -40,8 +40,7 @@ typedef struct {
     s32 shadow;
     s16 delay;
     u16 radius, height;
-    u16 tpage[3];
-    u16 clut[3];
+    ModelVariantTextureIds textures;
     u16 unknown_26;
     POLY_GT4 quad;
     POLY_G3 tri;

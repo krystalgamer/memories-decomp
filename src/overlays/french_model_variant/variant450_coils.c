@@ -101,7 +101,7 @@ void ModelVariant433_DrawCoils(u8 *context)
          previous = (Model450Screen *)((u8 *)previous + sizeof(Model450Coil)), coil++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
-                coil->depth[j] = RotTransPers4(
+                coil->offsets.otz[j] = RotTransPers4(
                     &coil->points[15], &coil->points[16], &coil->points[15], &coil->points[16],
                     &previous->packed, &coil->screen[16].packed,
                     &previous->packed, &coil->screen[16].packed, &interpolation, &flag);
@@ -114,10 +114,10 @@ void ModelVariant433_DrawCoils(u8 *context)
                 } else {
                     coil->width[j] = coil->edge_screen[j].point.vx - coil->screen[j].point.vx;
                 }
-                coil->x_offset[j] = rcos(coil->angle[j]) * coil->width[j] >> 12;
-                coil->y_offset[j] = rsin(coil->angle[j]) * coil->width[j] >> 12;
+                coil->offsets.ox[j] = rcos(coil->angle[j]) * coil->width[j] >> 12;
+                coil->offsets.oy[j] = rsin(coil->angle[j]) * coil->width[j] >> 12;
             } else {
-                coil->depth[j] = RotTransPers4(
+                coil->offsets.otz[j] = RotTransPers4(
                     &coil->points[j], &coil->points[j + 1], &coil->points[j], &coil->points[j + 1],
                     &coil->screen[j].packed, &coil->screen[j + 1].packed,
                     &coil->screen[j].packed, &coil->screen[j + 1].packed, &interpolation, &flag);
@@ -130,25 +130,25 @@ void ModelVariant433_DrawCoils(u8 *context)
                 } else {
                     coil->width[j] = coil->edge_screen[j].point.vx - coil->screen[j].point.vx;
                 }
-                coil->x_offset[j] = rcos(coil->angle[j]) * coil->width[j] >> 12;
-                coil->y_offset[j] = rsin(coil->angle[j]) * coil->width[j] >> 12;
+                coil->offsets.ox[j] = rcos(coil->angle[j]) * coil->width[j] >> 12;
+                coil->offsets.oy[j] = rsin(coil->angle[j]) * coil->width[j] >> 12;
             }
         }
     }
     coil = work->coils;
     for (i = 0; i < 2; i++, coil++) {
         for (j = 0; j < 16; j++) {
-            quad->x0 = coil->screen[j].point.vx + coil->x_offset[j];
-            quad->y0 = (coil->screen[j].packed >> 16) + coil->y_offset[j];
-            quad->x1 = coil->screen[j + 1].point.vx + coil->x_offset[j + 1];
-            quad->y1 = (coil->screen[j + 1].packed >> 16) + coil->y_offset[j + 1];
-            quad->x2 = coil->screen[j].point.vx - coil->x_offset[j];
-            quad->y2 = (coil->screen[j].packed >> 16) - coil->y_offset[j];
-            quad->x3 = coil->screen[j + 1].point.vx - coil->x_offset[j + 1];
-            quad->y3 = (coil->screen[j + 1].packed >> 16) - coil->y_offset[j + 1];
+            quad->x0 = coil->screen[j].point.vx + coil->offsets.ox[j];
+            quad->y0 = (coil->screen[j].packed >> 16) + coil->offsets.oy[j];
+            quad->x1 = coil->screen[j + 1].point.vx + coil->offsets.ox[j + 1];
+            quad->y1 = (coil->screen[j + 1].packed >> 16) + coil->offsets.oy[j + 1];
+            quad->x2 = coil->screen[j].point.vx - coil->offsets.ox[j];
+            quad->y2 = (coil->screen[j].packed >> 16) - coil->offsets.oy[j];
+            quad->x3 = coil->screen[j + 1].point.vx - coil->offsets.ox[j + 1];
+            quad->y3 = (coil->screen[j + 1].packed >> 16) - coil->offsets.oy[j + 1];
             setRGB0(quad, coil->color[j].r, coil->color[j].g, coil->color[j].b);
-            if (coil->depth[j] > 0 && coil->field_2AC[j] > 0) {
-                GsSortPoly(quad, ot, (u16)coil->depth[j]);
+            if (coil->offsets.otz[j] > 0 && coil->field_2AC[j] > 0) {
+                GsSortPoly(quad, ot, (u16)coil->offsets.otz[j]);
             }
         }
     }

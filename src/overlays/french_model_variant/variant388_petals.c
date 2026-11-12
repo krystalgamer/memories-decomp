@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant388_petals.h"
+#include "../spanish_model_variant/variant388_entry.h"
 
 /* Builds and draws twelve two-point petal arms around the origin while the
  * state word at +0x1898 is non-negative, then advances the spin, grows the
@@ -14,7 +15,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant388EntryState *work;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -32,25 +33,25 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
-    arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
+    work = (Variant388EntryState *)ctx;
+    arm = (ModelVariantFlaggedSpiralArm *)work->arms;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x16C0);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1848), MODEL_VARIANT_WORD(work, 0x1840)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x1898) >= 0) {
-        radius = MODEL_VARIANT_HALF(work, 0x1888) / 2;
-        eighth = MODEL_VARIANT_HALF(work, 0x1888) / 8;
+    poly = work->packets.textured;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    if (work->phase >= 0) {
+        radius = work->spiral_size / 2;
+        eighth = work->spiral_size / 8;
         /* As in the MODEL418 template, both products are tested for nothing. */
-        if (radius * MODEL_VARIANT_HALF(work, 0x1886) < 0) {
+        if (radius * work->field_1886 < 0) {
             length = 0;
         }
-        if (eighth * MODEL_VARIANT_HALF(work, 0x1886) < 0) {
+        if (eighth * work->field_1886 < 0) {
             length = 0;
         }
-        spread = 0x400 - MODEL_VARIANT_HALF(work, 0x188A);
+        spread = 0x400 - work->spiral_shrink;
         for (i = 0; i < 12; i++, arm++) {
-            phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x1884) * 2;
-            theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x1884);
+            phi = (i << 12) / 12 + work->spiral_angle * 2;
+            theta = (i << 13) / 12 + work->spiral_angle;
             for (k = 0; k < 2; k++) {
                 if (k == 0) {
                     length = spread * 8 / 1024;
@@ -77,9 +78,9 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x1818);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x181C);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x1820);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
@@ -90,7 +91,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
+        arm = (ModelVariantFlaggedSpiralArm *)work->arms;
         for (i = 0; i < 12; i++, arm++) {
             for (k = 0; k < 2; k++) {
                 if (k == 1) {
@@ -116,7 +117,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
                 }
             }
         }
-        arm = (ModelVariantFlaggedSpiralArm *)(work + 0x1050);
+        arm = (ModelVariantFlaggedSpiralArm *)work->arms;
         for (i = 0; i < 12; i++, arm++) {
             for (k = 0; k < 1; k++) {
                 poly->x0 = arm->sa[k] + arm->ox[k];
@@ -168,23 +169,23 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_HALF(work, 0x1884) += 16;
+    work->spiral_angle += 16;
     if (*(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x10) <= MODEL_VARIANT_WORD(work, 0x185C)
-        && MODEL_VARIANT_WORD(work, 0x189C) == 0 && MODEL_VARIANT_HALF(work, 0x1888) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x1888) += MODEL_VARIANT_WORD(work, 0x1864) * 64;
-        if (MODEL_VARIANT_HALF(work, 0x1888) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x1888) = 0x400;
-            MODEL_VARIANT_WORD(work, 0x189C) = 2;
+        && work->field_189C == 0 && work->spiral_size < 0x400) {
+        work->spiral_size += work->clock.step * 64;
+        if (work->spiral_size >= 0x400) {
+            work->spiral_size = 0x400;
+            work->field_189C = 2;
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x185C) >= *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C)
-        && MODEL_VARIANT_HALF(work, 0x188A) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x188A) = (((u32)MODEL_VARIANT_WORD(work, 0x185C)
+        && work->spiral_shrink < 0x400) {
+        work->spiral_shrink = (((u32)MODEL_VARIANT_WORD(work, 0x185C)
             - *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C)) << 10)
             / (*(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x20) - *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C));
-        if (MODEL_VARIANT_HALF(work, 0x188A) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x188A) = 0x400;
-            MODEL_VARIANT_WORD(work, 0x189C) = 4;
+        if (work->spiral_shrink >= 0x400) {
+            work->spiral_shrink = 0x400;
+            work->field_189C = 4;
         }
     }
 }

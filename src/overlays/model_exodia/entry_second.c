@@ -12,10 +12,10 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     ExodiaSecondEntryBeam *beam = work->beams;
     ModelVariantPointSheet *ring = work->rings;
     ModelVariantSpiralWide *colors = work->petals;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_F4 *flat = &work->flat;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result = 0;
     s32 ring_index, ring_point;
     s32 i, j;

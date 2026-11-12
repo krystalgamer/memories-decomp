@@ -62,10 +62,10 @@ s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
 
     ribbon = work->ribbons;
     sheet = work->sheets;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     extra = &work->extra;
     result = 0;
     test = gModelVariant372_szTest1TimPath;

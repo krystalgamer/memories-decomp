@@ -52,9 +52,7 @@ typedef struct {
     ModelVariantRing rings[4];
     Variant415EntryLine lines[2];
     Variant415EntrySweep sweeps[3];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 bars[16];
     POLY_FT4 flat_textured[2];
     u8 unknown_2F20[0x44];

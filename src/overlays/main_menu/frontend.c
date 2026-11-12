@@ -179,7 +179,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bTradeLoadPending != 0) {
@@ -194,7 +194,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bTradeLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bDuelLoadPending != 0) {
@@ -209,34 +209,30 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 gMainMenu_bDuelLoadPending = 0;
             }
         }
-        goto ret_m1;
+        return -1;
     }
 
     if (gMainMenu_bSaveWritePending != 0) {
         if (MemCardDialog_Poll() == 0) {
-            goto ret_m1;
+            return -1;
         }
         Input_ResetPads();
         gMainMenu_bSaveWritePending = 0;
-        goto ret_m1;
+        return -1;
     }
 
     step = gMainMenu_nFadeDirection;
     if (step != 0) {
         level = gMainMenu_bShadeLevel + (step << 3);
         gMainMenu_bShadeLevel = level;
-        if (step > 0) {
-            if ((s8)level < 0) {
-                goto fade_done;
+        if (!(step > 0 && (s8)level < 0)) {
+            if (step >= 0) {
+                return -1;
+            }
+            if ((u8)level != 0) {
+                return -1;
             }
         }
-        if (step >= 0) {
-            goto ret_m1;
-        }
-        if ((u8)level != 0) {
-            goto ret_m1;
-        }
-    fade_done:
         if (gMainMenu_nFadeDirection < 0) {
             ent2 = gMainMenu_pStartPrompt;
             ((u8 *)&ent2->rgb)[2] = 0x80;
@@ -247,7 +243,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
         }
         gMainMenu_nFadeDirection = 0;
-        goto ret_m1;
+        return -1;
     }
 
     entry = gMainMenu_pStartPrompt;
@@ -305,46 +301,36 @@ s32 MainMenu_UpdateFrontendMenu(void)
         timer = step - 1;
         eloop->field_60 = timer;
         first = (u32)gMain_bMenuID < 5;
-        if (first) {
-            if (i >= 5) {
-                goto hide_entry;
-            }
-        } else {
-            count = i;
-            if (count < 5) {
-                goto hide_entry;
-            }
-        }
-        eloop = (DisplayObject *)*slot;
-        first = eloop->field_38.h.field_38;
-        value = eloop->field_34.h.field_36;
-        delta = first - value;
-        value = eloop->field_60;
-        /* Keep the selector/endpoint scratch live as the phase limit. */
-        first = 0x10;
-        frame = first - value;
-        value = (u16)eloop->field_38.h.field_38;
-        if (frame != first) {
-            product = rsin(frame << 6) * delta;
+        if (first ? i < 5 : i >= 5) {
             eloop = (DisplayObject *)*slot;
-            /* In-place truncation avoids the old compiler's quotient copy. */
-            if (product < 0) {
-                product += 0xFFF;
+            first = eloop->field_38.h.field_38;
+            value = eloop->field_34.h.field_36;
+            delta = first - value;
+            value = eloop->field_60;
+            /* Keep the selector/endpoint scratch live as the phase limit. */
+            first = 0x10;
+            frame = first - value;
+            value = (u16)eloop->field_38.h.field_38;
+            if (frame != first) {
+                product = rsin(frame << 6) * delta;
+                eloop = (DisplayObject *)*slot;
+                /* In-place truncation avoids the old compiler's quotient copy. */
+                if (product < 0) {
+                    product += 0xFFF;
+                }
+                product >>= 12;
+                value = (u16)eloop->field_34.h.field_36 + product;
             }
-            product >>= 12;
-            value = (u16)eloop->field_34.h.field_36 + product;
+            *(volatile s16 *)&eloop->xy.h.x = value;
+            if ((frame & 1) != 0) {
+                MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
+            }
+            ((DisplayObject *)*slot)->flags =
+                ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
+        } else {
+            ((DisplayObject *)*slot)->flags =
+                ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        *(volatile s16 *)&eloop->xy.h.x = value;
-        if ((frame & 1) != 0) {
-            MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
-        }
-        ((DisplayObject *)*slot)->flags =
-            ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
-        goto tick_entry;
-    hide_entry:
-        ((DisplayObject *)*slot)->flags =
-            ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-    tick_entry:
         moved++;
         DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
     next_entry:
@@ -413,7 +399,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
-        goto ret_m1;
+        return -1;
     }
 
     if ((gInput_awPadPressed[0] & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {

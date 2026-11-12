@@ -29,14 +29,8 @@ typedef struct {
 
 /* One 0x4C-byte effect record; `spin.vx` counts drawn frames. */
 typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementHead head;
+    ModelVariantElementTransform xform;
     VECTOR spin;
 } Model683Element;
 
@@ -48,8 +42,7 @@ typedef struct {
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
+    ModelVariantEntryPlacement place;
     u16 tpage[6];
     u16 clut[6];
     u16 unknown_2A;

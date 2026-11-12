@@ -14,20 +14,13 @@
 
 /* One 0x50-byte effect part placed through its own coordinate unit. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* A frame counter for the domes and bursts, a shrink/grow toggle for
      * the comets. */
     u16 stage;
     /* Set once a leading dome has launched its comet. */
     u16 launched;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     /* The domes' drift per frame; the comets keep their launch point in
      * vy/vz and their sideways drift in vx. */
     VECTOR velocity;

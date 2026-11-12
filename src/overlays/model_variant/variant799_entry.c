@@ -10,7 +10,7 @@ static const VECTOR gModelVariant799_UnitScale = {4096, 4096, 4096, 0};
 /* Matching quirk: the shock-fan growth is indexed by "bolt - count", which
  * is always negative, so it really reads and writes the flight counters that
  * sit just below the growth table. */
-#define GROWTH(i) work->u.timers.growth[(i) - work->config->count]
+#define GROWTH(i) work->u.timers.growth[(i) - work->config->flight.count]
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -55,7 +55,7 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gModelVariant799_aConfigs[command];
-        for (i = 0; i < work->config->count; i++) {
+        for (i = 0; i < work->config->flight.count; i++) {
             work->u.timers.growth[i] = 0;
             work->u.timers.ray_length[i] = 0;
             setVector(&work->pos[i], 0, 0, 0);
@@ -63,24 +63,24 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
             setVector(&work->angle[i], 0, 0, 0);
             setVector(&work->target[i], 0, 0, 0);
             setVector(&work->origin[i], 0, 0, 0);
-            for (j = 0; j < work->config->ring_count; j++) {
+            for (j = 0; j < work->config->ring.count; j++) {
                 a = rand() % 4096;
                 b = rand() % 4096;
                 setVector(&work->ring[i][j],
-                          work->config->size * ccos(a) / 4096 * ccos(b) / 4096,
-                          work->config->size * csin(a) / 4096 * ccos(b) / 4096,
-                          work->config->size * ccos(a) / 4096 * csin(b) / 4096);
+                          work->config->flight.size * ccos(a) / 4096 * ccos(b) / 4096,
+                          work->config->flight.size * csin(a) / 4096 * ccos(b) / 4096,
+                          work->config->flight.size * ccos(a) / 4096 * csin(b) / 4096);
             }
-            for (j = 0; j < work->config->puff_count; j++) {
+            for (j = 0; j < work->config->puff.count; j++) {
                 a = rand() % 4096 - rand() % 4096;
                 b = rand() % 4096 - rand() % 4096;
                 k = rand() % 4096;
-                setVector(&work->puffs[i][j], work->config->puff_spread * a / 4096,
-                          work->config->puff_spread * b / 4096,
-                          direction * work->config->puff_spread * k / 4096);
-                setVector(&work->puff_velocity[i][j], work->config->puff_speed * a / 4096,
-                          work->config->puff_speed * b / 4096,
-                          direction * work->config->puff_speed * k / 4096);
+                setVector(&work->puffs[i][j], work->config->puff.spread * a / 4096,
+                          work->config->puff.spread * b / 4096,
+                          direction * work->config->puff.spread * k / 4096);
+                setVector(&work->puff_velocity[i][j], work->config->puff.speed * a / 4096,
+                          work->config->puff.speed * b / 4096,
+                          direction * work->config->puff.speed * k / 4096);
                 work->puff_frame[i][j] = 0;
             }
             for (j = 0; j < 64; j++) {
@@ -97,12 +97,12 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
                 setVector(&work->trail[i][j], 0, 0, 0);
             }
             work->arrived[i] = 0;
-            work->bolt[i].r = work->config->bolt_r;
-            work->bolt[i].g = work->config->bolt_g;
-            work->bolt[i].b = work->config->bolt_b;
-            work->glow[i].r = work->config->glow_r;
-            work->glow[i].g = work->config->glow_g;
-            work->glow[i].b = work->config->glow_b;
+            work->bolt[i].r = work->config->color.bolt_r;
+            work->bolt[i].g = work->config->color.bolt_g;
+            work->bolt[i].b = work->config->color.bolt_b;
+            work->glow[i].r = work->config->color.glow_r;
+            work->glow[i].g = work->config->color.glow_g;
+            work->glow[i].b = work->config->color.glow_b;
             work->tail[i] = 0;
             work->trail_head[i] = 0;
             work->u.timers.flight[i] = 0;
@@ -114,13 +114,13 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
             setVector(&work->fan[i][1], work->config->fan_outer * ccos(i * 256) / 4096,
                       -work->config->fan_depth, work->config->fan_outer * csin(i * 256) / 4096);
         }
-        for (i = 0; i < work->config->count; i++) {
+        for (i = 0; i < work->config->flight.count; i++) {
             /* The spark table is indexed by spark only and shares its start
              * with the timers, which the init below resets. */
-            for (j = 0; j < work->config->spark_count; j++) {
-                setVector(&work->u.sparks[j], RANDOM_SPREAD(work->config->spark_spread),
-                          RANDOM_SPREAD(work->config->spark_spread),
-                          RANDOM_SPREAD(work->config->spark_spread));
+            for (j = 0; j < work->config->spark.count; j++) {
+                setVector(&work->u.sparks[j], RANDOM_SPREAD(work->config->spark.spread),
+                          RANDOM_SPREAD(work->config->spark.spread),
+                          RANDOM_SPREAD(work->config->spark.spread));
                 work->spark_frame[i][j] = 0;
             }
             work->spark_count[i] = 0;
@@ -190,9 +190,9 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
         pos.vy = 0;
         pos.vz += -direction * work->config->jitter * (rand() % 4096) / 4096;
         setVector(&work->pos[work->head], m.t[0], m.t[1], m.t[2]);
-        setVector(&work->step[work->head], (pos.vx - work->pos[work->head].vx) / work->config->steps,
-                  (pos.vy - work->pos[work->head].vy) / work->config->steps,
-                  (pos.vz - work->pos[work->head].vz) / work->config->steps);
+        setVector(&work->step[work->head], (pos.vx - work->pos[work->head].vx) / work->config->flight.steps,
+                  (pos.vy - work->pos[work->head].vy) / work->config->flight.steps,
+                  (pos.vz - work->pos[work->head].vz) / work->config->flight.steps);
         setVector(&work->angle[work->head], ratan2(work->step[work->head].vz, work->step[work->head].vy) - 0x400,
                   direction * ratan2(work->step[work->head].vx, work->step[work->head].vz), 0);
         addVector(&work->pos[work->head], &work->step[work->head]);
@@ -209,11 +209,11 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
             setPolyFT4(ft4p);
             ft4p->tpage = work->texture[1] >> 16;
             ft4p->clut = work->texture[1];
-            setRGB0(ft4p, work->config->r, work->config->g, work->config->b);
-            setVector(&quad[0], -work->config->size, -work->config->size, 0);
-            setVector(&quad[1], work->config->size, -work->config->size, 0);
-            setVector(&quad[2], -work->config->size, work->config->size, 0);
-            setVector(&quad[3], work->config->size, work->config->size, 0);
+            setRGB0(ft4p, work->config->color.r, work->config->color.g, work->config->color.b);
+            setVector(&quad[0], -work->config->flight.size, -work->config->flight.size, 0);
+            setVector(&quad[1], work->config->flight.size, -work->config->flight.size, 0);
+            setVector(&quad[2], -work->config->flight.size, work->config->flight.size, 0);
+            setVector(&quad[3], work->config->flight.size, work->config->flight.size, 0);
             setVector(&pos, 0, 0, 0);
             setVector(&rot, 0, 0, 0);
             setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -231,7 +231,7 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
         }
 
         if (work->bolt[i].r || work->bolt[i].g || work->bolt[i].b) {
-            for (j = 0; j < work->config->ring_count; j++) {
+            for (j = 0; j < work->config->ring.count; j++) {
                 setVector(&rot, 0, 0, 0);
                 setVector(&scale, 0x1000, 0x1000, 0x1000);
                 copyVector(&pos, &work->pos[i]);
@@ -248,21 +248,21 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
                 sign = 1;
                 for (k = 0; k < 4; k++) {
                     sign *= -1;
-                    quad[0].vx = -sign * work->config->ring_size;
-                    edge = work->config->ring_size;
+                    quad[0].vx = -sign * work->config->ring.size;
+                    edge = work->config->ring.size;
                     if (k - 2 >= 0) {
                         edge = -edge;
                     }
                     quad[0].vy = edge;
                     quad[0].vz = 0;
                     quad[1].vx = 0;
-                    edge = work->config->ring_size;
+                    edge = work->config->ring.size;
                     if (k - 2 >= 0) {
                         edge = -edge;
                     }
                     quad[1].vy = edge;
                     quad[1].vz = 0;
-                    setVector(&quad[2], -sign * work->config->ring_size, 0, 0);
+                    setVector(&quad[2], -sign * work->config->ring.size, 0, 0);
                     setVector(&quad[3], 0, 0, 0);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4p->x0,
                                       (long *)&ft4p->x1, (long *)&ft4p->x2, (long *)&ft4p->x3, &p, &flag);
@@ -274,36 +274,36 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
                 setRGB0(g3p, work->bolt[i].r, work->bolt[i].g, work->bolt[i].b);
                 setRGB1(g3p, work->bolt[i].r, work->bolt[i].g, work->bolt[i].b);
                 setRGB2(g3p, 0, 0, 0);
-                setVector(&quad[0], 0, -work->config->strip_width, 0);
-                setVector(&quad[1], 0, work->config->strip_width, 0);
+                setVector(&quad[0], 0, -work->config->ring.strip_width, 0);
+                setVector(&quad[1], 0, work->config->ring.strip_width, 0);
                 if (j % 4 == 0) {
-                    setVector(&quad[2], work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (13 - work->u.timers.flight[i]) * -work->step[i].vz);
-                    setVector(&quad[3], work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (13 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
+                    setVector(&quad[2], work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (13 - work->u.timers.flight[i]) * -work->step[i].vz);
+                    setVector(&quad[3], work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (13 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 1) {
-                    setVector(&quad[2], -work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (11 - work->u.timers.flight[i]) * -work->step[i].vz);
-                    setVector(&quad[3], -work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (11 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
+                    setVector(&quad[2], -work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (11 - work->u.timers.flight[i]) * -work->step[i].vz);
+                    setVector(&quad[3], -work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (11 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 2) {
-                    setVector(&quad[2], work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              -work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->u.timers.flight[i]) * -work->step[i].vz);
-                    setVector(&quad[3], work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              -work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
+                    setVector(&quad[2], work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              -work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (12 - work->u.timers.flight[i]) * -work->step[i].vz);
+                    setVector(&quad[3], work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              -work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (12 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 3) {
-                    setVector(&quad[2], -work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              -work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->u.timers.flight[i]) * -work->step[i].vz);
-                    setVector(&quad[3], -work->config->strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              -work->config->strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
+                    setVector(&quad[2], -work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              -work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (12 - work->u.timers.flight[i]) * -work->step[i].vz);
+                    setVector(&quad[3], -work->config->ring.strip_radius * ccos(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              -work->config->ring.strip_radius * csin(work->u.timers.elapsed * 64 % 4096) / 4096,
+                              work->config->flight.steps / (12 - work->u.timers.flight[i]) * ((u32)-work->step[i].vz << 1));
                 }
                 for (k = 0; k < 2; k++) {
                     copyVector(&rot, &work->angle[i]);
@@ -360,26 +360,26 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
                     setRGB1(&g4, work->bolt[i].r / k, work->bolt[i].g / k, work->bolt[i].b / k);
                     setRGB2(&g4, work->bolt[i].r / (k + 1), work->bolt[i].g / (k + 1), work->bolt[i].b / (k + 1));
                     setRGB3(&g4, work->bolt[i].r / (k + 1), work->bolt[i].g / (k + 1), work->bolt[i].b / (k + 1));
-                    setVector(&quad[0], work->trail[i][j].vx, work->trail[i][j].vy - work->config->size / k,
+                    setVector(&quad[0], work->trail[i][j].vx, work->trail[i][j].vy - work->config->flight.size / k,
                               work->trail[i][j].vz);
-                    setVector(&quad[1], work->trail[i][j].vx, work->trail[i][j].vy + work->config->size / k,
+                    setVector(&quad[1], work->trail[i][j].vx, work->trail[i][j].vy + work->config->flight.size / k,
                               work->trail[i][j].vz);
                     setVector(&quad[2], work->trail[i][j - 1].vx,
-                              work->trail[i][j - 1].vy - work->config->size / (k + 1), work->trail[i][j - 1].vz);
+                              work->trail[i][j - 1].vy - work->config->flight.size / (k + 1), work->trail[i][j - 1].vz);
                     setVector(&quad[3], work->trail[i][j - 1].vx,
-                              work->trail[i][j - 1].vy + work->config->size / (k + 1), work->trail[i][j - 1].vz);
+                              work->trail[i][j - 1].vy + work->config->flight.size / (k + 1), work->trail[i][j - 1].vz);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0,
                                       (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
                     }
-                    setVector(&quad[0], work->trail[i][j].vx - work->config->size / k, work->trail[i][j].vy,
+                    setVector(&quad[0], work->trail[i][j].vx - work->config->flight.size / k, work->trail[i][j].vy,
                               work->trail[i][j].vz);
-                    setVector(&quad[1], work->trail[i][j].vx + work->config->size / k, work->trail[i][j].vy,
+                    setVector(&quad[1], work->trail[i][j].vx + work->config->flight.size / k, work->trail[i][j].vy,
                               work->trail[i][j].vz);
-                    setVector(&quad[2], work->trail[i][j - 1].vx - work->config->size / (k + 1),
+                    setVector(&quad[2], work->trail[i][j - 1].vx - work->config->flight.size / (k + 1),
                               work->trail[i][j - 1].vy, work->trail[i][j - 1].vz);
-                    setVector(&quad[3], work->trail[i][j - 1].vx + work->config->size / (k + 1),
+                    setVector(&quad[3], work->trail[i][j - 1].vx + work->config->flight.size / (k + 1),
                               work->trail[i][j - 1].vy, work->trail[i][j - 1].vz);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0,
                                       (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
@@ -416,11 +416,11 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
         ft4p->tpage = work->texture[2] >> 16;
         ft4p->clut = work->texture[2];
         setRGB0(ft4p, 0x80, 0x80, 0x80);
-        setVector(&quad[0], -work->config->puff_size, -work->config->puff_size, 0);
-        setVector(&quad[1], work->config->puff_size, -work->config->puff_size, 0);
-        setVector(&quad[2], -work->config->puff_size, work->config->puff_size, 0);
-        setVector(&quad[3], work->config->puff_size, work->config->puff_size, 0);
-        for (j = 0; j < work->config->puff_count; j++) {
+        setVector(&quad[0], -work->config->puff.size, -work->config->puff.size, 0);
+        setVector(&quad[1], work->config->puff.size, -work->config->puff.size, 0);
+        setVector(&quad[2], -work->config->puff.size, work->config->puff.size, 0);
+        setVector(&quad[3], work->config->puff.size, work->config->puff.size, 0);
+        for (j = 0; j < work->config->puff.count; j++) {
             if (work->puff_frame[i][j] < 16) {
                 copyVector(&pos, &work->origin[i]);
                 addVector(&pos, &work->puffs[i][j]);
@@ -615,8 +615,8 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
                 work->u.timers.ray_length[i] += 0x100;
             }
             work->spark_count[i] += step;
-            if (work->spark_count[i] > work->config->spark_count) {
-                work->spark_count[i] = work->config->spark_count;
+            if (work->spark_count[i] > work->config->spark.count) {
+                work->spark_count[i] = work->config->spark.count;
             }
             if (work->glow[i].r >= 16) {
                 work->glow[i].r -= work->config->fade;
@@ -638,11 +638,11 @@ s32 ModelVariant799_HandleRequest(u8 *context, s32 command)
 
     work->u.timers.elapsed += step;
     PopMatrix();
-    if (work->phase == 7 && work->glow[work->config->count - 1].r == 0 &&
-        work->glow[work->config->count - 1].g == 0 && work->glow[work->config->count - 1].b == 0) {
+    if (work->phase == 7 && work->glow[work->config->flight.count - 1].r == 0 &&
+        work->glow[work->config->flight.count - 1].g == 0 && work->glow[work->config->flight.count - 1].b == 0) {
         return 2;
     }
-    if (work->arrived[work->config->count - 1] == 1 && work->phase == 5) {
+    if (work->arrived[work->config->flight.count - 1] == 1 && work->phase == 5) {
         work->phase = 6;
         return 1;
     }

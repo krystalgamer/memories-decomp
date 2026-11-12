@@ -22,9 +22,9 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     Variant405EntrySpoke *spoke = work->spokes;
     Variant405EntryRibbon *ribbon = work->ribbons;
     Variant405EntryTrail *trail;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *glyph;
     POLY_FT4 *flat = work->flat_textured;
     s32 result = 0;

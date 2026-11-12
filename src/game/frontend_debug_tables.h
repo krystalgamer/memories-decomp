@@ -29,9 +29,6 @@
 #define DEBUG_MENU_ENTRY_HIRATA 18
 #define DEBUG_MENU_ENTRY_EXIT 19
 
-/* The US-only "0001 = %d\n" diagnostic format DebugMenu_UpdateCampaignEntry
-   passes to printf; the Japanese and European builds make no such call. */
-extern const char gDebugMenu_szCampaignValueFormat[];
 /* The six frontend debug HUD format strings and the scene index table,
    declared here so the source that defines them and the four that read
    them cannot drift apart. DebugMenu_UpdateCampaignEntry reads gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat

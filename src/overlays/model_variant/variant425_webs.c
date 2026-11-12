@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant425_entry.h"
 
 /* Header 425's form of the header-418 webs: 5x6 grids projected with
  * RotTransPers3, faded past scale 0x800 and grown to 0x1000. */
@@ -13,7 +14,7 @@ void ModelVariant425_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant425EntryState *work;
     GsOT *ot;
     GsGLINE *line;
     ModelVariantWebSmall *web;
@@ -29,16 +30,16 @@ void ModelVariant425_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
+    work = (Variant425EntryState *)ctx;
     web = (ModelVariantWebSmall *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
-    ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC));
-    line = (GsGLINE *)(work + 0x266C);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    line = (GsGLINE *)((u8 *)work + 0x266C);
     i = 0;
-    ratan2(MODEL_VARIANT_WORD(work, 0x26E0), MODEL_VARIANT_WORD(work, 0x26DC));
-    ratan2(MODEL_VARIANT_WORD(work, 0x26C0), MODEL_VARIANT_WORD(work, 0x26BC));
-    ratan2(MODEL_VARIANT_HALF(work, 0x26DA), MODEL_VARIANT_HALF(work, 0x26D8));
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ratan2(work->direction.vz, work->direction.vy);
+    ratan2(work->screen_delta.vy, work->screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;
@@ -60,9 +61,9 @@ void ModelVariant425_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x26A8);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x26AC);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x26B0);
+        m.t[0] = work->orbit.vx;
+        m.t[1] = work->orbit.vy;
+        m.t[2] = work->orbit.vz;
         scale.vx = level;
         scale.vy = level;
         scale.vz = level;
@@ -91,9 +92,9 @@ void ModelVariant425_DrawWebs(u8 *ctx)
             }
         }
         if (web->scale < 0x1000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x2700) * 128;
+            web->scale += work->clock.step * 128;
             if (web->scale >= 0x1000) {
-                if (MODEL_VARIANT_WORD(work, 0x2748) < 4) {
+                if (work->phase < 4) {
                     web->scale -= 0x1000;
                 } else {
                     web->scale = 0x1000;
@@ -102,8 +103,8 @@ void ModelVariant425_DrawWebs(u8 *ctx)
                 done = 0;
             }
         }
-        if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x2748) == 4) {
-            MODEL_VARIANT_WORD(work, 0x2748) = 5;
+        if (i + 1 == 3 && done == 1 && work->phase == 4) {
+            work->phase = 5;
         }
         i++;
         web++;

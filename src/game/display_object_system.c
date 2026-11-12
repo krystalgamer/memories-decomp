@@ -3,68 +3,25 @@
 
 #include "display_object_depth_bases.h"
 #include "mem_card_work.h"
-#include "mem_card_diagnostic_strings.h"
 #include "mem_card_driver.h"
-#include "mem_card_directory_patterns.h"
-
-/* The .sdata window at 0x8009AF6C, carved as one unit because its objects
- * tile it exactly with no gaps: 4 + 4 + 8 + 4 + 8 = 28 bytes, which is
- * precisely the distance to model_graphics_state at 0x8009AF88.
- *
- * Memory-card strings, display-depth defaults and a MIDI marker share this
- * window, so this file is named for its address rather than one subsystem,
- * the way data_80091510.c is.
- * Splitting it by owner is not possible: the units are smaller than the
- * granularity the split file works in.
- *
- * Splat names seven labels in this range, not five. gDisplayObject_awOrderingTableDepthBases below is one
- * eight-byte object, but code addresses its middle elements directly, so the
- * disassembler also named 0x8009AF76 and 0x8009AF7A. Those two labels are
- * positions inside an array, not separate objects, and defining them
- * separately here would be wrong even though it would produce identical
- * bytes. display_object_helpers.h reached that conclusion first and records
- * the reasoning; this file follows it.
- *
- * Every object carries an explicit .sdata attribute, as the neighbouring
- * carves do. Nothing here is entirely zero, so none of it is at risk of
- * migrating to .sbss, but the attribute is kept for consistency with
- * model_background.c and save_data_payload.c and so that the
- * placement is stated rather than inferred from the -G8 threshold.
- *
- * Array sizes are written out rather than left to the initializer. Each one
- * is what the retail layout requires. The two wildcard arrays include
- * padding beyond their terminators; unsized initializers would omit it. */
-
-/* Directory-entry diagnostic in MemCardWork_UpdateOperation. */
-/* The European builds have no directory-entry format here. */
-#ifndef VERSION_EUROPE
-char gMemCard_szDirectoryEntryFormat[4] = "%s\n";
-#endif
-
-/* Read by MemCardDialog_UpdateSave (mem_card_dialog.c). */
-u8 gMemCardDialog_szAllFilesPattern[4] = "*";
 
 /* Indexed by a display object's ot_index. Declared in
  * display_object_helpers.h, which explains the volatile qualifier and why
  * elements [1] and [3] used to carry private names of their own. The
  * qualifier is load-bearing in display_object_helpers.c, so it belongs on
- * the definition too. */
+ * the definition too.
+ *
+ * It is this unit's only .sdata. Splat names three labels in it: code
+ * addresses its middle elements directly, so the disassembler also named
+ * 0x8009AF76 and 0x8009AF7A. Those are positions inside the array, not
+ * separate objects. The .sdata on either side holds string literals of
+ * mem_card.c and mem_card_driver.c. */
 volatile u16 gDisplayObject_awOrderingTableDepthBases[4] = {
     0x0000,
     0x0020,
     0x0800,
     0x0020,
 };
-
-/* Read by MemCard_DoLoadDirectory as the pattern that lists every file. Same
- * single character as gMemCardDialog_szAllFilesPattern, but a separate object in the image, so it
- * stays separate here. */
-u8 gMemCard_szAllFilesPattern[4] = "*";
-
-/* The MIDI track chunk tag. SD_FindMidiTrackChunk compares against it
- * while walking a sequence, which is what the tag means in a standard MIDI
- * file: the four bytes that introduce each track. */
-u8 gSD_szMidiTrackMarker[8] = "MTrk";
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -969,7 +926,7 @@ void DisplayObject_RenderFrame(void)
     }
 }
 
-/* Entries 0 through 4 of tent_DisplayObjectStreamCommandTable. */
+/* Entries 0 through 4 of gDisplayObjectStream_apfnCommandHandlers. */
 s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
 {
     object->frame_delay = 0;
@@ -1263,7 +1220,7 @@ next:
 /* Initialized data this unit owns at 0x80090FEC, previously a generated blob
    (#2602).
 
-   tent_DisplayObjectStreamCommandTable is the display-object stream handler table.
+   gDisplayObjectStream_apfnCommandHandlers is the display-object stream handler table.
    DisplayObjectStream_ReadNextCommand dispatches table[op ^ 0xFF] for opcodes
    from 0xF0 up. All seven callbacks receive the shared DisplayObjectStreamState
    and operand cursor, including the reset and no-op entries that do not need
@@ -1273,7 +1230,7 @@ next:
    The background records and shadow fan steps that follow it in this image
    belong to model_background_records.c: Japan links the movie-stream and
    model-effect data between the two. */
-s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const u8 *) = {
+s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,
     DisplayObjectStream_Noop,
@@ -1297,7 +1254,7 @@ void DisplayObjectStream_ReadNextCommand(
     p++;
 
     if (op >= 0xF0) {
-        table = tent_DisplayObjectStreamCommandTable;
+        table = gDisplayObjectStream_apfnCommandHandlers;
         do {
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;

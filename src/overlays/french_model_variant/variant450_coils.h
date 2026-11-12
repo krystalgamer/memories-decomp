@@ -16,9 +16,7 @@ typedef struct {
     CVECTOR color[17];
     s32 field_2A8;
     s32 field_2AC[17];
-    s32 depth[17];
-    s16 x_offset[17];
-    s16 y_offset[17];
+    ModelVariantStripOffsets offsets;
 } Model450Coil;
 
 typedef struct {

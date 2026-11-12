@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant335_rings.h"
+#include "variant335_entry.h"
 
 void FrenchModelVariant335_DrawRings(u8 *work)
 {
@@ -10,8 +11,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant335Ring *ring = (Variant335Ring *)(work + 0xD1C);
-    POLY_GT4 *quad = (POLY_GT4 *)(work + 0x2CE4);
+    Variant335Ring *ring = ((Model335EntryState *)work)->rings;
+    POLY_GT4 *quad = &((Model335EntryState *)work)->textured[2];
     GsOT *ot;
     s32 j;
     s32 done;
@@ -31,9 +32,9 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = MODEL_VARIANT_HALF(work, 0x2E18);
-            matrix.t[1] = MODEL_VARIANT_HALF(work, 0x2E1A);
-            matrix.t[2] = MODEL_VARIANT_HALF(work, 0x2E1C);
+            matrix.t[0] = ((Model335EntryState *)work)->aim.target.vx;
+            matrix.t[1] = ((Model335EntryState *)work)->aim.target.vy;
+            matrix.t[2] = ((Model335EntryState *)work)->aim.target.vz;
             scale.vx = ring->scale;
             scale.vy = ring->scale;
             scale.vz = ring->scale;
@@ -93,9 +94,9 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             }
         }
         if (ring->scale <= 4096) {
-            ring->scale += MODEL_VARIANT_WORD(work, 0x2E58) * 64;
+            ring->scale += ((Model335EntryState *)work)->clock.step * 64;
             if (ring->scale >= 4096) {
-                if (MODEL_VARIANT_WORD(work, 0x2EA0) < 7) {
+                if (((Model335EntryState *)work)->phase < 7) {
                     ring->scale -= 4096;
                     ring->cycles++;
                 } else {
@@ -105,8 +106,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             }
         }
         if (j + 1 == 3 && done == 1
-            && MODEL_VARIANT_WORD(work, 0x2EA0) == 7) {
-            MODEL_VARIANT_WORD(work, 0x2EA0) = 8;
+            && ((Model335EntryState *)work)->phase == 7) {
+            ((Model335EntryState *)work)->phase = 8;
         }
     }
 }

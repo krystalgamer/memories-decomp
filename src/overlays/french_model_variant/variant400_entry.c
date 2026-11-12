@@ -16,10 +16,10 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
     Variant400EntryNode *node = work->nodes;
     ModelVariantPointSheet *sheet = work->sheets;
     ModelVariantStreamer *column = work->columns;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result;
     s32 sheet_index, sheet_point;
     s32 i, j, angle;
@@ -88,16 +88,16 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(flat, 1);
         SetShadeTex(flat, 1);
         for (i = 0; i < 5; i++, node++) {
-            setVector(&node->scale, 4096, 4096, 4096);
-            node->inner.r = 128;
-            node->inner.g = 128;
-            node->inner.b = 128;
-            node->outer.r = 0;
-            node->outer.g = 16;
-            node->outer.b = 128;
-            node->field_238 = 0;
-            node->field_23A = 0;
-            node->field_23C = 0;
+            setVector(&node->style.scale, 4096, 4096, 4096);
+            node->style.inner.r = 128;
+            node->style.inner.g = 128;
+            node->style.inner.b = 128;
+            node->style.outer.r = 0;
+            node->style.outer.g = 16;
+            node->style.outer.b = 128;
+            node->style.field_18 = 0;
+            node->style.count = 0;
+            node->style.field_1C = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i % 2 == 1) {

@@ -9,7 +9,9 @@
 #include "high_memory_addresses.h"
 
 /* Read-only data this unit owns ahead of its jump table: the CD path
- * File_RequestMainMenuPackage queues the package from. */
+ * File_RequestMainMenuPackage queues the package from. It is not a literal:
+ * GCC would emit one with File_RequestMainMenuPackage, after
+ * MainMenu_LoadPackageStage's jump table. */
 u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
     "M:/mrgSU/SU.mrg";
 

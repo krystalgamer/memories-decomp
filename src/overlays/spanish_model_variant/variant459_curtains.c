@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant459_sheets.h"
+#include "variant459_entry.h"
 
 #define CURTAIN459_TIMING(work) (*(Timing459 **)((u8 *)(work) + 0x309C))
 
@@ -55,12 +56,12 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     u8 b1;
 
     work = ctx;
-    curtain = (ModelVariantCurtain *)(work + 0x848);
+    curtain = ((Variant459EntryState *)work)->rings;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x305C), MODEL_VARIANT_WORD(work, 0x3054)) + 0x800;
-    sheet = (ModelVariantSheet *)(work + 0x2568);
-    poly = (POLY_GT4 *)(work + 0x2DFC);
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x3058), MODEL_VARIANT_WORD(work, 0x305C)) + 0x800;
+    yaw = ratan2(((Variant459EntryState *)work)->aim.direction.vz, ((Variant459EntryState *)work)->aim.direction.vx) + 0x800;
+    sheet = ((Variant459EntryState *)work)->sheets;
+    poly = &((Variant459EntryState *)work)->ray;
+    pitch = ratan2(((Variant459EntryState *)work)->aim.direction.vy, ((Variant459EntryState *)work)->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
@@ -71,8 +72,8 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
         radius = lift + 0x80;
         if (curtain->scale > 0) {
             size = curtain->scale;
-            for (j = 0, angle = MODEL_VARIANT_WORD(work, 0x30C8); j < 17;
-                 j++, angle = MODEL_VARIANT_WORD(work, 0x30C8) + j * 256) {
+            for (j = 0, angle = ((Variant459EntryState *)work)->curtain_angle; j < 17;
+                 j++, angle = ((Variant459EntryState *)work)->curtain_angle + j * 256) {
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 6, 0);
                 setVector(&curtain->b[j], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, -(lift + 0x40));
             }
@@ -124,7 +125,7 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
                 }
             }
         }
-        if (curtain->scale < CURTAIN459_TIMING(work)->limit && MODEL_VARIANT_WORD(work, 0x30DC) < 3) {
+        if (curtain->scale < CURTAIN459_TIMING(work)->limit && ((Variant459EntryState *)work)->phase < 3) {
             curtain->scale = CURTAIN459_TIMING(work)->limit * (u32)MODEL_VARIANT_WORD(work, 0x3084) / CURTAIN459_TIMING(work)->grow_end;
             if (curtain->scale >= CURTAIN459_TIMING(work)->limit) {
                 curtain->scale = CURTAIN459_TIMING(work)->limit;
@@ -134,5 +135,5 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
             curtain->scale = rec->limit - rec->limit * ((u32)MODEL_VARIANT_WORD(work, 0x3084) - (u32)start) / (rec->fade_end - (u32)start);
         }
     }
-    MODEL_VARIANT_WORD(work, 0x30C8) += MODEL_VARIANT_WORD(work, 0x308C) * 80;
+    ((Variant459EntryState *)work)->curtain_angle += ((Variant459EntryState *)work)->clock.step * 80;
 }
