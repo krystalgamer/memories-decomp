@@ -28,8 +28,8 @@ u8 gMovie_FileInfo[24];
 s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector,
                      s32 rgb24, s32 copy_display_on_stop) {
     RECT rect;
-    s32 m;
-    s32 r;
+    s32 active_buffer;
+    s32 result;
 
     gMovie_bStreamEnded = 0;
     gMovie_bFadingOut = 0;
@@ -43,8 +43,8 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
            no arguments. The call goes through a two-argument view of the
            libgs.h declaration so that setup survives with the prototype in
            scope, instead of through an implicit declaration. */
-        m = ((int (*)(void *, s32))GsGetActiveBuff)(gRuntime_pSharedWorkBase, copy_display_on_stop);
-        rect.x = m * 0x140;
+        active_buffer = ((int (*)(void *, s32))GsGetActiveBuff)(gRuntime_pSharedWorkBase, copy_display_on_stop);
+        rect.x = active_buffer * 0x140;
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.pixels;
         rect.h = gGraphics_CurrentHeight.word;
@@ -52,7 +52,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
         DrawSync(0);
         VSync(0);
         GsSwapDispBuff();
-        rect.x = (m ^ 1) * 0x140;
+        rect.x = (active_buffer ^ 1) * 0x140;
         rect.w = gGraphics_CurrentWidth.pixels;
         rect.y = 0;
         rect.h = gGraphics_CurrentHeight.word;
@@ -101,9 +101,9 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
         gMovie_dwEndFrame = gMovie_dwEndFrame - 4;
     }
     Movie_SeekAndStartRead(&gMovie_StreamLoc);
-    r = Movie_WaitAndDecodeFrame(0);
-    if (r != 0) {
-        return r;
+    result = Movie_WaitAndDecodeFrame(0);
+    if (result != 0) {
+        return result;
     }
     return 0;
 }
@@ -122,10 +122,10 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
 
 s32 Movie_StopStream(s32 copy_display) {
     RECT rect;
-    u8 buf[0x3C0];
+    u8 clear_row[0x3C0];
     s32 i;
-    s32 m;
-    u8 *q;
+    s32 active_buffer;
+    u8 *fill;
 
     DrawSync(0);
     SD_SetCdVolumeImmediate(0);
@@ -141,20 +141,20 @@ s32 Movie_StopStream(s32 copy_display) {
     }
     if (gMovie_bRgb24 != 0) {
         i = 0;
-        m = GsGetActiveBuff();
-        q = buf;
+        active_buffer = GsGetActiveBuff();
+        fill = clear_row;
         for (; i < 0x3C0; i += 3) {
-            *q++ = gGraphics_bClearRed;
-            *q++ = gGraphics_bClearGreen;
-            *q++ = gGraphics_bClearBlue;
+            *fill++ = gGraphics_bClearRed;
+            *fill++ = gGraphics_bClearGreen;
+            *fill++ = gGraphics_bClearBlue;
         }
         rect.x = 0;
         i = 0;
-        rect.y = m << 8;
+        rect.y = active_buffer << 8;
         rect.w = 0x1E0;
         rect.h = 1;
         for (; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)buf);
+            LoadImage(&rect, (u32 *)clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -163,7 +163,7 @@ s32 Movie_StopStream(s32 copy_display) {
         rect.h = 1;
         rect.w = gGraphics_CurrentWidth.pixels;
         for (i = 0; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)buf);
+            LoadImage(&rect, (u32 *)clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -171,12 +171,12 @@ s32 Movie_StopStream(s32 copy_display) {
         VSync(0);
         i = 0;
         GsSwapDispBuff();
-        rect.y = (m ^ 1) << 8;
+        rect.y = (active_buffer ^ 1) << 8;
         rect.w = 0x1E0;
         rect.x = 0;
         rect.h = 1;
         for (; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)buf);
+            LoadImage(&rect, (u32 *)clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -591,11 +591,11 @@ int Movie_StepPlayback(void)
 
 int Movie_MoveDisplayImage(int first, int second)
 {
-    DISPENV local;
+    DISPENV display_env;
 
-    GetDispEnv(&local);
+    GetDispEnv(&display_env);
     while (IsIdleGPU(3) != 0) {}
-    while (MoveImage2(&local.disp, first, second) != 0) {}
+    while (MoveImage2(&display_env.disp, first, second) != 0) {}
     return 0;
 }
 
