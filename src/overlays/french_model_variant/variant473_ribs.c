@@ -50,7 +50,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
-    poly = work->textured;
+    poly = work->packets.textured;
     if (!(work->frame_count & 1)) {
         spread = work->width / 16;
     } else {

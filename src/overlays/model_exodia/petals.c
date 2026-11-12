@@ -35,7 +35,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     arm = (ModelVariantFlaggedSpiralArm *)work->petals;
-    poly = work->textured;
+    poly = work->packets.textured;
     radius = work->petal_radius * 4;
     eighth = work->petal_radius / 8;
     /* The template tests retain both products, but their assignments are dead. */
