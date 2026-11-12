@@ -11296,60 +11296,49 @@ s32 Ai_SelectFusionPlay(void) {
         return 1;
     }
     Duel_CollectFieldCardsByType(list1, DUEL_FIELD_ROW_SIZE, -1);
+    /* loop.c moves each selection exit after the barrier of the first
+       `return 1`, giving retail's order of both exits ahead of phase two. */
     for (i = 0; (card_a = list0[i]) != 0; i++) {
         for (j = 0; (card_b = list1[j]) != 0; j++) {
             if (Duel_CheckFusion(*(s16 *)&card_a->card_id, *(s16 *)&card_b->card_id)) {
-                goto found1;
+                AiSelectionFields *st;
+                s8 v;
+
+                st = &gAi_Selection.fields;
+                v = card_a->table_index;
+                st->field1 = 0;
+                st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+                v = card_b->table_index;
+                st->value = v % DUEL_FIELD_ROW_SIZE + 1;
+                st->zero = rand() & 1;
+                st->face_down = 0;
+                return 0;
             }
         }
     }
     slot = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
-    if (slot >= 0) {
-        goto phase2;
+    if (slot < 0) {
+        return 1;
     }
-    return 1;
-
-found1:
-    {
-    AiSelectionFields *st;
-    s8 v;
-
-    st = &gAi_Selection.fields;
-    v = card_a->table_index;
-    st->field1 = 0;
-    st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-    v = card_b->table_index;
-    st->value = v % DUEL_FIELD_ROW_SIZE + 1;
-    st->zero = rand() & 1;
-    st->face_down = 0;
-    return 0;
-    }
-
-found2:
-    {
-    AiSelectionFields *st;
-    s8 v;
-    s8 w;
-
-    st = &gAi_Selection.fields;
-    v = card_a->table_index;
-    st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-    w = card_b->table_index;
-    st->field_02 = 0;
-    st->value = slot % DUEL_FIELD_ROW_SIZE + 1;
-    st->field1 = w % DUEL_FIELD_ROW_SIZE + 0xB;
-    st->zero = rand() & 1;
-    st->face_down = 0;
-    return 0;
-    }
-
-phase2:
     Duel_CollectFieldCardsBelowType(list1, 0, CARD_TYPE_MAGIC);
     for (i = 0; (card_a = list0[i]) != 0; i++) {
         for (j = 0; (card_b = list1[j]) != 0; j++) {
             if (*(s8 *)&card_a->table_index != *(s8 *)&card_b->table_index &&
                 Duel_CheckFusion(*(s16 *)&card_a->card_id, *(s16 *)&card_b->card_id)) {
-                goto found2;
+                AiSelectionFields *st;
+                s8 v;
+                s8 w;
+
+                st = &gAi_Selection.fields;
+                v = card_a->table_index;
+                st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+                w = card_b->table_index;
+                st->field_02 = 0;
+                st->value = slot % DUEL_FIELD_ROW_SIZE + 1;
+                st->field1 = w % DUEL_FIELD_ROW_SIZE + 0xB;
+                st->zero = rand() & 1;
+                st->face_down = 0;
+                return 0;
             }
         }
     }
