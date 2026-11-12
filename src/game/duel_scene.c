@@ -6136,13 +6136,6 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
                     b4 + j2 * sizeof(u16) + off4)->table.words[0];
             return 1;
         }
-        if (0) {
-        hit:
-            w = e->object;
-            gDuel_wSelectedTrapCardId = v;
-            gDuel_bSelectedTrapSlot = w->field_6A;
-            return 1;
-        }
     }
     i = 0;
     tbl3 = gDuel_abFieldGridCardRecordIndices.flat;
@@ -6155,7 +6148,12 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             v = e->card_id;
             if (v == k) {
-                goto hit;
+                /* loop.c moves this exit back after the threshold pass's
+                   `return 1`, where retail keeps it. */
+                w = e->object;
+                gDuel_wSelectedTrapCardId = v;
+                gDuel_bSelectedTrapSlot = w->field_6A;
+                return 1;
             }
         }
     }
