@@ -2439,7 +2439,7 @@ void SaveData_RequestOptionsWrite(void)
  * range crosses the wait loop's calls in 0xA); the record passed to
  * TextBox_Destroy as its ADDRESS, index-first (`&gText_aChannels[i]`; m2c had read
  * it as a load); case 3's `v = 0` before the gMemCardDialog_Port store reaching a
- * SHARED `return v` through a goto, so the zero stays a variable; and the
+ * SHARED `return v` by falling through, so the zero stays a variable; and the
  * flags read through a block-local base `q = gText_aChannels` so the 0x34 is a
  * load displacement rather than folded into %lo. */
 
@@ -2522,11 +2522,8 @@ s32 SaveData_UpdateLoadPair(void)
                 );
                 v = 0;
                 gMemCardDialog_Port = 0x10;
-                goto done;
             }
-            return v;
         }
-    done:
         return v;
     case 0xA:
         if ((gSaveData_LoadPairState & 0x80) == 0) {
