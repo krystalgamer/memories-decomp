@@ -1221,7 +1221,6 @@ CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 gMain_bSoundVSyncBusy = 0x8009AF0C; // defined:True
-gDuelEffect_szDecimalTraceFormat = 0x8009AF40; // defined:True
 gDebugMenu_wMessageId = 0x8009AF44; // defined:True
 gDebugMenu_wCampaignScene = 0x8009AF46; // defined:True
 gDebugMenu_awNibbleMasks = 0x8009AF4C; // defined:True

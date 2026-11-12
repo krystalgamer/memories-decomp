@@ -246,6 +246,8 @@ segments:
       - [0x8b64d, pad]
       - [0x8b650, .sdata, game/file_transfer_runtime]
       - [0x8b660, .sdata, game/japanese/duel_scene]
+      - [0x8b684, .sdata, game/japanese/duel_field_card_objects]
+      - [0x8b68b, pad]
       - [0x8b68c, .sdata, game/japanese/debug_menu]
       - [0x8b6a4, .sdata, game/options_layout_position_data]
       - [0x8b6ac, .sdata, game/japanese/mem_card]

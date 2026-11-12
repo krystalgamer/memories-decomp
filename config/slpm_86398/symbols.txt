@@ -1402,7 +1402,6 @@ DuelEffect_StartCardEffect = 0x800269B8;
 gDuel_aFieldGridGroundPositions = 0x800906B0;
 gDuelEffect_apfnGroupHandler = 0x8009090C;
 gDuelEffect_abGroupByEffectId = 0x80090984;
-gDuelEffect_szDecimalTraceFormat = 0x8009AE80;
 gDuel_sCardEffectIndex = 0x8009B098;
 gDuel_wEffectCardID = 0x8009B0C2;
 DebugMenu_NoOpBustUpFrame = 0x80031084;
