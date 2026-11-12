@@ -241,31 +241,36 @@ void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
         TextGlyphLookupEntry *entry = &gText_aGlyphLookup[index];
         u32 word = entry->packed;
 
-        goto test;
-large:
-        dst[0] = (index >> 8) | -16;
-        dst[1] = index;
-        dst += 2;
-        goto next;
-body:
-        if (entry->halves.key == value) {
-            if (index < TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
-                *dst = index;
-                goto bump;
+        /* The constant switch enters the lookup scan at its word test, as
+           retail does. The empty do/while stops the loop expander rotating
+           the two-byte break to the bottom; loop.c then moves that block in
+           front of the scan. */
+        switch (0) {
+            for (;;) {
+                do {
+                } while (0);
+                if (entry->halves.key == value) {
+                    if (index >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
+                        dst[0] = (index >> 8) | -16;
+                        dst[1] = index;
+                        dst += 2;
+                        break;
+                    }
+                    *dst = index;
+                } else {
+                    entry++;
+                    word = entry->packed;
+                    index++;
+        case 0:
+                    if (word != 0) {
+                        continue;
+                    }
+                    *dst = 0;
+                }
+                dst++;
+                break;
             }
-            goto large;
         }
-        entry++;
-        word = entry->packed;
-        index++;
-test:
-        if (word != 0)
-            goto body;
-        *dst = 0;
-bump:
-        dst++;
-next:
-        ;
     }
     *dst = TEXT_STRING_TERMINATOR;
 }

@@ -218,17 +218,20 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     dst = found;
     q = p;
     for (j = 0; j < DUEL_RITUAL_TRIBUTE_COUNT; j++) {
-        for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+        for (i = 0;;) {
             card = (c = first[i]);
-            if (card != 0 && card->card_id == q[0]) {
-                goto matched;
+            if (card == 0 || card->card_id != q[0]) {
+                i++;
+                if (i < DUEL_FIELD_ROW_SIZE) {
+                    continue;
+                }
+                return 0;
             }
+            *dst++ = card;
+            first[i] = 0;
+            q++;
+            break;
         }
-        return 0;
-matched:
-        *dst++ = card;
-        first[i] = 0;
-        q++;
     }
 
     if (out != 0) {

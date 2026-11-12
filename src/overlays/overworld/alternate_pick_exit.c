@@ -44,10 +44,10 @@ s32 CampaignMap_PickAlternateExit(void)
         }
     }
     i = 0;
-    while (i < 4) {
+    for (; i < 4; q++, i++) {
         if (q->f9 != 16) {
             if (q->f0 != 0 && func_8004EB9C(q->f0) == 0) {
-                goto next;
+                continue;
             }
             if ((D_800C4E74 & q->f6) != 0) {
                 gCampaignMapAlt_MoveState = q->f10;
@@ -55,9 +55,11 @@ s32 CampaignMap_PickAlternateExit(void)
                 return q->f9;
             }
         }
+        /* No goto targets this label. At -O0 a statement label is what
+           emits the nop retail has between the if's end and the for's
+           continue point (the q++/i++ that `continue` reaches). */
     next:
-        q++;
-        i++;
+        ;
     }
     return -1;
 }
