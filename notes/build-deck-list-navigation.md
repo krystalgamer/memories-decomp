@@ -36,7 +36,7 @@ cursor position and is not renamed by this result.
 ## Shared card-entry contract
 
 The initializer, sorters, count updates, text boxes and page renderer all
-operate on the same sixteen-byte `CardEntry` in `card_list_text_boxes.h`.
+operate on the same sixteen-byte `CardEntry` in `build_deck.h`.
 The former `CardListSortItem` and European `CardListRenderEntry` were partial
 views of those same rows, not separate allocations or formats.
 

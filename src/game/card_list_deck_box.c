@@ -9,7 +9,7 @@
 #include "duel_card.h"
 #include "card_list_deck_box.h"
 #include "card_list_rows.h"
-#include "card_list_sort_icons.h"
+#include "build_deck.h"
 #include "duel_effect_text.h"
 #include "duel_effect_states.h"
 #include "text_staging.h"

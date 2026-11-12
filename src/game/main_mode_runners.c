@@ -85,7 +85,6 @@ u8 gMain_bActiveModeState;
 
 #include "../game/shared_work_base.h"
 #include "../game/main_mode_state.h"
-#include "build_deck_draw_card_list_page_data.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
@@ -251,7 +250,6 @@ void Main_RunAnimatedBattle(void)
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "main_mode_state.h"
-#include "build_deck_draw_card_list_page_data.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
