@@ -6,8 +6,8 @@
  * been seen to name. */
 #define MAIN_MENU_STATE __attribute__((section(".data")))
 
-struct DisplayObject *D_80184558 MAIN_MENU_STATE = 0;
-struct DisplayObject *D_8018455C MAIN_MENU_STATE = 0;
+struct DisplayObject *gMainMenu_pTitleLogo MAIN_MENU_STATE = 0;
+struct DisplayObject *gMainMenu_pCopyrightNotice MAIN_MENU_STATE = 0;
 struct DisplayObject *gMainMenu_pStartPrompt MAIN_MENU_STATE = 0;
 u8 *D_80184564 MAIN_MENU_STATE = 0;
 u8 *gMain_apMenuEntries[11] MAIN_MENU_STATE = {0};
@@ -25,7 +25,7 @@ u8 D_8018459E MAIN_MENU_STATE = 4;
 u8 D_8018459F MAIN_MENU_STATE = 0x24;
 
 DisplayObject *D_801845A0 MAIN_MENU_STATE = 0;
-DisplayObject *D_801845A4 MAIN_MENU_STATE = 0;
+DisplayObject *gMainMenu_pValueSetupPanel MAIN_MENU_STATE = 0;
 DisplayObject *D_801845A8 MAIN_MENU_STATE = 0;
 DisplayObject *D_801845AC MAIN_MENU_STATE = 0;
 DisplayObject *gMainMenu_apValueSetupCursors[3] MAIN_MENU_STATE = {0};

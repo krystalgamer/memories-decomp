@@ -1,10 +1,17 @@
 # Main Menu Overlay
 
 The frontend's Start-button prompt and its shared, separately loaded
-display-resource bank now have canonical C bindings. The two other singleton
-sprites retain native names because their artwork is not identified. See
+display-resource bank now have canonical C bindings. The two other frontend
+singleton sprites and the value-setup sprite are bound as
+`gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice` and
+`gMainMenu_pValueSetupPanel` from their decoded artwork. That artwork was
+rendered only from the North American `SU.MRG` resource bank and uploads;
+the Japanese and PAL banks were not rendered, so those images inherit the
+bindings through the shared C and selectors only. The two default-resource
+handles `D_801845A0` and `D_801845DC` stay native. See
 [display ownership](../../../notes/overlays/main-menu-display-ownership.md)
-for the input/lifecycle evidence, exact storage views and regional scope.
+for the input/lifecycle evidence, the decode, exact storage views and
+regional scope.
 
 This directory contains matching source from the main-menu runtime
 module.
@@ -138,9 +145,13 @@ transition and installs the background callback. It is not the archive
 loader or input pump. Final state is not simply all zero: the transition
 starter sets active byte `gMainMenu_bTransitionActive` to 1, and nonzero selection sets
 `gMainMenu_bShadeLevel` to `0x80`. Individual allocation checks do not make the final
-third-singleton access in that nonzero-selection path null-safe. The
-singleton artwork and the meaning of the retained sound argument `0x7000`
-remain unassigned.
+third-singleton access in that nonzero-selection path null-safe. The three
+singletons are the title logo, copyright notice and Start prompt (variants
+0, 2 and 1 of resource 5/0); the first two identities come from the North
+American `SU.MRG` artwork decode only, with Japanese and PAL artwork not
+rendered.
+
+The meaning of the retained sound argument `0x7000` remains unassigned.
 
 `MainMenu_StartFrontendEntryTransition` (`0x80180D2C`) is the internal
 endpoint initializer, not the interpolator. It skips null entries, but
@@ -650,8 +661,8 @@ and `frontend_update.c` spelled it `s8`, and spreading the wrong one is worse
 than leaving it local. One unit forces the choice and the evidence is
 one-sided: the updater assigns `1` and `-1` and tests `< 0`, so it is a signed
 fade direction; the init file only ever wrote `0`, which is why its `u8` was
-harmless rather than right. `D_80184558/5C/60` were the same shape, `u8 *` in
-two sources and `void *` in a third; `u8 *` wins because two of the three
+harmless rather than right. `gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice`
+and `gMainMenu_pStartPrompt` were the same shape, `u8 *` in two sources and `void *` in a third; `u8 *` wins because two of the three
 index them by byte offset while the third only passes them to a `void *`
 parameter. All four now live in `frontend.h`.
 
@@ -688,7 +699,7 @@ absent because their declarers disagreed. `gMainMenu_apValueSetupCursors` was sp
 `void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
 renderer dereferences it through named fields more than twenty times while
 the other three users only do byte arithmetic, which a cast covers.
-`D_801845A0` and `D_801845A4` were each `void *` and `u8 *`; `u8 *` wins,
+`D_801845A0` and `gMainMenu_pValueSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 

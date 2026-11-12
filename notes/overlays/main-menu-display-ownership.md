@@ -1,7 +1,9 @@
 # Main-menu prompt and display-resource ownership
 
 This component binds two proven ownership roles across the complete
-frontend and value-setup consumers, without identifying unknown artwork.
+frontend and value-setup consumers. A later North-American-only artwork
+decode (below) additionally binds three sprite handles; Japanese and PAL
+artwork was not rendered.
 It starts from accepted request-handoff master
 `055429fd98e74e9852b2a65205e52f7d142b7373`.
 
@@ -28,12 +30,48 @@ new menu behavior is inferred. `MainMenu_DestroyFrontendMenu` releases
 and clears the same stored handle in the same position among the three
 singleton releases.
 
-This proves a Start-input prompt role. It does not prove the printed
-wording, image pixels or original Konami symbol. The first two row-241
-singletons stay `D_80184558` and `D_8018455C`: their visual identities are
-not established. Existing aggregate member names are not additional
-visual evidence and the complete aggregate declaration/initializer remains
+This proves a Start-input prompt role. It does not prove the original
+Konami symbol. Existing aggregate member names are not additional visual
+evidence and the complete aggregate declaration/initializer remains
 untouched.
+
+## Statically decoded singleton artwork
+
+The other two row-241 singletons, formerly `D_80184558` and `D_8018455C`,
+are named from their decoded artwork. All three select resource root 5,
+branch 0 of `gDisplay_abResourceBank1` (SU sector 114) with texture page
+`0x1A`, the 8-bit (`attribute 0x1000000`) mode and CLUT row 241, at
+variants 0, 2 and 1. Following `DisplayObject_UpdateCommandStream`'s three
+base-relative halfword tables, the first frame command's offset and
+`DisplayObject_RenderSpriteSheet`'s part decoding (10-bit offsets for
+header flag `0x10`) over the SU stage-0/1/2 VRAM uploads renders:
+
+| Variant | Parts | Artwork | Name |
+|---:|---:|---|---|
+| 0 | 7 | "Yu-Gi-Oh! Forbidden Memories" title logo, parts spanning (0,0)-(320,168) | `gMainMenu_pTitleLogo` |
+| 1 | 3 | "PUSH START BUTTON" | existing `gMainMenu_pStartPrompt` |
+| 2 | 3 | "(C) 1996 KAZUKI TAKAHASHI" | `gMainMenu_pCopyrightNotice` |
+
+Variant 1 reproducing the Start prompt that the input evidence already
+identified checks the decoder. The value-setup sprite formerly
+`D_801845A4` (bank 1 resource 6/0 variant 0, 4-bit page `0x0E`, CLUT row
+245) decodes the same way to a 46-part, 320 by 160 framed 2P-duel rules
+panel whose own first-frame parts draw the "REGULATION OF 2P-DUEL RULES",
+"CARD INDICATE", "DECK NUMBER", "OPEN CARD" and "1P/2P" captions over the
+frame (same-depth parts are prepended to the ordering table, so the first
+record is drawn last); it is `gMainMenu_pValueSetupPanel`.
+
+Provenance is North American only: the input is `game/DATA/SU.MRG`
+(SHA-256 `c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51`,
+listed in `config/slus_01411/files.sha256`), sectors 0..97 for the VRAM and
+CLUT uploads and sector 114 for the bank. The Japanese and PAL images run
+the same C with the same selectors, but their banks and uploads were not
+rendered, so their artwork is not independently confirmed. The decoder is
+local scratch and no retail bytes or rendered images are committed.
+
+`D_801845A0` and `D_801845DC` remain native: they use the resident default
+resource at `tail_data_start` (`0x801AC000`), whose runtime contents are
+not present in the executable image, so their artwork is still unproven.
 
 ## The resource bank is not executable padding
 

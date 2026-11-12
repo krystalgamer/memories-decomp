@@ -73,7 +73,10 @@ gMainMenu_bBackRequested = 0x80184595;
 gTrade_aSide1WorkingCards = 0x80185144;
 gTrade_bSide1CursorRow = 0x80185CCB;
 gTrade_abSortMode = 0x80185CCC;
+gMainMenu_pTitleLogo = 0x80184558;
+gMainMenu_pCopyrightNotice = 0x8018455C;
 gMainMenu_pStartPrompt = 0x80184560;
+gMainMenu_pValueSetupPanel = 0x801845A4;
 gMainMenu_abValueSetupChoices = 0x801845BC;
 gMainMenu_bValueSetupToggleChoice = 0x801845BE;
 

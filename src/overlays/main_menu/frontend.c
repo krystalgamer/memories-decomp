@@ -50,23 +50,23 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     gMain_bMenuID = menu % 11;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_80184558 = object;
+    gMainMenu_pTitleLogo = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 5, 0, 0, 0x1A, 1, gDisplay_abResourceBank1);
-        D_80184558->attribute |= 0x1000000;
-        D_80184558->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gMainMenu_pTitleLogo->attribute |= 0x1000000;
+        gMainMenu_pTitleLogo->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_80184558, 0);
+        DisplayObject_SetDepthOffset(gMainMenu_pTitleLogo, 0);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_8018455C = object;
+    gMainMenu_pCopyrightNotice = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 2, 0x1A, 1, gDisplay_abResourceBank1);
-        D_8018455C->attribute |= 0x1000000;
-        D_8018455C->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gMainMenu_pCopyrightNotice->attribute |= 0x1000000;
+        gMainMenu_pCopyrightNotice->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_8018455C, 1);
+        DisplayObject_SetDepthOffset(gMainMenu_pCopyrightNotice, 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -636,10 +636,10 @@ void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
 
-    DisplayObject_ReleaseIfPresent(D_80184558);
-    D_80184558 = 0;
-    DisplayObject_ReleaseIfPresent(D_8018455C);
-    D_8018455C = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_pTitleLogo);
+    gMainMenu_pTitleLogo = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_pCopyrightNotice);
+    gMainMenu_pCopyrightNotice = 0;
     DisplayObject_ReleaseIfPresent(gMainMenu_pStartPrompt);
     gMainMenu_pStartPrompt = 0;
     for (i = 0; i < 0xB; i++) {
