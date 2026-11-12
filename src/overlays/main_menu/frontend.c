@@ -350,17 +350,21 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 if ((u32)gMain_bMenuID < 5) {
                     i = 0;
                     slot2 = gMain_apMenuEntries;
-                /* Sharing i and omitting structured-loop notes preserves its
-                   allocation without rotating the first loop's saved registers. */
-                clear_loop:
-                    ent3 = (DisplayObject *)*slot2;
-                    if (ent3 != 0) {
-                        ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-                    }
-                    slot2++;
-                    i++;
-                    if (i < 0xB) {
-                        goto clear_loop;
+                    /* Sharing i and entering through the constant switch's
+                       case label keeps loop.c off this loop, preserving i's
+                       allocation as retail's goto loop does. */
+                    switch (0) {
+                        for (;;) {
+                        }
+                        do {
+                    case 0:
+                            ent3 = (DisplayObject *)*slot2;
+                            if (ent3 != 0) {
+                                ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                            }
+                            slot2++;
+                            i++;
+                        } while (i < 0xB);
                     }
                     gMainMenu_nFadeDirection = -1;
                 } else {
