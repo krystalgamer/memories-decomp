@@ -433,7 +433,7 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
     case 0:
     case 1:
         if (MemCard_DoLoadDirectory() >= 0)
-            goto finish;
+            break;
         return 0;
     case 10:
     case 11:
@@ -446,7 +446,7 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
                     return 0;
                 if (directory_result != 0) {
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
             gMemCard_bRetries = 0xA;
@@ -464,9 +464,15 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
             return 0;
         case 2:
-            goto sub_two;
+            if (gMemCard_nIOResult == 0)
+                break;
+            gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
+            if ((s8)gMemCard_bTransferRetriesRemaining < 0)
+                break;
+            gMemCard_bRequestStep = resume_step;
+            return 0;
         }
-        goto finish;
+        break;
     case 2:
     case 3:
         resume_step = 1;
@@ -538,25 +544,15 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             close(fd);
             return 0;
         case 2:
-            goto sub_two;
+            if (gMemCard_nIOResult == 0)
+                break;
+            gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
+            if ((s8)gMemCard_bTransferRetriesRemaining < 0)
+                break;
+            gMemCard_bRequestStep = resume_step;
+            return 0;
         }
-        goto finish;
-sub_two:
-        if (gMemCard_nIOResult == 0) {
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-        }
-        gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
-        if ((s8)gMemCard_bTransferRetriesRemaining < 0) {
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-        }
-        gMemCard_bRequestStep = resume_step;
-        return 0;
+        break;
     case 7:
         switch (gMemCard_bRequestStep) {
         default:
@@ -571,7 +567,7 @@ sub_two:
                     return 0;
                 if (directory_result != 0) {
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
             if (gMemCard_nFreeBlocks + gMemCard_wRequestSize >= 0x10) {
