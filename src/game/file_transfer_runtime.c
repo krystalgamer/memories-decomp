@@ -882,21 +882,20 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     FileTransferDescriptor *result;
 
     gFile_dwTransferState |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
-    if (gFile_BeforePrimaryRequestCallback == 0) {
-        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             gFile_dwCancelRequestState) != 0) {
-            result = (FileTransferDescriptor *)0;
-            goto out;
-        }
+    if (gFile_BeforePrimaryRequestCallback == 0 &&
+        ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+         gFile_dwCancelRequestState) != 0) {
+        result = (FileTransferDescriptor *)0;
     } else {
-        gFile_BeforePrimaryRequestCallback();
+        if (gFile_BeforePrimaryRequestCallback != 0) {
+            gFile_BeforePrimaryRequestCallback();
+        }
+        File_InitTransferDescriptor(
+            &gFile_PrimaryTransferDescriptor,
+            flags, loader_argument, sector_offset, size, callback, initial_phase_index, target
+        );
+        result = &gFile_PrimaryTransferDescriptor;
     }
-    File_InitTransferDescriptor(
-        &gFile_PrimaryTransferDescriptor,
-        flags, loader_argument, sector_offset, size, callback, initial_phase_index, target
-    );
-    result = &gFile_PrimaryTransferDescriptor;
-out:
     gFile_dwTransferState =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return result;
