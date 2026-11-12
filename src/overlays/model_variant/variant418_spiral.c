@@ -41,7 +41,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
     uy = work->aim.direction.vy;
     uz = work->aim.direction.vz;
     arm = work->arms;
-    poly = work->textured;
+    poly = work->packets.textured;
     spread = 0x400 - work->spiral_shrink;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->spiral_angle * 2;
