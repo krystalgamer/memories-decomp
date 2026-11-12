@@ -313,7 +313,7 @@ void Main_RunFreeDuelMenu(void) {
 #include "main_mode_state.h"
 #include "mem_card.h"
 #include "campaign_flags.h"
-#include "credits_secret_numbers.h"
+#include "main_mode_runners.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "main.h"
