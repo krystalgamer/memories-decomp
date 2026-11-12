@@ -124,16 +124,16 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
             record->field_A2 = 0;
         }
         for (i = 0; i < 4; i++, ribbon++) {
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->inner.r = 128;
-            ribbon->inner.g = 128;
-            ribbon->inner.b = 128;
-            ribbon->outer.r = 0;
-            ribbon->outer.g = 16;
-            ribbon->outer.b = 128;
-            ribbon->field_138 = 0;
-            ribbon->field_13A = 0;
-            ribbon->field_13C = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = 128;
+            ribbon->style.inner.g = 128;
+            ribbon->style.inner.b = 128;
+            ribbon->style.outer.r = 0;
+            ribbon->style.outer.g = 16;
+            ribbon->style.outer.b = 128;
+            ribbon->style.field_18 = 0;
+            ribbon->style.count = 0;
+            ribbon->style.field_1C = 0;
             ribbon->state = 0;
             ribbon->count = 0;
             if (!(i & 1)) {
