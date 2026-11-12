@@ -50,7 +50,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0x240;
     step = 0x400;
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -59,7 +59,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(work->frame_count & 3) < 2) {
+    if ((u32)(work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
@@ -87,7 +87,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x2158) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x215C) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x2160);
-    if ((u32)work->frame_count % 10 == 0) {
+    if ((u32)work->clock.frame_count % 10 == 0) {
         work->streamer.rotation_y += 0x514;
     }
     work->streamer.rotation_y += 0x20;

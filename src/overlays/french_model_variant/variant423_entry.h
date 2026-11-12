@@ -34,9 +34,7 @@ typedef struct {
     u8 unknown_1D28[0x10];
     MATRIX matrix;
     ModelVariantAim aim;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     EntryConfig423 *config;
     u32 field_1DA4;
     GsCOORDUNIT *part;

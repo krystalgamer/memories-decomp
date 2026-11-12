@@ -62,7 +62,7 @@ void SpanishModelVariant426_DrawSpiral(u8 *ctx)
         phi = (i << 12) / 12 + work->spiral_angle * 2;
         theta = (i << 13) / 12 + work->spiral_angle;
         for (k = 0; k < 2; k++) {
-            if (!(work->frame_count & 1)) {
+            if (!(work->clock.frame_count & 1)) {
                 length = (k * 32 + 16) * spread / 1024;
             } else {
                 length = (k * 16 + 8) * spread / 1024;
@@ -78,7 +78,7 @@ void SpanishModelVariant426_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -226,12 +226,12 @@ void SpanishModelVariant426_DrawSpiral(u8 *ctx)
     }
     }
     if (work->spiral_size < 0x400 && work->phase <= 0) {
-        work->spiral_size += work->step * 64;
+        work->spiral_size += work->clock.step * 64;
         if (work->spiral_size >= 0x400) {
             work->spiral_size = 0x400;
         }
     } else if (work->spiral_size > 0) {
-        work->spiral_size -= work->step * 16;
+        work->spiral_size -= work->clock.step * 16;
         if (work->spiral_size <= 0) {
             work->spiral_size = 0;
         }

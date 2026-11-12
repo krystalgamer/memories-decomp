@@ -76,7 +76,7 @@ void SpanishModelVariant423_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -211,7 +211,7 @@ void SpanishModelVariant423_DrawSpiral(u8 *ctx)
     }
     }
     if (work->spiral.size < 0x400) {
-        work->spiral.size += work->step * 64;
+        work->spiral.size += work->clock.step * 64;
         if (work->spiral.size >= 0x400) {
             work->spiral.size = 0x400;
             if (work->phase == 1) {

@@ -61,9 +61,7 @@ typedef struct {
     MATRIX matrix;
     VECTOR origin;
     ModelVariantAim aim;
-    s32 angles[2];
-    u32 frame_count, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     EntryConfig455 *config;
     u32 field_2F00;
     GsCOORDUNIT *parts[3];

@@ -42,7 +42,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;
     poly = work->packets.textured;
-    if (!(work->frame_count & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         len = work->width * 80 / 1024;
         amp = work->width / 64;
     } else {
@@ -143,10 +143,10 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
             }
         }
     }
-    work->ribbon_sway += work->step * 384;
-    work->field_1800 += work->step * 128;
-    if (work->progress < 0x400 && work->elapsed >= work->config->ribbon_start) {
-        work->progress = ((work->elapsed - work->config->ribbon_start) << 10)
+    work->ribbon_sway += work->clock.step * 384;
+    work->field_1800 += work->clock.step * 128;
+    if (work->progress < 0x400 && work->clock.frame >= work->config->ribbon_start) {
+        work->progress = ((work->clock.frame - work->config->ribbon_start) << 10)
                          / (work->config->travel_start - work->config->ribbon_start);
         if (work->progress >= 0x400) {
             work->progress = 0x400;
@@ -155,8 +155,8 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
             }
         }
     }
-    if (work->elapsed >= work->config->fade_start && work->width > 0) {
-        work->width = 0x400 - ((work->elapsed - work->config->fade_start) << 10)
+    if (work->clock.frame >= work->config->fade_start && work->width > 0) {
+        work->width = 0x400 - ((work->clock.frame - work->config->fade_start) << 10)
                                   / (work->config->fade_end - work->config->fade_start);
         if (work->width <= 0) {
             work->width = 0;

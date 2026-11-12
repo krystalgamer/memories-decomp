@@ -80,9 +80,7 @@ typedef struct {
     DVECTOR projected;
     s16 screen_x[3], screen_y[3];
     VECTOR view_delta;
-    s32 angles[2];
-    u32 frame, elapsed, animation;
-    s32 step, fade;
+    ModelVariantClock clock;
     EntryConfig443 *config;
     u8 unknown_3638[0x14];
     s16 field_364C, field_364E;
