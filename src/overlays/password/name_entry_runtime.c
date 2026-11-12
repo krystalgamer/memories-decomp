@@ -843,20 +843,21 @@ void NameEntry_UpdateKeyboard(void)
                 work = (n != 0);
                 gNameEntry_bKeyboardColumn = 11;
                 gNameEntry_bSavedRow = gNameEntry_bKeyboardRow = gNameEntry_aRowLinks[(s8)gNameEntry_bKeyboardRow][work];
-                goto tail47;
 #endif
-            } else if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
-                gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow - 1;
-                if ((s8)gNameEntry_bKeyboardRow < 0) {
-                    gNameEntry_bKeyboardRow = 8;
-                }
             } else {
-                gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow + 1;
-                if ((s8)gNameEntry_bKeyboardRow >= 9) {
-                    gNameEntry_bKeyboardRow = 0;
+                if ((gInput_awPadHeld[0] & PAD_DIRECTION_UP) != 0) {
+                    gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow - 1;
+                    if ((s8)gNameEntry_bKeyboardRow < 0) {
+                        gNameEntry_bKeyboardRow = 8;
+                    }
+                } else {
+                    gNameEntry_bKeyboardRow = gNameEntry_bKeyboardRow + 1;
+                    if ((s8)gNameEntry_bKeyboardRow >= 9) {
+                        gNameEntry_bKeyboardRow = 0;
+                    }
                 }
+                gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
             }
-            gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
         }
     } else {
         goto alt800;
