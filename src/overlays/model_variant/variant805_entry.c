@@ -297,13 +297,8 @@ s32 ModelVariant805_HandleRequest(u8 *context, s32 command)
             copyVector(&work->trail[i][work->trail_head[i]], &work->pos[i]);
             work->trail_head[i] = (work->trail_head[i] + 1) % 16;
             addVector(&work->pos[i], &work->step[i]);
-            /* Both directions share one arrival store through the label. */
-            if (direction > 0) {
-                if (work->pos[i].vz > direction * 450) {
-                    goto arrive;
-                }
-            } else if (work->pos[i].vz < direction * 450) {
-            arrive:
+            if (direction > 0 ? work->pos[i].vz > direction * 450
+                              : work->pos[i].vz < direction * 450) {
                 if (work->arrived[i] == 0) {
                     work->arrived[i] = 1;
                 }
