@@ -1,7 +1,10 @@
 #ifndef MEMORIES_DECOMP_DUEL_EFFECT_DIALOG_STATE_H
 #define MEMORIES_DECOMP_DUEL_EFFECT_DIALOG_STATE_H
-
 #include "../types.h"
+
+/* Marks the active state handler initialized. The first call sets bit 0x80
+ * and returns zero; later calls return one. */
+int DuelEffect_MarkStateInitialized(void);
 
 extern u16 gDuel_wEffectDialogTextID;
 
@@ -9,5 +12,4 @@ extern u16 gDuel_wEffectDialogTextID;
  * the box on the first frame, waits for TEXT_BOX_FLAG_DONE, then either opens
  * the choice list or waits for a confirm press before completing the state. */
 void DuelEffect_UpdateDialogState(void);
-
 #endif

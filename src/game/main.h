@@ -5,6 +5,8 @@
 #include "../psyq/libgpu.h"
 #include "graphics_base_frame_step.h"
 
+extern RECT gGraphics_aImageTransferRects[2];
+
 #define GRAPHICS_PACKET_BUFFER_SIZE 140000
 
 /* The per-frame step multiplier. graphics_frame.c sets it to
@@ -189,7 +191,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  * pair". Sixteen bytes clear -G8 on their own, so the real shape does the
  * same job. Retail reaches it with a %hi/%lo pair everywhere, never
  * gp-relative. */
-/* Declared once, as gGraphics_aImageTransferRects, in image_transfer_rects.h. */
+/* Declared once, as gGraphics_aImageTransferRects, in main.h. */
 
 /* The tint colour, three consecutive bytes with the components in address
  * order blue, green, red. Movie_OpenStream and Movie_StopStream pass them straight
@@ -312,5 +314,4 @@ void Main_AdvanceFrame(void);
 void Main_AdvanceFrames(s32 count);
 
 extern u8 gMain_bSoundVSyncBusy;
-
 #endif

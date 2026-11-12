@@ -191,7 +191,6 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "text_encode_decimal_digits.h"
-#include "text_encode_decimal_no_padding.h"
 #include "color_constants.h"
 #include "main.h"
 
@@ -763,7 +762,6 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "card_constants.h"
-#include "image_transfer_rects.h"
 #ifdef VERSION_EUROPE
 #include "card_preview.h"
 #endif

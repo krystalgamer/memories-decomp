@@ -1,6 +1,5 @@
 #include "../../types.h"
 #include "../../game/main.h"
-#include "../../game/image_transfer_rects.h"
 #include "../../game/display_object_system.h"
 #include "../../game/display_asset_banks.h"
 #include "../../game/sound.h"

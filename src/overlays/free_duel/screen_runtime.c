@@ -13,7 +13,6 @@
 #include "../../game/duel_scene.h"
 #include "../../game/duel_session_controls.h"
 #include "../../game/main.h"
-#include "../../game/image_transfer_rects.h"
 #include "../../game/text_constants.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"

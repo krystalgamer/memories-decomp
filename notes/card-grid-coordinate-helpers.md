@@ -20,7 +20,7 @@ The mappings exactly match the two helpers:
 | `CardGrid_GetColumnX(value)` | For `value >= 10`, `(value % 10) * 14 + 174`; otherwise `(value % 10) * 14 + 14` |
 | `CardGrid_GetRowY(value)` | `q = value / 10`, then `q * 178 + (value - q * 10) * 16 + 14` |
 
-`card_grid.h` independently identifies two side-by-side ten-by-ten
+`library.h` independently identifies two side-by-side ten-by-ten
 sections. Columns use fourteen-pixel spacing and section origins
 `0x0E/0xAE`; rows use sixteen-pixel local spacing, fourteen-pixel origin
 and 178-pixel section-row pitch. `Library_DrawCardGrid` uses that same

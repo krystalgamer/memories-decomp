@@ -2,7 +2,6 @@
 #include "text_encode_decimal_digits.h"
 #include "text_constants.h"
 #include "duel_transition_step_table.h"
-#include "text_encode_decimal_no_padding.h"
 
 void Text_EncodeDecimalDigits(s32 value, s32 digit_count, u8 *digits) {
     s32 d = gText_DecimalDivisorView[digit_count];

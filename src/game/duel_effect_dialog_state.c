@@ -1,6 +1,6 @@
 #include "../types.h"
 
-#include "duel_effect_state_latch.h"
+#include "duel_effect_dialog_state.h"
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
 #include "sound.h"

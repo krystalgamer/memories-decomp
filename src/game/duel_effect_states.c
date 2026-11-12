@@ -8,7 +8,7 @@
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
 #include "duel_effect_text.h"
-#include "duel_effect_state_latch.h"
+#include "duel_effect_dialog_state.h"
 #include "main.h"
 #include "input.h"
 #include "fade.h"
@@ -348,7 +348,6 @@ s32 DuelEffect_UpdateState(void) {
 
 #ifdef VERSION_EUROPE
 #include "../psyq/rand.h"
-#include "duel_effect_state_latch.h"
 #include "mem_card.h"
 
 #endif

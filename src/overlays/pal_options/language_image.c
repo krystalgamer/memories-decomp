@@ -1,6 +1,5 @@
 #include "../../types.h"
 #include "../../game/main.h"
-#include "../../game/image_transfer_rects.h"
 #include "helpers.h"
 
 void PalOptions_StoreLanguageImage(void)

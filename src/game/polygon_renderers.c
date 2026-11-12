@@ -14,7 +14,7 @@
 #include "../psyq/libhmd.h"
 #include "handwritten_asm.h"
 #include "model_handler_state.h"
-#include "model_primitive_templates.h"
+#include "model.h"
 #include "primitive_handler_modes.h"
 #include "gpu_packets.h"
 #include "direct_polygon_renderers.h"

@@ -9,6 +9,34 @@
 #include "file_transfer.h"
 #include "../ygo_types.h"
 
+#define CARD_GRID_SECTION_SIDE_LENGTH 10
+#define CARD_GRID_SECTIONS_PER_ROW 2
+#define CARD_GRID_SECTION_CARD_COUNT \
+    (CARD_GRID_SECTION_SIDE_LENGTH * CARD_GRID_SECTION_SIDE_LENGTH)
+#define CARD_GRID_SECTION_ROW_CARD_COUNT \
+    (CARD_GRID_SECTION_CARD_COUNT * CARD_GRID_SECTIONS_PER_ROW)
+
+/* The card grid's cursor position.
+ *
+ * Library_UpdateGridCursor navigates the grid and reads both into s32 locals;
+ * Library_InitializeScreen places the cursor sprite within a section from them, deriving
+ * x from the column remainder and y from the row quotient/remainder. The
+ * cursor spans two side-by-side 10x10 sections per section row.
+ *
+ * Both must stay small-data eligible, and that is not a style question here:
+ * Library_UpdateGridCursor's retail loads are gp-relative. A plain s8 scalar
+ * is eligible under its uniform -G8 profile; an oversized array or a .data
+ * attribute would change that address formation.
+ *
+ * The s8 spelling is measured rather than preferred. #3054 established that
+ * what this code requires is a signed read: declaring them u8 and dropping
+ * the casts builds an executable sixteen bytes short, while u8 with an
+ * explicit `(s8)` cast, s8 with the cast, and s8 without it all produce the
+ * same instructions. Both sources now take the last of those.
+ */
+extern s8 gCardGrid_bCursorColumn;
+extern s8 gCardGrid_bCursorRow;
+
 /* Returns the flags of the directly indexed card record, including ID zero. */
 u32 Library_GetCardFlags(const LibraryState *base, s32 index);
 
@@ -97,5 +125,4 @@ void Library_InitializeScreen(void);
  * is read-only; its signed first read and unsigned follow-up reads remain
  * distinct around the viewport store. */
 void Library_UpdateGridScroll(const LibraryMotionState *record);
-
 #endif

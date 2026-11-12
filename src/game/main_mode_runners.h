@@ -1,6 +1,14 @@
 #ifndef MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
 #define MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
 #include "../types.h"
+#include "../ygo_types.h"
+
+#define CREDITS_SECRET_NUMBER_COUNT 5
+
+/* The five eight-digit secret numbers the credits display, each stored as a
+   high/low four-digit pair. Main_RunCredits picks one by the save's game id
+   modulo five. src/game/main_mode_runners.c owns them at 0x80090B50. */
+extern u16 gCredits_awSecretNumbers[CREDITS_SECRET_NUMBER_COUNT][2];
 
 /* Resets the frontend runtime once, before Main_Loop begins dispatching
  * modes. It is not itself a mode runner: main_modes.h owns those, including
@@ -24,5 +32,4 @@ typedef enum {
 } MainMenuSelection;
 
 void Main_ApplyMenuSelection(MainMenuSelection selection);
-
 #endif

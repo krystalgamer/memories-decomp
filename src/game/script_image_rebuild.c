@@ -4,7 +4,6 @@
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 #include "display_object.h"
-#include "scene_image_overlay_tables.h"
 
 /* Initialized data this unit owns at 0x80090BA8 and 0x80090C00, read only by
    ScriptImage_RebuildObjects

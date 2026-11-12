@@ -79,7 +79,7 @@ extern void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
 );
 
 /* CPU-addressed directory frame: the five scalar identities below and
- * gMemCardWork_bFrameChecksum (mem_card_work_state.h, +0x7F) are interior
+ * gMemCardWork_bFrameChecksum (mem_card.h, +0x7F) are interior
  * bytes of this same 128-byte range, never separate storage.
  * Existing absolute linker symbols supply those identities. No RAM-mirror
  * equivalence with other addresses is assumed by this view. */

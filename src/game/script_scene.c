@@ -164,7 +164,6 @@ void Script_OpShowDialog(void)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "image_transfer_rects.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 
@@ -1237,7 +1236,6 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 
 #include "display_object.h"
 #include "file_transfer.h"
-#include "image_transfer_rects.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
