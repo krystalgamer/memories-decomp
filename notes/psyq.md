@@ -732,6 +732,15 @@ The same object labels `0x800129D8` as `__SN_ENTRY_POINT`. That address keeps
 the project's own `entrypoint`, which is a naming choice rather than a
 disagreement about identity; the corroboration is recorded here instead.
 
+The French inventory row at `0x80090DD8` was named `D_80090DD8_French`, but
+`link_symbols.ld` binds `exit` there, and its twelve bytes equal the English
+European `exit` at `0x80090BD4` and the German, Italian and Spanish `exit`
+rows at the same address. North America identifies `exit` from the unique
+`LIBC2.LIB/EXIT.OBJ` signature. The inventory row now spells `exit`. The
+separate `D_80090DD8_French` label in `symbols.txt` stays, because it is the
+native NA-address literal described in
+[card-list text rows](card-list-text-rows.md).
+
 ## Confirmed interface anchors
 
 The following resident addresses have especially strong API-level evidence.
