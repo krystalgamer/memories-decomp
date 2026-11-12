@@ -116,17 +116,18 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
     return index;
 }
 
-u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
+/* Advances one sequence of the unit; `return` moves on to the next one. */
+static inline void Model_UpdateAnimationSequence(
+    GsARGUNIT_ANIM *const ctx,
+    GsSEQ *const cursor,
+    u32 *const handler_words,
+    ModelSeqDescriptor *const commands,
+    u32 *const parameter_words
+)
 {
-    GsSEQ *cursor;
     GsSEQ *track;
-    s32 sequence_count;
-    u32 *handler_words;
-    ModelSeqDescriptor *commands;
-    u32 *parameter_words;
     ModelAnimParams *interpolation_parameters;
     s32 (*handler)(GsARGUNIT_ANIM *);
-    s32 sequence_index;
     s32 direction;
     u32 active_frames;
     u32 next_command_index;
@@ -134,39 +135,36 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
     u32 target_duration;
     ModelSeqDescriptor *dispatch_record;
     s32 handler_result;
-    u32 *unit_words;
 
-    cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
-    handler_words = (u32 *)ctx->htop;
-    commands = (ModelSeqDescriptor *)ctx->ctop;
-    sequence_count = ((u16 *)ctx->primp)[1];
-    parameter_words = (u32 *)ctx->ptop;
-    for (sequence_index = 0; sequence_index < sequence_count; sequence_index++) {
-        active_frames = cursor->aframe;
-        track = cursor;
-        if ((u16)active_frames != 0) {
-            if ((u16)active_frames != 0xFFFF) {
-                cursor->aframe = active_frames - 1;
-            }
-            direction = cursor->speed < 0 ? -1 : 1;
-            if (cursor->rframe == 0x7000) {
-                direction = 1;
-                cursor->rframe = 0;
-            } else if (cursor->rframe == 0x6000) {
-                direction = -1;
-                cursor->rframe = 0;
-            }
+    active_frames = cursor->aframe;
+    track = cursor;
+    if ((u16)active_frames != 0) {
+        if ((u16)active_frames != 0xFFFF) {
+            cursor->aframe = active_frames - 1;
+        }
+        direction = cursor->speed < 0 ? -1 : 1;
+        if (cursor->rframe == 0x7000) {
+            direction = 1;
+            cursor->rframe = 0;
+        } else if (cursor->rframe == 0x6000) {
+            direction = -1;
+            cursor->rframe = 0;
+        }
 retry:
-            if (track->rframe == 0 || track->tframe == 0) {
-                track->traveling = 0;
+        if (track->rframe == 0 || track->tframe == 0) {
+            track->traveling = 0;
+            /* A control key that scans to the end breaks out to the stop
+               check, which jump threading sends straight to the stop. */
+            switch (0) {
+            default:
                 if (direction == 1) {
                     u32 old_index;
                     if (commands[track->ti].word & MODEL_SEQ_DESCRIPTOR_CONTROL) {
                         next_command_index = scan_command(track, commands, track->ti + 1);
                         track->ti = next_command_index;
-                        do {
-                            if ((u16)next_command_index == 0xFFFF) goto stopped;
-                        } while (0);
+                        if ((u16)next_command_index == 0xFFFF) {
+                            break;
+                        }
                     }
                     old_index = track->ti;
                     track->ci = old_index;
@@ -177,66 +175,88 @@ retry:
                     if (commands[track->ci].word & MODEL_SEQ_DESCRIPTOR_CONTROL) {
                         next_command_index = scan_command(track, commands, track->ci + direction);
                         track->ci = next_command_index;
-                        do {
-                            if ((u16)next_command_index == 0xFFFF) goto stopped;
-                        } while (0);
+                        if ((u16)next_command_index == 0xFFFF) {
+                            break;
+                        }
                     }
                     old_index = track->ci;
                     track->ti = old_index;
                     next_command_index = scan_command(track, commands, old_index + direction);
                     track->ci = next_command_index;
                 }
+            }
+            /* The wrapper weights the 0xFFFF constant's compares so it keeps
+               $t0 ahead of the unit pointer's copy. */
+            do {
                 if ((u16)next_command_index == 0xFFFF) {
-stopped:
                     track->aframe = 0;
-                    goto next_track;
+                    return;
                 }
-                if (direction == 1) {
-                    target_duration = commands[track->ti].f.tframe << 4;
-                    track->tframe = target_duration;
-                    track->rframe = target_duration - (u16)track->rframe;
-                } else {
-                    track->tframe = commands[track->ti].f.tframe << 4;
-                }
-            }
-            dispatch_record = (ModelSeqDescriptor *)(
-                track->ti * sizeof(*commands) + (u32)commands);
-            interpolation_parameters = (ModelAnimParams *)(
-                (u8 *)ctx +
-                (u32)&((GsARGUNIT_ANIM *)0)->header_size +
-                (ctx->header_size << 2)
-            );
-            interpolation_type = dispatch_record->f.type & MODEL_SEQ_DESCRIPTOR_TYPE_MASK;
-            handler = (s32 (*)(GsARGUNIT_ANIM *))handler_words[interpolation_type + 1];
-            interpolation_parameters->seq = cursor;
-            interpolation_parameters->source =
-                (ModelKeyframe *)(parameter_words + commands[track->ci].f.param_index);
-            interpolation_parameters->target =
-                (ModelKeyframe *)(parameter_words + commands[track->ti].f.param_index);
-            if (track->ii != 0xFFFF) {
-                interpolation_parameters->out =
-                    (ModelKeyframe *)(parameter_words + commands[track->ii].f.param_index);
+            } while (0);
+            if (direction == 1) {
+                target_duration = commands[track->ti].f.tframe << 4;
+                track->tframe = target_duration;
+                track->rframe = target_duration - (u16)track->rframe;
             } else {
-                interpolation_parameters->out = 0;
-            }
-            if (track->ci != track->ti) {
-                handler_result = handler(ctx);
-                if (handler_result == 1) {
-                    track->rframe = 0;
-                    goto retry;
-                }
-                if (commands[track->ti].f.tframe == 0) {
-                    goto retry;
-                }
-                track->rframe = (u16)track->rframe - track->speed;
-                if (direction == 1 && track->rframe < 0) {
-                    track->rframe = 0x7000;
-                } else if (direction == -1 && track->rframe >= track->tframe) {
-                    track->rframe = 0x6000;
-                }
+                track->tframe = commands[track->ti].f.tframe << 4;
             }
         }
-next_track:
+        dispatch_record = (ModelSeqDescriptor *)(
+            track->ti * sizeof(*commands) + (u32)commands);
+        interpolation_parameters = (ModelAnimParams *)(
+            (u8 *)ctx +
+            (u32)&((GsARGUNIT_ANIM *)0)->header_size +
+            (ctx->header_size << 2)
+        );
+        interpolation_type = dispatch_record->f.type & MODEL_SEQ_DESCRIPTOR_TYPE_MASK;
+        handler = (s32 (*)(GsARGUNIT_ANIM *))handler_words[interpolation_type + 1];
+        interpolation_parameters->seq = cursor;
+        interpolation_parameters->source =
+            (ModelKeyframe *)(parameter_words + commands[track->ci].f.param_index);
+        interpolation_parameters->target =
+            (ModelKeyframe *)(parameter_words + commands[track->ti].f.param_index);
+        if (track->ii != 0xFFFF) {
+            interpolation_parameters->out =
+                (ModelKeyframe *)(parameter_words + commands[track->ii].f.param_index);
+        } else {
+            interpolation_parameters->out = 0;
+        }
+        if (track->ci != track->ti) {
+            handler_result = handler(ctx);
+            if (handler_result == 1) {
+                track->rframe = 0;
+                goto retry;
+            }
+            if (commands[track->ti].f.tframe == 0) {
+                goto retry;
+            }
+            track->rframe = (u16)track->rframe - track->speed;
+            if (direction == 1 && track->rframe < 0) {
+                track->rframe = 0x7000;
+            } else if (direction == -1 && track->rframe >= track->tframe) {
+                track->rframe = 0x6000;
+            }
+        }
+    }
+}
+
+u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
+{
+    GsSEQ *cursor;
+    s32 sequence_count;
+    u32 *handler_words;
+    ModelSeqDescriptor *commands;
+    u32 *parameter_words;
+    s32 sequence_index;
+    u32 *unit_words;
+
+    cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
+    handler_words = (u32 *)ctx->htop;
+    commands = (ModelSeqDescriptor *)ctx->ctop;
+    sequence_count = ((u16 *)ctx->primp)[1];
+    parameter_words = (u32 *)ctx->ptop;
+    for (sequence_index = 0; sequence_index < sequence_count; sequence_index++) {
+        Model_UpdateAnimationSequence(ctx, cursor, handler_words, commands, parameter_words);
         cursor = (GsSEQ *)((u32 *)cursor + cursor->size);
     }
     unit_words = (u32 *)ctx->primp;
