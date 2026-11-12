@@ -3745,7 +3745,8 @@ void Model_DrawSlot(s32 index)
                 shadow_center.vz = z;
                 next_shadow_edge.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].x * a / 4096;
                 next_shadow_edge.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].z * b / 4096;
-                if (gModel_pBackgroundRecord->flags & 1) {
+                switch (gModel_pBackgroundRecord->flags & 1) {
+                default:
                     shadow_center.vx = CLAMP_FIELD(shadow_center.vx);
                     shadow_center.vz = CLAMP_FIELD(shadow_center.vz);
                     next_shadow_edge.vx = CLAMP_FIELD(next_shadow_edge.vx);
@@ -3753,19 +3754,20 @@ void Model_DrawSlot(s32 index)
                     previous_shadow_edge.vx = CLAMP_FIELD(previous_shadow_edge.vx);
                     previous_shadow_edge.vz = CLAMP_FIELD(previous_shadow_edge.vz);
                     if (next_shadow_edge.vx == previous_shadow_edge.vx && ABS(shadow_center.vx) >= ABS(next_shadow_edge.vx)) {
-                        goto skip;
+                        break;
                     }
                     if (next_shadow_edge.vz == previous_shadow_edge.vz && ABS(shadow_center.vz) >= ABS(next_shadow_edge.vz)) {
-                        goto skip;
+                        break;
+                    }
+                    /* fall through */
+                case 0:
+                    shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (long *)&shadow_triangle.x0, (long *)&shadow_triangle.x1, (long *)&shadow_triangle.x2,
+                        &sxy_z, &projection_flags);
+                    sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
+                    if (shadow_depth >= 0 && projection_flags >= 0) {
+                        Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
                     }
                 }
-                shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (long *)&shadow_triangle.x0, (long *)&shadow_triangle.x1, (long *)&shadow_triangle.x2,
-                    &sxy_z, &projection_flags);
-                sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
-                if (shadow_depth >= 0 && projection_flags >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
-                }
-            skip:
                 previous_shadow_edge = next_shadow_edge;
             }
         }
