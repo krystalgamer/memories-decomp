@@ -930,13 +930,11 @@ tail47:
     return;
 
 alt800:
-    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) == 0) {
-        goto select;
+    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
+        gNameEntry_bKeyboardColumn = 14;
+        gNameEntry_bKeyboardRow = 8;
+        goto tail47;
     }
-    gNameEntry_bKeyboardColumn = 14;
-    gNameEntry_bKeyboardRow = 8;
-    goto tail47;
-select:
 #ifdef VERSION_EUROPE
     if ((gInput_awPadRepeat[0] & 0xC) != 0) {
         work = 1;
