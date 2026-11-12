@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant474_ribbons.h"
+#include "variant474_entry.h"
 
 /* The North American header-457 copy, built with the CDK compiler, names the
  * closing segment's points directly and reads the following screen point as
@@ -21,7 +22,7 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant474EntryState *work;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -38,53 +39,53 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
     POLY_GT4 *poly;
     Ribbon474Timing *timing;
 
-    work = ctx;
+    work = (Variant474EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1B80), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1B7C), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
-    shift = (MODEL_VARIANT_HALF(work, 0x1C34) != 0) << 11;
-    if (!(MODEL_VARIANT_WORD(work, 0x1B90) & 1)) {
-        len = MODEL_VARIANT_WORD(work, 0x1BB4) / 16;
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    shift = (work->slot != 0) << 11;
+    if (!(work->clock.frame_count & 1)) {
+        len = work->width / 16;
     } else {
-        len = MODEL_VARIANT_WORD(work, 0x1BB4) * 72 / 1024;
+        len = work->width * 72 / 1024;
     }
-    ribbon = (Ribbon474 *)(work + 0x230);
+    ribbon = (Ribbon474 *)&work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             r = (0x400 - ribbon->amp[k]) / 4;
             setVector(&ribbon->a[k],
-                      (rcos(-ribbon->phase[k] - MODEL_VARIANT_WORD(work, 0x1BB8) + shift) * r >> 12)
-                          + MODEL_VARIANT_WORD(work, 0x1B64) * ribbon->amp[k] / 1024,
-                      MODEL_VARIANT_WORD(work, 0x1B68) * ribbon->amp[k] / 1024,
-                      (rsin(-ribbon->phase[k] - MODEL_VARIANT_WORD(work, 0x1BB8) + shift) * r >> 12)
-                          + MODEL_VARIANT_WORD(work, 0x1B6C) * ribbon->amp[k] / 1024);
+                      (rcos(-ribbon->phase[k] - work->ribbon_angle + shift) * r >> 12)
+                          + work->direction.vx * ribbon->amp[k] / 1024,
+                      work->direction.vy * ribbon->amp[k] / 1024,
+                      (rsin(-ribbon->phase[k] - work->ribbon_angle + shift) * r >> 12)
+                          + work->direction.vz * ribbon->amp[k] / 1024);
             setVector(&ribbon->b[k],
                       ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                       ribbon->a[k].vy,
                       ribbon->a[k].vz + (rsin(yaw) * len >> 12));
-            if (MODEL_VARIANT_WORD(work, 0x1C1C) > 0) {
+            if (work->phase > 0) {
                 if (ribbon->phase[k] < 0) {
-                    ribbon->phase[k] += MODEL_VARIANT_WORD(work, 0x1B9C) * 128;
+                    ribbon->phase[k] += work->clock.step * 128;
                 } else if (ribbon->amp[k] < 0x800) {
-                    ribbon->amp[k] += MODEL_VARIANT_WORD(work, 0x1B9C) * 64;
-                    if (ribbon->amp[0] >= 0x400 && MODEL_VARIANT_WORD(work, 0x1C1C) == 1) {
-                        MODEL_VARIANT_WORD(work, 0x1C1C) = 2;
+                    ribbon->amp[k] += work->clock.step * 64;
+                    if (ribbon->amp[0] >= 0x400 && work->phase == 1) {
+                        work->phase = 2;
                     }
                     if (ribbon->amp[k] >= 0x800) {
                         ribbon->amp[k] = 0x800;
                     }
-                    if (ribbon->amp[16] >= 0x800 && MODEL_VARIANT_WORD(work, 0x1C1C) == 2) {
-                        MODEL_VARIANT_WORD(work, 0x1C1C) = 6;
+                    if (ribbon->amp[16] >= 0x800 && work->phase == 2) {
+                        work->phase = 6;
                     }
                 }
             }
         }
     }
     setVector(&rot, 0, 0, 0);
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1B50);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1B54);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1B58);
-    setVector(&scale, MODEL_VARIANT_WORD(work, 0x1BBC), MODEL_VARIANT_WORD(work, 0x1BBC), MODEL_VARIANT_WORD(work, 0x1BBC));
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
+    setVector(&scale, work->scale, work->scale, work->scale);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;
@@ -92,7 +93,7 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbon474 *)(work + 0x230);
+    ribbon = (Ribbon474 *)&work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -126,9 +127,9 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
             }
         }
     }
-    ribbon = (Ribbon474 *)(work + 0x230);
+    ribbon = (Ribbon474 *)&work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
-        poly = (POLY_GT4 *)(work + 0x19CC);
+        poly = work->bars;
         for (k = 0; k < 16; k++) {
             setRGB0(poly, ribbon->color[k].r, ribbon->color[k].g, ribbon->color[k].b);
             setRGB1(poly, ribbon->color[k + 1].r, ribbon->color[k + 1].g, ribbon->color[k + 1].b);
@@ -150,21 +151,21 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1BBC) < 0x1000) {
-        timing = *(Ribbon474Timing **)(work + 0x1BA4);
-        MODEL_VARIANT_WORD(work, 0x1BBC) = ((MODEL_VARIANT_WORD(work, 0x1B94) - timing->grow_start) << 12) / (timing->grow_end - timing->grow_start);
-        if (MODEL_VARIANT_WORD(work, 0x1BBC) >= 0x1000) {
-            MODEL_VARIANT_WORD(work, 0x1BBC) = 0x1000;
+    if (work->scale < 0x1000) {
+        timing = *(Ribbon474Timing **)((u8 *)work + 0x1BA4);
+        work->scale = ((work->clock.frame - timing->grow_start) << 12) / (timing->grow_end - timing->grow_start);
+        if (work->scale >= 0x1000) {
+            work->scale = 0x1000;
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1B94) < (*(Ribbon474Timing **)(work + 0x1BA4))->spin_end) {
-        MODEL_VARIANT_WORD(work, 0x1BB8) += MODEL_VARIANT_WORD(work, 0x1B9C) * 128;
-    } else if (MODEL_VARIANT_WORD(work, 0x1C1C) == 0) {
-        prev = MODEL_VARIANT_WORD(work, 0x1BB8) / 4096;
-        MODEL_VARIANT_WORD(work, 0x1BB8) += MODEL_VARIANT_WORD(work, 0x1B9C) * 128;
-        cur = MODEL_VARIANT_WORD(work, 0x1BB8) / 4096;
+    if (work->clock.frame < (*(Ribbon474Timing **)((u8 *)work + 0x1BA4))->spin_end) {
+        work->ribbon_angle += work->clock.step * 128;
+    } else if (work->phase == 0) {
+        prev = work->ribbon_angle / 4096;
+        work->ribbon_angle += work->clock.step * 128;
+        cur = work->ribbon_angle / 4096;
         if (prev + 1 == cur) {
-            MODEL_VARIANT_WORD(work, 0x1C1C) = 1;
+            work->phase = 1;
         }
     }
 }

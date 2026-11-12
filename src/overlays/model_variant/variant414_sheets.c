@@ -1,13 +1,14 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant431_entry.h"
 
 void FrenchModelVariant431_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant431EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -22,7 +23,7 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
     s32 level;
     s32 otz;
 
-    work = ctx;
+    work = (Variant431EntryState *)ctx;
     object = ctx + 0x4E0;
     sheet = (ModelVariantSheet *)(ctx + 0xA80);
     ot = Graphics_GetDefaultOrderingTable();
@@ -33,23 +34,23 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
             level = MODEL_VARIANT_WORD(object, 0xF4);
         }
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x189C) & 1) {
+        if (work->frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
         if (i == 5) {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1764);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1766);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1768);
+            m.t[0] = work->target.vx;
+            m.t[1] = work->target.vy;
+            m.t[2] = work->target.vz;
             scale.vx = sheet->size + bias;
             scale.vy = sheet->size + bias;
             scale.vz = sheet->size + bias;
         } else {
-            m.t[0] = MODEL_VARIANT_WORD(work + i * 0x20, 0x1794) + MODEL_VARIANT_WORD(work + i * 0x10, 0x1820) * level / 1024;
-            m.t[1] = MODEL_VARIANT_WORD(work + i * 0x20, 0x1798) + MODEL_VARIANT_WORD(work + i * 0x10, 0x1824) * level / 1024;
-            m.t[2] = MODEL_VARIANT_WORD(work + i * 0x20, 0x179C) + MODEL_VARIANT_WORD(work + i * 0x10, 0x1828) * level / 1024;
+            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x1794) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1820) * level / 1024;
+            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x1798) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1824) * level / 1024;
+            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x179C) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1828) * level / 1024;
             scale.vx = 0x400;
             scale.vy = 0x400;
             scale.vz = 0x400;
@@ -90,19 +91,19 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
             }
         }
         if (i == 5) {
-            if (MODEL_VARIANT_WORD(work, 0x18E0) == 2) {
+            if (work->tail.phase == 2) {
                 if (sheet->size < 0x1000) {
-                    sheet->size += MODEL_VARIANT_WORD(work, 0x18A8) << 9;
+                    sheet->size += work->step << 9;
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x18E0) == 3) {
+            } else if (work->tail.phase == 3) {
                 if (sheet->size > 0) {
-                    sheet->size -= MODEL_VARIANT_WORD(work, 0x18A8) << 5;
+                    sheet->size -= work->step << 5;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
-                        MODEL_VARIANT_WORD(work, 0x18E0) = 5;
+                        work->tail.phase = 5;
                     }
                 }
             }
