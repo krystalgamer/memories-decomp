@@ -351,43 +351,47 @@ s32 MemCard_DoLoadDirectory(void) {
             }
             gMemCard_bRetries = 0xA;
             gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
-sub_retry:
+            break;
+        case 2:
+        default:
+            return gMemCard_nIOResult;
+        }
+        for (;;) {
             MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
             _card_clear(gMemCard_bChannel);
             return -1;
-        case 2:
-            break;
-        }
-        return gMemCard_nIOResult;
 
     case 1:
-        v0 = gMemCard_nIOResult;
-        if (v0 != 0) {
+            v0 = gMemCard_nIOResult;
+            if (v0 == 0) {
+                break;
+            }
             v1 = gMemCard_nIOResult;
             if (v1 != 2) {
                 return gMemCard_nIOResult;
             }
             v0 = gMemCard_bRetries - 1;
             gMemCard_bRetries = (u8)v0;
-            if ((s8)v0 > 0) {
-                goto sub_retry;
+            if ((s8)v0 <= 0) {
+                return gMemCard_nIOResult;
             }
-            return gMemCard_nIOResult;
         }
         gMemCard_bRetries = 0xA;
         gMemCard_bLoadStep = 2;
-load_retry:
-        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-        _card_load(gMemCard_bChannel);
-        return -1;
+        for (;;) {
+            MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
+            _card_load(gMemCard_bChannel);
+            return -1;
 
     case 2:
-        v0 = gMemCard_nIOResult;
-        if (v0 == 2) {
+            v0 = gMemCard_nIOResult;
+            if (v0 != 2) {
+                break;
+            }
             v0 = gMemCard_bRetries - 1;
             gMemCard_bRetries = (u8)v0;
-            if ((s8)v0 > 0) {
-                goto load_retry;
+            if ((s8)v0 <= 0) {
+                break;
             }
         }
 
@@ -429,7 +433,7 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
     case 0:
     case 1:
         if (MemCard_DoLoadDirectory() >= 0)
-            goto finish;
+            break;
         return 0;
     case 10:
     case 11:
@@ -442,7 +446,7 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
                     return 0;
                 if (directory_result != 0) {
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
             gMemCard_bRetries = 0xA;
@@ -460,9 +464,15 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
             return 0;
         case 2:
-            goto sub_two;
+            if (gMemCard_nIOResult == 0)
+                break;
+            gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
+            if ((s8)gMemCard_bTransferRetriesRemaining < 0)
+                break;
+            gMemCard_bRequestStep = resume_step;
+            return 0;
         }
-        goto finish;
+        break;
     case 2:
     case 3:
         resume_step = 1;
@@ -534,25 +544,15 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             close(fd);
             return 0;
         case 2:
-            goto sub_two;
+            if (gMemCard_nIOResult == 0)
+                break;
+            gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
+            if ((s8)gMemCard_bTransferRetriesRemaining < 0)
+                break;
+            gMemCard_bRequestStep = resume_step;
+            return 0;
         }
-        goto finish;
-sub_two:
-        if (gMemCard_nIOResult == 0) {
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-        }
-        gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
-        if ((s8)gMemCard_bTransferRetriesRemaining < 0) {
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-        }
-        gMemCard_bRequestStep = resume_step;
-        return 0;
+        break;
     case 7:
         switch (gMemCard_bRequestStep) {
         default:
@@ -567,7 +567,7 @@ sub_two:
                     return 0;
                 if (directory_result != 0) {
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
             if (gMemCard_nFreeBlocks + gMemCard_wRequestSize >= 0x10) {
@@ -578,18 +578,10 @@ sub_two:
                 return 1;
             }
             if (MemCard_FindFiles(gMemCard_bChannel, gMemCard_szRequestPath,
-                                  gMemCard_pDirEntries, 0) == 0)
-                goto start_reopen;
-            gMemCard_nIOResult = 6;
-            *out_result = gMemCard_nIOResult;
-            *out_state = gMemCard_bRequest;
-            gMemCard_bRequest = -1;
-            return 1;
-opened_ok:
-            close(fd);
-            gMemCard_nIOResult = 0;
-            goto finish;
-start_reopen:
+                                  gMemCard_pDirEntries, 0) != 0) {
+                gMemCard_nIOResult = 6;
+                break;
+            }
             gMemCard_bRetries = 0xA;
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
         case 1:
@@ -597,19 +589,21 @@ start_reopen:
             for (tries = 0xA;;) {
                 fd = open(gMemCard_szRequestPath,
                           (gMemCard_wRequestSize << 16) | 0x200);
-                if (fd != -1)
-                    goto opened_ok;
+                if (fd != -1) {
+                    close(fd);
+                    gMemCard_nIOResult = 0;
+                    break;
+                }
                 if (--tries < 0) {
                     gMemCard_bRetries = gMemCard_bRetries - 1;
                     if ((s8)gMemCard_bRetries > 0)
                         return 0;
                     gMemCard_nIOResult = 2;
-                    goto finish;
+                    break;
                 }
             }
         }
     }
-finish:
     *out_result = gMemCard_nIOResult;
     *out_state = gMemCard_bRequest;
     gMemCard_bRequest = -1;

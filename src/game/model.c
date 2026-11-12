@@ -250,18 +250,21 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
     if (entry_number >= entry_count) {
         return;
     }
-    /* A goto loop: a while would be rotated and undo the advance on the
-       exit path. The advance sits before the count test on purpose, since
-       retail's back-branch delay slot runs it on the exit path too. */
+    /* next_command is block-local on purpose: its scope note stops gcc
+       from rotating the stop test to the bottom of the loop, which would
+       duplicate it ahead of the loop and undo the advance on the exit path.
+       Retail keeps the test at the top and runs the advance in the count
+       test's delay slot. */
     stop_cursor = command_cursor;
-scan:
-    if (stop_cursor[1] >= 0) {
+    do {
+        s32 next_command = stop_cursor[1];
+
+        if (next_command < 0) {
+            break;
+        }
         entry_number++;
         stop_cursor++;
-        if (entry_number < entry_count) {
-            goto scan;
-        }
-    }
+    } while (entry_number < entry_count);
     command_index = command_cursor - slot->animation_commands;
     part_sequence->ti = command_index;
     if (command_index != 0) {
@@ -468,18 +471,19 @@ void Model_DrawBackground(void)
         polygons[1].y2 = (u16)polygons[2].y0;
         polygons[1].x3 = (u16)polygons[2].x1;
         polygons[1].y3 = (u16)polygons[2].y1;
-        if (inner_band_depth >= 0) {
-            GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
+        do {
+            if (inner_band_depth >= 0) {
+                GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
+                    (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
+            } else if (outer_band_depth < 0) {
+                break;
+            }
+            GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
                 (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        } else if (outer_band_depth < 0) {
-            goto advance;
-        }
-        GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
-            (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        if (outer_band_depth >= 0)
-            GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
-                (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-advance:
+            if (outer_band_depth >= 0)
+                GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
+                    (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
+        } while (0);
         ring_angle += 256;
         vertices[0] = vertices[1];
         vertices[2] = vertices[3];
@@ -2560,28 +2564,31 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
         Model_StepViewOrbit(1, 0, 0, distance_work, 0);
     }
 
-    if (pull_in_request != 0) {
-        distance_work = *(s16 *)&gModel_wViewDistance;
-        if (upper_distance < distance_work) {
-            goto last;
-        }
-        if (lower_distance < distance_work) {
-            distance_work = lower_distance - distance_work;
-            if (distance_work < -0xA) {
-                distance_work = -0xA;
+    do {
+        if (pull_in_request != 0) {
+            distance_work = *(s16 *)&gModel_wViewDistance;
+            if (upper_distance < distance_work) {
+                break;
             }
-            Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+            if (lower_distance < distance_work) {
+                distance_work = lower_distance - distance_work;
+                if (distance_work < -0xA) {
+                    distance_work = -0xA;
+                }
+                Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+            }
         }
-    }
+        if (upper_distance >= *(s16 *)&gModel_wViewDistance) {
+            Model_CorrectViewPitch();
+            return;
+        }
+    } while (0);
 
-    if (upper_distance < *(s16 *)&gModel_wViewDistance) {
-last:
-        distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
-        if (distance_work < -0x14) {
-            distance_work = -0x14;
-        }
-        Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+    distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
+    if (distance_work < -0x14) {
+        distance_work = -0x14;
     }
+    Model_StepViewOrbit(1, 0, 0, distance_work, 0);
 
     Model_CorrectViewPitch();
 }
@@ -3738,7 +3745,8 @@ void Model_DrawSlot(s32 index)
                 shadow_center.vz = z;
                 next_shadow_edge.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].x * a / 4096;
                 next_shadow_edge.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].z * b / 4096;
-                if (gModel_pBackgroundRecord->flags & 1) {
+                switch (gModel_pBackgroundRecord->flags & 1) {
+                default:
                     shadow_center.vx = CLAMP_FIELD(shadow_center.vx);
                     shadow_center.vz = CLAMP_FIELD(shadow_center.vz);
                     next_shadow_edge.vx = CLAMP_FIELD(next_shadow_edge.vx);
@@ -3746,19 +3754,20 @@ void Model_DrawSlot(s32 index)
                     previous_shadow_edge.vx = CLAMP_FIELD(previous_shadow_edge.vx);
                     previous_shadow_edge.vz = CLAMP_FIELD(previous_shadow_edge.vz);
                     if (next_shadow_edge.vx == previous_shadow_edge.vx && ABS(shadow_center.vx) >= ABS(next_shadow_edge.vx)) {
-                        goto skip;
+                        break;
                     }
                     if (next_shadow_edge.vz == previous_shadow_edge.vz && ABS(shadow_center.vz) >= ABS(next_shadow_edge.vz)) {
-                        goto skip;
+                        break;
+                    }
+                    /* fall through */
+                case 0:
+                    shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (long *)&shadow_triangle.x0, (long *)&shadow_triangle.x1, (long *)&shadow_triangle.x2,
+                        &sxy_z, &projection_flags);
+                    sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
+                    if (shadow_depth >= 0 && projection_flags >= 0) {
+                        Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
                     }
                 }
-                shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (long *)&shadow_triangle.x0, (long *)&shadow_triangle.x1, (long *)&shadow_triangle.x2,
-                    &sxy_z, &projection_flags);
-                sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
-                if (shadow_depth >= 0 && projection_flags >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
-                }
-            skip:
                 previous_shadow_edge = next_shadow_edge;
             }
         }
@@ -5562,54 +5571,49 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
     if ((u32)side_index < 2) {
         destination_base_y = (side_index << 4) + 0xD0;
 
-        if (tint_control >= COLOR_TINT_KEEP_HUE &&
-            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
-            goto big;
+        if (tint_control < COLOR_TINT_KEEP_HUE ||
+            (tint_control & COLOR_TINT_INVERT) != 0 || saturation_scale < COLOR_FIXED_ONE) {
+            band_offset = 0;
+            gModel_sTextureTintRectX = 0x280;
+            gModel_sTextureTintRectY = destination_base_y + 8;
+            gModel_sTextureTintRectW = 0x100;
+            gModel_sTextureTintRectH = 4;
+
+            do {
+                {
+                    s32 source_row_offset = band_offset + 8;
+
+                    gModel_sTextureTintRectY = destination_base_y + source_row_offset;
+                }
+                while (IsIdleGPU(3) != 0) {
+                }
+                while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                }
+                while (IsIdleGPU(3) != 0) {
+                }
+
+                pixel_cursor = pixel_buffer;
+                for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                    *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
+                }
+
+                gModel_sTextureTintRectY = destination_base_y + band_offset;
+                while (IsIdleGPU(3) != 0) {
+                }
+                while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                }
+                while (IsIdleGPU(3) != 0) {
+                }
+                band_offset += 4;
+            } while (band_offset < 8);
+        } else {
+            gModel_sTextureTintRectX = 0x280;
+            gModel_sTextureTintRectY = destination_base_y + 8;
+            gModel_sTextureTintRectW = 0x100;
+            gModel_sTextureTintRectH = 8;
+            MoveImage(TEXTURE_TINT_RECT, 0x280, destination_base_y);
         }
-
-        band_offset = 0;
-        gModel_sTextureTintRectX = 0x280;
-        gModel_sTextureTintRectY = destination_base_y + 8;
-        gModel_sTextureTintRectW = 0x100;
-        gModel_sTextureTintRectH = 4;
-
-        do {
-            {
-                s32 source_row_offset = band_offset + 8;
-
-                gModel_sTextureTintRectY = destination_base_y + source_row_offset;
-            }
-            while (IsIdleGPU(3) != 0) {
-            }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
-            }
-            while (IsIdleGPU(3) != 0) {
-            }
-
-            pixel_cursor = pixel_buffer;
-            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
-                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
-            }
-
-            gModel_sTextureTintRectY = destination_base_y + band_offset;
-            while (IsIdleGPU(3) != 0) {
-            }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
-            }
-            while (IsIdleGPU(3) != 0) {
-            }
-            band_offset += 4;
-        } while (band_offset < 8);
     }
-
-    return;
-
-big:
-    gModel_sTextureTintRectX = 0x280;
-    gModel_sTextureTintRectY = destination_base_y + 8;
-    gModel_sTextureTintRectW = 0x100;
-    gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, 0x280, destination_base_y);
 }
 #else
 void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
@@ -5622,49 +5626,44 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
     if ((u32)side_index < 2) {
         band_offset = 0;
 
-        if (tint_control >= COLOR_TINT_KEEP_HUE &&
-            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
-            goto big;
+        if (tint_control < COLOR_TINT_KEEP_HUE ||
+            (tint_control & COLOR_TINT_INVERT) != 0 || saturation_scale < COLOR_FIXED_ONE) {
+            gModel_sTextureTintRectX = side_index << 8;
+            gModel_sTextureTintRectY = 0xF8;
+            gModel_sTextureTintRectW = 0x100;
+            gModel_sTextureTintRectH = 4;
+
+            do {
+                gModel_sTextureTintRectY = band_offset + 0xF8;
+                while (IsIdleGPU(3) != 0) {
+                }
+                while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                }
+                while (IsIdleGPU(3) != 0) {
+                }
+
+                pixel_cursor = pixel_buffer;
+                for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                    *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
+                }
+
+                gModel_sTextureTintRectY = band_offset + 0xF0;
+                while (IsIdleGPU(3) != 0) {
+                }
+                while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                }
+                while (IsIdleGPU(3) != 0) {
+                }
+                band_offset += 4;
+            } while (band_offset < 8);
+        } else {
+            gModel_sTextureTintRectY = 0xF8;
+            gModel_sTextureTintRectW = 0x100;
+            gModel_sTextureTintRectX = side_index << 8;
+            gModel_sTextureTintRectH = 8;
+            MoveImage(TEXTURE_TINT_RECT, side_index << 8, 0xF0);
         }
-
-        gModel_sTextureTintRectX = side_index << 8;
-        gModel_sTextureTintRectY = 0xF8;
-        gModel_sTextureTintRectW = 0x100;
-        gModel_sTextureTintRectH = 4;
-
-        do {
-            gModel_sTextureTintRectY = band_offset + 0xF8;
-            while (IsIdleGPU(3) != 0) {
-            }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
-            }
-            while (IsIdleGPU(3) != 0) {
-            }
-
-            pixel_cursor = pixel_buffer;
-            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
-                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
-            }
-
-            gModel_sTextureTintRectY = band_offset + 0xF0;
-            while (IsIdleGPU(3) != 0) {
-            }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
-            }
-            while (IsIdleGPU(3) != 0) {
-            }
-            band_offset += 4;
-        } while (band_offset < 8);
     }
-
-    return;
-
-big:
-    gModel_sTextureTintRectY = 0xF8;
-    gModel_sTextureTintRectW = 0x100;
-    gModel_sTextureTintRectX = side_index << 8;
-    gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, side_index << 8, 0xF0);
 }
 #endif
 
