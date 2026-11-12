@@ -18,7 +18,7 @@ s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
     long flag;
     long p;
     long depth;
-    Image24764State *state;
+    ModelVariantBeamRingState *state;
     GsOT *ot;
     ModelVariantBeamRingConfig *config;
     SVECTOR *point;
@@ -33,7 +33,7 @@ s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
     scale = gFrenchModelVariant197_UnitScale;
-    state = (Image24764State *)context;
+    state = (ModelVariantBeamRingState *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant197_aConfigs[command];

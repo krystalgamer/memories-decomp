@@ -13,17 +13,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/graphics_packet_submission.h"
 
-typedef struct {
-    ModelVariantBeamRingConfig *config;
-    SVECTOR beams[32];
-    SVECTOR origin;
-    SVECTOR ring[66];
-    SVECTOR translation;
-    s32 textures[2];
-    s32 time;
-    u8 completed;
-} Image16740State;
-
 extern VECTOR gFrenchModelVariant196_UnitScale;
 extern GsIMAGE gFrenchModelVariant196_aImages[2];
 extern ModelVariantBeamRingConfig gFrenchModelVariant196_aConfigs[];

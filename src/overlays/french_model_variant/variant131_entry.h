@@ -11,16 +11,6 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/sdk_internal.h"
 
-typedef struct {
-    ModelVariantBeamParticleConfig *config;
-    SVECTOR ring[14];
-    SVECTOR origin;
-    SVECTOR particles[32];
-    s32 texture[2];
-    s32 elapsed;
-    u8 command_group, completed, unknown_18A[2];
-} Model131State;
-
 extern GsIMAGE gFrenchModelVariant131_aImages[];
 extern ModelVariantBeamParticleConfig gFrenchModelVariant131_aConfigs[];
 s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command);

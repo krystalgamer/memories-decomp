@@ -33,7 +33,7 @@ s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
-    Model166State *work;
+    ModelVariantGatherState *work;
     ModelVariantGatherConfig *config;
     s32 direction;
     GsOT *ot;
@@ -47,7 +47,7 @@ s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant166_UnitScale;
-    work = (Model166State *)context;
+    work = (ModelVariantGatherState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
@@ -84,7 +84,7 @@ s32 ModelVariant166_HandleRequest(u8 *context, s32 command)
         work->frames = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH
-        printf("%d (0x%x) Byte\n", sizeof(Model166State), sizeof(Model166State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantGatherState), sizeof(ModelVariantGatherState));
 #endif
         return 0;
     }
