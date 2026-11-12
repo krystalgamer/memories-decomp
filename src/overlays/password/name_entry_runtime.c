@@ -859,77 +859,73 @@ void NameEntry_UpdateKeyboard(void)
                 gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
             }
         }
-    } else {
-        goto alt800;
-    }
-tail47:
-    SD_SEPlayFull(47);
+    tail47:
+        SD_SEPlayFull(47);
 #ifdef VERSION_EUROPE
-    {
-        s32 tableBase;
+        {
+            s32 tableBase;
 
-        tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
-        do {
-        } while (0);
+            tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
+            do {
+            } while (0);
+            row = (s8)gNameEntry_bKeyboardRow;
+            {
+                PasswordGlyphCoordinates coords = {
+                    parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
+                };
+                col = coords.parts.column;
+                work = *(s8 *)((coords.parts.column + coords.parts.stride) +
+                               tableBase);
+                walkCol = col;
+                while (work < 0) {
+                    /* Preserve GCC's separate loop-invariant address lifetimes. */
+                    do {
+                        walkCol = walkCol + work;
+                        gNameEntry_bKeyboardColumn = walkCol;
+                        work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
+                                       tableBase);
+                    } while (0);
+                }
+            }
+        }
+#else
+        obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
         row = (s8)gNameEntry_bKeyboardRow;
         {
+            /* Keep the pair fully initialized; separate stores change allocation. */
             PasswordGlyphCoordinates coords = {
                 parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
             };
             col = coords.parts.column;
-            work = *(s8 *)((coords.parts.column + coords.parts.stride) +
-                           tableBase);
+            work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
             walkCol = col;
             while (work < 0) {
-                /* Preserve GCC's separate loop-invariant address lifetimes. */
-                do {
-                    walkCol = walkCol + work;
-                    gNameEntry_bKeyboardColumn = walkCol;
-                    work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
-                                   tableBase);
-                } while (0);
+                walkCol = walkCol + work;
+                gNameEntry_bKeyboardColumn = walkCol;
+                work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
             }
         }
-    }
-#else
-    obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
-    row = (s8)gNameEntry_bKeyboardRow;
-    {
-        /* Keep the pair fully initialized; separate stores change allocation. */
-        PasswordGlyphCoordinates coords = {
-            parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
-        };
-        col = coords.parts.column;
-        work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
-        walkCol = col;
-        while (work < 0) {
-            walkCol = walkCol + work;
-            gNameEntry_bKeyboardColumn = walkCol;
-            work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
-        }
-    }
 #endif
-    gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
-    w->widthBonus = 0;
-    if (work != 0) {
-        if ((work & 0x40) != 0) {
-            w->widthBonus = 20;
+        gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
+        w->widthBonus = 0;
+        if (work != 0) {
+            if ((work & 0x40) != 0) {
+                w->widthBonus = 20;
+            }
+            gNameEntry_bKeyboardRow = work & 0xF;
         }
-        gNameEntry_bKeyboardRow = work & 0xF;
+        gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
+        if ((s8)gNameEntry_bKeyboardColumn >= 11) {
+            gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
+        }
+        gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
+        w->timer = 8;
+        w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
+        w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
+        gNameEntry_wSelectionFrameFlags |= 0x4000;
+        return;
     }
-    gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
-    if ((s8)gNameEntry_bKeyboardColumn >= 11) {
-        gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
-    }
-    gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
-    DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
-    w->timer = 8;
-    w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
-    w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
-    gNameEntry_wSelectionFrameFlags |= 0x4000;
-    return;
-
-alt800:
     if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
         gNameEntry_bKeyboardColumn = 14;
         gNameEntry_bKeyboardRow = 8;
