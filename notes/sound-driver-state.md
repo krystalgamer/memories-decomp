@@ -2332,9 +2332,9 @@ separate filename buffers in `SDValue`:
 | `+0x1639` | `s_szSD_MASTER_XA_FILE` | `MASTER.XA` | 10 |
 
 The literal bytes are independently checked in the retail loaded image at
-`0x80010784`, `0x80010790` and `0x8001079C`, respectively, not inferred
-from the existing `gSD_szBgmFileName`, `gSD_szSeFileName` and
-`gSD_szMasterXaFileName` symbol spellings. Preserve the mixed-case text.
+`0x80010784`, `0x80010790` and `0x8001079C`, respectively; `SD_InitState`
+writes them as string literals, the first `.rodata` of `sound_driver.c`.
+Preserve the mixed-case text.
 `SD_InitState` first clears the resident state through `0x801EA7FF`, then
 copies these strings with its existing `SDInitBlk11`/`SDInitBlk10`
 assignments. Those block types contain exactly eleven or ten bytes;
