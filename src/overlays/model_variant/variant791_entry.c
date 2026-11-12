@@ -63,17 +63,17 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
                           work->config->size * csin(a) / 4096 * ccos(b) / 4096,
                           work->config->size * ccos(a) / 4096 * csin(b) / 4096);
             }
-            for (j = 0; j < work->config->puff_count; j++) {
+            for (j = 0; j < work->config->puff.count; j++) {
                 a = rand() % 4096 - rand() % 4096;
                 b = rand() % 4096 - rand() % 4096;
                 /* The depth spread reuses K, which fixes the register allocation. */
                 k = rand() % 4096;
-                setVector(&work->puffs[i][j], work->config->puff_spread * a / 4096,
-                          work->config->puff_spread * b / 4096,
-                          direction * work->config->puff_spread * k / 4096);
-                setVector(&work->puff_velocity[i][j], work->config->puff_speed * a / 4096,
-                          work->config->puff_speed * b / 4096,
-                          direction * work->config->puff_speed * k / 4096);
+                setVector(&work->puffs[i][j], work->config->puff.spread * a / 4096,
+                          work->config->puff.spread * b / 4096,
+                          direction * work->config->puff.spread * k / 4096);
+                setVector(&work->puff_velocity[i][j], work->config->puff.speed * a / 4096,
+                          work->config->puff.speed * b / 4096,
+                          direction * work->config->puff.speed * k / 4096);
                 work->puff_frame[i][j] = 0;
             }
             for (j = 0; j < work->config->ray_count; j++) {
@@ -85,12 +85,12 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
                 setVector(&work->trail[i][j], 0, 0, 0);
             }
             work->arrived[i] = 0;
-            work->bolt_r[i] = work->config->bolt_r;
-            work->bolt_g[i] = work->config->bolt_g;
-            work->bolt_b[i] = work->config->bolt_b;
-            work->glow_r[i] = work->config->glow_r;
-            work->glow_g[i] = work->config->glow_g;
-            work->glow_b[i] = work->config->glow_b;
+            work->bolt_r[i] = work->config->color.bolt_r;
+            work->bolt_g[i] = work->config->color.bolt_g;
+            work->bolt_b[i] = work->config->color.bolt_b;
+            work->glow_r[i] = work->config->color.glow_r;
+            work->glow_g[i] = work->config->color.glow_g;
+            work->glow_b[i] = work->config->color.glow_b;
             work->ray_r[i] = work->config->ray_r;
             work->ray_g[i] = work->config->ray_g;
             work->ray_b[i] = work->config->ray_b;
@@ -99,10 +99,10 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
             work->flight[i] = 0;
         }
         for (i = 0; i < work->config->count; i++) {
-            for (j = 0; j < work->config->spark_count; j++) {
-                setVector(&work->sparks[i][j], RANDOM_SPREAD(work->config->spark_spread),
-                          RANDOM_SPREAD(work->config->spark_spread),
-                          RANDOM_SPREAD(work->config->spark_spread));
+            for (j = 0; j < work->config->spark.count; j++) {
+                setVector(&work->sparks[i][j], RANDOM_SPREAD(work->config->spark.spread),
+                          RANDOM_SPREAD(work->config->spark.spread),
+                          RANDOM_SPREAD(work->config->spark.spread));
                 work->spark_frame[i][j] = 0;
             }
         }
@@ -221,7 +221,7 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
             setPolyFT4(&ft4);
             ft4.tpage = work->texture[3] >> 16;
             ft4.clut = work->texture[3];
-            setRGB0(&ft4, work->config->r, work->config->g, work->config->b);
+            setRGB0(&ft4, work->config->color.r, work->config->color.g, work->config->color.b);
             setVector(&quad[0], -work->config->size, -work->config->size, 0);
             setVector(&quad[1], work->config->size, -work->config->size, 0);
             setVector(&quad[2], -work->config->size, work->config->size, 0);
@@ -431,11 +431,11 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
         puff.tpage = work->texture[4] >> 16;
         puff.clut = work->texture[4];
         setRGB0(&puff, 0x80, 0x80, 0x80);
-        setVector(&quad[0], -work->config->puff_size, -work->config->puff_size, 0);
-        setVector(&quad[1], work->config->puff_size, -work->config->puff_size, 0);
-        setVector(&quad[2], -work->config->puff_size, work->config->puff_size, 0);
-        setVector(&quad[3], work->config->puff_size, work->config->puff_size, 0);
-        for (j = 0; j < work->config->puff_count; j++) {
+        setVector(&quad[0], -work->config->puff.size, -work->config->puff.size, 0);
+        setVector(&quad[1], work->config->puff.size, -work->config->puff.size, 0);
+        setVector(&quad[2], -work->config->puff.size, work->config->puff.size, 0);
+        setVector(&quad[3], work->config->puff.size, work->config->puff.size, 0);
+        for (j = 0; j < work->config->puff.count; j++) {
             if (work->puff_frame[i][j] < 16) {
                 if (j >= work->config->count) {
                     copyVector(&pos, &work->second_origin);
@@ -528,13 +528,13 @@ s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
                 setRGB0(&glow, 0x80, 0x80, 0x80);
                 glow.tpage = work->texture[0] >> 16;
                 glow.clut = work->texture[0];
-                setVector(&quad[0], -work->config->spark_size, -work->config->spark_size, 0);
-                setVector(&quad[1], work->config->spark_size, -work->config->spark_size, 0);
-                setVector(&quad[2], -work->config->spark_size, work->config->spark_size, 0);
-                setVector(&quad[3], work->config->spark_size, work->config->spark_size, 0);
+                setVector(&quad[0], -work->config->spark.size, -work->config->spark.size, 0);
+                setVector(&quad[1], work->config->spark.size, -work->config->spark.size, 0);
+                setVector(&quad[2], -work->config->spark.size, work->config->spark.size, 0);
+                setVector(&quad[3], work->config->spark.size, work->config->spark.size, 0);
                 setVector(&scale, 0x1000, 0x1000, 0x1000);
                 setVector(&rot, 0, 0, 0);
-                for (j = 0; j < work->config->spark_count; j++) {
+                for (j = 0; j < work->config->spark.count; j++) {
                     if (work->spark_frame[i][j] < 8) {
                         copyVector(&pos, &work->target[i]);
                         addVector(&pos, &work->sparks[i][j]);

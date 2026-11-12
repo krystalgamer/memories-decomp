@@ -248,6 +248,7 @@ segments:
       - [0x8CB09, pad]
       - [0x8CB0C, .sdata, game/european/model_camera_effects]
       - [0x8CB18, .sdata, game/european/model]
+      - [0x8CBE6, pad]
       - [0x8CBE8, .sdata, game/european/movie_pipeline]
       - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
       - [0x8CC04, pad]

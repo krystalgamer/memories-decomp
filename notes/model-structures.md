@@ -274,8 +274,9 @@ in the original order. No SDK VECTOR retyping or fourth-word clear.
 The first three words are now `vx`, `vy` and `vz`, the components of the
 VECTOR `Model_DrawSlot` passes to `ScaleMatrix` and
 `Model_UpdateCoordinateUnitMatrix`, and the three words `Model_ResetSlot`
-and the null setter seed with `MODEL_FIXED_ONE`. The fourth word stays
-`field_0C`: it is only copied. The handler-table copy in
+and the null setter seed with `MODEL_FIXED_ONE`. The fourth word is
+`pad`, the SDK VECTOR's name for it: it is only copied, by the nonnull
+setter's whole-quad assignment. The handler-table copy in
 `Model_UpdateAnimatedBattle` uses the type as a block and names no member.
 
 `ModelSlot.field_DC8` is now `cached_dimensions`, still `u16[4]` at

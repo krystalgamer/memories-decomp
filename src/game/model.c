@@ -520,37 +520,31 @@ void Model_UpdateBackgroundScroll(s32 force)
     }
     if (force != 0 || pitch_delta != 0) {
         initial_pitch = gModel_wViewPitch;
-        if (initial_pitch < 0x801) {
-            goto low;
-        }
-        initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-        if (initial_turn_difference >= 0) {
-            background_offset_y = -0x139;
-            if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-                goto compute;
+        if (initial_pitch >= 0x801) {
+            initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
+            if (initial_turn_difference >= 0) {
+                background_offset_y = -0x139;
+                if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                    goto compute;
+                }
+            } else {
+                background_offset_y = -0x139;
+                if (MODEL_ANGLE_FULL_TURN - initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+                compute:
+                    reloaded_pitch = gModel_wViewPitch;
+                    reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
+                    if (reloaded_turn_difference >= 0) {
+                        background_offset_y = -(reloaded_turn_difference * 26) / 85;
+                    } else {
+                        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
+                    }
+                }
             }
-            goto store;
-        }
-        background_offset_y = -0x139;
-        if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
-            goto store;
-        }
-compute:
-        reloaded_pitch = gModel_wViewPitch;
-        reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-        if (reloaded_turn_difference >= 0) {
-            background_offset_y = -(reloaded_turn_difference * 26) / 85;
-            goto store;
-        }
-        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
-        goto store;
-low:
-        if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+        } else if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
             background_offset_y = (initial_pitch * 26) / 85;
-            goto store;
+        } else {
+            background_offset_y = 0x139;
         }
-        background_offset_y = 0x139;
-store:
         gModel_wBackgroundOffsetY = background_offset_y;
     }
     gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
@@ -697,15 +691,6 @@ static u16 sModelHandlerState_PadAFEA
 u32 gModel_AnimatedBattleCameraEndpoint[2] = {
     0x10000000,
     0x00040000,
-};
-#ifndef VERSION_JAPAN
-/* Japan prints no trace here or in Model_UpdateSlotControl, and its data
-   has no copy of the string. */
-char gModel_szWhyTrace[8] = "WHY?\n";
-#endif
-u32 gModel_ExodiaOrbitOffset[2] = {
-    0xFA240000,
-    0,
 };
 
 void Model_UpdateAnimatedBattle(void)
@@ -1045,7 +1030,7 @@ void Model_UpdateAnimatedBattle(void)
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].animation_control_state == 2 && gModel_aSlots[0].active_animation_command_row == 0
             && gModel_aSlots[1].animation_control_state == 2 && gModel_aSlots[1].active_animation_command_row == 0) {
-            FntPrint(gModel_szWhyTrace);
+            FntPrint("WHY?\n");
         }
 #endif
         break;
@@ -1259,6 +1244,13 @@ void Model_UpdateAnimatedBattle(void)
     }
     Model_LockOrbitDirection(1);
 }
+
+/* Defined after Model_UpdateAnimatedBattle, whose "WHY?\n" trace literal
+   retail keeps before it in .sdata. */
+u32 gModel_ExodiaOrbitOffset[2] = {
+    0xFA240000,
+    0,
+};
 
 /*
  * Scene mode 19's intro controller. The control-module entry points and
@@ -1739,37 +1731,36 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(fade_slot_base) +
-                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) != 0 )
-        goto tick_active_slot;
-      slot0_tint = fade_slot_base[0].tint;
-      slot1_tint = fade_slot_base[1].tint;
-      if ( fade_slot_base[0].tint[0] )
-        --fade_slot_base[0].tint[0];
-      if ( slot0_tint[1] )
-        --slot0_tint[1];
-      if ( slot0_tint[2] )
-        --slot0_tint[2];
-      if ( fade_slot_base[1].tint[0] )
-        fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
-      if ( slot1_tint[1] )
-        --slot1_tint[1];
-      if ( slot1_tint[2] )
-        --slot1_tint[2];
-      if ( fade_slot_base[0].tint[0]
-        || slot0_tint[1] || slot0_tint[2]
-        || fade_slot_base[1].tint[0]
-        || slot1_tint[1] || slot1_tint[2] )
+                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) == 0 )
       {
-        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-        break;
-      }
-      fade_slot_base[1].is_active = 0;
-      fade_slot_base[0].is_active = 0;
-      next_phase = gModel_bPresentationPhase + 1;
-      goto set_phase_and_tick;
+        slot0_tint = fade_slot_base[0].tint;
+        slot1_tint = fade_slot_base[1].tint;
+        if ( fade_slot_base[0].tint[0] )
+          --fade_slot_base[0].tint[0];
+        if ( slot0_tint[1] )
+          --slot0_tint[1];
+        if ( slot0_tint[2] )
+          --slot0_tint[2];
+        if ( fade_slot_base[1].tint[0] )
+          fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
+        if ( slot1_tint[1] )
+          --slot1_tint[1];
+        if ( slot1_tint[2] )
+          --slot1_tint[2];
+        if ( fade_slot_base[0].tint[0]
+          || slot0_tint[1] || slot0_tint[2]
+          || fade_slot_base[1].tint[0]
+          || slot1_tint[1] || slot1_tint[2] )
+        {
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
+        }
+        fade_slot_base[1].is_active = 0;
+        fade_slot_base[0].is_active = 0;
+        next_phase = gModel_bPresentationPhase + 1;
 set_phase_and_tick:
-      gModel_bPresentationPhase = next_phase;
-tick_active_slot:
+        gModel_bPresentationPhase = next_phase;
+      }
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
       break;
     case 3:
@@ -2951,12 +2942,17 @@ void Model_ResetSceneState(void){s16 table[256];RECT packet;register s16*p=&tabl
 #define MODEL_DEBUG_CANCEL_MASK 0x20
 #endif
 ModelDebugState D_8009B004 = {0};
+#ifndef VERSION_JAPAN
+ModelDebugDisplayState gModelDebug_Display = {0};
+#endif
 
 s32 ModelDebug_UpdateController(void)
 {
     s32 reload = 0;
-    char *normal = gModelDebug_szNormalColor;
-    char *selected = gModelDebug_szSelectedColor;
+#ifndef VERSION_JAPAN
+    char *normal = "~cff0";
+    char *selected = "~cf00";
+#endif
     ModelSlot *slots;
 
     if (gModel_bPresentationPhase == -2)
@@ -3118,24 +3114,24 @@ s32 ModelDebug_UpdateController(void)
         gModelDebug_abSlotAfFlags[1] ^= 1;
     if (gInput_awPadPressed[0] & 2)
         gModelDebug_abSlotGfFlags[1] ^= 1;
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 0 ?
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 1 ?
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 1 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 10u) % 10u));
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 2 ?
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 2 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[0] % 10u));
     FntPrint(normal);
     FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[0], gModelDebug_abSlotGfFlags[0]);
-    FntPrint(gModelDebug_szVersusSeparator);
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 3 ?
+    FntPrint(" VS ");
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 3 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 100u) % 10u));
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 4 ?
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 4 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 10u) % 10u));
-    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 5 ?
+    FntPrint("%s%d", gModelDebug_bSelectedDigit == 5 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[1] % 10u));
     FntPrint(normal);
     FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[1], gModelDebug_abSlotGfFlags[1]);
-    FntPrint(gModelDebug_szLineBreak);
+    FntPrint("\n");
     FntPrint(gModelDebug_szStageFormat, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
@@ -3150,22 +3146,6 @@ s32 ModelDebug_UpdateController(void)
     return 0;
 }
 
-#ifndef VERSION_JAPAN
-/* The Japanese build has none of this debug display data. */
-
-ModelDebugDisplayState gModelDebug_Display = {0};
-char gModelDebug_szNormalColor[8] = "~cff0";
-char gModelDebug_szSelectedColor[8] = "~cf00";
-char gModelDebug_szDigitFormat[8] = "%s%d";
-char gModelDebug_szVersusSeparator[8] = " VS ";
-char gModelDebug_szLineBreak[4] = "\n";
-char gModel_szBackTrace[8] = "BACK\n";
-char gModel_szStoneTrace[8] = "STONE\n";
-char gModel_szHitTrace[8] = "HIT\n";
-char gModel_szOuchTrace[8] = "OUCH\n";
-char gModel_szTermTrace[8] = "TERM\n";
-
-#endif
 /*
  * Per-slot model draw pass: selects the slot's ordering table, programs the
  * three flat lights and the ambient colour, steps the slot's colour fade into
@@ -4182,13 +4162,13 @@ void Model_UpdateSlotControl(s32 index)
             MODEL_CONTROL_TRACE(gModel_szContinueTrace);
             return;
         case 5:
-            MODEL_CONTROL_TRACE(gModel_szBackTrace);
+            MODEL_CONTROL_TRACE("BACK\n");
             if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
                 Model_ControlSlotAnimation(index ^ 1, 1, 1);
             }
             return;
         case 3:
-            MODEL_CONTROL_TRACE(gModel_szStoneTrace);
+            MODEL_CONTROL_TRACE("STONE\n");
             if (action == 6) {
                 other->stone_texture_state = 0x80;
                 Model_ControlSlotAnimation(index ^ 1, 6, 1);
@@ -4235,10 +4215,10 @@ void Model_UpdateSlotControl(s32 index)
             command = reaction & 0x7F;
             changed = 0;
             if (slot->animation_control_state == 1) {
-                MODEL_CONTROL_TRACE(gModel_szHitTrace);
+                MODEL_CONTROL_TRACE("HIT\n");
             }
             if (slot->animation_control_state == 4) {
-                MODEL_CONTROL_TRACE(gModel_szOuchTrace);
+                MODEL_CONTROL_TRACE("OUCH\n");
                 if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
                     command = 5;
                 }
@@ -4269,10 +4249,10 @@ void Model_UpdateSlotControl(s32 index)
             return;
         }
         case 2:
-            MODEL_CONTROL_TRACE(gModel_szTermTrace);
+            MODEL_CONTROL_TRACE("TERM\n");
             return;
         default:
-            MODEL_CONTROL_TRACE(gModel_szWhyTrace);
+            MODEL_CONTROL_TRACE("WHY?\n");
             slot->animation_control_state = 2;
             return;
         }

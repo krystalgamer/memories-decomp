@@ -31,9 +31,7 @@ typedef struct {
     POLY_GT4 frame_poly, glow;
     u8 unknown_3EA0[0x34];
     POLY_GT4 strip;
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_4000[0x10];
     MATRIX matrices[3];

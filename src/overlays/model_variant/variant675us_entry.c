@@ -50,16 +50,16 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
         work->head.elapsed = 0;
         Model_CopySlotPosition(work->head.slot == 0, (u16 *)&work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[2]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[1]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[4]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[0]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant675Us_aImages[3]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -69,8 +69,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->trail_count = 8;
             break;
         }
-        work->radius = gModelVariant675Us_aConfigs[command].radius;
-        work->height = gModelVariant675Us_aConfigs[command].height;
+        work->place.radius = gModelVariant675Us_aConfigs[command].radius;
+        work->place.height = gModelVariant675Us_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -109,7 +109,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             work->bolts[i].head.color[2] = gModelVariant675Us_aConfigs[command].bolt_blue;
             setVector(&work->bolts[i].xform.scale, 0x1000, 0x1000, 0x1000);
             d = i % 2 * 2 - 1;
-            n = work->height / 3;
+            n = work->place.height / 3;
             setVector(&work->bolts[i].growth,
                 d * n * rsin((i << 12) / work->bolt_count) / 4096 + work->origin.vx, 0,
                 n * rcos((i << 12) / work->bolt_count) / 4096 + work->origin.vz * 2);
@@ -149,17 +149,17 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->sparks[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->sparks[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant675Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant675Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius;
-        d = work->radius >> 3;
+        n = work->place.radius;
+        d = work->place.radius >> 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_upper[i], n * rsin(i << 8) / 4096, d, n * rcos(i << 8) / 4096);
             setVector(&work->ring_lower[i], n * rsin(i << 8) / 4096, -d, n * rcos(i << 8) / 4096);
@@ -167,14 +167,14 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 (work->ring_upper[i].vy + work->ring_lower[i].vy) / 2,
                 (work->ring_upper[i].vz + work->ring_lower[i].vz) / 2);
         }
-        n = work->radius * 2;
+        n = work->place.radius * 2;
         for (i = 0; i < 17; i++) {
             setVector(&work->fan[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
         }
         setVector(&work->center, 0, 0, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
@@ -258,8 +258,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[0];
-                work->flat.clut = work->clut[0];
+                work->flat.tpage = work->textures.tpage[0];
+                work->flat.clut = work->textures.clut[0];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->rings[i].head.u, work->rings[i].head.v, work->rings[i].head.u + 63,
                     work->rings[i].head.v, work->rings[i].head.u, work->rings[i].head.v + 63,
@@ -298,8 +298,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (m = 0; m < 16; m++) {
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         u[0] = work->rings[i].head.u;
                         v[0] = work->rings[i].head.v + 128;
@@ -318,8 +318,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         setUV4(&work->shaded, u[0], v[0], u[1], v[0], u[0], v[1], u[1], v[1]);
                         setRGB2(&work->shaded, 0, 0, 0);
@@ -363,8 +363,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 v[0] = frame - 64;
                 for (k = 0; k < 16; k++) {
                     setPolyGT3(&work->fan_tri);
-                    work->fan_tri.tpage = work->tpage[2];
-                    work->fan_tri.clut = work->clut[2];
+                    work->fan_tri.tpage = work->textures.tpage[2];
+                    work->fan_tri.clut = work->textures.clut[2];
                     setSemiTrans(&work->fan_tri, 1);
                     setUV3(&work->fan_tri, u[0], v[0], u[1], v[1], u[2], v[2]);
                     setRGB0(&work->fan_tri, work->rings[i].head.color[0], work->rings[i].head.color[1], work->rings[i].head.color[2]);
@@ -402,7 +402,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                 work->line.g = work->bolts[i].head.color[1];
                 work->line.b = work->bolts[i].head.color[2];
                 d = i % 2 * 2 - 1;
-                n = work->radius;
+                n = work->place.radius;
                 tip.vx = (work->bolts[i].growth.vx - work->bolts[i].xform.position.vx) * work->bolts[i].head.elapsed
                     / work->bolts[i].head.duration
                     + n * rsin(d * (work->bolts[i].head.elapsed << 12) / work->bolts[i].head.duration
@@ -427,7 +427,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                     work->sparks[i].xform.position.vy = 0;
                     k = 0;
                     do {
-                        n = work->radius;
+                        n = work->place.radius;
                         setVector(&work->curtain_upper[k][i],
                             (work->bolts[i].growth.vx - work->bolts[i].xform.position.vx) * k / 8
                                 + n * rsin(d * (k << 12) / 8 + (i << 12) / work->bolt_count) / 4096,
@@ -450,7 +450,7 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                             s32 h;
 
                             n = rcos(k << 7);
-                            h = work->height;
+                            h = work->place.height;
                             work->curtain_lower[k][i].vy = -h + h * n / 4096;
                         }
                     } while (++k < 9);
@@ -543,8 +543,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                         mids[m].vy = (work->curtain_upper[k + m][i].vy + work->curtain_lower[k + m][i].vy) / 2;
                     }
                     setPolyGT4(&work->shaded);
-                    work->shaded.tpage = work->tpage[1];
-                    work->shaded.clut = work->clut[1];
+                    work->shaded.tpage = work->textures.tpage[1];
+                    work->shaded.clut = work->textures.clut[1];
                     setSemiTrans(&work->shaded, 1);
                     setUV4(&work->shaded, work->sparks[i].head.u, work->sparks[i].head.v + 63,
                         work->sparks[i].head.u + 63, work->sparks[i].head.v + 63, work->sparks[i].head.u,
@@ -565,8 +565,8 @@ s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     setPolyGT4(&work->shaded);
-                    work->shaded.tpage = work->tpage[1];
-                    work->shaded.clut = work->clut[1];
+                    work->shaded.tpage = work->textures.tpage[1];
+                    work->shaded.clut = work->textures.clut[1];
                     setSemiTrans(&work->shaded, 1);
                     setUV4(&work->shaded, work->sparks[i].head.u, work->sparks[i].head.v + 63,
                         work->sparks[i].head.u + 63, work->sparks[i].head.v + 63, work->sparks[i].head.u,

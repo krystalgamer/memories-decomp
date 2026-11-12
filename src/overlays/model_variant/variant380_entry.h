@@ -38,9 +38,7 @@ typedef struct {
     Variant380EntryBeam beams[5];
     ModelVariantSheetSet sheets[5];
     Variant337EntryStreamer streamers[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[6];
     u8 unknown_19B8[0x10];
     MATRIX matrices[5];

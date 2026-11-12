@@ -42,8 +42,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant651_Image);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         switch (command) {
         case 0:
             work->ring_count = 4;
@@ -54,8 +54,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->dome_count = 0;
             break;
         }
-        work->radius = gModelVariant651_aConfigs[command].radius;
-        work->height = gModelVariant651_aConfigs[command].height;
+        work->place.radius = gModelVariant651_aConfigs[command].radius;
+        work->place.height = gModelVariant651_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].head.duration = 0x40;
             work->rings[i].head.active = 0;
@@ -84,7 +84,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->domes[i].head.u = 0;
             work->domes[i].head.v = 0;
             setVector(&work->domes[i].xform.scale, 0x1000, 0x1000, 0x1000);
-            setVector(&work->domes[i].growth, 0, 0, (work->height / 2 + 450) * work->direction);
+            setVector(&work->domes[i].growth, 0, 0, (work->place.height / 2 + 450) * work->direction);
             setVector(&work->domes[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].xform.position, 0, 0, 0);
         }
@@ -106,28 +106,28 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             work->cones[i].xform.position.vy -= 350;
             work->cones[i].xform.position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant651_aConfigs[command].delay;
+        work->place.delay = gModelVariant651_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->ring[i][0], work->radius * rsin(i << 8) / 4096,
-                work->radius * rcos(i << 8) / 4096, 0);
-            setVector(&work->ring[i][1], work->radius * (rsin(i << 8) << 3) / 4096,
-                work->radius * (rcos(i << 8) << 3) / 4096, -work->height / 2);
+            setVector(&work->ring[i][0], work->place.radius * rsin(i << 8) / 4096,
+                work->place.radius * rcos(i << 8) / 4096, 0);
+            setVector(&work->ring[i][1], work->place.radius * (rsin(i << 8) << 3) / 4096,
+                work->place.radius * (rcos(i << 8) << 3) / 4096, -work->place.height / 2);
         }
         /* The row, angle and half counters reuse k, j and t; the original
          * register allocation depends on that sharing. */
         for (k = 0; k < 8; k++) {
             for (i = 0; i < 17; i++) {
-                v[0].vx = work->radius * rsin((k + 1) * 96 + 256) / 4096 * rsin(j = i << 8) / 4096;
-                v[0].vy = work->radius * rsin((k + 1) * 96 + 256) / 4096 * rcos(j) / 4096;
-                v[0].vz = work->height / 2 - work->height * k / 8;
+                v[0].vx = work->place.radius * rsin((k + 1) * 96 + 256) / 4096 * rsin(j = i << 8) / 4096;
+                v[0].vy = work->place.radius * rsin((k + 1) * 96 + 256) / 4096 * rcos(j) / 4096;
+                v[0].vz = work->place.height / 2 - work->place.height * k / 8;
                 x = rsin((k + 1) * 96 + 256);
-                v[1].vx = work->radius * ((x << 2) + x) / 4096 * rsin(j) / 4096;
+                v[1].vx = work->place.radius * ((x << 2) + x) / 4096 * rsin(j) / 4096;
                 y = rsin((k + 1) * 96 + 256);
-                v[1].vy = work->radius * ((y << 2) + y) / 4096 * rcos(j) / 4096;
-                v[1].vz = work->height / 2 - work->height * k / 8 - work->height / 4;
+                v[1].vy = work->place.radius * ((y << 2) + y) / 4096 * rcos(j) / 4096;
+                v[1].vz = work->place.height / 2 - work->place.height * k / 8 - work->place.height / 4;
                 ls = GsIDMATRIX;
                 RotMatrixZ(k << 9, &ls);
                 for (t = 0; t < 2; t++) {
@@ -138,14 +138,14 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->outer[i][0], work->radius * (rsin(i << 8) << 1) / 4096,
-                work->radius * (rcos(i << 8) << 1) / 4096, 0);
-            setVector(&work->outer[i][1], work->radius * (rsin(i << 8) << 2) / 4096,
-                work->radius * (rcos(i << 8) << 2) / 4096, work->height / 15);
+            setVector(&work->outer[i][0], work->place.radius * (rsin(i << 8) << 1) / 4096,
+                work->place.radius * (rcos(i << 8) << 1) / 4096, 0);
+            setVector(&work->outer[i][1], work->place.radius * (rsin(i << 8) << 2) / 4096,
+                work->place.radius * (rcos(i << 8) << 2) / 4096, work->place.height / 15);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
@@ -163,7 +163,7 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 GsGetLwUnit(&unit, &ls);
                 work->domes[0].head.active = 1;
                 applyVector(&work->domes[0].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
-                n = work->height * work->domes[0].head.duration
+                n = work->place.height * work->domes[0].head.duration
                     / ((ABS(work->domes[0].growth.vz) + ABS(work->domes[0].xform.position.vz)) * 8);
                 for (i = 0; i < 8; i++) {
                     work->row_timer[i] = n * (i + 2);
@@ -215,8 +215,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
-                    work->quad.tpage = work->tpage[0];
-                    work->quad.clut = work->clut[0];
+                    work->quad.tpage = work->textures.tpage[0];
+                    work->quad.clut = work->textures.clut[0];
                     setSemiTrans(&work->quad, 1);
                     u0 = work->rings[i].head.u + k * 127 / 16;
                     u1 = work->rings[i].head.u + (k + 1) * 127 / 16;
@@ -268,8 +268,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                     if (work->row_timer[t] < work->domes[i].head.duration) {
                         for (k = 0; k < 16; k++) {
                             setPolyGT4(&work->quad);
-                            work->quad.tpage = work->tpage[0];
-                            work->quad.clut = work->clut[0];
+                            work->quad.tpage = work->textures.tpage[0];
+                            work->quad.clut = work->textures.clut[0];
                             setSemiTrans(&work->quad, 1);
                             u0 = work->domes[i].head.u + k * 127 / 16;
                             u1 = work->domes[i].head.u + (k + 1) * 127 / 16;
@@ -333,8 +333,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->quad);
-                    work->quad.tpage = work->tpage[0];
-                    work->quad.clut = work->clut[0];
+                    work->quad.tpage = work->textures.tpage[0];
+                    work->quad.clut = work->textures.clut[0];
                     setSemiTrans(&work->quad, 1);
                     u0 = work->cones[i].head.u + k % 4 * 127 / 4;
                     u1 = work->cones[i].head.u + (k % 4 + 1) * 127 / 4;

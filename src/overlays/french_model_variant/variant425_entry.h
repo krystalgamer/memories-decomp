@@ -23,10 +23,7 @@ typedef struct {
  * and the width's screen offset. */
 typedef struct {
     ModelVariantStripSpine spine;
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x88];
     VECTOR position;
     ModelVariantStripOffsets offsets;
@@ -43,9 +40,7 @@ typedef struct {
     u8 unknown_1590[0x34];
     POLY_GT4 special;
     u8 unknown_15F8[0x34];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2];
     u8 unknown_1724[0x10];
     MATRIX matrix;

@@ -19,9 +19,7 @@ typedef struct {
     ModelVariantPointSheet rings[2];
     u8 unknown_1364[0x167C - 0x1364];
     Variant337EntryStreamer streamers[2];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     POLY_FT4 extra_textured[2];
     u8 unknown_1EB4[16];

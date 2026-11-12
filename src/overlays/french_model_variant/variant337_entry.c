@@ -17,10 +17,10 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
     Variant337EntryRecord *record = work->records;
     ModelVariantPointSheet *ring = work->rings;
     Variant337EntryStreamer *streamer = work->streamers;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     s32 result = 0;
     s32 ring_index, ring_point;
     s32 i, j, angle;
@@ -88,16 +88,16 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(flat, 1);
         SetShadeTex(flat, 1);
         for (i = 0; i < 1; i++, record++) {
-            setVector(&record->scale, 4096, 4096, 4096);
-            record->inner.r = 192;
-            record->inner.g = 192;
-            record->inner.b = 192;
-            record->outer.r = 0;
-            record->outer.g = 16;
-            record->outer.b = 128;
-            record->field_238 = 0;
-            record->field_23C = 0;
-            record->field_23A = 0;
+            setVector(&record->style.scale, 4096, 4096, 4096);
+            record->style.inner.r = 192;
+            record->style.inner.g = 192;
+            record->style.inner.b = 192;
+            record->style.outer.r = 0;
+            record->style.outer.g = 16;
+            record->style.outer.b = 128;
+            record->style.field_18 = 0;
+            record->style.field_1C = 0;
+            record->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i % 2 == 1) {

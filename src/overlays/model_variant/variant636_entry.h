@@ -22,18 +22,11 @@ typedef struct {
 
 /* One 0x50-byte effect part placed through its own coordinate unit. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* Set once a streak has landed; the ring count of a dome. */
     u16 stage;
     u16 unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     /* A streak's launch point; a sprite's drift over its lifetime. */
     VECTOR target;
 } Model636Part;

@@ -66,8 +66,8 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             work->count = 2;
             break;
         }
-        work->radius = gModelVariant647_aConfigs[command].radius;
-        work->height = gModelVariant647_aConfigs[command].height;
+        work->place.radius = gModelVariant647_aConfigs[command].radius;
+        work->place.height = gModelVariant647_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->bursts[i].head.duration = 64;
             work->bursts[i].head.active = 0;
@@ -132,33 +132,33 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
             work->bursts[i].xform.position.vy -= 350;
             work->bursts[i].xform.position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant647_aConfigs[command].delay;
+        work->place.delay = gModelVariant647_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 17; j++) {
                 angle = (i << 7) + (j << 8);
-                setVector(&work->inner[j][i], work->radius * (i * 2 + 2) / 4 * rsin(angle) / 4096,
-                    work->radius * (i * 2 + 2) / 4 * rcos(angle) / 4096, 0);
-                setVector(&work->outer[j][i], work->radius * (i * 6 + 6) / 4 * rsin(angle) / 4096,
-                    work->radius * (i * 6 + 6) / 4 * rcos(angle) / 4096, work->height * (i - 4) / 4);
+                setVector(&work->inner[j][i], work->place.radius * (i * 2 + 2) / 4 * rsin(angle) / 4096,
+                    work->place.radius * (i * 2 + 2) / 4 * rcos(angle) / 4096, 0);
+                setVector(&work->outer[j][i], work->place.radius * (i * 6 + 6) / 4 * rsin(angle) / 4096,
+                    work->place.radius * (i * 6 + 6) / 4 * rcos(angle) / 4096, work->place.height * (i - 4) / 4);
             }
         }
         for (i = 0; i < 8; i++) {
             for (j = 0; j < 17; j++) {
                 turn = (i << 7) + (j << 8);
-                setVector(&work->top[j][i], work->radius * (i * 2 + 2) / 8 * rsin(turn) / 4096,
-                    work->radius * (i * 2 + 2) / 8 * rcos(turn) / 4096, 0);
+                setVector(&work->top[j][i], work->place.radius * (i * 2 + 2) / 8 * rsin(turn) / 4096,
+                    work->place.radius * (i * 2 + 2) / 8 * rcos(turn) / 4096, 0);
                 turn = ((i + 1) << 7) + (j << 8);
-                setVector(&work->bottom[j][i], work->radius * ((i + 1) << 3) / 8 * rsin(turn) / 4096,
-                    work->radius * ((i + 1) << 3) / 8 * rcos(turn) / 4096,
-                    work->height * -((8 - i) * 2) / 8 - work->height);
+                setVector(&work->bottom[j][i], work->place.radius * ((i + 1) << 3) / 8 * rsin(turn) / 4096,
+                    work->place.radius * ((i + 1) << 3) / 8 * rcos(turn) / 4096,
+                    work->place.height * -((8 - i) * 2) / 8 - work->place.height);
             }
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

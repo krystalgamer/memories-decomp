@@ -13,6 +13,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
+#include "model_variant.h"
 
 /* One 0x44-byte command row: the head sprite colour, the bolt and glow
  * colours, the model point the bolt leaves from, the head size, the flight
@@ -21,29 +22,17 @@
  * sparks, the trail fade step, the shock-fan pulse steps and the camera
  * phase times. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 part;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 flare_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 unknown_22;
     u16 fan_inner;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_31;
     u16 unknown_32;
     u16 pulse_fast;

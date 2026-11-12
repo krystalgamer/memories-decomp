@@ -65,8 +65,8 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->fan_count = 4;
             break;
         }
-        work->radius = gModelVariant650_aConfigs[command].radius;
-        work->height = gModelVariant650_aConfigs[command].height;
+        work->place.radius = gModelVariant650_aConfigs[command].radius;
+        work->place.height = gModelVariant650_aConfigs[command].height;
         for (i = 0; i < work->sprite_count; i++) {
             work->sprites[i].active = 0;
             work->sprites[i].elapsed = 0;
@@ -123,11 +123,11 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
             work->fans[i].position.vy -= 350;
             work->fans[i].position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant650_aConfigs[command].delay;
+        work->place.delay = gModelVariant650_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius / 2;
+        value = work->place.radius / 2;
         setVector(&work->corners[0], -value, -(value * 96) / 64, 0);
         setVector(&work->corners[1], value, -(value * 96) / 64, 0);
         setVector(&work->corners[2], -value, value * 96 / 64, 0);
@@ -137,22 +137,22 @@ s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
                 setVector(&work->shell[j][i],
-                    SquareRoot0(work->radius * 10 * (work->radius * 10)
-                        - work->radius * -(rcos(i << 8) * -10) / 4096 * (work->radius * -(rcos(i << 8) * -10) / 4096))
+                    SquareRoot0(work->place.radius * 10 * (work->place.radius * 10)
+                        - work->place.radius * -(rcos(i << 8) * -10) / 4096 * (work->place.radius * -(rcos(i << 8) * -10) / 4096))
                         * rsin(j << 8) / 4096,
-                    work->radius * -(rcos(i << 8) * -10) / 4096,
-                    SquareRoot0(work->radius * 10 * (work->radius * 10)
-                        - work->radius * -(rcos(i << 8) * -10) / 4096 * (work->radius * -(rcos(i << 8) * -10) / 4096))
+                    work->place.radius * -(rcos(i << 8) * -10) / 4096,
+                    SquareRoot0(work->place.radius * 10 * (work->place.radius * 10)
+                        - work->place.radius * -(rcos(i << 8) * -10) / 4096 * (work->place.radius * -(rcos(i << 8) * -10) / 4096))
                         * rcos(j << 8) / 4096);
             }
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->circle[i], work->radius * -(rsin(i << 8) * -15) / 4096,
-                work->radius * -(rcos(i << 8) * -15) / 4096, 0);
+            setVector(&work->circle[i], work->place.radius * -(rsin(i << 8) * -15) / 4096,
+                work->place.radius * -(rcos(i << 8) * -15) / 4096, 0);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

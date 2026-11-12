@@ -18,9 +18,9 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
     ModelVariant408Projection projection;
     ModelVariant408Mesh *mesh = work->meshes;
     ModelVariant408Ring *ring = work->rings;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *other = &work->other;
     POLY_GT4 *opaque = &work->opaque;
     POLY_FT4 *sprite = work->sprites;

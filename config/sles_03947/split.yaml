@@ -250,6 +250,7 @@ segments:
       - [0x08C6F0, .sdata, game/european/model_camera_effects]
       - [0x08C6FC, .sdata, game/european/movie_pipeline]
       - [0x08C710, .sdata, game/european/model]
+      - [0x08C7DE, pad]
       - [0x08C7E0, .sdata, game/european/main_menu_load_package_stage]
       - [0x8c7e8, sbss, main_commons]
       - [0x8c838, sbss, file_set_position_table_commons]

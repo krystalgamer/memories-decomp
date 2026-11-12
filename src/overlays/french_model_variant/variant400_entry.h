@@ -16,10 +16,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x2C8 - 0x240];
     VECTOR position;
     u8 unknown_2D8[0x370 - 0x2D8];
@@ -30,9 +27,7 @@ typedef struct {
     ModelVariantPointSheet sheets[7];
     ModelVariantStreamer columns[2];
     u8 unknown_1BC0[0x1ED8 - 0x1BC0];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_1FD0[0x10];
     MATRIX matrix;

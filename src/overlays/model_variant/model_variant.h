@@ -148,6 +148,17 @@ typedef struct {
     VECTOR view_delta;
 } ModelVariantAim;
 
+/* The packet block an entry state keeps for its shaded primitives (e.g.
+ * Variant388EntryState): on a request the entry initializes triangle with
+ * SetPolyG3, quad with SetPolyG4 and both textured packets with SetPolyGT4
+ * (semi-transparent), and each tick its drawers fill these templates and
+ * copy them into the ordering table. */
+typedef struct {
+    POLY_G3 triangle;
+    POLY_G4 quad;
+    POLY_GT4 textured[2];
+} ModelVariantPackets;
+
 /* The control block an entry state keeps ahead of its config pointer
  * (e.g. Variant428EntryState): the entry zeroes the counters and fade, then
  * stores the view pitch and yaw in angles (ratan2 of its view delta, the yaw
@@ -195,6 +206,29 @@ typedef struct {
     s32 slot;
 } ModelVariantEntryHead;
 
+/* The block that follows ModelVariantEntryHead and the s32 side sign
+ * (head.slot * 2 - 1) in the small entry states (e.g. Model651State). On a
+ * request the entry copies delay, radius and height from its config row.
+ * Each tick a positive delay is decremented by Model_GetFrameStep(); on a
+ * later tick whose delay is not positive, the entry's existing script gate
+ * may run its command script. radius and height size the effect's
+ * rings, corners and rise. The side sign stays outside: with it the block
+ * would be 4-aligned and padded to 12 bytes, moving the u16 that follows. */
+typedef struct {
+    s16 delay;
+    u16 radius, height;
+} ModelVariantEntryPlacement;
+
+/* The texture ids that follow the placement in the small entry states
+ * (e.g. Model651State). On a request the entry stores each of its images'
+ * ModelTexture_PackPageClutCopy() result as tpage[i] (high half) and clut[i]
+ * (low half); the drawers copy a pair into a packet's tpage and clut before
+ * sorting it. Entries with fewer images leave the later slots unused. */
+typedef struct {
+    u16 tpage[3];
+    u16 clut[3];
+} ModelVariantTextureIds;
+
 /* One 0x28-byte command row of the wave-grid entries: the wave's colour and
  * the ranges its grid colours are drawn from (unused by header 138), the
  * sprites' colour, then the sprite size, the bounce height, the sway and
@@ -220,8 +254,9 @@ typedef struct {
     u8 pad84[0x0C];
 } ModelVariantQuad;
 
-/* The 0x10-byte block that starts the effect elements of the header 627-682
- * entries (ModelVariantElement and its relatives below). An entry sets up
+/* The 0x10-byte block that starts the effect elements of the header 627-683
+ * entries (ModelVariantElement and its relatives below, and entry records
+ * such as Model633Element) and images 9840 and 60348. An entry sets up
  * an element's color, u, v, mode and duration, zeroes elapsed and sets
  * active to spawn it; each tick it skips an element whose active flag is
  * clear, adds the frame step to elapsed and clears active once elapsed
@@ -247,7 +282,8 @@ typedef struct {
  * set coord to Model_GetCameraCoordinateUnit() and, per draw, link it as
  * the super of a local GsCOORDUNIT whose matrix is ScaleMatrix(scale),
  * then RotMatrixZ/X/Y(rotation) and translation position, before
- * GsGetLsUnit. */
+ * GsGetLsUnit. The screen-wide flashes and fades (e.g. headers 668 and 683)
+ * draw a flat fill and only set coord. */
 typedef struct {
     GsCOORDUNIT *coord;
     SVECTOR rotation;
@@ -587,13 +623,23 @@ typedef struct {
     VECTOR delta;
 } ModelVariantRibbonTail;
 
-/* One 0x360-byte ribbon: two colours, a scale vector and a position. */
+/* The 0x20-byte style block that follows the 0x220-byte projected spine of
+ * the seventeen-point ribbon records: the inner (spine-side) and outer (edge)
+ * colours, a scale the entries set to 4096, and three members the entries
+ * clear. Header 410's ribbon drawer shades the spine side with `inner` and
+ * the edge with `outer`. The header-321/338 drawer reads `count` as the number
+ * of segments drawn so far, and that entry starts it at -16 * ribbon index. */
+typedef struct {
+    CVECTOR inner, outer;
+    VECTOR scale;
+    s16 field_18, count;
+    s32 field_1C;
+} ModelVariantStripStyle;
+
+/* One 0x360-byte ribbon: its style block and a position. */
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x88];
     VECTOR position;
     u8 unknown_2D8[0x88];
@@ -1055,6 +1101,56 @@ typedef struct {
     s32 field_548;
 } ModelVariantTubeView;
 
+/* The colours that start a bolt entry's config row (e.g. Model793Config):
+ * r, g, b tint the muzzle sprite (setRGB0 on its POLY_FT4), and on launch
+ * the entry copies bolt_r..b into each bolt's trail colour (later faded by
+ * the row's fade step) and glow_r..b into its impact glow colour. */
+typedef struct {
+    u8 r, g, b;
+    u8 bolt_r, bolt_g, bolt_b;
+    u8 glow_r, glow_g, glow_b;
+} ModelVariantBoltColors;
+
+/* A bolt config row's flight: size is the radius of the sprite ring around
+ * each bolt and the half-size of its quads and trail, steps divides the
+ * distance to the target into each bolt's per-frame step, and count is the
+ * number of bolts. */
+typedef struct {
+    u16 size;
+    u16 steps;
+    u16 count;
+} ModelVariantBoltFlight;
+
+/* The ring that follows a bolt config row's flight: each bolt carries count
+ * sprites whose quads reach size from their centre (a square on most rows,
+ * four mirrored quarters on others), and with each sprite a G3 strip of
+ * half-width strip_width whose tip turns on a circle of radius strip_radius
+ * (strip_radius * ccos / csin of the elapsed time). */
+typedef struct {
+    u16 count;
+    u16 strip_width;
+    u16 strip_radius;
+    u16 size;
+} ModelVariantBoltRing;
+
+/* A bolt config row's smoke puffs: each bolt seeds count puffs at a
+ * random offset scaled by spread, moving by the same offset scaled by speed,
+ * drawn as quads of half-size size. */
+typedef struct {
+    u16 spread;
+    u16 count;
+    u16 speed;
+    u16 size;
+} ModelVariantPuffParams;
+
+/* A bolt config row's impact sparks: count sparks seeded at a random
+ * offset of up to spread on each axis, drawn as quads of half-size size. */
+typedef struct {
+    u16 spread;
+    u16 size;
+    u16 count;
+} ModelVariantSparkParams;
+
 /* One 0x3C-byte command row: the muzzle sprite colour, the bolt, glow and
  * ray colours, the model point the bolts leave from, the muzzle size, the
  * flight length, the bolt count, the ring of sprites and spinning strips
@@ -1062,29 +1158,17 @@ typedef struct {
  * the two fade steps, the two bolts' launch times and the CLUT mode of
  * the second and fourth textures. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
     u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_33;
     u8 ray_fade, unknown_35;
     u16 start;
@@ -1439,23 +1523,13 @@ typedef struct {
  * fan, the sparks, the two fade steps, the two fan growth rates and the
  * start time. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part;
     u8 unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
@@ -1463,9 +1537,7 @@ typedef struct {
     u16 fan_radius;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_39;
     u8 ray_fade, unknown_3B;
     u32 grow;
@@ -1480,29 +1552,17 @@ typedef struct {
  * around each bolt, the smoke puffs, the impact glow, its rays and sparks,
  * the two fade steps and the spawn period, start and end. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
     u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_33;
     u8 ray_fade, unknown_35;
     u16 period;
@@ -1517,31 +1577,19 @@ typedef struct {
  * sparks, the fade step, the fan growth rates, the four launch times and
  * the camera cue times. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 unknown_09[3];
     u8 part;
     u8 unknown_0D[3];
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 unknown_28;
     u16 fan_radius;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_37;
     u32 unknown_38;
     u32 grow;

@@ -61,14 +61,14 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant659_aImages[4]);
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant659_aImages[5]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant659_aImages[6]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant659_aImages[1]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant659_aImages[0]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -84,8 +84,8 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             work->count = 32;
             break;
         }
-        work->radius = gModelVariant659_aConfigs[command].radius;
-        work->height = gModelVariant659_aConfigs[command].height;
+        work->place.radius = gModelVariant659_aConfigs[command].radius;
+        work->place.height = gModelVariant659_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->flares[i].head.active = 0;
             work->flares[i].head.elapsed = 0;
@@ -102,15 +102,15 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             setVector(&work->flares[i].target, 0, 0, 0);
             setVector(&work->flares[i].xform.rotation, 0, work->head.slot * 2048, value * ((i % 8) << 12) / 8);
             setVector(&work->flares[i].xform.position,
-                value * work->radius / 2 * rsin((i << 12) / work->count) / 4096,
-                value * work->radius / 2 * rcos((i << 12) / work->count) / 4096,
-                work->radius * rsin((i % 4) << 10) / 4096);
+                value * work->place.radius / 2 * rsin((i << 12) / work->count) / 4096,
+                value * work->place.radius / 2 * rcos((i << 12) / work->count) / 4096,
+                work->place.radius * rsin((i % 4) << 10) / 4096);
             if (work->head.command == 5) {
                 work->flares[i].xform.position.vy -= 250;
             } else {
                 work->flares[i].xform.position.vy -= 350;
             }
-            work->flares[i].xform.position.vz += (work->radius + 450) * work->direction;
+            work->flares[i].xform.position.vz += (work->place.radius + 450) * work->direction;
         }
         for (i = 0; i < work->count; i++) {
             work->rings[i].head.active = 0;
@@ -128,7 +128,7 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             setVector(&work->rings[i].target, 0, 0, 0);
             work->rings[i].xform.rotation = work->flares[i].xform.rotation;
             work->rings[i].xform.position = work->flares[i].xform.position;
-            work->rings[i].xform.position.vz += work->radius * -work->direction;
+            work->rings[i].xform.position.vz += work->place.radius * -work->direction;
         }
         for (i = 0; i < work->count; i++) {
             work->sparks[i].head.active = 0;
@@ -147,33 +147,33 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             setVector(&work->sparks[i].xform.rotation, 0, work->head.slot * 2048, 0);
             work->sparks[i].xform.position = work->rings[i].xform.position;
         }
-        work->delay = gModelVariant659_aConfigs[command].delay;
+        work->place.delay = gModelVariant659_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
         /* "* -1" keeps the negated radius loads apart from the positive ones. */
-        setVector(&work->corners[0], 0, work->radius * -1, 0);
-        setVector(&work->corners[1], 0, work->radius, 0);
-        setVector(&work->corners[2], 0, work->radius * -1, work->radius * 4);
-        setVector(&work->corners[3], 0, work->radius, work->radius * 4);
+        setVector(&work->corners[0], 0, work->place.radius * -1, 0);
+        setVector(&work->corners[1], 0, work->place.radius, 0);
+        setVector(&work->corners[2], 0, work->place.radius * -1, work->place.radius * 4);
+        setVector(&work->corners[3], 0, work->place.radius, work->place.radius * 4);
         for (i = 0; i < 9; i++) {
-            setVector(&work->inner[i][0], work->radius / 8 * rsin(i << 9) / 4096,
-                work->radius / 8 * rcos(i << 9) / 4096, 0);
-            setVector(&work->outer[i][0], work->radius / 2 * rsin(i << 9) / 4096,
-                work->radius / 2 * rcos(i << 9) / 4096, -work->radius / 2);
-            setVector(&work->inner[i][1], work->radius / 8 * rsin(i << 9) / 4096,
-                work->radius / 8 * rcos(i << 9) / 4096, 0);
-            setVector(&work->outer[i][1], work->radius / 2 * rsin(i << 9) / 4096,
-                work->radius / 2 * rcos(i << 9) / 4096, -work->radius);
+            setVector(&work->inner[i][0], work->place.radius / 8 * rsin(i << 9) / 4096,
+                work->place.radius / 8 * rcos(i << 9) / 4096, 0);
+            setVector(&work->outer[i][0], work->place.radius / 2 * rsin(i << 9) / 4096,
+                work->place.radius / 2 * rcos(i << 9) / 4096, -work->place.radius / 2);
+            setVector(&work->inner[i][1], work->place.radius / 8 * rsin(i << 9) / 4096,
+                work->place.radius / 8 * rcos(i << 9) / 4096, 0);
+            setVector(&work->outer[i][1], work->place.radius / 2 * rsin(i << 9) / 4096,
+                work->place.radius / 2 * rcos(i << 9) / 4096, -work->place.radius);
         }
-        value = work->radius / 2;
+        value = work->place.radius / 2;
         setVector(&work->quad[0], -value, -value, 0);
         setVector(&work->quad[1], value, -value, 0);
         setVector(&work->quad[2], -value, value, 0);
         setVector(&work->quad[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {
@@ -233,8 +233,8 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
                 work->flares[i].head.color[2] = gModelVariant659_aConfigs[work->head.command].color[2] * value / duration;
             }
             setPolyFT4(&work->sprite);
-            work->sprite.tpage = work->tpage[0];
-            work->sprite.clut = work->clut[0];
+            work->sprite.tpage = work->textures.tpage[0];
+            work->sprite.clut = work->textures.clut[0];
             setSemiTrans(&work->sprite, 1);
             setUV4(&work->sprite, work->flares[i].head.u, work->flares[i].head.v + 87,
                 work->flares[i].head.u + 63, work->flares[i].head.v + 87,
@@ -310,8 +310,8 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
             for (k = 0; k < 2; k++) {
                 for (j = 0; j < 8; j++) {
                     setPolyGT4(&work->strip);
-                    work->strip.tpage = work->tpage[1];
-                    work->strip.clut = work->clut[1];
+                    work->strip.tpage = work->textures.tpage[1];
+                    work->strip.clut = work->textures.clut[1];
                     setSemiTrans(&work->strip, 1);
                     setUV4(&work->strip, work->rings[i].head.u, work->rings[i].head.v,
                         work->rings[i].head.u + 31, work->rings[i].head.v,
@@ -361,8 +361,8 @@ s32 ModelVariant659_HandleRequest(u8 *context, s32 command)
                 work->sparks[i].head.color[2] = gModelVariant659_aConfigs[work->head.command].color[5] * value / duration;
             }
             setPolyFT4(&work->sprite);
-            work->sprite.tpage = work->tpage[2];
-            work->sprite.clut = work->clut[2];
+            work->sprite.tpage = work->textures.tpage[2];
+            work->sprite.clut = work->textures.clut[2];
             setSemiTrans(&work->sprite, 1);
             setUV4(&work->sprite, work->sparks[i].head.u, work->sparks[i].head.v,
                 work->sparks[i].head.u + 31, work->sparks[i].head.v,

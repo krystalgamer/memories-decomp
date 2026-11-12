@@ -35,9 +35,7 @@ typedef struct {
 typedef struct {
     ExodiaColorRecord colors[16];
     ModelVariantPointSheet rings[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     u8 gap_300[0x3DC - 0x300];
     MATRIX matrix;
     SVECTOR target;

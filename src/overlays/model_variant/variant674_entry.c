@@ -44,16 +44,16 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[1]);
-        work->tpage[0] = tex >> 16;
-        work->clut[0] = tex;
+        work->textures.tpage[0] = tex >> 16;
+        work->textures.clut[0] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[0]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[2]);
-        work->tpage[1] = tex >> 16;
-        work->clut[1] = tex;
+        work->textures.tpage[1] = tex >> 16;
+        work->textures.clut[1] = tex;
         ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[3]);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant674_aImages[4]);
-        work->tpage[2] = tex >> 16;
-        work->clut[2] = tex;
+        work->textures.tpage[2] = tex >> 16;
+        work->textures.clut[2] = tex;
         switch (command) {
         case 0:
         case 1:
@@ -61,8 +61,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             work->count = 1;
             break;
         }
-        work->radius = gModelVariant674_aConfigs[command].radius;
-        work->height = gModelVariant674_aConfigs[command].height;
+        work->place.radius = gModelVariant674_aConfigs[command].radius;
+        work->place.height = gModelVariant674_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -107,19 +107,19 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
             setVector(&work->domes[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->domes[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant674_aConfigs[command].delay;
+        work->place.delay = gModelVariant674_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius;
+        n = work->place.radius;
         /* Shifting the field (not n) keeps the srl; n and d are reused
          * throughout to pin their registers. */
-        d = work->radius >> 3;
+        d = work->place.radius >> 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_upper[i], n * rsin(i << 8) / 4096, d, n * rcos(i << 8) / 4096);
             setVector(&work->ring_lower[i], n * rsin(i << 8) / 4096, -d, n * rcos(i << 8) / 4096);
@@ -127,7 +127,7 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 (work->ring_upper[i].vy + work->ring_lower[i].vy) / 2,
                 (work->ring_upper[i].vz + work->ring_lower[i].vz) / 2);
         }
-        n = work->radius;
+        n = work->place.radius;
         nn = n * n;
         for (i = 0; i < 9; i++) {
             for (k = 0; k < 17; k++) {
@@ -137,8 +137,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                     SquareRoot0(nn - n * rcos(i << 8) / 4096 * (n * rcos(i << 8) / 4096)) * rcos(k << 8) / 4096);
             }
         }
-        n = work->radius / 2;
-        d = work->radius * 2;
+        n = work->place.radius / 2;
+        d = work->place.radius * 2;
         for (i = 0; i < 9; i++) {
             setVector(&work->cone_inner[i], n * rsin(i << 9) / 4096, n * rcos(i << 9) / 4096, 0);
             setVector(&work->cone_outer[i], d * rsin(i << 9) / 4096, d * rcos(i << 9) / 4096, 0);
@@ -147,8 +147,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 (work->cone_inner[i].vz + work->cone_outer[i].vz) / 2);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
@@ -204,8 +204,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
                 setPolyFT4(&work->flat);
-                work->flat.tpage = work->tpage[0];
-                work->flat.clut = work->clut[0];
+                work->flat.tpage = work->textures.tpage[0];
+                work->flat.clut = work->textures.clut[0];
                 setSemiTrans(&work->flat, 1);
                 setUV4(&work->flat, work->rings[i].head.u, work->rings[i].head.v, work->rings[i].head.u + 63,
                     work->rings[i].head.v, work->rings[i].head.u, work->rings[i].head.v + 63,
@@ -244,8 +244,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (m = 0; m < 16; m++) {
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         u[0] = work->rings[i].head.u;
                         v[0] = work->rings[i].head.v + 128;
@@ -264,8 +264,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         setUV4(&work->shaded, u[0], v[0], u[1], v[0], u[0], v[1], u[1], v[1]);
                         setRGB2(&work->shaded, 0, 0, 0);
@@ -323,8 +323,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                 for (k = 0; k < 8; k++) {
                     for (m = 0; m < 16; m++) {
                         setPolyFT4(&work->flat);
-                        work->flat.tpage = work->tpage[2];
-                        work->flat.clut = work->clut[2];
+                        work->flat.tpage = work->textures.tpage[2];
+                        work->flat.clut = work->textures.clut[2];
                         setSemiTrans(&work->flat, 1);
                         u[0] = work->domes[i].head.u + m % 2 * 63 / 2 + 64;
                         u[1] = work->domes[i].head.u + (m % 2 + 1) * 63 / 2 + 64;
@@ -369,8 +369,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                     GsSetLsMatrix(&ls);
                     for (m = 0; m < 8; m++) {
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         setUV4(&work->shaded, work->domes[i].head.u, work->domes[i].head.v + 63,
                             work->domes[i].head.u + 63, work->domes[i].head.v + 63, work->domes[i].head.u,
@@ -387,8 +387,8 @@ s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
                             GsSortPoly(&work->shaded, Graphics_GetDefaultOrderingTable(), (u16)depth);
                         }
                         setPolyGT4(&work->shaded);
-                        work->shaded.tpage = work->tpage[1];
-                        work->shaded.clut = work->clut[1];
+                        work->shaded.tpage = work->textures.tpage[1];
+                        work->shaded.clut = work->textures.clut[1];
                         setSemiTrans(&work->shaded, 1);
                         setUV4(&work->shaded, work->domes[i].head.u, work->domes[i].head.v + 63,
                             work->domes[i].head.u + 63, work->domes[i].head.v + 63, work->domes[i].head.u,

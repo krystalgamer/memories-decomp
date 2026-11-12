@@ -45,9 +45,7 @@ typedef struct {
     Variant388EntryFeedback feedback[5];
     ModelVariantColorRing spokes[4];
     ModelVariantSpiralWide arms[12];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 paged;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];

@@ -115,8 +115,8 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             work->cols = 8;
             break;
         }
-        work->radius = gModelVariant680Us_aConfigs[command].radius;
-        work->height = gModelVariant680Us_aConfigs[command].height;
+        work->place.radius = gModelVariant680Us_aConfigs[command].radius;
+        work->place.height = gModelVariant680Us_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->blooms[i].head.duration = 16;
             work->blooms[i].head.active = 0;
@@ -164,7 +164,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->bursts[i].xform.scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].target, 0, 0, 0);
             setVector(&work->bursts[i].xform.rotation, 0, work->head.slot * 2048, 0);
-            value = work->radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
+            value = work->place.radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
             sign = i % 2 * 2 - 1;
             setVector(&work->bursts[i].xform.position, sign * value * rsin(i % 16 << 8) / 4096,
                 sign * value * rcos(i % 16 << 8) / 4096, value * rsin(i % 16 << 8) / 4096);
@@ -184,7 +184,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 setVector(&work->sparks[i][j].position, 0, 0, 0);
             }
         }
-        setVector(&offset, work->radius * 6, 0, work->radius * -(work->direction * 2));
+        setVector(&offset, work->place.radius * 6, 0, work->place.radius * -(work->direction * 2));
         for (j = 0; j < work->count; j++) {
             for (i = 0; i < 5; i++) {
                 PushMatrix();
@@ -197,7 +197,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 PopMatrix();
             }
         }
-        setVector(&offset, 0, work->radius * 20, 0);
+        setVector(&offset, 0, work->place.radius * 20, 0);
         for (i = 0; i < 5; i++) {
             PushMatrix();
             rotation = GsIDMATRIX;
@@ -206,9 +206,9 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
             ApplyMatrixLV(&rotation, &offset, &work->spokes[i]);
             PopMatrix();
         }
-        sign = work->height * work->direction;
+        sign = work->place.height * work->direction;
         for (i = 0; i < 5; i++) {
-            value = work->radius * rcos(i * 819 / 4) / 4096;
+            value = work->place.radius * rcos(i * 819 / 4) / 4096;
             for (j = 0; j < 5; j++) {
                 setVector(&work->petals[j][i][0], value * rsin(j << 10) / 4096, value * rcos(j << 10) / 4096,
                     i * sign / 4);
@@ -217,46 +217,46 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
                 work->petals[j][i][1].vy -= 30;
             }
         }
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->flare[0], -value, -value, corner);
         setVector(&work->flare[1], value, -value, 0);
         setVector(&work->flare[2], -value, value, 0);
         setVector(&work->flare[3], value, value, 0);
-        value = work->radius * 2;
-        sign = work->radius * 4;
+        value = work->place.radius * 2;
+        sign = work->place.radius * 4;
         for (i = 0; i < 6; i++) {
             angle = (i << 12) / 5;
             setVector(&work->rim[0][i][0], value * rsin(angle) / 4096, value * rcos(angle) / 4096, 0);
             setVector(&work->rim[1][i][0], sign * rsin(angle) / 4096, sign * rcos(angle) / 4096,
-                work->height * 2 / 3 * work->direction);
+                work->place.height * 2 / 3 * work->direction);
             for (j = 0; j < 2; j++) {
                 work->rim[j][i][1] = work->rim[j][i][0];
                 work->rim[j][i][0].vy += 30;
                 work->rim[j][i][1].vy -= 30;
             }
         }
-        value = work->radius * 7;
+        value = work->place.radius * 7;
         setVector(&work->squares[0][0], -value, -value, 0);
         setVector(&work->squares[0][1], value, -value, 0);
         setVector(&work->squares[0][2], -value, value, 0);
         setVector(&work->squares[0][3], value, value, 0);
-        value = work->radius * 4;
+        value = work->place.radius * 4;
         setVector(&work->squares[1][0], -value, -value, 0);
         setVector(&work->squares[1][1], value, -value, 0);
         setVector(&work->squares[1][2], -value, value, 0);
         setVector(&work->squares[1][3], value, value, 0);
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->squares[2][0], -value, -value, 0);
         setVector(&work->squares[2][1], value, -value, 0);
         setVector(&work->squares[2][2], -value, value, 0);
         setVector(&work->squares[2][3], value, value, 0);
-        work->delay = gModelVariant680Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant680Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

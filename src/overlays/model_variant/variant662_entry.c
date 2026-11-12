@@ -20,7 +20,7 @@
             ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);          \
         work->cones[i].xform.rotation = work->tubes[i].xform.rotation;                                    \
         /* A separate variable for the cone's offset keeps it in s0. */                    \
-        reach = work->direction * work->height / -5;                                          \
+        reach = work->direction * work->place.height / -5;                                          \
         setVector(&work->cones[i].xform.position, reach * rsin(work->cones[i].xform.rotation.vy) / 4096,    \
             work->direction * reach * rsin(work->cones[i].xform.rotation.vx) / 4096 - 350,           \
             reach * rcos(work->cones[i].xform.rotation.vy) / 4096 + work->direction * 450);           \
@@ -104,8 +104,8 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             work->spark_count = 8;
             break;
         }
-        work->radius = gModelVariant662_aConfigs[command].radius;
-        work->height = gModelVariant662_aConfigs[command].height;
+        work->place.radius = gModelVariant662_aConfigs[command].radius;
+        work->place.height = gModelVariant662_aConfigs[command].height;
         for (i = 0; i < work->tube_count; i++) {
             work->tubes[i].head.active = 0;
             work->tubes[i].head.elapsed = 0;
@@ -199,16 +199,16 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                     setVector(&work->sparks[i][j].offset, 0, 0, 0);
                 } else {
                     setVector(&work->sparks[i][j].offset,
-                        work->radius * (rsin(((i - 1) << 12) / (work->spark_count - 1)) << 1) / 4096,
-                        work->radius * (rcos(((i - 1) << 12) / (work->spark_count - 1)) << 1) / 4096,
-                        work->radius * ((i % 2) * 2 - 1) * rsin(((i - 1) << 12) / (work->spark_count - 1)) / 4096
-                            - work->radius);
+                        work->place.radius * (rsin(((i - 1) << 12) / (work->spark_count - 1)) << 1) / 4096,
+                        work->place.radius * (rcos(((i - 1) << 12) / (work->spark_count - 1)) << 1) / 4096,
+                        work->place.radius * ((i % 2) * 2 - 1) * rsin(((i - 1) << 12) / (work->spark_count - 1)) / 4096
+                            - work->place.radius);
                 }
                 setVector(&work->sparks[i][j].xform.rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->sparks[i][j].xform.position, 0, 0, 0);
             }
         }
-        work->delay = gModelVariant662_aConfigs[command].delay;
+        work->place.delay = gModelVariant662_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -218,19 +218,19 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
                     /* Written "radius * 3 * rsin", GCC folds this into retail's
                      * rsin * 3 product. */
                     setVector(&work->dome_points[k][j][i],
-                        work->radius * 3 * rsin(j << 8) / 4096 * rsin(k << 9) / 4096,
-                        work->radius * 3 * rsin(j << 8) / 4096 * rcos(k << 9) / 4096,
-                        work->radius * -(j * 5) / 4);
+                        work->place.radius * 3 * rsin(j << 8) / 4096 * rsin(k << 9) / 4096,
+                        work->place.radius * 3 * rsin(j << 8) / 4096 * rcos(k << 9) / 4096,
+                        work->place.radius * -(j * 5) / 4);
                 }
             }
         }
-        setVector(&work->corners[0], work->radius * -2, work->radius * -2, 0);
-        setVector(&work->corners[1], work->radius * 2, work->radius * -2, 0);
-        setVector(&work->corners[2], work->radius * -2, work->radius * 2, 0);
-        setVector(&work->corners[3], work->radius * 2, work->radius * 2, 0);
+        setVector(&work->corners[0], work->place.radius * -2, work->place.radius * -2, 0);
+        setVector(&work->corners[1], work->place.radius * 2, work->place.radius * -2, 0);
+        setVector(&work->corners[2], work->place.radius * -2, work->place.radius * 2, 0);
+        setVector(&work->corners[3], work->place.radius * 2, work->place.radius * 2, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {
@@ -335,11 +335,11 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             for (k = 0; k < 17; k++) {
                 for (j = 0; j < 9; j++) {
                     /* The quarter radius is computed once, before both calls. */
-                    value = work->radius / 4;
+                    value = work->place.radius / 4;
                     setVector(&work->tube_points[j][k][i],
-                        (work->radius + value * rsin(work->tubes[i].head.elapsed * 100 + k * -500) / 4096)
+                        (work->place.radius + value * rsin(work->tubes[i].head.elapsed * 100 + k * -500) / 4096)
                             * rsin(j << 9) / 4096,
-                        (work->radius + value * rsin(work->tubes[i].head.elapsed * 100 + k * -500) / 4096)
+                        (work->place.radius + value * rsin(work->tubes[i].head.elapsed * 100 + k * -500) / 4096)
                             * rcos(j << 9) / 4096,
                         distance * -k / 16);
                 }
@@ -411,11 +411,11 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
             }
             for (j = 0; j < 9; j++) {
                 /* The cone's depth shares duration's register (s0). */
-                duration = work->height * -rsin(j * 341 * 2 / 8) / 4096;
+                duration = work->place.height * -rsin(j * 341 * 2 / 8) / 4096;
                 for (k = 0; k < 17; k++) {
-                    value = work->radius * j / 8 * rsin(work->cones[i].head.elapsed * 100 + (k << 10)) / 4096;
-                    setVector(&work->cone_points[k][j][i], (work->height + value) * j / 8 * rsin(k << 8) / 4096,
-                        (work->height + value) * j / 8 * rcos(k << 8) / 4096, duration + value);
+                    value = work->place.radius * j / 8 * rsin(work->cones[i].head.elapsed * 100 + (k << 10)) / 4096;
+                    setVector(&work->cone_points[k][j][i], (work->place.height + value) * j / 8 * rsin(k << 8) / 4096,
+                        (work->place.height + value) * j / 8 * rcos(k << 8) / 4096, duration + value);
                 }
             }
             work->cones[i].head.v = work->cones[i].head.elapsed * 4 % 64;

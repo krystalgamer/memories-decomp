@@ -138,15 +138,15 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             work->row_count = 5;
             break;
         }
-        work->radius = gModelVariant677_aConfigs[command].radius;
-        work->height = gModelVariant677_aConfigs[command].height;
+        work->place.radius = gModelVariant677_aConfigs[command].radius;
+        work->place.height = gModelVariant677_aConfigs[command].height;
         for (i = 0; i < 5; i++) {
             PushMatrix();
             m = GsIDMATRIX;
             switch (command) {
             case 0:
             case 1:
-                setVector(&vec, work->radius * 2, 0, -(work->radius * work->direction));
+                setVector(&vec, work->place.radius * 2, 0, -(work->place.radius * work->direction));
                 RotMatrixZ(i * 4096 / 5, &m);
                 break;
             }
@@ -159,7 +159,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
             switch (command) {
             case 0:
             case 1:
-                setVector(&vec, 0, work->radius * 5, 0);
+                setVector(&vec, 0, work->place.radius * 5, 0);
                 RotMatrixZ(i * 2048 / 5, &m);
                 RotMatrixY(i % 3 * 4096 / 3, &m);
                 break;
@@ -200,27 +200,27 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 setVector(&work->bursts[i][j].xform.position, 0, 0, 0);
             }
         }
-        work->delay = gModelVariant677_aConfigs[command].delay;
+        work->place.delay = gModelVariant677_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->corners[0], -value, -value, 0);
         setVector(&work->corners[1], value, -value, 0);
         setVector(&work->corners[2], -value, value, 0);
         setVector(&work->corners[3], value, value, 0);
-        value = work->radius * 2;
+        value = work->place.radius * 2;
         setVector(&work->ring_corners[0], -value, -value, 0);
         setVector(&work->ring_corners[1], value, -value, 0);
         setVector(&work->ring_corners[2], -value, value, 0);
         setVector(&work->ring_corners[3], value, value, 0);
-        value = work->radius >> 1;
+        value = work->place.radius >> 1;
         setVector(&work->burst_corners[0], -value, -value, 0);
         setVector(&work->burst_corners[1], value, -value, 0);
         setVector(&work->burst_corners[2], -value, value, 0);
         setVector(&work->burst_corners[3], value, value, 0);
-        value = work->radius * 2;
-        amount = work->radius * 4;
+        value = work->place.radius * 2;
+        amount = work->place.radius * 4;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_inner[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
             setVector(&work->ring_outer[i], amount * rsin(i << 8) / 4096, amount * rcos(i << 8) / 4096, 0);
@@ -233,14 +233,14 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
                 (work->cone_inner[i].vy + work->cone_outer[i].vy) / 2,
                 (work->cone_inner[i].vz + work->cone_outer[i].vz) / 2);
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->wave_corners[0], -value, -value, 0);
         setVector(&work->wave_corners[1], value, -value, 0);
         setVector(&work->wave_corners[2], -value, value, 0);
         setVector(&work->wave_corners[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

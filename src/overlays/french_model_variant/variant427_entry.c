@@ -20,9 +20,9 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSpiralWide *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *curtain_packet = &work->curtain_packet;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_GT4 *special = &work->special;
     s32 result = 0;
@@ -146,16 +146,16 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         for (i = 0; i < 3; i++, ribbon++) {
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->colors[0].r = 128;
-            ribbon->colors[0].g = 128;
-            ribbon->colors[0].b = 128;
-            ribbon->colors[1].r = 0;
-            ribbon->colors[1].g = 192;
-            ribbon->colors[1].b = 16;
-            ribbon->field_238 = 0;
-            ribbon->field_23C = 0;
-            ribbon->field_23A = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = 128;
+            ribbon->style.inner.g = 128;
+            ribbon->style.inner.b = 128;
+            ribbon->style.outer.r = 0;
+            ribbon->style.outer.g = 192;
+            ribbon->style.outer.b = 16;
+            ribbon->style.field_18 = 0;
+            ribbon->style.field_1C = 0;
+            ribbon->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i / 2 * 2 == i - 1) {
