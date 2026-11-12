@@ -25,9 +25,9 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *fan = work->fans;
     ModelVariantWeb *web = work->webs;
     ModelVariantFlaggedSpiralArm *arm = work->arms;
-    POLY_GT4 *textured = work->textured;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_GT4 *textured = work->packets.textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *extra = &work->extra;
     POLY_FT4 *flat = work->flat_textured;
     s32 result = 0;

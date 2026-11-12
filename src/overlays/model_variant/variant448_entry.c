@@ -66,10 +66,10 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
     spoke = work->spokes;
     quad_record = work->quads;
     web = work->webs;
-    textured = work->textured;
-    triangle = &work->triangle;
+    textured = work->packets.textured;
+    triangle = &work->packets.triangle;
     flat = work->flat_textured;
-    quad = &work->quad;
+    quad = &work->packets.quad;
     radial = work->radial;
     result = 0;
     extra = &work->extra;

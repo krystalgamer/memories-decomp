@@ -28,9 +28,8 @@ typedef struct {
     ModelVariantScaledSheet sheets[2];
     ModelVariantColorRing rings_a[6], rings_b[4];
     ModelVariantShape shapes[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2], extra;
+    ModelVariantPackets packets;
+    POLY_GT4 extra;
     POLY_FT4 flat[2], quads_packet, panels_packet;
     GsGLINE line;
     u8 unknown_2000[0x10];
