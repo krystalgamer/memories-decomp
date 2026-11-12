@@ -17,6 +17,6 @@
  *
  * Both callers hold a wider scene-script allocation and pass its
  * ScriptImageObjectSet prefix. */
-void ScriptImage_RebuildObjects(ScriptImageObjectSet *record, s32 value);
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *record, s32 image_id);
 
 #endif
