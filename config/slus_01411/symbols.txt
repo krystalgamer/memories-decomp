@@ -1377,7 +1377,6 @@ gInput_dwDeferredRepeat = 0x8009B3B0;
 gInput_dwDeferredPressed = 0x8009B3B4;
 gInput_abRepeatTimers = 0x800EF6B0;
 DuelEffect_MarkInitialized = 0x80024E24; // type:func
-gAiScript_szSourceLineFormat = 0x8009B084;
 
 __do_global_dtors = 0x80012AE8; // type:func
 PCopen = 0x80073704; // type:func

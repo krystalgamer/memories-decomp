@@ -425,7 +425,7 @@ Mapping the original 77 labels in address order now gives five pieces:
 
 The four owned ranges prove that placement was never the obstacle. All are
 data-only units inserted between `save_data_mask_state` and
-`ai_script_source_line_format`, so their position comes directly from the
+`ai_script`'s source-line format, so their position comes directly from the
 split template. `model_graphics_state` also proves that mixed byte, halfword
 and word fields are viable when each unnamed continuation byte is represented
 explicitly: its `.sdata` is exactly 36 bytes and retains the pointer relocation

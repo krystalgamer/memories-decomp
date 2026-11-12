@@ -257,7 +257,7 @@ segments:
       - [0x8b6f0, .sdata, game/japanese/model]
       - [0x8b768, .sdata, game/main_menu_load_package_stage]
       - [0x8b770, pad]
-      - [0x8b774, .sdata, game/ai_script_source_line_format]
+      - [0x8b774, .sdata, game/japanese/ai_script]
       - [0x8b77c, pad]
       - [0x8b780, sbss, main_commons]
       - [0x8b7d0, sbss, file_set_position_table_commons]
