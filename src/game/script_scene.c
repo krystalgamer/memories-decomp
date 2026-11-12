@@ -779,23 +779,23 @@ void Script_OpFadeOut(void)
 {
     int command;
 
-    if (ScriptCommand_MarkStarted() == 0) {
+    switch (ScriptCommand_MarkStarted()) {
+    case 0:
         command = *gScript_StreamCursor++;
         Fade_InitOut();
         if (command & 0x3F) {
             gFade_State.step = command & 0x3F;
         }
         if ((command & 0x80) == 0) {
-            goto clear;
+            break;
         }
-        goto end;
+        return;
+    default:
+        if (gFade_State.flags & 0x80) {
+            return;
+        }
     }
-    if (gFade_State.flags & 0x80) {
-        goto end;
-    }
-clear:
     gScript_wCommandWord = 0;
-end:;
 }
 
 #include "display_asset_banks.h"

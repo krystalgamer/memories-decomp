@@ -1483,13 +1483,17 @@ void BuildDeck_SortCardList(CardList *list)
 /* Card-list cursor and page input handler.
 
    Levers that mattered here:
-   - The retry path is a backward goto, not a for(;;)/continue loop: with a
-     real loop construct loop.c hoists the last cursor constant into a
-     callee-saved register instead of rematerialising it at each use.
-   - The shared sub-row commit tail is written once and reached by
-     "goto finish" from the second branch, which reproduces the retail block
-     order (the tail sits between the L1/R1 block and the L2/R2 block).
-     Duplicating it in both branches leaves the two copies unmerged.
+   - The retry path is a for(;;)/continue loop entered through a constant
+     switch: until flow deletes the dead empty loop, that jump comes from
+     outside the loop, so loop.c leaves it alone (an ordinary loop hoists the
+     last cursor constant into a callee-saved register instead of
+     rematerialising it at each use); jump2 then deletes the jump.
+   - The shared sub-row commit tail is written once, at the top of an inner
+     loop that the L1/R1 arm falls into; the L2/R2 arm, entered through the
+     L1/R1 switch's case 0, continues that loop to reach it. That reproduces
+     the retail block order (the tail sits between the L1/R1 block and the
+     L2/R2 block). Duplicating it in both branches leaves the two copies
+     unmerged.
    - The visible-row subtraction is respelled at every use; a single local
      would collapse the reloads the target makes at each join point.
    - The gCardList_SortIconTable lookup keeps CardList_UpdateSortMode's statement-by-statement
@@ -1511,141 +1515,152 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
     }
     list->scroll_box->xy.h.y = row + CARD_LIST_SCROLL_Y_BASE;
 
-top:
-    if (list->first != list->first_target) {
-        if (list->first_target < list->first) {
-            *(u16 *)&list->first = *(u16 *)&list->first - 1;
-        } else {
-            *(u16 *)&list->first = *(u16 *)&list->first + 1;
+    switch (0) {
+        for (;;) {
         }
-        CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
-        return 1;
-    }
+        for (;;) {
+    case 0:
+            if (list->first != list->first_target) {
+                if (list->first_target < list->first) {
+                    *(u16 *)&list->first = *(u16 *)&list->first - 1;
+                } else {
+                    *(u16 *)&list->first = *(u16 *)&list->first + 1;
+                }
+                CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
+                return 1;
+            }
 
-    if ((gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
-        sel = -1;
-        row = list->first;
-        if ((gInput_awPadHeld[0] & PAD_BUTTON_R1) != 0) {
-            if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
-                list->cursor != CARD_LIST_LAST_CURSOR) {
-                sel = CARD_LIST_LAST_CURSOR;
-            }
-            row += CARD_LIST_VISIBLE_ROWS;
-            if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
-                row = list->row_count - CARD_LIST_VISIBLE_ROWS;
-            }
-        } else {
-            if (row == 0 && list->cursor != 0) {
-                sel = 0;
-            }
-            row -= CARD_LIST_VISIBLE_ROWS;
-        }
-        if (row < 0) {
-            row = 0;
-        }
-        list->first_target = row;
-        if (list->first != row) {
-            SD_SEPlayFull(6);
-            goto top;
-        }
-    finish:
-        if (sel >= 0) {
-            list->cursor = sel;
-            list->cursor_box->xy.h.y =
-                sel * 22 + CARD_LIST_CURSOR_Y_BASE;
-            SD_SEPlayFull(6);
-        }
-        return 1;
-    }
+            /* The trigger arm continues the inner loop back to the L1/R1
+               arm's cursor commit; a vertical scroll breaks out of it to
+               retry from the top. */
+            switch (gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) {
+            default:
+                sel = -1;
+                row = list->first;
+                if ((gInput_awPadHeld[0] & PAD_BUTTON_R1) != 0) {
+                    if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
+                        list->cursor != CARD_LIST_LAST_CURSOR) {
+                        sel = CARD_LIST_LAST_CURSOR;
+                    }
+                    row += CARD_LIST_VISIBLE_ROWS;
+                    if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
+                        row = list->row_count - CARD_LIST_VISIBLE_ROWS;
+                    }
+                } else {
+                    if (row == 0 && list->cursor != 0) {
+                        sel = 0;
+                    }
+                    row -= CARD_LIST_VISIBLE_ROWS;
+                }
+                if (row < 0) {
+                    row = 0;
+                }
+                list->first_target = row;
+                if (list->first != row) {
+                    SD_SEPlayFull(6);
+                    continue;
+                }
+                for (;;) {
+                    if (sel >= 0) {
+                        list->cursor = sel;
+                        list->cursor_box->xy.h.y =
+                            sel * 22 + CARD_LIST_CURSOR_Y_BASE;
+                        SD_SEPlayFull(6);
+                    }
+                    return 1;
+            case 0:
+                    if ((gInput_awPadRepeat[0] & PAD_BUTTON_TRIGGER_MASK) != 0) {
+                        sel = -1;
+                        row = list->first;
+                        if ((gInput_awPadRepeat[0] & PAD_BUTTON_R2) != 0) {
+                            if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
+                                list->cursor != CARD_LIST_LAST_CURSOR) {
+                                sel = CARD_LIST_LAST_CURSOR;
+                            }
+                            row += 0x32;
+                            if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
+                                row = list->row_count - CARD_LIST_VISIBLE_ROWS;
+                            }
+                        } else {
+                            if (row == 0 && list->cursor != 0) {
+                                sel = 0;
+                            }
+                            row -= 0x32;
+                            if (row < 0) {
+                                row = 0;
+                            }
+                        }
+                        if (list->first != row) {
+                            SD_SEPlayFull(6);
+                            list->first_target = row;
+                            list->first = row;
+                            CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
+                            return 1;
+                        }
+                        continue;
+                    }
 
-    if ((gInput_awPadRepeat[0] & PAD_BUTTON_TRIGGER_MASK) != 0) {
-        sel = -1;
-        row = list->first;
-        if ((gInput_awPadRepeat[0] & PAD_BUTTON_R2) != 0) {
-            if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
-                list->cursor != CARD_LIST_LAST_CURSOR) {
-                sel = CARD_LIST_LAST_CURSOR;
-            }
-            row += 0x32;
-            if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
-                row = list->row_count - CARD_LIST_VISIBLE_ROWS;
-            }
-        } else {
-            if (row == 0 && list->cursor != 0) {
-                sel = 0;
-            }
-            row -= 0x32;
-            if (row < 0) {
-                row = 0;
-            }
-        }
-        if (list->first != row) {
-            SD_SEPlayFull(6);
-            list->first_target = row;
-            list->first = row;
-            CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
-            return 1;
-        }
-        goto finish;
-    }
+                    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                        row = list->first;
+                        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
+                            list->cursor += 1;
+                            if (list->cursor >= CARD_LIST_VISIBLE_ROWS) {
+                                row += 1;
+                                list->cursor = CARD_LIST_LAST_CURSOR;
+                            }
+                        } else {
+                            list->cursor -= 1;
+                            if (list->cursor < 0) {
+                                row -= 1;
+                                list->cursor = 0;
+                            }
+                        }
+                        list->cursor_box->xy.h.y =
+                            list->cursor * 22 + CARD_LIST_CURSOR_Y_BASE;
+                        if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
+                            return 1;
+                        }
+                        if (row < 0) {
+                            return 1;
+                        }
+                        SD_SEPlayFull(6);
+                        list->first_target = row;
+                        if (list->first != row) {
+                            break;
+                        }
+                        return 1;
+                    }
 
-    if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-        row = list->first;
-        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) != 0) {
-            list->cursor += 1;
-            if (list->cursor >= CARD_LIST_VISIBLE_ROWS) {
-                row += 1;
-                list->cursor = CARD_LIST_LAST_CURSOR;
-            }
-        } else {
-            list->cursor -= 1;
-            if (list->cursor < 0) {
-                row -= 1;
-                list->cursor = 0;
-            }
-        }
-        list->cursor_box->xy.h.y =
-            list->cursor * 22 + CARD_LIST_CURSOR_Y_BASE;
-        if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
-            return 1;
-        }
-        if (row < 0) {
-            return 1;
-        }
-        SD_SEPlayFull(6);
-        list->first_target = row;
-        if (list->first != row) {
-            goto top;
-        }
-        return 1;
-    }
+                    if ((gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) !=
+                        0) {
+                        if ((gInput_awPadRepeat[0] & PAD_BUTTON_START) != 0) {
+                            list->sort_choice += 1;
+                            if (list->sort_choice >= 7) {
+                                list->sort_choice = 0;
+                            }
+                        } else {
+                            list->sort_choice -= 1;
+                            if (list->sort_choice < 0) {
+                                list->sort_choice = 6;
+                            }
+                        }
+                        SD_SEPlayFull(0x2F);
+                        icon = list->kind;
+                        slot = list->sort_choice;
+                        icon = icon << 4;
+                        slot = slot << 1;
+                        entry = gCardList_SortIconTable + slot;
+                        icon = icon + (s32)entry;
+                        list->sort_mode = *(u8 *)(icon + 1) & 0xF;
+                        BuildDeck_SortCardList(list);
+                        return 1;
+                    }
 
-    if ((gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) !=
-        0) {
-        if ((gInput_awPadRepeat[0] & PAD_BUTTON_START) != 0) {
-            list->sort_choice += 1;
-            if (list->sort_choice >= 7) {
-                list->sort_choice = 0;
-            }
-        } else {
-            list->sort_choice -= 1;
-            if (list->sort_choice < 0) {
-                list->sort_choice = 6;
+                    return 0;
+                }
             }
         }
-        SD_SEPlayFull(0x2F);
-        icon = list->kind;
-        slot = list->sort_choice;
-        icon = icon << 4;
-        slot = slot << 1;
-        entry = gCardList_SortIconTable + slot;
-        icon = icon + (s32)entry;
-        list->sort_mode = *(u8 *)(icon + 1) & 0xF;
-        BuildDeck_SortCardList(list);
-        return 1;
     }
-
-    return 0;
 }
 
 s32 BuildDeck_GetActiveCardID(CardList *list)

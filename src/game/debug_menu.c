@@ -271,7 +271,10 @@ s32 DebugMenu_UpdateValueEditor(void)
     *(Bytes8 *)d = *(Bytes8 *)gDebugMenu_awNibbleMasks;
     db = d;
     digit_count = gDebug_abEditorDigitCounts[gDebug_bEditorRow];
-    if ((gDebug_bEditorFlags & 0x80) == 0) {
+    /* Confirm, cancel and an input without a cursor move break out of the
+       switch past the caret-line rebuild. */
+    switch (gDebug_bEditorFlags & 0x80) {
+    case 0:
         gDebug_bEditorFlags = gDebug_bEditorFlags | 0x80;
         if ((gDebug_bEditorFlags & 0x40) != 0) {
             jj = (s8)digit_count - 1;
@@ -287,99 +290,106 @@ s32 DebugMenu_UpdateValueEditor(void)
                 val = val - k * qq;
             } while (jj >= 0);
         }
-    } else if ((gDebug_bEditorFlags & 1) == 0
-               && ((gInput_awPadHeld[0] | gInput_awPadHeld[1]) & 0x800) == 0) {
-        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
-            ret = 1;
-            goto out;
-        }
-        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
-            ret = -1;
-            goto out;
-        }
-        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x5000) != 0) {
-            e = gDebug_bEditorDigit;
-            val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
-            step = c[e];
-            if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x4000) != 0) {
-                step = -step;
-            }
-            if ((gDebug_bEditorFlags & 0x40) != 0) {
-                /* A u16 cursor folds the negation and swaps the addu operands. */
-                mask = *(u16 *)(db - -(e * 2));
-                i = e;
-                if (i < (s8)digit_count) {
-                    n = (s8)digit_count;
-                    do {
-                        cc = val & mask;
-                        val = val & ~mask;
-                        cc = cc + step;
-                        if (step >= 0) {
-                            if (cc < b[i]) {
-                                goto joined;
-                            }
-                        } else {
-                            if (cc >= 0) {
-                                goto joined;
-                            }
-                            val = val | ((b[i] - 1) & mask);
+        if (0) {
+    default:
+            if ((gDebug_bEditorFlags & 1) == 0
+                && ((gInput_awPadHeld[0] | gInput_awPadHeld[1]) & 0x800) == 0) {
+                if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
+                    ret = 1;
+                    break;
+                }
+                if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
+                    ret = -1;
+                    break;
+                }
+                if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x5000) != 0) {
+                    e = gDebug_bEditorDigit;
+                    val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
+                    step = c[e];
+                    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x4000) != 0) {
+                        step = -step;
+                    }
+                    if ((gDebug_bEditorFlags & 0x40) != 0) {
+                        /* A u16 cursor folds the negation and swaps the addu operands. */
+                        mask = *(u16 *)(db - -(e * 2));
+                        i = e;
+                        if (i < (s8)digit_count) {
+                            n = (s8)digit_count;
+                            do {
+                                /* The empty nested loop stops expand_end_loop
+                                   from rotating the early breaks to the
+                                   bottom of the carry loop. */
+                                do {
+                                } while (0);
+                                cc = val & mask;
+                                val = val & ~mask;
+                                cc = cc + step;
+                                if (step >= 0) {
+                                    if (cc < b[i]) {
+                                        break;
+                                    }
+                                } else {
+                                    if (cc >= 0) {
+                                        break;
+                                    }
+                                    val = val | ((b[i] - 1) & mask);
+                                }
+                                cc = 0;
+                                mask = mask * 0x10;
+                                step = step * 0x10;
+                                i = i + 1;
+                            } while (i < n);
                         }
-                        cc = 0;
-                        mask = mask * 0x10;
-                        step = step * 0x10;
-                        i = i + 1;
-                    } while (i < n);
+                        val = val | cc;
+                    } else {
+                        val = val + step;
+                        val = val & (c[(s8)digit_count] - 1);
+                    }
+                    FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
                 }
-            joined:
-                val = val | cc;
-            } else {
-                val = val + step;
-                val = val & (c[(s8)digit_count] - 1);
-            }
-            FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
-        }
-        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0xA000) == 0) {
-            goto out;
-        }
-        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x2000) != 0) {
-            gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
-            if (gDebug_bEditorDigit < 0) {
-                gDebug_bEditorRow = gDebug_bEditorRow + 1;
-                if (gDebug_bEditorRow >= (s8)gDebug_bEditorRowCount) {
-                    gDebug_bEditorRow = gDebug_bEditorRowCount - 1;
-                    gDebug_bEditorDigit = 0;
+                if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0xA000) == 0) {
+                    break;
+                }
+                if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x2000) != 0) {
+                    gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
+                    if (gDebug_bEditorDigit < 0) {
+                        gDebug_bEditorRow = gDebug_bEditorRow + 1;
+                        if (gDebug_bEditorRow >= (s8)gDebug_bEditorRowCount) {
+                            gDebug_bEditorRow = gDebug_bEditorRowCount - 1;
+                            gDebug_bEditorDigit = 0;
+                        } else {
+                            f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
+                            gDebug_bEditorDigit = f;
+                        }
+                    }
                 } else {
-                    f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
-                    gDebug_bEditorDigit = f;
-                }
-            }
-        } else {
-            gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
-            if (gDebug_bEditorDigit >= (s8)digit_count) {
-                gDebug_bEditorDigit = 0;
-                gDebug_bEditorRow = gDebug_bEditorRow - 1;
-                if (gDebug_bEditorRow < 0) {
-                    f = gDebug_abEditorDigitCounts[0] - 1;
-                    gDebug_bEditorRow = 0;
-                    gDebug_bEditorDigit = f;
+                    gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
+                    if (gDebug_bEditorDigit >= (s8)digit_count) {
+                        gDebug_bEditorDigit = 0;
+                        gDebug_bEditorRow = gDebug_bEditorRow - 1;
+                        if (gDebug_bEditorRow < 0) {
+                            f = gDebug_abEditorDigitCounts[0] - 1;
+                            gDebug_bEditorRow = 0;
+                            gDebug_bEditorDigit = f;
+                        }
+                    }
                 }
             }
         }
+        r = gDebug_szEditorCaretLine;
+        sc = 0x20;
+        i = 0x27;
+        z = r + i;
+        do {
+            *z = sc;
+            i = i - 1;
+            z = z - 1;
+        } while (i >= 0);
+        r = &gDebug_szEditorCaretLine[
+            gDebug_abEditorCaretColumns[gDebug_bEditorRow] - gDebug_bEditorDigit];
+        r[0] = 0x2A;
+        r[1] = 0;
     }
-    r = gDebug_szEditorCaretLine;
-    sc = 0x20;
-    i = 0x27;
-    z = r + i;
-    do {
-        *z = sc;
-        i = i - 1;
-        z = z - 1;
-    } while (i >= 0);
-    r = &gDebug_szEditorCaretLine[
-        gDebug_abEditorCaretColumns[gDebug_bEditorRow] - gDebug_bEditorDigit];
-    r[0] = 0x2A;
-    r[1] = 0;
-out:
     i = (s8)gDebug_bEditorLeadingLineCount;
     if (i != 0) {
         do {
@@ -535,16 +545,21 @@ void DebugMenu_UpdateCampaignEntry(void)
     s32 flags;
     u16 selection;
 
-    if ((gDebugMenu_bStep & 0x80) == 0) {
+    /* Entry and a Select press both reopen the editor for the chosen
+       field. */
+    switch (gDebugMenu_bStep & 0x80) {
+    case 0:
         gDebugMenu_bStep = gDebugMenu_bStep | 0x80;
         DebugMenu_DimPrimaryDisplayObject();
         Campaign_LoadScenePackage(0);
         gDebugMenu_bCampaignEditField = 0;
-        goto select_editor;
-    }
-    if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) != 0) {
-        gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
-    select_editor:
+        if (0) {
+    default:
+            if ((gInput_awPadPressed[0] & PAD_BUTTON_SELECT) == 0) {
+                break;
+            }
+            gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
+        }
         if (gDebugMenu_bCampaignEditField == 0) {
             selection = gDebugMenu_wMessageId;
             gDebug_nSceneOrSoundID = selection;

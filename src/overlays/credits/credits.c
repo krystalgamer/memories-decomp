@@ -230,13 +230,16 @@ s32 Credits_UpdateLines(void)
             gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 n = gCredits_aLines[i].end->group;
-                if (n >= 0) {
+                /* A negative group enters the slot search at its exit; the
+                   search hands the group to the first free line. */
+                switch (n < 0) {
+                case 0:
                     j = 0;
                     do {
                         other = gCredits_aLines;
                     } while (0);
-                next:
-                    if (other->entries == 0) {
+                    for (;;) {
+                        if (other->entries == 0) {
                             other->height = 0;
                             other->width = 0;
                             other->page = 0;
@@ -251,16 +254,18 @@ s32 Credits_UpdateLines(void)
                                 other->timer = 152;
                                 other->title_held = 0;
                             }
-                            goto done;
-                    }
-                    j++;
-                    other++;
-                    if (j < 2) {
-                        goto next;
+                        } else {
+                            j++;
+                            other++;
+                            if (j < 2) {
+                                continue;
+                            }
+                        }
+                default:
+                        gCredits_aLines[i].entries = 0;
+                        break;
                     }
                 }
-            done:
-                gCredits_aLines[i].entries = 0;
             }
             break;
         }
@@ -297,196 +302,200 @@ s32 Credits_BuildLineGlyphs(s32 index, s32 group)
                * single pseudo outranks `bits` in global-alloc, so the loads
                * take $a0 and `bits` $a1 */
 
-top:  /* allocator steering: see the note at the end */
-    entry = gCredits_aEntries;
-    count = 0;
-    cur = 0;
-    page_height = 0;
-    rect.x = index * 192 + 512;
-    rect.y = 256;
-    rect.w = 4;
-    rect.h = 16;
-    line = &gCredits_aLines[index];
-    while (entry->group >= 0) {
-        if (group < entry->group) {
-            break;
+    /* Allocator steering, not behaviour. The constant switch jumps over the
+     * unreachable empty loop to `case 0`, and that jump survives until flow
+     * deletes the loop, so the case label still splits the entry block when
+     * reload runs and jump2 only removes the jump afterwards. With the label
+     * there, reload cannot reuse $a0 for `index` and reloads it from its
+     * stack slot ($s5), which is what retail does. */
+    switch (0) {
+        for (;;) {
         }
-        if (entry->group == group) {
-            flags = entry->flags;
-            text = entry->text;
-            fg = (flags & 0xF) + 1;
-            sh = (flags & 0xF) + 4;
-            keep_mask = 15;
-            page = flags >> 4;
-            if (line->entries == 0) {
-                line->entries = entry;
-                cur = page;
+    case 0:
+        entry = gCredits_aEntries;
+        count = 0;
+        cur = 0;
+        page_height = 0;
+        rect.x = index * 192 + 512;
+        rect.y = 256;
+        rect.w = 4;
+        rect.h = 16;
+        line = &gCredits_aLines[index];
+        while (entry->group >= 0) {
+            if (group < entry->group) {
+                break;
             }
-            if (cur == page) {
-                page_height += 16;
-            } else {
-                if (line->height < page_height) {
-                    line->height = page_height;
+            if (entry->group == group) {
+                flags = entry->flags;
+                text = entry->text;
+                fg = (flags & 0xF) + 1;
+                sh = (flags & 0xF) + 4;
+                keep_mask = 15;
+                page = flags >> 4;
+                if (line->entries == 0) {
+                    line->entries = entry;
+                    cur = page;
                 }
-                cur = page;
-                page_height = 0;
-            }
-            if (text != 0) {
-                width = strlen(text) / 2 * 16;
-                if (line->width < width) {
-                    line->width = width;
+                if (cur == page) {
+                    page_height += 16;
+                } else {
+                    if (line->height < page_height) {
+                        line->height = page_height;
+                    }
+                    cur = page;
+                    page_height = 0;
                 }
-                if (line->page == 0 || line->page == page) {
-                    rect.x = index * 192 + 512 + count / 15 * 96;
-                    rect.y = count % 15 * 16 + 256;
-                    while (*text != 0) {
-                        code = text[1] | (text[0] << 8);
-                        font = (u8 *)Krom2RawAdd2(code);
-                        pixel_row = buf;
-                        k = 63;
-                    clear:
-                        *pixel_row++ = 0;
-                        if (--k >= 0) {
-                            goto clear;
-                        }
-                        pixel_row = buf;
-                        if (code == 0xE056) {
-                            font = gCredits_abGlyphE056;
-                        }
-                        if (code == 0x9B92) {
-                            font = gCredits_abGlyph9B92;
-                        }
-                        for (k = 14; k != -1; k--) {
-                            bits = font[0];
-                            nibbles = 0;
-                            if (bits & 0x80) nibbles = sh << 4;
-                            if (bits & 0x40) nibbles |= sh << 8;
-                            word = pixel_row[4];
-                            pixel_row[4] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
-                            bits = font[0];
-                            nibbles = 0;
-                            if (bits & 0x10) nibbles = sh;
-                            if (bits & 0x08) nibbles |= sh << 4;
-                            if (bits & 0x04) nibbles |= sh << 8;
-                            word = pixel_row[5];
-                            pixel_row[5] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
-                            nibbles = 0;
-                            if (font[0] & 0x01) nibbles = sh;
-                            bits = font[1];
-                            if (bits & 0x80) nibbles |= sh << 4;
-                            if (bits & 0x40) nibbles |= sh << 8;
-                            word = pixel_row[6];
-                            pixel_row[6] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
-                            bits = font[1];
-                            nibbles = 0;
-                            if (bits & 0x10) nibbles = sh;
-                            if (bits & 0x08) nibbles |= sh << 4;
-                            if (bits & 0x04) nibbles |= sh << 8;
-                            word = pixel_row[7];
-                            pixel_row[7] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
+                if (text != 0) {
+                    width = strlen(text) / 2 * 16;
+                    if (line->width < width) {
+                        line->width = width;
+                    }
+                    if (line->page == 0 || line->page == page) {
+                        rect.x = index * 192 + 512 + count / 15 * 96;
+                        rect.y = count % 15 * 16 + 256;
+                        while (*text != 0) {
+                            code = text[1] | (text[0] << 8);
+                            font = (u8 *)Krom2RawAdd2(code);
+                            pixel_row = buf;
+                            k = 63;
+                            do {
+                                *pixel_row++ = 0;
+                            } while (--k >= 0);
+                            pixel_row = buf;
+                            /* The wrappers weight the two glyph overrides so `font`
+                               keeps its register ahead of the cleared buffer's
+                               cursor. */
+                            if (code == 0xE056) {
+                                do {
+                                    font = gCredits_abGlyphE056;
+                                } while (0);
+                            }
+                            if (code == 0x9B92) {
+                                do {
+                                    font = gCredits_abGlyph9B92;
+                                } while (0);
+                            }
+                            for (k = 14; k != -1; k--) {
+                                bits = font[0];
+                                nibbles = 0;
+                                if (bits & 0x80) nibbles = sh << 4;
+                                if (bits & 0x40) nibbles |= sh << 8;
+                                word = pixel_row[4];
+                                pixel_row[4] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
+                                bits = font[0];
+                                nibbles = 0;
+                                if (bits & 0x10) nibbles = sh;
+                                if (bits & 0x08) nibbles |= sh << 4;
+                                if (bits & 0x04) nibbles |= sh << 8;
+                                word = pixel_row[5];
+                                pixel_row[5] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
+                                nibbles = 0;
+                                if (font[0] & 0x01) nibbles = sh;
+                                bits = font[1];
+                                if (bits & 0x80) nibbles |= sh << 4;
+                                if (bits & 0x40) nibbles |= sh << 8;
+                                word = pixel_row[6];
+                                pixel_row[6] = word | ((bits & 0x20) ? nibbles | sh << 12 : nibbles);
+                                bits = font[1];
+                                nibbles = 0;
+                                if (bits & 0x10) nibbles = sh;
+                                if (bits & 0x08) nibbles |= sh << 4;
+                                if (bits & 0x04) nibbles |= sh << 8;
+                                word = pixel_row[7];
+                                pixel_row[7] = word | ((bits & 0x02) ? nibbles | sh << 12 : nibbles);
 
-                            bits = font[0];
-                            nibbles = 0;
-                            if (!(bits & 0x80)) nibbles = keep_mask;
-                            if (!(bits & 0x40)) nibbles |= keep_mask << 4;
-                            if (!(bits & 0x20)) nibbles |= keep_mask << 8;
-                            word = pixel_row[0];
-                            pixel_row[0] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
-                            bits = font[0];
-                            nibbles = 0;
-                            if (!(bits & 0x08)) nibbles = keep_mask;
-                            if (!(bits & 0x04)) nibbles |= keep_mask << 4;
-                            if (!(bits & 0x02)) nibbles |= keep_mask << 8;
-                            word = pixel_row[1];
-                            pixel_row[1] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
-                            bits = font[1];
-                            nibbles = 0;
-                            if (!(bits & 0x80)) nibbles = keep_mask;
-                            if (!(bits & 0x40)) nibbles |= keep_mask << 4;
-                            if (!(bits & 0x20)) nibbles |= keep_mask << 8;
-                            word = pixel_row[2];
-                            pixel_row[2] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
-                            bits = font[1];
-                            nibbles = 0;
-                            if (!(bits & 0x08)) nibbles = keep_mask;
-                            if (!(bits & 0x04)) nibbles |= keep_mask << 4;
-                            if (!(bits & 0x02)) nibbles |= keep_mask << 8;
-                            word = pixel_row[3];
-                            pixel_row[3] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
+                                bits = font[0];
+                                nibbles = 0;
+                                if (!(bits & 0x80)) nibbles = keep_mask;
+                                if (!(bits & 0x40)) nibbles |= keep_mask << 4;
+                                if (!(bits & 0x20)) nibbles |= keep_mask << 8;
+                                word = pixel_row[0];
+                                pixel_row[0] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
+                                bits = font[0];
+                                nibbles = 0;
+                                if (!(bits & 0x08)) nibbles = keep_mask;
+                                if (!(bits & 0x04)) nibbles |= keep_mask << 4;
+                                if (!(bits & 0x02)) nibbles |= keep_mask << 8;
+                                word = pixel_row[1];
+                                pixel_row[1] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
+                                bits = font[1];
+                                nibbles = 0;
+                                if (!(bits & 0x80)) nibbles = keep_mask;
+                                if (!(bits & 0x40)) nibbles |= keep_mask << 4;
+                                if (!(bits & 0x20)) nibbles |= keep_mask << 8;
+                                word = pixel_row[2];
+                                pixel_row[2] = word & (!(bits & 0x10) ? nibbles | keep_mask << 12 : nibbles);
+                                bits = font[1];
+                                nibbles = 0;
+                                if (!(bits & 0x08)) nibbles = keep_mask;
+                                if (!(bits & 0x04)) nibbles |= keep_mask << 4;
+                                if (!(bits & 0x02)) nibbles |= keep_mask << 8;
+                                word = pixel_row[3];
+                                pixel_row[3] = word & (!(bits & 0x01) ? nibbles | keep_mask << 12 : nibbles);
 
-                            bits = font[0];
-                            nibbles = 0;
-                            if (bits & 0x80) nibbles = fg;
-                            if (bits & 0x40) nibbles |= fg << 4;
-                            if (bits & 0x20) nibbles |= fg << 8;
-                            word = pixel_row[0];
-                            pixel_row[0] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
-                            bits = font[0];
-                            nibbles = 0;
-                            if (bits & 0x08) nibbles = fg;
-                            if (bits & 0x04) nibbles |= fg << 4;
-                            if (bits & 0x02) nibbles |= fg << 8;
-                            word = pixel_row[1];
-                            pixel_row[1] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
-                            bits = font[1];
-                            nibbles = 0;
-                            if (bits & 0x80) nibbles = fg;
-                            if (bits & 0x40) nibbles |= fg << 4;
-                            if (bits & 0x20) nibbles |= fg << 8;
-                            word = pixel_row[2];
-                            pixel_row[2] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
-                            bits = font[1];
-                            nibbles = 0;
-                            if (bits & 0x08) nibbles = fg;
-                            if (bits & 0x04) nibbles |= fg << 4;
-                            if (bits & 0x02) nibbles |= fg << 8;
-                            word = pixel_row[3];
-                            pixel_row[3] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
-                            font += 2;
-                            pixel_row += 4;
+                                bits = font[0];
+                                nibbles = 0;
+                                if (bits & 0x80) nibbles = fg;
+                                if (bits & 0x40) nibbles |= fg << 4;
+                                if (bits & 0x20) nibbles |= fg << 8;
+                                word = pixel_row[0];
+                                pixel_row[0] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
+                                bits = font[0];
+                                nibbles = 0;
+                                if (bits & 0x08) nibbles = fg;
+                                if (bits & 0x04) nibbles |= fg << 4;
+                                if (bits & 0x02) nibbles |= fg << 8;
+                                word = pixel_row[1];
+                                pixel_row[1] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
+                                bits = font[1];
+                                nibbles = 0;
+                                if (bits & 0x80) nibbles = fg;
+                                if (bits & 0x40) nibbles |= fg << 4;
+                                if (bits & 0x20) nibbles |= fg << 8;
+                                word = pixel_row[2];
+                                pixel_row[2] = word | ((bits & 0x10) ? nibbles | fg << 12 : nibbles);
+                                bits = font[1];
+                                nibbles = 0;
+                                if (bits & 0x08) nibbles = fg;
+                                if (bits & 0x04) nibbles |= fg << 4;
+                                if (bits & 0x02) nibbles |= fg << 8;
+                                word = pixel_row[3];
+                                pixel_row[3] = word | ((bits & 0x01) ? nibbles | fg << 12 : nibbles);
+                                font += 2;
+                                pixel_row += 4;
+                            }
+                            while (IsIdleGPU(3) != 0) {
+                            }
+    #ifdef VERSION_JAPAN
+                            /* Japan uploads each cell for Credits_DrawLine. */
+                            while (LoadImage2(&rect, (u32 *)buf) != 0) {
+                            }
+    #endif
+                            while (IsIdleGPU(3) != 0) {
+                            }
+                            rect.x += 4;
+                            text += 2;
                         }
-                        while (IsIdleGPU(3) != 0) {
-                        }
-#ifdef VERSION_JAPAN
-                        /* Japan uploads each cell for Credits_DrawLine. */
-                        while (LoadImage2(&rect, (u32 *)buf) != 0) {
-                        }
-#endif
-                        while (IsIdleGPU(3) != 0) {
-                        }
-                        rect.x += 4;
-                        text += 2;
+                    }
+                    if (line->page == 0) {
+                        line->page = entry[1].flags >> 4;
+                    }
+                    count++;
+                    if (count >= 30) {
+                        break;
                     }
                 }
-                if (line->page == 0) {
-                    line->page = entry[1].flags >> 4;
-                }
-                count++;
-                if (count >= 30) {
-                    break;
-                }
             }
+            entry++;
         }
-        entry++;
-    }
-    line->end = entry;
-    if (line->height < page_height) {
-        line->height = page_height;
-    }
-    if (line->page != 0) {
-        line->height += 16;
-    }
-    return count;
-
-    /* Allocator steering, not behaviour: this loop is unreachable. It keeps
-     * `top` referenced until flow deletes the unreachable block, so the label
-     * still splits the entry block when reload runs and jump2 only removes it
-     * afterwards. With the label there, reload cannot reuse $a0 for `index`
-     * and reloads it from its stack slot ($s5), which is what retail does. */
-    while (1) {
-        if (count) {
-            goto top;
+        line->end = entry;
+        if (line->height < page_height) {
+            line->height = page_height;
         }
+        if (line->page != 0) {
+            line->height += 16;
+        }
+        return count;
     }
 }
 
@@ -695,30 +704,37 @@ void Credits_StartLineGroup(s32 group)
 
     i = 0;
     line = gCredits_aLines;
-next:
-    if (line->entries == 0) {
-        line->height = 0;
-        line->width = 0;
+    /* The constant switch enters the search loop at its case label. Until
+       flow deletes the dead empty loop, that jump comes from outside the
+       loop, so loop.c leaves it alone (no hoisted 40), as with retail's goto
+       loop; jump2 then deletes the jump. */
+    switch (0) {
+        for (;;) {
+        }
         do {
-            line->page = 0;
-            if (Credits_BuildLineGlyphs(i, group) != 0) {
-                line->x = 40;
-                line->y = 40;
-                if (line->width > 160 || line->height > 120) {
-                    line->x = (320 - line->width) / 2;
-                    line->y = (240 - line->height) / 2 - 10;
-                }
-                line->state = 0;
-                line->timer = 152;
-                line->title_held = 0;
+    case 0:
+            if (line->entries == 0) {
+                line->height = 0;
+                line->width = 0;
+                do {
+                    line->page = 0;
+                    if (Credits_BuildLineGlyphs(i, group) != 0) {
+                        line->x = 40;
+                        line->y = 40;
+                        if (line->width > 160 || line->height > 120) {
+                            line->x = (320 - line->width) / 2;
+                            line->y = (240 - line->height) / 2 - 10;
+                        }
+                        line->state = 0;
+                        line->timer = 152;
+                        line->title_held = 0;
+                    }
+                    return;
+                } while (0);
             }
-            return;
-        } while (0);
-    }
-    i++;
-    line++;
-    if (i < 2) {
-        goto next;
+            i++;
+            line++;
+        } while (i < 2);
     }
 }
 

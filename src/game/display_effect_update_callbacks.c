@@ -375,17 +375,22 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     } else {
         *(u16 *)&o->field_60 -= (u16)gGraphics_nBaseFrameStep;
     }
-    if (o->field_60 <= 0) {
+    /* The faded-out arm sits first and joins the release arm at the step
+       clear; the in-range fade continues after the switch. */
+    switch (o->field_60 > 0) {
+    case 0:
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         o->rgb = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.scale.y = 0x1000;
         DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;
-        goto clear;
-    }
-    if (o->field_60 >= 0x14) {
-        DisplayEffect_ReleaseRecord(record);
-    clear:
+        if (0) {
+        default:
+            if (o->field_60 < 0x14) {
+                break;
+            }
+            DisplayEffect_ReleaseRecord(record);
+        }
         record->display_effect_step = 0;
         return;
     }

@@ -208,17 +208,24 @@ s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
         RotTransPersN(work->dots, screen, depths, projection, flags, 64);
         projected = screen;
         i = 0;
-    box_loop:
-        box.x = projected->vx;
-        box.y = projected->vy;
-        depth = depths[i] >> 2;
-        if (depth >= 0 && !(flags[i] & 0x20)) {
-            GsSortBoxFill(&box, ot, depth);
-        }
-        projected++;
-        i++;
-        if (i < 64) {
-            goto box_loop;
+        /* Entered through a constant switch: until flow deletes the dead empty
+           loop, that jump comes from outside the box loop, so loop.c leaves it
+           alone (no strength-reduced depths[i]/flags[i]), and jump2 then
+           deletes the jump. */
+        switch (0) {
+            for (;;) {
+            }
+            do {
+        case 0:
+                box.x = projected->vx;
+                box.y = projected->vy;
+                depth = depths[i] >> 2;
+                if (depth >= 0 && !(flags[i] & 0x20)) {
+                    GsSortBoxFill(&box, ot, depth);
+                }
+                projected++;
+                i++;
+            } while (i < 64);
         }
     }
     if (Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) >= config->anim_start + (s16)config->anim_span / 2) {

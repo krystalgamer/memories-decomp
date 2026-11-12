@@ -634,9 +634,10 @@ void Main_RunTrade(void)
  * existing DATA view; the active-mode byte remains scalar and GP-relative
  * through the canonical scalar view selected in unmatched.h.
  *
- * The shared completion-initialization label, save retry, secret-number
- * display and credits-scene phases retain their original branch order and
- * one-time flags. No register pins, inline assembly or local externs remain.
+ * The shared completion initialization (re-entered by the save retry
+ * through a loop that an initialized runner enters at the dispatch),
+ * secret-number display and credits-scene phases retain their original
+ * branch order and one-time flags. No register pins, inline assembly or local externs remain.
  * The canonical history and six-row terminal refinement history are preserved,
  * followed by one post-terminal resolution with this source evidence.
  */
@@ -677,85 +678,91 @@ void Main_RunCredits(void)
     SetGeomScreen(MAIN_RUN_CREDITS_GEOM_SCREEN);
 
     mode = gMain_bActiveModeState;
-    if ((mode & 0x40) == 0) {
+    /* A failed save write re-enters the completion setup and dispatches the
+       step again; the loop is entered at the dispatch when the runner is
+       already initialized. */
+    switch (mode & 0x40) {
+    case 0:
         gMain_bActiveModeState = mode | 0x40;
         Fade_InitIn();
-    initialize_completion:
-        save_state = (SaveDataState *)gDuel_awPlayerDeck;
-        save_state->campaign_scene.word = 0x30;
-        for (flag = 0x20; flag < 0x120; flag++) {
-            Library_UpdateCardUsedFlag(flag | 0x8000);
-        }
-        gMain_bModeRunnerStep = 0;
-        save_state->credits_flags = save_state->credits_flags | 3;
-    }
+        for (;;) {
+            save_state = (SaveDataState *)gDuel_awPlayerDeck;
+            save_state->campaign_scene.word = 0x30;
+            for (flag = 0x20; flag < 0x120; flag++) {
+                Library_UpdateCardUsedFlag(flag | 0x8000);
+            }
+            gMain_bModeRunnerStep = 0;
+            save_state->credits_flags = save_state->credits_flags | 3;
+    default:
+            state = gMain_bModeRunnerStep;
+            one = 1;
+            phase = state & 0xF;
 
-    state = gMain_bModeRunnerStep;
-    one = 1;
-    phase = state & 0xF;
+            switch (phase) {
+            case 0:
+                if ((state & 0x80) == 0) {
+                    gMain_bModeRunnerStep = state | 0x80;
+                    SaveData_RequestWrite();
+                }
+                state = MemCardDialog_Poll();
+                if (state == 0) {
+                    return;
+                }
+                if (state == 2) {
+                    continue;
+                }
+                gMain_bModeRunnerStep = one;
+                return;
 
-    switch (phase) {
-    case 0:
-        if ((state & 0x80) == 0) {
-            gMain_bModeRunnerStep = state | 0x80;
-            SaveData_RequestWrite();
-        }
-        state = MemCardDialog_Poll();
-        if (state == 0) {
+            case 1:
+                if ((state & 0x80) == 0) {
+                    gMain_bModeRunnerStep = state | 0x80;
+                    state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
+                        CREDITS_SECRET_NUMBER_COUNT;
+                    table = (u16 *)gCredits_awSecretNumbers;
+                    number = &table[state * 2];
+                    gText_StagedValues[0].pair.lo = number[0];
+                    gText_StagedValues[0].pair.hi = number[1];
+                    TextBox_CreateFlagged(
+                        0,
+                        0x23,
+                        0x10,
+                        0x70,
+                        0x120,
+                        MAIN_RUN_CREDITS_TEXT_BOX_Y,
+                        MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
+                    );
+                }
+                TextBox_UpdateChannels();
+                textbox = gText_aChannels;
+                if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
+                    TextBox_Destroy(textbox);
+                    gMain_bModeRunnerStep = 2;
+                }
+                return;
+
+            case 2:
+                if ((state & 0x80) == 0) {
+                    gMain_bModeRunnerStep = state | 0x80;
+#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
+                    DuelEffect_ResetState();
+                    DisplayEffect_ResetMenuRecords();
+#endif
+                    gGraphics_bSyncVBlankTarget = one;
+                    Model_ResetSceneView();
+                    Model_ResetSceneState();
+                    Model_StartCreditsPresentation();
+                    return;
+                }
+                Model_IsCreditsPresentationComplete();
+#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
+                TextBox_UpdateChannels();
+#endif
+                Model_UpdateScene();
+                break;
+            }
             return;
         }
-        if (state == 2) {
-            goto initialize_completion;
-        }
-        gMain_bModeRunnerStep = one;
-        return;
-
-    case 1:
-        if ((state & 0x80) == 0) {
-            gMain_bModeRunnerStep = state | 0x80;
-            state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
-                CREDITS_SECRET_NUMBER_COUNT;
-            table = (u16 *)gCredits_awSecretNumbers;
-            number = &table[state * 2];
-            gText_StagedValues[0].pair.lo = number[0];
-            gText_StagedValues[0].pair.hi = number[1];
-            TextBox_CreateFlagged(
-                0,
-                0x23,
-                0x10,
-                0x70,
-                0x120,
-                MAIN_RUN_CREDITS_TEXT_BOX_Y,
-                MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
-            );
-        }
-        TextBox_UpdateChannels();
-        textbox = gText_aChannels;
-        if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
-            TextBox_Destroy(textbox);
-            gMain_bModeRunnerStep = 2;
-        }
-        return;
-
-    case 2:
-        if ((state & 0x80) == 0) {
-            gMain_bModeRunnerStep = state | 0x80;
-#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-            DuelEffect_ResetState();
-            DisplayEffect_ResetMenuRecords();
-#endif
-            gGraphics_bSyncVBlankTarget = one;
-            Model_ResetSceneView();
-            Model_ResetSceneState();
-            Model_StartCreditsPresentation();
-            return;
-        }
-        Model_IsCreditsPresentationComplete();
-#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-        TextBox_UpdateChannels();
-#endif
-        Model_UpdateScene();
-        break;
     }
 }
 

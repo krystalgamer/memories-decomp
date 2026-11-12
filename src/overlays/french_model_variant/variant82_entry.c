@@ -134,19 +134,25 @@ s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
     }
     PopMatrix();
     work->elapsed += Model_GetFrameStep();
-    if (work->elapsed < config->rate + config->travel_duration) {
-return_zero:
-        return 0;
+    /* A completed effect loops back to the early `return 0`, which the
+       switch takes while the effect is still travelling; otherwise it enters
+       the loop past that return. */
+    switch (work->elapsed < config->rate + config->travel_duration) {
+        for (;;) {
+        default:
+            return 0;
+        case 0:
+            if (work->elapsed > config->end_time) {
+                return 2;
+            }
+            if (work->elapsed < config->rate + config->travel_duration + config->count) {
+                return 4;
+            }
+            if (work->completed) {
+                continue;
+            }
+            work->completed = 1;
+            return 1;
+        }
     }
-    if (work->elapsed > config->end_time) {
-        return 2;
-    }
-    if (work->elapsed < config->rate + config->travel_duration + config->count) {
-        return 4;
-    }
-    if (work->completed) {
-        goto return_zero;
-    }
-    work->completed = 1;
-    return 1;
 }

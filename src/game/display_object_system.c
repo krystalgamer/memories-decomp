@@ -1170,36 +1170,43 @@ retry:
             if (sprite->uv.b.hi + sprite->extent.wh.h >= 0x100) {
                 sprite->extent.wh.h--;
             }
-            if (work->wide != 0) {
+            /* A wide sheet already at the first page narrows like a single
+               page one. */
+            switch (work->wide) {
+            default:
                 if (sprite->uv.b.lo + sprite->extent.wh.w.word >= 0x100 &&
                     (s8)sprite->uv.b.lo < 0 && sprite->tpage != 0x1F) {
                     sprite->tpage++;
                     sprite->uv.b.lo += 0x80;
                     state->flags |= 0x80;
-                } else if (sprite->uv.b.lo == 0) {
-                    if (sprite->tpage != 0x10) {
-                        sprite->tpage--;
-                        sprite->uv.b.lo = 0x80;
-                        state->flags |= 0x80;
-                    } else {
-                        goto narrow;
-                    }
+                    break;
                 }
-            } else {
-narrow:
+                if (sprite->uv.b.lo != 0) {
+                    break;
+                }
+                if (sprite->tpage != 0x10) {
+                    sprite->tpage--;
+                    sprite->uv.b.lo = 0x80;
+                    state->flags |= 0x80;
+                    break;
+                }
+                /* fall through */
+            case 0:
                 if (sprite->uv.b.lo == 0) {
                     sprite->uv.b.lo++;
                     sprite->extent.wh.w.word--;
                 }
             }
         }
-        if (work->clip == 0) {
+        /* An off-screen part breaks out of the switch before submission. */
+        switch (work->clip) {
+        case 0:
             if (state->screen != 0) {
                 if ((s16)sprite->xy.h.x >= 320 ||
                     (s16)sprite->xy.h.x + sprite->extent.wh.w.word <= 0 ||
                     (s16)sprite->xy.h.y >= SPRITE_SHEET_SCREEN_HEIGHT ||
                     (s16)sprite->xy.h.y + sprite->extent.wh.h <= 0) {
-                    goto next;
+                    break;
                 }
             } else {
                 value = (u16)depth | 0x30000;
@@ -1208,9 +1215,10 @@ narrow:
                 sprite->xy.h.x += sprite->mxmy.h.x;
                 sprite->xy.h.y += sprite->mxmy.h.y;
             }
+            /* fall through */
+        default:
+            DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, (u8 *)&work->proj);
         }
-        DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, (u8 *)&work->proj);
-next:
         part++;
     } while (--count != 0);
 }

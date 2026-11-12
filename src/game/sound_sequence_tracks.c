@@ -191,53 +191,62 @@ int SD_ProcessSequenceTracks(void) {
         return 0;
     i = 0;
     entry = SD_SEQUENCE_TRACK_VIEW(base);
-loop:
-    if (entry->ended == 0) {
-        int sum = entry->tempo_accumulator + entry->tempo_step;
-        entry->tempo_accumulator = sum;
-        if ((u16)sum >= 0x100) {
-            entry->tempo_accumulator = (u8)sum;
-            if (i == STATE_WORD(u16, 0x7F8)) /* field_07F8 */
-                STATE_WORD(s32, 0x7F0)++;   /* sequence_tick_count */
-            {
-                u32 count = entry->delta_remaining;
-                if (count != 0 && gSD_pSecondaryState->fast_forward_target_address == 0) {
-                    entry->delta_remaining = count - 1;
-                } else {
-                    for (;;) {
-                        SD_ReadSequenceEvent(entry);
-                        if (entry->ended != 0)
-                            break;
-                        entry->delta_remaining = SD_ReadVariableLengthValue(entry);
-                        if (entry->delta_remaining == 0)
-                            continue;
-                        if (gSD_pSecondaryState->delta_scale_gate != 0)
-                            SD_ScaleSequenceDelta(entry);
-                        if (entry->delta_remaining != 0)
-                            break;
+    /* Entered through a constant switch: until flow deletes the dead empty
+       loop, that jump comes from outside the track loop, so loop.c leaves
+       it alone, and jump2 then deletes the jump. */
+    switch (0) {
+        for (;;) {
+        }
+        for (;;) {
+    case 0:
+            if (entry->ended == 0) {
+                int sum = entry->tempo_accumulator + entry->tempo_step;
+                entry->tempo_accumulator = sum;
+                if ((u16)sum >= 0x100) {
+                    entry->tempo_accumulator = (u8)sum;
+                    if (i == STATE_WORD(u16, 0x7F8)) /* field_07F8 */
+                        STATE_WORD(s32, 0x7F0)++;   /* sequence_tick_count */
+                    {
+                        u32 count = entry->delta_remaining;
+                        if (count != 0 && gSD_pSecondaryState->fast_forward_target_address == 0) {
+                            entry->delta_remaining = count - 1;
+                        } else {
+                            for (;;) {
+                                SD_ReadSequenceEvent(entry);
+                                if (entry->ended != 0)
+                                    break;
+                                entry->delta_remaining = SD_ReadVariableLengthValue(entry);
+                                if (entry->delta_remaining == 0)
+                                    continue;
+                                if (gSD_pSecondaryState->delta_scale_gate != 0)
+                                    SD_ScaleSequenceDelta(entry);
+                                if (entry->delta_remaining != 0)
+                                    break;
+                            }
+                            if (entry->delta_remaining != 0)
+                                entry->delta_remaining--;
+                        }
                     }
-                    if (entry->delta_remaining != 0)
-                        entry->delta_remaining--;
+                    {
+                        SDSecondaryState *root = gSD_pSecondaryState;
+                        int total = (int)root->sequence_read_base + entry->pos;
+                        int threshold = root->fast_forward_target_address;
+
+                        root->last_track_cursor_address = total;
+                        if (threshold != 0 && (unsigned int)total >=
+                                              (unsigned int)threshold)
+                            root->fast_forward_target_address = 0;
+                    }
                 }
             }
             {
-                SDSecondaryState *root = gSD_pSecondaryState;
-                int total = (int)root->sequence_read_base + entry->pos;
-                int threshold = root->fast_forward_target_address;
-
-                root->last_track_cursor_address = total;
-                if (threshold != 0 && (unsigned int)total >=
-                                      (unsigned int)threshold)
-                    root->fast_forward_target_address = 0;
+                int count = STATE_WORD(u16, 0x7FA); /* track_count */
+                i++;
+                if (i >= count) {
+                    break;
+                }
             }
-        }
-    }
-    {
-        int count = STATE_WORD(u16, 0x7FA); /* track_count */
-        i++;
-        if (i < count) {
             entry++;
-            goto loop;
         }
     }
     return 0;

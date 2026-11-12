@@ -186,17 +186,22 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
                     RotTransPersN(work->dots, screen, depths, projection, flags, 64);
                     projected = start;
                     i = 0;
-                box_loop:
-                    box.x = projected->vx;
-                    box.y = projected->vy;
-                    depth = depths[i] >> 2;
-                    if (depth >= 0 && !(flags[i] & 0x20)) {
-                        GsSortBoxFill(&box, ot, depth);
-                    }
-                    projected++;
-                    i++;
-                    if (i < 64) {
-                        goto box_loop;
+                    /* Entered through a constant switch so loop.c leaves the box
+                       loop alone, as in variant118_entry.c. */
+                    switch (0) {
+                        for (;;) {
+                        }
+                        do {
+                    case 0:
+                            box.x = projected->vx;
+                            box.y = projected->vy;
+                            depth = depths[i] >> 2;
+                            if (depth >= 0 && !(flags[i] & 0x20)) {
+                                GsSortBoxFill(&box, ot, depth);
+                            }
+                            projected++;
+                            i++;
+                        } while (i < 64);
                     }
                 }
             }
