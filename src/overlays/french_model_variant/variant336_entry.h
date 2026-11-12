@@ -12,10 +12,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x2E8 - 0x240];
     s32 state, count, extent;
     u8 unknown_2F4[0x3C0 - 0x2F4];

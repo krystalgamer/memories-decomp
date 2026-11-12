@@ -88,16 +88,16 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(flat, 1);
         SetShadeTex(flat, 1);
         for (i = 0; i < 1; i++, record++) {
-            setVector(&record->scale, 4096, 4096, 4096);
-            record->inner.r = 192;
-            record->inner.g = 192;
-            record->inner.b = 192;
-            record->outer.r = 0;
-            record->outer.g = 16;
-            record->outer.b = 128;
-            record->field_238 = 0;
-            record->field_23C = 0;
-            record->field_23A = 0;
+            setVector(&record->style.scale, 4096, 4096, 4096);
+            record->style.inner.r = 192;
+            record->style.inner.g = 192;
+            record->style.inner.b = 192;
+            record->style.outer.r = 0;
+            record->style.outer.g = 16;
+            record->style.outer.b = 128;
+            record->style.field_18 = 0;
+            record->style.field_1C = 0;
+            record->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i % 2 == 1) {

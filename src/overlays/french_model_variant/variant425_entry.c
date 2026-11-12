@@ -139,16 +139,16 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         for (i = 0; i < 1; i++, ribbon++) {
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->colors[0].r = 128;
-            ribbon->colors[0].g = 128;
-            ribbon->colors[0].b = 128;
-            ribbon->colors[1].r = 0;
-            ribbon->colors[1].g = 16;
-            ribbon->colors[1].b = 128;
-            ribbon->field_238 = 0;
-            ribbon->field_23C = 0;
-            ribbon->field_23A = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = 128;
+            ribbon->style.inner.g = 128;
+            ribbon->style.inner.b = 128;
+            ribbon->style.outer.r = 0;
+            ribbon->style.outer.g = 16;
+            ribbon->style.outer.b = 128;
+            ribbon->style.field_18 = 0;
+            ribbon->style.field_1C = 0;
+            ribbon->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i / 2 * 2 == i - 1) {

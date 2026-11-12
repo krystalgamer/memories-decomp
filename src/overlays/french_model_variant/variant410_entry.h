@@ -31,10 +31,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripStyle style;
     VECTOR velocity;
     u8 unknown_250[0x2D8 - 0x250];
     s32 progress[17];

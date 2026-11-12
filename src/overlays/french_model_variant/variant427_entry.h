@@ -19,10 +19,8 @@ typedef struct {
 
 typedef struct {
     u8 unknown_000[0x220];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C, progress;
+    ModelVariantStripStyle style;
+    s32 progress;
     u8 unknown_244[0x88];
     VECTOR position;
     u8 unknown_2DC[0xCC];

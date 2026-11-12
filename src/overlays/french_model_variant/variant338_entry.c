@@ -112,16 +112,16 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(extra, 1);
         SetShadeTex(extra, 1);
         for (i = 0; i < 5; i++, record++) {
-            setVector(&record->scale, 4096, 4096, 4096);
-            record->inner.r = work->config->ribbon.r;
-            record->inner.g = work->config->ribbon.g;
-            record->inner.b = work->config->ribbon.b;
-            record->outer.r = 0;
-            record->outer.g = 16;
-            record->outer.b = 128;
-            record->field_238 = 0;
-            record->field_23C = 0;
-            record->field_23A = -(i * 16);
+            setVector(&record->style.scale, 4096, 4096, 4096);
+            record->style.inner.r = work->config->ribbon.r;
+            record->style.inner.g = work->config->ribbon.g;
+            record->style.inner.b = work->config->ribbon.b;
+            record->style.outer.r = 0;
+            record->style.outer.g = 16;
+            record->style.outer.b = 128;
+            record->style.field_18 = 0;
+            record->style.field_1C = 0;
+            record->style.count = -(i * 16);
             if (i == 0) {
                 angle = 1024;
             } else if (i % 2 == 1) {
