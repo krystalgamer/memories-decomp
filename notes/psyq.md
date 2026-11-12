@@ -369,6 +369,27 @@ The `CdMix` and `GsSetRefView2` records explicitly leave original-library
 identity unresolved: equal packet/view layouts and identical permitted
 catalogue signatures do not discriminate their alternative exports.
 
+### Regional LIBAPI helpers anchored by their neighbours
+
+Two LIBAPI functions were still `func_` placeholders in the regional
+inventories: `_IsVSync` from `PAD.OBJ` and the `_96_remove` BIOS stub from
+`C114.OBJ`. Each regional body has the same size and masked words as its North
+American namesake, but neither masked body is unique: `_IsVSync` occurs three
+times in each regional image, with two more copies in the memory-card library
+code, and `_96_remove` matches dozens of three-word BIOS stubs. The library
+keeps the
+same order in every image, so the nearest named rows on each side fix the
+shift: `_Pad1`/`InitPAD2` for `_IsVSync` and
+`restartIntr`/`ReturnFromException` for `_96_remove`. A placeholder takes
+the North American inventory name only when the function at the same offset
+from both neighbours has that name, the same size and the same masked body,
+the name is unused in the image's inventory and
+`symbols.txt`/`link_symbols.ld`, and no source or linker file spells the
+placeholder. All six images gain `_IsVSync`, and the five PAL images gain
+`_96_remove`; Japan already names its `_96_remove`. That makes 11 rows. Only
+the name column of the six `functions.csv` files changes, and each rename has
+a `regional/<image>/function` row in `semantic-symbol-map.csv`.
+
 ### Other regional-only library objects
 
 The same Psy-Q 4.6 catalogue (lab313ru `psx_psyq_signatures` revision
