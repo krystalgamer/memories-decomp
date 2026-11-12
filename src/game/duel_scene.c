@@ -530,9 +530,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 void Duel_DrawFieldCards(void) {
     DuelCardRecord *e;
     DisplayObject *a;
-    POLY_FT4 *p1;
-    POLY_GT4 *p3;
-    s32 *p4;
+    POLY_FT4 *field_ft4;
+    POLY_GT4 *field_gt4;
+    s32 *color_word;
     s32 n;
     s32 h;
     s32 c;
@@ -556,38 +556,38 @@ void Duel_DrawFieldCards(void) {
             gSortedEntry_pCursor = gSortedEntry_pBase;
         }
 
-        p4 = (s32 *)0x1F8000C0;
-        p1 = (POLY_FT4 *)0x1F800140;
-        p3 = (POLY_GT4 *)0x1F800180;
+        color_word = (s32 *)0x1F8000C0;
+        field_ft4 = (POLY_FT4 *)0x1F800140;
+        field_gt4 = (POLY_GT4 *)0x1F800180;
         c = DUEL_DISPLAY_COLOR_NORMAL;
         e = gDuel_aFieldCardRecords;
         n = 0;
 
-        setlen(p1, 9);
-        p1->code = 0x2C;
-        p1->r0 = 0xFF;
-        p1->g0 = 0xFF;
-        p1->b0 = 0xFF;
-        p1->tpage = 0x5F;
+        setlen(field_ft4, 9);
+        field_ft4->code = 0x2C;
+        field_ft4->r0 = 0xFF;
+        field_ft4->g0 = 0xFF;
+        field_ft4->b0 = 0xFF;
+        field_ft4->tpage = 0x5F;
         f = 0x80;
-        p1->clut = DUEL_FIELD_CARDS_CLUT_1;
+        field_ft4->clut = DUEL_FIELD_CARDS_CLUT_1;
     } while (0);
-    p1->u3 = 0xAF;
-    p1->u1 = 0xAF;
-    p1->v3 = 0x37;
-    p1->v2 = 0x37;
-    p1->code = 0x2E;
-    p1->u2 = f;
-    p1->u0 = f;
-    p1->v1 = 0;
-    p1->v0 = 0;
-    p3->tpage = 0x9E;
-    p3->clut = DUEL_FIELD_CARDS_CLUT_3;
-    p3->v1 = f;
-    p3->v0 = f;
-    p3->v3 = 0xBC;
-    p3->v2 = 0xBC;
-    *p4 = c;
+    field_ft4->u3 = 0xAF;
+    field_ft4->u1 = 0xAF;
+    field_ft4->v3 = 0x37;
+    field_ft4->v2 = 0x37;
+    field_ft4->code = 0x2E;
+    field_ft4->u2 = f;
+    field_ft4->u0 = f;
+    field_ft4->v1 = 0;
+    field_ft4->v0 = 0;
+    field_gt4->tpage = 0x9E;
+    field_gt4->clut = DUEL_FIELD_CARDS_CLUT_3;
+    field_gt4->v1 = f;
+    field_gt4->v0 = f;
+    field_gt4->v3 = 0xBC;
+    field_gt4->v2 = 0xBC;
+    *color_word = c;
 
     do {
         h = e->flags;
@@ -597,8 +597,8 @@ void Duel_DrawFieldCards(void) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
                 } else {
-                    *p4 = a->rgb;
-                    Duel_RenderFieldCard3D(e, p3, p1, p4);
+                    *color_word = a->rgb;
+                    Duel_RenderFieldCard3D(e, field_gt4, field_ft4, color_word);
                 }
             }
         }
@@ -617,8 +617,8 @@ void Duel_DrawFieldCards(void) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
                 } else {
-                    *p4 = a->rgb;
-                    Duel_RenderFieldCard3D(e, p3, p1, p4);
+                    *color_word = a->rgb;
+                    Duel_RenderFieldCard3D(e, field_gt4, field_ft4, color_word);
                 }
             }
         }
@@ -709,8 +709,8 @@ void DisplayObject_SetResourceVariantFromSign(
  * scratchpad records typed, those stores are struct references too, the
  * reads stay put, and every offset this function touches is a member. */
 void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_x, s32 screen_y) {
-    u8 sp18[8];
-    u8 sp20[8];
+    u8 attack_digits[8];
+    u8 defense_digits[8];
     DuelCardRecord *card;
     s32 fl;
     s32 i;
@@ -816,16 +816,16 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->extent.wh.h = 8;
                         k->xy.h.x = o->pos.h.x + 0xE;
                         d = Duel_CalcCardStats(card);
-                        Text_EncodeDecimalDigits((s16)d, 4, sp18);
-                        Text_EncodeDecimalDigits(d >> 0x10, 4, sp20);
+                        Text_EncodeDecimalDigits((s16)d, 4, attack_digits);
+                        Text_EncodeDecimalDigits(d >> 0x10, 4, defense_digits);
                         i = 3;
                         do {
-                            k->uv.b.lo = sp18[i] * 8;
+                            k->uv.b.lo = attack_digits[i] * 8;
                             DisplayObject_SubmitPacket(
                                 k, POLY_FT4_BYTES(y), ordering_table, fl,
                                 CARD_FRAME_SCRATCH_BYTES(o));
                             k->xy.h.y = k->xy.h.y + 8;
-                            k->uv.b.lo = sp20[i] * 8;
+                            k->uv.b.lo = defense_digits[i] * 8;
                             DisplayObject_SubmitPacket(
                                 k, POLY_FT4_BYTES(y), ordering_table, fl,
                                 CARD_FRAME_SCRATCH_BYTES(o));
@@ -3077,7 +3077,7 @@ void DuelScene_UpdateCardUse(void)
     u8 st;
     s32 v1;
     s32 v2;
-    s32 v3;
+    s32 countdown;
     s32 value;
     s32 fld;
 
@@ -3146,9 +3146,9 @@ void DuelScene_UpdateCardUse(void)
             gDuel_bSceneSubStep = st;
             return;
         }
-        v3 = *(u16 *)&p->field_60 - 1;
-        p->field_60 = v3;
-        if ((s16)v3 > 0) {
+        countdown = *(u16 *)&p->field_60 - 1;
+        p->field_60 = countdown;
+        if ((s16)countdown > 0) {
             return;
         }
         gDuel_bSceneSubStep = 2;
@@ -8053,15 +8053,15 @@ void DebugEffect_UpdatePreview(void) {
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on the edited operand. */
 void DuelScene_UpdateEffectPreview(void) {
-    u8 v0;
+    u8 edited_operand;
 
     DebugEffect_UpdatePreview();
     FntPrint(
         gDebugEffect_szOperandsFormat,
         gDebugEffect_abOperands[0],
         gDebugEffect_abOperands[1]);
-    v0 = gDebugEffect_bEditedOperand;
-    if (v0 != 0) {
+    edited_operand = gDebugEffect_bEditedOperand;
+    if (edited_operand != 0) {
         FntPrint(gDebugEffect_szSecondOperandMarker);
     } else {
         FntPrint(gDebugEffect_szFirstOperandMarker);
@@ -9927,23 +9927,23 @@ u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
    added to the selected side's life points, and capped at its maximum; the
    alternate path subtracts the same values and floors the result at zero. */
 void DuelEffect_ApplyLifePointRecovery(void) {
-    s32 s0;
-    s32 s1;
+    s32 card_id;
+    s32 effect_index;
     s32 flag;
-    u16 v1;
+    u16 life_points;
     DuelEffectRequest *obj;
 
-    s0 = gDuel_wEffectCardID;
-    s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
+    card_id = gDuel_wEffectCardID;
+    effect_index = card_id - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (Duel_SelectTrapByCardId(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
-            s1 = s0 - (DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID -
+            effect_index = card_id - (DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID -
                        DUEL_LIFE_POINT_EFFECT_COUNT);
         }
         obj = DuelEffect_CreateRequest(5);
         obj->field_00 = 0xA0;
         obj->field_02 = 0x78;
-        obj->phase = s1;
+        obj->phase = effect_index;
         SD_SEPlayFull(0x14);
         return;
     }
@@ -9951,11 +9951,11 @@ void DuelEffect_ApplyLifePointRecovery(void) {
     if (!(flag & 0x40)) {
         gDuel_wCardEffectFlags = flag | 0x60;
         if (gDuel_wSelectedTrapCardId == 0) {
-            u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-            v1 = gDuel_pActiveSideState->life_points.unsigned_value +
+            u8 *p = &gDuel_abLifePointRecoveryUnits[effect_index];
+            life_points = gDuel_pActiveSideState->life_points.unsigned_value +
                  (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-            gDuel_pActiveSideState->life_points.unsigned_value = v1;
-            if (gDuel_pActiveSideState->max_life_points < (s16) v1) {
+            gDuel_pActiveSideState->life_points.unsigned_value = life_points;
+            if (gDuel_pActiveSideState->max_life_points < (s16) life_points) {
                 gDuel_pActiveSideState->life_points.unsigned_value =
                     (u16) gDuel_pActiveSideState->max_life_points;
             }
@@ -9970,14 +9970,14 @@ void DuelEffect_ApplyLifePointRecovery(void) {
             obj = DuelEffect_CreateRequest(9);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
-            obj->phase = s1;
+            obj->phase = effect_index;
         }
     } else {
-        u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
-        v1 = gDuel_pActiveSideState->life_points.unsigned_value -
+        u8 *p = &gDuel_abLifePointRecoveryUnits[effect_index];
+        life_points = gDuel_pActiveSideState->life_points.unsigned_value -
              (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
-        gDuel_pActiveSideState->life_points.unsigned_value = v1;
-        if ((s16) v1 < 0) {
+        gDuel_pActiveSideState->life_points.unsigned_value = life_points;
+        if ((s16) life_points < 0) {
             gDuel_pActiveSideState->life_points.unsigned_value = 0;
         }
         gDuel_wCardEffectFlags = 0;
@@ -11219,18 +11219,18 @@ s32 Duel_SelectEquipPair(void) {
 }
 
 s32 Duel_SelectTrapPlay(void) {
-    DuelCardRecord *sp10[6];
+    DuelCardRecord *trap_cards[6];
     s32 slot;
     s8 v;
 
-    if (Duel_CollectFieldCardsByType(sp10, 0, CARD_TYPE_TRAP) == 0) {
+    if (Duel_CollectFieldCardsByType(trap_cards, 0, CARD_TYPE_TRAP) == 0) {
         return 1;
     }
     slot = Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);
     if (slot < 0) {
         return 1;
     }
-    v = sp10[0]->table_index;
+    v = trap_cards[0]->table_index;
     gAi_Selection.bytes[8] = 1;
     gAi_Selection.bytes[1] = 0;
     gAi_Selection.bytes[7] = 0;
