@@ -340,7 +340,6 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
 
 #include "duel_effect_states.h"
 #include "mem_card_work.h"
-#include "mem_card_work_state.h"
 
 void MemCardWork_InitializeOperation(u8 value)
 {
@@ -763,7 +762,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "../psyq/stdio.h"
 #include "mem_card_driver.h"
 #include "mem_card_work.h"
-#include "mem_card_work_state.h"
 #include "file_constants.h"
 #include "util_memory.h"
 #include "card_constants.h"
