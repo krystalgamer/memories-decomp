@@ -14,6 +14,7 @@
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/abs.h"
+#include "model_variant.h"
 
 /* One 0x2A-byte command row: the bolt, glow and spark colours, the three
  * model points (the bolts' source, the aim point and the charge point),
@@ -29,9 +30,7 @@ typedef struct {
     u8 aim_part;
     u8 charge_part;
     u16 depth;
-    u16 size;
-    u16 steps;
-    u16 count;
+    ModelVariantBoltFlight flight;
     u16 glow_size;
     u16 spark_spread;
     u16 spark_count;

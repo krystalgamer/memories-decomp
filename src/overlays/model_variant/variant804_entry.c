@@ -42,7 +42,7 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
     if (command >= 0) {
         work->config = &gModelVariant804_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
-        for (i = 0; i < work->config->count; i++) {
+        for (i = 0; i < work->config->flight.count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->step[i], 0, 0, 0);
             setVector(&work->angle[i], 0, 0, 0);
@@ -115,17 +115,17 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
         setVector(&pos, m.t[0], m.t[1], m.t[2]);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->charge_part), &m);
         setVector(&rot, m.t[0], m.t[1], m.t[2]);
-        for (i = 0; i < work->config->count; i++) {
+        for (i = 0; i < work->config->flight.count; i++) {
             setVector(&work->angle[i], direction * (direction * ratan2(pos.vz - rot.vz, pos.vy - rot.vy) - 0x400),
                       0, 0);
             setPolyFT4(&ft4);
             setRGB0(&ft4, 0x80, 0x80, 0x80);
             ft4.tpage = work->texture[2] >> 16;
             ft4.clut = work->texture[2];
-            setVector(&quad[0], 0, -work->config->size, 0);
-            setVector(&quad[1], 0, -work->config->size, direction * work->config->depth);
-            setVector(&quad[2], 0, work->config->size, 0);
-            setVector(&quad[3], 0, work->config->size, direction * work->config->depth);
+            setVector(&quad[0], 0, -work->config->flight.size, 0);
+            setVector(&quad[1], 0, -work->config->flight.size, direction * work->config->depth);
+            setVector(&quad[2], 0, work->config->flight.size, 0);
+            setVector(&quad[3], 0, work->config->flight.size, direction * work->config->depth);
             GsSetLsMatrix(&light);
             RotTrans(&pos, (VECTOR *)m.t, &flag);
             RotMatrix(&work->angle[i], &m);
@@ -150,17 +150,17 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
         setVector(&pos, m.t[0], m.t[1], m.t[2]);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->aim_part), &m);
         setVector(&rot, m.t[0], m.t[1], m.t[2]);
-        for (i = 0; i < work->config->count; i++) {
+        for (i = 0; i < work->config->flight.count; i++) {
             setVector(&work->angle[i], direction * (direction * ratan2(rot.vz - pos.vz, rot.vy - pos.vy) - 0x400),
                       0, 0);
             setPolyFT4(&ft4);
             setRGB0(&ft4, 0x80, 0x80, 0x80);
             ft4.tpage = work->texture[2] >> 16;
             ft4.clut = work->texture[2];
-            setVector(&quad[0], 0, -work->config->size, 0);
-            setVector(&quad[1], 0, -work->config->size, direction * work->config->depth);
-            setVector(&quad[2], 0, work->config->size, 0);
-            setVector(&quad[3], 0, work->config->size, direction * work->config->depth);
+            setVector(&quad[0], 0, -work->config->flight.size, 0);
+            setVector(&quad[1], 0, -work->config->flight.size, direction * work->config->depth);
+            setVector(&quad[2], 0, work->config->flight.size, 0);
+            setVector(&quad[3], 0, work->config->flight.size, direction * work->config->depth);
             GsSetLsMatrix(&light);
             RotTrans(&pos, (VECTOR *)m.t, &flag);
             RotMatrix(&work->angle[i], &m);
@@ -175,9 +175,9 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
                 GsSortPoly(&ft4, ot, (u16)otz);
             }
             copyVector(&work->pos[i], &pos);
-            setVector(&work->step[i], (work->target[i].vx - work->pos[i].vx) / work->config->steps,
-                      (work->target[i].vy - work->pos[i].vy) / work->config->steps,
-                      (work->target[i].vz - work->pos[i].vz) / work->config->steps);
+            setVector(&work->step[i], (work->target[i].vx - work->pos[i].vx) / work->config->flight.steps,
+                      (work->target[i].vy - work->pos[i].vy) / work->config->flight.steps,
+                      (work->target[i].vz - work->pos[i].vz) / work->config->flight.steps);
             for (j = 0; j < 32; j++) {
                 copyVector(&work->trail[i][j], &work->pos[i]);
             }
@@ -187,7 +187,7 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
         return 0;
     }
 
-    for (i = 0; i < work->config->count; i++) {
+    for (i = 0; i < work->config->flight.count; i++) {
         if (work->bright[i] != 0) {
             setVector(&work->angle[i], ratan2(work->step[i].vz, work->step[i].vy) - 0x400,
                       direction * ratan2(work->step[i].vx, work->step[i].vz), 0);
@@ -195,10 +195,10 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
             setRGB0(&ft4, work->bright[i], work->bright[i], work->bright[i]);
             ft4.tpage = work->texture[2] >> 16;
             ft4.clut = work->texture[2];
-            setVector(&quad[0], 0, -work->config->size, 0);
-            setVector(&quad[1], 0, -work->config->size, direction * work->config->depth);
-            setVector(&quad[2], 0, work->config->size, 0);
-            setVector(&quad[3], 0, work->config->size, direction * work->config->depth);
+            setVector(&quad[0], 0, -work->config->flight.size, 0);
+            setVector(&quad[1], 0, -work->config->flight.size, direction * work->config->depth);
+            setVector(&quad[2], 0, work->config->flight.size, 0);
+            setVector(&quad[3], 0, work->config->flight.size, direction * work->config->depth);
             GsSetLsMatrix(&light);
             RotTrans(&work->pos[i], (VECTOR *)m.t, &flag);
             RotMatrix(&work->angle[i], &m);
@@ -258,14 +258,14 @@ s32 ModelVariant804_HandleRequest(u8 *context, s32 command)
                     setRGB2(&g4, work->bolt_r[i] / (k + 1), work->bolt_g[i] / (k + 1), work->bolt_b[i] / (k + 1));
                     setRGB3(&g4, work->bolt_r[i] / (k + 1), work->bolt_g[i] / (k + 1), work->bolt_b[i] / (k + 1));
                     setVector(&quad[0], work->trail[i][j].vx,
-                              work->trail[i][j].vy - (u16)(work->config->size / 3) / k, work->trail[i][j].vz);
+                              work->trail[i][j].vy - (u16)(work->config->flight.size / 3) / k, work->trail[i][j].vz);
                     setVector(&quad[1], work->trail[i][j].vx,
-                              work->trail[i][j].vy + (u16)(work->config->size / 3) / k, work->trail[i][j].vz);
+                              work->trail[i][j].vy + (u16)(work->config->flight.size / 3) / k, work->trail[i][j].vz);
                     setVector(&quad[2], work->trail[i][j - 1].vx,
-                              work->trail[i][j].vy - (u16)(work->config->size / 3) / (k + 1),
+                              work->trail[i][j].vy - (u16)(work->config->flight.size / 3) / (k + 1),
                               work->trail[i][j - 1].vz);
                     setVector(&quad[3], work->trail[i][j - 1].vx,
-                              work->trail[i][j].vy + (u16)(work->config->size / 3) / (k + 1),
+                              work->trail[i][j].vy + (u16)(work->config->flight.size / 3) / (k + 1),
                               work->trail[i][j - 1].vz);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0,
                                       (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
