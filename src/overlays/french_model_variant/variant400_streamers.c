@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant400_streamers.h"
+#include "variant400_entry.h"
 
 void FrenchModelVariant400_DrawStreamers(u8 *ctx)
 {
@@ -28,7 +29,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     Model400Size *sizes;
     Model400Size *size;
     s32 n;
-    u8 *work;
+    Variant400EntryState *work;
     Model400Streamer *streamer;
     s16 k;
     s32 twist;
@@ -40,27 +41,27 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant400EntryState *)ctx;
     ribbon = (Model400FirstRibbon *)work;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_FT4 *)(work + 0x1F80);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2034), MODEL_VARIANT_WORD(work, 0x202C)) + 3072;
+    poly = work->flat_textured;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     reach = 128;
-    if (!(MODEL_VARIANT_WORD(work, 0x2044) & 1)) {
+    if (!(work->frame_count & 1)) {
         rx = 512;
         ry = 0;
     } else {
         rx = 1536;
         ry = 1024;
     }
-    if ((u32)MODEL_VARIANT_WORD(work, 0x2044) % 4 < 2) {
+    if ((u32)work->frame_count % 4 < 2) {
         phase = 0;
     } else {
         phase = 1500;
     }
-    streamer = (Model400Streamer *)(work + 0x1558);
+    streamer = (Model400Streamer *)work->columns;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x2080);
+    base = work->streamer_rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += 1024) {
@@ -68,7 +69,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 1500, wave += 512) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x2078) / 64;
+            length = work->streamer_length / 64;
             setVector(&streamer->a[k],
                       bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
@@ -79,16 +80,16 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = (s16)MODEL_VARIANT_WORD(work, 0x207C) + rx;
-    rot.vy = (s16)MODEL_VARIANT_WORD(work, 0x2080) + ry;
-    rot.vz = (s16)MODEL_VARIANT_WORD(work, 0x2084);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x2044) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x2080) += 1300;
+    rot.vx = (s16)work->streamer_rotation_x + rx;
+    rot.vy = (s16)work->streamer_rotation_y + ry;
+    rot.vz = (s16)work->streamer_rotation_z;
+    if ((u32)work->frame_count % 10 == 0) {
+        work->streamer_rotation_y += 1300;
     }
-    MODEL_VARIANT_WORD(work, 0x2080) += 32;
+    work->streamer_rotation_y += 32;
     /* A zero step: the PAL build drops it, the USA build keeps its load. */
-    MODEL_VARIANT_WORD(work, 0x2084) += 0;
-    if (MODEL_VARIANT_WORD(work, 0x2090) < 6) {
+    work->streamer_rotation_z += 0;
+    if (work->tail.phase < 6) {
         first = 0;
         count = 6;
     } else {
@@ -96,11 +97,11 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
         count = 7;
     }
     for (j = first, n = 0; j < count; j++, n++) {
-        sizes = (Model400Size *)(work + 0x11B8);
+        sizes = (Model400Size *)((u8 *)work + 0x11B8);
         if (j == 0) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1FF4);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1FF8);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1FFC);
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
             setVector(&scale, sizes[n].scale, sizes[n].scale, sizes[n].scale);
         } else {
             size = &sizes[n];
@@ -111,9 +112,9 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                 setVector(&scale, size->scale, size->scale, size->scale);
                 ribbon++;
             } else {
-                m.t[0] = MODEL_VARIANT_HALF(work, 0x2000);
-                m.t[1] = MODEL_VARIANT_HALF(work, 0x2002);
-                m.t[2] = MODEL_VARIANT_HALF(work, 0x2004);
+                m.t[0] = work->target.vx;
+                m.t[1] = work->target.vy;
+                m.t[2] = work->target.vz;
                 setVector(&scale, 4096, 4096, 4096);
             }
         }
@@ -124,7 +125,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        streamer = (Model400Streamer *)(work + 0x1558);
+        streamer = (Model400Streamer *)work->columns;
         for (i = 0; i < 2; i++, streamer++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -136,7 +137,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                     dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
                     dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 3072;
-                    if (MODEL_VARIANT_WORD(work, 0x2078) > 512) {
+                    if (work->streamer_length > 512) {
                         streamer->width[k] = 1;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -152,7 +153,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                     dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                     dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 3072;
-                    if (MODEL_VARIANT_WORD(work, 0x2078) > 512) {
+                    if (work->streamer_length > 512) {
                         streamer->width[k] = 1;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -162,7 +163,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                 }
             }
         }
-        streamer = (Model400Streamer *)(work + 0x1558);
+        streamer = (Model400Streamer *)work->columns;
         for (i = 0; i < 2; i++, streamer++) {
             for (k = 0; k < 16; k++) {
                 poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -181,11 +182,11 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x2090) == 8 && MODEL_VARIANT_WORD(work, 0x2078) > 0) {
-            MODEL_VARIANT_WORD(work, 0x2078) -= MODEL_VARIANT_WORD(work, 0x2050) * 12;
-            if (MODEL_VARIANT_WORD(work, 0x2078) <= 0) {
-                MODEL_VARIANT_WORD(work, 0x2078) = 0;
-                MODEL_VARIANT_WORD(work, 0x2090) = 9;
+        if (work->tail.phase == 8 && work->streamer_length > 0) {
+            work->streamer_length -= work->step * 12;
+            if (work->streamer_length <= 0) {
+                work->streamer_length = 0;
+                work->tail.phase = 9;
             }
         }
     }

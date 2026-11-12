@@ -1,14 +1,15 @@
 #include "../../types.h"
 
 #include "../model_variant/variant458_streamers.h"
+#include "variant426_entry.h"
 
 /* Builds four seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset (3 once the length
  * passes 0x200). RotTransPers4 writes each point's flag into a local table;
  * a segment is drawn only when its depth and flag are non-negative and the
- * word at work + 0x2128 has reached 0x1000. From the fifth phase on, the
- * streamer length is reset from the word at work + 0x2138. */
+ * word at (u8 *)work + 0x2128 has reached 0x1000. From the fifth phase on, the
+ * streamer length is reset from the word at (u8 *)work + 0x2138. */
 void FrenchModelVariant426_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
@@ -19,7 +20,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     long p;
     long depth[4][17];
     long flag;
-    u8 *work;
+    EntryState426 *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -43,13 +44,13 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (EntryState426 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x2048);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x20EC), MODEL_VARIANT_WORD(work, 0x20E4)) + 0xC00;
+    poly = (POLY_G4 *)work->flat2;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0x240;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x20FC) & 1)) {
+    if (!(work->frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -58,14 +59,14 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x20FC) & 3) < 2) {
+    if ((u32)(work->frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant458Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x215C);
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 4; i++, streamer++, base += step) {
@@ -75,7 +76,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 24 >> 12;
             wobble = bulge + (rcos(spin) * 16 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x2154) / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -86,15 +87,15 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x2158) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x215C) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x2160);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x20FC) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x215C) += 0x514;
+    if ((u32)work->frame_count % 10 == 0) {
+        work->streamer.rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x215C) += 0x20;
+    work->streamer.rotation_y += 0x20;
     /* A zero step: the PAL build drops it, the USA build keeps its load. */
-    MODEL_VARIANT_WORD(work, 0x2160) += 0;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x20C8);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x20CA);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x20CC);
+    work->streamer.rotation_z += 0;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -105,7 +106,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
     for (i = 0; i < 4; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -116,7 +117,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
                 dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x2154) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -131,7 +132,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x2154) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -141,7 +142,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (Variant458Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
     for (i = 0; i < 4; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -155,12 +156,12 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
             poly->r0 = streamer->color[k][0];
             poly->g0 = streamer->color[k][1];
             poly->b0 = streamer->color[k][2];
-            if (streamer->otz[k] >= 0 && depth[i][k] >= 0 && MODEL_VARIANT_WORD(work, 0x2128) >= 0x1000) {
+            if (streamer->otz[k] >= 0 && depth[i][k] >= 0 && work->size >= 0x1000) {
                 GsSortPoly(poly, ot, streamer->otz[k]);
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x2180) >= 5) {
-        MODEL_VARIANT_WORD(work, 0x2154) = MODEL_VARIANT_WORD(work, 0x2138);
+    if (work->phase >= 5) {
+        work->streamer.length = work->intensity;
     }
 }

@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
+#include "variant336_entry.h"
 
 void FrenchModelVariant336_DrawSheets(u8 *context)
 {
@@ -13,33 +14,33 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     u8 *node;
     ModelVariantSheet *sheet;
     GsOT *ot;
-    u8 *work;
+    Variant336EntryState *work;
     POLY_GT4 *poly;
     s32 i;
     s32 k;
     s32 bias;
     s32 depth;
 
-    work = context;
+    work = (Variant336EntryState *)context;
     node = context;
-    sheet = (ModelVariantSheet *)(work + 0xF00);
+    sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(MODEL_VARIANT_WORD(work, 0x1FB4), MODEL_VARIANT_WORD(work, 0x1FAC));
-    poly = (POLY_GT4 *)(work + 0x1E3C);
-    for (i = 0; i < MODEL_VARIANT_WORD(work, 0x1FEC); i++, sheet++) {
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    poly = &work->packets.textured[1];
+    for (i = 0; i < work->sheet_count; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1FC4) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         setVector(&rot, 0, 0, 0);
         if ((i & 1) == 0) {
-            matrix.t[0] = MODEL_VARIANT_WORD(work, 0x1F34) + MODEL_VARIANT_WORD(node, 0x2C8);
+            matrix.t[0] = work->origin[0] + MODEL_VARIANT_WORD(node, 0x2C8);
             matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2CC);
-            matrix.t[2] = MODEL_VARIANT_WORD(work, 0x1F3C) + MODEL_VARIANT_WORD(node, 0x2D0);
+            matrix.t[2] = work->origin[2] + MODEL_VARIANT_WORD(node, 0x2D0);
         } else {
-            matrix.t[0] = MODEL_VARIANT_WORD(work, 0x1F34) + MODEL_VARIANT_WORD(node, 0x2D8);
+            matrix.t[0] = work->origin[0] + MODEL_VARIANT_WORD(node, 0x2D8);
             matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2DC);
-            matrix.t[2] = MODEL_VARIANT_WORD(work, 0x1F3C) + MODEL_VARIANT_WORD(node, 0x2E0);
+            matrix.t[2] = work->origin[2] + MODEL_VARIANT_WORD(node, 0x2E0);
         }
         setVector(&scale, sheet->size + bias, sheet->size + bias, sheet->size + bias);
         RotMatrix(&rot, &matrix);
@@ -77,12 +78,12 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
         if ((i & 1) == 0) {
             if (MODEL_VARIANT_WORD(node, 0x2E8) == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size += MODEL_VARIANT_WORD(work, 0x1FD0) * 256;
+                    sheet->size += work->clock.step * 256;
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         MODEL_VARIANT_WORD(node, 0x2E8) = 1;
-                        if (MODEL_VARIANT_WORD(work, 0x2000) == 0) {
-                            MODEL_VARIANT_WORD(work, 0x2000) = 1;
+                        if (work->phase == 0) {
+                            work->phase = 1;
                         }
                     }
                 }
@@ -92,7 +93,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
         } else {
             if (MODEL_VARIANT_WORD(node, 0x2E8) == 1) {
                 if (sheet->size < 8192) {
-                    sheet->size += MODEL_VARIANT_WORD(work, 0x1FD0) * 1024;
+                    sheet->size += work->clock.step * 1024;
                     if (sheet->size >= 8192) {
                         sheet->size = 8192;
                         MODEL_VARIANT_WORD(node, 0x2E8) = 2;
@@ -102,8 +103,8 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
                 sheet->size = MODEL_VARIANT_WORD(node, 0x2F0) * 8;
             }
             if (i + 1 == 8 && MODEL_VARIANT_WORD(node, 0x2E8) == 1
-                && MODEL_VARIANT_WORD(work, 0x2000) == 1) {
-                MODEL_VARIANT_WORD(work, 0x2000) = 2;
+                && work->phase == 1) {
+                work->phase = 2;
             }
             node += 960;
         }

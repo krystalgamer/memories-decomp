@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant412_trails.h"
+#include "variant412_entry.h"
 
 void FrenchModelVariant412_DrawTrails(u8 *ctx)
 {
@@ -13,7 +14,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    u8 *work;
+    Variant412EntryState *work;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -30,10 +31,10 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     SVECTOR *row_points;
     SVECTOR *point;
 
-    work = ctx;
+    work = (Variant412EntryState *)ctx;
     trail = (Variant412Trail *)work;
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(MODEL_VARIANT_HALF(work, 0x1AEA), MODEL_VARIANT_HALF(work, 0x1AE8));
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
@@ -49,18 +50,18 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     coordinate.flg = 0;
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
-    quad = (POLY_G4 *)(work + 0x1920);
+    quad = &work->packets.quad;
     if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
-        < ((Variant412TimingLink *)(work + 0x1B24))->timing->capture_start) {
+        < work->config->capture_start) {
         last = -1;
     } else if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
-               < ((Variant412TimingLink *)(work + 0x1B24))->timing->capture_stop) {
+               < work->config->capture_stop) {
         last = MODEL_VARIANT_WORD(work, 0x1B18);
         if (MODEL_VARIANT_WORD(work, 0x1B08) != MODEL_VARIANT_WORD(work, 0x1B10)) {
             MODEL_VARIANT_WORD(work, 0x1B18)++;
         }
         for (i = 0; i < 6; i++) {
-            GsGetLw(((Variant412Links *)(work + 0x1B30))->part[i], &part);
+            GsGetLw(work->parts[i], &part);
             if (i == 0) {
                 ((SVECTOR *)work)[last].vx = part.t[0];
                 ((SVECTOR *)work)[last].vy = part.t[1];

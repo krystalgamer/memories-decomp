@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant321_streamers.h"
+#include "variant338_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
@@ -15,7 +16,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant338EntryState *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -42,13 +43,13 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     s32 dy;
     long *previous;
 
-    work = ctx;
+    work = (Variant338EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x1E64);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1F18), MODEL_VARIANT_WORD(work, 0x1F10)) + 0xC00;
-    reach = MODEL_VARIANT_WORD(work, 0x1354) / 32;
+    poly = (POLY_G4 *)work->extra_textured;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    reach = work->rings[1].size / 32;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x1F28) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -57,14 +58,14 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x1F28) & 3) < 2) {
+    if ((u32)(work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (ModelVariantFlaggedStreamer *)(work + 0x167C);
+    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x1F58);
+    base = work->streamer_rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -72,7 +73,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x1F50) / 64;
+            length = work->streamer_length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -83,13 +84,13 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x1F54) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x1F58) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x1F5C);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x1F28) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x1F58) += 0x514;
+    if ((u32)work->clock.frame_count % 10 == 0) {
+        work->streamer_rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x1F58) += 0x20;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x1EF4);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x1EF6);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x1EF8);
+    work->streamer_rotation_y += 0x20;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -100,7 +101,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (ModelVariantFlaggedStreamer *)(work + 0x167C);
+    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
          previous = (long *)((u8 *)previous + sizeof(ModelVariantFlaggedStreamer)), streamer++) {
         for (k = 0; k < 17; k++) {
@@ -112,7 +113,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*previous;
                 dy = (streamer->sa[k] >> 16) - (*previous >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1F50) > 0x200) {
+                if (work->streamer_length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -127,7 +128,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1F50) > 0x200) {
+                if (work->streamer_length > 0x200) {
                     streamer->width[k] = 3;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -137,7 +138,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (ModelVariantFlaggedStreamer *)(work + 0x167C);
+    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -158,11 +159,11 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1F68) == 4 && MODEL_VARIANT_WORD(work, 0x1F50) > 0) {
-        MODEL_VARIANT_WORD(work, 0x1F50) -= MODEL_VARIANT_WORD(work, 0x1F34) << 4;
-        if (MODEL_VARIANT_WORD(work, 0x1F50) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x1F50) = 0;
-            MODEL_VARIANT_WORD(work, 0x1F68) = 5;
+    if (work->phase == 4 && work->streamer_length > 0) {
+        work->streamer_length -= work->clock.step << 4;
+        if (work->streamer_length <= 0) {
+            work->streamer_length = 0;
+            work->phase = 5;
         }
     }
 }

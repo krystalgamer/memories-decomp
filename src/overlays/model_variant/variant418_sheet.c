@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant418_entry.h"
 
 /* Draws one sheet of four POLY_GT4 quads at the variant's origin and grows or
  * shrinks its size along the two phases of the pointed-to timing record. */
@@ -9,7 +10,7 @@ void ModelVariant418_DrawSheet(u8 *ctx)
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant418EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -23,21 +24,21 @@ void ModelVariant418_DrawSheet(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = ctx;
+    work = (Variant418EntryState *)ctx;
     sheet = (ModelVariantSheet *)(ctx + 0x12DC);
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x1A18);
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1B58) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x1B08);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x1B0C);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x1B10);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
         scale.vz = sheet->size + bias;
@@ -72,22 +73,22 @@ void ModelVariant418_DrawSheet(u8 *ctx)
                 GsSortPoly(poly, ot, otz);
             }
         }
-        if (sheet->size < 0x1000 && MODEL_VARIANT_WORD(work, 0x1B9C) == 0) {
-            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x1B5C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x28)) << 12) /
-                          (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x2C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x28));
+        if (sheet->size < 0x1000 && work->phase == 0) {
+            sheet->size = (u32)((work->clock.frame - work->config->start) << 12) /
+                          (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - work->config->start);
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
-                if (MODEL_VARIANT_WORD(work, 0x1B9C) == 0) {
-                    MODEL_VARIANT_WORD(work, 0x1B9C) = 1;
+                if (work->phase == 0) {
+                    work->phase = 1;
                 }
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work, 0x1B5C) >= (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x38)) {
-            sheet->size = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x1B5C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x38)) << 12) /
-                          (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x3C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1B74), 0x38));
+        } else if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x38)) {
+            sheet->size = 0x1000 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x38)) << 12) /
+                          (u32)(work->config->end - MODEL_VARIANT_WORD(work->config, 0x38));
             if (sheet->size <= 0) {
                 sheet->size = 0;
-                if (MODEL_VARIANT_WORD(work, 0x1B9C) == 3) {
-                    MODEL_VARIANT_WORD(work, 0x1B9C) = 4;
+                if (work->phase == 3) {
+                    work->phase = 4;
                 }
             }
         }

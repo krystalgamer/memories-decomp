@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
+#include "variant400_entry.h"
 
 void FrenchModelVariant400_DrawSheets(u8 *context)
 {
@@ -13,37 +14,37 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     u8 *node;
     ModelVariantSheet *quad;
     GsOT *ot;
-    u8 *work;
+    Variant400EntryState *work;
     POLY_GT4 *poly;
     s32 i;
     s32 k;
     s32 bias;
     s32 depth;
 
-    work = context;
+    work = (Variant400EntryState *)context;
     node = context;
-    quad = (ModelVariantSheet *)(work + 0x1130);
+    quad = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x1F4C);
+    poly = &work->packets.textured[1];
     for (i = 0; i < 7; i++, quad++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x2044) & 1) {
+        if (work->frame_count & 1) {
             bias = quad->size / 8;
         }
         setVector(&rot, 0, 0, 0);
         if (i == 0) {
-            matrix.t[0] = MODEL_VARIANT_WORD(work, 0x1FF4);
-            matrix.t[1] = MODEL_VARIANT_WORD(work, 0x1FF8);
-            matrix.t[2] = MODEL_VARIANT_WORD(work, 0x1FFC);
+            matrix.t[0] = work->matrix.t[0];
+            matrix.t[1] = work->matrix.t[1];
+            matrix.t[2] = work->matrix.t[2];
         } else if (i < 6) {
             matrix.t[0] = MODEL_VARIANT_WORD(node, 0x2C8);
             matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2CC);
             matrix.t[2] = MODEL_VARIANT_WORD(node, 0x2D0);
             node += 880;
         } else {
-            matrix.t[0] = MODEL_VARIANT_HALF(work, 0x2000);
-            matrix.t[1] = MODEL_VARIANT_HALF(work, 0x2002);
-            matrix.t[2] = MODEL_VARIANT_HALF(work, 0x2004);
+            matrix.t[0] = work->target.vx;
+            matrix.t[1] = work->target.vy;
+            matrix.t[2] = work->target.vz;
         }
         setVector(&scale, quad->size + bias, quad->size + bias, quad->size + bias);
         RotMatrix(&rot, &matrix);
@@ -81,65 +82,65 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
             }
         }
         if (i == 0) {
-            if (MODEL_VARIANT_WORD(work, 0x2090) == 0) {
+            if (work->tail.phase == 0) {
                 if (quad->size < 4096) {
-                    quad->size = (((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x0C));
+                    quad->size = (((u32)work->frame
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x10)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C));
                     if (quad->size >= 4096) {
                         quad->size = 4096;
-                        MODEL_VARIANT_WORD(work, 0x2090) = 1;
+                        work->tail.phase = 1;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2090) == 1 || MODEL_VARIANT_WORD(work, 0x2090) == 2) {
+            } else if (work->tail.phase == 1 || work->tail.phase == 2) {
                 if (quad->size >= 0) {
-                    quad->size -= MODEL_VARIANT_WORD(work, 0x2050) * 64;
+                    quad->size -= work->step * 64;
                     if (quad->size <= 0) {
                         quad->size = 0;
-                        if (MODEL_VARIANT_WORD(work, 0x206C) == 16) {
-                            MODEL_VARIANT_WORD(work, 0x2090) = 3;
+                        if (work->segment_start == 16) {
+                            work->tail.phase = 3;
                         }
                     }
                 }
             }
         } else if (i < 6) {
-            if (MODEL_VARIANT_WORD(work, 0x2090) == 2 || MODEL_VARIANT_WORD(work, 0x2090) == 3) {
+            if (work->tail.phase == 2 || work->tail.phase == 3) {
                 if (quad->size <= 4096) {
-                    quad->size += MODEL_VARIANT_WORD(work, 0x2050) * 64;
+                    quad->size += work->step * 64;
                     if (quad->size >= 4096) {
                         quad->size = 4096;
-                        if (MODEL_VARIANT_WORD(work, 0x2090) == 3) {
-                            MODEL_VARIANT_WORD(work, 0x2090) = 4;
+                        if (work->tail.phase == 3) {
+                            work->tail.phase = 4;
                         }
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2090) >= 5) {
-                if ((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x14)
+            } else if (work->tail.phase >= 5) {
+                if ((u32)work->frame
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x14)
                     && quad->size > 0) {
-                    quad->size -= MODEL_VARIANT_WORD(work, 0x2050) * 128;
+                    quad->size -= work->step * 128;
                     if (quad->size <= 0) {
                         quad->size = 0;
-                        if (MODEL_VARIANT_WORD(work, 0x2090) == 5) {
-                            MODEL_VARIANT_WORD(work, 0x2090) = 6;
+                        if (work->tail.phase == 5) {
+                            work->tail.phase = 6;
                         }
                     }
                 }
             }
         } else {
-            if (MODEL_VARIANT_WORD(work, 0x2090) == 5 || MODEL_VARIANT_WORD(work, 0x2090) == 6) {
+            if (work->tail.phase == 5 || work->tail.phase == 6) {
                 if (quad->size < 8192) {
-                    quad->size += MODEL_VARIANT_WORD(work, 0x2050) * 512;
+                    quad->size += work->step * 512;
                     if (quad->size >= 8192) {
                         quad->size = 8192;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(work, 0x2090) == 7 && quad->size > 0) {
-                quad->size -= MODEL_VARIANT_WORD(work, 0x2050) * 64;
+            } else if (work->tail.phase == 7 && quad->size > 0) {
+                quad->size -= work->step * 64;
                 if (quad->size <= 0) {
                     quad->size = 0;
-                    MODEL_VARIANT_WORD(work, 0x2090) = 8;
+                    work->tail.phase = 8;
                 }
             }
         }
