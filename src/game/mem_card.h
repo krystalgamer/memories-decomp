@@ -394,7 +394,7 @@ void MemCardDialog_CreateObject(void);
 
 /* One frame of the dialog box's slide. Callers load the phase at +0x60 with
  * -0x400 to open or 0x400 to close. Each call moves the phase 0x40 toward
- * zero, eases the object against (arg1, arg2) through Widget_SlideSine and, for
+ * zero, eases the object against (target_x, target_y) through Widget_SlideSine and, for
  * index >= 0, moves text box `index` to the result. When the phase reaches
  * zero it clears field_6C, and that byte is the return value, so every
  * caller tests it against zero to mean "slide finished".
@@ -403,7 +403,7 @@ void MemCardDialog_CreateObject(void);
  * The byte is returned as s32. Returning it as u8 costs nothing in the
  * definition, where the lbu already zero-extends, but makes each caller mask
  * the result before its test. */
-s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
+s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
                             s32 index);
 
 #define FUNC_8003D300_STATE_SIZE 10

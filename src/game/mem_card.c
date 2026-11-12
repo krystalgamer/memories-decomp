@@ -2125,7 +2125,7 @@ void MemCardDialog_UpdateTradeSave(void)
     }
 }
 
-s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
+s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
                             s32 index)
 {
     s32 saved_index = index;
@@ -2151,7 +2151,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     }
     object->field_60 = value;
 
-    Widget_SlideSine((DisplayObjectPosition *)object, arg1, arg2, value);
+    Widget_SlideSine((DisplayObjectPosition *)object, target_x, target_y, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(

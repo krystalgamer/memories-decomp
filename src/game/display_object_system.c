@@ -2055,12 +2055,12 @@ void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
 }
 
 void DisplayObject_InterpolatePositionCosine(
-    DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3
+    DisplayObjectPosition *object, s32 target_x, s32 target_y, s32 phase
 )
 {
-    s32 x = (object->x + arg1) >> 1;
-    s32 y = (object->y + arg2) >> 1;
-    s32 scale = rcos(arg3);
+    s32 x = (object->x + target_x) >> 1;
+    s32 y = (object->y + target_y) >> 1;
+    s32 scale = rcos(phase);
     s32 scale2 = scale;
 
     object->out_x = x + (object->x - x) * scale / ONE;
