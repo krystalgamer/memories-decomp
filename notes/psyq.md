@@ -511,6 +511,15 @@ destination with `SpuSetTransferStartAddr`, then pass a source buffer and byte
 count to this entry and require that full count back. This call graph rules out
 the byte-identical `SpuRead` signature proposal.
 
+The French, German, Italian and Spanish inventories still called `SpuInit`
+(`0x800753D8`) and `SpuSetReverb` (`0x80076158`) by `func_` placeholders,
+although each image's `link_symbols.ld` already binds both names to those
+addresses. The English European and Japanese inventories carry both names,
+and each English European copy has the same size and masked words at the
+same offset from the shared neighbours (`GetVideoMode`/`_SpuInit` and
+`SpuQuit`/`_SpuIsInAllocateArea`). The four inventories now spell the two
+names too, 8 rows in total. Only the inventory name column changes.
+
 The removed `0x8007A840` conflict is resolved as
 `CdReadyCallback_8007A840`. It replaces and returns `D_800934E4`, and
 `CD_ready` invokes that exact slot with its status byte and result pointer on
