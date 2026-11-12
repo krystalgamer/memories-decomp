@@ -198,6 +198,27 @@ changes; each rename has a `regional/<image>/function` row in
 American function, code the North American image does not link, and
 duplicate regional copies keep their placeholders.
 
+#### Regional LIBCD copies anchored by their neighbours
+
+Four LIBCD entry points were left by both passes in every regional image:
+`CdIntToPos`, `CdReady`, `CdGetSector2` and `CdSyncCallback`. Each regional
+body has the same size and masked words as its North American namesake, but
+the masked body also matches other North American functions: the
+`CdIntToPos_8007E600` copy, the other one-call wrappers such as `CdFlush`,
+`CdGetSector`, and the other callback setters. The library keeps the same
+order in every image, so the nearest named rows on each side fix the shift
+(`CD_set_test_parmnum`/`CdDataCallback`, `CD_getsector`/`CD_getsector2` and
+`CdReadyCallback`/`SetDumpFnt`). A placeholder takes the North American
+inventory name only when the function at the same offset from both
+neighbours has that name, the same size and the same masked body, the name
+is unused in the image's inventory and `symbols.txt`/`link_symbols.ld`, and
+no source or linker file spells the placeholder. All six images gain the
+four names, 24 rows in total. Only the name column of the six
+`functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`. The second
+regional `CdIntToPos`/`CdPosToInt` copies stay placeholders, because their
+North American counterparts carry address-qualified names.
+
 ### Regional-only LIBMCX
 
 Japan and the five PAL executables link the PocketStation library LIBMCX,
