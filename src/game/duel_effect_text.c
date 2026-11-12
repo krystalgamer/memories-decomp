@@ -3947,8 +3947,8 @@ u8 gText_PreviousGlyphKind;
 
 /* Regional value: the choice.flags bit that opens and closes the choice (0x8
  * -> 0x10). The European build (src/game/european/) defines its own. */
-#ifndef FUNC_80039794_CHOICE_FLAG
-#define FUNC_80039794_CHOICE_FLAG 8
+#ifndef TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG
+#define TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG 8
 #endif
 
 #ifndef DISPLAY_EFFECT_MENU_CONFIRM_MASK
@@ -3986,7 +3986,7 @@ void TextBox_UpdateChannels(void)
                     cnt++;
                     f = p->flags_34;
                     if (f & 0x2000) {
-                        if (f & FUNC_80039794_CHOICE_FLAG) {
+                        if (f & TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG) {
                             p->prompt_object = Dialog_OpenChoice(p);
                         }
                         break;
@@ -4000,10 +4000,10 @@ void TextBox_UpdateChannels(void)
                     }
                 }
             } else {
-                if (p->flags_34 & FUNC_80039794_CHOICE_FLAG) {
+                if (p->flags_34 & TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG) {
                     if (gInput_awPadPressed[0] &
                         DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
-                        p->flags_34 &= 0xFFFF ^ FUNC_80039794_CHOICE_FLAG;
+                        p->flags_34 &= 0xFFFF ^ TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG;
                         DisplayObject_ReleaseIfPresent(p->prompt_object);
                         p->prompt_object = 0;
                         SD_SEPlayFull(0xB);
