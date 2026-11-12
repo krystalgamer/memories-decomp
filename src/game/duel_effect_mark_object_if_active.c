@@ -14,18 +14,18 @@
    record whose effect_id marker is non-negative, sets the flag in the
    caller's text-box channel's flags_34 and returns. Does nothing if every
    marker is negative. */
-void DuelEffect_MarkObjectIfActive(DuelEffectChannel *a0) {
+void DuelEffect_MarkObjectIfActive(DuelEffectChannel *channel) {
     int count;
     MenuRecord *p;
-    int v0;
+    int effect_id;
 
     count = MENU_RECORD_COUNT - 1;
     p = &gDisplayEffect_aMenuRecords[count];
     do {
-        v0 = p->effect_id;
+        effect_id = p->effect_id;
         count -= 1;
-        if (v0 >= 0) {
-            a0->flags_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;
+        if (effect_id >= 0) {
+            channel->flags_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;
             return;
         }
         p -= 1;

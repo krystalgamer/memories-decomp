@@ -259,15 +259,15 @@ void DuelEffect_ClearOccupancyValue(int value)
    scan cursor to (0,0). */
 #ifndef VERSION_EUROPE
 void DuelEffect_ResetOccupancy(void) {
-    u8 *v0;
-    int v1;
-    v0 = gDuelEffect_aOccupancyValues;
-    v1 = DUEL_EFFECT_OCCUPANCY_COUNT - 1;
+    u8 *entry;
+    int remaining;
+    entry = gDuelEffect_aOccupancyValues;
+    remaining = DUEL_EFFECT_OCCUPANCY_COUNT - 1;
     do {
-        *v0 = 0;
-        v1 = v1 - 1;
-        v0 = v0 + 1;
-    } while (v1 >= 0);
+        *entry = 0;
+        remaining = remaining - 1;
+        entry = entry + 1;
+    } while (remaining >= 0);
     gDuelEffect_OccupancyStartColumn = 0;
     gDuelEffect_OccupancyStartRow = 0;
 }
@@ -316,60 +316,60 @@ s32 DuelEffect_FindFreeOccupancySlot(void)
 #define DUEL_EFFECT_MARKER_ENTRY_COUNT DUEL_EFFECT_ENTRY_COUNT
 #endif
 
-/* Clears the marker on each regional entry whose owner_channel_tag equals a0 + 1. */
-void DuelEffect_ClearMatchingMarker(int a0) {
+/* Clears the marker on each regional entry whose owner_channel_tag equals channel_index + 1. */
+void DuelEffect_ClearMatchingMarker(int channel_index) {
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-    DUEL_EFFECT_MARKER_ENTRY_TYPE *v1;
-    int a1;
-    u8 v0;
-    a1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
-    a0 = a0 + 1;
-    v1 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
+    DUEL_EFFECT_MARKER_ENTRY_TYPE *entry;
+    int remaining;
+    u8 owner_tag;
+    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+    channel_index = channel_index + 1;
+    entry = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
     do {
-        v0 = v1->owner_channel_tag;
-        if (v0 == a0) {
-            v1->entry_flags = 0;
+        owner_tag = entry->owner_channel_tag;
+        if (owner_tag == channel_index) {
+            entry->entry_flags = 0;
         }
-        a1 -= 1;
-        v1 += 1;
-    } while (a1 != 0);
+        remaining -= 1;
+        entry += 1;
+    } while (remaining != 0);
 #else
-    DuelEffectEntry *v1;
-    int a1;
-    u8 v0;
-    a1 = DUEL_EFFECT_ENTRY_COUNT;
-    a0 = a0 + 1;
-    v1 = gDuelEffect_aEntries;
+    DuelEffectEntry *entry;
+    int remaining;
+    u8 owner_tag;
+    remaining = DUEL_EFFECT_ENTRY_COUNT;
+    channel_index = channel_index + 1;
+    entry = gDuelEffect_aEntries;
     do {
-        v0 = v1->owner_channel_tag;
-        if (v0 == a0) {
-            v1->entry_flags = 0;
+        owner_tag = entry->owner_channel_tag;
+        if (owner_tag == channel_index) {
+            entry->entry_flags = 0;
         }
-        a1 -= 1;
-        v1 += 1;
-    } while (a1 != 0);
+        remaining -= 1;
+        entry += 1;
+    } while (remaining != 0);
 #endif
 }
 
 /* Clears the marker byte in every entry; the North American layout also
    clears layout_selector, the Japanese and European ones do not. */
 void DuelEffect_ResetEntryMarkers(void) {
-    DUEL_EFFECT_MARKER_ENTRY_TYPE *v0;
-    int v1;
+    DUEL_EFFECT_MARKER_ENTRY_TYPE *entry;
+    int remaining;
     /* Old GCC preserves the regional initialization order in the output. */
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
-    v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+    entry = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
+    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
 #else
-    v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
-    v0 = gDuelEffect_aEntries;
+    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+    entry = gDuelEffect_aEntries;
 #endif
-    for (; v1 != 0; v1 = v1 - 1) {
-        v0->entry_flags = 0;
+    for (; remaining != 0; remaining = remaining - 1) {
+        entry->entry_flags = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-        v0->layout_selector = 0;
+        entry->layout_selector = 0;
 #endif
-        v0 = v0 + 1;
+        entry = entry + 1;
     }
 }
 
@@ -1911,14 +1911,14 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
    handler_state nonzero, 0
    if that flag clears, the count runs out, or the range is empty. */
-int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
-    int v0;
+int DuelEffect_HasActiveEntry(DuelEffectChannel *channel) {
+    int start;
     int count;
     DUEL_EFFECT_ENTRY_TYPE *entry;
 
-    v0 = DUEL_EFFECT_RANGE_START(a0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
-    entry = &DUEL_EFFECT_ENTRIES[v0];
+    start = DUEL_EFFECT_RANGE_START(channel);
+    count = DUEL_EFFECT_RANGE_COUNT(channel);
+    entry = &DUEL_EFFECT_ENTRIES[start];
     for (; count != 0; count--, entry++) {
         if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
             return 0;
@@ -1942,7 +1942,7 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_stat
 
     start = DUEL_EFFECT_RANGE_START(channel);
     /* Empty statement where a release-stripped debug hook plausibly stood; it
-       keeps the count load after the start load, so count reuses a0. */
+       keeps the count load after the start load, so count reuses the channel register. */
     do { } while (0);
     count = DUEL_EFFECT_RANGE_COUNT(channel);
     entry = &DUEL_EFFECT_ENTRIES[start];
@@ -2900,60 +2900,60 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #endif
 }
 
-u8 **Text_PushStagedString(DuelEffectChannel *a0) {
-    DuelEffectChannel *a3 = a0;
+u8 **Text_PushStagedString(DuelEffectChannel *channel) {
+    DuelEffectChannel *stream_channel = channel;
 #ifdef VERSION_JAPAN
-    s32 a2 = (s16)gText_StagedStringId;
+    s32 string_id = (s16)gText_StagedStringId;
 #else
-    s32 a2 = gText_StagedStringId;
+    s32 string_id = gText_StagedStringId;
 #endif
-    u32 v1;
+    u32 string_address;
     u8 counter;
     u8 **slot;
 
 #ifdef VERSION_JAPAN
-    if (a2 & TEXT_GLOBAL_STRING_ID_BASE) {
-        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
-             gText_GlobalStringOffsets[a2 & (TEXT_GLOBAL_STRING_ID_BASE - 1)];
+    if (string_id & TEXT_GLOBAL_STRING_ID_BASE) {
+        string_address = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+             gText_GlobalStringOffsets[string_id & (TEXT_GLOBAL_STRING_ID_BASE - 1)];
     } else {
-        if (a2 >= 0x500) {
-            a2 -= 0x100;
+        if (string_id >= 0x500) {
+            string_id -= 0x100;
         }
-        v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[a2];
+        string_address = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[string_id];
     }
 #elif defined(VERSION_EUROPE)
     /* The European banks, as in TextBox_BuildStep. */
-    if (a2 <= 0x7FFF) {
-        if (a2 >= 0x500) {
-            s32 n = a2 - 0x100;
+    if (string_id <= 0x7FFF) {
+        if (string_id >= 0x500) {
+            s32 n = string_id - 0x100;
 
-            v1 = ((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
+            string_address = ((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
         } else {
-            v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[a2];
+            string_address = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[string_id];
         }
     } else {
-        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
-             gText_GlobalStringOffsets[a2 - 0x8000];
+        string_address = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_GlobalStringOffsets[string_id - 0x8000];
     }
 #else
-    if (a2 > 0xCFFF) {
-        v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
-             gText_PrimaryStringOffsets[a2 - 0xD000];
-    } else if (a2 > (TEXT_GLOBAL_STRING_ID_BASE - 1)) {
-        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
-             gText_GlobalStringOffsets[a2 - TEXT_GLOBAL_STRING_ID_BASE];
+    if (string_id > 0xCFFF) {
+        string_address = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_PrimaryStringOffsets[string_id - 0xD000];
+    } else if (string_id > (TEXT_GLOBAL_STRING_ID_BASE - 1)) {
+        string_address = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_GlobalStringOffsets[string_id - TEXT_GLOBAL_STRING_ID_BASE];
     } else {
-        if (a2 >= 0x500) {
-            a2 -= 0x100;
+        if (string_id >= 0x500) {
+            string_id -= 0x100;
         }
-        v1 = ((u32)gText_PrimaryStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[a2];
+        string_address = ((u32)gText_PrimaryStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[string_id];
     }
 #endif
 
-    counter = *(u8 *)&a3->stream_index + 1;
-    *(u8 *)&a3->stream_index = counter;
-    slot = &TEXT_STREAM_OWNER(a3)->streams[(s8)counter];
-    *slot = (u8 *)v1;
+    counter = *(u8 *)&stream_channel->stream_index + 1;
+    *(u8 *)&stream_channel->stream_index = counter;
+    slot = &TEXT_STREAM_OWNER(stream_channel)->streams[(s8)counter];
+    *slot = (u8 *)string_address;
     return slot;
 }
 
