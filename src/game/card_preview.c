@@ -18,11 +18,11 @@
    European package holds one 0x2A0-byte third image per text language
    (gText_bLanguageIndex, below), so the fourth image moves from 0x2AE0 to 0x3560.
    The European build (src/game/european/) defines its own. */
-#ifndef FUNC_800289BC_PHASE_SIZE
-#define FUNC_800289BC_PHASE_SIZE 0x3800
+#ifndef CARD_PREVIEW_TRANSFER_PHASE_SIZE
+#define CARD_PREVIEW_TRANSFER_PHASE_SIZE 0x3800
 #endif
-#ifndef FUNC_800289BC_FOURTH_IMAGE_OFFSET
-#define FUNC_800289BC_FOURTH_IMAGE_OFFSET 0x2AE0
+#ifndef CARD_PREVIEW_FOURTH_IMAGE_OFFSET
+#define CARD_PREVIEW_FOURTH_IMAGE_OFFSET 0x2AE0
 #endif
 
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode)
@@ -36,7 +36,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 #endif
 
     if (mode == 0) {
-        object->phase_size = FUNC_800289BC_PHASE_SIZE;
+        object->phase_size = CARD_PREVIEW_TRANSFER_PHASE_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = (u32)gFile_TransferBufferBase;
         object->sector_destination = (u32)gFile_TransferBufferBase;
@@ -82,7 +82,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[3];
-    image_source = gFile_TransferBufferBase + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
+    image_source = gFile_TransferBufferBase + CARD_PREVIEW_FOURTH_IMAGE_OFFSET;
     e->rects[3].w = 8;
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;
@@ -141,26 +141,26 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 /* Regional values: the panel's CLUT row and column, the second frame
    sprite's semi-transparency bits, and where the ATK and DEF digit rows sit.
    The European build (src/game/european/) defines its own. */
-#ifndef FUNC_80028B08_CLUT_Y
-#define FUNC_80028B08_CLUT_Y 0xF8
+#ifndef CARD_PREVIEW_PANEL_CLUT_Y
+#define CARD_PREVIEW_PANEL_CLUT_Y 0xF8
 #endif
-#ifndef FUNC_80028B08_CLUT_X
-#define FUNC_80028B08_CLUT_X 0x1C0
+#ifndef CARD_PREVIEW_PANEL_CLUT_X
+#define CARD_PREVIEW_PANEL_CLUT_X 0x1C0
 #endif
-#ifndef FUNC_80028B08_FRAME_ATTRIBUTE
-#define FUNC_80028B08_FRAME_ATTRIBUTE 0x60000000
+#ifndef CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE
+#define CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE 0x60000000
 #endif
-#ifndef FUNC_80028B08_ATK_X
-#define FUNC_80028B08_ATK_X 0x61
+#ifndef CARD_PREVIEW_PANEL_ATK_X
+#define CARD_PREVIEW_PANEL_ATK_X 0x61
 #endif
-#ifndef FUNC_80028B08_ATK_Y
-#define FUNC_80028B08_ATK_Y 0x9D
+#ifndef CARD_PREVIEW_PANEL_ATK_Y
+#define CARD_PREVIEW_PANEL_ATK_Y 0x9D
 #endif
-#ifndef FUNC_80028B08_DEF_X
-#define FUNC_80028B08_DEF_X 0x61
+#ifndef CARD_PREVIEW_PANEL_DEF_X
+#define CARD_PREVIEW_PANEL_DEF_X 0x61
 #endif
-#ifndef FUNC_80028B08_DEF_Y
-#define FUNC_80028B08_DEF_Y 0xAB
+#ifndef CARD_PREVIEW_PANEL_DEF_Y
+#define CARD_PREVIEW_PANEL_DEF_Y 0xAB
 #endif
 
 void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
@@ -237,12 +237,12 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.y = win->xy.h.y + 0xE;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     m = 0xFEFFFFFF;
-    PRM->attribute = (PRM->attribute & m) | FUNC_80028B08_FRAME_ATTRIBUTE;
+    PRM->attribute = (PRM->attribute & m) | CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE;
     PRM->extent.wh.w.word = 0x60;
     k = 0xE;
     PRM->extent.wh.h = k;
-    PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X + 0x20;
-    white = FUNC_80028B08_CLUT_Y;
+    PRM->cxcy.h.cx = CARD_PREVIEW_PANEL_CLUT_X + 0x20;
+    white = CARD_PREVIEW_PANEL_CLUT_Y;
     PRM->cxcy.h.cy = white;
 #ifdef VERSION_EUROPE
     /* The European frame is drawn at three quarters of the object's colour,
@@ -288,7 +288,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
 #endif
         if (rec->stat_palette_flags & 0x40) {
-            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
+            PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 1;
         }
         DisplayObject_SubmitPacket(
             PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)arg1, arg,
@@ -310,11 +310,11 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         Text_EncodeDecimalDigits(i, 4, buf2);
 
         PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
-        PRM->xy.h.x = win->xy.h.x + FUNC_80028B08_ATK_X;
-        PRM->xy.h.y = win->xy.h.y + FUNC_80028B08_ATK_Y;
+        PRM->xy.h.x = win->xy.h.x + CARD_PREVIEW_PANEL_ATK_X;
+        PRM->xy.h.y = win->xy.h.y + CARD_PREVIEW_PANEL_ATK_Y;
         *(u32 *)&PRM->extent = 0x000D0006;
         if (rec->stat_palette_flags & 0x80) {
-            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
+            PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 1;
         }
         i = 3;
         do {
@@ -326,11 +326,11 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        PRM->xy.h.x = win->xy.h.x + FUNC_80028B08_DEF_X;
-        PRM->xy.h.y = win->xy.h.y + FUNC_80028B08_DEF_Y;
-        PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
+        PRM->xy.h.x = win->xy.h.x + CARD_PREVIEW_PANEL_DEF_X;
+        PRM->xy.h.y = win->xy.h.y + CARD_PREVIEW_PANEL_DEF_Y;
+        PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y;
         if (rec->stat_palette_flags & 0x40) {
-            PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 1;
+            PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 1;
         }
         i = 3;
         do {
@@ -348,8 +348,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
         PRM->xy.h.y = win->xy.h.y + 0x20;
         *(u32 *)&PRM->extent = sb;
         PRM->uv.b.lo = 0;
-        PRM->cxcy.h.cx = FUNC_80028B08_CLUT_X;
-        PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y;
+        PRM->cxcy.h.cx = CARD_PREVIEW_PANEL_CLUT_X;
+        PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y;
         if (rec->level != 0) {
             i = 0;
             do {
@@ -374,7 +374,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     tile = PRM->uv.b.lo;
     PRM->cxcy.h.cx = win->field_40.clut.x + tile;
-    PRM->cxcy.h.cy = FUNC_80028B08_CLUT_Y + 7;
+    PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 7;
     DisplayObject_SubmitPacket(
         PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)arg1, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
