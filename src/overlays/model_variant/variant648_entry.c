@@ -95,8 +95,8 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
             work->cols = 48;
             break;
         }
-        work->radius = gModelVariant648_aConfigs[command].radius;
-        work->height = gModelVariant648_aConfigs[command].height;
+        work->place.radius = gModelVariant648_aConfigs[command].radius;
+        work->place.height = gModelVariant648_aConfigs[command].height;
         for (i = 0; i < work->rows; i++) {
             for (j = 0; j < work->cols; j++) {
                 work->bursts[i][j].active = 0;
@@ -160,27 +160,27 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
                 work->bursts[i][j].position.vz += work->direction * 450;
             }
         }
-        work->delay = gModelVariant648_aConfigs[command].delay;
+        work->place.delay = gModelVariant648_aConfigs[command].delay;
         for (j = 0; j < 5; j++) {
             work->flags[j] = 0;
         }
-        setVector(&work->corners[0], -work->radius / 2, -work->radius / 2, 0);
-        setVector(&work->corners[1], work->radius / 2, -work->radius / 2, 0);
-        setVector(&work->corners[2], -work->radius / 2, work->radius / 2, 0);
-        setVector(&work->corners[3], work->radius / 2, work->radius / 2, 0);
+        setVector(&work->corners[0], -work->place.radius / 2, -work->place.radius / 2, 0);
+        setVector(&work->corners[1], work->place.radius / 2, -work->place.radius / 2, 0);
+        setVector(&work->corners[2], -work->place.radius / 2, work->place.radius / 2, 0);
+        setVector(&work->corners[3], work->place.radius / 2, work->place.radius / 2, 0);
         for (j = 0; j < 4; j++) {
-            setVector(&work->ring[j], work->radius * 6 * rsin(j << 10) / 4096, 0,
-                work->radius * 6 * rcos(j << 10) / 4096);
+            setVector(&work->ring[j], work->place.radius * 6 * rsin(j << 10) / 4096, 0,
+                work->place.radius * 6 * rcos(j << 10) / 4096);
         }
         for (j = 0; j < 17; j++) {
-            setVector(&work->spokes[j][0], work->radius * 3 * rsin(j << 8) / 4096, 0,
-                work->radius * 3 * rcos(j << 8) / 4096);
-            setVector(&work->spokes[j][1], work->radius * 6 * rsin(j << 8) / 4096, 0,
-                work->radius * 6 * rcos(j << 8) / 4096);
+            setVector(&work->spokes[j][0], work->place.radius * 3 * rsin(j << 8) / 4096, 0,
+                work->place.radius * 3 * rcos(j << 8) / 4096);
+            setVector(&work->spokes[j][1], work->place.radius * 6 * rsin(j << 8) / 4096, 0,
+                work->place.radius * 6 * rcos(j << 8) / 4096);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

@@ -166,10 +166,10 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
             work->spark_rows = 32;
             break;
         }
-        work->radius = gModelVariant681_aConfigs[command].radius;
-        work->height = gModelVariant681_aConfigs[command].height;
+        work->place.radius = gModelVariant681_aConfigs[command].radius;
+        work->place.height = gModelVariant681_aConfigs[command].height;
         /* amount rather than value: it keeps value in s4 and amount in s3. */
-        amount = work->radius;
+        amount = work->place.radius;
         setVector(&vec, amount, 0, amount * -work->direction);
         for (i = 0; i < 5; i++) {
             PushMatrix();
@@ -272,28 +272,28 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                 setVector(&work->sparks[i][j].xform.position, 0, 0, 0);
             }
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->corners[0], -value, -value, 0);
         setVector(&work->corners[1], value, -value, 0);
         setVector(&work->corners[2], -value, value, 0);
         setVector(&work->corners[3], value, value, 0);
-        value = work->radius / 5;
-        amount = work->radius * 2 / 3;
+        value = work->place.radius / 5;
+        amount = work->place.radius * 2 / 3;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
             setVector(&work->rim[i], amount * rsin(i << 8) / 4096, amount * rcos(i << 8) / 4096,
-                -work->height / 2);
+                -work->place.height / 2);
         }
         for (i = 0; i < 8; i++) {
             if (i == 0) {
-                value = work->radius / 6 * rcos(0) / 4096;
-                amount = work->radius / 2 * rcos(128) / 4096;
+                value = work->place.radius / 6 * rcos(0) / 4096;
+                amount = work->place.radius / 2 * rcos(128) / 4096;
                 /* Multiplied, then negated, as the original does. */
-                scale = work->height * -3;
+                scale = work->place.height * -3;
             } else {
-                value = work->radius / 8 * rcos(i << 7) / 4096;
-                amount = work->radius / 4 * rcos((i + 1) << 7) / 4096;
-                scale = work->height * -(rsin((i + 1) << 7) * 3) / 4096;
+                value = work->place.radius / 8 * rcos(i << 7) / 4096;
+                amount = work->place.radius / 4 * rcos((i + 1) << 7) / 4096;
+                scale = work->place.height * -(rsin((i + 1) << 7) * 3) / 4096;
             }
             for (j = 0; j < 6; j++) {
                 setVector(&work->inner[j][i], value * rsin(j * 4096 / 5) / 4096,
@@ -302,12 +302,12 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                     amount * rcos(j * 4096 / 5) / 4096, scale);
             }
         }
-        value = work->radius / 3;
+        value = work->place.radius / 3;
         setVector(&work->burst_corners[0], -value, -value, 0);
         setVector(&work->burst_corners[1], value, -value, 0);
         setVector(&work->burst_corners[2], -value, value, 0);
         setVector(&work->burst_corners[3], value, value, 0);
-        value = work->radius;
+        value = work->place.radius;
         scale = value * value;
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
@@ -319,8 +319,8 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                         rcos(j << 8) / 4096);
             }
         }
-        value = work->radius / 2;
-        amount = work->radius * 2;
+        value = work->place.radius / 2;
+        amount = work->place.radius * 2;
         for (i = 0; i < 9; i++) {
             setVector(&work->cone_inner[i], value * rsin(i << 9) / 4096, value * rcos(i << 9) / 4096, 0);
             setVector(&work->cone_outer[i], amount * rsin(i << 9) / 4096, amount * rcos(i << 9) / 4096, 0);
@@ -328,18 +328,18 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
                 (work->cone_inner[i].vy + work->cone_outer[i].vy) / 2,
                 (work->cone_inner[i].vz + work->cone_outer[i].vz) / 2);
         }
-        value = work->radius / 4;
+        value = work->place.radius / 4;
         setVector(&work->spark_corners[0], -value, -value, 0);
         setVector(&work->spark_corners[1], value, -value, 0);
         setVector(&work->spark_corners[2], -value, value, 0);
         setVector(&work->spark_corners[3], value, value, 0);
-        work->delay = gModelVariant681_aConfigs[command].delay;
+        work->place.delay = gModelVariant681_aConfigs[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

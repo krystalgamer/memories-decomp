@@ -66,8 +66,8 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             work->shard_count = 8;
             break;
         }
-        work->radius = gModelVariant657_aConfigs[command].radius;
-        work->height = gModelVariant657_aConfigs[command].height;
+        work->place.radius = gModelVariant657_aConfigs[command].radius;
+        work->place.height = gModelVariant657_aConfigs[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].head.active = 0;
             work->rings[i].head.elapsed = 0;
@@ -168,16 +168,16 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                     setVector(&work->shards[i][j].offset, 0, 0, 0);
                 } else {
                     setVector(&work->shards[i][j].offset,
-                        work->radius * (rsin((i - 1) * 4096 / (work->shard_count - 1)) << 1) / 4096,
-                        work->radius * (rcos((i - 1) * 4096 / (work->shard_count - 1)) << 1) / 4096,
-                        work->radius * ((i % 2) * 2 - 1) * rsin((i - 1) * 4096 / (work->shard_count - 1)) / 4096
-                            - work->radius);
+                        work->place.radius * (rsin((i - 1) * 4096 / (work->shard_count - 1)) << 1) / 4096,
+                        work->place.radius * (rcos((i - 1) * 4096 / (work->shard_count - 1)) << 1) / 4096,
+                        work->place.radius * ((i % 2) * 2 - 1) * rsin((i - 1) * 4096 / (work->shard_count - 1)) / 4096
+                            - work->place.radius);
                 }
                 setVector(&work->shards[i][j].xform.rotation, 0, work->head.slot * 2048, 0);
                 setVector(&work->shards[i][j].xform.position, 0, 0, 0);
             }
         }
-        work->delay = gModelVariant657_aConfigs[command].delay;
+        work->place.delay = gModelVariant657_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -187,19 +187,19 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             for (j = 0, lift = 0; j < 5; lift -= 5, j++) {
                 for (k = 0; k < 9; k++) {
                     setVector(&work->cap[k][j][i],
-                        work->radius * (swell_x = rsin(j << 8) * 3) / 4096 * rsin(k << 9) / 4096,
-                        work->radius * (swell_y = rsin(j << 8) * 3) / 4096 * rcos(k << 9) / 4096,
-                        work->radius * lift / 4);
+                        work->place.radius * (swell_x = rsin(j << 8) * 3) / 4096 * rsin(k << 9) / 4096,
+                        work->place.radius * (swell_y = rsin(j << 8) * 3) / 4096 * rcos(k << 9) / 4096,
+                        work->place.radius * lift / 4);
                 }
             }
         }
-        setVector(&work->corners[0], -(work->radius * 2), -(work->radius * 2), 0);
-        setVector(&work->corners[1], work->radius * 2, -(work->radius * 2), 0);
-        setVector(&work->corners[2], -(work->radius * 2), work->radius * 2, 0);
-        setVector(&work->corners[3], work->radius * 2, work->radius * 2, 0);
+        setVector(&work->corners[0], -(work->place.radius * 2), -(work->place.radius * 2), 0);
+        setVector(&work->corners[1], work->place.radius * 2, -(work->place.radius * 2), 0);
+        setVector(&work->corners[2], -(work->place.radius * 2), work->place.radius * 2, 0);
+        setVector(&work->corners[3], work->place.radius * 2, work->place.radius * 2, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {
@@ -223,7 +223,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
     case 6:
         if (work->head.elapsed == 0) {
             work->bands[0].head.active = 1;
-            work->bands[0].xform.position.vz += work->direction * work->height / -5;
+            work->bands[0].xform.position.vz += work->direction * work->place.height / -5;
             for (i = 0; i < work->shard_count; i++) {
                 work->shards[i][0].head.active = 1;
                 PushMatrix();
@@ -242,7 +242,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
         if (work->head.elapsed == 0) {
             work->bands[0].head.active = 1;
             work->bands[0].xform.position.vy += 50;
-            work->bands[0].xform.position.vz += work->direction * work->height / -5;
+            work->bands[0].xform.position.vz += work->direction * work->place.height / -5;
             for (i = 0; i < work->shard_count; i++) {
                 work->shards[i][0].head.active = 1;
                 PushMatrix();
@@ -272,7 +272,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -302,7 +302,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -333,7 +333,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -363,7 +363,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -394,7 +394,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -425,7 +425,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -456,7 +456,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -488,7 +488,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
                 ratan2(-(ls.t[1] + 350), ls.t[2] - work->direction * 450),
                 ratan2(ls.t[0], ls.t[2] - work->direction * 450) + work->head.slot * 2048, 0);
             work->bands[i].xform.rotation = work->rings[i].xform.rotation;
-            duration = work->direction * work->height / -5;
+            duration = work->direction * work->place.height / -5;
             setVector(&work->bands[i].xform.position, duration * rsin(work->bands[i].xform.rotation.vy) / 4096,
                 work->direction * duration * rsin(work->bands[i].xform.rotation.vx) / 4096 - 350,
                 duration * rcos(work->bands[i].xform.rotation.vy) / 4096 + work->direction * 450);
@@ -551,11 +551,11 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             /* k runs outside j here, swapping their usual roles. */
             for (k = 0; k < 17; k++) {
                 for (j = 0; j < 9; j++) {
-                    value = work->radius / 4;
+                    value = work->place.radius / 4;
                     setVector(&work->ring[j][k][i],
-                        (work->radius + value * rsin(work->rings[i].head.elapsed * 100 + k * -500) / 4096)
+                        (work->place.radius + value * rsin(work->rings[i].head.elapsed * 100 + k * -500) / 4096)
                             * rsin(j << 9) / 4096,
-                        (work->radius + value * rsin(work->rings[i].head.elapsed * 100 + k * -500) / 4096)
+                        (work->place.radius + value * rsin(work->rings[i].head.elapsed * 100 + k * -500) / 4096)
                             * rcos(j << 9) / 4096,
                         distance * -k / 16);
                 }
@@ -638,12 +638,12 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
             }
             for (j = 0; j < 9; j++) {
                 /* The shift keeps the step at 341 instead of folding it to 682. */
-                duration = work->height * -rsin((j * 341 << 1) / 8) / 4096;
+                duration = work->place.height * -rsin((j * 341 << 1) / 8) / 4096;
                 for (k = 0; k < 17; k++) {
-                    value = work->radius * j / 8 * rsin(work->bands[i].head.elapsed * 100 + (k << 10)) / 4096;
+                    value = work->place.radius * j / 8 * rsin(work->bands[i].head.elapsed * 100 + (k << 10)) / 4096;
                     setVector(&work->band[k][j][i],
-                        (work->height + value) * j / 8 * rsin(k << 8) / 4096,
-                        (work->height + value) * j / 8 * rcos(k << 8) / 4096,
+                        (work->place.height + value) * j / 8 * rsin(k << 8) / 4096,
+                        (work->place.height + value) * j / 8 * rcos(k << 8) / 4096,
                         duration + value);
                 }
             }

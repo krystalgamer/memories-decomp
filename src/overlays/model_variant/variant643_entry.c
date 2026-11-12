@@ -56,8 +56,8 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
             work->columns = 16;
             break;
         }
-        work->radius = gModelVariant643_aConfigs[command].radius;
-        work->height = gModelVariant643_aConfigs[command].height;
+        work->place.radius = gModelVariant643_aConfigs[command].radius;
+        work->place.height = gModelVariant643_aConfigs[command].height;
         for (i = 0; i < work->cone_count; i++) {
             work->cones[i].head.duration = 48;
             work->cones[i].head.active = 0;
@@ -120,25 +120,25 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
                 work->grid[k][j].xform.position.vz = work->direction * 450;
             }
         }
-        work->delay = gModelVariant643_aConfigs[command].delay;
+        work->place.delay = gModelVariant643_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->cone[i][0], work->radius * rsin(i << 8) / 4096, work->radius * rcos(i << 8) / 4096, 0);
-            setVector(&work->cone[i][1], work->radius * 4 * rsin(i << 8) / 4096, work->radius * 4 * rcos(i << 8) / 4096, -work->height);
+            setVector(&work->cone[i][0], work->place.radius * rsin(i << 8) / 4096, work->place.radius * rcos(i << 8) / 4096, 0);
+            setVector(&work->cone[i][1], work->place.radius * 4 * rsin(i << 8) / 4096, work->place.radius * 4 * rcos(i << 8) / 4096, -work->place.height);
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->ring[i][0], work->radius * 2 * rsin(i << 8) / 4096, work->radius * 2 * rcos(i << 8) / 4096, 0);
-            setVector(&work->ring[i][1], work->radius * 5 * rsin(i << 8) / 4096, work->radius * 5 * rcos(i << 8) / 4096, 0);
+            setVector(&work->ring[i][0], work->place.radius * 2 * rsin(i << 8) / 4096, work->place.radius * 2 * rcos(i << 8) / 4096, 0);
+            setVector(&work->ring[i][1], work->place.radius * 5 * rsin(i << 8) / 4096, work->place.radius * 5 * rcos(i << 8) / 4096, 0);
         }
-        setVector(&work->corner[0], -work->radius / 2, -work->radius / 2, 0);
-        setVector(&work->corner[1], work->radius / 2, -work->radius / 2, 0);
-        setVector(&work->corner[2], -work->radius / 2, work->radius / 2, 0);
-        setVector(&work->corner[3], work->radius / 2, work->radius / 2, 0);
+        setVector(&work->corner[0], -work->place.radius / 2, -work->place.radius / 2, 0);
+        setVector(&work->corner[1], work->place.radius / 2, -work->place.radius / 2, 0);
+        setVector(&work->corner[2], -work->place.radius / 2, work->place.radius / 2, 0);
+        setVector(&work->corner[3], work->place.radius / 2, work->place.radius / 2, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {

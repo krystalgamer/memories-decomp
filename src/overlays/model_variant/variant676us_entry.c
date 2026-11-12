@@ -83,8 +83,8 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             work->spoke_count = 0;
             break;
         }
-        work->radius = gModelVariant676Us_aConfigs[command].radius;
-        work->height = gModelVariant676Us_aConfigs[command].height;
+        work->place.radius = gModelVariant676Us_aConfigs[command].radius;
+        work->place.height = gModelVariant676Us_aConfigs[command].height;
         for (i = 0; i < work->flash_count; i++) {
             work->flashes[i].head.active = 0;
             work->flashes[i].head.elapsed = 0;
@@ -120,7 +120,7 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             work->shards[i].head.v = 0;
             setVector(&work->shards[i].xform.scale, 0x1000, 0x1000, 0x1000);
             d = i % 2 * 2 - 1;
-            n = work->radius * 2;
+            n = work->place.radius * 2;
             PushMatrix();
             m = GsIDMATRIX;
             RotMatrixZ(d * (i << 11) / work->shard_count, &m);
@@ -182,21 +182,21 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->waves[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->waves[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant676Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant676Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->corners[0], -n, -n, 0);
         setVector(&work->corners[1], n, -n, 0);
         setVector(&work->corners[2], -n, n, 0);
         setVector(&work->corners[3], n, n, 0);
-        n = work->radius * 2;
+        n = work->place.radius * 2;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
         }
         setVector(&work->centre, 0, 0, 0);
-        n = work->radius / 3;
+        n = work->place.radius / 3;
         /* The negative corner halves are stored after the radius reload. */
         tmp2 = -n;
         work->shard_corners[0].vz = 0;
@@ -207,8 +207,8 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
         work->shard_corners[2].vy = n;
         work->shard_corners[3].vx = n;
         work->shard_corners[3].vy = n;
-        n = work->radius;
-        d = work->radius / 10;
+        n = work->place.radius;
+        d = work->place.radius / 10;
         tmp = -n;
         work->shard_corners[0].vx = tmp2;
         work->shard_corners[0].vy = tmp2;
@@ -232,13 +232,13 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
             setVector(&work->arc_upper[i], n * rsin(i << 7) / 4096, d * rsin(i << 7) / 4096,
                 n * rcos(i << 7) / 4096);
         }
-        n = work->radius;
-        d = work->height;
+        n = work->place.radius;
+        d = work->place.height;
         setVector(&work->ring_corners[0], -n, -n, 0);
         setVector(&work->ring_corners[1], n, -n, 0);
         setVector(&work->ring_corners[2], -n, n, 0);
         setVector(&work->ring_corners[3], n, n, 0);
-        n = work->radius / 5;
+        n = work->place.radius / 5;
         for (j = 0; j < 8; j++) {
             for (i = 0; i < 8; i++) {
                 for (k = 0; k < 5; k++) {
@@ -266,21 +266,21 @@ s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
                 }
             }
         }
-        n = work->radius;
+        n = work->place.radius;
         d = n * 2;
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_inner[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
             setVector(&work->ring_outer[i], d * rsin(i << 8) / 4096, d * rcos(i << 8) / 4096, 0);
         }
-        n = work->radius * 5 / 4;
-        d = work->radius * 2;
+        n = work->place.radius * 5 / 4;
+        d = work->place.radius * 2;
         for (i = 0; i < 17; i++) {
             setVector(&work->wave_inner[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
             setVector(&work->wave_outer[i], d * rsin(i << 8) / 4096, d * rcos(i << 8) / 4096, 0);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

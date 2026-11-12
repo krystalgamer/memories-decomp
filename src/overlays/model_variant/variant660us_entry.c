@@ -60,8 +60,8 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
             work->spark_count = 5;
             break;
         }
-        work->radius = gModelVariant660Us_aConfigs[command].radius;
-        work->height = gModelVariant660Us_aConfigs[command].height;
+        work->place.radius = gModelVariant660Us_aConfigs[command].radius;
+        work->place.height = gModelVariant660Us_aConfigs[command].height;
         for (i = 0; i < work->copies; i++) {
             work->glows[i].head.active = 0;
             work->glows[i].head.elapsed = 0;
@@ -234,7 +234,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                     work->sparks[i][j][n].head.u = 0;
                     work->sparks[i][j][n].head.v = 160;
                     setVector(&work->sparks[i][j][n].xform.scale, 0, 0, 0);
-                    value = work->radius / 2;
+                    value = work->place.radius / 2;
                     setVector(&offset, value * rsin(((i + j + n) << 12) / work->spark_count) / 4096,
                         value * rcos(((i + j + n) << 12) / work->spark_count) / 4096, 0);
                     PushMatrix();
@@ -251,47 +251,47 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
                 }
             }
         }
-        work->delay = gModelVariant660Us_aConfigs[command].delay;
+        work->place.delay = gModelVariant660Us_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        setVector(&work->corners[0], Model660Us_Negate(work->radius), Model660Us_Negate(work->radius), 0);
-        setVector(&work->corners[1], work->radius, Model660Us_Negate(work->radius), 0);
-        setVector(&work->corners[2], Model660Us_Negate(work->radius), work->radius, 0);
-        setVector(&work->corners[3], work->radius, work->radius, 0);
+        setVector(&work->corners[0], Model660Us_Negate(work->place.radius), Model660Us_Negate(work->place.radius), 0);
+        setVector(&work->corners[1], work->place.radius, Model660Us_Negate(work->place.radius), 0);
+        setVector(&work->corners[2], Model660Us_Negate(work->place.radius), work->place.radius, 0);
+        setVector(&work->corners[3], work->place.radius, work->place.radius, 0);
         setVector(&work->triangle[0], 0, 0, 0);
-        setVector(&work->triangle[1], work->radius / 4, work->height, 0);
-        setVector(&work->triangle[2], -work->radius / 4, work->height, 0);
+        setVector(&work->triangle[1], work->place.radius / 4, work->place.height, 0);
+        setVector(&work->triangle[2], -work->place.radius / 4, work->place.height, 0);
         for (i = 0; i < 17; i++) {
-            setVector(&work->ring_points[i][0][0], work->radius * rsin(i << 8) / 4096,
-                work->radius * rcos(i << 8) / 4096, 0);
-            setVector(&work->ring_points[i][1][0], work->radius * (s32)((u32)rsin(i << 8) << 1) / 4096,
-                work->radius * (s32)((u32)rcos(i << 8) << 1) / 4096, 0);
-            setVector(&work->ring_points[i][0][1], work->radius * rsin(i << 8) / 4096, 0,
-                work->radius * rcos(i << 8) / 4096);
-            setVector(&work->ring_points[i][1][1], work->radius * (s32)((u32)rsin(i << 8) << 1) / 4096, 0,
-                work->radius * (s32)((u32)rcos(i << 8) << 1) / 4096);
+            setVector(&work->ring_points[i][0][0], work->place.radius * rsin(i << 8) / 4096,
+                work->place.radius * rcos(i << 8) / 4096, 0);
+            setVector(&work->ring_points[i][1][0], work->place.radius * (s32)((u32)rsin(i << 8) << 1) / 4096,
+                work->place.radius * (s32)((u32)rcos(i << 8) << 1) / 4096, 0);
+            setVector(&work->ring_points[i][0][1], work->place.radius * rsin(i << 8) / 4096, 0,
+                work->place.radius * rcos(i << 8) / 4096);
+            setVector(&work->ring_points[i][1][1], work->place.radius * (s32)((u32)rsin(i << 8) << 1) / 4096, 0,
+                work->place.radius * (s32)((u32)rcos(i << 8) << 1) / 4096);
         }
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 8; j++) {
                 setVector(&work->sphere[j][i],
-                    SquareRoot0(work->radius * 3 * (work->radius * 3)
-                        - work->radius * 3 * rcos(i << 8) / 4096 * (work->radius * 3 * rcos(i << 8) / 4096))
+                    SquareRoot0(work->place.radius * 3 * (work->place.radius * 3)
+                        - work->place.radius * 3 * rcos(i << 8) / 4096 * (work->place.radius * 3 * rcos(i << 8) / 4096))
                         * rsin(j << 9) / 4096,
-                    work->radius * -(rcos(i << 8) * 3) / 4096,
-                    SquareRoot0(work->radius * 3 * (work->radius * 3)
-                        - work->radius * 3 * rcos(i << 8) / 4096 * (work->radius * 3 * rcos(i << 8) / 4096))
+                    work->place.radius * -(rcos(i << 8) * 3) / 4096,
+                    SquareRoot0(work->place.radius * 3 * (work->place.radius * 3)
+                        - work->place.radius * 3 * rcos(i << 8) / 4096 * (work->place.radius * 3 * rcos(i << 8) / 4096))
                         * rcos(j << 9) / 4096);
             }
         }
-        value = work->radius / 4;
+        value = work->place.radius / 4;
         setVector(&work->spark_corners[0], -value, -value, 0);
         setVector(&work->spark_corners[1], value, -value, 0);
         setVector(&work->spark_corners[2], -value, value, 0);
         setVector(&work->spark_corners[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:

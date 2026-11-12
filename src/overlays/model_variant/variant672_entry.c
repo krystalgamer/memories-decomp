@@ -57,8 +57,8 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->count = 64;
             break;
         }
-        work->radius = gModelVariant672_aConfigs[command].radius;
-        work->height = gModelVariant672_aConfigs[command].height;
+        work->place.radius = gModelVariant672_aConfigs[command].radius;
+        work->place.height = gModelVariant672_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->sparks[i].head.duration = 32;
             work->sparks[i].head.active = 0;
@@ -69,7 +69,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->sparks[i].head.color[1] = gModelVariant672_aConfigs[command].color[1];
             work->sparks[i].head.color[2] = gModelVariant672_aConfigs[command].color[2];
             setVector(&work->sparks[i].xform.scale, 4096, 4096, 4096);
-            value = work->radius * rsin((i << 12) / work->count) / 4096;
+            value = work->place.radius * rsin((i << 12) / work->count) / 4096;
             sign = i % 2 * 2 - 1;
             setVector(&work->sparks[i].target,
                 work->origin.vx + sign * value * rsin(angle = (i % 8) << 9) / 4096,
@@ -93,7 +93,7 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             setVector(&work->flares[k].xform.scale, 4096, 4096, 4096);
             setVector(&work->flares[k].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->flares[k].target, 0, 0, 0);
-            value = work->radius * rsin((k << 12) / work->count) / 4096;
+            value = work->place.radius * rsin((k << 12) / work->count) / 4096;
             sign = k % 2 * 2 - 1;
             setVector(&work->flares[k].xform.position,
                 work->origin.vx + sign * value * rsin(turn = (k % 8) << 9) / 4096,
@@ -112,32 +112,32 @@ s32 ModelVariant672_HandleRequest(u8 *context, s32 command)
             work->rings[i].head.u = 0;
             work->rings[i].head.v = 0;
             setVector(&work->rings[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->rings[i].target, 0, 0, work->height * 2);
+            setVector(&work->rings[i].target, 0, 0, work->place.height * 2);
             setVector(&work->rings[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->rings[i].xform.position, 0, 0, 0);
         }
-        work->delay = gModelVariant672_aConfigs[command].delay;
+        work->place.delay = gModelVariant672_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
-        value = work->radius;
+        value = work->place.radius;
         setVector(&work->center, 0, 0, 0);
         for (i = 0; i < 17; i++) {
             setVector(&work->rim[i], value * rsin(i << 8) / 4096, value * rcos(i << 8) / 4096, 0);
         }
-        value = work->radius >> 1;
+        value = work->place.radius >> 1;
         setVector(&work->flare[0], -value, -value, 0);
         setVector(&work->flare[1], value, -value, 0);
         setVector(&work->flare[2], -value, value, 0);
         setVector(&work->flare[3], value, value, 0);
-        value = work->height;
+        value = work->place.height;
         setVector(&work->ring[0], -value, -value, 0);
         setVector(&work->ring[1], value, -value, 0);
         setVector(&work->ring[2], -value, value, 0);
         setVector(&work->ring[3], value, value, 0);
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
         return result;
     }
     switch (work->head.command) {

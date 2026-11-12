@@ -103,8 +103,8 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
             work->spark_count = 8;
             break;
         }
-        work->radius = gModelVariant661_aConfigs[command].radius;
-        work->height = gModelVariant661_aConfigs[command].height;
+        work->place.radius = gModelVariant661_aConfigs[command].radius;
+        work->place.height = gModelVariant661_aConfigs[command].height;
         for (i = 0; i < work->rows; i++) {
             work->streaks[i].head.active = 0;
             work->streaks[i].head.elapsed = 0;
@@ -207,7 +207,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].head.u = 0;
                 work->sparks[i][j].head.v = 64;
                 setVector(&work->sparks[i][j].xform.scale, 4096, 4096, 4096);
-                setVector(&work->sparks[i][j].unknown_40, 0, 0, work->radius * 10);
+                setVector(&work->sparks[i][j].unknown_40, 0, 0, work->place.radius * 10);
                 setVector(&work->sparks[i][j].xform.rotation,
                     (i << 12) / work->spark_count + j * 113,
                     work->head.slot * 2048 + (i << 12) / work->spark_count + j * 113,
@@ -233,7 +233,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 work->sparks[i][j].xform.position.vz += work->direction * 450;
             }
         }
-        work->delay = gModelVariant661_aConfigs[command].delay;
+        work->place.delay = gModelVariant661_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -255,20 +255,20 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
                 setVector(&work->heads[i][j], 0, 0, 0);
             }
         }
-        setVector(&work->corners[0], work->radius * -2, work->radius * -2, 0);
-        setVector(&work->corners[1], work->radius * 2, work->radius * -2, 0);
-        setVector(&work->corners[2], work->radius * -2, work->radius * 2, 0);
-        setVector(&work->corners[3], work->radius * 2, work->radius * 2, 0);
-        setVector(&work->corners[4], work->radius * -1, work->radius / 2, 0);
-        setVector(&work->corners[5], work->radius, work->radius / 2, 0);
-        setVector(&work->corners[6], work->radius * -1, work->radius * -2, 0);
-        setVector(&work->corners[7], work->radius, work->radius * -2, 0);
+        setVector(&work->corners[0], work->place.radius * -2, work->place.radius * -2, 0);
+        setVector(&work->corners[1], work->place.radius * 2, work->place.radius * -2, 0);
+        setVector(&work->corners[2], work->place.radius * -2, work->place.radius * 2, 0);
+        setVector(&work->corners[3], work->place.radius * 2, work->place.radius * 2, 0);
+        setVector(&work->corners[4], work->place.radius * -1, work->place.radius / 2, 0);
+        setVector(&work->corners[5], work->place.radius, work->place.radius / 2, 0);
+        setVector(&work->corners[6], work->place.radius * -1, work->place.radius * -2, 0);
+        setVector(&work->corners[7], work->place.radius, work->place.radius * -2, 0);
         for (i = 0; i < 16; i++) {
             for (j = 0; j < 2; j++) {
-                setVector(&work->ring[j][i], work->radius * rsin(i * 256 + j * 64) / 4096,
-                    work->radius * rcos(i * 256 + j * 64) / 4096, 0);
-                setVector(&work->outer[j][i], work->radius * 3 * rsin(i * 256 + j * 64) / 4096,
-                    work->radius * 3 * rcos(i * 256 + j * 64) / 4096, 0);
+                setVector(&work->ring[j][i], work->place.radius * rsin(i * 256 + j * 64) / 4096,
+                    work->place.radius * rcos(i * 256 + j * 64) / 4096, 0);
+                setVector(&work->outer[j][i], work->place.radius * 3 * rsin(i * 256 + j * 64) / 4096,
+                    work->place.radius * 3 * rcos(i * 256 + j * 64) / 4096, 0);
             }
         }
     }
@@ -390,8 +390,8 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
     if (work->flags[0] == 0) {
         work->flags[0]++;
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else if (work->flags[0] != 0) {
         switch (work->head.command) {
         case 0:

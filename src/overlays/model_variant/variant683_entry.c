@@ -60,8 +60,8 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             work->count = 96;
             work->burst_count = 1;
         }
-        work->radius = gModelVariant683_aConfigs[command].radius;
-        work->height = gModelVariant683_aConfigs[command].height;
+        work->place.radius = gModelVariant683_aConfigs[command].radius;
+        work->place.height = gModelVariant683_aConfigs[command].height;
         for (i = 0; i < work->count; i++) {
             work->orbs[i].head.duration = 96;
             work->orbs[i].head.active = 0;
@@ -77,7 +77,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             setVector(&work->orbs[i].spin, 0, 0, 0);
             setVector(&work->orbs[i].xform.rotation, 0, work->head.slot * 2048, 0);
             d = i % 2 * 2 - 1;
-            n = work->radius * 4;
+            n = work->place.radius * 4;
             setVector(&work->orbs[i].xform.position, n * rsin((i % 10 << 12) / 10 + i * 50) / 4096 + work->origin.vx,
                 d * n * rsin((i % 16 << 8) + i * 50) / 4096 + work->origin.vy,
                 d * n * rcos((i % 8 << 9) + i * 50) / 4096 + work->origin.vz);
@@ -106,7 +106,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             setVector(&work->bursts[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->bursts[i].xform.position, 0, 0, 0);
         }
-        setVector(&offset, work->radius * 3, 0, 0);
+        setVector(&offset, work->place.radius * 3, 0, 0);
         for (i = 0; i < 32; i++) {
             PushMatrix();
             n = i % 2 * 2 - 1;
@@ -119,12 +119,12 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
             ApplyMatrixLV(&m, &offset, &work->offsets[i]);
             PopMatrix();
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->square[0], -n, -n, 0);
         setVector(&work->square[1], n, -n, 0);
         setVector(&work->square[2], -n, n, 0);
         setVector(&work->square[3], n, n, 0);
-        n = work->radius;
+        n = work->place.radius;
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
                 setVector(&work->grid[j][i],
@@ -133,31 +133,31 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                     SquareRoot0(n * n - n * rcos(i << 8) / 4096 * (n * rcos(i << 8) / 4096)) * rcos(j << 8) / 4096);
             }
         }
-        d = work->radius * 2;
-        n = work->radius / 10;
+        d = work->place.radius * 2;
+        n = work->place.radius / 10;
         for (i = 0; i < 17; i++) {
             setVector(&work->inner[i], n * rsin(i << 8) / 4096, n * rcos(i << 8) / 4096, 0);
             setVector(&work->outer[i], d * rsin(i << 8) / 4096, d * rcos(i << 8) / 4096, 0);
             setVector(&work->middle[i], (work->inner[i].vx + work->outer[i].vx) / 2,
                 (work->inner[i].vy + work->outer[i].vy) / 2, (work->inner[i].vz + work->outer[i].vz) / 2);
         }
-        n = work->radius;
+        n = work->place.radius;
         setVector(&work->burst[0], -n, -n, 0);
         setVector(&work->burst[1], n, -n, 0);
         setVector(&work->burst[2], -n, n, 0);
         setVector(&work->burst[3], n, n, 0);
-        n = work->radius / 2;
+        n = work->place.radius / 2;
         setVector(&work->ray[0], -n, -n, 0);
         setVector(&work->ray[1], n, -n, 0);
         setVector(&work->ray[2], -n, n, 0);
         setVector(&work->ray[3], n, n, 0);
-        work->delay = gModelVariant683_aConfigs[command].delay;
+        work->place.delay = gModelVariant683_aConfigs[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         if (work->head.command == 0) {
             if (work->head.elapsed < 210 && work->flags[0] < work->count) {
@@ -195,8 +195,8 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
                 RotMatrixY(work->orbs[i].xform.rotation.vy + (0xC06 - view.yaw), &unit.matrix);
                 s = i % 2 * 2 - 1;
                 d = (i % 4 / 2 + 1) * rsin((work->orbs[i].head.elapsed << 11) / work->orbs[i].head.duration);
-                n = s * (work->radius * ((s32)((u32)rsin((work->orbs[i].head.elapsed << 11) / work->orbs[i].head.duration) << 1)) / 4096) * d / 4096;
-                d = s * (work->radius * ((s32)((u32)rcos((work->orbs[i].head.elapsed << 11) / work->orbs[i].head.duration) << 1)) / 4096) * d / 4096;
+                n = s * (work->place.radius * ((s32)((u32)rsin((work->orbs[i].head.elapsed << 11) / work->orbs[i].head.duration) << 1)) / 4096) * d / 4096;
+                d = s * (work->place.radius * ((s32)((u32)rcos((work->orbs[i].head.elapsed << 11) / work->orbs[i].head.duration) << 1)) / 4096) * d / 4096;
                 unit.matrix.t[0] = n + work->orbs[i].xform.position.vx
                     + (work->origin.vx - work->orbs[i].xform.position.vx) * work->orbs[i].head.elapsed / work->orbs[i].head.duration;
                 unit.matrix.t[1] = work->orbs[i].xform.position.vy
