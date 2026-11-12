@@ -765,10 +765,8 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
 #include "mem_card_driver.h"
-#include "mem_card_directory_patterns.h"
 #include "mem_card_work.h"
 #include "mem_card_work_state.h"
-#include "mem_card_diagnostic_strings.h"
 #include "dialog_choice.h"
 #include "file_constants.h"
 #include "util_memory.h"
@@ -777,6 +775,23 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "sound.h"
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
+
+/* The save file's card name and the diagnostics MemCardWork_UpdateOperation
+ * prints are string literals. They are the first .rodata this unit emits, in
+ * that order, ahead of the update's jump tables. A region wrapper overrides a
+ * default when its image cannot take the literal; each override says why. */
+#ifndef MEM_CARD_SAVE_FILE_NAME
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BASLUS-01411-YUGIOH")
+#endif
+#ifndef MEM_CARD_FREE_BLOCK_FORMAT
+#define MEM_CARD_FREE_BLOCK_FORMAT "\nFREE %d\n\n"
+#endif
+#ifndef MEM_CARD_MAKE_FILE_TRACE
+#define MEM_CARD_MAKE_FILE_TRACE "Make File\n"
+#endif
+#ifndef MEM_CARD_FAIL_FILE_TRACE
+#define MEM_CARD_FAIL_FILE_TRACE "Fail File\n"
+#endif
 
 MemCardWorkArea gMemCardWork_Area;
 u8 gMemCardDialog_DirectoryBuffer[600];
@@ -826,13 +841,13 @@ void MemCardWork_UpdateOperation(void)
         if (index < gMemCard_nDirEntries) {
             do {
 #ifndef VERSION_EUROPE
-                FntPrint(gMemCard_szDirectoryEntryFormat, &gMemCard_pDirEntries[index]);
+                FntPrint("%s\n", &gMemCard_pDirEntries[index]);
 #endif
                 index++;
             } while (index < gMemCard_nDirEntries);
         }
 #ifndef VERSION_EUROPE
-        FntPrint(gMemCard_szFreeBlockCountFormat, slot->free_blocks);
+        FntPrint(MEM_CARD_FREE_BLOCK_FORMAT, slot->free_blocks);
 #endif
     }
     status = -1;
@@ -957,7 +972,7 @@ void MemCardWork_UpdateOperation(void)
     case 5:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
+            index = MemCard_FindLoadedEntry(MEM_CARD_SAVE_FILE_NAME);
             if (index < 0 || (gMemCardWork_wFlags & 2)) {
                 message = 0xD3;
                 DuelEffect_CreateChannel(message, 1);
@@ -978,7 +993,7 @@ void MemCardWork_UpdateOperation(void)
     case 6:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            name = gMemCard_szSaveFileName;
+            name = MEM_CARD_SAVE_FILE_NAME;
             index = MemCard_FindLoadedEntry(name);
             message = 0xD3;
             if (index < 0 || (gMemCardWork_wFlags & 2)) {
@@ -1014,7 +1029,7 @@ void MemCardWork_UpdateOperation(void)
                 gMemCardWork_OperationState = 9;
                 break;
             }
-            file = gMemCard_szSaveFileName;
+            file = MEM_CARD_SAVE_FILE_NAME;
             if (MemCard_FindLoadedEntry(file) < 0) {
                 gMemCardWork_OperationState = 10;
                 break;
@@ -1060,7 +1075,7 @@ void MemCardWork_UpdateOperation(void)
             s32 i;
             s32 sector;
             gMemCardWork_OperationState |= 0x80;
-            index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
+            index = MemCard_FindLoadedEntry(MEM_CARD_SAVE_FILE_NAME);
             checksum = 0;
             i = 0;
             D_8021007E = 1;
@@ -1090,13 +1105,13 @@ void MemCardWork_UpdateOperation(void)
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
             if (slot->free_blocks >= root->blocks)
-                MemCard_ReqCreateFile(zero, (s32)gMemCard_szSaveFileName, root->blocks);
+                MemCard_ReqCreateFile(zero, (s32)MEM_CARD_SAVE_FILE_NAME, root->blocks);
             break;
         }
 #ifndef VERSION_EUROPE
         if (!gMemCardWork_bOperationResult)
-            printf(gMemCard_szMakeFileTrace);
-        printf(gMemCard_szFailFileTrace);
+            printf(MEM_CARD_MAKE_FILE_TRACE);
+        printf(MEM_CARD_FAIL_FILE_TRACE);
 #endif
         break;
     }
@@ -1412,7 +1427,7 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xBB, 0x18);
         break;
     case 3:
-        if (MemCardGetDirentry(0, (char *)gMemCardDialog_szAllFilesPattern,
+        if (MemCardGetDirentry(0, "*",
                                (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
@@ -1745,7 +1760,7 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xB8, 0x18);
         break;
     case 3:
-        if (MemCardGetDirentry(0, (char *)gMemCardDialog_szAllFilesPattern,
+        if (MemCardGetDirentry(0, "*",
                                (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
@@ -2372,7 +2387,7 @@ void SaveData_RequestLoad(void)
     MemCardDialog_Request(
         gSaveData_aTransferBuffer,
         SAVE_DATA_STATE_SIZE,
-        gMemCard_szSaveFileName,
+        MEM_CARD_SAVE_FILE_NAME,
         0
     );
 }
@@ -2390,7 +2405,7 @@ s32 SaveData_PollLoad(void) {
     return 0;
 }
 
-void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,gMemCard_szSaveFileName,2);}
+void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,MEM_CARD_SAVE_FILE_NAME,2);}
 
 #ifdef VERSION_JAPAN
 /* Japanese only, with no US counterpart: opens the memory-card dialog at
@@ -2477,7 +2492,7 @@ s32 SaveData_UpdateLoadPair(void)
                 MemCardDialog_Request(
                     gSaveData_aPairWorkspace,
                     SAVE_DATA_STATE_SIZE,
-                    gMemCard_szSaveFileName,
+                    MEM_CARD_SAVE_FILE_NAME,
                     1
                 );
                 return 0;
@@ -2502,7 +2517,7 @@ s32 SaveData_UpdateLoadPair(void)
                 MemCardDialog_Request(
                     gSaveData_aSecondPlayerState,
                     SAVE_DATA_STATE_SIZE,
-                    gMemCard_szSaveFileName,
+                    MEM_CARD_SAVE_FILE_NAME,
                     1
                 );
                 v = 0;
@@ -2622,7 +2637,7 @@ void SaveData_RequestTradeWrite(void)
     MemCardDialog_Request(
         p,
         TWO_PLAYER_SAVE_TRANSFER_SIZE,
-        gMemCard_szSaveFileName,
+        MEM_CARD_SAVE_FILE_NAME,
         4
     );
 }

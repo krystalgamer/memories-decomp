@@ -39,8 +39,8 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
 
     work = (EntryState425 *)context;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;
     poly = work->packets.textured;
     if (!(work->frame_count & 1)) {
         len = work->width * 80 / 1024;
@@ -59,14 +59,14 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
             turn = 0x400 - i * 360;
         }
         for (k = 0, wave = -work->ribbon_sway; k < 17; k++, wave += 0x300) {
-            y = work->direction.vy * work->progress / 1024;
-            z = work->direction.vz * work->progress / 1024;
+            y = work->aim.direction.vy * work->progress / 1024;
+            z = work->aim.direction.vz * work->progress / 1024;
             if (k == 0 || k == 16) {
                 bend = 0;
             } else {
                 bend = work->field_1800 - k * 384;
             }
-            setVector(&ribbon->spine.a[k], work->direction.vx * work->progress / 1024 * k / 16, y * k / 16, z * k / 16);
+            setVector(&ribbon->spine.a[k], work->aim.direction.vx * work->progress / 1024 * k / 16, y * k / 16, z * k / 16);
             setVector(&ribbon->spine.b[k], ribbon->spine.a[k].vx + (rcos(yaw) * (len + (rcos(wave) * amp >> 12)) >> 12),
                       ribbon->spine.a[k].vy,
                       ribbon->spine.a[k].vz + (rsin(yaw) * (len + (rsin(wave) * amp >> 12)) >> 12));

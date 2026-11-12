@@ -4,10 +4,6 @@
 #include "../types.h"
 #include "../psyq/libspu_internal.h"
 
-extern const char gSD_szBgmFileName[];
-extern const char gSD_szSeFileName[];
-extern const char gSD_szMasterXaFileName[];
-
 void SD_RequestBgmPlaybackDefaultStep(s32 command_id);
 void SD_RequestBgmPlayback(s32 command_id, s32 step);
 void SD_Init(void);

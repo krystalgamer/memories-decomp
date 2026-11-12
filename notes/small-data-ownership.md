@@ -27,7 +27,7 @@ the effect-preview state in `duel_scene.c`: the edited-operand byte
 page byte `gDebugEffect_bPage` (formerly the `gDebugEffect_abPreviewState`
 array, then a six-byte struct). The former `0x8009AF08` watchdog word is owned by
 `main_services.c`, and the former `0x8009AF6C` blob is fully split among
-addressed data owners through `ai_script_source_line_format.c`.
+addressed data owners through `ai_script.c`'s `"%s:%d\n"` literal.
 
 ## The owning unit is predictable, not a guess
 

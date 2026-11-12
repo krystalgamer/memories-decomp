@@ -174,7 +174,6 @@ SD_VabOpenHead = 0x800496C4; // type:func
 gSD_dwCurrentBgmCommand = 0x8009B400;
 gSaveDataSequence = 0x8009B3B8;
 gText_DecimalDigitSjisKeys = 0x80010330;
-gMemCard_szSaveFileName = 0x80010384;
 gSD_awNotePitchTable = 0x80010834;
 gGraphics_pPacketWorkCursor = 0x800FE240;
 gSaveData_aTransferBuffer = 0x801D3200;
@@ -1221,7 +1220,6 @@ CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 gMain_bSoundVSyncBusy = 0x8009AF0C; // defined:True
-gDuelEffect_szDecimalTraceFormat = 0x8009AF40; // defined:True
 gDebugMenu_wMessageId = 0x8009AF44; // defined:True
 gDebugMenu_wCampaignScene = 0x8009AF46; // defined:True
 gDebugMenu_awNibbleMasks = 0x8009AF4C; // defined:True
@@ -1378,7 +1376,6 @@ gInput_dwDeferredRepeat = 0x8009B3B0;
 gInput_dwDeferredPressed = 0x8009B3B4;
 gInput_abRepeatTimers = 0x800EF6B0;
 DuelEffect_MarkInitialized = 0x80024E24; // type:func
-gAiScript_szSourceLineFormat = 0x8009B084;
 
 __do_global_dtors = 0x80012AE8; // type:func
 PCopen = 0x80073704; // type:func
@@ -1615,7 +1612,7 @@ SD_SetSequenceChannelProgram = 0x8004B6E8; // type:func
 SD_SetSequenceChannelPitchBendMsb = 0x8004B70C; // type:func
 gDebugEffect_pPreviewCard0 = 0x8009B180;
 gDebugEffect_pPreviewCard1 = 0x8009B184;
-tent_DisplayObjectStreamCommandTable = 0x80090FEC;
+gDisplayObjectStream_apfnCommandHandlers = 0x80090FEC;
 
 Model_ResetSlotAnimationTables = 0x8004D58C; // type:func
 Model_BuildSlotAnimationTables = 0x8004D75C; // type:func
@@ -1946,13 +1943,9 @@ gMemCardWork_nCompletedRequest = 0x8009B3E4;
 gMemCardWork_abFrame = 0x80210000;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-gMemCard_szFreeBlockCountFormat = 0x80010378;
 
-gMemCard_szMakeFileTrace = 0x80010398;
 
-gMemCard_szFailFileTrace = 0x800103A4;
 
-gMemCard_szDevicePathFormat = 0x80010538;
 
 gMemCard_bTransferRetriesRemaining = 0x8009B436;
 
@@ -2182,7 +2175,6 @@ Model_UpdateSlotControl = 0x800559D4; // type:func
 Model_GetHandlerCallbackState = 0x8005F18C; // type:func
 
 Model_SetHandlerCallbackState = 0x8005F198; // type:func
-gFile_szPositionFormat = 0x80010038;
 gFile_dwTransferState = 0x8009B0F4;
 gFile_wStepState = 0x8009B100;
 gFile_TargetLoc = 0x8009B104;
@@ -2279,9 +2271,6 @@ gDuel_szComSelCardError = 0x80010060;
 TextBox_BuildBlocking = 0x80039A14; // type:func
 
 TextBox_BuildBlockingWithGlyphScratch = 0x80039A60; // type:func
-gSD_szBgmFileName = 0x80010784; // defined:True
-gSD_szSeFileName = 0x80010790; // defined:True
-gSD_szMasterXaFileName = 0x8001079C; // defined:True
 gModel_apfnEffectHandlers = 0x800114E8;
 gModel_szSuMrgPath = 0x800114F8;
 gModel_SparkEffectInitialScale = 0x8001189C;

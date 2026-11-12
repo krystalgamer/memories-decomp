@@ -108,7 +108,7 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
                 return 0xFFFF;
             }
         } else {
-            printf(gModelAnim_szAssertFormat, gModelAnim_szSourceFileName, 0x57);
+            printf("Assertion failed: file \"%s\", line %d\n", "S3000000.C", 0x57);
             exit(1);
         }
         index += step;

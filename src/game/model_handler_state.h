@@ -71,8 +71,4 @@ extern char gModel_szTermTrace[];
 
 extern const char gModel_szContinueTrace[];
 
-/* Original sequence-handler assertion format and source-file label. */
-extern char gModelAnim_szAssertFormat[];
-extern char gModelAnim_szSourceFileName[];
-
 #endif
