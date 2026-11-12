@@ -5,7 +5,7 @@
 #include "display_effect_update_menu_record.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
-#include "display_menu_records.h"
+#include "script_scene.h"
 #include "display_object.h"
 #include "display_effect_step_table.h"
 #include "display_effect_resource_setup.h"

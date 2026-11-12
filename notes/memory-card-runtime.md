@@ -577,7 +577,7 @@ added. This remains part of the larger unpublished save-identity bundle.
 
 `gScript_SavePromptSceneOperand` retains the second little-endian
 halfword decoded by `Script_OpSavePrompt`. Its exact plain `u16`
-declaration moves from the shared `script_state.h` to the command's
+declaration moves from the shared `script_scene.h` to the command's
 existing `script_scene.h` (formerly `script_op_save_prompt.h`). The neighboring event-script flags
 stay in their original owner and location; no shared allocation or packed
 command record is inferred from the adjacent addresses.

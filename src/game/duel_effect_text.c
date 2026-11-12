@@ -1986,7 +1986,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "input.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
-#include "script_state.h"
+#include "script_scene.h"
 #include "sound.h"
 #include "sound_effect_request.h"
 
@@ -3332,7 +3332,6 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 #include "display_effect_lifecycle.h"
 
 #include "menu_record.h"
-#include "display_menu_records.h"
 #include "script_scene.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -3699,8 +3698,6 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "script_command_table.h"
-#include "script_state.h"
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
@@ -4550,7 +4547,6 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
 
 #include "display_effect_resource_setup.h"
 #include "menu_record.h"
-#include "display_menu_records.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"

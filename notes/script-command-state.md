@@ -1,6 +1,6 @@
 # Script command runtime contracts
 
-`src/game/script_state.h` owns the script engine's command state and its
+`src/game/script_scene.h` owns the script engine's command state and its
 text-channel entry views. `src/game/menu_record.h` owns the selected menu
 record pointer because its complete observed target type already lives there.
 These declarations describe accesses, not C storage allocation.
@@ -40,7 +40,7 @@ command latch and script cursor lie between the two pairs.
 clears the command on the signed nonpositive result. `Script_OpShowImage` and
 `Script_OpDuelResult` store a freshly allocated `DisplayObject *` in `gScript_TransitionObject`
 and later release it through `DisplayObject_ReleaseIfPresent`. The forward declaration in
-`script_state.h` uses the existing `struct DisplayObject` tag; it does not
+`script_scene.h` uses the existing `struct DisplayObject` tag; it does not
 create a second object layout or import unrelated guarded graphics globals.
 
 ## Typed menu command
