@@ -26,7 +26,6 @@ static PADDING_VARIABLE(4);
 #include "model_slot_getters.h"
 #include "camera_view.h"
 #include "file_transfer.h"
-#include "image_transfer_rects.h"
 #include "library_reference_y.h"
 #include "model_slot_support.h"
 #include "model_update_view_metrics.h"

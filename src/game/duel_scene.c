@@ -1110,7 +1110,6 @@ void ViewState_ResetDefaults(void)
 
 #include "file_transfer.h"
 #include "main.h"
-#include "image_transfer_rects.h"
 #ifdef VERSION_EUROPE
 #include "card_preview.h"
 #endif
@@ -2611,7 +2610,6 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
 #include "display_object.h"
-#include "image_transfer_rects.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->progress)

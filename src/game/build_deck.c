@@ -762,7 +762,6 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "card_constants.h"
-#include "image_transfer_rects.h"
 #ifdef VERSION_EUROPE
 #include "card_preview.h"
 #endif
