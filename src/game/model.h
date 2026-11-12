@@ -928,7 +928,8 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 extern ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[MODEL_HANDLER_REGISTRY_COUNT];
 
 s32 Model_LoadMonsterMerge(
-    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
+    s32 slot, s32 model, s32 attack_override, s32 defense_override,
+    s32 guardian_star_option, s32 defense_position_option, s32 render_flags
 );
 void Model_SetSlotDrawMode(s32 index, s32 value);
 
@@ -1252,8 +1253,9 @@ void Model_CorrectViewPitch(void);
  * pushes the viewpoint out of each model slot (Model_SeparateViewFromSlots),
  * steps the camera-move field_04 outside Japan, runs Model_CorrectViewPitch, then steps
  * gModel_wViewDistance up towards the range's lower bound, down towards that
- * bound when arg0 is set, and down to the upper bound when it is exceeded. */
-void Model_CorrectViewDistance(s32 arg0);
+ * bound when pull_in_request is set, and down to the upper bound when it is
+ * exceeded. */
+void Model_CorrectViewDistance(s32 pull_in_request);
 
 void SD_ApplyPositionalSound(
     s32 sound_id, s32 play, s32 world_x, s32 world_z);

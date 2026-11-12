@@ -1804,19 +1804,19 @@ set_phase_and_tick:
       return;
 }
 
-void Model_StartBattleSlotAction(s32 arg0)
+void Model_StartBattleSlotAction(s32 index)
 {
     ModelSlot *slot;
     ModelSlotMetadataBlock *metadata;
     s32 action_row;
     s32 camera_duration;
 
-    slot = &gModel_aSlots[arg0];
-    metadata = &gModel_aSlots[arg0].metadata;
+    slot = &gModel_aSlots[index];
+    metadata = &gModel_aSlots[index].metadata;
     action_row = slot->guardian_star_selection + 3;
     camera_duration = slot->animation_duration_rows[action_row].max;
     if (camera_duration != 0) {
-        Model_ControlSlotAnimation(arg0, action_row, 1);
+        Model_ControlSlotAnimation(index, action_row, 1);
     }
     camera_duration = camera_duration * 2 / 3;
     if (camera_duration < 60) {
@@ -1825,7 +1825,7 @@ void Model_StartBattleSlotAction(s32 arg0)
     if (metadata->battle_camera_duration_overrides[slot->guardian_star_selection] != 0) {
         camera_duration = metadata->battle_camera_duration_overrides[slot->guardian_star_selection];
     }
-    Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, camera_duration);
+    Model_RequestCameraMoveToSlots(1, -1, index ^ 1, camera_duration);
     Model_SetCameraHoldState(
         ((metadata->prefix.bytes.guardian_star_options[slot->guardian_star_selection] & 0x80) == 0) << 1
     );
