@@ -192,10 +192,8 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "display_object.h"
 #include "text_encode_decimal_digits.h"
 #include "text_encode_decimal_no_padding.h"
-#include "build_deck_transition_state.h"
 #include "color_constants.h"
 #include "main.h"
-#include "card_list_sort_icons.h"
 
 /* Initialized data this unit owns at 0x80090DD8: two 16-byte rows used by card-list sorting
  * and icon rendering. The packed bytes retain their separate glyph/page
@@ -526,8 +524,6 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #include "display_object.h"
 #include "display_object_layout.h"
 #include "duel_effect_states.h"
-#include "card_list_text_boxes.h"
-#include "build_deck_transition_state.h"
 #include "duel_card.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
@@ -677,7 +673,6 @@ void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id)
 }
 
 #include "card_constants.h"
-#include "build_deck_transition_state.h"
 
 void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
 {
@@ -1007,9 +1002,7 @@ void Library_PruneRecentCardDrops(void)
  * The display objects keep their raw slot offsets on the record.
  */
 #include "duel_card.h"
-#include "build_deck_transition_state.h"
 #include "sound.h"
-#include "card_list_sort_icons.h"
 
 #ifndef BUILD_DECK_CURSOR_Y
 #define BUILD_DECK_CURSOR_Y 0x29
@@ -1248,14 +1241,11 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
    table; and the two confirm-mode setters. */
 #include "duel_card.h"
 #include "../psyq/qsort.h"
-#include "card_list_text_boxes.h"
 #include "rand_get_interval.h"
 #include "card_constants.h"
-#include "build_deck_transition_state.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
-#include "card_list_sort_icons.h"
 #include "duel_card_viewer.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"
@@ -1263,7 +1253,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "dialog_choice.h"
-#include "build_deck_draw_card_list_page_data.h"
 #include "main_mode_state.h"
 
 s32 BuildDeck_CompareSortKeyDescending(
@@ -2096,8 +2085,6 @@ void BuildDeck_EnterWideConfirmMode(void)
     gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
     gMain_bActiveModeState = 7;
 }
-
-#include "card_list_sort_icons.h"
 
 void CardList_UpdateSortMode(CardList *list) {
     int row_offset;
