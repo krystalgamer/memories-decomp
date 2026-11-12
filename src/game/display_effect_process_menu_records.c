@@ -12,7 +12,6 @@
 #include "mem_card.h"
 #include "display_effect_lifecycle.h"
 #include "display_effect_update_callbacks.h"
-#include "mem_card_work.h"
 
 /* Initialized data this unit owns at 0x80090F68: the display effect step
  * table and, directly after it, the dialog transition step table.

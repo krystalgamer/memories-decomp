@@ -8,7 +8,7 @@ the arithmetic shift. No register pin or executable assembly is introduced.
 
 ## Workspace and dispatch bounds
 
-`mem_card_work.h` describes a `0x1C` root and `0x268`-byte slots. The root's
+`mem_card.h` describes a `0x1C` root and `0x268`-byte slots. The root's
 block byte is at `+0x10`, remaining count at `+0x12`, offset at `+0x14`,
 chunk at `+0x16`, and text index at `+0x1A`. Slot cursor, free-block count
 and directory-entry index are at `+0`, `+0xC` and `+0xD`.

@@ -77,6 +77,6 @@ guessed semantics, and no RAM-mirror equivalence is inferred.
 ## Namespace
 
 The state header is the only declaration owner; the old `D_` declarations
-in `mem_card_work.h` are gone. Every region binds the six names at their
+in `mem_card.h` are gone. Every region binds the six names at their
 native addresses (the checksum at `0x8021007F` everywhere) instead of
 aliasing old identities.

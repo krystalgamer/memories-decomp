@@ -339,7 +339,6 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
 #undef gCampaignSceneIndex
 
 #include "duel_effect_states.h"
-#include "mem_card_work.h"
 
 void MemCardWork_InitializeOperation(u8 value)
 {
@@ -430,7 +429,6 @@ void Checkerboard_DrawBackground(
 
 #include "display_object_system.h"
 #include "dialog_layout.h"
-#include "mem_card_work.h"
 
 /* Regional value: the channel flags it sets (0x1008 -> 0x1010). The European
  * build (src/game/european/) defines its own. */
@@ -761,7 +759,6 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
 #include "mem_card_driver.h"
-#include "mem_card_work.h"
 #include "file_constants.h"
 #include "util_memory.h"
 #include "card_constants.h"
