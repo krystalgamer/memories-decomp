@@ -26,7 +26,7 @@ void ModelVariant397_DrawBands(u8 *ctx)
 
     work = (Variant397EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->textured;
+    poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
         r = work->scale * work->config->radius / 4096;
