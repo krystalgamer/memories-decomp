@@ -104,14 +104,14 @@ ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements = {
  * +0x3C immediately after those three slots.
  */
 
-void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
     s32 n;
     DisplayObject *o;
     ScriptImageOverlayPlacement *t;
     ScriptImageOverlayPair *b;
     s32 k;
 
-    n = arg1;
+    n = image_id;
     if (n < 0) {
         n = p->image_id;
     }

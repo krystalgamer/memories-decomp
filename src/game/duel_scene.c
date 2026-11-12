@@ -8972,25 +8972,25 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
    none are set; otherwise whichever bit, checked in RIGHT/DOWN/LEFT/UP
    order, was seen last wins). Reloads the volatile global on every check
    rather than caching it in a register, matching the ROM's per-check reload. */
-void DuelCursor_ProcessHeldGridDirection(DuelSelectionRecord *a0) {
-    s32 a1 = -1;
+void DuelCursor_ProcessHeldGridDirection(DuelSelectionRecord *cursor) {
+    s32 direction = -1;
 
     if (gInput_awPadHeld[0] & PAD_DIRECTION_MASK) {
         if (gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) {
-            a1 = 0;
+            direction = 0;
         }
         if (gInput_awPadHeld[0] & PAD_DIRECTION_DOWN) {
-            a1 = 1;
+            direction = 1;
         }
         if (gInput_awPadHeld[0] & PAD_DIRECTION_LEFT) {
-            a1 = 2;
+            direction = 2;
         }
         if (gInput_awPadHeld[0] & PAD_DIRECTION_UP) {
-            a1 = 3;
+            direction = 3;
         }
     }
 
-    DuelCursor_ProcessGridDirection(a0, a1);
+    DuelCursor_ProcessGridDirection(cursor, direction);
 }
 
 #include "duel_cursor_status.h"

@@ -2084,17 +2084,17 @@ void BuildDeck_EnterWideConfirmMode(void)
 
 #include "card_list_sort_icons.h"
 
-void CardList_UpdateSortMode(CardList *a0) {
-    int a1;
-    int v1;
+void CardList_UpdateSortMode(CardList *list) {
+    int row_offset;
+    int column_offset;
     u8 *p;
-    u8 v0;
-    a1 = a0->kind;
-    v1 = a0->sort_choice;
-    a1 = a1 << 4;
-    v1 = v1 << 1;
-    p = gCardList_SortIconTable + v1;
-    v0 = p[a1 + 1];
-    v0 = v0 & 0xf;
-    a0->sort_mode = v0;
+    u8 sort_mode;
+    row_offset = list->kind;
+    column_offset = list->sort_choice;
+    row_offset = row_offset << 4;
+    column_offset = column_offset << 1;
+    p = gCardList_SortIconTable + column_offset;
+    sort_mode = p[row_offset + 1];
+    sort_mode = sort_mode & 0xf;
+    list->sort_mode = sort_mode;
 }
