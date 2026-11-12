@@ -2996,7 +2996,6 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 #include "ai_script.h"
 #include "duel_session_controls.h"
 
-#include "ai_opponent_data.h"
 #include "main_mode_state.h"
 
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))

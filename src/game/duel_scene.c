@@ -1360,7 +1360,6 @@ void Duel_InitModelScene(void)
 }
 
 #include "ai_script.h"
-#include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_grid.h"
 #include "duel_card.h"
@@ -1944,7 +1943,6 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_session_controls.h"
 #include "card_preview.h"
 #include "trig_constants.h"
-#include "ai_opponent_data.h"
 #include "duel_card_layout.h"
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
@@ -3335,7 +3333,6 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
     }
 }
 
-#include "ai_opponent_data.h"
 #include "campaign_flags.h"
 
 void Duel_MarkCreatedCardKnown(s32 card_id)
@@ -4444,7 +4441,6 @@ void Duel_ApplyAiHandSelection(void)
 
 #undef DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS
 
-#include "ai_opponent_data.h"
 #include "input.h"
 
 int Duel_CheckQuitInput(void)
@@ -7065,7 +7061,6 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 #include "file_transfer.h"
 #include "sound.h"
 #include "fade.h"
-#include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "card_constants.h"
 #include "duel_grid.h"
@@ -9080,7 +9075,6 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 
 #include "input.h"
 #include "sound.h"
-#include "ai_opponent_data.h"
 #include "rand_get_interval.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
@@ -9654,7 +9648,6 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 
 #include "duel_session_controls.h"
 #include "main_mode_state.h"
-#include "ai_opponent_data.h"
 
 void Main_StartDuel(s32 side0_controller, s32 opponent_id, s32 win_scene, s32 loss_scene)
 {

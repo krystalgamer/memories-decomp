@@ -65,7 +65,7 @@ void Main_RunCampaign(void) {
     Fade_WaitOut();
 }
 
-#include "../game/ai_opponent_data.h"
+#include "ai_script.h"
 #include "../game/duel_scene.h"
 #include "../game/main.h"
 #include "../game/build_deck.h"

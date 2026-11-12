@@ -8,7 +8,7 @@ s32 gAiScript_aMemory[20];
 
 AiScriptState gAiScript_State;
 
-#include "ai_script_commands.h"
+#include "ai_script.h"
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"
 #include "ai_script.h"
@@ -152,8 +152,6 @@ s32 AiScript_Run(void)
 
     return 0;
 }
-
-#include "ai_opponent_data.h"
 
 /* Initialized data this unit owns at 0x800917F0: the per-duellist AI parameters, in duellist
    order. */
