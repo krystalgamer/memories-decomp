@@ -359,37 +359,29 @@ void Model_DrawBackground(void)
             s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)background_offset_bits;
             s32 screen_input_height;
             s32 screen_trim_amount;
-            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (screen_limit_y >= screen_end_y)
-                    goto second_clip;
-            } else if (screen_end_y < BACKGROUND_RENDER_CLIP_LIMIT) {
-                goto second_clip;
+            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? screen_limit_y < screen_end_y
+                    : screen_end_y >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                screen_input_height = sprite.h;
+                screen_trim_amount = sprite.y + screen_input_height -
+                    ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
+                sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
             }
-            screen_input_height = sprite.h;
-            screen_trim_amount = sprite.y + screen_input_height -
-                ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
-            sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
         }
-second_clip:
         {
             s32 texture_end_v = sprite.v + sprite.h;
             s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
             s32 texture_input_height;
             s32 texture_trim_amount;
-            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (texture_limit_v < texture_end_v)
-                    goto trim_texture;
-                goto tiles;
+            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT
+                    ? texture_limit_v < texture_end_v
+                    : texture_end_v >= BACKGROUND_RENDER_CLIP_LIMIT) {
+                texture_input_height = sprite.h;
+                texture_trim_amount =
+                    sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
+                sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
             }
-            if (texture_end_v < BACKGROUND_RENDER_CLIP_LIMIT)
-                goto tiles;
-trim_texture:
-            texture_input_height = sprite.h;
-            texture_trim_amount =
-                sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-            sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
         }
-tiles:
         sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
@@ -4588,27 +4580,23 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
             gModel_aSlots[slot].load_step = 0;
         }
     } else {
-        if (model >= 0 && model < 7) {
-            model = gModel_abBackgroundRecords[
-                model * MODEL_AUX_LOOKUP_RECORD_SIZE
-                + MODEL_AUX_LOOKUP_VALUE_OFFSET];
-            if (model >= 0 && model < 7) {
-                goto found;
-            }
+        if (!(model >= 0 && model < 7
+              && (model = gModel_abBackgroundRecords[
+                      model * MODEL_AUX_LOOKUP_RECORD_SIZE
+                      + MODEL_AUX_LOOKUP_VALUE_OFFSET],
+                  model >= 0 && model < 7))) {
+            request_result++;
+        } else {
+            transfer = File_TryRequestAsyncTransfer(
+                1, gModel_szSuMrgPath,
+                model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
+                MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
+            );
+            gFile_dwTransferState = transfer->status_flags
+                | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+            gModel_aSlots[slot].load_step = 0;
         }
-        request_result++;
-        goto done;
-found:
-        transfer = File_TryRequestAsyncTransfer(
-            1, gModel_szSuMrgPath,
-            model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
-            MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
-        );
-        gFile_dwTransferState = transfer->status_flags
-            | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-        gModel_aSlots[slot].load_step = 0;
     }
-done:
     return request_result;
 }
 

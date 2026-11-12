@@ -295,9 +295,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             }
             MainMenu_CreateTradeDecisionMenu(
                 *(volatile u8 *)&gTrade_bFocusPane);
-            goto modal_return;
-        }
-        if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0 ||
+        } else if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0 ||
             (gInput_awPadPressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             other = ((gInput_awPadPressed[0] >> MAIN_MENU_TRADE_CANCEL_SHIFT) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
@@ -305,9 +303,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             gTrade_abReady[other] = 0;
             MainMenu_CreateTradeReadyIndicator(other ^ 1);
             gTrade_bDecisionMenuActive = 0;
-            goto modal_return;
-        }
-        if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
+        } else if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
             (gInput_awPadPressed[1] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0) {
             SD_SEPlay(48, 255, 0);
             switch (gTrade_bFocusPane) {
@@ -331,7 +327,6 @@ s32 MainMenu_UpdateTradeScreen(void)
                 break;
             }
         }
-    modal_return:
         return decision;
     }
 
@@ -446,9 +441,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         gTrade_aListScroll[0].current = gTrade_aListScroll[0].target;
         dirty0++;
-        goto check_scroll0;
-    }
-    if ((gInput_awPadRepeat[0] & 0x5000) != 0) {
+    } else if ((gInput_awPadRepeat[0] & 0x5000) != 0) {
         if ((gInput_awPadRepeat[0] & 0x1000) != 0) {
             if (gTrade_abCursorRow[0] != 0) {
                 SD_SEPlay(6, 255, 0);
@@ -469,7 +462,6 @@ s32 MainMenu_UpdateTradeScreen(void)
             dirty0++;
         }
     }
-    goto check_scroll0;
 check_scroll0:
     if (gTrade_aListScroll[0].current != gTrade_aListScroll[0].target) {
     scroll0:
@@ -594,9 +586,7 @@ player1:
         }
         gTrade_aListScroll[1].current = gTrade_aListScroll[1].target;
         dirty1.dirty++;
-        goto check_scroll1;
-    }
-    if ((gInput_awPadRepeat[1] & 0x5000) != 0) {
+    } else if ((gInput_awPadRepeat[1] & 0x5000) != 0) {
         if ((gInput_awPadRepeat[1] & 0x1000) != 0) {
             if (gTrade_abCursorRow[1] != 0) {
                 SD_SEPlay(6, 255, 0);
@@ -617,7 +607,6 @@ player1:
             dirty1.dirty++;
         }
     }
-    goto check_scroll1;
 check_scroll1:
     if (gTrade_aListScroll[1].current != gTrade_aListScroll[1].target) {
     scroll1:
