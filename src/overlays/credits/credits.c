@@ -134,18 +134,18 @@ s32 Credits_UpdateLines(void)
     CreditsLine *other;
     s32 i;
     s32 j;
-    s32 t;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
+    s32 fade_in;
+    s32 level0;
+    s32 level1;
+    s32 level2;
+    s32 level3;
     s32 n;
-    s32 k;
-    s32 t2;
-    s32 a2;
-    s32 b2;
-    s32 c2;
-    s32 d2;
+    s32 full_level;
+    s32 fade_out;
+    s32 dim3;
+    s32 dim2;
+    s32 dim1;
+    s32 dim0;
 
     for (i = 0; i < 2; i++) {
         if (gCredits_aLines[i].entries == 0) {
@@ -153,21 +153,21 @@ s32 Credits_UpdateLines(void)
         }
         switch (gCredits_aLines[i].state) {
         case 0:
-            t = (0x80 - gCredits_aLines[i].timer) << 7;
-            a = t / 32;
-            b = t / 64;
-            c = t / 96;
-            d = t / 128;
+            fade_in = (0x80 - gCredits_aLines[i].timer) << 7;
+            level0 = fade_in / 32;
+            level1 = fade_in / 64;
+            level2 = fade_in / 96;
+            level3 = fade_in / 128;
             gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 gCredits_aLines[i].timer = 0x98;
                 gCredits_aLines[i].state++;
             }
-            a = CLAMP(a);
-            b = CLAMP(b);
-            c = CLAMP(c);
-            d = CLAMP(d);
-            Credits_DrawLine(i, a, b, c, d);
+            level0 = CLAMP(level0);
+            level1 = CLAMP(level1);
+            level2 = CLAMP(level2);
+            level3 = CLAMP(level3);
+            Credits_DrawLine(i, level0, level1, level2, level3);
             break;
         case 1:
             if (gCredits_aLines[i].entries->group == 0x63) {
@@ -189,12 +189,12 @@ s32 Credits_UpdateLines(void)
             Credits_DrawLine(i, 0x80, 0x80, 0x80, 0x80);
             break;
         case 2:
-            k = 0x80;
-            t2 = (k - gCredits_aLines[i].timer) << 7;
-            a2 = t2 / 32;
-            b2 = t2 / 64;
-            c2 = t2 / 96;
-            d2 = t2 / 128;
+            full_level = 0x80;
+            fade_out = (full_level - gCredits_aLines[i].timer) << 7;
+            dim3 = fade_out / 32;
+            dim2 = fade_out / 64;
+            dim1 = fade_out / 96;
+            dim0 = fade_out / 128;
             gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 if (gCredits_aLines[i].page >= 2) {
@@ -205,11 +205,11 @@ s32 Credits_UpdateLines(void)
                     gCredits_aLines[i].state = 4;
                 }
             }
-            d2 = CLAMP(d2);
-            c2 = CLAMP(c2);
-            b2 = CLAMP(b2);
-            a2 = CLAMP(a2);
-            Credits_DrawLine(i, k - d2, k - c2, k - b2, k - a2);
+            dim0 = CLAMP(dim0);
+            dim1 = CLAMP(dim1);
+            dim2 = CLAMP(dim2);
+            dim3 = CLAMP(dim3);
+            Credits_DrawLine(i, full_level - dim0, full_level - dim1, full_level - dim2, full_level - dim3);
             break;
         case 3:
             gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
