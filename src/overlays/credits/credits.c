@@ -230,13 +230,16 @@ s32 Credits_UpdateLines(void)
             gCredits_aLines[i].timer -= gGraphics_nBaseFrameStep * 2;
             if (gCredits_aLines[i].timer <= 0) {
                 n = gCredits_aLines[i].end->group;
-                if (n >= 0) {
+                /* A negative group enters the slot search at its exit; the
+                   search hands the group to the first free line. */
+                switch (n < 0) {
+                case 0:
                     j = 0;
                     do {
                         other = gCredits_aLines;
                     } while (0);
-                next:
-                    if (other->entries == 0) {
+                    for (;;) {
+                        if (other->entries == 0) {
                             other->height = 0;
                             other->width = 0;
                             other->page = 0;
@@ -251,16 +254,18 @@ s32 Credits_UpdateLines(void)
                                 other->timer = 152;
                                 other->title_held = 0;
                             }
-                            goto done;
-                    }
-                    j++;
-                    other++;
-                    if (j < 2) {
-                        goto next;
+                        } else {
+                            j++;
+                            other++;
+                            if (j < 2) {
+                                continue;
+                            }
+                        }
+                default:
+                        gCredits_aLines[i].entries = 0;
+                        break;
                     }
                 }
-            done:
-                gCredits_aLines[i].entries = 0;
             }
             break;
         }
