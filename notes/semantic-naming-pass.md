@@ -195,7 +195,10 @@ deferred. All three access byte `0x08` of the shared `AiSelection` record:
 state opcodes set and clear it, and the load opcode copies it into the VM
 register selected by its stream operand. They are therefore named as the
 load/set/clear `SelectionRandom` family without assigning a narrower gameplay
-meaning to the consumer branches.
+meaning to the consumer branches. A later pass traced the consumer in
+`DuelScene_UpdateHandActions` and renamed them
+`AiScript_LoadHandFaceDownRequest`, `AiScript_SetHandFaceDownRequest` and
+`AiScript_ClearHandFaceDownRequest`; the semantic map keeps only those rows.
 
 ## Validation
 
