@@ -93,11 +93,6 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row);
  * notes/duel-card-record.md records them. */
 void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector);
 
-#ifdef VERSION_JAPAN
-/* Japanese debug print uses this format already stored in the image. */
-extern char gDuel_szSelectorTraceFormat[];
-#endif
-
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
  * type and CARD_STAT_VALUE_MASK for the stat value. */

@@ -167,10 +167,10 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
     glow = work->glows;
     grid_a = &work->grid;
     grid_b = &work->screen_grid;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat_textured;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     plain = &work->plain;
     veil = &work->veil;
     web = work->webs;

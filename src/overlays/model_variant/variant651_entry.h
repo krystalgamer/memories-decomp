@@ -23,10 +23,8 @@
 typedef struct {
     ModelVariantEntryHead head;
     s32 direction;
-    s16 delay;
-    u16 radius, height;
-    u16 tpage[3];
-    u16 clut[3];
+    ModelVariantEntryPlacement place;
+    ModelVariantTextureIds textures;
     u16 unknown_1E;
     POLY_GT4 quad;
     SVECTOR ring[17][2];

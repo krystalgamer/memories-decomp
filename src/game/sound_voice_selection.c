@@ -163,7 +163,7 @@ void SD_QueueValueLinkList(u16 *items, s32 count)
     }
 }
 
-s32 tent_SD_FilterCdFlaggedId(s32 value)
+s32 SD_FilterCdFlaggedId(s32 value)
 {
     u16 result = value;
 
@@ -184,9 +184,9 @@ void SD_KeyOffVoice(s32 voice)
     }
 }
 
-void tent_SD_KeyOffVoiceById(s32 value)
+void SD_KeyOffVoiceById(s32 value)
 {
-    s32 normalized = tent_SD_FilterCdFlaggedId((u16)value);
+    s32 normalized = SD_FilterCdFlaggedId((u16)value);
     SDValue *state = g_SDValue;
     s32 tries = 0;
     s32 slot = state->s_bSD_VOICE_CURSOR;

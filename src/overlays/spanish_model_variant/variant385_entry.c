@@ -16,9 +16,9 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
     Variant385EntryTube *tube = work->tubes;
     Variant385EntrySheet *sheet = work->sheets;
     ModelVariantCurtain *curtain = work->curtains;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *plain = &work->plain;
     POLY_GT4 *paged = &work->paged;
     POLY_FT4 *flat = work->flat_textured;

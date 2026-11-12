@@ -35,4 +35,7 @@
 #define SAVE_DATA_LOAD_CHANNEL_FLAG 0x10
 #define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009C015
 
+/* The card name carries this image's product code. */
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03947-YUGIOH")
+
 #include "../mem_card.c"

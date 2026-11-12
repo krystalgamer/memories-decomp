@@ -342,7 +342,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
             }
         }
         if (work->timer < work->config->burst_time) {
-            goto end;
+            PopMatrix();
+            return 0;
         }
     }
     if (work->phase == 1) {
@@ -351,7 +352,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
     }
     if (work->elapsed < work->config->spark_start) {
         work->elapsed += step;
-        goto end;
+        PopMatrix();
+        return 0;
     }
     v = work->shards;
     if (work->phase == 1) {
@@ -508,7 +510,6 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
         }
         work->elapsed += step;
     }
-end:
     PopMatrix();
     return 0;
 }

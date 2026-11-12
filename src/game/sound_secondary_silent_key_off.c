@@ -18,7 +18,7 @@
  * detached only later, in its separate SPU_OFF cleanup path. This helper has
  * no channel guard, leaves key_held and channel ownership untouched, and
  * clears the stage right after its own key-off loop. */
-void tent_SD_KeyOffSilentSecondaryObjects(void) {
+void SD_KeyOffSilentSecondaryObjects(void) {
     SDSecondaryState *base;
     s32 i;
     s32 mask;

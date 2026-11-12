@@ -189,9 +189,11 @@ their order. Units stay data-only where the owner does not fit yet:
   `model_graphics_state.c`: their readers reach them through absolute or
   forced views;
 - `model_handler_diagnostics.c`: the European builds place
-  `model_debug_controller.c`'s own `.sdata`;
-- `ai_script_source_line_format.c`: its only reader is a `-G0` unit, which
-  cannot hold small data.
+  `model_debug_controller.c`'s own `.sdata`.
+
+The AI script's `"%s:%d\n"` source-line format is a literal in `ai_script.c`,
+whose `-G8` profile emits it as that unit's only `.sdata`; the European
+build makes no such printf call and has no AI-script small data.
 
 ## Forced `.data` views
 
@@ -224,9 +226,8 @@ from the owner to its furthest gp-relative reader:
 - 21 of the 23 owners have no absolute reader inside that span. Every unit
   in the span reaches the owner's variables gp-relative, and the absolute
   (view) readers lie outside it.
-- The two exceptions are initialized `.sdata` strings (`gDebugMenu_szLineBreak`,
-  `gModel_szWhyTrace`), char arrays that are reachable through incomplete-array
-  externs.
+- The two exceptions are `.sdata` strings (the debug menu's `"\n"` and the
+  model's `"WHY?\n"`), string literals, which GCC addresses absolutely.
 
 The spans outline the original units:
 - the duel code from `duel_field_card_render`'s block through about 55 current
@@ -360,11 +361,11 @@ orbit and movie units come before `model_graphics_state`. Its split places
 eighteen owners from `main_services` (`0x8009BE84`) to
 `main_menu_load_package_stage`. That includes `european/data_8009af6c`,
 whose PAL strings lack the North American directory-entry format
-(`gMemCard_szDirectoryEntryFormat`, guarded by `VERSION_EUROPE`); all five
+(the `"%s\n"` literal, guarded by `VERSION_EUROPE`); all five
 PAL builds compile it at the US unit's `gcc_2_8_1_g8` profile. Europe has no
 small data
 for `duel_field_effects`, `options_layout_position_data` or
-`ai_script_source_line_format`.
+`ai_script`.
 
 Europe now defines `runtime_gp`, `gMain_bSoundVSyncBusy` and
 the effect-preview state itself instead of placing them through its
@@ -387,10 +388,10 @@ removed 74 more linker assignments per build.
 Japan's small initialized data starts `0xC0` below the North American
 `.sdata`. Like Europe, it places the movie and camera-orbit units before the
 model units. Its split places nineteen owners from `main_services`
-(`0x8009AE48`) to `ai_script_source_line_format`. Its layout differs from the
+(`0x8009AE48`) to `japanese/ai_script`. Its layout differs from the
 North American one in three places:
-- `duel_field_effects` adds a Japanese-only `"Ex %d\n"` format (`gDuel_szSelectorTraceFormat`,
-  read by Japan's `duel_field_card_objects`);
+- Japan's `duel_field_card_objects` adds a Japanese-only `"Ex %d\n"` string
+  literal, its own `.sdata` right after `duel_scene`'s;
 - `model_graphics_state` has no selected-digit byte and keeps the frame-step
   control as unaligned single bytes from `0x8009AF0B`, given as Japanese
   storage (`D_8009AF0B_slpm_86398` onward) through

@@ -16,9 +16,7 @@ typedef struct {
     u8 unknown_1590[0x34];
     POLY_GT4 special;
     u8 unknown_15F8[0x34];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2];
     POLY_FT4 flat2[2];
     u8 unknown_1724[0x10];

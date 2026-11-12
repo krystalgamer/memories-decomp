@@ -22,13 +22,10 @@ typedef struct {
 } Image60348Config;
 
 typedef struct {
-    u8 active, color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration, echo, released;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale, position, target;
+    ModelVariantElementHead head;
+    u16 echo, released;
+    ModelVariantElementTransform xform;
+    VECTOR target;
 } Image60348Element;
 
 typedef struct {

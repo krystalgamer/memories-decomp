@@ -52,11 +52,11 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
     ring = (Variant433EntryBand *)((u8 *)work + 0x1518);
     sheet = (Variant433EntrySheet *)((u8 *)work + 0x3598);
     streamer = (Variant433EntryStreamer *)((u8 *)work + 0x39F8);
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat;
     extra = work->flat_extra;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     result = 0;
 
     if (command >= 0) {

@@ -14,6 +14,7 @@
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
 #include "../../psyq/abs.h"
+#include "model_variant.h"
 
 /* One 0x42-byte command row: the muzzle sprite colour, the bolt, glow and
  * ray colours, the model point the bolts leave from, the muzzle size, the
@@ -22,30 +23,18 @@
  * the streaks, the two fade steps, the spawn period and the start and end
  * times. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part;
     u8 unknown_0D;
-    u16 size;
-    u16 steps;
-    u16 count;
-    u16 ring_count;
-    u16 strip_width;
-    u16 strip_radius;
-    u16 ring_size;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantBoltFlight flight;
+    ModelVariantBoltRing ring;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
     u16 ray_count;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u16 streak_spread;
     u16 streak_width;
     u16 streak_height;

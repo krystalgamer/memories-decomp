@@ -22,21 +22,11 @@ typedef struct {
  * projected, and per point the screen angle, the projected width, the depth
  * and the width's screen offset. */
 typedef struct {
-    SVECTOR a[17];
-    long sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    long sb[17];
-    s32 width[17];
-    CVECTOR colors[2];
-    VECTOR scale;
-    s16 field_238, field_23A;
-    s32 field_23C;
+    ModelVariantStripSpine spine;
+    ModelVariantStripStyle style;
     u8 unknown_240[0x88];
     VECTOR position;
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
 } EntryRibbon425;
 
 typedef struct {
@@ -50,16 +40,11 @@ typedef struct {
     u8 unknown_1590[0x34];
     POLY_GT4 special;
     u8 unknown_15F8[0x34];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[2];
     u8 unknown_1724[0x10];
     MATRIX matrix;
-    SVECTOR target;
-    VECTOR direction;
-    DVECTOR screen_delta;
-    VECTOR view_delta;
+    ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;

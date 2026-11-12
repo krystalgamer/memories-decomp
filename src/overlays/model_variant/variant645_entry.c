@@ -15,20 +15,20 @@
  * value's register. */
 #define MODEL645_ARM_PUFF(work, ls, unit, here, value, joint)                                          \
     {                                                                                            \
-        (work)->puffs[(work)->flags[0]].active = 1;                                              \
-        (work)->puffs[(work)->flags[0]].elapsed = 0;                                             \
-        (work)->puffs[(work)->flags[0]].duration = 32;                                           \
-        (work)->puffs[(work)->flags[0]].mode = 1;                                                \
-        (work)->puffs[(work)->flags[0]].coord = Model_GetCameraCoordinateUnit();                 \
-        (work)->puffs[(work)->flags[0]].color[0] = gModelVariant645_aConfigs[(work)->head.command].color[0];         \
-        (work)->puffs[(work)->flags[0]].color[1] = gModelVariant645_aConfigs[(work)->head.command].color[1];         \
-        (work)->puffs[(work)->flags[0]].color[2] = gModelVariant645_aConfigs[(work)->head.command].color[2];         \
-        (work)->puffs[(work)->flags[0]].u = 0;                                                   \
-        (work)->puffs[(work)->flags[0]].v = 128;                                                 \
+        (work)->puffs[(work)->flags[0]].head.active = 1;                                              \
+        (work)->puffs[(work)->flags[0]].head.elapsed = 0;                                             \
+        (work)->puffs[(work)->flags[0]].head.duration = 32;                                           \
+        (work)->puffs[(work)->flags[0]].head.mode = 1;                                                \
+        (work)->puffs[(work)->flags[0]].xform.coord = Model_GetCameraCoordinateUnit();                 \
+        (work)->puffs[(work)->flags[0]].head.color[0] = gModelVariant645_aConfigs[(work)->head.command].color[0];         \
+        (work)->puffs[(work)->flags[0]].head.color[1] = gModelVariant645_aConfigs[(work)->head.command].color[1];         \
+        (work)->puffs[(work)->flags[0]].head.color[2] = gModelVariant645_aConfigs[(work)->head.command].color[2];         \
+        (work)->puffs[(work)->flags[0]].head.u = 0;                                                   \
+        (work)->puffs[(work)->flags[0]].head.v = 128;                                                 \
         value = 2048;                                                                            \
-        setVector(&(work)->puffs[(work)->flags[0]].scale, value, value, value);                  \
+        setVector(&(work)->puffs[(work)->flags[0]].xform.scale, value, value, value);                  \
         setVector(&(work)->puffs[(work)->flags[0]].target, 0, 0, 0);                         \
-        setVector(&(work)->puffs[(work)->flags[0]].rotation, 0, 0, 0);                           \
+        setVector(&(work)->puffs[(work)->flags[0]].xform.rotation, 0, 0, 0);                           \
         unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry((work)->head.slot, joint);                      \
         GsGetLwUnit(&unit, &ls);                                                                 \
         setVector(&here, ls.t[0], ls.t[1], ls.t[2]);                                             \
@@ -49,7 +49,7 @@
 /* Places the armed puff, then advances the cursor. */
 #define MODEL645_PLACE_PUFF(work, x, y, z)                                                       \
     do {                                                                                         \
-        setVector(&(work)->puffs[(work)->flags[0]].position, x, y, z);                           \
+        setVector(&(work)->puffs[(work)->flags[0]].xform.position, x, y, z);                           \
         (work)->flags[0]++;                                                                      \
         if ((work)->flags[0] >= (work)->puff_count) {                                            \
             (work)->flags[0] = 0;                                                                \
@@ -126,42 +126,42 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             work->halo_count = 4;
             break;
         }
-        work->radius = gModelVariant645_aConfigs[command].radius;
-        work->height = gModelVariant645_aConfigs[command].height;
+        work->place.radius = gModelVariant645_aConfigs[command].radius;
+        work->place.height = gModelVariant645_aConfigs[command].height;
         for (i = 0; i < work->puff_count; i++) {
-            work->puffs[i].duration = 32;
-            work->puffs[i].active = 0;
-            work->puffs[i].elapsed = 0;
-            work->puffs[i].mode = 1;
-            work->puffs[i].coord = Model_GetCameraCoordinateUnit();
-            work->puffs[i].color[0] = gModelVariant645_aConfigs[command].color[0];
-            work->puffs[i].color[1] = gModelVariant645_aConfigs[command].color[1];
-            work->puffs[i].color[2] = gModelVariant645_aConfigs[command].color[2];
-            work->puffs[i].u = 0;
-            work->puffs[i].v = 128;
+            work->puffs[i].head.duration = 32;
+            work->puffs[i].head.active = 0;
+            work->puffs[i].head.elapsed = 0;
+            work->puffs[i].head.mode = 1;
+            work->puffs[i].xform.coord = Model_GetCameraCoordinateUnit();
+            work->puffs[i].head.color[0] = gModelVariant645_aConfigs[command].color[0];
+            work->puffs[i].head.color[1] = gModelVariant645_aConfigs[command].color[1];
+            work->puffs[i].head.color[2] = gModelVariant645_aConfigs[command].color[2];
+            work->puffs[i].head.u = 0;
+            work->puffs[i].head.v = 128;
             /* The scale goes through value so the loop hoists the constant into
              * value's register. */
             value = 2048;
-            setVector(&work->puffs[i].scale, value, value, value);
+            setVector(&work->puffs[i].xform.scale, value, value, value);
             setVector(&work->puffs[i].target, 0, 0, 0);
-            setVector(&work->puffs[i].rotation, 0, 0, 0);
-            setVector(&work->puffs[i].position, 0, 0, 0);
+            setVector(&work->puffs[i].xform.rotation, 0, 0, 0);
+            setVector(&work->puffs[i].xform.position, 0, 0, 0);
         }
         for (i = 0; i < work->halo_count; i++) {
-            work->halos[i].duration = 48;
-            work->halos[i].active = 0;
-            work->halos[i].elapsed = 0;
-            work->halos[i].mode = 1;
-            work->halos[i].coord = Model_GetCameraCoordinateUnit();
-            work->halos[i].color[0] = gModelVariant645_aConfigs[command].color[3];
-            work->halos[i].color[1] = gModelVariant645_aConfigs[command].color[4];
-            work->halos[i].color[2] = gModelVariant645_aConfigs[command].color[5];
-            work->halos[i].u = 0;
-            work->halos[i].v = 128;
+            work->halos[i].head.duration = 48;
+            work->halos[i].head.active = 0;
+            work->halos[i].head.elapsed = 0;
+            work->halos[i].head.mode = 1;
+            work->halos[i].xform.coord = Model_GetCameraCoordinateUnit();
+            work->halos[i].head.color[0] = gModelVariant645_aConfigs[command].color[3];
+            work->halos[i].head.color[1] = gModelVariant645_aConfigs[command].color[4];
+            work->halos[i].head.color[2] = gModelVariant645_aConfigs[command].color[5];
+            work->halos[i].head.u = 0;
+            work->halos[i].head.v = 128;
             value = 2048;
-            setVector(&work->halos[i].scale, value, value, value);
+            setVector(&work->halos[i].xform.scale, value, value, value);
             setVector(&work->halos[i].target, 0, 0, 0);
-            setVector(&work->halos[i].rotation, 0, work->head.slot * 2048, 0);
+            setVector(&work->halos[i].xform.rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 3:
             case 4:
@@ -169,19 +169,19 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             case 7:
             case 10:
             case 11:
-                setVector(&work->halos[i].position,
-                    work->direction * work->radius * rsin((i << 12) / work->halo_count) / 4096,
-                    work->radius * rcos((i << 12) / work->halo_count) / 4096,
-                    work->direction * work->radius * rsin((i << 12) / work->halo_count) / 4096);
+                setVector(&work->halos[i].xform.position,
+                    work->direction * work->place.radius * rsin((i << 12) / work->halo_count) / 4096,
+                    work->place.radius * rcos((i << 12) / work->halo_count) / 4096,
+                    work->direction * work->place.radius * rsin((i << 12) / work->halo_count) / 4096);
                 break;
             default:
-                setVector(&work->halos[i].position, 0, 0, 0);
+                setVector(&work->halos[i].xform.position, 0, 0, 0);
                 break;
             }
-            work->halos[i].position.vy -= 350;
-            work->halos[i].position.vz += work->direction * 450;
+            work->halos[i].xform.position.vy -= 350;
+            work->halos[i].xform.position.vz += work->direction * 450;
         }
-        work->delay = gModelVariant645_aConfigs[command].delay;
+        work->place.delay = gModelVariant645_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -189,72 +189,72 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         case 0:
         case 8:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], 0, work->radius * rcos(i << 7) / 4096,
-                    work->radius * rsin(i << 7) / 4096);
-                setVector(&work->tube[i][1], 0, work->radius * rcos(i << 7) / 4096,
-                    work->height + work->radius * rsin(i << 7) / 4096);
+                setVector(&work->tube[i][0], 0, work->place.radius * rcos(i << 7) / 4096,
+                    work->place.radius * rsin(i << 7) / 4096);
+                setVector(&work->tube[i][1], 0, work->place.radius * rcos(i << 7) / 4096,
+                    work->place.height + work->place.radius * rsin(i << 7) / 4096);
             }
             break;
         case 1:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], work->radius * rcos(i << 7) / 4096,
-                    work->radius * rsin(i << 7) / 4096, 0);
-                setVector(&work->tube[i][1], work->radius * rcos(i << 7) / 4096,
-                    work->height + work->radius * rsin(i << 7) / 4096, 0);
+                setVector(&work->tube[i][0], work->place.radius * rcos(i << 7) / 4096,
+                    work->place.radius * rsin(i << 7) / 4096, 0);
+                setVector(&work->tube[i][1], work->place.radius * rcos(i << 7) / 4096,
+                    work->place.height + work->place.radius * rsin(i << 7) / 4096, 0);
             }
             break;
         case 2:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], work->radius * -rcos(i << 7) / 4096,
-                    work->radius * -rsin(i << 7) / 4096, 0);
-                setVector(&work->tube[i][1], work->radius * -rcos(i << 7) / 4096,
-                    work->height + work->radius * -rsin(i << 7) / 4096, 0);
+                setVector(&work->tube[i][0], work->place.radius * -rcos(i << 7) / 4096,
+                    work->place.radius * -rsin(i << 7) / 4096, 0);
+                setVector(&work->tube[i][1], work->place.radius * -rcos(i << 7) / 4096,
+                    work->place.height + work->place.radius * -rsin(i << 7) / 4096, 0);
             }
             break;
         case 5:
         case 13:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], work->radius * -rcos(i << 7) / 4096, 0,
-                    work->radius * -rsin(i << 7) / 4096);
-                setVector(&work->tube[i][1], work->radius * -rcos(i << 7) / 4096, 0,
-                    work->height + work->radius * -rsin(i << 7) / 4096);
+                setVector(&work->tube[i][0], work->place.radius * -rcos(i << 7) / 4096, 0,
+                    work->place.radius * -rsin(i << 7) / 4096);
+                setVector(&work->tube[i][1], work->place.radius * -rcos(i << 7) / 4096, 0,
+                    work->place.height + work->place.radius * -rsin(i << 7) / 4096);
             }
             break;
         case 9:
         case 15:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], work->radius * rcos(i << 7) / 4096, 0,
-                    work->radius * rsin(i << 7) / 4096);
-                setVector(&work->tube[i][1], work->radius * rcos(i << 7) / 4096, 0,
-                    work->height + work->radius * rsin(i << 7) / 4096);
+                setVector(&work->tube[i][0], work->place.radius * rcos(i << 7) / 4096, 0,
+                    work->place.radius * rsin(i << 7) / 4096);
+                setVector(&work->tube[i][1], work->place.radius * rcos(i << 7) / 4096, 0,
+                    work->place.height + work->place.radius * rsin(i << 7) / 4096);
             }
             break;
         case 12:
         case 14:
             for (i = 0; i < 17; i++) {
-                setVector(&work->tube[i][0], 0, work->radius * -rcos(i << 7) / 4096,
-                    work->radius * -rsin(i << 7) / 4096);
-                setVector(&work->tube[i][1], 0, work->radius * -rcos(i << 7) / 4096,
-                    work->height + work->radius * -rsin(i << 7) / 4096);
+                setVector(&work->tube[i][0], 0, work->place.radius * -rcos(i << 7) / 4096,
+                    work->place.radius * -rsin(i << 7) / 4096);
+                setVector(&work->tube[i][1], 0, work->place.radius * -rcos(i << 7) / 4096,
+                    work->place.height + work->place.radius * -rsin(i << 7) / 4096);
             }
             break;
         }
         for (i = 0; i < 33; i++) {
-            setVector(&work->band[i][0], work->radius * rcos(i << 7) / 4096,
-                work->radius * rsin(i << 7) / 4096, 0);
+            setVector(&work->band[i][0], work->place.radius * rcos(i << 7) / 4096,
+                work->place.radius * rsin(i << 7) / 4096, 0);
             /* Written as a sum: retail multiplies the radius by i % 2 and adds it doubled. */
-            setVector(&work->band[i][1], (work->radius * 2 + work->radius * (i % 2)) * rcos(i << 7) / 4096,
-                (work->radius * 2 + work->radius * (i % 2)) * rsin(i << 7) / 4096, 0);
+            setVector(&work->band[i][1], (work->place.radius * 2 + work->place.radius * (i % 2)) * rcos(i << 7) / 4096,
+                (work->place.radius * 2 + work->place.radius * (i % 2)) * rsin(i << 7) / 4096, 0);
         }
         for (i = 0; i < 17; i++) {
-            setVector(&work->blades[i][0], (work->radius >> 1) * rsin(i << 8) / 4096,
-                (work->radius >> 1) * rcos(i << 8) / 4096, 0);
-            setVector(&work->blades[i][1], (work->radius * 3 >> 1) * rsin(i << 8) / 4096,
-                (work->radius * 3 >> 1) * rcos(i << 8) / 4096, 0);
+            setVector(&work->blades[i][0], (work->place.radius >> 1) * rsin(i << 8) / 4096,
+                (work->place.radius >> 1) * rcos(i << 8) / 4096, 0);
+            setVector(&work->blades[i][1], (work->place.radius * 3 >> 1) * rsin(i << 8) / 4096,
+                (work->place.radius * 3 >> 1) * rcos(i << 8) / 4096, 0);
         }
     }
-    if (work->delay > 0) {
-        work->delay -= step;
+    if (work->place.delay > 0) {
+        work->place.delay -= step;
     } else {
         switch (work->head.command) {
         case 0:
@@ -263,13 +263,13 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 11);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&there, ls.t[0], ls.t[1], ls.t[2]);
-                setVector(&work->puffs[work->flags[0]].position, (here.vx + there.vx) / 2,
+                setVector(&work->puffs[work->flags[0]].xform.position, (here.vx + there.vx) / 2,
                     (here.vy + there.vy) / 2, (here.vz + there.vz) / 2);
                 MODEL645_NEXT_PUFF(work);
             }
             /* The flag stores come before the result so they reuse its register. */
             if (work->head.elapsed >= 45 && work->flags[1] == 0) {
-                work->halos[0].active = 1;
+                work->halos[0].head.active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
@@ -280,7 +280,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             if (work->head.elapsed >= 61 && work->flags[1] == 0) {
-                work->halos[0].active = 1;
+                work->halos[0].head.active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
@@ -293,28 +293,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed >= 21) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 56) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 91) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 126) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -328,7 +328,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         case 10:
             if (work->head.elapsed == 0 && work->flags[1] == 0) {
                 for (i = 0; i < work->halo_count; i++) {
-                    work->halos[i].active = 1;
+                    work->halos[i].head.active = 1;
                 }
                 work->flags[1] = 1;
                 result = 1;
@@ -342,28 +342,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed >= 51) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 61) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 71) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 81) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -376,7 +376,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             if (work->head.elapsed >= 19 && work->flags[1] == 0) {
-                work->halos[0].active = 1;
+                work->halos[0].head.active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
@@ -387,7 +387,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             if (work->head.elapsed >= 51 && work->flags[1] == 0) {
-                work->halos[0].active = 1;
+                work->halos[0].head.active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
@@ -396,28 +396,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed == 0) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 11) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 21) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 31) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -430,7 +430,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                 MODEL645_PLACE_PUFF(work, here.vx, here.vy, here.vz);
             }
             if (work->head.elapsed >= 41 && work->flags[1] == 0) {
-                work->halos[0].active = 1;
+                work->halos[0].head.active = 1;
                 work->flags[1] = 1;
                 result = 1;
             }
@@ -443,28 +443,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed >= 101) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 121) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 141) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 161) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -479,28 +479,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed >= 31) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 51) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 71) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 91) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -515,28 +515,28 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
             switch (work->flags[1]) {
             case 0:
                 if (work->head.elapsed >= 15) {
-                    work->halos[0].active = 1;
+                    work->halos[0].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 1:
                 if (work->head.elapsed >= 33) {
-                    work->halos[1].active = 1;
+                    work->halos[1].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 2:
                 if (work->head.elapsed >= 55) {
-                    work->halos[2].active = 1;
+                    work->halos[2].head.active = 1;
                     result = 4;
                     work->flags[1]++;
                 }
                 break;
             case 3:
                 if (work->head.elapsed >= 77) {
-                    work->halos[3].active = 1;
+                    work->halos[3].head.active = 1;
                     result = 1;
                     work->flags[1]++;
                 }
@@ -548,24 +548,24 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
         view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->puff_count; i++) {
-            if (work->puffs[i].active == 1) {
+            if (work->puffs[i].head.active == 1) {
                 unit.flg = 0;
                 unit.matrix = work->joints[i];
-                value = (work->puffs[i].elapsed << 13) / work->puffs[i].duration + 2048;
-                setVector(&work->puffs[i].scale, value, value, value);
-                ScaleMatrix(&unit.matrix, &work->puffs[i].scale);
-                unit.matrix.t[0] = work->puffs[i].position.vx;
-                unit.matrix.t[1] = work->puffs[i].position.vy;
-                unit.matrix.t[2] = work->puffs[i].position.vz;
-                unit.super = work->puffs[i].coord;
+                value = (work->puffs[i].head.elapsed << 13) / work->puffs[i].head.duration + 2048;
+                setVector(&work->puffs[i].xform.scale, value, value, value);
+                ScaleMatrix(&unit.matrix, &work->puffs[i].xform.scale);
+                unit.matrix.t[0] = work->puffs[i].xform.position.vx;
+                unit.matrix.t[1] = work->puffs[i].xform.position.vy;
+                unit.matrix.t[2] = work->puffs[i].xform.position.vz;
+                unit.super = work->puffs[i].xform.coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
-                if (work->puffs[i].duration / 2 < work->puffs[i].elapsed) {
-                    value = (work->puffs[i].duration - work->puffs[i].elapsed) * 2;
-                    divisor = work->puffs[i].duration;
-                    work->puffs[i].color[0] = gModelVariant645_aConfigs[work->head.command].color[0] * value / divisor;
-                    work->puffs[i].color[1] = gModelVariant645_aConfigs[work->head.command].color[1] * value / divisor;
-                    work->puffs[i].color[2] = gModelVariant645_aConfigs[work->head.command].color[2] * value / divisor;
+                if (work->puffs[i].head.duration / 2 < work->puffs[i].head.elapsed) {
+                    value = (work->puffs[i].head.duration - work->puffs[i].head.elapsed) * 2;
+                    divisor = work->puffs[i].head.duration;
+                    work->puffs[i].head.color[0] = gModelVariant645_aConfigs[work->head.command].color[0] * value / divisor;
+                    work->puffs[i].head.color[1] = gModelVariant645_aConfigs[work->head.command].color[1] * value / divisor;
+                    work->puffs[i].head.color[2] = gModelVariant645_aConfigs[work->head.command].color[2] * value / divisor;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->strip);
@@ -581,22 +581,22 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                     offset = 8 - k;
                     value = 8 - ABS(offset);
                     divisor = 8;
-                    setUV4(&work->strip, work->puffs[i].u, work->puffs[i].v,
-                        work->puffs[i].u + 31, work->puffs[i].v,
-                        work->puffs[i].u, work->puffs[i].v + 127,
-                        work->puffs[i].u + 31, work->puffs[i].v + 127);
+                    setUV4(&work->strip, work->puffs[i].head.u, work->puffs[i].head.v,
+                        work->puffs[i].head.u + 31, work->puffs[i].head.v,
+                        work->puffs[i].head.u, work->puffs[i].head.v + 127,
+                        work->puffs[i].head.u + 31, work->puffs[i].head.v + 127);
                     /* The colours go through temporaries: retail loads all three
                      * before the first store. */
-                    red0 = work->puffs[i].color[0] * value / divisor;
-                    green0 = work->puffs[i].color[1] * value / divisor;
-                    blue0 = work->puffs[i].color[2] * value / divisor;
+                    red0 = work->puffs[i].head.color[0] * value / divisor;
+                    green0 = work->puffs[i].head.color[1] * value / divisor;
+                    blue0 = work->puffs[i].head.color[2] * value / divisor;
                     next_offset = 7 - k;
                     value = 8 - ABS(next_offset);
                     setRGB0(&work->strip, red0, green0, blue0);
                     setRGB2(&work->strip, red0, green0, blue0);
-                    red1 = work->puffs[i].color[0] * value / divisor;
-                    green1 = work->puffs[i].color[1] * value / divisor;
-                    blue1 = work->puffs[i].color[2] * value / divisor;
+                    red1 = work->puffs[i].head.color[0] * value / divisor;
+                    green1 = work->puffs[i].head.color[1] * value / divisor;
+                    blue1 = work->puffs[i].head.color[2] * value / divisor;
                     setRGB1(&work->strip, red1, green1, blue1);
                     setRGB3(&work->strip, red1, green1, blue1);
                     depth = RotAverage4(&work->tube[k][0], &work->tube[k + 1][0],
@@ -608,36 +608,36 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
-                work->puffs[i].elapsed += step;
-                if (work->puffs[i].duration < work->puffs[i].elapsed) {
-                    work->puffs[i].active = 0;
+                work->puffs[i].head.elapsed += step;
+                if (work->puffs[i].head.duration < work->puffs[i].head.elapsed) {
+                    work->puffs[i].head.active = 0;
                 }
             } else {
                 inactive++;
             }
         }
         for (i = 0; i < work->halo_count; i++) {
-            if (work->halos[i].active == 1) {
+            if (work->halos[i].head.active == 1) {
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
-                value = (work->halos[i].elapsed << 13) / work->halos[i].duration + 2048;
-                setVector(&work->halos[i].scale, value, value, value);
-                ScaleMatrix(&unit.matrix, &work->halos[i].scale);
-                RotMatrixZ(work->halos[i].rotation.vz, &unit.matrix);
-                RotMatrixX(work->halos[i].rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
-                RotMatrixY(work->halos[i].rotation.vy + (0xC06 - view.yaw), &unit.matrix);
-                unit.matrix.t[0] = work->halos[i].position.vx;
-                unit.matrix.t[1] = work->halos[i].position.vy;
-                unit.matrix.t[2] = work->halos[i].position.vz;
-                unit.super = work->halos[i].coord;
+                value = (work->halos[i].head.elapsed << 13) / work->halos[i].head.duration + 2048;
+                setVector(&work->halos[i].xform.scale, value, value, value);
+                ScaleMatrix(&unit.matrix, &work->halos[i].xform.scale);
+                RotMatrixZ(work->halos[i].xform.rotation.vz, &unit.matrix);
+                RotMatrixX(work->halos[i].xform.rotation.vx - (view.pitch - 4096) * work->direction, &unit.matrix);
+                RotMatrixY(work->halos[i].xform.rotation.vy + (0xC06 - view.yaw), &unit.matrix);
+                unit.matrix.t[0] = work->halos[i].xform.position.vx;
+                unit.matrix.t[1] = work->halos[i].xform.position.vy;
+                unit.matrix.t[2] = work->halos[i].xform.position.vz;
+                unit.super = work->halos[i].xform.coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
-                if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
-                    value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
-                    divisor = work->halos[i].duration;
-                    work->halos[i].color[0] = gModelVariant645_aConfigs[work->head.command].color[3] * value / divisor;
-                    work->halos[i].color[1] = gModelVariant645_aConfigs[work->head.command].color[4] * value / divisor;
-                    work->halos[i].color[2] = gModelVariant645_aConfigs[work->head.command].color[5] * value / divisor;
+                if (work->halos[i].head.duration / 2 < work->halos[i].head.elapsed) {
+                    value = (work->halos[i].head.duration - work->halos[i].head.elapsed) * 2;
+                    divisor = work->halos[i].head.duration;
+                    work->halos[i].head.color[0] = gModelVariant645_aConfigs[work->head.command].color[3] * value / divisor;
+                    work->halos[i].head.color[1] = gModelVariant645_aConfigs[work->head.command].color[4] * value / divisor;
+                    work->halos[i].head.color[2] = gModelVariant645_aConfigs[work->head.command].color[5] * value / divisor;
                 }
                 setVector(&here, 0, 0, 0);
                 for (k = 0; k < 32; k++) {
@@ -645,13 +645,13 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                     work->sprite.tpage = work->tpage[0];
                     work->sprite.clut = work->clut[0];
                     setSemiTrans(&work->sprite, 1);
-                    setUV4(&work->sprite, work->halos[i].u, work->halos[i].v,
-                        work->halos[i].u + 31, work->halos[i].v,
-                        work->halos[i].u, work->halos[i].v + 127,
-                        work->halos[i].u + 31, work->halos[i].v + 127);
-                    red = work->halos[i].color[0];
-                    green = work->halos[i].color[1];
-                    blue = work->halos[i].color[2];
+                    setUV4(&work->sprite, work->halos[i].head.u, work->halos[i].head.v,
+                        work->halos[i].head.u + 31, work->halos[i].head.v,
+                        work->halos[i].head.u, work->halos[i].head.v + 127,
+                        work->halos[i].head.u + 31, work->halos[i].head.v + 127);
+                    red = work->halos[i].head.color[0];
+                    green = work->halos[i].head.color[1];
+                    blue = work->halos[i].head.color[2];
                     setRGB0(&work->sprite, red, green, blue);
                     depth = RotAverage4(&work->band[k][0], &work->band[k + 1][0],
                         &work->band[k][1], &work->band[k + 1][1],
@@ -662,9 +662,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->sprite, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                     setPolyG3(&work->fan);
-                    red = work->halos[i].color[0];
-                    green = work->halos[i].color[1];
-                    blue = work->halos[i].color[2];
+                    red = work->halos[i].head.color[0];
+                    green = work->halos[i].head.color[1];
+                    blue = work->halos[i].head.color[2];
                     setRGB0(&work->fan, red, green, blue);
                     setRGB1(&work->fan, 0, 0, 0);
                     setRGB2(&work->fan, 0, 0, 0);
@@ -673,7 +673,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         &interpolation, &flag);
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&work->fan, Graphics_GetDefaultOrderingTable(), (u16)depth,
-                            work->halos[i].mode);
+                            work->halos[i].head.mode);
                     }
                 }
                 for (k = 0; k < 16; k++) {
@@ -682,19 +682,19 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                     work->strip.clut = work->clut[1];
                     setSemiTrans(&work->strip, 1);
                     if (k % 2 == 0) {
-                        setUV4(&work->strip, work->halos[i].u, work->halos[i].v + 128,
-                            work->halos[i].u + 63, work->halos[i].v + 128,
-                            work->halos[i].u, work->halos[i].v + 255,
-                            work->halos[i].u + 63, work->halos[i].v + 255);
+                        setUV4(&work->strip, work->halos[i].head.u, work->halos[i].head.v + 128,
+                            work->halos[i].head.u + 63, work->halos[i].head.v + 128,
+                            work->halos[i].head.u, work->halos[i].head.v + 255,
+                            work->halos[i].head.u + 63, work->halos[i].head.v + 255);
                     } else {
-                        setUV4(&work->strip, work->halos[i].u + 63, work->halos[i].v + 128,
-                            work->halos[i].u, work->halos[i].v + 128,
-                            work->halos[i].u + 63, work->halos[i].v + 255,
-                            work->halos[i].u, work->halos[i].v + 255);
+                        setUV4(&work->strip, work->halos[i].head.u + 63, work->halos[i].head.v + 128,
+                            work->halos[i].head.u, work->halos[i].head.v + 128,
+                            work->halos[i].head.u + 63, work->halos[i].head.v + 255,
+                            work->halos[i].head.u, work->halos[i].head.v + 255);
                     }
-                    red = work->halos[i].color[0];
-                    green = work->halos[i].color[1];
-                    blue = work->halos[i].color[2];
+                    red = work->halos[i].head.color[0];
+                    green = work->halos[i].head.color[1];
+                    blue = work->halos[i].head.color[2];
                     setRGB0(&work->strip, red, green, blue);
                     setRGB1(&work->strip, red, green, blue);
                     setRGB2(&work->strip, 0, 0, 0);
@@ -702,7 +702,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                     PushMatrix();
                     rot = GsIDMATRIX;
                     /* "* 55 * sign" folds into retail's elapsed * (5k + 1) * (sign * 55). */
-                    RotMatrixZ(work->halos[i].elapsed * (k * 5 + 1) * 55 * (k % 2 * 2 - 1), &rot);
+                    RotMatrixZ(work->halos[i].head.elapsed * (k * 5 + 1) * 55 * (k % 2 * 2 - 1), &rot);
                     corners[0].in = work->blades[k][0];
                     corners[1].in = work->blades[k + 1][0];
                     corners[2].in = work->blades[k][1];
@@ -719,9 +719,9 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
                         GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
                     }
                 }
-                work->halos[i].elapsed += step;
-                if (work->halos[i].duration < work->halos[i].elapsed) {
-                    work->halos[i].active = 0;
+                work->halos[i].head.elapsed += step;
+                if (work->halos[i].head.duration < work->halos[i].head.elapsed) {
+                    work->halos[i].head.active = 0;
                 }
             } else {
                 inactive++;

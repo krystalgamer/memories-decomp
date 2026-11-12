@@ -198,6 +198,46 @@ changes; each rename has a `regional/<image>/function` row in
 American function, code the North American image does not link, and
 duplicate regional copies keep their placeholders.
 
+The French, German, Italian and Spanish inventories also still called the
+LIBGPU `FONT.OBJ` entry points `FntOpen` (`0x8007EF48`) and `FntPrint`
+(`0x8007F520`) by `func_` placeholders, although each image's
+`link_symbols.ld` already binds both names to those addresses. The English
+European and Japanese inventories carry both names, and each English European
+copy has the same size and masked words at the same offset from the shared
+neighbours (`FntLoad`/`FntFlush` and `FntFlush`/`ResetGraph`). The four
+inventories now spell the two names too, 8 rows in total. Only the inventory
+name column changes.
+
+#### Regional LIBCD copies anchored by their neighbours
+
+Four LIBCD entry points were left by both passes in every regional image:
+`CdIntToPos`, `CdReady`, `CdGetSector2` and `CdSyncCallback`. Each regional
+body has the same size and masked words as its North American namesake, but
+the masked body also matches other North American functions: the
+`CdIntToPos_8007E600` copy, the other one-call wrappers such as `CdFlush`,
+`CdGetSector`, and the other callback setters. The library keeps the same
+order in every image, so the nearest named rows on each side fix the shift
+(`CD_set_test_parmnum`/`CdDataCallback`, `CD_getsector`/`CD_getsector2` and
+`CdReadyCallback`/`SetDumpFnt`). A placeholder takes the North American
+inventory name only when the function at the same offset from both
+neighbours has that name, the same size and the same masked body, the name
+is unused in the image's inventory and `symbols.txt`/`link_symbols.ld`, and
+no source or linker file spells the placeholder. All six images gain the
+four names, 24 rows in total. Only the name column of the six
+`functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`.
+
+Five more LIBCD rows in the French, German, Italian and Spanish inventories
+were placeholders even though each image's `link_symbols.ld` already binds
+the name to that address for shared game C: `CdPosToInt`, `CdFlush`,
+`CdGetSector` and the second copies `CdIntToPos_8007E600` and
+`CdPosToInt_8007E710`. The English European and Japanese inventories
+already carry all five names, and each English European copy has the same
+size and masked words at the same offset from the shared neighbours. The four
+inventories now spell those names too, 20 rows in total. The address-qualified
+pair keeps the North American suffix that the linker binding and
+`libcd_abi_variants.h` use. Only the inventory name column changes.
+
 ### Regional-only LIBMCX
 
 Japan and the five PAL executables link the PocketStation library LIBMCX,
@@ -233,6 +273,26 @@ Rows inside those objects that carry only placeholder labels, such as the
 two after `McxGetApl` in `MCXCMD1`, keep their `func_` names. Each rename
 has a `regional/<image>/function` row in
 `semantic-symbol-map.csv`.
+
+### Regional LIBGPU helpers anchored by their neighbours
+
+Four private `LIBGPU.LIB/SYS.OBJ` helpers were left by both carry-over passes
+in every regional image: `get_cs`, `get_ce`, `_status` and `_getctl`. Each
+regional body has the same size and masked words as its North American
+namesake, but the masked body also matches other North American functions:
+`get_cs` and `get_ce` differ only in immediates, `_status` has the same shape
+as `MDEC_status`, and the two-instruction `_getctl` matches many getters.
+`SYS.OBJ` keeps the same order in every image, so the nearest named rows on
+each side fix the shift (`get_mode`/`get_ofs`, `get_tw`/`_otc` and
+`_ctl`/`_cwb`). A placeholder takes the North American inventory name only
+when the function at the same offset from both neighbours has that name, the
+same size and the same masked body, the name is unused in the image's
+inventory and `symbols.txt`/`link_symbols.ld`, and no source or linker file
+spells the placeholder. All six images gain the four names, 24 rows in total.
+Only the name column of the six `functions.csv` files changes, and each
+rename has a `regional/<image>/function` row in `semantic-symbol-map.csv`.
+The regional copies of `memset_80082228` stay placeholders, because the North
+American name is address-qualified.
 
 ### Catalogue input contract
 
@@ -328,6 +388,27 @@ The `CdMix` and `GsSetRefView2` records explicitly leave original-library
 identity unresolved: equal packet/view layouts and identical permitted
 catalogue signatures do not discriminate their alternative exports.
 
+### Regional LIBAPI helpers anchored by their neighbours
+
+Two LIBAPI functions were still `func_` placeholders in the regional
+inventories: `_IsVSync` from `PAD.OBJ` and the `_96_remove` BIOS stub from
+`C114.OBJ`. Each regional body has the same size and masked words as its North
+American namesake, but neither masked body is unique: `_IsVSync` occurs three
+times in each regional image, with two more copies in the memory-card library
+code, and `_96_remove` matches dozens of three-word BIOS stubs. The library
+keeps the
+same order in every image, so the nearest named rows on each side fix the
+shift: `_Pad1`/`InitPAD2` for `_IsVSync` and
+`restartIntr`/`ReturnFromException` for `_96_remove`. A placeholder takes
+the North American inventory name only when the function at the same offset
+from both neighbours has that name, the same size and the same masked body,
+the name is unused in the image's inventory and
+`symbols.txt`/`link_symbols.ld`, and no source or linker file spells the
+placeholder. All six images gain `_IsVSync`, and the five PAL images gain
+`_96_remove`; Japan already names its `_96_remove`. That makes 11 rows. Only
+the name column of the six `functions.csv` files changes, and each rename has
+a `regional/<image>/function` row in `semantic-symbol-map.csv`.
+
 ### Other regional-only library objects
 
 The same Psy-Q 4.6 catalogue (lab313ru `psx_psyq_signatures` revision
@@ -358,6 +439,26 @@ in about five hundred MODEL linker-symbol files, and every other
 byte-identical pair the catalogue reports without call-site evidence.
 Each rename has a `regional/<image>/function` row in
 `semantic-symbol-map.csv`.
+
+### Regional LIBPRESS helpers anchored by their neighbours
+
+Three LIBPRESS helpers were still `func_` placeholders in every regional
+inventory: `MDEC_in_sync`, `MDEC_out_sync` and `MDEC_status`. Each regional
+body has the same size and masked words as its North American namesake, but
+the masked body also matches another North American function:
+`MDEC_in_sync` and `MDEC_out_sync` differ only in immediates, and
+`MDEC_status` has the same shape as the LIBGPU `_status`. The library keeps
+the same order in every image, so the nearest named rows on each side,
+`MDEC_out` and `DecDCTvlcSize2`, fix the shift. A placeholder takes the North
+American inventory name only when the function at the same offset from both
+neighbours has that name, the same size and the same masked body, the name
+is unused in the image's inventory and `symbols.txt`/`link_symbols.ld`, and
+no source or linker file spells the placeholder. All six images gain the
+three names, 18 rows in total. Only the name column of the six
+`functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`. The regional
+copies of the following `timeout_800901EC` stay placeholders, because the
+North American name is address-qualified.
 
 ### Patched LIBDS cross-reference
 
@@ -420,6 +521,15 @@ destination with `SpuSetTransferStartAddr`, then pass a source buffer and byte
 count to this entry and require that full count back. This call graph rules out
 the byte-identical `SpuRead` signature proposal.
 
+The French, German, Italian and Spanish inventories still called `SpuInit`
+(`0x800753D8`) and `SpuSetReverb` (`0x80076158`) by `func_` placeholders,
+although each image's `link_symbols.ld` already binds both names to those
+addresses. The English European and Japanese inventories carry both names,
+and each English European copy has the same size and masked words at the
+same offset from the shared neighbours (`GetVideoMode`/`_SpuInit` and
+`SpuQuit`/`_SpuIsInAllocateArea`). The four inventories now spell the two
+names too, 8 rows in total. Only the inventory name column changes.
+
 The removed `0x8007A840` conflict is resolved as
 `CdReadyCallback_8007A840`. It replaces and returns `D_800934E4`, and
 `CD_ready` invokes that exact slot with its status byte and result pointer on
@@ -439,6 +549,17 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
+The French, German, Italian and Spanish inventories still called
+`GsSetProjection` (`0x80085748`) and `GsSetWorkBase` (`0x80086248`) by `func_`
+placeholders, although each image's `link_symbols.ld` already binds both names
+to those addresses. The English European and Japanese inventories carry both
+names, and each English European copy has the same size and masked words at
+the same offset from the shared neighbours (`GsInit3D`/`GsSetFlatLight` and
+`Gssub_make_matrix`/`GsGetLs`). The four inventories now spell the two names
+too, 8 rows in total. Only the inventory name column changes. The French and
+Spanish `GsGetActiveBuff` copy at `0x800852A8` stays a placeholder, for the
+MODEL linker-symbol reason given under the regional-only library objects.
+
 Two further identifications originally used address-qualified aliases in
 a `libgte_abi_variants.h` header to preserve candidate caller views. Both
 projection helpers now use the canonical three-input declaration directly,
@@ -454,6 +575,41 @@ The verified 52-byte routine at `0x80089CF0` reads vector data through
 Using its canonical three-input call removes both projection helpers' former
 `$a3` register bindings and matches their retail instruction bytes. The fourth
 pointer in the historical alias was unnecessary, so the alias is retired.
+
+#### Regional LIBDS copies anchored by their neighbours
+
+Twenty LIBDS functions stayed `func_` placeholders in the regional
+inventories after both carry-over passes. Each regional body has the same
+size and masked instruction words as one North American function, but that
+masked body also matches several other North American functions (the
+four-word `DS_*_callback` setters, the `DS_last*` getters, `parcpy`/`rescpy`
+and so on), so neither unique-body pass could pick one. The library is
+linked in the same order in every image, so the nearest named rows on each
+side fix the shift. A placeholder takes the North American inventory name
+only when the function at the same offset from both of those neighbours
+has that name, the same size and the same masked body, the name is unused
+in the image's inventory and `symbols.txt`/`link_symbols.ld`, and no source
+or linker file spells the placeholder. Wherever both images name a `jal`
+target, they name the same one.
+
+| Image | Renamed |
+|---|---:|
+| `sles_03947` | 20 |
+| `sles_03948` | 20 |
+| `sles_03949` | 20 |
+| `sles_03950` | 20 |
+| `sles_03951` | 20 |
+| `slpm_86398` | 4 |
+
+The PAL images gain `DsQueueLen`, `DS_vsync_callback`, `DS_sync_callback`,
+`DS_ready_callback`, `DS_start_callback`, `DS_lastcom`, `DS_lastmode`,
+`DS_lastpos`, `DS_lastseek`, `DS_lastread`, `DS_status`, `DS_shell_open`,
+`DS_restart`, `DS_system_active`, `parcpy`, `rescpy`, `StCdInterrupt2`,
+`DS_sync`, `DS_ready` and `DsShellOpen`. Japan gains the last four; its
+`DSSYS` neighbours differ, so the rest of its copies stay placeholders. Only
+the name column of the six `functions.csv` files changes, and each rename
+has a `regional/<image>/function` row in `semantic-symbol-map.csv`. The
+file-local helpers in the table below keep their regional placeholders too.
 
 `DisplayObject_ProjectPackedRotationFacing` reads GTE data register 24
 through official `gte_stopz`, so its result is the signed NCLIP area in MAC0, not the depth in OTZ (register 7).
@@ -507,6 +663,23 @@ from the permitted 4.7 LIBDS catalogue. `0x8008B580` falls between
 `PATCH.OBJ`'s `loc_5C` and `loc_84` and has no catalogue label or caller. It
 looks like code that the memory-card patch routines copy into place rather
 than call.
+
+### Regional LIBSPU delay setters anchored by their neighbours
+
+The two LIBSPU delay setters `_spu_FsetDelayW` and `_spu_FsetDelayR` were
+still `func_` placeholders in every regional inventory. The two regional
+bodies have the same size and masked words as their North American
+namesakes, but they differ from each other only in immediates, so the masked
+body matches both North American functions and the earlier unique-body passes
+skipped them. The library keeps the same order in every image, so the
+nearest named rows on each side, `_spu_FsetPCR` and `_spu_Fw1ts`, fix the
+shift. A placeholder takes the North American inventory name only when the
+function at the same offset from both neighbours has that name, the same
+size and the same masked body, the name is unused in the image's inventory
+and `symbols.txt`/`link_symbols.ld`, and no source or linker file spells the
+placeholder. All six images gain both names, 12 rows in total. Only the name
+column of the six `functions.csv` files changes, and each rename has a
+`regional/<image>/function` row in `semantic-symbol-map.csv`.
 
 ## CRT startup routines
 
@@ -568,6 +741,15 @@ its labels put `__main` at `0x80012A78` and `__do_global_dtors` at
 The same object labels `0x800129D8` as `__SN_ENTRY_POINT`. That address keeps
 the project's own `entrypoint`, which is a naming choice rather than a
 disagreement about identity; the corroboration is recorded here instead.
+
+The French inventory row at `0x80090DD8` was named `D_80090DD8_French`, but
+`link_symbols.ld` binds `exit` there, and its twelve bytes equal the English
+European `exit` at `0x80090BD4` and the German, Italian and Spanish `exit`
+rows at the same address. North America identifies `exit` from the unique
+`LIBC2.LIB/EXIT.OBJ` signature. The inventory row now spells `exit`. The
+separate `D_80090DD8_French` label in `symbols.txt` stays, because it is the
+native NA-address literal described in
+[card-list text rows](card-list-text-rows.md).
 
 ## Confirmed interface anchors
 

@@ -13,6 +13,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
+#include "model_variant.h"
 
 /* One 0x58-byte command row: the muzzle sprite colour, the bolt, glow and
  * ray colours, the model point the bolts leave from, the muzzle size, the
@@ -22,9 +23,7 @@
  * shock fan, the sparks, the two fade steps, the two fan growth rates and
  * the start times of the two volleys. */
 typedef struct {
-    u8 r, g, b;
-    u8 bolt_r, bolt_g, bolt_b;
-    u8 glow_r, glow_g, glow_b;
+    ModelVariantBoltColors color;
     u8 ray_r, ray_g, ray_b;
     u8 part, unknown_0D;
     u16 size;
@@ -42,10 +41,7 @@ typedef struct {
     u16 ring_size;
     u16 unknown_28;
     u16 second_spread;
-    u16 puff_spread;
-    u16 puff_count;
-    u16 puff_speed;
-    u16 puff_size;
+    ModelVariantPuffParams puff;
     u16 glow_size;
     u16 ray_spread;
     u16 ray_width;
@@ -53,9 +49,7 @@ typedef struct {
     u16 fan_radius;
     u16 fan_outer;
     u16 fan_depth;
-    u16 spark_spread;
-    u16 spark_size;
-    u16 spark_count;
+    ModelVariantSparkParams spark;
     u8 fade, unknown_49;
     u8 ray_fade, unknown_4B;
     u32 grow;

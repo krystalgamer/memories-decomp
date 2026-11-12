@@ -22,9 +22,9 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
     EntrySmall478 *small = work->small;
     ModelVariantWebNarrow *grid = work->grids;
     EntryExtra478 *extra = work->extras;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
-    POLY_GT4 *textured = work->textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *swarm_packet = &work->swarm_packet;
     s32 result = 0;

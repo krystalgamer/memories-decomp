@@ -14,7 +14,9 @@ SpritePrim D_800E9DF0;
 
 /* Initialized data this unit owns at 0x80090704. The paths are padded to a word boundary
    the way the compiler pads them, and gFile_apszName is the null-terminated
-   table File_SetPositionTable reads. */
+   table File_SetPositionTable reads. The paths are writable arrays, not
+   literals: GCC would put literals in .rodata after the table, while retail
+   keeps them in .data ahead of it. */
 u8 gFile_szDiscWaMrgPath[20] = "\\DATA\\WA_MRG.MRG;1";
 u8 gFile_szDiscSuMrgPath[16] = "\\DATA\\SU.MRG;1";
 u8 gFile_szDiscModelMrgPath[20] = "\\DATA\\MODEL.MRG;1";
@@ -42,8 +44,6 @@ u8 *gFile_apszName[8] = {
 
 void File_SetPositionTable(void)
 {
-    s32 *position;
-    u8 **name;
     u8 *current;
     s32 i;
     SpritePrim *state;
@@ -62,18 +62,12 @@ void File_SetPositionTable(void)
     state->extent.word = 0x180018;
     state->cxcy.word = 0xFC0230;
 
-    i = 0;
-    position = gFile_anLba;
-    name = gFile_apszName;
-    while (i < FILE_POSITION_TABLE_CAPACITY) {
-        current = *name;
+    for (i = 0; i < FILE_POSITION_TABLE_CAPACITY; i++) {
+        current = gFile_apszName[i];
         if (current == (u8 *)0) {
             break;
         }
-        File_GetPosition(position, (const char *)current);
-        printf((const char *)gFile_szPositionFormat, current, *position);
-        position++;
-        name++;
-        i++;
+        File_GetPosition(&gFile_anLba[i], (const char *)current);
+        printf("%s --> %x\n", current, gFile_anLba[i]);
     }
 }

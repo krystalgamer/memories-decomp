@@ -44,27 +44,22 @@ void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
     }
 }
 
+/* The absolute difference between two angles. */
+#define MODEL_ANGLE_DISTANCE(a, b) ((a) - (b) < 0 ? (b) - (a) : (a) - (b))
+
 void *Model_GetAnimationInterpolationHandler(u32 value)
 {
     u32 interpolation_type;
 
-    if ((value & 0xFFFF0000) != 0x03000000) {
-        goto default_case;
+    if ((value & 0xFFFF0000) == 0x03000000) {
+        interpolation_type = value & 0xFFFF;
+        switch (interpolation_type) {
+        case 0x2019:
+            return Model_InterpolateTransRot;
+        case 0x2119:
+            return Model_InterpolateTransRotScale;
+        }
     }
-    interpolation_type = value & 0xFFFF;
-    if (interpolation_type == 0x2019) {
-        goto case_2019;
-    }
-    if (interpolation_type == 0x2119) {
-        goto case_2119;
-    }
-    goto default_case;
-
-case_2019:
-    return Model_InterpolateTransRot;
-case_2119:
-    return Model_InterpolateTransRotScale;
-default_case:
 #ifdef VERSION_EUROPE
     printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);
 #endif
@@ -113,7 +108,7 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
                 return 0xFFFF;
             }
         } else {
-            printf(gModelAnim_szAssertFormat, gModelAnim_szSourceFileName, 0x57);
+            printf("Assertion failed: file \"%s\", line %d\n", "S3000000.C", 0x57);
             exit(1);
         }
         index += step;
@@ -297,69 +292,33 @@ int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
     source_ry = interpolation_parameters->source->ry;
     source_rz = interpolation_parameters->source->rz;
     if (total_duration == 16) {
-        if ((s16)source_rx - (s16)target_rx < 0) {
-            goto n0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rx, (s16)target_rx) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rx;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_rx = adjusted_target_angle;
         }
-        if ((s16)source_rx - (s16)target_rx >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_ry, (s16)target_ry) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_ry;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_ry = adjusted_target_angle;
         }
-        goto d0;
-    n0:
-        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d0;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rz, (s16)target_rz) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rz;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
+            }
+            target_rz = adjusted_target_angle;
         }
-    w0:
-        adjusted_target_angle = (s16)target_rx;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_rx = adjusted_target_angle;
-    d0:
-        ;
-        if ((s16)source_ry - (s16)target_ry < 0) {
-            goto n1;
-        }
-        if ((s16)source_ry - (s16)target_ry >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w1;
-        }
-        goto d1;
-    n1:
-        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d1;
-        }
-    w1:
-        adjusted_target_angle = (s16)target_ry;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_ry = adjusted_target_angle;
-    d1:
-        ;
-        if ((s16)source_rz - (s16)target_rz < 0) {
-            goto n2;
-        }
-        if ((s16)source_rz - (s16)target_rz >= MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto w2;
-        }
-        goto d2;
-    n2:
-        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) {
-            goto d2;
-        }
-    w2:
-        adjusted_target_angle = (s16)target_rz;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
-        }
-        target_rz = adjusted_target_angle;
-    d2:
-        ;
     }
     coordinate_unit->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (total_duration - remaining_duration)) / total_duration;
     coordinate_unit->rot.vy = ((s16)source_ry * remaining_duration + (s16)target_ry * (total_duration - remaining_duration)) / total_duration;
@@ -444,57 +403,35 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     source_rz = interpolation_slots->sample_1->rotation_z;
 
     if (total_duration == 0x10) {
-        s32 signed_angle_delta;
-        signed_angle_delta = (s16)source_rx - (s16)target_rx;
-        if (signed_angle_delta < 0) goto negative_x;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_x;
-        goto done_x;
-negative_x:
-        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) goto done_x;
-wrap_x:
-        adjusted_target_angle = (s16)target_rx;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rx, (s16)target_rx) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rx;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_rx = adjusted_target_angle;
         }
-        target_rx = adjusted_target_angle;
-done_x:
-        ;
 
-        signed_angle_delta = (s16)source_ry - (s16)target_ry;
-        if (signed_angle_delta < 0) goto negative_y;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_y;
-        goto done_y;
-negative_y:
-        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) goto done_y;
-wrap_y:
-        adjusted_target_angle = (s16)target_ry;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_ry, (s16)target_ry) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_ry;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_ry = adjusted_target_angle;
         }
-        target_ry = adjusted_target_angle;
-done_y:
-        ;
 
-        signed_angle_delta = (s16)source_rz - (s16)target_rz;
-        if (signed_angle_delta < 0) goto negative_z;
-        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_z;
-        goto done_z;
-negative_z:
-        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) goto done_z;
-wrap_z:
-        adjusted_target_angle = (s16)target_rz;
-        if (adjusted_target_angle > 0) {
-            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
-        } else {
-            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+        if (MODEL_ANGLE_DISTANCE((s16)source_rz, (s16)target_rz) >= MODEL_ANGLE_WRAP_THRESHOLD) {
+            adjusted_target_angle = (s16)target_rz;
+            if (adjusted_target_angle > 0) {
+                adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
+            } else {
+                adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
+            }
+            target_rz = adjusted_target_angle;
         }
-        target_rz = adjusted_target_angle;
-done_z:
-        ;
     }
 
     node->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (rotation_scale_elapsed = total_duration - remaining_duration)) / total_duration;
@@ -516,16 +453,16 @@ done_z:
     ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
     node->flg = 0;
-    if (interpolation_slots->output == 0) goto finished;
-    interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
-    interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
-    interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
-    interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
-    interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
-    interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
-    interpolation_slots->output[6] = *(u16 *)&scale[0];
-    interpolation_slots->output[7] = *(u16 *)&scale[1];
-    interpolation_slots->output[8] = *(u16 *)&scale[2];
-finished:
+    if (interpolation_slots->output != 0) {
+        interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
+        interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
+        interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
+        interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
+        interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
+        interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
+        interpolation_slots->output[6] = *(u16 *)&scale[0];
+        interpolation_slots->output[7] = *(u16 *)&scale[1];
+        interpolation_slots->output[8] = *(u16 *)&scale[2];
+    }
     return 0;
 }

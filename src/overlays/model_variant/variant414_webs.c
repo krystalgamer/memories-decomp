@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant431_entry.h"
 
 /* Draws three 4x6 webs, swapping the lit endpoint with the phase. Scale
  * fades past 0x1800 and wraps at 0x2000 until phase 5 marks each web done. */
@@ -13,7 +14,7 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant431EntryState *work;
     GsOT *ot;
     GsGLINE *line;
     ModelVariantWebNarrow *web;
@@ -29,14 +30,14 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
+    work = (Variant431EntryState *)ctx;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1730);
-    ratan2(MODEL_VARIANT_WORD(work, 0x188C), MODEL_VARIANT_WORD(work, 0x1884));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1888), MODEL_VARIANT_WORD(work, 0x1884));
+    line = (GsGLINE *)((u8 *)work + 0x1730);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     ratan2(MODEL_VARIANT_WORD(work, 0x1774), MODEL_VARIANT_WORD(work, 0x1770));
     ratan2(MODEL_VARIANT_HALF(work, 0x177E), MODEL_VARIANT_HALF(work, 0x177C));
     do {
@@ -60,14 +61,14 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x18E0) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1758);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x175C);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1760);
+        if (work->tail.phase < 2) {
+            m.t[0] = work->position[0];
+            m.t[1] = work->position[1];
+            m.t[2] = work->position[2];
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1764);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1766);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1768);
+            m.t[0] = work->target.vx;
+            m.t[1] = work->target.vy;
+            m.t[2] = work->target.vz;
         }
         scale.vx = level;
         scale.vy = level;
@@ -85,7 +86,7 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
                                     (long *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x18E0) < 2) {
+                if (work->tail.phase < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -106,13 +107,13 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
             }
         }
         if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x18A8) << 8;
+            web->scale += work->step << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x18E0) == 5) {
+                if (work->tail.phase == 5) {
                     web->scale = 0x2000;
                     web->done = 1;
                     if (i + 1 == 3 && done == 1) {
-                        MODEL_VARIANT_WORD(work, 0x18E0) = 6;
+                        work->tail.phase = 6;
                     }
                 } else {
                     web->scale -= 0x2000;

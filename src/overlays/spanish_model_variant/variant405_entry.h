@@ -57,9 +57,7 @@ typedef struct {
     Variant405EntrySpoke spokes[4];
     Variant405EntryRibbon ribbons[2];
     Variant405EntryTrail trails[3];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 glyphs[16];
     POLY_FT4 flat_textured[2];
     u8 unknown_3198[0x24];

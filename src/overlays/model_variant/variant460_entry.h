@@ -69,9 +69,7 @@ typedef struct {
     ModelVariantRing rings[6];
     ModelVariantRing halos[4];
     Variant460Star star;
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_GT4 glow;
     POLY_FT4 flat[2];
     POLY_FT4 frame_poly;

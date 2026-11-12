@@ -57,9 +57,9 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     strand_b = work->strands_b;
     ring = work->rings;
     line = work->lines;
-    triangle = &work->triangle;
-    quad = &work->quad;
-    textured = work->textured;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
+    textured = work->packets.textured;
     flat = work->flat_textured;
     result = 0;
     if (command >= 0) {

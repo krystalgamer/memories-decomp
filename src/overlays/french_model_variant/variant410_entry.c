@@ -126,16 +126,16 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
             for (ring_index = 0; ring_index < 17; ring_index++) {
                 ribbon->progress[ring_index] = base - ring_index * 48;
             }
-            setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->inner.r = 255;
-            ribbon->inner.g = 0;
-            ribbon->inner.b = 0;
-            ribbon->outer.r = 128;
-            ribbon->outer.g = 0;
-            ribbon->outer.b = 0;
-            ribbon->field_238 = 0;
-            ribbon->field_23C = 0;
-            ribbon->field_23A = 0;
+            setVector(&ribbon->style.scale, 4096, 4096, 4096);
+            ribbon->style.inner.r = 255;
+            ribbon->style.inner.g = 0;
+            ribbon->style.inner.b = 0;
+            ribbon->style.outer.r = 128;
+            ribbon->style.outer.g = 0;
+            ribbon->style.outer.b = 0;
+            ribbon->style.field_18 = 0;
+            ribbon->style.field_1C = 0;
+            ribbon->style.count = 0;
             if (i == 0) {
                 angle = 1024;
             } else if (i % 2 == 1) {

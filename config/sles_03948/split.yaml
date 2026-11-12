@@ -51,6 +51,11 @@ segments:
   - - 2048
     - rodata
     - initial_data
+  - - 2104
+    - .rodata
+    - game/european/file_set_position_table
+  - - 2115
+    - pad
   - - 2116
     - .rodata
     - game/file_transfer_runtime
@@ -79,11 +84,8 @@ segments:
     - .rodata
     - game/european/frontend_package_stages
   - - 2820
-    - rodata
-    - initial_data_b04
-  - - 2844
     - .rodata
-    - game/spanish/mem_card
+    - game/french/mem_card
   - - 3212
     - .rodata
     - game/european/display_object_system
@@ -91,9 +93,6 @@ segments:
     - .rodata
     - game/european/main_boot_screen
   - - 3268
-    - rodata
-    - initial_data_cc4
-  - - 3284
     - .rodata
     - game/mem_card_driver
   - - 3332
@@ -111,10 +110,7 @@ segments:
   - - 7924
     - .rodata
     - game/european/model_animation_unit
-  - - 8014
-    - rodata
-    - initial_data_1f4e
-  - - 8066
+  - - 8067
     - pad
   - - 8068
     - .rodata
@@ -283,7 +279,7 @@ segments:
     - game/european/input_pads
   - - 186432
     - c
-    - game/spanish/mem_card
+    - game/french/mem_card
   - - 199076
     - c
     - game/sound_frontend
@@ -508,7 +504,7 @@ segments:
   - [0x82A64, .data, game/spanish/duel_effect_text]
   - [0x82AB8, .data, game/european/duel_effect_command_table]
   - [0x82B94, .data, game/display_effect_process_menu_records]
-  - [0x82BC8, .data, game/spanish/mem_card]
+  - [0x82BC8, .data, game/french/mem_card]
   - [0x82BDC, .data, game/european/display_object_system]
   - [0x82C34, .data, game/european/model_camera_effects]
   - [0x82CCC, .data, game/european/model_background_records]
@@ -523,10 +519,16 @@ segments:
   - [0x8CAB0, .sdata, game/spanish/duel_scene]
   - [0x8CAD5, pad]
   - [0x8CAD8, .sdata, game/french/debug_menu]
-  - [0x8CAEC, .sdata, game/spanish/mem_card]
-  - [0x8CAF4, .sdata, game/european/display_object_system]
+  - [0x8CAEC, .sdata, game/french/mem_card]
+  - [0x8CAF6, pad]
+  - [0x8CAF8, .sdata, game/european/display_object_system]
+  - [0x8CB00, .sdata, game/mem_card_driver]
+  - [0x8CB02, pad]
+  - [0x8CB04, .sdata, game/sound_find_midi_track_chunk]
+  - [0x8CB09, pad]
   - [0x8CB0C, .sdata, game/european/model_camera_effects]
   - [0x8CB18, .sdata, game/european/model]
+  - [0x8CBE6, pad]
   - [0x8CBE8, .sdata, game/european/movie_pipeline]
   - [0x8CBFC, .sdata, game/european/main_menu_load_package_stage]
   - [0x8CC04, pad]

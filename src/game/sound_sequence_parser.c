@@ -96,25 +96,15 @@ s32 SD_ReadSequenceHeader(void) {
     }
 
     m = gSD_pSecondaryState->timebase;
-    if (m == 0x1E) {
-        goto sh2;
+    switch (m) {
+    case 0x18:
+    case 0x3C:
+        v >>= 1;
+        break;
+    case 0x1E:
+        v >>= 2;
+        break;
     }
-    if (m < 0x1F) {
-        if (m == 0x18) {
-            goto sh1;
-        }
-        goto store;
-    }
-    if (m != 0x3C) {
-        goto mask;
-    }
-sh1:
-    v >>= 1;
-    goto mask;
-sh2:
-    v >>= 2;
-mask:
-store:
     p->tempo_step = v & 0xFF;
     p->tempo_accumulator = v & 0xFF;
     SD_ReadSequenceByte(p);
@@ -153,7 +143,8 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
     switch (mode) {
     case SD_SEQUENCE_META_END_OF_TRACK:
         p->ended = 1;
-        goto one;
+        SD_ReadSequenceByte(p);
+        break;
 
     case SD_SEQUENCE_META_TEMPO:
         z = 0;
@@ -201,7 +192,10 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
-        goto three;
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+        SD_ReadSequenceByte(p);
+        break;
 
     case SD_SEQUENCE_META_TIME_SIGNATURE:
         SD_ReadSequenceByte(p);
@@ -209,10 +203,8 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
         break;
 
     case SD_SEQUENCE_META_KEY_SIGNATURE:
-    three:
         SD_ReadSequenceByte(p);
         SD_ReadSequenceByte(p);
-    one:
         SD_ReadSequenceByte(p);
         break;
 

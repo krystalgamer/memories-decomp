@@ -51,9 +51,9 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
     strand = work->strands;
     sheet = work->sheets;
     chain = work->chains;
-    triangle = &work->triangle;
-    quad = &work->quad;
-    textured = work->textured;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
+    textured = work->packets.textured;
     flat = work->flat;
     result = 0;
     if (command >= 0) {

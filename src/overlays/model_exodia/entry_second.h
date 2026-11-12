@@ -48,9 +48,7 @@ typedef struct {
     ModelVariantPointSheet rings[2];
     ModelVariantSpiralWide petals[12];
     POLY_F4 flat;
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     u8 gap_B28[0xC04 - 0xB28];
     MATRIX matrix;
     SVECTOR target, origin;

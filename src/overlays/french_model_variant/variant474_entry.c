@@ -53,13 +53,13 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     sheet = work->sheets;
     streamer = work->streamers;
     spiral = work->spirals;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat;
     bar = work->bars;
     mesh = &work->mesh;
     glow = &work->glow;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     result = 0;
 
     if (command >= 0) {

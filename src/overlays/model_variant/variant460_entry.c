@@ -19,10 +19,10 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     ModelVariantRing *halo = work->halos;
     Variant460Star *star = &work->star;
     Variant460Dome *dome = work->domes;
-    POLY_G3 *triangle = &work->triangle;
-    POLY_G4 *quad = &work->quad;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
     Variant460Column *column = work->columns;
-    POLY_GT4 *textured = work->textured;
+    POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *glow = &work->glow;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *frame = &work->frame_poly;

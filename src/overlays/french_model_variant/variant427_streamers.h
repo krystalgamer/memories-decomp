@@ -7,19 +7,12 @@
 /* The MODEL458 streamer with 0x44 further bytes before the depths, giving a
  * 0x378-byte stride. */
 typedef struct {
-    SVECTOR a[17];
-    long sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    long sb[17];
-    s32 width[17];
+    ModelVariantStripSpine spine;
     u8 unknown220[0x44];
     u8 color[17][4];
     u8 unknown2A8[0x04];
     u8 unknown_2AC[0x44];
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
+    ModelVariantStripOffsets offsets;
 } Streamer427;
 
 #endif

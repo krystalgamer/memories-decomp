@@ -15,7 +15,10 @@ AiScriptState gAiScript_State;
 
 /* Read-only data this unit owns ahead of its jump tables, in the order the
  * nest/return traps and AiScript_Print first print them. The European build
- * makes none of these printf calls. */
+ * makes none of these printf calls. They stay definitions rather than
+ * literals: GCC would emit each literal with its first user, after the jump
+ * tables of Ai_GetWinningCardRange, Ai_GetCardRange and the functions between
+ * AiScript_Return and AiScript_Print, but retail places all of them first. */
 #ifndef VERSION_EUROPE
 const char gAiScript_szNestOverflowError[] = "ERROR:Sub Routine Nest Over !!\n";
 const char gAiScript_szSourceFile[] = "src/hirata/H_mctrl1.c";
@@ -210,7 +213,6 @@ s32 Ai_GetHandSearchCount(void)
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_scene.h"
-#include "ai_script_source_line_format.h"
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
@@ -440,7 +442,7 @@ void AiScript_Call(void) {
     } else {
 #ifndef VERSION_EUROPE
         printf(gAiScript_szNestOverflowError);
-        printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x17B);
+        printf("%s:%d\n", gAiScript_szSourceFile, 0x17B);
 #endif
         for (;;)
             ;
@@ -463,7 +465,7 @@ void AiScript_Return(void) {
     }
 #ifndef VERSION_EUROPE
     printf(gAiScript_szReturnUnderflowError);
-    printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x193);
+    printf("%s:%d\n", gAiScript_szSourceFile, 0x193);
 #endif
     for (;;)
         ;

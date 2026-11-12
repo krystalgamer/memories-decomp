@@ -59,9 +59,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantColorRing rings[6], large_rings[4];
     EntrySmall478 small[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     u8 unknown_28C4[0x34];
     POLY_FT4 flat[2], swarm_packet;
     u8 unknown_2970[0x24];

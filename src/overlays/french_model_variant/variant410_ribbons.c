@@ -96,7 +96,7 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
         for (i = 0; i < 9; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
-                    ribbon->depth[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
                                                    &ribbon->a[k - 1], &ribbon->a[k],
                                                    (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
                                                    (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
@@ -106,10 +106,10 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     dy = RIBBONS410_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
                     ribbon->width[k] = RIBBONS410_CLOSING(sb).point.vx - RIBBONS410_CLOSING(sa).point.vx;
-                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 } else {
-                    ribbon->depth[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
                                                    &ribbon->a[k], &ribbon->a[k + 1],
                                                    (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
                                                    (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
@@ -125,22 +125,22 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     dy = RIBBONS410_NEXT(k).point.vy - ribbon->sa[k].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
                     ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
-                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
             }
         }
         ribbon = work->ribbons;
         for (i = 0; i < 9; i++, ribbon++) {
             for (k = 0; k < 16; k++) {
-                quad->x0 = RIBBONS410_START(k).point.vx + ribbon->ox[k];
-                quad->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-                quad->x1 = RIBBONS410_NEXT(k).point.vx + ribbon->ox[k + 1];
-                quad->y1 = (RIBBONS410_NEXT(k).packed >> 16) + ribbon->oy[k + 1];
-                quad->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-                quad->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-                quad->x3 = RIBBONS410_NEXT(k).point.vx - ribbon->ox[k + 1];
-                quad->y3 = (RIBBONS410_NEXT(k).packed >> 16) - ribbon->oy[k + 1];
+                quad->x0 = RIBBONS410_START(k).point.vx + ribbon->offsets.ox[k];
+                quad->y0 = (ribbon->sa[k].packed >> 16) + ribbon->offsets.oy[k];
+                quad->x1 = RIBBONS410_NEXT(k).point.vx + ribbon->offsets.ox[k + 1];
+                quad->y1 = (RIBBONS410_NEXT(k).packed >> 16) + ribbon->offsets.oy[k + 1];
+                quad->x2 = ribbon->sa[k].point.vx - ribbon->offsets.ox[k];
+                quad->y2 = (ribbon->sa[k].packed >> 16) - ribbon->offsets.oy[k];
+                quad->x3 = RIBBONS410_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
+                quad->y3 = (RIBBONS410_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
                 if (k + 1 == 16) {
                     setRGB0(quad, ribbon->outer.r, ribbon->outer.g, ribbon->outer.b);
                     setRGB1(quad, 0, 0, 0);
@@ -152,8 +152,8 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     setRGB2(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
                     setRGB3(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
                 }
-                if (ribbon->depth[k] >= 0 && flags[i][k] >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)ribbon->depth[k], 1);
+                if (ribbon->offsets.otz[k] >= 0 && flags[i][k] >= 0) {
+                    Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)ribbon->offsets.otz[k], 1);
                 }
             }
             if (i + 1 == 9 && ribbon->progress[16] >= 1024 && work->phase == 2) {

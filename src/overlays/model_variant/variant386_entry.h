@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT386_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
@@ -73,9 +74,7 @@ typedef struct {
     Model386Strand strands[5];
     Model386Sheet sheets[5];
     Model386Chain chains[3];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2];
+    ModelVariantPackets packets;
     POLY_FT4 flat[6];
     u8 unknown_11A4[0x10];
     MATRIX matrix;
