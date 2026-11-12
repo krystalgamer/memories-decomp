@@ -102,18 +102,26 @@ void Text_InitDecimalDigitGlyphMap(void) {
         key = (*p << 8) | buf.bytes[i];
         if (gText_aGlyphSearchEntries[0].packed != 0) {
             q = out;
-        search:
-            if (key == e->halves.key) {
-                *q = n;
-                goto found;
+            /* The constant switch enters the search loop from outside until
+               flow deletes the dead empty loop, so loop.c leaves the loop
+               alone; jump2 then deletes the jump. The empty nested loop in
+               the found arm stops loop.c from moving that arm out of the
+               loop. */
+            switch (0) {
+                for (;;) {
+                }
+                do {
+            case 0:
+                    if (key == e->halves.key) {
+                        do {
+                        } while (0);
+                        *q = n;
+                        break;
+                    }
+                    e++;
+                    n++;
+                } while (e->packed != 0);
             }
-            e++;
-            n++;
-            if (e->packed != 0) {
-                goto search;
-            }
-        found:
-            ;
         }
         out++;
         p += 2;
