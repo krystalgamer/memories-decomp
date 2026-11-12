@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "variant388_ribbons.h"
+#include "variant388_entry.h"
 
 /* Builds eight two-point ribbons fanned 0x200 apart from the angle at
- * work + 0x1894, projects each spine and its sideways copy, and draws the
+ * (u8 *)work + 0x1894, projects each spine and its sideways copy, and draws the
  * first point of each as a POLY_G3 as wide as the projected offset when
  * both its depth and its projection flag are non-negative. The fan turns
  * by step * 32 on the last frame of the timing record. */
@@ -16,7 +17,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant388EntryState *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -32,22 +33,22 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant388EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1848), MODEL_VARIANT_WORD(work, 0x1840)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x1844), MODEL_VARIANT_WORD(work, 0x1840));
-    ribbon = (Ribbon388 *)(work + 0x228);
-    tilt = ratan2(MODEL_VARIANT_WORD(work, 0x1834), MODEL_VARIANT_WORD(work, 0x1830)) + 0x400;
-    ratan2(MODEL_VARIANT_WORD(work, 0x1834), MODEL_VARIANT_WORD(work, 0x182C));
-    timing = work + 0xF8;
-    prim = (POLY_G3 *)(work + 0x1680);
-    if (MODEL_VARIANT_HALF(work, 0x18AC) == 1) {
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ribbon = (Ribbon388 *)work->unknown_228;
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    timing = (u8 *)work + 0xF8;
+    prim = &work->triangle;
+    if (work->slot == 1) {
         turn = -turn;
     }
     length = 16;
     flags = MODEL_VARIANT_WORD(work, 0x1858);
-    for (i = 0, angle = MODEL_VARIANT_WORD(work, 0x1894); i < 8;
-         i++, angle = MODEL_VARIANT_WORD(work, 0x1894) + i * 0x200, ribbon++) {
+    for (i = 0, angle = work->ribbon_angle; i < 8;
+         i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
         for (k = 0; k < 2; k++) {
             radius = 0x96;
             if (k == 0) {
@@ -61,9 +62,9 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1818) + MODEL_VARIANT_WORD(work, 0x182C) * MODEL_VARIANT_HALF(work, 0x1890) / 1024;
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x181C) + MODEL_VARIANT_WORD(work, 0x1830) * MODEL_VARIANT_HALF(work, 0x1890) / 1024;
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1820) + MODEL_VARIANT_WORD(work, 0x1834) * MODEL_VARIANT_HALF(work, 0x1890) / 1024;
+    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
+    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
+    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
     scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
     scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
@@ -74,7 +75,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbon388 *)(work + 0x228);
+    ribbon = (Ribbon388 *)work->unknown_228;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 2; k++) {
             if (k == 0) {
@@ -97,7 +98,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
             ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
         }
     }
-    ribbon = (Ribbon388 *)(work + 0x228);
+    ribbon = (Ribbon388 *)work->unknown_228;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 1; k++) {
             prim->x0 = ribbon->sa[k] + ribbon->ox[k];
@@ -120,7 +121,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1880) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0xC)) {
-        MODEL_VARIANT_WORD(work, 0x1894) += MODEL_VARIANT_WORD(work, 0x1864) << 5;
+    if (work->index + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0xC)) {
+        work->ribbon_angle += work->clock.step << 5;
     }
 }

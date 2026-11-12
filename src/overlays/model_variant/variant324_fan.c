@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant324_fan.h"
+#include "../french_model_variant/variant341_entry.h"
 
 /* Draws four Gouraud quads around the shared center point. Its scale
  * changes only for the selected sequence entry; rotation advances each call. */
@@ -13,7 +14,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
     long p;
     long flag;
     GsOT *ot;
-    u8 *work;
+    Variant341EntryState *work;
     Variant324Fan *rec;
     POLY_G4 *poly;
     s32 i;
@@ -21,7 +22,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = ctx;
+    work = (Variant341EntryState *)ctx;
     rec = (Variant324Fan *)(ctx + 0xD04);
     poly = (POLY_G4 *)(ctx + 0xD90);
     ot = Graphics_GetDefaultOrderingTable();
@@ -32,10 +33,10 @@ void ModelVariant324_DrawFan(u8 *ctx)
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)(work + 0xF4C);
-        m.t[0] = MODEL_VARIANT_WORD(work, 0xED8);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0xEDC);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0xEE0);
+        rot.vz = *(u16 *)((u8 *)work + 0xF4C);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = rec->size + bias;
         scale.vy = rec->size + bias;
         scale.vz = rec->size + bias;
@@ -89,13 +90,13 @@ void ModelVariant324_DrawFan(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {
-            if (MODEL_VARIANT_WORD(work, 0xF50) == 0) {
+        if (work->substep + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {
+            if (work->tail.phase == 0) {
                 if (rec->size < 0x1000) {
                     rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / *(u32 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0x10);
                     if (rec->size >= 0x1000) {
                         rec->size = 0x1000;
-                        MODEL_VARIANT_WORD(work, 0xF50) = 1;
+                        work->tail.phase = 1;
                     }
                 }
             } else {
@@ -108,5 +109,5 @@ void ModelVariant324_DrawFan(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0xF4C) += MODEL_VARIANT_WORD(work, 0xF24) << 5;
+    work->spin += MODEL_VARIANT_WORD(work, 0xF24) << 5;
 }

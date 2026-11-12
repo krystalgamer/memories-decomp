@@ -54,9 +54,10 @@ statuses do not reset the stage. The stage is not the SDK's key-status enum.
 `key_held` remains independent, including the sweep's separate forced-off
 path for a cleared held-key flag.
 
-The unused `tent_SD_KeyOffSilentSecondaryObjects` helper deliberately keeps
-its tentative function name. The existing research found no caller in the
-resident executable, SU.MRG, or WA_MRG.MRG. Unlike the main sweep, it has no
+The unused `SD_KeyOffSilentSecondaryObjects` helper (promoted from
+`tent_SD_KeyOffSilentSecondaryObjects` on its body and libspu key-status
+semantics alone) still has no known caller in the resident executables,
+SU.MRG, WA_MRG.MRG or MODEL.MRG. Unlike the main sweep, it has no
 channel-range guard, clears the stage immediately after its own key-off
 loop, and leaves `key_held`, channel ownership, and usage untouched. Its
 field references adopt the same member names, but its behavior is not
@@ -114,9 +115,10 @@ Primary evidence is in `sound.h`, `sound_sequence_tracks.c`,
 The unchanged source at func_80049920.c now lives at
 sound_secondary_silent_key_off.c. Its namespace, SPU status reads and
 existing body establish the secondary-voice/silent-envelope grouping;
-this filename is not a promotion of tent_SD_KeyOffSilentSecondaryObjects
-or new evidence that anything calls it. The tentative symbol, no-caller
-caveat and differences from SD_UpdateSecondaryObjectVoices remain intact.
+this filename is not new evidence that anything calls
+SD_KeyOffSilentSecondaryObjects. The later name promotion rests on the body
+alone; the no-caller caveat and differences from
+SD_UpdateSecondaryObjectVoices remain intact.
 
 All seven resident matching manifests select the same original function,
 address, size and named compiler profile through the new path. The six

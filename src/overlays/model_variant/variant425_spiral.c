@@ -1,14 +1,15 @@
 #include "../../types.h"
 
 #include "variant425_spiral.h"
+#include "variant425_entry.h"
 
 /* Header 425's form of the header-418 spiral: sixteen two-point arms (records
- * from work + 0x600) fanned on a sphere of radius 0x200 at angles i/16 of a
- * turn plus the sweep at work + 0x2708, each with a copy moved along the view
- * by (0x400 - work[0x2710]) / 128 or / 32, projected and drawn as two POLY_GT4
+ * from (u8 *)work + 0x600) fanned on a sphere of radius 0x200 at angles i/16 of a
+ * turn plus the sweep at (u8 *)work + 0x2708, each with a copy moved along the view
+ * by (0x400 - ((u8 *)work)[0x2710]) / 128 or / 32, projected and drawn as two POLY_GT4
  * halves in fixed yellow shades, only where the depth and the projection
  * flag are not negative. The scale comes from the timing record's size,
- * shrunk by work[0x2738]; from phase 2 on that grows by step * 128 up to
+ * shrunk by ((u8 *)work)[0x2738]; from phase 2 on that grows by step * 128 up to
  * 0x800. The sweep advances by 16 a frame. The two products tested before the
  * arms are template code with dead arms. */
 void ModelVariant425_DrawSpiral(u8 *ctx)
@@ -21,7 +22,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     long status[16][2];
     long p;
     long flag;
-    u8 *work;
+    Variant425EntryState *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -44,29 +45,29 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     u8 c3;
 
     arm = (Variant425SpiralArm *)(ctx + 0x600);
-    work = ctx;
+    work = (Variant425EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    spread = 0x400 - MODEL_VARIANT_WORD(work, 0x2710);
+    spread = 0x400 - work->field_2710;
 #if defined(VERSION_FRENCH)
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC));
-    timing = work + 0x1E68;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx);
+    timing = (u8 *)work + 0x1E68;
     turn += 0xC00;
 #else
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x26E4), MODEL_VARIANT_WORD(work, 0x26DC)) + 0xC00;
-    timing = work + 0x1E68;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    timing = (u8 *)work + 0x1E68;
 #endif
-    poly = (POLY_GT4 *)(work + 0x2570);
+    poly = work->textured;
     r = 0x200;
-    eighth = MODEL_VARIANT_HALF(work, 0x270C) / 8;
-    if (r * MODEL_VARIANT_HALF(work, 0x270A) < 0) {
+    eighth = work->field_270C / 8;
+    if (r * work->field_270A < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0x270A) < 0) {
+    if (eighth * work->field_270A < 0) {
         length = 0;
     }
     for (i = 0; i < 16; i++, arm++) {
-        phi = (i << 8) + MODEL_VARIANT_HALF(work, 0x2708) * 2;
-        theta = (i << 9) + MODEL_VARIANT_HALF(work, 0x2708);
+        phi = (i << 8) + work->spiral_angle * 2;
+        theta = (i << 9) + work->spiral_angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = spread / 128;
@@ -84,18 +85,18 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x26F4) & 1)) {
-        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - MODEL_VARIANT_WORD(work, 0x2738)) / 4096;
+    if (!(work->clock.frame_count & 1)) {
+        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - work->spiral_shrink) / 4096;
     } else {
-        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - MODEL_VARIANT_WORD(work, 0x2738)) / 4096 +
+        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - work->spiral_shrink) / 4096 +
                MODEL_VARIANT_WORD(timing, 0x88) / 8;
     }
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x26A8);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x26AC);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x26B0);
+    m.t[0] = work->orbit.vx;
+    m.t[1] = work->orbit.vy;
+    m.t[2] = work->orbit.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -106,7 +107,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant425SpiralArm *)(work + 0x600);
+    arm = (Variant425SpiralArm *)work->arms;
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -138,7 +139,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     c1 = 0;
     c2 = 0xA0;
     c3 = 0x80;
-    arm = (Variant425SpiralArm *)(work + 0x600);
+    arm = (Variant425SpiralArm *)work->arms;
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];
@@ -219,11 +220,11 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x2738) < 0x800 && MODEL_VARIANT_WORD(work, 0x2748) >= 2) {
-        MODEL_VARIANT_WORD(work, 0x2738) += MODEL_VARIANT_WORD(work, 0x2700) * 128;
-        if (MODEL_VARIANT_WORD(work, 0x2738) >= 0x800) {
-            MODEL_VARIANT_WORD(work, 0x2738) = 0x800;
+    if (work->spiral_shrink < 0x800 && work->phase >= 2) {
+        work->spiral_shrink += work->clock.step * 128;
+        if (work->spiral_shrink >= 0x800) {
+            work->spiral_shrink = 0x800;
         }
     }
-    MODEL_VARIANT_HALF(work, 0x2708) += 16;
+    work->spiral_angle += 16;
 }

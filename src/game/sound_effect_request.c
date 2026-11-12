@@ -454,7 +454,7 @@ void SD_InitSecondaryRuntime(void)
 }
 
 /* Retires the driver's two pending requests, in the same *g_SDValue struct
-   whose s_wSD_BGM_FADE_STEP/s_bSD_BGM_FADE_TARGET tent_SD_StartBgmFadeCopy and SD_StartBgmFade
+   whose s_wSD_BGM_FADE_STEP/s_bSD_BGM_FADE_TARGET SD_StartBgmFadeCopy and SD_StartBgmFade
    write.
 
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
@@ -484,7 +484,7 @@ void SD_ResetMusicState(void) {
     g_SDValue->s_wSD_SEQ_FADE_LEVEL = 0;
 }
 
-void tent_SD_StartBgmFadeCopy(s16 value, u8 flag)
+void SD_StartBgmFadeCopy(s16 value, u8 flag)
 {
     g_SDValue->s_wSD_BGM_FADE_STEP = value;
     g_SDValue->s_bSD_BGM_FADE_TARGET = flag;

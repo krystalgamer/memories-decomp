@@ -740,7 +740,7 @@ address,size,name,status,module,notes
 0x80046F58,0x48,SD_Shutdown,matching_c,game,"High-confidence semantic name: keys off active voices, resets output and music state, resets the secondary runtime, disables the SPU IRQ, and terminates the SPU; exact full-executable match under gcc_2_8_1_g8."
 0x80046FA0,0x68,SD_SetOutputType,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047008,0x14,SD_GetOutputType,matching_c,game,"Returns the output type SD_SetOutputType stores. 2 pre-policy variants: exact -G8; -G0 used absolute global access"
-0x8004701C,0x20,tent_SD_SetDataSourceFlags,matching_c,game,4 pre-policy variants: exact -G8; -G0 used absolute global access
+0x8004701C,0x20,SD_SetDataSourceFlags,matching_c,game,4 pre-policy variants: exact -G8; -G0 used absolute global access
 0x8004703C,0x14,SD_GetStatusFlags,matching_c,game,2 pre-policy variants: exact -G8; -G0 used absolute global access
 0x80047050,0x60,SD_VSync,matching_c,game,"Sound driver per-VBlank entry, called only from Main_VBlankCB: VSync-driven sequencer tick when field_0509 is set, SD_UpdateRuntime, then the bank loader while status_flags bit 0x08 is set. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x800470B0,0x90,SD_EnqueueRamTransfer,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -753,7 +753,7 @@ address,size,name,status,module,notes
 0x800473CC,0x24,SD_BGMStop,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800473F0,0x40,SD_BGMStopWithStep,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047430,0x28,SD_BGMFade,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80047458,0x28,tent_SD_BGMFadeCopy,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80047458,0x28,SD_BGMFadeCopy,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047480,0x1BC,SD_InitVoiceState,matching_c,game,"Exact pure-C match: initializes the four voice slots and shared SPU voice/lookup state; the existing g_SDValue .data view supplies retail absolute pointer loads under gcc_2_8_1_g0_no_split, with the lookup banks reset by typed two-dimensional indexing."
 0x8004763C,0x78,SD_ResetPendingEntries,matching_c,game,"High-confidence semantic name: clears the selected value-link index, fills the dynamic note-map tail with 0xFFFF, restores the next note index to the fixed threshold, and resets the transfer cursor from the first value-link entry; exact full-executable match under gcc_2_8_1_g0_no_split."
 0x800476B4,0xD4,SD_RegisterSeqBlockNotes,matching_c,game,"Pure-C reclassification match for issue #5: an indexed for loop over SDSeqBlock keys[] and data[] lets GCC's strength reduction and invariant motion produce the retail walking pointers and hoisted setup, and reading keys[i] at both uses gives the retail register roles. Exact 212-byte text and relocations under gcc_2_8_1_g0_no_split without register pins or inline assembly."
@@ -764,9 +764,9 @@ address,size,name,status,module,notes
 0x80047AD0,0x98,SD_ReplaceValueLink,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80047B68,0x4C,SD_RequestValueLink,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047BB4,0x9C,SD_QueueValueLinkList,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80047C50,0x20,tent_SD_FilterCdFlaggedId,matching_c,game,Pure-C post-terminal resolution: a u16 result local preserves the input in v0 and defers narrowing to the return delay slot. Exact 32-byte function with gcc_2_8_1_g0; no register pins or inline assembly. Replaces the reclassified pinned candidate (issue #5).
+0x80047C50,0x20,SD_FilterCdFlaggedId,matching_c,game,Pure-C post-terminal resolution: a u16 result local preserves the input in v0 and defers narrowing to the return delay slot. Exact 32-byte function with gcc_2_8_1_g0; no register pins or inline assembly. Replaces the reclassified pinned candidate (issue #5).
 0x80047C70,0x54,SD_KeyOffVoice,matching_c,game,Keys off one SPU voice and polls its key status up to 256 times. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80047CC4,0xEC,tent_SD_KeyOffVoiceById,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80047CC4,0xEC,SD_KeyOffVoiceById,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,SD_SEStop,matching_c,game,"Stops every voice playing a sound-effect id, or the CD channel for 0x8000 ids. Pure-C exact match: declaring the 16-bit key before the preserved full-width argument reproduces the retail a0/a1 live ranges without hard-register pins."
 0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0.
 0x80047F38,0x74,SD_KeyOffVoiceGroup,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -782,7 +782,7 @@ address,size,name,status,module,notes
 0x80048D08,0x20C,SD_LoadSequenceBankPair,matching_c,game,"Loads one sequence bank pair: copies the 0x800-byte block for the given side, then registers every non-0xFFFF key from both blocks into the driver note table, offsetting each note by the side's SPU base."
 0x80048F14,0xFC,SD_InitSecondaryRuntime,matching_c,game,"High-confidence semantic name: after SPU startup, enables studio-A reverb at full depth, initializes driver levels and sequence-buffer pointers/header, selects SS_TICK240, sets all 20 secondary objects active for scanning, and enables sequence updates; exact full-executable match under gcc_2_8_1_g0."
 0x80049010,0xE0,SD_ResetMusicState,matching_c,game,"High-confidence semantic name: stops and closes the active sequence, releases its VAB when transfer state allows, marks the sequence/VAB/track slots inactive, and clears the two music-transition fields; exact full-executable match under gcc_2_8_1_g0_no_split."
-0x800490F0,0x18,tent_SD_StartBgmFadeCopy,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
+0x800490F0,0x18,SD_StartBgmFadeCopy,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049108,0x18,SD_StartBgmFade,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049120,0x18,SD_IsBgmFadeActive,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049138,0xC8,SD_RequestMusicPackageLoad,matching_c,game,"High-confidence semantic name: when the requested packed music id differs from the loaded package, resets current output/music state, selects the eight-byte package table entry, and queues command 0x20 to load it into the music-track buffer; exact full-executable match under gcc_2_8_1_g0_no_split."
@@ -807,7 +807,7 @@ address,size,name,status,module,notes
 0x800497E0,0xDC,SD_VabTransBodyChunk,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x800498BC,0x3C,SD_VabTransCompleted,matching_c,game,Polls or waits for the SPU body transfer. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800498F8,0x28,SD_ResetVabTransferState,matching_c,game,"High-confidence semantic name: restores the software VAB transfer-state halfword to SD_TRANSFER_STATE_INACTIVE without touching hardware transfer state; exact full-executable match under gcc_2_8_1_g0."
-0x80049920,0x144,tent_SD_KeyOffSilentSecondaryObjects,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
+0x80049920,0x144,SD_KeyOffSilentSecondaryObjects,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
 0x80049A64,0x90,SD_OpenSequence,matching_c,game,Opens a tagged sequence on the secondary path against a VAB id. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049AF4,0xB8,SD_PlaySequence,matching_c,game,"Starts the staged secondary sequence playing or paused. Pure-C reclassification match: u8 shared literal plus unsigned halfword mode normalization reproduce register allocation without a pin. Uses canonical no-argument sequence-start API; guard, rewind and mode updates remain exact. 184-byte text/relocations under gcc_2_8_1_g0; old evidence preserved (issue #5)."
 0x80049BAC,0x94,SD_PlaySequenceFastForward,matching_c,game,Starts the staged secondary sequence playing and fast-forwards it to a target read address. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

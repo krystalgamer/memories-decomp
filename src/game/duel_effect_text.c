@@ -2736,36 +2736,25 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     h = 0;
 
     if ((c & 0x80) != 0) {
-        if ((c & 0x40) == 0) {
-            goto skip;
+        if ((c & 0x40) != 0) {
+            h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
         }
-        h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
-        e = object->decimal_buffer;
-        goto write;
-    }
-
-    if (c < 2) {
-        e = object->decimal_buffer;
-        goto write;
-    }
-
-    bp = buf;
-    k = c - 1;
-    while (1) {
-        if (bp[k] < TEXT_DECIMAL_RADIX) {
-            break;
-        }
-        c = k;
-        if (k < 2) {
-            break;
-        }
+    } else if (c >= 2) {
+        bp = buf;
         k = c - 1;
+        while (1) {
+            if (bp[k] < TEXT_DECIMAL_RADIX) {
+                break;
+            }
+            c = k;
+            if (k < 2) {
+                break;
+            }
+            k = c - 1;
+        }
     }
-
-skip:
     e = object->decimal_buffer;
 
-write:
     i = (c & 0xF) - 1;
     do {
         w = h;
@@ -3151,12 +3140,10 @@ void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 
     if (opcode == 0) {
         SD_BGMFadeOut();
-        goto shared_test;
     } else {
         SD_BGMFadeOutWithStep(opcode);
     }
 
-shared_test:
     high_bit = saved_raw & 0x80;
     if (high_bit != 0) {
         command->command_state = 13;
