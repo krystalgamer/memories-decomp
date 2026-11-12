@@ -351,43 +351,47 @@ s32 MemCard_DoLoadDirectory(void) {
             }
             gMemCard_bRetries = 0xA;
             gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
-sub_retry:
+            break;
+        case 2:
+        default:
+            return gMemCard_nIOResult;
+        }
+        for (;;) {
             MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
             _card_clear(gMemCard_bChannel);
             return -1;
-        case 2:
-            break;
-        }
-        return gMemCard_nIOResult;
 
     case 1:
-        v0 = gMemCard_nIOResult;
-        if (v0 != 0) {
+            v0 = gMemCard_nIOResult;
+            if (v0 == 0) {
+                break;
+            }
             v1 = gMemCard_nIOResult;
             if (v1 != 2) {
                 return gMemCard_nIOResult;
             }
             v0 = gMemCard_bRetries - 1;
             gMemCard_bRetries = (u8)v0;
-            if ((s8)v0 > 0) {
-                goto sub_retry;
+            if ((s8)v0 <= 0) {
+                return gMemCard_nIOResult;
             }
-            return gMemCard_nIOResult;
         }
         gMemCard_bRetries = 0xA;
         gMemCard_bLoadStep = 2;
-load_retry:
-        MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-        _card_load(gMemCard_bChannel);
-        return -1;
+        for (;;) {
+            MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
+            _card_load(gMemCard_bChannel);
+            return -1;
 
     case 2:
-        v0 = gMemCard_nIOResult;
-        if (v0 == 2) {
+            v0 = gMemCard_nIOResult;
+            if (v0 != 2) {
+                break;
+            }
             v0 = gMemCard_bRetries - 1;
             gMemCard_bRetries = (u8)v0;
-            if ((s8)v0 > 0) {
-                goto load_retry;
+            if ((s8)v0 <= 0) {
+                break;
             }
         }
 
