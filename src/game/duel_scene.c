@@ -3601,23 +3601,26 @@ void DuelScene_UpdateCardPlacement(void)
                 SD_SEPlayFull(10);
                 gDuel_wPlacementCardId = 0;
                 if (gDisplayObject_apWorkSlots.slots[0]) {
-                    s32 result = Duel_CheckFusion(PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id,
-                    PLACEMENT_REPLAY_CARD(object).card_id);
-                    gDuel_wPlacementCardId = result;
-                    if ((s16)result) {
-                        gDuel_wPlacementCardId = result | 0x8000;
-                    } else {
-                        s32 equip_result = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(object).card_id,
-                        PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id);
-                        gDuel_wPlacementCardId = equip_result;
-                        if ((s16)equip_result)
-                        goto request_combination;
-                        gDuel_wPlacementCardId = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id,
+                    do {
+                        s32 result = Duel_CheckFusion(PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id,
                         PLACEMENT_REPLAY_CARD(object).card_id);
-                    }
-                    if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value)
-                    return;
-request_combination:
+                        gDuel_wPlacementCardId = result;
+                        if ((s16)result) {
+                            gDuel_wPlacementCardId = result | 0x8000;
+                        } else {
+                            s32 equip_result = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(object).card_id,
+                            PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id);
+                            gDuel_wPlacementCardId = equip_result;
+                            if ((s16)equip_result) {
+                                break;
+                            }
+                            gDuel_wPlacementCardId = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(gDisplayObject_apWorkSlots.slots[0]).card_id,
+                            PLACEMENT_REPLAY_CARD(object).card_id);
+                        }
+                        if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
+                            return;
+                        }
+                    } while (0);
                     CardPreview_RequestResourceTransfer(0, gDuel_wPlacementCardId & 0xFFF);
                 }
                 return;
