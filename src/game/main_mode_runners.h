@@ -3,6 +3,12 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
+extern u8 gMain_bRequestedMenuID;
+
+extern u8 gMain_bReturnMode;
+
+extern u8 gMain_bActiveModeState;
+
 #define CREDITS_SECRET_NUMBER_COUNT 5
 
 /* The five eight-digit secret numbers the credits display, each stored as a

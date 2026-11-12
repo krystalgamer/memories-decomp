@@ -2,7 +2,7 @@
 
 `gLibrary_State` is the resident Library screen's existing `LibraryState`
 view at North American address `0x800EA1E8`.
-`src/game/library_state.h` combines its existing `LibraryMotionState` prefix
+`src/game/library_create_grid_section_sprites.h` combines its existing `LibraryMotionState` prefix
 with the display-object pointers and directly indexed card table. Both the
 runtime and cursor headers now import this single declaration, replacing the
 incompatible byte-array and motion-only declarations.

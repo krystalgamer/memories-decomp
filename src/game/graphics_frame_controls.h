@@ -11,7 +11,7 @@ extern u8 gGraphics_FrameStepControl;
 extern u8 D_8009AFA6;
 extern u8 gModel_bCreditsActiveSlot;
 
-#include "graphics_base_frame_step.h"
+#include "main.h"
 
 extern u8 gGraphics_bSkipDisplaySwap;
 

@@ -54,8 +54,8 @@ new flag meaning.
 ## Single declaration per byte
 
 Each byte has one name and one declaration. `gMain_bReturnMode` and
-`gMain_bActiveModeState` are declared only in `main_mode_controls.h`;
-`gMain_bRequestedMenuID` only in `main_menu_request.h`. The former
+`gMain_bActiveModeState` are declared only in `main_mode_runners.h`;
+`gMain_bRequestedMenuID` only in `main_mode_runners.h`. The former
 `D_8009B269`, `D_8009B26C` and `D_8009B26D` extern views in
 `main_mode_state.h` and `main_services.h`, their `D_8009B269_AS_*` /
 `D_8009B26C_AS_*` legacy selectors, the Japanese

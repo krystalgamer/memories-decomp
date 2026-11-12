@@ -15,7 +15,7 @@
  * exits. gMain_bActiveModeState holds the active mode in its low bits plus
  * lifecycle flags: 0x20 for the animated-battle variant, 0x40 for mode
  * initialization, and 0x80 for the main-loop reset gate. Both are declared
- * once in main_mode_controls.h. */
+ * once in main_mode_runners.h. */
 extern u8 D_8009B0D1;
 
 /* The campaign scene the next Main_RunCampaign pass loads, defined by
@@ -24,11 +24,11 @@ extern u8 D_8009B0D1;
  * unit uses absolute addressing. */
 extern u8 gCampaignSceneIndex;
 
-#include "main_mode_controls.h"
+#include "main_mode_runners.h"
 
 /* The frontend mode runner's step byte, tentatively defined by
  * main_mode_runners.c, twice (from Main_RunDuel and the later runners). It is deliberately
- * separate from the guarded mode bytes declared in main_mode_controls.h. */
+ * separate from the guarded mode bytes declared in main_mode_runners.h. */
 extern u8 gMain_bModeRunnerStep;
 
 #endif

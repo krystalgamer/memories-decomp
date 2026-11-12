@@ -60,7 +60,7 @@ extern s32 gMain_nServiceResyncCountdown;
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268,
    gMain_bRequestedMenuID), whose parameters are (unused, menu):
-   gMain_bRequestedMenuID (main_menu_request.h) is the menu id --
+   gMain_bRequestedMenuID (main_mode_runners.h) is the menu id --
    Main_ApplyMenuSelection stores its selection argument, Script_OpSavePrompt
    and Script_OpReturnToMenu store 5, DebugMenu_UpdateTitleEntry round-trips
    it through gDebug_nSceneOrSoundID, Main_RunGameOver stores 0 -- and
@@ -68,7 +68,7 @@ extern s32 gMain_nServiceResyncCountdown;
    Main_ApplyMenuSelection's arms. Both are bytes, read lbu. */
 extern u8 D_8009B268;
 
-#include "main_menu_request.h"
+#include "main_mode_runners.h"
 
 struct GraphicsFrameBuffer;
 void Main_InitHardware(struct GraphicsFrameBuffer *base);

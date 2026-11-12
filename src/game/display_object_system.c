@@ -2,7 +2,7 @@
 #include "../types.h"
 
 #include "display_object_system.h"
-#include "mem_card_work.h"
+#include "mem_card.h"
 #include "mem_card_driver.h"
 
 /* Indexed by a display object's ot_index. Declared in
