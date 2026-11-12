@@ -140,9 +140,10 @@ void MainMenu_InitTradeScreen(void)
 
 /*
  * Exact pure-C match under gcc_2_8_1_g0_split. Natural restore-pointer roles
- * recover a1/a2, a path-exclusive typed carrier recovers s2, and one
- * single-iteration dirty-counter loop gives GCC the weight needed to allocate
- * that counter to s3 without a hard-register binding.
+ * recover a1/a2, a path-exclusive typed carrier recovers s2, and the
+ * dirty-counter increment repeated in the sort and stats-mode arms gives GCC
+ * the weight needed to allocate that counter to s3 without a hard-register
+ * binding; cross-jumping folds the second increment back into the first.
  */
 s32 MainMenu_UpdateTradeScreen(void)
 {
@@ -362,17 +363,14 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 7) % 6;
             }
             MainMenu_RefreshTradeInventory(0, 0);
-        dirty0:
-            do {
-                dirty0++;
-            } while (0);
+            dirty0++;
         } else if ((gInput_awPadPressed[0] & 0xA000) != 0) {
             if ((gInput_awPadPressed[0] & 0x8000) != 0) {
                 flags &= ~1;
             } else {
                 flags |= 1;
             }
-            goto dirty0;
+            dirty0++;
         } else if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             if (gTrade_awOffers[0][0] != 0) {
                 MainMenu_AdjustTradeCardCount(0, gTrade_awOffers[0][gTrade_awOffers[0][0]], 1);
@@ -484,7 +482,6 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 7) % 6;
             }
             MainMenu_RefreshTradeInventory(1, 0);
-        dirty1_label:
             dirty1.dirty++;
         } else if ((gInput_awPadPressed[1] & 0xA000) != 0) {
             if ((gInput_awPadPressed[1] & 0x8000) != 0) {
@@ -492,7 +489,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             } else {
                 flags |= 2;
             }
-            goto dirty1_label;
+            dirty1.dirty++;
         } else if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             if (gTrade_awOffers[1][0] != 0) {
                 MainMenu_AdjustTradeCardCount(1, gTrade_awOffers[1][gTrade_awOffers[1][0]], 1);
