@@ -4383,31 +4383,32 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
     }
 
     flags = EU_ENTRY(record)->field_14;
-    if (flags & 0x80) {
+    switch (flags & 0x80) {
+    default:
         radius = *(u16 *)&EU_ENTRY(record)->field_0A + 10;
         if (radius < 0x140) {
             flags &= 0x7F;
-            goto assign_value;
+            break;
         }
         DisplayObjectFade_ReleaseChannel(record);
         return;
+    case 0:
+        radius = *(u16 *)&EU_ENTRY(record)->field_0A - 10;
+        if (radius > 0) {
+            break;
+        }
+        EU_ENTRY(record)->local_x = *origin_x;
+        EU_ENTRY(record)->local_y = *origin_y;
+        EU_ENTRY(record)->render_mode = 0;
+        EU_ENTRY(record)->handler_state = 0;
+        return;
     }
+    /* Both arms join at the copy; the wrapper weights value so it keeps
+       the first saved register ahead of record. */
+    do {
+        value = radius;
+    } while (0);
 
-    radius = *(u16 *)&EU_ENTRY(record)->field_0A - 10;
-    value = radius;
-    if (radius > 0) {
-        goto clamp_value;
-    }
-    EU_ENTRY(record)->local_x = *origin_x;
-    EU_ENTRY(record)->local_y = *origin_y;
-    EU_ENTRY(record)->render_mode = 0;
-    EU_ENTRY(record)->handler_state = 0;
-    return;
-
-assign_value:
-    value = radius;
-
-clamp_value:
     *(u16 *)&EU_ENTRY(record)->field_0A = radius;
     if (radius >= 0xA1) {
         value = 0xA0;
