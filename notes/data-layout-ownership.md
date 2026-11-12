@@ -226,9 +226,8 @@ from the owner to its furthest gp-relative reader:
 - 21 of the 23 owners have no absolute reader inside that span. Every unit
   in the span reaches the owner's variables gp-relative, and the absolute
   (view) readers lie outside it.
-- The two exceptions are initialized `.sdata` strings (`gDebugMenu_szLineBreak`,
-  `gModel_szWhyTrace`), char arrays that were reachable through incomplete-array
-  externs. The model strings are now string literals in `model.c`.
+- The two exceptions are `.sdata` strings (the debug menu's `"\n"` and the
+  model's `"WHY?\n"`), string literals, which GCC addresses absolutely.
 
 The spans outline the original units:
 - the duel code from `duel_field_card_render`'s block through about 55 current

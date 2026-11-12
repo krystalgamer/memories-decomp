@@ -3,7 +3,6 @@
 /* Conditional runtime imports; the definitions live in the password image. */
 /* Conditional runtime imports; the function definitions live in main_menu. */
 gFile_pScreenBankBase = 0x800101D8;
-gDebugMenu_szCampaignValueFormat = 0x80010288;
 gSD_adwVoiceMasks = 0x80011434;
 gModel_SubdividedEffectInitialScale = 0x8001185C;
 gModel_DiscEffectInitialScale = 0x8001187C;

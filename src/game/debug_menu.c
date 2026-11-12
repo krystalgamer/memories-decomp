@@ -39,7 +39,6 @@
 #include "text_helpers.h"
 #include "display_object_system.h"
 #include "main_mode_state.h"
-#include "debug_font_format_data.h"
 #include "duel_effect_entry_state.h"
 #include "duel_effect_states.h"
 #include "fade.h"
@@ -90,11 +89,6 @@ u8 gDebugMenu_bStep;
 u8 *gDebug_pszEditorFormat;
 u8 gDebugMenu_bPage;
 s8 gDebugMenu_bCursor;
-
-/* Tentative declarations of two halfwords this unit defines, initialized,
- * further down in its own .sdata; they coalesce with those definitions. */
-u16 gDebugMenu_wCampaignScene;
-u16 gDebugMenu_wMessageId;
 
 /* Initialized data this unit owns at 0x80090CB4 through 0x80090D7C, previously a generated
    blob (#2602).
@@ -233,6 +227,19 @@ void DebugMenu_OpenValueEditor(
 
 /* gDebug_nSceneOrSoundID heads the three FrontendDebugValues rows. */
 #define FRONTEND_DEBUG_VALUES (*(FrontendDebugValues *)&gDebug_nSceneOrSoundID)
+
+/* This unit's .sdata. It is defined ahead of DebugMenu_UpdateValueEditor,
+ * whose "\n" and "%s\n" literals follow it in .sdata. GCC 2.8.1 aligns
+ * arrays to four bytes, so the halfwords before the masks stay scalar; the
+ * masks start on a word boundary in every region. */
+u16 gDebugMenu_wMessageId = 0x0500;
+u16 gDebugMenu_wCampaignScene = 1;
+/* Two unreferenced halfwords the European build does not have. */
+#ifndef VERSION_EUROPE
+static u16 sFrontendDebugValue48 = 0;
+static u16 sFrontendDebugValue4A = 1;
+#endif
+u16 gDebugMenu_awNibbleMasks[4] = { 0x000F, 0x00F0, 0x0F00, 0xF000 };
 
 s32 DebugMenu_UpdateValueEditor(void)
 {
@@ -376,13 +383,13 @@ out:
     i = (s8)gDebug_bEditorLeadingLineCount;
     if (i != 0) {
         do {
-            FntPrint(gDebugMenu_szLineBreak);
+            FntPrint("\n");
             i = i - 1;
         } while (i != 0);
     }
     FntPrint((char *)gDebug_pszEditorFormat, gDebug_nSceneOrSoundID,
              gDebug_nEditedBgmId, gDebug_nEditedCdSoundId);
-    FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine);
+    FntPrint("%s\n", gDebug_szEditorCaretLine);
     return ret;
 }
 
@@ -579,7 +586,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             /* The Japanese and European builds make neither this call nor
                the diagnostic print. */
             DuelEffect_SetEntryRangeLayout(0, 2);
-            printf(gDebugMenu_szCampaignValueFormat,
+            printf("0001 = %d\n",
                    gDuelEffect_aEntries[gDuelEffect_awEntryRangeBoundaries[0]].layout_selector);
 #endif
             TextBox_Create(0, gDebugMenu_wMessageId, 0x10, 0xB0, 0x120,
@@ -884,7 +891,7 @@ void DebugMenu_Update(void) {
         return;
     }
     for (; i < 0x16; i++) {
-        FntPrint(gDebugMenu_szLineBreak);
+        FntPrint("\n");
     }
     if ((gInput_awPadRepeat[0] & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
@@ -972,20 +979,6 @@ void DebugMenu_Update(void) {
         gDebugMenu_bStep = gDebugMenu_bCursor + 1;
     }
 }
-
-/* GCC 2.8.1 aligns arrays to four bytes, so the halfwords before the masks
- * stay scalar; the masks start on a word boundary in every region. */
-u16 gDebugMenu_wMessageId = 0x0500;
-u16 gDebugMenu_wCampaignScene = 1;
-/* Two unreferenced halfwords the European build does not have. */
-#ifndef VERSION_EUROPE
-static u16 sFrontendDebugValue48 = 0;
-static u16 sFrontendDebugValue4A = 1;
-#endif
-u16 gDebugMenu_awNibbleMasks[4] = { 0x000F, 0x00F0, 0x0F00, 0xF000 };
-
-char gDebugMenu_szLineBreak[4] = "\n";
-char gDebugMenu_szStringLineFormat[4] = "%s\n";
 
 #ifndef VERSION_EUROPE
 void DebugMenu_NoOpBustUpFrame(void)
