@@ -27,7 +27,7 @@ void ModelVariant404_DrawBands(u8 *ctx)
 
     work = (Variant404EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->textured;
+    poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
         r = work->band_scale * MODEL_VARIANT_WORD(work->config, 0x38) / 4096;

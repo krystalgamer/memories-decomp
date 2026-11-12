@@ -28,7 +28,7 @@ void ModelVariant324_DrawBand(u8 *ctx)
     work = (Variant341EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     band = (Variant324Band *)work->bands;
-    poly = work->textured;
+    poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     r = work->radius / 32;
     for (i = 0; i < 1; i++, band++) {

@@ -22,9 +22,9 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
 
     work = (Variant448EntryState *)ctx;
     fan = (Variant465Fan *)work;
-    triangle = &work->triangle;
+    triangle = &work->packets.triangle;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.quad;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;

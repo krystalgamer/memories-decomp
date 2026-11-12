@@ -41,7 +41,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
     u8 *p0, *q1, *q2;
 
     work = (Variant401EntryState *)ctx;
-    poly = work->textured;
+    poly = work->packets.textured;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (yaw != 0) {

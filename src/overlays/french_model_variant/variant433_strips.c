@@ -28,7 +28,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
-    poly = work->textured;
+    poly = work->packets.textured;
     raw_radius = work->field_1A78;
     /* Branch-local shifts retain the target's signed16 narrowing. */
     radius = raw_radius < 0 ? (u32)(raw_radius + 255) >> 8 : (u32)raw_radius >> 8;
