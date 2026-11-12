@@ -7,7 +7,7 @@
 #include "text_stream_commands.h"
 #include "duel_effect_states.h"
 #include "duel_effect_entry_state.h"
-#include "duel_effect_entry_ranges.h"
+#include "duel_effect_text.h"
 #include "duel_effect_text.h"
 #include "input.h"
 #include "text_helpers.h"

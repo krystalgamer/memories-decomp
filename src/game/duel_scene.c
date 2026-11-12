@@ -4039,7 +4039,6 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "display_object_work_slots.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
-#include "dialog_choice.h"
 #include "text_helpers.h"
 #include "display_object.h"
 #include "card_constants.h"
@@ -9081,7 +9080,6 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 
 #include "input.h"
 #include "sound.h"
-#include "dialog_choice.h"
 #include "ai_opponent_data.h"
 #include "rand_get_interval.h"
 #include "../psyq/rand.h"
@@ -10381,7 +10379,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "sound.h"
 #include "duel_card_staging.h"
 #include "display_object_work_slots.h"
-#include "dialog_choice.h"
 #include "input.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"

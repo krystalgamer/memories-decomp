@@ -32,7 +32,7 @@
 #include "sound_voice_selection.h"
 #include "../psyq/stdio.h"
 #include "script_scene.h"
-#include "duel_effect_entry_ranges.h"
+#include "duel_effect_text.h"
 #include "duel_effect_text.h"
 #include "text_helpers.h"
 #include "display_object_system.h"

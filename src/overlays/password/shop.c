@@ -16,7 +16,6 @@
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
-#include "../../game/dialog_choice.h"
 #include "../../game/card_preview.h"
 #include "../../game/mem_card.h"
 #include "../../game/duel_effect_resource_record.h"
