@@ -10115,41 +10115,32 @@ void DuelEffect_ApplyMonsterRemoval(void) {
         }
         gDuel_wMonsterRemovalZone = 5;
         return;
-done:
-        gDuel_wCardEffectFlags = 0;
-        return;
     }
 
     tb = gDuel_abFieldGridCardRecordIndices.flat;
     sp = &gDuel_wMonsterRemovalZone;
     rb = (u8 *)gDuel_aCardRecords;
-    goto head;
-
-arm:
-    if ((Duel_CalcCardStats(e) & 0xFFFF) >=
-        gDuel_wMonsterRemovalCriterion) {
-        goto hit;
-    }
-next:
-    gDuel_wMonsterRemovalZone = gDuel_wMonsterRemovalZone + 1;
-    if (gDuel_wMonsterRemovalZone >= DUEL_FIELD_SIDE_ZONE_COUNT) {
-        goto done;
-    }
-head:
-    ix = gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
-        (s32)rb);
-    if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
-        goto next;
-    }
-    if ((gDuel_wCardEffectFlags & 1) != 0) {
-        goto arm;
-    }
-    if (DISPLAY_OBJECT_VIEW(e->object)->field_68 != sp[-1]) {
-        goto next;
+    for (;;) {
+        ix = gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+        e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
+            (s32)rb);
+        if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            if ((gDuel_wCardEffectFlags & 1) == 0) {
+                if (DISPLAY_OBJECT_VIEW(e->object)->field_68 == sp[-1]) {
+                    break;
+                }
+            } else if ((Duel_CalcCardStats(e) & 0xFFFF) >=
+                       gDuel_wMonsterRemovalCriterion) {
+                break;
+            }
+        }
+        gDuel_wMonsterRemovalZone = gDuel_wMonsterRemovalZone + 1;
+        if (gDuel_wMonsterRemovalZone >= DUEL_FIELD_SIDE_ZONE_COUNT) {
+            gDuel_wCardEffectFlags = 0;
+            return;
+        }
     }
 
-hit:
     e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[
         gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
