@@ -133,4 +133,4 @@ address-based `D_8009B23A` view of the same halfword has been removed.
 The Japanese build defines and calls `DuelScene_UpdateCardMove` under that
 name; `config/slpm_86398/symbols.txt` binds it at `0x8001AFEC`, the address
 of the former native label `func_8001AFEC`. Every region uses the same plain
-declaration in `duel_scene_callbacks.h`, with no assembler label.
+declaration in `duel_scene.h`, with no assembler label.

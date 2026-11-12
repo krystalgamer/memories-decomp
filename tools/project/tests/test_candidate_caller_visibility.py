@@ -283,7 +283,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 if "duel_scene.h" in include:
                     # Retain actual data types, not the lost function declarations.
                     replacement = (
-                        '#include "duel_selection_layout.h"\n'
+                        '#include "duel_scene.h"\n'
                     )
                 shadow = None
                 shadow_name = "model_slot_control.h"
@@ -418,7 +418,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for prefix, parameters, accepted in views:
                 with self.subTest(prefix=prefix, parameters=parameters):
                     path.write_text(
-                        '#include "duel_cursor_grid_direction.h"\n'
+                        '#include "duel_scene.h"\n'
                         + '#include "duel_scene.h"\n'
                         + "DisplayObject **object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
@@ -460,7 +460,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for record, accepted in views:
                 with self.subTest(record=record):
                     path.write_text(
-                        '#include "duel_selection_layout.h"\n'
+                        '#include "duel_scene.h"\n'
                         + "struct DisplayObject **display_parent_slot("
                         + "DuelSelectionRecord *record) "
                         + "{ return &record->info_panel; }\n"
@@ -495,7 +495,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 for pointee, accepted in (("struct DisplayObject", True), ("u8", False)):
                     with self.subTest(member=member, pointee=pointee):
                         path.write_text(
-                            '#include "duel_hand.h"\n'
+                            '#include "duel_scene.h"\n'
                             + f"{pointee} **slot_view(DuelHandSlot *slot) "
                             + f"{{ return &slot->{member}; }}\n",
                             encoding="utf-8",

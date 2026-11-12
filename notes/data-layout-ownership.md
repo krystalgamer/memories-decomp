@@ -132,7 +132,7 @@ The duel block shows the rule for data shared by many split files: the
 original duel unit spans many repository sources, so its zero-initialized block
 belongs to the first of them in text order that references it,
 `duel_scene.c`. Its consumers declare the block through
-`duel_field_card_render_data.h`. Struct pointers are spelled with their tags
+`duel_scene.h`. Struct pointers are spelled with their tags
 (`struct DuelSideState *`) so the definitions can precede the headers that
 complete the types. Adjacent words that code reaches by name are separate
 definitions (`gDuel_pSide0SaveData` and `gDuel_pSide1SaveData`), never a
@@ -348,7 +348,7 @@ The four language builds keep Europe's tables:
 Their `duel_ground_projection` data ends with the localized duel-result
 sprite tables instead of the two North American ones. That is one
 opponent/no-opponent pair per language, each [2][10]
-(`duel_result_localized_sprites.h`): 0x280 bytes from `0x80091B30` up to
+(`duel_scene.h`): 0x280 bytes from `0x80091B30` up to
 `duel_scene_update`. The four builds compile the unit through
 `spanish/duel_scene.c`, which defines
 `DUEL_RESULT_LANGUAGE_SPRITE_TABLES`, and own its `.data` at `0x80091AA8`.
