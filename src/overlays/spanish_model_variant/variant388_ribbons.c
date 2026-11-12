@@ -41,7 +41,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
     ratan2(work->aim.direction.vz, work->aim.direction.vx);
     timing = (u8 *)work + 0xF8;
-    prim = &work->triangle;
+    prim = &work->packets.triangle;
     if (work->slot == 1) {
         turn = -turn;
     }
