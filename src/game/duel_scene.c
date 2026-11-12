@@ -9552,7 +9552,6 @@ void Duel_PopulateCombinedDeckData(void)
     u16 *p;
     s32 i;
     s32 id;
-    s32 w;
     u16 v;
 
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
@@ -9567,12 +9566,14 @@ void Duel_PopulateCombinedDeckData(void)
 
         src = gDuel_abCardStagingBuffer;
         p = gDuel_awUniqueDeckCardIds;
-    search:
-        w = *p;
-        p++;
-        if (w != id) {
+        for (;;) {
+            s32 cur = *p;
+
+            p++;
+            if (cur == id) {
+                break;
+            }
             src += DUEL_CARD_DATA_BLOCK_SIZE;
-            goto search;
         }
         Util_CopyWords((u8 *)dst, src, sizeof(*dst));
         dst++;
