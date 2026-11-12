@@ -461,27 +461,22 @@ s32 MainMenu_UpdateTradeScreen(void)
                 TextBox_Destroy(TEXT_CHANNEL(3));
                 gTrade_abReady[1] = 0;
             }
-            goto check_scroll1;
-        }
-        if ((gInput_awPadPressed[1] & 0x80) != 0) {
+        } else if ((gInput_awPadPressed[1] & 0x80) != 0) {
             if (gTrade_abReady[0] != 0 &&
                 gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
-                { SD_SEPlay(9, 255, 0); goto check_scroll1; }
+                SD_SEPlay(9, 255, 0);
+            } else {
+                SD_SEPlay(48, 255, 0);
+                MainMenu_CreateTradeReadyIndicator(1);
+                gTrade_abReady[1] = 1;
             }
-            SD_SEPlay(48, 255, 0);
-            MainMenu_CreateTradeReadyIndicator(1);
-            gTrade_abReady[1] = 1;
-            goto check_scroll1;
-        }
-        if ((gInput_awPadPressed[1] & 0x10) != 0) {
+        } else if ((gInput_awPadPressed[1] & 0x10) != 0) {
             if (card1->id != 0) {
                 gDuel_wViewerCardID = card1->id;
                 gDuel_bCardViewerYOffset = 20;
                 gDuel_bEffectState = 2;
             }
-            goto check_scroll1;
-        }
-        if ((gInput_awPadRepeat[1] & 0x900) != 0) {
+        } else if ((gInput_awPadRepeat[1] & 0x900) != 0) {
             SD_SEPlay(47, 255, 0);
             if ((gInput_awPadRepeat[1] & 0x100) != 0) {
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 5) % 6;
@@ -491,47 +486,36 @@ s32 MainMenu_UpdateTradeScreen(void)
             MainMenu_RefreshTradeInventory(1, 0);
         dirty1_label:
             dirty1.dirty++;
-            goto check_scroll1;
-        }
-        if ((gInput_awPadPressed[1] & 0xA000) != 0) {
+        } else if ((gInput_awPadPressed[1] & 0xA000) != 0) {
             if ((gInput_awPadPressed[1] & 0x8000) != 0) {
                 flags &= ~2;
             } else {
                 flags |= 2;
             }
             goto dirty1_label;
-        }
-        if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
+        } else if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             if (gTrade_awOffers[1][0] != 0) {
                 MainMenu_AdjustTradeCardCount(1, gTrade_awOffers[1][gTrade_awOffers[1][0]], 1);
                 SD_SEPlay(8, 255, 0);
                 gTrade_awOffers[1][0]--;
                 dirty1.dirty++;
-                goto check_scroll1;
+            } else if (gTrade_awOffers[0][0] != 0 || gTrade_abReady[0] != 0) {
+                SD_SEPlay(9, 255, 0);
+            } else {
+                SD_SEPlay(8, 255, 0);
+                return 1;
             }
-            if (gTrade_awOffers[0][0] != 0 || gTrade_abReady[0] != 0) {
-                { SD_SEPlay(9, 255, 0); goto check_scroll1; }
+        } else if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
+            if (gTrade_awOffers[1][0] < 10 && card1->id != 0 && card1->count != 0) {
+                SD_SEPlay(7, 255, 0);
+                /* Use the increment result rather than reloading the count. */
+                gTrade_awOffers[1][++gTrade_awOffers[1][0]] = card1->id;
+                card1->count--;
+                dirty1.dirty++;
+            } else {
+                SD_SEPlay(9, 255, 0);
             }
-            SD_SEPlay(8, 255, 0);
-            return 1;
-        }
-        if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
-            if (gTrade_awOffers[1][0] < 10) {
-                if (card1->id == 0) {
-                    { SD_SEPlay(9, 255, 0); goto check_scroll1; }
-                }
-                if (card1->count != 0) {
-                    SD_SEPlay(7, 255, 0);
-                    /* Use the increment result rather than reloading the count. */
-                    gTrade_awOffers[1][++gTrade_awOffers[1][0]] = card1->id;
-                    card1->count--;
-                    dirty1.dirty++;
-                    goto check_scroll1;
-                }
-            }
-            { SD_SEPlay(9, 255, 0); goto check_scroll1; }
-        }
-        if ((gInput_awPadHeld[1] & 0xC) != 0) {
+        } else if ((gInput_awPadHeld[1] & 0xC) != 0) {
             if ((gInput_awPadHeld[1] & 4) != 0) {
                 low = gTrade_aListScroll[1].target - MAIN_MENU_TRADE_PAGE_STEP;
                 if (low < 0) { low = 0; }
@@ -547,9 +531,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 break;
             }
             SD_SEPlay(6, 255, 0);
-            goto check_scroll1;
-        }
-        if ((gInput_awPadRepeat[1] & 3) != 0) {
+        } else if ((gInput_awPadRepeat[1] & 3) != 0) {
             if ((gInput_awPadRepeat[1] & 1) != 0) {
                 low = gTrade_aListScroll[1].target - 50;
                 if (low < 0) { low = 0; }
@@ -587,7 +569,6 @@ s32 MainMenu_UpdateTradeScreen(void)
                 dirty1.dirty++;
             }
         }
-check_scroll1:
         if (gTrade_aListScroll[1].current == gTrade_aListScroll[1].target) {
             break;
         }
