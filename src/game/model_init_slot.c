@@ -21,10 +21,12 @@
    handlers, links the coordinate slots, and picks the first coordinate
    whose parent is not claimed by a live unit.
 
-   The event, link and retry scans are goto loops. GCC 2.8.1 weights a
-   register's references by loop nesting, and only these loop forms give
-   the 0x1F800000 scratch base, the shared slot cursor, the command cursor
-   and the channel index the retail callee-saved registers. */
+   The retry scan is a goto loop. GCC 2.8.1 weights a register's references
+   by loop nesting; as a structured loop the retry pass lifts the shared slot
+   cursor above the 0x1F800000 scratch base and the two swap $s3/$s4. The
+   structured event loop likewise needs the one-pass block around the HMD
+   cursor reads to keep the command cursor in $s5 and the channel index in
+   $s6. */
 void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
 {
     ModelSlot *model_slot;
@@ -140,19 +142,22 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         scan_index = 0;
         do {
             hmd_unit->coord = 0;
-            group_words = *(s32 **)hmd_cursor;
-            hmd_cursor += 4;
+            /* A one-pass block: its loop weight lifts the HMD cursor above
+               slot_index, so the cursor keeps $s5 and slot_index $s6. */
+            do {
+                group_words = *(s32 **)hmd_cursor;
+                hmd_cursor += 4;
+            } while (0);
             hmd_unit->primtop = (unsigned long *)group_words;
             if (group_words != 0) {
                 GsScanUnit((u32 *)group_words, 0, 0, 0);
-            evloop:
-                if (GsScanUnit(0, &type_unit, ordering_table, (u32 *)0x1F800000) != 0) {
+                while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)0x1F800000) != 0) {
                     u8 *sdk_scratch;
 
                     type_tag = (u32)type_unit.type >> 24;
                     sdk_scratch = (u8 *)0x1F800000;
                     if (type_unit.type == 0) {
-                        goto evloop;
+                        continue;
                     }
                     if ((type_tag >= 2 ? (type_tag < 7 ? type_tag >= 5 : 0) : 1) &&
                         (type_unit.type & 0x800000)) {
@@ -182,7 +187,6 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                         *type_unit.ptr = noop_handler_word;
                         break;
                     }
-                    goto evloop;
                 }
             }
             scan_index++;
@@ -195,17 +199,15 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     model_slot->lit_color_cache_entry_count = max_lit_color_index + scan_index;
     if (scan_index < model_slot->hmd_unit_count - 1) {
         coordinate_byte_offset = 0;
-    link:
-        model_slot->entry_count++;
-        if (hmd_unit->primtop != 0) {
-            hmd_unit->coord = GS_COORD_UNIT_VIEW(model_slot->entries + coordinate_byte_offset);
-        }
-        coordinate_byte_offset += MODEL_SLOT_DATA_ENTRY_SIZE;
-        scan_index++;
-        hmd_unit++;
-        if (scan_index < model_slot->hmd_unit_count - 1) {
-            goto link;
-        }
+        do {
+            model_slot->entry_count++;
+            if (hmd_unit->primtop != 0) {
+                hmd_unit->coord = GS_COORD_UNIT_VIEW(model_slot->entries + coordinate_byte_offset);
+            }
+            coordinate_byte_offset += MODEL_SLOT_DATA_ENTRY_SIZE;
+            scan_index++;
+            hmd_unit++;
+        } while (scan_index < model_slot->hmd_unit_count - 1);
     }
     root_scan_coordinate = GS_COORD_UNIT_VIEW(model_slot->entries);
     if (root_scan_coordinate != 0) {
