@@ -215,9 +215,18 @@ is unused in the image's inventory and `symbols.txt`/`link_symbols.ld`, and
 no source or linker file spells the placeholder. All six images gain the
 four names, 24 rows in total. Only the name column of the six
 `functions.csv` files changes, and each rename has a
-`regional/<image>/function` row in `semantic-symbol-map.csv`. The second
-regional `CdIntToPos`/`CdPosToInt` copies stay placeholders, because their
-North American counterparts carry address-qualified names.
+`regional/<image>/function` row in `semantic-symbol-map.csv`.
+
+Five more LIBCD rows in the French, German, Italian and Spanish inventories
+were placeholders even though each image's `link_symbols.ld` already binds
+the name to that address for shared game C: `CdPosToInt`, `CdFlush`,
+`CdGetSector` and the second copies `CdIntToPos_8007E600` and
+`CdPosToInt_8007E710`. The English European and Japanese inventories
+already carry all five names, and each English European copy has the same
+size and masked words at the same offset from the shared neighbours. The four
+inventories now spell those names too, 20 rows in total. The address-qualified
+pair keeps the North American suffix that the linker binding and
+`libcd_abi_variants.h` use. Only the inventory name column changes.
 
 ### Regional-only LIBMCX
 
