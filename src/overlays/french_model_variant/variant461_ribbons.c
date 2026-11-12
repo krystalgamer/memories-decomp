@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant469_ribbons.h"
+#include "variant461_entry.h"
 
 /* The North American header-444 build names the closing spine point as the
  * next point, `k + 1`, rather than as `n`. */
@@ -23,7 +24,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
     long p;
     long flag[5][11];
     long flag2;
-    u8 *work;
+    EntryState461 *work;
     GsOT *ot;
     s16 i;
     s32 wave;
@@ -43,12 +44,12 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
     s32 dy;
     s32 turn;
 
-    work = ctx;
+    work = (EntryState461 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     ribbon = (Variant469Ribbon *)work;
     sum = 0;
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x3348), MODEL_VARIANT_WORD(work, 0x3340)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x3344), MODEL_VARIANT_WORD(work, 0x3340));
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     for (i = 0, phase = 0; i < 5; i++, ribbon++, phase = i * 6144 / 5) {
         len = 0x30;
         if (i == 0) {
@@ -65,18 +66,18 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
                 bend = phase - k * 512;
             }
             setVector(&ribbon->a[k],
-                      MODEL_VARIANT_WORD(work + (i << 4), 0x2FDC) * k / 10,
-                      MODEL_VARIANT_WORD(work + (i << 4), 0x2FE0) * k / 10,
-                      MODEL_VARIANT_WORD(work + (i << 4), 0x2FE4) * k / 10);
+                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FDC) * k / 10,
+                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FE0) * k / 10,
+                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FE4) * k / 10);
             setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
                       ribbon->a[k].vz + (rsin(yaw) * len >> 12));
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F3C);
-        m.t[1] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F40);
-        m.t[2] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F44);
+        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F3C);
+        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F40);
+        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F44);
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -87,7 +88,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        for (k = 0, wave = -MODEL_VARIANT_WORD(work, 0x3390); k < 11; k++, wave += 0x514) {
+        for (k = 0, wave = -work->ribbon_wave; k < 11; k++, wave += 0x514) {
             if (k == 10) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
                                                 &ribbon->sa[k - 1], &ribbon->sa[k], &ribbon->sa[k - 1], &ribbon->sa[k],
@@ -123,9 +124,9 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
         } else {
             n = ribbon->count;
         }
-        poly = (POLY_FT4 *)(work + 0x2E68);
+        poly = work->flat;
         for (k = 0; k < n; k++) {
-            if ((u32)(MODEL_VARIANT_WORD(work, 0x3358) & 1) == 1) {
+            if ((u32)(work->frame_count & 1) == 1) {
                 if (!(k & 1)) {
                     poly++;
                 } else {
@@ -157,7 +158,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             if (ribbon->otz[k] >= 0 && flag[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
-            if (!(MODEL_VARIANT_WORD(work, 0x3358) & 1)) {
+            if (!(work->frame_count & 1)) {
                 if (!(k & 1)) {
                     poly++;
                 } else {
@@ -166,18 +167,18 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             }
         }
         if (ribbon->count < 10 && ribbon->state == 0) {
-            ribbon->count += MODEL_VARIANT_WORD(work, 0x3364) * 2;
+            ribbon->count += work->step * 2;
             if (ribbon->count >= 10) {
                 ribbon->count = 10;
                 ribbon->state = 1;
-                if (MODEL_VARIANT_WORD(work, 0x33AC) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x33AC) = 3;
+                if (work->phase == 2) {
+                    work->phase = 3;
                 }
             }
         } else if (ribbon->state == 1 && ribbon->len > 0) {
-            ribbon->len -= MODEL_VARIANT_WORD(work, 0x3364) << 6;
+            ribbon->len -= work->step << 6;
             if (ribbon->len <= 0) {
-                if (MODEL_VARIANT_WORD(work, 0x33AC) >= 5) {
+                if (work->phase >= 5) {
                     ribbon->len = 0;
                     ribbon->count = 0;
                     ribbon->state = 2;
@@ -189,10 +190,10 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
             }
         }
         sum += ribbon->state;
-        if (sum == 10 && MODEL_VARIANT_WORD(work, 0x33AC) == 5) {
-            MODEL_VARIANT_WORD(work, 0x33AC) = 6;
+        if (sum == 10 && work->phase == 5) {
+            work->phase = 6;
         }
     }
-    MODEL_VARIANT_WORD(work, 0x3390) += MODEL_VARIANT_WORD(work, 0x3364) * 384;
-    MODEL_VARIANT_WORD(work, 0x3394) += MODEL_VARIANT_WORD(work, 0x3364) << 7;
+    work->ribbon_wave += work->step * 384;
+    work->field_3394 += work->step << 7;
 }

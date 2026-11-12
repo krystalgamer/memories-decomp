@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant341_entry.h"
 
 /* Header 324 uses the same three 4x6 webs as header 414, at its own
  * work offsets. Its projection depth and flag must both be strictly positive. */
@@ -13,7 +14,7 @@ void ModelVariant324_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant341EntryState *work;
     GsOT *ot;
     GsGLINE *line;
     ModelVariantWebNarrow *web;
@@ -29,16 +30,16 @@ void ModelVariant324_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
+    work = (Variant341EntryState *)ctx;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0xEB0);
-    ratan2(MODEL_VARIANT_WORD(work, 0xF08), MODEL_VARIANT_WORD(work, 0xF00));
-    ratan2(MODEL_VARIANT_WORD(work, 0xF04), MODEL_VARIANT_WORD(work, 0xF00));
-    ratan2(MODEL_VARIANT_WORD(work, 0xEF4), MODEL_VARIANT_WORD(work, 0xEF0));
-    ratan2(MODEL_VARIANT_HALF(work, 0xEFE), MODEL_VARIANT_HALF(work, 0xEFC));
+    line = (GsGLINE *)((u8 *)work + 0xEB0);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;
@@ -60,14 +61,14 @@ void ModelVariant324_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0xF50) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0xED8);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0xEDC);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0xEE0);
+        if (work->tail.phase < 2) {
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0xEE4);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0xEE6);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0xEE8);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = level;
         scale.vy = level;
@@ -85,7 +86,7 @@ void ModelVariant324_DrawWebs(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
                                     (long *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0xF50) < 2) {
+                if (work->tail.phase < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -106,13 +107,13 @@ void ModelVariant324_DrawWebs(u8 *ctx)
             }
         }
         if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0xF24) << 8;
+            web->scale += work->step << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0xF50) == 5) {
+                if (work->tail.phase == 5) {
                     web->scale = 0x2000;
                     web->done = 1;
                     if (i + 1 == 3 && done == 1) {
-                        MODEL_VARIANT_WORD(work, 0xF50) = 6;
+                        work->tail.phase = 6;
                     }
                 } else {
                     web->scale -= 0x2000;

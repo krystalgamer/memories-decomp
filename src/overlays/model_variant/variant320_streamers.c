@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant320_streamers.h"
+#include "../french_model_variant/variant337_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
@@ -16,7 +17,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant337EntryState *work;
     u8 *rec;
     POLY_G4 *poly;
     GsOT *ot;
@@ -43,14 +44,14 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant337EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0xD10), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
-    poly = (POLY_G4 *)(work + 0xC6C);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    poly = (POLY_G4 *)work->flat_textured;
     reach = 0xC0;
     step = 0x400;
-    rec = work + 0x43C;
-    if (!(MODEL_VARIANT_WORD(work, 0xD20) & 1)) {
+    rec = (u8 *)work + 0x43C;
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -59,14 +60,14 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0xD20) & 3) < 2) {
+    if ((u32)(work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant320Streamer *)(work + 0x4D4);
+    streamer = (Variant320Streamer *)work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0xD54);
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -74,7 +75,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0xD4C) / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -85,14 +86,14 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0xD50) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0xD54) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0xD58);
-    if ((u32)MODEL_VARIANT_WORD(work, 0xD20) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0xD54) += 0x514;
+    if ((u32)work->clock.frame_count % 10 == 0) {
+        work->streamer.rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0xD54) += 0x20;
-    MODEL_VARIANT_WORD(work, 0xD58) = MODEL_VARIANT_WORD(work, 0xD58);
-    m.t[0] = MODEL_VARIANT_HALF(work, 0xCEC);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0xCEE);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0xCF0);
+    work->streamer.rotation_y += 0x20;
+    work->streamer.rotation_z = work->streamer.rotation_z;
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -103,7 +104,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant320Streamer *)(work + 0x4D4);
+    streamer = (Variant320Streamer *)work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -115,7 +116,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
                 dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0xD4C) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 1;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -130,7 +131,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[16] - (s16)streamer->sa[15];
                 dy = (streamer->sa[16] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[16] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0xD4C) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     w = 1;
                 } else {
                     r = (s16)streamer->sb[16];
@@ -147,7 +148,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0xD4C) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 1;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -168,7 +169,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
 #endif
         }
     }
-    streamer = (Variant320Streamer *)(work + 0x4D4);
+    streamer = (Variant320Streamer *)work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -187,10 +188,10 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0xD6C) < 5 && MODEL_VARIANT_WORD(work, 0xD4C) > 0) {
-        MODEL_VARIANT_WORD(work, 0xD4C) = MODEL_VARIANT_WORD(rec, 0x88) / 8;
-        if (MODEL_VARIANT_WORD(work, 0xD4C) <= 0) {
-            MODEL_VARIANT_WORD(work, 0xD4C) = 0;
+    if (work->tail.phase < 5 && work->streamer.length > 0) {
+        work->streamer.length = MODEL_VARIANT_WORD(rec, 0x88) / 8;
+        if (work->streamer.length <= 0) {
+            work->streamer.length = 0;
         }
     }
 }

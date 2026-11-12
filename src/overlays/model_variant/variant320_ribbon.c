@@ -1,10 +1,11 @@
 #include "../../types.h"
 
 #include "variant320_ribbon.h"
+#include "../french_model_variant/variant337_entry.h"
 
 /* Builds a seventeen-point ribbon that bends around the variant's axis and a
  * copy of it moved along the view, projects both, and draws the first
- * `work[0xD40]` segments as flat POLY_FT4 quads as wide as the projected
+ * `((u8 *)work)[0xD40]` segments as flat POLY_FT4 quads as wide as the projected
  * offset. In phase 1 the drawn length follows the timing record's clock up to
  * 16; in phase 3 the copy's offset shrinks with it. The per-ribbon turn and the
  * coil angle of the header-321 form are still computed but unused here. */
@@ -17,7 +18,7 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant337EntryState *work;
     GsOT *ot;
     s16 i;
     s32 wave;
@@ -36,15 +37,15 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant337EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0xD10), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0xD0C), MODEL_VARIANT_WORD(work, 0xD08)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0xD6C) > 0) {
-        if (!(MODEL_VARIANT_WORD(work, 0xD20) & 1)) {
-            len = MODEL_VARIANT_HALF(work, 0xD46) / 16;
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;
+    if (work->tail.phase > 0) {
+        if (!(work->clock.frame_count & 1)) {
+            len = work->width / 16;
         } else {
-            len = MODEL_VARIANT_HALF(work, 0xD46) * 80 / 1024;
+            len = work->width * 80 / 1024;
         }
         ribbon = (Variant320Ribbon *)work;
         for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i * 0x1800) {
@@ -55,19 +56,19 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
             } else {
                 turn = 0x400 - i * 360;
             }
-            for (k = 0, wave = -MODEL_VARIANT_WORD(work, 0xD5C); k < 17; k++, wave += 0x300) {
+            for (k = 0, wave = -work->ribbon_wave; k < 17; k++, wave += 0x300) {
                 if (k == 0 || k == 16) {
                     bend = 0;
                 } else {
-                    bend = phase - k * 384 + MODEL_VARIANT_WORD(work, 0xD60);
+                    bend = phase - k * 384 + work->ribbon_phase;
                 }
                 coil = k * 128;
                 setVector(&ribbon->a[k],
-                          MODEL_VARIANT_WORD(work, 0xCF4) * k / 16 +
+                          work->aim.direction.vx * k / 16 +
                               (rcos(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
-                          MODEL_VARIANT_WORD(work, 0xCF8) * k / 16 +
+                          work->aim.direction.vy * k / 16 +
                               (rsin(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
-                          MODEL_VARIANT_WORD(work, 0xCFC) * k / 16);
+                          work->aim.direction.vz * k / 16);
                 setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
                           ribbon->a[k].vz + (rsin(yaw) * len >> 12));
             }
@@ -75,9 +76,9 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0xCE0);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0xCE4);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0xCE8);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -132,8 +133,8 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
         ribbon = (Variant320Ribbon *)work;
         for (i = 0; i < 1; i++, ribbon++) {
             k = 0;
-            poly = (POLY_FT4 *)(work + 0xC6C);
-            for (; k < MODEL_VARIANT_HALF(work, 0xD40); k++) {
+            poly = work->flat_textured;
+            for (; k < work->ribbon_length; k++) {
                 poly->x0 = ribbon->sa[k] + ribbon->ox[k];
                 poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
                 poly->x1 = ribbon->sa[k + 1] + ribbon->ox[k + 1];
@@ -155,30 +156,30 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0xD6C) == 1) {
-            if (MODEL_VARIANT_HALF(work, 0xD40) < 0x11) {
-                start = *(u32 *)(*(u8 **)(work + 0xD34) + 0x14);
-                MODEL_VARIANT_HALF(work, 0xD40) = ((u32)(MODEL_VARIANT_WORD(work, 0xD24) - start) << 4) /
-                                                  (u32)(*(u32 *)(*(u8 **)(work + 0xD34) + 0x18) - start);
-                if (MODEL_VARIANT_HALF(work, 0xD40) >= 0x10) {
-                    MODEL_VARIANT_HALF(work, 0xD40) = 0x10;
-                    MODEL_VARIANT_WORD(work, 0xD6C) = 2;
+        if (work->tail.phase == 1) {
+            if (work->ribbon_length < 0x11) {
+                start = *(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x14);
+                work->ribbon_length = ((u32)(work->clock.frame - start) << 4) /
+                                                  (u32)(*(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x18) - start);
+                if (work->ribbon_length >= 0x10) {
+                    work->ribbon_length = 0x10;
+                    work->tail.phase = 2;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0xD6C) == 3) {
-            if (MODEL_VARIANT_HALF(work, 0xD46) > 0) {
-                start = *(u32 *)(*(u8 **)(work + 0xD34) + 0x1C);
-                now = MODEL_VARIANT_WORD(work, 0xD24);
+        } else if (work->tail.phase == 3) {
+            if (work->width > 0) {
+                start = *(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x1C);
+                now = work->clock.frame;
                 if ((u32)now >= (u32)start) {
-                    MODEL_VARIANT_HALF(work, 0xD46) =
-                        0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)(work + 0xD34) + 0x20) - start);
+                    work->width =
+                        0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x20) - start);
                 }
-                if (MODEL_VARIANT_HALF(work, 0xD46) <= 0) {
-                    MODEL_VARIANT_HALF(work, 0xD46) = 0;
+                if (work->width <= 0) {
+                    work->width = 0;
                 }
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0xD5C) += MODEL_VARIANT_WORD(work, 0xD2C) * 850;
-    MODEL_VARIANT_WORD(work, 0xD60) += MODEL_VARIANT_WORD(work, 0xD2C) << 7;
+    work->ribbon_wave += work->clock.step * 850;
+    work->ribbon_phase += work->clock.step << 7;
 }

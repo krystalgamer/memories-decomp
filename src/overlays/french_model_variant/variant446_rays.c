@@ -1,14 +1,15 @@
 #include "../../types.h"
 
 #include "../model_variant/variant425_rays.h"
+#include "variant446_entry.h"
 
 /* Builds sixteen three-point rays from the work start (even rays reach
  * 0x100, odd ones 0x80, turning against each other with the spin at
- * work + 0x1BC4 and leaning along the direction at work + 0x1B64, mirrored by
- * the flag at work + 0x1BE4), pushes a copy of each spine along the turn by
- * the length at work + 0x1BD8, projects both, and draws each segment as two
+ * (u8 *)work + 0x1BC4 and leaning along the direction at (u8 *)work + 0x1B64, mirrored by
+ * the flag at (u8 *)work + 0x1BE4), pushes a copy of each spine along the turn by
+ * the length at (u8 *)work + 0x1BD8, projects both, and draws each segment as two
  * POLY_GT4 halves as wide as the projected offset, the outer one fading to
- * black. The size at work + 0x1BD4 grows by step * 128 up to 0x1000; once the
+ * black. The size at (u8 *)work + 0x1BD4 grows by step * 128 up to 0x1000; once the
  * clock passes the timing table's start the length shrinks to zero over the
  * table's span. */
 void FrenchModelVariant446_DrawRays(u8 *ctx)
@@ -20,7 +21,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    EntryState446 *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -44,14 +45,14 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     u8 c2;
     u8 c3;
 
-    work = ctx;
+    work = (EntryState446 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1B80), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1B6C), MODEL_VARIANT_WORD(work, 0x1B64)) + 0x800;
-    poly = (POLY_GT4 *)(work + 0x19B0);
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1B68), MODEL_VARIANT_WORD(work, 0x1B6C)) + 0x800;
-    if (MODEL_VARIANT_HALF(work, 0x1BE4) == 0) {
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
+    poly = work->textured;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
+    if (work->slot == 0) {
         sign = 1;
     }
     if (yaw < 0x800) {
@@ -61,7 +62,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     }
     ray = (Variant425Ray *)work;
     for (i = 0; i < 16; i++, ray++) {
-        spin = MODEL_VARIANT_HALF(work, 0x1BC4);
+        spin = work->spin;
         base = i;
         if (!(i & 1)) {
             r = 0x100;
@@ -71,29 +72,29 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
             phi = (base << 8) - spin * 2;
         }
         for (k = 0; k < 3; k++) {
-            length = (k * 12 + 8) * MODEL_VARIANT_WORD(work, 0x1BD8) / 1024;
+            length = (k * 12 + 8) * work->ray_length / 1024;
             if (k == 0) {
                 setVector(&ray->a[k], 0, 0, 0);
             } else {
-                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + MODEL_VARIANT_WORD(work, 0x1B64) * sign / 2 * k / 2,
-                          (rcos(phi) * (r * k / 2) >> 12) + MODEL_VARIANT_WORD(work, 0x1B68) * sign / 2 * k / 2,
-                          MODEL_VARIANT_WORD(work, 0x1B6C) * sign / 2 * k / 2);
+                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + work->aim.direction.vx * sign / 2 * k / 2,
+                          (rcos(phi) * (r * k / 2) >> 12) + work->aim.direction.vy * sign / 2 * k / 2,
+                          work->aim.direction.vz * sign / 2 * k / 2);
             }
             setVector(&ray->b[k], ray->a[k].vx + (rcos(turn * sign) * length >> 12), ray->a[k].vy,
                       ray->a[k].vz + (rsin(turn * sign) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x1B90) & 1)) {
-        size = MODEL_VARIANT_WORD(work, 0x1BD4);
+    if (!(work->frame_count & 1)) {
+        size = work->ray_size;
     } else {
-        size = MODEL_VARIANT_WORD(work, 0x1BD4) + MODEL_VARIANT_WORD(work, 0x1BD4) / 16;
+        size = work->ray_size + work->ray_size / 16;
     }
     rot.vx = -pitch - sign * 512;
     rot.vy = yaw;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1B50);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1B54) - 0x80;
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1B58);
+    m.t[0] = work->second_matrix.t[0];
+    m.t[1] = work->second_matrix.t[1] - 0x80;
+    m.t[2] = work->second_matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -217,19 +218,19 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1BD4) < 0x1000) {
-        MODEL_VARIANT_WORD(work, 0x1BD4) += MODEL_VARIANT_WORD(work, 0x1B9C) * 128;
-        if (MODEL_VARIANT_WORD(work, 0x1BD4) >= 0x1000) {
-            MODEL_VARIANT_WORD(work, 0x1BD4) = 0x1000;
+    if (work->ray_size < 0x1000) {
+        work->ray_size += work->step * 128;
+        if (work->ray_size >= 0x1000) {
+            work->ray_size = 0x1000;
         }
     }
-    timing = *(u8 **)(work + 0x1BA4);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x1B94) >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && MODEL_VARIANT_WORD(work, 0x1BD8) > 0) {
-        MODEL_VARIANT_WORD(work, 0x1BD8) = 0x400 - ((u32)(MODEL_VARIANT_WORD(work, 0x1B94) - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
+    timing = *(u8 **)((u8 *)work + 0x1BA4);
+    if ((u32)work->elapsed >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && work->ray_length > 0) {
+        work->ray_length = 0x400 - ((u32)(work->elapsed - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
                                    (u32)(MODEL_VARIANT_WORD(timing, 0x48) - MODEL_VARIANT_WORD(timing, 0x44));
-        if (MODEL_VARIANT_WORD(work, 0x1BD8) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x1BD8) = 0;
+        if (work->ray_length <= 0) {
+            work->ray_length = 0;
         }
     }
-    MODEL_VARIANT_HALF(work, 0x1BC4) += 0x20;
+    work->spin += 0x20;
 }

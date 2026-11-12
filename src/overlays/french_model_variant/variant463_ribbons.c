@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant463_ribbons.h"
+#include "../model_variant/variant446_entry.h"
 
 /* The North American header-446 build reads the projected points through
  * pointer arithmetic and tests j before resetting a spent ribbon; the
@@ -22,7 +23,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
     long flags[5][13];
     long p;
     long flag;
-    u8 *work;
+    Variant446EntryState *work;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -41,15 +42,15 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
     Ribbon463 *ribbon;
     POLY_FT4 *poly;
 
-    work = ctx;
+    work = (Variant446EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     i = 0;
     base = 0;
     length = 48;
     ribbon = ((Ribbon463Work *)work)->ribbons;
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x4A40), MODEL_VARIANT_WORD(work, 0x4A38)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x4A3C), MODEL_VARIANT_WORD(work, 0x4A38));
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     for (; i < 5; ribbon++) {
         if (i < 0) {
             dy = 0;
@@ -81,7 +82,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        wave = -MODEL_VARIANT_WORD(work, 0x4A94);
+        wave = -work->ribbon_wave;
         for (j = 0; j < 13; j++, wave += 1300) {
             if (j == 12) {
                 ribbon->otz[j] = RotTransPers4(&ribbon->a[11], &ribbon->a[12], &ribbon->a[11], &ribbon->a[12],
@@ -108,7 +109,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
             if (j == 0 || j == 12) {
                 phase = 0;
             } else {
-                phase = base - j * 512 + MODEL_VARIANT_WORD(work, 0x4A98);
+                phase = base - j * 512 + work->ribbon_phase;
             }
             amp = ribbon->width[j] * 64 / 48;
             sway = ribbon->width[j] * 32 / 48;
@@ -122,7 +123,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
         }
         poly = ((Ribbon463Work *)work)->polygons;
         for (j = 0; j < n; j++) {
-            if ((u32)MODEL_VARIANT_WORD(work, 0x4A50) % 2 == 1) {
+            if ((u32)work->clock.frame_count % 2 == 1) {
                 if (!(j & 1)) {
                     poly++;
                 } else {
@@ -143,7 +144,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
             if (ribbon->otz[j] >= 0 && flags[i][j] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[j]);
             }
-            if (!(MODEL_VARIANT_WORD(work, 0x4A50) & 1)) {
+            if (!(work->clock.frame_count & 1)) {
                 if (!(j & 1)) {
                     poly++;
                 } else {
@@ -152,15 +153,15 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
             }
         }
         if (ribbon->count < 12 && ribbon->state == 0) {
-            ribbon->count += MODEL_VARIANT_WORD(work, 0x4A5C) * 2;
+            ribbon->count += work->clock.step * 2;
             if (ribbon->count >= 12) {
                 ribbon->count = 12;
                 ribbon->state = 1;
             }
         } else if (ribbon->state == 1 && ribbon->scale > 0) {
-            ribbon->scale -= MODEL_VARIANT_WORD(work, 0x4A5C) * 64;
+            ribbon->scale -= work->clock.step * 64;
             if (ribbon->scale <= 0) {
-                if (MODEL_VARIANT_WORD(work, 0x4AB0) >= 3) {
+                if (work->phase >= 3) {
                     ribbon->scale = 0;
                     ribbon->count = 0;
                     ribbon->state = 2;
@@ -179,12 +180,12 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
             }
         }
         total += ribbon->state;
-        if (total == 10 && MODEL_VARIANT_WORD(work, 0x4AB0) == 3) {
-            MODEL_VARIANT_WORD(work, 0x4AB0) = 4;
+        if (total == 10 && work->phase == 3) {
+            work->phase = 4;
         }
         i++;
         base = i * 0x1800 / 5;
     }
-    MODEL_VARIANT_WORD(work, 0x4A94) += MODEL_VARIANT_WORD(work, 0x4A5C) * 128;
-    MODEL_VARIANT_WORD(work, 0x4A98) += MODEL_VARIANT_WORD(work, 0x4A5C) * 64;
+    work->ribbon_wave += work->clock.step * 128;
+    work->ribbon_phase += work->clock.step * 64;
 }

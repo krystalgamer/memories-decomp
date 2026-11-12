@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant433_strips.h"
+#include "../model_variant/variant416_entry.h"
 
 void ModelVariant416_DrawBands(u8 *ctx)
 {
@@ -14,7 +15,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     GsOT *ot;
     s16 i;
     s16 j;
-    u8 *work;
+    Variant416EntryState *work;
     struct ModelVariant433Strip *strip;
     POLY_GT4 *poly;
     s32 done;
@@ -23,15 +24,15 @@ void ModelVariant416_DrawBands(u8 *ctx)
     s32 raw_radius;
     s32 amount;
 
-    work = ctx;
+    work = (Variant416EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
-    angle = ratan2(MODEL_VARIANT_HALF(work, 0x1A32), MODEL_VARIANT_HALF(work, 0x1A30)) + 0x800;
-    poly = (POLY_GT4 *)(work + 0x18E8);
-    raw_radius = MODEL_VARIANT_HALF(work, 0x1A78);
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
+    poly = work->packets.textured;
+    raw_radius = work->field_1A78;
     /* Branch-local shifts retain the target's signed16 narrowing. */
     radius = raw_radius < 0 ? (u32)(raw_radius + 255) >> 8 : (u32)raw_radius >> 8;
-    strip = (struct ModelVariant433Strip *)(work + 0xF60);
+    strip = (struct ModelVariant433Strip *)work->bands;
     for (i = 0; i < 2; i++, strip++) {
         for (j = 0; j < 2; j++) {
             amount = 0;
@@ -47,9 +48,9 @@ void ModelVariant416_DrawBands(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = angle;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1A0C) + MODEL_VARIANT_WORD(work, 0x1A20) * amount / 0x400;
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1A10) + MODEL_VARIANT_WORD(work, 0x1A24) * amount / 0x400;
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1A14) + MODEL_VARIANT_WORD(work, 0x1A28) * amount / 0x400;
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * amount / 0x400;
             scale.vx = 0x1000;
             scale.vy = 0x1000;
             scale.vz = 0x1000;
@@ -65,16 +66,16 @@ void ModelVariant416_DrawBands(u8 *ctx)
             SetRotMatrix(&ls);
             strip->otz[j] = RotTransPers3(&strip->a[j], &strip->b[j], &strip->c[j],
                                         &strip->sa[j], &strip->sb[j], &strip->sc[j], &p, &flag[i][j]);
-            if (MODEL_VARIANT_WORD(work, 0x1A84) < 3) {
+            if (work->tail.phase < 3) {
                 if (strip->progress[j] < 0x400) {
-                    strip->progress[j] += MODEL_VARIANT_WORD(work, 0x1A58) << 6;
+                    strip->progress[j] += work->clock.step << 6;
                     if (strip->progress[j] >= 0x400) {
-                        if (i == 0 && j == 0 && MODEL_VARIANT_WORD(work, 0x1A84) < 2) {
-                            MODEL_VARIANT_WORD(work, 0x1A84) = 2;
+                        if (i == 0 && j == 0 && work->tail.phase < 2) {
+                            work->tail.phase = 2;
                         }
                         if (strip->progress[1] >= 0x400) {
-                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1A60), 0x28) <=
-                                (u32)MODEL_VARIANT_WORD(work, 0x1A50)) {
+                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1A60), 0x28) <=
+                                (u32)work->clock.frame) {
                                 strip->progress[j] = 0x400;
                                 strip->done[j] = 1;
                             } else {
@@ -92,13 +93,13 @@ void ModelVariant416_DrawBands(u8 *ctx)
                         done *= MODEL_VARIANT_WORD(column, 0x70);
                     }
                 }
-                if (i + 1 == 2 && j == 1 && done == 1 && MODEL_VARIANT_WORD(work, 0x1A84) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x1A84) = 3;
+                if (i + 1 == 2 && j == 1 && done == 1 && work->tail.phase == 2) {
+                    work->tail.phase = 3;
                 }
             }
         }
     }
-    strip = (struct ModelVariant433Strip *)(work + 0xF60);
+    strip = (struct ModelVariant433Strip *)work->bands;
     for (i = 0; i < 2; i++, strip++) {
         for (j = 0; j < 1; j++) {
             poly->x0 = strip->sa[j];
