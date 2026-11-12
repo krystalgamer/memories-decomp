@@ -2564,28 +2564,31 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
         Model_StepViewOrbit(1, 0, 0, distance_work, 0);
     }
 
-    if (pull_in_request != 0) {
-        distance_work = *(s16 *)&gModel_wViewDistance;
-        if (upper_distance < distance_work) {
-            goto last;
-        }
-        if (lower_distance < distance_work) {
-            distance_work = lower_distance - distance_work;
-            if (distance_work < -0xA) {
-                distance_work = -0xA;
+    do {
+        if (pull_in_request != 0) {
+            distance_work = *(s16 *)&gModel_wViewDistance;
+            if (upper_distance < distance_work) {
+                break;
             }
-            Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+            if (lower_distance < distance_work) {
+                distance_work = lower_distance - distance_work;
+                if (distance_work < -0xA) {
+                    distance_work = -0xA;
+                }
+                Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+            }
         }
-    }
+        if (upper_distance >= *(s16 *)&gModel_wViewDistance) {
+            Model_CorrectViewPitch();
+            return;
+        }
+    } while (0);
 
-    if (upper_distance < *(s16 *)&gModel_wViewDistance) {
-last:
-        distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
-        if (distance_work < -0x14) {
-            distance_work = -0x14;
-        }
-        Model_StepViewOrbit(1, 0, 0, distance_work, 0);
+    distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
+    if (distance_work < -0x14) {
+        distance_work = -0x14;
     }
+    Model_StepViewOrbit(1, 0, 0, distance_work, 0);
 
     Model_CorrectViewPitch();
 }
