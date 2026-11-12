@@ -198,6 +198,16 @@ changes; each rename has a `regional/<image>/function` row in
 American function, code the North American image does not link, and
 duplicate regional copies keep their placeholders.
 
+The French, German, Italian and Spanish inventories also still called the
+LIBGPU `FONT.OBJ` entry points `FntOpen` (`0x8007EF48`) and `FntPrint`
+(`0x8007F520`) by `func_` placeholders, although each image's
+`link_symbols.ld` already binds both names to those addresses. The English
+European and Japanese inventories carry both names, and each English European
+copy has the same size and masked words at the same offset from the shared
+neighbours (`FntLoad`/`FntFlush` and `FntFlush`/`ResetGraph`). The four
+inventories now spell the two names too, 8 rows in total. Only the inventory
+name column changes.
+
 #### Regional LIBCD copies anchored by their neighbours
 
 Four LIBCD entry points were left by both passes in every regional image:
