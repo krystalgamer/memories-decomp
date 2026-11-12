@@ -286,53 +286,59 @@ s32 MainMenu_UpdateFrontendMenu(void)
         moved = 0;
         i = 0;
         slot = gMain_apMenuEntries;
-    entry_loop:
-        eloop = (DisplayObject *)*slot;
-        if (eloop != 0) {
-            timer = eloop->field_60;
-            step = (u16)eloop->field_60;
-            if (timer > 0) {
-                timer = step - 1;
-                eloop->field_60 = timer;
-                first = (u32)gMain_bMenuID < 5;
-                if (first ? i < 5 : i >= 5) {
-                    eloop = (DisplayObject *)*slot;
-                    first = eloop->field_38.h.field_38;
-                    value = eloop->field_34.h.field_36;
-                    delta = first - value;
-                    value = eloop->field_60;
-                    /* Keep the selector/endpoint scratch live as the phase limit. */
-                    first = 0x10;
-                    frame = first - value;
-                    value = (u16)eloop->field_38.h.field_38;
-                    if (frame != first) {
-                        product = rsin(frame << 6) * delta;
-                        eloop = (DisplayObject *)*slot;
-                        /* In-place truncation avoids the old compiler's quotient copy. */
-                        if (product < 0) {
-                            product += 0xFFF;
-                        }
-                        product >>= 12;
-                        value = (u16)eloop->field_34.h.field_36 + product;
-                    }
-                    *(volatile s16 *)&eloop->xy.h.x = value;
-                    if ((frame & 1) != 0) {
-                        MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
-                    }
-                    ((DisplayObject *)*slot)->flags =
-                        ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
-                } else {
-                    ((DisplayObject *)*slot)->flags =
-                        ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-                }
-                moved++;
-                DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
+        /* The constant switch enters the entry loop at its case label, so
+           loop.c leaves it alone as with retail's goto loop (a structured
+           loop hoists the gMain_bMenuID address into a saved register). */
+        switch (0) {
+            for (;;) {
             }
-        }
-        i++;
-        slot++;
-        if (i < 0xB) {
-            goto entry_loop;
+            do {
+        case 0:
+                eloop = (DisplayObject *)*slot;
+                if (eloop != 0) {
+                    timer = eloop->field_60;
+                    step = (u16)eloop->field_60;
+                    if (timer > 0) {
+                        timer = step - 1;
+                        eloop->field_60 = timer;
+                        first = (u32)gMain_bMenuID < 5;
+                        if (first ? i < 5 : i >= 5) {
+                            eloop = (DisplayObject *)*slot;
+                            first = eloop->field_38.h.field_38;
+                            value = eloop->field_34.h.field_36;
+                            delta = first - value;
+                            value = eloop->field_60;
+                            /* Keep the selector/endpoint scratch live as the phase limit. */
+                            first = 0x10;
+                            frame = first - value;
+                            value = (u16)eloop->field_38.h.field_38;
+                            if (frame != first) {
+                                product = rsin(frame << 6) * delta;
+                                eloop = (DisplayObject *)*slot;
+                                /* In-place truncation avoids the old compiler's quotient copy. */
+                                if (product < 0) {
+                                    product += 0xFFF;
+                                }
+                                product >>= 12;
+                                value = (u16)eloop->field_34.h.field_36 + product;
+                            }
+                            *(volatile s16 *)&eloop->xy.h.x = value;
+                            if ((frame & 1) != 0) {
+                                MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
+                            }
+                            ((DisplayObject *)*slot)->flags =
+                                ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
+                        } else {
+                            ((DisplayObject *)*slot)->flags =
+                                ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                        }
+                        moved++;
+                        DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
+                    }
+                }
+                i++;
+                slot++;
+            } while (i < 0xB);
         }
         if (moved != 0) {
             return -1;
