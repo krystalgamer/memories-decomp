@@ -220,8 +220,9 @@ typedef struct {
     u8 pad84[0x0C];
 } ModelVariantQuad;
 
-/* The 0x10-byte block that starts the effect elements of the header 627-682
- * entries (ModelVariantElement and its relatives below). An entry sets up
+/* The 0x10-byte block that starts the effect elements of the header 627-683
+ * entries (ModelVariantElement and its relatives below, and entry records
+ * such as Model633Element) and images 9840 and 60348. An entry sets up
  * an element's color, u, v, mode and duration, zeroes elapsed and sets
  * active to spawn it; each tick it skips an element whose active flag is
  * clear, adds the frame step to elapsed and clears active once elapsed
@@ -247,7 +248,8 @@ typedef struct {
  * set coord to Model_GetCameraCoordinateUnit() and, per draw, link it as
  * the super of a local GsCOORDUNIT whose matrix is ScaleMatrix(scale),
  * then RotMatrixZ/X/Y(rotation) and translation position, before
- * GsGetLsUnit. */
+ * GsGetLsUnit. The screen-wide flashes and fades (e.g. headers 668 and 683)
+ * draw a flat fill and only set coord. */
 typedef struct {
     GsCOORDUNIT *coord;
     SVECTOR rotation;

@@ -24,16 +24,10 @@ typedef struct {
 
 /* One 0x50-byte effect part placed through its own coordinate unit. */
 typedef struct {
-    u8 active, red, green, blue;
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* The wobble phase of the domes. */
     u16 stage, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR velocity;
 } Model628Part;
 

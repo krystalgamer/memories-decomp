@@ -15,16 +15,9 @@
 
 /* One 0x50-byte element: a glowing cage, a spinning star or a burst. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     u32 unknown_10;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR unknown_40;
 } Model644Element;
 

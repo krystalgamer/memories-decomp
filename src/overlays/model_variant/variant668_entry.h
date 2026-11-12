@@ -23,17 +23,10 @@ typedef struct {
 
 /* One 0x50-byte element: the shell, or the screen flash. */
 typedef struct {
-    u8 active;
-    u8 color[3];
-    u8 u, v, unknown_06[2];
-    s32 mode;
-    u16 elapsed, duration;
+    ModelVariantElementHead head;
     /* Frames drawn; odd frames shrink the shell slightly. */
     u16 frame, unknown_12;
-    GsCOORDUNIT *coord;
-    SVECTOR rotation;
-    VECTOR scale;
-    VECTOR position;
+    ModelVariantElementTransform xform;
     VECTOR spin;
 } Model668Element;
 
