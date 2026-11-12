@@ -949,156 +949,154 @@ select:
         return;
     }
 #endif
-    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CONFIRM_MASK) == 0) {
-        goto sel_ret;
-    }
+    if ((gInput_awPadRepeat[0] & NAME_ENTRY_CONFIRM_MASK) != 0) {
 #ifdef VERSION_EUROPE
-    kind = 0;
-    work = -1;
-    gx = 0;
-    gy = 0;
-    glyphTable = &gNameEntry_aKeyboardCells[0][0];
-    glyphRow = (s8)gNameEntry_bKeyboardRow;
-    glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
-    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
-    if (glyphCode == 8) {
-        work = 2;
-        gy = 144;
-        gNameEntry_bStateFlags |= 0x40;
-    } else {
-        n = 41;
-        kind = 1;
-        gx = glyphCol * 20;
-        gy = glyphRow * 18;
-        if (glyphRow == 8 && (u8)(gNameEntry_bKeyboardColumn - 9) < 2) {
-            work = glyphCol - 9;
-            d = kind;
-            if (work == 0) {
-                d = -1;
+        kind = 0;
+        work = -1;
+        gx = 0;
+        gy = 0;
+        glyphTable = &gNameEntry_aKeyboardCells[0][0];
+        glyphRow = (s8)gNameEntry_bKeyboardRow;
+        glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
+        glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
+        if (glyphCode == 8) {
+            work = 2;
+            gy = 144;
+            gNameEntry_bStateFlags |= 0x40;
+        } else {
+            n = 41;
+            kind = 1;
+            gx = glyphCol * 20;
+            gy = glyphRow * 18;
+            if (glyphRow == 8 && (u8)(gNameEntry_bKeyboardColumn - 9) < 2) {
+                work = glyphCol - 9;
+                d = kind;
+                if (work == 0) {
+                    d = -1;
+                }
+                if (NameEntry_AdjustLength(d, 6) == 0) {
+                    n = 9;
+                }
             }
-            if (NameEntry_AdjustLength(d, 6) == 0) {
-                n = 9;
-            }
+            SD_SEPlayFull(n);
         }
-        SD_SEPlayFull(n);
-    }
-    if (work >= 0) {
-        object = gNameEntry_apKeySprites[work];
+        if (work >= 0) {
+            object = gNameEntry_apKeySprites[work];
+            object->field_6C = 1;
+            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            object->field_4C = 0;
+            object->field_6B = 1;
+            return;
+        }
+        node = TextBox_GetGlyphAt(kind, gx | 2, gy);
+        object = NameEntry_SpawnGlyphSprite(kind, node);
         object->field_6C = 1;
         object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-        object->field_4C = 0;
-        object->field_6B = 1;
+        if (node == 0) {
+            object->flags &= 0xFFBF;
+        }
+        if (kind == 1) {
+            u16 *slot;
+            gNameEntry_bStateFlags |= 0x80;
+            slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
+            *slot = 0;
+            if (node != 0) {
+                *slot = node->glyph_code;
+            }
+            object = NameEntry_SpawnGlyphSprite(1, node);
+            object->field_60 = 8;
+            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+            object->field_44.target.y = 204;
+            object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
+            object->field_6C = 6;
+        }
         return;
-    }
-    node = TextBox_GetGlyphAt(kind, gx | 2, gy);
-    object = NameEntry_SpawnGlyphSprite(kind, node);
-    object->field_6C = 1;
-    object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-    if (node == 0) {
-        object->flags &= 0xFFBF;
-    }
-    if (kind == 1) {
-        u16 *slot;
-        gNameEntry_bStateFlags |= 0x80;
-        slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
-        *slot = 0;
-        if (node != 0) {
-            *slot = node->glyph_code;
-        }
-        object = NameEntry_SpawnGlyphSprite(1, node);
-        object->field_60 = 8;
-        object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        object->field_44.target.y = 204;
-        object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
-        object->field_6C = 6;
-    }
-    return;
 #else
-    kind = 0;
-    work = kind;
+        kind = 0;
+        work = kind;
 #ifdef VERSION_JAPAN
-    gy = kind;
+        gy = kind;
 #endif
-    glyphTable = &gNameEntry_aKeyboardCells[0][0];
-    glyphRow = (s8)gNameEntry_bKeyboardRow;
-    glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
-    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
-    gx = kind;
-    switch (glyphCode) {
+        glyphTable = &gNameEntry_aKeyboardCells[0][0];
+        glyphRow = (s8)gNameEntry_bKeyboardRow;
+        glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
+        glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
+        gx = kind;
+        switch (glyphCode) {
 #ifdef VERSION_JAPAN
-    case 2:
-        /* The Japanese keyboard's mode key: it cycles the character set
-         * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
-        gNameEntry_bCharacterSet++;
-        if (gNameEntry_bCharacterSet >= 3) {
-            gNameEntry_bCharacterSet = 0;
-        }
-        NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
-        work = 2;
-        SD_SEPlayFull(7);
-        break;
+        case 2:
+            /* The Japanese keyboard's mode key: it cycles the character set
+             * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
+            gNameEntry_bCharacterSet++;
+            if (gNameEntry_bCharacterSet >= 3) {
+                gNameEntry_bCharacterSet = 0;
+            }
+            NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
+            work = 2;
+            SD_SEPlayFull(7);
+            break;
 #endif
-    case 4:
-        d = 1;
-        if (glyphCol == 11) {
-            d = -1;
-        } else {
-            gx = 20;
+        case 4:
+            d = 1;
+            if (glyphCol == 11) {
+                d = -1;
+            } else {
+                gx = 20;
+            }
+            if (NameEntry_AdjustLength(d, 6) == 0) {
+                SD_SEPlayFull(9);
+            }
+            gy = 36;
+            break;
+        case 6:
+            work = 2;
+            gy = 72;
+            gNameEntry_bStateFlags |= 0x40;
+            break;
+        default:
+            kind = 1;
+            gx = (s8)gNameEntry_bKeyboardColumn * 20;
+            gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
+            SD_SEPlayFull(41);
+            break;
         }
-        if (NameEntry_AdjustLength(d, 6) == 0) {
-            SD_SEPlayFull(9);
-        }
-        gy = 36;
-        break;
-    case 6:
-        work = 2;
-        gy = 72;
-        gNameEntry_bStateFlags |= 0x40;
-        break;
-    default:
-        kind = 1;
-        gx = (s8)gNameEntry_bKeyboardColumn * 20;
-        gy = ((s8)gNameEntry_bKeyboardRow * 9) << kind;
-        SD_SEPlayFull(41);
-        break;
-    }
-    node = TextBox_GetGlyphAt(kind, gx, gy);
-    obj = NameEntry_SpawnGlyphSprite(kind, node);
-    ((DisplayObject *)obj)->field_6C = 1;
-    ((DisplayObject *)obj)->update =
-        (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-    if (node == 0) {
-        ((DisplayObject *)obj)->flags &= 0xFFBF;
-    }
-    if (work != 0) {
-        ((DisplayObject *)obj)->field_48.pivot.x = 20;
-        node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+        node = TextBox_GetGlyphAt(kind, gx, gy);
         obj = NameEntry_SpawnGlyphSprite(kind, node);
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update =
             (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
-        ((DisplayObject *)obj)->field_48.pivot.x = 0;
-    }
-    if (kind == 1) {
-        u16 *slot;
-        gNameEntry_bStateFlags |= 0x80;
-        slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
-        *slot = 0;
-        if (node != 0) {
-            *slot = node->glyph_code;
+        if (node == 0) {
+            ((DisplayObject *)obj)->flags &= 0xFFBF;
         }
-        obj = NameEntry_SpawnGlyphSprite(1, node);
-        ((DisplayObject *)obj)->field_60 = 8;
-        ((DisplayObject *)obj)->update =
-            (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
-        ((DisplayObject *)obj)->field_44.target.y = 204;
-        ((DisplayObject *)obj)->field_44.target.x =
-            gNameEntry_bCaretPos * 16 + 112;
-        ((DisplayObject *)obj)->field_6C = 6;
-    }
-    return;
+        if (work != 0) {
+            ((DisplayObject *)obj)->field_48.pivot.x = 20;
+            node = TextBox_GetGlyphAt(kind, gx + 20, gy);
+            obj = NameEntry_SpawnGlyphSprite(kind, node);
+            ((DisplayObject *)obj)->field_6C = 1;
+            ((DisplayObject *)obj)->update =
+                (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            ((DisplayObject *)obj)->field_48.pivot.x = 0;
+        }
+        if (kind == 1) {
+            u16 *slot;
+            gNameEntry_bStateFlags |= 0x80;
+            slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
+            *slot = 0;
+            if (node != 0) {
+                *slot = node->glyph_code;
+            }
+            obj = NameEntry_SpawnGlyphSprite(1, node);
+            ((DisplayObject *)obj)->field_60 = 8;
+            ((DisplayObject *)obj)->update =
+                (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+            ((DisplayObject *)obj)->field_44.target.y = 204;
+            ((DisplayObject *)obj)->field_44.target.x =
+                gNameEntry_bCaretPos * 16 + 112;
+            ((DisplayObject *)obj)->field_6C = 6;
+        }
+        return;
 #endif
-sel_ret:
+    }
 #ifdef VERSION_EUROPE
     if ((gInput_awPadRepeat[0] & NAME_ENTRY_CANCEL_MASK) != 0) {
         if (NameEntry_AdjustLength(-1, 6) != 0) {
