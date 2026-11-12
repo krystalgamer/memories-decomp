@@ -297,37 +297,37 @@ void Script_OpViewportTween(void)
 void Script_UpdateViewportTween(void) {
     s32 sx;
     s32 sy;
-    s32 n;
-    s32 v;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
+    s32 duration;
+    s32 remaining;
+    s32 accumulator_x;
+    s32 delta_x;
+    s32 accumulator_y;
+    s32 delta_y;
 
     if (ScriptCommand_MarkStarted() == 0) {
         sx = gGraphics_sViewportX;
-        n = *(s16 *)&gScript_SharedOperand;
-        gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / n;
+        duration = *(s16 *)&gScript_SharedOperand;
+        gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / duration;
         sy = gGraphics_sViewportY;
-        gScript_ViewportDeltaY = ((*(s16 *)&gScript_ViewportTargetY - sy) << 16) / n;
+        gScript_ViewportDeltaY = ((*(s16 *)&gScript_ViewportTargetY - sy) << 16) / duration;
         gScript_ViewportAccumulatorX = (sx << 16) | 0x8000;
         gScript_ViewportAccumulatorY = (sy << 16) | 0x8000;
     }
 
-    a = gScript_ViewportAccumulatorX;
-    do { b = gScript_ViewportDeltaX; } while (0);
-    c = gScript_ViewportAccumulatorY;
-    d = gScript_ViewportDeltaY;
-    a = a + b;
-    gScript_ViewportAccumulatorX = a;
-    gGraphics_sViewportX = a >> 16;
-    c = c + d;
-    gScript_ViewportAccumulatorY = c;
-    gGraphics_sViewportY = c >> 16;
+    accumulator_x = gScript_ViewportAccumulatorX;
+    do { delta_x = gScript_ViewportDeltaX; } while (0);
+    accumulator_y = gScript_ViewportAccumulatorY;
+    delta_y = gScript_ViewportDeltaY;
+    accumulator_x = accumulator_x + delta_x;
+    gScript_ViewportAccumulatorX = accumulator_x;
+    gGraphics_sViewportX = accumulator_x >> 16;
+    accumulator_y = accumulator_y + delta_y;
+    gScript_ViewportAccumulatorY = accumulator_y;
+    gGraphics_sViewportY = accumulator_y >> 16;
 
-    v = gScript_SharedOperand - 1;
-    gScript_SharedOperand = v;
-    if ((s16)v <= 0) {
+    remaining = gScript_SharedOperand - 1;
+    gScript_SharedOperand = remaining;
+    if ((s16)remaining <= 0) {
         gScript_wCommandWord = 0;
         gGraphics_sViewportX = gScript_ViewportTargetX;
         gGraphics_sViewportY = gScript_ViewportTargetY;
@@ -353,7 +353,7 @@ void Script_OpOpenCampaignMap(void)
 
 void Script_OpShowMenu(void)
 {
-    MenuRecord *o;
+    MenuRecord *record;
     s32 first;
     s32 flags;
     s32 bit;
@@ -363,21 +363,21 @@ void Script_OpShowMenu(void)
         flags = *gScript_StreamCursor++;
         bit = flags & 0x80;
 
-        o = &gDisplayEffect_aMenuRecords[bit >> 7];
-        gScript_pMenuRecord = o;
+        record = &gDisplayEffect_aMenuRecords[bit >> 7];
+        gScript_pMenuRecord = record;
 
-        if (o->effect_id >= 0) {
-            DisplayEffect_ReleaseRecord(o);
+        if (record->effect_id >= 0) {
+            DisplayEffect_ReleaseRecord(record);
         }
         DisplayEffect_ResetMenuRecords();
-        DisplayEffect_ResetRecordState((DisplayEffectState *)o);
+        DisplayEffect_ResetRecordState((DisplayEffectState *)record);
 
-        o->resource_entry_index = flags & 15;
-        o->effect_id = first;
-        o->slot_index = bit >> 7;
-        o->display_effect_step = 2;
+        record->resource_entry_index = flags & 15;
+        record->effect_id = first;
+        record->slot_index = bit >> 7;
+        record->display_effect_step = 2;
         if (bit) {
-            o->x = 0xD8;
+            record->x = 0xD8;
         }
     }
 
@@ -394,39 +394,39 @@ void Script_OpShowMenu(void)
 
 void Script_OpSound(void)
 {
-    u8 *q;
-    s32 c;
-    s32 f;
+    u8 *stream;
+    s32 raw;
+    s32 command;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        q = gScript_StreamCursor;
-        c = *q;
-        q++;
-        gScript_StreamCursor = q;
-        f = c;
+        stream = gScript_StreamCursor;
+        raw = *stream;
+        stream++;
+        gScript_StreamCursor = stream;
+        command = raw;
 
-        if ((f & 0x3F) == 0) {
-            if (f & 0x40) {
-                gScript_StreamCursor = q + 2;
-                SD_SEPlayFull(q[0] | (q[1] << 8));
+        if ((command & 0x3F) == 0) {
+            if (command & 0x40) {
+                gScript_StreamCursor = stream + 2;
+                SD_SEPlayFull(stream[0] | (stream[1] << 8));
             } else {
-                gScript_StreamCursor = q + 2;
-                SD_BGMPlay(q[0] | (q[1] << 8));
+                gScript_StreamCursor = stream + 2;
+                SD_BGMPlay(stream[0] | (stream[1] << 8));
             }
         } else {
-            if (f & 1) {
+            if (command & 1) {
                 SD_BGMPlay(gSD_dwSavedBgmCommand);
             }
-            if (f & 2) {
-                q = gScript_StreamCursor;
-                gScript_StreamCursor = q + 2;
-                gSD_dwSavedBgmCommand = q[0] | (q[1] << 8);
+            if (command & 2) {
+                stream = gScript_StreamCursor;
+                gScript_StreamCursor = stream + 2;
+                gSD_dwSavedBgmCommand = stream[0] | (stream[1] << 8);
             }
-            if (f & 4) {
+            if (command & 4) {
                 gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand;
             }
         }
-        if (f & 0x80) {
+        if (command & 0x80) {
             return;
         }
     } else if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -806,7 +806,7 @@ void Script_OpFadeOut(void)
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
     s32 one;
-    s32 c;
+    s32 image_buffer;
     s32 m;
     s32 m2;
     s32 n;
@@ -864,16 +864,16 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         d->x = 0x280;
         d->y = 0xD4;
         d->h = mode;
-        c = gFile_TransferBufferBase;
+        image_buffer = gFile_TransferBufferBase;
         d->w = 0x100;
 #else
         d->y = 0xF4;
         d->h = mode;
-        c = gFile_TransferBufferBase;
+        image_buffer = gFile_TransferBufferBase;
         d->x = 0;
         d->w = 0x100;
 #endif
-        LoadImage2((RECT *)d, (u32 *)c);
+        LoadImage2((RECT *)d, (u32 *)image_buffer);
         m2 = 0xFFDCFFFF;
         d->alternate_sector_destination = (s32)gDisplay_abResourceBank0;
         d->sector_destination = (s32)gDisplay_abResourceBank0;
@@ -916,8 +916,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
    clears the phase flag. */
 void Script_OpDuelResult(void) {
     u8 *p;
-    DisplayObject *o;
-    DisplayObject *q;
+    DisplayObject *object;
+    DisplayObject *fill;
     u16 flags;
     s32 four;
     s32 color;
@@ -950,60 +950,60 @@ void Script_OpDuelResult(void) {
            0x140 by 0x100 panel stands in for the US two, and the fill quad
            is initialised in mode 1 with corners at y 0, 0x40 and 0x100. */
         four = 4;
-        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, gText_bLanguageIndex, 0x17, four, gDisplay_abResourceBank0);
-        DisplayObject_SetDepthOffset(o, 1);
-        o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, gText_bLanguageIndex, 0x17, four, gDisplay_abResourceBank0);
+        DisplayObject_SetDepthOffset(object, 1);
+        object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].object_address = (s32)o;
-        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
-        DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[1].object_address = (s32)o;
+        object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        gSceneScript_Slots[0].object_address = (s32)object;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+        DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
+        DisplayObject_SetDepthOffset(object, -1);
+        gSceneScript_Slots[1].object_address = (s32)object;
         gSceneScript_Slots[2].object_address = 0;
-        q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
-        DisplayObject_InitializeGouraudQuad(q, 1);
-        q->xy.word = 0x140;
-        q->field_38.word = 0x400000;
-        q->position.word = 0;
-        q->field_40.word = 0x400140;
-        q->field_48.word = 0x1000000;
-        q->field_50.word = 0x1000140;
-        q->field_2C.word = 0xFFFFFF;
-        q->field_34.word = 0xFFFFFF;
-        q->field_4C = 0xFFFFFF;
-        q->field_54 = (void *)0xFFFFFF;
-        gScript_TransitionObject = q;
-        q->attribute |= (GsALON | GsATWO);
+        fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
+        DisplayObject_InitializeGouraudQuad(fill, 1);
+        fill->xy.word = 0x140;
+        fill->field_38.word = 0x400000;
+        fill->position.word = 0;
+        fill->field_40.word = 0x400140;
+        fill->field_48.word = 0x1000000;
+        fill->field_50.word = 0x1000140;
+        fill->field_2C.word = 0xFFFFFF;
+        fill->field_34.word = 0xFFFFFF;
+        fill->field_4C = 0xFFFFFF;
+        fill->field_54 = (void *)0xFFFFFF;
+        gScript_TransitionObject = fill;
+        fill->attribute |= (GsALON | GsATWO);
 #else
         four = 4;
-        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, gDisplay_abResourceBank0);
-        DisplayObject_SetDepthOffset(o, 1);
-        o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x17, four, gDisplay_abResourceBank0);
+        DisplayObject_SetDepthOffset(object, 1);
+        object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].object_address = (s32)o;
-        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
-        DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[1].object_address = (s32)o;
-        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
-        DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[2].object_address = (s32)o;
-        q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
-        DisplayObject_InitializeGouraudQuad(q, 0);
+        object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        gSceneScript_Slots[0].object_address = (s32)object;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+        DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_SetDepthOffset(object, -1);
+        gSceneScript_Slots[1].object_address = (s32)object;
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+        DisplayObject_ConfigureScreenSprite(object, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_SetDepthOffset(object, -1);
+        gSceneScript_Slots[2].object_address = (s32)object;
+        fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
+        DisplayObject_InitializeGouraudQuad(fill, 0);
         color = 0xF00140;
-        q->xy.word = 0x140;
-        q->field_38.word = 0xF00000;
-        q->field_3C.word = 0xFFFFFF;
-        q->field_44.word = 0xFFFFFF;
-        q->position.word = 0;
-        q->field_40.word = color;
-        gScript_TransitionObject = q;
-        q->attribute |= (GsALON | GsATWO);
+        fill->xy.word = 0x140;
+        fill->field_38.word = 0xF00000;
+        fill->field_3C.word = 0xFFFFFF;
+        fill->field_44.word = 0xFFFFFF;
+        fill->position.word = 0;
+        fill->field_40.word = color;
+        gScript_TransitionObject = fill;
+        fill->attribute |= (GsALON | GsATWO);
 #endif
         Fade_StartIn();
         gFade_State.step = four;
@@ -1113,29 +1113,29 @@ void Script_OpReturnToMenu(void)
 
 void Script_RunTick(void)
 {
-    u16 f;
-    s32 g;
-    s32 b;
+    u16 state;
+    s32 event;
+    s32 command;
 
     rand();
-    f = gScript_EventState;
-    if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
+    state = gScript_EventState;
+    if (state & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
         if ((*(u32 *)&gText_aChannels[0].flags_34 & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;
     }
-    if (f == 0) {
+    if (state == 0) {
         return;
     }
-    if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
-        g = gScript_EventState;
-        gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[g];
-        b = *gScript_StreamCursor++;
+    if ((state & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
+        event = gScript_EventState;
+        gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[event];
+        command = *gScript_StreamCursor++;
         gScript_DialogCommandLatch = 0;
-        gScript_EventState = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
-        gScript_wCommandWord = b;
+        gScript_EventState = event | DUEL_EVENT_SCRIPT_FLAG_STARTED;
+        gScript_wCommandWord = command;
     }
     if (gScript_DialogCommandLatch != 0) {
         gScript_wCommandWord = gScript_DialogCommandLatch;
@@ -1179,9 +1179,9 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     s32 v_2;
     s32 v_3;
     s32 w;
-    s32 t;
+    s32 destination;
     s32 m;
-    s32 c;
+    s32 image_buffer;
 
     switch (stage) {
     case 0:
@@ -1197,30 +1197,30 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         w |= 0x10000;
         gFile_dwTransferState = w;
         p->transfer_mode = 2;
-        t = (p->sector_destination = gFile_TransferBufferBase);
+        destination = (p->sector_destination = gFile_TransferBufferBase);
         *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
-        p->alternate_sector_destination = t + FILE_SECTOR_SIZE;
+        p->alternate_sector_destination = destination + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         m = 0xFFDCFFFF;
         v_1 = gFile_dwTransferState;
-        t = gFile_TransferBufferBase;
+        destination = gFile_TransferBufferBase;
         v_1 &= m;
         gFile_dwTransferState = v_1;
-        p->alternate_sector_destination = t;
-        p->sector_destination = t;
+        p->alternate_sector_destination = destination;
+        p->sector_destination = destination;
         p->transfer_mode = 1;
         break;
 
     case 2:
-        c = gFile_TransferBufferBase;
+        image_buffer = gFile_TransferBufferBase;
         p->x = CAMPAIGN_SCENE_IMAGE_X;
         p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;
         p->h = 1;
-        LoadImage2((RECT *)p, (u32 *)c);
+        LoadImage2((RECT *)p, (u32 *)image_buffer);
         *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer;
         *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer;
         m = 0xFFDCFFFF;
@@ -1235,11 +1235,11 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s32 *)&p->phase_size = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
         v_3 = gFile_dwTransferState;
-        t = (s32)gRuntime_pSharedWorkBase;
+        destination = (s32)gRuntime_pSharedWorkBase;
         v_3 &= m;
         gFile_dwTransferState = v_3;
-        p->alternate_sector_destination = t;
-        p->sector_destination = t;
+        p->alternate_sector_destination = destination;
+        p->sector_destination = destination;
         p->transfer_mode = 1;
         break;
     }
