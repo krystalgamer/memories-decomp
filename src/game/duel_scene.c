@@ -8209,8 +8209,7 @@ void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p) {
  * (mode 0), and two rotate-then-settle arms (modes 1 and 2) that step the
  * angle at +0x2A by +0x28 until the +0x60 counter runs out, mirror it
  * according to gDuel_bActiveSide, and reset through Duel_ApplyCardObjectFlags.
- * The arms are laid out as goto targets in retail's own address order and
- * the shared reset block is reached by goto from both. */
+ * The shared reset block lives in mode 0 and the settle arms jump back to it. */
 void Duel_UpdateCardToFieldView(DuelCardTurnObject *p) {
     DuelCardRecord *e;
     s32 m;
@@ -8233,140 +8232,122 @@ void Duel_UpdateCardToFieldView(DuelCardTurnObject *p) {
         }
         p->mode = v;
     }
-    v = p->mode;
-    if (v == 1) {
-        goto m1;
-    }
-    if (v >= 2) {
-        goto ge2;
-    }
-    if (v == 0) {
-        goto m0;
-    }
-    return;
-ge2:
-    if (v == 2) {
-        goto m2;
-    }
-    return;
-m0:
-    f = p->phase;
-    if ((f & 0x40) == 0) {
-        p->phase = f | 0x40;
-        p->counter = 8;
-    }
-    c = p->counter - 1;
-    p->counter = c;
-    if (c > 0) {
+    switch (p->mode) {
+    case 0:
+        f = p->phase;
+        if ((f & 0x40) == 0) {
+            p->phase = f | 0x40;
+            p->counter = 8;
+        }
+        c = p->counter - 1;
+        p->counter = c;
+        if (c > 0) {
+            return;
+        }
+        e->flags = e->flags & 0xFBFF;
+        p->tint.channel[2] = 0x80;
+        p->tint.channel[0] = 0;
+        p->tint.channel[1] = 0;
+        p->tint.packed = 0x800000;
+        if ((e->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
+            p->tint.channel[1] = 0xC0;
+        }
+    reset:
+        p->phase = 0;
+        p->field_24 = 0;
+        Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)p);
         return;
+    case 1:
+        f = p->phase;
+        if ((f & 0x40) == 0) {
+            p->phase = f | 0x40;
+            p->angle_step = 0x1000;
+            p->angle.unsigned_value = 0x80;
+            p->tint.packed = 0;
+            p->counter = 4;
+            p->flags =
+                p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+        }
+        if ((p->phase & 0x20) == 0) {
+            s1 = p->angle.unsigned_value + p->angle_step;
+            p->angle.unsigned_value = s1;
+            p->tint.channel[1] = s1 >> 8;
+            c = p->counter - 1;
+            p->counter = c;
+            if (c != 0) {
+                return;
+            }
+            p->phase = p->phase | 0x20;
+            d = gDuel_bActiveSide;
+            e->flags = e->flags & 0xFBFF;
+            if (d != 0) {
+                p->tint.packed = 0xC00000;
+                p->angle.signed_value = -0x3F80;
+            } else {
+                p->tint.packed = 0x400000;
+                p->angle.signed_value = 0x4080;
+            }
+            p->counter = 4;
+            return;
+        }
+        if (gDuel_bActiveSide != 0) {
+            p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+        } else {
+            p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
+        }
+        p->tint.channel[2] = p->angle.unsigned_value >> 8;
+        c = p->counter - 1;
+        p->counter = c;
+        if (c != 0) {
+            return;
+        }
+        p->tint.channel[2] = 0;
+        goto reset;
+    case 2:
+        f = p->phase;
+        if ((f & 0x40) == 0) {
+            p->phase = f | 0x40;
+            p->tint.packed = 0xC00000;
+            p->angle_step = 0x1000;
+            p->angle.unsigned_value = 0x80;
+            p->counter = 4;
+        }
+        if ((p->phase & 0x20) == 0) {
+            s2 = p->angle.unsigned_value - p->angle_step;
+            p->angle.unsigned_value = s2;
+            p->tint.channel[0] = s2 >> 8;
+            c = p->counter - 1;
+            p->counter = c;
+            if (c != 0) {
+                return;
+            }
+            p->phase = p->phase | 0x20;
+            d = gDuel_bActiveSide;
+            e->flags = e->flags & 0xFBFF;
+            if (d != 0) {
+                p->tint.packed = 0xC0C000;
+                p->angle.signed_value = -0x3F80;
+            } else {
+                p->tint.packed = 0x40C000;
+                p->angle.signed_value = 0x4080;
+            }
+            p->counter = 4;
+            return;
+        }
+        if (gDuel_bActiveSide != 0) {
+            p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+        } else {
+            p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
+        }
+        p->tint.channel[2] = p->angle.unsigned_value >> 8;
+        c = p->counter - 1;
+        p->counter = c;
+        if (c != 0) {
+            return;
+        }
+        p->tint.channel[0] = 0;
+        goto reset;
     }
-    e->flags = e->flags & 0xFBFF;
-    p->tint.channel[2] = 0x80;
-    p->tint.channel[0] = 0;
-    p->tint.channel[1] = 0;
-    p->tint.packed = 0x800000;
-    if ((e->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
-        p->tint.channel[1] = 0xC0;
-    }
-reset:
-    p->phase = 0;
-    p->field_24 = 0;
-    Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)p);
-    return;
-m1:
-    f = p->phase;
-    if ((f & 0x40) == 0) {
-        p->phase = f | 0x40;
-        p->angle_step = 0x1000;
-        p->angle.unsigned_value = 0x80;
-        p->tint.packed = 0;
-        p->counter = 4;
-        p->flags =
-            p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-    }
-    if ((p->phase & 0x20) != 0) {
-        goto alt1;
-    }
-    s1 = p->angle.unsigned_value + p->angle_step;
-    p->angle.unsigned_value = s1;
-    p->tint.channel[1] = s1 >> 8;
-    c = p->counter - 1;
-    p->counter = c;
-    if (c != 0) {
-        return;
-    }
-    p->phase = p->phase | 0x20;
-    d = gDuel_bActiveSide;
-    e->flags = e->flags & 0xFBFF;
-    if (d != 0) {
-        p->tint.packed = 0xC00000;
-        p->angle.signed_value = -0x3F80;
-    } else {
-        p->tint.packed = 0x400000;
-        p->angle.signed_value = 0x4080;
-    }
-    p->counter = 4;
-    return;
-alt1:
-    if (gDuel_bActiveSide != 0) {
-        p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
-    } else {
-        p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
-    }
-    p->tint.channel[2] = p->angle.unsigned_value >> 8;
-    c = p->counter - 1;
-    p->counter = c;
-    if (c != 0) {
-        return;
-    }
-    p->tint.channel[2] = 0;
-    goto reset;
-m2:
-    f = p->phase;
-    if ((f & 0x40) == 0) {
-        p->phase = f | 0x40;
-        p->tint.packed = 0xC00000;
-        p->angle_step = 0x1000;
-        p->angle.unsigned_value = 0x80;
-        p->counter = 4;
-    }
-    if ((p->phase & 0x20) != 0) {
-        goto alt2;
-    }
-    s2 = p->angle.unsigned_value - p->angle_step;
-    p->angle.unsigned_value = s2;
-    p->tint.channel[0] = s2 >> 8;
-    c = p->counter - 1;
-    p->counter = c;
-    if (c != 0) {
-        return;
-    }
-    p->phase = p->phase | 0x20;
-    d = gDuel_bActiveSide;
-    e->flags = e->flags & 0xFBFF;
-    if (d != 0) {
-        p->tint.packed = 0xC0C000;
-        p->angle.signed_value = -0x3F80;
-    } else {
-        p->tint.packed = 0x40C000;
-        p->angle.signed_value = 0x4080;
-    }
-    p->counter = 4;
-    return;
-alt2:
-    if (gDuel_bActiveSide != 0) {
-        p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
-    } else {
-        p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
-    }
-    p->tint.channel[2] = p->angle.unsigned_value >> 8;
-    c = p->counter - 1;
-    p->counter = c;
-    if (c != 0) {
-        return;
-    }
-    p->tint.channel[0] = 0;
-    goto reset;
 }
 
 void Duel_StartViewTween(
