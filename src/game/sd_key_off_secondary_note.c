@@ -7,7 +7,7 @@
 void SD_KeyOffSecondaryNote(s32 channel, s32 note, s32 unused) {
     s32 mask;
     s32 i;
-    s32 v0;
+    s32 key_status;
 
     mask = 0;
     for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
@@ -21,8 +21,8 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 note, s32 unused) {
     if (mask != 0) {
         do {
             SpuSetKey(SPU_OFF, mask);
-            v0 = SpuGetKeyStatus(mask);
-        } while (v0 != SPU_OFF_ENV_ON && v0 != SPU_OFF);
+            key_status = SpuGetKeyStatus(mask);
+        } while (key_status != SPU_OFF_ENV_ON && key_status != SPU_OFF);
     }
 
     {
