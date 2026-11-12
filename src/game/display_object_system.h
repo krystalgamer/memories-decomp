@@ -510,7 +510,7 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
     const u8 *data
 );
 
-/* Display-object stream opcode 0xFA, entry 5 of tent_DisplayObjectStreamCommandTable
+/* Display-object stream opcode 0xFA, entry 5 of gDisplayObjectStream_apfnCommandHandlers
  * (display_object_stream_read_next_command.c). `data` holds a count byte followed by that many
  * little-endian halfword offsets. One is picked with rand(), and the stream
  * cursor at +0x50 is set to the stream base at +0x54 plus that offset, so the
@@ -520,7 +520,7 @@ s32 DisplayObjectStream_JumpToRandomOffset(
     const u8 *data
 );
 
-/* Display-object stream opcode 0xF9, entry 6 of tent_DisplayObjectStreamCommandTable
+/* Display-object stream opcode 0xF9, entry 6 of gDisplayObjectStream_apfnCommandHandlers
  * (display_object_stream_read_next_command.c). It reads the rotation byte, a signed y pivot, and
  * a little-endian x pivot from four operand bytes. It also raises GsROTOFF in
  * the attribute word `attribute` and advances `current` by 4. Returns 1. */
