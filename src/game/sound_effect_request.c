@@ -135,31 +135,34 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
     k = 0x80;
     lo = k - pan;
     hi = pan + k;
-loop:
-    {
-        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
-        v = g_SDValue->s_awSD_VOICE_SE_ID[i];
-        if (v == (u16)key) {
-            if (env[0] != 0) {
-                if (pan != 0) {
-                    if (near) {
-                        prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
-                        prod *= lo;
-                        g_SDValue->s_awSD_VOICE_VOLUME_L[i] = prod;
-                    }
-                    if ((u16)(pan2 + 0x80) < 0x80) {
-                        prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
-                        prod *= hi;
-                        g_SDValue->s_awSD_VOICE_VOLUME_R[i] = prod;
-                    }
-                }
-                SD_ApplyVoiceSlotVolume(i);
-            }
+    /* Entered through a constant switch so loop.c leaves the voice loop
+       alone; see SD_SESetVolumePan below. */
+    switch (0) {
+        for (;;) {
         }
-        i++;
-    }
-    if (i < SD_VOICE_SLOT_COUNT) {
-        goto loop;
+        do {
+    case 0:
+            SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
+            v = g_SDValue->s_awSD_VOICE_SE_ID[i];
+            if (v == (u16)key) {
+                if (env[0] != 0) {
+                    if (pan != 0) {
+                        if (near) {
+                            prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
+                            prod *= lo;
+                            g_SDValue->s_awSD_VOICE_VOLUME_L[i] = prod;
+                        }
+                        if ((u16)(pan2 + 0x80) < 0x80) {
+                            prod = g_SDValue->s_pstSD_SE_TABLE[v].volume;
+                            prod *= hi;
+                            g_SDValue->s_awSD_VOICE_VOLUME_R[i] = prod;
+                        }
+                    }
+                    SD_ApplyVoiceSlotVolume(i);
+                }
+            }
+            i++;
+        } while (i < SD_VOICE_SLOT_COUNT);
     }
 }
 
@@ -226,12 +229,11 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
  *   compatible, but inside the function GCC keeps each incoming register and
  *   a narrowed copy apart. That is retail's shape: the early tests read
  *   $a0/$a2 and the voice loop reads the copies in $s2/$s3/$s7.
- * - The voice loop is a goto loop: retail recomputes i * 2 every pass, which
- *   loop.c would have strength-reduced in a structured loop. The one-iteration
- *   do/while around the s_abSD_VOICE_FADE_LEVEL store is the only loop weighting left.
- *   It doubles that reference in flow's count, and without it `value` sinks
- *   below right/left/leftOk in global-alloc priority and the $s3..$s7 roles
- *   rotate.
+ * - Retail recomputes i * 2 every pass of the voice loop, which loop.c would
+ *   have strength-reduced in an ordinary structured loop. The constant switch
+ *   enters the do/while at its case label; until flow deletes the dead empty
+ *   loop that jump comes from outside the loop, so loop.c leaves it alone,
+ *   and jump2 deletes the jump afterwards.
  * - Each level product goes through one local that first holds the note
  *   volume. That gives the pseudo register uses on both sides of the mult,
  *   so it is allocated $v0 (lbu/mult/mflo $v0) instead of LO plus a reload. */
@@ -280,42 +282,43 @@ void SD_SESetVolumePan(id, value, word)
     pan = (s16)word;
     left = 0x80 - pan;
     right = pan + 0x80;
-loop:
-    {
-        s16 local;
-        SDValue *b;
-        u16 vid;
+    switch (0) {
+        for (;;) {
+        }
+        do {
+    case 0:
+            {
+                s16 local;
+                SDValue *b;
+                u16 vid;
 
-        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
-        b = g_SDValue;
-        vid = b->s_awSD_VOICE_SE_ID[i];
-        if (vid == (id & 0xFFFF) && local != 0) {
-            do {
-                b->s_abSD_VOICE_FADE_LEVEL[i] = value;
-            } while (0);
-            if (pan != 0) {
-                if (leftOk) {
-                    SDValue *c = g_SDValue;
-                    s32 v;
+                SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
+                b = g_SDValue;
+                vid = b->s_awSD_VOICE_SE_ID[i];
+                if (vid == (id & 0xFFFF) && local != 0) {
+                    b->s_abSD_VOICE_FADE_LEVEL[i] = value;
+                    if (pan != 0) {
+                        if (leftOk) {
+                            SDValue *c = g_SDValue;
+                            s32 v;
 
-                    v = c->s_pstSD_SE_TABLE[vid].volume;
-                    v *= left;
-                    c->s_awSD_VOICE_VOLUME_L[i] = v;
-                }
-                if ((u16)(word + 0x80) < 0x80) {
-                    SDValue *d = g_SDValue;
-                    s32 v;
+                            v = c->s_pstSD_SE_TABLE[vid].volume;
+                            v *= left;
+                            c->s_awSD_VOICE_VOLUME_L[i] = v;
+                        }
+                        if ((u16)(word + 0x80) < 0x80) {
+                            SDValue *d = g_SDValue;
+                            s32 v;
 
-                    v = d->s_pstSD_SE_TABLE[vid].volume;
-                    v *= right;
-                    d->s_awSD_VOICE_VOLUME_R[i] = v;
+                            v = d->s_pstSD_SE_TABLE[vid].volume;
+                            v *= right;
+                            d->s_awSD_VOICE_VOLUME_R[i] = v;
+                        }
+                    }
+                    SD_ApplyVoiceSlotVolume(i);
                 }
             }
-            SD_ApplyVoiceSlotVolume(i);
-        }
-    }
-    if (++i < SD_VOICE_SLOT_COUNT) {
-        goto loop;
+        } while (++i < SD_VOICE_SLOT_COUNT);
     }
 }
 
