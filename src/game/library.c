@@ -42,7 +42,7 @@ static PADDING_VARIABLE(4);
 #include "text_helpers.h"
 #include "main_services.h"
 #include "duel_card.h"
-#include "duel_effect_resource_record.h"
+#include "duel_scene.h"
 #include "duel_deck_lookup.h"
 #include "library_create_grid_section_sprites.h"
 #include "sorted_entry_render.h"

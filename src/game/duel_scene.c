@@ -161,7 +161,6 @@
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "ordering_tables.h"
-#include "duel_effect_resource_record.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * duel_scene_commons and duel_scene_bss_commons subsegments place it at the
@@ -1937,7 +1936,6 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "main_services.h"
-#include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "duel_session_controls.h"
@@ -3347,7 +3345,6 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 #include "display_object_work_slots.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
-#include "duel_effect_resource_record.h"
 #include "duel_effect_text.h"
 #include "file_transfer.h"
 #include "sound.h"
@@ -6206,7 +6203,6 @@ s32 Duel_UpdateTrapPresentation(void) {
 #include "display_object_work_slots.h"
 #include "fade.h"
 #include "main_mode_state.h"
-#include "duel_effect_resource_record.h"
 #include "sound.h"
 #include "main_modes.h"
 #include "sound_effect_request.h"
@@ -10377,7 +10373,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_record.h"
 #include "duel_effect_dialog_state.h"
 
 /* Initialized data this unit owns at 0x80090A5C: two handlers per effect group, in group
