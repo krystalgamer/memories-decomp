@@ -250,18 +250,21 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
     if (entry_number >= entry_count) {
         return;
     }
-    /* A goto loop: a while would be rotated and undo the advance on the
-       exit path. The advance sits before the count test on purpose, since
-       retail's back-branch delay slot runs it on the exit path too. */
+    /* next_command is block-local on purpose: its scope note stops gcc
+       from rotating the stop test to the bottom of the loop, which would
+       duplicate it ahead of the loop and undo the advance on the exit path.
+       Retail keeps the test at the top and runs the advance in the count
+       test's delay slot. */
     stop_cursor = command_cursor;
-scan:
-    if (stop_cursor[1] >= 0) {
+    do {
+        s32 next_command = stop_cursor[1];
+
+        if (next_command < 0) {
+            break;
+        }
         entry_number++;
         stop_cursor++;
-        if (entry_number < entry_count) {
-            goto scan;
-        }
-    }
+    } while (entry_number < entry_count);
     command_index = command_cursor - slot->animation_commands;
     part_sequence->ti = command_index;
     if (command_index != 0) {
