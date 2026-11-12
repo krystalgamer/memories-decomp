@@ -191,7 +191,6 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "text_encode_decimal_digits.h"
-#include "text_encode_decimal_no_padding.h"
 #include "color_constants.h"
 #include "main.h"
 
