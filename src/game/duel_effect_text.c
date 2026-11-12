@@ -2436,48 +2436,52 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
-    if (op & 0x20) {
+    switch (op & 0x20) {
+    default:
         id = gDuel_wSelectedCardID + 0x8000;
-    } else if (op & 0x40) {
-        id = gDuel_wSelectedCardID + 0x100;
-    } else {
-        id = 0;
-        switch (op & 0xF) {
-        case 0:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-            break;
-        case 1:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
-            id += 0x17;
-            break;
-        case 2:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
-            id += 0x17;
-            break;
+        if (0) {
+    case 0:
+            if (op & 0x40) {
+                id = gDuel_wSelectedCardID + 0x100;
+            } else {
+                id = 0;
+                switch (op & 0xF) {
+                case 0:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                    break;
+                case 1:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+                    id += 0x17;
+                    break;
+                case 2:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+                    id += 0x17;
+                    break;
+                }
+                if (!(op & 0x80)) {
+                    break;
+                }
+                id += 0x8300;
+            }
         }
-        if (!(op & 0x80)) {
-            goto plain;
+        object->stream_index++;
+        n = id;
+        if (id & TEXT_GLOBAL_STRING_ID_BASE) {
+            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                          gText_GlobalStringOffsets[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
+        } else {
+            if (id >= 0x500) {
+                n = id - 0x100;
+            }
+            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                          gText_PrimaryStringOffsets[n]);
         }
-        id += 0x8300;
+        TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
+        return;
     }
-    object->stream_index++;
-    n = id;
-    if (id & TEXT_GLOBAL_STRING_ID_BASE) {
-        text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
-                      gText_GlobalStringOffsets[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
-    } else {
-        if (id >= 0x500) {
-            n = id - 0x100;
-        }
-        text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
-                      gText_PrimaryStringOffsets[n]);
-    }
-    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
-    return;
-plain:
     object->flags_34 |= 0x80;
     DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFF7F;
@@ -2510,55 +2514,59 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
-    if (op & 0x20) {
+    switch (op & 0x20) {
+    default:
         id = gDuel_wSelectedCardID + 0x8000;
-    } else if (op & 0x40) {
-        id = gDuel_wSelectedCardID + 0x100;
-    } else {
-        id = 0;
-        switch (op & 0xF) {
-        case 0:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-            break;
-        case 1:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
-            id += 0x17;
-            break;
-        case 2:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
-            id += 0x17;
-            break;
-        case 3:
-            id = ((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                   CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) | 0x80;
-            break;
+        if (0) {
+    case 0:
+            if (op & 0x40) {
+                id = gDuel_wSelectedCardID + 0x100;
+            } else {
+                id = 0;
+                switch (op & 0xF) {
+                case 0:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                    break;
+                case 1:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+                    id += 0x17;
+                    break;
+                case 2:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+                    id += 0x17;
+                    break;
+                case 3:
+                    id = ((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                           CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) | 0x80;
+                    break;
+                }
+                if (!(op & 0x80)) {
+                    break;
+                }
+                id += 0x8300;
+            }
         }
-        if (!(op & 0x80)) {
-            goto plain;
-        }
-        id += 0x8300;
-    }
-    object->stream_index++;
-    if (id <= 0x7FFF) {
-        if (id >= 0x500) {
-            s32 n = id - 0x100;
+        object->stream_index++;
+        if (id <= 0x7FFF) {
+            if (id >= 0x500) {
+                s32 n = id - 0x100;
 
-            text = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
-                          gText_PrimaryStringOffsets[n]);
+                text = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
+                              gText_PrimaryStringOffsets[n]);
+            } else {
+                text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                              gText_PrimaryStringOffsets[id]);
+            }
         } else {
-            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
-                          gText_PrimaryStringOffsets[id]);
+            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                          gText_GlobalStringOffsets[id - 0x8000]);
         }
-    } else {
-        text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
-                      gText_GlobalStringOffsets[id - 0x8000]);
+        TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
+        return;
     }
-    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
-    return;
-plain:
     object->flags_34 |= 0x100;
     DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFEFF;
@@ -2594,62 +2602,65 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
-    if (op & 0x20) {
+    switch (op & 0x20) {
+    default:
         id = gDuel_wSelectedCardID + 0x8000;
-    } else if (op & 0x40) {
-        id = gDuel_wSelectedCardID + 0xD100;
-    } else {
-        kind = op & 0xF;
-        id = 0;
-        switch (kind) {
-        case 0:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-            break;
-        case 1:
-            stats = gDuel_adwCardStats[gDuel_wSelectedCardID - 1];
-            id = (stats >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
-                 CARD_STAT_GUARDIAN_STAR_MASK;
-            type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-            id += 0x17;
-            if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
-                object->field_62 = type;
+        if (0) {
+    case 0:
+            if (op & 0x40) {
+                id = gDuel_wSelectedCardID + 0xD100;
+            } else {
+                kind = op & 0xF;
+                id = 0;
+                switch (kind) {
+                case 0:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                    break;
+                case 1:
+                    stats = gDuel_adwCardStats[gDuel_wSelectedCardID - 1];
+                    id = (stats >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                         CARD_STAT_GUARDIAN_STAR_MASK;
+                    type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                    id += 0x17;
+                    if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
+                        object->field_62 = type;
+                    }
+                    break;
+                case 2:
+                    id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                          CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                         CARD_STAT_GUARDIAN_STAR_MASK;
+                    id += 0x17;
+                    if (id == 0x17) {
+                        n = 1;
+                    }
+                    break;
+                }
+                if (!(op & 0x80)) {
+                    break;
+                }
+                id += 0x8300;
             }
-            break;
-        case 2:
-            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
-                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
-                 CARD_STAT_GUARDIAN_STAR_MASK;
-            id += 0x17;
-            if (id == 0x17) {
-                n = 1;
+        }
+        object->stream_index++;
+        n = id;
+        if (id > 0xCFFF) {
+            text = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
+                   gText_PrimaryStringOffsets[id - 0xD000];
+        } else if (id > 0x7FFF) {
+            text = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
+                   gText_GlobalStringOffsets[id - 0x8000];
+        } else {
+            if (id >= 0x500) {
+                n = id - 0x100;
             }
-            break;
+            text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
         }
-        if (!(op & 0x80)) {
-            goto plain;
-        }
-        id += 0x8300;
+        slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        *slot = text;
+        return;
     }
-    object->stream_index++;
-    n = id;
-    if (id > 0xCFFF) {
-        text = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
-               gText_PrimaryStringOffsets[id - 0xD000];
-    } else if (id > 0x7FFF) {
-        text = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
-               gText_GlobalStringOffsets[id - 0x8000];
-    } else {
-        if (id >= 0x500) {
-            n = id - 0x100;
-        }
-        text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
-    }
-store:
-    slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
-    *slot = text;
-    return;
-plain:
     object->flags_34 |= 0x80;
     if ((u8)n == 0) {
         DuelEffect_AppendEntry(object, id);
