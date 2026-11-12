@@ -1924,33 +1924,35 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         slot->cached_position[0], slot->cached_position[2], &spatial_bytes[0], &spatial_bytes[1]
     );
     cue_index = 0;
-loop:
-    cd_seek_flag = cue->flags & 0x8000;
-    sound_id = cue->sound_id;
-    /* A one-pass block around the loop body; it decides which of cue_position
-     * and the counter get $s1 and $s3. */
-    do {
-        if (cd_seek_flag) {
-            sound_command = cd_seek_flag | sound_id;
-        } else {
-            sound_command = (u16)slot_sound_tag | sound_id;
+    /* The constant switch enters the cue loop at its case label, so loop.c
+       leaves it alone as with retail's goto loop (a do-while lets loop.c
+       strength-reduce the cue flags address into a second pointer). */
+    switch (0) {
+        for (;;) {
         }
-        if (cue->animation_row == 0) {
-            return;
-        }
-        if (cue->animation_row == animation_row) {
-            if (cd_seek_flag != 0 && cue_position == 0) {
-                SD_EnqueueCdSeek(sound_command);
+        do {
+    case 0:
+            cd_seek_flag = cue->flags & 0x8000;
+            sound_id = cue->sound_id;
+            if (cd_seek_flag) {
+                sound_command = cd_seek_flag | sound_id;
+            } else {
+                sound_command = (u16)slot_sound_tag | sound_id;
             }
-            if ((cue->flags & 0x7FFF) >= cue_position && (cue->flags & 0x7FFF) < cue_position + position_step) {
-                SD_SEPlay(sound_command, 0xFF, 0);
+            if (cue->animation_row == 0) {
+                return;
             }
-        }
-        cue_index++;
-        cue++;
-    } while (0);
-    if (cue_index < 0x40) {
-        goto loop;
+            if (cue->animation_row == animation_row) {
+                if (cd_seek_flag != 0 && cue_position == 0) {
+                    SD_EnqueueCdSeek(sound_command);
+                }
+                if ((cue->flags & 0x7FFF) >= cue_position && (cue->flags & 0x7FFF) < cue_position + position_step) {
+                    SD_SEPlay(sound_command, 0xFF, 0);
+                }
+            }
+            cue_index++;
+            cue++;
+        } while (cue_index < 0x40);
     }
 }
 
