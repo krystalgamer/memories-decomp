@@ -6187,70 +6187,60 @@ s32 Duel_UpdateTrapPresentation(void) {
     one = 1;
     v = gDuel_wTrapPresentationMode & 0xF;
 
-    if (v == one) {
-        goto m1;
-    }
-    if (v < 2) {
-        if (v == 0) {
-            goto m0;
+    /* The default arm comes first so the dispatch keeps retail's two
+       separate returns. The do-while(0) spans modes 0-2 (entered at its
+       case labels) to steer the delay-slot scheduling, as retail does. */
+    switch (v) {
+    default:
+        return 1;
+    case 0:
+        Duel_StartViewTween(0x10, 0x208, 0x200, gViewState_Current.angle,
+                            0xB2 - gDuel_bActiveSide * 0x164);
+        gDuel_wDisplayTransitionFlags = 0x10;
+        gDuel_wTrapPresentationMode = one;
+        gDuel_wStepCounter = 0x14;
+        do {
+            return 1;
+
+    case 1:
+            t = gDuel_wStepCounter - 1;
+            gDuel_wStepCounter = t;
+            if ((s16)t <= 0) {
+                r = gDuel_abCardStagingBuffer;
+                g = (DuelCardReplayRecordBlock *)(
+                    (u8 *)&((DuelCardRecord *)r)[gDuel_bSelectedTrapSlot] +
+                    DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+                p = (DisplayObject *)g->record.object;
+                e = DuelEffect_CreateRequest(8);
+                e->field_00 = (s16)p->xy.h.x;
+                e->field_02 = (s16)p->xy.h.y;
+                q34 = (u16 *)&p->field_34.h.z;
+                *(d = (u16 *)&e->field_04) = *q34;
+                DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
+                SD_SEPlayFull(0x17);
+                gDuel_wTrapPresentationMode = 2;
+            }
+            return 1;
+
+    case 2:
+            Duel_StartViewTween(0x10, 0x258, 0x100,
+                                gViewState_Current.angle, 0);
+            gDuel_wDisplayTransitionFlags = 0x10;
+            gDuel_wTrapPresentationMode = 3;
+            gDuel_wStepCounter = 0x14;
+        } while (0);
+        return 1;
+
+    case 3:
+        t = gDuel_wStepCounter - 1;
+        gDuel_wStepCounter = t;
+        if ((s16)t > 0) {
+            return 1;
         }
-        return 1;
+        q = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
+        q->rank.traps_triggered = q->rank.traps_triggered + 1;
+        return 0;
     }
-    if (v == 2) {
-        goto m2;
-    }
-    if (v == 3) {
-        goto m3;
-    }
-
-    return 1;
-
-m0:
-    Duel_StartViewTween(0x10, 0x208, 0x200, gViewState_Current.angle,
-                  0xB2 - gDuel_bActiveSide * 0x164);
-    gDuel_wDisplayTransitionFlags = 0x10;
-    gDuel_wTrapPresentationMode = one;
-    gDuel_wStepCounter = 0x14;
-    do {
-    return 1;
-
-m1:
-    t = gDuel_wStepCounter - 1;
-    gDuel_wStepCounter = t;
-    if ((s16)t <= 0) {
-    r = gDuel_abCardStagingBuffer;
-    g = (DuelCardReplayRecordBlock *)(
-        (u8 *)&((DuelCardRecord *)r)[gDuel_bSelectedTrapSlot] +
-        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
-    p = (DisplayObject *)g->record.object;
-    e = DuelEffect_CreateRequest(8);
-    e->field_00 = (s16)p->xy.h.x;
-    e->field_02 = (s16)p->xy.h.y;
-    q34 = (u16 *)&p->field_34.h.z;
-    *(d = (u16 *)&e->field_04) = *q34;
-    DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
-    SD_SEPlayFull(0x17);
-    gDuel_wTrapPresentationMode = 2;
-    }
-    return 1;
-
-m2:
-    Duel_StartViewTween(0x10, 0x258, 0x100, gViewState_Current.angle, 0);
-    gDuel_wDisplayTransitionFlags = 0x10;
-    gDuel_wTrapPresentationMode = 3;
-    gDuel_wStepCounter = 0x14;
-    } while (0);
-    return 1;
-
-m3:
-    t = gDuel_wStepCounter - 1;
-    gDuel_wStepCounter = t;
-    if ((s16)t > 0) {
-        return 1;
-    }
-    q = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
-    q->rank.traps_triggered = q->rank.traps_triggered + 1;
-    return 0;
 }
 
 #include "../psyq/rand.h"
