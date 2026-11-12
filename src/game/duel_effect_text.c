@@ -1931,26 +1931,27 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
 }
 
 /* Starting from the record's entry range, walks its active entries;
-   for each active entry, writes a1 to handler_state and a2 to render_mode,
+   for each active entry, writes handler_state and render_mode to the entry,
    stopping at the first entry with that flag clear or when the count runs
    out. */
-void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
+void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_state,
+                                     u8 render_mode) {
     int start;
     int count;
     DUEL_EFFECT_ENTRY_TYPE *entry;
 
-    start = DUEL_EFFECT_RANGE_START(a0);
+    start = DUEL_EFFECT_RANGE_START(channel);
     /* Empty statement where a release-stripped debug hook plausibly stood; it
        keeps the count load after the start load, so count reuses a0. */
     do { } while (0);
-    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    count = DUEL_EFFECT_RANGE_COUNT(channel);
     entry = &DUEL_EFFECT_ENTRIES[start];
     for (; count != 0; count--, entry++) {
         if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
             return;
         }
-        entry->handler_state = a1;
-        entry->render_mode = a2;
+        entry->handler_state = handler_state;
+        entry->render_mode = render_mode;
     }
 }
 
@@ -3430,18 +3431,18 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
     }
 }
 
-void Text_PushStreamOffset(DuelEffectChannel *arg0)
+void Text_PushStreamOffset(DuelEffectChannel *object)
 {
-    TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(arg0);
+    TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(object);
     s32 c;
     s32 v;
 
-    v = TextStream_ReadU16LE(arg0);
-    c = arg0->stream_index;
+    v = TextStream_ReadU16LE(object);
+    c = object->stream_index;
     owner->streams[c + 1] =
         (u8 *)(((u32)owner->streams[c] & TEXT_STREAM_CURSOR_HIGH_MASK) |
                (v & 0xFFFF));
-    arg0->stream_index++;
+    object->stream_index++;
 }
 
 void Text_NewLine(DuelEffectChannel *record)
