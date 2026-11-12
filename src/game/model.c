@@ -471,18 +471,19 @@ void Model_DrawBackground(void)
         polygons[1].y2 = (u16)polygons[2].y0;
         polygons[1].x3 = (u16)polygons[2].x1;
         polygons[1].y3 = (u16)polygons[2].y1;
-        if (inner_band_depth >= 0) {
-            GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
+        do {
+            if (inner_band_depth >= 0) {
+                GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
+                    (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
+            } else if (outer_band_depth < 0) {
+                break;
+            }
+            GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
                 (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        } else if (outer_band_depth < 0) {
-            goto advance;
-        }
-        GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
-            (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        if (outer_band_depth >= 0)
-            GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
-                (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-advance:
+            if (outer_band_depth >= 0)
+                GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
+                    (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
+        } while (0);
         ring_angle += 256;
         vertices[0] = vertices[1];
         vertices[2] = vertices[3];
