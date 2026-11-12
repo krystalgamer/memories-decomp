@@ -344,29 +344,29 @@ void AiScript_Jump(void)
 
 void AiScript_JumpGreaterEqual(void)
 {
-    s32 a = AiScript_ReadByte();
-    s32 b = AiScript_ReadByte();
+    s32 first = AiScript_ReadByte();
+    s32 second = AiScript_ReadByte();
     s32 offset = AiScript_ReadShort();
     register s32 *values = gAiScript_aMemory;
 
-    if (values[a] >= values[b]) {
-        register AiScriptState *s = &gAiScript_State;
-        offset += (s32)s->script_base;
-        s->script_cursor = (u8 *)offset;
+    if (values[first] >= values[second]) {
+        register AiScriptState *state = &gAiScript_State;
+        offset += (s32)state->script_base;
+        state->script_cursor = (u8 *)offset;
     }
 }
 
 void AiScript_JumpGreater(void)
 {
-    s32 a = AiScript_ReadByte();
-    s32 b = AiScript_ReadByte();
+    s32 first = AiScript_ReadByte();
+    s32 second = AiScript_ReadByte();
     s32 offset = AiScript_ReadShort();
     register s32 *values = gAiScript_aMemory;
 
-    if (values[a] > values[b]) {
-        register AiScriptState *s = &gAiScript_State;
-        offset += (s32)s->script_base;
-        s->script_cursor = (u8 *)offset;
+    if (values[first] > values[second]) {
+        register AiScriptState *state = &gAiScript_State;
+        offset += (s32)state->script_base;
+        state->script_cursor = (u8 *)offset;
     }
 }
 
@@ -853,9 +853,9 @@ void AiScript_FindWeakest(void)
     s32 start;
     s32 end;
     s32 i;
-    s32 v;
-    s32 a;
-    s32 d;
+    s32 power;
+    s32 attack;
+    s32 defense;
 
     mode = table[AiScript_ReadByte()];
     best_slot = 0;
@@ -899,27 +899,27 @@ void AiScript_FindWeakest(void)
             continue;
         }
         if (mode == 0) {
-            v = gDuel_aActiveCards[i].attack;
+            power = gDuel_aActiveCards[i].attack;
         } else if (mode == 1) {
-            v = gDuel_aActiveCards[i].defense;
+            power = gDuel_aActiveCards[i].defense;
         } else {
-            a = gDuel_aActiveCards[i].attack;
-            d = gDuel_aActiveCards[i].defense;
-            if (d < a) {
-                if (a < best_power) {
-                    best_power = a;
+            attack = gDuel_aActiveCards[i].attack;
+            defense = gDuel_aActiveCards[i].defense;
+            if (defense < attack) {
+                if (attack < best_power) {
+                    best_power = attack;
                     best_slot = i;
                 }
             } else {
-                if (d < best_power) {
-                    best_power = d;
+                if (defense < best_power) {
+                    best_power = defense;
                     best_slot = i;
                 }
             }
             continue;
         }
-        if (v < best_power) {
-            best_power = v;
+        if (power < best_power) {
+            best_power = power;
             best_slot = i;
         }
     }
@@ -935,49 +935,49 @@ void AiScript_FindWeakest(void)
  * (+0, +2, +6, +9) into one cursor with plain displacements, as in retail. */
 
 void AiScript_FindKiller(void) {
-    AiActiveCard *c;
+    AiActiveCard *card;
     AiActiveCard *ref;
-    s32 a;
-    s32 m;
-    s32 w;
+    s32 target_slot;
+    s32 mode;
+    s32 result;
     s32 i;
-    s32 k;
+    s32 best_slot;
     s32 best;
-    s32 d;
-    s32 t;
+    s32 margin;
+    s32 attack;
 
-    a = gAiScript_aMemory[AiScript_ReadByte()];
+    target_slot = gAiScript_aMemory[AiScript_ReadByte()];
     best = CARD_STAT_MAX;
-    m = gAiScript_aMemory[AiScript_ReadByte()];
-    k = 0;
-    w = AiScript_ReadByte();
+    mode = gAiScript_aMemory[AiScript_ReadByte()];
+    best_slot = 0;
+    result = AiScript_ReadByte();
     i = 1;
-    ref = &gDuel_aActiveCards[a];
+    ref = &gDuel_aActiveCards[target_slot];
 
     for (; i < DUEL_FIELD_ROW_SIZE + 1; i++) {
-        c = &gDuel_aActiveCards[i];
-        if (c->card_id == 0) {
+        card = &gDuel_aActiveCards[i];
+        if (card->card_id == 0) {
             continue;
         }
-        if ((c->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+        if ((card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
-        if (m == 0) {
-            d = c->attack - ref->attack;
+        if (mode == 0) {
+            margin = card->attack - ref->attack;
         } else {
-            d = c->attack - ref->defense;
+            margin = card->attack - ref->defense;
         }
-        d = d + Duel_CalcGuardianStarMatchup(c->guardian_star, ref->guardian_star);
-        if (d > 0) {
-            t = c->attack;
-            if (t < best) {
-                best = t;
-                k = i;
+        margin = margin + Duel_CalcGuardianStarMatchup(card->guardian_star, ref->guardian_star);
+        if (margin > 0) {
+            attack = card->attack;
+            if (attack < best) {
+                best = attack;
+                best_slot = i;
             }
         }
     }
 
-    gAiScript_aMemory[w] = k;
+    gAiScript_aMemory[result] = best_slot;
 }
 
 /* AI script opcode taking two operand bytes: a register that when non-zero
@@ -1674,59 +1674,59 @@ void AiScript_SetPosition(void)
     gAi_Selection.bytes[6] = value;
 }
 
-/* The opponent row is indexed from gDuel_aActiveCards (t[j]); gcc's strength
- * reduction turns the index into retail's single inner cursor, so it
+/* The opponent row is indexed from gDuel_aActiveCards (cards[j]); gcc's
+ * strength reduction turns the index into retail's single inner cursor, so it
  * needs no -fno-strength-reduce. A walking cursor over the same row instead
  * makes it build a second induction variable (four more instructions).
- * Retail never advances the outer slot: `i` and `r` stay at slot 1, so the
- * outer loop as compiled never exits. */
+ * Retail never advances the outer slot: `i` and `attacker` stay at slot 1, so
+ * the outer loop as compiled never exits. */
 void AiScript_FindBestAttack(void) {
-    AiActiveCard *t;
-    AiActiveCard *r;
+    AiActiveCard *cards;
+    AiActiveCard *attacker;
     s32 want;
     s32 out;
     s32 i;
     s32 j;
-    s32 v;
-    u16 f;
+    s32 margin;
+    u16 flags;
 
     want = gAiScript_aMemory[AiScript_ReadByte()];
     out = AiScript_ReadByte();
     i = 1;
-    t = gDuel_aActiveCards;
-    r = &t[AI_SLOT_OWN_MONSTER_FIRST];
+    cards = gDuel_aActiveCards;
+    attacker = &cards[AI_SLOT_OWN_MONSTER_FIRST];
     gAiScript_State.attack_best_stat = 0;
 
     while (i < DUEL_FIELD_ROW_SIZE + 1) {
-        if (r->card_id == 0) {
+        if (attacker->card_id == 0) {
             continue;
         }
-        if ((r->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+        if ((attacker->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
 
         for (j = AI_SLOT_OPPONENT_MONSTER_FIRST;
              j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
              j++) {
-            if (t[j].card_id == 0) {
+            if (cards[j].card_id == 0) {
                 continue;
             }
-            f = t[j].flags;
-            if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+            flags = cards[j].flags;
+            if ((flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 continue;
             }
-            if ((f & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
+            if ((flags & DUEL_CARD_FLAG_DEFENSE_POSITION) != 0) {
                 continue;
             }
             if (want != 0) {
-                if ((f & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
+                if ((flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                     continue;
                 }
             }
-            v = r->attack - t[j].attack;
-            v += Duel_CalcGuardianStarMatchup(r->guardian_star, t[j].guardian_star);
-            if (gAiScript_State.attack_best_stat < v) {
-                gAiScript_State.attack_best_stat = v;
+            margin = attacker->attack - cards[j].attack;
+            margin += Duel_CalcGuardianStarMatchup(attacker->guardian_star, cards[j].guardian_star);
+            if (gAiScript_State.attack_best_stat < margin) {
+                gAiScript_State.attack_best_stat = margin;
                 gAiScript_State.attack_best_slot = i;
                 gAiScript_State.attack_best_target = j;
             }
