@@ -2277,44 +2277,43 @@ void MemCardDialog_Update(void)
             return;
         }
         gMemCard_wDialogFlags = 0;
-        goto b25;
-    }
-    if ((f & MEM_CARD_DIALOG_FLAG_OPENED) == 0) {
-        if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
-            gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
-            MemCardStart();
+    } else {
+        if ((f & MEM_CARD_DIALOG_FLAG_OPENED) == 0) {
+            if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
+                gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
+                MemCardStart();
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-            McxStartCom();
+                McxStartCom();
 #endif
-            gMemCardDialog_Outcome = 2;
-            MemCardDialog_CreateObject();
-            gMemCard_pDialogObject->field_60 = -0x400;
+                gMemCardDialog_Outcome = 2;
+                MemCardDialog_CreateObject();
+                gMemCard_pDialogObject->field_60 = -0x400;
+                return;
+            }
+            if (MemCardDialog_StepSlide(
+                    gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, -1
+                ) == 0) {
+                gMemCard_wDialogFlags =
+                    gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
+            }
             return;
         }
-        if (MemCardDialog_StepSlide(
-                gMemCard_pDialogObject, DIALOG_BOX_X, 0x50, -1
-            ) == 0) {
+        if ((f & MEM_CARD_DIALOG_FLAG_IO_PENDING) != 0) {
+            c = MemCardSync(
+                1, (long *)&gMemCardDialog_SyncCommand, (long *)&gMemCardDialog_SyncResult
+            );
+            gMemCardDialog_SyncStatus = c;
+            if (c != 1) {
+                return;
+            }
             gMemCard_wDialogFlags =
-                gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
+                gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING;
         }
-        return;
-    }
-    if ((f & MEM_CARD_DIALOG_FLAG_IO_PENDING) != 0) {
-        c = MemCardSync(
-            1, (long *)&gMemCardDialog_SyncCommand, (long *)&gMemCardDialog_SyncResult
-        );
-        gMemCardDialog_SyncStatus = c;
-        if (c != 1) {
+        gMemCardDialog_apfnSteps[gMemCardDialog_StepIndex]();
+        if (gMemCard_wDialogFlags != 0) {
             return;
         }
-        gMemCard_wDialogFlags =
-            gMemCard_wDialogFlags & ~MEM_CARD_DIALOG_FLAG_IO_PENDING;
     }
-    gMemCardDialog_apfnSteps[gMemCardDialog_StepIndex]();
-    if (gMemCard_wDialogFlags != 0) {
-        return;
-    }
-b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
     gMemCard_pDialogObject->field_60 = 0x400;
