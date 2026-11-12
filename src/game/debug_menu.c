@@ -280,91 +280,85 @@ s32 DebugMenu_UpdateValueEditor(void)
                 val = val - k * qq;
             } while (jj >= 0);
         }
-        goto fill;
-    }
-    if ((gDebug_bEditorFlags & 1) != 0) {
-        goto fill;
-    }
-    if (((gInput_awPadHeld[0] | gInput_awPadHeld[1]) & 0x800) != 0) {
-        goto fill;
-    }
-    if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
-        ret = 1;
-        goto out;
-    }
-    if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
-        ret = -1;
-        goto out;
-    }
-    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x5000) != 0) {
-        e = gDebug_bEditorDigit;
-        val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
-        step = c[e];
-        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x4000) != 0) {
-            step = -step;
+    } else if ((gDebug_bEditorFlags & 1) == 0
+               && ((gInput_awPadHeld[0] | gInput_awPadHeld[1]) & 0x800) == 0) {
+        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
+            ret = 1;
+            goto out;
         }
-        if ((gDebug_bEditorFlags & 0x40) != 0) {
-            /* A u16 cursor folds the negation and swaps the addu operands. */
-            mask = *(u16 *)(db - -(e * 2));
-            i = e;
-            if (i < (s8)t2) {
-                n = (s8)t2;
-                do {
-                    cc = val & mask;
-                    val = val & ~mask;
-                    cc = cc + step;
-                    if (step >= 0) {
-                        if (cc < b[i]) {
-                            goto joined;
-                        }
-                    } else {
-                        if (cc >= 0) {
-                            goto joined;
-                        }
-                        val = val | ((b[i] - 1) & mask);
-                    }
-                    cc = 0;
-                    mask = mask * 0x10;
-                    step = step * 0x10;
-                    i = i + 1;
-                } while (i < n);
+        if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
+            ret = -1;
+            goto out;
+        }
+        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x5000) != 0) {
+            e = gDebug_bEditorDigit;
+            val = FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
+            step = c[e];
+            if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x4000) != 0) {
+                step = -step;
             }
-        joined:
-            val = val | cc;
+            if ((gDebug_bEditorFlags & 0x40) != 0) {
+                /* A u16 cursor folds the negation and swaps the addu operands. */
+                mask = *(u16 *)(db - -(e * 2));
+                i = e;
+                if (i < (s8)t2) {
+                    n = (s8)t2;
+                    do {
+                        cc = val & mask;
+                        val = val & ~mask;
+                        cc = cc + step;
+                        if (step >= 0) {
+                            if (cc < b[i]) {
+                                goto joined;
+                            }
+                        } else {
+                            if (cc >= 0) {
+                                goto joined;
+                            }
+                            val = val | ((b[i] - 1) & mask);
+                        }
+                        cc = 0;
+                        mask = mask * 0x10;
+                        step = step * 0x10;
+                        i = i + 1;
+                    } while (i < n);
+                }
+            joined:
+                val = val | cc;
+            } else {
+                val = val + step;
+                val = val & (c[(s8)t2] - 1);
+            }
+            FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
+        }
+        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0xA000) == 0) {
+            goto out;
+        }
+        if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x2000) != 0) {
+            gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
+            if (gDebug_bEditorDigit < 0) {
+                gDebug_bEditorRow = gDebug_bEditorRow + 1;
+                if (gDebug_bEditorRow >= (s8)gDebug_bEditorRowCount) {
+                    gDebug_bEditorRow = gDebug_bEditorRowCount - 1;
+                    gDebug_bEditorDigit = 0;
+                } else {
+                    f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
+                    gDebug_bEditorDigit = f;
+                }
+            }
         } else {
-            val = val + step;
-            val = val & (c[(s8)t2] - 1);
-        }
-        FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
-    }
-    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0xA000) == 0) {
-        goto out;
-    }
-    if (((gInput_awPadRepeat[0] | gInput_awPadRepeat[1]) & 0x2000) != 0) {
-        gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
-        if (gDebug_bEditorDigit < 0) {
-            gDebug_bEditorRow = gDebug_bEditorRow + 1;
-            if (gDebug_bEditorRow >= (s8)gDebug_bEditorRowCount) {
-                gDebug_bEditorRow = gDebug_bEditorRowCount - 1;
+            gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
+            if (gDebug_bEditorDigit >= (s8)t2) {
                 gDebug_bEditorDigit = 0;
-                goto fill;
-            }
-            f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
-            gDebug_bEditorDigit = f;
-        }
-    } else {
-        gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
-        if (gDebug_bEditorDigit >= (s8)t2) {
-            gDebug_bEditorDigit = 0;
-            gDebug_bEditorRow = gDebug_bEditorRow - 1;
-            if (gDebug_bEditorRow < 0) {
-                f = gDebug_abEditorDigitCounts[0] - 1;
-                gDebug_bEditorRow = 0;
-                gDebug_bEditorDigit = f;
+                gDebug_bEditorRow = gDebug_bEditorRow - 1;
+                if (gDebug_bEditorRow < 0) {
+                    f = gDebug_abEditorDigitCounts[0] - 1;
+                    gDebug_bEditorRow = 0;
+                    gDebug_bEditorDigit = f;
+                }
             }
         }
     }
-fill:
     r = gDebug_szEditorCaretLine;
     sc = 0x20;
     i = 0x27;

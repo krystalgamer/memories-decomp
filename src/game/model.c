@@ -520,37 +520,31 @@ void Model_UpdateBackgroundScroll(s32 force)
     }
     if (force != 0 || pitch_delta != 0) {
         initial_pitch = gModel_wViewPitch;
-        if (initial_pitch < 0x801) {
-            goto low;
-        }
-        initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-        if (initial_turn_difference >= 0) {
-            background_offset_y = -0x139;
-            if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-                goto compute;
+        if (initial_pitch >= 0x801) {
+            initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
+            if (initial_turn_difference >= 0) {
+                background_offset_y = -0x139;
+                if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                    goto compute;
+                }
+            } else {
+                background_offset_y = -0x139;
+                if (MODEL_ANGLE_FULL_TURN - initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+                compute:
+                    reloaded_pitch = gModel_wViewPitch;
+                    reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
+                    if (reloaded_turn_difference >= 0) {
+                        background_offset_y = -(reloaded_turn_difference * 26) / 85;
+                    } else {
+                        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
+                    }
+                }
             }
-            goto store;
-        }
-        background_offset_y = -0x139;
-        if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
-            goto store;
-        }
-compute:
-        reloaded_pitch = gModel_wViewPitch;
-        reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-        if (reloaded_turn_difference >= 0) {
-            background_offset_y = -(reloaded_turn_difference * 26) / 85;
-            goto store;
-        }
-        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
-        goto store;
-low:
-        if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+        } else if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
             background_offset_y = (initial_pitch * 26) / 85;
-            goto store;
+        } else {
+            background_offset_y = 0x139;
         }
-        background_offset_y = 0x139;
-store:
         gModel_wBackgroundOffsetY = background_offset_y;
     }
     gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
@@ -1739,37 +1733,36 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base = gModel_aSlots;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(fade_slot_base) +
-                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) != 0 )
-        goto tick_active_slot;
-      slot0_tint = fade_slot_base[0].tint;
-      slot1_tint = fade_slot_base[1].tint;
-      if ( fade_slot_base[0].tint[0] )
-        --fade_slot_base[0].tint[0];
-      if ( slot0_tint[1] )
-        --slot0_tint[1];
-      if ( slot0_tint[2] )
-        --slot0_tint[2];
-      if ( fade_slot_base[1].tint[0] )
-        fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
-      if ( slot1_tint[1] )
-        --slot1_tint[1];
-      if ( slot1_tint[2] )
-        --slot1_tint[2];
-      if ( fade_slot_base[0].tint[0]
-        || slot0_tint[1] || slot0_tint[2]
-        || fade_slot_base[1].tint[0]
-        || slot1_tint[1] || slot1_tint[2] )
+                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) == 0 )
       {
-        ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-        break;
-      }
-      fade_slot_base[1].is_active = 0;
-      fade_slot_base[0].is_active = 0;
-      next_phase = gModel_bPresentationPhase + 1;
-      goto set_phase_and_tick;
+        slot0_tint = fade_slot_base[0].tint;
+        slot1_tint = fade_slot_base[1].tint;
+        if ( fade_slot_base[0].tint[0] )
+          --fade_slot_base[0].tint[0];
+        if ( slot0_tint[1] )
+          --slot0_tint[1];
+        if ( slot0_tint[2] )
+          --slot0_tint[2];
+        if ( fade_slot_base[1].tint[0] )
+          fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
+        if ( slot1_tint[1] )
+          --slot1_tint[1];
+        if ( slot1_tint[2] )
+          --slot1_tint[2];
+        if ( fade_slot_base[0].tint[0]
+          || slot0_tint[1] || slot0_tint[2]
+          || fade_slot_base[1].tint[0]
+          || slot1_tint[1] || slot1_tint[2] )
+        {
+          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          break;
+        }
+        fade_slot_base[1].is_active = 0;
+        fade_slot_base[0].is_active = 0;
+        next_phase = gModel_bPresentationPhase + 1;
 set_phase_and_tick:
-      gModel_bPresentationPhase = next_phase;
-tick_active_slot:
+        gModel_bPresentationPhase = next_phase;
+      }
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
       break;
     case 3:
