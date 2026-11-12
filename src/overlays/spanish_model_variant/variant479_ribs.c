@@ -1,18 +1,19 @@
 #include "../../types.h"
 
 #include "variant479_ribs.h"
+#include "variant479_entry.h"
 
 #define VARIANT479_UWORD(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 /* Five nine-point ribs. While a rib's size is positive, its spine grows from
- * the origin toward the anchor at work + 0x40F8 (state below 2) or runs from
+ * the origin toward the anchor at (u8 *)work + 0x40F8 (state below 2) or runs from
  * fade/1024 of the anchor to the anchor (state 2 and above), each point bent
  * by a sine of its length; a copy moved along the view by the spread is
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples at work + 0x41DC/0x41E0 advance by 850 and 128 per step, and
- * once the clock passes the fade start work + 0x4190 falls linearly from
+ * The ripples at (u8 *)work + 0x41DC/0x41E0 advance by 850 and 128 per step, and
+ * once the clock passes the fade start (u8 *)work + 0x4190 falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero. */
 void SpanishModelVariant479_DrawRibs(u8 *ctx)
 {
@@ -23,7 +24,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant479EntryState *work;
     GsOT *ot;
     s16 j;
     s16 i;
@@ -54,17 +55,17 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     s32 k;
     s32 n;
 
-    work = ctx;
+    work = (Variant479EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x4154), MODEL_VARIANT_WORD(work, 0x414C)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x4150), MODEL_VARIANT_WORD(work, 0x414C));
-    poly = (POLY_GT4 *)(work + 0x3F48);
-    if (!(MODEL_VARIANT_WORD(work, 0x4164) & 1)) {
-        spread = MODEL_VARIANT_WORD(work, 0x4190) / 16;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    poly = work->packets.textured;
+    if (!(work->clock.frame_count & 1)) {
+        spread = work->rib_fade / 16;
     } else {
-        spread = MODEL_VARIANT_WORD(work, 0x4190) * 72 / 1024;
+        spread = work->rib_fade * 72 / 1024;
     }
-    rec = (Variant479Rib *)(work + 0x18D8);
+    rec = work->ribs;
     for (j = 0; j < 5; j++, rec++) {
         if (rec->size > 0) {
             if (rec->state == 0) {
@@ -77,7 +78,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
             } else {
                 angle0 = (j << 11) / 5 + 0xC00;
             }
-            pos = work + j * 16;
+            pos = (u8 *)work + j * 16;
             for (i = 0; i < 9; i++) {
                 if (rec->state < 2) {
                     ox = 0;
@@ -107,7 +108,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        mpos = work + j % 3 * 32;
+        mpos = (u8 *)work + j % 3 * 32;
         m.t[0] = MODEL_VARIANT_WORD(mpos, 0x4024);
         m.t[1] = MODEL_VARIANT_WORD(mpos, 0x4028);
         m.t[2] = MODEL_VARIANT_WORD(mpos, 0x402C);
@@ -149,7 +150,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
             }
         }
     }
-    rec = (Variant479Rib *)(work + 0x18D8);
+    rec = work->ribs;
     for (j = 0; j < 5; j++, rec++) {
         if (rec->size > 0) {
             for (i = 0; i < 8; i++) {
@@ -190,31 +191,31 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
             }
         }
         if (rec->size < 0x400 && rec->state < 2) {
-            rec->size += MODEL_VARIANT_WORD(work, 0x4170) * 32;
+            rec->size += work->clock.step * 32;
             if (rec->size >= 0x400) {
                 rec->size = 0x400;
                 rec->state = 2;
-                if (MODEL_VARIANT_WORD(work, 0x41EC) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x41EC) = 3;
+                if (work->phase == 2) {
+                    work->phase = 3;
                 }
             }
         } else if (rec->fade < 0x400 && rec->state == 2) {
-            rec->fade += MODEL_VARIANT_WORD(work, 0x4170) * 32;
+            rec->fade += work->clock.step * 32;
             rec->size = 0x400;
             rec->fade = 0x400;
             rec->state = 3;
         }
     }
-    MODEL_VARIANT_WORD(work, 0x41DC) += MODEL_VARIANT_WORD(work, 0x4170) * 850;
-    MODEL_VARIANT_WORD(work, 0x41E0) += MODEL_VARIANT_WORD(work, 0x4170) * 128;
-    timing = *(u8 **)(work + 0x4178);
-    if (VARIANT479_UWORD(timing, 0x24) <= VARIANT479_UWORD(work, 0x4168) && MODEL_VARIANT_WORD(work, 0x4190) > 0) {
-        MODEL_VARIANT_WORD(work, 0x4190) = 0x400 - ((VARIANT479_UWORD(work, 0x4168) - VARIANT479_UWORD(timing, 0x24)) << 10) /
+    work->field_41DC += work->clock.step * 850;
+    work->field_41E0 += work->clock.step * 128;
+    timing = *(u8 **)((u8 *)work + 0x4178);
+    if (VARIANT479_UWORD(timing, 0x24) <= VARIANT479_UWORD(work, 0x4168) && work->rib_fade > 0) {
+        work->rib_fade = 0x400 - ((VARIANT479_UWORD(work, 0x4168) - VARIANT479_UWORD(timing, 0x24)) << 10) /
                                       (VARIANT479_UWORD(timing, 0x28) - VARIANT479_UWORD(timing, 0x24));
-        if (MODEL_VARIANT_WORD(work, 0x4190) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x4190) = 0;
-            if (MODEL_VARIANT_WORD(work, 0x41EC) == 4) {
-                MODEL_VARIANT_WORD(work, 0x41EC) = 5;
+        if (work->rib_fade <= 0) {
+            work->rib_fade = 0;
+            if (work->phase == 4) {
+                work->phase = 5;
             }
         }
     }

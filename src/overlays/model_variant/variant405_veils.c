@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant405_veils.h"
+#include "../french_model_variant/variant422_entry.h"
 
 /* Draws five veils of sixteen textured POLY_GT4 strips that open and close
  * with their scale, white at the inner row and blue at the outer one; each
@@ -20,7 +21,7 @@ void ModelVariant405_DrawVeils(u8 *ctx)
     CVECTOR light;
     long p;
     long flag;
-    u8 *work;
+    Variant422EntryState *work;
     GsOT *ot;
     s32 i;
     s32 all;
@@ -33,13 +34,13 @@ void ModelVariant405_DrawVeils(u8 *ctx)
     s32 tpage;
 
     veil = (Variant405Veil *)ctx;
-    work = ctx;
+    work = (Variant422EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     all = 1;
     buff = GsGetActiveBuff();
-    poly = (POLY_GT4 *)(work + 0x1CB8);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1D90), MODEL_VARIANT_WORD(work, 0x1D88));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1D8C), MODEL_VARIANT_WORD(work, 0x1D90));
+    poly = &work->extra;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     for (i = 0; i < 5; i++, veil++) {
         if (veil->scale > 0) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
@@ -61,9 +62,9 @@ void ModelVariant405_DrawVeils(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1D74);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1D78) - (rcos(veil->scale) * 224 >> 12);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1D7C);
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1] - (rcos(veil->scale) * 224 >> 12);
+            m.t[2] = work->matrix.t[2];
             RotMatrix(&rot, &m);
             coord.coord = m;
             coord.super = 0;
@@ -130,23 +131,23 @@ void ModelVariant405_DrawVeils(u8 *ctx)
             }
         }
         if (veil->scale < 0x800) {
-            veil->scale += MODEL_VARIANT_WORD(work, 0x1DC0) * 40;
+            veil->scale += work->clock.step * 40;
             if (veil->scale >= 0x800) {
-                if (*(u32 *)(*(u8 **)(work + 0x1DC8) + 0x24) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
+                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x24) <= (u32)work->clock.frame) {
                     veil->scale = 0x800;
                     veil->count = 1;
                 } else {
                     veil->scale -= 0x800;
                 }
-                if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0 &&
-                    *(u32 *)(*(u8 **)(work + 0x1DC8) + 0x20) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
-                    MODEL_VARIANT_WORD(work, 0x1E1C) = 2;
+                if (work->phase == 0 &&
+                    *(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x20) <= (u32)work->clock.frame) {
+                    work->phase = 2;
                 }
             }
         }
         all *= veil->count;
-        if (i + 1 == 5 && all == 1 && MODEL_VARIANT_WORD(work, 0x1E1C) == 2) {
-            MODEL_VARIANT_WORD(work, 0x1E1C) = i + 1;
+        if (i + 1 == 5 && all == 1 && work->phase == 2) {
+            work->phase = i + 1;
         }
     }
 }

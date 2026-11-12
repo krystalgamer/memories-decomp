@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant456_sprays.h"
+#include "variant456_entry.h"
 
 /* Sixteen sprays of seventeen points. Each spray points along its own
  * direction, turned by i * 1300 and i * 700 plus its spin, and every point
@@ -30,7 +31,7 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
     s16 oy[16][17];
     long p;
     long flag;
-    u8 *work;
+    Variant456EntryState *work;
     Spray456 *spray;
     POLY_FT4 *poly;
     GsOT *ot;
@@ -47,15 +48,15 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
-    spray = (Spray456 *)(work + 0x440);
-    poly = (POLY_FT4 *)(work + 0x2204);
+    work = (Variant456EntryState *)ctx;
+    spray = (Spray456 *)work->lines;
+    poly = work->flat;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2308), MODEL_VARIANT_WORD(work, 0x2304));
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     length = 12;
     for (i = 0, pitch = 0, phase = 0; i < 16; i++, spray++, phase += 1300, pitch += 700) {
-        wave = MODEL_VARIANT_WORD(work, 0x2358);
+        wave = work->spray_wave;
         for (j = 0; j < 17; j++, wave += 1300) {
             radius = 0;
             if (spray->growth[j] > 0) {
@@ -67,11 +68,11 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
             setVector(&points[i][j], rcos(phase + pitch + spray->spin) * radius >> 12, rsin(phase + spray->spin) * radius >> 12, rsin(pitch + spray->spin) * radius >> 12);
             setVector(&offset_points[i][j], points[i][j].vx + (rcos(turn) * length >> length), points[i][j].vy, points[i][j].vz + (rsin(turn) * length >> length));
             if (spray->growth[j] <= 1024) {
-                spray->growth[j] += MODEL_VARIANT_WORD(work, 0x2328) << 7;
+                spray->growth[j] += work->clock.step << 7;
                 if (spray->growth[j] >= 1024) {
                     spray->growth[j] = 1024;
                     if (j == 16) {
-                        if ((*(Sprays456Timing **)(work + 0x2330))->restart <= MODEL_VARIANT_WORD(work, 0x2320)) {
+                        if ((*(Sprays456Timing **)((u8 *)work + 0x2330))->restart <= work->clock.frame) {
                             spray->growth[16] = 1024;
                         } else {
                             for (j = 0; j < 17; j++) {
@@ -87,9 +88,9 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x22DC);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x22E0);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x22E4);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
@@ -100,8 +101,8 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    spray = (Spray456 *)(work + 0x440);
-    for (i = 0, pitch = MODEL_VARIANT_WORD(work, 0x235C); i < 16; i++, pitch += 1800, spray++) {
+    spray = (Spray456 *)work->lines;
+    for (i = 0, pitch = work->spray_phase; i < 16; i++, pitch += 1800, spray++) {
         for (j = 0; j < 17; j++) {
             radius = spray->growth[j]; /* read but never used */
             if (j == 16) {
@@ -135,12 +136,12 @@ void SpanishModelVariant456_DrawSprays(u8 *ctx)
                            ((u32)(rsin(angle[i][j]) * ((rsin(phase) * sway >> 12) + (rsin(wave) * swing >> 12)) >> 12) << 16);
         }
     }
-    spray = (Spray456 *)(work + 0x440);
+    spray = (Spray456 *)work->lines;
     for (i = 0; i < 16; i++, spray++) {
         poly->r0 = spray->color.r;
         poly->g0 = spray->color.g;
         poly->b0 = spray->color.b;
-        poly = (POLY_FT4 *)(work + 0x2204);
+        poly = work->flat;
         for (j = 0; j < 16; j++) {
             if (j == 0) {
                 poly->x0 = screen[i][j];

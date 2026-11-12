@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "variant428_spiral.h"
+#include "variant428_entry.h"
 
 /* Header 428's form of the header-418 spiral: twelve arms on a spiral whose
- * radius is half the size at work + 0x15A8, drawn only where both the depth
+ * radius is half the size at (u8 *)work + 0x15A8, drawn only where both the depth
  * and the projection flag are not negative; the size grows to 0x400.
  * The two products tested before the arms are template code with dead arms. */
 void ModelVariant428_DrawSpiral(u8 *ctx)
@@ -15,7 +16,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant428EntryState *work;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -34,27 +35,27 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant428EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x156C), MODEL_VARIANT_WORD(work, 0x1564)) + 0xC00;
-    poly = (POLY_GT4 *)(work + 0x1418);
-    r = MODEL_VARIANT_HALF(work, 0x15A8) / 2;
-    eighth = MODEL_VARIANT_HALF(work, 0x15A8) / 8;
-    if (r * MODEL_VARIANT_HALF(work, 0x15A6) < 0) {
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    poly = work->packets.textured;
+    r = work->spiral_size / 2;
+    eighth = work->spiral_size / 8;
+    if (r * work->field_15A6 < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0x15A6) < 0) {
+    if (eighth * work->field_15A6 < 0) {
         length = 0;
     }
     arm = (ModelVariantShadedRay *)work;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x15A4) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x15A4);
+        phi = (i << 12) / 12 + work->field_15A4 * 2;
+        theta = (i << 13) / 12 + work->field_15A4;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                length = MODEL_VARIANT_HALF(work, 0x15B0) / 512;
+                length = work->scale / 512;
             } else {
-                length = MODEL_VARIANT_HALF(work, 0x15B0) * 24 / 4096;
+                length = work->scale * 24 / 4096;
             }
             if (k == 0) {
                 setVector(&arm->points[0], 0, 0, 0);
@@ -67,7 +68,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
                       arm->points[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x157C) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -75,9 +76,9 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x153C);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1540);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1544);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -165,10 +166,10 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x15A8) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x15A8) += MODEL_VARIANT_WORD(work, 0x1588) * 64;
-        if (MODEL_VARIANT_HALF(work, 0x15A8) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x15A8) = 0x400;
+    if (work->spiral_size < 0x400) {
+        work->spiral_size += work->clock.step * 64;
+        if (work->spiral_size >= 0x400) {
+            work->spiral_size = 0x400;
         }
     }
 }

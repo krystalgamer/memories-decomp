@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant418_entry.h"
 
 /* Draws three webs of 6x6 GsGLINE segments between their near and far grids,
  * fading each web's colour once its scale passes 0x1000, and grows each scale
@@ -14,7 +15,7 @@ void ModelVariant418_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant418EntryState *work;
     GsOT *ot;
     GsGLINE *line;
     ModelVariantWeb *web;
@@ -30,16 +31,16 @@ void ModelVariant418_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
+    work = (Variant418EntryState *)ctx;
     web = (ModelVariantWeb *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1AE0);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1B48), MODEL_VARIANT_WORD(work, 0x1B40));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1B44), MODEL_VARIANT_WORD(work, 0x1B40));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1B34), MODEL_VARIANT_WORD(work, 0x1B30));
-    ratan2(MODEL_VARIANT_HALF(work, 0x1B3E), MODEL_VARIANT_HALF(work, 0x1B3C));
+    line = (GsGLINE *)((u8 *)work + 0x1AE0);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;
@@ -61,9 +62,9 @@ void ModelVariant418_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x1B08);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x1B0C);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x1B10);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = level;
         scale.vy = level;
         scale.vz = level;
@@ -92,9 +93,9 @@ void ModelVariant418_DrawWebs(u8 *ctx)
             }
         }
         if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x1B64) * 0xC0;
+            web->scale += work->clock.step * 0xC0;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x1B9C) < 4) {
+                if (work->phase < 4) {
                     web->scale -= 0x2000;
                 } else {
                     web->scale = 0x2000;
@@ -103,8 +104,8 @@ void ModelVariant418_DrawWebs(u8 *ctx)
                 done = 0;
             }
         }
-        if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x1B9C) == 4) {
-            MODEL_VARIANT_WORD(work, 0x1B9C) = 5;
+        if (i + 1 == 3 && done == 1 && work->phase == 4) {
+            work->phase = 5;
         }
         i++;
         web++;

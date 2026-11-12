@@ -1,13 +1,14 @@
 #include "../../types.h"
 
 #include "../model_variant/variant448_spiral.h"
+#include "../french_model_variant/variant425_entry.h"
 
-/* Header 425's phase-guarded spiral: while the phase at work + 0x180C is not
- * negative, twelve two-point arms (records from work + 0x84C) on a spiral of
- * three quarters of the size at work + 0x17DC are moved along the view by the
+/* Header 425's phase-guarded spiral: while the phase at (u8 *)work + 0x180C is not
+ * negative, twelve two-point arms (records from (u8 *)work + 0x84C) on a spiral of
+ * three quarters of the size at (u8 *)work + 0x17DC are moved along the view by the
  * spread and drawn as two POLY_GT4 halves in each arm's own colours where the
  * depth and projection flag are not negative. Reaching size 0x400 moves phase
- * 1 to 2; from phase 2 on the sweep at work + 0x17D8 advances by 48. */
+ * 1 to 2; from phase 2 on the sweep at (u8 *)work + 0x17D8 advances by 48. */
 void SpanishModelVariant425_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
@@ -18,7 +19,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
     long status[12][2];
     long p;
     long flag;
-    u8 *work;
+    EntryState425 *work;
     u8 *timing;
     GsOT *ot;
     s16 i;
@@ -36,29 +37,29 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (EntryState425 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + 0x166C);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1778), MODEL_VARIANT_WORD(work, 0x1770)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x180C) >= 0) {
-    r = MODEL_VARIANT_HALF(work, 0x17DC) * 768 / 1024;
-    eighth = MODEL_VARIANT_HALF(work, 0x17DC) / 8;
-    if (r * MODEL_VARIANT_HALF(work, 0x17DA) < 0) {
+    poly = work->packets.textured;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    if (work->phase >= 0) {
+    r = work->spiral.size * 768 / 1024;
+    eighth = work->spiral.size / 8;
+    if (r * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0x17DA) < 0) {
+    if (eighth * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (MODEL_VARIANT_WORD(work, 0x180C) >= 3) {
-        timing = work + 0xEB4;
+    if (work->phase >= 3) {
+        timing = (u8 *)work + 0xEB4;
         spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
     } else {
-        spread = 0x400 - MODEL_VARIANT_HALF(work, 0x17DE);
+        spread = 0x400 - work->spiral.shrink;
     }
-    arm = (ModelVariantShadedRay *)(work + 0x84C);
+    arm = (ModelVariantShadedRay *)work->spirals;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x17D8) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x17D8);
+        phi = (i << 12) / 12 + work->spiral.angle * 2;
+        theta = (i << 13) / 12 + work->spiral.angle;
         for (k = 0; k < 2; k++) {
             length = (k * 16 + 4) * spread / 1024;
             if (k == 0) {
@@ -72,18 +73,18 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
                       arm->points[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x1788) & 1)) {
+    if (!(work->frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
     }
-    arm = (ModelVariantShadedRay *)(work + 0x84C);
+    arm = (ModelVariantShadedRay *)work->spirals;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1748);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x174C);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1750);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -121,7 +122,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantShadedRay *)(work + 0x84C);
+    arm = (ModelVariantShadedRay *)work->spirals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->projected[k] + arm->x_offset[k];
@@ -173,16 +174,16 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
         }
     }
     }
-    if (MODEL_VARIANT_HALF(work, 0x17DC) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x17DC) += MODEL_VARIANT_WORD(work, 0x1794) * 64;
-        if (MODEL_VARIANT_HALF(work, 0x17DC) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x17DC) = 0x400;
-            if (MODEL_VARIANT_WORD(work, 0x180C) == 1) {
-                MODEL_VARIANT_WORD(work, 0x180C) = 2;
+    if (work->spiral.size < 0x400) {
+        work->spiral.size += work->step * 64;
+        if (work->spiral.size >= 0x400) {
+            work->spiral.size = 0x400;
+            if (work->phase == 1) {
+                work->phase = 2;
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x180C) >= 2) {
-        MODEL_VARIANT_HALF(work, 0x17D8) += 48;
+    if (work->phase >= 2) {
+        work->spiral.angle += 48;
     }
 }

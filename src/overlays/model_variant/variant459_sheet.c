@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant459_entry.h"
 
 /* Draws a four-quad sheet at the variant origin. It grows to 0x1000 on
  * the first timing interval, expands to 0x2000, then shrinks to zero. */
@@ -9,7 +10,7 @@ void ModelVariant459_DrawSheet(u8 *ctx)
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant459EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -23,7 +24,7 @@ void ModelVariant459_DrawSheet(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = ctx;
+    work = (Variant459EntryState *)ctx;
     sheet = (ModelVariantSheet *)(ctx + 0xF60);
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x22E8);
@@ -73,20 +74,20 @@ void ModelVariant459_DrawSheet(u8 *ctx)
             }
         }
         if (sheet->size < 0x1000 && MODEL_VARIANT_WORD(work, 0x284C) == 0) {
-            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x1C)) << 12) /
-                          (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x20) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x1C));
+            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x1C)) << 12) /
+                          (u32)(MODEL_VARIANT_WORD(work->config, 0x20) - MODEL_VARIANT_WORD(work->config, 0x1C));
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
                 MODEL_VARIANT_WORD(work, 0x284C) = 1;
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24)) {
-            sheet->size += MODEL_VARIANT_WORD(work, 0x27B8) * 512;
+        } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(work->config, 0x24)) {
+            sheet->size += work->clock.step * 512;
             if (sheet->size >= 0x2000) {
                 sheet->size = 0x2000;
             }
         } else {
-            sheet->size = 0x2000 - (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24)) << 13) /
-                          (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x28) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x27C0), 0x24));
+            sheet->size = 0x2000 - (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x24)) << 13) /
+                          (u32)(MODEL_VARIANT_WORD(work->config, 0x28) - MODEL_VARIANT_WORD(work->config, 0x24));
             if (sheet->size <= 0) {
                 sheet->size = 0;
             }

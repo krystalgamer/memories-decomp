@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant405_halo.h"
+#include "../french_model_variant/variant422_entry.h"
 
 /* Draws five rings of sixteen textured POLY_GT4 strips between a top and a
  * bottom row of seventeen points; each row hangs below the ring by its own
@@ -22,7 +23,7 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     u8 b2[5];
     long p;
     long flag;
-    u8 *work;
+    Variant422EntryState *work;
     Variant405Halo *halo;
     GsOT *ot;
     POLY_GT4 *poly;
@@ -38,12 +39,12 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     s32 gap;
     s32 otz;
 
-    work = ctx;
-    poly = (POLY_GT4 *)(work + 0x1BDC);
+    work = (Variant422EntryState *)ctx;
+    poly = &work->halo_poly;
     ot = Graphics_GetDefaultOrderingTable();
-    halo = (Variant405Halo *)(work + 0x820);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1D90), MODEL_VARIANT_WORD(work, 0x1D88));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1D8C), MODEL_VARIANT_WORD(work, 0x1D90));
+    halo = &work->halo;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     for (i = 0; i < 5; i++) {
         if (halo->rise[i] <= 0) {
             rise = 0;
@@ -82,11 +83,11 @@ void ModelVariant405_DrawHalo(u8 *ctx)
             b2[i] = 0x80;
         }
         if (halo->fall[i] < 0x400) {
-            halo->rise[i] += MODEL_VARIANT_WORD(work, 0x1DC0) << 5;
-            halo->fall[i] += MODEL_VARIANT_WORD(work, 0x1DC0) << 5;
+            halo->rise[i] += work->clock.step << 5;
+            halo->fall[i] += work->clock.step << 5;
             if (halo->fall[i] >= 0x400) {
                 gap = halo->rise[i] - halo->fall[i];
-                if (*(u32 *)(*(u8 **)(work + 0x1DC8) + 0x28) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
+                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x28) <= (u32)work->clock.frame) {
                     halo->rise[i] = 0x400;
                     halo->fall[i] = 0x400;
                 } else {
@@ -100,9 +101,9 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x1D80);
+    m.t[0] = work->aim.target.vx;
     m.t[1] = 0;
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x1D84);
+    m.t[2] = work->aim.target.vz;
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
