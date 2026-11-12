@@ -11078,24 +11078,24 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 start,
 {
     s32 count = 0;
     s32 i = 0;
-    s32 d = gDuel_bActiveSide;
-    s32 *t = gDuel_adwCardStats;
-    DuelCardRecord *r =
-        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + start];
+    s32 side = gDuel_bActiveSide;
+    s32 *stats = gDuel_adwCardStats;
+    DuelCardRecord *record =
+        &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT + start];
     s32 k;
 
     do {
-        if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
-            k = (s16)r->card_id;
+        if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            k = (s16)record->card_id;
             k--;
-            if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
+            if (((stats[k] >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < type_limit) {
-                *out++ = r;
+                *out++ = record;
                 count++;
             }
         }
         i++;
-        r++;
+        record++;
     } while (i < DUEL_FIELD_ROW_SIZE);
 
     *out = 0;
@@ -11106,10 +11106,10 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start,
                                  s32 type) {
     s32 count = 0;
     s32 i = 0;
-    s32 d = gDuel_bActiveSide;
-    s32 *t = gDuel_adwCardStats;
-    DuelCardRecord *r =
-        &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + start];
+    s32 side = gDuel_bActiveSide;
+    s32 *stats = gDuel_adwCardStats;
+    DuelCardRecord *record =
+        &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT + start];
     s32 k;
 
     do {
@@ -11120,18 +11120,18 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start,
          * initialised before `i` -- that alone is 6. Found by the permuter;
          * see docs/PARKED.txt's former entry. */
         do {
-            if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 if (type < 0 ||
-                    (k = (s16)r->card_id, k--,
-                     ((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                    (k = (s16)record->card_id, k--,
+                     ((stats[k] >> CARD_STAT_TYPE_SHIFT) &
                       CARD_STAT_TYPE_MASK) == type)) {
-                    *out++ = r;
+                    *out++ = record;
                     count++;
                 }
             }
         } while (0);
         i++;
-        r++;
+        record++;
     } while (i < DUEL_FIELD_ROW_SIZE);
 
     *out = 0;
@@ -11140,79 +11140,79 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start,
 }
 
 s32 Duel_SelectEquipPair(void) {
-    DuelCardRecord *a[DUEL_FIELD_ROW_SIZE + 1];
-    DuelCardRecord *b[DUEL_FIELD_ROW_SIZE + 1];
-    DuelCardRecord **q;
-    DuelCardRecord **r;
-    DuelCardRecord *e;
-    DuelCardRecord *f;
-    s32 n;
-    s32 u;
-    s32 w;
+    DuelCardRecord *targets[DUEL_FIELD_ROW_SIZE + 1];
+    DuelCardRecord *equips[DUEL_FIELD_ROW_SIZE + 1];
+    DuelCardRecord **target_entry;
+    DuelCardRecord **equip_entry;
+    DuelCardRecord *equip;
+    DuelCardRecord *target;
+    s32 free_slot;
+    s32 target_index;
+    s32 equip_index;
 
-    if (Duel_CollectFieldCardsByType(b, 0, CARD_TYPE_EQUIP) != 0) {
-        Duel_CollectFieldCardsByType(a, DUEL_FIELD_ROW_SIZE, -1);
-        e = b[0];
-        if (e != 0) {
-            r = b;
+    if (Duel_CollectFieldCardsByType(equips, 0, CARD_TYPE_EQUIP) != 0) {
+        Duel_CollectFieldCardsByType(targets, DUEL_FIELD_ROW_SIZE, -1);
+        equip = equips[0];
+        if (equip != 0) {
+            equip_entry = equips;
             do {
-                f = a[0];
-                if (f != 0) {
-                    q = a;
+                target = targets[0];
+                if (target != 0) {
+                    target_entry = targets;
                     do {
-                        if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
+                        if (Duel_CheckEquip(equip->card_id, target->card_id) != 0) {
                             gAi_Selection.bytes[0] =
-                                *(s8 *)&e->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
+                                *(s8 *)&equip->table_index % DUEL_FIELD_ROW_SIZE + 0xB;
                             gAi_Selection.bytes[1] = 0;
                             gAi_Selection.bytes[6] =
-                                *(s8 *)&f->table_index % DUEL_FIELD_ROW_SIZE + 1;
+                                *(s8 *)&target->table_index % DUEL_FIELD_ROW_SIZE + 1;
                             gAi_Selection.bytes[7] = 0;
                             gAi_Selection.bytes[8] = 0;
                             return 0;
                         }
-                        q++;
-                        f = *q;
-                    } while (f != 0);
+                        target_entry++;
+                        target = *target_entry;
+                    } while (target != 0);
                 }
-                r++;
-                e = *r;
-            } while (e != 0);
+                equip_entry++;
+                equip = *equip_entry;
+            } while (equip != 0);
         }
 
-        n = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
-        if (n < 0) {
+        free_slot = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
+        if (free_slot < 0) {
             return 1;
         }
-        Duel_CollectFieldCardsBelowType(a, 0, CARD_TYPE_MAGIC);
-        e = b[0];
-        if (e != 0) {
-            r = b;
+        Duel_CollectFieldCardsBelowType(targets, 0, CARD_TYPE_MAGIC);
+        equip = equips[0];
+        if (equip != 0) {
+            equip_entry = equips;
             do {
-                f = a[0];
-                if (f != 0) {
-                    q = a;
+                target = targets[0];
+                if (target != 0) {
+                    target_entry = targets;
                     do {
-                        if (Duel_CheckEquip(e->card_id, f->card_id) != 0) {
-                            u = *(s8 *)&f->table_index;
+                        if (Duel_CheckEquip(equip->card_id, target->card_id) != 0) {
+                            target_index = *(s8 *)&target->table_index;
                             gAi_Selection.bytes[0] =
-                                u % DUEL_FIELD_ROW_SIZE + 0xB;
-                            w = *(s8 *)&e->table_index;
+                                target_index % DUEL_FIELD_ROW_SIZE + 0xB;
+                            equip_index = *(s8 *)&equip->table_index;
                             gAi_Selection.bytes[2] = 0;
                             gAi_Selection.bytes[7] = 0;
                             gAi_Selection.bytes[8] = 0;
                             gAi_Selection.bytes[6] =
-                                n % DUEL_FIELD_ROW_SIZE + 1;
+                                free_slot % DUEL_FIELD_ROW_SIZE + 1;
                             gAi_Selection.bytes[1] =
-                                w % DUEL_FIELD_ROW_SIZE + 0xB;
+                                equip_index % DUEL_FIELD_ROW_SIZE + 0xB;
                             return 0;
                         }
-                        q++;
-                        f = *q;
-                    } while (f != 0);
+                        target_entry++;
+                        target = *target_entry;
+                    } while (target != 0);
                 }
-                r++;
-                e = *r;
-            } while (e != 0);
+                equip_entry++;
+                equip = *equip_entry;
+            } while (equip != 0);
         }
     }
     return 1;
@@ -11273,8 +11273,8 @@ int Ai_SelectMagicPlay(void)
 s32 Ai_SelectFusionPlay(void) {
     DuelCardRecord *list1[6];
     DuelCardRecord *list0[6];
-    DuelCardRecord *e1;
-    DuelCardRecord *e2;
+    DuelCardRecord *card_a;
+    DuelCardRecord *card_b;
     s32 count;
     s32 slot;
     s32 i;
@@ -11292,9 +11292,9 @@ s32 Ai_SelectFusionPlay(void) {
         return 1;
     }
     Duel_CollectFieldCardsByType(list1, DUEL_FIELD_ROW_SIZE, -1);
-    for (i = 0; (e1 = list0[i]) != 0; i++) {
-        for (j = 0; (e2 = list1[j]) != 0; j++) {
-            if (Duel_CheckFusion(*(s16 *)&e1->card_id, *(s16 *)&e2->card_id)) {
+    for (i = 0; (card_a = list0[i]) != 0; i++) {
+        for (j = 0; (card_b = list1[j]) != 0; j++) {
+            if (Duel_CheckFusion(*(s16 *)&card_a->card_id, *(s16 *)&card_b->card_id)) {
                 goto found1;
             }
         }
@@ -11311,10 +11311,10 @@ found1:
     s8 v;
 
     st = &gAi_Selection.fields;
-    v = e1->table_index;
+    v = card_a->table_index;
     st->field1 = 0;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-    v = e2->table_index;
+    v = card_b->table_index;
     st->value = v % DUEL_FIELD_ROW_SIZE + 1;
     st->zero = rand() & 1;
     st->face_down = 0;
@@ -11328,9 +11328,9 @@ found2:
     s8 w;
 
     st = &gAi_Selection.fields;
-    v = e1->table_index;
+    v = card_a->table_index;
     st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
-    w = e2->table_index;
+    w = card_b->table_index;
     st->field_02 = 0;
     st->value = slot % DUEL_FIELD_ROW_SIZE + 1;
     st->field1 = w % DUEL_FIELD_ROW_SIZE + 0xB;
@@ -11341,10 +11341,10 @@ found2:
 
 phase2:
     Duel_CollectFieldCardsBelowType(list1, 0, CARD_TYPE_MAGIC);
-    for (i = 0; (e1 = list0[i]) != 0; i++) {
-        for (j = 0; (e2 = list1[j]) != 0; j++) {
-            if (*(s8 *)&e1->table_index != *(s8 *)&e2->table_index &&
-                Duel_CheckFusion(*(s16 *)&e1->card_id, *(s16 *)&e2->card_id)) {
+    for (i = 0; (card_a = list0[i]) != 0; i++) {
+        for (j = 0; (card_b = list1[j]) != 0; j++) {
+            if (*(s8 *)&card_a->table_index != *(s8 *)&card_b->table_index &&
+                Duel_CheckFusion(*(s16 *)&card_a->card_id, *(s16 *)&card_b->card_id)) {
                 goto found2;
             }
         }
@@ -11492,11 +11492,11 @@ s32 Ai_SelectFieldPlay(void)
     DuelCardRecord *pool[6];
     DuelCardRecord *listb[6];
     DuelCardRecord *lista[6];
-    DuelCardRecord **pa;
-    DuelCardRecord **pb;
-    DuelCardRecord **pp;
-    DuelCardRecord *ea;
-    DuelCardRecord *eb;
+    DuelCardRecord **equip_entry;
+    DuelCardRecord **target_entry;
+    DuelCardRecord **pool_cursor;
+    DuelCardRecord *equip;
+    DuelCardRecord *target;
     DuelCardRecord *rec;
     DuelCardRecord *scan;
     s32 slot;
@@ -11510,7 +11510,7 @@ s32 Ai_SelectFieldPlay(void)
     AiSelectionFields *out;
     DuelCardRecord *recs;
     DuelCardRecord *scanbase;
-    s32 t;
+    s32 table_index;
 
     gAi_Selection.fields.source_code = 0;
     if (gDuel_wOutcomeFlags & 0x1000) {
@@ -11519,28 +11519,28 @@ s32 Ai_SelectFieldPlay(void)
     if ((rand() & 3) == 0) {
         Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x17);
         Duel_CollectFieldCardsByType((DuelCardRecord **)listb, 5, -1);
-        ea = lista[0];
-        if (ea != 0) {
-            pa = lista;
+        equip = lista[0];
+        if (equip != 0) {
+            equip_entry = lista;
             do {
-                eb = listb[0];
-                if (eb != 0) {
-                    pb = listb;
+                target = listb[0];
+                if (target != 0) {
+                    target_entry = listb;
                     do {
-                        if (Duel_CheckEquip((s16)ea->card_id,
-                                            (s16)eb->card_id)) {
-                            gAi_Selection.fields.source_code = (s8)ea->table_index % 5 + 6;
-                            gAi_Selection.fields.target_code = (s8)eb->table_index % 5 + 1;
+                        if (Duel_CheckEquip((s16)equip->card_id,
+                                            (s16)target->card_id)) {
+                            gAi_Selection.fields.source_code = (s8)equip->table_index % 5 + 6;
+                            gAi_Selection.fields.target_code = (s8)target->table_index % 5 + 1;
                             gAi_Selection.fields.field_0B = 0;
                             return 0;
                         }
-                        pb++;
-                        eb = *pb;
-                    } while (eb != 0);
+                        target_entry++;
+                        target = *target_entry;
+                    } while (target != 0);
                 }
-                pa++;
-                ea = *pa;
-            } while (ea != 0);
+                equip_entry++;
+                equip = *equip_entry;
+            } while (equip != 0);
         }
         n = Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x14);
         if (n != 0) {
@@ -11570,8 +11570,8 @@ loop:
                 if (v >= 0) {
     have:
                     if (gDuel_pActiveSideState->swords_turns_remaining == 0) {
-                        t = (s8)rec->table_index;
-                        slot = t % 5 + 1;
+                        table_index = (s8)rec->table_index;
+                        slot = table_index % 5 + 1;
                         out->field_0B = 0;
                         out->target_code = v % 5 + 0x38;
                         out->source_code = slot;
@@ -11597,12 +11597,12 @@ loop:
                     i = 0;
                     scan = (DuelCardRecord *)((s32)((gDuel_bActiveSide ^ 1) * 15) * 28 + (s32)scanbase);
                     mask = 0x90000000;
-                    pp = pool;
+                    pool_cursor = pool;
                     do {
                         if ((*(u32 *)&scan->terrain_modifier & mask)
                             == mask) {
-                            *pp = scan;
-                            pp++;
+                            *pool_cursor = scan;
+                            pool_cursor++;
                             count++;
                         }
                         i++;
@@ -11644,24 +11644,24 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
         do {
             out->card_id = 0;
             if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
-                s32 r;
-                s32 t;
+                s32 stats;
+                s32 star_bits;
 
                 out->card_id = rec->card_id;
-                r = Duel_CalcCardStats(rec);
-                out->attack = r;
-                out->defense = r >> 16;
+                stats = Duel_CalcCardStats(rec);
+                out->attack = stats;
+                out->defense = stats >> 16;
                 out->flags = rec->flags;
                 out->card_type =
                     ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
-                out->guardian_star = t & CARD_STAT_GUARDIAN_STAR_MASK;
+                out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;
             }
             i += 1;
             out += 1;
@@ -11679,24 +11679,24 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
         do {
             out->card_id = 0;
             if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
-                s32 r;
-                s32 t;
+                s32 stats;
+                s32 star_bits;
 
                 out->card_id = rec->card_id;
-                r = Duel_CalcCardStats(rec);
-                out->attack = r;
-                out->defense = r >> 16;
+                stats = Duel_CalcCardStats(rec);
+                out->attack = stats;
+                out->defense = stats >> 16;
                 out->flags = rec->flags;
                 out->card_type =
                     ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
-                out->guardian_star = t & CARD_STAT_GUARDIAN_STAR_MASK;
+                out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;
             }
             i += 1;
             out += 1;
@@ -11739,10 +11739,10 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
     }
 
     {
-        DuelDeckCardRecord *rp;
+        DuelDeckCardRecord *deck_card;
 
         i = gDuel_aSideStates[side].deck_draw_cursor;
-        rp = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
+        deck_card = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;
 
@@ -11751,7 +11751,7 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 s32 *p;
                 s32 id;
 
-                id = rp->id;
+                id = deck_card->id;
                 out->card_id = id;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);
                 out->attack = (*p & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -11767,8 +11767,8 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->guardian_star_2 =
                     (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
                     CARD_STAT_GUARDIAN_STAR_MASK;
-                out->deck_index = rp->deck_index;
-                rp += 1;
+                out->deck_index = deck_card->deck_index;
+                deck_card += 1;
                 out += 1;
             } while (i < DECK_SIZE);
         }
