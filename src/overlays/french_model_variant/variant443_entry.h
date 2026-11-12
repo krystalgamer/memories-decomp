@@ -69,9 +69,8 @@ typedef struct {
     ModelVariantSheet sheets[5];
     ModelVariantColorRing rings_a[6], rings_b[4];
     EntryShape443 shapes[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2], extra;
+    ModelVariantPackets packets;
+    POLY_GT4 extra;
     POLY_FT4 flat[2], additional[2];
     u8 unknown_350C[0x38];
     s32 stored_target[3];

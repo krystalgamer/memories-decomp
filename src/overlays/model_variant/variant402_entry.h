@@ -47,9 +47,8 @@ typedef struct {
     ModelVariantRing rings[6];
     ModelVariantRing spokes[4];
     ModelVariantFan fans[1];
-    POLY_G3 triangle;
-    POLY_G4 quad;
-    POLY_GT4 textured[2], extra;
+    ModelVariantPackets packets;
+    POLY_GT4 extra;
     POLY_FT4 flat_textured[2], glow;
     u8 unknown_2244[0x24];
     MATRIX matrix;

@@ -31,7 +31,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
-    poly = work->textured;
+    poly = work->packets.textured;
     /* Both arms fold to the same division, so the test leaves no code; the
      * split assignment keeps the srl/sll/sra form of the radius. */
     if (!(work->clock.frame_count & 1)) {

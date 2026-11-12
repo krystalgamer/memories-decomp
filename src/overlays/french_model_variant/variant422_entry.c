@@ -40,11 +40,11 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
     spoke = work->spokes;
     quad_record = work->quads;
     web = work->webs;
-    textured = work->textured;
+    textured = work->packets.textured;
     flat = work->flat_textured;
     halo = &work->halo;
-    triangle = &work->triangle;
-    quad = &work->quad;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
     halo_poly = &work->halo_poly;
     extra = &work->extra;
     veil = work->veils;
