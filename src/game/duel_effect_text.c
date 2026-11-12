@@ -58,94 +58,94 @@ void TextBox_SetRect(int index, int x, int y, int width, int height)
    by default), and the halfword at 0x62 is cleared. */
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
-    DuelEffectChannel *e;
+    DuelEffectChannel *channel;
     unsigned short *range;
     s32 narrow;
     s32 wide;
     s32 size;
 
-    e = (DuelEffectChannel *)((u8 *)gText_aChannels + index * 100);
-    e->flags_34 = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
-    e->initial_string_id = value;
+    channel = (DuelEffectChannel *)((u8 *)gText_aChannels + index * 100);
+    channel->flags_34 = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
+    channel->initial_string_id = value;
     narrow = 8;
     wide = 16;
     size = flags & 3;
-    e->channel_index = index;
-    e->color_index_54 = 0;
-    e->pen_x = 0;
-    e->pen_y = 0;
-    e->glyph_advance_x = narrow;
-    e->line_advance_y = wide;
+    channel->channel_index = index;
+    channel->color_index_54 = 0;
+    channel->pen_x = 0;
+    channel->pen_y = 0;
+    channel->glyph_advance_x = narrow;
+    channel->line_advance_y = wide;
     switch (size) {
     case 1:
-        e->glyph_advance_x = narrow;
-        e->line_advance_y = narrow;
+        channel->glyph_advance_x = narrow;
+        channel->line_advance_y = narrow;
         break;
     case 2:
-        e->glyph_advance_x = 12;
-        e->line_advance_y = wide;
+        channel->glyph_advance_x = 12;
+        channel->line_advance_y = wide;
         break;
     case 3:
-        e->glyph_advance_x = wide;
-        e->line_advance_y = wide;
+        channel->glyph_advance_x = wide;
+        channel->line_advance_y = wide;
         break;
     }
-    e->glyph_delay = 1;
+    channel->glyph_delay = 1;
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
-    e->depth_offset = 0;
-    *(u16 *)((u8 *)e + 0x62) = 0;
-    e->entry_range_start = range[0];
-    e->entry_range_count = range[1] - range[0];
-    return e;
+    channel->depth_offset = 0;
+    *(u16 *)((u8 *)channel + 0x62) = 0;
+    channel->entry_range_start = range[0];
+    channel->entry_range_count = range[1] - range[0];
+    return channel;
 }
 #else
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
     int offset = index << 1;
-    DuelEffectChannel *e;
+    DuelEffectChannel *channel;
 #ifdef VERSION_JAPAN
     unsigned char *range;
 #else
     unsigned short *range;
 #endif
-    e = &gText_aChannels[index];
+    channel = &gText_aChannels[index];
     flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
     /* The do/while (0) loop notes are a barrier to GCC's first scheduling
        pass, which would otherwise sink the flags OR to its store; retail
        ORs right after the channel address. */
     do {
 #ifdef VERSION_JAPAN
-        e->line_advance_y = 16;
-        e->glyph_advance_x = 16;
+        channel->line_advance_y = 16;
+        channel->glyph_advance_x = 16;
 #else
-        e->glyph_advance_x = 8;
-        e->line_advance_y = 12;
+        channel->glyph_advance_x = 8;
+        channel->line_advance_y = 12;
 #endif
     } while (0);
-    e->glyph_delay = 2;
+    channel->glyph_delay = 2;
 #ifdef VERSION_JAPAN
     /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
     range = (unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset;
 #else
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset);
 #endif
-    e->channel_index = index;
-    e->initial_string_id = value;
-    e->color_index_54 = 0;
-    e->flags_34 = flags;
-    e->pen_x = 0;
-    e->pen_y = 0;
-    e->depth_offset = 0;
+    channel->channel_index = index;
+    channel->initial_string_id = value;
+    channel->color_index_54 = 0;
+    channel->flags_34 = flags;
+    channel->pen_x = 0;
+    channel->pen_y = 0;
+    channel->depth_offset = 0;
 #ifdef VERSION_JAPAN
-    e->output_limit = 0;
-    e->entry_range_start = range[0];
-    e->entry_range_count = range[2] - range[0];
+    channel->output_limit = 0;
+    channel->entry_range_start = range[0];
+    channel->entry_range_count = range[2] - range[0];
 #else
-    e->output_limit = 0;
-    e->entry_range_start = range[0];
-    e->entry_range_count = range[1] - range[0];
+    channel->output_limit = 0;
+    channel->entry_range_start = range[0];
+    channel->entry_range_count = range[1] - range[0];
 #endif
-    return (DuelEffectChannel *)e;
+    return (DuelEffectChannel *)channel;
 }
 #endif
 
@@ -1753,25 +1753,25 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 {
     /* A copy, not the parameter: retail moves the object into a3 at entry
        and writes the four dimmed words through that copy. */
-    DisplayObject *q = object;
-    s32 c = 0;
-    s32 t = gMain_dwFrameCounter & 0x7F;
-    if (t >= 0x40)
-        t = 0x7F - t;
-    t = t * 2 + WIDGET_PULSE_BASE;
-    if (DISPLAY_OBJECT_COLOR_BYTES(q)[0] != 0)
-        c = t;
-    if (DISPLAY_OBJECT_COLOR_BYTES(q)[1] != 0)
-        c |= t << 8;
-    if (DISPLAY_OBJECT_COLOR_BYTES(q)[2] != 0)
-        c |= t << 16;
-    q->field_3C.word = c;
-    q->field_44.word = c;
-    c = (c & 0xFCFCFC) / 4;
-    q->field_2C.word = c;
-    q->field_34.word = c;
-    q->field_4C = c;
-    *(s32 *)&q->field_54 = c;
+    DisplayObject *widget = object;
+    s32 color = 0;
+    s32 level = gMain_dwFrameCounter & 0x7F;
+    if (level >= 0x40)
+        level = 0x7F - level;
+    level = level * 2 + WIDGET_PULSE_BASE;
+    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[0] != 0)
+        color = level;
+    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[1] != 0)
+        color |= level << 8;
+    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[2] != 0)
+        color |= level << 16;
+    widget->field_3C.word = color;
+    widget->field_44.word = color;
+    color = (color & 0xFCFCFC) / 4;
+    widget->field_2C.word = color;
+    widget->field_34.word = color;
+    widget->field_4C = color;
+    *(s32 *)&widget->field_54 = color;
 }
 
 #include "../psyq/libgte.h"
@@ -1801,27 +1801,27 @@ u8 gDialog_bInputState;
 #endif
 
 void Dialog_UpdateChoice(DuelEffectChannel *p) {
-    DisplayObject *e;
-    s32 f;
-    s32 g;
-    s32 m;
+    DisplayObject *prompt;
+    s32 input_state;
+    s32 input_bits;
+    s32 choice_bit;
 
     if ((p->playback_state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         p->playback_state = p->playback_state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        e = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
-        DisplayObject_InitializeGouraudQuad(e, 1);
-        DisplayObject_SelectOrderingTable1(e);
-        DisplayObject_SetDepthOffset(e,
+        prompt = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
+        DisplayObject_InitializeGouraudQuad(prompt, 1);
+        DisplayObject_SelectOrderingTable1(prompt);
+        DisplayObject_SetDepthOffset(prompt,
                       (s8)(p->render_object->depth_offset + 1));
-        p->prompt_object = e;
-        *(s32 *)&e->field_54 = 0x2000;
-        e->field_4C = 0x2000;
-        e->field_34.word = 0x2000;
-        e->field_2C.word = 0x2000;
-        e->field_44.word = 0xC000;
-        e->field_3C.word = 0xC000;
-        e->update = (DisplayObjectCallback)Widget_UpdatePulseColour;
-        e->attribute = e->attribute | (GsALON | GsAONE);
+        p->prompt_object = prompt;
+        *(s32 *)&prompt->field_54 = 0x2000;
+        prompt->field_4C = 0x2000;
+        prompt->field_34.word = 0x2000;
+        prompt->field_2C.word = 0x2000;
+        prompt->field_44.word = 0xC000;
+        prompt->field_3C.word = 0xC000;
+        prompt->update = (DisplayObjectCallback)Widget_UpdatePulseColour;
+        prompt->attribute = prompt->attribute | (GsALON | GsAONE);
         Dialog_HighlightChoice(p);
     }
 
@@ -1829,17 +1829,17 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         return;
     }
 
-    f = *(s8 *)&gDialog_bInputState;
-    g = gDialog_bInputState;
+    input_state = *(s8 *)&gDialog_bInputState;
+    input_bits = gDialog_bInputState;
 
-    if (f != 0) {
-        if ((g & DIALOG_CHOICE_INPUT_CONFIRMED) != 0) {
-            gDialog_bInputState = g & 0xBF;
-            gDialog_bChoice = g & 7;
+    if (input_state != 0) {
+        if ((input_bits & DIALOG_CHOICE_INPUT_CONFIRMED) != 0) {
+            gDialog_bInputState = input_bits & 0xBF;
+            gDialog_bChoice = input_bits & 7;
             Dialog_HighlightChoice(p);
             return;
         }
-        if ((f & DIALOG_CHOICE_INPUT_CANCELLED) == 0) {
+        if ((input_state & DIALOG_CHOICE_INPUT_CANCELLED) == 0) {
             return;
         }
         gDialog_bInputState = 0;
@@ -1852,8 +1852,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         }
     }
 
-    m = 1 << gDialog_bChoice;
-    if ((gDialog_bChoiceEnabled & m) == 0) {
+    choice_bit = 1 << gDialog_bChoice;
+    if ((gDialog_bChoiceEnabled & choice_bit) == 0) {
         SD_SEPlayFull(9);
         return;
     }
@@ -2719,61 +2719,61 @@ void Text_AdvancePenX(DuelEffectChannel *object)
 void Text_PushFormattedDecimal(DuelEffectChannel *object)
 {
     u8 buf[8];
-    u8 *e;
-    u8 *bp;
-    s32 r;
-    s32 c;
-    s32 t;
+    u8 *out;
+    u8 *digits;
+    s32 value_address;
+    s32 format;
+    s32 operand;
     s32 k;
     s32 i;
-    s32 h;
-    s32 w;
+    s32 pad_glyph;
+    s32 glyph;
 
-    r = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
-    t = *TEXT_STREAM_OWNER(object)->streams[object->stream_index]++;
-    c = t;
-    Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
+    value_address = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
+    operand = *TEXT_STREAM_OWNER(object)->streams[object->stream_index]++;
+    format = operand;
+    Text_EncodeDecimalDigits(*(s32 *)value_address, format & 0xF, buf);
 
-    h = 0;
+    pad_glyph = 0;
 
-    if ((c & 0x80) != 0) {
-        if ((c & 0x40) != 0) {
-            h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
+    if ((format & 0x80) != 0) {
+        if ((format & 0x40) != 0) {
+            pad_glyph = *(u16 *)&gText_DecimalDigitGlyphMap[0];
         }
-    } else if (c >= 2) {
-        bp = buf;
-        k = c - 1;
+    } else if (format >= 2) {
+        digits = buf;
+        k = format - 1;
         while (1) {
-            if (bp[k] < TEXT_DECIMAL_RADIX) {
+            if (digits[k] < TEXT_DECIMAL_RADIX) {
                 break;
             }
-            c = k;
+            format = k;
             if (k < 2) {
                 break;
             }
-            k = c - 1;
+            k = format - 1;
         }
     }
-    e = object->decimal_buffer;
+    out = object->decimal_buffer;
 
-    i = (c & 0xF) - 1;
+    i = (format & 0xF) - 1;
     do {
-        w = h;
+        glyph = pad_glyph;
         if (buf[i] < TEXT_DECIMAL_RADIX) {
-            w = *(u16 *)&gText_DecimalDigitGlyphMap[buf[i]];
+            glyph = *(u16 *)&gText_DecimalDigitGlyphMap[buf[i]];
         }
-        if (w >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
-            *e = (w >> 8) - 0x10;
-            e[1] = w;
-            e += 2;
+        if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
+            *out = (glyph >> 8) - 0x10;
+            out[1] = glyph;
+            out += 2;
         } else {
-            *e = w;
-            e += 1;
+            *out = glyph;
+            out += 1;
         }
         i--;
     } while (i >= 0);
 
-    *e = TEXT_STRING_TERMINATOR;
+    *out = TEXT_STRING_TERMINATOR;
     object->stream_index++;
     TEXT_STREAM_OWNER(object)->streams[object->stream_index] = object->decimal_buffer;
 }
@@ -3358,35 +3358,35 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
-    s32 t;
-    s32 u;
-    s32 w;
-    s32 v;
-    s32 c;
-    s32 d;
+    s32 operand;
+    s32 options_operand;
+    s32 input_flag;
+    s32 channel_flags;
+    s32 command;
+    s32 options;
 
     gText_CommandDisposition = 1;
-    t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
-    c = t;
-    d = TEXT_CHOICE_OPTIONS_ENABLED_MASK;
-    if (c & TEXT_CHOICE_COMMAND_HAS_OPTIONS) {
-        u = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
-        t = u;
-        d = t;
+    operand = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
+    command = operand;
+    options = TEXT_CHOICE_OPTIONS_ENABLED_MASK;
+    if (command & TEXT_CHOICE_COMMAND_HAS_OPTIONS) {
+        options_operand = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
+        operand = options_operand;
+        options = operand;
     }
-    if (c & TEXT_CHOICE_COMMAND_BRANCH) {
+    if (command & TEXT_CHOICE_COMMAND_BRANCH) {
         TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index] +=
             gDialog_bChoice * 2;
         Text_SetCursorOffset(object);
     } else {
         gDialog_bChoiceCount = TEXT_CHOICE_COMMAND_COUNT_MASK;
-        gDialog_bChoiceCount = c & gDialog_bChoiceCount;
-        gDialog_bChoiceControl = c & DIALOG_CHOICE_CONTROL_MASK;
-        gDialog_bChoiceEnabled = d & TEXT_CHOICE_OPTIONS_ENABLED_MASK;
-        w = d & TEXT_CHOICE_OPTIONS_INPUT_FLAG;
+        gDialog_bChoiceCount = command & gDialog_bChoiceCount;
+        gDialog_bChoiceControl = command & DIALOG_CHOICE_CONTROL_MASK;
+        gDialog_bChoiceEnabled = options & TEXT_CHOICE_OPTIONS_ENABLED_MASK;
+        input_flag = options & TEXT_CHOICE_OPTIONS_INPUT_FLAG;
         gDialog_bChoice = 0;
         gDialog_bInputState = 0;
-        if (w != 0) {
+        if (input_flag != 0) {
             gDialog_bInputState = 1;
         }
 #ifndef VERSION_EUROPE
@@ -3395,10 +3395,10 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         DuelEffect_ClearOccupancyValue(object->channel_index);
 #endif
         DuelEffect_ClearMatchingMarker(object->channel_index);
-        v = object->flags_34;
+        channel_flags = object->flags_34;
         object->explicit_newline_count = 0;
         gText_ChoiceLayoutCallback = Text_TryCompleteChoiceLayout;
-        object->flags_34 = v | 0x1000;
+        object->flags_34 = channel_flags | 0x1000;
     }
 }
 
@@ -3434,14 +3434,14 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 void Text_PushStreamOffset(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(object);
-    s32 c;
-    s32 v;
+    s32 stream_slot;
+    s32 offset;
 
-    v = TextStream_ReadU16LE(object);
-    c = object->stream_index;
-    owner->streams[c + 1] =
-        (u8 *)(((u32)owner->streams[c] & TEXT_STREAM_CURSOR_HIGH_MASK) |
-               (v & 0xFFFF));
+    offset = TextStream_ReadU16LE(object);
+    stream_slot = object->stream_index;
+    owner->streams[stream_slot + 1] =
+        (u8 *)(((u32)owner->streams[stream_slot] & TEXT_STREAM_CURSOR_HIGH_MASK) |
+               (offset & 0xFFFF));
     object->stream_index++;
 }
 
