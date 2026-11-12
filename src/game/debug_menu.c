@@ -259,7 +259,7 @@ s32 DebugMenu_UpdateValueEditor(void)
     FrontendDebugRowPointer row;
     s32 val;
     s32 mask;
-    u8 t2;
+    u8 digit_count;
     u8 f;
     u8 *r;
     s32 sc;
@@ -270,11 +270,11 @@ s32 DebugMenu_UpdateValueEditor(void)
     ret = 0;
     *(Bytes8 *)d = *(Bytes8 *)gDebugMenu_awNibbleMasks;
     db = d;
-    t2 = gDebug_abEditorDigitCounts[gDebug_bEditorRow];
+    digit_count = gDebug_abEditorDigitCounts[gDebug_bEditorRow];
     if ((gDebug_bEditorFlags & 0x80) == 0) {
         gDebug_bEditorFlags = gDebug_bEditorFlags | 0x80;
         if ((gDebug_bEditorFlags & 0x40) != 0) {
-            jj = (s8)t2 - 1;
+            jj = (s8)digit_count - 1;
             row.words = &FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
             val = *row.words;
             *row.words = 0;
@@ -308,8 +308,8 @@ s32 DebugMenu_UpdateValueEditor(void)
                 /* A u16 cursor folds the negation and swaps the addu operands. */
                 mask = *(u16 *)(db - -(e * 2));
                 i = e;
-                if (i < (s8)t2) {
-                    n = (s8)t2;
+                if (i < (s8)digit_count) {
+                    n = (s8)digit_count;
                     do {
                         cc = val & mask;
                         val = val & ~mask;
@@ -334,7 +334,7 @@ s32 DebugMenu_UpdateValueEditor(void)
                 val = val | cc;
             } else {
                 val = val + step;
-                val = val & (c[(s8)t2] - 1);
+                val = val & (c[(s8)digit_count] - 1);
             }
             FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow] = val;
         }
@@ -355,7 +355,7 @@ s32 DebugMenu_UpdateValueEditor(void)
             }
         } else {
             gDebug_bEditorDigit = gDebug_bEditorDigit + 1;
-            if (gDebug_bEditorDigit >= (s8)t2) {
+            if (gDebug_bEditorDigit >= (s8)digit_count) {
                 gDebug_bEditorDigit = 0;
                 gDebug_bEditorRow = gDebug_bEditorRow - 1;
                 if (gDebug_bEditorRow < 0) {

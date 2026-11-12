@@ -98,7 +98,7 @@ void Options_UpdateLayout(s32 selection) {
 
 void Options_Init(void) {
     DisplayObject *obj;
-    s32 s0;
+    s32 texture_page;
     s32 s2;
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -119,14 +119,14 @@ void Options_Init(void) {
     Options_InitTextDisplay(0);
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    s0 = 0xB;
-    DisplayObject_ConfigureSpriteAtPosition(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
+    texture_page = 0xB;
+    DisplayObject_ConfigureSpriteAtPosition(obj, 0x18, 0x48, 3, 4, 0, texture_page, 0x20C);
     gOptions_pSelectionCursor = obj;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-    DisplayObject_ConfigureScreenSprite(obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
+    DisplayObject_ConfigureScreenSprite(obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, texture_page, 0x210, 0xFC);
 
     {
         s32 flag = gOptions_bSelection;

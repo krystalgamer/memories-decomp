@@ -567,8 +567,8 @@ void Library_UpdateGridCursor(LibraryState *state)
    b2 changes the code. */
 void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 {
-    s32 sp28;
-    s32 sp2C;
+    s32 depth_cue;
+    s32 gte_flag;
     LINE_F4 *q;
     struct ProjectionOut *r;
     SVECTOR *b0;
@@ -634,7 +634,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
         b0, b1, b2, b3,
         (long *)&q->x0, (long *)&q->x1,
         (long *)&q->x3, (long *)&q->x2,
-        (long *)&sp28, (long *)&sp2C
+        (long *)&depth_cue, (long *)&gte_flag
     );
 
     Graphics_SubmitDrawModePacket((u32 *)q, ot, *(u16 *)&o->ot_depth, 1);
