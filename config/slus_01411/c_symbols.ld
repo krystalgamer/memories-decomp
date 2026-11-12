@@ -4,8 +4,6 @@
 /* Conditional runtime imports; the function definitions live in main_menu. */
 gFile_pScreenBankBase = 0x800101D8;
 gDebugMenu_szCampaignValueFormat = 0x80010288;
-gMemCard_szSaveFileName = 0x80010384;
-gMemCard_szDevicePathFormat = 0x80010538;
 gSD_adwVoiceMasks = 0x80011434;
 gModel_SubdividedEffectInitialScale = 0x8001185C;
 gModel_DiscEffectInitialScale = 0x8001187C;

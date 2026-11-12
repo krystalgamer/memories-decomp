@@ -174,7 +174,6 @@ SD_VabOpenHead = 0x800496C4; // type:func
 gSD_dwCurrentBgmCommand = 0x8009B400;
 gSaveDataSequence = 0x8009B3B8;
 gText_DecimalDigitSjisKeys = 0x80010330;
-gMemCard_szSaveFileName = 0x80010384;
 gSD_awNotePitchTable = 0x80010834;
 gGraphics_pPacketWorkCursor = 0x800FE240;
 gSaveData_aTransferBuffer = 0x801D3200;
@@ -1944,13 +1943,9 @@ gMemCardWork_nCompletedRequest = 0x8009B3E4;
 gMemCardWork_abFrame = 0x80210000;
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-gMemCard_szFreeBlockCountFormat = 0x80010378;
 
-gMemCard_szMakeFileTrace = 0x80010398;
 
-gMemCard_szFailFileTrace = 0x800103A4;
 
-gMemCard_szDevicePathFormat = 0x80010538;
 
 gMemCard_bTransferRetriesRemaining = 0x8009B436;
 

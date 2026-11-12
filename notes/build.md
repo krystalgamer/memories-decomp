@@ -417,7 +417,7 @@ Mapping the original 77 labels in address order now gives five pieces:
 
 | range | state |
 | --- | --- |
-| `0x8009AF6C`-`0x8009AF87` | C-owned mixed-subsystem window |
+| `0x8009AF6C`-`0x8009AF87` | C-owned memory-card and MIDI string literals around the display-object depth table |
 | `0x8009AF88`-`0x8009AFAB` | C-owned model/graphics state |
 | `0x8009AFAC`-`0x8009AFE3` | C-owned model primitive templates |
 | `0x8009AFE4`-`0x8009B057` | C-owned model handler state and diagnostics |
@@ -451,6 +451,11 @@ read by `MemCardDialog_UpdateSave` (`mem_card_dialog.c`) and
 `ot_index` array, and the `"MTrk"` MIDI track tag compared by
 `sound_sequence_marker_scan.c`. Four subsystems, no shared subject, and no
 name for the unit better than its address.
+
+Those strings have since become literals of the units that use them
+(`mem_card.c`, `mem_card_driver.c` and `sound_find_midi_track_chunk.c`), in
+each unit's `.sdata`; only the depth table remains in
+`display_object_system.c`.
 
 None of that matters. What decides whether a range can be carved is whether
 its objects **tile it exactly**, leaving no byte unaccounted for. Here they
