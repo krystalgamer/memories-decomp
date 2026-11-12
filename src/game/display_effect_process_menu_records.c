@@ -2,7 +2,7 @@
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
 #include "display_object_system.h"
-#include "display_effect_update_menu_record.h"
+#include "display_effect_process_menu_records.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
 #include "script_scene.h"
