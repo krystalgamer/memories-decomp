@@ -18,7 +18,6 @@
 #include "../../game/fade.h"
 #include "../../game/card_preview.h"
 #include "../../game/mem_card.h"
-#include "../../game/duel_effect_resource_record.h"
 #include "../../game/main_mode_state.h"
 
 #ifdef VERSION_JAPAN

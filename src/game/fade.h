@@ -1,8 +1,17 @@
 #ifndef YUGIOH_GAME_FADE_H
 #define YUGIOH_GAME_FADE_H
-
 #include "../ygo_types.h"
 #include "fade_constants.h"
+#include "../types.h"
+
+/* The fade depth byte kept for the overlay while FADE_FLAG_KEEP_OVERLAY is
+ * set. */
+extern u8 gFade_bKeepOverlayDepth;
+
+/* Latches the white-fade path until the transition completes. Most fade
+ * units reach it through small data; Script_OpShowImage defines the arm below
+ * to preserve its measured absolute-addressing form. */
+extern u8 gFade_bWhiteLatch;
 
 #define FADE_BAND_HEIGHT 8
 #define FADE_SCREEN_WIDTH 320
@@ -11,7 +20,7 @@
 extern FadeTransitionState gFade_State;
 
 /* The fade-active flag. The keep-overlay depth byte beside it is
- * gFade_bKeepOverlayDepth (fade_overlay_controls.h). */
+ * gFade_bKeepOverlayDepth (fade.h). */
 extern u8 gFade_bOrderingTableMode;
 
 /* The colour a fade is heading for. Fade_Update copies the three into the
@@ -65,5 +74,4 @@ void Fade_StartOutKeepOverlay();
 void Fade_StartOutKeepOverlayAndHideSecondaryTables(void);
 void Fade_EnableOrderingTables(void);
 void Fade_DisableOrderingTables(void);
-
 #endif

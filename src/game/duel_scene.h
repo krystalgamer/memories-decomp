@@ -17,6 +17,109 @@
 #include "mem_card.h"
 #include "file_staging_buffer.h"
 
+/* libgpu.h uses SVECTOR without declaring it, so libgte.h has to come first
+ * for this header to be includable on its own. */
+
+struct DisplayObject;
+
+/* One 0x40-byte entry of the array at gCardPreview_Resources. CardPreview_HandleResourceTransfer uploads four
+ * textures from a single source origin, and casts each of the four
+ * destination rectangles to RECT before handing it to LoadImage, so the
+ * layout is four RECTs followed by that origin. */
+typedef struct DuelEffectResourceRecord {
+    /* CardPreview_CreateResourceObjects acquires both objects from the display-object pool,
+     * publishes the allocated-second primary at +0 and the secondary at +4,
+     * and links the primary from the secondary. Clear/release helpers keep
+     * the same nullable pointer values and order. */
+    struct DisplayObject *primary_object;
+    struct DisplayObject *secondary_object;
+    RECT rects[4];
+    u16 src_x;
+    u16 src_y;
+    /* The VRAM position of the preview's 256-entry CLUT.
+       CardPreview_HandleResourceTransfer uploads the 0x100 x 1 palette image
+       to rects[1] at (clut_x, clut_y), and CardPreview_CreateResourceObjects
+       passes the same pair to DisplayObject_ConfigureScreenSprite as its
+       clut_x and clut_y. The duel and Library setups seed it per region. */
+    u16 clut_x;
+    u16 clut_y;
+    /* CardPreview_RequestResourceTransfer stores the card ID here, and the store is
+     * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
+     * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when
+     * the field was named. CardPreview_CreateResourceObjects explicitly takes a signed view for
+     * its one-based card index, matching that constructor's lh. */
+    u16 card_id;
+    /* The constructor supplies ATK/DEF overrides or decoded base stats;
+     * CardPreview_DrawDetailPanel sends the corresponding sums to its ATK
+     * and DEF digit rows. Retail uses lh at 0x32, 0x34, 0x36 and 0x38,
+     * and lbu at 0x3A, 0x3B and 0x3C, through the resource base formed at
+     * 80028D88. The default stat path clears both adjustments; the battle
+     * Guardian-Star ramp supplies the same additive display amount to each.
+     * Level and attribute-icon bytes come from the card-ID-indexed metadata
+     * table; icon codes 6/7 also cover non-monsters. Palette bits 0x80/0x40
+     * select alternate ATK/DEF rows; no visual meaning is inferred.
+     * 0x3D..0x3F remain padding: no recovered access names them. */
+    s16 attack;
+    s16 defense;
+    s16 attack_adjustment;
+    s16 defense_adjustment;
+    u8 level;
+    u8 attribute_icon;
+    u8 stat_palette_flags;
+    u8 pad_3D[3];
+} DuelEffectResourceRecord;
+
+typedef char DuelEffectResourceRecord_size_must_be_0x40[
+    sizeof(DuelEffectResourceRecord) == 0x40 ? 1 : -1
+];
+
+#define DUEL_EFFECT_RESOURCE_RECORD_OFFSET(member) \
+    ((u32)&(((DuelEffectResourceRecord *)0)->member))
+
+typedef char DuelEffectResourceRecord_primary_object_offset_must_be_0x0[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(primary_object) == 0 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_secondary_object_offset_must_be_0x4[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(secondary_object) == 4 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(rects) == 8 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_card_id_offset_must_be_0x30[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(card_id) == 0x30 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_attack_offset_must_be_0x32[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack) == 0x32 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_defense_offset_must_be_0x34[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense) == 0x34 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_attack_adjustment_offset_must_be_0x36[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack_adjustment) == 0x36 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_defense_adjustment_offset_must_be_0x38[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense_adjustment) == 0x38 ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_level_offset_must_be_0x3A[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(level) == 0x3A ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_attribute_icon_offset_must_be_0x3B[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attribute_icon) == 0x3B ? 1 : -1
+];
+typedef char DuelEffectResourceRecord_stat_palette_flags_offset_must_be_0x3C[
+    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(stat_palette_flags) == 0x3C ? 1 : -1
+];
+
+/* The array itself. Seven sources declared it identically and all seven
+ * already include this header, which exists to describe one of its entries,
+ * so this is where it belongs.
+ *
+ * src/overlays/password/shop.c includes it too. It never indexes the array:
+ * Password_InitShopScreen parks the first record in gPassword_pCardCache and sets its
+ * source rectangle through that pointer, which module_state.h declares by
+ * this header's struct tag. */
+extern DuelEffectResourceRecord gCardPreview_Resources[];
+
 /* The developer effect-preview screen's state: the index of the operand being
  * edited, the two tuned operands and the page. The operand pair is a byte
  * array, which GCC word-aligns, so the gap after the index is one byte in the

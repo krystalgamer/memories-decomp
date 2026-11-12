@@ -8,7 +8,6 @@
 
 #include "fade.h"
 
-#include "fade_overlay_controls.h"
 #include "graphics_frame_controls.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated

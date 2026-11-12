@@ -9,7 +9,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_record.h"
+#include "duel_scene.h"
 #include "card_preview.h"
 
 #define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
@@ -92,7 +92,6 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 
 #include "text_encode_decimal_digits.h"
 #include "display_object_system.h"
-#include "duel_effect_resource_record.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "sprite_primitive.h"
@@ -400,7 +399,6 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 #define DISPLAY_OBJECT_RESOURCE_UV_BYTES(object) ((u8 *)&(object)->resource_uv)
 #include "card_constants.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_record.h"
 #include "display_object.h"
 #include "duel_card.h"
 

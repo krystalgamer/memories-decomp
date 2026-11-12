@@ -1246,7 +1246,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 #include "sound.h"
 #include "duel_card_viewer.h"
 #include "fade.h"
-#include "fade_overlay_controls.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "main_mode_state.h"

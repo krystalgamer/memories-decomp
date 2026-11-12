@@ -161,7 +161,6 @@
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "ordering_tables.h"
-#include "duel_effect_resource_record.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * duel_scene_commons and duel_scene_bss_commons subsegments place it at the
@@ -1359,7 +1358,6 @@ void Duel_InitModelScene(void)
 }
 
 #include "ai_script.h"
-#include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_grid.h"
 #include "duel_card.h"
@@ -1937,13 +1935,11 @@ void Duel_LoadTerrainPackage(void)
 #include "duel_package.h"
 #include "file_transfer.h"
 #include "main_services.h"
-#include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "duel_session_controls.h"
 #include "card_preview.h"
 #include "trig_constants.h"
-#include "ai_opponent_data.h"
 #include "duel_card_layout.h"
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
@@ -3333,7 +3329,6 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
     }
 }
 
-#include "ai_opponent_data.h"
 #include "campaign_flags.h"
 
 void Duel_MarkCreatedCardKnown(s32 card_id)
@@ -3348,7 +3343,6 @@ void Duel_MarkCreatedCardKnown(s32 card_id)
 #include "display_object_work_slots.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
-#include "duel_effect_resource_record.h"
 #include "duel_effect_text.h"
 #include "file_transfer.h"
 #include "sound.h"
@@ -4442,7 +4436,6 @@ void Duel_ApplyAiHandSelection(void)
 
 #undef DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS
 
-#include "ai_opponent_data.h"
 #include "input.h"
 
 int Duel_CheckQuitInput(void)
@@ -6208,7 +6201,6 @@ s32 Duel_UpdateTrapPresentation(void) {
 #include "display_object_work_slots.h"
 #include "fade.h"
 #include "main_mode_state.h"
-#include "duel_effect_resource_record.h"
 #include "sound.h"
 #include "main_modes.h"
 #include "sound_effect_request.h"
@@ -7063,7 +7055,6 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 #include "file_transfer.h"
 #include "sound.h"
 #include "fade.h"
-#include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "card_constants.h"
 #include "duel_grid.h"
@@ -9078,7 +9069,6 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 
 #include "input.h"
 #include "sound.h"
-#include "ai_opponent_data.h"
 #include "rand_get_interval.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
@@ -9652,7 +9642,6 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
 
 #include "duel_session_controls.h"
 #include "main_mode_state.h"
-#include "ai_opponent_data.h"
 
 void Main_StartDuel(s32 side0_controller, s32 opponent_id, s32 win_scene, s32 loss_scene)
 {
@@ -10382,7 +10371,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_resource_record.h"
 #include "duel_effect_dialog_state.h"
 
 /* Initialized data this unit owns at 0x80090A5C: two handlers per effect group, in group

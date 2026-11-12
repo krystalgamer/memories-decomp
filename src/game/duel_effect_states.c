@@ -12,7 +12,6 @@
 #include "main.h"
 #include "input.h"
 #include "fade.h"
-#include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
 #include "duel_card_viewer.h"
@@ -23,7 +22,7 @@
 #include "card_preview.h"
 #include "file_transfer.h"
 #include "duel_card.h"
-#include "duel_effect_resource_record.h"
+#include "duel_scene.h"
 #include "card_constants.h"
 #include "main_mode_state.h"
 /* Small globals other units own, declared here as common symbols the

@@ -70,7 +70,7 @@ void SD_InitSpuCommonVolume(void)
 #include "sound_output_state.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-#include "sound_voice_data.h"
+#include "sound_effect_request.h"
 #include "sound_voice_selection.h"
 
 #define SD_INIT_BLOCK_10_VIEW(block) ((SDInitBlk10 *)(block))
