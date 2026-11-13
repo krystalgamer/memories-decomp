@@ -18,7 +18,7 @@ void FrenchModelVariant423_DrawFunnel(u8 *context)
     long flag;
     Funnel423State *state = (Funnel423State *)context;
     ModelVariantSheet *sheet;
-    Funnel423 *funnel;
+    ModelVariantFunnel *funnel;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, k;

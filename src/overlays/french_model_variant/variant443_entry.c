@@ -226,7 +226,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
                 streamer->color[k].g = 128;
                 streamer->color[k].b = 128;
             }
-            *(s32 *)streamer->unknown_0208 = 0;
+            streamer->field_208 = 0;
         }
         for (j = 0; j < 1; j++, long_band++) {
             setVector(&long_band->scale, 4096, 4096, 4096);

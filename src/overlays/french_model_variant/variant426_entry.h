@@ -11,7 +11,7 @@ typedef struct {
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[4];
-    Funnel423 funnels[2];
+    ModelVariantFunnel funnels[2];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_1590[0x34];
     POLY_GT4 special;

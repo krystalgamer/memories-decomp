@@ -208,7 +208,7 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
                 streamer->color[j][1] = 128;
                 streamer->color[j][2] = 128;
             }
-            MODEL_VARIANT_WORD(streamer, 0x208) = 0;
+            streamer->field_208 = 0;
         }
         work->field_1608 = 4096;
         work->field_160A = 1024;
