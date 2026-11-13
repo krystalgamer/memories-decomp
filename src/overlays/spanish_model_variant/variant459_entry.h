@@ -12,7 +12,7 @@ typedef struct {
     u16 vertices[3], unknown_1E[3];
     u16 count, spiral;
     u16 limit;
-    u8 unknown_2A[2];
+    u16 field_2A;
     s32 curtains, mode;
     u32 start, end;
     s32 field_3C;

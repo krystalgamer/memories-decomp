@@ -66,18 +66,18 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
                 bend = phase - k * 512;
             }
             setVector(&ribbon->a[k],
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FDC) * k / 10,
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FE0) * k / 10,
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FE4) * k / 10);
+                      work->paths[i].vx * k / 10,
+                      work->paths[i].vy * k / 10,
+                      work->paths[i].vz * k / 10);
             setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
                       ribbon->a[k].vz + (rsin(yaw) * len >> 12));
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F3C);
-        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F40);
-        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F44);
+        m.t[0] = work->path_origins[i].vx;
+        m.t[1] = work->path_origins[i].vy;
+        m.t[2] = work->path_origins[i].vz;
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;

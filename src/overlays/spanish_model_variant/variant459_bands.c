@@ -5,7 +5,7 @@
 
 /* Draws every band of the timing record's band count as nine-point strips of
  * paired POLY_GT4 quads along the variant's direction. The radius follows the
- * record's size and the shrinking half-word at (u8 *)work + 0x30CC; the bands grow
+ * record's size and the entry's shrinking scale; the bands grow
  * along their own directions through phase 1 and shrink from the record's
  * fade window until phase 3. */
 void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
@@ -32,11 +32,11 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
-        r = work->scale * *(u16 *)((u8 *)work->config + 0x2A) / 4096;
+        r = work->scale * work->config->field_2A / 4096;
     } else {
         r = work->scale *
-            (*(u16 *)((u8 *)work->config + 0x2A) +
-             (rsin(0x100) * *(u16 *)((u8 *)work->config + 0x2A) >> 12)) / 4096;
+            (work->config->field_2A +
+             (rsin(0x100) * work->config->field_2A >> 12)) / 4096;
     }
     band = (ModelVariantBand *)work->bands;
     for (i = 0; i < work->config->count; i++, band++) {
@@ -48,13 +48,13 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
             rot.vy = 0;
             rot.vz = angle;
             if (j == 0) {
-                m.t[0] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F8C);
-                m.t[1] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F90);
-                m.t[2] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F94);
+                m.t[0] = work->points[i].vx;
+                m.t[1] = work->points[i].vy;
+                m.t[2] = work->points[i].vz;
             } else {
-                m.t[0] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F8C) + MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FEC) * work->progress / 1024 * j / 8;
-                m.t[1] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F90) + MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FF0) * work->progress / 1024 * j / 8;
-                m.t[2] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F94) + MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2FF4) * work->progress / 1024 * j / 8;
+                m.t[0] = work->points[i].vx + work->directions[i].vx * work->progress / 1024 * j / 8;
+                m.t[1] = work->points[i].vy + work->directions[i].vy * work->progress / 1024 * j / 8;
+                m.t[2] = work->points[i].vz + work->directions[i].vz * work->progress / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
