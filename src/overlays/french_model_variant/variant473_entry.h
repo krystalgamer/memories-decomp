@@ -42,7 +42,13 @@ typedef struct {
     POLY_GT4 extra, funnel_packet;
     u8 unknown_395C[0x34];
     ModelVariantPackets packets;
-    POLY_FT4 flat[2], additional[2];
+    /* The entry fills two POLY_FT4 templates here; the 458-style streamer
+     * drawer this image keeps reads the same bytes as one POLY_G4. */
+    union {
+        POLY_FT4 ft4[2];
+        POLY_G4 g4;
+    } flat;
+    POLY_FT4 additional[2];
     u8 unknown_3AD8[0x10];
     MATRIX matrix;
     SVECTOR target;

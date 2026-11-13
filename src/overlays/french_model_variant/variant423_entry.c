@@ -23,7 +23,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;
-    POLY_FT4 *flat = work->flat;
+    POLY_FT4 *flat = work->flat.ft4;
     POLY_GT4 *special = &work->special;
     s32 result = 0;
     u16 extra_clut, flat_clut, other_tpage, other_clut, tpage, clut;

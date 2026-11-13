@@ -1,16 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
-
-/* MODEL473 keeps the same fields at other work offsets and overrides these
- * bases in variant473_streamers.c. */
-#ifndef STREAMERS_LIST
-#define STREAMERS_LIST 0xF4C
-#define STREAMERS_POLY 0x1CD8
-#define STREAMERS_ORIGIN 0x1D58
-#define STREAMERS_FIELDS 0x1D74
-#endif
-#define STREAMERS_FIELD(offset) (STREAMERS_FIELDS + (offset) - 0x1D74)
+#include "variant423_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
@@ -27,7 +17,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
 #ifndef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
     long *previous;
 #endif
-    u8 *work;
+    EntryState423 *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -55,13 +45,13 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (EntryState423 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + STREAMERS_POLY);
-    turn = ratan2(MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1D7C)), MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1D74))) + 0xC00;
+    poly = &work->flat.g4;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0xC0;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1D8C)) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -70,14 +60,14 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1D8C)) & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant458Streamer *)(work + STREAMERS_LIST);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE8));
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -86,7 +76,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -94,20 +84,20 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, STREAMERS_FIELD(0x1DE4)) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, STREAMERS_FIELD(0x1DE8)) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, STREAMERS_FIELD(0x1DEC));
-    if ((u32)MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1D8C)) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE8)) += 0x514;
+    rot.vx = work->streamer.rotation_x + rx;
+    rot.vy = work->streamer.rotation_y + ry;
+    rot.vz = work->streamer.rotation_z;
+    if (work->clock.frame_count % 10 == 0) {
+        work->streamer.rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE8)) += 0x20;
+    work->streamer.rotation_y += 0x20;
 #ifdef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
     /* Keeps the retail copy's unused load of this field. */
-    MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DEC)) = MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DEC));
+    work->streamer.rotation_z = work->streamer.rotation_z;
 #endif
-    m.t[0] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN);
-    m.t[1] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN + 2);
-    m.t[2] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN + 4);
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -118,7 +108,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)(work + STREAMERS_LIST);
+    streamer = work->streamers;
 #ifdef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
@@ -130,7 +120,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[16] - (s16)streamer->sa[15];
                 dy = (streamer->sa[16] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[16] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     w = 2;
                 } else {
                     r = (s16)streamer->sb[16];
@@ -146,7 +136,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -173,7 +163,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*previous;
                 dy = (streamer->sa[k] >> 16) - (*previous >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -188,7 +178,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -199,7 +189,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
         }
     }
 #endif
-    streamer = (Variant458Streamer *)(work + STREAMERS_LIST);
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];

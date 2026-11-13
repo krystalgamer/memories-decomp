@@ -14,11 +14,11 @@ differences:
   `< 0x800` cap;
 - the phase-4 shrink tail is absent.
 
-`variant423_streamers.c` writes the work offsets through four bases:
-`STREAMERS_LIST` (`0xF4C`), `STREAMERS_POLY` (`0x1CD8`), `STREAMERS_ORIGIN`
-(`0x1D58`) and `STREAMERS_FIELDS` (`0x1D74`). `variant473_streamers.c`
-overrides them with `0x2D14`, `0x3A38`, `0x3B08` and `0x3BC4`, and renames the
-function.
+`variant423_streamers.c` reads `EntryState423` members, and
+`variant473_streamers.c` is its own copy over `EntryState473`, whose same
+fields sit later (streamers at `0x2D14` instead of `0xF4C`, the packet at
+`0x3A38` instead of `0x1CD8`). Both read their two `POLY_FT4` templates as
+one `POLY_G4` through the state's `flat` union (`ft4` / `g4`).
 
 The helper is registered in all four French images of model 385 (stages 7
 and 8 use MODEL423 bindings, stages 9 and 10 MODEL473). `RotTransPers` was
