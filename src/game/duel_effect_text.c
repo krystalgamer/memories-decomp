@@ -144,7 +144,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     channel->entry_range_start = range[0];
     channel->entry_range_count = range[1] - range[0];
 #endif
-    return (DuelEffectChannel *)channel;
+    return channel;
 }
 #endif
 
@@ -926,7 +926,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     spr->attribute = obj->attribute | 0x08000000;
                     spr->w = 0x10;
                     spr->h = 0x10;
-                    if ((u8)e->icon_variant >= 0x14 && (u8)e->glyph_index < 0x18) {
+                    if (e->icon_variant >= 0x14 && e->glyph_index < 0x18) {
                         sprites[1]->tpage = 0x1E;
                         switch (e->icon_variant) {
                         case 0x14:
@@ -1173,7 +1173,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->x0 = gt4->x2 = spr->x;
             if (e->layout_selector == 1 || (e->entry_flags & 0x20)) {
                 gt4->x1 = gt4->x3 = spr->x + (e->field_14 + 0x10);
-                gt4->y0 = spr->y + ((u8)e->field_14 >> 2);
+                gt4->y0 = spr->y + (e->field_14 >> 2);
                 gt4->y1 = spr->y;
                 gt4->y2 = gt4->y3 = spr->y + 0x10;
                 gt4->u0 = gt4->u2 = spr->u;
@@ -1187,7 +1187,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 su = spr->v + 0x10;
             } else {
                 gt4->x1 = gt4->x3 = spr->x + (e->field_14 + 8);
-                gt4->y0 = spr->y + ((u8)e->field_14 >> 2);
+                gt4->y0 = spr->y + (e->field_14 >> 2);
                 gt4->y1 = spr->y;
                 gt4->y2 = gt4->y3 = spr->y + 0xC;
                 gt4->u0 = gt4->u2 = spr->u;
@@ -1801,7 +1801,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
     if ((p->playback_state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         p->playback_state = p->playback_state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        prompt = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
+        prompt = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 4);
         DisplayObject_InitializeGouraudQuad(prompt, 1);
         DisplayObject_SelectOrderingTable1(prompt);
         DisplayObject_SetDepthOffset(prompt,
@@ -2007,7 +2007,7 @@ void Text_BeginPageClear(DuelEffectChannel *object)
 DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 {
     DisplayObject *cursor = DisplayObject_AcquireSlot(
-        (s32)DisplayObject_FindFreeSlot(), 2
+        DisplayObject_FindFreeSlot(), 2
     );
 
     DisplayObject_ConfigureSpriteAtPosition(
@@ -2739,7 +2739,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
 
     if ((format & 0x80) != 0) {
         if ((format & 0x40) != 0) {
-            pad_glyph = *(u16 *)&gText_DecimalDigitGlyphMap[0];
+            pad_glyph = *(&gText_DecimalDigitGlyphMap[0]);
         }
     } else if (format >= 2) {
         digits = buf;
@@ -2761,7 +2761,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     do {
         glyph = pad_glyph;
         if (buf[i] < TEXT_DECIMAL_RADIX) {
-            glyph = *(u16 *)&gText_DecimalDigitGlyphMap[buf[i]];
+            glyph = *(&gText_DecimalDigitGlyphMap[buf[i]]);
         }
         if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
             *out = (glyph >> 8) - 0x10;
@@ -3828,8 +3828,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->aux_object = 0;
         TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
-            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
-                object->entry_range_start];
+            entry = (&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
+                object->entry_range_start]);
             object->entry_begin = entry;
             object->entry_write_cursor = entry;
 #ifndef VERSION_EUROPE
@@ -4502,13 +4502,13 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *s;
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *e;
 
-    p = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)channel->entry_begin;
+    p = channel->entry_begin;
     gDuelEffect_nCompactionRequested = 0;
 
     while (p->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->handler_state != 0) {
             gDuelEffect_EntryHandlers[p->handler_state & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
-                (DuelEffectEntry *)p, channel);
+                p, channel);
         }
         p++;
     }
@@ -4516,7 +4516,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
     if (gDuelEffect_nCompactionRequested != 0) {
         q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)gDuelEffect_aEntries)[
             channel->entry_range_start];
-        e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)channel->entry_write_cursor;
+        e = channel->entry_write_cursor;
         s = q;
         while (s != e) {
             if (s->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
@@ -4525,7 +4525,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
             }
             s++;
         }
-        channel->entry_write_cursor = (DuelEffectEntry *)q;
+        channel->entry_write_cursor = q;
         q->entry_flags = 0;
     }
 }

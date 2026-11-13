@@ -500,7 +500,7 @@ void DebugMenu_UpdateSoundEntry(void)
     case 2:
         gDebug_nLastSoundID[1] = gDebug_nEditedCdSoundId;
         if ((gInput_awPadPressed[0] & PAD_BUTTON_SQUARE) != 0) {
-            SD_CdSoundSeek((u16)gDebug_nEditedCdSoundId);
+            SD_CdSoundSeek(gDebug_nEditedCdSoundId);
             return;
         }
         SD_CdSoundPlay(gDebug_nEditedCdSoundId);

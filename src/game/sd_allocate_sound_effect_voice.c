@@ -21,7 +21,7 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
     s16 mode_snapshot;
 
     mode_snapshot = mode;
-    if (g_SDValue->s_pwSD_SE_INDEX[(u16)sound_id] == 0xFFFF) {
+    if (g_SDValue->s_pwSD_SE_INDEX[sound_id] == 0xFFFF) {
         return;
     }
     if ((id & 0x8000) != 0) {
@@ -58,7 +58,7 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
             /* Sharing the scratch keeps ID narrowing inside this loop. */
             observed = envelope;
             if (observed != 0) {
-                observed = (u16)sound_id;
+                observed = sound_id;
                 if (g_SDValue->s_awSD_VOICE_SE_ID[slot] == observed) {
                     count++;
                     if (count == occurrence) {

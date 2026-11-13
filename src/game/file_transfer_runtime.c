@@ -597,7 +597,7 @@ void File_StepActiveTransfer(void)
                CdlSetfilter channel (low byte) and file (next byte). */
             *filter_channel = ((u8 *)&transfer->callback_data)[0];
             filter_channel[-1] = ((u8 *)&transfer->callback_data)[1];
-            if (DsCommand(DslSetfilter, (u8 *)(filter_channel - 1),
+            if (DsCommand(DslSetfilter, (filter_channel - 1),
                           (DslCB)File_HandleSetFilterEvent, -1) <= 0) {
                 return;
             }

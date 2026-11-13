@@ -557,7 +557,7 @@ s32 Movie_StartFileStream(
     return Movie_OpenStream(
         &file->pos, start_frame, end_frame,
         CdPosToInt_8007E710(&file->pos) +
-            ((u32)(file->size + (FILE_SECTOR_SIZE - 1)) >>
+            ((file->size + (FILE_SECTOR_SIZE - 1)) >>
              FILE_SECTOR_SHIFT),
         rgb24, copy_display_on_stop);
 }

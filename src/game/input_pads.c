@@ -181,11 +181,11 @@ void Input_BackupPad1AndUsePad2(void)
 {
     u16 value;
 
-    value = *(volatile u16 *)&gInput_awPadHeld[0];
+    value = *(&gInput_awPadHeld[0]);
     gInput_wPad1HeldBackup = value;
-    value = *(volatile u16 *)&gInput_awPadPressed[0];
+    value = *(&gInput_awPadPressed[0]);
     gInput_wPad1PressedBackup = value;
-    value = *(volatile u16 *)&gInput_awPadRepeat[0];
+    value = *(&gInput_awPadRepeat[0]);
     gInput_wPad1RepeatBackup = value;
     value = gInput_awPadHeld[1];
     gInput_awPadHeld[0] = value;

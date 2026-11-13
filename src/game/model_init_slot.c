@@ -266,6 +266,6 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         }
     }
     if (model_slot->animation_snapshot_buffer == 0) {
-        model_slot->animation_snapshot_buffer = (u8 *)(hmd + hmd_size);
+        model_slot->animation_snapshot_buffer = (hmd + hmd_size);
     }
 }

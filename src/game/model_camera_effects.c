@@ -169,7 +169,7 @@ void Model_QueueRelativeCameraOrbit(
         orbit_halfwords[2] = orbit_halfwords[2] + MODEL_ANGLE_FULL_TURN;
     }
 
-    queue_mode = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
+    queue_mode = *(&gModel_nEffectKeyBatchOrdinal);
     x = queue_mode;
     orbit_halfwords[3] = 4;
     if (x < 0) {
@@ -602,7 +602,7 @@ void Model_PrepareEffectKey(Key *state)
             radius_scaled = (s16)radius_halfword * 6284 / 1000;
             duration_bound = duration_scale * radius_scaled;
             endpoint_y_magnitude = __builtin_abs(endpoint_view->y);
-            duration_bound = (u32)(duration_bound * endpoint_y_magnitude) / 4096000;
+            duration_bound = (duration_bound * endpoint_y_magnitude) / 4096000;
             if (state->duration < duration_bound) {
                 state->duration = duration_bound;
             }
@@ -922,7 +922,7 @@ void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
-    ordinal_or_mode = (s8)gModel_nEffectKeyBatchOrdinal;
+    ordinal_or_mode = gModel_nEffectKeyBatchOrdinal;
     if (ordinal_or_mode < 0) {
         ordinal_or_mode = 0;
     } else {
@@ -943,7 +943,7 @@ void Model_QueueCameraShake(s32 value, s32 arg)
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
-    ordinal_or_mode = (s8)gModel_nEffectKeyBatchOrdinal;
+    ordinal_or_mode = gModel_nEffectKeyBatchOrdinal;
     unsigned_ordinal = (u8)gModel_nEffectKeyBatchOrdinal;
     if (ordinal_or_mode < 0) {
         ordinal_or_mode = 0;
@@ -994,8 +994,8 @@ void Model_QueueEffectEndpointSequences(
             p2 = p2 + 1;
         }
 
-        if ((p1 == 0 || *(s16 *)&p1->kind == 0) &&
-            (p2 == 0 || *(s16 *)&p2->kind == 0)) {
+        if ((p1 == 0 || *(&p1->kind) == 0) &&
+            (p2 == 0 || *(&p2->kind) == 0)) {
             return;
         }
         if (count > 0) {
@@ -1116,10 +1116,10 @@ void Model_RefreshEffectKeySlotValues(Key *key)
             (ModelEffectEndpoint *)(data + i * sizeof(ModelEffectEndpoint));
 
         /* Key storage is halfword-aligned; packed member reads use bytes. */
-        if (*(s16 *)&item->kind < 4) {
-            if (*(s16 *)&item->kind >= 2) {
+        if (*(&item->kind) < 4) {
+            if (*(&item->kind) >= 2) {
                 Model_CopySlotPosition(
-                    *(s16 *)&item->x,
+                    *(&item->x),
                     (u16 *)(data + 0x10 + i * sizeof(u16[4]))
                 );
             }

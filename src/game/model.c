@@ -896,8 +896,8 @@ void Model_UpdateAnimatedBattle(void)
 
             target_yaw = Model_GetSlotCameraPresetYaw(0);
             yaw_step_limit = (Model_GetFrameStep() + 2) * 8;
-            yaw_delta = (s16)gModel_wViewYaw - target_yaw;
-            if (yaw_delta >= 0 ? yaw_step_limit >= yaw_delta : yaw_step_limit >= target_yaw - (s16)gModel_wViewYaw) {
+            yaw_delta = gModel_wViewYaw - target_yaw;
+            if (yaw_delta >= 0 ? yaw_step_limit >= yaw_delta : yaw_step_limit >= target_yaw - gModel_wViewYaw) {
                 Model_StartBattleSlotAction(0);
                 gModel_bActiveSlotIndex = 1;
                 effect_handlers[defender_handler_index](gModel_aSlots[1].variant_module_data_address, 0x18E);
@@ -986,8 +986,8 @@ void Model_UpdateAnimatedBattle(void)
 
             target_yaw = Model_GetSlotCameraPresetYaw(1);
             yaw_step_limit = (Model_GetFrameStep() + 2) * 8;
-            yaw_delta = (s16)gModel_wViewYaw - target_yaw;
-            if (yaw_delta >= 0 ? yaw_step_limit >= yaw_delta : yaw_step_limit >= target_yaw - (s16)gModel_wViewYaw) {
+            yaw_delta = gModel_wViewYaw - target_yaw;
+            if (yaw_delta >= 0 ? yaw_step_limit >= yaw_delta : yaw_step_limit >= target_yaw - gModel_wViewYaw) {
                 Model_StartBattleSlotAction(1);
                 gModel_bPresentationPhase++;
             }
@@ -1108,7 +1108,7 @@ void Model_UpdateAnimatedBattle(void)
             selected_slot->tint[2] -= 2;
             break;
         }
-        current_yaw = (s16)gModel_wViewYaw;
+        current_yaw = gModel_wViewYaw;
         if (selected_slot_index > 0) {
             biased_yaw = (current_yaw + 0xC00) % 0x1000;
         } else {
@@ -1218,7 +1218,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[1].tint[1] -= 2;
             gModel_aSlots[1].tint[2] -= 2;
         } else {
-            s32 biased_yaw = (s16)gModel_wViewYaw + 0xC00;
+            s32 biased_yaw = gModel_wViewYaw + 0xC00;
 
             if ((u32)(biased_yaw % 0x1000 - 0x201) < 0xBFF) {
                 s32 move_magnitude = Model_GetSlotDistanceFromCameraTarget(0) * 0x1E / 1000;
@@ -1599,7 +1599,7 @@ void Model_UpdateCreditsPresentation(void)
       break;
     case 0:
       load_check_base = gModel_aSlots;
-      active_offset = (u32)&((ModelSlot *)0)[(u8)gModel_bCreditsActiveSlot];
+      active_offset = (u32)&((ModelSlot *)0)[gModel_bCreditsActiveSlot];
       if ( MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(load_check_base) + active_offset)->is_active )
       {
         if ( (MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
@@ -1644,9 +1644,9 @@ void Model_UpdateCreditsPresentation(void)
           }
         }
         if ( !D_8009B004.fields.credits_exit_requested )
-          Model_UpdateCreditsMonsterSlot((u8)gModel_bCreditsActiveSlot ^ 1);
+          Model_UpdateCreditsMonsterSlot(gModel_bCreditsActiveSlot ^ 1);
         active_lookup_base = gModel_aSlots;
-        active_slot_words = (s32 *)&active_lookup_base[(u8)gModel_bCreditsActiveSlot];
+        active_slot_words = (s32 *)&active_lookup_base[gModel_bCreditsActiveSlot];
         if ( !MODEL_SLOT_VIEW(active_slot_words)->active_animation_command_row )
         {
           slot_tick_count = MODEL_SLOT_VIEW(active_slot_words)->field_E15;
@@ -1676,7 +1676,7 @@ void Model_UpdateCreditsPresentation(void)
                 next_phase = 2;
                 goto set_phase_and_tick;
               }
-              peer_slot_index = (u8)gModel_bCreditsActiveSlot ^ 1;
+              peer_slot_index = gModel_bCreditsActiveSlot ^ 1;
               if ( MODEL_SLOT_VIEW(
                        MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
                        (904 * peer_slot_index) * 4)->is_active )
@@ -1688,7 +1688,7 @@ void Model_UpdateCreditsPresentation(void)
             }
             else
             {
-              Model_ControlSlotAnimation((u8)gModel_bCreditsActiveSlot, animation_row, 1);
+              Model_ControlSlotAnimation(gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
           ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
@@ -1697,16 +1697,16 @@ void Model_UpdateCreditsPresentation(void)
       }
       else
       {
-        Model_UpdateCreditsMonsterSlot((u8)gModel_bCreditsActiveSlot);
+        Model_UpdateCreditsMonsterSlot(gModel_bCreditsActiveSlot);
         if ( MODEL_SLOT_VIEW(
                  MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
                  (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active )
-          Model_RequestCameraMoveToSlots(1, -1, (u8)gModel_bCreditsActiveSlot, 30);
+          Model_RequestCameraMoveToSlots(1, -1, gModel_bCreditsActiveSlot, 30);
       }
       break;
     case 1:
       crossfade_base = gModel_aSlots;
-      crossfade_offset = 904 * (u8)gModel_bCreditsActiveSlot;
+      crossfade_offset = 904 * gModel_bCreditsActiveSlot;
       if ( (MODEL_SLOT_VIEW(
                 MODEL_SLOT_RAW_BYTES(crossfade_base) +
                 (crossfade_offset) * 4)->field_E15 & 3) == 0 )
@@ -1809,7 +1809,7 @@ set_phase_and_tick:
       {
         if (SD_GetStatusFlags() & 0x80)
         {
-          result = (u8)gModel_aSlots[0].is_active;
+          result = gModel_aSlots[0].is_active;
           if ( gModel_aSlots[0].is_active )
           {
             result = D_8009B004.fields.credits_update_enabled + 1;
@@ -2278,8 +2278,8 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + eye_slots[0];
-            dx = (s16)slot->cached_position[0] - gModel_CameraMove.eye.start_x;
-            dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.start_y;
+            dx = slot->cached_position[0] - gModel_CameraMove.eye.start_x;
+            dy = slot->cached_position[1] - gModel_CameraMove.eye.start_y;
             gModel_CameraMove.eye.start_x = gModel_CameraMove.eye.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -2295,9 +2295,9 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + eye_slots[1];
-            dx = (s16)slot->cached_position[0] - gModel_CameraMove.eye.end_x;
-            dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.end_y;
-            dz = (s16)slot->cached_position[2] - gModel_CameraMove.eye.end_z;
+            dx = slot->cached_position[0] - gModel_CameraMove.eye.end_x;
+            dy = slot->cached_position[1] - gModel_CameraMove.eye.end_y;
+            dz = slot->cached_position[2] - gModel_CameraMove.eye.end_z;
             gModel_CameraMove.eye.end_x = gModel_CameraMove.eye.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -2315,8 +2315,8 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + target_slots[0];
-            dx = (s16)slot->cached_position[0] - gModel_CameraMove.target.start_x;
-            dy = (s16)slot->cached_position[1] - gModel_CameraMove.target.start_y;
+            dx = slot->cached_position[0] - gModel_CameraMove.target.start_x;
+            dy = slot->cached_position[1] - gModel_CameraMove.target.start_y;
             gModel_CameraMove.target.start_x = gModel_CameraMove.target.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -2332,9 +2332,9 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + target_slots[1];
-            dx = (s16)slot->cached_position[0] - gModel_CameraMove.target.end_x;
-            dy = (s16)slot->cached_position[1] - gModel_CameraMove.target.end_y;
-            dz = (s16)slot->cached_position[2] - gModel_CameraMove.target.end_z;
+            dx = slot->cached_position[0] - gModel_CameraMove.target.end_x;
+            dy = slot->cached_position[1] - gModel_CameraMove.target.end_y;
+            dz = slot->cached_position[2] - gModel_CameraMove.target.end_z;
             gModel_CameraMove.target.end_x = gModel_CameraMove.target.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -2385,9 +2385,9 @@ void Model_UpdateCamera(void)
         s32 dz;
 
         slot = base + eye_slots[1];
-        dx = (s16)slot->cached_position[0] - gModel_RView.vpx;
-        dy = (s16)slot->cached_position[1] - gModel_RView.vpy;
-        dz = (s16)slot->cached_position[2] - gModel_RView.vpz;
+        dx = slot->cached_position[0] - gModel_RView.vpx;
+        dy = slot->cached_position[1] - gModel_RView.vpy;
+        dz = slot->cached_position[2] - gModel_RView.vpz;
         gModel_RView.vpx = gModel_RView.vpx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));
@@ -2408,9 +2408,9 @@ void Model_UpdateCamera(void)
         s32 dz;
 
         slot = base + target_slots[1];
-        dx = (s16)slot->cached_position[0] - gModel_RView.vrx;
-        dy = (s16)slot->cached_position[1] - gModel_RView.vry;
-        dz = (s16)slot->cached_position[2] - gModel_RView.vrz;
+        dx = slot->cached_position[0] - gModel_RView.vrx;
+        dy = slot->cached_position[1] - gModel_RView.vry;
+        dz = slot->cached_position[2] - gModel_RView.vrz;
         gModel_RView.vrx = gModel_RView.vrx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));

@@ -183,7 +183,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         m = 0xFFDCFFFF;
         *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
         x = gFile_dwTransferState & m;
-        y = (u8 *)gFile_TransferBufferBase;
+        y = gFile_TransferBufferBase;
         gFile_dwTransferState = x;
         object->alternate_sector_destination = (s32)y;
         object->sector_destination = (s32)y;
