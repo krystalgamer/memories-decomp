@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -208,9 +209,6 @@ void Fade_Update(FadeTransitionState *p)
    rematerialise the record address once for the tail instead of reusing $s2
    throughout. Matches 0/117 with -G8 -msplit-addresses. */
 
-/* The GsBOXF descriptor lives in scratchpad RAM, not in a GPU packet. */
-#define FADEBOX ((FadeOverlayBox *)0x1F8003C0)
-
 void Fade_DrawOverlay(void) {
     FadeOverlayBox *p;
     FadeTransitionState *rec;
@@ -227,7 +225,7 @@ void Fade_DrawOverlay(void) {
     flags = rec->flags;
     if ((flags & FADE_FLAG_ACTIVE) ||
         (gFade_bOrderingTableMode != 0 && rec->level != 0xFF)) {
-        p = FADEBOX;
+        p = (FadeOverlayBox *)SCRATCH_ADDR(0x3C0);
         p->gs.attribute = GsALON | GsATWO;
         p->words.wh = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         p->words.xy = 0;

@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "../psyq/libgte.h"
 #include "sorted_entry_render.h"
@@ -88,8 +89,8 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         return Model_DrawGt3Primitives(arg);
     }
     mask = 0xFFFFFF;
-    white = (CVECTOR *)0x1F8003C0;
-    scr = (s32 *)0x1F8003E0;
+    white = (CVECTOR *)SCRATCH_ADDR(0x3C0);
+    scr = (s32 *)SCRATCH_ADDR(0x3E0);
     primp = (u32 *)arg->primp;
     out = arg->out_packetp;
     n = ((u16 *)primp)[1];
@@ -118,9 +119,9 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         SVECTOR *v1;
         u32 c0;
         u32 c1;
-        CVECTOR *grey = (CVECTOR *)0x1F8003D0;
-        LINE_G4 *lg = (LINE_G4 *)0x1F800380;
-        POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
+        CVECTOR *grey = (CVECTOR *)SCRATCH_ADDR(0x3D0);
+        LINE_G4 *lg = (LINE_G4 *)SCRATCH_ADDR(0x380);
+        POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
 
         CVECTOR_WORD(white) = mask;
         CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
@@ -214,7 +215,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
             rec++;
         }
     } else {
-        POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
+        POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
 
         CVECTOR_WORD(white) = gModel_dwFogBaseColor;
         while (--n != -1) {
@@ -323,8 +324,8 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
         return Model_DrawGt4Primitives(arg);
     }
     mask = 0xFFFFFF;
-    white = (CVECTOR *)0x1F8003C0;
-    scr = (s32 *)0x1F8003E0;
+    white = (CVECTOR *)SCRATCH_ADDR(0x3C0);
+    scr = (s32 *)SCRATCH_ADDR(0x3E0);
     primp = (u32 *)arg->primp;
     out = arg->out_packetp;
     n = ((u16 *)primp)[1];
@@ -353,14 +354,14 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     }
 
     if (flags & 3) {
-        LINE_G4 *lg = (LINE_G4 *)0x1F800380;
-        POLY_GT4 *gt = (POLY_GT4 *)0x1F800380;
-        CVECTOR *grey = (CVECTOR *)0x1F8003D0;
+        LINE_G4 *lg = (LINE_G4 *)SCRATCH_ADDR(0x380);
+        POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
+        CVECTOR *grey = (CVECTOR *)SCRATCH_ADDR(0x3D0);
 
         CVECTOR_WORD(white) = mask;
         CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
         while (--n != -1) {
-            flg = (s32 *)0x1F8003E8;
+            flg = (s32 *)SCRATCH_ADDR(0x3E8);
             if ((gModel_dwFogDrawFlags & 2) &&
                 (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
                 gte_ldv0(&vertop[rec[7]]);
@@ -470,7 +471,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
             rec += 14;
         }
     } else {
-        POLY_GT4 *gt = (POLY_GT4 *)0x1F800380;
+        POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
 
         CVECTOR_WORD(white) = gModel_dwFogBaseColor;
         while (--n != -1) {

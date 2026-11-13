@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 #include "../game/ordering_tables.h"
 #include "../game/high_memory_addresses.h"
 #include "../game/model.h"
@@ -151,11 +152,11 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
             hmd_unit->primtop = (unsigned long *)group_words;
             if (group_words != 0) {
                 GsScanUnit((u32 *)group_words, 0, 0, 0);
-                while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)0x1F800000) != 0) {
+                while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)SCRATCH_ADDR(0)) != 0) {
                     u8 *sdk_scratch;
 
                     type_tag = (u32)type_unit.type >> 24;
-                    sdk_scratch = (u8 *)0x1F800000;
+                    sdk_scratch = (u8 *)SCRATCH_ADDR(0);
                     if (type_unit.type == 0) {
                         continue;
                     }

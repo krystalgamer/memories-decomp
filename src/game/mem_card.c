@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "duel_effect_text.h"
 #include "mem_card.h"
@@ -370,7 +371,7 @@ void func_8003D32C(void)
 void Checkerboard_DrawBackground(
     CheckerboardState *state, GsOT *ordering_table)
 {
-    CheckerboardSprite *sprite = (CheckerboardSprite *)0x1F800000;
+    CheckerboardSprite *sprite = (CheckerboardSprite *)SCRATCH_ADDR(0);
     s32 y;
     s32 flip;
     s32 mode;

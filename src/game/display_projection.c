@@ -6,6 +6,7 @@
  * Scratchpad C stores and official Psy-Q GTE macros reproduce the projection
  * block. The compiler profile normalizes Psy-Q's RTPS placeholder opcode. */
 #include "../types.h"
+#include "scratchpad.h"
 #include "duel_scene.h"
 #include "display_object.h"
 #include "display_projection.h"
@@ -23,7 +24,7 @@ void DisplayObject_ProjectGroundPosition(DisplayObject *object)
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
-        SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
+        SVECTOR *scratch = (SVECTOR *)SCRATCH_ADDR(0x3E0);
         u16 x = object->position.h.field_28;
 
         scratch->vy = 0;

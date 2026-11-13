@@ -7,6 +7,7 @@
  * too, so they were one translation unit: each part reads the others' small
  * data through $gp. */
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "model_record_tables.h"
 #include "model.h"
@@ -3540,7 +3541,7 @@ void Model_DrawSlot(s32 index)
                 }
                 GsSetLsMatrix(&local_to_screen);
             }
-            GsSortUnit((GsUNIT *)head_unit, ordering_table, (u32 *)0x1F800000);
+            GsSortUnit((GsUNIT *)head_unit, ordering_table, (u32 *)SCRATCH_ADDR(0));
         }
     }
 
