@@ -141,16 +141,16 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     if (work->phase == 1) {
         if (work->progress < 0x401) {
             work->progress = (u32)((work->clock.frame - work->config->end) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x3C) - work->config->end);
+                             (u32)(work->config->field_3C - work->config->end);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->scale > 0) {
-        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x40)) {
-            work->scale = 0x1000 - (((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x40)) << 12) /
-                                          (u32)(MODEL_VARIANT_WORD(work->config, 0x44) - MODEL_VARIANT_WORD(work->config, 0x40));
+        if ((u32)work->clock.frame >= (u32)work->config->field_40) {
+            work->scale = 0x1000 - (((u32)work->clock.frame - work->config->field_40) << 12) /
+                                          (u32)(work->config->field_44 - work->config->field_40);
             if (work->scale <= 0) {
                 work->scale = 0;
                 work->phase = 3;

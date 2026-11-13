@@ -27,7 +27,12 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start;
-    u8 unknown_20[0x18];
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    u8 unknown_34[0x4];
 } Variant425EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */

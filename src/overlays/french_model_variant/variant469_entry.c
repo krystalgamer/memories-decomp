@@ -113,13 +113,13 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
                 arc->far_progress[i] = -k * 381 - i * 256 - 384;
                 arc->done[i] = 0;
             }
-            MODEL_VARIANT_WORD(arc, 0xA4) = 0;
-            MODEL_VARIANT_WORD(arc, 0xA8) = 0;
-            MODEL_VARIANT_WORD(arc, 0xAC) = 0;
+            arc->field_A4 = 0;
+            arc->field_A8 = 0;
+            arc->field_AC = 0;
             arc->unknown_A0[0] = work->config->arc_color.r;
             arc->unknown_A0[1] = work->config->arc_color.g;
             arc->unknown_A0[2] = work->config->arc_color.b;
-            MODEL_VARIANT_WORD(arc, 0xCC) = 0;
+            arc->field_CC = 0;
         }
         for (k = 0; k < 5; k++, sheet++) {
             for (j = 0, angle = 0; j < 13; j++, angle = j * 4096 / 12) {

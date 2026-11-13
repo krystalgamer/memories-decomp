@@ -24,7 +24,7 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     work = (Variant459EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
-    rot.vx = -MODEL_VARIANT_HALF(work, 0x2834) - 1024;
+    rot.vx = -(s16)work->facing - 1024;
     rot.vy = 0;
     rot.vz = 0;
     m.t[0] = work->matrix.t[0];

@@ -10,7 +10,8 @@ typedef struct {
     u8 unknown_0C[4];
     u8 parts[3], unknown_13[9];
     u32 start;
-    u8 unknown_20[8];
+    s32 field_20;
+    u8 unknown_24[0x4];
     u32 fade_start, fade_end;
     s32 offset[3];
     u16 sheet_size, unknown_3E;

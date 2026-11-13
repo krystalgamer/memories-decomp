@@ -272,7 +272,7 @@ void SpanishModelVariant421_DrawSpiral(u8 *ctx)
     }
     }
     work->spiral_angle += 16;
-    if ((u32)MODEL_VARIANT_WORD(work->config, 0x24) <= work->clock.frame &&
+    if ((u32)work->config->field_24 <= work->clock.frame &&
         work->field_1964 == 0 && work->spiral_size < 0x400) {
         work->spiral_size += work->clock.step * 64;
         if (work->spiral_size >= 0x400) {

@@ -75,16 +75,16 @@ void ModelVariant418_DrawSheet(u8 *ctx)
         }
         if (sheet->size < 0x1000 && work->phase == 0) {
             sheet->size = ((work->clock.frame - work->config->start) << 12) /
-                          (MODEL_VARIANT_WORD(work->config, 0x2C) - work->config->start);
+                          (work->config->field_2C - work->config->start);
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
                 if (work->phase == 0) {
                     work->phase = 1;
                 }
             }
-        } else if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x38)) {
-            sheet->size = 0x1000 - ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x38)) << 12) /
-                          (work->config->end - MODEL_VARIANT_WORD(work->config, 0x38));
+        } else if (work->clock.frame >= (u32)work->config->field_38) {
+            sheet->size = 0x1000 - ((work->clock.frame - work->config->field_38) << 12) /
+                          (work->config->end - work->config->field_38);
             if (sheet->size <= 0) {
                 sheet->size = 0;
                 if (work->phase == 3) {

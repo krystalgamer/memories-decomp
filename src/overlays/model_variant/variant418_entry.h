@@ -11,7 +11,10 @@ typedef struct {
     u8 unknown_16[0x0E];
     s32 mode;
     u32 start;
-    u8 unknown_2C[0x10];
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
     u32 end;
     u8 unknown_40[4];
 } Variant418EntryConfig;

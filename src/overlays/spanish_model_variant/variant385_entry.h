@@ -11,12 +11,13 @@ typedef struct {
     u16 count, unknown_0E;
     s32 width;
     s32 inner_radius, outer_radius;
-    u8 unknown_01C[0x8];
+    s32 field_1C;
+    s32 field_20;
     u16 ribbon_radius;
     u8 unknown_026[0x2];
     s32 size;
     u32 start;
-    u8 unknown_30[4];
+    s32 field_30;
     u32 expansion_end, fade_start, fade_end;
     s32 offset[3];
 } Variant385EntryConfig;

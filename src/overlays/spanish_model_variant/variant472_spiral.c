@@ -200,10 +200,10 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
                 work->spiral_size = 0x400;
             }
         }
-    } else if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
+    } else if (work->clock.frame >= (u32)work->config->field_28 &&
                work->spiral_size > 0) {
-        work->spiral_size = 0x400 - ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
-                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
+        work->spiral_size = 0x400 - ((work->clock.frame - work->config->field_28) << 10) /
+                                           (u32)(work->config->field_2C - work->config->field_28);
         if (work->spiral_size <= 0) {
             work->spiral_size = 0;
         }

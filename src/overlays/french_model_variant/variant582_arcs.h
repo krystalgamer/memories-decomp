@@ -7,11 +7,15 @@
 typedef struct {
     SVECTOR near_points[2][5];
     SVECTOR far_points[2][5];
-    u8 unknown_A0[0x14];
+    u8 unknown_A0[0x4];
+    s32 field_A4;
+    s32 field_A8;
+    s32 field_AC;
+    u8 unknown_B0[0x4];
     s32 near_progress[2];
     s32 far_progress[2];
     s32 done[2];
-    u8 unknown_CC[4];
+    s32 field_CC;
 } Arcs582Group;
 
 typedef struct {
