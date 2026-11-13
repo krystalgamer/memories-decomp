@@ -75,7 +75,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
                         }
                         if (strip->progress[1] >= 0x400) {
                             if ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1A60), 0x28) <=
-                                (u32)work->clock.frame) {
+                                work->clock.frame) {
                                 strip->progress[j] = 0x400;
                                 strip->done[j] = 1;
                             } else {

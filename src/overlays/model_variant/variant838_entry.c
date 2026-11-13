@@ -208,7 +208,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < work->trail_count; i++) {
             matrix = saved;
             RotMatrix(&work->trail_rotations[i], &matrix);
-            MulMatrix2((MATRIX *)&base, &matrix);
+            MulMatrix2((&base), &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             /* A while loop, not a for loop, gives the retail delay-slot fill
@@ -474,7 +474,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
             GsSetLsMatrix(&base);
             RotTrans(&work->origin, (VECTOR *)matrix.t, &flag);
             RotMatrix(&rotation, &matrix);
-            MulMatrix2((MATRIX *)&base, &matrix);
+            MulMatrix2((&base), &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             for (i = 0; i < 16; i++) {

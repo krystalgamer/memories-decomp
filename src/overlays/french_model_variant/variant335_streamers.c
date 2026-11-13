@@ -60,7 +60,7 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(work->clock.frame_count & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
@@ -86,7 +86,7 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x2E7C) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x2E80) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x2E84);
-    if ((u32)work->clock.frame_count % 10 == 0) {
+    if (work->clock.frame_count % 10 == 0) {
         work->rotation[1] += 0x514;
     }
     work->rotation[1] += 0x20;

@@ -146,7 +146,7 @@ void ModelVariant404_DrawBands(u8 *ctx)
     col = NULL;
     if (work->phase == 1) {
         if (work->displacement < 0x401) {
-            work->displacement = (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x24)) << 10) /
+            work->displacement = ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x24)) << 10) /
                              (u32)(MODEL_VARIANT_WORD(work->config, 0x28) - MODEL_VARIANT_WORD(work->config, 0x24));
             if (work->displacement >= 0x400) {
                 work->displacement = 0x400;
@@ -154,8 +154,8 @@ void ModelVariant404_DrawBands(u8 *ctx)
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x2C)) {
-            work->band_scale = 0x1000 - (u32)(((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x2C)) << 12) /
+        if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x2C)) {
+            work->band_scale = 0x1000 - ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x2C)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x30) - MODEL_VARIANT_WORD(work->config, 0x2C));
             if (work->band_scale <= 0) {
                 work->band_scale = 0;

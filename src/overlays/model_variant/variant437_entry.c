@@ -385,7 +385,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
         target.vz = work->target.vz;
         RotTransPers(&target, &aim_screen, &interpolation, &flag);
         work->projected.vx = ((DVECTOR *)&aim_screen)->vx - origin_x;
-        work->projected.vy = (*(long *)&aim_screen >> 16) - origin_y;
+        work->projected.vy = (*(&aim_screen) >> 16) - origin_y;
         if (work->config->bloom_start <= work->time) {
             FrenchModelVariant454_DrawBlooms(context);
         }

@@ -194,15 +194,15 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     work->spiral_angle += 16;
     if (work->phase == 0) {
         if (work->spiral_size < 0x400) {
-            work->spiral_size = (u32)((work->clock.frame - work->config->fan_start) << 10) /
-                                               (u32)(work->config->mesh_start - work->config->fan_start);
+            work->spiral_size = ((work->clock.frame - work->config->fan_start) << 10) /
+                                               (work->config->mesh_start - work->config->fan_start);
             if (work->spiral_size >= 0x400) {
                 work->spiral_size = 0x400;
             }
         }
-    } else if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
+    } else if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28) &&
                work->spiral_size > 0) {
-        work->spiral_size = 0x400 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
+        work->spiral_size = 0x400 - ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 10) /
                                            (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
         if (work->spiral_size <= 0) {
             work->spiral_size = 0;

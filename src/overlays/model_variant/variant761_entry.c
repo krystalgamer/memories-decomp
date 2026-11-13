@@ -266,9 +266,9 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         } else {
             work->beam_scale += 0x80;
         }
-        if ((u8)(work->color.rgb.r -= 12) < 15) work->color.rgb.r = 0;
-        if ((u8)(work->color.rgb.g -= 12) < 15) work->color.rgb.g = 0;
-        if ((u8)(work->color.rgb.b -= 12) < 15) work->color.rgb.b = 0;
+        if ((work->color.rgb.r -= 12) < 15) work->color.rgb.r = 0;
+        if ((work->color.rgb.g -= 12) < 15) work->color.rgb.g = 0;
+        if ((work->color.rgb.b -= 12) < 15) work->color.rgb.b = 0;
     }
     if (work->elapsed < work->config->burst_time) {
         work->elapsed += step;

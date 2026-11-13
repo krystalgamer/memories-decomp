@@ -445,7 +445,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                         (long *)&work->flat.x0, (long *)&work->flat.x1,
                         (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), depth);
                     }
                     if (work->rising[i][j].head.u < 0xC0) {
                         work->rising[i][j].head.u += 32;
@@ -493,7 +493,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                         &work->petals[5][j], (long *)&work->strip.x0, (long *)&work->strip.x1,
                         (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), depth);
                     }
                     setPolyFT4(&work->flat);
                     work->flat.tpage = work->tpage[2];
@@ -505,7 +505,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                         &work->petals[3][j], (long *)&work->flat.x0, (long *)&work->flat.x1,
                         (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                        GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), depth);
                     }
                 }
                 work->sparks[i].head.elapsed += step;
@@ -552,7 +552,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                 &work->burst_square[3], (long *)&work->flat.x0, (long *)&work->flat.x1,
                 (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
             if (flag >= 0) {
-                GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), depth);
             }
             work->burst.xform.rotation.vx = work->burst.head.elapsed * 300;
             work->burst.head.elapsed += step;
@@ -597,7 +597,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                     &work->fan_square[3], (long *)&work->flat.x0, (long *)&work->flat.x1,
                     (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                 if (flag >= 0) {
-                    GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                    GsSortPoly(&work->flat, Graphics_GetDefaultOrderingTable(), depth);
                 }
                 for (j = 0; j < 16; j++) {
                     setPolyGT4(&work->strip);
@@ -613,7 +613,7 @@ s32 ModelVariant665_HandleRequest(u8 *context, s32 command)
                         &work->disc_outer[j + 1], (long *)&work->strip.x0, (long *)&work->strip.x1,
                         (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag);
                     if (flag >= 0) {
-                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), (u16)depth);
+                        GsSortPoly(&work->strip, Graphics_GetDefaultOrderingTable(), depth);
                     }
                 }
                 result = 4;

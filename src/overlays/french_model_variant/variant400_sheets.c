@@ -84,7 +84,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
         if (i == 0) {
             if (work->tail.phase == 0) {
                 if (quad->size < 4096) {
-                    quad->size = (((u32)work->frame
+                    quad->size = ((work->frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C)) << 12)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x10)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C));
@@ -116,7 +116,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
                     }
                 }
             } else if (work->tail.phase >= 5) {
-                if ((u32)work->frame
+                if (work->frame
                     > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x14)
                     && quad->size > 0) {
                     quad->size -= work->step * 128;

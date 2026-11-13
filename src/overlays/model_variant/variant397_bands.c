@@ -145,17 +145,17 @@ void ModelVariant397_DrawBands(u8 *ctx)
     col = NULL;
     if (work->tail.phase == 1) {
         if (work->progress < 0x401) {
-            work->progress = (u32)((work->clock.frame - work->config->progress_start) << 10) /
-                             (u32)(work->config->progress_end - work->config->progress_start);
+            work->progress = ((work->clock.frame - work->config->progress_start) << 10) /
+                             (work->config->progress_end - work->config->progress_start);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->tail.phase = 2;
             }
         }
     } else if (work->tail.phase < 3 && work->scale > 0) {
-        if ((u32)work->clock.frame >= (u32)work->config->shrink_start) {
-            work->scale = 0x1000 - (u32)(((u32)work->clock.frame - work->config->shrink_start) << 12) /
-                                          (u32)(work->config->shrink_end - work->config->shrink_start);
+        if (work->clock.frame >= work->config->shrink_start) {
+            work->scale = 0x1000 - ((work->clock.frame - work->config->shrink_start) << 12) /
+                                          (work->config->shrink_end - work->config->shrink_start);
             if (work->scale <= 0) {
                 work->scale = 0;
                 work->tail.phase = 3;

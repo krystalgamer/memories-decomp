@@ -130,7 +130,7 @@ void ModelVariant425_DrawBand(u8 *ctx)
         }
     } else if (MODEL_VARIANT_WORD(work, 0x2748) < 3 && MODEL_VARIANT_HALF(work, 0x272C) > 0) {
         if ((u32)MODEL_VARIANT_WORD(work, 0x26F8) >= (u32)MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2714), 0x28)) {
-            MODEL_VARIANT_HALF(work, 0x272C) = 0x1000 - (u32)(((u32)MODEL_VARIANT_WORD(work, 0x26F8) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2714), 0x28)) << 12) /
+            MODEL_VARIANT_HALF(work, 0x272C) = 0x1000 - (((u32)MODEL_VARIANT_WORD(work, 0x26F8) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2714), 0x28)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2714), 0x2C) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x2714), 0x28));
             if (MODEL_VARIANT_HALF(work, 0x272C) <= 0) {
                 MODEL_VARIANT_HALF(work, 0x272C) = 0;

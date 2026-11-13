@@ -83,7 +83,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
                         }
                         if (band->level[1] >= 0x400) {
                             if ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1A60), 0x28) <=
-                                (u32)work->clock.frame) {
+                                work->clock.frame) {
                                 band->level[j] = 0x400;
                                 band->done[j] = 1;
                             } else {

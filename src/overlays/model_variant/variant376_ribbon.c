@@ -160,7 +160,7 @@ void ModelVariant376_DrawRibbon(u8 *ctx)
             now = work->clock.frame;
             if ((u32)now >= (u32)start && work->width > 0) {
                 work->width =
-                    0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)((u8 *)work + 0xDB4) + 0x34) - start);
+                    0x400 - ((u32)(now - start) << 10) / (*(u32 *)(*(u8 **)((u8 *)work + 0xDB4) + 0x34) - start);
                 if (work->width <= 0) {
                     work->width = 0;
                 }

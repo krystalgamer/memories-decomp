@@ -133,14 +133,14 @@ void ModelVariant405_DrawVeils(u8 *ctx)
         if (veil->scale < 0x800) {
             veil->scale += work->clock.step * 40;
             if (veil->scale >= 0x800) {
-                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x24) <= (u32)work->clock.frame) {
+                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x24) <= work->clock.frame) {
                     veil->scale = 0x800;
                     veil->count = 1;
                 } else {
                     veil->scale -= 0x800;
                 }
                 if (work->phase == 0 &&
-                    *(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x20) <= (u32)work->clock.frame) {
+                    *(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x20) <= work->clock.frame) {
                     work->phase = 2;
                 }
             }

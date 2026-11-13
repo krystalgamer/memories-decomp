@@ -54,7 +54,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
         rx = 1536;
         ry = 1024;
     }
-    if ((u32)work->frame_count % 4 < 2) {
+    if (work->frame_count % 4 < 2) {
         phase = 0;
     } else {
         phase = 1500;
@@ -83,7 +83,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     rot.vx = (s16)work->streamer_rotation_x + rx;
     rot.vy = (s16)work->streamer_rotation_y + ry;
     rot.vz = (s16)work->streamer_rotation_z;
-    if ((u32)work->frame_count % 10 == 0) {
+    if (work->frame_count % 10 == 0) {
         work->streamer_rotation_y += 1300;
     }
     work->streamer_rotation_y += 32;
