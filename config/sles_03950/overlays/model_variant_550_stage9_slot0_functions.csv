@@ -3,3 +3,4 @@ address,size,name,status,module,notes
 0x8013C0E0,0x43C,FrenchModelVariant452_DrawSheets,matching_c,overlay/model_variant_550_stage9_slot0,Independently linked C body exact; direct-entry reachable.
 0x8013C51C,0xAF4,FrenchModelVariant452_DrawStreamers,matching_c,overlay/model_variant_550_stage9_slot0,Independently linked C body exact; direct-entry reachable.
 0x8013D010,0x3D4,FrenchModelVariant452_DrawLines,matching_c,overlay/model_variant_550_stage9_slot0,Independently linked C body exact; direct-entry reachable.
+0x8013D3E4,0xA30,ModelVariant425_DrawRays,matching_c,overlay/model_variant_550_stage9_slot0,Rays helper; C body variant435_rays.c (the header-435 rays the North American image also uses); complete image exact.

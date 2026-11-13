@@ -1,3 +1,4 @@
 address,size,name,status,module,notes
+0x8017B004,0x1338,ModelVariant412_HandleRequest,matching_c,overlay/model_image_model_76090_8017b000,C body variant429_entry.c shared with model_variant_275_stage7_slot0; complete image exact.
 0x8017C33C,0x578,FrenchModelVariant429_DrawSwarm,matching_c,overlay/model_image_model_76090_8017b000,Model 275 stage8 header579 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017C8B4,0x4DC,FrenchModelVariant429_DrawQuads,matching_c,overlay/model_image_model_76090_8017b000,Model 275 stage8 header579 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.

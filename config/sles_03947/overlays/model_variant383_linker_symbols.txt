@@ -35,3 +35,4 @@ rsin = 0x80086424;
 GetTPage = 0x80082AE4;
 GetClut = 0x80082B24;
 SetPolyF4 = 0x80082C84;
+Graphics_SubmitMaskWritePacket = 0x8004D62C;

@@ -11,6 +11,13 @@
 #ifndef MODEL_VARIANT425_RAYS_STATUS_COLUMNS
 #define MODEL_VARIANT425_RAYS_STATUS_COLUMNS 2
 #endif
+/* Header 435 indexes the tip segment by k, which is 2 there; the PAL
+ * compiler then hoists ray + 8 and ray + 4 out of the loop. */
+#ifdef MODEL_VARIANT425_RAYS_MASKED_TIP
+#define MODEL_VARIANT425_RAYS_TIP k
+#else
+#define MODEL_VARIANT425_RAYS_TIP 2
+#endif
 #define MODEL_VARIANT425_RAYS_AT(offset) ((offset) + MODEL_VARIANT425_RAYS_WORK_SHIFT)
 
 /* Builds sixteen three-point rays fanned around the variant's axis (even rays
@@ -119,7 +126,7 @@ void ModelVariant425_DrawRays(u8 *ctx)
     for (i = 0; i < 16; i++, ray++) {
         for (k = 0; k < 3; k++) {
             if (k == 2) {
-                ray->otz[2] = RotTransPers4(&ray->a[1], &ray->a[2], &ray->a[1], &ray->a[2],
+                ray->otz[MODEL_VARIANT425_RAYS_TIP] = RotTransPers4(&ray->a[1], &ray->a[2], &ray->a[1], &ray->a[2],
                                             &ray->sa[1], &ray->sa[2], &ray->sa[1], &ray->sa[2],
                                             /* Header 425's own overrun: with two columns the third
                                              * point's flag lands in status[i + 1][0] (past the array
@@ -130,18 +137,20 @@ void ModelVariant425_DrawRays(u8 *ctx)
 #ifdef MODEL_VARIANT425_RAYS_MASKED_TIP
                 /* Header 435's masked halves keep the status row's address
                  * inside the loop. */
-                dx = (s16)(ray->sa[2] & 0xFFFF) - (s16)(ray->sa[1] & 0xFFFF);
-                dy = (s16)(ray->sa[2] >> 16) - (s16)(ray->sa[1] >> 16);
-                ray->angle[2] = ratan2(dy, dx) + 0xC00;
-                ray->width[2] = (s16)(ray->sb[2] & 0xFFFF) - (s16)(ray->sa[2] & 0xFFFF);
+                dx = (s16)(ray->sa[k] & 0xFFFF) - (s16)(ray->sa[k - 1] & 0xFFFF);
+                dy = (s16)(ray->sa[k] >> 16) - (s16)(ray->sa[k - 1] >> 16);
+                ray->angle[k] = ratan2(dy, dx) + 0xC00;
+                ray->width[k] = (s16)(ray->sb[k] & 0xFFFF) - (s16)(ray->sa[k] & 0xFFFF);
+                ray->ox[k] = rcos(ray->angle[k]) * ray->width[k] >> 12;
+                ray->oy[k] = rsin(ray->angle[k]) * ray->width[k] >> 12;
 #else
                 dx = (s16)ray->sa[2] - (s16)ray->sa[1];
                 dy = (ray->sa[2] >> 16) - (ray->sa[1] >> 16);
                 ray->angle[2] = ratan2(dy, dx) + 0xC00;
                 ray->width[2] = (s16)ray->sb[2] - (s16)ray->sa[2];
-#endif
                 ray->ox[2] = rcos(ray->angle[2]) * ray->width[2] >> 12;
                 ray->oy[2] = rsin(ray->angle[2]) * ray->width[2] >> 12;
+#endif
             } else {
                 ray->otz[k] = RotTransPers4(&ray->a[k], &ray->a[k + 1], &ray->a[k], &ray->a[k + 1],
                                             &ray->sa[k], &ray->sa[k + 1], &ray->sa[k], &ray->sa[k + 1],

@@ -78,11 +78,18 @@ segments:
     align: 4
     subsegments:
       - [0x2010, c, overlays/french_model_variant/variant452_lines]
-  - name: unclassified_tail
+  - name: helper_23E4
     type: code
     start: 0x23E4
     vram: 0x8017D3E4
     align: 4
     subsegments:
-      - [0x23E4, data, overlays/european_model_variant_1_stage10_slot1/unclassified_tail]
+      - [0x23E4, c, overlays/model_variant/variant435_rays]
+  - name: unclassified_2E14
+    type: code
+    start: 0x2E14
+    vram: 0x8017DE14
+    align: 4
+    subsegments:
+      - [0x2E14, data, overlays/european_model_variant_1_stage10_slot1/unclassified_2E14]
   - [0x5000]

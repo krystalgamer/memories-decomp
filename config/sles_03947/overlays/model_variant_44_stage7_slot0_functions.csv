@@ -4,3 +4,4 @@ address,size,name,status,module,notes
 0x8013C534,0x690,FrenchModelVariant335_DrawSheets,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
 0x8013CBC4,0x514,FrenchModelVariant335_DrawRings,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
 0x8013D0D8,0x814,FrenchModelVariant335_DrawStreamers,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable. Branch-local screen-offset calculations preserve native tail merging.
+0x8013D8EC,0x6D0,ModelVariant318_DrawShortStreamers,matching_c,overlay/model_variant_44_stage7_slot0,Short-streamer helper; C body variant318_short_streamers.c (the header-318 helper the North American image also uses); complete image exact.

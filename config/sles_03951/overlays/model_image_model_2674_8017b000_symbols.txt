@@ -1,2 +1,5 @@
-// Spanish MODEL.MRG model 9 raw image model_image_model_2674_8017b000, loaded at 0x8017B000; the French header-455 swarm helper variant455_swarm.c.
+// Spanish MODEL.MRG model 9 raw image model_image_model_2674_8017b000, loaded at 0x8017B000; the French header-455 swarm helper variant455_swarm.c. The entry builds from variant455_entry.c.
+ModelVariant438_HandleRequest = 0x8017B004; // type:func size:0x13AC defined:true
 FrenchModelVariant455_DrawSwarm = 0x8017C3B0; // type:func size:0x5C8 defined:true
+gModelVariant438_aImages = 0x8017C978; // type:u8 size:0xFC defined:true
+gModelVariant438_aConfigs = 0x8017CA74; // type:u8 size:0x358C defined:true

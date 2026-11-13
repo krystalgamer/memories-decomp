@@ -1,4 +1,5 @@
 GetTPage = 0x80082CE8;
+GsSortGLine = 0x800840B8;
 GsGetActiveBuff = 0x800852A8;
 GsGetLs = 0x80086258;
 GsSetLsMatrix = 0x80085558;

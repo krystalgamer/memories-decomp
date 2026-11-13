@@ -85,11 +85,18 @@ segments:
     align: 4
     subsegments:
       - [0x20D8, c, overlays/french_model_variant/variant335_streamers]
-  - name: unclassified_tail
+  - name: helper_28EC
     type: code
     start: 0x28EC
     vram: 0x8017D8EC
     align: 4
     subsegments:
-      - [0x28EC, data, overlays/german_model_variant_44_stage8_slot1/unclassified_tail]
+      - [0x28EC, c, overlays/model_variant/variant318_short_streamers]
+  - name: unclassified_2FBC
+    type: code
+    start: 0x2FBC
+    vram: 0x8017DFBC
+    align: 4
+    subsegments:
+      - [0x2FBC, data, overlays/german_model_variant_44_stage8_slot1/unclassified_2FBC]
   - [0x5000]
