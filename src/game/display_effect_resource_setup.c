@@ -101,7 +101,7 @@ s32 DisplayEffect_BuildResourceObjects(
     return 1;
 }
 
-void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offset)
+void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32 depth_offset)
 {
     DisplayObject *e;
     s8 c;
@@ -110,7 +110,7 @@ void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offs
     if (attribute == 0) {
         for (i = 2; i >= 0; i--) {
             c = (s8)depth_offset;
-            e = (DisplayObject *)objects[i];
+            e = objects[i];
             if (e != 0) {
                 e->attribute = e->attribute & ~(GsALON | GsATWO | GsAONE);
                 e->attribute = e->attribute | GsALON;
@@ -121,7 +121,7 @@ void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offs
         }
     } else {
         for (i = 2; i >= 0; i--) {
-            e = (DisplayObject *)objects[i];
+            e = objects[i];
             if (e != 0) {
                 e->attribute = (e->attribute & ~(GsALON | GsATWO | GsAONE)) | attribute;
                 DisplayObject_SetDepthOffset(e, (s8)depth_offset);

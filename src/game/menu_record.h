@@ -30,18 +30,11 @@ typedef struct MenuRecord {
        DisplayPositionGroup_SetPosition reads that tail, and nothing
        passes it a row.
 
-       Kept as s32 grid[4][3], with the pointer casts written out at
-       each use (ILP32, so a slot is exactly one pointer word). The
-       converted display_effect_update_callbacks.c reads these words
-       through several views: rows go to DisplayEffect_SetObjectRowBlend and
-       DisplayEffect_BuildResourceObjects as DisplayObject ** and to
-       DisplayEffect_ReleaseObjectRow as void **, the
-       record itself goes to DisplayPositionGroup_SetChildPositions as the DisplayPositionGroup *
-       for row 0, and single slots such as grid[0][0] and grid[0][1]
-       hold DisplayObject pointers. No one element type fits all of
-       those users, so the integer slots stay and each user's cast
-       states the view it takes. */
-    s32 grid[4][3];
+       Each slot holds one DisplayObject pointer: rows go to
+       DisplayEffect_SetObjectRowBlend, DisplayEffect_BuildResourceObjects
+       and DisplayEffect_ReleaseObjectRow as DisplayObject **, and single
+       slots such as grid[0][0] and grid[0][1] are read as objects. */
+    struct DisplayObject *grid[4][3];
     s8 effect_id;
     /* DisplayEffectState names this same byte resource_entry_index on this same
        memory; Script_OpShowMenu and display_effect_update_callbacks.c

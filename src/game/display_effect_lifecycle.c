@@ -27,7 +27,7 @@ void DisplayEffect_ResetRecordState(DisplayEffectState *object)
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
-void DisplayEffect_ReleaseObjectRow(void **objects)
+void DisplayEffect_ReleaseObjectRow(DisplayObject **objects)
 {
     s32 i;
 
@@ -40,7 +40,7 @@ void DisplayEffect_ReleaseObjectRow(void **objects)
 void DisplayEffect_ReleaseRecord(MenuRecord *record)
 {
     record->effect_id = -1;
-    DisplayEffect_ReleaseObjectRow((void **)record->grid[0]);
+    DisplayEffect_ReleaseObjectRow(record->grid[0]);
 }
 
 void DisplayEffect_FinishStepWhenIdle(DisplayEffectState *object)

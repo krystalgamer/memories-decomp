@@ -29,7 +29,6 @@
 
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
@@ -118,8 +117,8 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
 
 void DisplayEffect_FadeInRecord(MenuRecord *p) {
     DisplayObject *first;
-    s32 *row;
-    s32 *cell;
+    DisplayObject **row;
+    DisplayObject **cell;
     s32 depth;
     s32 resource_index;
     s32 level;
@@ -137,12 +136,12 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
             *(s16 *)&p->x,
             *(s16 *)&p->y
         );
-        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        first = p->grid[0][0];
         depth = first->depth_offset;
         resource_index = first->resource_root_index;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
+        DisplayEffect_SetObjectRowBlend(p->grid[0], (GsALON | GsAONE), depth);
         row = p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
+        DisplayEffect_BuildResourceObjects(p, row, resource_index);
         DisplayEffect_SetObjectRowBlend((u8 **)row, (GsALON | GsATWO), depth - 1);
         p->field_40 = 0;
     }
@@ -152,19 +151,19 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
 
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
-                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
+        DisplayEffect_SetObjectRowBlend(p->grid[0], 0,
+                      p->grid[0][0]->depth_offset);
+        DisplayEffect_ReleaseObjectRow(p->grid[1]);
         p->variant_update_flags &= 0xEF;
     } else {
         color = p->field_40;
         color |= (color << 8) | (color << 16);
         for (i = 2, cell = &p->grid[0][2]; i >= 0; i--, cell--) {
             if (cell[0] != 0) {
-                DISPLAY_OBJECT_VIEW(cell[0])->rgb = color;
+                cell[0]->rgb = color;
             }
             if (cell[3] != 0) {
-                DISPLAY_OBJECT_VIEW(cell[3])->rgb = color;
+                cell[3]->rgb = color;
             }
         }
     }
@@ -173,7 +172,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
 void DisplayEffect_FadeOutRecord(MenuRecord *p)
 {
     DisplayObject *first;
-    u8 **row;
+    DisplayObject **row;
     DisplayObject *object;
     s32 depth;
     s32 resource_index;
@@ -184,12 +183,12 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->variant_update_flags |= 0x10;
-        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        first = p->grid[0][0];
         depth = first->depth_offset;
         resource_index = first->resource_root_index;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
-        row = (u8 **)p->grid[1];
-        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
+        DisplayEffect_SetObjectRowBlend(p->grid[0], (GsALON | GsAONE), depth);
+        row = p->grid[1];
+        DisplayEffect_BuildResourceObjects(p, row, resource_index);
         DisplayEffect_SetObjectRowBlend(row, (GsALON | GsATWO), depth - 1);
         p->field_40 = 0x80;
     }
@@ -199,17 +198,17 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
     u = (s16)level;
     if (u <= 0) {
         p->display_effect_step = 0;
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
+        DisplayEffect_ReleaseObjectRow(p->grid[1]);
         DisplayEffect_ReleaseRecord(p);
     } else {
         color = u;
         color |= (color << 8) | (color << 16);
         for (i = 2; i >= 0; i--) {
-            object = DISPLAY_OBJECT_VIEW(p->grid[0][i]);
+            object = p->grid[0][i];
             if (object != 0) {
                 object->rgb = color;
             }
-            object = DISPLAY_OBJECT_VIEW(p->grid[1][i]);
+            object = p->grid[1][i];
             if (object != 0) {
                 object->rgb = color;
             }
@@ -234,50 +233,50 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->variant_update_flags |= 0x10;
-        first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
+        first = p->grid[0][0];
         resource_index = first->resource_root_index;
         depth = first->depth_offset;
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
+        DisplayEffect_ReleaseObjectRow(p->grid[0]);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[0], p->resource_entry_index);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
+            p, p->grid[0], p->resource_entry_index);
+        DisplayEffect_SetObjectRowBlend(p->grid[0], (GsALON | GsAONE), depth);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[1], p->resource_entry_index);
+            p, p->grid[1], p->resource_entry_index);
         lower_depth = depth - 1;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[1], (GsALON | GsATWO), lower_depth);
+        DisplayEffect_SetObjectRowBlend(p->grid[1], (GsALON | GsATWO), lower_depth);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[2], resource_index);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[2], (GsALON | GsAONE), depth);
+            p, p->grid[2], resource_index);
+        DisplayEffect_SetObjectRowBlend(p->grid[2], (GsALON | GsAONE), depth);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[3], resource_index);
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[3], (GsALON | GsATWO), lower_depth);
+            p, p->grid[3], resource_index);
+        DisplayEffect_SetObjectRowBlend(p->grid[3], (GsALON | GsATWO), lower_depth);
         p->field_40 = 0x80;
     }
     level = (u16)p->field_40 - gGraphics_nBaseFrameStep * 8;
     p->field_40 = level;
     if (level <= 0) {
         p->display_effect_step = 0;
-        DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
-                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
+        DisplayEffect_SetObjectRowBlend(p->grid[0], 0,
+                      p->grid[0][0]->depth_offset);
         DisplayPositionGroup_SetChildPositions(
             DISPLAY_POSITION_GROUP_VIEW(p),
             *(s16 *)&p->x,
             *(s16 *)&p->y
         );
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[2]);
-        DisplayEffect_ReleaseObjectRow((void **)p->grid[3]);
+        DisplayEffect_ReleaseObjectRow(p->grid[1]);
+        DisplayEffect_ReleaseObjectRow(p->grid[2]);
+        DisplayEffect_ReleaseObjectRow(p->grid[3]);
         p->variant_update_flags &= 0xEF;
         return;
     }
     color = level;
     color |= (color << 8) | (color << 0x10);
     for (m = 2; m >= 0; m--) {
-        object = *(DisplayObject **)&p->grid[2][m];
+        object = p->grid[2][m];
         if (object != 0) {
             object->rgb = color;
         }
-        object = *(DisplayObject **)&p->grid[3][m];
+        object = p->grid[3][m];
         if (object != 0) {
             object->rgb = color;
         }
@@ -285,11 +284,11 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     color = 0x80 - p->field_40;
     color |= (color << 8) | (color << 0x10);
     for (m = 2; m >= 0; m--) {
-        object = *(DisplayObject **)&p->grid[0][m];
+        object = p->grid[0][m];
         if (object != 0) {
             object->rgb = color;
         }
-        object = *(DisplayObject **)&p->grid[1][m];
+        object = p->grid[1][m];
         if (object != 0) {
             object->rgb = color;
         }
@@ -327,11 +326,11 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     s32 shade;
     s32 scale_x;
 
-    /* A portrait record keeps its two display objects in the first two
-       words of grid, as integers like the rest of that array. */
+    /* A portrait record keeps its two display objects in grid[0][0] and
+       grid[0][1]. */
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
         if (record->field_40 != 0) {
-            o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+            o = record->grid[0][0];
             *(u16 *)&o->field_60 = 0;
         } else {
             id = record->effect_id;
@@ -353,7 +352,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             DisplayObject_SelectOrderingTable1(o);
             DisplayObject_SetDepthOffset(o, -8);
-            record->grid[0][0] = (s32)o;
+            record->grid[0][0] = o;
             *(u16 *)&o->field_60 = 0x14;
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
@@ -366,10 +365,10 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         *(u16 *)&o2->field_48.pivot.y = 0;
         DisplayObject_SelectOrderingTable1(o2);
         DisplayObject_SetDepthOffset(o2, -9);
-        record->grid[0][1] = (s32)o2;
+        record->grid[0][1] = o2;
     }
-    o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
-    o2 = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    o = record->grid[0][0];
+    o2 = record->grid[0][1];
     if (record->field_40 != 0) {
         *(u16 *)&o->field_60 += (u16)gGraphics_nBaseFrameStep;
     } else {
