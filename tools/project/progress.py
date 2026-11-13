@@ -202,8 +202,19 @@ def format_percentage(value: int, total: int) -> str:
     return f"{value / total:.2%}"
 
 
+def overlay_copies(module: dict[str, Any]) -> int:
+    """Number of physical images a module stands for, counting its duplicates."""
+    return 1 + len(module.get("duplicate_sector_offsets") or [])
+
+
 def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     directory = resolve_within(root, "config/slus_01411/overlays")
+    _, modules = load_overlay_manifest(root, "usa")
+    copies = {
+        Path(module["layout"]).stem: overlay_copies(module)
+        for module in modules
+        if isinstance(module.get("layout"), str)
+    }
     overlays: dict[str, dict[str, int]] = {}
     for path in sorted(directory.glob("*_functions.csv")):
         name = path.name[: -len("_functions.csv")]
@@ -221,6 +232,7 @@ def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
             "function_bytes": sum(function.size for function in functions),
             "matching_c_function_count": len(matching),
             "matching_c_bytes": sum(function.size for function in matching),
+            "copies": copies.get(name, 1),
         }
     return overlays
 
@@ -240,12 +252,6 @@ def load_european_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
 def load_spanish_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     return load_regional_overlay_inventories(
         root, region="spain", config="config/sles_03951", region_name="Spanish"
-    )
-
-
-def load_french_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
-    return load_regional_overlay_inventories(
-        root, region="france", config="config/sles_03948", region_name="French"
     )
 
 
@@ -309,6 +315,7 @@ def load_regional_overlay_inventories(
             "function_bytes": sum(function.size for function in functions),
             "matching_c_function_count": len(matched),
             "matching_c_bytes": sum(function.size for function in matched),
+            "copies": overlay_copies(module),
         }
     return overlays
 
@@ -340,156 +347,86 @@ def validate_overlay_inventory(
         )
 
 
-def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
-    if not overlays:
-        return []
+STATUS_COLUMNS = (
+    "credits",
+    "duel_effects",
+    "exodia",
+    "free_duel",
+    "main_menu",
+    "options",
+    "overworld",
+    "password",
+    "MODEL",
+)
+
+
+def overlay_column(name: str) -> str:
+    """Return the README status column that an overlay layout counts toward."""
+    # NA/JP register the Exodia helpers as SU.MRG MODEL images, and the PAL
+    # credits presentation is registered as model_intro.
+    if name.startswith("model_image_su_"):
+        return "exodia"
+    if name == "model_intro":
+        return "credits"
+    if name.startswith("model_"):
+        return "MODEL"
+    for prefix in ("exodia", "main_menu", "overworld", "password"):
+        if name == prefix or name.startswith(f"{prefix}_"):
+            return prefix
+    return name
+
+
+def summarize_overlay_columns(
+    overlays: dict[str, dict[str, int]],
+) -> dict[str, tuple[int, int]]:
+    columns: dict[str, list[int]] = {}
+    for name, overlay in overlays.items():
+        column = overlay_column(name)
+        # Regions register identical MODEL images either as separate modules or
+        # as duplicate offsets of one module; count every physical image once.
+        weight = overlay.get("copies", 1) if column == "MODEL" else 1
+        totals = columns.setdefault(column, [0, 0])
+        totals[0] += overlay["matching_c_function_count"] * weight
+        totals[1] += overlay["function_count"] * weight
+    return {name: (matched, total) for name, (matched, total) in columns.items()}
+
+
+def format_fraction(matched: int, total: int) -> str:
+    return f"{matched:,}/{total:,}"
+
+
+StatusRow = tuple[str, dict[str, Any], dict[str, str]]
+
+
+def render_status_table(rows: list[StatusRow]) -> str:
+    """Render one row per version; the third item maps a column to a note.
+
+    A note replaces a "—" cell, or is appended to a counted cell.
+    """
+    summaries = [summarize_overlay_columns(resident["overlays"]) for _, resident, _ in rows]
+    extra = sorted(
+        {name for summary in summaries for name in summary} - set(STATUS_COLUMNS)
+    )
+    columns = [*STATUS_COLUMNS, *extra]
     lines = [
-        "Runtime overlay modules:",
-        "",
-        "| Module | Matching C functions | Matching C bytes |",
-        "|---|---:|---:|",
+        "| Version | Main exe | " + " | ".join(columns) + " |",
+        "|---|" + "---:|" * (len(columns) + 1),
     ]
-    uninventoried = 0
-    unstarted = [0, 0, 0]
-    for name in sorted(overlays):
-        overlay = overlays[name]
-        count = overlay["matching_c_function_count"]
-        matched = overlay["matching_c_bytes"]
-        total_count = overlay["function_count"]
-        total_bytes = overlay["function_bytes"]
-        if total_count == 0 and total_bytes == 0:
-            uninventoried += 1
-            continue
-        if count == 0:
-            # Thousands of generated MODEL inventories; one summary row keeps totals visible.
-            unstarted[0] += 1
-            unstarted[1] += total_count
-            unstarted[2] += total_bytes
-            continue
-        lines.append(
-            f"| `{name}` | "
-            f"{count:,} / {total_count:,} "
-            f"({format_percentage(count, total_count)}) | "
-            f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
-            f"({format_percentage(matched, total_bytes)}) |"
-        )
-    if unstarted[0]:
-        layouts, total_count, total_bytes = unstarted
-        lines.append(
-            f"| Inventoried layouts without matching C: {layouts:,} | "
-            f"0 / {total_count:,} ({format_percentage(0, total_count)}) | "
-            f"{format_bytes(0)} / {format_bytes(total_bytes)} ({format_percentage(0, total_bytes)}) |"
-        )
-    if uninventoried:
-        lines.append(f"| Uninventoried layouts: {uninventoried:,} | Not inventoried | Unclassified |")
-    lines.append("")
-    return lines
-
-
-def render_readme_progress(
-    progress: dict[str, Any],
-    source_description: str = (
-        "`config/slus_01411/functions.csv` and "
-        "`config/slus_01411/overlays/*_functions.csv`"
-    ),
-) -> str:
-    game_count = progress["game_function_count"]
-    target_count = progress["decompilation_target_function_count"]
-    target_bytes = progress["decompilation_target_function_bytes"]
-    matching_count = progress["matching_c_function_count"]
-    matching_bytes = progress["matching_c_bytes"]
-    assembly_count = progress["assembly_function_count"]
-    assembly_bytes = progress["assembly_function_bytes"]
-    handwritten_count = progress["handwritten_function_count"]
-    handwritten_bytes = progress["handwritten_function_bytes"]
-    sdk_count = progress["sdk_function_count"]
-    sdk_bytes = progress["sdk_function_bytes"]
-
-    return "\n".join(
-        (
-            "| Metric | Current |",
-            "|---|---:|",
-            (
-                "| Game C-decompilation targets matched | "
-                f"**{matching_count:,} / {target_count:,} "
-                f"({format_percentage(matching_count, target_count)})** |"
-            ),
-            (
-                "| Game C-decompilation target bytes matched | "
-                f"**{format_bytes(matching_bytes)} / "
-                f"{format_bytes(target_bytes)} "
-                f"({format_percentage(matching_bytes, target_bytes)})** |"
-            ),
-            (
-                "| Remaining game C-decompilation targets | "
-                f"{assembly_count:,} "
-                f"{'function' if assembly_count == 1 else 'functions'}, "
-                f"{format_bytes(assembly_bytes)} |"
-            ),
-            (
-                "| Evidence-backed handwritten game assembly | "
-                f"{handwritten_count:,} functions, "
-                f"{format_bytes(handwritten_bytes)} |"
-            ),
-            f"| Total game-owned functions | {game_count:,} |",
-            (
-                "| Preserved Psy-Q CRT/SDK assembly | "
-                f"{sdk_count:,} functions, {format_bytes(sdk_bytes)} |"
-            ),
-            (
-                "| Total discovered functions | "
-                f"{progress['function_count']:,} |"
-            ),
-            (
-                "| Embedded/unassigned resident text | "
-                f"{format_bytes(progress['unassigned_text_bytes'])} |"
-            ),
-            "",
-            *render_overlay_progress(progress.get("overlays", {})),
-            (
-                f"_Generated from {source_description} by "
-                "`tools/project/progress.py`._"
-            ),
-        )
-    )
-
-
-def render_japanese_progress(progress: dict[str, Any]) -> str:
-    return "\n".join(
-        (
-            "### Japanese (`SLPM-86398`)",
-            "",
-            f"Target SHA-256: `{progress['target_sha256']}`",
-            "",
-            render_readme_progress(
-                progress,
-                (
-                    "`config/slpm_86398/functions.csv` and "
-                    "`config/slpm_86398/overlays/*_functions.csv`, "
-                    "validated against their matching-C manifests"
-                ),
-            ),
-        )
-    )
-
-
-def render_european_progress(progress: dict[str, Any]) -> str:
-    return "\n".join(
-        (
-            "### European (`SLES-03947`)",
-            "",
-            f"Target SHA-256: `{progress['target_sha256']}`",
-            "",
-            render_readme_progress(
-                progress,
-                (
-                    "`config/sles_03947/functions.csv` and "
-                    "`config/sles_03947/overlays/*_functions.csv`, "
-                    "validated against their matching-C manifests"
-                ),
-            ),
-        )
-    )
+    for (label, resident, notes), summary in zip(rows, summaries):
+        cells = [
+            format_fraction(
+                resident["matching_c_function_count"],
+                resident["decompilation_target_function_count"],
+            )
+        ]
+        for name in columns:
+            note = notes.get(name, "")
+            if name in summary:
+                cells.append(format_fraction(*summary[name]) + note)
+            else:
+                cells.append(note or "—")
+        lines.append(f"| {label} | " + " | ".join(cells) + " |")
+    return "\n".join(lines)
 
 
 def render_regional_progress(
@@ -497,67 +434,35 @@ def render_regional_progress(
     japanese: dict[str, Any],
     european: dict[str, Any],
     spanish: dict[str, Any],
-    french_overlays: dict[str, dict[str, int]],
+    french: dict[str, Any],
     italian: dict[str, Any],
     german: dict[str, Any],
 ) -> str:
-    return "\n\n".join(
+    resident_options = {"options": "in main"}
+    both_password_copies = {"password": "\\*"}
+    rows: list[StatusRow] = [
+        ("North American (`SLUS-01411`)", north_american, resident_options),
+        ("Japanese (`SLPM-86398`)", japanese, resident_options),
+        ("European (`SLES-03947`)", european, both_password_copies),
+        ("French (`SLES-03948`)", french, both_password_copies),
+        ("German (`SLES-03949`)", german, both_password_copies),
+        ("Italian (`SLES-03950`)", italian, both_password_copies),
+        ("Spanish (`SLES-03951`)", spanish, both_password_copies),
+    ]
+    return "\n".join(
         (
-            "### North American (`SLUS-01411`)\n\n"
-            f"Target SHA-256: `{north_american['target_sha256']}`\n\n"
-            + render_readme_progress(north_american),
-            render_japanese_progress(japanese),
-            render_european_progress(european),
-            render_spanish_progress(spanish),
-            render_french_overlay_progress(french_overlays),
-            render_localized_progress(italian, "Italian", "SLES-03950", "config/sles_03950"),
-            render_localized_progress(
-                german, "German", "SLES-03949", "config/sles_03949"
-            ),
+            render_status_table(rows),
+            "",
+            "_Matched C functions / inventoried functions. Main exe counts "
+            "game-owned code (Psy-Q SDK assembly is kept as-is); MODEL sums "
+            "every other MODEL.MRG image once per disc location. Generated by `make progress` from "
+            "`config/*/functions.csv` and `config/*/overlays/*_functions.csv`._",
+            "",
+            "\\* Every version stores the combined name-entry/password module "
+            "twice, once for the name-entry package and once for the password "
+            "package. The PAL releases register both copies; North America and "
+            "Japan register only the password copy.",
         )
-    )
-
-
-def render_spanish_progress(progress: dict[str, Any]) -> str:
-    return render_localized_progress(
-        progress, "Spanish", "SLES-03951", "config/sles_03951"
-    )
-
-
-def render_localized_progress(
-    progress: dict[str, Any], region_name: str, target: str, config: str
-) -> str:
-    return "\n".join(
-        [
-            f"### {region_name} (`{target}`)",
-            "",
-            f"Target SHA-256: `{progress['target_sha256']}`",
-            "",
-            render_readme_progress(
-                progress,
-                (
-                    f"`{config}/functions.csv` and "
-                    f"`{config}/overlays/*_functions.csv`, "
-                    "validated against their matching-C manifests"
-                ),
-            ),
-        ]
-    )
-
-
-def render_french_overlay_progress(overlays: dict[str, dict[str, int]]) -> str:
-    return "\n".join(
-        [
-            "### French (`SLES-03948`)",
-            "",
-            "Resident progress is not included here; the following counts cover "
-            "only the inventoried runtime overlays.",
-            "",
-            "Source: `config/sles_03948/overlays/*_functions.csv`, "
-            "validated against their matching-C manifests.",
-            "",
-            *render_overlay_progress(overlays),
-        ]
     )
 
 
@@ -585,7 +490,7 @@ def sync_readme(
     japanese: dict[str, Any],
     european: dict[str, Any],
     spanish: dict[str, Any],
-    french_overlays: dict[str, dict[str, int]],
+    french: dict[str, Any],
     italian: dict[str, Any],
     german: dict[str, Any],
     *,
@@ -595,7 +500,7 @@ def sync_readme(
     current = path.read_text(encoding="utf-8")
     expected = expected_readme(
         current, render_regional_progress(
-            progress, japanese, european, spanish, french_overlays, italian,
+            progress, japanese, european, spanish, french, italian,
             german,
         )
     )
@@ -842,6 +747,12 @@ def calculate_italian(root: Path) -> dict[str, Any]:
     )
 
 
+def calculate_french(root: Path) -> dict[str, Any]:
+    return calculate_localized(
+        root, "sles_03948", "SLES-03948", "france", "French"
+    )
+
+
 def calculate_german(root: Path) -> dict[str, Any]:
     return calculate_localized(
         root, "sles_03949", "SLES-03949", "germany", "German"
@@ -899,7 +810,7 @@ def main() -> int:
         european = calculate_european(root)
         spanish = calculate_spanish(root)
         italian = calculate_italian(root)
-        french_overlays = load_french_overlay_inventories(root)
+        french = calculate_french(root)
         german = calculate_german(root)
         output = resolve_within(root, "tmp/reports/progress.json")
         atomic_write_json(
@@ -908,7 +819,7 @@ def main() -> int:
                 **progress, "japanese": japanese, "european": european,
                 "spanish": spanish,
                 "italian": italian,
-                "french": {"overlays": french_overlays},
+                "french": french,
                 "german": german,
             },
         )
@@ -918,7 +829,7 @@ def main() -> int:
             japanese,
             european,
             spanish,
-            french_overlays,
+            french,
             italian,
             german,
             check=arguments.check,

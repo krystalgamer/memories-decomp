@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "tools/project"))
 
 import inventory_model_images as inventory
 import register_model_images as registration
-from progress import ProgressError, render_overlay_progress, validate_overlay_inventory
+from progress import ProgressError, overlay_column, render_status_table, validate_overlay_inventory
 
 
 class ModelImageRegistrationTests(unittest.TestCase):
@@ -100,36 +100,53 @@ class ModelImageRegistrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ProgressError, "does not agree"):
             validate_overlay_inventory([], [(0x8013B004, 0x8013B00C)],
                                        start=0x8013B000, end=0x80140000, name="raw")
-        text = "\n".join(render_overlay_progress({
-            "raw": dict(function_count=0, function_bytes=0,
-                        matching_c_function_count=0, matching_c_bytes=0),
-            "known": dict(function_count=2, function_bytes=8,
-                          matching_c_function_count=1, matching_c_bytes=4),
-        }))
-        self.assertIn("| Uninventoried layouts: 1 | Not inventoried | Unclassified |", text)
-        self.assertIn("50.00%", text)
-        self.assertNotIn("100.00%", text)
+        resident = dict(matching_c_function_count=1, decompilation_target_function_count=1,
+                        overlays={
+            "model_raw": dict(function_count=0, function_bytes=0,
+                              matching_c_function_count=0, matching_c_bytes=0),
+            "model_known": dict(function_count=2, function_bytes=8,
+                                matching_c_function_count=1, matching_c_bytes=4),
+        })
+        text = render_status_table([("US", resident, {"options": "in main", "MODEL": "\\*"})])
+        self.assertIn("| in main |", text)
+        self.assertIn("| — |", text)
+        self.assertTrue(text.endswith("| 1/2\\* |"))
+        self.assertNotIn("%", text)
 
-    def test_large_uninventoried_domains_keep_readme_tables_bounded(self):
+    def test_large_overlay_inventories_keep_readme_tables_bounded(self):
         overlays = {
-            f"raw_{index}": dict(function_count=0, function_bytes=0,
-                                matching_c_function_count=0, matching_c_bytes=0)
+            f"model_image_{index}": dict(function_count=2, function_bytes=12,
+                                         matching_c_function_count=1, matching_c_bytes=4)
             for index in range(3729)
         }
-        lines = render_overlay_progress(overlays)
-        self.assertEqual(len(lines), 6)
-        self.assertIn("| Uninventoried layouts: 3,729 | Not inventoried | Unclassified |", lines)
-        self.assertEqual(len(overlays), 3729)
+        overlays["main_menu_language_1"] = dict(function_count=3, function_bytes=12,
+                                                matching_c_function_count=3, matching_c_bytes=12)
+        overlays["main_menu"] = dict(function_count=2, function_bytes=8,
+                                     matching_c_function_count=2, matching_c_bytes=8)
+        resident = dict(matching_c_function_count=5, decompilation_target_function_count=6,
+                        overlays=overlays)
+        lines = render_status_table([("US", resident, {})]).splitlines()
+        self.assertEqual(len(lines), 3)
+        self.assertIn("| US | 5/6 |", lines[2])
+        self.assertIn("| 5/5 |", lines[2])
+        self.assertTrue(lines[2].endswith("| 3,729/7,458 |"))
 
-    def test_inventoried_layouts_without_matching_c_share_one_summary_row(self):
-        overlays = {
-            f"generated_{index}": dict(function_count=2, function_bytes=12,
-                                      matching_c_function_count=0, matching_c_bytes=0)
-            for index in range(3000)
-        }
-        overlays["known"] = dict(function_count=2, function_bytes=8,
-                                 matching_c_function_count=1, matching_c_bytes=4)
-        lines = render_overlay_progress(overlays)
-        self.assertEqual(len(lines), 7)
-        self.assertIn("| Inventoried layouts without matching C: 3,000 | 0 / 6,000 (0.00%) | "
-                      "0 (`0x0`) / 36,000 (`0x8CA0`) (0.00%) |", lines)
+    def test_renamed_family_layouts_count_toward_their_family_column(self):
+        self.assertEqual(overlay_column("model_image_su_1142_8013b000"), "exodia")
+        self.assertEqual(overlay_column("exodia_slot1"), "exodia")
+        self.assertEqual(overlay_column("model_intro"), "credits")
+        self.assertEqual(overlay_column("model_variant_238_stage8_slot1"), "MODEL")
+        self.assertEqual(overlay_column("main_menu_language_3"), "main_menu")
+        self.assertEqual(overlay_column("remodel_screen"), "remodel_screen")
+
+    def test_model_column_counts_each_duplicate_image_location(self):
+        resident = dict(matching_c_function_count=1, decompilation_target_function_count=1,
+                        overlays={
+            "model_variant_1": dict(function_count=2, function_bytes=8, copies=3,
+                                    matching_c_function_count=2, matching_c_bytes=8),
+            "options": dict(function_count=4, function_bytes=8, copies=5,
+                            matching_c_function_count=4, matching_c_bytes=8),
+        })
+        text = render_status_table([("US", resident, {})])
+        self.assertIn("| 4/4 |", text)
+        self.assertTrue(text.endswith("| 6/6 |"))
