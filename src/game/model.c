@@ -524,24 +524,38 @@ void Model_UpdateBackgroundScroll(s32 force)
         initial_pitch = gModel_wViewPitch;
         if (initial_pitch >= 0x801) {
             initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
-            if (initial_turn_difference >= 0) {
-                background_offset_y = -0x139;
-                if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
-                    goto compute;
-                }
-            } else {
-                background_offset_y = -0x139;
-                if (MODEL_ANGLE_FULL_TURN - initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
-                compute:
-                    reloaded_pitch = gModel_wViewPitch;
-                    reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
-                    if (reloaded_turn_difference >= 0) {
-                        background_offset_y = -(reloaded_turn_difference * 26) / 85;
+            /* Codegen steering: both pitch tests either reach the shared
+             * reprojection (the switch's break) or skip it (the one-pass
+             * loop's continue), which keeps retail's branch senses. */
+            do {
+                switch (0) {
+                default:
+                    if (initial_turn_difference >= 0) {
+                        background_offset_y = -0x139;
+                        if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
+                            break;
+                        }
                     } else {
-                        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
+                        background_offset_y = -0x139;
+                        if (MODEL_ANGLE_FULL_TURN - initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
+                            break;
+                        }
                     }
+                    continue;
                 }
-            }
+                reloaded_pitch = gModel_wViewPitch;
+                reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
+                if (reloaded_turn_difference >= 0) {
+                    background_offset_y = -(reloaded_turn_difference * 26) / 85;
+                } else {
+                    background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
+                }
+                /* Empty loop: its loop note stops jump threading the arm
+                 * exits out of the one-pass loop, so loop.c leaves the
+                 * first arm in place. */
+                do {
+                } while (0);
+            } while (0);
         } else if (initial_pitch < MODEL_ANGLE_QUARTER_TURN) {
             background_offset_y = (initial_pitch * 26) / 85;
         } else {
