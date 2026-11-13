@@ -202,3 +202,15 @@ executable bodies and unique selected input definitions. The two terminal
 renderer ledger rows were appended only after this proof, bringing the
 family ledger to 48 rows. The accepted report-base change was README-only;
 every clean-gate build input remained unchanged.
+
+## Rays helper
+
+The suffix starts with a fifth closed function at `0x23E4..0x2E14` (2,608
+bytes) in all six images and in every PAL region: the header-435 rays
+renderer `ModelVariant425_DrawRays`, which the North American images build
+from `model_variant/variant435_rays.c` with the CDK profile. The PAL images
+build the same source with `gcc_2_8_1_g0_split`. Its masked-tip branch indexes
+the tip segment by `k`, which is 2 there; GCC 2.8.1 then hoists `ray + 8` and
+`ray + 4` out of the point loop as the PAL bytes do, while the literal-index
+spelling misses by 358 instruction lines. The North American and Japanese
+builds are byte-identical either way. Only `0x2E14..0x5000` stays raw.

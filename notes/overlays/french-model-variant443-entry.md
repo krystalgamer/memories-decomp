@@ -90,3 +90,14 @@ Both full 20,480-byte images match retail, with original-sized C
 
 This adds 13,744 matching C instruction bytes across both images and
 completes all seven functions in each. Spanish registrations are unchanged.
+
+## Webs helper
+
+The code that ends at `0x45A8` is followed by an eighth closed function,
+`0x45A8..0x4AFC`, in both images and in every PAL region. It is
+`ModelVariant405_DrawWebs` with the header-426 layout, built from
+`model_variant/variant426_webs.c` with `gcc_2_8_1_g0_split`; the North
+American images build the same source with the CDK profile. Each image now
+binds `gFrenchModelVariant443_D45A8` at the data block that follows the
+helper (`0x4AFC`), so `variant443_entry.c` names the block directly instead of
+adding `0x554`.
