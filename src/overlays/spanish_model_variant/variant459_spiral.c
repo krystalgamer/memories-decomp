@@ -38,7 +38,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
 
     work = (Variant459EntryState *)ctx;
     arm = (Variant425SpiralArm *)work->glows;
-    timing = (u8 *)work + 0x2568 + *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x24) * 0x130;
+    timing = (u8 *)work + 0x2568 + work->config->count * 0x130;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

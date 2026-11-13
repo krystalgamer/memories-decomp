@@ -90,10 +90,10 @@ void ModelVariant324_DrawFan(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if (work->substep + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0xC)) {
+        if (work->substep + 1 == work->config->substeps) {
             if (work->tail.phase == 0) {
                 if (rec->size < 0x1000) {
-                    rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / *(u32 *)(MODEL_VARIANT_WORD(work, 0xF2C) + 0x10);
+                    rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / work->config->duration;
                     if (rec->size >= 0x1000) {
                         rec->size = 0x1000;
                         work->tail.phase = 1;
