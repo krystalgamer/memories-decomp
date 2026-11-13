@@ -412,10 +412,6 @@ void DuelEffect_ResetEntryMarkers(void) {
 #define GLYPH_PALETTE_OFFSET 0x14
 #define GLYPH_TINT_OFFSET 0x15
 #define GLYPH_RECORD_SIZE 0x16
-#define GLYPH_UV_END uvEnd
-#define GLYPH_UV_WIDTH ((u8)spr->gs.w)
-#define GLYPH_UV_HEIGHT ((u8)spr->gs.h)
-#define GLYPH_SECOND_CLUT 0x3FEA
 #else
 #define GLYPH_SHADE_OFFSET 0x04
 #define GLYPH_ROTATION_OFFSET 0x08
@@ -426,10 +422,6 @@ void DuelEffect_ResetEntryMarkers(void) {
 #define GLYPH_MODE_OFFSET 0x15
 #define GLYPH_PALETTE_OFFSET 0x16
 #define GLYPH_RECORD_SIZE 0x18
-#define GLYPH_UV_END su
-#define GLYPH_UV_WIDTH 0x10
-#define GLYPH_UV_HEIGHT 0x10
-#define GLYPH_SECOND_CLUT 0x3FE2
 #endif
 
 /* Europe shares the scratchpad setup and polygon submission with Japan, but
@@ -777,24 +769,45 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->y2 = gt4->y3 = spr->gs.y + 0x10;
 #endif
             gt4->u0 = gt4->u2 = spr->gs.u;
-            GLYPH_UV_END = spr->gs.u + GLYPH_UV_WIDTH;
-            gt4->u1 = gt4->u3 = GLYPH_UV_END;
-            if (!(GLYPH_UV_END & 0xFF)) {
+#ifdef VERSION_EUROPE
+            uvEnd = spr->gs.u + (u8)spr->gs.w;
+            gt4->u1 = gt4->u3 = uvEnd;
+            if (!(uvEnd & 0xFF)) {
                 gt4->u3 = 0xFF;
                 gt4->u1 = 0xFF;
             }
             gt4->v0 = gt4->v1 = spr->gs.v;
-            GLYPH_UV_END = spr->gs.v + GLYPH_UV_HEIGHT;
-            gt4->v2 = gt4->v3 = GLYPH_UV_END;
-            if (!(GLYPH_UV_END & 0xFF)) {
+            uvEnd = spr->gs.v + (u8)spr->gs.h;
+            gt4->v2 = gt4->v3 = uvEnd;
+            if (!(uvEnd & 0xFF)) {
                 gt4->v3 = 0xFF;
                 gt4->v2 = 0xFF;
             }
+#else
+            /* Japan reuses the function's scratch su for both UV ends. */
+            su = spr->gs.u + 0x10;
+            gt4->u1 = gt4->u3 = su;
+            if (!(su & 0xFF)) {
+                gt4->u3 = 0xFF;
+                gt4->u1 = 0xFF;
+            }
+            gt4->v0 = gt4->v1 = spr->gs.v;
+            su = spr->gs.v + 0x10;
+            gt4->v2 = gt4->v3 = su;
+            if (!(su & 0xFF)) {
+                gt4->v3 = 0xFF;
+                gt4->v2 = 0xFF;
+            }
+#endif
             gt4->tpage = spr->gs.tpage | 0x20;
             gt4->clut = (spr->gs.cy << 6) | (((u16)spr->gs.cx >> 4) & 0x3F);
             GsSortPoly(gt4, ot, pri);
             gt4->tpage = spr->gs.tpage | 0x40;
-            gt4->clut = GLYPH_SECOND_CLUT;
+#ifdef VERSION_EUROPE
+            gt4->clut = 0x3FEA;
+#else
+            gt4->clut = 0x3FE2;
+#endif
             GsSortPoly(gt4, ot, pri);
             break;
 #ifdef VERSION_EUROPE
