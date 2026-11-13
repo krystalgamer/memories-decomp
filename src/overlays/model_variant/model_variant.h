@@ -1064,12 +1064,25 @@ typedef struct {
     u8 unknown_60[0x1C];
 } ModelVariantSpiral;
 
-/* One 0xB8-byte record whose three inner and three outer colours the entry
- * seeds as ModelVariantSpiral's are (inner grey, outer the bright colour). */
+/* One 0xB8-byte ray: a three-point spine and a copy of it moved along the
+ * view, both projected, and per point the screen angle, the projected width,
+ * the inner and outer colours (the entries seed inner grey and outer the
+ * bright colour, as ModelVariantSpiral's are), the depth and the width's
+ * screen offset. */
 typedef struct {
-    u8 unknown_00[0x78];
+    u8 unknown_00[0x18];
+    SVECTOR a[3];
+    long sa[3];
+    s32 angle[3];
+    SVECTOR b[3];
+    long sb[3];
+    s32 width[3];
     CVECTOR inner[3], outer[3];
-    u8 unknown_90[0x28];
+    u8 unknown_90[4];
+    s32 otz[3];
+    s16 ox[3];
+    s16 oy[3];
+    u8 unknown_AC[0xC];
 } ModelVariantRay;
 
 /* One 0xA8-byte trail record: nine colours, a ramp from bright to the base

@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant425_rays.h"
 #include "variant446_entry.h"
 
 /* Builds sixteen three-point rays from the work start (even rays reach
@@ -33,7 +32,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     s32 turn;
     s32 spin;
     s16 r;
-    Variant425Ray *ray;
+    ModelVariantRay *ray;
     POLY_GT4 *poly;
     s16 k;
     s16 size;
@@ -60,7 +59,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     } else {
         yaw += 0x400;
     }
-    ray = (Variant425Ray *)work;
+    ray = (ModelVariantRay *)work;
     for (i = 0; i < 16; i++, ray++) {
         spin = work->spin;
         base = i;
@@ -105,7 +104,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ray = (Variant425Ray *)work;
+    ray = (ModelVariantRay *)work;
     for (i = 0; i < 16; i++, ray++) {
         for (k = 0; k < 3; k++) {
             if (k == 2) {
@@ -133,7 +132,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
             }
         }
     }
-    ray = (Variant425Ray *)work;
+    ray = (ModelVariantRay *)work;
     for (i = 0; i < 16; i++, ray++) {
         c0 = 0x20;
         c1 = 0;

@@ -27,7 +27,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *fan;
     ModelVariantWebSmall *web;
     ModelVariantShadedRay *arm;
-    Variant425EntryRay *ray;
+    ModelVariantRay *ray;
     POLY_GT4 *textured;
     POLY_FT4 *flat;
     POLY_G3 *triangle;
@@ -257,19 +257,19 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         for (i = 0; i < 16; ray++, i++) {
             for (j = 0; j < 3; j++) {
                 if (j == 2) {
-                    ray->ca[j][0] = 0;
-                    ray->ca[j][1] = 0;
-                    ray->ca[j][2] = 0;
-                    ray->cb[j][0] = 0;
-                    ray->cb[j][1] = 0;
-                    ray->cb[j][2] = 0;
+                    ray->outer[j].r = 0;
+                    ray->outer[j].g = 0;
+                    ray->outer[j].b = 0;
+                    ray->inner[j].r = 0;
+                    ray->inner[j].g = 0;
+                    ray->inner[j].b = 0;
                 } else {
-                    ray->ca[j][0] = 255;
-                    ray->ca[j][1] = 0;
-                    ray->ca[j][2] = 255;
-                    ray->cb[j][0] = 128;
-                    ray->cb[j][1] = 128;
-                    ray->cb[j][2] = 128;
+                    ray->outer[j].r = 255;
+                    ray->outer[j].g = 0;
+                    ray->outer[j].b = 255;
+                    ray->inner[j].r = 128;
+                    ray->inner[j].g = 128;
+                    ray->inner[j].b = 128;
                 }
             }
         }

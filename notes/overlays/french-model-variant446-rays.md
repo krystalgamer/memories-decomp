@@ -5,7 +5,8 @@ image offset `0x2CAC`, 0xA28 bytes)
 builds sixteen three-point rays and draws each segment as two `POLY_GT4`
 halves. It reuses the matched MODEL425 rays body
 (`model_variant/variant425_rays.c`, also French MODEL442) and its
-`Variant425Ray` layout. The rays now start at work `+0` instead of `+0xDC0`.
+`ModelVariantRay` records (`model_variant.h`). The rays now start at work `+0`
+instead of `+0xDC0`.
 
 MODEL446 differences:
 - **State:** the turn is `ratan2(+0x1B80, +0x1B78) + 0xC00`, the yaw

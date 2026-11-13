@@ -1,32 +1,14 @@
 #include "../../types.h"
 
-#include "variant425_rays.h"
-
-/* Header 435 keeps its rays' state 0xC60 bytes further into the work area
- * and gives each ray three status words; the defaults keep header 425's
- * layout. */
-#ifndef MODEL_VARIANT425_RAYS_WORK_SHIFT
-#define MODEL_VARIANT425_RAYS_WORK_SHIFT 0
-#endif
-#ifndef MODEL_VARIANT425_RAYS_STATUS_COLUMNS
-#define MODEL_VARIANT425_RAYS_STATUS_COLUMNS 2
-#endif
-/* Header 435 indexes the tip segment by k, which is 2 there; the PAL
- * compiler then hoists ray + 8 and ray + 4 out of the loop. */
-#ifdef MODEL_VARIANT425_RAYS_MASKED_TIP
-#define MODEL_VARIANT425_RAYS_TIP k
-#else
-#define MODEL_VARIANT425_RAYS_TIP 2
-#endif
-#define MODEL_VARIANT425_RAYS_AT(offset) ((offset) + MODEL_VARIANT425_RAYS_WORK_SHIFT)
+#include "variant425_entry.h"
 
 /* Builds sixteen three-point rays fanned around the variant's axis (even rays
- * reach 0x100, odd ones 0x80, turning against each other with the sweep at
- * work + 0x2708 and leaning along the direction at work + 0x26C8, mirrored by
- * the flag at work + 0x275C), projects each spine and a copy moved along the
- * view, and draws each segment as two POLY_GT4 halves as wide as the projected
- * offset, the outer one fading to black. The size at work + 0x273C grows by
- * step * 256 up to 0x1000, which moves phase 2 on to phase 3. */
+ * reach 0x100, odd ones 0x80, turning against each other with the entry's
+ * spin angle and leaning along its offset vector, mirrored unless slot is 0),
+ * projects each spine and a copy moved along the view, and draws each segment
+ * as two POLY_GT4 halves as wide as the projected offset, the outer one fading
+ * to black. The ray scale grows by step * 256 up to 0x1000, which moves phase
+ * 2 on to phase 3. */
 void ModelVariant425_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
@@ -34,11 +16,11 @@ void ModelVariant425_DrawRays(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    long status[16][MODEL_VARIANT425_RAYS_STATUS_COLUMNS];
+    long status[16][2];
     long p;
     long flag;
-    u8 *work;
-    u8 *timing;
+    Variant425EntryState *work;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 sign;
@@ -48,7 +30,7 @@ void ModelVariant425_DrawRays(u8 *ctx)
     s16 r;
     s32 turn;
     s32 spin;
-    Variant425Ray *ray;
+    ModelVariantRay *ray;
     POLY_GT4 *poly;
     s16 k;
     s16 length;
@@ -61,15 +43,15 @@ void ModelVariant425_DrawRays(u8 *ctx)
     u8 c2;
     u8 c3;
 
-    work = ctx;
+    work = (Variant425EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
-    turn = ratan2(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26E4)), MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26DC))) + 0xC00;
-    yaw = ratan2(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26C0)), MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26B8))) + 0x800;
-    timing = work + MODEL_VARIANT425_RAYS_AT(0x1E68);
-    poly = (POLY_GT4 *)(work + MODEL_VARIANT425_RAYS_AT(0x2570));
-    pitch = ratan2(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26BC)), MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26C0))) + 0x800;
-    if (MODEL_VARIANT_HALF(work, MODEL_VARIANT425_RAYS_AT(0x275C)) == 0) {
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    yaw = ratan2(work->direction.vz, work->direction.vx) + 0x800;
+    timing = work->sheets;
+    poly = work->packets.textured;
+    pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
+    if (work->slot == 0) {
         sign = 1;
     }
     if (yaw < 0x800) {
@@ -77,9 +59,9 @@ void ModelVariant425_DrawRays(u8 *ctx)
     } else {
         yaw += 0x400;
     }
-    ray = (Variant425Ray *)(work + MODEL_VARIANT425_RAYS_AT(0xDC0));
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
-        spin = MODEL_VARIANT_HALF(work, MODEL_VARIANT425_RAYS_AT(0x2708));
+        spin = work->spiral_angle;
         base = i;
         if (!(i & 1)) {
             r = 0x100;
@@ -89,29 +71,29 @@ void ModelVariant425_DrawRays(u8 *ctx)
             phi = (base << 8) - spin * 2;
         }
         for (k = 0; k < 3; k++) {
-            length = (k * 12 + 4) * MODEL_VARIANT_WORD(timing, 0x88) / 4096;
+            length = (k * 12 + 4) * timing->size / 4096;
             if (k == 0) {
                 setVector(&ray->a[k], 0, 0, 0);
             } else {
-                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26C8)) * sign * k,
-                          (rcos(phi) * (r * k / 2) >> 12) + MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26CC)) * sign * k,
-                          MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26D0)) * sign * k);
+                setVector(&ray->a[k], (rsin(phi) * (r * k / 2) >> 12) + work->offset.vx * sign * k,
+                          (rcos(phi) * (r * k / 2) >> 12) + work->offset.vy * sign * k,
+                          work->offset.vz * sign * k);
             }
             setVector(&ray->b[k], ray->a[k].vx + (rcos(turn * sign) * length >> 12), ray->a[k].vy,
                       ray->a[k].vz + (rsin(turn * sign) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26F4)) & 1)) {
-        size = MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C));
+    if (!(work->clock.frame_count & 1)) {
+        size = work->ray_scale;
     } else {
-        size = MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) + MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) / 16;
+        size = work->ray_scale + work->ray_scale / 16;
     }
     rot.vx = -pitch;
     rot.vy = yaw;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26A8));
-    m.t[1] = MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26AC));
-    m.t[2] = MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x26B0));
+    m.t[0] = work->orbit.vx;
+    m.t[1] = work->orbit.vy;
+    m.t[2] = work->orbit.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -122,11 +104,11 @@ void ModelVariant425_DrawRays(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ray = (Variant425Ray *)(work + MODEL_VARIANT425_RAYS_AT(0xDC0));
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
         for (k = 0; k < 3; k++) {
             if (k == 2) {
-                ray->otz[MODEL_VARIANT425_RAYS_TIP] = RotTransPers4(&ray->a[1], &ray->a[2], &ray->a[1], &ray->a[2],
+                ray->otz[2] = RotTransPers4(&ray->a[1], &ray->a[2], &ray->a[1], &ray->a[2],
                                             &ray->sa[1], &ray->sa[2], &ray->sa[1], &ray->sa[2],
                                             /* Header 425's own overrun: with two columns the third
                                              * point's flag lands in status[i + 1][0] (past the array
@@ -134,23 +116,12 @@ void ModelVariant425_DrawRays(u8 *ctx)
                                              * change the frame or the address arithmetic. */
                                             &p, &status[i][2]);
                 RotTransPers(&ray->b[2], &ray->sb[2], &p, &flag);
-#ifdef MODEL_VARIANT425_RAYS_MASKED_TIP
-                /* Header 435's masked halves keep the status row's address
-                 * inside the loop. */
-                dx = (s16)(ray->sa[k] & 0xFFFF) - (s16)(ray->sa[k - 1] & 0xFFFF);
-                dy = (s16)(ray->sa[k] >> 16) - (s16)(ray->sa[k - 1] >> 16);
-                ray->angle[k] = ratan2(dy, dx) + 0xC00;
-                ray->width[k] = (s16)(ray->sb[k] & 0xFFFF) - (s16)(ray->sa[k] & 0xFFFF);
-                ray->ox[k] = rcos(ray->angle[k]) * ray->width[k] >> 12;
-                ray->oy[k] = rsin(ray->angle[k]) * ray->width[k] >> 12;
-#else
                 dx = (s16)ray->sa[2] - (s16)ray->sa[1];
                 dy = (ray->sa[2] >> 16) - (ray->sa[1] >> 16);
                 ray->angle[2] = ratan2(dy, dx) + 0xC00;
                 ray->width[2] = (s16)ray->sb[2] - (s16)ray->sa[2];
                 ray->ox[2] = rcos(ray->angle[2]) * ray->width[2] >> 12;
                 ray->oy[2] = rsin(ray->angle[2]) * ray->width[2] >> 12;
-#endif
             } else {
                 ray->otz[k] = RotTransPers4(&ray->a[k], &ray->a[k + 1], &ray->a[k], &ray->a[k + 1],
                                             &ray->sa[k], &ray->sa[k + 1], &ray->sa[k], &ray->sa[k + 1],
@@ -165,7 +136,7 @@ void ModelVariant425_DrawRays(u8 *ctx)
             }
         }
     }
-    ray = (Variant425Ray *)(work + MODEL_VARIANT425_RAYS_AT(0xDC0));
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
         c0 = 0x20;
         c1 = 0;
@@ -250,12 +221,12 @@ void ModelVariant425_DrawRays(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) < 0x1000) {
-        MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) += MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x2700)) * 256;
-        if (MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) >= 0x1000) {
-            MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x273C)) = 0x1000;
-            if (MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x2748)) == 2) {
-                MODEL_VARIANT_WORD(work, MODEL_VARIANT425_RAYS_AT(0x2748)) = 3;
+    if (work->ray_scale < 0x1000) {
+        work->ray_scale += work->clock.step * 256;
+        if (work->ray_scale >= 0x1000) {
+            work->ray_scale = 0x1000;
+            if (work->phase == 2) {
+                work->phase = 3;
             }
         }
     }
