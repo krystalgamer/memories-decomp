@@ -205,8 +205,8 @@ s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
             sheet->inner[1] = work->config->inner.g;
             sheet->inner[2] = work->config->inner.b;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (i = 0; i < 12; i++, fan++) {
             for (j = 0; j < 4; j++) {

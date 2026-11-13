@@ -119,9 +119,9 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             MODEL_VARIANT_WORD(funnel, 0x114) = 0;
         }
         for (i = 0; i < 1; i++, tube++) {
-            MODEL_VARIANT_WORD(tube, 0x534) = 4096;
-            MODEL_VARIANT_WORD(tube, 0x538) = 4096;
-            MODEL_VARIANT_WORD(tube, 0x53C) = 4096;
+            tube->scale.vx = 4096;
+            tube->scale.vy = 4096;
+            tube->scale.vz = 4096;
             for (j = 0; j < 9; j++) {
                 if (j % 2 == 0) {
                     red = 96;
@@ -136,9 +136,9 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
                 tube->colors[j].g = green;
                 tube->colors[j].b = blue;
             }
-            MODEL_VARIANT_HALF(tube, 0x544) = 0;
-            MODEL_VARIANT_WORD(tube, 0x548) = 0;
-            MODEL_VARIANT_HALF(tube, 0x546) = 0;
+            tube->field_544 = 0;
+            tube->field_548 = 0;
+            tube->field_546 = 0;
         }
         for (i = 0; i < 16; i++, beam++) {
             if (i % 8 == 0) {
@@ -196,8 +196,8 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = 64;
             sheet->inner[2] = 255;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (row = 0, bearing = 0, j = 0; row < 4; row++, ring++, bearing += 256) {
             for (k = 0, angle = bearing; k < 8; k++, j++) {

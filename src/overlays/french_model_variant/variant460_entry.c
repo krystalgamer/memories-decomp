@@ -158,8 +158,8 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = work->config->outer.g;
             sheet->inner[2] = work->config->outer.b;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
             sheet->shown = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {

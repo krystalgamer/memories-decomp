@@ -72,7 +72,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x3080) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -130,56 +130,56 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
         u8 g2;
         u8 b2;
 
-        if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 0) {
+        if (((work->clock.frame_count + i) & 7) == 0) {
             r0 = 128;
             g0 = 0;
             b0 = 0;
             r2 = 192;
             g2 = 128;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 1) {
+        } else if (((work->clock.frame_count + i) & 7) == 1) {
             r0 = 128;
             g0 = 64;
             b0 = 0;
             r2 = 192;
             g2 = 160;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 2) {
+        } else if (((work->clock.frame_count + i) & 7) == 2) {
             r0 = 128;
             g0 = 128;
             b0 = 0;
             r2 = 192;
             g2 = 192;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 3) {
+        } else if (((work->clock.frame_count + i) & 7) == 3) {
             r0 = 0;
             g0 = 128;
             b0 = 0;
             r2 = 128;
             g2 = 192;
             b2 = 128;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 4) {
+        } else if (((work->clock.frame_count + i) & 7) == 4) {
             r0 = 0;
             g0 = 128;
             b0 = 128;
             r2 = 128;
             g2 = 192;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 5) {
+        } else if (((work->clock.frame_count + i) & 7) == 5) {
             r0 = 0;
             g0 = 0;
             b0 = 128;
             r2 = 128;
             g2 = 128;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 6) {
+        } else if (((work->clock.frame_count + i) & 7) == 6) {
             r0 = 128;
             g0 = 0;
             b0 = 128;
             r2 = 192;
             g2 = 128;
             b2 = 192;
-        } else if (((MODEL_VARIANT_WORD(work, 0x3080) + i) & 7) == 7) {
+        } else if (((work->clock.frame_count + i) & 7) == 7) {
             r0 = 128;
             g0 = 0;
             b0 = 64;
@@ -268,7 +268,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
     }
     }
     work->spiral_angle += 16;
-    if ((u32)MODEL_VARIANT_WORD(work->config, 0x38) <= (u32)MODEL_VARIANT_WORD(work, 0x3084) &&
+    if ((u32)work->config->end <= (u32)work->clock.frame &&
         work->field_30E0 == 0 && work->spiral_size < 0x400) {
         work->spiral_size += work->clock.step * 32;
         if (work->spiral_size >= 0x400) {

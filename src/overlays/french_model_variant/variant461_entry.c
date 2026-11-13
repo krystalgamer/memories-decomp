@@ -208,8 +208,8 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
             quad_sheet->inner[1] = 64;
             quad_sheet->inner[2] = 255;
             quad_sheet->size = 0;
-            MODEL_VARIANT_WORD(quad_sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(quad_sheet, 0x90) = 0;
+            quad_sheet->field_8C = 0;
+            quad_sheet->field_90 = 0;
             quad_sheet->shown = 0;
         }
         near_scale = 256;
@@ -229,15 +229,15 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
                         far_y, rsin(angle) * far_radius >> 12);
                 }
             }
-            MODEL_VARIANT_WORD(web, 0x184) = 0;
-            MODEL_VARIANT_WORD(web, 0x188) = 0;
-            MODEL_VARIANT_WORD(web, 0x18C) = 0;
+            web->field_184 = 0;
+            web->field_188 = 0;
+            web->field_18C = 0;
             web->color.r = work->config->web_color.r;
             web->color.g = work->config->web_color.g;
             web->color.b = work->config->web_color.b;
             web->scale = 4096 + k * 4096 / 3;
             web->done = 0;
-            MODEL_VARIANT_WORD(web, 0x19C) = 0;
+            web->field_19C = 0;
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {

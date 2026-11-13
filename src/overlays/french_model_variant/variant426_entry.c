@@ -202,8 +202,8 @@ s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = 64;
             sheet->inner[2] = 255;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (k = 0; k < 2; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {

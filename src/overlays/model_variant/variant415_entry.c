@@ -191,8 +191,8 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = 64;
             sheet->inner[2] = 255;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (index = 0; index < 3; index++, strand_a++) {
             for (j = 0, strand_angle = 0; j < 17; strand_angle = j << 8) {

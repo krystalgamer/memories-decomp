@@ -216,8 +216,8 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = 0;
             sheet->inner[2] = 255;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (n = 0; n < 5; n++, curtain++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {

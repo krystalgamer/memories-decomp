@@ -28,15 +28,15 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++, rec++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x189C) & 1) {
+        if (work->frame_count & 1) {
             bias = rec->size;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = *(u16 *)((u8 *)work + 0x18DC);
-        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1794);
-        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1798);
-        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x179C);
+        m.t[0] = work->matrices[i].t[0];
+        m.t[1] = work->matrices[i].t[1];
+        m.t[2] = work->matrices[i].t[2];
         scale.vx = rec->size + bias;
         scale.vy = rec->size + bias;
         scale.vz = rec->size + bias;
@@ -90,7 +90,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if ((u32)MODEL_VARIANT_WORD(work, 0x18A0) >= (u32)(MODEL_VARIANT_WORD((u8 *)work->config + work->start_index * 4, 0x2C) - 8)) {
+        if ((u32)work->frame >= (u32)(MODEL_VARIANT_WORD((u8 *)work->config + work->start_index * 4, 0x2C) - 8)) {
             if (rec->size < 0x1000 && rec->done == 0) {
                 rec->size += work->step << 10;
                 if (rec->size >= 0x1000) {

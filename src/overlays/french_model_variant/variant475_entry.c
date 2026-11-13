@@ -193,8 +193,8 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
             sheet->inner[1] = 64;
             sheet->inner[2] = 255;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
             sheet->shown = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {

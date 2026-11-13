@@ -128,12 +128,12 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
             web->color.r = 255;
             web->color.g = 255;
             web->color.b = 255;
-            MODEL_VARIANT_WORD(web, 0x184) = 0;
-            MODEL_VARIANT_WORD(web, 0x188) = 0;
-            MODEL_VARIANT_WORD(web, 0x18C) = 0;
+            web->field_184 = 0;
+            web->field_188 = 0;
+            web->field_18C = 0;
             web->scale = -(outer * 8192 / 3);
             web->done = 0;
-            MODEL_VARIANT_WORD(web, 0x19C) = 0;
+            web->field_19C = 0;
         }
         for (outer = 0; outer < 1; outer++, fan++) {
             setVector(&fan->point[0], 0, 0, 0);
@@ -184,8 +184,8 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = 128;
             sheet->inner[2] = 0;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         for (row = 0, base_angle = 0; row < 6; row++, ring++, base_angle += 256) {
             for (outer = 0, angle = base_angle; outer < 8; angle += 512, outer++) {

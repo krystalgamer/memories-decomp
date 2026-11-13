@@ -221,8 +221,8 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = work->config->inner.g;
             sheet->inner[2] = work->config->inner.b;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         inner_scale = 256;
         outer_scale = 192;
@@ -239,15 +239,15 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
                         outer_height, rsin(angle) * outer_radius >> 12);
                 }
             }
-            MODEL_VARIANT_WORD(grid, 0x184) = 0;
-            MODEL_VARIANT_WORD(grid, 0x188) = 0;
-            MODEL_VARIANT_WORD(grid, 0x18C) = 0;
+            grid->field_184 = 0;
+            grid->field_188 = 0;
+            grid->field_18C = 0;
             grid->color.r = work->config->grid.r;
             grid->color.g = work->config->grid.g;
             grid->color.b = work->config->grid.b;
             grid->scale = 4096 + i * 4096 / 3;
             grid->done = 0;
-            MODEL_VARIANT_WORD(grid, 0x19C) = 0;
+            grid->field_19C = 0;
         }
         for (i = 0, palette = -64; i < 16; i++, extra++) {
             for (k = 0, progress = 0, red = palette; k < 9; k++) {

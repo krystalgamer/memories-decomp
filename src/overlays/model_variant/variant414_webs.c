@@ -38,8 +38,8 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     line = (GsGLINE *)((u8 *)work + 0x1730);
     ratan2(work->view_delta.vz, work->view_delta.vx);
     ratan2(work->view_delta.vy, work->view_delta.vx);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1774), MODEL_VARIANT_WORD(work, 0x1770));
-    ratan2(MODEL_VARIANT_HALF(work, 0x177E), MODEL_VARIANT_HALF(work, 0x177C));
+    ratan2(work->field_1774, work->field_1770);
+    ratan2(work->field_177E, work->field_177C);
     do {
         if (web->scale > 0) {
             level = web->scale;

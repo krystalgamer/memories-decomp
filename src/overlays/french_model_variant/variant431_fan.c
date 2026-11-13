@@ -32,9 +32,9 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = *(u16 *)((u8 *)work + 0x18DC);
-        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1794);
-        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x1798);
-        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 32, 0x179C);
+        m.t[0] = work->matrices[i].t[0];
+        m.t[1] = work->matrices[i].t[1];
+        m.t[2] = work->matrices[i].t[2];
         scale.vx = rec->size + bias;
         scale.vy = rec->size + bias;
         scale.vz = rec->size + bias;
