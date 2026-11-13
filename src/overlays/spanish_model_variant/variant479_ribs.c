@@ -3,17 +3,16 @@
 #include "variant479_ribs.h"
 #include "variant479_entry.h"
 
-#define VARIANT479_UWORD(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 /* Five nine-point ribs. While a rib's size is positive, its spine grows from
- * the origin toward the anchor at (u8 *)work + 0x40F8 (state below 2) or runs from
+ * the origin toward the anchor in the entry deltas (state below 2) or runs from
  * fade/1024 of the anchor to the anchor (state 2 and above), each point bent
  * by a sine of its length; a copy moved along the view by the spread is
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples at (u8 *)work + 0x41DC/0x41E0 advance by 850 and 128 per step, and
- * once the clock passes the fade start (u8 *)work + 0x4190 falls linearly from
+ * The ripples (field_41DC/field_41E0) advance by 850 and 128 per step, and
+ * once the clock passes the fade start rib_fade falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero. */
 void SpanishModelVariant479_DrawRibs(u8 *ctx)
 {
@@ -45,9 +44,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     s32 dy;
 #endif
     s32 len;
-    u8 *pos;
-    u8 *mpos;
-    u8 *timing;
+    Variant479EntryConfig *timing;
     Variant479Rib *rec;
     POLY_GT4 *poly;
     s32 ddx;
@@ -78,23 +75,22 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
             } else {
                 angle0 = (j << 11) / 5 + 0xC00;
             }
-            pos = (u8 *)work + j * 16;
             for (i = 0; i < 9; i++) {
                 if (rec->state < 2) {
                     ox = 0;
                     oy = 0;
                     oz = 0;
-                    dx = MODEL_VARIANT_WORD(pos, 0x40F8) * rec->size / 1024;
-                    dy = MODEL_VARIANT_WORD(pos, 0x40FC) * rec->size / 1024;
-                    dz = MODEL_VARIANT_WORD(pos, 0x4100) * rec->size / 1024;
+                    dx = work->deltas[j].vx * rec->size / 1024;
+                    dy = work->deltas[j].vy * rec->size / 1024;
+                    dz = work->deltas[j].vz * rec->size / 1024;
                     len = rec->size * (i << 1) / 8;
                 } else {
-                    ox = MODEL_VARIANT_WORD(pos, 0x40F8) * rec->fade / 1024;
-                    oy = MODEL_VARIANT_WORD(pos, 0x40FC) * rec->fade / 1024;
-                    oz = MODEL_VARIANT_WORD(pos, 0x4100) * rec->fade / 1024;
-                    dx = MODEL_VARIANT_WORD(pos, 0x40F8) - ox;
-                    dz = MODEL_VARIANT_WORD(pos, 0x4100) - oz;
-                    dy = MODEL_VARIANT_WORD(pos, 0x40FC) - oy;
+                    ox = work->deltas[j].vx * rec->fade / 1024;
+                    oy = work->deltas[j].vy * rec->fade / 1024;
+                    oz = work->deltas[j].vz * rec->fade / 1024;
+                    dx = work->deltas[j].vx - ox;
+                    dz = work->deltas[j].vz - oz;
+                    dy = work->deltas[j].vy - oy;
                     len = (0x800 - rec->fade * 2) * i / 8 + rec->fade * 2;
                 }
                 n = i;
@@ -108,10 +104,9 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        mpos = (u8 *)work + j % 3 * 32;
-        m.t[0] = MODEL_VARIANT_WORD(mpos, 0x4024);
-        m.t[1] = MODEL_VARIANT_WORD(mpos, 0x4028);
-        m.t[2] = MODEL_VARIANT_WORD(mpos, 0x402C);
+        m.t[0] = work->matrices[j % 3].t[0];
+        m.t[1] = work->matrices[j % 3].t[1];
+        m.t[2] = work->matrices[j % 3].t[2];
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -208,10 +203,10 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     }
     work->field_41DC += work->clock.step * 850;
     work->field_41E0 += work->clock.step * 128;
-    timing = *(u8 **)((u8 *)work + 0x4178);
-    if (VARIANT479_UWORD(timing, 0x24) <= VARIANT479_UWORD(work, 0x4168) && work->rib_fade > 0) {
-        work->rib_fade = 0x400 - ((VARIANT479_UWORD(work, 0x4168) - VARIANT479_UWORD(timing, 0x24)) << 10) /
-                                      (VARIANT479_UWORD(timing, 0x28) - VARIANT479_UWORD(timing, 0x24));
+    timing = work->config;
+    if (timing->fade_start <= work->clock.frame && work->rib_fade > 0) {
+        work->rib_fade = 0x400 - ((work->clock.frame - timing->fade_start) << 10) /
+                                      (timing->fade_end - timing->fade_start);
         if (work->rib_fade <= 0) {
             work->rib_fade = 0;
             if (work->phase == 4) {

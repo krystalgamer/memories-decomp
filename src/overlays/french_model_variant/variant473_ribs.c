@@ -2,17 +2,16 @@
 #include "variant473_ribs.h"
 #include "variant473_entry.h"
 
-#define VARIANT473_UWORD(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 /* Five nine-point ribs. While a rib's size is positive, its spine grows from
- * the origin toward the anchor at (u8 *)work + 0x3B70 (state below 2) or runs from
+ * the origin toward the anchor in the entry ribbon directions (state below 2) or runs from
  * fade/1024 of the anchor to the anchor (state 2 and above), each point bent
  * by a sine of its length; a copy moved along the view by the spread is
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples at (u8 *)work + 0x3C4C/0x3C50 advance by 850 and 128 per step, and
- * once the clock passes the fade start (u8 *)work + 0x3C00 falls linearly from
+ * The ripples (ribbon_sway/field_3C50) advance by 850 and 128 per step, and
+ * once the clock passes the fade start width falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero.
  *
  * The loop increment's dead angle and the empty loop in the projection keep
@@ -35,8 +34,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     s32 angle0;
     s32 turn;
     s16 spread;
-    u8 *pos;
-    u8 *timing;
+    EntryConfig473 *timing;
     Variant473Rib *rec;
     s16 prev;
     s16 cur;
@@ -69,7 +67,6 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             } else {
                 angle0 = (j << 11) / 5 + 0xC00;
             }
-            pos = (u8 *)work + j * 16;
             for (i = 0; i < 9; i++) {
                 s32 dz;
                 s32 oy;
@@ -83,17 +80,17 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
                     ox = 0;
                     oy = 0;
                     oz = 0;
-                    dx = MODEL_VARIANT_WORD(pos, 0x3B70) * rec->size / 1024;
-                    dy = MODEL_VARIANT_WORD(pos, 0x3B74) * rec->size / 1024;
-                    dz = MODEL_VARIANT_WORD(pos, 0x3B78) * rec->size / 1024;
+                    dx = work->ribbon_directions[j].vx * rec->size / 1024;
+                    dy = work->ribbon_directions[j].vy * rec->size / 1024;
+                    dz = work->ribbon_directions[j].vz * rec->size / 1024;
                     len = rec->size * (i << 1) / 8;
                 } else {
-                    ox = MODEL_VARIANT_WORD(pos, 0x3B70) * rec->fade / 1024;
-                    oy = MODEL_VARIANT_WORD(pos, 0x3B74) * rec->fade / 1024;
-                    oz = MODEL_VARIANT_WORD(pos, 0x3B78) * rec->fade / 1024;
-                    dx = MODEL_VARIANT_WORD(pos, 0x3B70) - ox;
-                    dz = MODEL_VARIANT_WORD(pos, 0x3B78) - oz;
-                    dy = MODEL_VARIANT_WORD(pos, 0x3B74) - oy;
+                    ox = work->ribbon_directions[j].vx * rec->fade / 1024;
+                    oy = work->ribbon_directions[j].vy * rec->fade / 1024;
+                    oz = work->ribbon_directions[j].vz * rec->fade / 1024;
+                    dx = work->ribbon_directions[j].vx - ox;
+                    dz = work->ribbon_directions[j].vz - oz;
+                    dy = work->ribbon_directions[j].vy - oy;
                     len = (0x800 - rec->fade * 2) * i / 8 + rec->fade * 2;
                 }
                 n = i;
@@ -217,10 +214,10 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     }
     work->ribbon_sway += work->clock.step * 850;
     work->field_3C50 += work->clock.step * 128;
-    timing = *(u8 **)((u8 *)work + 0x3BF0);
-    if (VARIANT473_UWORD(timing, 0x24) <= VARIANT473_UWORD(work, 0x3BE0) && work->width > 0) {
-        work->width = 0x400 - ((VARIANT473_UWORD(work, 0x3BE0) - VARIANT473_UWORD(timing, 0x24)) << 10) /
-                                      (VARIANT473_UWORD(timing, 0x28) - VARIANT473_UWORD(timing, 0x24));
+    timing = work->config;
+    if (timing->fade_begin <= work->clock.frame && work->width > 0) {
+        work->width = 0x400 - ((work->clock.frame - timing->fade_begin) << 10) /
+                                      (timing->fade_end - timing->fade_begin);
         if (work->width <= 0) {
             work->width = 0;
             if (work->phase == 4) {
