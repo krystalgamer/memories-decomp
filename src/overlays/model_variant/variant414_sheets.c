@@ -13,7 +13,7 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *object;
+    Variant431EntryBand *object;
     GsOT *ot;
     POLY_GT4 *poly;
     ModelVariantSheet *sheet;
@@ -24,14 +24,14 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
     s32 otz;
 
     work = (Variant431EntryState *)ctx;
-    object = ctx + 0x4E0;
-    sheet = (ModelVariantSheet *)(ctx + 0xA80);
+    object = work->bands;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x1668);
-    for (i = 0; i < 6; i++, sheet++, object += 0x120) {
+    poly = &work->packets.textured[1];
+    for (i = 0; i < 6; i++, sheet++, object++) {
         level = 0;
-        if (MODEL_VARIANT_WORD(object, 0xF4) > 0) {
-            level = MODEL_VARIANT_WORD(object, 0xF4);
+        if (object->progress[0] > 0) {
+            level = object->progress[0];
         }
         bias = 0;
         if (work->frame_count & 1) {
@@ -85,7 +85,7 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
             if (otz >= 0 && flag >= 0) {
                 if (i == 5) {
                     GsSortPoly(poly, ot, otz);
-                } else if (MODEL_VARIANT_WORD(object, 0x104) < 0x400) {
+                } else if (object->progress[4] < 0x400) {
                     GsSortPoly(poly, ot, otz);
                 }
             }
