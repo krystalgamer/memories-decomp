@@ -34,9 +34,9 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     poly = &work->veil;
     /* Retail reads only the signed low halfword of globe_rotation_x here. */
     if (work->slot == 0) {
-        setVector(&rot, MODEL_VARIANT_HALF(work, 0x2804), 0, 0);
+        setVector(&rot, (s16)work->globe_rotation_x, 0, 0);
     } else {
-        setVector(&rot, -MODEL_VARIANT_HALF(work, 0x2804), 0, 0);
+        setVector(&rot, -(s16)work->globe_rotation_x, 0, 0);
     }
     m.t[0] = work->target.vx;
     m.t[1] = work->target.vy;
@@ -104,7 +104,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     } else if (work->phase == 3) {
         work->globe_scale = (rcos(work->globe_pulse_angle) * 0x800 >> 12) + 0x1800;
         work->globe_pulse_angle += work->clock.step << 6;
-        if (*(u32 *)(*(u8 **)((u8 *)work + 0x27C0) + 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
+        if (*(u32 *)(*(u8 **)((u8 *)work + 0x27C0) + 0x34) < (u32)work->clock.frame) {
             work->phase = 4;
         }
     } else if (work->phase == 4) {

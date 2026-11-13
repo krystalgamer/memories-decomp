@@ -97,7 +97,7 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
                 curtain->scale -= 0x1800;
                 curtain->rotation.vx += 0x180;
                 curtain->rotation.vz += 0x320;
-                if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) > (u32)MODEL_VARIANT_WORD(work->config, 0x34)) {
+                if ((u32)work->clock.frame > (u32)work->config->field_34) {
                     curtain->scale = 0x1800;
                 }
             }

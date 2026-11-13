@@ -30,7 +30,7 @@ void ModelVariant459_DrawSheet(u8 *ctx)
     poly = (POLY_GT4 *)(ctx + 0x22E8);
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x27AC) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
@@ -74,20 +74,20 @@ void ModelVariant459_DrawSheet(u8 *ctx)
             }
         }
         if (sheet->size < 0x1000 && work->phase == 0) {
-            sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x1C)) << 12) /
-                          (u32)(MODEL_VARIANT_WORD(work->config, 0x20) - MODEL_VARIANT_WORD(work->config, 0x1C));
+            sheet->size = (u32)((work->clock.frame - work->config->start) << 12) /
+                          (u32)(work->config->second - work->config->start);
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
                 work->phase = 1;
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(work->config, 0x24)) {
+        } else if ((u32)work->clock.frame < (u32)work->config->field_24) {
             sheet->size += work->clock.step * 512;
             if (sheet->size >= 0x2000) {
                 sheet->size = 0x2000;
             }
         } else {
-            sheet->size = 0x2000 - (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x24)) << 13) /
-                          (u32)(MODEL_VARIANT_WORD(work->config, 0x28) - MODEL_VARIANT_WORD(work->config, 0x24));
+            sheet->size = 0x2000 - (u32)((work->clock.frame - work->config->field_24) << 13) /
+                          (u32)(work->config->field_28 - work->config->field_24);
             if (sheet->size <= 0) {
                 sheet->size = 0;
             }

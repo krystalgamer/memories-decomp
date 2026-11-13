@@ -68,10 +68,10 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
                     setVector(&ring->b[j], rcos(a) * (work->config->outer_radius + amp) >> 12,
                               rsin(a) * (work->config->outer_radius + amp) >> 12, -(amp + 64));
                 } else {
-                    setVector(&ring->a[j], rcos(a) * MODEL_VARIANT_WORD(work->config, 0x1C) >> 12,
-                              rsin(a) * MODEL_VARIANT_WORD(work->config, 0x1C) >> 12, 0);
-                    setVector(&ring->b[j], rcos(a) * (MODEL_VARIANT_WORD(work->config, 0x20) + amp) >> 12,
-                              rsin(a) * (MODEL_VARIANT_WORD(work->config, 0x20) + amp) >> 12, amp + 128);
+                    setVector(&ring->a[j], rcos(a) * work->config->field_1C >> 12,
+                              rsin(a) * work->config->field_1C >> 12, 0);
+                    setVector(&ring->b[j], rcos(a) * (work->config->field_20 + amp) >> 12,
+                              rsin(a) * (work->config->field_20 + amp) >> 12, amp + 128);
                 }
             }
             rot.vx = -pitch;
@@ -144,7 +144,7 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
         if (i == 3) {
             if (ring->scale < 0x1000 && work->phase < 3) {
                 ring->scale = (u32)(work->clock.frame << 12) /
-                             (u32)MODEL_VARIANT_WORD(work->config, 0x30);
+                             (u32)work->config->field_30;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;

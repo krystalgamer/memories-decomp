@@ -88,7 +88,7 @@ void ModelVariant404_DrawSheets(u8 *ctx)
             if (work->phase == 0) {
                 if (sheet->size < 0x1000) {
                     sheet->size = ((work->clock.frame - work->config->start) << 12) /
-                                  (MODEL_VARIANT_WORD(work->config, 0x24) - work->config->start);
+                                  (work->config->field_24 - work->config->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->phase = 1;
