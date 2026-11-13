@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant418_entry.h"
 
 /* Builds eight two-point ribbons fanned around the variant path, 0x200 apart
- * from the angle at work + 0x1B98, projects each spine and its sideways copy,
+ * from the angle at (u8 *)work + 0x1B98, projects each spine and its sideways copy,
  * and draws the first point of each as a POLY_G3 as wide as the projected
  * offset. The fan turns by step * 32 on the last frame of the timing record. */
 void ModelVariant418_DrawRibbons(u8 *ctx)
@@ -15,8 +16,8 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
-    u8 *timing;
+    Variant418EntryState *work;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 turn;
@@ -31,22 +32,22 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant418EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1B48), MODEL_VARIANT_WORD(work, 0x1B40)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x1B44), MODEL_VARIANT_WORD(work, 0x1B40));
-    ribbon = (ModelVariantRibbon *)(work + 0xD50);
-    tilt = ratan2(MODEL_VARIANT_WORD(work, 0x1B34), MODEL_VARIANT_WORD(work, 0x1B30)) + 0x400;
-    ratan2(MODEL_VARIANT_WORD(work, 0x1B34), MODEL_VARIANT_WORD(work, 0x1B2C));
-    timing = work + 0x12DC;
-    prim = (POLY_G3 *)(work + 0x19A4);
-    if (MODEL_VARIANT_HALF(work, 0x1BB0) == 1) {
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ribbon = (ModelVariantRibbon *)work->unknown_D50;
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    timing = work->sheets;
+    prim = &work->packets.triangle;
+    if (work->slot == 1) {
         turn = -turn;
     }
     length = 16;
-    flags = MODEL_VARIANT_WORD(work, 0x1B58);
-    for (i = 0, angle = MODEL_VARIANT_WORD(work, 0x1B98); i < 8;
-         i++, angle = MODEL_VARIANT_WORD(work, 0x1B98) + i * 0x200, ribbon++) {
+    flags = work->clock.frame_count;
+    for (i = 0, angle = work->field_1B98; i < 8;
+         i++, angle = work->field_1B98 + i * 0x200, ribbon++) {
         for (k = 0; k < 2; k++) {
             radius = 0x96;
             if (k == 0) {
@@ -60,12 +61,12 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1B08) + MODEL_VARIANT_WORD(work, 0x1B2C) * MODEL_VARIANT_WORD(work, 0x1B90) / 1024;
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1B0C) + MODEL_VARIANT_WORD(work, 0x1B30) * MODEL_VARIANT_WORD(work, 0x1B90) / 1024;
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1B10) + MODEL_VARIANT_WORD(work, 0x1B34) * MODEL_VARIANT_WORD(work, 0x1B90) / 1024;
-    scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
+    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->field_1B90 / 1024;
+    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->field_1B90 / 1024;
+    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->field_1B90 / 1024;
+    scale.vx = timing->size;
+    scale.vy = timing->size;
+    scale.vz = timing->size;
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;
@@ -73,7 +74,7 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (ModelVariantRibbon *)(work + 0xD50);
+    ribbon = (ModelVariantRibbon *)work->unknown_D50;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 2; k++) {
             if (k == 0) {
@@ -100,7 +101,7 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
             ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
         }
     }
-    ribbon = (ModelVariantRibbon *)(work + 0xD50);
+    ribbon = (ModelVariantRibbon *)work->unknown_D50;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 1; k++) {
             prim->x0 = ribbon->sa[k] + ribbon->ox[k];
@@ -123,7 +124,7 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x1B88) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x1B74) + 0x20)) {
-        MODEL_VARIANT_WORD(work, 0x1B98) += MODEL_VARIANT_WORD(work, 0x1B64) << 5;
+    if (work->field_1B88 + 1 == *(u16 *)((u8 *)work->config + 0x20)) {
+        work->field_1B98 += work->clock.step << 5;
     }
 }
