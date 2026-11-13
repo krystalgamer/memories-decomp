@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant456_ribbons.h"
+#include "variant456_entry.h"
 
 /* Two three-point ribbons. Each spine is placed at i / 2 of the offset at
  * +0x22F0 and copied 48 units along the view; both are projected, and every
@@ -16,7 +17,7 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant456EntryState *work;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -33,16 +34,16 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
     Ribbon456 *ribbon;
     POLY_FT4 *poly;
 
-    work = ctx;
-    ribbon = (Ribbon456 *)(work + 0x280);
+    work = (Variant456EntryState *)ctx;
+    ribbon = (Ribbon456 *)work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2308), MODEL_VARIANT_WORD(work, 0x2304));
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     length = 48;
     for (i = 0; i < 2; i++, ribbon++) {
         for (j = 0; j < 3; j++, wave = j * 0x800) {
-            setVector(&ribbon->a[j], MODEL_VARIANT_WORD(work, 0x22F0) * i / 2, MODEL_VARIANT_WORD(work, 0x22F4) * i / 2,
-                      MODEL_VARIANT_WORD(work, 0x22F8) * i / 2);
+            setVector(&ribbon->a[j], work->direction.vx * i / 2, work->direction.vy * i / 2,
+                      work->direction.vz * i / 2);
             setVector(&ribbon->b[j], ribbon->a[j].vx + (rcos(turn) * length >> 12), ribbon->a[j].vy,
                       ribbon->a[j].vz + (rsin(turn) * length >> 12));
         }
@@ -50,9 +51,9 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x22DC);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x22E0);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x22E4);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
@@ -63,7 +64,7 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbon456 *)(work + 0x280);
+    ribbon = (Ribbon456 *)work->ribbons;
     for (i = 0; i < 2; i++, ribbon++) {
         for (j = 0; j < 3; j++) {
             if (j == 2) {
@@ -87,7 +88,7 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
             if (j == 0 || j == 2) {
                 phase = 0;
             } else {
-                phase = base - j * 0xC00 + MODEL_VARIANT_WORD(work, 0x235C);
+                phase = base - j * 0xC00 + work->spray_phase;
             }
             width = ribbon->width[j];
             amp = (width << 7) / 48;
@@ -95,9 +96,9 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
             ribbon->sa[j] += (rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16;
         }
     }
-    ribbon = (Ribbon456 *)(work + 0x280);
+    ribbon = (Ribbon456 *)work->ribbons;
     for (i = 0; i < 2; i++, ribbon++) {
-        poly = (POLY_FT4 *)(work + 0x2204);
+        poly = work->flat;
         for (j = 0; j < 2; j++) {
             poly->x0 = ribbon->sa[j] + ribbon->ox[j];
             poly->y0 = (ribbon->sa[j] >> 16) + ribbon->oy[j];

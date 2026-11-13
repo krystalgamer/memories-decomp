@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant437_ribbons.h"
+#include "variant437_entry.h"
 
 /* The North American header-420 ribbons address the closing segment's
  * projected points with fixed indices and the following point as an offset
@@ -25,7 +26,7 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant437EntryState *work;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -46,54 +47,54 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
     s32 hi;
     s32 odd;
 
-    work = ctx;
+    work = (Variant437EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x15CC), MODEL_VARIANT_WORD(work, 0x15C4)) + 0xC00;
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x15C8), MODEL_VARIANT_WORD(work, 0x15CC)) + 0xC00;
-    if (MODEL_VARIANT_WORD(work, 0x163C) >= 4) {
-        len = MODEL_VARIANT_WORD(work, 0x1610) / 32;
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vz) + 0xC00;
+    if (work->tail.phase >= 4) {
+        len = work->field_1610 / 32;
     } else {
         len = 32;
     }
     ribbon = (Ribbons437Ribbon *)work;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
-        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->wave_end && !(i & 1)) {
-            wave = -MODEL_VARIANT_WORD(work, 0x1634);
+        if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->wave_end && !(i & 1)) {
+            wave = -work->phase_a;
         } else {
-            wave = MODEL_VARIANT_WORD(work, 0x1634);
+            wave = work->phase_a;
         }
         odd = i & 1;
         for (k = 0; k < 9; k++, wave += 1300) {
-            if (MODEL_VARIANT_WORD(work, 0x163C) < 3) {
+            if (work->tail.phase < 3) {
                 if (k == 0 || k == 8) {
                     bend = 0;
                 } else if (!odd) {
-                    bend = phase - k * 768 + MODEL_VARIANT_WORD(work, 0x1638);
+                    bend = phase - k * 768 + work->phase_b;
                 } else {
-                    bend = phase - k * 768 - MODEL_VARIANT_WORD(work, 0x1638);
+                    bend = phase - k * 768 - work->phase_b;
                 }
                 amp = rsin(bend) * ((rsin(wave) * 16 >> 12) + 32) >> 12;
                 setVector(&ribbon->a[k],
-                          MODEL_VARIANT_WORD(work, 0x1580) * k / 8,
-                          MODEL_VARIANT_WORD(work, 0x1584) * k / 8 + (rcos(phase + MODEL_VARIANT_WORD(work, 0x161C)) * amp >> 12),
-                          MODEL_VARIANT_WORD(work, 0x1588) * k / 8 + (rsin(phase + MODEL_VARIANT_WORD(work, 0x161C)) * amp >> 12));
+                          work->direction.vx * k / 8,
+                          work->direction.vy * k / 8 + (rcos(phase + work->spin) * amp >> 12),
+                          work->direction.vz * k / 8 + (rsin(phase + work->spin) * amp >> 12));
             } else {
                 if (k == 0 || k == 8) {
                     curve = 256;
                     bend = 0;
                 } else if (!odd) {
                     curve = k * 128;
-                    bend = k * 768 - MODEL_VARIANT_WORD(work, 0x1638);
+                    bend = k * 768 - work->phase_b;
                 } else {
                     curve = k * 128;
-                    bend = k * 768 - MODEL_VARIANT_WORD(work, 0x1638);
+                    bend = k * 768 - work->phase_b;
                 }
-                dist = MODEL_VARIANT_WORD(work, 0x1594) / 4 * (0x400 - MODEL_VARIANT_WORD(work, 0x1590)) / 1024;
+                dist = work->field_1594 / 4 * (0x400 - work->factor) / 1024;
                 amp = (rsin(curve) * 64 >> 12) + (rsin(bend) * ((rsin(wave) * 16 >> 12) + 32) >> 12);
                 setVector(&ribbon->a[k],
-                          rcos(phase + MODEL_VARIANT_WORD(work, 0x161C)) * amp >> 12,
+                          rcos(phase + work->spin) * amp >> 12,
                           -dist * k / 8,
-                          rsin(phase + MODEL_VARIANT_WORD(work, 0x161C)) * amp >> 12);
+                          rsin(phase + work->spin) * amp >> 12);
             }
             setVector(&ribbon->b[k],
                       ribbon->a[k].vx + (rcos(yaw) * len >> 12),
@@ -102,9 +103,9 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
         }
     }
     setVector(&rot, 0, 0, 0);
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1554);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1558);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x155C);
+    m.t[0] = work->origin_a.t[0];
+    m.t[1] = work->origin_a.t[1];
+    m.t[2] = work->origin_a.t[2];
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -148,7 +149,7 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
             lo = ribbon->start;
         }
         hi = ribbon->end < lo ? lo : ribbon->end;
-        for (k = lo, poly = (POLY_FT4 *)(work + 0x1458); k < hi; k++, poly = (POLY_FT4 *)(work + 0x1458)) {
+        for (k = lo, poly = work->flat; k < hi; k++, poly = work->flat) {
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
@@ -167,16 +168,16 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)ribbon->otz[k], 1);
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->wave_end) {
+        if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->wave_end) {
             if (!(i & 1)) {
                 if (ribbon->state == 0) {
-                    ribbon->end += (u32)MODEL_VARIANT_WORD(work, 0x15E8) / 2;
+                    ribbon->end += (u32)work->step / 2;
                     if (ribbon->end >= 8) {
                         ribbon->end = 8;
                         ribbon->state = 1;
                     }
                 } else {
-                    ribbon->start += (u32)MODEL_VARIANT_WORD(work, 0x15E8) / 2;
+                    ribbon->start += (u32)work->step / 2;
                     if (ribbon->start >= 8) {
                         ribbon->start = 0;
                         ribbon->end = 0;
@@ -188,13 +189,13 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
                 }
             } else {
                 if (ribbon->state == 0) {
-                    ribbon->start -= (u32)MODEL_VARIANT_WORD(work, 0x15E8) / 2;
+                    ribbon->start -= (u32)work->step / 2;
                     if (ribbon->start <= 0) {
                         ribbon->start = 0;
                         ribbon->state = 1;
                     }
                 } else {
-                    ribbon->end -= (u32)MODEL_VARIANT_WORD(work, 0x15E8) / 2;
+                    ribbon->end -= (u32)work->step / 2;
                     if (ribbon->end <= 0) {
                         ribbon->start = 8;
                         ribbon->end = 8;
@@ -205,20 +206,20 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
                     }
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->reset_end) {
+        } else if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->reset_end) {
             ribbon->state = 0;
             ribbon->count = 0;
             ribbon->start = 0;
             ribbon->end = -(i * 4);
-        } else if (MODEL_VARIANT_WORD(work, 0x163C) < 4) {
+        } else if (work->tail.phase < 4) {
             if (ribbon->state == 0) {
-                ribbon->end += MODEL_VARIANT_WORD(work, 0x15E8);
+                ribbon->end += work->step;
                 if (ribbon->end >= 8) {
                     ribbon->end = 8;
                     ribbon->state = 1;
                 }
             } else {
-                ribbon->start += MODEL_VARIANT_WORD(work, 0x15E8);
+                ribbon->start += work->step;
                 if (ribbon->start >= 8) {
                     ribbon->start = 0;
                     ribbon->end = 0;
@@ -228,7 +229,7 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x1634) += MODEL_VARIANT_WORD(work, 0x15E8) * 192;
-    MODEL_VARIANT_WORD(work, 0x1638) += MODEL_VARIANT_WORD(work, 0x15E8) * 128;
-    MODEL_VARIANT_WORD(work, 0x161C) += 0x40;
+    work->phase_a += work->step * 192;
+    work->phase_b += work->step * 128;
+    work->spin += 0x40;
 }

@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant448_entry.h"
 
 /* Header 448's form of the header-397 phased webs: the records start at
- * work + 0x6F8, phase 0 shrinks each scale by step * 0xE0, and a line is
+ * (u8 *)work + 0x6F8, phase 0 shrinks each scale by step * 0xE0, and a line is
  * sorted whenever its depth is positive. */
 void ModelVariant448_DrawWebs(u8 *ctx)
 {
@@ -18,7 +19,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
-    u8 *work;
+    Variant448EntryState *work;
     s16 i;
     s16 j;
     s16 k;
@@ -31,19 +32,19 @@ void ModelVariant448_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = ctx;
-    timing = work + 0x11F0;
-    web = (ModelVariantWebNarrow *)(work + 0x6F8);
+    work = (Variant448EntryState *)ctx;
+    timing = (u8 *)work + 0x11F0;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1A84);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1AE8), MODEL_VARIANT_WORD(work, 0x1AE4));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1AD8), MODEL_VARIANT_WORD(work, 0x1AD4));
-    ratan2(MODEL_VARIANT_HALF(work, 0x1AE2), MODEL_VARIANT_HALF(work, 0x1AE0));
+    line = (GsGLINE *)((u8 *)work + 0x1A84);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
-        if (MODEL_VARIANT_WORD(work, 0x1B3C) == 0) {
+        if (work->phase == 0) {
             if (web->scale < 0x1000) {
                 level = web->scale;
                 size = level;
@@ -61,7 +62,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
                 g = web->color.g;
                 b = web->color.b;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1B3C) == 1) {
+        } else if (work->phase == 1) {
             level = 0x1000;
             b = g = r = 0;
         } else {
@@ -86,14 +87,14 @@ void ModelVariant448_DrawWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1B3C) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1AAC);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1AB0);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1AB4);
+        if (work->phase < 2) {
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1AC8);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1ACA);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1ACC);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = level;
         scale.vy = level;
@@ -111,7 +112,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
                                     (long *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x1B3C) < 2) {
+                if (work->phase < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -131,9 +132,9 @@ void ModelVariant448_DrawWebs(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x1B3C) == 0) {
+        if (work->phase == 0) {
             if (web->scale > 0) {
-                web->scale -= MODEL_VARIANT_WORD(work, 0x1B08) * 0xE0;
+                web->scale -= work->clock.step * 0xE0;
                 if (web->scale <= 0) {
                     if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800) {
                         web->scale = 0;
@@ -145,15 +146,15 @@ void ModelVariant448_DrawWebs(u8 *ctx)
             if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800 && web->scale > 0x1000) {
                 web->scale = 0;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1B3C) == 1) {
+        } else if (work->phase == 1) {
             web->scale = -((i << 13) / 3);
         } else if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x1B08) << 8;
+            web->scale += work->clock.step << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x1B3C) >= 4) {
+                if (work->phase >= 4) {
                     web->scale = 0x2000;
-                    if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x1B3C) == 4) {
-                        MODEL_VARIANT_WORD(work, 0x1B3C) = 5;
+                    if (i + 1 == 3 && done == 1 && work->phase == 4) {
+                        work->phase = 5;
                     }
                 } else {
                     web->scale -= 0x2000;

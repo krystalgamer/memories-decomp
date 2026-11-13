@@ -4,9 +4,9 @@
 #include "../french_model_variant/variant460_entry.h"
 
 /* Draws a variable set of sheets: the count and how many follow the variant's
- * own slots come from the timing record at work + 0x2E7C. The first sheets sit on
- * 0x20-byte slots at work + 0x2C50 and grow with the timing phases; the rest sit
- * on the VECTOR table at work + 0x2D3C and follow the 0x2E8-byte objects that
+ * own slots come from the timing record at (u8 *)work + 0x2E7C. The first sheets sit on
+ * 0x20-byte slots at (u8 *)work + 0x2C50 and grow with the timing phases; the rest sit
+ * on the VECTOR table at (u8 *)work + 0x2D3C and follow the 0x2E8-byte objects that
  * start at ctx. */
 void ModelVariant443_DrawSheets(u8 *ctx)
 {
@@ -21,7 +21,7 @@ void ModelVariant443_DrawSheets(u8 *ctx)
     GsOT *ot;
     s32 count;
     s32 first;
-    u8 *work;
+    Variant460EntryState *work;
     u8 *rec;
     POLY_GT4 *poly;
     ModelVariantSheetSet *sheet;
@@ -61,21 +61,21 @@ void ModelVariant443_DrawSheets(u8 *ctx)
     poly = (POLY_GT4 *)((u8 *)poly + 0x34);
     for (i = 0; i < count; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x2E68) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
         if (i < first) {
-            m.t[0] = MODEL_VARIANT_WORD(work + i * 0x20, 0x2C50);
-            m.t[1] = MODEL_VARIANT_WORD(work + i * 0x20, 0x2C54);
-            m.t[2] = MODEL_VARIANT_WORD(work + i * 0x20, 0x2C58);
+            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C50);
+            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C54);
+            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C58);
         } else {
             off = (i - first) * 16;
-            m.t[0] = MODEL_VARIANT_WORD(work + off, 0x2D3C);
-            m.t[1] = MODEL_VARIANT_WORD(work + off, 0x2D40);
-            m.t[2] = MODEL_VARIANT_WORD(work + off, 0x2D44);
+            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D3C);
+            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D40);
+            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D44);
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -114,7 +114,7 @@ void ModelVariant443_DrawSheets(u8 *ctx)
         if (i < first) {
             if (((Variant460EntryState *)work)->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C)) << 12) /
+                    sheet->size = (u32)((work->clock.frame - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C)) << 12) /
                                   (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x30) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C));
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
@@ -122,8 +122,8 @@ void ModelVariant443_DrawSheets(u8 *ctx)
                     }
                 }
             } else if (((Variant460EntryState *)work)->tail.phase == 3 && sheet->size > 0) {
-                if ((u32)MODEL_VARIANT_WORD(work, 0x2E6C) >= (u32)MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) {
-                    sheet->size = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x2E6C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) << 12) /
+                if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) {
+                    sheet->size = 0x1000 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) << 12) /
                                   (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x3C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38));
                 }
                 if (sheet->size <= 0) {

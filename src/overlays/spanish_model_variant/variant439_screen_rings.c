@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant439_screen_rings.h"
+#include "../french_model_variant/variant439_entry.h"
 
 /* Draws three rings of sixteen POLY_GT4 strips textured from the half of the
  * frame buffer each strip lands on. The inner row is rebuilt each frame on a
@@ -15,7 +16,7 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant439EntryState *work;
     GsOT *ot;
     ModelVariantTwoToneScreenRing *ring;
     POLY_GT4 *poly;
@@ -28,9 +29,9 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     s32 tpage;
     s32 size;
 
-    work = ctx;
-    ring = (ModelVariantTwoToneScreenRing *)(work + 0xE08);
-    poly = (POLY_GT4 *)(work + 0x1808);
+    work = (Variant439EntryState *)ctx;
+    ring = work->screen_rings;
+    poly = &work->extra;
     ot = Graphics_GetDefaultOrderingTable();
     buff = GsGetActiveBuff();
     for (i = 0; i < 3; i++, ring++) {
@@ -40,9 +41,9 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x18F8);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x18FC);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1900);
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -117,9 +118,9 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
             }
         }
         if (ring->scale < 0x1000) {
-            ring->scale += MODEL_VARIANT_WORD(work, 0x1944) * 96;
+            ring->scale += work->clock.step * 96;
             if (ring->scale >= 0x1000) {
-                if (MODEL_VARIANT_WORD(work, 0x197C) >= 3) {
+                if (work->tail.phase >= 3) {
                     ring->scale = 0x1000;
                 } else {
                     ring->scale -= 0x1000;

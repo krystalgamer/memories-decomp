@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant456_twin_ribbons.h"
+#include "../spanish_model_variant/variant456_entry.h"
 
 /* The North American header-439 build (CDK compiler) names the closing
  * segment's points directly and reaches the following point as the next
@@ -25,7 +26,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant456EntryState *work;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -44,11 +45,11 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
     TwinRibbon456 *ribbon;
     POLY_FT4 *poly;
 
-    work = ctx;
-    ribbon = (TwinRibbon456 *)(work + 0xA0);
+    work = (Variant456EntryState *)ctx;
+    ribbon = (TwinRibbon456 *)work->trails;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x230C), MODEL_VARIANT_WORD(work, 0x2304)) + 0xC00;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2308), MODEL_VARIANT_WORD(work, 0x2304));
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     length = 48;
     for (i = 0; i < 2; i++, ribbon++, base = i * 0xC00) {
         if (i == 1) {
@@ -57,7 +58,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
         if (i == length) {
             dy = 0;
         }
-        wave = -MODEL_VARIANT_WORD(work, 0x2358);
+        wave = -work->spray_wave;
         for (j = 0; j < 3; j++, wave += 1300) {
             a = ribbon->amp[j];
             if (a <= 0) {
@@ -72,11 +73,11 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
             setVector(&ribbon->b[j], ribbon->a[j].vx + (rcos(turn) * length >> 12), ribbon->a[j].vy,
                       ribbon->a[j].vz + (rsin(turn) * length >> 12));
             if (ribbon->amp[j] <= 1024) {
-                ribbon->amp[j] += MODEL_VARIANT_WORD(work, 0x2328) * 64;
+                ribbon->amp[j] += work->clock.step * 64;
                 if (ribbon->amp[j] >= 1024) {
                     ribbon->amp[j] = 1024;
-                    if (i == 0 && MODEL_VARIANT_WORD(work, 0x236C) == 1) {
-                        MODEL_VARIANT_WORD(work, 0x236C) = 2;
+                    if (i == 0 && work->tail.phase == 1) {
+                        work->tail.phase = 2;
                     }
                     if (j == 2) {
                         ribbon->state = 1;
@@ -88,9 +89,9 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x22DC);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x22E0);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x22E4);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 0x1000;
     scale.vy = 0x1000;
     scale.vz = 0x1000;
@@ -101,7 +102,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (TwinRibbon456 *)(work + 0xA0);
+    ribbon = (TwinRibbon456 *)work->trails;
     for (i = 0; i < 2; i++, ribbon++) {
         for (j = 0; j < 3; j++) {
             if (j == 2) {
@@ -127,7 +128,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
             if (j == 0 || j == 2) {
                 phase = 0;
             } else {
-                phase = base - j * 0xC00 + MODEL_VARIANT_WORD(work, 0x235C);
+                phase = base - j * 0xC00 + work->spray_phase;
             }
             width = ribbon->width[j];
             amp = width * 128 / 48;
@@ -135,9 +136,9 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
             ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16);
         }
     }
-    ribbon = (TwinRibbon456 *)(work + 0xA0);
+    ribbon = (TwinRibbon456 *)work->trails;
     for (i = 0; i < 2; i++, ribbon++) {
-        poly = (POLY_FT4 *)(work + 0x2204);
+        poly = work->flat;
         for (j = 0; j < 2; j++) {
             poly->x0 = TWIN_RIBBONS456_POINT.point.vx + ribbon->ox[j];
             poly->y0 = (TWIN_RIBBONS456_POINT.packed >> 16) + ribbon->oy[j];

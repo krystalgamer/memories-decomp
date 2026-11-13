@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "variant448_spiral.h"
+#include "variant448_entry.h"
 
 /* Header 448's form of the header-418 spiral: twelve arms (records from
- * work + 0x128) on a spiral whose radius is half the size at work + 0x1B28,
+ * (u8 *)work + 0x128) on a spiral whose radius is half the size at (u8 *)work + 0x1B28,
  * drawn only where the depth is positive; the size grows to 0x400. The two
  * products tested before the arms are template code with dead arms. */
 void ModelVariant448_DrawSpiral(u8 *ctx)
@@ -15,7 +16,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant448EntryState *work;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -33,27 +34,27 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant448EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1AEC), MODEL_VARIANT_WORD(work, 0x1AE4)) + 0xC00;
-    arm = (ModelVariantShadedRay *)(work + 0x128);
-    poly = (POLY_GT4 *)(work + 0x1988);
-    r = MODEL_VARIANT_HALF(work, 0x1B28) / 2;
-    eighth = MODEL_VARIANT_HALF(work, 0x1B28) / 8;
-    if (r * MODEL_VARIANT_HALF(work, 0x1B26) < 0) {
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    arm = work->spiral;
+    poly = work->packets.textured;
+    r = work->field_1B28 / 2;
+    eighth = work->field_1B28 / 8;
+    if (r * work->field_1B26 < 0) {
         length = 0;
     }
-    if (eighth * MODEL_VARIANT_HALF(work, 0x1B26) < 0) {
+    if (eighth * work->field_1B26 < 0) {
         length = 0;
     }
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + MODEL_VARIANT_HALF(work, 0x1B24) * 2;
-        theta = (i << 13) / 12 + MODEL_VARIANT_HALF(work, 0x1B24);
+        phi = (i << 12) / 12 + work->field_1B24 * 2;
+        theta = (i << 13) / 12 + work->field_1B24;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                length = MODEL_VARIANT_HALF(work, 0x1B30) / 512;
+                length = work->field_1B30 / 512;
             } else {
-                length = MODEL_VARIANT_HALF(work, 0x1B30) * 24 / 4096;
+                length = work->field_1B30 * 24 / 4096;
             }
             if (k == 0) {
                 setVector(&arm->points[0], 0, 0, 0);
@@ -66,7 +67,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
                       arm->points[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x1AFC) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -74,9 +75,9 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x1AAC);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x1AB0);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x1AB4);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -87,7 +88,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantShadedRay *)(work + 0x128);
+    arm = work->spiral;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -125,7 +126,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantShadedRay *)(work + 0x128);
+    arm = work->spiral;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->projected[k] + arm->x_offset[k];
@@ -176,10 +177,10 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x1B28) < 0x400) {
-        MODEL_VARIANT_HALF(work, 0x1B28) += MODEL_VARIANT_WORD(work, 0x1B08) * 64;
-        if (MODEL_VARIANT_HALF(work, 0x1B28) >= 0x400) {
-            MODEL_VARIANT_HALF(work, 0x1B28) = 0x400;
+    if (work->field_1B28 < 0x400) {
+        work->field_1B28 += work->clock.step * 64;
+        if (work->field_1B28 >= 0x400) {
+            work->field_1B28 = 0x400;
         }
     }
 }

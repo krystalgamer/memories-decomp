@@ -1,9 +1,10 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
+#include "../french_model_variant/variant464_entry.h"
 
 /* Each frame rebuilds the two rows of both shown curtains around the
- * rotating angle at work + 0x1C5C, lifting the outer row by the first
+ * rotating angle at (u8 *)work + 0x1C5C, lifting the outer row by the first
  * sheet's size when flag bit 0 is set, and draws each strip as a POLY_GT4
  * when its depth is positive. A curtain that reaches full size wraps
  * and counts a cycle before phase 4, and stops there from phase 4 on. */
@@ -16,7 +17,7 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant464EntryState *work;
     ModelVariantCurtain *curtain;
     GsOT *ot;
     s32 i;
@@ -39,13 +40,13 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = ctx;
-    curtain = (ModelVariantCurtain *)(work + 0x16F8);
+    work = (Variant464EntryState *)ctx;
+    curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(MODEL_VARIANT_WORD(work, 0x1BF4), MODEL_VARIANT_WORD(work, 0x1BEC)) + 0x800;
-    sheet = (ModelVariantSheet *)(work + 0x774);
-    poly = (POLY_GT4 *)(work + 0x1B1C);
-    pitch = ratan2(MODEL_VARIANT_WORD(work, 0x1BF0), MODEL_VARIANT_WORD(work, 0x1BF4)) + 0x800;
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
+    sheet = (ModelVariantSheet *)work->sheets;
+    poly = &work->curtain_poly;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
@@ -58,17 +59,17 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
     for (; i < 2; i++, curtain++) {
         if (curtain->scale > 0) {
             size = curtain->scale;
-            for (j = 0, angle = MODEL_VARIANT_WORD(work, 0x1C5C); j < 17;
-                 j++, angle = MODEL_VARIANT_WORD(work, 0x1C5C) + j * 256) {
+            for (j = 0, angle = work->field_1C5C; j < 17;
+                 j++, angle = work->field_1C5C + j * 256) {
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&curtain->b[j], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, lift + 0x80);
             }
             rot.vx = -pitch;
             rot.vy = yaw;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1BE4);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1BE6);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1BE8);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -80,20 +81,20 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (curtain->scale < 0x800) {
-                r0 = work[0x1C54];
-                g0 = work[0x1C55];
-                b0 = work[0x1C56];
-                r1 = work[0x1C58];
-                g1 = work[0x1C59];
-                b1 = work[0x1C5A];
+                r0 = ((u8 *)work)[0x1C54];
+                g0 = ((u8 *)work)[0x1C55];
+                b0 = ((u8 *)work)[0x1C56];
+                r1 = ((u8 *)work)[0x1C58];
+                g1 = ((u8 *)work)[0x1C59];
+                b1 = ((u8 *)work)[0x1C5A];
             } else {
                 fade = 0x1000 - curtain->scale;
-                r0 = work[0x1C54] * fade / 2048;
-                g0 = work[0x1C55] * fade / 2048;
-                b0 = work[0x1C56] * fade / 2048;
-                r1 = work[0x1C58] * fade / 2048;
-                g1 = work[0x1C59] * fade / 2048;
-                b1 = work[0x1C5A] * fade / 2048;
+                r0 = ((u8 *)work)[0x1C54] * fade / 2048;
+                g0 = ((u8 *)work)[0x1C55] * fade / 2048;
+                b0 = ((u8 *)work)[0x1C56] * fade / 2048;
+                r1 = ((u8 *)work)[0x1C58] * fade / 2048;
+                g1 = ((u8 *)work)[0x1C59] * fade / 2048;
+                b1 = ((u8 *)work)[0x1C5A] * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
@@ -117,19 +118,19 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
             }
         }
         if (curtain->scale < 0x1000) {
-            curtain->scale += MODEL_VARIANT_WORD(work, 0x1C24) << 7;
+            curtain->scale += work->clock.step << 7;
             if (curtain->scale >= 0x1000) {
-                if (MODEL_VARIANT_WORD(work, 0x1C60) >= 4) {
+                if (work->tail.phase >= 4) {
                     curtain->scale = 0x1000;
                 } else {
                     curtain->scale -= 0x1000;
                     curtain->count++;
                 }
-                if (i + 1 == 2 && done == 1 && MODEL_VARIANT_WORD(work, 0x1C60) == 4) {
-                    MODEL_VARIANT_WORD(work, 0x1C60) = 5;
+                if (i + 1 == 2 && done == 1 && work->tail.phase == 4) {
+                    work->tail.phase = 5;
                 }
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x1C5C) += MODEL_VARIANT_WORD(work, 0x1C24) * 80;
+    work->field_1C5C += work->clock.step * 80;
 }
