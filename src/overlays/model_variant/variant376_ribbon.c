@@ -149,7 +149,7 @@ void ModelVariant376_DrawRibbon(u8 *ctx)
         }
         if (work->tail.phase == 1) {
             if (work->ribbon_length < 0x11) {
-                work->ribbon_length += MODEL_VARIANT_HALF(work, 0xDAC);
+                work->ribbon_length += (s16)work->clock.step;
                 if (work->ribbon_length >= 0x10) {
                     work->ribbon_length = 0x10;
                     work->tail.phase = 2;

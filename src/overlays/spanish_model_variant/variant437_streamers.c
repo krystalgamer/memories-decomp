@@ -91,9 +91,9 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0x1628) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0x162C) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0x1630);
+    rot.vx = (s16)work->rotation_x + rx;
+    rot.vy = (s16)work->rotation_y + ry;
+    rot.vz = (s16)work->rotation_z;
     if (work->frame_count % 10 == 0) {
         work->rotation_y += 0x514;
     }

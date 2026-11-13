@@ -71,9 +71,9 @@ void FrenchModelVariant400_DrawRibbons(u8 *ctx)
                               ribbon->a[k].vz + (rsin(yaw) * len >> 12));
                 }
             } else {
-                MODEL_VARIANT_WORD(work, 0x2018) = work->target.vx - ribbon->position.vx;
-                MODEL_VARIANT_WORD(work, 0x201C) = work->target.vy - ribbon->position.vy;
-                MODEL_VARIANT_WORD(work, 0x2020) = work->target.vz - ribbon->position.vz;
+                work->field_2018 = work->target.vx - ribbon->position.vx;
+                work->field_201C = work->target.vy - ribbon->position.vy;
+                work->field_2020 = work->target.vz - ribbon->position.vz;
                 for (k = 0, wave = -work->ribbon_wave; k < 17; k++, wave += 1300) {
                     if (k == 0 || k == 16) {
                         bend = 0;
@@ -81,11 +81,11 @@ void FrenchModelVariant400_DrawRibbons(u8 *ctx)
                         bend = phase - k * 256 + work->ribbon_phase;
                     }
                     setVector(&ribbon->a[k],
-                              ribbon->delta.vx + MODEL_VARIANT_WORD(work, 0x2018) * k / 16
+                              ribbon->delta.vx + work->field_2018 * k / 16
                                   + (rcos(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 64) >> 12) >> 12),
-                              ribbon->delta.vy + MODEL_VARIANT_WORD(work, 0x201C) * k / 16
+                              ribbon->delta.vy + work->field_201C * k / 16
                                   + (rsin(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 64) >> 12) >> 12),
-                              ribbon->delta.vz + MODEL_VARIANT_WORD(work, 0x2020) * k / 16);
+                              ribbon->delta.vz + work->field_2020 * k / 16);
                     setVector(&ribbon->b[k],
                               ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                               ribbon->a[k].vy,

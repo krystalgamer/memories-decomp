@@ -75,7 +75,7 @@ void SpanishModelVariant441_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x26D0) & 1)) {
+    if (!(work->frame_count & 1)) {
 #ifdef MODEL_VARIANT441_SPIRAL_GUARDED_SIZE
         /* Both arms store the same size; the extra test only gives the arm
          * pointer the register the North American CDK build assigns it. */
@@ -142,7 +142,7 @@ void SpanishModelVariant441_DrawSpiral(u8 *ctx)
         u8 g2;
         u8 b2;
 
-        if (((MODEL_VARIANT_WORD(work, 0x26D0) + i) % 8) == 0) {
+        if (((work->frame_count + i) % 8) == 0) {
             r0 = 128;
             g0 = 0;
             b0 = 0;
