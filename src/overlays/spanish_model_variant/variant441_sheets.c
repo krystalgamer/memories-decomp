@@ -1,12 +1,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-
-/* MODEL417 places the same work block 0x5AC bytes lower. */
-#ifndef SHEETS_SHIFT
-#define SHEETS_SHIFT 0
-#endif
-#define SHEETS_OFFSET(offset) ((offset) - SHEETS_SHIFT)
-#define SHEETS_WORD(offset) MODEL_VARIANT_WORD(work, SHEETS_OFFSET(offset))
+#include "variant441_entry.h"
 
 /* Draws two four-quad sheets in a colour cycling through eight hues with
  * the frame count: the first at the origin, the second advanced along the
@@ -26,7 +20,7 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
     long flag;
     ModelVariantSheet *quad;
     GsOT *ot;
-    u8 *work;
+    Variant441EntryState *work;
     POLY_GT4 *poly;
     s32 i;
     u8 red;
@@ -36,35 +30,35 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
     s32 depth;
     u8 blue;
 
-    work = context;
-    quad = (ModelVariantSheet *)(work + SHEETS_OFFSET(0x1044));
+    work = (Variant441EntryState *)context;
+    quad = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(work + SHEETS_OFFSET(0x25A0));
-    if (SHEETS_WORD(0x26D0) % 8 == 0) {
+    poly = &work->packets.textured[1];
+    if (work->frame_count % 8 == 0) {
         red = 255;
         green = 0;
         blue = 0;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 1) {
+    } else if ((s32)work->frame_count % 8 == 1) {
         red = 255;
         green = 128;
         blue = 0;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 2) {
+    } else if ((s32)work->frame_count % 8 == 2) {
         red = 255;
         green = 255;
         blue = 0;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 3) {
+    } else if ((s32)work->frame_count % 8 == 3) {
         red = 0;
         green = 255;
         blue = 0;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 4) {
+    } else if ((s32)work->frame_count % 8 == 4) {
         red = 0;
         green = 255;
         blue = 255;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 5) {
+    } else if ((s32)work->frame_count % 8 == 5) {
         red = 0;
         green = 0;
         blue = 255;
-    } else if (SHEETS_WORD(0x26D0) % 8 == 6) {
+    } else if ((s32)work->frame_count % 8 == 6) {
         red = 255;
         green = 0;
         blue = 255;
@@ -75,21 +69,21 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
     }
     for (i = 0; i < 2; i++, quad++) {
         bias = 0;
-        if (SHEETS_WORD(0x26D0) & 1) {
+        if (work->frame_count & 1) {
             bias = quad->size / 8;
         }
         setVector(&rot, 0, 0, 0);
         if (i == 0) {
-            matrix.t[0] = SHEETS_WORD(0x2690);
-            matrix.t[1] = SHEETS_WORD(0x2694);
-            matrix.t[2] = SHEETS_WORD(0x2698);
+            matrix.t[0] = work->matrix.t[0];
+            matrix.t[1] = work->matrix.t[1];
+            matrix.t[2] = work->matrix.t[2];
         } else {
-            matrix.t[0] = SHEETS_WORD(0x2690) +
-                          SHEETS_WORD(0x26A4) * SHEETS_WORD(0x2708) / 1024;
-            matrix.t[1] = SHEETS_WORD(0x2694) +
-                          SHEETS_WORD(0x26A8) * SHEETS_WORD(0x2708) / 1024;
-            matrix.t[2] = SHEETS_WORD(0x2698) +
-                          SHEETS_WORD(0x26AC) * SHEETS_WORD(0x2708) / 1024;
+            matrix.t[0] = work->matrix.t[0] +
+                          work->aim.direction.vx * work->tube_progress / 1024;
+            matrix.t[1] = work->matrix.t[1] +
+                          work->aim.direction.vy * work->tube_progress / 1024;
+            matrix.t[2] = work->matrix.t[2] +
+                          work->aim.direction.vz * work->tube_progress / 1024;
         }
         setVector(&scale, quad->size + bias, quad->size + bias, quad->size + bias);
         RotMatrix(&rot, &matrix);
@@ -125,46 +119,46 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
                 GsSortPoly(poly, ot, depth);
             }
         }
-        if (SHEETS_WORD(0x26F8) + 1 == *(u16 *)(*(u8 **)(work + SHEETS_OFFSET(0x26E4)) + 0x18)) {
+        if (work->index + 1 == work->config->count) {
             if (i == 0) {
-                if (SHEETS_WORD(0x271C) == 0 && quad->size < 4096) {
-                    quad->size = ((SHEETS_WORD(0x26D4)
-                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x1C)) << 12)
-                        / (MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x20)
-                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x1C));
+                if (work->phase == 0 && quad->size < 4096) {
+                    quad->size = ((work->frame
+                        - work->config->start) << 12)
+                        / (work->config->expansion_start
+                        - work->config->start);
                     if (quad->size >= 4096) {
                         quad->size = 4096;
-                        SHEETS_WORD(0x271C) = 1;
+                        work->phase = 1;
                     }
                 }
-                if (SHEETS_WORD(0x26D4) >= MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28)
+                if (work->frame >= work->config->fade_start
                     && quad->size > 0) {
-                    quad->size = 4096 - ((SHEETS_WORD(0x26D4)
-                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28)) << 12)
-                        / (MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x2C)
-                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28));
+                    quad->size = 4096 - ((work->frame
+                        - work->config->fade_start) << 12)
+                        / (work->config->end
+                        - work->config->fade_start);
                     if (quad->size <= 0) {
                         quad->size = 0;
                     }
                 }
-            } else if (SHEETS_WORD(0x271C) <= 0) {
+            } else if (work->phase <= 0) {
                 quad->size = 0;
-            } else if (SHEETS_WORD(0x271C) == 1) {
+            } else if (work->phase == 1) {
                 quad->size = 4096;
-            } else if (SHEETS_WORD(0x271C) == 2) {
+            } else if (work->phase == 2) {
                 if (quad->size < 8192) {
-                    quad->size += SHEETS_WORD(0x26DC) << 9;
+                    quad->size += work->step << 9;
                     if (quad->size >= 8192) {
                         quad->size = 8192;
-                        SHEETS_WORD(0x271C) = 3;
+                        work->phase = 3;
                     }
                 }
-            } else if (SHEETS_WORD(0x271C) == 4) {
+            } else if (work->phase == 4) {
                 if (quad->size > 0) {
-                    quad->size -= SHEETS_WORD(0x26DC) << 6;
+                    quad->size -= work->step << 6;
                     if (quad->size <= 0) {
                         quad->size = 0;
-                        SHEETS_WORD(0x271C) = 5;
+                        work->phase = 5;
                     }
                 }
             }
