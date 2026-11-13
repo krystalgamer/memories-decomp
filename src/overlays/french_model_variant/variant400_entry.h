@@ -33,7 +33,10 @@ typedef struct {
     MATRIX matrix;
     SVECTOR target;
     VECTOR direction;
-    u8 unknown_2018[0x10];
+    s32 field_2018;
+    s32 field_201C;
+    s32 field_2020;
+    u8 unknown_2024[0x4];
     DVECTOR screen_delta;
     VECTOR view_delta;
     s32 angles[2];
