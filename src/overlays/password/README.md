@@ -467,7 +467,7 @@ The password overlay's two text scanners now use the shared names from
 | `Password_RefreshDigitDisplay` glyph test | `glyph >= 0xF0` | `TEXT_SINGLE_BYTE_GLYPH_LIMIT` |
 | `Password_RefreshDigitDisplay` string end | `*out = 0xFF` | `TEXT_STRING_TERMINATOR` |
 | `NameEntry_UpdateDialog` scan skip | `*p >= 0xF0` | `TEXT_SINGLE_BYTE_GLYPH_LIMIT` |
-| `NameEntry_UpdateDialog` saved end byte | `term = 0xFF` | `TEXT_STRING_TERMINATOR` |
+| `NameEntry_UpdateDialog` stored end byte | `*next = 0xFF` | `TEXT_STRING_TERMINATOR` |
 | `NameEntry_UpdateDialog` end test | `c != 0xFF` | `TEXT_STRING_TERMINATOR` |
 
 Both sites implement the same two-byte glyph rule the resident builder

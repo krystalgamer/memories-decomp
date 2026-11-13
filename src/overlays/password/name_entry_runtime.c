@@ -1143,7 +1143,6 @@ void NameEntry_UpdateDialog(void)
     u8 *next;
     DuelEffectChannel *panel;
     s32 c;
-    s32 term;
 
     if (gNameEntry_wPendingDialogId != 0) {
         flags = gNameEntry_bStateFlags;
@@ -1298,33 +1297,29 @@ void NameEntry_UpdateDialog(void)
         NameEntry_UpdateKeyboard();
         return;
     }
-    term = TEXT_STRING_TERMINATOR;
+    /* Trim trailing space glyphs: next ends up just past the last
+       non-space glyph (two bytes from 0xF0 up), or stays 0 for a blank name. */
     p = gText_aCurrentPlayerNameGlyphs;
     c = *p;
     next = 0;
-    goto ztest;
-scan:
-    if (*p >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
-        p++;
-    }
-    next = p + 1;
-    p = next;
-    goto load;
-zloop:
-    p++;
-load:
-    c = *p;
-ztest:
-    if (c == 0) {
-        goto zloop;
-    }
-    if (c != TEXT_STRING_TERMINATOR) {
-        goto scan;
+    for (;;) {
+        if (c != 0) {
+            if (c == TEXT_STRING_TERMINATOR) {
+                break;
+            }
+            if (*p >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
+                p++;
+            }
+            next = ++p;
+        } else {
+            p++;
+        }
+        c = *p;
     }
     fg = gNameEntry_bStateFlags;
     gNameEntry_bStateFlags = fg & 0xBF;
     if (next != 0) {
-        *next = term;
+        *next = TEXT_STRING_TERMINATOR;
         gNameEntry_wPendingDialogId = 0x80F5;
         D_8016D41C = 0;
         gNameEntry_bStateFlags |= 0x20;
