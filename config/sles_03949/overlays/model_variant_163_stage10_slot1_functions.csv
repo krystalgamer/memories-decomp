@@ -2,3 +2,4 @@ address,size,name,status,module,notes
 0x8017B004,0x11D8,ModelVariant402_HandleRequest,matching_c,overlay/model_variant_163_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C1DC,0x594,FrenchModelVariant419_DrawSwarm,matching_c,overlay/model_variant_163_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C770,0x4DC,FrenchModelVariant419_DrawQuads,matching_c,overlay/model_variant_163_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017F4D0,0x32C,ModelVariant458_DrawStrand,matching_c,overlay/model_variant_163_stage10_slot1,Stale strand helper left inside the data block; byte-identical to the North American image's; C body variant552_strand.c with the North American CDK profile; complete image exact.

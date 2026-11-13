@@ -2,5 +2,7 @@
 ModelVariant402_HandleRequest = 0x8017B004; // type:func size:0x11D8 defined:true
 FrenchModelVariant419_DrawSwarm = 0x8017C1DC; // type:func size:0x594 defined:true
 FrenchModelVariant419_DrawQuads = 0x8017C770; // type:func size:0x4DC defined:true
+ModelVariant458_DrawStrand = 0x8017F4D0; // type:func size:0x32C defined:true
 gModelVariant402_aImages = 0x8017CC4C; // type:u8 size:0xFC defined:true
-gModelVariant402_aConfigs = 0x8017CD48; // type:u8 size:0x32B8 defined:true
+gModelVariant402_aConfigs = 0x8017CD48; // type:u8 size:0x2788 defined:true
+D_8017F7FC = 0x8017F7FC; // type:u8 size:0x804 defined:true
