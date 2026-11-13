@@ -36,9 +36,9 @@ void ModelVariant459_DrawSheet(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, 0x274C);
-        m.t[1] = MODEL_VARIANT_WORD(work, 0x2750);
-        m.t[2] = MODEL_VARIANT_WORD(work, 0x2754);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
         scale.vz = sheet->size + bias;
@@ -73,12 +73,12 @@ void ModelVariant459_DrawSheet(u8 *ctx)
                 GsSortPoly(poly, ot, otz);
             }
         }
-        if (sheet->size < 0x1000 && MODEL_VARIANT_WORD(work, 0x284C) == 0) {
+        if (sheet->size < 0x1000 && work->phase == 0) {
             sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x27B0) - MODEL_VARIANT_WORD(work->config, 0x1C)) << 12) /
                           (u32)(MODEL_VARIANT_WORD(work->config, 0x20) - MODEL_VARIANT_WORD(work->config, 0x1C));
             if (sheet->size >= 0x1000) {
                 sheet->size = 0x1000;
-                MODEL_VARIANT_WORD(work, 0x284C) = 1;
+                work->phase = 1;
             }
         } else if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) < (u32)MODEL_VARIANT_WORD(work->config, 0x24)) {
             sheet->size += work->clock.step * 512;

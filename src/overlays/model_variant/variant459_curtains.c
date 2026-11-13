@@ -33,8 +33,8 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
     GsGetActiveBuff();
     poly = (POLY_GT4 *)((u8 *)work + 0x2704);
     i = 0;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
-    ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
+    ratan2(work->direction.vz, work->direction.vx);
+    ratan2(work->direction.vy, work->direction.vz);
     do {
         if (curtain->scale > 0) {
             rsin(curtain->scale);

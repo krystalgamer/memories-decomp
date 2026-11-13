@@ -27,9 +27,9 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     rot.vx = -MODEL_VARIANT_HALF(work, 0x2834) - 1024;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x274C);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x2750);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x2754);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -42,18 +42,18 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     GsSetLsMatrix(&ls);
     grid = (Variant476ScreenGrid *)((u8 *)work + 0x14E4);
     poly = (POLY_GT4 *)((u8 *)work + 0x2390);
-    if (MODEL_VARIANT_WORD(work, 0x284C) < 5) {
-        MODEL_VARIANT_WORD(work, 0x2828) = 1024 - (MODEL_VARIANT_WORD(work, 0x2818) - 8192) / 8;
+    if (work->phase < 5) {
+        work->screen_grid_brightness = 1024 - (work->field_2818 - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            grid->color[i][0] = (i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x2828) / 1024;
-            grid->color[i][1] = MODEL_VARIANT_WORD(work, 0x2828) / 16;
-            grid->color[i][2] = (255 - i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x2828) / 1024;
+            grid->color[i][0] = (i * 255 / 8) * work->screen_grid_brightness / 1024;
+            grid->color[i][1] = work->screen_grid_brightness / 16;
+            grid->color[i][2] = (255 - i * 255 / 8) * work->screen_grid_brightness / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            grid->color[i][0] = MODEL_VARIANT_WORD(work, 0x2828) / 8;
-            grid->color[i][1] = MODEL_VARIANT_WORD(work, 0x2828) / 8;
-            grid->color[i][2] = MODEL_VARIANT_WORD(work, 0x2828) / 8;
+            grid->color[i][0] = work->screen_grid_brightness / 8;
+            grid->color[i][1] = work->screen_grid_brightness / 8;
+            grid->color[i][2] = work->screen_grid_brightness / 8;
         }
     }
     for (i = 0; i < 8; i++) {

@@ -23,9 +23,9 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     work = (Variant459EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     globe = (ModelVariantMesh *)((u8 *)work + 0xFF8);
-    ratan2(MODEL_VARIANT_WORD(work, 0x2778), MODEL_VARIANT_WORD(work, 0x2770));
+    ratan2(work->direction.vz, work->direction.vx);
     poly = &work->veil;
-    ratan2(MODEL_VARIANT_WORD(work, 0x2774), MODEL_VARIANT_WORD(work, 0x2778));
+    ratan2(work->direction.vy, work->direction.vz);
     if (work->slot == 0) {
         rot.vx = MODEL_VARIANT_HALF(work, 0x2804);
         rot.vy = 0;
@@ -38,9 +38,9 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     m.t[0] = work->target.vx;
     m.t[1] = work->target.vy;
     m.t[2] = work->target.vz;
-    scale.vx = MODEL_VARIANT_WORD(work, 0x27FC);
-    scale.vy = MODEL_VARIANT_WORD(work, 0x27FC);
-    scale.vz = MODEL_VARIANT_WORD(work, 0x27FC);
+    scale.vx = work->globe_scale;
+    scale.vy = work->globe_scale;
+    scale.vz = work->globe_scale;
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;
@@ -48,18 +48,18 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    if (MODEL_VARIANT_WORD(work, 0x284C) < 5) {
-        MODEL_VARIANT_WORD(work, 0x280C) = 1024 - (MODEL_VARIANT_WORD(work, 0x27FC) - 8192) / 8;
+    if (work->phase < 5) {
+        work->globe_brightness = 1024 - (work->globe_scale - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            globe->colors[i][0] = (i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
-            globe->colors[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 16;
-            globe->colors[i][2] = (255 - i * 255 / 8) * MODEL_VARIANT_WORD(work, 0x280C) / 1024;
+            globe->colors[i][0] = (i * 255 / 8) * work->globe_brightness / 1024;
+            globe->colors[i][1] = work->globe_brightness / 16;
+            globe->colors[i][2] = (255 - i * 255 / 8) * work->globe_brightness / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            globe->colors[i][0] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
-            globe->colors[i][1] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
-            globe->colors[i][2] = MODEL_VARIANT_WORD(work, 0x280C) / 8;
+            globe->colors[i][0] = work->globe_brightness / 8;
+            globe->colors[i][1] = work->globe_brightness / 8;
+            globe->colors[i][2] = work->globe_brightness / 8;
         }
     }
     for (i = 0; i < 8; i++) {
@@ -77,42 +77,42 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x2814) <= 128) {
-        MODEL_VARIANT_WORD(work, 0x2814) += 8;
-        if (MODEL_VARIANT_WORD(work, 0x2814) >= 128) {
-            MODEL_VARIANT_WORD(work, 0x2814) = 0;
+    if (work->field_2814 <= 128) {
+        work->field_2814 += 8;
+        if (work->field_2814 >= 128) {
+            work->field_2814 = 0;
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x284C) < 3) {
-        if (MODEL_VARIANT_WORD(work, 0x27FC) < 8192) {
-            MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step * 512;
-            if (MODEL_VARIANT_WORD(work, 0x27FC) >= 8192) {
-                MODEL_VARIANT_WORD(work, 0x27FC) = 8192;
-                MODEL_VARIANT_WORD(work, 0x284C) = 3;
+    if (work->phase < 3) {
+        if (work->globe_scale < 8192) {
+            work->globe_scale += work->clock.step * 512;
+            if (work->globe_scale >= 8192) {
+                work->globe_scale = 8192;
+                work->phase = 3;
             }
         }
-    } else if (MODEL_VARIANT_WORD(work, 0x284C) == 3) {
-        MODEL_VARIANT_WORD(work, 0x27FC) = (rcos(MODEL_VARIANT_WORD(work, 0x2808)) * 2048 >> 12) + 6144;
-        MODEL_VARIANT_WORD(work, 0x2808) += work->clock.step * 64;
+    } else if (work->phase == 3) {
+        work->globe_scale = (rcos(work->globe_pulse_angle) * 2048 >> 12) + 6144;
+        work->globe_pulse_angle += work->clock.step * 64;
         timing = (u8 *)work->config;
         if ((u32)MODEL_VARIANT_WORD(timing, 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
-            MODEL_VARIANT_WORD(work, 0x284C) = 4;
+            work->phase = 4;
         }
-    } else if (MODEL_VARIANT_WORD(work, 0x284C) == 4) {
-        MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step * 256;
-        if (MODEL_VARIANT_WORD(work, 0x27FC) >= 16384) {
-            MODEL_VARIANT_WORD(work, 0x284C) = 5;
-            MODEL_VARIANT_WORD(work, 0x280C) = 1024;
+    } else if (work->phase == 4) {
+        work->globe_scale += work->clock.step * 256;
+        if (work->globe_scale >= 16384) {
+            work->phase = 5;
+            work->globe_brightness = 1024;
         }
-    } else if (MODEL_VARIANT_WORD(work, 0x284C) == 5) {
-        MODEL_VARIANT_WORD(work, 0x27FC) += work->clock.step * 256;
-        if (MODEL_VARIANT_WORD(work, 0x280C) > 0) {
-            MODEL_VARIANT_WORD(work, 0x280C) -= work->clock.step * 32;
-            if (MODEL_VARIANT_WORD(work, 0x280C) <= 0) {
-                MODEL_VARIANT_WORD(work, 0x280C) = 0;
-                MODEL_VARIANT_WORD(work, 0x284C) = 6;
+    } else if (work->phase == 5) {
+        work->globe_scale += work->clock.step * 256;
+        if (work->globe_brightness > 0) {
+            work->globe_brightness -= work->clock.step * 32;
+            if (work->globe_brightness <= 0) {
+                work->globe_brightness = 0;
+                work->phase = 6;
             }
         }
     }
-    MODEL_VARIANT_WORD(work, 0x2804) += work->clock.step * 64;
+    work->globe_rotation_x += work->clock.step * 64;
 }
