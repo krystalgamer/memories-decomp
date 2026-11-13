@@ -89,8 +89,8 @@ Entry `spanish_model_variant/variant459_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `Timing459.limit` | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
-| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `Timing459.grow_end`; `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (spanish_model_variant/variant459_lines.c; `spanish_model_variant/variant459_entry.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
+| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `Variant459EntryConfig.limit` (was `Timing459.limit`) | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
+| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `Variant459EntryConfig.end` (was `Timing459.grow_end`); `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (spanish_model_variant/variant459_lines.c; `spanish_model_variant/variant459_entry.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
 
 ## `Variant479EntryConfig` (`gSpanishModelVariant479_aConfigs`)
 
