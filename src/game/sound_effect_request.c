@@ -143,7 +143,7 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
     case 0:
             SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, env);
             v = g_SDValue->s_awSD_VOICE_SE_ID[i];
-            if (v == (u16)key) {
+            if (v == key) {
                 if (env[0] != 0) {
                     if (pan != 0) {
                         if (near) {
@@ -177,7 +177,7 @@ void SD_SESetVolume(s32 sound_id, s32 volume)
 
     id = sound_id;
     if (sound_id & 0x8000) {
-        SD_SetCdVolume((u8)a1v);
+        SD_SetCdVolume(a1v);
         return;
     }
     if ((sound_id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {

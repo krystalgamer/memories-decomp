@@ -2222,7 +2222,7 @@ void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
 DisplayObject *Duel_CreateFieldCardPanel(int x, int y)
 {
     DisplayObject *object =
-        DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 2);
+        DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, x, y, 0, 1, 0, 0x1F, 0x100);
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -2);
@@ -5288,7 +5288,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_wActionSubstate = 0;
             return;
         }
-        flags = (u16)gDuel_wActionSubstate;
+        flags = gDuel_wActionSubstate;
         k = flags & 0xF;
         switch (k) {
         case 0:
@@ -8478,7 +8478,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     style = 0x50;
     if (record->flags & 0x8000) {
         table = gDuel_adwCardStats;
-        id = (s16)record->card_id;
+        id = record->card_id;
         stats = *(s32 *)((s32)table + ((id - 1) << 2));
         gText_BranchSelectorA = 1;
         gDuel_wSelectedCardID = id;
@@ -9537,13 +9537,13 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
         CARD_STAT_SCALE;
     m = idx * 2 + 1;
     p->defense =
-        ((gDuel_adwCardStats[(s16)p->card_id - 1] >>
+        ((gDuel_adwCardStats[p->card_id - 1] >>
           CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
         CARD_STAT_SCALE;
     p->stat_modifier = 0;
     p->terrain_modifier =
         Duel_GetTerrainBoost(
-            (gDuel_adwCardStats[(s16)p->card_id - 1] >>
+            (gDuel_adwCardStats[p->card_id - 1] >>
              CARD_STAT_TYPE_SHIFT) &
             CARD_STAT_TYPE_MASK);
 
@@ -9780,7 +9780,7 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + base]];
         if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
-            if ((s16) record->card_id == card_id) {
+            if ( record->card_id == card_id) {
                 object = (DisplayObject *)record->object;
                 gDuel_wSelectedTrapCardId = card_id;
                 gDuel_bSelectedTrapSlot = object->field_6A;
@@ -11002,7 +11002,7 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 start,
 
     do {
         if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
-            k = (s16)record->card_id;
+            k = record->card_id;
             k--;
             if (((stats[k] >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < type_limit) {
@@ -11038,7 +11038,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 start,
         do {
             if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
                 if (type < 0 ||
-                    (k = (s16)record->card_id, k--,
+                    (k = record->card_id, k--,
                      ((stats[k] >> CARD_STAT_TYPE_SHIFT) &
                       CARD_STAT_TYPE_MASK) == type)) {
                     *out++ = record;
@@ -11432,8 +11432,8 @@ s32 Ai_SelectFieldPlay(void)
                 if (target != 0) {
                     target_entry = listb;
                     do {
-                        if (Duel_CheckEquip((s16)equip->card_id,
-                                            (s16)target->card_id)) {
+                        if (Duel_CheckEquip(equip->card_id,
+                                            target->card_id)) {
                             gAi_Selection.fields.source_code = (s8)equip->table_index % 5 + 6;
                             gAi_Selection.fields.target_code = (s8)target->table_index % 5 + 1;
                             gAi_Selection.fields.field_0B = 0;
@@ -11560,10 +11560,10 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->card_type =
                     ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
                 out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;
@@ -11595,10 +11595,10 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->card_type =
                     ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    star_bits = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
                 out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;

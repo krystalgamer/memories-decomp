@@ -175,7 +175,7 @@ void Model_BuildCameraRelativeCoordinateUnit(
 
     memset(&view_angles, 0, sizeof(view_angles));
     view_angles.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
-    view_angles.vz = (s16)gModel_wViewPitch;
+    view_angles.vz = gModel_wViewPitch;
 
     slot = &gModel_aSlots[slot_index];
 

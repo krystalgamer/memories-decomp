@@ -348,7 +348,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
             SortedEntry_Append(x, y, w);
             rec += 14;
         }
-        return (u32 *)primp + 2;
+        return primp + 2;
         } while (0);
     }
 
@@ -530,7 +530,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
         }
     }
     gGraphics_pPacketWorkCursor = (u32 *)out;
-    return (u32 *)primp + 2;
+    return primp + 2;
 }
 
 /* Zero-initialized storage this unit owns. Each build's generated

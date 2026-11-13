@@ -1805,7 +1805,7 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
     s32 ticks;
 
     if (BuildDeck_TestAndSetInitialized(state) == 0) {
-        s32 diff = state->viewport_target_x - (s16)gGraphics_sViewportX;
+        s32 diff = state->viewport_target_x - gGraphics_sViewportX;
 
         state->viewport_step_x = diff / BUILD_DECK_PANE_TRANSITION_TICKS;
         state->transition_ticks = BUILD_DECK_PANE_TRANSITION_TICKS;

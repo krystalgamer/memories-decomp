@@ -383,7 +383,7 @@ void SD_StepActiveCommand(void)
     switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
     case 81:
         SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2,
-                     (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
+                     g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
         break;
 
     case 32:
@@ -491,7 +491,7 @@ void SD_StepActiveCommand(void)
             first_word = 0xFFFFFF;
             descriptor = (SoundCommandPair *)(
                 (u32)&((SoundCommandPair *)0)[g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE]
-                + (u32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2);
+                + g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2);
             second_word = descriptor->a;
 
             gSD_pFileRequest->ram_destination = 0;
@@ -522,7 +522,7 @@ void SD_StepActiveCommand(void)
 
             entry_state = g_SDValue;
             descriptor = (SoundCommandPair *)((u32)entry_state->s_wSD_ACTIVE_COMMAND_VALUE * 8
-                                     + (u32)entry_state->s_dwSD_ACTIVE_COMMAND_ARG2);
+                                     + entry_state->s_dwSD_ACTIVE_COMMAND_ARG2);
             first_word = descriptor->a;
             second_word = descriptor->b;
 
@@ -571,7 +571,7 @@ void SD_StepActiveCommand(void)
             g_SDValue->s_wSD_MUSIC_VAB_ID = SD_VabOpenHead(
                 &list->vab_header, 0, list->spu_address
             );
-            if ((s16)g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
+            if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
                 return;
             }
@@ -603,7 +603,7 @@ void SD_StepActiveCommand(void)
                 (u8 *)(
                     (u32)&((u8 (*)[16])0)[l->index_records[i][0]] + (u32)l),
                                              entry_state->s_wSD_MUSIC_VAB_ID);
-            if ((s16)g_SDValue->s_wSD_SEQ_ACCESS == 0) {
+            if (g_SDValue->s_wSD_SEQ_ACCESS == 0) {
                 g_SDValue->s_wSD_OPEN_SEQUENCE_COMMAND = g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE;
                 SD_PlaySequence(1, 1);
                 {
