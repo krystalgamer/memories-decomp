@@ -1,10 +1,11 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant418_entry.h"
 
 /* Draws the growing POLY_G4 quad of the variant's single quad record and
  * advances its size and rotation through three phases. */
-void ModelVariant418_DrawQuad(u8 *ctx)
+void ModelVariant418_DrawQuad(Variant418EntryState *work)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -20,20 +21,20 @@ void ModelVariant418_DrawQuad(u8 *ctx)
     POLY_G4 *poly;
     s32 v;
 
-    poly = (POLY_G4 *)(ctx + 0x19C0);
-    rec = (ModelVariantQuad *)(ctx + 0x1914);
+    poly = &work->packets.quad;
+    rec = (ModelVariantQuad *)work->fans;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(ctx, 0x1B58) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = rec->size / 16;
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)(ctx + 0x1B94);
-        m.t[0] = MODEL_VARIANT_WORD(ctx, 0x1B08);
-        m.t[1] = MODEL_VARIANT_WORD(ctx, 0x1B0C);
-        m.t[2] = MODEL_VARIANT_WORD(ctx, 0x1B10);
+        rot.vz = *(u16 *)((u8 *)work + 0x1B94);
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
         scale.vx = rec->size + bias;
         scale.vy = rec->size + bias;
         scale.vz = rec->size + bias;
@@ -66,25 +67,25 @@ void ModelVariant418_DrawQuad(u8 *ctx)
         if (v > 0) {
             Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)v, 1);
         }
-        if (MODEL_VARIANT_WORD(ctx, 0x1B9C) == 0) {
+        if (work->phase == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (u32)(MODEL_VARIANT_WORD(ctx, 0x1B5C) << 12) / *(u32 *)(MODEL_VARIANT_WORD(ctx, 0x1B74) + 0x2C);
+                rec->size = (u32)(work->clock.frame << 12) / *(u32 *)((u8 *)work->config + 0x2C);
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
-                    MODEL_VARIANT_WORD(ctx, 0x1B9C) = 1;
+                    work->phase = 1;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(ctx, 0x1B9C) == 1) {
-            if (MODEL_VARIANT_WORD(ctx, 0x1B94) < 0x800) {
-                MODEL_VARIANT_WORD(ctx, 0x1B94) += MODEL_VARIANT_WORD(ctx, 0x1B64) << 6;
-                if (MODEL_VARIANT_WORD(ctx, 0x1B94) >= 0x800) {
-                    MODEL_VARIANT_WORD(ctx, 0x1B94) = 0x800;
-                    MODEL_VARIANT_WORD(ctx, 0x1B9C) = 2;
+        } else if (work->phase == 1) {
+            if (work->field_1B94 < 0x800) {
+                work->field_1B94 += work->clock.step << 6;
+                if (work->field_1B94 >= 0x800) {
+                    work->field_1B94 = 0x800;
+                    work->phase = 2;
                 }
             }
         } else {
             if (rec->size > 0) {
-                rec->size -= MODEL_VARIANT_WORD(ctx, 0x1B64) << 5;
+                rec->size -= work->clock.step << 5;
                 if (rec->size <= 0) {
                     rec->size = 0;
                 }
