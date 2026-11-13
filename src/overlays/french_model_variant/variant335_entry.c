@@ -1,14 +1,9 @@
 #include "../../types.h"
 #include "variant335_entry.h"
 
-/* The entry's data block.  gFrenchModelVariant335_D28EC is where this module's unclassified tail
- * starts, at a helper that the module does not split out yet, 0x6D0 bytes
- * before the block.  In the North American build the tail starts at the
- * block itself. */
-#ifndef MODEL_VARIANT335_DATA_OFFSET
-#define MODEL_VARIANT335_DATA_OFFSET 0x6D0
-#endif
-#define MODEL_VARIANT335_DATA (gFrenchModelVariant335_D28EC + MODEL_VARIANT335_DATA_OFFSET)
+/* The entry's data block.  Every image binds gFrenchModelVariant335_D28EC
+ * at its own data block, which follows the short-streamer helper. */
+#define MODEL_VARIANT335_DATA gFrenchModelVariant335_D28EC
 
 /* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
  * the North American ones. */

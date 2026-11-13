@@ -15,7 +15,7 @@ The entry at `0x4..0xB98`, ribbon helper at `0xB98..0x1534`, sheet helper at
 define `FrenchModelVariant335_HandleRequest`,
 `FrenchModelVariant335_DrawRibbons`, `FrenchModelVariant335_DrawSheets`,
 `FrenchModelVariant335_DrawRings`, `FrenchModelVariant335_DrawStreamers` and
-the entry's raw-suffix label `gFrenchModelVariant335_D28EC`, and each image
+the entry's data-block label `gFrenchModelVariant335_D28EC`, and each image
 binds them at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
 No compiler change, forced register, assembly,
@@ -24,7 +24,7 @@ external declaration is used. No shared source for another region changes.
 
 ## Ownership and remaining work
 
-All five spans have closed, contiguous control-flow graphs:
+All six spans have closed, contiguous control-flow graphs:
 
 | Offset | Bytes | Ownership |
 | --- | ---: | --- |
@@ -33,28 +33,30 @@ All five spans have closed, contiguous control-flow graphs:
 | `0x1534` | 1,680 | Entry-called sheets, C |
 | `0x1BC4` | 1,300 | Entry-called screen rings, C |
 | `0x20D8` | 2,068 | Entry-called streamers, C |
+| `0x28EC` | 1,744 | Uncalled short streamers, C |
 
 The entry's calls at `0x9F0`, `0x9F8`, `0xA14` and `0xA1C`, with the incoming
 context passed in their delay slots, establish the ribbon, sheet, final-helper
 and ring callers. All 34 distinct external call targets across the five
 functions are actual French resident function starts. The four-byte module
-header and the complete `0x28EC..0x5000`
+header and the complete `0x2FBC..0x5000`
 suffix retain separate raw owners. The suffix remains unclassified; it
 is not asserted to contain only data or excluded from further research.
 
 The suffix survey additionally establishes a closed 1,744-byte function at
 `0x28EC..0x2FBC`, with a 304-byte frame and 11 resident imports in all four
-images. It uses the six shorter records initialized by the entry. Fourteen
-paired experiments remain nonexact; the best differs in 59 words per slot.
-This function is still raw-owned and uninventoried, not excluded as data or
-SDK code. A bounded image-local scan found no earlier direct transfer to its
-span or literal word containing its entry address; that does not prove
-unreachability. The remaining suffix also remains unresolved. Six native
+images. It uses the six shorter records initialized by the entry. It is
+`ModelVariant318_DrawShortStreamers`, built exactly from
+`model_variant/variant318_short_streamers.c` with `gcc_2_8_1_g0_split`, the
+source the North American images build with the CDK profile. Each image binds
+`gFrenchModelVariant335_D28EC` at the data block after it, `0x2FBC`. A bounded
+image-local scan found no earlier direct transfer to its span or literal word
+containing its entry address; that does not prove unreachability. The remaining suffix also remains unresolved. Six native
 28-byte texture descriptors have null pixel and CLUT pointers, which does
 not establish an inline texture payload.
 
-This registration contains 20 inventoried functions, all now C,
-and 41,888 C instruction bytes. The streamer recovery adds 8,272 C bytes
+This registration contains 24 inventoried functions, all now C,
+and 48,864 C instruction bytes. The streamer recovery adds 8,272 C bytes
 while preserving the accepted entry, ribbons, sheets and rings, without adding images or
 function spans. It does not establish exhaustive French
 overlay coverage. A complete archive reconciliation against the preceding
