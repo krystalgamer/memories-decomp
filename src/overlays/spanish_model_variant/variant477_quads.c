@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant477_quads.h"
+#include "../french_model_variant/variant477_entry.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant477_DrawQuadGroups(u8 *context)
@@ -14,8 +14,8 @@ void SpanishModelVariant477_DrawQuadGroups(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Quads477State *state = (Quads477State *)context;
-    QuadGroup477 *group = state->groups;
+    EntryState477 *state = (EntryState477 *)context;
+    ModelVariantQuadGroup *group = state->groups;
     POLY_FT4 *polygon;
     s16 i, j;
     s16 angle, ripple;
@@ -26,9 +26,9 @@ void SpanishModelVariant477_DrawQuadGroups(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     i = 0;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
-    polygon = &state->polygon;
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
+    polygon = &state->quads_packet;
     for (; i < 2; i++, group++) {
         j = 0;
         angle = 0;
@@ -36,20 +36,20 @@ void SpanishModelVariant477_DrawQuadGroups(u8 *context)
         for (; j < 10; j++, angle += 1300, ripple += 1700) {
             if (group->size[j] >= 0) {
                 if (group->size[j] > 3072) {
-                    red = group->color[0] * (4096 - group->size[j]) / 1024;
-                    green = group->color[1] * (4096 - group->size[j]) / 1024;
-                    blue = group->color[2] * (4096 - group->size[j]) / 1024;
+                    red = group->color.r * (4096 - group->size[j]) / 1024;
+                    green = group->color.g * (4096 - group->size[j]) / 1024;
+                    blue = group->color.b * (4096 - group->size[j]) / 1024;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = state->origin.vx + ((rcos(angle + ripple + group->angle[j]) * 128) >> 12);
-                matrix.t[1] = state->origin.vy + ((rsin(angle + group->angle[j]) * 128) >> 12);
-                matrix.t[2] = state->origin.vz + ((rsin(ripple + group->angle[j]) * 128) >> 12);
+                matrix.t[0] = state->aim.target.vx + ((rcos(angle + ripple + group->angle[j]) * 128) >> 12);
+                matrix.t[1] = state->aim.target.vy + ((rsin(angle + group->angle[j]) * 128) >> 12);
+                matrix.t[2] = state->aim.target.vz + ((rsin(ripple + group->angle[j]) * 128) >> 12);
                 scale.vx = group->size[j];
                 scale.vy = group->size[j];
                 scale.vz = group->size[j];
@@ -75,7 +75,7 @@ void SpanishModelVariant477_DrawQuadGroups(u8 *context)
                 }
             }
             if (group->size[j] < 4096 && state->enabled[i] == 1) {
-                group->size[j] += state->step * 256;
+                group->size[j] += state->clock.step * 256;
                 if (group->size[j] >= 4096) {
                     group->size[j] = 4096;
                     group->done[j] = 1;

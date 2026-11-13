@@ -62,6 +62,19 @@ typedef struct {
     u8 unknown_25C[0xA0];
 } ModelVariantQuadGroup;
 
+/* One 0x8C-byte textured panel (a single quad): corners a..d and a position,
+ * a colour, and per panel a size, a done flag, an initialized flag, a base
+ * matrix, a captured position and a growth direction. The header-460 and 477
+ * entries keep two; SpanishModelVariant477_DrawPanels grows and draws them. */
+typedef struct {
+    SVECTOR a[1], b[1], c[1], d[1], positions[1];
+    CVECTOR color;
+    u8 unknown_2C[0x10];
+    s32 size[1], done[1], field_44[1], initialized[1];
+    MATRIX matrices[1];
+    VECTOR captured[1], directions[1];
+} ModelVariantPanel;
+
 /* One group of 32 swarm quads: corners, a shared colour, and per quad the
  * growth, done flag and reset flag. */
 typedef struct {
