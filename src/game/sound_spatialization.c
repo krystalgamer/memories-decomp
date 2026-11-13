@@ -4,50 +4,20 @@
 #include "sound.h"
 #include "sound_spatialization.h"
 
-#define SD_SECONDARY_OFFSET_VIEW(type, state, offset) \
-    ((type *)((u8 *)(state) + (offset)))
-
 void SD_UpdateSecondaryObjectVolumes(void)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;
-    s32 object_offset;
-    s32 offset;
 
-    if (state->object_count > 0) {
-        s32 count;
-
-        i = 0;
-        object_offset = 0x180;
-        offset = i;
-        do {
-            SDSecondaryState *entry =
-                SD_SECONDARY_OFFSET_VIEW(SDSecondaryState, state, offset);
-
-            if (entry->objects[0].channel_index <
-                SD_SEQUENCE_CHANNEL_COUNT) {
-                s32 value = entry->objects[0].channel_index;
-                SDSecondaryState *current;
-
-                SD_SpatializeSecondaryObject(
-                    SD_SECONDARY_OFFSET_VIEW(
-                        SDSecondaryObject, state, object_offset),
-                    &state->channels[value]);
-                current = gSD_pSecondaryState;
-                SD_SetVoiceVolume(
-                    i,
-                    SD_SECONDARY_OFFSET_VIEW(
-                        SDSecondaryState, current, offset)
-                        ->objects[0].level_left,
-                    SD_SECONDARY_OFFSET_VIEW(
-                        SDSecondaryState, current, offset)
-                        ->objects[0].level_right);
-            }
-            object_offset += SD_SECONDARY_OBJECT_SIZE;
-            state = gSD_pSecondaryState;
-            count = state->object_count;
-            offset += SD_SECONDARY_OBJECT_SIZE;
-        } while (++i < count);
+    for (i = 0; i < state->object_count; i++) {
+        if (state->objects[i].channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
+            SD_SpatializeSecondaryObject(
+                &state->objects[i],
+                &state->channels[state->objects[i].channel_index]);
+            SD_SetVoiceVolume(i, gSD_pSecondaryState->objects[i].level_left,
+                              gSD_pSecondaryState->objects[i].level_right);
+        }
+        state = gSD_pSecondaryState;
     }
 }
 

@@ -6,9 +6,6 @@
 #include "sound_spatialization.h"
 #include "sd_reset_secondary_playback_thunk.h"
 
-#define SD_SECONDARY_OFFSET_VIEW(type, state, offset) \
-    ((type *)((u8 *)(state) + (offset)))
-
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
  * (or when forced). Caches the bend value in the object, adds SD_CalcPitchBend's
  * adjustment to the note in 7.7 units, fills the voice_attr request block
@@ -40,21 +37,18 @@ void SD_UpdateSecondaryObjectPitch(SDSecondaryObject *p, s32 force)
 /* Resets the secondary sequencer: every track reader goes back to its
  * ended/default-tempo state, every live object is detached from its channel
  * and keyed off with a fresh envelope, and every channel record returns to
- * centre pan and full volume/expression. The two offsets walk the state's
- * `tracks` and `channels` arrays by byte stride, as retail does. */
+ * centre pan and full volume/expression. */
 void SD_ResetSecondaryPlayback(void) {
     SDSecondaryState *base;
     SDSequenceTrack *track;
     SDSecondaryRecord *channel;
     s32 mask;
     s32 i;
-    s32 track_off;
     s32 key;
     SDSecondaryObject *obj;
     s32 c72;
     s32 cff;
     s32 one;
-    s32 channel_off;
     u8 b40;
     u8 b7f;
     s32 w7f;
@@ -64,12 +58,10 @@ void SD_ResetSecondaryPlayback(void) {
     c72 = 0x72;
     one = 1;
     cff = 0xFF;
-    track_off = (u32)&((SDSecondaryState *)0)->tracks;
     base = gSD_pSecondaryState;
     base->sequence_level = 0x7F;
     do {
-        track = SD_SECONDARY_OFFSET_VIEW(
-            SDSequenceTrack, gSD_pSecondaryState, track_off);
+        track = &gSD_pSecondaryState->tracks[i];
         i++;
         track->pos = 0;
         track->pos_saved = 0;
@@ -86,7 +78,6 @@ void SD_ResetSecondaryPlayback(void) {
         track->running_status_held = cff;
         track->running_status = 0;
         track->field_002B = 0;
-        track_off += SD_SEQUENCE_TRACK_RECORD_SIZE;
     } while (i < SD_SEQUENCE_TRACK_COUNT);
 
     for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
@@ -109,10 +100,8 @@ void SD_ResetSecondaryPlayback(void) {
     b40 = 0x40;
     b7f = 0x7F;
     w7f = 0x7F;
-    channel_off = i;
     do {
-        channel = SD_SECONDARY_OFFSET_VIEW(
-            SDSecondaryRecord, gSD_pSecondaryState, channel_off);
+        channel = &gSD_pSecondaryState->channels[i];
         i++;
         channel->pan = b40;
         channel->volume = b7f;
@@ -124,7 +113,6 @@ void SD_ResetSecondaryPlayback(void) {
         channel->reverb_mode = 0;
         channel->field_0014 = 0;
         channel->voice_usage = 0;
-        channel_off += SD_SEQUENCE_CHANNEL_RECORD_SIZE;
     } while (i < SD_SEQUENCE_CHANNEL_COUNT);
 
     SpuSetKey(SPU_OFF, mask);

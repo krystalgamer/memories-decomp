@@ -3,17 +3,9 @@
 #include "sd_key_off_secondary_object.h"
 #include "sound.h"
 
-#define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
-    ((SDSecondaryObject *)((u8 *)(state) + (offset)))
-
 void SD_KeyOffSecondaryObject(s32 index)
 {
-    int table_offset = index << 2;
-    int object_offset = (table_offset + index) << 3;
-    /* Direct objects[index] syntax changes GCC's index calculation. */
-    SDSecondaryObject *entry =
-        SD_SECONDARY_OBJECT_OFFSET_VIEW(
-            gSD_pSecondaryState, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
+    SDSecondaryObject *entry = &gSD_pSecondaryState->objects[index];
     int *item;
     int result;
     if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)
