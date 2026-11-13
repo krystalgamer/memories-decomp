@@ -1,6 +1,16 @@
 #include "../../types.h"
 #include "variant402_bands.h"
 
+/* The French 402 and 412 entries share this drawer; it reads the entry
+ * state of whichever image builds it. */
+#ifdef MODEL_VARIANT412_BANDS
+#include "variant412_entry.h"
+typedef Variant412EntryState Family402BandOwner;
+#else
+#include "variant402_entry.h"
+typedef Variant402EntryState Family402BandOwner;
+#endif
+
 void FrenchModelVariant402_DrawBands(u8 *context)
 {
     SVECTOR rotation;
@@ -10,7 +20,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    u8 *work;
+    Family402BandOwner *work;
     ModelVariantCurtain *band;
     GsOT *ot;
     Family402BandPacket *quad;
@@ -36,18 +46,22 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     s16 fade;
     u8 r0, g0, b0, r1, g1, b1;
 
-    work = context;
-    band = (ModelVariantCurtain *)(work + BAND_WORK_0438);
+    work = (Family402BandOwner *)context;
+    band = work->bands;
     ot = Graphics_GetDefaultOrderingTable();
 #ifndef MODEL_VARIANT412_BANDS
     direction = -1;
 #endif
-    bearing = ratan2(MODEL_VARIANT_WORD(work, BAND_WORK_0844), MODEL_VARIANT_WORD(work, BAND_WORK_083C));
+    bearing = ratan2(work->aim.direction.vz, work->aim.direction.vx);
     yaw = bearing + 2048;
-    ratan2(MODEL_VARIANT_WORD(work, BAND_WORK_0840), MODEL_VARIANT_WORD(work, BAND_WORK_0844));
-    quad = (Family402BandPacket *)(work + BAND_WORK_0744);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
+#ifdef MODEL_VARIANT412_BANDS
+    quad = &work->band_sprite;
+#else
+    quad = &work->band_packet;
+#endif
 #ifndef MODEL_VARIANT412_BANDS
-    if (MODEL_VARIANT_HALF(work, 0x8C0) == 0) {
+    if (work->slot == 0) {
         direction = 1;
     }
 #endif
@@ -57,10 +71,22 @@ void FrenchModelVariant402_DrawBands(u8 *context)
         yaw = bearing + 3072;
     }
 #ifdef MODEL_VARIANT412_BANDS
-    pulse = (MODEL_VARIANT_WORD(work, BAND_WORK_0868) & 1) * 64;
+#ifdef MODEL_VARIANT412_BANDS
+    pulse = (work->frame_count & 1) * 64;
 #else
-    outer_radius = (MODEL_VARIANT_WORD(work, BAND_WORK_0868) & 1) * 64 + 512;
-    outer_depth = (MODEL_VARIANT_WORD(work, BAND_WORK_0868) & 1) * 64 + 192;
+    pulse = (work->clock.frame_count & 1) * 64;
+#endif
+#else
+#ifdef MODEL_VARIANT412_BANDS
+    outer_radius = (work->frame_count & 1) * 64 + 512;
+#else
+    outer_radius = (work->clock.frame_count & 1) * 64 + 512;
+#endif
+#ifdef MODEL_VARIANT412_BANDS
+    outer_depth = (work->frame_count & 1) * 64 + 192;
+#else
+    outer_depth = (work->clock.frame_count & 1) * 64 + 192;
+#endif
 #endif
     for (i = 0; i < 2; i++, band++) {
         if (band->scale > 0) {
@@ -83,9 +109,9 @@ void FrenchModelVariant402_DrawBands(u8 *context)
             rotation.vx = 0;
             rotation.vy = yaw;
             rotation.vz = 0;
-            matrix.t[0] = MODEL_VARIANT_HALF(work, BAND_WORK_0834);
-            matrix.t[1] = MODEL_VARIANT_HALF(work, BAND_WORK_0836);
-            matrix.t[2] = MODEL_VARIANT_HALF(work, BAND_WORK_0838);
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy;
+            matrix.t[2] = work->aim.target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -97,20 +123,20 @@ void FrenchModelVariant402_DrawBands(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (band->scale < 2048) {
-                r0 = work[BAND_WORK_0894];
-                g0 = work[BAND_WORK_0895];
-                b0 = work[BAND_WORK_0896];
-                r1 = work[BAND_WORK_0898];
-                g1 = work[BAND_WORK_0899];
-                b1 = work[BAND_WORK_089A];
+                r0 = work->inner.r;
+                g0 = work->inner.g;
+                b0 = work->inner.b;
+                r1 = work->outer.r;
+                g1 = work->outer.g;
+                b1 = work->outer.b;
             } else {
                 fade = 4096 - band->scale;
-                r0 = work[BAND_WORK_0894] * fade / 2048;
-                g0 = work[BAND_WORK_0895] * fade / 2048;
-                b0 = work[BAND_WORK_0896] * fade / 2048;
-                r1 = work[BAND_WORK_0898] * fade / 2048;
-                g1 = work[BAND_WORK_0899] * fade / 2048;
-                b1 = work[BAND_WORK_089A] * fade / 2048;
+                r0 = work->inner.r * fade / 2048;
+                g0 = work->inner.g * fade / 2048;
+                b0 = work->inner.b * fade / 2048;
+                r1 = work->outer.r * fade / 2048;
+                g1 = work->outer.g * fade / 2048;
+                b1 = work->outer.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&band->a[j], &band->a[j + 1],
@@ -134,12 +160,16 @@ void FrenchModelVariant402_DrawBands(u8 *context)
             }
         }
         if (band->scale < 4096) {
-            band->scale += MODEL_VARIANT_WORD(work, BAND_WORK_0874) * 256;
+#ifdef MODEL_VARIANT412_BANDS
+            band->scale += work->step * 256;
+#else
+            band->scale += work->clock.step * 256;
+#endif
             if (band->scale >= 4096) {
                 band->scale = 4096;
                 band->count++;
-                if (i + 1 == 2 && MODEL_VARIANT_WORD(work, BAND_WORK_08AC) == 2) {
-                    MODEL_VARIANT_WORD(work, BAND_WORK_08AC) = 3;
+                if (i + 1 == 2 && work->phase == 2) {
+                    work->phase = 3;
                 }
             }
         }

@@ -1,6 +1,16 @@
 #include "../../types.h"
 #include "variant402_strip.h"
 
+/* The French 402 and 412 entries share this drawer; it reads the entry
+ * state of whichever image builds it. */
+#ifdef MODEL_VARIANT412_STRIP
+#include "variant412_entry.h"
+typedef Variant412EntryState Variant402EntryRecordOwner;
+#else
+#include "variant402_entry.h"
+typedef Variant402EntryState Variant402EntryRecordOwner;
+#endif
+
 void FrenchModelVariant402_DrawStrip(u8 *context)
 {
     SVECTOR rotation;
@@ -15,8 +25,8 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     long flags[1][2];
     long interpolation;
 #endif
-    u8 *work;
-    Family402Strip *strip;
+    Variant402EntryRecordOwner *work;
+    Variant402EntryRecord *strip;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, j;
@@ -24,19 +34,19 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     s32 size;
     s32 width;
 
-    work = context;
+    work = (Variant402EntryRecordOwner *)context;
     ot = Graphics_GetDefaultOrderingTable();
 #ifdef MODEL_VARIANT412_STRIP
-    strip = (Family402Strip *)(work + STRIP_RECORD_BASE);
+    strip = work->records;
 #endif
-    angle = ratan2(MODEL_VARIANT_HALF(work, STRIP_WORK_084E), MODEL_VARIANT_HALF(work, STRIP_WORK_084C));
-    quad = (POLY_GT4 *)(work + STRIP_WORK_06A8);
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
+    quad = work->packets.textured;
     angle += 2048;
-    if (MODEL_VARIANT_WORD(work, STRIP_WORK_08AC) > 0) {
+    if (work->phase > 0) {
 #ifndef MODEL_VARIANT412_STRIP
-        strip = (Family402Strip *)(work + STRIP_RECORD_BASE);
+        strip = work->records;
 #endif
-        width = MODEL_VARIANT_HALF(work, STRIP_WORK_08A4);
+        width = work->width;
         if (width < 0) {
             width += 31;
         }
@@ -52,16 +62,16 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                           rsin(3072) * size >> 12, 0);
                 setVector(&rotation, 0, 0, angle);
                 if (j == 0) {
-                    matrix.t[0] = MODEL_VARIANT_WORD(work, STRIP_WORK_0828);
-                    matrix.t[1] = MODEL_VARIANT_WORD(work, STRIP_WORK_082C);
-                    matrix.t[2] = MODEL_VARIANT_WORD(work, STRIP_WORK_0830);
+                    matrix.t[0] = work->matrix.t[0];
+                    matrix.t[1] = work->matrix.t[1];
+                    matrix.t[2] = work->matrix.t[2];
                 } else {
-                    matrix.t[0] = MODEL_VARIANT_WORD(work, STRIP_WORK_0828) +
-                        MODEL_VARIANT_WORD(work, STRIP_WORK_083C) * MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) / 1024;
-                    matrix.t[1] = MODEL_VARIANT_WORD(work, STRIP_WORK_082C) +
-                        MODEL_VARIANT_WORD(work, STRIP_WORK_0840) * MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) / 1024;
-                    matrix.t[2] = MODEL_VARIANT_WORD(work, STRIP_WORK_0830) +
-                        MODEL_VARIANT_WORD(work, STRIP_WORK_0844) * MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) / 1024;
+                    matrix.t[0] = work->matrix.t[0] +
+                        work->aim.direction.vx * work->displacement / 1024;
+                    matrix.t[1] = work->matrix.t[1] +
+                        work->aim.direction.vy * work->displacement / 1024;
+                    matrix.t[2] = work->matrix.t[2] +
+                        work->aim.direction.vz * work->displacement / 1024;
                 }
                 scale.vz = scale.vy = scale.vx = 4096;
                 RotMatrix(&rotation, &matrix);
@@ -86,7 +96,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
 #endif
             }
         }
-        strip = (Family402Strip *)(work + STRIP_RECORD_BASE);
+        strip = work->records;
         for (i = 0; i < 1; i++, strip++) {
             for (j = 0; j < 1; j++) {
                 setXY4(quad, (u16)strip->projected[0][j], (strip->projected[0][j] >> 16),
@@ -129,21 +139,29 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
 #endif
             }
         }
-        if (MODEL_VARIANT_WORD(work, STRIP_WORK_0890) + 1 ==
+        if (work->part_index + 1 ==
             ((Family402RingView *)work)->config->part_count) {
-            if (MODEL_VARIANT_WORD(work, STRIP_WORK_08AC) == 1) {
-                if (MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) <= 1024) {
-                    MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) += MODEL_VARIANT_WORD(work, STRIP_WORK_0874) * 64;
-                    if (MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) >= 1024) {
-                        MODEL_VARIANT_HALF(work, STRIP_WORK_08A6) = 1024;
-                        MODEL_VARIANT_WORD(work, STRIP_WORK_08AC) = 2;
+            if (work->phase == 1) {
+                if (work->displacement <= 1024) {
+#ifdef MODEL_VARIANT412_STRIP
+                    work->displacement += work->step * 64;
+#else
+                    work->displacement += work->clock.step * 64;
+#endif
+                    if (work->displacement >= 1024) {
+                        work->displacement = 1024;
+                        work->phase = 2;
                     }
                 }
             }
-            if (MODEL_VARIANT_WORD(work, STRIP_WORK_08AC) == 5 && MODEL_VARIANT_HALF(work, STRIP_WORK_08A4) > 0) {
-                MODEL_VARIANT_HALF(work, STRIP_WORK_08A4) -= MODEL_VARIANT_WORD(work, STRIP_WORK_0874) * 8;
-                if (MODEL_VARIANT_HALF(work, STRIP_WORK_08A4) <= 0) {
-                    MODEL_VARIANT_HALF(work, STRIP_WORK_08A4) = 0;
+            if (work->phase == 5 && work->width > 0) {
+#ifdef MODEL_VARIANT412_STRIP
+                work->width -= work->step * 8;
+#else
+                work->width -= work->clock.step * 8;
+#endif
+                if (work->width <= 0) {
+                    work->width = 0;
                 }
             }
         }

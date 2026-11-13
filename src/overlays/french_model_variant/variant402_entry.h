@@ -18,11 +18,14 @@ typedef struct {
     u32 start;
 } Variant402EntryConfig;
 
+/* The strip record: three pairs of points, their screen positions, two
+ * words the entry sets, and the two strip depths the strip drawer reads. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR points[3][2];
+    long projected[3][2];
     s16 field_48, field_4A;
     s32 field_4C;
-    u8 unknown_50[8];
+    s32 depth[2];
 } Variant402EntryRecord;
 
 typedef struct {
@@ -30,10 +33,26 @@ typedef struct {
     s32 field_80, field_84, field_88, field_8C;
 } Variant402EntryRing;
 
+/* One of the eight ribbons the 402 ribbon drawer projects: two spine points
+ * and their screen positions, angles and widths, two edge points and their
+ * screen positions, depths and screen offsets. */
+typedef struct {
+    SVECTOR a[2];
+    long sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    long sb[2];
+    s32 width[2];
+    s32 otz[2];
+    u16 ox[2];
+    u16 oy[2];
+    u8 unknown_50[8];
+} Family402Ribbon;
+
 typedef struct {
     Variant402EntryRecord records[1];
     Variant402EntryRing rings[2];
-    u8 unknown_178[0x438 - 0x178];
+    Family402Ribbon ribbons[8];
     ModelVariantCurtain bands[2];
     ModelVariantPackets packets;
     POLY_GT4 extra, band_packet;
@@ -48,7 +67,7 @@ typedef struct {
     s32 part_index;
     CVECTOR inner, outer;
     s16 field_89C, field_89E, field_8A0, field_8A2;
-    s16 width, field_8A6, field_8A8, field_8AA;
+    s16 width, displacement, ribbon_angle, field_8AA;
     s32 phase, field_8B0, field_8B4, field_8B8, tint;
     s16 slot, command;
 } Variant402EntryState;
