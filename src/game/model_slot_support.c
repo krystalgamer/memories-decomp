@@ -14,7 +14,7 @@
  * way the original read them through $gp. */
 s16 gModel_wViewPitch;
 s16 gModel_wViewYaw;
-u16 gModel_wViewDistance;
+s16 gModel_wViewDistance;
 
 void *Model_GetSlotDataEntry(s32 index, s32 slot)
 {
