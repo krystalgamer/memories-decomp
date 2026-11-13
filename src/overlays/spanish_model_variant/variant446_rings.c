@@ -17,7 +17,7 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
     long p;
     long flag;
     EntryState446 *work;
-    u8 *pulse;
+    EntryPulse446 *pulse;
     POLY_GT4 *poly;
     ModelVariantCurtain *ring;
     GsOT *ot;
@@ -40,7 +40,7 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
     ring = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
     first = 1;
-    pulse = (u8 *)work + 0x1130;
+    pulse = work->pulses;
     poly = &work->ring_packet;
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx);
     heading = yaw + 0x800;
@@ -50,7 +50,7 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
     } else {
         heading = yaw + 0xC00;
     }
-    amp = ((MODEL_VARIANT_WORD(work, 0x1B90) & 1) << 5) * MODEL_VARIANT_WORD(pulse, 0x80) / 4096;
+    amp = ((MODEL_VARIANT_WORD(work, 0x1B90) & 1) << 5) * pulse->scale.vx / 4096;
     if (work->phase < 2) {
         k = 3;
         ring += 3;

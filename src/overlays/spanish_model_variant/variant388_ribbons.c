@@ -18,7 +18,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     long p;
     long flag;
     Variant388EntryState *work;
-    u8 *timing;
+    Variant388EntrySheet *timing;
     GsOT *ot;
     s16 i;
     s32 turn;
@@ -40,7 +40,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     ribbon = (Ribbon388 *)work->unknown_228;
     tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
     ratan2(work->aim.direction.vz, work->aim.direction.vx);
-    timing = (u8 *)work + 0xF8;
+    timing = work->sheets;
     prim = &work->packets.triangle;
     if (work->slot == 1) {
         turn = -turn;
@@ -65,9 +65,9 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
     m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
     m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
-    scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
+    scale.vx = timing->field_88;
+    scale.vy = timing->field_88;
+    scale.vz = timing->field_88;
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;

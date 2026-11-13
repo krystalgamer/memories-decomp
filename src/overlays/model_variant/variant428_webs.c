@@ -15,7 +15,7 @@ void ModelVariant428_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *timing;
+    ModelVariantSheet *timing;
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
@@ -33,7 +33,7 @@ void ModelVariant428_DrawWebs(u8 *ctx)
     s32 otz;
 
     work = (Variant428EntryState *)ctx;
-    timing = (u8 *)work + 0xC78;
+    timing = work->sheets;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
@@ -135,14 +135,14 @@ void ModelVariant428_DrawWebs(u8 *ctx)
             if (web->scale > 0) {
                 web->scale -= work->clock.step * 0xE0;
                 if (web->scale <= 0) {
-                    if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800) {
+                    if (timing->size > 0x800) {
                         web->scale = 0;
                     } else {
                         web->scale += 0x1000;
                     }
                 }
             }
-            if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800 && web->scale > 0x1000) {
+            if (timing->size > 0x800 && web->scale > 0x1000) {
                 web->scale = 0;
             }
         } else if (work->tail.phase == 1) {
