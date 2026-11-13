@@ -122,7 +122,7 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
         } else {
             n = ribbon->count;
         }
-        poly = work->flat;
+        poly = work->flat.ft4;
         for (k = 0; k < n; k++) {
             if ((u32)(work->clock.frame_count & 1) == 1) {
                 if (!(k & 1)) {
