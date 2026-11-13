@@ -50,6 +50,6 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant460_aImages[9];
 extern Variant460EntryConfig gFrenchModelVariant460_aConfigs[];
 void ModelVariant443_DrawRibbons(u8 *context);
-void ModelVariant443_DrawSheets(u8 *context);
+void ModelVariant443_DrawSheets(Variant460EntryState *entry);
 s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command);
 #endif

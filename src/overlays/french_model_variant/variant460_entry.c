@@ -242,7 +242,7 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant443_DrawRibbons((u8 *)point);
         }
         if (work->config->sheet_start <= work->clock.frame && work->tail.phase < 6) {
-            ModelVariant443_DrawSheets((u8 *)point);
+            ModelVariant443_DrawSheets((Variant460EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

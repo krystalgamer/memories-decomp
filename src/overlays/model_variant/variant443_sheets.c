@@ -4,11 +4,10 @@
 #include "../french_model_variant/variant460_entry.h"
 
 /* Draws a variable set of sheets: the count and how many follow the variant's
- * own slots come from the timing record at (u8 *)work + 0x2E7C. The first sheets sit on
- * 0x20-byte slots at (u8 *)work + 0x2C50 and grow with the timing phases; the rest sit
- * on the VECTOR table at (u8 *)work + 0x2D3C and follow the 0x2E8-byte objects that
- * start at ctx. */
-void ModelVariant443_DrawSheets(u8 *ctx)
+ * own slots come from the entry config's count, mode and kind. The first sheets
+ * sit on the entry matrices and grow with the timing phases; the rest sit on
+ * the entry targets and follow the state and length of the entry records. */
+void ModelVariant443_DrawSheets(Variant460EntryState *entry)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -17,12 +16,12 @@ void ModelVariant443_DrawSheets(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *obj;
+    Variant460EntryRecord *obj;
     GsOT *ot;
     s32 count;
     s32 first;
     Variant460EntryState *work;
-    u8 *rec;
+    Variant460EntryConfig *rec;
     POLY_GT4 *poly;
     ModelVariantSheetSet *sheet;
     s32 i;
@@ -30,35 +29,34 @@ void ModelVariant443_DrawSheets(u8 *ctx)
     SVECTOR *v;
     s32 bias;
     s32 otz;
-    s32 off;
 
-    sheet = (ModelVariantSheetSet *)(ctx + 0x1740);
-    poly = (POLY_GT4 *)(ctx + 0x2B18);
-    obj = work = ctx;
+    sheet = entry->sheets;
+    poly = entry->packets.textured;
+    obj = (work = entry)->records;
     ot = Graphics_GetDefaultOrderingTable();
-    rec = (u8 *)MODEL_VARIANT_WORD(obj, 0x2E7C);
-    if (MODEL_VARIANT_WORD(rec, 0x24) == 0) {
-        if (MODEL_VARIANT_WORD(rec, 0x28) == 0) {
+    rec = work->config;
+    if (rec->mode == 0) {
+        if (rec->kind == 0) {
             count = 2;
             first = 1;
-        } else if (MODEL_VARIANT_WORD(rec, 0x28) == 2) {
+        } else if (rec->kind == 2) {
             count = 3;
             first = 2;
         } else {
-            count = MODEL_VARIANT_WORD(rec, 0x20) + 1;
-            first = MODEL_VARIANT_WORD(rec, 0x20);
+            count = rec->count + 1;
+            first = rec->count;
         }
-    } else if (MODEL_VARIANT_WORD(rec, 0x28) == 0) {
+    } else if (rec->kind == 0) {
         first = 1;
-        count = MODEL_VARIANT_WORD(rec, 0x20) + 1;
-    } else if (MODEL_VARIANT_WORD(rec, 0x28) == 2) {
+        count = rec->count + 1;
+    } else if (rec->kind == 2) {
         first = 2;
-        count = MODEL_VARIANT_WORD(rec, 0x20) + 2;
+        count = rec->count + 2;
     } else {
-        count = MODEL_VARIANT_WORD(rec, 0x20) * 2;
-        first = MODEL_VARIANT_WORD(rec, 0x20);
+        count = rec->count * 2;
+        first = rec->count;
     }
-    poly = (POLY_GT4 *)((u8 *)poly + 0x34);
+    poly++;
     for (i = 0; i < count; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
@@ -72,10 +70,9 @@ void ModelVariant443_DrawSheets(u8 *ctx)
             m.t[1] = work->matrices[i].t[1];
             m.t[2] = work->matrices[i].t[2];
         } else {
-            off = (i - first) * 16;
-            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D3C);
-            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D40);
-            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D44);
+            m.t[0] = work->targets[i - first].vx;
+            m.t[1] = work->targets[i - first].vy;
+            m.t[2] = work->targets[i - first].vz;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -112,34 +109,34 @@ void ModelVariant443_DrawSheets(u8 *ctx)
             }
         }
         if (i < first) {
-            if (((Variant460EntryState *)work)->tail.phase == 0) {
+            if (work->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((work->clock.frame - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C)) << 12) /
-                                  (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x30) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x2C));
+                    sheet->size = ((work->clock.frame - work->config->sheet_start) << 12) /
+                                  (work->config->ribbon_start - work->config->sheet_start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
-                        ((Variant460EntryState *)work)->tail.phase = 1;
+                        work->tail.phase = 1;
                     }
                 }
-            } else if (((Variant460EntryState *)work)->tail.phase == 3 && sheet->size > 0) {
-                if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) {
-                    sheet->size = 0x1000 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38)) << 12) /
-                                  (u32)(MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x3C) - MODEL_VARIANT_WORD(((Variant460EntryState *)work)->config, 0x38));
+            } else if (work->tail.phase == 3 && sheet->size > 0) {
+                if (work->clock.frame >= work->config->phase3) {
+                    sheet->size = 0x1000 - ((work->clock.frame - work->config->phase3) << 12) /
+                                  (work->config->phase4 - work->config->phase3);
                 }
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
             }
         } else {
-            if (MODEL_VARIANT_WORD(obj, 0x248) == 1) {
+            if (obj->state == 1) {
                 if (sheet->shown == 0) {
                     sheet->size = 0x4000;
                     sheet->shown = 1;
                 } else {
-                    sheet->size = MODEL_VARIANT_WORD(obj, 0x24C) * 16;
+                    sheet->size = obj->length * 16;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
-                        if (((Variant460EntryState *)work)->tail.phase < 4) {
+                        if (work->tail.phase < 4) {
                             sheet->shown = 0;
                         }
                     }
@@ -147,7 +144,7 @@ void ModelVariant443_DrawSheets(u8 *ctx)
             } else {
                 sheet->size = 0;
             }
-            obj += 0x2E8;
+            obj++;
         }
     }
 }
