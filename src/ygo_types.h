@@ -1158,6 +1158,9 @@ typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
 #endif
 
 typedef struct FadeTransitionState {
+    /* The colour fades store tint_r..pad_03 as one 0x00BBGGRR word through
+     * a cast: a word member would make the record 4-aligned, and Europe's
+     * record is 0x2A bytes. */
     u8 tint_r;
     u8 tint_g;
     u8 tint_b;
@@ -1166,7 +1169,7 @@ typedef struct FadeTransitionState {
     u8 target_level;
     u8 flags;
     u8 step;
-    u16 sweep_head;
+    s16 sweep_head;
     u8 band_levels[FADE_BAND_COUNT];
 } FadeTransitionState;
 
