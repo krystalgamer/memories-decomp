@@ -5,6 +5,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libcd_abi_variants.h"
+#include "../psyq/libpress.h"
 #include "../ygo_types.h"
 
 #define MOVIE_STREAM_COUNT 13
@@ -15,7 +16,7 @@ extern MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT];
 /* Zero-initialized data that movie_pipeline.c defines (#2602), for the units that
  * reach it without the unit's other declarations. */
 
-extern u8 gMovie_FileInfo[];
+extern CdlFILE gMovie_FileInfo;
 
 extern u8 gMovie_bCopyDisplayOnStop;
 extern s16 gLibGs_sActiveBufferIndex;
@@ -116,27 +117,55 @@ typedef char GraphicsDimension_size_must_be_4[
 extern GraphicsDimension gGraphics_CurrentWidth;
 extern GraphicsDimension gGraphics_CurrentHeight;
 
-/* The movie work area lives at gMovie_pWorkArea + 0x40000. Only its tail
- * is reached by name here. LoadImage is handed
- * gMovie_pWorkArea + 0x42400 + idx * 8 with idx kept in 0..3 by an
- * and-with-~3, which is what fixes slots at four entries; the two
- * rects that follow are the frame the display is centred on
+/* The movie work buffer at gMovie_pWorkArea (gRuntime_pSharedWorkBase):
+ * the DecDCTvlcBuild table, the StSetRing ring of 0x14 2048-byte sectors,
+ * the two coded-frame slots DecDCTvlc2 fills and DecDCTin reads, and the
+ * four decoded strip buffers DecDCTout fills and LoadImage uploads. The
+ * strip RECTs follow the last buffer. Retail always reaches them from
+ * work + 0x40000 (LoadImage's slots at +0x2400 + idx * 8, idx kept in
+ * 0..3 by an and-with-~3), so they are described as a window at that
+ * offset: the four strip slots, the frame the display is centred on
  * ((screen - w) / 2 on both axes) and the strip the MDEC is filling
- * (w * h / 2 words to DecDCTout). Nothing before 0x2400 is reached
- * through this type, so the head stays an opaque block. The European
- * build keeps its tail 0xC00 further in; its wrappers define the head's
- * size. */
-#ifndef MOVIE_WORK_AREA_HEAD_SIZE
-#define MOVIE_WORK_AREA_HEAD_SIZE 0x2400
+ * (w * h / 2 words to DecDCTout). Europe's decoded strips are 0x3000
+ * bytes; its wrapper sets the size, which moves the RECTs 0xC00 further. */
+#ifndef MOVIE_DECODED_SLOT_SIZE
+#define MOVIE_DECODED_SLOT_SIZE 0x2D00
 #endif
+#define MOVIE_RING_SECTORS 0x14
+#define MOVIE_CODED_SLOT_SIZE 0xE000
+#define MOVIE_DECODED_OFFSET 0x37000
+#define MOVIE_RECT_WINDOW_OFFSET 0x40000
+
 typedef struct {
-    u8 head[MOVIE_WORK_AREA_HEAD_SIZE];
+    u8 decoded_tail[MOVIE_DECODED_OFFSET + 4 * MOVIE_DECODED_SLOT_SIZE -
+                    MOVIE_RECT_WINDOW_OFFSET];
     RECT slots[4];
     RECT frame;
     RECT strip;
+} MovieRectWindow;
+
+typedef struct {
+    DECDCTTAB vlc_table;
+    u32 ring[MOVIE_RING_SECTORS][0x800 / 4];
+    u32 coded[2][MOVIE_CODED_SLOT_SIZE / 4];
+    union {
+        u32 decoded[4][MOVIE_DECODED_SLOT_SIZE / 4];
+        struct {
+            u8 decoded_head[MOVIE_RECT_WINDOW_OFFSET - MOVIE_DECODED_OFFSET];
+            MovieRectWindow window;
+        } rects;
+    } out;
 } MovieWorkArea;
 
-extern u8 *gMovie_pWorkArea;
+typedef char MovieWorkArea_decoded_offset_must_be_0x37000[
+    (u32)&((MovieWorkArea *)0)->out.decoded == MOVIE_DECODED_OFFSET ? 1 : -1
+];
+typedef char MovieWorkArea_window_offset_must_be_0x40000[
+    (u32)&((MovieWorkArea *)0)->out.rects.window ==
+            MOVIE_RECT_WINDOW_OFFSET ? 1 : -1
+];
+
+extern MovieWorkArea *gMovie_pWorkArea;
 extern CdlLOC gMovie_StreamLoc;
 
 /* One consumer, func_8005C374 in movie_pipeline.c, which writes its three
