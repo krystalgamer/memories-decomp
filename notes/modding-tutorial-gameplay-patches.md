@@ -456,16 +456,17 @@ pieces:
 for (card_id = EXODIA_FIRST_CARD_ID;
      card_id < EXODIA_CARD_ID_END;
      card_id++) {
-    for (i = 0; i < HAND_SIZE; i++) {
+    for (i = 0;; i++) {
+        if (i >= HAND_SIZE) {
+            return 0;
+        }
         if (buf[i] >= 0 &&
             ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)
                 ->cards[buf[i]].id == card_id) {
             buf[i] = -1;
-            goto found;
+            break;
         }
     }
-    return 0;
-found:;
 }
 return 1;
 ```
