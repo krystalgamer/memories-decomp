@@ -3,6 +3,20 @@
 #include "../ygo_types.h"
 #include "fade_constants.h"
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+
+/* Fade_DrawOverlay's scratchpad GsBOXF. It resets the (x, y) and (w, h)
+ * halves as whole words before GsSortBoxFill reads the descriptor. */
+typedef union FadeOverlayBox {
+    GsBOXF gs;
+    struct {
+        u32 attribute;
+        u32 xy;
+        u32 wh;
+    } words;
+} FadeOverlayBox;
 
 /* The fade depth byte kept for the overlay while FADE_FLAG_KEEP_OVERLAY is
  * set. */
@@ -42,7 +56,7 @@ void Fade_Init(void);
 void Fade_StepBands(void);
 void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);
-/* Fills FadeTransitionState::band_levels through the retail byte cursor. */
+/* Sets every FadeTransitionState::band_levels entry to level. */
 void Fade_FillBandLevels(s32);
 /* Arms the white latch and leaves the fade complete at level 0 with a white
    clear colour and no ordering tables drawn: an instant cut to white. */

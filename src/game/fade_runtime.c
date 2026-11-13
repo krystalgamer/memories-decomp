@@ -57,7 +57,7 @@ void Fade_StepBands(void)
     s32 acc;
 
     if (state->level < state->target_level) {
-        acc = (s16)state->sweep_head;
+        acc = state->sweep_head;
         for (i = FADE_BAND_COUNT / 2 - 1; i >= 0; i--) {
             acc = acc - step;
             level = acc;
@@ -71,9 +71,9 @@ void Fade_StepBands(void)
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
         state->sweep_head =
-            state->sweep_head + step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+            state->sweep_head + step * gGraphics_nBaseFrameStep;
     } else {
-        acc = (s16)state->sweep_head;
+        acc = state->sweep_head;
         for (i = 0; i < FADE_BAND_COUNT / 2; i++) {
             acc = acc + step;
             level = acc;
@@ -87,7 +87,7 @@ void Fade_StepBands(void)
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
         state->sweep_head =
-            state->sweep_head - step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+            state->sweep_head - step * gGraphics_nBaseFrameStep;
     }
     if (level == state->target_level) {
         state->level = level;
@@ -108,7 +108,7 @@ void Fade_Update(FadeTransitionState *p)
     if ((gFade_bOrderingTableMode & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
         Fade_EnableOrderingTables();
     }
-    delta = p->step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+    delta = p->step * gGraphics_nBaseFrameStep;
     lvl = p->level;
     tgt = p->target_level;
     if (lvl == tgt) {
@@ -202,19 +202,17 @@ void Fade_Update(FadeTransitionState *p)
 
    Shape notes for anyone re-deriving this: the GsBOXF descriptor's 0x04 and
    0x08 words are each written whole (x+y and w+h together), while y and h
-   are updated as halves, so both access widths go through casts. The tail
+   are updated as halves, so FadeOverlayBox (fade.h) gives both views. The tail
    reads the fade record through gFade_State and the tint block through the
    pointer set up for the Fade_Update call -- that is what makes gcc
    rematerialise the record address once for the tail instead of reusing $s2
    throughout. Matches 0/117 with -G8 -msplit-addresses. */
 
 /* The GsBOXF descriptor lives in scratchpad RAM, not in a GPU packet. */
-#define FADEBOX_Y(p) (*(u16 *)&(p)->y)
-#define FADEBOX_H(p) (*(s16 *)&(p)->h)
-#define FADEBOX ((GsBOXF *)0x1F8003C0)
+#define FADEBOX ((FadeOverlayBox *)0x1F8003C0)
 
 void Fade_DrawOverlay(void) {
-    GsBOXF *p;
+    FadeOverlayBox *p;
     FadeTransitionState *rec;
     GsOT *ot;
     s32 i;
@@ -230,20 +228,20 @@ void Fade_DrawOverlay(void) {
     if ((flags & FADE_FLAG_ACTIVE) ||
         (gFade_bOrderingTableMode != 0 && rec->level != 0xFF)) {
         p = FADEBOX;
-        p->attribute = GsALON | GsATWO;
-        *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
-        *(u32 *)&p->x = 0;
+        p->gs.attribute = GsALON | GsATWO;
+        p->words.wh = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
+        p->words.xy = 0;
         ot = gGraphics_apOrderingTables[1];
 
         if (flags & FADE_FLAG_BANDED) {
-            FADEBOX_H(p) = FADE_BAND_HEIGHT;
+            p->gs.h = FADE_BAND_HEIGHT;
             for (i = 0; i < FADE_BAND_COUNT; i++) {
                 band = 0xFF - rec->band_levels[i];
-                p->b = (u8) band;
-                p->g = (u8) band;
-                p->r = (u8) band;
-                GsSortBoxFill(p, ot, 4);
-                FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
+                p->gs.b = band;
+                p->gs.g = band;
+                p->gs.r = band;
+                GsSortBoxFill(&p->gs, ot, 4);
+                p->gs.y += FADE_BAND_HEIGHT;
             }
             if (!(gFade_State.flags & FADE_FLAG_KEEP_OVERLAY)) {
                 return;
@@ -259,32 +257,32 @@ void Fade_DrawOverlay(void) {
         }
 
         shade = 0xFF - gFade_State.level;
-        p->b = (u8) shade;
-        p->g = (u8) shade;
-        p->r = (u8) shade;
+        p->gs.b = shade;
+        p->gs.g = shade;
+        p->gs.r = shade;
         if (gFade_State.flags & FADE_FLAG_TINTED) {
-            p->attribute = GsALON | GsAONE;
+            p->gs.attribute = GsALON | GsAONE;
             tint = rec->tint_r - rec->level;
             if (tint < 0) tint = 0;
-            p->r = (u8) tint;
+            p->gs.r = tint;
             tint = rec->tint_g - rec->level;
             if (tint < 0) tint = 0;
-            p->g = (u8) tint;
+            p->gs.g = tint;
             tint = rec->tint_b - rec->level;
             if (tint < 0) tint = 0;
-            p->b = (u8) tint;
+            p->gs.b = tint;
         }
-        GsSortBoxFill(p, ot, depth);
+        GsSortBoxFill(&p->gs, ot, depth);
     }
 }
 
 void Fade_FillBandLevels(s32 level)
 {
-    u8 *p = (u8 *)&gFade_State;
+    FadeTransitionState *state = &gFade_State;
     s32 i;
 
     for (i = FADE_BAND_COUNT - 1; i >= 0; i--) {
-        *(p + i + (u32)&((FadeTransitionState *)0)->band_levels) = level;
+        state->band_levels[i] = level;
     }
 }
 
@@ -309,7 +307,8 @@ void Fade_ApplyWhiteLatchToFadeIn(void)
     if (gFade_bWhiteLatch != 0) {
         value = 0xFFFFFF;
         state = &gFade_State;
-        *(s32 *)state = value;
+        /* One word store of the tint bytes; see FadeTransitionState. */
+        *(s32 *)&state->tint_r = value;
         state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED;
         state->step = 0xC;
         gFade_bTargetRed = 1;
@@ -352,7 +351,7 @@ void Fade_InitInColor(int color)
     if (color == 0xFFFFFF) {
         gFade_bWhiteLatch = 1;
     }
-    *(s32 *)&gFade_State = color;
+    *(s32 *)&gFade_State.tint_r = color;
     Fade_InitIn();
     state = &gFade_State;
     state->flags |=
@@ -368,7 +367,7 @@ void Fade_ApplyWhiteLatchToFadeOut(void)
     if (gFade_bWhiteLatch != 0) {
         color = 0xFFFFFF;
         state = &gFade_State;
-        *(s32 *)state = color;
+        *(s32 *)&state->tint_r = color;
         state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED |
                        FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
         state->step = 0xC;
@@ -408,7 +407,7 @@ void Fade_InitOutColor(int color)
     if (color == 0xFFFFFF) {
         gFade_bWhiteLatch = 1;
     }
-    *(s32 *)&gFade_State = color;
+    *(s32 *)&gFade_State.tint_r = color;
     Fade_InitOut();
     state = &gFade_State;
     state->flags |=
