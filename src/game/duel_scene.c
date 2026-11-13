@@ -2608,12 +2608,7 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "color_constants.h"
 #include "display_object.h"
 
-#define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
-    ((u32)&((DuelEffectRequest *)0)->progress)
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-
-#define DUEL_CARD_READBACK_HALFWORDS(buffer) ((u16 *)(buffer))
-#define DUEL_CARD_READBACK_WORDS(buffer) ((u32 *)(buffer))
 
 /* Regional value: the y Duel_CreateHandCardDisplayObject places the drawn card at (0x92 ->
  * 0xA2). The European build (src/game/european/) defines its own. */
@@ -2953,7 +2948,8 @@ void DuelScene_UpdateExodiaResult(void)
 
 void DuelCard_CaptureRoundedTexture(DisplayObject *o)
 {
-    u8 *buf;
+    DuelCardStagingPointer buf;
+    DuelCardStagingPointer staging;
     u16 *p;
     s32 xoff;
 
@@ -2966,14 +2962,14 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
         xoff = 0x140;
     }
 
-    buf = gDuel_abCardStagingBuffer;
+    buf.bytes = gDuel_abCardStagingBuffer;
     gGraphics_aImageTransferRects[0].x = o->xy.h.x + xoff;
     gGraphics_aImageTransferRects[0].y = o->xy.h.y;
     gGraphics_aImageTransferRects[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     gGraphics_aImageTransferRects[0].h = DUEL_CARD_READBACK_HEIGHT;
-    StoreImage2(&gGraphics_aImageTransferRects[0], DUEL_CARD_READBACK_WORDS(buf));
+    StoreImage2(&gGraphics_aImageTransferRects[0], buf.words);
 
-    p = DUEL_CARD_READBACK_HALFWORDS(buf);
+    p = buf.pixels;
     xoff = DUEL_CARD_READBACK_WORD_COUNT;
     do {
         *p = *p | COLOR_BGR555_STP_MASK;
@@ -2985,7 +2981,8 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
        corner pixels of the 140x196 readback back to 0 -- (0, 0), (0, 1),
        (1, 0) and the matching three at each other corner -- which rounds
        the card's corners. (0, 0) is the store through gDuel_abCardStagingBuffer below. */
-    p = DUEL_CARD_READBACK_HALFWORDS(gDuel_abCardStagingBuffer);
+    staging.bytes = gDuel_abCardStagingBuffer;
+    p = staging.pixels;
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 138] = 0;
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[(DUEL_CARD_READBACK_HEIGHT - 1) * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
@@ -2998,12 +2995,13 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
 
-    DUEL_CARD_READBACK_HALFWORDS(gDuel_abCardStagingBuffer)[0] = 0;
+    staging.bytes = gDuel_abCardStagingBuffer;
+    staging.pixels[0] = 0;
     gGraphics_aImageTransferRects[0].x = 0x140;
     gGraphics_aImageTransferRects[0].y = 0x100;
     gGraphics_aImageTransferRects[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     gGraphics_aImageTransferRects[0].h = DUEL_CARD_READBACK_HEIGHT;
-    LoadImage2(&gGraphics_aImageTransferRects[0], DUEL_CARD_READBACK_WORDS(gDuel_abCardStagingBuffer));
+    LoadImage2(&gGraphics_aImageTransferRects[0], staging.words);
 }
 
 #include "display_object.h"
