@@ -170,7 +170,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
         }
     }
     work->spiral_angle += 16;
-    if (*(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x10) <= MODEL_VARIANT_WORD(work, 0x185C)
+    if (work->config->sheet_start <= MODEL_VARIANT_WORD(work, 0x185C)
         && work->field_189C == 0 && work->spiral_size < 0x400) {
         work->spiral_size += work->clock.step * 64;
         if (work->spiral_size >= 0x400) {
@@ -178,11 +178,11 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
             work->field_189C = 2;
         }
     }
-    if ((u32)MODEL_VARIANT_WORD(work, 0x185C) >= *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C)
+    if ((u32)MODEL_VARIANT_WORD(work, 0x185C) >= work->config->track_end
         && work->spiral_shrink < 0x400) {
         work->spiral_shrink = (((u32)MODEL_VARIANT_WORD(work, 0x185C)
-            - *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C)) << 10)
-            / (*(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x20) - *(u32 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0x1C));
+            - work->config->track_end) << 10)
+            / (work->config->shrink_end - work->config->track_end);
         if (work->spiral_shrink >= 0x400) {
             work->spiral_shrink = 0x400;
             work->field_189C = 4;

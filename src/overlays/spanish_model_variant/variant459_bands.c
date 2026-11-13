@@ -32,14 +32,14 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(MODEL_VARIANT_WORD(work, 0x3080) & 1)) {
-        r = work->scale * *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x2A) / 4096;
+        r = work->scale * *(u16 *)((u8 *)work->config + 0x2A) / 4096;
     } else {
         r = work->scale *
-            (*(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x2A) +
-             (rsin(0x100) * *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x2A) >> 12)) / 4096;
+            (*(u16 *)((u8 *)work->config + 0x2A) +
+             (rsin(0x100) * *(u16 *)((u8 *)work->config + 0x2A) >> 12)) / 4096;
     }
     band = (ModelVariantBand *)work->bands;
-    for (i = 0; i < *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x24); i++, band++) {
+    for (i = 0; i < work->config->count; i++, band++) {
         for (j = 0; j < 9; j++) {
             setVector(&band->a[j], rcos(0x400) * r >> 12, rsin(0x400) * r >> 12, 0);
             setVector(&band->b[j], 0, 0, 0);
@@ -75,7 +75,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
         }
     }
     band = (ModelVariantBand *)work->bands;
-    for (i = 0; i < *(u16 *)(MODEL_VARIANT_WORD(work, 0x309C) + 0x24); i++, band++) {
+    for (i = 0; i < work->config->count; i++, band++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = band->sa[j];
             poly->y0 = band->sa[j] >> 16;

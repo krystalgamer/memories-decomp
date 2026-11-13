@@ -121,7 +121,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
             }
         }
     }
-    if (work->index + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, 0x186C) + 0xC)) {
+    if (work->index + 1 == work->config->count) {
         work->ribbon_angle += work->clock.step << 5;
     }
 }
