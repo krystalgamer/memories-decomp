@@ -1,15 +1,7 @@
 #include "../../types.h"
 #include "variant402_strip.h"
 
-/* The French 402 and 412 entries share this drawer; it reads the entry
- * state of whichever image builds it. */
-#ifdef MODEL_VARIANT412_STRIP
-#include "variant412_entry.h"
-typedef Variant412EntryState Variant402EntryRecordOwner;
-#else
 #include "variant402_entry.h"
-typedef Variant402EntryState Variant402EntryRecordOwner;
-#endif
 
 void FrenchModelVariant402_DrawStrip(u8 *context)
 {
@@ -18,14 +10,9 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-#ifdef MODEL_VARIANT412_STRIP
-    long interpolation;
-    long flags;
-#else
     long flags[1][2];
     long interpolation;
-#endif
-    Variant402EntryRecordOwner *work;
+    Variant402EntryState *work;
     Variant402EntryRecord *strip;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -34,18 +21,13 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     s32 size;
     s32 width;
 
-    work = (Variant402EntryRecordOwner *)context;
+    work = (Variant402EntryState *)context;
     ot = Graphics_GetDefaultOrderingTable();
-#ifdef MODEL_VARIANT412_STRIP
-    strip = work->records;
-#endif
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     quad = work->packets.textured;
     angle += 2048;
     if (work->phase > 0) {
-#ifndef MODEL_VARIANT412_STRIP
         strip = work->records;
-#endif
         width = work->width;
         if (width < 0) {
             width += 31;
@@ -89,11 +71,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                                                 &strip->projected[1][j],
                                                 &strip->projected[2][j],
                                                 &interpolation,
-#ifdef MODEL_VARIANT412_STRIP
-                                                &flags);
-#else
                                                 &flags[i][j]);
-#endif
             }
         }
         strip = work->records;
@@ -107,17 +85,9 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                 setRGB1(quad, 0, 64, 192);
                 setRGB2(quad, 128, 128, 128);
                 setRGB3(quad, 128, 128, 128);
-#ifdef MODEL_VARIANT412_STRIP
-                if (strip->depth[j] > 0) {
-                    if (strip->depth[j] < 2048) {
-                        GsSortPoly(quad, ot, strip->depth[j] & 0xFFFF);
-                    }
-                }
-#else
                 if (strip->depth[j] >= 0 && flags[i][j] >= 0) {
                     GsSortPoly(quad, ot, strip->depth[j] & 0xFFFF);
                 }
-#endif
                 setXY4(quad, (u16)strip->projected[2][j], (strip->projected[2][j] >> 16),
                        (u16)strip->projected[2][j + 1], (strip->projected[2][j + 1] >> 16),
                        (u16)strip->projected[1][j], (strip->projected[1][j] >> 16),
@@ -126,28 +96,16 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                 setRGB1(quad, 0, 64, 192);
                 setRGB2(quad, 128, 128, 128);
                 setRGB3(quad, 128, 128, 128);
-#ifdef MODEL_VARIANT412_STRIP
-                if (strip->depth[j] > 0) {
-                    if (strip->depth[j] < 2048) {
-                        GsSortPoly(quad, ot, strip->depth[j] & 0xFFFF);
-                    }
-                }
-#else
                 if (strip->depth[j] >= 0 && flags[i][j] >= 0) {
                     GsSortPoly(quad, ot, strip->depth[j] & 0xFFFF);
                 }
-#endif
             }
         }
         if (work->part_index + 1 ==
             ((Family402RingView *)work)->config->part_count) {
             if (work->phase == 1) {
                 if (work->displacement <= 1024) {
-#ifdef MODEL_VARIANT412_STRIP
-                    work->displacement += work->step * 64;
-#else
                     work->displacement += work->clock.step * 64;
-#endif
                     if (work->displacement >= 1024) {
                         work->displacement = 1024;
                         work->phase = 2;
@@ -155,11 +113,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                 }
             }
             if (work->phase == 5 && work->width > 0) {
-#ifdef MODEL_VARIANT412_STRIP
-                work->width -= work->step * 8;
-#else
                 work->width -= work->clock.step * 8;
-#endif
                 if (work->width <= 0) {
                     work->width = 0;
                 }

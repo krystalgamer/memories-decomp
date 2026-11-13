@@ -2,6 +2,7 @@
 #define FRENCH446_RIBBONS_VIEW_H
 #include "../../types.h"
 #include "variant402_ribbons.h"
+#include "variant402_entry.h"
 
 /* MODEL446 work offsets for the fields that variant402_ribbons.h names by
  * their MODEL402 offsets. */

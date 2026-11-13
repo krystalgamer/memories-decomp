@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant402_ribbons.h"
+#include "variant402_entry.h"
 
 void FrenchModelVariant402_DrawRibbons(u8 *ctx)
 {
@@ -11,7 +12,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Family402RibbonOwner *work;
+    Variant402EntryState *work;
     Variant402EntryRing *timing;
     GsOT *ot;
     s16 i;
@@ -27,7 +28,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Family402RibbonOwner *)ctx;
+    work = (Variant402EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ribbon = work->ribbons;
@@ -40,11 +41,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     }
     if (work->phase > 0) {
         length = 16;
-#ifdef MODEL_VARIANT412_RIBBONS
-        flags = work->frame_count;
-#else
         flags = work->clock.frame_count;
-#endif
         for (i = 0, angle = work->ribbon_angle; i < 8;
              i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
             for (k = 0; k < 2; k++) {
@@ -122,10 +119,6 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
         }
     }
     if (work->part_index + 1 == work->config->part_count) {
-#ifdef MODEL_VARIANT412_RIBBONS
-        work->ribbon_angle += work->step * 55;
-#else
         work->ribbon_angle += work->clock.step * 55;
-#endif
     }
 }
