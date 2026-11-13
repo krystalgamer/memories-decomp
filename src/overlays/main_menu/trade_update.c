@@ -225,7 +225,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_awOffers[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
                 MainMenu_RebuildTradeInventoryRows(i);
-                *(u8 *)((s32)i + (s32)dirty1.clearBase) = 0;
+                *(u8 *)(i + (s32)dirty1.clearBase) = 0;
                 i++;
             } while (i < 2);
             Input_ResetPads();

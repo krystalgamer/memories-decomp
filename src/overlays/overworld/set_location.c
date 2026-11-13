@@ -303,7 +303,7 @@ void CampaignMap_SetLocation(s32 index)
     }
     Model_ResetSceneView();
     Model_ResetSceneState();
-    Model_LoadSlot(2, (u8 *)gRuntime_pSharedWorkBase, 0x43000, 0);
+    Model_LoadSlot(2, gRuntime_pSharedWorkBase, 0x43000, 0);
     obj = (u8 *)Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
     colour[1] = 1365;
@@ -336,7 +336,7 @@ void CampaignMap_SetLocation(s32 index)
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;
-    if ((u8)gCampaignMap_Location >= 10) {
+    if (gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
         panel = gCampaignMap_pSpotlight;
         flags = panel->f8;

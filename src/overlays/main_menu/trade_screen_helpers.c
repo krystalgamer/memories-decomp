@@ -109,7 +109,7 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.y2 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
     quad.x3 = right;
     quad.y3 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
-    Graphics_SubmitDrawModePacket((u32 *)&quad, (GsOT *)gGraphics_apOrderingTables[1], 0x1F, 2);
+    Graphics_SubmitDrawModePacket((u32 *)&quad, gGraphics_apOrderingTables[1], 0x1F, 2);
 }
 #endif
 
