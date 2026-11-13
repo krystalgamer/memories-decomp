@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
+#include "variant475_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
@@ -16,7 +16,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
     long p;
     long flag;
     long *previous;
-    u8 *work;
+    Variant475EntryState *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -40,13 +40,13 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant475EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x2D20);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2FA8), MODEL_VARIANT_WORD(work, 0x2FA0)) + 0xC00;
+    poly = &work->flat.g4;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     reach = 0xA0;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x2FB8) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -55,14 +55,14 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x2FB8) & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant458Streamer *)(work + 0x25DC);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x3010);
+    base = work->streamer_rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -71,7 +71,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x3008) / 64;
+            length = work->streamer_length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -79,16 +79,16 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0x300C) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0x3010) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0x3014);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x2FB8) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x3010) += 0x514;
+    rot.vx = work->streamer_rotation_x + rx;
+    rot.vy = work->streamer_rotation_y + ry;
+    rot.vz = work->streamer_rotation_z;
+    if (work->clock.frame_count % 10 == 0) {
+        work->streamer_rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x3010) += 0x20;
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x2E04);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x2E06);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x2E08);
+    work->streamer_rotation_y += 0x20;
+    m.t[0] = work->target.vx;
+    m.t[1] = work->target.vy;
+    m.t[2] = work->target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -99,7 +99,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)(work + 0x25DC);
+    streamer = work->streamers;
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
          previous = (long *)((u8 *)previous + sizeof(Variant458Streamer)), streamer++) {
         for (k = 0; k < 17; k++) {
@@ -111,7 +111,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*previous;
                 dy = (streamer->sa[k] >> 16) - (*previous >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x3008) > 0x200) {
+                if (work->streamer_length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -126,7 +126,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x3008) > 0x200) {
+                if (work->streamer_length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -136,7 +136,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (Variant458Streamer *)(work + 0x25DC);
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -157,11 +157,11 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x3020) == 4 && MODEL_VARIANT_WORD(work, 0x3008) > 0) {
-        MODEL_VARIANT_WORD(work, 0x3008) -= MODEL_VARIANT_WORD(work, 0x2FC4) << 4;
-        if (MODEL_VARIANT_WORD(work, 0x3008) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x3008) = 0;
-            MODEL_VARIANT_WORD(work, 0x3020) = 5;
+    if (work->tail.phase == 4 && work->streamer_length > 0) {
+        work->streamer_length -= work->clock.step << 4;
+        if (work->streamer_length <= 0) {
+            work->streamer_length = 0;
+            work->tail.phase = 5;
         }
     }
 }
