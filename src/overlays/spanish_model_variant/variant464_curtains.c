@@ -52,7 +52,7 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
     } else {
         yaw += 0x400;
     }
-    lift = ((MODEL_VARIANT_WORD(work, 0x1C18) & 1) << 5) * sheet->size / 4096;
+    lift = (((s32)work->clock.frame_count & 1) << 5) * sheet->size / 4096;
     done = 1;
     i = 0;
     radius = lift + 0x180;

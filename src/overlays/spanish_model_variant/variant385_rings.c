@@ -50,7 +50,7 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
     } else {
         heading = yaw + 0xC00;
     }
-    amp = ((MODEL_VARIANT_WORD(work, 0xFEC) & 1) << 5) * pulse->size / 4096;
+    amp = (((s32)work->clock.frame_count & 1) << 5) * pulse->size / 4096;
     if (work->phase < 2) {
         k = 3;
         ring += 3;
