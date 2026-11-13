@@ -35,7 +35,7 @@ void ModelVariant398_DrawRings(u8 *context)
     s32 i, j;
     s32 angle;
     s32 r;
-    SVECTOR *point;
+    s32 cosine, radius, rise, slot;
     s32 size;
     s32 depth;
     s32 yaw, heading, pitch;
@@ -57,25 +57,34 @@ void ModelVariant398_DrawRings(u8 *context)
     }
     for (i = 0; i < 3; i++, ring++) {
         if (ring->scale > 0x800) {
-            for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
+            /* j steps the angle and ends the row; slot walks the points. */
+            j = 0;
+            slot = 0;
+            angle = 0;
+            while (j < 17) {
                 r = (ring->scale - 0x800) * 192 / 2048;
-                setVector(&ring->a[j], rcos(angle) * (r + 256) >> 12,
-                          rsin(angle) * (r + 256) >> 12, -r);
+                cosine = rcos(angle);
+                /* Codegen steering: these empty one-pass blocks set the loop
+                 * depth GCC weights each reference by, which keeps retail's
+                 * register choice for the radius, the angle and the slot. */
+                do {
+                    radius = r + 256;
+                    do {
+                        ring->a[slot].vx = cosine * radius >> 12;
+                        rise = rsin(angle) * radius;
+                    } while (0);
+                    j++;
+                    angle = j << 8;
+                    ring->a[slot].vz = -r;
+                } while (0);
+                do {
+                    ring->a[slot].vy = rise >> 12;
+                    slot++;
+                } while (0);
             }
         } else {
-            /* Codegen steering: retail keeps this flat row out of the loop
-             * optimizer. A structured loop weights angle more heavily, so
-             * global allocation swaps it with the first row's pointer. */
-            j = 0;
-            angle = 0;
-            point = ring->a;
-        flat_row:
-            setVector(point, rcos(angle) * 256 >> 12, rsin(angle) * 256 >> 12, 0);
-            point++;
-            j++;
-            angle = j << 8;
-            if (j < 17) {
-                goto flat_row;
+            for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
+                setVector(&ring->a[j], rcos(angle) * 256 >> 12, rsin(angle) * 256 >> 12, 0);
             }
         }
         if (ring->scale > 0) {
