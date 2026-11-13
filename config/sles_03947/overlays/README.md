@@ -83,6 +83,13 @@ constants retain the European glyph width and screen bounds, message-box flag,
 preview position, and text-box completion mask without changing the existing
 North American or Japanese builds.
 
+The options module is the six-sector `WA_MRG.MRG` slice beginning at sector
+`10170`; identical copies at sectors `10211`, `10252`, `10293` and `10334`
+are registered as duplicates. All sixteen functions reuse
+`src/overlays/pal_options/` with the French layout and profiles. Only the
+resident bindings in `options_linker_symbols.txt` differ; see
+[`european-options.md`](../../../notes/overlays/european-options.md).
+
 ## Reviewed MODEL450 maintenance
 
 The existing raw-image registrations at `MODEL.MRG` sectors `48224` and `48234`

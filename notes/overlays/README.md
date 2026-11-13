@@ -41,6 +41,9 @@ its resident load banks.
 - [`german-model-french-layouts.md`](german-model-french-layouts.md)
   records how the German MODEL images and WA_MRG duel-effect and options
   modules reuse the French sources, profiles and linker symbols.
+- [`european-options.md`](european-options.md) records how the English
+  European options module reuses the French C, with English resident linker
+  symbols as the only difference.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)
