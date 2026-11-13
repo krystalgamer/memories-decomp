@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "tools/project"))
 
 import inventory_model_images as inventory
 import register_model_images as registration
-from progress import ProgressError, render_status_table, validate_overlay_inventory
+from progress import ProgressError, overlay_column, render_status_table, validate_overlay_inventory
 
 
 class ModelImageRegistrationTests(unittest.TestCase):
@@ -126,3 +126,10 @@ class ModelImageRegistrationTests(unittest.TestCase):
         self.assertIn("| US | 5/6 |", lines[2])
         self.assertIn("| 5/5 |", lines[2])
         self.assertTrue(lines[2].endswith("| 3,729/7,458 |"))
+
+    def test_renamed_family_layouts_count_toward_their_family_column(self):
+        self.assertEqual(overlay_column("model_image_su_1142_8013b000"), "exodia")
+        self.assertEqual(overlay_column("exodia_slot1"), "exodia")
+        self.assertEqual(overlay_column("model_intro"), "credits")
+        self.assertEqual(overlay_column("model_variant_238_stage8_slot1"), "MODEL")
+        self.assertEqual(overlay_column("main_menu_language_3"), "main_menu")
