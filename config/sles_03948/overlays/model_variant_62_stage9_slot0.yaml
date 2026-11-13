@@ -97,11 +97,18 @@ segments:
     align: 4
     subsegments:
       - [0x3EF0, c, overlays/french_model_variant/variant443_bands]
-  - name: unclassified_tail
+  - name: helper_45A8
     type: code
     start: 0x45A8
     vram: 0x8013F5A8
     align: 4
     subsegments:
-      - [0x45A8, data, overlays/french_model_variant_62_stage9_slot0/unclassified_tail]
+      - [0x45A8, c, overlays/model_variant/variant426_webs]
+  - name: unclassified_4AFC
+    type: code
+    start: 0x4AFC
+    vram: 0x8013FAFC
+    align: 4
+    subsegments:
+      - [0x4AFC, data, overlays/french_model_variant_62_stage9_slot0/unclassified_4AFC]
   - [0x5000]

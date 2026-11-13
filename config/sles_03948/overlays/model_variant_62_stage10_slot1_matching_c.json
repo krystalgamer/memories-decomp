@@ -41,6 +41,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6B8",
       "source": "src/overlays/french_model_variant/variant443_bands.c"
+    },
+    {
+      "address": "0x8017F5A8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x554",
+      "source": "src/overlays/model_variant/variant426_webs.c"
     }
   ],
   "schema": 1

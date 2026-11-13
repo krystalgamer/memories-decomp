@@ -1,13 +1,9 @@
 #include "../../types.h"
 #include "variant443_entry.h"
 
-/* The entry's data block.  gFrenchModelVariant443_D45A8 is where this module's unclassified tail
- * starts, at a helper that the module does not split out yet, 0x554 bytes
- * before the block.  The North American build sets this to the bare name,
- * which its images bind at their own data block. */
-#ifndef MODEL_VARIANT443_DATA
-#define MODEL_VARIANT443_DATA (gFrenchModelVariant443_D45A8 + 0x554)
-#endif
+/* The entry's data block.  Every image binds gFrenchModelVariant443_D45A8
+ * at its own data block, which follows the webs helper. */
+#define MODEL_VARIANT443_DATA gFrenchModelVariant443_D45A8
 
 /* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
  * the North American ones. */

@@ -3,6 +3,7 @@ GetClut = 0x80082B24;
 SetPolyG3 = 0x80082C44;
 SetPolyG4 = 0x80082CC4;
 SetPolyFT4 = 0x80082CA4;
+GsSortGLine = 0x80083EB4;
 Square0 = 0x800899C4;
 SquareRoot0 = 0x80086BD4;
 GsGetActiveBuff = 0x800850A4;
