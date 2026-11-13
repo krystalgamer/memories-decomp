@@ -49,7 +49,7 @@ typedef struct {
     Variant475EntryQuads quads[1];
     Variant475EntryRibbon ribbons[8];
     ModelVariantSheetSet sheets[16];
-    u8 unknown_22C4[0x318];
+    ModelVariantStrandWide strands[6];
     Variant458Streamer streamers[2];
     ModelVariantPackets packets;
     POLY_GT4 extra;
@@ -61,7 +61,8 @@ typedef struct {
     } flat;
     u8 unknown_2D70[0x28];
     POLY_FT4 extra_flat;
-    u8 unknown_2DC0[0x24];
+    GsLINE line;
+    u8 unknown_2DD0[0x14];
     MATRIX matrix;
     SVECTOR target;
     VECTOR starts[8], ends[8], deltas[8], direction;
