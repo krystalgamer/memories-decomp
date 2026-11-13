@@ -51,7 +51,12 @@ typedef struct {
     Variant458Streamer streamers[2];
     ModelVariantPackets packets;
     POLY_GT4 extra;
-    POLY_FT4 flat[2];
+    /* The entry fills two POLY_FT4 templates here; the 458 streamer drawer
+     * this image keeps reads the same bytes as one POLY_G4. */
+    union {
+        POLY_FT4 ft4[2];
+        POLY_G4 g4;
+    } flat;
     u8 unknown_2D70[0x28];
     POLY_FT4 extra_flat;
     u8 unknown_2DC0[0x24];
