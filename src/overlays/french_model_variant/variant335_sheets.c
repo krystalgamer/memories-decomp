@@ -85,10 +85,10 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                     }
                 }
             } else if (work->phase >= 6) {
-                if ((u32)work->clock.frame
+                if (work->clock.frame
                     > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
                     && sheet->size > 0) {
-                    sheet->size = 16384 - ((((u32)work->clock.frame
+                    sheet->size = 16384 - (((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 14)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));
@@ -100,7 +100,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
         } else {
             if (work->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = (((u32)work->clock.frame
+                    sheet->size = ((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C)) << 12)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C));
@@ -111,7 +111,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (work->phase == 1) {
                 if (work->orbit_diameter < 1024) {
-                    work->orbit_diameter = (((u32)work->clock.frame
+                    work->orbit_diameter = ((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)) << 10)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10));
@@ -122,7 +122,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (work->phase == 2) {
                 if (work->lift < 256) {
-                    work->lift = (((u32)work->clock.frame
+                    work->lift = ((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)) << 8)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14));
@@ -133,7 +133,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (work->phase == 3) {
                 if (work->travel_angle < 1024) {
-                    work->travel_angle = (((u32)work->clock.frame
+                    work->travel_angle = ((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)) << 10)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18));
@@ -143,10 +143,10 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                     }
                 }
             } else if (work->phase >= 6) {
-                if ((u32)work->clock.frame
+                if (work->clock.frame
                     > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
                     && sheet->size > 0) {
-                    sheet->size = 4096 - ((((u32)work->clock.frame
+                    sheet->size = 4096 - (((work->clock.frame
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 12)
                         / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
                         - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));

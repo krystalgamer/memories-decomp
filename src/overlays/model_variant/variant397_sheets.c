@@ -87,8 +87,8 @@ void ModelVariant397_DrawSheets(u8 *ctx)
         if (i == 0) {
             if (work->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((work->clock.frame - work->config->start) << 12) /
-                                  (u32)(work->config->progress_start - work->config->start);
+                    sheet->size = ((work->clock.frame - work->config->start) << 12) /
+                                  (work->config->progress_start - work->config->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->tail.phase = 1;

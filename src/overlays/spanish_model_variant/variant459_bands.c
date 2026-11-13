@@ -149,7 +149,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
         }
     } else if (work->phase < 3 && work->scale > 0) {
         if ((u32)MODEL_VARIANT_WORD(work, 0x3084) >= (u32)MODEL_VARIANT_WORD(work->config, 0x40)) {
-            work->scale = 0x1000 - (u32)(((u32)MODEL_VARIANT_WORD(work, 0x3084) - MODEL_VARIANT_WORD(work->config, 0x40)) << 12) /
+            work->scale = 0x1000 - (((u32)MODEL_VARIANT_WORD(work, 0x3084) - MODEL_VARIANT_WORD(work->config, 0x40)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x44) - MODEL_VARIANT_WORD(work->config, 0x40));
             if (work->scale <= 0) {
                 work->scale = 0;

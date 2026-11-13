@@ -67,7 +67,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(work->frame_count & 3) < 2) {
+    if ((work->frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
@@ -94,7 +94,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
     rot.vx = MODEL_VARIANT_HALF(work, 0x1628) + rx;
     rot.vy = MODEL_VARIANT_HALF(work, 0x162C) + ry;
     rot.vz = MODEL_VARIANT_HALF(work, 0x1630);
-    if ((u32)work->frame_count % 10 == 0) {
+    if (work->frame_count % 10 == 0) {
         work->rotation_y += 0x514;
     }
     work->rotation_y += 0x20;

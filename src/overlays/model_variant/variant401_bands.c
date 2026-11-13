@@ -57,7 +57,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
         lo = 0;
     }
     rec = work->bands;
-    for (j3 = 0; (s16)j3 < 1; j3++, rec++) {
+    for (j3 = 0; j3 < 1; j3++, rec++) {
         for (j = 0; j < 9; j++) {
             off4 = j * 4;
             tc = *(s32 *)(((u8 *)VARIANT401_BANDS_COLUMN(rec, off4)) + 0x1D4);
@@ -112,7 +112,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
             if (work->tail.phase < 3 && *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x1D4) < 0x400) {
                 if (j == 0) {
                     t = work->config->burst_start;
-                    rec->offset[0] = (u32)((work->clock.frame - t) << 10) /
+                    rec->offset[0] = ((work->clock.frame - t) << 10) /
                                      (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - t);
                 } else {
                     *(s32 *)((u8 *)rec + off4 + 0x1D4) += work->clock.step << 6;
@@ -130,7 +130,7 @@ void ModelVariant401_DrawBand(u8 *ctx)
         }
     }
     rec = work->bands;
-    for (j3 = 0; (s16)j3 < 1; j3++, rec++) {
+    for (j3 = 0; j3 < 1; j3++, rec++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = rec->screen[0][j];
             poly->y0 = rec->screen[0][j] >> 16;
@@ -179,8 +179,8 @@ void ModelVariant401_DrawBand(u8 *ctx)
     }
     if (work->tail.phase == 2 && work->scale > 0) {
         t = MODEL_VARIANT_WORD(work->config, 0x28);
-        if ((u32)work->clock.frame >= (u32)t) {
-            work->scale = 0x1000 - (u32)((work->clock.frame - t) << 12) /
+        if (work->clock.frame >= (u32)t) {
+            work->scale = 0x1000 - ((work->clock.frame - t) << 12) /
                                                (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - t);
             if (work->scale <= 0) {
                 work->scale = 0;

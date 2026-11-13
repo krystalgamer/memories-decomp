@@ -122,7 +122,7 @@ void FrenchModelVariant463_DrawTrailRibbons(u8 *ctx)
         }
         poly = ((TrailRibbon463Work *)work)->polygons;
         for (j = 0; j < n; j++) {
-            if ((u32)work->clock.frame_count % 2 == 1) {
+            if (work->clock.frame_count % 2 == 1) {
                 if (!(j & 1)) {
                     poly++;
                 } else {

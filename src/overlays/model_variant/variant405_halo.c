@@ -87,7 +87,7 @@ void ModelVariant405_DrawHalo(u8 *ctx)
             halo->fall[i] += work->clock.step << 5;
             if (halo->fall[i] >= 0x400) {
                 gap = halo->rise[i] - halo->fall[i];
-                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x28) <= (u32)work->clock.frame) {
+                if (*(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x28) <= work->clock.frame) {
                     halo->rise[i] = 0x400;
                     halo->fall[i] = 0x400;
                 } else {

@@ -84,17 +84,17 @@ void ModelVariant458_DrawSheets(u8 *ctx)
         if (i < 8) {
             if (work->tail.phase == 1) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((work->clock.frame - work->config->field_24) << 12) /
-                                  (u32)(work->config->orbit_start - work->config->field_24);
+                    sheet->size = ((work->clock.frame - work->config->field_24) << 12) /
+                                  (work->config->orbit_start - work->config->field_24);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->tail.phase = 2;
                     }
                 }
             } else if (work->tail.phase == 4 && sheet->size > 0) {
-                if ((u32)work->clock.frame >= (u32)work->config->phase4) {
-                    sheet->size = 0x1000 - (u32)((work->clock.frame - work->config->phase4) << 12) /
-                                  (u32)(work->config->phase5 - work->config->phase4);
+                if (work->clock.frame >= work->config->phase4) {
+                    sheet->size = 0x1000 - ((work->clock.frame - work->config->phase4) << 12) /
+                                  (work->config->phase5 - work->config->phase4);
                 }
                 if (sheet->size <= 0) {
                     sheet->size = 0;

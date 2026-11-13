@@ -82,8 +82,8 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
         }
         if (work->phase == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (u32)((work->clock.frame - work->config->start) << 12) /
-                    (u32)(MODEL_VARIANT_WORD(work->config, 0x20) - work->config->start);
+                rec->size = ((work->clock.frame - work->config->start) << 12) /
+                    (MODEL_VARIANT_WORD(work->config, 0x20) - work->config->start);
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     if (i + 1 == 1) {
@@ -91,7 +91,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
                     }
                 }
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work->config, 0x24) <= (u32)work->clock.frame) {
+        } else if ((u32)MODEL_VARIANT_WORD(work->config, 0x24) <= work->clock.frame) {
             if (rec->size > 0) {
                 rec->size -= work->clock.step << 7;
                 if (rec->size <= 0) {

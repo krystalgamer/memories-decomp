@@ -146,16 +146,16 @@ void ModelVariant398_DrawBand(u8 *ctx)
     col = NULL;
     if (work->phase == 1) {
         if (work->displacement < 0x401) {
-            work->displacement = (u32)((work->frame - work->config->burst_start) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - work->config->burst_start);
+            work->displacement = ((work->frame - work->config->burst_start) << 10) /
+                             (MODEL_VARIANT_WORD(work->config, 0x24) - work->config->burst_start);
             if (work->displacement >= 0x400) {
                 work->displacement = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if ((u32)work->frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
-            work->band_scale = 0x1000 - (u32)(((u32)work->frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
+        if (work->frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
+            work->band_scale = 0x1000 - ((work->frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
             if (work->band_scale <= 0) {
                 work->band_scale = 0;

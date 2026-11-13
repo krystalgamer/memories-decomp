@@ -137,7 +137,7 @@ void FrenchModelVariant443_DrawRibbons(u8 *ctx)
     }
     if (work->phase == 2 && work->ribbon_start > 0) {
         timing = *(Ribbons443Timing **)((u8 *)work + 0x3634);
-        work->ribbon_start = 16 - ((u32)work->clock.frame - timing->spread_start) * 16
+        work->ribbon_start = 16 - (work->clock.frame - timing->spread_start) * 16
                                                     / (timing->spread_end - timing->spread_start);
         if (work->ribbon_start <= 0) {
             work->ribbon_start = 0;

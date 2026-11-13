@@ -87,7 +87,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
                 ring->amount[j] += work->clock.step << 7;
                 if (ring->amount[j] >= 0x400) {
                     ring->amount[j] = limit;
-                    if ((u32)MODEL_VARIANT_WORD(work->config, 0x20) < (u32)work->clock.frame) {
+                    if ((u32)MODEL_VARIANT_WORD(work->config, 0x20) < work->clock.frame) {
                         ring->amount[j] = limit;
                         if (j == 8) {
                             *(s32 *)((u8 *)ring + 0x204) = 1;

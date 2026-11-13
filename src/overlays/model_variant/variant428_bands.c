@@ -136,7 +136,7 @@ void ModelVariant428_DrawBands(u8 *ctx)
     col = NULL;
     if (work->tail.phase == 1) {
         if (work->progress < 0x401) {
-            work->progress = (u32)((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x20)) << 10) /
+            work->progress = ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x20)) << 10) /
                              (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - MODEL_VARIANT_WORD(work->config, 0x20));
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
@@ -144,8 +144,8 @@ void ModelVariant428_DrawBands(u8 *ctx)
             }
         }
     } else if (work->tail.phase < 3 && work->scale > 0) {
-        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
-            work->scale = 0x1000 - (u32)(((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
+        if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
+            work->scale = 0x1000 - ((work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
             if (work->scale <= 0) {
                 work->scale = 0;

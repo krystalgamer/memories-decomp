@@ -201,12 +201,12 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (long *)&projection.projected,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
+                     (&projection.interpolation), (&projection.flag));
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
         RotTransPers(&target, (long *)&projection.target,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
+                     (&projection.interpolation), (&projection.flag));
         dx = projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;
         work->screen_delta.vx = dx;

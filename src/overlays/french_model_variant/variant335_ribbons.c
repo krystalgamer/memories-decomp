@@ -174,7 +174,7 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     }
     if (work->phase == 4) {
         if (work->count <= 16) {
-            work->count = (((u32)work->clock.frame
+            work->count = ((work->clock.frame
                 - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C)) << 4)
                 / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x20)
                 - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C));
