@@ -12,7 +12,9 @@ and every image still matches byte for byte.
 The scratchpad record at `0x1F800000` is handed to `GsSortFastSprite` as a
 `GsSPRITE *` for every cell, and its 0x18 bytes are the first 0x18 bytes of
 that libgs type. The members take `libgs.h`'s names, and `SpritePrim`'s names
-for the packed pairs.
+for the packed pairs. `CheckerboardSprite` is a union of those packed
+`fields` (`CheckerboardSpriteFields`) and the `GsSPRITE` `gs` the sort call
+takes.
 
 | Offset | Old | New | Evidence | Confidence | Uses |
 |---|---|---|---|---|---|

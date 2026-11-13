@@ -9,6 +9,8 @@ the arithmetic shift. No register pin or executable assembly is introduced.
 ## Workspace and dispatch bounds
 
 `mem_card.h` describes a `0x1C` root and `0x268`-byte slots. The root's
+first two words are the dialog transitions' box and spotlight objects
+(`box_object`, `spotlight_object`), its
 block byte is at `+0x10`, remaining count at `+0x12`, offset at `+0x14`,
 chunk at `+0x16`, and text index at `+0x1A`. Slot cursor, free-block count
 and directory-entry index are at `+0`, `+0xC` and `+0xD`.
@@ -30,9 +32,8 @@ words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
 `Dialog_UpdateSpotlightContraction`, and `Dialog_UpdateMessageTransition`.
 It is the `+0x20` interior of `gDisplayEffect_apfnSteps`, not separate
 callback storage. Its two-argument prototype is the
-controller's measured calling view. Existing implementations take the root
-as `MenuRecord *` and ignore the second argument; their prototypes and
-bodies are not rewritten. A low-nibble dispatch is not proof of sixteen
+controller's measured calling view. The implementations take the root
+as `MemCardWorkRoot *` and ignore the second argument. A low-nibble dispatch is not proof of sixteen
 allocated table entries.
 The [dialog-transition-family.md](dialog-transition-family.md) contract
 records each callback's distinct progress, completion and lifetime behavior.

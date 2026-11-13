@@ -361,7 +361,6 @@ void MemCardWork_InitializeOperation(u8 value)
 #ifndef CHECKERBOARD_CLUT_X
 #define CHECKERBOARD_CLUT_X 0x2C0
 #endif
-#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 
 void func_8003D32C(void)
 {
@@ -380,42 +379,42 @@ void Checkerboard_DrawBackground(
     s32 rgb;
 
     attribute = state->attribute;
-    sprite->wh = 0x200020;
-    sprite->attribute = attribute;
+    sprite->fields.wh = 0x200020;
+    sprite->fields.attribute = attribute;
     rgb = state->rgb;
-    sprite->tpage = 0xB;
-    sprite->cx = CHECKERBOARD_CLUT_X;
-    sprite->cy = 0xFC;
+    sprite->fields.tpage = 0xB;
+    sprite->fields.cx = CHECKERBOARD_CLUT_X;
+    sprite->fields.cy = 0xFC;
     mode = state->ot_depth;
-    sprite->uv.word = 0x3030;
-    sprite->rgb = rgb;
+    sprite->fields.uv.word = 0x3030;
+    sprite->fields.rgb = rgb;
 
     flip = 0;
     y = 0;
     do {
         x = 0;
-        sprite->x = flip << 5;
-        sprite->uv.bytes.u = 0x30;
-        sprite->y = y;
-        sprite->cx = CHECKERBOARD_CLUT_X;
+        sprite->fields.x = flip << 5;
+        sprite->fields.uv.bytes.u = 0x30;
+        sprite->fields.y = y;
+        sprite->fields.cx = CHECKERBOARD_CLUT_X;
         do {
-            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
+            GsSortFastSprite(&sprite->gs, ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
-            sprite->x =
-                sprite->x + CHECKERBOARD_CELL_WIDTH;
+            sprite->fields.x =
+                sprite->fields.x + CHECKERBOARD_CELL_WIDTH;
         } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
         x = 0;
-        sprite->x = (flip ^ 1) << 5;
-        sprite->uv.bytes.u = 0x50;
-        sprite->cx = CHECKERBOARD_CLUT_X + 0x10;
+        sprite->fields.x = (flip ^ 1) << 5;
+        sprite->fields.uv.bytes.u = 0x50;
+        sprite->fields.cx = CHECKERBOARD_CLUT_X + 0x10;
         do {
-            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
+            GsSortFastSprite(&sprite->gs, ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
-            sprite->x =
-                sprite->x + CHECKERBOARD_CELL_WIDTH;
+            sprite->fields.x =
+                sprite->fields.x + CHECKERBOARD_CELL_WIDTH;
         } while (x < CHECKERBOARD_SCREEN_WIDTH);
 
         y += CHECKERBOARD_CELL_HEIGHT;
@@ -472,12 +471,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #include "dialog_layout.h"
 
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-#define DISPLAY_OBJECT_POSITION_VIEW(object) \
-    ((DisplayObjectPosition *)(object))
-#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
-    ((DisplayObjectSnapshot *)(object))
-
 /* Regional values, which the European wrappers define for themselves: the
    spotlight's centre y (120 in the US build, 128 in the European one) and
    the channel flag Dialog_UpdateOpenTransition sets while its text box is up (4 in the US
@@ -489,7 +482,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 #define DIALOG_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-void Dialog_UpdateSpotlightContraction(MenuRecord *record)
+void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root)
 {
     DisplayObject *object;
     s32 flags;
@@ -504,10 +497,10 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
-        record->grid[0][1] = (s32)object;
+        root->spotlight_object = object;
     }
     flags = gDialog_bCallbackState;
-    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    object = root->spotlight_object;
     if (flags & 64) {
         gDialog_bCallbackState = 0;
     } else {
@@ -524,29 +517,29 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
     }
 }
 
-void Dialog_UpdateCloseTransition(MenuRecord *record)
+void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
 {
     DisplayObject *object;
     DuelEffectChannel *entry;
 
     if (!(gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-        object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+        object = root->box_object;
         gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
+        /* DisplayObject_SavePosition and Widget_SlideSine take the narrow
+           position views declared in display_object_system.h. */
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0x400;
     }
-    /* The dialog channel's index: the byte at 0x1A, inside grid's third
-       row, which MenuRecord does not name. */
-    entry = &gText_aChannels[((u8 *)record)[0x1A]];
-    object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+    entry = &gText_aChannels[root->text_index];
+    object = root->box_object;
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
         if (object->field_60 <= 0) {
             DisplayObject_ReleaseIfPresent(object);
-            record->grid[0][0] = 0;
+            root->box_object = 0;
         } else {
             Widget_SlideSine(
-                DISPLAY_OBJECT_POSITION_VIEW(object),
+                (DisplayObjectPosition *)object,
                 DIALOG_BOX_X,
                 -0x40,
                 object->field_60
@@ -558,20 +551,20 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
             );
         }
     }
-    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    object = root->spotlight_object;
     if (object) {
         *(u16 *)&object->field_48.spotlight.outer += 8;
         *(u16 *)&object->field_48.spotlight.inner += 8;
         if (object->field_48.spotlight.inner >= 0xC0) {
             DisplayObject_ReleaseIfPresent(object);
-            record->grid[0][1] = 0;
+            root->spotlight_object = 0;
         }
     }
-    if (!record->grid[0][0] && !record->grid[0][1])
+    if (!root->box_object && !root->spotlight_object)
         gDialog_bCallbackState = 0;
 }
 
-void Dialog_UpdateOpenTransition(MenuRecord *record)
+void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
 {
     DisplayObject *p;
     DuelEffectChannel *r;
@@ -592,15 +585,15 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
-        record->grid[0][1] = (s32)p;
+        root->spotlight_object = p;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(p, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
-        record->grid[0][0] = (s32)p;
-        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(p));
+        root->box_object = p;
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)p);
         a = gMemCardWork_OperationMode;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
@@ -616,9 +609,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         gDialog_bCallbackState = 0;
         return;
     }
-    /* The dialog channel's index: the byte at 0x1A, inside grid's third
-       row, which MenuRecord does not name. */
-    r = &gText_aChannels[((u8 *)record)[0x1A]];
+    r = &gText_aChannels[root->text_index];
     if ((f & 0x40) != 0) {
         TextBox_UpdateChannels();
         if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
@@ -630,7 +621,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         }
         return;
     }
-    p = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+    p = root->box_object;
     t = *(u16 *)&p->field_60;
     if (p->field_60 < 0) {
         v = t + 0x40;
@@ -641,18 +632,18 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
             p->xy.h.y = 0x50;
         } else {
             Widget_SlideSine(
-                DISPLAY_OBJECT_POSITION_VIEW(p), DIALOG_BOX_X, 0x50, (s16)v);
+                (DisplayObjectPosition *)p, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
                        *(s16 *)&p->xy.h.y);
     }
-    p = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
+    p = root->spotlight_object;
     p->field_48.spotlight.outer = *(u16 *)&p->field_48.spotlight.outer - 8;
     p->field_48.spotlight.inner = *(u16 *)&p->field_48.spotlight.inner - 8;
     if (p->field_48.spotlight.inner <= 0) {
         p->field_48.spotlight.inner = 0;
         p->field_48.spotlight.outer = 0x40;
-        if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
+        if (root->box_object->field_60 == 0) {
             g = gDialog_bCallbackState;
             r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
             gDialog_bCallbackState = g | 0x40;
@@ -666,7 +657,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
 #define DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-void Dialog_UpdateMessageTransition(MenuRecord *record)
+void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
 {
     DisplayObject *e;
     DuelEffectChannel *q;
@@ -684,7 +675,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
-        record->grid[0][0] = (s32)e;
+        root->box_object = e;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
@@ -697,11 +688,8 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
                        *(s16 *)&e->xy.h.y);
     }
 
-    e = (DisplayObject *)record->grid[0][0];
-    /* The dialog channel's index. It is the byte at 0x1A, inside grid's
-       third row, and dialog_transition.c reads it the same way; nothing
-       matched yet writes it, so MenuRecord has no name for it. */
-    q = &gText_aChannels[((u8 *)record)[0x1A]];
+    e = root->box_object;
+    q = &gText_aChannels[root->text_index];
     g = gDialog_bCallbackState;
 
     if ((g & 0x40) != 0) {
