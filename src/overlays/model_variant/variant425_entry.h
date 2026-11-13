@@ -3,26 +3,6 @@
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
 
-/* The entry's view of the ray record (the same layout as Variant425Ray),
- * with the three colour rows the entry fills named; its arm records are
- * ModelVariantShadedRay. */
-typedef struct {
-    u8 unknown00[0x18];
-    SVECTOR a[3];
-    long sa[3];
-    s32 angle[3];
-    SVECTOR b[3];
-    long sb[3];
-    s32 width[3];
-    u8 cb[3][4];
-    u8 ca[3][4];
-    u8 unknown90[4];
-    s32 otz[3];
-    s16 ox[3];
-    s16 oy[3];
-    u8 unknownAC[0xC];
-} Variant425EntryRay;
-
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
@@ -39,7 +19,7 @@ typedef struct {
 typedef struct {
     ModelVariantWebSmall webs[3];
     ModelVariantShadedRay arms[16];
-    Variant425EntryRay rays[16];
+    ModelVariantRay rays[16];
     u8 unknown_1940[0x1CA0 - 0x1940];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];
