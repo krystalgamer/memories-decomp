@@ -2,7 +2,6 @@
 #include "variant473_ribs.h"
 #include "variant473_entry.h"
 
-
 /* Five nine-point ribs. While a rib's size is positive, its spine grows from
  * the origin toward the anchor in the entry ribbon directions (state below 2) or runs from
  * fade/1024 of the anchor to the anchor (state 2 and above), each point bent
