@@ -153,9 +153,9 @@ void FrenchModelVariant336_DrawStreamers(u8 *ctx)
     if (work->phase == 0 && work->extent > 0) {
         work->extent = 1024
             - (((work->clock.frame
-                - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1FD8), 0x10)) << 10)
-               / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1FD8), 0x14)
-                - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x1FD8), 0x10)));
+                - work->config->start) << 10)
+               / (work->config->end
+                - work->config->start));
         if (work->extent <= 0) {
             work->extent = 0;
             work->phase = 1;

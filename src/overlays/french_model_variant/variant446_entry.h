@@ -16,7 +16,7 @@ typedef struct {
     u8 unknown_026[0x2];
     s32 extent;
     u32 draw_start, duration, expanded, fade, end, rays_start, rays_end;
-    u32 unknown_48;
+    u32 field_48;
 } EntryConfig446;
 
 typedef struct {

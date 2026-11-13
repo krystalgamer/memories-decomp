@@ -5,7 +5,7 @@
 
 /* Phase-guarded three-pass twelve-arm spiral: while the phase is not negative,
  * each pass builds three-point arms on a spiral of 800/1024 of the size at
- * (u8 *)work + 0x41BC turned by a further 768, moves them along the view by the
+ * the entry's spiral size turned by a further 768, moves them along the view by the
  * spread, projects them, and draws two POLY_GT4 halves per segment at the pass
  * position where the depth and the projection flag are not negative. Reaching
  * size 0x400 moves phase 1 to 2; from phase 2 on the sweep advances by 48. */
@@ -19,8 +19,7 @@ void SpanishModelVariant479_DrawSpiral(u8 *ctx)
     long p;
     long flag;
     Variant479EntryState *work;
-    u8 *timing;
-    u8 *pos;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s16 n;
@@ -44,7 +43,7 @@ void SpanishModelVariant479_DrawSpiral(u8 *ctx)
     u8 c2;
 
     work = (Variant479EntryState *)ctx;
-    timing = (u8 *)work + 0x2D98;
+    timing = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
@@ -59,8 +58,8 @@ void SpanishModelVariant479_DrawSpiral(u8 *ctx)
                 length = 0;
             }
             if (work->phase >= 3) {
-                timing += 0x98;
-                spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
+                timing++;
+                spread = timing->size / 8;
             } else {
                 spread = 0x400 - work->spiral.shrink;
             }
@@ -89,10 +88,9 @@ void SpanishModelVariant479_DrawSpiral(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            pos = (u8 *)work + n * 32;
-            m.t[0] = MODEL_VARIANT_WORD(pos, 0x4024);
-            m.t[1] = MODEL_VARIANT_WORD(pos, 0x4028);
-            m.t[2] = MODEL_VARIANT_WORD(pos, 0x402C);
+            m.t[0] = work->matrices[n].t[0];
+            m.t[1] = work->matrices[n].t[1];
+            m.t[2] = work->matrices[n].t[2];
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;

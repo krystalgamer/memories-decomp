@@ -21,15 +21,15 @@ void ModelVariant416_DrawSheets(u8 *ctx)
     SVECTOR *v;
     s32 bias;
     s32 level;
-    u8 *object;
+    Variant416EntryBand *object;
     s32 otz;
 
     work = (Variant416EntryState *)ctx;
-    object = ctx + 0xF60;
-    sheet = (ModelVariantSheet *)(ctx + 0x10B0);
+    object = work->bands;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x191C);
-    for (i = 0; i < 3; i++, sheet++, object += 0xA8) {
+    poly = &work->packets.textured[1];
+    for (i = 0; i < 3; i++, sheet++, object++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
@@ -46,10 +46,10 @@ void ModelVariant416_DrawSheets(u8 *ctx)
             scale.vz = sheet->size + bias;
         } else {
             level = 0;
-            if (MODEL_VARIANT_WORD(object, 0x68) > 0) {
+            if (object->offset[0] > 0) {
                 level = 0x400;
-                if (MODEL_VARIANT_WORD(object, 0x68) < 0x400) {
-                    level = MODEL_VARIANT_WORD(object, 0x68);
+                if (object->offset[0] < 0x400) {
+                    level = object->offset[0];
                 }
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * level / 1024;
