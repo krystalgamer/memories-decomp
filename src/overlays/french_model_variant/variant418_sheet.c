@@ -9,7 +9,7 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
     VECTOR scale;
     MATRIX m;
     Variant401EntryState *work;
-    u8 *record;
+    Variant401EntryBand *record;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -24,10 +24,10 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
     s32 otz;
 
     work = (Variant401EntryState *)ctx;
-    record = ctx + 0xF60;
-    sheet = (ModelVariantSheet *)(ctx + 0x11DC);
+    record = work->bands;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x19B0);
+    poly = &work->packets.textured[1];
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
@@ -40,8 +40,8 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
             s32 amount;
 
             amount = 0;
-            if (MODEL_VARIANT_WORD(record, 0x1F4) > 0) {
-                amount = MODEL_VARIANT_WORD(record, 0x1F4);
+            if (record->offset[8] > 0) {
+                amount = record->offset[8];
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
             m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
@@ -53,8 +53,8 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
             s32 amount;
 
             amount = 0;
-            if (MODEL_VARIANT_WORD(record, 0x1D4) > 0) {
-                amount = MODEL_VARIANT_WORD(record, 0x1D4);
+            if (record->offset[0] > 0) {
+                amount = record->offset[0];
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
             m.t[1] = work->matrix.t[1] + work->aim.direction.vy * amount / 0x400;
@@ -102,11 +102,11 @@ void FrenchModelVariant418_DrawSheets(u8 *ctx)
         } else {
             if (work->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
-                    u32 *timing;
+                    ModelVariantWebConfig *timing;
 
-                    timing = *(u32 **)((u8 *)work + 0x1AF4);
-                    sheet->size = ((work->clock.frame - timing[7]) << 12) /
-                                  (timing[8] - timing[7]);
+                    timing = work->config;
+                    sheet->size = ((work->clock.frame - timing->start) << 12) /
+                                  (timing->burst_start - timing->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->tail.phase = 1;

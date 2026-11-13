@@ -4,7 +4,7 @@
 #include "../french_model_variant/variant427_entry.h"
 
 /* Phase-guarded three-pass twelve-arm spiral: while the phase is not negative,
- * each pass builds the arms on a spiral of the size at (u8 *)work + 0x3794 turned by
+ * each pass builds the arms on a spiral of the entry's spiral size turned by
  * a further 1300, moves them along the view by the spread, and draws them as
  * two POLY_GT4 halves at the pass position where the depth and the arm's
  * projection flag are not negative. Reaching size 0x400 moves phase 1 to 2;
@@ -19,8 +19,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
     long p;
     long flag;
     EntryState427 *work;
-    u8 *timing;
-    u8 *pos;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s16 n;
@@ -43,7 +42,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
     u8 c3;
 
     work = (EntryState427 *)ctx;
-    timing = (u8 *)work + 0x1FF8;
+    timing = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
@@ -58,8 +57,8 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
             length = 0;
         }
         if (work->phase >= 3) {
-            timing += 0x98;
-            spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
+            timing++;
+            spread = timing->size / 8;
         } else {
             spread = 0x400 - work->spiral.shrink;
         }
@@ -89,10 +88,9 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        pos = (u8 *)work + n * 32;
-        m.t[0] = MODEL_VARIANT_WORD(pos, 0x363C);
-        m.t[1] = MODEL_VARIANT_WORD(pos, 0x3640);
-        m.t[2] = MODEL_VARIANT_WORD(pos, 0x3644);
+        m.t[0] = work->matrices[n].t[0];
+        m.t[1] = work->matrices[n].t[1];
+        m.t[2] = work->matrices[n].t[2];
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
