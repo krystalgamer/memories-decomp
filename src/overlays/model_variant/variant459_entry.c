@@ -340,15 +340,15 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&web->far[row][f15], rcos(angle) * f34 >> 12, f18, rsin(angle) * f34 >> 12);
                 }
             }
-            MODEL_VARIANT_WORD(web, 0x244) = 0;
-            MODEL_VARIANT_WORD(web, 0x248) = 0;
-            MODEL_VARIANT_WORD(web, 0x24C) = 0;
+            web->field_244 = 0;
+            web->field_248 = 0;
+            web->field_24C = 0;
             web->color.r = work->config->web.r;
             web->color.g = work->config->web.g;
             web->color.b = work->config->web.b;
             web->scale = -(n * 4096 / 3);
-            MODEL_VARIANT_WORD(web, 0x258) = 0;
-            MODEL_VARIANT_WORD(web, 0x25C) = 0;
+            web->field_258 = 0;
+            web->field_25C = 0;
         }
         for (f12 = 0; f12 < 16; glow++, f12++) {
             for (j = 0; j < 2; j++) {

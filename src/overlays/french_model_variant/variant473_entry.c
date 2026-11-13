@@ -129,7 +129,7 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
                 mesh->colors[row][2] = 192;
             }
             mesh->size = 0;
-            MODEL_VARIANT_WORD(mesh, 0x4F0) = 1024;
+            mesh->field_4F0 = 1024;
             mesh->done = 0;
         }
         for (i = 0; i < 12; i++, spiral++) {
@@ -223,7 +223,7 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 funnel->size = -(k * 4096 / 5);
             }
-            MODEL_VARIANT_WORD(funnel, 0x114) = 0;
+            funnel->field_114 = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {

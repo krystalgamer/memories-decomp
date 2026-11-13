@@ -196,15 +196,15 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
                               far_y, rsin(angle) * far_radius >> 12);
                 }
             }
-            MODEL_VARIANT_WORD(web, 0x244) = 0;
-            MODEL_VARIANT_WORD(web, 0x248) = 0;
-            MODEL_VARIANT_WORD(web, 0x24C) = 0;
+            web->field_244 = 0;
+            web->field_248 = 0;
+            web->field_24C = 0;
             web->color.r = work->config->web.r;
             web->color.g = work->config->web.g;
             web->color.b = work->config->web.b;
             web->scale = -(outer * 8192 / 3);
-            MODEL_VARIANT_WORD(web, 0x258) = 0;
-            MODEL_VARIANT_WORD(web, 0x25C) = 0;
+            web->field_258 = 0;
+            web->field_25C = 0;
         }
         for (row = 0, base_angle = 0; row < 6; row++, ring++, base_angle += 256) {
             for (outer = 0, angle = base_angle; outer < 8; angle += 512, outer++) {
