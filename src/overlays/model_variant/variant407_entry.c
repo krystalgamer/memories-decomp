@@ -62,7 +62,7 @@ s32 ModelVariant407_HandleRequest(SVECTOR *point, s32 command)
     triangle = &work->packets.triangle;
     quad = &work->packets.quad;
     extra = &work->extra;
-    sprite = &work->sprite;
+    sprite = &work->sprite.ft4;
     result = 0;
     if (command >= 0) {
         work->tail.slot = Model_GetActiveSlotIndex();
