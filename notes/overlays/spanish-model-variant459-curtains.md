@@ -35,9 +35,10 @@ source rather than a layout of an earlier one.
   the limit it clamps and counts a cycle. Otherwise, from `fade_start`, it
   shrinks linearly to zero at `fade_end`.
 
-The shared `Timing459` record in `variant459_sheets.h` gains these
-`fade_start`/`fade_end` words at `+0x40/+0x44`. The sheets body only uses the
-record through a pointer, and it still matches in all 23 images.
+The curtains and sheets drawers read the entry config as
+`Variant459EntryConfig` (the former `Timing459` view, with `grow_start`/
+`grow_end` as its `start`/`end`), whose `fade_start`/`fade_end` words sit at
+`+0x40/+0x44`.
 
 ## Matching notes
 

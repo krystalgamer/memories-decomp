@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant459_sheets.h"
+#include "variant459_entry.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant459_DrawPairedSheets(u8 *context)
@@ -11,7 +11,7 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheet459State *state = (Sheet459State *)context;
+    Variant459EntryState *state = (Variant459EntryState *)context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -20,27 +20,27 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
-    for (i = 0; i < state->timing->count * 2 + 1; i++, sheet++) {
+    quad = &state->packets.textured[1];
+    for (i = 0; i < state->config->count * 2 + 1; i++, sheet++) {
         bias = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        if (i + 1 == state->timing->count * 2 + 1) {
-            matrix.t[0] = state->center.vx;
-            matrix.t[1] = state->center.vy;
-            matrix.t[2] = state->center.vz;
-        } else if (i < state->timing->count) {
-            matrix.t[0] = state->origins[i].vx + state->paths[i].vx * state->progress / 1024;
-            matrix.t[1] = state->origins[i].vy + state->paths[i].vy * state->progress / 1024;
-            matrix.t[2] = state->origins[i].vz + state->paths[i].vz * state->progress / 1024;
+        if (i + 1 == state->config->count * 2 + 1) {
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy;
+            matrix.t[2] = state->aim.target.vz;
+        } else if (i < state->config->count) {
+            matrix.t[0] = state->points[i].vx + state->directions[i].vx * state->progress / 1024;
+            matrix.t[1] = state->points[i].vy + state->directions[i].vy * state->progress / 1024;
+            matrix.t[2] = state->points[i].vz + state->directions[i].vz * state->progress / 1024;
         } else {
-            matrix.t[0] = state->origins[i - state->timing->count].vx;
-            matrix.t[1] = state->origins[i - state->timing->count].vy;
-            matrix.t[2] = state->origins[i - state->timing->count].vz;
+            matrix.t[0] = state->points[i - state->config->count].vx;
+            matrix.t[1] = state->points[i - state->config->count].vy;
+            matrix.t[2] = state->points[i - state->config->count].vz;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -77,19 +77,19 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
                 GsSortPoly(quad, ot, (u16)depth);
             }
         }
-        if (i + 1 == state->timing->count * 2 + 1) {
+        if (i + 1 == state->config->count * 2 + 1) {
             if (state->phase == 0) {
                 sheet->size = 0;
             } else if (state->progress >= 1024 && state->phase == 2) {
                 if (sheet->size < 8192) {
-                    sheet->size += state->step * 1024;
+                    sheet->size += state->clock.step * 1024;
                     if (sheet->size >= 8192) {
                         sheet->size = 8192;
                     }
                 }
             } else if (state->phase == 3) {
                 if (sheet->size > 0) {
-                    sheet->size -= state->step * 64;
+                    sheet->size -= state->clock.step * 64;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         state->phase = 4;
@@ -97,16 +97,16 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
                 }
             }
         } else if (state->phase == 0) {
-            if (sheet->size < state->timing->limit) {
-                sheet->size = state->timing->limit * (state->time - state->timing->grow_start)
-                    / (state->timing->grow_end - state->timing->grow_start);
-                if (sheet->size >= state->timing->limit) {
-                    sheet->size = state->timing->limit;
+            if (sheet->size < state->config->limit) {
+                sheet->size = state->config->limit * (state->clock.frame - state->config->start)
+                    / (state->config->end - state->config->start);
+                if (sheet->size >= state->config->limit) {
+                    sheet->size = state->config->limit;
                     state->phase = 1;
                 }
             }
         } else {
-            sheet->size = state->timing->limit * state->scale / 4096;
+            sheet->size = state->config->limit * state->scale / 4096;
         }
     }
 }

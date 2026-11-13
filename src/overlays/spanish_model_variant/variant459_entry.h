@@ -16,8 +16,8 @@ typedef struct {
     s32 curtains, mode;
     u32 start, end;
     s32 field_3C;
-    s32 field_40;
-    s32 field_44;
+    u32 fade_start;
+    u32 fade_end;
 } Variant459EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */

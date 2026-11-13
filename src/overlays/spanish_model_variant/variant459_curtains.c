@@ -1,19 +1,5 @@
 #include "../../types.h"
-#include "variant459_sheets.h"
 #include "variant459_entry.h"
-
-#define CURTAIN459_TIMING(work) (*(Timing459 **)((u8 *)(work) + 0x309C))
-
-/* Loads both rows' colours unfaded. */
-#define CURTAIN459_LOAD_COLOURS(work) \
-    do {                              \
-        r0 = (work)[0x30C0];          \
-        g0 = (work)[0x30C1];          \
-        b0 = (work)[0x30C2];          \
-        r1 = (work)[0x30C4];          \
-        g1 = (work)[0x30C5];          \
-        b1 = (work)[0x30C6];          \
-    } while (0)
 
 /* Header 459's form of the variant curtains: each frame rebuilds the two rows of
  * every timed curtain around the rotating angle at work + 0x30C8, turned to
@@ -31,7 +17,7 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant459EntryState *work;
     ModelVariantCurtain *curtain;
     GsOT *ot;
     s32 i;
@@ -46,7 +32,7 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     s32 angle;
     ModelVariantSheet *sheet;
     s32 fade;
-    Timing459 *rec;
+    Variant459EntryConfig *rec;
     s32 start;
     u8 r0;
     u8 g0;
@@ -55,34 +41,34 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = ctx;
-    curtain = ((Variant459EntryState *)work)->rings;
+    work = (Variant459EntryState *)ctx;
+    curtain = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(((Variant459EntryState *)work)->aim.direction.vz, ((Variant459EntryState *)work)->aim.direction.vx) + 0x800;
-    sheet = ((Variant459EntryState *)work)->sheets;
-    poly = &((Variant459EntryState *)work)->ray;
-    pitch = ratan2(((Variant459EntryState *)work)->aim.direction.vy, ((Variant459EntryState *)work)->aim.direction.vz) + 0x800;
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
+    sheet = work->sheets;
+    poly = &work->ray;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
         yaw += 0x400;
     }
-    lift = ((MODEL_VARIANT_WORD(work, 0x3080) & 1) << 5) * sheet->size / 4096;
-    for (i = 0; i < CURTAIN459_TIMING(work)->count; i++, curtain++) {
+    lift = (((s32)work->clock.frame_count & 1) << 5) * sheet->size / 4096;
+    for (i = 0; i < work->config->count; i++, curtain++) {
         radius = lift + 0x80;
         if (curtain->scale > 0) {
             size = curtain->scale;
-            for (j = 0, angle = ((Variant459EntryState *)work)->curtain_angle; j < 17;
-                 j++, angle = ((Variant459EntryState *)work)->curtain_angle + j * 256) {
+            for (j = 0, angle = work->curtain_angle; j < 17;
+                 j++, angle = work->curtain_angle + j * 256) {
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 6, 0);
                 setVector(&curtain->b[j], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, -(lift + 0x40));
             }
             rot.vx = -pitch;
             rot.vy = yaw;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F8C);
-            m.t[1] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F90);
-            m.t[2] = MODEL_VARIANT_WORD(work + (i << 4), 0x2F94);
+            m.t[0] = work->points[i].vx;
+            m.t[1] = work->points[i].vy;
+            m.t[2] = work->points[i].vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -94,15 +80,24 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (i == 3 || curtain->scale < 0x800) {
-                CURTAIN459_LOAD_COLOURS(work);
+                /* The colours load as one do-while block, which keeps the
+                 * target's register allocation. */
+                do {
+                    r0 = work->curtain_inner_color.r;
+                    g0 = work->curtain_inner_color.g;
+                    b0 = work->curtain_inner_color.b;
+                    r1 = work->curtain_outer_color.r;
+                    g1 = work->curtain_outer_color.g;
+                    b1 = work->curtain_outer_color.b;
+                } while (0);
             } else {
                 fade = (s16)(0x1000 - curtain->scale);
-                r0 = work[0x30C0] * fade / 2048;
-                g0 = work[0x30C1] * fade / 2048;
-                b0 = work[0x30C2] * fade / 2048;
-                r1 = work[0x30C4] * fade / 2048;
-                g1 = work[0x30C5] * fade / 2048;
-                b1 = work[0x30C6] * fade / 2048;
+                r0 = work->curtain_inner_color.r * fade / 2048;
+                g0 = work->curtain_inner_color.g * fade / 2048;
+                b0 = work->curtain_inner_color.b * fade / 2048;
+                r1 = work->curtain_outer_color.r * fade / 2048;
+                g1 = work->curtain_outer_color.g * fade / 2048;
+                b1 = work->curtain_outer_color.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
@@ -125,15 +120,15 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
                 }
             }
         }
-        if (curtain->scale < CURTAIN459_TIMING(work)->limit && ((Variant459EntryState *)work)->phase < 3) {
-            curtain->scale = CURTAIN459_TIMING(work)->limit * (u32)MODEL_VARIANT_WORD(work, 0x3084) / CURTAIN459_TIMING(work)->grow_end;
-            if (curtain->scale >= CURTAIN459_TIMING(work)->limit) {
-                curtain->scale = CURTAIN459_TIMING(work)->limit;
+        if (curtain->scale < work->config->limit && work->phase < 3) {
+            curtain->scale = work->config->limit * work->clock.frame / work->config->end;
+            if (curtain->scale >= work->config->limit) {
+                curtain->scale = work->config->limit;
                 curtain->count++;
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work, 0x3084) >= (u32)(start = (rec = CURTAIN459_TIMING(work))->fade_start)) {
-            curtain->scale = rec->limit - rec->limit * ((u32)MODEL_VARIANT_WORD(work, 0x3084) - (u32)start) / (rec->fade_end - (u32)start);
+        } else if (work->clock.frame >= (u32)(start = (rec = work->config)->fade_start)) {
+            curtain->scale = rec->limit - rec->limit * (work->clock.frame - start) / (rec->fade_end - start);
         }
     }
-    ((Variant459EntryState *)work)->curtain_angle += ((Variant459EntryState *)work)->clock.step * 80;
+    work->curtain_angle += work->clock.step * 80;
 }
