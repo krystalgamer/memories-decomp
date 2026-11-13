@@ -8,7 +8,7 @@ typedef struct {
     u8 unknown_00[4];
     u8 part, unknown_05[7];
     u32 start;
-    u8 unknown_10[0x1C];
+    u32 field_10, field_14, field_18, field_1C, field_20, field_24, field_28;
     u32 end;
 } Model335EntryConfig;
 
