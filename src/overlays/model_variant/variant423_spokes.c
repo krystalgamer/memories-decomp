@@ -18,7 +18,7 @@ void ModelVariant423_DrawSpokes(u8 *ctx)
     long flag;
     GsGLINE *line;
     ModelVariantRing *ring;
-    u8 *obj;
+    ModelVariantSheet *obj;
     GsOT *ot;
     s32 i;
     s32 k;
@@ -29,12 +29,12 @@ void ModelVariant423_DrawSpokes(u8 *ctx)
 
     line = (GsGLINE *)(ctx + 0xE84);
     work = (Variant423EntryState *)ctx;
-    obj = ctx + 0x5E8;
+    obj = work->sheets;
     ring = (ModelVariantRing *)(ctx + 0xA78);
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 4; i++, ring++) {
         if (ring->count >= 0) {
-            s = MODEL_VARIANT_WORD(obj, 0x88) * ring->angle / 1024;
+            s = obj->size * ring->angle / 1024;
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
