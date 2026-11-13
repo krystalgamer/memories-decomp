@@ -39,7 +39,8 @@ typedef struct {
     POLY_G4 quad;
     POLY_GT4 textured[2], unknown_1AE8, curtain_poly;
     POLY_FT4 flat_textured[2];
-    u8 unknown_1BA0[0x24];
+    u8 unknown_1BA0[0x10];
+    GsGLINE line;
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;

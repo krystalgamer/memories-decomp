@@ -34,13 +34,6 @@ typedef struct {
 } EntryFramebufferRing443;
 
 typedef struct {
-    SVECTOR near[4][6], far[4][6];
-    CVECTOR color;
-    s32 field_184, field_188, field_18C, field_190;
-    s32 scale, done, field_19C;
-} EntrySphere443;
-
-typedef struct {
     u8 unknown_00[0x48];
     CVECTOR inner[2], outer[2];
     VECTOR scale;
@@ -61,7 +54,7 @@ typedef struct {
     EntryFramebufferRing443 rings[5];
     ModelVariantTubeView meshes[1];
     ModelVariantShortStreamer streamers[3];
-    EntrySphere443 spheres[3];
+    ModelVariantWebNarrow spheres[3];
     ModelVariantSpiral spirals[12];
     u8 unknown_23D8[0x360];
     ModelVariantColorBand long_bands[1];
@@ -72,7 +65,9 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 extra;
     POLY_FT4 flat[2], additional[2];
-    u8 unknown_350C[0x38];
+    u8 unknown_350C[0x10];
+    GsGLINE line;
+    u8 unknown_3530[0x14];
     s32 stored_target[3];
     VECTOR vertices[2], positions[3], origin;
     SVECTOR target;
