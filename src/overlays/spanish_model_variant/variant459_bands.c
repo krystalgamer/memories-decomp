@@ -5,7 +5,7 @@
 
 /* Draws every band of the timing record's band count as nine-point strips of
  * paired POLY_GT4 quads along the variant's direction. The radius follows the
- * record's size and the shrinking half-word at (u8 *)work + 0x30CC; the bands grow
+ * record's size and the entry's shrinking scale; the bands grow
  * along their own directions through phase 1 and shrink from the record's
  * fade window until phase 3. */
 void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
