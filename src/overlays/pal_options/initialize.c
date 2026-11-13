@@ -56,7 +56,7 @@ void Options_Init(s32 mode)
         DisplayObject_ConfigureSpriteAtPositionWithResource(
             object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
-        gPalOptions_pLanguageSprite = (DisplayObjectConfig *)object;
+        gPalOptions_pLanguageSprite = object;
         object->flags |= 0x28;
         gPalOptions_bSelectedRow = 0;
 
@@ -65,7 +65,7 @@ void Options_Init(s32 mode)
             object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         object->flags |= 0x28;
-        gPalOptions_pLabelSprite = (DisplayObjectConfig *)object;
+        gPalOptions_pLabelSprite = object;
         gPalOptions_bSoundOutputType = gSD_bOutputType;
         if (gPalOptions_bSoundOutputType < 0) {
             gPalOptions_bSoundOutputType = 0;
@@ -75,7 +75,7 @@ void Options_Init(s32 mode)
         DisplayObject_ConfigureSpriteAtPositionWithResource(
             object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
-        gPalOptions_pSoundTypeSprite = (DisplayObjectConfig *)object;
+        gPalOptions_pSoundTypeSprite = object;
         object->flags |= 0x28;
         gPalOptions_bState = 2;
 

@@ -71,7 +71,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     i = 0;
     do {
         GS_SPRITE_COLOR_WORD(sp) = 0x202020;
-        if (i == obj->field_69) {
+        if (i == obj->resource_variant) {
             GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
         }
         sp->u = (tbl[0] & 0xF) * 8 - 0x80;
@@ -167,7 +167,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s = &((CardListRowSet *)gFile_StagingBuffer)[idx];
     base = 0x18;
     s->enabled = flag;
-    ((DisplayObject *)s->object)->field_68 = flag;
+    ((DisplayObject *)s->object)->resource_branch_index = flag;
     if (flag != 0) {
         base = 0x1A;
     }
@@ -259,8 +259,8 @@ void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
     do {
         record->enabled = 0;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-        object->field_68 = 0;
-        object->field_69 = 0;
+        object->resource_branch_index = 0;
+        object->resource_variant = 0;
         object->xy.h.x = record->x;
         object->xy.h.y = record->y;
         object->field_6A = i++;

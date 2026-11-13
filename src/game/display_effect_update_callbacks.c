@@ -139,7 +139,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         );
         first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         depth = first->depth_offset;
-        resource_index = first->field_67;
+        resource_index = first->resource_root_index;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
         row = p->grid[1];
         DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
@@ -186,7 +186,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         p->variant_update_flags |= 0x10;
         first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         depth = first->depth_offset;
-        resource_index = first->field_67;
+        resource_index = first->resource_root_index;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), depth);
         row = (u8 **)p->grid[1];
         DisplayEffect_BuildResourceObjects(p, (DisplayObject **)row, resource_index);
@@ -235,7 +235,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->variant_update_flags |= 0x10;
         first = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        resource_index = first->field_67;
+        resource_index = first->resource_root_index;
         depth = first->depth_offset;
         DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
         DisplayEffect_BuildResourceObjects(

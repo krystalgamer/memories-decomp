@@ -518,7 +518,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.wh = 0x100008;
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = sprites[2]->gs.tpage = 0xA;
-    p = (u8 *)gText_aChannels[obj->field_67].entry_begin;
+    p = (u8 *)gText_aChannels[obj->resource_root_index].entry_begin;
 #else
     sprites[0]->words.wh = 0x100010;
     sprites[1]->words.wh = 0x100010;
@@ -526,7 +526,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = obj->texture_page;
     sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
-    p = (u8 *)gText_aChannels[obj->field_67].entry_begin;
+    p = (u8 *)gText_aChannels[obj->resource_root_index].entry_begin;
 #endif
 
     while (1) {
@@ -898,7 +898,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = obj->texture_page;
     sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
-    e = gText_aChannels[obj->field_67].entry_begin;
+    e = gText_aChannels[obj->resource_root_index].entry_begin;
     v78 = 0x78;
 
     while (1) {
@@ -3659,7 +3659,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         e->texture_page = 0xA;
         f = e->flags;
         e->field_4C = (s32)TextBox_DrawEntries;
-        e->field_67 = b;
+        e->resource_root_index = b;
         e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->render_object = e;
     }

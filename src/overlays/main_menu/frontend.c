@@ -98,7 +98,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             entry->flags =
                 (entry->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            DisplayObject_SetResourceVariant((DisplayObjectConfig *)entry, value);
+            DisplayObject_SetResourceVariant(entry, value);
             DisplayObject_SelectOrderingTable1(entry);
             gMain_apMenuEntries[i] = (u8 *)entry;
         } else {
@@ -333,7 +333,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                                 ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         }
                         moved++;
-                        DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
+                        DisplayObject_SetResourceVariant((DisplayObject *)*slot, (i << 1) | (gMain_bMenuID != i));
                     }
                 }
                 i++;
@@ -393,14 +393,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
             } else {
                 count = 6;
             }
-            DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+            DisplayObject_SetResourceVariant((DisplayObject *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
             /* Keep the store in each arm: the join controls high-half reuse. */
             if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
             } else {
                 *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
             }
-            DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+            DisplayObject_SetResourceVariant((DisplayObject *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
             SD_SEPlay(6, 0xFF, 0);
             return -1;
         }
@@ -665,7 +665,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->xy.h.x,
-                      (s16)entry->xy.h.y, 0, 0, entry->field_69,
+                      (s16)entry->xy.h.y, 0, 0, entry->resource_variant,
                       0x18, 0, gDisplay_abResourceBank1);
         object->attribute |= 0x51000000;
         object->flags |=

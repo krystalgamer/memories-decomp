@@ -13,9 +13,6 @@
  * way the original read them through $gp. */
 s32 gGameOver_pTitleObject;
 
-#define DISPLAY_OBJECT_CONFIG_VIEW(object) \
-    ((DisplayObjectConfig *)(object))
-
 #ifndef GAME_OVER_SCREEN_HEIGHT
 #define GAME_OVER_SCREEN_HEIGHT GRAPHICS_DEFAULT_HEIGHT
 #endif
@@ -67,7 +64,7 @@ s32 GameOver_Update(void)
         switch (p->field_6C) {
         case 0:
             DisplayObject_SetResourceVariant(
-                DISPLAY_OBJECT_CONFIG_VIEW(p), 1
+                p, 1
             );
             p->field_6C = 1;
             motion->velocity_x = -0xC0;
@@ -75,13 +72,13 @@ s32 GameOver_Update(void)
         case 1:
             DisplayObject_ResetVelocity(motion);
             DisplayObject_SetResourceVariant(
-                DISPLAY_OBJECT_CONFIG_VIEW(p), 2
+                p, 2
             );
             p->field_6C = 2;
             break;
         case 2:
             DisplayObject_SetResourceVariant(
-                DISPLAY_OBJECT_CONFIG_VIEW(p), 0
+                p, 0
             );
             p->field_6C = 0;
             if (motion->x < -0x2F) {
