@@ -149,42 +149,42 @@ void SpanishModelVariant441_DrawSpiral(u8 *ctx)
             r2 = 192;
             g2 = 128;
             b2 = 128;
-        } else if ((((s32)work->frame_count + i) % 8) == 1) {
+        } else if (((work->frame_count + i) % 8) == 1) {
             r0 = 128;
             g0 = 64;
             b0 = 0;
             r2 = 192;
             g2 = 160;
             b2 = 128;
-        } else if ((((s32)work->frame_count + i) % 8) == 2) {
+        } else if (((work->frame_count + i) % 8) == 2) {
             r0 = 128;
             g0 = 128;
             b0 = 0;
             r2 = 192;
             g2 = 192;
             b2 = 128;
-        } else if ((((s32)work->frame_count + i) % 8) == 3) {
+        } else if (((work->frame_count + i) % 8) == 3) {
             r0 = 0;
             g0 = 128;
             b0 = 0;
             r2 = 128;
             g2 = 192;
             b2 = 128;
-        } else if ((((s32)work->frame_count + i) % 8) == 4) {
+        } else if (((work->frame_count + i) % 8) == 4) {
             r0 = 0;
             g0 = 128;
             b0 = 128;
             r2 = 128;
             g2 = 192;
             b2 = 192;
-        } else if ((((s32)work->frame_count + i) % 8) == 5) {
+        } else if (((work->frame_count + i) % 8) == 5) {
             r0 = 0;
             g0 = 0;
             b0 = 128;
             r2 = 128;
             g2 = 128;
             b2 = 192;
-        } else if ((((s32)work->frame_count + i) % 8) == 6) {
+        } else if (((work->frame_count + i) % 8) == 6) {
             r0 = 128;
             g0 = 0;
             b0 = 128;

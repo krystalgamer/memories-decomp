@@ -35,7 +35,7 @@ typedef struct {
     MATRIX matrix;
     ModelVariantAim aim;
     s32 angles[2];
-    u32 frame_count;
+    s32 frame_count;
     s32 frame;
     u32 animation_frame;
     s32 step, fade;
