@@ -15,7 +15,9 @@ typedef struct {
     u8 unknown_2A[2];
     s32 curtains, mode;
     u32 start, end;
-    u8 unknown_3C[0xC];
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
 } Variant459EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */

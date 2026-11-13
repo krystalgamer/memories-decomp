@@ -27,11 +27,11 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     poly = &work->veil;
     ratan2(work->direction.vy, work->direction.vz);
     if (work->slot == 0) {
-        rot.vx = MODEL_VARIANT_HALF(work, 0x2804);
+        rot.vx = (s16)work->globe_rotation_x;
         rot.vy = 0;
         rot.vz = 0;
     } else {
-        rot.vx = -MODEL_VARIANT_HALF(work, 0x2804);
+        rot.vx = -(s16)work->globe_rotation_x;
         rot.vy = 0;
         rot.vz = 0;
     }
@@ -95,7 +95,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
         work->globe_scale = (rcos(work->globe_pulse_angle) * 2048 >> 12) + 6144;
         work->globe_pulse_angle += work->clock.step * 64;
         timing = (u8 *)work->config;
-        if ((u32)MODEL_VARIANT_WORD(timing, 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
+        if ((u32)MODEL_VARIANT_WORD(timing, 0x34) < (u32)work->clock.frame) {
             work->phase = 4;
         }
     } else if (work->phase == 4) {

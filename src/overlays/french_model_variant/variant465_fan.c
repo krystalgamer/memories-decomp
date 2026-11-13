@@ -82,7 +82,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
             if (fan->size < 0x1000) {
                 fan->size = ((work->clock.frame -
                     work->config->start) << 12) /
-                    (MODEL_VARIANT_WORD(work->config, 0x20) -
+                    (work->config->field_20 -
                     work->config->start);
                 if (fan->size >= 0x1000) {
                     fan->size = 0x1000;
@@ -91,7 +91,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
                     }
                 }
             }
-        } else if ((u32)MODEL_VARIANT_WORD(work->config, 0x24) <=
+        } else if ((u32)work->config->field_24 <=
                    work->clock.frame) {
             if (fan->size > 0) {
                 fan->size -= work->clock.step << 7;

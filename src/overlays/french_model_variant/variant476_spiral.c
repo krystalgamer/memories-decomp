@@ -57,7 +57,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x27AC) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = work->spiral_size;
     } else {
         size = work->spiral_size + work->spiral_size / 8;
@@ -158,26 +158,26 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
             }
         }
     }
-    if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(work->config, 0x20) &&
+    if ((u32)work->clock.frame >=
+        (u32)work->config->second &&
         work->spiral_size < 4096) {
         work->spiral_size =
-            (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(work->config, 0x20)) << 12) /
-            (u32)(MODEL_VARIANT_WORD(work->config, 0x24) -
-                  MODEL_VARIANT_WORD(work->config, 0x20));
+            (u32)((work->clock.frame -
+                   work->config->second) << 12) /
+            (u32)(work->config->field_24 -
+                  work->config->second);
         if (work->spiral_size >= 4096) {
             work->spiral_size = 4096;
         }
     }
-    if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
-        (u32)MODEL_VARIANT_WORD(work->config, 0x24) &&
+    if ((u32)work->clock.frame >=
+        (u32)work->config->field_24 &&
         work->spiral_arm_length > 0) {
         work->spiral_arm_length = 1024 -
-            (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
-                   MODEL_VARIANT_WORD(work->config, 0x24)) << 10) /
-            (u32)(MODEL_VARIANT_WORD(work->config, 0x28) -
-                  MODEL_VARIANT_WORD(work->config, 0x24));
+            (u32)((work->clock.frame -
+                   work->config->field_24) << 10) /
+            (u32)(work->config->field_28 -
+                  work->config->field_24);
         if (work->spiral_arm_length <= 0) {
             work->spiral_arm_length = 0;
         }

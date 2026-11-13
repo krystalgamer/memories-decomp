@@ -42,12 +42,6 @@ s32 gMemCardDialog_SyncResult;
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
 
-#define SAVE_DATA_PRIMARY_VIEW(data) ((SaveDataPrimaryIntegrity *)(data))
-#define SAVE_DATA_SECONDARY_VIEW(data) \
-    ((SaveDataSecondaryIntegrity *)((u8 *)(data) + SAVE_DATA_SECONDARY_OFFSET))
-#define SAVE_DATA_TERTIARY_VIEW(data) \
-    ((SaveDataTertiaryIntegrity *)((u8 *)(data) + SAVE_DATA_TERTIARY_OFFSET))
-
 /* SaveData_ApplyRuntimeState stores the campaign scene index through this
  * absolute address (the literal form is what matches); a regional build names
  * its own. */
@@ -121,16 +115,17 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
     return crc;
 }
 
-void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
+void SaveData_WritePrimarySecondaryIntegrity(SaveDataSeals *seals)
 {
-    s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
+    s32 value = SaveData_CalcCrc16(seals->primary.payload,
+                                   SAVE_DATA_PRIMARY_LENGTH);
     u32 seed = value & SAVE_DATA_CRC16_MASK;
-    s32 *output = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+    u32 *output = &seals->primary.mask_words[
         SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
     s32 i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
 
-    SAVE_DATA_PRIMARY_VIEW(data)->checksum[1] = value;
-    SAVE_DATA_PRIMARY_VIEW(data)->checksum[0] = value;
+    seals->primary.checksum[1] = value;
+    seals->primary.checksum[0] = value;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
@@ -141,16 +136,16 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
     } while (i != 0);
 
     value = SaveData_CalcCrc16(
-        data + SAVE_DATA_SECONDARY_OFFSET,
+        seals->secondary.payload,
         SAVE_DATA_SECONDARY_LENGTH
     );
     seed = value & SAVE_DATA_CRC16_MASK;
-    output = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+    output = &seals->secondary.mask_words[
         SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
 
-    SAVE_DATA_SECONDARY_VIEW(data)->checksum[1] = value;
-    SAVE_DATA_SECONDARY_VIEW(data)->checksum[0] = value;
+    seals->secondary.checksum[1] = value;
+    seals->secondary.checksum[0] = value;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
     gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 
@@ -161,18 +156,18 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
     } while (i != 0);
 }
 
-void SaveData_WriteTertiaryIntegrity(u8 *p)
+void SaveData_WriteTertiaryIntegrity(SaveDataSeals *seals)
 {
     register s32 i;
     register u32 *dst;
-    u16 v = SaveData_CalcCrc16(p + SAVE_DATA_TERTIARY_OFFSET,
+    u16 v = SaveData_CalcCrc16(seals->tertiary.payload,
                                SAVE_DATA_TERTIARY_LENGTH);
 
-    dst = &SAVE_DATA_TERTIARY_VIEW(p)->mask_words[
+    dst = &seals->tertiary.mask_words[
         SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
-    SAVE_DATA_TERTIARY_VIEW(p)->checksum[1] = v;
-    SAVE_DATA_TERTIARY_VIEW(p)->checksum[0] = v;
+    seals->tertiary.checksum[1] = v;
+    seals->tertiary.checksum[0] = v;
     {
         u32 seed = v | (v << SAVE_DATA_CRC16_BITS);
 
@@ -188,7 +183,7 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
 
 void SaveData_BuildPayload(SaveDataPayload *data)
 {
-    u8 *copy;
+    SaveDataSeals *seals;
     s32 output_type;
     s32 value;
     s32 saved_value;
@@ -199,21 +194,21 @@ void SaveData_BuildPayload(SaveDataPayload *data)
 
     saved_value = gSaveData_dwVBlankCounter;
     output_type = gSD_bOutputType;
-    data->state.field_400 = 0;
-    data->state.vblank_counter = saved_value;
+    data->current.state.field_400 = 0;
+    data->current.state.vblank_counter = saved_value;
 
     if (output_type < 0) {
         gSD_bOutputType = 0;
     }
 
-    data->state.output_type = gSD_bOutputType;
-    copy = (u8 *)&data->state;
+    data->current.state.output_type = gSD_bOutputType;
+    seals = &data->current.seals;
     value = gSaveDataSequence + 1;
-    data->state.save_sequence = value;
-    data->duplicate.save_sequence = value;
+    data->current.state.save_sequence = value;
+    data->duplicate.state.save_sequence = value;
 
-    SaveData_WritePrimarySecondaryIntegrity(copy);
-    SaveData_WriteTertiaryIntegrity(copy);
+    SaveData_WritePrimarySecondaryIntegrity(seals);
+    SaveData_WriteTertiaryIntegrity(seals);
 
     {
         u32 i;
@@ -226,7 +221,7 @@ void SaveData_BuildPayload(SaveDataPayload *data)
     }
 
     Util_CopyWords(
-        (u8 *)&data->duplicate, (u8 *)&data->state, SAVE_DATA_STATE_SIZE
+        data->duplicate.bytes, data->current.bytes, SAVE_DATA_STATE_SIZE
     );
 }
 
@@ -251,15 +246,16 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
     }
 }
 
-s32 SaveData_ValidateIntegrity(u8 *data)
+s32 SaveData_ValidateIntegrity(SaveDataSeals *seals)
 {
     s32 seed;
     s32 i;
-    s32 *word;
+    u32 *word;
 
-    seed = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH) &
+    seed = SaveData_CalcCrc16(seals->primary.payload,
+                              SAVE_DATA_PRIMARY_LENGTH) &
            SAVE_DATA_CRC16_MASK;
-    word = &SAVE_DATA_PRIMARY_VIEW(data)->mask_words[
+    word = &seals->primary.mask_words[
         SAVE_DATA_PRIMARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_PRIMARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -273,10 +269,10 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     } while (i != 0);
 
     seed = SaveData_CalcCrc16(
-        data + SAVE_DATA_SECONDARY_OFFSET,
+        seals->secondary.payload,
         SAVE_DATA_SECONDARY_LENGTH
     ) & SAVE_DATA_CRC16_MASK;
-    word = &SAVE_DATA_SECONDARY_VIEW(data)->mask_words[
+    word = &seals->secondary.mask_words[
         SAVE_DATA_SECONDARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_SECONDARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -290,10 +286,10 @@ s32 SaveData_ValidateIntegrity(u8 *data)
     } while (i != 0);
 
     seed = SaveData_CalcCrc16(
-        data + SAVE_DATA_TERTIARY_OFFSET,
+        seals->tertiary.payload,
         SAVE_DATA_TERTIARY_LENGTH
     ) & SAVE_DATA_CRC16_MASK;
-    word = (s32 *)&SAVE_DATA_TERTIARY_VIEW(data)->mask_words[
+    word = &seals->tertiary.mask_words[
         SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1];
     i = SAVE_DATA_TERTIARY_MASK_WORD_COUNT;
     gSaveData_dwMaskStateHigh = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -1216,7 +1212,10 @@ void MemCardDialog_UpdateLoad(void)
         switch (gMemCardDialog_SyncResult) {
         case 0:
             gMemCardDialog_OperationState = 7;
-            if (SaveData_ValidateIntegrity(gMemCard_pPrimaryTransferCursor) != 0) {
+            /* The cursor walks the raw card read buffer; the block just
+               read into it is a sealed state. */
+            if (SaveData_ValidateIntegrity(
+                    (SaveDataSeals *)gMemCard_pPrimaryTransferCursor) != 0) {
                 break;
             }
             gMemCardDialog_OperationState = 4;
@@ -2602,8 +2601,10 @@ void SaveData_RequestTradeWrite(void)
     u8 *p = gSaveData_aTradeWriteStaging;
     u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;
 
-    SaveData_WritePrimarySecondaryIntegrity(p);
-    SaveData_WritePrimarySecondaryIntegrity(q);
+    /* Each 0x1000-byte trade slot of the staging bytes opens with a sealed
+       state. */
+    SaveData_WritePrimarySecondaryIntegrity((SaveDataSeals *)p);
+    SaveData_WritePrimarySecondaryIntegrity((SaveDataSeals *)q);
     gMemCard_pSecondaryTransferCursor = q;
     MemCardDialog_Request(
         p,

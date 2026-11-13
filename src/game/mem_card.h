@@ -568,16 +568,17 @@ extern u8 gSaveData_AllowIdentityBypass;
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
-/* Seal views only: payload bytes keep the independent SaveDataState layout. */
+/* Seal views only: payload bytes keep the independent SaveDataState layout.
+ * The mask words are the u32 values SaveData_NextMaskWord returns. */
 typedef struct {
     u8 payload[SAVE_DATA_PRIMARY_LENGTH];
-    s32 mask_words[SAVE_DATA_PRIMARY_MASK_WORD_COUNT];
+    u32 mask_words[SAVE_DATA_PRIMARY_MASK_WORD_COUNT];
     u16 checksum[2];
 } SaveDataPrimaryIntegrity;
 
 typedef struct {
     u8 payload[SAVE_DATA_SECONDARY_LENGTH];
-    s32 mask_words[SAVE_DATA_SECONDARY_MASK_WORD_COUNT];
+    u32 mask_words[SAVE_DATA_SECONDARY_MASK_WORD_COUNT];
     u16 checksum[2];
 } SaveDataSecondaryIntegrity;
 
@@ -586,6 +587,16 @@ typedef struct {
     u16 checksum[2];
     u32 mask_words[SAVE_DATA_TERTIARY_MASK_WORD_COUNT];
 } SaveDataTertiaryIntegrity;
+
+/* The sealed prefix of a state block: the three regions back to back, from
+ * the block's first byte to the reserved tail at 0x628. This is what
+ * SaveData_WritePrimarySecondaryIntegrity, SaveData_WriteTertiaryIntegrity
+ * and SaveData_ValidateIntegrity work on. */
+typedef struct {
+    SaveDataPrimaryIntegrity primary;
+    SaveDataSecondaryIntegrity secondary;
+    SaveDataTertiaryIntegrity tertiary;
+} SaveDataSeals;
 
 #define SAVE_DATA_INTEGRITY_OFFSET(type, member) ((u32)&((type *)0)->member)
 
@@ -626,6 +637,13 @@ typedef char SaveDataTertiaryIntegrity_mask_offset_must_be_0x208[
         (SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1) * sizeof(u32) ==
         SAVE_DATA_TERTIARY_MASK_LAST_OFFSET - SAVE_DATA_TERTIARY_OFFSET
             ? 1 : -1
+];
+typedef char SaveDataSeals_offsets_must_match[
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSeals, secondary) ==
+        SAVE_DATA_SECONDARY_OFFSET &&
+    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSeals, tertiary) ==
+        SAVE_DATA_TERTIARY_OFFSET &&
+    sizeof(SaveDataSeals) == SAVE_DATA_RESERVED_TAIL_OFFSET ? 1 : -1
 ];
 
 #undef SAVE_DATA_INTEGRITY_OFFSET
@@ -685,19 +703,24 @@ typedef struct {
     SaveDataState state;
 } SaveDataWorkspace;
 
+/* One 0x680-byte state block, read three ways: the named state fields
+ * (SaveDataState only covers the first 0x5E4 bytes), the sealed prefix that
+ * ends at the reserved tail, and the raw bytes BuildPayload clears and
+ * copies. */
+typedef union {
+    SaveDataState state;
+    SaveDataSeals seals;
+    u8 bytes[SAVE_DATA_STATE_SIZE];
+} SaveDataStateBlock;
+
 /* A whole save payload as SaveData_BuildPayload assembles it: the header
- * template, the 0x680-byte state block, and the 0x680-byte duplicate the
- * memory card layer compares against it. SaveDataState only names the
- * state's first 0x5E4 bytes; state_tail is the rest, where the tertiary seal
- * ends and the reserved tail that BuildPayload clears begins. BuildPayload
- * copies all SAVE_DATA_STATE_SIZE bytes into duplicate, so duplicate_tail
- * carries the copy of state_tail and the payload ends at 0xF00. */
+ * template, the state block, and the duplicate block the memory card layer
+ * compares against it. BuildPayload copies all SAVE_DATA_STATE_SIZE bytes
+ * into duplicate, so the payload ends at 0xF00. */
 typedef struct {
     u8 header[SAVE_DATA_HEADER_SIZE];
-    SaveDataState state;
-    u8 state_tail[SAVE_DATA_STATE_SIZE - sizeof(SaveDataState)];
-    SaveDataState duplicate;
-    u8 duplicate_tail[SAVE_DATA_STATE_SIZE - sizeof(SaveDataState)];
+    SaveDataStateBlock current;
+    SaveDataStateBlock duplicate;
 } SaveDataPayload;
 
 typedef char SaveDataState_card_quantities_offset_must_be_0x50[
@@ -798,10 +821,10 @@ extern u32 gSaveData_dwMaskStateHigh;
 u32 SaveData_NextMaskWord(void);
 void SaveData_SetMaskSeed(u32);
 u32 SaveData_CalcCrc16(u8 *, s32);
-void SaveData_WritePrimarySecondaryIntegrity(u8 *);
-void SaveData_WriteTertiaryIntegrity(u8 *);
+void SaveData_WritePrimarySecondaryIntegrity(SaveDataSeals *);
+void SaveData_WriteTertiaryIntegrity(SaveDataSeals *);
 void SaveData_BuildPayload(SaveDataPayload *);
-s32 SaveData_ValidateIntegrity(u8 *);
+s32 SaveData_ValidateIntegrity(SaveDataSeals *);
 void SaveData_ApplyRuntimeState(SaveDataState *state);
 
 /* Stages the runtime state into gSaveData_aTransferBuffer, builds the payload
