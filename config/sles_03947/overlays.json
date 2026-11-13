@@ -93,6 +93,24 @@
       "sha256": "e0863650755d5de5d4abfdcfaead643e5b2b2463b0019c790df881e1dadb6075"
     },
     {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "duplicate_sector_offsets": [
+        10211,
+        10252,
+        10293,
+        10334
+      ],
+      "layout": "config/sles_03947/overlays/options.yaml",
+      "linker_symbols": "config/sles_03947/overlays/options_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_options",
+      "output": "tmp/overlays/european_options/module.bin",
+      "sector_count": 6,
+      "sector_offset": 10170,
+      "sha256": "ae3d3263f18be7a3661a191a22d9dc980019c149b01ea8752bbd4b19401a80ee"
+    },
+    {
       "archive": "game/europe/DATA/MODEL.MRG",
       "archive_sha256": "38140e7573925decf8437226ba2dd6c0c133742bcf0e11d065977de19254b9c9",
       "layout": "config/sles_03947/overlays/model_image_model_94612_8013a000.yaml",
