@@ -14,7 +14,7 @@ void ModelVariant458_DrawSheets(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *obj;
+    Variant475EntryRibbon *obj;
     GsOT *ot;
     Variant475EntryState *work;
     POLY_GT4 *poly;
@@ -23,13 +23,12 @@ void ModelVariant458_DrawSheets(u8 *ctx)
     s32 k;
     s32 bias;
     s32 otz;
-    s32 off;
 
     work = (Variant475EntryState *)ctx;
-    obj = ctx + 0x1E4;
-    sheet = (ModelVariantSheetSet *)(ctx + 0x1904);
+    obj = work->ribbons;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x2CB8);
+    poly = &work->packets.textured[1];
     for (i = 0; i < 16; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
@@ -43,10 +42,9 @@ void ModelVariant458_DrawSheets(u8 *ctx)
             m.t[1] = work->starts[i].vy;
             m.t[2] = work->starts[i].vz;
         } else {
-            off = (i - 8) * 16;
-            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2E8C);
-            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2E90);
-            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2E94);
+            m.t[0] = work->ends[i - 8].vx;
+            m.t[1] = work->ends[i - 8].vy;
+            m.t[2] = work->ends[i - 8].vz;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -101,12 +99,12 @@ void ModelVariant458_DrawSheets(u8 *ctx)
                 }
             }
         } else {
-            if (MODEL_VARIANT_WORD(obj, 0x1C8) == 1) {
+            if (obj->state == 1) {
                 if (sheet->shown == 0) {
                     sheet->size = 0x4000;
                     sheet->shown = 1;
                 } else {
-                    sheet->size = MODEL_VARIANT_WORD(obj, 0x1CC) * 16;
+                    sheet->size = obj->len * 16;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         if (work->tail.phase < 4) {
@@ -117,7 +115,7 @@ void ModelVariant458_DrawSheets(u8 *ctx)
             } else {
                 sheet->size = 0;
             }
-            obj += 0x2E4;
+            obj++;
         }
     }
 }

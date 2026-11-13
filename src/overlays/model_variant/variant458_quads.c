@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant458_quads.h"
 #include "../french_model_variant/variant475_entry.h"
 
 /* Draws the visible quads, fading past scale 0x600, then advances the
@@ -20,23 +19,23 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     s16 i;
     s16 j;
     u8 r, g, b;
-    u8 *work;
-    Variant458Quads *quads;
+    Variant475EntryState *work;
+    Variant475EntryQuads *quads;
     POLY_FT4 *poly;
     s32 fade;
     s32 otz;
 
-    work = ctx;
-    sheet = (ModelVariantSheet *)((Variant475EntryState *)work)->sheets;
-    quads = (Variant458Quads *)work;
-    poly = &((Variant475EntryState *)work)->extra_flat;
+    work = (Variant475EntryState *)ctx;
+    sheet = (ModelVariantSheet *)work->sheets;
+    quads = work->quads;
+    poly = &work->extra_flat;
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
-    ratan2(((Variant475EntryState *)work)->direction.vy, ((Variant475EntryState *)work)->direction.vz);
-    ratan2(((Variant475EntryState *)work)->screen_delta.vy, ((Variant475EntryState *)work)->screen_delta.vx);
+    ratan2(work->direction.vy, work->direction.vz);
+    ratan2(work->screen_delta.vy, work->screen_delta.vx);
     do {
         j = 0;
-        while (j < ((Variant475EntryState *)work)->quad_count) {
+        while (j < work->quad_count) {
             if (quads->level[j] > 0x600) {
                 fade = 0x800 - quads->level[j];
                 r = quads->color.r * fade / 512;
@@ -50,10 +49,10 @@ void ModelVariant458_DrawQuads(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E0C);
-            m.t[1] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E10);
-            m.t[2] = MODEL_VARIANT_WORD(work - -(j * 16), 0x2E14);
-            if (((Variant475EntryState *)work)->tail.phase >= 4) {
+            m.t[0] = work->starts[j].vx;
+            m.t[1] = work->starts[j].vy;
+            m.t[2] = work->starts[j].vz;
+            if (work->tail.phase >= 4) {
                 scale.vx = sheet->size;
                 scale.vy = sheet->size;
                 scale.vz = sheet->size;
@@ -87,12 +86,12 @@ void ModelVariant458_DrawQuads(u8 *ctx)
         i++;
         quads++;
     } while (i < 1);
-    if (((Variant475EntryState *)work)->quad_count < 8) {
-        ((Variant475EntryState *)work)->quad_count =
-            (u32)((MODEL_VARIANT_WORD(work, 0x2FBC) - MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x20)) << 3) /
-            (u32)(MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x24) - MODEL_VARIANT_WORD(((Variant475EntryState *)work)->config, 0x20));
-        if (((Variant475EntryState *)work)->quad_count >= 8 && ((Variant475EntryState *)work)->tail.phase == 0) {
-            ((Variant475EntryState *)work)->tail.phase = 1;
+    if (work->quad_count < 8) {
+        work->quad_count =
+            ((work->clock.frame - work->config->start) << 3) /
+            (work->config->field_24 - work->config->start);
+        if (work->quad_count >= 8 && work->tail.phase == 0) {
+            work->tail.phase = 1;
         }
     }
 }

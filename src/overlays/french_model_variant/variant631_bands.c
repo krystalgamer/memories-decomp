@@ -3,9 +3,6 @@
 #include "../model_variant/variant423_bands.h"
 #include "../model_variant/variant423_entry.h"
 
-/* Stored timing/configuration pointer at (u8 *)work + 0xF00. */
-#define BAND631_CONFIG(work) (*(u8 **)((u8 *)(work) + 0xF00))
-
 /* French MODEL631/262 band helper. Same drawing as the NA variant423 band, but
  * the second quad of each segment reads its columns through col/next views of
  * the band. The redundant next/col copies and the trailing NULL stores keep
@@ -145,17 +142,17 @@ void ModelVariant423_DrawBand(u8 *ctx)
     next = NULL;
     if (work->tail.phase == 1) {
         if (work->progress < 0x401) {
-            work->progress = ((work->clock.frame - MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x20)) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x24) - MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x20));
+            work->progress = ((work->clock.frame - work->config->burst_start) << 10) /
+                             (u32)(work->config->field_24 - work->config->burst_start);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->tail.phase = 2;
             }
         }
     } else if (work->tail.phase < 3 && work->scale > 0) {
-        if (work->clock.frame >= (u32)MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x28)) {
-            work->scale = 0x1000 - ((work->clock.frame - MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x28)) << 12) /
-                                          (u32)(MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x2C) - MODEL_VARIANT_WORD(BAND631_CONFIG(work), 0x28));
+        if (work->clock.frame >= (u32)work->config->field_28) {
+            work->scale = 0x1000 - ((work->clock.frame - work->config->field_28) << 12) /
+                                          (u32)(work->config->field_2C - work->config->field_28);
             if (work->scale <= 0) {
                 work->scale = 0;
                 work->tail.phase = 3;
