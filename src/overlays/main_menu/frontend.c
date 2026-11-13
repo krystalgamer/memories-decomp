@@ -479,7 +479,7 @@ void MainMenu_DrawFrontendBackground(void)
 #else
         flat.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-        Graphics_SubmitDrawModePacket((u32 *)&flat, (GsOT *)gGraphics_apOrderingTables[2], 0, 2);
+        Graphics_SubmitDrawModePacket((u32 *)&flat, gGraphics_apOrderingTables[2], 0, 2);
     }
     setPolyFT4(&sprite);
     sprite.r0 = 128;
@@ -594,7 +594,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = GRAPHICS_DEFAULT_HEIGHT;
 #endif
-    Graphics_SubmitDrawModePacket((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
+    Graphics_SubmitDrawModePacket((u32 *)&shade, gGraphics_apOrderingTables[2], 4094, 2);
 }
 #endif
 
