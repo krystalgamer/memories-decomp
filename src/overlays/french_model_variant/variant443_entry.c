@@ -26,7 +26,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     EntryShortBand443 *band = work->bands;
     ModelVariantSpiral *spiral = work->spirals;
     ModelVariantSheet *sheet = work->sheets;
-    EntrySphere443 *sphere = work->spheres;
+    ModelVariantWebNarrow *sphere = work->spheres;
     ModelVariantColorBand *long_band = work->long_bands;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
