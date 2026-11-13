@@ -12,7 +12,7 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *object;
+    Variant448FanUnit *object;
     GsOT *ot;
     POLY_GT4 *poly;
     Variant448Orbit *sheet;
@@ -25,14 +25,14 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     s32 otz;
 
     work = (Variant448EntryState *)ctx;
-    object = ctx + 0xBD8;
+    object = work->fans;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x19BC);
     sheet = (Variant448Orbit *)(ctx + 0x11F0);
     count = 0;
-    for (i = 0, iangle = 0; i < 3; i++, object += 0x208, iangle = (i << 10) / 3) {
+    for (i = 0, iangle = 0; i < 3; i++, object++, iangle = (i << 10) / 3) {
         for (j = 0, jangle = 0; j < 2; j++, jangle += 2048) {
-            if (MODEL_VARIANT_WORD(object, 0x200 + j * 4) > 0) {
+            if (*(j + object->stage) > 0) {
                 for (k = 0, angle = jangle + iangle; k < 3; k++, angle = jangle + iangle + (k << 12) / 3) {
                     bias = 0;
                     if (work->clock.frame_count & 1) {

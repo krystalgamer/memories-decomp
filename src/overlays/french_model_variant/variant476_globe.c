@@ -15,7 +15,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     GsOT *ot;
     POLY_GT4 *poly;
     Variant459EntryState *work;
-    u8 *timing;
+    Variant459EntryConfig *timing;
     s32 i;
     s32 j;
     s32 otz;
@@ -94,8 +94,8 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     } else if (work->phase == 3) {
         work->globe_scale = (rcos(work->globe_pulse_angle) * 2048 >> 12) + 6144;
         work->globe_pulse_angle += work->clock.step * 64;
-        timing = (u8 *)work->config;
-        if ((u32)MODEL_VARIANT_WORD(timing, 0x34) < (u32)work->clock.frame) {
+        timing = work->config;
+        if ((u32)timing->field_34 < (u32)work->clock.frame) {
             work->phase = 4;
         }
     } else if (work->phase == 4) {

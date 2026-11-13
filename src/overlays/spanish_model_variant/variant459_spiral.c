@@ -19,7 +19,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
     long p;
     long flag;
     Variant459EntryState *work;
-    u8 *timing;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -38,7 +38,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
 
     work = (Variant459EntryState *)ctx;
     arm = (Variant425SpiralArm *)work->glows;
-    timing = (u8 *)work + 0x2568 + work->config->count * 0x130;
+    timing = &work->sheets[work->config->count * 2];
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
@@ -51,7 +51,7 @@ void SpanishModelVariant459_DrawSpiral(u8 *ctx)
     if (eighth * work->field_3096 < 0) {
         length = 0;
     }
-    spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
+    spread = timing->size / 8;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->spiral_angle * 2;
         theta = (i << 13) / 12 + work->spiral_angle;

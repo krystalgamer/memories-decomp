@@ -133,7 +133,7 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
         if (work->phase == 0) {
             if (web->scale > 0) {
                 web->scale = (u32)(work->frame * 3 << 12) /
-                                 MODEL_VARIANT_WORD((u8 *)work->config, 0x20) -
+                                 work->config->burst_start -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {

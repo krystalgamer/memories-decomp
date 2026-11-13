@@ -31,7 +31,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
     long *previous;
 #endif
     Variant456EntryState *work;
-    u8 *pulse;
+    Variant456EntrySheet *pulse;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -61,7 +61,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
     poly = (POLY_G4 *)work->flat;
     reach = 0xC0;
     step = 0x400;
-    pulse = (u8 *)work + 0x1580;
+    pulse = &work->sheets[1];
     if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
@@ -181,7 +181,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
         }
     }
     if (work->tail.phase < 5 && work->streamer.length > 0) {
-        work->streamer.length = MODEL_VARIANT_WORD(pulse, 0x88) / 8;
+        work->streamer.length = pulse->size / 8;
         if (work->streamer.length <= 0) {
             work->streamer.length = 0;
         }
