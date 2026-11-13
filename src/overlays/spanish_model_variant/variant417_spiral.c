@@ -19,7 +19,7 @@ void SpanishModelVariant417_DrawSpiral(u8 *ctx)
     long p;
     long flag;
     Variant417EntryState *work;
-    u8 *timing;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -50,8 +50,8 @@ void SpanishModelVariant417_DrawSpiral(u8 *ctx)
         length = 0;
     }
     if (work->phase >= 3) {
-        timing = (u8 *)work + 0xB30;
-        spread = MODEL_VARIANT_WORD(timing, 0x88) / 8;
+        timing = &work->sheets[1];
+        spread = timing->size / 8;
     } else {
         spread = 0x400 - work->field_2156;
     }

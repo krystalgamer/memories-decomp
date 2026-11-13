@@ -9,7 +9,8 @@ typedef struct {
     u8 inner[4];
     u8 outer[4];
     s32 size;
-    u8 unknown64[12];
+    s32 field_64, field_68;
+    u8 unknown_6C[4];
     s32 done;
 } Variant414Fan;
 
