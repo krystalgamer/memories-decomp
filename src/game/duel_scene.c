@@ -2639,10 +2639,23 @@ void Duel_UpdateDrawCardSlide(DisplayObject *o)
     }
 }
 
+/*
+ * Returns 1 when the active hand holds every Exodia piece: each id from
+ * EXODIA_FIRST_CARD_ID up to EXODIA_CARD_ID_END must match a different hand
+ * slot. The slot indices are copied first and a matched slot is overwritten
+ * with -1 so one card cannot satisfy two pieces. Returns 0 at the first piece
+ * the hand lacks.
+ *
+ * The miss branch comes first and returns from inside the scan, so the hit
+ * branch sits after that return and breaks straight to the next piece. The
+ * marker goes through index, whose second assignment keeps loop.c from
+ * hoisting the -1 out of the scan.
+ */
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
     s32 i;
     s32 card_id;
+    s16 index;
 
     for (i = 0; i < HAND_SIZE; i++) {
         hand[i] = gDuel_pActiveSideState->hand[i];
@@ -2651,18 +2664,20 @@ s32 Duel_HasAllExodiaPieces(void) {
     for (card_id = EXODIA_FIRST_CARD_ID;
          card_id < EXODIA_CARD_ID_END;
          card_id++) {
-        for (i = 0; i < HAND_SIZE; i++) {
-            s16 index = hand[i];
-            if (index >= 0) {
-                s16 id = ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->cards[index].id;
-                if (id == card_id) {
-                    hand[i] = -1;
-                    goto found;
+        i = 0;
+        while (1) {
+            index = hand[i];
+            if (index < 0 ||
+                ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->cards[index].id != card_id) {
+                if (++i >= HAND_SIZE) {
+                    return 0;
                 }
+            } else {
+                index = -1;
+                hand[i] = index;
+                break;
             }
         }
-        return 0;
-    found:;
     }
 
     return 1;
