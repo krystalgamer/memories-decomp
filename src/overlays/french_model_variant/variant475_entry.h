@@ -11,7 +11,9 @@
 #include "../../psyq/libhmd.h"
 
 typedef struct {
-    u8 unknown_00[4], parts[8], unknown_0C[0x14];
+    u8 unknown_00[4], parts[8], unknown_0C[8];
+    s32 ribbon_count;
+    u8 unknown_18[8];
     u32 start, field_24, orbit_start, ribbon_start, phase4, phase5;
 } Variant475EntryConfig;
 

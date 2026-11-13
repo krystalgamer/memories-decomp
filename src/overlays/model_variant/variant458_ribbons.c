@@ -47,14 +47,14 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
     sum = 0;
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
-    for (i = 0, phase = 0; i < *(s32 *)(*(u8 **)((u8 *)work + 0x2FCC) + 0x14); i++, ribbon++, phase = i * 0x300) {
+    for (i = 0, phase = 0; i < work->config->ribbon_count; i++, ribbon++, phase = i * 0x300) {
         len = 0x30;
         if (i == 0) {
             turn = 0x400;
         } else if (i % 2 == 1) {
-            turn = i * 1800 / *(s32 *)(*(u8 **)((u8 *)work + 0x2FCC) + 0x14) + 0x400;
+            turn = i * 1800 / work->config->ribbon_count + 0x400;
         } else {
-            turn = 0x400 - i * 1800 / *(s32 *)(*(u8 **)((u8 *)work + 0x2FCC) + 0x14);
+            turn = 0x400 - i * 1800 / work->config->ribbon_count;
         }
         for (k = 0; k < 13; k++) {
             if (k == 0 || k == 12) {
@@ -64,18 +64,18 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
             }
             coil = k * 2048 / 12;
             setVector(&ribbon->a[k],
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F0C) * k / 12 - (rcos(turn) * (rsin(coil) * 384 >> 12) >> 12),
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F10) * k / 12 - (rsin(turn) * (rsin(coil) * 384 >> 12) >> 12),
-                      MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2F14) * k / 12);
+                      work->deltas[i].vx * k / 12 - (rcos(turn) * (rsin(coil) * 384 >> 12) >> 12),
+                      work->deltas[i].vy * k / 12 - (rsin(turn) * (rsin(coil) * 384 >> 12) >> 12),
+                      work->deltas[i].vz * k / 12);
             setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
                       ribbon->a[k].vz + (rsin(yaw) * len >> 12));
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2E0C);
-        m.t[1] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2E10);
-        m.t[2] = MODEL_VARIANT_WORD((u8 *)work + (i << 4), 0x2E14);
+        m.t[0] = work->starts[i].vx;
+        m.t[1] = work->starts[i].vy;
+        m.t[2] = work->starts[i].vz;
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -171,13 +171,13 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
                     ribbon->state = 2;
                 } else {
                     ribbon->len = 0x400;
-                    ribbon->count = -(*(s32 *)(*(u8 **)((u8 *)work + 0x2FCC) + 0x14) * 8);
+                    ribbon->count = -(work->config->ribbon_count * 8);
                     ribbon->state = 0;
                 }
             }
         }
         sum += ribbon->state;
-        if (sum == *(s32 *)(*(u8 **)((u8 *)work + 0x2FCC) + 0x14) * 2 && work->tail.phase == 5) {
+        if (sum == work->config->ribbon_count * 2 && work->tail.phase == 5) {
             work->tail.phase = 6;
         }
     }
