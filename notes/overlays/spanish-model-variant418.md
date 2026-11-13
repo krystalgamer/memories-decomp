@@ -3,8 +3,8 @@
 Two independently verified MODEL410 images reuse the unchanged accepted
 `variant401_{spokes,rings,quad}.c` implementations, which both slots now
 compile directly. The independently verified `variant418_rays.c` selector
-reuses the accepted local `variant433_rays.c` with its measured MODEL418 tail
-offset and flag grid.
+includes the header-401 rays copy (`model_variant/variant401_rays.c`), typed
+over `Variant401EntryState` with its per-segment flag grid.
 The accepted standalone `variant418_sheet*` sources independently match both
 Spanish sheet helpers, preserving the `G32` guest timing-pointer storage.
 The `variant418_webs.c` selector independently matches both Spanish

@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant416_rays.h"
+#include "variant416_entry.h"
 
 void FrenchModelVariant433_DrawRays(u8 *ctx)
 {
@@ -13,7 +13,7 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     u8 blue[16];
     long p;
     long flag;
-    u8 *work;
+    Variant416EntryState *work;
     GsOT *ot;
     s16 i, j;
     s32 angle;
@@ -21,30 +21,30 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     s32 radius;
     s32 amplitude;
     GsGLINE *line;
-    Variant416Ray *ray;
+    ModelVariantTrail *ray;
     s32 f;
     s32 otz;
     s32 size;
 
-    work = ctx;
-    ray = (Variant416Ray *)ctx;
+    work = (Variant416EntryState *)ctx;
+    ray = work->records;
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(MODEL_VARIANT_WORD(ctx, 0x1A3C), MODEL_VARIANT_WORD(ctx, 0x1A34));
-    ratan2(MODEL_VARIANT_WORD(ctx, 0x1A38), MODEL_VARIANT_WORD(ctx, 0x1A34));
-    ratan2(MODEL_VARIANT_WORD(ctx, 0x1A28), MODEL_VARIANT_WORD(ctx, 0x1A24));
-    ratan2(MODEL_VARIANT_HALF(ctx, 0x1A32), MODEL_VARIANT_HALF(ctx, 0x1A30));
-    line = (GsGLINE *)(ctx + 0x19E4);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
+    line = &work->line;
     sign = -1;
-    if (MODEL_VARIANT_HALF(work, 0x1A94) == 0) {
+    if (work->tail.slot == 0) {
         sign = 1;
     }
     for (i = 0, angle = 0; i < 16; i++, angle = i << 8, ray++) {
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_HALF(work, 0x1A18);
-        m.t[1] = MODEL_VARIANT_HALF(work, 0x1A1A);
-        m.t[2] = MODEL_VARIANT_HALF(work, 0x1A1C);
+        m.t[0] = work->aim.target.vx;
+        m.t[1] = work->aim.target.vy;
+        m.t[2] = work->aim.target.vz;
         /* The original stores the prior radius into this unused scale. */
         scale.vx = size;
         scale.vy = size;
@@ -60,15 +60,15 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
             amplitude = 512;
         }
         for (j = 0; j < 9; j++) {
-            if (ray->radius[j] > 0) {
-                radius = ray->radius[j];
+            if (ray->offset[j] > 0) {
+                radius = ray->offset[j];
                 size = radius;
             } else {
                 radius = 0;
                 size = radius;
             }
-            if (ray->radius[j] > 1536) {
-                f = 2048 - ray->radius[j];
+            if (ray->offset[j] > 1536) {
+                f = 2048 - ray->offset[j];
                 red[j] = ray->color[j].r * f / 512;
                 green[j] = ray->color[j].g * f / 512;
                 blue[j] = ray->color[j].b * f / 512;
@@ -80,10 +80,10 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
             (j + ray->point)->vx = ((rcos((s16)angle) * 512 >> 12) * radius) / 2048;
             (j + ray->point)->vy = ((rsin((s16)angle) * 512 >> 12) * radius) / 2048 - (rsin(radius) * 128 >> 12);
             (j + ray->point)->vz = amplitude * sign * radius / 2048;
-            if (ray->radius[j] < 2048) {
-                ray->radius[j] += MODEL_VARIANT_WORD(work, 0x1A58) << 5;
-                if (ray->radius[j] >= 2048) {
-                    ray->radius[j] = 2048;
+            if (ray->offset[j] < 2048) {
+                ray->offset[j] += work->clock.step << 5;
+                if (ray->offset[j] >= 2048) {
+                    ray->offset[j] = 2048;
                 }
             }
         }

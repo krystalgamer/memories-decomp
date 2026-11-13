@@ -1,13 +1,5 @@
 #include "../../types.h"
-#include "variant433_rays.h"
-
-#ifdef MODEL_VARIANT418_RAYS
-#define MODEL_VARIANT_RAY_TAIL_OFFSET 0x94
-#define MODEL_VARIANT_RAY_FLAG flag[i][j]
-#else
-#define MODEL_VARIANT_RAY_TAIL_OFFSET 0
-#define MODEL_VARIANT_RAY_FLAG flag
-#endif
+#include "../model_variant/variant416_entry.h"
 
 void FrenchModelVariant433_DrawRays(u8 *ctx)
 {
@@ -16,19 +8,14 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-#ifdef MODEL_VARIANT418_RAYS
-    long flag[16][9];
-#endif
     u8 r[9];
     u8 g[9];
     u8 b[9];
     long p;
-#ifndef MODEL_VARIANT418_RAYS
     long flag;
-#endif
-    u8 *work;
+    Variant416EntryState *work;
     GsOT *ot;
-    struct ModelVariant433Ray *ray;
+    ModelVariantTrail *ray;
     GsGLINE *line;
     s16 i;
     s16 j;
@@ -40,25 +27,25 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     s32 spread;
     s32 fade;
 
-    work = ctx;
-    ray = (struct ModelVariant433Ray *)work;
+    work = (Variant416EntryState *)ctx;
+    ray = work->records;
     ot = Graphics_GetDefaultOrderingTable();
-    line = (GsGLINE *)(work + (0x19E4 + MODEL_VARIANT_RAY_TAIL_OFFSET));
-    ratan2(MODEL_VARIANT_WORD(work, (0x1A3C + MODEL_VARIANT_RAY_TAIL_OFFSET)), MODEL_VARIANT_WORD(work, (0x1A34 + MODEL_VARIANT_RAY_TAIL_OFFSET)));
-    ratan2(MODEL_VARIANT_WORD(work, (0x1A38 + MODEL_VARIANT_RAY_TAIL_OFFSET)), MODEL_VARIANT_WORD(work, (0x1A34 + MODEL_VARIANT_RAY_TAIL_OFFSET)));
-    ratan2(MODEL_VARIANT_WORD(work, (0x1A28 + MODEL_VARIANT_RAY_TAIL_OFFSET)), MODEL_VARIANT_WORD(work, (0x1A24 + MODEL_VARIANT_RAY_TAIL_OFFSET)));
-    ratan2(MODEL_VARIANT_HALF(work, (0x1A32 + MODEL_VARIANT_RAY_TAIL_OFFSET)), MODEL_VARIANT_HALF(work, (0x1A30 + MODEL_VARIANT_RAY_TAIL_OFFSET)));
+    line = &work->line;
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     direction = -1;
-    if (MODEL_VARIANT_HALF(work, (0x1A94 + MODEL_VARIANT_RAY_TAIL_OFFSET)) == 0) {
+    if (work->tail.slot == 0) {
         direction = 1;
     }
     for (i = 0, angle = 0; i < 16; i++, angle = i << 8, ray++) {
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_HALF(work, (0x1A18 + MODEL_VARIANT_RAY_TAIL_OFFSET));
-        m.t[1] = MODEL_VARIANT_HALF(work, (0x1A1A + MODEL_VARIANT_RAY_TAIL_OFFSET));
-        m.t[2] = MODEL_VARIANT_HALF(work, (0x1A1C + MODEL_VARIANT_RAY_TAIL_OFFSET));
+        m.t[0] = work->aim.target.vx;
+        m.t[1] = work->aim.target.vy;
+        m.t[2] = work->aim.target.vz;
         /* Retail reads an unwritten local on the first iteration into unused scale. */
         scale.vx = level;
         scale.vy = level;
@@ -74,31 +61,31 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
             spread = 0x200;
         }
         for (j = 0; j < 9; j++) {
-            if (ray->progress[j] > 0) {
-                size = ray->progress[j];
+            if (ray->offset[j] > 0) {
+                size = ray->offset[j];
                 level = size;
             } else {
                 size = 0;
                 level = size;
             }
-            if (ray->progress[j] > 0x600) {
-                fade = 0x800 - ray->progress[j];
-                r[j] = ray->color[j][0] * fade / 512;
-                g[j] = ray->color[j][1] * fade / 512;
-                b[j] = ray->color[j][2] * fade / 512;
+            if (ray->offset[j] > 0x600) {
+                fade = 0x800 - ray->offset[j];
+                r[j] = ray->color[j].r * fade / 512;
+                g[j] = ray->color[j].g * fade / 512;
+                b[j] = ray->color[j].b * fade / 512;
             } else {
-                r[j] = ray->color[j][0];
-                g[j] = ray->color[j][1];
-                b[j] = ray->color[j][2];
+                r[j] = ray->color[j].r;
+                g[j] = ray->color[j].g;
+                b[j] = ray->color[j].b;
             }
             setVector(&ray->point[j],
                       ((rcos((s16)angle) << 9) >> 12) * size / 2048,
                       ((rsin((s16)angle) << 9) >> 12) * size / 2048 - ((rsin(size) << 7) >> 12),
                       spread * direction * size / 2048);
-            if (ray->progress[j] < 0x800) {
-                ray->progress[j] += MODEL_VARIANT_WORD(work, (0x1A58 + MODEL_VARIANT_RAY_TAIL_OFFSET)) << 5;
-                if (ray->progress[j] >= 0x800) {
-                    ray->progress[j] = 0x800;
+            if (ray->offset[j] < 0x800) {
+                ray->offset[j] += work->clock.step << 5;
+                if (ray->offset[j] >= 0x800) {
+                    ray->offset[j] = 0x800;
                 }
             }
         }
@@ -107,14 +94,14 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
             otz = RotTransPers4(&ray->point[j], &ray->point[j + 1],
                                &ray->point[j], &ray->point[j + 1],
                                (long *)&line->x0, (long *)&line->x1,
-                               (long *)&line->x0, (long *)&line->x1, &p, &MODEL_VARIANT_RAY_FLAG);
+                               (long *)&line->x0, (long *)&line->x1, &p, &flag);
             line->r0 = r[j];
             line->g0 = g[j];
             line->b0 = b[j];
             line->r1 = r[j + 1];
             line->g1 = g[j + 1];
             line->b1 = b[j + 1];
-            if (otz >= 0 && MODEL_VARIANT_RAY_FLAG >= 0) {
+            if (otz >= 0 && flag >= 0) {
                 GsSortGLine(line, ot, otz);
             }
         }
