@@ -137,6 +137,7 @@ class ModelImageRegistrationTests(unittest.TestCase):
         self.assertEqual(overlay_column("model_intro"), "credits")
         self.assertEqual(overlay_column("model_variant_238_stage8_slot1"), "MODEL")
         self.assertEqual(overlay_column("main_menu_language_3"), "main_menu")
+        self.assertEqual(overlay_column("remodel_screen"), "remodel_screen")
 
     def test_model_column_counts_each_duplicate_image_location(self):
         resident = dict(matching_c_function_count=1, decompilation_target_function_count=1,

@@ -368,7 +368,7 @@ def overlay_column(name: str) -> str:
         return "exodia"
     if name == "model_intro":
         return "credits"
-    if "model" in name:
+    if name.startswith("model_"):
         return "MODEL"
     for prefix in ("exodia", "main_menu", "overworld", "password"):
         if name == prefix or name.startswith(f"{prefix}_"):
