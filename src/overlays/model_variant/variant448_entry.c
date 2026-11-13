@@ -196,9 +196,9 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
             orbit->inner.r = work->config->inner.r;
             orbit->inner.g = work->config->inner.g;
             orbit->inner.b = work->config->inner.b;
-            MODEL_VARIANT_WORD(orbit, 0x88) = 0;
-            MODEL_VARIANT_WORD(orbit, 0x8C) = 0;
-            MODEL_VARIANT_WORD(orbit, 0x90) = 0;
+            orbit->field_88 = 0;
+            orbit->field_8C = 0;
+            orbit->field_90 = 0;
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 2; j++) {
                     for (m = 0; m < 3; m++) {

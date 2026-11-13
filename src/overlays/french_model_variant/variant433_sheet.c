@@ -9,7 +9,7 @@ void ModelVariant416_DrawSheets(u8 *ctx)
     VECTOR scale;
     MATRIX m;
     Variant416EntryState *work;
-    u8 *record;
+    Variant416EntryBand *record;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -24,11 +24,11 @@ void ModelVariant416_DrawSheets(u8 *ctx)
     s32 otz;
 
     work = (Variant416EntryState *)ctx;
-    record = ctx + 0xF60;
-    sheet = (ModelVariantSheet *)(ctx + 0x10B0);
+    record = work->bands;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x191C);
-    for (i = 0; i < 3; i++, sheet++, record += 0xA8) {
+    poly = &work->packets.textured[1];
+    for (i = 0; i < 3; i++, sheet++, record++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
@@ -47,10 +47,10 @@ void ModelVariant416_DrawSheets(u8 *ctx)
             s32 amount;
 
             amount = 0;
-            if (MODEL_VARIANT_WORD(record, 0x68) > 0) {
+            if (record->offset[0] > 0) {
                 amount = 0x400;
-                if (MODEL_VARIANT_WORD(record, 0x68) < amount) {
-                    amount = MODEL_VARIANT_WORD(record, 0x68);
+                if (record->offset[0] < amount) {
+                    amount = record->offset[0];
                 }
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;
