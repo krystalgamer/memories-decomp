@@ -2,11 +2,8 @@
 #include "variant388_strips.h"
 #include "../spanish_model_variant/variant388_entry.h"
 
-#define W(o) MODEL_VARIANT_WORD(work, o)
-#define H(o) MODEL_VARIANT_HALF(work, o)
-
-/* Projects five cross sections along the path from the origin at +0x1818
- * towards +0x182C, scaled by the growth half at +0x1890, and draws two
+/* Projects five cross sections along the path from the matrix translation
+ * along the aim direction, scaled by the progress half, and draws two
  * POLY_GT4 strips between them, then advances the grow and shrink timers
  * against the timing record.
  *
@@ -43,10 +40,10 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     work = (Variant388EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
-    angle = ratan2(H(0x183E), H(0x183C)) + 0x800;
-    if (W(0x1898) > 0) {
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
+    if (work->phase > 0) {
         unit = (Strip388Unit *)work;
-        width = H(0x1892) / 32;
+        width = work->strip_width / 32;
         for (i = 0; i < 1; i++, unit++) {
             for (k = 0; k < 5; k++) {
                 setVector(&unit->a[k], rcos(0x400) * width >> 12, rsin(0x400) * width >> 12, 0);
@@ -56,13 +53,13 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                 rot.vy = 0;
                 rot.vz = angle;
                 if (k == 0) {
-                    m.t[0] = W(0x1818);
-                    m.t[1] = W(0x181C);
-                    m.t[2] = W(0x1820);
+                    m.t[0] = work->matrix.t[0];
+                    m.t[1] = work->matrix.t[1];
+                    m.t[2] = work->matrix.t[2];
                 } else {
-                    m.t[0] = W(0x1818) + W(0x182C) * H(0x1890) / 1024 * k / 4;
-                    m.t[1] = W(0x181C) + W(0x1830) * H(0x1890) / 1024 * k / 4;
-                    m.t[2] = W(0x1820) + W(0x1834) * H(0x1890) / 1024 * k / 4;
+                    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024 * k / 4;
+                    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024 * k / 4;
+                    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024 * k / 4;
                 }
                 scale.vx = 0x1000;
                 scale.vy = 0x1000;
@@ -156,26 +153,26 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
             }
         }
         col = next = (Strip388Unit *)work;
-        rec = (Strip388Timing *)W(0x186C);
-        if (W(0x1880) + 1 == rec->frame) {
-            if (W(0x1898) == 1 && H(0x1890) <= 0x400) {
-                if (rec->grow_start <= (u32)W(0x185C)) {
-                    H(0x1890) = ((u32)W(0x185C) - rec->grow_start << 10) / (rec->grow_end - rec->grow_start);
+        rec = (Strip388Timing *)work->config;
+        if (work->index + 1 == rec->frame) {
+            if (work->phase == 1 && work->progress <= 0x400) {
+                if (rec->grow_start <= (u32)work->clock.frame) {
+                    work->progress = ((u32)work->clock.frame - rec->grow_start << 10) / (rec->grow_end - rec->grow_start);
                 }
-                if (H(0x1890) >= 0x400) {
-                    H(0x1890) = 0x400;
-                    W(0x1898) = 2;
+                if (work->progress >= 0x400) {
+                    work->progress = 0x400;
+                    work->phase = 2;
                 }
             }
-            if (H(0x1892) > 0) {
-                rec = (Strip388Timing *)W(0x186C);
-                if ((u32)W(0x185C) >= rec->shrink_start) {
-                    H(0x1892) = 0x400 - ((u32)W(0x185C) - rec->shrink_start << 10) / (rec->shrink_end - rec->shrink_start);
+            if (work->strip_width > 0) {
+                rec = (Strip388Timing *)work->config;
+                if ((u32)work->clock.frame >= rec->shrink_start) {
+                    work->strip_width = 0x400 - ((u32)work->clock.frame - rec->shrink_start << 10) / (rec->shrink_end - rec->shrink_start);
                 }
-                if (H(0x1892) <= 0) {
-                    H(0x1892) = 0;
-                    if (W(0x1898) == 3) {
-                        W(0x1898) = 4;
+                if (work->strip_width <= 0) {
+                    work->strip_width = 0;
+                    if (work->phase == 3) {
+                        work->phase = 4;
                     }
                 }
             }

@@ -14,7 +14,7 @@ void ModelVariant423_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *timing;
+    ModelVariantWebConfig *timing;
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
@@ -131,9 +131,9 @@ void ModelVariant423_DrawWebs(u8 *ctx)
         }
         if (work->tail.phase == 0) {
             if (web->scale > 0) {
-                timing = (u8 *)work->config;
-                web->scale = ((work->clock.frame - MODEL_VARIANT_WORD(timing, 0x1C)) * 3 << 12) /
-                                 (MODEL_VARIANT_WORD(timing, 0x20) - MODEL_VARIANT_WORD(timing, 0x1C)) -
+                timing = work->config;
+                web->scale = ((work->clock.frame - timing->start) * 3 << 12) /
+                                 (timing->burst_start - timing->start) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {

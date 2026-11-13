@@ -22,7 +22,7 @@ typedef struct {
     SVECTOR position[10];
     u8 color[4];
     s32 size[10], angle[10], done[10];
-    u8 unknown_20C[0x28];
+    s32 field_20C[10];
     s32 reset[10];
     u8 unknown_25C[0xA0];
 } Variant402EntryQuads;

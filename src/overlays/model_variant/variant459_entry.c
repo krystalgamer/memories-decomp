@@ -290,8 +290,8 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             curtain->rotation.vy = 0;
             curtain->rotation.vz = n << 10;
             curtain->scale = n * -6144 / 5;
-            MODEL_VARIANT_WORD(curtain, 0x1A4) = n * -1024 / 5;
-            MODEL_VARIANT_WORD(curtain, 0x1A8) = 0;
+            curtain->field_1A4 = n * -1024 / 5;
+            curtain->field_1A8 = 0;
         }
         for (n = 0; n < 1; n++, sheet++) {
             for (f6 = 0; f6 < 4; f6++) {

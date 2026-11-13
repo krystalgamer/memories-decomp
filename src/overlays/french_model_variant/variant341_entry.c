@@ -150,8 +150,8 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
             fan->outer[1] = 64;
             fan->outer[2] = 0;
             fan->size = 0;
-            MODEL_VARIANT_WORD(fan, 0x64) = 0;
-            MODEL_VARIANT_WORD(fan, 0x68) = 0;
+            fan->field_64 = 0;
+            fan->field_68 = 0;
         }
         for (outer = 0; outer < 1; outer++, sheet++) {
             for (k = 0; k < 4; k++) {

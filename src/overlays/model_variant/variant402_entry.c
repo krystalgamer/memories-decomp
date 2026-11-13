@@ -135,7 +135,7 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
                 quads->color[2] = work->config->outer.b;
                 quads->angle[outer] = 0;
                 quads->done[outer] = 0;
-                MODEL_VARIANT_WORD(quads, 0x20C + outer * 4) = 0;
+                quads->field_20C[outer] = 0;
                 quads->reset[outer] = 0;
                 quads->size[outer] = -((outer << 12) / 10);
                 quads->position[outer].vx = work->matrix.t[0] + work->aim.direction.vx;

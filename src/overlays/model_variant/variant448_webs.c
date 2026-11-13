@@ -136,14 +136,14 @@ void ModelVariant448_DrawWebs(u8 *ctx)
             if (web->scale > 0) {
                 web->scale -= work->clock.step * 0xE0;
                 if (web->scale <= 0) {
-                    if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800) {
+                    if (timing->field_88 > 0x800) {
                         web->scale = 0;
                     } else {
                         web->scale += 0x1000;
                     }
                 }
             }
-            if (MODEL_VARIANT_WORD(timing, 0x88) > 0x800 && web->scale > 0x1000) {
+            if (timing->field_88 > 0x800 && web->scale > 0x1000) {
                 web->scale = 0;
             }
         } else if (work->phase == 1) {

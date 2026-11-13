@@ -10,7 +10,7 @@ typedef struct {
     u8 unknown110[0x88];
     SVECTOR rotation;
     s32 scale;
-    u8 unknown1a4[8];
+    s32 field_1A4, field_1A8;
 } Variant459Curtain;
 
 #endif

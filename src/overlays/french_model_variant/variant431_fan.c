@@ -89,8 +89,7 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
             }
         }
         if (work->frame >=
-            (u32)(MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x18B0) -
-                                    -(work->start_index * 4), 0x2C) - 8)) {
+            (work->config->timings[work->start_index] - 8)) {
             if (rec->size < 0x1000 && rec->done == 0) {
                 rec->size += work->step << 10;
                 if (rec->size >= 0x1000) {
