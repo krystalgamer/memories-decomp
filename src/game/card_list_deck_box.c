@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 #include "text_encode_decimal_digits.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -58,7 +59,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     u8 d;
 
     tbl = gCardList_SortIconTable;
-    sp = (GsSPRITE *)0x1F800320;
+    sp = (GsSPRITE *)SCRATCH_ADDR(0x320);
     rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->field_6A];
     pri = *(s16 *)&obj->ot_depth;
     sp->attribute = obj->attribute;

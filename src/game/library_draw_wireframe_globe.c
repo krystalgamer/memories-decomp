@@ -1,5 +1,6 @@
 /* Separate packet-marker lifetimes preserve retail's two setup registers. */
 #include "../types.h"
+#include "scratchpad.h"
 #include "graphics_packet_submission.h"
 #include "model_slot_control.h"
 #include "../ygo_types.h"
@@ -41,18 +42,18 @@ void Library_DrawWireframeGlobe(void)
     angle = 0;
     SetGeomOffset(0xD0, GLOBE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
-    vec = (SVECTOR *)0x1F800038;
-    ctl = (long *)0x1F800060;
-    par = (SVECTOR *)0x1F800200;
+    vec = (SVECTOR *)SCRATCH_ADDR(0x38);
+    ctl = (long *)SCRATCH_ADDR(0x60);
+    par = (SVECTOR *)SCRATCH_ADDR(0x200);
     ot = gGraphics_apOrderingTables[3];
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
 
     {
         u32 marker = 0x55555555;
-        vec1 = (SVECTOR *)0x1F800040;
-        vec2 = (SVECTOR *)0x1F800048;
-        vec3 = (SVECTOR *)0x1F800050;
-        prim = (LINE_G3 *)0x1F800000;
+        vec1 = (SVECTOR *)SCRATCH_ADDR(0x40);
+        vec2 = (SVECTOR *)SCRATCH_ADDR(0x48);
+        vec3 = (SVECTOR *)SCRATCH_ADDR(0x50);
+        prim = (LINE_G3 *)SCRATCH_ADDR(0);
 
         /* Retail materializes this fixed view buffer with literal lui/ori. */
         *par = *(SVECTOR *)0x80181000;
@@ -65,9 +66,9 @@ void Library_DrawWireframeGlobe(void)
         /* vec3->vy, vec2->vy and vec1->vy, stored through their absolute
          * addresses; a member store through the SVECTOR pointers reorders
          * the whole setup. */
-        *(s16 *)0x1F800052 = 0;
-        *(s16 *)0x1F80004A = 0;
-        *(s16 *)0x1F800042 = 0;
+        *(s16 *)SCRATCH_ADDR(0x52) = 0;
+        *(s16 *)SCRATCH_ADDR(0x4A) = 0;
+        *(s16 *)SCRATCH_ADDR(0x42) = 0;
         vec->vy = 0;
     }
 

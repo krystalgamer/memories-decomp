@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 
 /* Zero-initialized storage this unit owns at 0x8009B258-0x8009B260, defined in
  * address order ahead of the headers that declare it (#2602). */
@@ -135,7 +136,7 @@ void Library_DrawCardGrid(void)
     s32 first;
     s32 attribute;
 
-    p = (GsSPRITE *)0x1F800320;
+    p = (GsSPRITE *)SCRATCH_ADDR(0x320);
     n = (gGraphics_sViewportY - 8) / 178;
     ot = gGraphics_apOrderingTables[3];
     if (n < 0) {
@@ -223,7 +224,7 @@ void Library_DrawCardGrid(void)
         b += 25;
     } while (n < 4);
 
-    q = (GsGLINE *)0x1F800000;
+    q = (GsGLINE *)SCRATCH_ADDR(0);
     v = gMain_dwFrameCounter & 0x7F;
     q->attribute = 0x50000000;
     q->b0 = 0;
@@ -598,19 +599,19 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
         return;
     }
 
-    r = (struct ProjectionOut *)0x1F800398;
+    r = (struct ProjectionOut *)SCRATCH_ADDR(0x398);
     ((u8 *)&o->rgb)[2] = *(u8 *)&o->field_60;
     DisplayObject_ProjectRotationFacing(o,
                   *(s16 *)&o->xy.h.x + *(s16 *)&o->field_18.center.x,
                   *(s16 *)&o->xy.h.y + *(s16 *)&o->field_18.center.y,
                   r);
 
-    q = (LINE_F4 *)0x1F8002A0;
-    b0 = (SVECTOR *)0x1F800300;
+    q = (LINE_F4 *)SCRATCH_ADDR(0x2A0);
+    b0 = (SVECTOR *)SCRATCH_ADDR(0x300);
     m = 0x55555555;
-    b2 = (SVECTOR *)0x1F800310;
-    b3 = (SVECTOR *)0x1F800318;
-    b1 = (SVECTOR *)0x1F800308;
+    b2 = (SVECTOR *)SCRATCH_ADDR(0x310);
+    b3 = (SVECTOR *)SCRATCH_ADDR(0x318);
+    b1 = (SVECTOR *)SCRATCH_ADDR(0x308);
 
     z = *(s32 *)&o->rgb;
     setlen(q, 6);

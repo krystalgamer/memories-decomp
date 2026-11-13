@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scratchpad.h"
 
 /* The duel card preview, one translation unit from CardPreview_HandleResourceTransfer
  * (US 0x800289BC) through DuelEffect_ClearResourceObjectPointers: the preview
@@ -195,9 +196,9 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     if ((flags & 0x40) == 0) {
         return;
     }
-    origin = (DisplayObjectPacketOrigin *)0x1F800398;
-    PRM = (SpritePrim *)0x1F800320;
-    packet = (POLY_FT4 *)0x1F800344;
+    origin = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
+    PRM = (SpritePrim *)SCRATCH_ADDR(0x320);
+    packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
     arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
         obj->field_20.word = win->field_20.word;

@@ -1,5 +1,6 @@
 
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "display_object_system.h"
 #include "mem_card.h"
@@ -320,9 +321,9 @@ void DisplayObject_RenderSpriteList(void) {
 
     i = gDisplayObject_awListHeads[1];
     if (i >= 0) {
-        packet = (POLY_FT4 *)0x1F800344;
-        p = (SpritePrim *)0x1F800320;
-        clip = (ClipState *)0x1F800378;
+        packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
+        p = (SpritePrim *)SCRATCH_ADDR(0x320);
+        clip = (ClipState *)SCRATCH_ADDR(0x378);
         table = gGraphics_apOrderingTables;
 
         do {
@@ -509,9 +510,9 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     s32 tag;
     s32 flags;
 
-    clip = (ClipState *)0x1F800378;
-    p = (SpritePrim *)0x1F800320;
-    packet = (POLY_FT4 *)0x1F800344;
+    clip = (ClipState *)SCRATCH_ADDR(0x378);
+    p = (SpritePrim *)SCRATCH_ADDR(0x320);
+    packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
     step = 1;
 
     tag = object->attribute;
@@ -707,8 +708,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
     s32 x1;
     s32 x2;
 
-    packet = (POLY_G4 *)0x1F800344;
-    projection = (u8 *)0x1F800398;
+    packet = (POLY_G4 *)SCRATCH_ADDR(0x344);
+    projection = (u8 *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[4];
 
     if (i >= 0) {
@@ -819,8 +820,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
     s32 x1;
     s32 x2;
 
-    packet = (POLY_GT4 *)0x1F800344;
-    projection = (u8 *)0x1F800398;
+    packet = (POLY_GT4 *)SCRATCH_ADDR(0x344);
+    projection = (u8 *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[5];
 
     if (i >= 0) {
@@ -1030,17 +1031,17 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
     s32 tpage;
     u16 cx;
 
-    state = (SpriteSheetState *)0x1F8003A4;
+    state = (SpriteSheetState *)SCRATCH_ADDR(0x3A4);
     x = (s16)object->xy.h.x;
     y = (s16)object->xy.h.y;
     if ((object->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         x -= gGraphics_sViewportX;
         y -= gGraphics_sViewportY;
     }
-    work = (SpriteSheetWork *)0x1F800378;
+    work = (SpriteSheetWork *)SCRATCH_ADDR(0x378);
     work->mx = object->field_48.pivot.x;
     work->my = object->field_48.pivot.y;
-    sprite = (SpritePrim *)0x1F800320;
+    sprite = (SpritePrim *)SCRATCH_ADDR(0x320);
     work->clip = object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST;
 retry:
     work->attribute = object->attribute;
@@ -1091,7 +1092,7 @@ retry:
     quad = 0;
     work->mode = 0;
     if (work->clip != 0) {
-        quad = (u8 *)0x1F800344;
+        quad = (u8 *)SCRATCH_ADDR(0x344);
         *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb;
         setlen(quad, 9);
         setcode(quad, 0x2C);
@@ -1373,8 +1374,8 @@ s32 DisplayObject_ProjectPackedRotationFacing(
     SetGeomOffset(x, y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
-    mtx = (MATRIX *)0x1F8002D0;
-    v308 = (SVECTOR *)0x1F800308;
+    mtx = (MATRIX *)SCRATCH_ADDR(0x2D0);
+    v308 = (SVECTOR *)SCRATCH_ADDR(0x308);
 
     v308->vx = (s16)((packed_rotation & 0xFF) * 0x10);
     v308->vy = (s16)((packed_rotation >> 4) & 0xFF0);
@@ -1389,8 +1390,8 @@ s32 DisplayObject_ProjectPackedRotationFacing(
     GsSetLsMatrix(mtx);
 
     {
-        register SVECTOR *v318 = (SVECTOR *)0x1F800318;
-        SVECTOR *v310 = (SVECTOR *)0x1F800310;
+        register SVECTOR *v318 = (SVECTOR *)SCRATCH_ADDR(0x318);
+        SVECTOR *v310 = (SVECTOR *)SCRATCH_ADDR(0x310);
 
         v318->vx = 0;
         v308->vx = 0;
@@ -1421,8 +1422,8 @@ s32 DisplayObject_ProjectRotationFacing(
     struct ProjectionOut *out
 )
 {
-    MATRIX *mtx = (MATRIX *)0x1F8002D0;
-    SVECTOR *v308 = (SVECTOR *)0x1F800308;
+    MATRIX *mtx = (MATRIX *)SCRATCH_ADDR(0x2D0);
+    SVECTOR *v308 = (SVECTOR *)SCRATCH_ADDR(0x308);
     s32 facing_area;
 
     out->x = x;
@@ -1453,8 +1454,8 @@ s32 DisplayObject_ProjectRotationFacing(
     GsSetLsMatrix(mtx);
 
     {
-        SVECTOR *v318 = (SVECTOR *)0x1F800318;
-        SVECTOR *v310 = (SVECTOR *)0x1F800310;
+        SVECTOR *v318 = (SVECTOR *)SCRATCH_ADDR(0x318);
+        SVECTOR *v310 = (SVECTOR *)SCRATCH_ADDR(0x310);
         s32 *area_result;
 
         v318->vx = 0;
@@ -1490,7 +1491,7 @@ s32 DisplayObject_ProjectRotationFacing(
                 SetRotMatrix(mtx);
 
                 RotAverageNclip3_nom(
-                    v308, v310, (SVECTOR *)0x1F800318);
+                    v308, v310, (SVECTOR *)SCRATCH_ADDR(0x318));
 
                 area_result = &facing_area;
                 gte_stopz(area_result);
@@ -1520,7 +1521,6 @@ s32 DisplayObject_ProjectRotationFacing(
  * RotAverageNclip4 depth/flag results at 0x1F8002E0, and the DivideFT4
  * inputs - its DIVPOLYGON4 at 0x1F800000, the colour at 0x1F800280 and the
  * four texture coordinates from 0x1F800290. */
-#define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
 
 /* The high half of `mode` selects the handler and the low half is the
  * ordering-table depth. Cases 1-3 hand a GsSPRITE to libgs. Cases 4 and 5 get
@@ -1549,8 +1549,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         POLY_G4 *g4 = (POLY_G4 *)packet;
 
         if ((u32)sprite & 0x04000000) {
-            otz = (long *)0x1F8002E0;
-            v = SCRATCH_VERTEX(0);
+            otz = (long *)SCRATCH_ADDR(0x2E0);
+            v = (SVECTOR *)SCRATCH_ADDR(0x300);
             v[0].vx = g4->x0 - origin->x;
             v[0].vy = g4->y0 - origin->y;
             v[1].vx = g4->x1 - origin->x;
@@ -1559,11 +1559,12 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
             v[2].vy = g4->y2 - origin->y;
             v[3].vx = g4->x3 - origin->x;
             v[3].vy = g4->y3 - origin->y;
-            SCRATCH_VERTEX(3)->vz = 0;
-            SCRATCH_VERTEX(2)->vz = 0;
-            SCRATCH_VERTEX(1)->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x318))->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x310))->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x308))->vz = 0;
             v[0].vz = 0;
-            if (RotAverageNclip4(SCRATCH_VERTEX(0), SCRATCH_VERTEX(1), SCRATCH_VERTEX(2), SCRATCH_VERTEX(3),
+            if (RotAverageNclip4((SVECTOR *)SCRATCH_ADDR(0x300), (SVECTOR *)SCRATCH_ADDR(0x308),
+                                 (SVECTOR *)SCRATCH_ADDR(0x310), (SVECTOR *)SCRATCH_ADDR(0x318),
                                  (long *)&g4->x0, (long *)&g4->x1,
                                  (long *)&g4->x2, (long *)&g4->x3,
                                  otz, otz + 1, otz + 2) <= 0) {
@@ -1581,8 +1582,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         POLY_GT4 *gt4 = (POLY_GT4 *)packet;
 
         if ((u32)sprite & 0x04000000) {
-            otz = (long *)0x1F8002E0;
-            v = SCRATCH_VERTEX(0);
+            otz = (long *)SCRATCH_ADDR(0x2E0);
+            v = (SVECTOR *)SCRATCH_ADDR(0x300);
             v[0].vx = gt4->x0 - origin->x;
             v[0].vy = gt4->y0 - origin->y;
             v[1].vx = gt4->x1 - origin->x;
@@ -1591,11 +1592,12 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
             v[2].vy = gt4->y2 - origin->y;
             v[3].vx = gt4->x3 - origin->x;
             v[3].vy = gt4->y3 - origin->y;
-            SCRATCH_VERTEX(3)->vz = 0;
-            SCRATCH_VERTEX(2)->vz = 0;
-            SCRATCH_VERTEX(1)->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x318))->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x310))->vz = 0;
+            ((SVECTOR *)SCRATCH_ADDR(0x308))->vz = 0;
             v[0].vz = 0;
-            if (RotAverageNclip4(SCRATCH_VERTEX(0), SCRATCH_VERTEX(1), SCRATCH_VERTEX(2), SCRATCH_VERTEX(3),
+            if (RotAverageNclip4((SVECTOR *)SCRATCH_ADDR(0x300), (SVECTOR *)SCRATCH_ADDR(0x308),
+                                 (SVECTOR *)SCRATCH_ADDR(0x310), (SVECTOR *)SCRATCH_ADDR(0x318),
                                  (long *)&gt4->x0, (long *)&gt4->x1,
                                  (long *)&gt4->x2, (long *)&gt4->x3,
                                  otz, otz + 1, otz + 2) <= 0) {
@@ -1619,8 +1621,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         POLY_FT4 *ft4 = (POLY_FT4 *)packet;
         POLY_FT4 *projected;
 
-        otz = (long *)0x1F8002E0;
-        v = SCRATCH_VERTEX(0);
+        otz = (long *)SCRATCH_ADDR(0x2E0);
+        v = (SVECTOR *)SCRATCH_ADDR(0x300);
         attribute = sprite->attribute;
 
         /* GsSPRITE's colour-mode bits (24-25) and semi-transparency rate
@@ -1677,9 +1679,9 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
                 return;
             }
             {
-                u32 *rgbc = (u32 *)0x1F800280;
-                u32 *uv = (u32 *)0x1F800290;
-                DIVPOLYGON4 *divp = (DIVPOLYGON4 *)0x1F800000;
+                u32 *rgbc = (u32 *)SCRATCH_ADDR(0x280);
+                u32 *uv = (u32 *)SCRATCH_ADDR(0x290);
+                DIVPOLYGON4 *divp = (DIVPOLYGON4 *)SCRATCH_ADDR(0);
 
                 divp->ndiv = origin->divisions;
                 divp->pih = 320;
@@ -1690,7 +1692,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
                 uv[2] = *(u32 *)&projected->u2;
                 uv[3] = *(u32 *)&projected->u3;
                 gGraphics_pPacketWorkCursor = (u32 *)DivideFT4(v, v1, v2, v3,
-                                             uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
+                                             uv, (u32 *)SCRATCH_ADDR(0x294), (u32 *)SCRATCH_ADDR(0x298),
+                                             (u32 *)SCRATCH_ADDR(0x29C),
                                              (CVECTOR *)rgbc, (POLY_FT4 *)gGraphics_pPacketWorkCursor,
                                              (u32 *)ot->org + pri, divp);
             }
@@ -1976,9 +1979,9 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     s32 depth;
     s32 inner;
     s32 outer;
-    s32 *radius = (s32 *)0x1F800000;
-    s32 *scale = (s32 *)0x1F800010;
-    POLY_G4 *poly = (POLY_G4 *)0x1F800020;
+    s32 *radius = (s32 *)SCRATCH_ADDR(0);
+    s32 *scale = (s32 *)SCRATCH_ADDR(0x10);
+    POLY_G4 *poly = (POLY_G4 *)SCRATCH_ADDR(0x20);
     s32 i;
     s32 j;
     s32 cx;
