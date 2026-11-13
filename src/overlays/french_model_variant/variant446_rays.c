@@ -225,8 +225,8 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
         }
     }
     timing = *(u8 **)((u8 *)work + 0x1BA4);
-    if ((u32)work->elapsed >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && work->ray_length > 0) {
-        work->ray_length = 0x400 - ((u32)(work->elapsed - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
+    if (work->elapsed >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && work->ray_length > 0) {
+        work->ray_length = 0x400 - ((work->elapsed - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
                                    (u32)(MODEL_VARIANT_WORD(timing, 0x48) - MODEL_VARIANT_WORD(timing, 0x44));
         if (work->ray_length <= 0) {
             work->ray_length = 0;
