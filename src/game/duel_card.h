@@ -9,8 +9,14 @@
 
 /* Duel_DrawProjectedFieldCardFrame writes the projected screen pair into
  * 0x08/0x0A of the same records Duel_DrawFieldCards walks. Both projected
- * and 3D card renderers read table_index as s8; explicit casts preserve
- * those signed reads without changing the shared unsigned storage type. */
+ * and 3D card renderers read table_index as s8; (s8) value conversions
+ * preserve those signed reads (lb) without changing the shared unsigned
+ * storage type, which other readers load with lbu.
+ *
+ * Several duel_scene.c tests load terrain_modifier and flags as one word
+ * (lw at 0x14) and mask flag bits in its high half. GCC 2.8.1 has no
+ * anonymous unions, and a named union would rename every flags user, so
+ * those readers keep `*(u32 *)&record->terrain_modifier`. */
 typedef struct {
     void *object;
     void *data;
