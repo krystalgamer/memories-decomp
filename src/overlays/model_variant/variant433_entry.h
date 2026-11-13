@@ -7,7 +7,8 @@ typedef struct {
     u8 unknown_00[4], part, unknown_05[3];
     u32 unknown_08;
     u32 trigger;
-    u8 unknown_10[0x14];
+    u8 unknown_10[0x10];
+    s32 field_20;
 } Variant433EntryConfig;
 
 /* A centre and eight points on a circle, a colour and the sweep words. */

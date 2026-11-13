@@ -13,9 +13,10 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start, second;
-    u8 unknown_24[8];
+    s32 field_24;
+    s32 field_28;
     u32 fade_start, fade_end;
-    u8 unknown_34[4];
+    s32 field_34;
 } Variant459EntryConfig;
 
 typedef struct {

@@ -16,7 +16,9 @@ typedef struct {
     u8 parts[3];
     u8 unknown_13[9];
     u32 fan_start, mesh_start, bloom_start;
-    u8 unknown_28[0x0C];
+    s32 field_28;
+    s32 field_2C;
+    u8 unknown_30[0x4];
 } EntryConfig455;
 
 /* One 0x2B4-byte group of twelve blooming quads (drawn by FrenchModelVariant472_DrawBlooms). */
