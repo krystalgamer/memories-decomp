@@ -103,7 +103,11 @@ u32 Library_GetCardFlags(const LibraryState *base, s32 index)
    - The attribute word is set ahead of the block that stores it. The loop
      note keeps the constant live across the stores before it, which is what
      gives it $v1 and lets sched2 float its lui above the p->y store.
-   - The cursor's y is a chained assignment, y1 then y0, from one value. */
+   - The cursor's y is a chained assignment, y1 then y0, from one value.
+   - The off-screen stop leaves both loops: it breaks out of the line loop
+     onto a re-test of the same condition, which thread_jumps follows to the
+     row loop's exit. Each completed line sets y to 0, so cse2 folds that
+     re-test away on the normal path and the dead store goes with it. */
 void Library_DrawCardGrid(void)
 {
     GsSPRITE *p;
@@ -167,7 +171,7 @@ void Library_DrawCardGrid(void)
             tb = &gLibrary_State;
             if (y + p->w > 0) {
                 if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
-                    goto done;
+                    break;
                 }
                 k = idx + 0x65;
                 c = 0;
@@ -206,13 +210,19 @@ void Library_DrawCardGrid(void)
                 } while (c < 0x8A);
             }
             p->y = p->y + 0x10;
+            /* A line that ran its cells cannot have stopped the run, so
+               clear y; cse then drops the re-test below on this path, and
+               jump threading sends the stop straight to the cursor box. */
+            y = 0;
+        }
+        if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
+            break;
         }
         a += 178;
         n++;
         b += 25;
     } while (n < 4);
 
-done:
     q = (GsGLINE *)0x1F800000;
     v = gMain_dwFrameCounter & 0x7F;
     q->attribute = 0x50000000;
