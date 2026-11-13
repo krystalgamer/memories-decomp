@@ -17,12 +17,12 @@
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * movie_pipeline_commons subsegments place it at the retail addresses. */
-u8 *gMovie_pWorkArea;
+MovieWorkArea *gMovie_pWorkArea;
 CdlLOC gMovie_StreamLoc;
 u8 D_8009B4A0;
 u8 D_8009B4A1;
 u8 D_8009B4A2;
-u8 gMovie_FileInfo[24];
+CdlFILE gMovie_FileInfo;
 
 s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector,
                      s32 rgb24, s32 copy_display_on_stop) {
@@ -92,8 +92,8 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
     gMovie_bOutputSlot = 0;
     DecDCTReset(0);
     DecDCToutCallback(Movie_OnDecodeOutput);
-    DecDCTvlcBuild((u16 *)gMovie_pWorkArea);
-    StSetRing((u32 *)(gMovie_pWorkArea + sizeof(DECDCTTAB)), 0x14);
+    DecDCTvlcBuild(gMovie_pWorkArea->vlc_table);
+    StSetRing(gMovie_pWorkArea->ring[0], MOVIE_RING_SECTORS);
     StClearRing();
     StSetStream(gMovie_bRgb24, gMovie_dwStartFrame, gMovie_dwEndFrame, 0, Movie_OnStreamEnd);
     if (gMovie_dwEndFrame >= 5) {
@@ -111,17 +111,13 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
 #define MOVIE_FRAME_HEIGHT 0xF0
 #endif
 
-#ifndef MOVIE_DECODED_SLOT_SIZE
-#define MOVIE_DECODED_SLOT_SIZE 0x2D00
-#endif
-
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow File_RequestMainMenuPackage. */
 
 s32 Movie_StopStream(s32 copy_display) {
     RECT rect;
-    u8 clear_row[0x3C0];
+    u32 clear_row[0x3C0 / 4];
     s32 i;
     s32 active_buffer;
     u8 *fill;
@@ -141,7 +137,7 @@ s32 Movie_StopStream(s32 copy_display) {
     if (gMovie_bRgb24 != 0) {
         i = 0;
         active_buffer = GsGetActiveBuff();
-        fill = clear_row;
+        fill = (u8 *)clear_row;
         for (; i < 0x3C0; i += 3) {
             *fill++ = gGraphics_bClearRed;
             *fill++ = gGraphics_bClearGreen;
@@ -153,7 +149,7 @@ s32 Movie_StopStream(s32 copy_display) {
         rect.w = 0x1E0;
         rect.h = 1;
         for (; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)clear_row);
+            LoadImage(&rect, clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -162,7 +158,7 @@ s32 Movie_StopStream(s32 copy_display) {
         rect.h = 1;
         rect.w = gGraphics_CurrentWidth.pixels;
         for (i = 0; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)clear_row);
+            LoadImage(&rect, clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -175,7 +171,7 @@ s32 Movie_StopStream(s32 copy_display) {
         rect.x = 0;
         rect.h = 1;
         for (; i < gGraphics_CurrentHeight.word; i++) {
-            LoadImage(&rect, (u32 *)clear_row);
+            LoadImage(&rect, clear_row);
             DrawSync(0);
             rect.y++;
         }
@@ -217,10 +213,10 @@ s32 Movie_DecodeAndPresentFrame(void) {
     s32 result;
     s32 x;
     s32 y;
-    MovieWorkArea *frame;
-    MovieWorkArea *display;
-    MovieWorkArea *rects;
-    MovieWorkArea *out;
+    MovieRectWindow *frame;
+    MovieRectWindow *display;
+    MovieRectWindow *rects;
+    MovieRectWindow *out;
     s32 slot;
     s32 side;
 
@@ -244,31 +240,28 @@ s32 Movie_DecodeAndPresentFrame(void) {
     *(volatile u8 *)&gMovie_bFrameDecoded = 0;
     GetDrawEnv(&env);
 
-    frame = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
-    display = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
+    frame = &gMovie_pWorkArea->out.rects.window;
+    display = &gMovie_pWorkArea->out.rects.window;
     x = env.clip.x +
         ((gMovie_bRgb24 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2;
     side = gMovie_bRgb24;
     slot = gMovie_bInputSlot;
-    /* frame and display hold one address, so typed these two stores
-       hit provably distinct members and GCC reschedules them against
-       the surrounding gp loads. Through u8 * it cannot tell them
-       apart, which is the order retail has; kept opaque, and re-based
-       so retyping the cursor does not rescale the member-derived offsets. */
-    *(s16 *)((u8 *)display +
-        (u32)&((MovieWorkArea *)0)->strip.x) = x;
-    *(s16 *)((u8 *)frame +
-        (u32)&((MovieWorkArea *)0)->frame.x) = x;
+    /* frame and display hold one address, so as RECT members these two
+       stores hit provably distinct fields and GCC reschedules them against
+       the surrounding gp loads. Stored as plain s16 objects it cannot tell
+       them apart, which is the order retail has. */
+    *(s16 *)&display->strip.x = x;
+    *(s16 *)&frame->frame.x = x;
 
-    rects = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
-    y = *(u16 *)&env.clip.y + (MOVIE_FRAME_HEIGHT - rects->frame.h) / 2;
+    rects = &gMovie_pWorkArea->out.rects.window;
+    /* (u16): retail loads the clip y with lhu. */
+    y = (u16)env.clip.y + (MOVIE_FRAME_HEIGHT - rects->frame.h) / 2;
     rects->strip.y = y;
     rects->frame.y = y;
-    DecDCTin((u32 *)(gMovie_pWorkArea + 0x1B000 + slot * 0xE000), side);
+    DecDCTin(gMovie_pWorkArea->coded[slot], side);
 
-    out = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
-    DecDCTout((u32 *)(gMovie_pWorkArea + 0x37000 +
-                      gMovie_bOutputSlot * MOVIE_DECODED_SLOT_SIZE),
+    out = &gMovie_pWorkArea->out.rects.window;
+    DecDCTout(gMovie_pWorkArea->out.decoded[gMovie_bOutputSlot],
               out->strip.w * out->strip.h / 2);
 
     result = Movie_WaitAndDecodeFrame(1);
@@ -301,7 +294,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
        register across the calls. This compiler has no global constant
        propagation, so a local set once serves every store below. */
     s32 set;
-    MovieWorkArea *rects;
+    MovieRectWindow *rects;
     StHEADER *header;
     u32 width;
     u32 frame_width;
@@ -361,28 +354,30 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
         break;
     }
     gMovie_bInputSlot = (gMovie_bInputSlot + 1) & 1;
-    DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + gMovie_bInputSlot * 0xE000),
-               (u16 *)gMovie_pWorkArea);
+    DecDCTvlc2(ring, gMovie_pWorkArea->coded[gMovie_bInputSlot],
+               gMovie_pWorkArea->vlc_table);
 
-    rects = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
+    rects = &gMovie_pWorkArea->out.rects.window;
     width = hdr->width;
     frame_width = gMovie_bRgb24 != 0 ? width * 3 / 2 : width;
     columns = 0x10;
-    *(u16 *)&rects->frame.w = frame_width;
+    rects->frame.w = frame_width;
 
     /* Reading the height into a local before the mode byte is what puts
        the work-area pointer ahead of the height in local-alloc. */
     header = hdr;
-    rects = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
+    rects = &gMovie_pWorkArea->out.rects.window;
     height = header->height;
     wide = gMovie_bRgb24;
-    *(u16 *)&rects->frame.h = height;
+    rects->frame.h = height;
     if (wide != 0) {
         columns = 0x18;
     }
     base = ring;
+    /* A plain-u16 store, like the two in Movie_DecodeAndPresentFrame: as a
+       RECT member it schedules ahead of the ring load, unlike retail. */
     *(u16 *)&rects->strip.w = columns;
-    *(u16 *)&rects->strip.h = header->height;
+    rects->strip.h = header->height;
     StFreeRing(base);
     return 0;
 }
@@ -396,15 +391,17 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
  * gMovie_bFrameDecoded marks the frame complete.
  *
  * Writing dst off gMovie_pWorkArea with its own +0x40000, rather than off src, is
- * what keeps retail's two separate additions of that constant. The strip
+ * what keeps retail's two separate additions of that constant; the byte
+ * cursor adds the slot before the window offset, which indexing
+ * window.slots[] would fold into one 0x42400 constant. The strip
  * height is accumulated in place (strip.x += strip.w) and compared through the
  * record: that single read-modify-write is what lets GCC's own expansion of
  * the % 4 above it take retail's registers. */
 void Movie_OnDecodeOutput(void) {
-    u8 *src;
+    MovieRectWindow *src;
     u8 *dst;
     s32 idx;
-    MovieWorkArea *out;
+    MovieRectWindow *out;
 
     if (gMovie_bRgb24 != 0) {
         if (gLibCd_nDeferredStreamInterrupt != 0) {
@@ -412,21 +409,18 @@ void Movie_OnDecodeOutput(void) {
             gLibCd_nDeferredStreamInterrupt = 0;
         }
     }
-    dst = gMovie_pWorkArea + (u32)&((RECT *)0)[gMovie_bOutputSlot] + 0x40000;
-    src = gMovie_pWorkArea + 0x40000;
-    ((MovieWorkArea *)dst)->slots[0] = ((MovieWorkArea *)src)->strip;
+    dst = (u8 *)gMovie_pWorkArea + (u32)&((RECT *)0)[gMovie_bOutputSlot] +
+          MOVIE_RECT_WINDOW_OFFSET;
+    src = &gMovie_pWorkArea->out.rects.window;
+    ((MovieRectWindow *)dst)->slots[0] = src->strip;
     idx = gMovie_bOutputSlot;
-    LoadImage((RECT *)(gMovie_pWorkArea + 0x40000 + MOVIE_WORK_AREA_HEAD_SIZE +
-                       (u32)&((RECT *)0)[idx]),
-              (u32 *)(gMovie_pWorkArea + 0x37000 +
-                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[idx]));
+    LoadImage(&gMovie_pWorkArea->out.rects.window.slots[idx],
+              gMovie_pWorkArea->out.decoded[idx]);
     gMovie_bOutputSlot = (gMovie_bOutputSlot + 1) % 4;
-    out = (MovieWorkArea *)(gMovie_pWorkArea + 0x40000);
+    out = &gMovie_pWorkArea->out.rects.window;
     out->strip.x += out->strip.w;
     if (out->strip.x < out->frame.x + out->frame.w) {
-        DecDCTout((u32 *)(
-                      gMovie_pWorkArea + 0x37000 +
-                      (u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[gMovie_bOutputSlot]),
+        DecDCTout(gMovie_pWorkArea->out.decoded[gMovie_bOutputSlot],
                   out->strip.w * out->strip.h / 2);
     } else {
         gMovie_bFrameDecoded = 1;
@@ -550,7 +544,7 @@ s32 Movie_StartFileStream(
     s32 copy_display_on_stop
 )
 {
-    CdlFILE *file = (CdlFILE *)gMovie_FileInfo;
+    CdlFILE *file = &gMovie_FileInfo;
 
     if (File_Exists(path, file) != 0)
         return -1;
