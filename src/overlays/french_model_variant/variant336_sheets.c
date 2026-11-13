@@ -11,7 +11,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long projection;
     long flag;
-    u8 *node;
+    Variant336EntryRecord *node;
     ModelVariantSheet *sheet;
     GsOT *ot;
     Variant336EntryState *work;
@@ -22,7 +22,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     s32 depth;
 
     work = (Variant336EntryState *)context;
-    node = context;
+    node = work->records;
     sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
@@ -34,13 +34,13 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
         }
         setVector(&rot, 0, 0, 0);
         if ((i & 1) == 0) {
-            matrix.t[0] = work->origin[0] + MODEL_VARIANT_WORD(node, 0x2C8);
-            matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2CC);
-            matrix.t[2] = work->origin[2] + MODEL_VARIANT_WORD(node, 0x2D0);
+            matrix.t[0] = work->origin[0] + node->field_2C8.vx;
+            matrix.t[1] = node->field_2C8.vy;
+            matrix.t[2] = work->origin[2] + node->field_2C8.vz;
         } else {
-            matrix.t[0] = work->origin[0] + MODEL_VARIANT_WORD(node, 0x2D8);
-            matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2DC);
-            matrix.t[2] = work->origin[2] + MODEL_VARIANT_WORD(node, 0x2E0);
+            matrix.t[0] = work->origin[0] + node->field_2D8.vx;
+            matrix.t[1] = node->field_2D8.vy;
+            matrix.t[2] = work->origin[2] + node->field_2D8.vz;
         }
         setVector(&scale, sheet->size + bias, sheet->size + bias, sheet->size + bias);
         RotMatrix(&rot, &matrix);
@@ -76,37 +76,37 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
             }
         }
         if ((i & 1) == 0) {
-            if (MODEL_VARIANT_WORD(node, 0x2E8) == 0) {
+            if (node->state == 0) {
                 if (sheet->size < 4096) {
                     sheet->size += work->clock.step * 256;
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
-                        MODEL_VARIANT_WORD(node, 0x2E8) = 1;
+                        node->state = 1;
                         if (work->phase == 0) {
                             work->phase = 1;
                         }
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(node, 0x2E8) == 2) {
-                sheet->size = MODEL_VARIANT_WORD(node, 0x2F0) * 4;
+            } else if (node->state == 2) {
+                sheet->size = node->extent * 4;
             }
         } else {
-            if (MODEL_VARIANT_WORD(node, 0x2E8) == 1) {
+            if (node->state == 1) {
                 if (sheet->size < 8192) {
                     sheet->size += work->clock.step * 1024;
                     if (sheet->size >= 8192) {
                         sheet->size = 8192;
-                        MODEL_VARIANT_WORD(node, 0x2E8) = 2;
+                        node->state = 2;
                     }
                 }
-            } else if (MODEL_VARIANT_WORD(node, 0x2E8) == 2) {
-                sheet->size = MODEL_VARIANT_WORD(node, 0x2F0) * 8;
+            } else if (node->state == 2) {
+                sheet->size = node->extent * 8;
             }
-            if (i + 1 == 8 && MODEL_VARIANT_WORD(node, 0x2E8) == 1
+            if (i + 1 == 8 && node->state == 1
                 && work->phase == 1) {
                 work->phase = 2;
             }
-            node += 960;
+            node++;
         }
     }
 }
