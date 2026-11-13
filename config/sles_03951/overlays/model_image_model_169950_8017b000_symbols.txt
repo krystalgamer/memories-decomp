@@ -1,5 +1,8 @@
-// Spanish MODEL.MRG raw image, sector 169950, header 599, loaded at 0x8017B000; the French helpers variant449_sheet.c, variant449_ribbons.c, variant449_streamers.c and variant449_bands.c.
+// Spanish MODEL.MRG raw image, sector 169950, header 599, loaded at 0x8017B000; the French helpers variant449_sheet.c, variant449_ribbons.c, variant449_streamers.c and variant449_bands.c. The entry builds from variant449_entry.c.
+ModelVariant432_HandleRequest = 0x8017B004; // type:func size:0xD20 defined:true
 FrenchModelVariant449_DrawSheet = 0x8017BD24; // type:func size:0x51C defined:true
 FrenchModelVariant449_DrawRibbons = 0x8017C240; // type:func size:0x95C defined:true
 FrenchModelVariant449_DrawStreamers = 0x8017CB9C; // type:func size:0x8BC defined:true
 FrenchModelVariant449_DrawBands = 0x8017D458; // type:func size:0x75C defined:true
+gModelVariant432_aImages = 0x8017DBB4; // type:u8 size:0xFC defined:true
+gModelVariant432_aConfigs = 0x8017DCB0; // type:u8 size:0x2350 defined:true

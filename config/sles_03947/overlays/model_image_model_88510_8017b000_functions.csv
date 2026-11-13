@@ -1,4 +1,5 @@
 address,size,name,status,module,notes
+0x8017B004,0xD20,ModelVariant432_HandleRequest,matching_c,overlay/model_image_model_88510_8017b000,C body variant449_entry.c shared with model_variant_370_stage7_slot0; complete image exact.
 0x8017BD24,0x51C,FrenchModelVariant449_DrawSheet,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017C240,0x95C,FrenchModelVariant449_DrawRibbons,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8017CB9C,0x8BC,FrenchModelVariant449_DrawStreamers,matching_c,overlay/model_image_model_88510_8017b000,Model 370 stage8 header599 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
