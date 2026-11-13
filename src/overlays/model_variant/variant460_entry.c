@@ -12,7 +12,7 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     long origin, interpolation, flag, projected;
-    Panel477 *panel;
+    ModelVariantPanel *panel;
     ModelVariantBeamPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
@@ -30,7 +30,7 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     s32 result = 0;
     u16 flat_texture, panel_texture;
     s32 base, i, row, packed, panel_page, y, inner_y;
-    QuadGroup477 *group;
+    ModelVariantQuadGroup *group;
     s32 flat_page;
     s32 elevation, outer, j, angle, halo_angle, k, corner, radius, inner, ring_angle, ring_base, scale;
     u16 tpage, clut;
@@ -120,16 +120,16 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&panel->b[j], 256, -256, 0);
                 setVector(&panel->c[j], -256, 256, 0);
                 setVector(&panel->d[j], 256, 256, 0);
-                panel->color[0] = work->config->color_b[0];
-                panel->color[1] = work->config->color_b[1];
-                panel->color[2] = work->config->color_b[2];
+                panel->color.r = work->config->color_b[0];
+                panel->color.g = work->config->color_b[1];
+                panel->color.b = work->config->color_b[2];
                 panel->size[j] = -1;
                 panel->done[j] = 0;
-                MODEL_VARIANT_WORD(panel, 0x44 + j * 4) = 0;
-                MODEL_VARIANT_WORD(panel, 0x48 + j * 4) = 0;
-                *(s16 *)(panel->unknown_20 + j * 8) = work->matrix.t[0] + work->delta.vx;
-                *(s16 *)(panel->unknown_20 + j * 8 + 2) = work->matrix.t[1] + work->delta.vy;
-                *(s16 *)(panel->unknown_20 + j * 8 + 4) = work->matrix.t[2] + work->delta.vz;
+                panel->field_44[j] = 0;
+                panel->initialized[j] = 0;
+                panel->positions[j].vx = work->matrix.t[0] + work->delta.vx;
+                panel->positions[j].vy = work->matrix.t[1] + work->delta.vy;
+                panel->positions[j].vz = work->matrix.t[2] + work->delta.vz;
             }
             work->enabled[i] = 0;
         }
@@ -139,17 +139,17 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&group->b[j], 256, -256, 0);
                 setVector(&group->c[j], -256, 256, 0);
                 setVector(&group->d[j], 256, 256, 0);
-                group->color[0] = work->config->color_b[0];
-                group->color[1] = work->config->color_b[1];
-                group->color[2] = work->config->color_b[2];
+                group->color.r = work->config->color_b[0];
+                group->color.g = work->config->color_b[1];
+                group->color.b = work->config->color_b[2];
                 group->angle[j] = 0;
                 group->done[j] = 0;
-                MODEL_VARIANT_WORD(group, 0x20C + j * 4) = 0;
-                MODEL_VARIANT_WORD(group, 0x234 + j * 4) = 0;
+                group->field_20C[j] = 0;
+                group->initialized[j] = 0;
                 group->size[j] = -((j << 12) / 10);
-                *(s16 *)(group->unknown_140 + j * 8) = work->matrix.t[0] + work->delta.vx;
-                *(s16 *)(group->unknown_140 + j * 8 + 2) = work->matrix.t[1] + work->delta.vy;
-                *(s16 *)(group->unknown_140 + j * 8 + 4) = work->matrix.t[2] + work->delta.vz;
+                group->positions[j].vx = work->matrix.t[0] + work->delta.vx;
+                group->positions[j].vy = work->matrix.t[1] + work->delta.vy;
+                group->positions[j].vz = work->matrix.t[2] + work->delta.vz;
             }
         }
         for (i = 0; i < 1; i++, pair++) {
@@ -323,31 +323,31 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                   work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         for (i = 0; i < 2; i++, panel++) {
             for (j = 0, angle = 0; j < 1; j++, angle += 1300) {
-                if (panel->size[j] >= 0 && MODEL_VARIANT_WORD(panel, 0x48 + j * 4) == 0) {
+                if (panel->size[j] >= 0 && panel->initialized[j] == 0) {
                     if (work->slot == 0) {
                         if (j % 4 == 0) {
-                            setVector((VECTOR *)(panel->unknown_6C + j * 16),
+                            setVector(&panel->captured[j],
                                   work->target.vx, work->target.vy, work->target.vz);
                         } else {
-                            setVector((VECTOR *)(panel->unknown_6C + j * 16),
+                            setVector(&panel->captured[j],
                                   work->target.vx + (rcos(angle) * 192 >> 12),
                                   work->target.vy + (rsin(angle) * 192 >> 12), work->target.vz);
                         }
                     } else if ((j & 3) == 0) {
-                        setVector((VECTOR *)(panel->unknown_6C + j * 16),
+                        setVector(&panel->captured[j],
                                   work->target.vx, work->target.vy, work->target.vz);
                     } else {
-                        setVector((VECTOR *)(panel->unknown_6C + j * 16),
+                        setVector(&panel->captured[j],
                                   work->target.vx + (rcos(angle) * 192 >> 12),
                                   work->target.vy + (rsin(angle) * 192 >> 12), work->target.vz);
                     }
-                    GsGetLwUnit(work->parts[i], &panel->matrix[j]);
-                    MODEL_VARIANT_WORD(panel, 0x48 + j * 4) = 1;
+                    GsGetLwUnit(work->parts[i], &panel->matrices[j]);
+                    panel->initialized[j] = 1;
                 }
-                setVector(&panel->direction[j],
-                          *(s32 *)(panel->unknown_6C + j * 16) - panel->matrix[j].t[0],
-                          *(s32 *)(panel->unknown_6C + j * 16 + 4) - panel->matrix[j].t[1],
-                          *(s32 *)(panel->unknown_6C + j * 16 + 8) - panel->matrix[j].t[2]);
+                setVector(&panel->directions[j],
+                          panel->captured[j].vx - panel->matrices[j].t[0],
+                          panel->captured[j].vy - panel->matrices[j].t[1],
+                          panel->captured[j].vz - panel->matrices[j].t[2]);
             }
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());

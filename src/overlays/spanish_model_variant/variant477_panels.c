@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant477_panels.h"
+#include "../french_model_variant/variant477_entry.h"
 #include "../../game/gpu_packets.h"
 
 /* Draws up to two textured panels, as many as the time has passed thresholds
@@ -17,8 +17,8 @@ void SpanishModelVariant477_DrawPanels(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Quads477State *state = (Quads477State *)context;
-    Panel477 *panel = (Panel477 *)context;
+    EntryState477 *state = (EntryState477 *)context;
+    ModelVariantPanel *panel = state->panels;
     POLY_FT4 *polygon;
     s16 i, j;
     s16 count;
@@ -27,34 +27,34 @@ void SpanishModelVariant477_DrawPanels(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     complete = 0;
-    count = (u32)MODEL_VARIANT_WORD(context, 0x2068) >=
-            *(u32 *)(MODEL_VARIANT_WORD(context, 0x2078) + 0x1C);
-    polygon = (POLY_FT4 *)(context + 0x1FC4);
-    if ((u32)MODEL_VARIANT_WORD(context, 0x2068) >= *(u32 *)(MODEL_VARIANT_WORD(context, 0x2078) + 0x20)) {
+    count = state->clock.frame >=
+            state->config->draw_start;
+    polygon = &state->panels_packet;
+    if (state->clock.frame >= state->config->limit) {
         count = 2;
     }
     for (i = 0; i < count; i++, panel++) {
         for (j = 0; j < 1; j++) {
             if (panel->size[j] >= 0) {
                 if (panel->size[j] > 512) {
-                    red = panel->color[0] * (1024 - panel->size[j]) / 512;
-                    green = panel->color[1] * (1024 - panel->size[j]) / 512;
-                    blue = panel->color[2] * (1024 - panel->size[j]) / 512;
+                    red = panel->color.r * (1024 - panel->size[j]) / 512;
+                    green = panel->color.g * (1024 - panel->size[j]) / 512;
+                    blue = panel->color.b * (1024 - panel->size[j]) / 512;
                 } else {
-                    red = panel->color[0];
-                    green = panel->color[1];
-                    blue = panel->color[2];
+                    red = panel->color.r;
+                    green = panel->color.g;
+                    blue = panel->color.b;
                 }
                 rcos(panel->size[j]);
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = panel->matrix[j].t[0] + panel->direction[j].vx * panel->size[j] / 512;
-                matrix.t[1] = panel->matrix[j].t[1] + panel->direction[j].vy * panel->size[j] / 512;
-                matrix.t[2] = panel->matrix[j].t[2] + panel->direction[j].vz * panel->size[j] / 512;
+                matrix.t[0] = panel->matrices[j].t[0] + panel->directions[j].vx * panel->size[j] / 512;
+                matrix.t[1] = panel->matrices[j].t[1] + panel->directions[j].vy * panel->size[j] / 512;
+                matrix.t[2] = panel->matrices[j].t[2] + panel->directions[j].vz * panel->size[j] / 512;
                 scale.vx = 768;
                 scale.vy = 768;
                 scale.vz = 768;
@@ -80,7 +80,7 @@ void SpanishModelVariant477_DrawPanels(u8 *context)
                 }
             }
             if (panel->size[j] < 1024) {
-                panel->size[j] += state->step * 48;
+                panel->size[j] += state->clock.step * 48;
                 if (panel->size[0] >= 512) {
                     if (state->phase == 0) {
                         state->phase = 2;

@@ -11,16 +11,7 @@
 #include "../../game/model_camera_effects.h"
 
 typedef struct {
-    SVECTOR a[1], b[1], c[1], d[1], positions[1];
-    CVECTOR color;
-    u8 unknown_2C[0x10];
-    s32 size[1], done[1], field_44[1], initialized[1];
-    MATRIX matrices[1];
-    VECTOR captured[1], directions[1];
-} EntryPanel477;
-
-typedef struct {
-    EntryPanel477 panels[2];
+    ModelVariantPanel panels[2];
     ModelVariantQuadGroup groups[2];
     ModelVariantTrail trails[16];
     ModelVariantWebNarrow webs[3];

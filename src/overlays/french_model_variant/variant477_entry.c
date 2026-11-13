@@ -7,7 +7,7 @@ s32 FrenchModelVariant477_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    EntryPanel477 *panel;
+    ModelVariantPanel *panel;
     ModelVariantQuadGroup *group;
     ModelVariantBandPair *band = work->bands;
     ModelVariantScaledSheet *sheet = work->sheets;

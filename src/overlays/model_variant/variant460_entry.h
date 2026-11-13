@@ -3,7 +3,6 @@
 
 #include "../../types.h"
 #include "model_variant.h"
-#include "../spanish_model_variant/variant477_panels.h"
 #include "../../game/camera_view.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_camera_effects.h"
@@ -60,8 +59,8 @@ typedef struct {
 
 /* Header 460's 0x20BC-byte loader work area. */
 typedef struct {
-    Panel477 panels[2];
-    QuadGroup477 groups[2];
+    ModelVariantPanel panels[2];
+    ModelVariantQuadGroup groups[2];
     Variant460Column columns[16];
     Variant460Dome domes[3];
     ModelVariantBeamPair pair;
