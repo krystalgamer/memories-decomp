@@ -137,3 +137,15 @@ class ModelImageRegistrationTests(unittest.TestCase):
         self.assertEqual(overlay_column("model_intro"), "credits")
         self.assertEqual(overlay_column("model_variant_238_stage8_slot1"), "MODEL")
         self.assertEqual(overlay_column("main_menu_language_3"), "main_menu")
+
+    def test_model_column_counts_each_duplicate_image_location(self):
+        resident = dict(matching_c_function_count=1, decompilation_target_function_count=1,
+                        overlays={
+            "model_variant_1": dict(function_count=2, function_bytes=8, copies=3,
+                                    matching_c_function_count=2, matching_c_bytes=8),
+            "options": dict(function_count=4, function_bytes=8, copies=5,
+                            matching_c_function_count=4, matching_c_bytes=8),
+        })
+        text = render_status_table([("US", resident, {})])
+        self.assertIn("| 4/4 |", text)
+        self.assertTrue(text.endswith("| 6/6 |"))
