@@ -10,12 +10,13 @@ Spanish/North American header-422 images. Only the work-state layout differs:
 - the phase word (`+0x197C` in header 422) sits **0x2E4 bytes later**, at
   `+0x1C60`.
 
-The raw comparison shows no other change apart from local jump targets. The shared
-`model_variant/variant422_webs.c` now spells those displacements through
-`MODEL_VARIANT_WEBS_SHIFT` and `MODEL_VARIANT_WEBS_PHASE_SHIFT`. Both default
-to zero, so the existing header-422 objects are unchanged. The French
-`variant464_webs.c` wrapper and its slot-one form set them to `0x2E0` and
-`0x2E4`.
+The raw comparison shows no other change apart from local jump targets. Both
+copies are now typed by their image's entry state: `model_variant/variant422_webs.c`
+reads `Variant439EntryState` (the sole entry of the header-422 images) and
+`french_model_variant/variant464_webs.c` is its own copy over
+`Variant464EntryState`, whose members sit at the shifted offsets (the GsGLINE
+packet is each state's `line`, the phase is `tail.phase`, and the timing
+divisor is `config->burst_start` or `config->grow_end`).
 
 The helper is registered in all six French images that carry it: models 175
 and 244 at stages 7/8, and model 182 at stages 9/10. `GsSortGLine` was added to
