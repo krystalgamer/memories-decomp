@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant425_streamers.h"
+#include "../french_model_variant/variant425_entry.h"
 
 /* Builds one two-point streamer that coils around the variant's axis, projects
  * the spine and a copy of it moved along the view, and draws the segment as a
@@ -17,7 +18,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
 #ifndef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
     long *previous;
 #endif
-    u8 *work;
+    EntryState425 *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -45,13 +46,13 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (EntryState425 *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x16D4);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1778), MODEL_VARIANT_WORD(work, 0x1770)) + 0xC00;
+    poly = (POLY_G4 *)work->flat;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     reach = 0xC0;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x1788) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -60,14 +61,14 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x1788) & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant425Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x17E8);
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 1; i++, streamer++, base += step) {
@@ -76,7 +77,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x17E0) / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -84,19 +85,19 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0x17E4) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0x17E8) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0x17EC);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x1788) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x17E8) += 0x514;
+    rot.vx = (s16)work->streamer.rotation_x + rx;
+    rot.vy = (s16)work->streamer.rotation_y + ry;
+    rot.vz = (s16)work->streamer.rotation_z;
+    if (work->clock.frame_count % 10 == 0) {
+        work->streamer.rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x17E8) += 0x20;
+    work->streamer.rotation_y += 0x20;
 #ifdef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
-    MODEL_VARIANT_WORD(work, 0x17EC) = MODEL_VARIANT_WORD(work, 0x17EC);
+    work->streamer.rotation_z = work->streamer.rotation_z;
 #endif
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x1754);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x1756);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x1758);
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -107,7 +108,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant425Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
 #ifdef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
     for (i = 0; i < 1; i++, streamer++) {
         for (k = 0; k < 2; k++) {
@@ -119,7 +120,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[1] - (s16)streamer->sa[0];
                 dy = (streamer->sa[1] >> 16) - (streamer->sa[0] >> 16);
                 streamer->angle[1] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     w = 2;
                 } else {
                     r = (s16)streamer->sb[1];
@@ -135,7 +136,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -162,7 +163,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*previous;
                 dy = (streamer->sa[k] >> 16) - (*previous >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -177,7 +178,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -188,7 +189,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
         }
     }
 #endif
-    streamer = (Variant425Streamer *)(work + 0xF4C);
+    streamer = work->streamers;
     for (i = 0; i < 1; i++, streamer++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
