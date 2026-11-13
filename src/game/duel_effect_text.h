@@ -708,4 +708,25 @@ struct DisplayObject;
  * Dialog_UpdateChoice is the only consumer: it installs this as the
  * object's DisplayObjectCallback, casting it to that u8 * hook type. */
 void Widget_UpdatePulseColour(struct DisplayObject *object);
+/* The three scratchpad glyph sprites TextBox_DrawEntries fills at
+ * 0x1F8000C0/0x1F800100/0x1F800140. Retail writes them field by field as
+ * GsSPRITEs, but stores (w, h), (u, v), (cx, cy) and (r, g, b) as single
+ * words/halfwords (sw at 0x08, 0x10 and 0x14; sh at 0x0E), so `words` names
+ * that second view of the same SDK layout. GsSPRITE itself is unchanged. */
+typedef union DuelEffectTextSprite {
+    GsSPRITE gs;
+    struct {
+        u32 attribute;  /* 0x00 */
+        u32 xy;         /* 0x04 */
+        u32 wh;         /* 0x08: w, h */
+        u16 tpage;      /* 0x0C */
+        u16 uv;         /* 0x0E: u, v */
+        u32 clut;       /* 0x10: cx, cy */
+        u32 rgb;        /* 0x14: r, g, b and the pad byte */
+    } words;
+} DuelEffectTextSprite;
+
+typedef char DuelEffectTextSprite_size_must_match_GsSPRITE[
+    sizeof(DuelEffectTextSprite) == sizeof(GsSPRITE) ? 1 : -1
+];
 #endif
