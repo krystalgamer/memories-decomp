@@ -86,12 +86,12 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (work->phase >= 6) {
                 if (work->clock.frame
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
+                    > work->config->field_24
                     && sheet->size > 0) {
                     sheet->size = 16384 - (((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 14)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));
+                        - work->config->field_24) << 14)
+                        / (work->config->field_28
+                        - work->config->field_24));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                     }
@@ -101,9 +101,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             if (work->phase == 0) {
                 if (sheet->size < 4096) {
                     sheet->size = ((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x0C));
+                        - work->config->start) << 12)
+                        / (work->config->field_10
+                        - work->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         work->phase = 1;
@@ -112,9 +112,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (work->phase == 1) {
                 if (work->orbit_diameter < 1024) {
                     work->orbit_diameter = ((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x10));
+                        - work->config->field_10) << 10)
+                        / (work->config->field_14
+                        - work->config->field_10);
                     if (work->orbit_diameter >= 1024) {
                         work->orbit_diameter = 1024;
                         work->phase = 2;
@@ -123,9 +123,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (work->phase == 2) {
                 if (work->lift < 256) {
                     work->lift = ((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14)) << 8)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x14));
+                        - work->config->field_14) << 8)
+                        / (work->config->field_18
+                        - work->config->field_14);
                     if (work->lift >= 256) {
                         work->lift = 256;
                         work->phase = 3;
@@ -134,9 +134,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (work->phase == 3) {
                 if (work->travel_angle < 1024) {
                     work->travel_angle = ((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x1C)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x18));
+                        - work->config->field_18) << 10)
+                        / (work->config->field_1C
+                        - work->config->field_18);
                     if (work->travel_angle >= 1024) {
                         work->travel_angle = 1024;
                         work->phase = 4;
@@ -144,12 +144,12 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (work->phase >= 6) {
                 if (work->clock.frame
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)
+                    > work->config->field_24
                     && sheet->size > 0) {
                     sheet->size = 4096 - (((work->clock.frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x2E60), 0x24)));
+                        - work->config->field_24) << 12)
+                        / (work->config->field_28
+                        - work->config->field_24));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         work->phase = 7;
