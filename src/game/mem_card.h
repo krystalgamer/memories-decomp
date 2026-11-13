@@ -32,7 +32,12 @@ typedef struct {
 } MemCardWorkSlot;
 
 typedef struct {
-    u8 pad_00[0x10];
+    /* The dialog transitions' two display objects (gDialog_apfnTransitionSteps
+       is called with this root): the sliding box sprite and the spotlight
+       mask drawn around it. */
+    DisplayObject *box_object;
+    DisplayObject *spotlight_object;
+    u8 pad_08[8];
     u8 blocks;
     u8 pad_11;
     s16 remaining;
@@ -66,6 +71,8 @@ typedef char MemCardWorkSlot_offsets_must_match[
     (u32)&((MemCardWorkSlot *)0)->entry_index == 0xD ? 1 : -1
 ];
 typedef char MemCardWorkRoot_offsets_must_match[
+    (u32)&((MemCardWorkRoot *)0)->box_object == 0x0 &&
+    (u32)&((MemCardWorkRoot *)0)->spotlight_object == 0x4 &&
     (u32)&((MemCardWorkRoot *)0)->blocks == 0x10 &&
     (u32)&((MemCardWorkRoot *)0)->remaining == 0x12 &&
     (u32)&((MemCardWorkRoot *)0)->offset == 0x14 &&
@@ -379,10 +386,9 @@ typedef struct {
  * handed to the ordering table, so it is kept here rather than replaced with a
  * libgpu primitive. */
 typedef struct {
-    /* The first 0x18 bytes of a GsSPRITE, which is what every sprite is
-       handed to GsSortFastSprite as, so the members take libgs.h's names
-       (and SpritePrim's for the packed pairs): wh packs w in its low half
-       and h in its high half, and uv's two bytes are u and v. */
+    /* The first 0x18 bytes of a GsSPRITE, so the members take libgs.h's
+       names (and SpritePrim's for the packed pairs): wh packs w in its low
+       half and h in its high half, and uv's two bytes are u and v. */
     u32 attribute;
     u16 x;
     u16 y;
@@ -398,6 +404,13 @@ typedef struct {
     u16 cx;
     u16 cy;
     u32 rgb;
+} CheckerboardSpriteFields;
+
+/* The tiler fills the packed fields and hands the same memory to
+ * GsSortFastSprite as the GsSPRITE it begins. */
+typedef union {
+    CheckerboardSpriteFields fields;
+    GsSPRITE gs;
 } CheckerboardSprite;
 
 void func_8003D32C(void);
@@ -430,17 +443,17 @@ extern void SaveData_RequestOptionsWrite(void);
  * memory-card controller; this is not per-record state.
  *
  * Contraction and open create a spotlight mask and decrease its radii.
- * Close moves/releases the primary sprite and expands/releases that mask.
- * Objects use the existing integer row slots; the channel index stays a
- * byte view at +0x1A. Japan retains the 0x60-byte channel stride. */
-void Dialog_UpdateSpotlightContraction(MenuRecord *state);
-void Dialog_UpdateCloseTransition(MenuRecord *state);
-void Dialog_UpdateOpenTransition(MenuRecord *state);
+ * Close moves/releases the box sprite and expands/releases that mask.
+ * The objects live in the root's box_object/spotlight_object and the text
+ * channel is root->text_index. Japan retains the 0x60-byte channel stride. */
+void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root);
+void Dialog_UpdateCloseTransition(MemCardWorkRoot *root);
+void Dialog_UpdateOpenTransition(MemCardWorkRoot *root);
 
 /* Message-only variant: create the sprite and channel, advance the slide
  * by 0x20 in the same call, then pump text after reaching the endpoint.
  * Completion clears the shared gDialog_bCallbackState byte, not the record or objects. */
-void Dialog_UpdateMessageTransition(MenuRecord *record);
+void Dialog_UpdateMessageTransition(MemCardWorkRoot *root);
 
 /* Opens a text-box channel for a dialog: clears the choice selection, builds
  * the box through TextBox_Create at the regional dialog rectangle, and hands

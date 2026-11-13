@@ -27,10 +27,9 @@ No new type, enum or flag definition is imposed; see
 
 The controller calls `gDialog_apfnTransitionSteps[state & 0xF]` with
 `MemCardWorkRoot *` and `MemCardWorkSlot *`. Keep that existing five-entry
-`G32` two-argument caller declaration. The stored callbacks keep their
-existing one-argument `MenuRecord *` signatures; they ignore argument two.
-Their touched root offsets fit the existing caller view. This is a
-measured target ABI, not a claim of interchangeable ISO C prototypes.
+`G32` two-argument caller declaration. The stored callbacks take that
+`MemCardWorkRoot *` as their one argument and ignore argument two. This is
+a measured target ABI, not a claim of interchangeable ISO C prototypes.
 
 The available NA retail executable confirms the five words in order:
 message, open, close, contraction, message. They are entries eight through
@@ -39,16 +38,16 @@ no storage, changes no initialized word and does not widen the five-entry
 view to sixteen. The full table's thirteen-entry unsized declaration and
 `step & 0x1F` dispatcher remain separate and unchanged.
 
-The callbacks read the channel index through byte offset `0x1A`.
-`MemCardWorkRoot` already calls that byte `text_index`; the callback's
-integer `MenuRecord` row view remains as written. No new writer, saved
-channel index, union, pointer-grid interpretation or allocation is invented.
-Completion clears shared flags, not `MenuRecord.display_effect_step`.
+The callbacks read the channel index as the root's `text_index` (byte
+`0x1A`) and keep their two display objects in the root's `box_object`
+(`+0x0`) and `spotlight_object` (`+0x4`) words. No new writer, saved
+channel index or allocation is invented. Completion clears shared flags
+only.
 
 ## Spotlight contraction retains one-call-delayed completion
 
 On first entry, the contraction callback creates the existing kind-six
-object in `grid[0][1]`, centers it, seeds inner/outer radii `128/224`,
+object in `spotlight_object`, centers it, seeds inner/outer radii `128/224`,
 selects ordering table one, derives signed-byte depth from the existing
 aggregate byte view and installs `DisplayObject_RenderSpotlightMask`.
 
