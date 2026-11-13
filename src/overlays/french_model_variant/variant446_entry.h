@@ -10,7 +10,9 @@ typedef struct {
     u16 count;
     u8 unknown_0E[2];
     s32 width, inner_radius, outer_radius;
-    u8 unknown_1C[0xC];
+    u8 unknown_01C[0x8];
+    u16 ribbon_radius;
+    u8 unknown_026[0x2];
     s32 extent;
     u32 draw_start, duration, expanded, fade, end, rays_start, rays_end;
     u32 unknown_48;
@@ -40,7 +42,7 @@ typedef struct {
     EntryLines446 lines[3];
     EntryStrip446 strips[1];
     EntryPulse446 pulses[2];
-    u8 unknown_1250[0x2C0];
+    Family402Ribbon ribbons[8];
     ModelVariantCurtain rings[4];
     POLY_G3 triangle;
     POLY_G4 quad;
