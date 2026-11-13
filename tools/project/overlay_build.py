@@ -492,26 +492,34 @@ def pipeline_fingerprint(root: Path) -> str:
 
 
 def module_fingerprints(
-    root: Path, modules: list[dict[str, Any]], jobs: int
+    root: Path, modules: list[dict[str, Any]], jobs: int, by_object: bool = False
 ) -> dict[str, str]:
     """Hash every input of each module build, keyed by module name.
 
     Equal fingerprints mean an identical layout, manifest entry, referenced
     configuration, compiled objects and tools, so a module verified once
-    with a fingerprint rebuilds to the same verified bytes. Objects count by
-    their compiled bytes, not their preprocessed source: a header edit that
-    leaves a unit's object unchanged does not make its modules unverified.
+    with a fingerprint rebuilds to the same verified bytes. C units count by
+    their object store key (preprocessed source, profile and pipeline),
+    which needs no compile, or with by_object by their compiled bytes, so a
+    header edit that leaves every object unchanged keeps the fingerprint.
     """
     store = ObjectStore(root)
     segments = {m["name"]: c_segments(root, root / m["layout"]) for m in modules}
-    store.ensure((s for group in segments.values() for s in group), jobs)
+    every = (s for group in segments.values() for s in group)
+    if by_object:
+        store.ensure(every, jobs)
+    else:
+        store.keys(every, jobs)
     object_hashes: dict[str, str] = {}
 
-    def object_hash(segment: dict[str, str]) -> str:
+    def unit_hash(segment: dict[str, str]) -> str:
         key = store.key(segment)
+        if not by_object:
+            return key
         if key not in object_hashes:
             object_hashes[key] = hashlib.sha256(store.path(key).read_bytes()).hexdigest()
         return object_hashes[key]
+
     base = pipeline_fingerprint(root)
     file_hashes: dict[str, str] = {}
 
@@ -537,11 +545,12 @@ def module_fingerprints(
             files.add(module_field(module, "linker_symbols"))
         record = {
             "pipeline": base,
+            "units": "object" if by_object else "source",
             "module": module,
             "files": {path: file_hash(path) for path in sorted(files)},
             "objects": [
                 [segment["kind"], segment["source"], segment["profile"],
-                 segment["object"], object_hash(segment)]
+                 segment["object"], unit_hash(segment)]
                 for segment in segments[name]
             ],
         }
@@ -554,16 +563,24 @@ def module_fingerprints(
 def unverified_modules(
     root: Path, modules: list[dict[str, Any]], record: Path, jobs: int
 ) -> list[dict[str, Any]]:
-    """Drop modules whose exact inputs a full build already verified."""
+    """Drop modules whose exact inputs a full build already verified.
+
+    The first stage compares source fingerprints, which need no compile.
+    Only modules that miss it compile their units and compare object
+    fingerprints, so a header edit with byte-identical objects skips too.
+    """
     if not record.is_file():
         print(f"overlay incremental: no record at {record}; building every module")
         return modules
     verified = set(record.read_text(encoding="utf-8").split())
-    fingerprints = module_fingerprints(root, modules, jobs)
-    remaining = [m for m in modules if fingerprints[m["name"]] not in verified]
+    by_source = module_fingerprints(root, modules, jobs)
+    changed = [m for m in modules if by_source[m["name"]] not in verified]
+    by_object = module_fingerprints(root, changed, jobs, by_object=True) if changed else {}
+    remaining = [m for m in changed if by_object[m["name"]] not in verified]
     print(
-        f"overlay incremental: {len(modules) - len(remaining)} modules unchanged "
-        f"since a verified full build; checking {len(remaining)}"
+        f"overlay incremental: {len(modules) - len(changed)} modules unchanged "
+        f"and {len(changed) - len(remaining)} with identical objects since a "
+        f"verified full build; checking {len(remaining)}"
     )
     return remaining
 
@@ -572,13 +589,17 @@ def write_record(root: Path, modules: list[dict[str, Any]], output: Path) -> Non
     """Record fingerprints, but only of modules whose built bytes match now."""
     for module in modules:
         verify_module(root, module)
-    fingerprints = module_fingerprints(root, modules, job_count())
+    jobs = job_count()
+    fingerprints = [
+        *module_fingerprints(root, modules, jobs).values(),
+        *module_fingerprints(root, modules, jobs, by_object=True).values(),
+    ]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
-        "".join(f"{value}\n" for value in sorted(fingerprints.values())),
+        "".join(f"{value}\n" for value in sorted(fingerprints)),
         encoding="utf-8",
     )
-    print(f"overlay record: {len(fingerprints)} verified modules -> {output}")
+    print(f"overlay record: {len(modules)} verified modules -> {output}")
 
 
 def parse_args() -> argparse.Namespace:

@@ -179,8 +179,8 @@ class OverlayFingerprintTests(unittest.TestCase):
         path.write_bytes(self.object_bytes[key])
         return path
 
-    def fingerprints(self) -> dict[str, str]:
-        return overlay_build.module_fingerprints(self.root, self.modules, 1)
+    def fingerprints(self, by_object: bool = False) -> dict[str, str]:
+        return overlay_build.module_fingerprints(self.root, self.modules, 1, by_object)
 
     def test_only_modules_with_changed_inputs_get_new_fingerprints(self) -> None:
         before = self.fingerprints()
@@ -192,10 +192,33 @@ class OverlayFingerprintTests(unittest.TestCase):
         self.assertNotEqual(after["a"], self.fingerprints()["a"])
         self.assertEqual(before["b"], self.fingerprints()["b"])
 
-    def test_header_edit_with_identical_object_keeps_fingerprint(self) -> None:
-        before = self.fingerprints()
+    def test_header_edit_with_identical_object_keeps_object_fingerprint(self) -> None:
+        source, compiled = self.fingerprints(), self.fingerprints(by_object=True)
+        self.assertNotEqual(source["a"], compiled["a"])
         self.object_key = "k3"
-        self.assertEqual(before, self.fingerprints())
+        self.assertNotEqual(source["a"], self.fingerprints()["a"])
+        self.assertEqual(compiled, self.fingerprints(by_object=True))
+        self.object_key = "k2"
+        self.assertNotEqual(compiled["a"], self.fingerprints(by_object=True)["a"])
+
+    def test_skip_verified_compiles_only_modules_whose_source_changed(self) -> None:
+        record = self.root / "verified.txt"
+        record.write_text("".join(
+            f"{v}\n" for by in (False, True) for v in self.fingerprints(by).values()))
+        ensure = overlay_build.ObjectStore.return_value.ensure
+
+        def unverified() -> list[dict[str, str]]:
+            ensure.reset_mock()
+            with contextlib.redirect_stdout(io.StringIO()):
+                return overlay_build.unverified_modules(self.root, self.modules, record, 1)
+
+        self.assertEqual(unverified(), [])
+        ensure.assert_not_called()
+        self.object_key = "k3"
+        self.assertEqual(unverified(), [])
+        ensure.assert_called_once()
+        self.object_key = "k2"
+        self.assertEqual(unverified(), [self.modules[0]])
 
     def test_skip_verified_checks_only_unrecorded_modules(self) -> None:
         record = self.root / "verified.txt"
@@ -223,7 +246,8 @@ class OverlayFingerprintTests(unittest.TestCase):
                 contextlib.redirect_stdout(io.StringIO()):
             overlay_build.write_record(self.root, self.modules, output)
         self.assertEqual(sorted(output.read_text().split()),
-                         sorted(self.fingerprints().values()))
+                         sorted([*self.fingerprints().values(),
+                                 *self.fingerprints(by_object=True).values()]))
 
 
 if __name__ == "__main__":
