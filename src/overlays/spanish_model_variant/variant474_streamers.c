@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
+#include "../french_model_variant/variant474_entry.h"
 
 /* The North American header-457 copy, built with the CDK compiler, reloads
  * the word after the advanced rotation into itself like header 458 and indexes
@@ -15,7 +15,7 @@
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. From the fifth phase
- * on, the streamer length is reset from the word at work + 0x1BD4. */
+ * on, the streamer length is reset from the entry's mesh_intensity. */
 void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
 {
     SVECTOR rot;
@@ -28,7 +28,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
 #ifndef MODEL_VARIANT474_STREAMERS_DIRECT_PREVIOUS
     long *previous;
 #endif
-    u8 *work;
+    Variant474EntryState *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 i;
@@ -52,13 +52,13 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant474EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_G4 *)(work + 0x1ADC);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x1B80), MODEL_VARIANT_WORD(work, 0x1B78)) + 0xC00;
+    poly = &work->flat.g4;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     reach = 0x140;
     step = 0x400;
-    if (!(MODEL_VARIANT_WORD(work, 0x1B90) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 0x1000;
         rx = 0x200;
         ry = 0;
@@ -67,14 +67,14 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
         rx = 0x600;
         ry = step;
     }
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x1B90) & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant458Streamer *)(work + 0x12C8);
+    streamer = work->streamers;
     i = 0;
-    base = MODEL_VARIANT_WORD(work, 0x1BF8);
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -83,7 +83,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x1BF0) / 64;
+            length = work->streamer.length / 64;
             setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -91,19 +91,19 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0x1BF4) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0x1BF8) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0x1BFC);
-    if ((u32)MODEL_VARIANT_WORD(work, 0x1B90) % 10 == 0) {
-        MODEL_VARIANT_WORD(work, 0x1BF8) += 0x514;
+    rot.vx = work->streamer.rotation_x + rx;
+    rot.vy = work->streamer.rotation_y + ry;
+    rot.vz = work->streamer.rotation_z;
+    if (work->clock.frame_count % 10 == 0) {
+        work->streamer.rotation_y += 0x514;
     }
-    MODEL_VARIANT_WORD(work, 0x1BF8) += 0x20;
+    work->streamer.rotation_y += 0x20;
 #ifdef MODEL_VARIANT474_STREAMERS_DIRECT_PREVIOUS
-    MODEL_VARIANT_WORD(work, 0x1BFC) = MODEL_VARIANT_WORD(work, 0x1BFC);
+    work->streamer.rotation_z = work->streamer.rotation_z;
 #endif
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x1B5C);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x1B5E);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x1B60);
+    m.t[0] = work->target.vx;
+    m.t[1] = work->target.vy;
+    m.t[2] = work->target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -114,7 +114,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)(work + 0x12C8);
+    streamer = work->streamers;
 #ifdef MODEL_VARIANT474_STREAMERS_DIRECT_PREVIOUS
     for (i = 0; i < 2; i++, streamer++) {
 #else
@@ -130,7 +130,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)*STREAMERS474_PREVIOUS;
                 dy = (streamer->sa[k] >> 16) - (*STREAMERS474_PREVIOUS >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1BF0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -145,7 +145,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x1BF0) > 0x200) {
+                if (work->streamer.length > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -155,7 +155,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (Variant458Streamer *)(work + 0x12C8);
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -174,7 +174,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1C1C) >= 5) {
-        MODEL_VARIANT_WORD(work, 0x1BF0) = MODEL_VARIANT_WORD(work, 0x1BD4);
+    if (work->phase >= 5) {
+        work->streamer.length = work->mesh_intensity;
     }
 }
