@@ -11,7 +11,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long projection;
     long flag;
-    u8 *node;
+    Variant400EntryNode *node;
     ModelVariantSheet *quad;
     GsOT *ot;
     Variant400EntryState *work;
@@ -22,7 +22,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     s32 depth;
 
     work = (Variant400EntryState *)context;
-    node = context;
+    node = work->nodes;
     quad = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->packets.textured[1];
@@ -37,10 +37,10 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
             matrix.t[1] = work->matrix.t[1];
             matrix.t[2] = work->matrix.t[2];
         } else if (i < 6) {
-            matrix.t[0] = MODEL_VARIANT_WORD(node, 0x2C8);
-            matrix.t[1] = MODEL_VARIANT_WORD(node, 0x2CC);
-            matrix.t[2] = MODEL_VARIANT_WORD(node, 0x2D0);
-            node += 880;
+            matrix.t[0] = node->position.vx;
+            matrix.t[1] = node->position.vy;
+            matrix.t[2] = node->position.vz;
+            node++;
         } else {
             matrix.t[0] = work->target.vx;
             matrix.t[1] = work->target.vy;
@@ -85,9 +85,9 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
             if (work->tail.phase == 0) {
                 if (quad->size < 4096) {
                     quad->size = ((work->frame
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x0C));
+                        - work->config->start) << 12)
+                        / (work->config->grow_end
+                        - work->config->start);
                     if (quad->size >= 4096) {
                         quad->size = 4096;
                         work->tail.phase = 1;
@@ -117,7 +117,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
                 }
             } else if (work->tail.phase >= 5) {
                 if (work->frame
-                    > (u32)MODEL_VARIANT_WORD(*(u8 **)((u8 *)work + 0x205C), 0x14)
+                    > work->config->end
                     && quad->size > 0) {
                     quad->size -= work->step * 128;
                     if (quad->size <= 0) {
