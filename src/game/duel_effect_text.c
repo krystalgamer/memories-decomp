@@ -400,8 +400,6 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "display_object.h"
 #include "main.h"
 
-#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
-
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 #ifdef VERSION_EUROPE
 #define GLYPH_POSITION_OFFSET 0x02
@@ -415,8 +413,8 @@ void DuelEffect_ResetEntryMarkers(void) {
 #define GLYPH_TINT_OFFSET 0x15
 #define GLYPH_RECORD_SIZE 0x16
 #define GLYPH_UV_END uvEnd
-#define GLYPH_UV_WIDTH ((u8)spr->w)
-#define GLYPH_UV_HEIGHT ((u8)spr->h)
+#define GLYPH_UV_WIDTH ((u8)spr->gs.w)
+#define GLYPH_UV_HEIGHT ((u8)spr->gs.h)
 #define GLYPH_SECOND_CLUT 0x3FEA
 #else
 #define GLYPH_SHADE_OFFSET 0x04
@@ -460,8 +458,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     POLY_FT4 *ft4;
     SVECTOR *vec;
     long *res;
-    GsSPRITE *sprites[3];
-    GsSPRITE *spr;
+    DuelEffectTextSprite *sprites[3];
+    DuelEffectTextSprite *spr;
     POLY_GT4 *gt4;
     u8 *p;
     s32 t;
@@ -497,9 +495,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #endif
     res = (long *)0x1F8000A0;
     gt4 = (POLY_GT4 *)0x1F800000;
-    sprites[0] = (GsSPRITE *)0x1F8000C0;
-    sprites[1] = (GsSPRITE *)0x1F800100;
-    sprites[2] = (GsSPRITE *)0x1F800140;
+    sprites[0] = (DuelEffectTextSprite *)0x1F8000C0;
+    sprites[1] = (DuelEffectTextSprite *)0x1F800100;
+    sprites[2] = (DuelEffectTextSprite *)0x1F800140;
     SetPolyGT4((POLY_GT4 *)0x1F800000);
     SetSemiTrans((void *)0x1F800000, 1);
     *(u32 *)&ft4->r0 = 0x808080;
@@ -519,23 +517,23 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         tpage = t | b;
     }
     ft4->tpage = tpage;
-    sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
+    sprites[0]->gs.attribute = sprites[1]->gs.attribute = sprites[2]->gs.attribute =
         obj->attribute | 0x08000000;
-    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->rgb;
-    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->rgb;
-    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->rgb;
+    sprites[0]->words.rgb = obj->rgb;
+    sprites[1]->words.rgb = obj->rgb;
+    sprites[2]->words.rgb = obj->rgb;
 #ifdef VERSION_EUROPE
-    *(u32 *)&sprites[0]->w = 0x100008;
-    *(u32 *)&sprites[0]->cx = obj->field_40.word;
-    sprites[0]->tpage = sprites[2]->tpage = 0xA;
+    sprites[0]->words.wh = 0x100008;
+    sprites[0]->words.clut = obj->field_40.word;
+    sprites[0]->gs.tpage = sprites[2]->gs.tpage = 0xA;
     p = (u8 *)gText_aChannels[obj->field_67].entry_begin;
 #else
-    *(u32 *)&sprites[0]->w = 0x100010;
-    *(u32 *)&sprites[1]->w = 0x100010;
-    *(u32 *)&sprites[2]->w = 0x80008;
-    *(u32 *)&sprites[0]->cx = obj->field_40.word;
-    sprites[0]->tpage = obj->texture_page;
-    sprites[1]->tpage = sprites[2]->tpage = 0xB;
+    sprites[0]->words.wh = 0x100010;
+    sprites[1]->words.wh = 0x100010;
+    sprites[2]->words.wh = 0x80008;
+    sprites[0]->words.clut = obj->field_40.word;
+    sprites[0]->gs.tpage = obj->texture_page;
+    sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
     p = (u8 *)gText_aChannels[obj->field_67].entry_begin;
 #endif
 
@@ -547,76 +545,76 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #ifdef VERSION_EUROPE
         if (!(f & 0x43)) {
             spr = sprites[0];
-            spr->cx = 0x280;
-            spr->cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
-            spr->u = (p[GLYPH_INDEX_OFFSET] & 0x1F) * 8;
-            spr->v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1;
+            spr->gs.cx = 0x280;
+            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
+            spr->gs.u = (p[GLYPH_INDEX_OFFSET] & 0x1F) * 8;
+            spr->gs.v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1;
         } else if (f & 0x40) {
             spr = sprites[1];
-            *(u32 *)&spr->w = 0x100010;
-            spr->tpage = 0xB;
+            spr->words.wh = 0x100010;
+            spr->gs.tpage = 0xB;
             res[0] = p[GLYPH_INDEX_OFFSET] & 0x7F;
             if (res[0] >= 0x22) {
                 s32 iconU = (u8)res[0];
                 s32 targetU;
                 targetU = 0x50;
-                spr->v = 0x80;
-                spr->cx = 0x280;
-                spr->cy = 0xFC;
+                spr->gs.v = 0x80;
+                spr->gs.cx = 0x280;
+                spr->gs.cy = 0xFC;
                 do {
                 } while (0);
                 iconU *= 0x10;
                 iconU -= 0x210;
-                spr->u = iconU;
+                spr->gs.u = iconU;
                 if ((iconU & 0xFF) == targetU) {
-                    spr->cx = 0x290;
+                    spr->gs.cx = 0x290;
                 }
             } else {
                 s32 paletteY;
-                spr->u = (((u8)res[0] & 7) * 0x10) - 0x80;
-                spr->v = ((u8)res[0] & 0x38) * 2;
+                spr->gs.u = (((u8)res[0] & 7) * 0x10) - 0x80;
+                spr->gs.v = ((u8)res[0] & 0x38) * 2;
                 if (res[0] >= 0x19) {
                     res[0] = 0x18;
                 }
                 su = (((u16)res[0] & 0xF) * 0x10) + 0x280;
                 paletteY = ((u8)res[0] >> 4) + 0xF9;
-                spr->cx = su;
-                spr->cy = paletteY;
-                spr->attribute = obj->attribute | 0x08000000;
+                spr->gs.cx = su;
+                spr->gs.cy = paletteY;
+                spr->gs.attribute = obj->attribute | 0x08000000;
                 if (p[GLYPH_INDEX_OFFSET] & 0x80) {
-                    spr->tpage = 0x1E;
+                    spr->gs.tpage = 0x1E;
                     switch (res[0]) {
                     case 0x14:
-                        spr->u = 0;
-                        spr->cy = 0xE2;
+                        spr->gs.u = 0;
+                        spr->gs.cy = 0xE2;
                         break;
                     case 0x15:
-                        spr->u = 0x40;
-                        spr->cy = 0xE3;
+                        spr->gs.u = 0x40;
+                        spr->gs.cy = 0xE3;
                         break;
                     case 0x16:
-                        spr->u = 0x60;
-                        spr->cy = 0xE4;
+                        spr->gs.u = 0x60;
+                        spr->gs.cy = 0xE4;
                         break;
                     case 0x17:
-                        spr->u = 0x20;
-                        spr->cy = 0xE1;
+                        spr->gs.u = 0x20;
+                        spr->gs.cy = 0xE1;
                         break;
                     default:
-                        spr->u = 0;
-                        spr->cy = 0xE1;
+                        spr->gs.u = 0;
+                        spr->gs.cy = 0xE1;
                         break;
                     }
-                    spr->v = 0x60;
-                    *(u32 *)&spr->w = 0x100020;
-                    spr->cx = 0x280;
-                    spr->attribute |= 0x01000000;
+                    spr->gs.v = 0x60;
+                    spr->words.wh = 0x100020;
+                    spr->gs.cx = 0x280;
+                    spr->gs.attribute |= 0x01000000;
                 }
             }
         } else if (f & 2) {
             spr = sprites[2];
-            *(u32 *)&spr->w = 0x10000C;
-            spr->u = (u8)((u32)p[GLYPH_INDEX_OFFSET] % 21) * 12;
+            spr->words.wh = 0x10000C;
+            spr->gs.u = (u8)((u32)p[GLYPH_INDEX_OFFSET] % 21) * 12;
             {
                 u32 glyph;
                 /* Keep the boundary before the load, not around it: the
@@ -625,27 +623,27 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 } while (0);
                 glyph = p[GLYPH_INDEX_OFFSET];
                 tt = glyph / 21;
-                spr->cx = 0x280;
+                spr->gs.cx = 0x280;
                 do {
                 } while (0);
-                spr->v = tt * 16 + 0x50;
+                spr->gs.v = tt * 16 + 0x50;
             }
-            spr->cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
+            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
         } else {
             s32 glyph;
             spr = sprites[2];
-            *(u32 *)&spr->w = 0x80008;
-            spr->cx = 0x280;
-            spr->cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
+            spr->words.wh = 0x80008;
+            spr->gs.cx = 0x280;
+            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
             glyph = p[GLYPH_INDEX_OFFSET];
             if (glyph < 0xE0) {
-                spr->u = (glyph & 0x1F) * 8;
-                spr->v = ((u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1) + 0x40;
+                spr->gs.u = (glyph & 0x1F) * 8;
+                spr->gs.v = ((u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1) + 0x40;
             } else {
-                spr->cy = 0xC7;
-                *(u16 *)&spr->u = 0x40F8;
+                spr->gs.cy = 0xC7;
+                spr->words.uv = 0x40F8;
                 if (glyph == 0xE1) {
-                    *(u16 *)&spr->u = 0x48F8;
+                    spr->words.uv = 0x48F8;
                 }
             }
         }
@@ -656,60 +654,60 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 spr = sprites[1];
                 if (res[0] >= 0x22) {
                     tt = (u8)res[0];
-                    spr->v = 0x80;
-                    spr->cx = 0x200;
-                    spr->cy = 0xFC;
+                    spr->gs.v = 0x80;
+                    spr->gs.cx = 0x200;
+                    spr->gs.cy = 0xFC;
                     tt *= 0x10;
                     tt -= 0x210;
-                    spr->u = tt;
+                    spr->gs.u = tt;
                     if ((tt & 0xFF) == 0x50) {
-                        spr->cx = 0x210;
+                        spr->gs.cx = 0x210;
                     }
                 } else {
-                    spr->u = (((u8)res[0] & 7) * 0x10) - 0x80;
-                    spr->v = ((u8)res[0] & 0x38) * 2;
+                    spr->gs.u = (((u8)res[0] & 7) * 0x10) - 0x80;
+                    spr->gs.v = ((u8)res[0] & 0x38) * 2;
                     if (res[0] >= 0x19) {
                         res[0] = 0x18;
                     }
                     su = (((u16)res[0] & 0xF) * 0x10) + 0x200;
                     tt = ((u8)res[0] >> 4) + 0xF9;
-                    spr->cx = su;
-                    spr->cy = tt;
+                    spr->gs.cx = su;
+                    spr->gs.cy = tt;
                 }
             } else {
                 spr = sprites[2];
-                spr->cx = (p[GLYPH_PALETTE_OFFSET] * 0x10) + 0x290;
-                spr->cy = 0xFA;
-                spr->u = ((p[GLYPH_INDEX_OFFSET] & 0xF) * 8) - 0x80;
-                spr->v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xF0) >> 1;
+                spr->gs.cx = (p[GLYPH_PALETTE_OFFSET] * 0x10) + 0x290;
+                spr->gs.cy = 0xFA;
+                spr->gs.u = ((p[GLYPH_INDEX_OFFSET] & 0xF) * 8) - 0x80;
+                spr->gs.v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xF0) >> 1;
             }
         } else {
             spr = sprites[0];
-            spr->u = (p[GLYPH_INDEX_OFFSET] & 0xF) * 0x10;
-            spr->v = p[GLYPH_INDEX_OFFSET] & 0xF0;
+            spr->gs.u = (p[GLYPH_INDEX_OFFSET] & 0xF) * 0x10;
+            spr->gs.v = p[GLYPH_INDEX_OFFSET] & 0xF0;
         }
 #endif
-        spr->x = *(u16 *)(p + GLYPH_POSITION_OFFSET) + x;
-        spr->y = *(u16 *)(p + GLYPH_POSITION_OFFSET + 2) + y;
+        spr->gs.x = *(u16 *)(p + GLYPH_POSITION_OFFSET) + x;
+        spr->gs.y = *(u16 *)(p + GLYPH_POSITION_OFFSET + 2) + y;
         switch (p[GLYPH_MODE_OFFSET]) {
         case 1:
             if ((p[GLYPH_ROTATION_OFFSET + 2] |
                  (p[GLYPH_ROTATION_OFFSET] | p[GLYPH_ROTATION_OFFSET + 1])) != 0) {
 #ifdef VERSION_EUROPE
                 s8 bottomV;
-                halfWidth = (u16)spr->w >> 1;
-                halfHeight = (u16)spr->h >> 1;
-                SetGeomOffset((s16)spr->x + halfWidth, (s16)spr->y + halfHeight);
-                ft4->u0 = ft4->u2 = spr->u;
-                ft4->u1 = ft4->u3 = spr->u + spr->w - 1;
-                ft4->v0 = ft4->v1 = spr->v;
-                bottomV = spr->v + (u8)spr->h - 1;
+                halfWidth = (u16)spr->gs.w >> 1;
+                halfHeight = (u16)spr->gs.h >> 1;
+                SetGeomOffset((s16)spr->gs.x + halfWidth, (s16)spr->gs.y + halfHeight);
+                ft4->u0 = ft4->u2 = spr->gs.u;
+                ft4->u1 = ft4->u3 = spr->gs.u + spr->gs.w - 1;
+                ft4->v0 = ft4->v1 = spr->gs.v;
+                bottomV = spr->gs.v + (u8)spr->gs.h - 1;
 #else
-                SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
-                ft4->u0 = ft4->u2 = spr->u;
-                ft4->u1 = ft4->u3 = spr->u + 0xF;
-                ft4->v0 = ft4->v1 = spr->v;
-                tt = spr->v + 0xF;
+                SetGeomOffset((s16)spr->gs.x + 8, (s16)spr->gs.y + 8);
+                ft4->u0 = ft4->u2 = spr->gs.u;
+                ft4->u1 = ft4->u3 = spr->gs.u + 0xF;
+                ft4->v0 = ft4->v1 = spr->gs.v;
+                tt = spr->gs.v + 0xF;
 #endif
                 mat->t[0] = 0;
                 mat->t[1] = 0;
@@ -754,7 +752,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             }
             /* fallthrough */
         case 0:
-            GsSortFastSprite(spr, ot, pri);
+            GsSortFastSprite(&spr->gs, ot, pri);
             break;
         case 2:
 #ifdef VERSION_EUROPE
@@ -765,51 +763,51 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r1 = gt4->g1 = gt4->b1 = p[GLYPH_SHADE_OFFSET + 1];
             gt4->r2 = gt4->g2 = gt4->b2 = p[GLYPH_SHADE_OFFSET + 2];
             gt4->r3 = gt4->g3 = gt4->b3 = p[GLYPH_SHADE_OFFSET + 3];
-            gt4->x0 = gt4->x2 = spr->x;
+            gt4->x0 = gt4->x2 = spr->gs.x;
 #ifdef VERSION_EUROPE
-            gt4->x1 = gt4->x3 = spr->x + spr->w + p[GLYPH_NUDGE_OFFSET];
+            gt4->x1 = gt4->x3 = spr->gs.x + spr->gs.w + p[GLYPH_NUDGE_OFFSET];
 #else
-            gt4->x1 = gt4->x3 = spr->x + (p[GLYPH_NUDGE_OFFSET] + 0x10);
+            gt4->x1 = gt4->x3 = spr->gs.x + (p[GLYPH_NUDGE_OFFSET] + 0x10);
 #endif
-            gt4->y0 = spr->y + ((u8)p[GLYPH_NUDGE_OFFSET] >> 2);
-            gt4->y1 = spr->y;
+            gt4->y0 = spr->gs.y + ((u8)p[GLYPH_NUDGE_OFFSET] >> 2);
+            gt4->y1 = spr->gs.y;
 #ifdef VERSION_EUROPE
-            gt4->y2 = gt4->y3 = spr->y + spr->h;
+            gt4->y2 = gt4->y3 = spr->gs.y + spr->gs.h;
 #else
-            gt4->y2 = gt4->y3 = spr->y + 0x10;
+            gt4->y2 = gt4->y3 = spr->gs.y + 0x10;
 #endif
-            gt4->u0 = gt4->u2 = spr->u;
-            GLYPH_UV_END = spr->u + GLYPH_UV_WIDTH;
+            gt4->u0 = gt4->u2 = spr->gs.u;
+            GLYPH_UV_END = spr->gs.u + GLYPH_UV_WIDTH;
             gt4->u1 = gt4->u3 = GLYPH_UV_END;
             if (!(GLYPH_UV_END & 0xFF)) {
                 gt4->u3 = 0xFF;
                 gt4->u1 = 0xFF;
             }
-            gt4->v0 = gt4->v1 = spr->v;
-            GLYPH_UV_END = spr->v + GLYPH_UV_HEIGHT;
+            gt4->v0 = gt4->v1 = spr->gs.v;
+            GLYPH_UV_END = spr->gs.v + GLYPH_UV_HEIGHT;
             gt4->v2 = gt4->v3 = GLYPH_UV_END;
             if (!(GLYPH_UV_END & 0xFF)) {
                 gt4->v3 = 0xFF;
                 gt4->v2 = 0xFF;
             }
-            gt4->tpage = spr->tpage | 0x20;
-            gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
+            gt4->tpage = spr->gs.tpage | 0x20;
+            gt4->clut = (spr->gs.cy << 6) | (((u16)spr->gs.cx >> 4) & 0x3F);
             GsSortPoly(gt4, ot, pri);
-            gt4->tpage = spr->tpage | 0x40;
+            gt4->tpage = spr->gs.tpage | 0x40;
             gt4->clut = GLYPH_SECOND_CLUT;
             GsSortPoly(gt4, ot, pri);
             break;
 #ifdef VERSION_EUROPE
         }
         case 3:
-            attribute = spr->attribute & 0x8FFFFFFF;
-            spr->r = spr->g = spr->b = p[GLYPH_TINT_OFFSET];
-            spr->attribute = attribute | 0x50000000;
-            GsSortFastSprite(spr, ot, pri);
-            spr->attribute = attribute | 0x60000000;
-            spr->cx = 0x2A0;
-            spr->cy = 0xFF;
-            GsSortFastSprite(spr, ot, pri);
+            attribute = spr->gs.attribute & 0x8FFFFFFF;
+            spr->gs.r = spr->gs.g = spr->gs.b = p[GLYPH_TINT_OFFSET];
+            spr->gs.attribute = attribute | 0x50000000;
+            GsSortFastSprite(&spr->gs, ot, pri);
+            spr->gs.attribute = attribute | 0x60000000;
+            spr->gs.cx = 0x2A0;
+            spr->gs.cy = 0xFF;
+            GsSortFastSprite(&spr->gs, ot, pri);
             break;
 #endif
         }
@@ -828,8 +826,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     POLY_FT4 *ft4;
     SVECTOR *vec;
     long *res;
-    GsSPRITE *sprites[3];
-    GsSPRITE *spr;
+    DuelEffectTextSprite *sprites[3];
+    DuelEffectTextSprite *spr;
     POLY_GT4 *gt4;
     s32 nudge;
     s32 t;
@@ -857,9 +855,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     mat = (MATRIX *)0x1F800078;
     res = (long *)0x1F8000A0;
     gt4 = (POLY_GT4 *)0x1F800000;
-    sprites[0] = (GsSPRITE *)0x1F8000C0;
-    sprites[1] = (GsSPRITE *)0x1F800100;
-    sprites[2] = (GsSPRITE *)0x1F800140;
+    sprites[0] = (DuelEffectTextSprite *)0x1F8000C0;
+    sprites[1] = (DuelEffectTextSprite *)0x1F800100;
+    sprites[2] = (DuelEffectTextSprite *)0x1F800140;
     SetPolyGT4((POLY_GT4 *)0x1F800000);
     SetSemiTrans((void *)0x1F800000, 1);
     *(u32 *)&ft4->r0 = 0x808080;
@@ -876,17 +874,17 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         b |= 0x80;
     }
     ft4->tpage = t | b;
-    sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
+    sprites[0]->gs.attribute = sprites[1]->gs.attribute = sprites[2]->gs.attribute =
         obj->attribute | 0x08000000;
-    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->rgb;
-    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->rgb;
-    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->rgb;
-    *(u32 *)&sprites[0]->w = 0x100010;
-    *(u32 *)&sprites[1]->w = 0x100010;
-    *(u32 *)&sprites[2]->w = 0x80008;
-    *(u32 *)&sprites[0]->cx = obj->field_40.word;
-    sprites[0]->tpage = obj->texture_page;
-    sprites[1]->tpage = sprites[2]->tpage = 0xB;
+    sprites[0]->words.rgb = obj->rgb;
+    sprites[1]->words.rgb = obj->rgb;
+    sprites[2]->words.rgb = obj->rgb;
+    sprites[0]->words.wh = 0x100010;
+    sprites[1]->words.wh = 0x100010;
+    sprites[2]->words.wh = 0x80008;
+    sprites[0]->words.clut = obj->field_40.word;
+    sprites[0]->gs.tpage = obj->texture_page;
+    sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
     e = gText_aChannels[obj->field_67].entry_begin;
     v78 = 0x78;
 
@@ -899,74 +897,74 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         }
         if (f & 0x60) {
             if (f & 0x20) {
-                sprites[1]->tpage = 0xB;
+                sprites[1]->gs.tpage = 0xB;
                 res[0] = e->glyph_index;
                 spr = sprites[1];
                 if (res[0] >= 0x22) {
                     tt = (u8)res[0];
-                    spr->v = 0x80;
-                    spr->cx = 0x200;
-                    spr->cy = 0xFC;
+                    spr->gs.v = 0x80;
+                    spr->gs.cx = 0x200;
+                    spr->gs.cy = 0xFC;
                     tt *= 0x10;
                     tt -= 0x210;
-                    spr->u = tt;
+                    spr->gs.u = tt;
                     if ((tt & 0xFF) == 0x50) {
-                        spr->cx = 0x210;
+                        spr->gs.cx = 0x210;
                     }
                 } else {
-                    spr->u = (((u8)res[0] & 7) * 0x10) - 0x80;
-                    spr->v = ((u8)res[0] & 0x38) * 2;
+                    spr->gs.u = (((u8)res[0] & 7) * 0x10) - 0x80;
+                    spr->gs.v = ((u8)res[0] & 0x38) * 2;
                     if (res[0] >= 0x19) {
                         res[0] = 0x18;
                     }
                     su = (((u16)res[0] & 0xF) * 0x10) + 0x200;
                     tt = ((u8)res[0] >> 4) + 0xF9;
-                    spr->cx = su;
-                    spr->cy = tt;
-                    spr->attribute = obj->attribute | 0x08000000;
-                    spr->w = 0x10;
-                    spr->h = 0x10;
+                    spr->gs.cx = su;
+                    spr->gs.cy = tt;
+                    spr->gs.attribute = obj->attribute | 0x08000000;
+                    spr->gs.w = 0x10;
+                    spr->gs.h = 0x10;
                     if (e->icon_variant >= 0x14 && e->glyph_index < 0x18) {
-                        sprites[1]->tpage = 0x1E;
+                        sprites[1]->gs.tpage = 0x1E;
                         switch (e->icon_variant) {
                         case 0x14:
                             cyv = 0xF2;
-                            spr->u = 0;
+                            spr->gs.u = 0;
                             break;
                         case 0x15:
-                            spr->u = 0x40;
+                            spr->gs.u = 0x40;
                             cyv = 0xF3;
                             break;
                         case 0x16:
-                            spr->u = 0x60;
+                            spr->gs.u = 0x60;
                             cyv = 0xF4;
                             break;
                         case 0x17:
-                            spr->u = 0x20;
+                            spr->gs.u = 0x20;
                             cyv = 0xF1;
                             break;
                         default:
                             cyv = 0xF1;
-                            spr->u = 0;
+                            spr->gs.u = 0;
                             break;
                         }
-                        spr->cy = cyv;
-                        spr->v = 0x60;
-                        spr->w = 0x20;
-                        spr->h = 0x10;
-                        spr->cx = 0x100;
-                        spr->attribute |= 0x01000000;
+                        spr->gs.cy = cyv;
+                        spr->gs.v = 0x60;
+                        spr->gs.w = 0x20;
+                        spr->gs.h = 0x10;
+                        spr->gs.cx = 0x100;
+                        spr->gs.attribute |= 0x01000000;
                     }
                 }
             } else {
                 spr = sprites[2];
-                spr->cx = (e->palette_index * 0x10) + 0x290;
-                spr->cy = 0xFA;
-                spr->u = ((e->glyph_index & 0xF) * 8) - 0x80;
-                spr->v = (u32)(e->glyph_index & 0xF0) >> 1;
+                spr->gs.cx = (e->palette_index * 0x10) + 0x290;
+                spr->gs.cy = 0xFA;
+                spr->gs.u = ((e->glyph_index & 0xF) * 8) - 0x80;
+                spr->gs.v = (u32)(e->glyph_index & 0xF0) >> 1;
             }
-            spr->x = (u16)e->x_0C + x;
-            spr->y = (u16)e->y_0E + y;
+            spr->gs.x = (u16)e->x_0C + x;
+            spr->gs.y = (u16)e->y_0E + y;
         } else {
             spr = sprites[0];
             switch (c) {
@@ -982,19 +980,19 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             if ((u32)(c - 0x824F) < 0x4C) {
                 if ((u32)(c - 0x8259) < 7 || (u32)(c - 0x827A) < 7) {
                     if (e->layout_selector == 1) {
-                        spr->u = 0;
-                        spr->v = v78;
+                        spr->gs.u = 0;
+                        spr->gs.v = v78;
                     } else {
-                        spr->u = 0;
-                        spr->v = 0x30;
+                        spr->gs.u = 0;
+                        spr->gs.v = 0x30;
                     }
                 } else {
                 if (e->layout_selector == 1) {
-                    spr->u = (c & 0xF) * 0x10;
-                    spr->v = (((s32)(c - 0x8240) >> 4) * 0x10) + 0x48;
+                    spr->gs.u = (c & 0xF) * 0x10;
+                    spr->gs.v = (((s32)(c - 0x8240) >> 4) * 0x10) + 0x48;
                 } else {
-                    spr->u = (c & 0xF) * 8;
-                    spr->v = ((s32)(c - 0x8240) >> 4) * 0xC;
+                    spr->gs.u = (c & 0xF) * 8;
+                    spr->gs.v = ((s32)(c - 0x8240) >> 4) * 0xC;
                 }
                 }
             } else {
@@ -1010,73 +1008,73 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     if (c == tbl[i]) {
                         if (e->layout_selector == 1) {
                             if (i < 0xF) {
-                                spr->u = i * 0x10;
-                                spr->v = 0x48;
+                                spr->gs.u = i * 0x10;
+                                spr->gs.v = 0x48;
                             } else if (i < 0x16) {
                                 su = (i * 0x10) - 0x160;
-                                spr->u = su;
-                                spr->v = 0x58;
+                                spr->gs.u = su;
+                                spr->gs.v = 0x58;
                             } else {
                                 switch (c) {
                                 case 0x83BF:
-                                    spr->u = 0xD0;
-                                    spr->v = 0x98;
+                                    spr->gs.u = 0xD0;
+                                    spr->gs.v = 0x98;
                                     break;
                                 case 0x83C0:
-                                    spr->u = 0xE0;
-                                    spr->v = 0x98;
+                                    spr->gs.u = 0xE0;
+                                    spr->gs.v = 0x98;
                                     break;
                                 case 0x81C1:
-                                    spr->u = 0xF0;
-                                    spr->v = 0x98;
+                                    spr->gs.u = 0xF0;
+                                    spr->gs.v = 0x98;
                                     break;
                                 case 0x81A9:
-                                    spr->u = 0xB0;
-                                    spr->v = v78;
+                                    spr->gs.u = 0xB0;
+                                    spr->gs.v = v78;
                                     break;
                                 case 0x81A8:
-                                    spr->u = 0xC0;
-                                    spr->v = v78;
+                                    spr->gs.u = 0xC0;
+                                    spr->gs.v = v78;
                                     break;
                                 case 0x81BC:
                                     nudge = 2;
-                                    spr->u = 0xE0;
-                                    spr->v = v78;
+                                    spr->gs.u = 0xE0;
+                                    spr->gs.v = v78;
                                     break;
                                 case 0x81BD:
                                     nudge = -2;
-                                    spr->u = 0xF0;
-                                    spr->v = v78;
+                                    spr->gs.u = 0xF0;
+                                    spr->gs.v = v78;
                                     break;
                                 }
                             }
                         } else {
                             if (i < 0xF) {
-                                spr->u = i * 8;
-                                spr->v = 0;
+                                spr->gs.u = i * 8;
+                                spr->gs.v = 0;
                             } else if (i < 0x16) {
-                                spr->u = (i * 8) - 0x30;
-                                spr->v = 0xC;
+                                spr->gs.u = (i * 8) - 0x30;
+                                spr->gs.v = 0xC;
                             } else {
                                 switch (c) {
                                 case 0x83BF:
-                                    spr->u = 0x68;
-                                    spr->v = 0x3C;
+                                    spr->gs.u = 0x68;
+                                    spr->gs.v = 0x3C;
                                     break;
                                 case 0x83C0:
-                                    spr->u = 0x70;
-                                    spr->v = 0x3C;
+                                    spr->gs.u = 0x70;
+                                    spr->gs.v = 0x3C;
                                     break;
                                 case 0x81C1:
-                                    spr->u = v78;
-                                    spr->v = 0x3C;
+                                    spr->gs.u = v78;
+                                    spr->gs.v = 0x3C;
                                     break;
                                 case 0x81BD:
                                 case 0x81BC:
                                 case 0x81A9:
                                 case 0x81A8:
-                                    spr->u = 0;
-                                    spr->v = 0x30;
+                                    spr->gs.u = 0;
+                                    spr->gs.v = 0x30;
                                     break;
                                 }
                             }
@@ -1085,55 +1083,55 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     }
                     if (tbl[i] < 0) {
                         if (e->layout_selector == 1) {
-                            spr->u = 0;
-                            spr->v = v78;
+                            spr->gs.u = 0;
+                            spr->gs.v = v78;
                         } else {
-                            spr->u = 0;
-                            spr->v = 0x30;
+                            spr->gs.u = 0;
+                            spr->gs.v = 0x30;
                         }
                         break;
                     }
                 }
                 }
             }
-            spr->cx = 0x280;
-            spr->cy = e->palette_index + 0xE8;
+            spr->gs.cx = 0x280;
+            spr->gs.cy = e->palette_index + 0xE8;
             if (e->layout_selector == 1) {
                 hw = 0x10;
-                spr->w = hw;
+                spr->gs.w = hw;
             } else {
-                spr->w = 8;
+                spr->gs.w = 8;
                 hw = 0xC;
             }
-            spr->h = hw;
+            spr->gs.h = hw;
             if (e->layout_selector == 1) {
                 if (nudge != 0) {
-                    spr->x = (u16)e->x_0C + x + nudge;
-                    spr->y = (u16)e->y_0E + y;
+                    spr->gs.x = (u16)e->x_0C + x + nudge;
+                    spr->gs.y = (u16)e->y_0E + y;
                 } else {
-                    spr->x = (u16)e->x_0C + x;
-                    spr->y = (u16)e->y_0E + y;
+                    spr->gs.x = (u16)e->x_0C + x;
+                    spr->gs.y = (u16)e->y_0E + y;
                 }
             } else if (e->layout_selector == 2) {
-                spr->x = (u16)e->x_0C + x;
-                spr->y = (u16)e->y_0E + y - 2;
+                spr->gs.x = (u16)e->x_0C + x;
+                spr->gs.y = (u16)e->y_0E + y - 2;
             } else {
-                spr->x = (u16)e->x_0C + x;
-                spr->y = (u16)e->y_0E + y + 2;
+                spr->gs.x = (u16)e->x_0C + x;
+                spr->gs.y = (u16)e->y_0E + y + 2;
             }
         }
         switch (e->render_mode) {
         case 0:
-            GsSortFastSprite(spr, ot, pri);
+            GsSortFastSprite(&spr->gs, ot, pri);
             break;
         case 1:
             if ((e->field_08.rotation[2] |
                  (e->field_08.rotation[0] | e->field_08.rotation[1])) != 0) {
-                SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
-                ft4->u0 = ft4->u2 = spr->u;
-                ft4->u1 = ft4->u3 = spr->u + 0xF;
-                ft4->v0 = ft4->v1 = spr->v;
-                tt = spr->v + 0xF;
+                SetGeomOffset((s16)spr->gs.x + 8, (s16)spr->gs.y + 8);
+                ft4->u0 = ft4->u2 = spr->gs.u;
+                ft4->u1 = ft4->u3 = spr->gs.u + 0xF;
+                ft4->v0 = ft4->v1 = spr->gs.v;
+                tt = spr->gs.v + 0xF;
                 mat->t[0] = 0;
                 mat->t[1] = 0;
                 mat->t[2] = 0x12C;
@@ -1162,7 +1160,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     GsSortPoly(ft4, ot, pri);
                 }
             } else {
-                GsSortFastSprite(spr, ot, pri);
+                GsSortFastSprite(&spr->gs, ot, pri);
             }
             break;
         case 2:
@@ -1170,49 +1168,49 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r1 = gt4->g1 = gt4->b1 = e->field_04.corner_shade[1];
             gt4->r2 = gt4->g2 = gt4->b2 = e->field_04.corner_shade[2];
             gt4->r3 = gt4->g3 = gt4->b3 = e->field_04.corner_shade[3];
-            gt4->x0 = gt4->x2 = spr->x;
+            gt4->x0 = gt4->x2 = spr->gs.x;
             if (e->layout_selector == 1 || (e->entry_flags & 0x20)) {
-                gt4->x1 = gt4->x3 = spr->x + (e->field_14 + 0x10);
-                gt4->y0 = spr->y + (e->field_14 >> 2);
-                gt4->y1 = spr->y;
-                gt4->y2 = gt4->y3 = spr->y + 0x10;
-                gt4->u0 = gt4->u2 = spr->u;
-                su = spr->u + 0x10;
+                gt4->x1 = gt4->x3 = spr->gs.x + (e->field_14 + 0x10);
+                gt4->y0 = spr->gs.y + (e->field_14 >> 2);
+                gt4->y1 = spr->gs.y;
+                gt4->y2 = gt4->y3 = spr->gs.y + 0x10;
+                gt4->u0 = gt4->u2 = spr->gs.u;
+                su = spr->gs.u + 0x10;
                 gt4->u1 = gt4->u3 = su;
                 if (!(su & 0xFF)) {
                     gt4->u3 = 0xFF;
                     gt4->u1 = 0xFF;
                 }
-                gt4->v0 = gt4->v1 = spr->v;
-                su = spr->v + 0x10;
+                gt4->v0 = gt4->v1 = spr->gs.v;
+                su = spr->gs.v + 0x10;
             } else {
-                gt4->x1 = gt4->x3 = spr->x + (e->field_14 + 8);
-                gt4->y0 = spr->y + (e->field_14 >> 2);
-                gt4->y1 = spr->y;
-                gt4->y2 = gt4->y3 = spr->y + 0xC;
-                gt4->u0 = gt4->u2 = spr->u;
-                su = spr->u + 8;
+                gt4->x1 = gt4->x3 = spr->gs.x + (e->field_14 + 8);
+                gt4->y0 = spr->gs.y + (e->field_14 >> 2);
+                gt4->y1 = spr->gs.y;
+                gt4->y2 = gt4->y3 = spr->gs.y + 0xC;
+                gt4->u0 = gt4->u2 = spr->gs.u;
+                su = spr->gs.u + 8;
                 gt4->u1 = gt4->u3 = su;
                 if (!(su & 0xFF)) {
                     gt4->u3 = 0xFF;
                     gt4->u1 = 0xFF;
                 }
-                gt4->v0 = gt4->v1 = spr->v;
-                su = spr->v + 0xC;
+                gt4->v0 = gt4->v1 = spr->gs.v;
+                su = spr->gs.v + 0xC;
             }
             gt4->v2 = gt4->v3 = su;
             if (!(su & 0xFF)) {
                 gt4->v3 = 0xFF;
                 gt4->v2 = 0xFF;
             }
-            gt4->tpage = spr->tpage | 0x20;
+            gt4->tpage = spr->gs.tpage | 0x20;
             if (e->entry_flags & 0x20) {
-                gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
+                gt4->clut = (spr->gs.cy << 6) | (((u16)spr->gs.cx >> 4) & 0x3F);
             } else {
                 gt4->clut = ((e->palette_index + 0xE8) << 6) | 0x28;
             }
             GsSortPoly(gt4, ot, pri);
-            gt4->tpage = spr->tpage | 0x40;
+            gt4->tpage = spr->gs.tpage | 0x40;
             gt4->clut = 0x3FE2;
             GsSortPoly(gt4, ot, pri);
             break;
@@ -1292,6 +1290,8 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
     p = lut;
     row = (u16 *)0x1F800040;
     lut = (u16 *)0x1F800040;
+    /* Retail clears the u16 pairs with sw; row[0] = 0 changes the
+       Japanese schedule. */
     *(u32 *)&row[0] = 0;
     *(u32 *)&row[2] = 0;
     for (i = 15; i != 0; i--) {
@@ -1565,7 +1565,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
        Japanese build, 10 in the European one, whose wrapper defines its own)
        rather than the US spacings below. */
     v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
-        ((s32)(*(u8 *)&gDialog_bChoice << 24) >> 20);
+        ((s32)((u8)gDialog_bChoice << 24) >> 20);
     q->position.h.field_2A = v;
 
     do {
@@ -1822,7 +1822,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         return;
     }
 
-    input_state = *(s8 *)&gDialog_bInputState;
+    input_state = (s8)gDialog_bInputState;
     input_bits = gDialog_bInputState;
 
     if (input_state != 0) {
@@ -2064,7 +2064,9 @@ void Text_StartViewportTween(DuelEffectChannel *object)
     s32 raw_value;
 
     object->playback_state = 0;
-    *(s16 *)&gScript_ViewportTargetX = TextStream_ReadU16LE(object);
+    gScript_ViewportTargetX = TextStream_ReadU16LE(object);
+    /* gScript_ViewportTargetY is u16; these s16 views keep retail's
+       lh/sh and register use (plain or (s16) spellings differ). */
     *(s16 *)&gScript_ViewportTargetY = TextStream_ReadU16LE(object);
     gScript_SharedOperand = TextStream_ReadU16LE(object);
 
@@ -2076,7 +2078,7 @@ void Text_StartViewportTween(DuelEffectChannel *object)
     }
 
     gText_ScriptDispatchGate = 7;
-    *(s16 *)&gScript_wCommandWord = 7;
+    gScript_wCommandWord = 7;
 }
 
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
@@ -2115,23 +2117,23 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *channel) {
     {
         MenuRecord *q = gText_DisplayEffectRecord;
 
-        q->display_effect_step = *(u8 *)&q->field_40;
+        q->display_effect_step = q->field_40;
     }
 
     {
         MenuRecord *r = gText_DisplayEffectRecord;
 
-        *(u16 *)&r->field_40 = 0x68;
+        r->field_40 = 0x68;
 
         if (r->slot_index != 0) {
-            *(u16 *)&r->field_40 = 0xD8;
+            r->field_40 = 0xD8;
         }
     }
 
     {
         MenuRecord *s = gText_DisplayEffectRecord;
 
-        *(u16 *)&s->tween_target_y = 0xB2;
+        s->tween_target_y = 0xB2;
         s->field_44 = -0x10;
     }
 }
@@ -2226,17 +2228,18 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->playback_state = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gText_WaitCounter = TextStream_ReadU16LE(object);
-        gText_ShakeViewportOrigin[0] = *(u16 *)&gGraphics_sViewportX;
-        gText_ShakeViewportOrigin[1] = *(u16 *)&gGraphics_sViewportY;
+        gText_ShakeViewportOrigin[0] = gGraphics_sViewportX;
+        gText_ShakeViewportOrigin[1] = gGraphics_sViewportY;
     }
     if (gGraphics_dwSyncedFrameCount & 1) {
+        /* u16 views of the s16 viewport keep retail's register allocation. */
         *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
         *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
     }
     gText_WaitCounter--;
     if (gText_WaitCounter == 0) {
-        *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0];
-        *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1];
+        gGraphics_sViewportX = gText_ShakeViewportOrigin[0];
+        gGraphics_sViewportY = gText_ShakeViewportOrigin[1];
         object->playback_state = 0;
     }
 }
@@ -2668,7 +2671,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 
 void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value)
 {
-    *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
+    object->flags_34 = object->flags_34;
     object->flags_34 |= DUEL_EFFECT_SELECTOR_FLAG;
     DuelEffect_AppendEntry(object, value);
     object->flags_34 &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
@@ -2892,6 +2895,7 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #ifdef VERSION_EUROPE
     /* The European build clears the pixel counter and sets the limit
        (halfwords at 0x60 and 0x62) from one operand byte, times eight. */
+    /* u16 views keep the European store order (plain stores differ). */
     *(u16 *)&object->output_count = 0;
     *(u16 *)&object->field_62 =
         read_operand(object) << 3;
@@ -2951,8 +2955,8 @@ u8 **Text_PushStagedString(DuelEffectChannel *channel) {
     }
 #endif
 
-    counter = *(u8 *)&stream_channel->stream_index + 1;
-    *(u8 *)&stream_channel->stream_index = counter;
+    counter = (u8)stream_channel->stream_index + 1;
+    stream_channel->stream_index = counter;
     slot = &TEXT_STREAM_OWNER(stream_channel)->streams[(s8)counter];
     *slot = (u8 *)string_address;
     return slot;
@@ -3180,6 +3184,7 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     *cursor = stream + 1;
     opcode = command;
     if (opcode & 0x40) {
+        /* A byte load of the volatile u16 depth base; (u8) of it loads lhu. */
         gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] + 9;
     }
     if (opcode & 0x20) {
@@ -3559,8 +3564,9 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     e->effect_id = id;
     e->slot_index = slot;
     if (slot != 0) {
-        *(s16 *)&e->x = 0x178;
+        e->x = 0x178;
     } else {
+        /* s16 view: retail materialises li -56, not the u16 0xffc8. */
         *(s16 *)&e->x = -0x38;
     }
     o->state = 6;
@@ -3568,15 +3574,15 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
         e->slot_index = 2;
-        *(s16 *)&e->x = 0xF0;
+        e->x = 0xF0;
         e->field_40 = 0;
-        *(s16 *)&e->y = 0x60;
+        e->y = 0x60;
         return;
     }
     e->display_effect_step = 2;
     e->field_40 = 3;
     if (flags & 8) {
-        *(s16 *)&e->x = 0x400;
+        e->x = 0x400;
         e->field_40 = 7;
     }
     if (flags & 0x10) {
@@ -3843,7 +3849,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
 
     if (gText_ScriptDispatchGate != 0) {
-        gScript_apfnCommandHandlers[*(u8 *)&gScript_wCommandWord]();
+        gScript_apfnCommandHandlers[(u8)gScript_wCommandWord]();
         if (gScript_wCommandWord == 0) {
             gText_ScriptDispatchGate = 0;
         }
@@ -4157,7 +4163,7 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
         EU_ENTRY(record)->field_14 = 16;
     }
     EU_ENTRY(record)->field_14 =
-        EU_ENTRY(record)->field_14 - *(u8 *)&gGraphics_nBaseFrameStep;
+        EU_ENTRY(record)->field_14 - (u8)gGraphics_nBaseFrameStep;
     if ((EU_ENTRY(record)->handler_state &
          DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
         EU_ENTRY(record)->field_04 =
