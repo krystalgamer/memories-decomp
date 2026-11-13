@@ -81,9 +81,9 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0x1F54) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0x1F58) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0x1F5C);
+    rot.vx = (s16)work->streamer_rotation_x + rx;
+    rot.vy = (s16)work->streamer_rotation_y + ry;
+    rot.vz = (s16)work->streamer_rotation_z;
     if (work->clock.frame_count % 10 == 0) {
         work->streamer_rotation_y += 0x514;
     }

@@ -68,9 +68,9 @@ void ModelVariant443_DrawSheets(u8 *ctx)
         rot.vy = 0;
         rot.vz = 0;
         if (i < first) {
-            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C50);
-            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C54);
-            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x2C58);
+            m.t[0] = work->matrices[i].t[0];
+            m.t[1] = work->matrices[i].t[1];
+            m.t[2] = work->matrices[i].t[2];
         } else {
             off = (i - first) * 16;
             m.t[0] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2D3C);

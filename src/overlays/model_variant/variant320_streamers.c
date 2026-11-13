@@ -83,9 +83,9 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = MODEL_VARIANT_HALF(work, 0xD50) + rx;
-    rot.vy = MODEL_VARIANT_HALF(work, 0xD54) + ry;
-    rot.vz = MODEL_VARIANT_HALF(work, 0xD58);
+    rot.vx = (s16)work->streamer.rotation_x + rx;
+    rot.vy = (s16)work->streamer.rotation_y + ry;
+    rot.vz = (s16)work->streamer.rotation_z;
     if (work->clock.frame_count % 10 == 0) {
         work->streamer.rotation_y += 0x514;
     }
