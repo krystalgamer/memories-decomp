@@ -810,8 +810,7 @@ void NameEntry_UpdateKeyboard(void)
             w->width = (work >= 0) ? (w->width + 2) : (w->width - 2);
         }
         DisplayObject_StepPositionXY((DisplayObjectVelocity *)w);
-        w->timer = w->timer - 1;
-        if (w->timer != 0) {
+        if (--w->timer != 0) {
             return;
         }
         w->width = w->widthBonus + 16;
@@ -819,7 +818,10 @@ void NameEntry_UpdateKeyboard(void)
         w->y = gNameEntry_wCursorTargetY;
         gNameEntry_wSelectionFrameFlags &= 0xBFFF;
     }
-    if ((gInput_awPadHeld[0] & PAD_DIRECTION_MASK) != 0) {
+    /* A held direction moves the cursor; the cursor update loop below is
+       entered at its top after a move and at case 0 for START. */
+    switch (gInput_awPadHeld[0] & PAD_DIRECTION_MASK) {
+    default:
         if ((gInput_awPadHeld[0] & PAD_DIRECTION_RIGHT) != 0) {
             gNameEntry_bKeyboardColumn = gNameEntry_bKeyboardColumn + 1;
             if (gNameEntry_bKeyboardColumn >= 15) {
@@ -858,77 +860,89 @@ void NameEntry_UpdateKeyboard(void)
                 gNameEntry_bSavedRow = gNameEntry_bKeyboardRow;
             }
         }
-    tail47:
-        SD_SEPlayFull(47);
+        for (;;) {
+            SD_SEPlayFull(47);
 #ifdef VERSION_EUROPE
-        {
-            s32 tableBase;
+            {
+                s32 tableBase;
 
-            tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
-            do {
-            } while (0);
+                tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
+                do {
+                } while (0);
+                row = (s8)gNameEntry_bKeyboardRow;
+                {
+                    PasswordGlyphCoordinates coords = {
+                        parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
+                    };
+                    col = coords.parts.column;
+                    work = *(s8 *)((coords.parts.column + coords.parts.stride) +
+                                   tableBase);
+                    walkCol = col;
+                    while (work < 0) {
+                        /* Preserve GCC's separate loop-invariant address lifetimes. */
+                        do {
+                            walkCol = walkCol + work;
+                            gNameEntry_bKeyboardColumn = walkCol;
+                            work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
+                                           tableBase);
+                        } while (0);
+                    }
+                }
+            }
+#else
+            obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
             row = (s8)gNameEntry_bKeyboardRow;
             {
+                /* Keep the pair fully initialized; separate stores change allocation. */
                 PasswordGlyphCoordinates coords = {
                     parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
                 };
                 col = coords.parts.column;
-                work = *(s8 *)((coords.parts.column + coords.parts.stride) +
-                               tableBase);
+                work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
                 walkCol = col;
                 while (work < 0) {
-                    /* Preserve GCC's separate loop-invariant address lifetimes. */
-                    do {
-                        walkCol = walkCol + work;
-                        gNameEntry_bKeyboardColumn = walkCol;
-                        work = *(s8 *)(((s8)walkCol + coords.parts.stride) +
-                                       tableBase);
-                    } while (0);
+                    walkCol = walkCol + work;
+                    gNameEntry_bKeyboardColumn = walkCol;
+                    work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
                 }
             }
-        }
-#else
-        obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
-        row = (s8)gNameEntry_bKeyboardRow;
-        {
-            /* Keep the pair fully initialized; separate stores change allocation. */
-            PasswordGlyphCoordinates coords = {
-                parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }
-            };
-            col = coords.parts.column;
-            work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
-            walkCol = col;
-            while (work < 0) {
-                walkCol = walkCol + work;
-                gNameEntry_bKeyboardColumn = walkCol;
-                work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
-            }
-        }
 #endif
-        gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
-        w->widthBonus = 0;
-        if (work != 0) {
-            if ((work & 0x40) != 0) {
-                w->widthBonus = 20;
+            gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
+            w->widthBonus = 0;
+            if (work != 0) {
+                if ((work & 0x40) != 0) {
+                    w->widthBonus = 20;
+                }
+                gNameEntry_bKeyboardRow = work & 0xF;
             }
-            gNameEntry_bKeyboardRow = work & 0xF;
+            gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
+            if ((s8)gNameEntry_bKeyboardColumn >= 11) {
+                gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
+            }
+            gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
+            DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
+            w->timer = 8;
+            w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
+            w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
+            {
+                u16 flags = gNameEntry_wSelectionFrameFlags;
+
+                /* The do { } while (0) weights this store like the original
+                   source, which keeps retail's register order here. */
+                do {
+                    gNameEntry_wSelectionFrameFlags = flags | 0x4000;
+                } while (0);
+            }
+            return;
+    case 0:
+            /* START with no direction jumps to the END key and reuses the
+               cursor update above. */
+            if ((gInput_awPadPressed[0] & PAD_BUTTON_START) == 0) {
+                break;
+            }
+            gNameEntry_bKeyboardColumn = 14;
+            gNameEntry_bKeyboardRow = 8;
         }
-        gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 22;
-        if ((s8)gNameEntry_bKeyboardColumn >= 11) {
-            gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
-        }
-        gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
-        w->timer = 8;
-        w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
-        w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
-        gNameEntry_wSelectionFrameFlags |= 0x4000;
-        return;
-    }
-    if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
-        gNameEntry_bKeyboardColumn = 14;
-        gNameEntry_bKeyboardRow = 8;
-        goto tail47;
     }
 #ifdef VERSION_EUROPE
     if ((gInput_awPadRepeat[0] & 0xC) != 0) {
