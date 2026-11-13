@@ -7,9 +7,11 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u16 petal_size, petal_radius;
-    u8 unknown_20[4];
+    u16 field_20;
+    u8 unknown_22[2];
     u32 start;
-    u8 unknown_28[0xC];
+    u32 field_28;
+    u8 unknown_2C[8];
     u32 track_end, sweep_start, sweep_end, sweep_angle;
 } Variant407EntryConfig;
 
@@ -34,7 +36,13 @@ typedef struct {
     ModelVariantFan quads[1];
     ModelVariantPackets packets;
     POLY_GT4 extra;
-    POLY_FT4 flat_textured[2], sprite;
+    POLY_FT4 flat_textured[2];
+    /* The entry fills a POLY_FT4 template here; the petal drawer reads the
+     * same bytes as a POLY_G4. */
+    union {
+        POLY_FT4 ft4;
+        POLY_G4 g4;
+    } sprite;
     u8 unknown_2348[0x24];
     MATRIX matrix;
     SVECTOR target;
