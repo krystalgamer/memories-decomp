@@ -79,19 +79,15 @@ void ModelVariant416_DrawBands(u8 *ctx)
                                 strip->progress[j] = 0x400;
                                 strip->done[j] = 1;
                             } else {
-                                /* Retail reuses j; the next word view then reads color at +0x78. */
+                                /* Retail reuses j, so the done read below
+                                 * indexes past done[1] into the colours. */
                                 for (j = 0; j < 2; j++) {
-                                    s32 *column = (s32 *)strip + j;
-                                    s32 decrement = (j << 8) + 0x400;
-                                    MODEL_VARIANT_WORD(column, 0x68) -= decrement;
+                                    strip->progress[j] = -((j << 8) + 0x400) + strip->progress[j];
                                 }
                             }
                         }
                     }
-                    {
-                        s32 *column = (s32 *)strip + j;
-                        done *= MODEL_VARIANT_WORD(column, 0x70);
-                    }
+                    done *= strip->done[j];
                 }
                 if (i + 1 == 2 && j == 1 && done == 1 && work->tail.phase == 2) {
                     work->tail.phase = 3;
