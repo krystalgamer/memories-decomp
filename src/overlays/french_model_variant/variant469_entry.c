@@ -240,8 +240,8 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
             quad_sheet->inner[1] = 64;
             quad_sheet->inner[2] = 255;
             quad_sheet->size = 0;
-            MODEL_VARIANT_WORD(quad_sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(quad_sheet, 0x90) = 0;
+            quad_sheet->field_8C = 0;
+            quad_sheet->field_90 = 0;
             quad_sheet->shown = 0;
         }
         for (k = 0; k < 16; k++, trail++) {

@@ -45,7 +45,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
         turn = -turn;
     }
     length = 16;
-    flags = MODEL_VARIANT_WORD(work, 0x191C);
+    flags = work->clock.frame_count;
     for (i = 0, angle = work->ribbon_angle; i < 8;
          i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
         for (k = 0; k < 2; k++) {

@@ -195,8 +195,8 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             sheet->inner[1] = work->config->inner.g;
             sheet->inner[2] = work->config->inner.b;
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         far_scale = 192;
         near_scale = 256;

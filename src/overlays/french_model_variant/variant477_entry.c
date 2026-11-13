@@ -234,15 +234,15 @@ s32 FrenchModelVariant477_HandleRequest(SVECTOR *point, s32 command)
                         far_y, rsin(angle) * far_radius >> 12);
                 }
             }
-            MODEL_VARIANT_WORD(web, 0x184) = 0;
-            MODEL_VARIANT_WORD(web, 0x188) = 0;
-            MODEL_VARIANT_WORD(web, 0x18C) = 0;
+            web->field_184 = 0;
+            web->field_188 = 0;
+            web->field_18C = 0;
             web->color.r = work->config->web_color.r;
             web->color.g = work->config->web_color.g;
             web->color.b = work->config->web_color.b;
             web->scale = 4096 + k * 4096 / 3;
             web->done = 0;
-            MODEL_VARIANT_WORD(web, 0x19C) = 0;
+            web->field_19C = 0;
         }
         for (k = 0; k < 16; k++, trail++) {
             for (j = 0, delay = 0; j < 9; delay -= 256, j++) {

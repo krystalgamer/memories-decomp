@@ -143,15 +143,15 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
         }
         if (i == 3) {
             if (ring->scale < 0x1000 && work->phase < 3) {
-                ring->scale = (u32)(MODEL_VARIANT_WORD(work, 0xFF0) << 12) /
+                ring->scale = (u32)(work->clock.frame << 12) /
                              (u32)MODEL_VARIANT_WORD(work->config, 0x30);
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)MODEL_VARIANT_WORD(work, 0xFF0) >= (u32)MODEL_VARIANT_WORD(work->config, 0x38)) {
-                ring->scale = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0xFF0) - MODEL_VARIANT_WORD(work->config, 0x38)) << 12) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x3C) - MODEL_VARIANT_WORD(work->config, 0x38));
+            } else if ((u32)work->clock.frame >= (u32)work->config->fade_start) {
+                ring->scale = 0x1000 - (u32)((work->clock.frame - work->config->fade_start) << 12) /
+                             (u32)(work->config->fade_end - work->config->fade_start);
             }
         } else if (ring->scale < 0x1000) {
             ring->scale += work->clock.step << 7;

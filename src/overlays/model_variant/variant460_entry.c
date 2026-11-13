@@ -218,8 +218,8 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
             sheet->inner[1] = work->config->color_a[1];
             sheet->inner[2] = work->config->color_a[2];
             sheet->size = 0;
-            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
-            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
         }
         outer_size = 256;
         inner_size = 192;

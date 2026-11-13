@@ -39,9 +39,9 @@ void ModelVariant458_DrawSheets(u8 *ctx)
         rot.vy = 0;
         rot.vz = 0;
         if (i < 8) {
-            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 16, 0x2E0C);
-            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 16, 0x2E10);
-            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 16, 0x2E14);
+            m.t[0] = work->starts[i].vx;
+            m.t[1] = work->starts[i].vy;
+            m.t[2] = work->starts[i].vz;
         } else {
             off = (i - 8) * 16;
             m.t[0] = MODEL_VARIANT_WORD((u8 *)work + off, 0x2E8C);

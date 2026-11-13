@@ -143,18 +143,18 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
         }
         if (i == 3) {
             if (ring->scale < 0x1000 && work->phase < 3) {
-                ring->scale = (u32)(MODEL_VARIANT_WORD(work, 0x1B94) << 12) /
-                             (u32)MODEL_VARIANT_WORD(work->config, 0x30);
+                ring->scale = (u32)(work->elapsed << 12) /
+                             (u32)work->config->duration;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)MODEL_VARIANT_WORD(work, 0x1B94) >= (u32)MODEL_VARIANT_WORD(work->config, 0x38)) {
-                ring->scale = 0x1000 - (u32)((MODEL_VARIANT_WORD(work, 0x1B94) - MODEL_VARIANT_WORD(work->config, 0x38)) << 12) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x3C) - MODEL_VARIANT_WORD(work->config, 0x38));
+            } else if ((u32)work->elapsed >= (u32)work->config->fade) {
+                ring->scale = 0x1000 - (u32)((work->elapsed - work->config->fade) << 12) /
+                             (u32)(work->config->end - work->config->fade);
             }
         } else if (ring->scale < 0x1000) {
-            ring->scale += MODEL_VARIANT_WORD(work, 0x1B9C) << 7;
+            ring->scale += work->step << 7;
             if (ring->scale >= 0x1000) {
                 if (work->phase >= 5) {
                     ring->scale = 0x1000;
@@ -169,5 +169,5 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
             }
         }
     }
-    work->ring_angle += MODEL_VARIANT_WORD(work, 0x1B9C) * 80;
+    work->ring_angle += work->step * 80;
 }

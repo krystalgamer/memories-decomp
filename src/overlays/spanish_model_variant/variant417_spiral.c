@@ -76,7 +76,7 @@ void SpanishModelVariant417_DrawSpiral(u8 *ctx)
                       arm->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
-    if (!(MODEL_VARIANT_WORD(work, 0x2124) & 1)) {
+    if (!(work->frame_count & 1)) {
         size = 0x1000;
     } else {
         size = 0x1200;
@@ -134,7 +134,7 @@ void SpanishModelVariant417_DrawSpiral(u8 *ctx)
         u8 g2;
         u8 b2;
 
-        if (((MODEL_VARIANT_WORD(work, 0x2124) + i) % 8) == 0) {
+        if (((work->frame_count + i) % 8) == 0) {
             r0 = 128;
             g0 = 0;
             b0 = 0;

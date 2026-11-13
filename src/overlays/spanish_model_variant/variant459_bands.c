@@ -31,7 +31,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
-    if (!(MODEL_VARIANT_WORD(work, 0x3080) & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         r = work->scale * *(u16 *)((u8 *)work->config + 0x2A) / 4096;
     } else {
         r = work->scale *
@@ -140,16 +140,16 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     col = NULL;
     if (work->phase == 1) {
         if (work->progress < 0x401) {
-            work->progress = (u32)((MODEL_VARIANT_WORD(work, 0x3084) - MODEL_VARIANT_WORD(work->config, 0x38)) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x3C) - MODEL_VARIANT_WORD(work->config, 0x38));
+            work->progress = (u32)((work->clock.frame - work->config->end) << 10) /
+                             (u32)(MODEL_VARIANT_WORD(work->config, 0x3C) - work->config->end);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->scale > 0) {
-        if ((u32)MODEL_VARIANT_WORD(work, 0x3084) >= (u32)MODEL_VARIANT_WORD(work->config, 0x40)) {
-            work->scale = 0x1000 - (((u32)MODEL_VARIANT_WORD(work, 0x3084) - MODEL_VARIANT_WORD(work->config, 0x40)) << 12) /
+        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x40)) {
+            work->scale = 0x1000 - (((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x40)) << 12) /
                                           (u32)(MODEL_VARIANT_WORD(work->config, 0x44) - MODEL_VARIANT_WORD(work->config, 0x40));
             if (work->scale <= 0) {
                 work->scale = 0;

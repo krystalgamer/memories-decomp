@@ -51,13 +51,13 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
     quad = &work->packets.quad;
-    if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
+    if ((u32)work->elapsed
         < work->config->capture_start) {
         last = -1;
-    } else if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
+    } else if ((u32)work->elapsed
                < work->config->capture_stop) {
         last = work->captured_count;
-        if (MODEL_VARIANT_WORD(work, 0x1B08) != MODEL_VARIANT_WORD(work, 0x1B10)) {
+        if (work->current_animation_frame != work->animation_frame) {
             work->captured_count++;
         }
         for (i = 0; i < 6; i++) {

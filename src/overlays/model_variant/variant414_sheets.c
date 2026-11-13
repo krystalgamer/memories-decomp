@@ -48,9 +48,9 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
             scale.vy = sheet->size + bias;
             scale.vz = sheet->size + bias;
         } else {
-            m.t[0] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x1794) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1820) * level / 1024;
-            m.t[1] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x1798) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1824) * level / 1024;
-            m.t[2] = MODEL_VARIANT_WORD((u8 *)work + i * 0x20, 0x179C) + MODEL_VARIANT_WORD((u8 *)work + i * 0x10, 0x1828) * level / 1024;
+            m.t[0] = work->matrices[i].t[0] + work->directions[i].vx * level / 1024;
+            m.t[1] = work->matrices[i].t[1] + work->directions[i].vy * level / 1024;
+            m.t[2] = work->matrices[i].t[2] + work->directions[i].vz * level / 1024;
             scale.vx = 0x400;
             scale.vy = 0x400;
             scale.vz = 0x400;

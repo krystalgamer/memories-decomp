@@ -28,7 +28,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0xF18) & 1) {
+        if (work->frame_count & 1) {
             bias = rec->size;
         }
         rot.vx = 0;
@@ -93,7 +93,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
         if (work->substep + 1 == work->config->substeps) {
             if (work->tail.phase == 0) {
                 if (rec->size < 0x1000) {
-                    rec->size = (u32)(MODEL_VARIANT_WORD(work, 0xF1C) << 12) / work->config->duration;
+                    rec->size = (u32)(work->frame << 12) / work->config->duration;
                     if (rec->size >= 0x1000) {
                         rec->size = 0x1000;
                         work->tail.phase = 1;
@@ -101,7 +101,7 @@ void ModelVariant324_DrawFan(u8 *ctx)
                 }
             } else {
                 if (rec->size > 0) {
-                    rec->size -= MODEL_VARIANT_WORD(work, 0xF24) << 5;
+                    rec->size -= work->step << 5;
                     if (rec->size <= 0) {
                         rec->size = 0;
                     }
@@ -109,5 +109,5 @@ void ModelVariant324_DrawFan(u8 *ctx)
             }
         }
     }
-    work->spin += MODEL_VARIANT_WORD(work, 0xF24) << 5;
+    work->spin += work->step << 5;
 }
