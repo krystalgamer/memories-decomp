@@ -100,14 +100,17 @@ class ModelImageRegistrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ProgressError, "does not agree"):
             validate_overlay_inventory([], [(0x8013B004, 0x8013B00C)],
                                        start=0x8013B000, end=0x80140000, name="raw")
-        text = render_status_table([("US", None, {
+        resident = dict(matching_c_function_count=1, decompilation_target_function_count=1,
+                        overlays={
             "model_raw": dict(function_count=0, function_bytes=0,
                               matching_c_function_count=0, matching_c_bytes=0),
             "model_known": dict(function_count=2, function_bytes=8,
                                 matching_c_function_count=1, matching_c_bytes=4),
-        })])
-        self.assertIn("| US | — |", text)
-        self.assertIn("| 1/2 |", text)
+        })
+        text = render_status_table([("US", resident, {"options": "in main", "MODEL": "\\*"})])
+        self.assertIn("| in main |", text)
+        self.assertIn("| — |", text)
+        self.assertTrue(text.endswith("| 1/2\\* |"))
         self.assertNotIn("%", text)
 
     def test_large_overlay_inventories_keep_readme_tables_bounded(self):
@@ -120,8 +123,9 @@ class ModelImageRegistrationTests(unittest.TestCase):
                                                 matching_c_function_count=3, matching_c_bytes=12)
         overlays["main_menu"] = dict(function_count=2, function_bytes=8,
                                      matching_c_function_count=2, matching_c_bytes=8)
-        resident = dict(matching_c_function_count=5, decompilation_target_function_count=6)
-        lines = render_status_table([("US", resident, overlays)]).splitlines()
+        resident = dict(matching_c_function_count=5, decompilation_target_function_count=6,
+                        overlays=overlays)
+        lines = render_status_table([("US", resident, {})]).splitlines()
         self.assertEqual(len(lines), 3)
         self.assertIn("| US | 5/6 |", lines[2])
         self.assertIn("| 5/5 |", lines[2])
