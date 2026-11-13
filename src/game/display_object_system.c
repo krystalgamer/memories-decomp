@@ -1521,11 +1521,6 @@ s32 DisplayObject_ProjectRotationFacing(
  * inputs - its DIVPOLYGON4 at 0x1F800000, the colour at 0x1F800280 and the
  * four texture coordinates from 0x1F800290. */
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
-#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
-#define GS_OT_VIEW(ordering_table) ((GsOT *)(ordering_table))
-#define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
-#define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
-#define POLY_FT4_VIEW(packet) ((POLY_FT4 *)(packet))
 
 /* The high half of `mode` selects the handler and the low half is the
  * ordering-table depth. Cases 1-3 hand a GsSPRITE to libgs. Cases 4 and 5 get
@@ -1542,71 +1537,75 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
 
     switch ((u32)mode >> 16) {
     case 1:
-        GsSortFastSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
+        GsSortFastSprite((GsSPRITE *)sprite, ot, pri);
         return;
     case 2:
-        GsSortFlipSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
+        GsSortFlipSprite((GsSPRITE *)sprite, ot, pri);
         return;
     case 3:
-        GsSortSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
+        GsSortSprite((GsSPRITE *)sprite, ot, pri);
         return;
     case 4: {
+        POLY_G4 *g4 = (POLY_G4 *)packet;
+
         if ((u32)sprite & 0x04000000) {
             otz = (long *)0x1F8002E0;
             v = SCRATCH_VERTEX(0);
-            v[0].vx = POLY_G4_VIEW(packet)->x0 - origin->x;
-            v[0].vy = POLY_G4_VIEW(packet)->y0 - origin->y;
-            v[1].vx = POLY_G4_VIEW(packet)->x1 - origin->x;
-            v[1].vy = POLY_G4_VIEW(packet)->y1 - origin->y;
-            v[2].vx = POLY_G4_VIEW(packet)->x2 - origin->x;
-            v[2].vy = POLY_G4_VIEW(packet)->y2 - origin->y;
-            v[3].vx = POLY_G4_VIEW(packet)->x3 - origin->x;
-            v[3].vy = POLY_G4_VIEW(packet)->y3 - origin->y;
+            v[0].vx = g4->x0 - origin->x;
+            v[0].vy = g4->y0 - origin->y;
+            v[1].vx = g4->x1 - origin->x;
+            v[1].vy = g4->y1 - origin->y;
+            v[2].vx = g4->x2 - origin->x;
+            v[2].vy = g4->y2 - origin->y;
+            v[3].vx = g4->x3 - origin->x;
+            v[3].vy = g4->y3 - origin->y;
             SCRATCH_VERTEX(3)->vz = 0;
             SCRATCH_VERTEX(2)->vz = 0;
             SCRATCH_VERTEX(1)->vz = 0;
             v[0].vz = 0;
             if (RotAverageNclip4(SCRATCH_VERTEX(0), SCRATCH_VERTEX(1), SCRATCH_VERTEX(2), SCRATCH_VERTEX(3),
-                                 (long *)&POLY_G4_VIEW(packet)->x0, (long *)&POLY_G4_VIEW(packet)->x1,
-                                 (long *)&POLY_G4_VIEW(packet)->x2, (long *)&POLY_G4_VIEW(packet)->x3,
+                                 (long *)&g4->x0, (long *)&g4->x1,
+                                 (long *)&g4->x2, (long *)&g4->x3,
                                  otz, otz + 1, otz + 2) <= 0) {
                 return;
             }
         }
         if ((u32)sprite & 0x40000000) {
-            Graphics_SubmitDrawModePacket((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket((u32 *)g4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
-            GsSortPoly(packet, GS_OT_VIEW(ot), pri);
+            GsSortPoly(g4, ot, pri);
         }
         return;
     }
     case 5: {
+        POLY_GT4 *gt4 = (POLY_GT4 *)packet;
+
         if ((u32)sprite & 0x04000000) {
             otz = (long *)0x1F8002E0;
             v = SCRATCH_VERTEX(0);
-            v[0].vx = POLY_GT4_VIEW(packet)->x0 - origin->x;
-            v[0].vy = POLY_GT4_VIEW(packet)->y0 - origin->y;
-            v[1].vx = POLY_GT4_VIEW(packet)->x1 - origin->x;
-            v[1].vy = POLY_GT4_VIEW(packet)->y1 - origin->y;
-            v[2].vx = POLY_GT4_VIEW(packet)->x2 - origin->x;
-            v[2].vy = POLY_GT4_VIEW(packet)->y2 - origin->y;
-            v[3].vx = POLY_GT4_VIEW(packet)->x3 - origin->x;
-            v[3].vy = POLY_GT4_VIEW(packet)->y3 - origin->y;
+            v[0].vx = gt4->x0 - origin->x;
+            v[0].vy = gt4->y0 - origin->y;
+            v[1].vx = gt4->x1 - origin->x;
+            v[1].vy = gt4->y1 - origin->y;
+            v[2].vx = gt4->x2 - origin->x;
+            v[2].vy = gt4->y2 - origin->y;
+            v[3].vx = gt4->x3 - origin->x;
+            v[3].vy = gt4->y3 - origin->y;
             SCRATCH_VERTEX(3)->vz = 0;
             SCRATCH_VERTEX(2)->vz = 0;
             SCRATCH_VERTEX(1)->vz = 0;
             v[0].vz = 0;
             if (RotAverageNclip4(SCRATCH_VERTEX(0), SCRATCH_VERTEX(1), SCRATCH_VERTEX(2), SCRATCH_VERTEX(3),
-                                 (long *)&POLY_GT4_VIEW(packet)->x0, (long *)&POLY_GT4_VIEW(packet)->x1,
-                                 (long *)&POLY_GT4_VIEW(packet)->x2, (long *)&POLY_GT4_VIEW(packet)->x3,
+                                 (long *)&gt4->x0, (long *)&gt4->x1,
+                                 (long *)&gt4->x2, (long *)&gt4->x3,
                                  otz, otz + 1, otz + 2) <= 0) {
                 return;
             }
         }
         if ((u32)sprite & 0x40000000) {
-            Graphics_SubmitDrawModePacket((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket((u32 *)gt4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
-            GsSortPoly(packet, GS_OT_VIEW(ot), pri);
+            GsSortPoly(gt4, ot, pri);
         }
         return;
     }
@@ -1617,6 +1616,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         SVECTOR *v3;
         SVECTOR *v1;
         u32 attribute;
+        POLY_FT4 *ft4 = (POLY_FT4 *)packet;
+        POLY_FT4 *projected;
 
         otz = (long *)0x1F8002E0;
         v = SCRATCH_VERTEX(0);
@@ -1624,35 +1625,38 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
 
         /* GsSPRITE's colour-mode bits (24-25) and semi-transparency rate
          * (28-29) go into the tpage's mode and rate fields. */
-        POLY_FT4_VIEW(packet)->tpage =
+        ft4->tpage =
             sprite->tpage | (((attribute >> 17) & 0x180) | ((attribute >> 23) & 0x60));
         if (sprite->attribute & 0x40000000) {
             SetSemiTrans(packet, 1);
         }
-        POLY_FT4_VIEW(packet)->clut = (sprite->cxcy.h.cy << 6) | ((sprite->cxcy.h.cx >> 4) & 0x3F);
+        ft4->clut = (sprite->cxcy.h.cy << 6) | ((sprite->cxcy.h.cx >> 4) & 0x3F);
         if (sprite->attribute & 0x800000) {
             /* Horizontally flipped: the left and right u columns swap. */
-            POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 = sprite->uv.b.lo;
-            POLY_FT4_VIEW(packet)->u0 = POLY_FT4_VIEW(packet)->u2 =
+            ft4->u1 = ft4->u3 = sprite->uv.b.lo;
+            ft4->u0 = ft4->u2 =
                 sprite->uv.b.lo + sprite->extent.wh.w.word - 1;
-            POLY_FT4_VIEW(packet)->v0 = POLY_FT4_VIEW(packet)->v1 = sprite->uv.b.hi;
-            POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
+            ft4->v0 = ft4->v1 = sprite->uv.b.hi;
+            ft4->v2 = ft4->v3 =
                 sprite->uv.b.hi + sprite->extent.wh.h - 1;
         } else {
-            POLY_FT4_VIEW(packet)->u0 = POLY_FT4_VIEW(packet)->u2 = sprite->uv.b.lo;
-            POLY_FT4_VIEW(packet)->v0 = POLY_FT4_VIEW(packet)->v1 = sprite->uv.b.hi;
+            ft4->u0 = ft4->u2 = sprite->uv.b.lo;
+            ft4->v0 = ft4->v1 = sprite->uv.b.hi;
             if (sprite->attribute & 0x80) {
-                POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 =
+                ft4->u1 = ft4->u3 =
                     sprite->uv.b.lo + sprite->extent.wh.w.word;
-                POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
+                ft4->v2 = ft4->v3 =
                     sprite->uv.b.hi + sprite->extent.wh.h;
             } else {
-                POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 =
+                ft4->u1 = ft4->u3 =
                     sprite->uv.b.lo + sprite->extent.wh.w.word - 1;
-                POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
+                ft4->v2 = ft4->v3 =
                     sprite->uv.b.hi + sprite->extent.wh.h - 1;
             }
         }
+        /* A separate view for the projection half: keeping ft4 live through
+         * it swaps $16/$17 across the whole function. */
+        projected = (POLY_FT4 *)packet;
         v1 = v + 1;
         v2 = v + 2;
         v3 = v + 3;
@@ -1665,11 +1669,11 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         v1->vz = 0;
         v->vz = 0;
         if (RotAverageNclip4(v, v1, v2, v3,
-                             (long *)&POLY_FT4_VIEW(packet)->x0, (long *)&POLY_FT4_VIEW(packet)->x1,
-                             (long *)&POLY_FT4_VIEW(packet)->x2, (long *)&POLY_FT4_VIEW(packet)->x3,
+                             (long *)&projected->x0, (long *)&projected->x1,
+                             (long *)&projected->x2, (long *)&projected->x3,
                              otz, otz + 1, otz + 2) > 0) {
             if (origin->divisions == 0) {
-                GsSortPoly(packet, GS_OT_VIEW(ot), pri);
+                GsSortPoly(packet, ot, pri);
                 return;
             }
             {
@@ -1680,15 +1684,15 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
                 divp->ndiv = origin->divisions;
                 divp->pih = 320;
                 divp->piv = DISPLAY_OBJECT_DIVP_PIV;
-                *rgbc = *(u32 *)&POLY_FT4_VIEW(packet)->r0;
-                uv[0] = *(u32 *)&POLY_FT4_VIEW(packet)->u0;
-                uv[1] = *(u32 *)&POLY_FT4_VIEW(packet)->u1;
-                uv[2] = *(u32 *)&POLY_FT4_VIEW(packet)->u2;
-                uv[3] = *(u32 *)&POLY_FT4_VIEW(packet)->u3;
+                *rgbc = *(u32 *)&projected->r0;
+                uv[0] = *(u32 *)&projected->u0;
+                uv[1] = *(u32 *)&projected->u1;
+                uv[2] = *(u32 *)&projected->u2;
+                uv[3] = *(u32 *)&projected->u3;
                 gGraphics_pPacketWorkCursor = (u32 *)DivideFT4(v, v1, v2, v3,
                                              uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
                                              (CVECTOR *)rgbc, (POLY_FT4 *)gGraphics_pPacketWorkCursor,
-                                             (u32 *)GS_OT_VIEW(ot)->org + pri, divp);
+                                             (u32 *)ot->org + pri, divp);
             }
         }
         return;
