@@ -30,7 +30,12 @@ typedef struct {
     POLY_GT4 special;
     u8 unknown_1BFC[0x34];
     ModelVariantPackets packets;
-    POLY_FT4 flat[2];
+    /* The entry fills two POLY_FT4 templates here; the 458-style streamer
+     * drawer this image keeps reads the same bytes as one POLY_G4. */
+    union {
+        POLY_FT4 ft4[2];
+        POLY_G4 g4;
+    } flat;
     u8 unknown_1D28[0x10];
     MATRIX matrix;
     ModelVariantAim aim;
