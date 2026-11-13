@@ -18,7 +18,7 @@
  * anonymous unions, and a named union would rename every flags user, so
  * those readers keep `*(u32 *)&record->terrain_modifier`. */
 typedef struct {
-    void *object;
+    struct DisplayObject *object;
     void *data;
     s16 screen_x;
     s16 screen_y;

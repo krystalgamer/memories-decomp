@@ -142,7 +142,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         DisplayEffect_SetObjectRowBlend(p->grid[0], (GsALON | GsAONE), depth);
         row = p->grid[1];
         DisplayEffect_BuildResourceObjects(p, row, resource_index);
-        DisplayEffect_SetObjectRowBlend((u8 **)row, (GsALON | GsATWO), depth - 1);
+        DisplayEffect_SetObjectRowBlend(row, (GsALON | GsATWO), depth - 1);
         p->field_40 = 0;
     }
 
