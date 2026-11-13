@@ -204,7 +204,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
                 streamer->color[point][1] = 128;
                 streamer->color[point][2] = 128;
             }
-            MODEL_VARIANT_WORD(streamer, 0x2A8) = 0;
+            streamer->field_2A8 = 0;
         }
         work->field_2FFA = 1024;
         work->streamer_length = 1024;

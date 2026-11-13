@@ -10,7 +10,7 @@ typedef struct {
     ModelVariantStripSpine spine;
     u8 unknown220[0x44];
     u8 color[17][4];
-    u8 unknown2A8[0x04];
+    s32 field_2A8;
     u8 unknown_2AC[0x44];
     ModelVariantStripOffsets offsets;
 } Streamer427;

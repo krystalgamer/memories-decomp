@@ -13,7 +13,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
-    Funnel423 *funnel = work->funnels;
+    ModelVariantFunnel *funnel = work->funnels;
     ModelVariantLongRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;
@@ -204,7 +204,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 funnel->size = -(k * 8192 / 3);
             }
-            MODEL_VARIANT_WORD(funnel, 0x114) = 0;
+            funnel->field_114 = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {
@@ -212,7 +212,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
                 streamer->color[j][1] = 128;
                 streamer->color[j][2] = 128;
             }
-            MODEL_VARIANT_WORD(streamer, 0x2A8) = 0;
+            streamer->field_2A8 = 0;
         }
         work->inner.r = work->config->inner.r;
         work->inner.g = work->config->inner.g;

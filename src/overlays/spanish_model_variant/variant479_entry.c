@@ -228,7 +228,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
                 streamer->color[j][1] = 128;
                 streamer->color[j][2] = 128;
             }
-            MODEL_VARIANT_WORD(streamer, 0x2A8) = 0;
+            streamer->field_2A8 = 0;
         }
         work->color_a[0] = work->config->color[0];
         work->color_a[1] = work->config->color[1];
