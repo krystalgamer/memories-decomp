@@ -92,8 +92,6 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
 #define DUEL_CARD_TYPE_ICON_CX 0x260
 #endif
 
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-
 /*
  * The object is the return value, not just a discarded temporary: retail
  * moves it to v0 before the final field stores and retains it through exit.
@@ -1012,8 +1010,8 @@ void Library_PruneRecentCardDrops(void)
 void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags)
 {
     BuildDeckTransitionState *state;
-    u8 *object;
-    u8 *label;
+    DisplayObject *object;
+    DisplayObject *label;
     CardList *chest_list;
     CardList *deck_list;
     CardEntry *entry;
@@ -1137,61 +1135,61 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     shade = 0x808080;
 #endif
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    DISPLAY_OBJECT_VIEW(label)->resource_root_index = 0;
-    DISPLAY_OBJECT_VIEW(label)->xy.word =
-        DISPLAY_OBJECT_VIEW(object)->xy.word;
-    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
+    label->resource_root_index = 0;
+    label->xy.word =
+        object->xy.word;
+    label->field_4C = (s32)BuildDeck_DrawCardListPage;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    DISPLAY_OBJECT_VIEW(label)->resource_root_index = 1;
-    DISPLAY_OBJECT_VIEW(label)->xy.word =
-        DISPLAY_OBJECT_VIEW(object)->xy.word;
-    DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
+    label->resource_root_index = 1;
+    label->xy.word =
+        object->xy.word;
+    label->field_4C = (s32)BuildDeck_DrawCardListPage;
     state->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x136, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
-    *(u8 **)((u8 *)state + 0x2D3C) = object;
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 8);
+    state->lists[0].scroll_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x26A, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
-    *(u8 **)((u8 *)state + 0x5A88) = object;
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 8);
+    state->lists[1].scroll_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0, BUILD_DECK_LIST_Y, 0, 4, 2, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
-    *(u8 **)((u8 *)state + 0x2D38) = object;
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 0xA);
+    state->lists[0].cursor_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x148, BUILD_DECK_LIST_Y, 0, 4, 3, 0xC, 0x218);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
-    *(u8 **)((u8 *)state + 0x5A84) = object;
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 0xA);
+    state->lists[1].cursor_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 9, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xA, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, -4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xB, 0xC, 0x208);
-    DISPLAY_OBJECT_VIEW(object)->flags |= 0x20;
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
+    object->flags |= 0x20;
+    DisplayObject_SetDepthOffset(object, -4);
 #ifdef VERSION_EUROPE
-    quad = DISPLAY_OBJECT_VIEW(DisplayObject_AcquireSlot(
-        DisplayObject_FindFreeGeneralSlot(), quad_kind));
+    quad = DisplayObject_AcquireSlot(
+        DisplayObject_FindFreeGeneralSlot(), quad_kind);
     DisplayObject_InitializeGouraudQuad(quad, 0);
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -3);
@@ -1201,8 +1199,8 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     quad->field_40.word = 0x1000140;
     quad->field_3C.word = shade;
     quad->field_44.word = shade;
-    quad = DISPLAY_OBJECT_VIEW(DisplayObject_AcquireSlot(
-        DisplayObject_FindFreeGeneralSlot(), quad_kind));
+    quad = DisplayObject_AcquireSlot(
+        DisplayObject_FindFreeGeneralSlot(), quad_kind);
     DisplayObject_InitializeGouraudQuad(quad, 0);
     quad->attribute |= 0x60000000;
     DisplayObject_SetDepthOffset(quad, -3);
@@ -1215,7 +1213,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
 #endif
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 3, 0, 3, 0xB, 0x2F8);
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
+    DisplayObject_SetDepthOffset(object, -4);
     BuildDeck_RefreshCountDisplay(state);
 }
 

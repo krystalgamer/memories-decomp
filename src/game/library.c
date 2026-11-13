@@ -687,7 +687,6 @@ DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){Display
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 #ifndef LIBRARY_CARD_VIEW_BOX_FIELD_54
 #define LIBRARY_CARD_VIEW_BOX_FIELD_54 0
@@ -793,9 +792,9 @@ void Library_UpdateCardView(LibraryState *state)
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
                 o->flags |= 0x28;
-                DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
-                DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 0xA);
-                state->loading_icon = DISPLAY_OBJECT_VIEW(o);
+                DisplayObject_SelectOrderingTable1(o);
+                DisplayObject_SetDepthOffset(o, 0xA);
+                state->loading_icon = o;
             }
         }
     }
@@ -864,9 +863,9 @@ void Library_UpdateCardView(LibraryState *state)
         B(o, 0x5F) = 0x80;
         o->field_60 = -0x400;
         o->flags |= 8;
-        DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
-        DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
-        state->card_view = DISPLAY_OBJECT_VIEW(o);
+        DisplayObject_SelectOrderingTable1(o);
+        DisplayObject_SetDepthOffset(o, 4);
+        state->card_view = o;
         state->motion.card_view_slide_phase = 1;
         gDuel_wSelectedCardID = (u16)state->motion.selected_card_id;
         layout = 3;
@@ -886,7 +885,7 @@ void Library_UpdateCardView(LibraryState *state)
         return;
     case 1:
         o = rec->primary_object;
-        Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), -1);
+        Library_CreateFadingCardOutline(o, -1);
         if (!(o->attribute & 0x08000000)) {
             o->field_20.b.rotation_z += 0xC;
             o->field_20.b.rotation_y += 6;
@@ -1095,7 +1094,7 @@ void Library_UpdateCardView(LibraryState *state)
     case 7:
         o = rec->primary_object;
         if (o != 0) {
-            Library_CreateFadingCardOutline(DISPLAY_OBJECT_VIEW(o), 1);
+            Library_CreateFadingCardOutline(o, 1);
             o->field_20.b.rotation_z += 0xC;
             o->field_20.b.rotation_y += 6;
             H(o, 0x60) += 0x66;
