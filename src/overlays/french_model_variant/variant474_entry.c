@@ -24,7 +24,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantCurtain *funnel;
     Variant474EntryRibbon *ribbon;
     ModelVariantSheet *sheet;
-    ModelVariantStreamer *streamer;
+    Variant458Streamer *streamer;
     ModelVariantSpiral *spiral;
     POLY_GT4 *glow;
     POLY_G4 *quad;
@@ -54,7 +54,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     streamer = work->streamers;
     spiral = work->spirals;
     textured = work->packets.textured;
-    flat = work->flat;
+    flat = work->flat.ft4;
     bar = work->bars;
     mesh = &work->mesh;
     glow = &work->glow;
@@ -255,9 +255,9 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         } while (m < 2);
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {
-                streamer->color[j].r = 128;
-                streamer->color[j].g = 128;
-                streamer->color[j].b = 128;
+                streamer->color[j][0] = 128;
+                streamer->color[j][1] = 128;
+                streamer->color[j][2] = 128;
             }
             streamer->field_2A8 = 0;
         }

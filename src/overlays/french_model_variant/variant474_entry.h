@@ -4,6 +4,7 @@
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
 #include "variant337_entry.h"
+#include "../model_variant/variant458_streamers.h"
 
 /* One 0x34-byte command row: the outer and inner sheet colours, the model
  * part, the trigger frame and the fade window. */
@@ -43,13 +44,18 @@ typedef struct {
     ModelVariantMesh mesh;
     ModelVariantSpiral spirals[12];
     ModelVariantSheet sheets[2];
-    ModelVariantStreamer streamers[2];
+    Variant458Streamer streamers[2];
     u8 unknown_1930[0x34];
     POLY_GT4 glow;
     u8 unknown_1998[0x34];
     POLY_GT4 bars[2];
     ModelVariantPackets packets;
-    POLY_FT4 flat[2];
+    /* The entry fills two POLY_FT4 templates here; the coiled-streamer
+     * drawer reads the same bytes as one POLY_G4. */
+    union {
+        POLY_FT4 ft4[2];
+        POLY_G4 g4;
+    } flat;
     u8 unknown_1B2C[0x10];
     MATRIX matrix;
     SVECTOR target;
