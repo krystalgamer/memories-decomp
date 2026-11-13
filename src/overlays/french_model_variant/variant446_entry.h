@@ -54,7 +54,8 @@ typedef struct {
     MATRIX matrix, second_matrix;
     ModelVariantAim aim;
     s32 angles[2];
-    u32 frame_count, elapsed, animation, step;
+    s32 frame_count;
+    u32 elapsed, animation, step;
     s32 fade;
     EntryConfig446 *config;
     u32 unknown_1BA8;

@@ -38,27 +38,27 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
         red = 255;
         green = 0;
         blue = 0;
-    } else if ((s32)work->frame_count % 8 == 1) {
+    } else if (work->frame_count % 8 == 1) {
         red = 255;
         green = 128;
         blue = 0;
-    } else if ((s32)work->frame_count % 8 == 2) {
+    } else if (work->frame_count % 8 == 2) {
         red = 255;
         green = 255;
         blue = 0;
-    } else if ((s32)work->frame_count % 8 == 3) {
+    } else if (work->frame_count % 8 == 3) {
         red = 0;
         green = 255;
         blue = 0;
-    } else if ((s32)work->frame_count % 8 == 4) {
+    } else if (work->frame_count % 8 == 4) {
         red = 0;
         green = 255;
         blue = 255;
-    } else if ((s32)work->frame_count % 8 == 5) {
+    } else if (work->frame_count % 8 == 5) {
         red = 0;
         green = 0;
         blue = 255;
-    } else if ((s32)work->frame_count % 8 == 6) {
+    } else if (work->frame_count % 8 == 6) {
         red = 255;
         green = 0;
         blue = 255;

@@ -53,7 +53,7 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
     } else {
         heading = yaw + 0xC00;
     }
-    amp = ((MODEL_VARIANT_WORD(work, 0x2298) & 1) << 5) * pulse->size / 4096;
+    amp = (((s32)work->clock.frame_count & 1) << 5) * pulse->size / 4096;
     if (work->phase < 2) {
         k = LAST_RING;
         ring += LAST_RING;
