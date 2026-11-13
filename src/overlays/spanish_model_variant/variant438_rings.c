@@ -5,7 +5,6 @@
 
 #define RING_COUNT 1
 #define LAST_RING (RING_COUNT - 1)
-#define TIMING(work) work->config
 
 /* The MODEL446 rings with a single ring: one seventeen-point POLY_GT4 ring
  * around the variant's direction, timed by the record, with radii scaled from
@@ -66,17 +65,17 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             size = ring->scale;
             for (j = 0, a = work->ring_angle; j < 17; j++, a = work->ring_angle + (j << 8)) {
                 if (i == LAST_RING) {
-                    setVector(&ring->a[j], rcos(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) / 4) >> 12,
-                              rsin(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) / 4) >> 12, 0);
-                    setVector(&ring->b[j], rcos(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 128) / 256) >> 12,
-                              rsin(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 128) / 256) >> 12,
-                              -(MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 64) / 256));
+                    setVector(&ring->a[j], rcos(a) * (work->config->size / 4) >> 12,
+                              rsin(a) * (work->config->size / 4) >> 12, 0);
+                    setVector(&ring->b[j], rcos(a) * (work->config->size * (amp + 128) / 256) >> 12,
+                              rsin(a) * (work->config->size * (amp + 128) / 256) >> 12,
+                              -(work->config->size * (amp + 64) / 256));
                 } else {
-                    setVector(&ring->a[j], rcos(a) * MODEL_VARIANT_WORD(TIMING(work), 0x44) >> 12,
-                              rsin(a) * MODEL_VARIANT_WORD(TIMING(work), 0x44) >> 12, 0);
-                    setVector(&ring->b[j], rcos(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 384) / 256) >> 12,
-                              rsin(a) * (MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 384) / 256) >> 12,
-                              MODEL_VARIANT_WORD(TIMING(work), 0x44) * (amp + 128) / 256);
+                    setVector(&ring->a[j], rcos(a) * work->config->size >> 12,
+                              rsin(a) * work->config->size >> 12, 0);
+                    setVector(&ring->b[j], rcos(a) * (work->config->size * (amp + 384) / 256) >> 12,
+                              rsin(a) * (work->config->size * (amp + 384) / 256) >> 12,
+                              work->config->size * (amp + 128) / 256);
                 }
             }
             rot.vx = -pitch;
@@ -102,27 +101,27 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (i == LAST_RING) {
-                ir = ((u8 *)work)[0x22CC];
-                ig = ((u8 *)work)[0x22CD];
-                ib = ((u8 *)work)[0x22CE];
-                or = ((u8 *)work)[0x22D0];
-                og = ((u8 *)work)[0x22D1];
-                ob = ((u8 *)work)[0x22D2];
+                ir = work->color_22CC.r;
+                ig = work->color_22CC.g;
+                ib = work->color_22CC.b;
+                or = work->color_22D0.r;
+                og = work->color_22D0.g;
+                ob = work->color_22D0.b;
             } else if (ring->scale < 0x800) {
-                ir = ((u8 *)work)[0x22CC];
-                ig = ((u8 *)work)[0x22CD];
-                ib = ((u8 *)work)[0x22CE];
-                or = ((u8 *)work)[0x22D0];
-                og = ((u8 *)work)[0x22D1];
-                ob = ((u8 *)work)[0x22D2];
+                ir = work->color_22CC.r;
+                ig = work->color_22CC.g;
+                ib = work->color_22CC.b;
+                or = work->color_22D0.r;
+                og = work->color_22D0.g;
+                ob = work->color_22D0.b;
             } else {
                 fade = 0x1000 - ring->scale;
-                ir = ((u8 *)work)[0x22CC] * fade / 2048;
-                ig = ((u8 *)work)[0x22CD] * fade / 2048;
-                ib = ((u8 *)work)[0x22CE] * fade / 2048;
-                or = ((u8 *)work)[0x22D0] * fade / 2048;
-                og = ((u8 *)work)[0x22D1] * fade / 2048;
-                ob = ((u8 *)work)[0x22D2] * fade / 2048;
+                ir = work->color_22CC.r * fade / 2048;
+                ig = work->color_22CC.g * fade / 2048;
+                ib = work->color_22CC.b * fade / 2048;
+                or = work->color_22D0.r * fade / 2048;
+                og = work->color_22D0.g * fade / 2048;
+                ob = work->color_22D0.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&ring->a[j], &ring->a[j + 1],
@@ -148,15 +147,15 @@ void SpanishModelVariant438_DrawRing(u8 *ctx)
         }
         if (i == LAST_RING) {
             if (ring->scale < 0x1000 && work->phase < 3) {
-                ring->scale = (u32)(work->clock.frame << 12) /
-                             (u32)MODEL_VARIANT_WORD(TIMING(work), 0x20);
+                ring->scale = (work->clock.frame << 12) /
+                             work->config->field_20;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(TIMING(work), 0x28)) {
-                ring->scale = 0x1000 - (u32)((work->clock.frame - MODEL_VARIANT_WORD(TIMING(work), 0x28)) << 12) /
-                             (u32)(MODEL_VARIANT_WORD(TIMING(work), 0x2C) - MODEL_VARIANT_WORD(TIMING(work), 0x28));
+            } else if (work->clock.frame >= work->config->fade_start) {
+                ring->scale = 0x1000 - ((work->clock.frame - work->config->fade_start) << 12) /
+                             (work->config->fade_end - work->config->fade_start);
             }
         } else if (ring->scale < 0x1000) {
             ring->scale += work->clock.step << 7;
