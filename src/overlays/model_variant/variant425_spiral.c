@@ -23,7 +23,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     long p;
     long flag;
     Variant425EntryState *work;
-    u8 *timing;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 phi;
@@ -50,7 +50,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     spread = 0x400 - work->field_2710;
 #if defined(VERSION_FRENCH)
     turn = ratan2(work->view_delta.vz, work->view_delta.vx);
-    timing = (u8 *)work + 0x1E68;
+    timing = work->sheets;
     turn += 0xC00;
 #else
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
@@ -86,10 +86,10 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
         }
     }
     if (!(work->clock.frame_count & 1)) {
-        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - work->spiral_shrink) / 4096;
+        size = timing->size * (0x1000 - work->spiral_shrink) / 4096;
     } else {
-        size = MODEL_VARIANT_WORD(timing, 0x88) * (0x1000 - work->spiral_shrink) / 4096 +
-               MODEL_VARIANT_WORD(timing, 0x88) / 8;
+        size = timing->size * (0x1000 - work->spiral_shrink) / 4096 +
+               timing->size / 8;
     }
     rot.vx = 0;
     rot.vy = 0;

@@ -17,7 +17,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     long p;
     long flag;
     Variant404EntryState *work;
-    u8 *timing;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 turn;
@@ -39,7 +39,7 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     ribbon = (ModelVariantRibbonShort *)work->unknown_AB0;
     tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 0x400;
     ratan2(work->aim.direction.vz, work->aim.direction.vx);
-    timing = (u8 *)work + 0xFD8;
+    timing = work->sheets;
     prim = &work->packets.triangle;
     if (work->slot == 1) {
         turn = -turn;
@@ -64,9 +64,9 @@ void ModelVariant404_DrawRibbons(u8 *ctx)
     m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
     m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
     m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
-    scale.vx = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vy = MODEL_VARIANT_WORD(timing, 0x88);
-    scale.vz = MODEL_VARIANT_WORD(timing, 0x88);
+    scale.vx = timing->size;
+    scale.vy = timing->size;
+    scale.vz = timing->size;
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;

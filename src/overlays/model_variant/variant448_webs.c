@@ -15,7 +15,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *timing;
+    Variant448Orbit *timing;
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
@@ -33,7 +33,7 @@ void ModelVariant448_DrawWebs(u8 *ctx)
     s32 otz;
 
     work = (Variant448EntryState *)ctx;
-    timing = (u8 *)work + 0x11F0;
+    timing = work->orbit;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
