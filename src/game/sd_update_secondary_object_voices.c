@@ -4,9 +4,6 @@
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
-#define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
-    ((SDSecondaryObject *)((u8 *)(state) + (offset)))
-
 /* Per-entry sweep over the SDSecondaryObject records at
  * gSD_pSecondaryState->objects: sends the under-0x10 ones through SD_UpdateSecondaryObjectPitch,
  * resets a record whose voice is SPU_OFF, advances the +0xD counter for
@@ -24,7 +21,6 @@ void SD_UpdateSecondaryObjectVoices(void) {
     s32 *u;
     s32 i;
     s32 m;
-    s32 o;
     s32 key_off_env_on;
     s32 a;
     s32 b;
@@ -40,9 +36,8 @@ void SD_UpdateSecondaryObjectVoices(void) {
         key_off_env_on = SPU_OFF_ENV_ON;
         t = gSD_adwVoiceMasks;
         q = voice_key_status;
-        o = SD_SECONDARY_OBJECT_ARRAY_OFFSET;
         do {
-            e = SD_SECONDARY_OBJECT_OFFSET_VIEW(p, o);
+            e = &p->objects[i];
             if (e->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
                 SD_UpdateSecondaryObjectPitch(e, 0);
             }
@@ -88,7 +83,6 @@ void SD_UpdateSecondaryObjectVoices(void) {
             t++;
             q++;
             p = gSD_pSecondaryState;
-            o += sizeof(SDSecondaryObject);
             i++;
         } while (i < p->object_count);
     }
