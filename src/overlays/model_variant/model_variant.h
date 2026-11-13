@@ -681,9 +681,13 @@ typedef struct {
     SVECTOR near[6][6];
     SVECTOR far[6][6];
     CVECTOR color;
-    u8 unknown_244[0x10];
+    s32 field_244;
+    s32 field_248;
+    s32 field_24C;
+    u8 unknown_250[0x4];
     s32 scale;
-    u8 unknown_258[8];
+    s32 field_258;
+    s32 field_25C;
 } ModelVariantWeb;
 
 /* Header 425's 0x200-byte web: 5x6 near and far grids. */
@@ -691,9 +695,13 @@ typedef struct {
     SVECTOR near[5][6];
     SVECTOR far[5][6];
     CVECTOR color;
-    u8 unknown_1E4[0x10];
+    s32 field_1E4;
+    s32 field_1E8;
+    s32 field_1EC;
+    u8 unknown_1F0[0x4];
     s32 scale;
-    u8 unknown_1F8[8];
+    s32 field_1F8;
+    s32 field_1FC;
 } ModelVariantWebSmall;
 
 /* Header 397's 0x1A0-byte web: 4x6 near and far grids, a colour, three words
@@ -932,7 +940,7 @@ typedef struct {
     SVECTOR inner[17];
     SVECTOR outer[17];
     s32 size;
-    u8 unknown_114[4];
+    s32 field_114;
 } ModelVariantFunnel;
 
 /* One 0x24-byte command row, picked by command % 100: the particle and glow
@@ -978,7 +986,7 @@ typedef struct {
     SVECTOR points[9][17];
     u8 colors[9][4];
     s32 size;
-    u8 unknown_4F0[4];
+    s32 field_4F0;
     s32 done;
 } ModelVariantGridSheet;
 
@@ -1255,7 +1263,9 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start, burst_start;
-    u8 unknown_24[0xC];
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
 } ModelVariantWebConfig;
 
 /* One 0xC-byte row of a header 636-682 entry's command table, indexed by

@@ -123,16 +123,16 @@ void ModelVariant405_DrawBands(u8 *ctx)
     if (work->phase == 1) {
         if (work->field_1E14 < 0x401) {
             work->field_1E14 = (u32)((work->clock.frame - work->config->burst_start) << 10) /
-                             (u32)(MODEL_VARIANT_WORD(work->config, 0x24) - work->config->burst_start);
+                             (u32)(work->config->field_24 - work->config->burst_start);
             if (work->field_1E14 >= 0x400) {
                 work->field_1E14 = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->field_1E10 > 0) {
-        if ((u32)work->clock.frame >= (u32)MODEL_VARIANT_WORD(work->config, 0x28)) {
-            work->field_1E10 = 0x1000 - (((u32)work->clock.frame - MODEL_VARIANT_WORD(work->config, 0x28)) << 12) /
-                                          (u32)(MODEL_VARIANT_WORD(work->config, 0x2C) - MODEL_VARIANT_WORD(work->config, 0x28));
+        if ((u32)work->clock.frame >= (u32)work->config->field_28) {
+            work->field_1E10 = 0x1000 - (((u32)work->clock.frame - work->config->field_28) << 12) /
+                                          (u32)(work->config->field_2C - work->config->field_28);
             if (work->field_1E10 <= 0) {
                 work->field_1E10 = 0;
                 work->phase = 3;

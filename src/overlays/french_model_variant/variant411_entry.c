@@ -116,7 +116,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 funnel->size = k * -4096;
             }
-            MODEL_VARIANT_WORD(funnel, 0x114) = 0;
+            funnel->field_114 = 0;
         }
         for (i = 0; i < 1; i++, tube++) {
             tube->scale.vx = 4096;

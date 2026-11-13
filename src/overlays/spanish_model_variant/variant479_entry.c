@@ -124,7 +124,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
                 grid->colors[row][2] = 0;
             }
             grid->size = 0;
-            MODEL_VARIANT_WORD(grid, 0x4F0) = 1024;
+            grid->field_4F0 = 1024;
             grid->done = 0;
         }
         for (k = 0; k < 12; k++, arm++) {
