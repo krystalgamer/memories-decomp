@@ -46,29 +46,42 @@ _Matched C functions / inventoried functions. Main exe counts game-owned code (P
 
 ## Quick start
 
+Place each version's executable and `DATA` archives under `game/` at the paths
+listed in its `config/<serial>/files.sha256`, e.g. `game/SLUS_014.11` and
+`game/DATA/*.MRG` for North America, or `game/japanese/SLPM_863.98` and
+`game/japanese/DATA/*.MRG` for Japan. For North America, `make disc-files`
+extracts the `DATA` files from `game/rpg-yfm.bin`/`.cue`.
+
 ```sh
-make verify-target                 # check game/SLUS_014.11
-make tools
-MAKEFLAGS=-j"$(nproc)" make match  # rebuild and compare byte-for-byte
+make tools                                   # pinned Python env, binutils, GCC 2.8.1 and MASPSX
+make compiler-272-prebuilt compiler-280-prebuilt   # GCC 2.7.2 CDK and 2.8.0, used by MODEL overlays
+make verify-inputs                           # check the North American inputs
+MAKEFLAGS=-j"$(nproc)" make match            # rebuild SLUS-01411 and compare byte-for-byte
+MAKEFLAGS=-j"$(nproc)" make match-overlays   # extract, rebuild and compare its overlays
 ```
 
-Other regions use the matching `verify-<region>-target` and `<region>-match`
-targets (`japanese`, `european`, `french`, `german`, `italian`, `spanish`).
-For quick edit loops, see [incremental builds](notes/build.md#incremental-edit-builds);
-`make disc-files` extracts the DATA files from a retail BIN/CUE, and
+Other versions use `verify-<region>-inputs`, `<region>-match` and
+`<region>-match-overlays` with `japanese`, `european`, `french`, `german`,
+`italian` or `spanish`. For edit loops, seed the cache after a clean match and
+use `make match-incremental` (see [build](notes/build.md#incremental-edit-builds)).
 `make audit` runs the full repository check. Lower `-j` on memory-constrained
 systems.
 
 ## Repository layout
 
-| Path | Purpose |
+| Path | Contents |
 |---|---|
-| `src/` | Matching C (`game/` resident, `overlays/` runtime overlays) |
-| `asm/` | Assembly for code kept as-is |
-| `config/` | Per-region inventories, compiler profiles, symbols and layouts |
-| `tools/` | Project scripts and pinned toolchains |
+| `src/game/` | Matching C for the main executables, with per-version wrappers in `japanese/`, `european/`, `french/`, `german/`, `italian/`, `spanish/` |
+| `src/overlays/` | Matching C for the runtime overlays, one directory per module family |
+| `src/psyq/` | Psy-Q SDK declarations |
+| `src/types.h` | Fixed-width integer types shared by every C file |
+| `config/<serial>/` | Per-version function inventories, matching manifests, symbols, split and overlay configuration; the named compiler profiles are in `config/slus_01411/compiler_profiles.json` |
+| `tools/project/` | Build, split, matching, inventory and report scripts (with tests) |
+| `tools/bootstrap/` | Pinned toolchain and Python environment installers |
+| `tools/trace/`, `tools/ida/` | Emulator trace scripts and IDA symbol import/export |
 | `notes/` | Research and detailed documentation |
-| `game/`, `tmp/` | Retail inputs and generated output (both ignored) |
+| `game/` | Retail inputs (ignored) |
+| `tmp/` | Generated split output, builds, extracted overlays and reports (ignored) |
 
 Run all commands from the repository root.
 
