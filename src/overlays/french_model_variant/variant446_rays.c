@@ -3,14 +3,13 @@
 #include "variant446_entry.h"
 
 /* Builds sixteen three-point rays from the work start (even rays reach
- * 0x100, odd ones 0x80, turning against each other with the spin at
- * (u8 *)work + 0x1BC4 and leaning along the direction at (u8 *)work + 0x1B64, mirrored by
- * the flag at (u8 *)work + 0x1BE4), pushes a copy of each spine along the turn by
- * the length at (u8 *)work + 0x1BD8, projects both, and draws each segment as two
- * POLY_GT4 halves as wide as the projected offset, the outer one fading to
- * black. The size at (u8 *)work + 0x1BD4 grows by step * 128 up to 0x1000; once the
- * clock passes the timing table's start the length shrinks to zero over the
- * table's span. */
+ * 0x100, odd ones 0x80, turning against each other with the entry's spin and
+ * leaning along its aim direction, mirrored unless slot is 0), pushes a copy
+ * of each spine along the turn by ray_length, projects both, and draws each
+ * segment as two POLY_GT4 halves as wide as the projected offset, the outer
+ * one fading to black. ray_size grows by step * 128 up to 0x1000; once the
+ * clock passes the config's rays_end the length shrinks to zero over the
+ * span to field_48. */
 void FrenchModelVariant446_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
@@ -21,7 +20,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     long p;
     long flag;
     EntryState446 *work;
-    u8 *timing;
+    EntryConfig446 *timing;
     GsOT *ot;
     s16 i;
     s16 length;
@@ -223,10 +222,10 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
             work->ray_size = 0x1000;
         }
     }
-    timing = *(u8 **)((u8 *)work + 0x1BA4);
-    if (work->elapsed >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && work->ray_length > 0) {
-        work->ray_length = 0x400 - ((work->elapsed - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
-                                   (u32)(MODEL_VARIANT_WORD(timing, 0x48) - MODEL_VARIANT_WORD(timing, 0x44));
+    timing = work->config;
+    if (work->elapsed >= timing->rays_end && work->ray_length > 0) {
+        work->ray_length = 0x400 - ((work->elapsed - timing->rays_end) << 10) /
+                                   (u32)(timing->field_48 - timing->rays_end);
         if (work->ray_length <= 0) {
             work->ray_length = 0;
         }

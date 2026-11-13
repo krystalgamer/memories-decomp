@@ -36,7 +36,6 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
     s32 dz;
     s32 sy;
     ModelVariantRibbonFadeTiming *timing;
-    u8 *v;
     s32 n;
     s32 kk;
     s32 py, pz;
@@ -57,11 +56,11 @@ void FrenchModelVariant427_DrawRibbons(u8 *ctx)
             if (i < 0) {
                 dy = 0;
             }
-            for (k = 0, v = (u8 *)work + i * 16; k < 17; k++) {
-                dy = MODEL_VARIANT_WORD(v, 0x36F4) * ribbon->amp / 1024;
-                dz = MODEL_VARIANT_WORD(v, 0x36F8) * ribbon->amp / 1024;
+            for (k = 0; k < 17; k++) {
+                dy = work->ribbon_directions[i].vy * ribbon->amp / 1024;
+                dz = work->ribbon_directions[i].vz * ribbon->amp / 1024;
                 n = kk = k;
-                setVector(&ribbon->a[n], MODEL_VARIANT_WORD(v, 0x36F0) * ribbon->amp / 1024 * k / 16, dy * (kk = n) / 16, dz * k / 16);
+                setVector(&ribbon->a[n], work->ribbon_directions[i].vx * ribbon->amp / 1024 * k / 16, dy * (kk = n) / 16, dz * k / 16);
                 setVector(&ribbon->b[k],
                           ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                           ribbon->a[k].vy,
