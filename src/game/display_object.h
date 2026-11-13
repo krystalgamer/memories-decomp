@@ -473,8 +473,7 @@ typedef struct DisplayObject {
        its parts from them, CardPreview_DrawDetailPanel copies the halfword
        into a primitive's uv, and the duel effect, game-over, Library and
        free-duel code write u or v directly. Screen sprites keep their u/v
-       at 0x5C instead (texture_uv; DisplayObjectConfigView's
-       texture_u/texture_v). */
+       at 0x5C instead (texture_uv). */
     u16 resource_uv;               /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
@@ -501,26 +500,24 @@ typedef struct DisplayObject {
        SpritePrim.tpage, the sheet renderer adds each part's page to it,
        DisplayObject_ConfigureScreenSprite stores its texture_page argument
        here and DisplayObject_ConfigureSpriteResource the low byte of
-       texture_config. DisplayObjectConfigView names it texture_page too. */
+       texture_config. */
     u8 texture_page;               /* 0x66 */
-    /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
-       this same record, and read by text_control_commands.c. 0x68 is named just
-       below, now that Duel_DrawCardFrame reaches it through this record. */
-    u8 field_67;                   /* 0x67 */
-    /* The card type of the duel card this object draws. Duel_DrawCardFrame
-       switches on it over card_constants.h's CARD_TYPE_EQUIP, CARD_TYPE_MAGIC,
-       CARD_TYPE_TRAP and CARD_TYPE_RITUAL, picking the frame each spell class
-       gets and falling through to the monster arm for everything else.
-       DuelCardDisplayObject in duel_card_display_state.h already names the
-       same byte field_68; that record's field_67 and field_69 are this
-       record's too, and 0x6A is the gDuel_aCardRecords index both agree on. It keeps
-       the offset for a name because only duel cards evidence it, and the pool
-       is shared across object kinds. */
-    u8 field_68;                   /* 0x68 */
-    /* Named on this same record by DisplayObjectConfig in
-       display_object_config.h. main_boot_screen.c reads it and hands
-       it to DisplayObject_ConfigureSpriteAtPositionWithResource. */
-    u8 field_69;                   /* 0x69 */
+    /* The three resource selectors. DisplayObject_ConfigureSpriteResource and
+       DisplayObject_SetResourcePath store them, DisplayObject_SetResourceVariant
+       and DisplayObject_UpdateResourceVariant rewrite the last one and clear
+       flags bit 0x10, and the resolver in display_object_system.c walks the
+       serialized offset tables with them in this order (root, branch, final
+       entry) to find the object's resource. Root/branch name the first two
+       table indices, not package-specific contents.
+
+       Object kinds without a resource reuse the bytes: duel_effect_text.c
+       keeps a text channel index in the root byte, and duel cards keep their
+       card type (CARD_TYPE_* in card_constants.h) in the branch byte, which
+       Duel_DrawCardFrame switches on to pick the frame each spell class
+       gets. */
+    u8 resource_root_index;        /* 0x67 */
+    u8 resource_branch_index;      /* 0x68 */
+    u8 resource_variant;           /* 0x69 */
     /* duel_scene.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.
        That is the only evidence for it, so it takes the offset for a name. */

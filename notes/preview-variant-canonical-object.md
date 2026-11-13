@@ -14,9 +14,11 @@ Removing that unused shell and its size assertion corrects a type claim,
 not the real pool's allocation size or layout.
 
 At the canonical-type checkpoint, only the parameter type and
-`source->variant` spelling changed. Preserve the `DisplayObjectConfig *object`
-narrow helper view, integer fallback `2`, negative-argument path, byte load,
-current selector comparison, setter/update/rerun order and all casts.
+`source->variant` spelling changed. The narrow `DisplayObjectConfig *object`
+helper view has since been dropped: the setter takes the canonical record and
+the selector is `source->resource_variant`. Preserve the integer fallback `2`,
+negative-argument path, byte load, current selector comparison and
+setter/update/rerun order.
 `DisplayObject_UpdateCommandStream` takes only the object.
 
 The same selector requests no setter/update/rerun write. A changed selector

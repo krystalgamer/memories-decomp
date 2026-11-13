@@ -580,10 +580,10 @@ void DisplayObject_UpdatePositionRotationTransition(DisplayObject *o);
 
 /* Facing-result callback installed by the card and icon factories at +0x10.
    DisplayObject_ProjectRotationFacing supplies the projected-area word.
-   The actual signature retains the narrow config view and full u32 bits;
-   the body stores only their sign at +0x69. */
+   It takes the full u32 bits and stores only their sign into the object's
+   resource_variant. */
 void DisplayObject_SetResourceVariantFromSign(
-    DisplayObjectConfig *object,
+    DisplayObject *object,
     u32 value
 );
 
@@ -1084,7 +1084,7 @@ typedef struct {
     u32 color;
     union {
         u32 word;
-        void (*callback)(DisplayObjectConfig *, u32);
+        void (*callback)(DisplayObject *, u32);
     } back_face_handler;
     u8 pad_14[0x0D];
     u8 rotation_y;
@@ -1315,7 +1315,7 @@ extern u16 gDuel_wOutcomeFlags;
    byte of the flags word. */
 extern u8 gDebugEffect_bPlacementCounter;
 
-DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source);
+DisplayObject *Duel_CreateCardEffectOverlay(DisplayObject *source);
 
 /* Reads the held pad bits, priority-encodes them into a direction index and
  * hands the cursor and that index to DuelCursor_ProcessGridDirection. It computes the second

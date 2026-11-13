@@ -93,7 +93,6 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
 #endif
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-#define DISPLAY_OBJECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
 
 /*
  * The object is the return value, not just a discarded temporary: retail
@@ -111,7 +110,7 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 start_x, s32 star
     s32 table_index = index;
     s32 x = start_x;
     s32 y = start_y;
-    DisplayObjectConfigView *object;
+    DisplayObject *object;
     s32 field_18 = target_x;
     s32 bits;
     s32 kind;
@@ -119,7 +118,7 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 start_x, s32 star
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(
-        DISPLAY_OBJECT_VIEW(object), x, y, 0x10, 0x10,
+        object, x, y, 0x10, 0x10,
         0, DUEL_CARD_TYPE_ICON_FIELD_5D, 0xB, DUEL_CARD_TYPE_ICON_CX, 0xFC
     );
     do { stats = gDuel_adwCardStats; } while (0);
@@ -131,19 +130,19 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 start_x, s32 star
     switch (kind) {
     case CARD_TYPE_MAGIC:
     case CARD_TYPE_EQUIP:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x10;
+        object->field_40.clut.x += 0x10;
         break;
     case CARD_TYPE_TRAP:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x20;
+        object->field_40.clut.x += 0x20;
         break;
     case CARD_TYPE_RITUAL:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x30;
+        object->field_40.clut.x += 0x30;
         break;
     }
-    DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(object));
-    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 10);
+    DisplayObject_SelectOrderingTable1(object);
+    DisplayObject_SetDepthOffset(object, 10);
     {
-        DisplayObject *output = DISPLAY_OBJECT_VIEW(object);
+        DisplayObject *output = object;
         output->field_44.word = 0;
         output->field_18.target.x = field_18;
         output->field_18.target.y = target_y;
@@ -332,7 +331,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     do {
     } while (0);
 #endif
-    kind = obj->field_67;
+    kind = obj->resource_root_index;
     y = y0 - vy;
 #ifndef VERSION_EUROPE
     do {
@@ -1138,14 +1137,14 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     shade = 0x808080;
 #endif
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    DISPLAY_OBJECT_VIEW(label)->field_67 = 0;
+    DISPLAY_OBJECT_VIEW(label)->resource_root_index = 0;
     DISPLAY_OBJECT_VIEW(label)->xy.word =
         DISPLAY_OBJECT_VIEW(object)->xy.word;
     DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    DISPLAY_OBJECT_VIEW(label)->field_67 = 1;
+    DISPLAY_OBJECT_VIEW(label)->resource_root_index = 1;
     DISPLAY_OBJECT_VIEW(label)->xy.word =
         DISPLAY_OBJECT_VIEW(object)->xy.word;
     DISPLAY_OBJECT_VIEW(label)->field_4C = (s32)BuildDeck_DrawCardListPage;

@@ -993,7 +993,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.globe_radius = 0x400;
                 if (!(gFade_State.flags & 0x80) && state->motion.card_view_slide_phase == 0) {
                     state->motion.card_view_subphase = 1;
-                    DisplayObject_SetResourceVariant((void *)state->loading_icon, 1);
+                    DisplayObject_SetResourceVariant(state->loading_icon, 1);
                     return;
                 }
             }
@@ -1030,7 +1030,7 @@ void Library_UpdateCardView(LibraryState *state)
                 SD_KeyOffVoiceSlots();
                 gMain_apFrameServiceCallbacks[2] = 0;
                 {
-                    void *p = (void *)state->loading_icon;
+                    DisplayObject *p = state->loading_icon;
 
                     gGraphics_bSyncVBlankTarget = 0;
                     DisplayObject_SetResourceVariant(p, 2);

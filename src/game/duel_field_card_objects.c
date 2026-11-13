@@ -70,7 +70,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (selector < 0 ||
-                 ((DisplayObject *)entry->object)->field_68 == selector))
+                 ((DisplayObject *)entry->object)->resource_branch_index == selector))
                 *output++ = (u32)entry->object;
         }
     }

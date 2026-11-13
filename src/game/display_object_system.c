@@ -192,14 +192,14 @@ void DisplayObject_Reset(void)
     DisplayObject_ResetPool();
 }
 
-void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
+void DisplayObject_SetResourceVariant(DisplayObject *object, s32 value)
 {
     object->resource_variant = value;
     object->flags &= 0xFFEF;
 }
 
 void DisplayObject_UpdateResourceVariant(
-    DisplayObjectConfig *object,
+    DisplayObject *object,
     s32 value
 )
 {
@@ -210,7 +210,7 @@ void DisplayObject_UpdateResourceVariant(
 }
 
 void DisplayObject_SetResourcePath(
-    DisplayObjectConfig *object,
+    DisplayObject *object,
     u8 resource_root_index,
     u8 resource_branch_index,
     u8 resource_variant
@@ -230,9 +230,9 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resou
     int texture_v;
 #endif
 
-    configured->field_67 = resource_root_index;
-    configured->field_68 = resource_branch_index;
-    configured->field_69 = resource_variant;
+    configured->resource_root_index = resource_root_index;
+    configured->resource_branch_index = resource_branch_index;
+    configured->resource_variant = resource_variant;
     configured->texture_page = texture_config;
     *(u8 *)&configured->resource_uv = texture_config >> 16;
     *((u8 *)&configured->resource_uv + 1) = texture_config >> 8;
@@ -893,7 +893,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     *(s32 *)&packet->x0 = x0;
                     *(s32 *)&packet->x1 = x1;
                     *(s32 *)&packet->r0 = *(s32 *)&object->texture_uv;
-                    *(s32 *)&packet->r1 = *(s32 *)&object->field_68;
+                    *(s32 *)&packet->r1 = *(s32 *)&object->resource_branch_index;
                     *(u16 *)&packet->u0 = *(u16 *)&object->field_60;
                     x2 = *(u16 *)&object->field_6C;
                     setlen(packet, twelve);
@@ -1282,7 +1282,7 @@ void DisplayObjectStream_ReadNextCommand(
 /* If object's 0x10 state bit isn't set yet: marks it set, resets
    field_58/field_5A, then walks a 3-level little-endian-u16 offset chain
    through the object's field_54 byte buffer (indexed at each level by
-   field_67, field_68, field_69) to resolve a final pointer. That pointer and a
+   resource_root_index, resource_branch_index, resource_variant) to resolve a final pointer. That pointer and a
    copy of the attribute (masked to clear bit 0x00800000, restored if flags'
    0x100 bit is set) become the args for DisplayObjectStream_ReadNextCommand,
    which always fires on this path. Otherwise (0x10 already set): if neither
@@ -1316,13 +1316,13 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         object->field_58 = 0;
         object->field_5A = 1;
 
-        p1 = (u8 *)&((u16 *)base)[object->field_67];
+        p1 = (u8 *)&((u16 *)base)[object->resource_root_index];
         off1 = p1[1] << 8;
         off1 |= p1[0];
-        p2 = (u8 *)&((u16 *)(base + off1))[object->field_68];
+        p2 = (u8 *)&((u16 *)(base + off1))[object->resource_branch_index];
         off2 = p2[1] << 8;
         off2 |= p2[0];
-        p3 = (u8 *)&((u16 *)(base + off2))[object->field_69];
+        p3 = (u8 *)&((u16 *)(base + off2))[object->resource_variant];
         off3 = p3[1] << 8;
         off3 |= p3[0];
         p = base + off3;
@@ -1729,7 +1729,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     u32 initial = 0x00808080;
     u16 flags = object->flags;
 
-    *(u32 *)&object->field_68 = initial;
+    *(u32 *)&object->resource_branch_index = initial;
     *(u32 *)&object->texture_uv = initial;
     object->field_50.word = initial;
     object->field_44.word = initial;

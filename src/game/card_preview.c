@@ -189,7 +189,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
         return;
     }
     flags = win->flags;
-    if ((obj->texture_page & m) ^ (obj->field_67 & k)) {
+    if ((obj->texture_page & m) ^ (obj->resource_root_index & k)) {
         win->flags = flags;
     }
     if ((flags & 0x40) == 0) {
@@ -264,14 +264,14 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
 #endif
 
     origin->divisions = 0;
-    rec = &gCardPreview_Resources[obj->field_67];
+    rec = &gCardPreview_Resources[obj->resource_root_index];
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
     PRM->xy.h.x = win->xy.h.x + obj->xy.h.x;
     PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
     PRM->uv.word = obj->resource_uv;
-    if (obj->field_68 < 0x14) {
+    if (obj->resource_branch_index < 0x14) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
@@ -383,15 +383,14 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
 
 void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 {
-    DisplayObjectConfig *object = (DisplayObjectConfig *)source;
     int requested_variant = 2;
 
     if (facing_area >= 0) {
         requested_variant = source->field_6A;
     }
-    if (requested_variant != object->resource_variant) {
-        DisplayObject_SetResourceVariant(object, requested_variant);
-        DisplayObject_UpdateCommandStream((DisplayObject *)object);
+    if (requested_variant != source->resource_variant) {
+        DisplayObject_SetResourceVariant(source, requested_variant);
+        DisplayObject_UpdateCommandStream(source);
         gDisplayObject_fRenderRetry = 1;
     }
 }
@@ -490,8 +489,8 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
 
     card_id = (s16)entry->card_id;
     variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
-    object->field_67 = index;
-    object->field_68 = (u8)variant;
+    object->resource_root_index = index;
+    object->resource_branch_index = (u8)variant;
 
     switch (variant) {
     case 0x16:

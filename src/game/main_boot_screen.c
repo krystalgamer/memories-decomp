@@ -403,7 +403,7 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
 
     if (a != (DisplayObject *)0) {
         x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, a->field_69, a->texture_page, 0x20D,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, a->resource_variant, a->texture_page, 0x20D,
                       gDisplay_abResourceBank0);
         x->attribute = a->attribute;
         DisplayObject_SetDepthOffset(x, -1);
@@ -417,7 +417,7 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
     b->attribute = b->attribute & ~GsROTOFF;
 
     y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->field_69, b->texture_page, 0x20D, gDisplay_abResourceBank0);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->resource_variant, b->texture_page, 0x20D, gDisplay_abResourceBank0);
     y->attribute = b->attribute;
     DisplayObject_SetDepthOffset(y, -1);
     y->flags = y->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

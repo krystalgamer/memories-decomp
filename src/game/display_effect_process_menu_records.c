@@ -51,9 +51,6 @@ void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
     (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateMessageTransition,
 };
 
-#define DISPLAY_OBJECT_CONFIG_VIEW(object) \
-    ((DisplayObjectConfig *)(object))
-
 void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     s32 f;
     s32 g;
@@ -74,7 +71,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->variant_update_flags = p->variant_update_flags & 0xFE;
                 DisplayObject_SetResourceVariant(
-                    DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 0);
+                    (DisplayObject *)p->grid[0][1], 0);
             }
         } else {
             v = p->variant_countdown - 1;
@@ -82,7 +79,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             if ((s16)v <= 0) {
                 p->variant_update_flags = p->variant_update_flags | 1;
                 DisplayObject_SetResourceVariant(
-                    DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 1);
+                    (DisplayObject *)p->grid[0][1], 1);
             }
         }
     }
@@ -119,7 +116,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
         p->variant_update_counter = 6;
         p->requested_variant = n;
         DisplayObject_SetResourceVariant(
-            DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]), n);
+            (DisplayObject *)p->grid[0][2], n);
         return;
     }
 
@@ -128,7 +125,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
         return;
     }
     DisplayObject_UpdateResourceVariant(
-        DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]),
+        (DisplayObject *)p->grid[0][2],
         0
     );
 }
