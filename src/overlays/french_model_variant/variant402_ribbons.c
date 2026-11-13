@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant402_ribbons.h"
+#include "variant402_entry.h"
 
 void FrenchModelVariant402_DrawRibbons(u8 *ctx)
 {
@@ -11,8 +12,8 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
-    u8 *timing;
+    Variant402EntryState *work;
+    Variant402EntryRing *timing;
     GsOT *ot;
     s16 i;
     s32 turn;
@@ -27,22 +28,22 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = ctx;
+    work = (Variant402EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, RIBBON_WORK_0858), MODEL_VARIANT_WORD(work, RIBBON_WORK_0850)) + 0xC00;
-    ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
-    tilt = ratan2(MODEL_VARIANT_WORD(work, RIBBON_WORK_0844), MODEL_VARIANT_WORD(work, RIBBON_WORK_0840));
-    timing = work + RIBBON_WORK_0058;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ribbon = work->ribbons;
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    timing = work->rings;
     tilt += 0x400;
-    prim = (POLY_G3 *)(work + RIBBON_WORK_0668);
-    if (MODEL_VARIANT_HALF(work, RIBBON_WORK_08C0) == 1) {
+    prim = &work->packets.triangle;
+    if (work->slot == 1) {
         turn = -turn;
     }
-    if (MODEL_VARIANT_WORD(work, RIBBON_WORK_08AC) > 0) {
+    if (work->phase > 0) {
         length = 16;
-        flags = MODEL_VARIANT_WORD(work, RIBBON_WORK_0868);
-        for (i = 0, angle = MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8); i < 8;
-             i++, angle = MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8) + i * 0x200, ribbon++) {
+        flags = work->clock.frame_count;
+        for (i = 0, angle = work->ribbon_angle; i < 8;
+             i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
             for (k = 0; k < 2; k++) {
                 radius = 0x96;
                 if (k == 0) {
@@ -56,12 +57,12 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
         rot.vx = tilt;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_WORD(work, RIBBON_WORK_0828) + MODEL_VARIANT_WORD(work, RIBBON_WORK_083C) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
-        m.t[1] = MODEL_VARIANT_WORD(work, RIBBON_WORK_082C) + MODEL_VARIANT_WORD(work, RIBBON_WORK_0840) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
-        m.t[2] = MODEL_VARIANT_WORD(work, RIBBON_WORK_0830) + MODEL_VARIANT_WORD(work, RIBBON_WORK_0844) * MODEL_VARIANT_HALF(work, RIBBON_WORK_08A6) / 1024;
-        scale.vx = MODEL_VARIANT_WORD(timing, 0x80);
-        scale.vy = MODEL_VARIANT_WORD(timing, 0x80);
-        scale.vz = MODEL_VARIANT_WORD(timing, 0x80);
+        m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
+        m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
+        m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
+        scale.vx = timing->field_80;
+        scale.vy = timing->field_80;
+        scale.vz = timing->field_80;
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         coord.coord = m;
@@ -69,7 +70,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
+        ribbon = work->ribbons;
         for (i = 0; i < 8; i++, ribbon++) {
             for (k = 0; k < 1; k++) {
                 if (k == 0) {
@@ -91,7 +92,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
         }
-        ribbon = (Family402Ribbon *)(work + RIBBON_WORK_0178);
+        ribbon = work->ribbons;
         for (i = 0; i < 8; i++, ribbon++) {
             for (k = 0; k < 1; k++) {
                 prim->x0 = ribbon->sa[k] + ribbon->ox[k];
@@ -117,7 +118,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_WORD(work, RIBBON_WORK_0890) + 1 == *(u16 *)(MODEL_VARIANT_WORD(work, RIBBON_WORK_087C) + RIBBON_CONFIG_COUNT)) {
-        MODEL_VARIANT_HALF(work, RIBBON_WORK_08A8) += MODEL_VARIANT_WORD(work, RIBBON_WORK_0874) * 55;
+    if (work->part_index + 1 == work->config->part_count) {
+        work->ribbon_angle += work->clock.step * 55;
     }
 }

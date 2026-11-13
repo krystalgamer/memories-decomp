@@ -148,7 +148,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
             scale -= 2048;
         }
         work->width = 1024;
-        work->field_8A6 = 0;
+        work->displacement = 0;
         work->inner.r = 192;
         work->inner.g = 192;
         work->inner.b = 255;
@@ -159,7 +159,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         work->field_89E = 0;
         work->field_8A0 = 0;
         work->field_8A2 = 0;
-        work->field_8A8 = 0;
+        work->ribbon_angle = 0;
         work->field_8AA = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

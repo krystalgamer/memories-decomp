@@ -17,13 +17,14 @@ typedef struct {
     Variant412Trail trails[1];
     Variant402EntryRecord records[1];
     Variant402EntryRing rings[2];
-    u8 unknown_13E0[0x2C0];
+    Family402Ribbon ribbons[8];
     ModelVariantCurtain bands[2];
     u8 unknown_18D0[0x34];
     ModelVariantPackets packets;
     POLY_GT4 extra, band_packet;
     POLY_FT4 flat_textured[2];
-    u8 unknown_1A64[0x4C];
+    POLY_FT4 band_sprite;
+    u8 unknown_1A8C[0x24];
     MATRIX matrix;
     ModelVariantAim aim;
     s32 angles[2];
@@ -37,7 +38,7 @@ typedef struct {
     s32 part_index;
     CVECTOR inner, outer;
     s16 field_1B54, field_1B56, field_1B58, field_1B5A;
-    s16 width, field_1B5E, field_1B60, field_1B62;
+    s16 width, displacement, ribbon_angle, field_1B62;
     s32 phase, field_1B68;
     u8 unknown_1B6C[8];
     s32 tint;
