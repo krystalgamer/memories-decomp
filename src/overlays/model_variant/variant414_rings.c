@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant431_entry.h"
 
 /* Draws the six expanding rings of eight GsGLINE spokes each, fading the
  * spoke colour in over the first quarter turn, and advances each ring's
@@ -10,7 +11,7 @@ void ModelVariant414_DrawRings(u8 *ctx)
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant431EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -26,7 +27,7 @@ void ModelVariant414_DrawRings(u8 *ctx)
     s32 c;
 
     line = (GsGLINE *)(ctx + 0x1730);
-    work = ctx;
+    work = (Variant431EntryState *)ctx;
     ring = (ModelVariantRing *)(ctx + 0xE10);
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 6; i++, ring++) {
@@ -35,9 +36,9 @@ void ModelVariant414_DrawRings(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1758);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x175C);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1760);
+            m.t[0] = work->position[0];
+            m.t[1] = work->position[1];
+            m.t[2] = work->position[2];
             s = 0x1000 - (s * 0x1000 >> 12);
             scale.vx = s;
             scale.vy = s;
@@ -77,21 +78,21 @@ void ModelVariant414_DrawRings(u8 *ctx)
             }
         }
         if (ring->angle < 0x400) {
-            ring->angle += MODEL_VARIANT_WORD(work, 0x18A8) * 16;
+            ring->angle += work->step * 16;
             if (ring->angle >= 0x400) {
-                if (MODEL_VARIANT_WORD(work, 0x18E0) < 2) {
+                if (work->tail.phase < 2) {
                     ring->angle = 0;
                     ring->count++;
                 } else {
                     ring->angle = 0x400;
                 }
-                if (i == 0 && ring->angle == 0x400 && MODEL_VARIANT_WORD(work, 0x18E0) == 2) {
-                    MODEL_VARIANT_WORD(work, 0x18E0) = 3;
+                if (i == 0 && ring->angle == 0x400 && work->tail.phase == 2) {
+                    work->tail.phase = 3;
                 }
             }
         }
-        if (i == 5 && ring->count >= 2 && MODEL_VARIANT_WORD(work, 0x18E0) == 0) {
-            MODEL_VARIANT_WORD(work, 0x18E0) = 1;
+        if (i == 5 && ring->count >= 2 && work->tail.phase == 0) {
+            work->tail.phase = 1;
         }
     }
 }

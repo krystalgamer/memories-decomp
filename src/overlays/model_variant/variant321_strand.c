@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant338_entry.h"
 
 /* Builds six strands of thirteen points fanned around the variant origin and draws
  * the visible span [0x1F4A, 0x1F4C) of each as GsLINE segments, then advances
@@ -14,7 +15,7 @@ void ModelVariant321_DrawStrand(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant338EntryState *work;
     GsLINE *line;
     ModelVariantStrandWide *strand;
     s32 i;
@@ -25,16 +26,16 @@ void ModelVariant321_DrawStrand(u8 *ctx)
     SVECTOR *v;
     s32 otz;
 
-    work = ctx;
-    strand = (ModelVariantStrandWide *)(work + 0x1364);
-    line = (GsLINE *)(work + 0x1EB4);
-    if (MODEL_VARIANT_WORD(work, 0x1F68) >= 2) {
+    work = (Variant338EntryState *)ctx;
+    strand = (ModelVariantStrandWide *)work->unknown_1364;
+    line = (GsLINE *)work->unknown_1EB4;
+    if (work->phase >= 2) {
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT_HALF(work, 0x1EF4);
-        m.t[1] = MODEL_VARIANT_HALF(work, 0x1EF6);
-        m.t[2] = MODEL_VARIANT_HALF(work, 0x1EF8);
+        m.t[0] = work->aim.target.vx;
+        m.t[1] = work->aim.target.vy;
+        m.t[2] = work->aim.target.vz;
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -58,9 +59,9 @@ void ModelVariant321_DrawStrand(u8 *ctx)
             a = (i << 12) / 6;
             strand++;
         } while (i < 6);
-        strand = (ModelVariantStrandWide *)(work + 0x1364);
+        strand = (ModelVariantStrandWide *)work->unknown_1364;
         for (i = 0; i < 6; i++, strand++) {
-            for (j = MODEL_VARIANT_HALF(work, 0x1F4A); j < MODEL_VARIANT_HALF(work, 0x1F4C); j++) {
+            for (j = work->field_1F4A; j < work->field_1F4C; j++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
                                     &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
@@ -73,15 +74,15 @@ void ModelVariant321_DrawStrand(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_HALF(work, 0x1F4C) < 13) {
-            MODEL_VARIANT_HALF(work, 0x1F4C) += (u32)MODEL_VARIANT_WORD(work, 0x1F34) >> 1;
-            if (MODEL_VARIANT_HALF(work, 0x1F4C) >= 12) {
-                MODEL_VARIANT_HALF(work, 0x1F4C) = 12;
-                if (MODEL_VARIANT_HALF(work, 0x1F4A) < 13) {
-                    MODEL_VARIANT_HALF(work, 0x1F4A) += (u32)MODEL_VARIANT_WORD(work, 0x1F34) >> 1;
-                    if (MODEL_VARIANT_HALF(work, 0x1F4A) >= 12) {
-                        MODEL_VARIANT_HALF(work, 0x1F4C) = 0;
-                        MODEL_VARIANT_HALF(work, 0x1F4A) = 0;
+        if (work->field_1F4C < 13) {
+            work->field_1F4C += (u32)work->clock.step >> 1;
+            if (work->field_1F4C >= 12) {
+                work->field_1F4C = 12;
+                if (work->field_1F4A < 13) {
+                    work->field_1F4A += (u32)work->clock.step >> 1;
+                    if (work->field_1F4A >= 12) {
+                        work->field_1F4C = 0;
+                        work->field_1F4A = 0;
                     }
                 }
             }

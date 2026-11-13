@@ -1,16 +1,17 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant418_entry.h"
 
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
- * the sheet size at work + 0x684 and faded out over the second half turn,
+ * the sheet size at (u8 *)work + 0x684 and faded out over the second half turn,
  * and advances each ring's angle and cycle count. */
 void ModelVariant418_DrawSpokes(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant418EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -27,7 +28,7 @@ void ModelVariant418_DrawSpokes(u8 *ctx)
     s32 f;
 
     line = (GsGLINE *)(ctx + 0x1AE0);
-    work = ctx;
+    work = (Variant418EntryState *)ctx;
     obj = ctx + 0x12DC;
     ring = (ModelVariantRing *)(ctx + 0x16D4);
     ot = Graphics_GetDefaultOrderingTable();
@@ -37,9 +38,9 @@ void ModelVariant418_DrawSpokes(u8 *ctx)
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1B24);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1B26);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1B28);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
             scale.vx = s;
             scale.vy = s;
             scale.vz = s;
@@ -77,7 +78,7 @@ void ModelVariant418_DrawSpokes(u8 *ctx)
             }
         }
         if (ring->angle < 0x401) {
-            ring->angle += MODEL_VARIANT_WORD(work, 0x1B64) * 0x30;
+            ring->angle += work->clock.step * 0x30;
             if (ring->angle >= 0x400) {
                 ring->angle = 0;
                 ring->count++;

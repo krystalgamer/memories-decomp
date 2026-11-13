@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "../french_model_variant/variant422_entry.h"
 
 /* Draws two sheets of four POLY_GT4 quads, the second placed along the
  * variant's path, and grows or shrinks each sheet's size through the
@@ -10,7 +11,7 @@ void ModelVariant405_DrawSheets(u8 *ctx)
     SVECTOR rot;
     VECTOR scale;
     MATRIX m;
-    u8 *work;
+    Variant422EntryState *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
     long p;
@@ -23,30 +24,30 @@ void ModelVariant405_DrawSheets(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = ctx;
+    work = (Variant422EntryState *)ctx;
     sheet = (ModelVariantSheet *)(ctx + 0x147C);
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_GT4 *)(ctx + 0x1C84);
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1DB4) & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
         if (i == 0) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1D74);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1D78);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1D7C);
-        } else if (MODEL_VARIANT_WORD(work, 0x1E14) < 0x400) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1D74) + MODEL_VARIANT_WORD(work, 0x1D88) * MODEL_VARIANT_WORD(work, 0x1E14) / 1024;
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1D78) + MODEL_VARIANT_WORD(work, 0x1D8C) * MODEL_VARIANT_WORD(work, 0x1E14) / 1024;
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1D7C) + MODEL_VARIANT_WORD(work, 0x1D90) * MODEL_VARIANT_WORD(work, 0x1E14) / 1024;
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
+        } else if (work->field_1E14 < 0x400) {
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->field_1E14 / 1024;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->field_1E14 / 1024;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->field_1E14 / 1024;
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1D80);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1D82);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1D84);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -82,35 +83,35 @@ void ModelVariant405_DrawSheets(u8 *ctx)
             }
         }
         if (i == 0) {
-            if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0) {
+            if (work->phase == 0) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = (u32)((MODEL_VARIANT_WORD(work, 0x1DB8) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1DC8), 0x1C)) << 12) /
-                                  (u32)(MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1DC8), 0x20) - MODEL_VARIANT_WORD(MODEL_VARIANT_WORD(work, 0x1DC8), 0x1C));
+                    sheet->size = (u32)((work->clock.frame - work->config->start) << 12) /
+                                  (u32)(work->config->burst_start - work->config->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
-                        MODEL_VARIANT_WORD(work, 0x1E1C) = 1;
+                        work->phase = 1;
                     }
                 }
             } else {
-                sheet->size = MODEL_VARIANT_HALF(work, 0x1E10);
+                sheet->size = work->field_1E10;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0) {
+        } else if (work->phase == 0) {
             sheet->size = 0;
-        } else if (MODEL_VARIANT_WORD(work, 0x1E14) >= 0x400 && MODEL_VARIANT_WORD(work, 0x1E1C) == 2) {
+        } else if (work->field_1E14 >= 0x400 && work->phase == 2) {
             if (sheet->size < 0x2000) {
-                sheet->size += MODEL_VARIANT_WORD(work, 0x1DC0) << 10;
+                sheet->size += work->clock.step << 10;
                 if (sheet->size >= 0x2000) {
                     sheet->size = 0x2000;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1E1C) < 2) {
+        } else if (work->phase < 2) {
             sheet->size = 0x1000;
-        } else if (MODEL_VARIANT_WORD(work, 0x1E1C) == 3) {
+        } else if (work->phase == 3) {
             if (sheet->size > 0) {
-                sheet->size -= MODEL_VARIANT_WORD(work, 0x1DC0) << 6;
+                sheet->size -= work->clock.step << 6;
                 if (sheet->size <= 0) {
                     sheet->size = 0;
-                    MODEL_VARIANT_WORD(work, 0x1E1C) = 4;
+                    work->phase = 4;
                 }
             }
         }

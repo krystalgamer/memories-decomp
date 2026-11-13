@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
+#include "variant398_entry.h"
 
 /* Header 398's form of the header-397 phased webs: the records start at
  * work, phase 0 staggers them along the progress of the timing record, and
@@ -17,7 +18,7 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
     ModelVariantWebNarrow *web;
     GsOT *ot;
     GsGLINE *line;
-    u8 *work;
+    Variant398EntryState *work;
     s16 i;
     s16 j;
     s16 k;
@@ -30,18 +31,18 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
     s32 otz;
     s32 done;
 
-    work = ctx;
+    work = (Variant398EntryState *)ctx;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1984);
-    ratan2(MODEL_VARIANT_WORD(work, 0x19DC), MODEL_VARIANT_WORD(work, 0x19D4));
-    ratan2(MODEL_VARIANT_WORD(work, 0x19D8), MODEL_VARIANT_WORD(work, 0x19D4));
-    ratan2(MODEL_VARIANT_WORD(work, 0x19C8), MODEL_VARIANT_WORD(work, 0x19C4));
-    ratan2(MODEL_VARIANT_HALF(work, 0x19D2), MODEL_VARIANT_HALF(work, 0x19D0));
+    line = (GsGLINE *)((u8 *)work + 0x1984);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    ratan2(work->aim.direction.vz, work->aim.direction.vy);
+    ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     do {
-        if (MODEL_VARIANT_WORD(work, 0x1A30) == 0) {
+        if (work->phase == 0) {
             if (web->scale < 0x1000) {
                 level = web->scale;
                 size = level;
@@ -59,7 +60,7 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
                 g = web->color.g;
                 b = web->color.b;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1A30) == 1) {
+        } else if (work->phase == 1) {
             level = 0x1000;
             b = g = r = 0;
         } else {
@@ -84,14 +85,14 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1A30) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x19AC);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x19B0);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x19B4);
+        if (work->phase < 2) {
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x19B8);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x19BA);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x19BC);
+            m.t[0] = work->aim.target.vx;
+            m.t[1] = work->aim.target.vy;
+            m.t[2] = work->aim.target.vz;
         }
         scale.vx = level;
         scale.vy = level;
@@ -109,7 +110,7 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
                                     (long *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x1A30) < 2) {
+                if (work->phase < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -129,26 +130,26 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x1A30) == 0) {
+        if (work->phase == 0) {
             if (web->scale > 0) {
-                web->scale = (u32)(MODEL_VARIANT_WORD(work, 0x19F0) * 3 << 12) /
-                                 MODEL_VARIANT_WORD((u8 *)MODEL_VARIANT_WORD(work, 0x1A00), 0x20) -
+                web->scale = (u32)(work->frame * 3 << 12) /
+                                 MODEL_VARIANT_WORD((u8 *)work->config, 0x20) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {
                     web->scale += 0x1000;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1A30) == 1) {
+        } else if (work->phase == 1) {
             web->scale = -((i << 13) / 3);
         } else if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x19F8) << 8;
+            web->scale += work->step << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x1A30) == 4) {
+                if (work->phase == 4) {
                     web->scale = 0x2000;
                     web->done = done;
                     if (i + 1 == 3 && done == 1) {
-                        MODEL_VARIANT_WORD(work, 0x1A30) = 5;
+                        work->phase = 5;
                     }
                 } else {
                     web->scale -= 0x2000;

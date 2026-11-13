@@ -1,6 +1,7 @@
 #include "../../types.h"
 
 #include "variant458_streamers.h"
+#include "../french_model_variant/variant335_entry.h"
 
 /* Builds six seventeen-point streamers that fan out around the variant's
  * axis, projects each spine and a copy of it moved along the view, and draws
@@ -17,7 +18,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Model335EntryState *work;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -35,12 +36,12 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
     s32 dy;
     s32 twist;
 
-    work = ctx;
+    work = (Model335EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    streamer = (Variant458Streamer *)(work + 0x1214);
-    poly = (POLY_FT4 *)(work + 0x2D18);
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x2E3C), MODEL_VARIANT_WORD(work, 0x2E34)) + 0xC00;
-    if ((u32)(MODEL_VARIANT_WORD(work, 0x2E4C) & 3) < 2) {
+    streamer = (Variant458Streamer *)work->short_streamers;
+    poly = work->flat_textured;
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    if ((u32)(work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 0x5DC;
@@ -53,16 +54,16 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
              k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = MODEL_VARIANT_WORD(work, 0x2E88) / 64;
+            length = work->extent / 64;
             setVector(&streamer->a[k], (s32)((u32)rcos(base) << 5) * k >> 12, wobble, (s32)((u32)rsin(base) << 5) * k >> 12);
             setVector(&streamer->b[k], streamer->a[k].vx + (rcos(turn) * (s16)length >> 12), streamer->a[k].vy,
                       streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
     setVector(&rot, 0, 0, 0);
-    m.t[0] = MODEL_VARIANT_HALF(work, 0x2E18);
-    m.t[1] = MODEL_VARIANT_HALF(work, 0x2E1A);
-    m.t[2] = MODEL_VARIANT_HALF(work, 0x2E1C);
+    m.t[0] = work->aim.target.vx;
+    m.t[1] = work->aim.target.vy;
+    m.t[2] = work->aim.target.vz;
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -71,7 +72,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)(work + 0x1214);
+    streamer = (Variant458Streamer *)work->short_streamers;
     for (i = 0; i < 6; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -82,7 +83,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
                 dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x2E88) > 0x200) {
+                if (work->extent > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -97,7 +98,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                if (MODEL_VARIANT_WORD(work, 0x2E88) > 0x200) {
+                if (work->extent > 0x200) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -107,9 +108,9 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
             }
         }
     }
-    streamer = (Variant458Streamer *)(work + 0x1214);
+    streamer = (Variant458Streamer *)work->short_streamers;
     for (i = 0; i < 6; i++, streamer++) {
-        for (k = MODEL_VARIANT_HALF(work, 0x2E94); k < MODEL_VARIANT_HALF(work, 0x2E96); k++) {
+        for (k = work->field_2E94; k < work->field_2E96; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
             poly->y0 = (streamer->sa[k] >> 16) + streamer->oy[k];
             poly->x1 = streamer->sa[k + 1] + streamer->ox[k + 1];
@@ -128,16 +129,16 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0x2E96) < 16) {
-        MODEL_VARIANT_HALF(work, 0x2E96) += 2;
-        if (MODEL_VARIANT_HALF(work, 0x2E96) >= 16) {
-            MODEL_VARIANT_HALF(work, 0x2E96) = 16;
+    if (work->field_2E96 < 16) {
+        work->field_2E96 += 2;
+        if (work->field_2E96 >= 16) {
+            work->field_2E96 = 16;
         }
-    } else if (MODEL_VARIANT_HALF(work, 0x2E94) < 17) {
-        MODEL_VARIANT_HALF(work, 0x2E94) += 2;
-        if (MODEL_VARIANT_HALF(work, 0x2E94) >= 17) {
-            MODEL_VARIANT_HALF(work, 0x2E94) = 0;
-            MODEL_VARIANT_HALF(work, 0x2E96) = 0;
+    } else if (work->field_2E94 < 17) {
+        work->field_2E94 += 2;
+        if (work->field_2E94 >= 17) {
+            work->field_2E94 = 0;
+            work->field_2E96 = 0;
         }
     }
 }
