@@ -1,37 +1,10 @@
 #include "../../types.h"
 
-#include "model_variant.h"
 #include "variant458_strand.h"
-
-/* Header 552 keeps its strands, line and span far nearer the start of the
- * work area, reads its origin as words, advances the span by one and sorts at
- * a quarter depth; the defaults keep header 458's layout. */
-#ifndef MODEL_VARIANT458_STRAND_POINTS
-#define MODEL_VARIANT458_STRAND_POINTS 0x22C4
-#endif
-#ifndef MODEL_VARIANT458_STRAND_LINE
-#define MODEL_VARIANT458_STRAND_LINE 0x2DC0
-#endif
-#ifndef MODEL_VARIANT458_STRAND_STATE
-#define MODEL_VARIANT458_STRAND_STATE 0x3020
-#endif
-#ifndef MODEL_VARIANT458_STRAND_ORIGIN
-#define MODEL_VARIANT458_STRAND_ORIGIN(work, i) MODEL_VARIANT_HALF(work, 0x2E04 + (i) * 2)
-#endif
-#ifndef MODEL_VARIANT458_STRAND_SPAN
-#define MODEL_VARIANT458_STRAND_SPAN 0x2FF6
-#endif
-#ifndef MODEL_VARIANT458_STRAND_STEP
-#define MODEL_VARIANT458_STRAND_STEP(work) ((u32)MODEL_VARIANT_WORD(work, 0x2FC4) >> 1)
-#endif
-#ifndef MODEL_VARIANT458_STRAND_DEPTH
-#define MODEL_VARIANT458_STRAND_DEPTH(otz) (otz)
-#endif
-#define MODEL_VARIANT458_STRAND_FIRST (MODEL_VARIANT458_STRAND_SPAN)
-#define MODEL_VARIANT458_STRAND_LAST (MODEL_VARIANT458_STRAND_SPAN + 2)
+#include "../french_model_variant/variant475_entry.h"
 
 /* Builds six strands of thirteen points fanned around the variant origin and draws
- * the visible span [0x2FF6, 0x2FF8) of each as GsLINE segments, then advances
+ * the visible span of each as GsLINE segments, then advances
  * the span. */
 void ModelVariant458_DrawStrand(u8 *ctx)
 {
@@ -42,7 +15,7 @@ void ModelVariant458_DrawStrand(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    u8 *work;
+    Variant475EntryState *work;
     GsLINE *line;
     ModelVariantStrandWide *strand;
     s32 i;
@@ -53,16 +26,16 @@ void ModelVariant458_DrawStrand(u8 *ctx)
     SVECTOR *v;
     s32 otz;
 
-    work = ctx;
-    strand = (ModelVariantStrandWide *)(work + MODEL_VARIANT458_STRAND_POINTS);
-    line = (GsLINE *)(work + MODEL_VARIANT458_STRAND_LINE);
-    if (MODEL_VARIANT_WORD(work, MODEL_VARIANT458_STRAND_STATE) >= 2) {
+    work = (Variant475EntryState *)ctx;
+    strand = work->strands;
+    line = &work->line;
+    if (work->tail.phase >= 2) {
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = MODEL_VARIANT458_STRAND_ORIGIN(work, 0);
-        m.t[1] = MODEL_VARIANT458_STRAND_ORIGIN(work, 1);
-        m.t[2] = MODEL_VARIANT458_STRAND_ORIGIN(work, 2);
+        m.t[0] = work->target.vx;
+        m.t[1] = work->target.vy;
+        m.t[2] = work->target.vz;
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -86,9 +59,9 @@ void ModelVariant458_DrawStrand(u8 *ctx)
             a = (i << 12) / 6;
             strand++;
         } while (i < 6);
-        strand = (ModelVariantStrandWide *)(work + MODEL_VARIANT458_STRAND_POINTS);
+        strand = work->strands;
         for (i = 0; i < 6; i++, strand++) {
-            for (j = MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST); j < MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST); j++) {
+            for (j = work->field_2FF6; j < work->field_2FF8; j++) {
                 line->attribute = 0x50000000;
                 otz = Strand458_RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
                                     &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
@@ -98,20 +71,20 @@ void ModelVariant458_DrawStrand(u8 *ctx)
                 line->b = 0x80;
                 if (otz > 0) {
                     if (otz < 0x800) {
-                        Strand458_GsSortLine(line, Strand458_func_80058F10(), MODEL_VARIANT458_STRAND_DEPTH(otz));
+                        Strand458_GsSortLine(line, Strand458_func_80058F10(), otz);
                     }
                 }
             }
         }
-        if (MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST) < 13) {
-            MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST) += MODEL_VARIANT458_STRAND_STEP(work);
-            if (MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST) >= 12) {
-                MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST) = 12;
-                if (MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST) < 13) {
-                    MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST) += MODEL_VARIANT458_STRAND_STEP(work);
-                    if (MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST) >= 12) {
-                        MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_LAST) = 0;
-                        MODEL_VARIANT_HALF(work, MODEL_VARIANT458_STRAND_FIRST) = 0;
+        if (work->field_2FF8 < 13) {
+            work->field_2FF8 += ((u32)work->clock.step >> 1);
+            if (work->field_2FF8 >= 12) {
+                work->field_2FF8 = 12;
+                if (work->field_2FF6 < 13) {
+                    work->field_2FF6 += ((u32)work->clock.step >> 1);
+                    if (work->field_2FF6 >= 12) {
+                        work->field_2FF8 = 0;
+                        work->field_2FF6 = 0;
                     }
                 }
             }
