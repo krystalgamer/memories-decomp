@@ -6,6 +6,18 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
+/* GsIMAGE word view: ModelTexture_LoadTim tests each packed (x, y) VRAM
+ * origin as one word, so an unset origin is exactly zero. */
+typedef struct {
+    u32 pmode;
+    s32 pixel_origin;
+    u32 pixel_size;
+    u32 *pixel;
+    s32 clut_origin;
+    u32 clut_size;
+    u32 *clut;
+} ModelTextureTimWords;
+
 /* Packs a page/CLUT word from a GsIMAGE, biasing its rectangles by side.
  * blend_mode supplies the texture-page ABR bits. */
 u32 ModelTexture_PackPageClut(int side, int blend_mode, GsIMAGE *params);
