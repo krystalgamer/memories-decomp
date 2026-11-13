@@ -48,13 +48,11 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
  * pitch this header already names above.  Both angles are then reduced
  * modulo MODEL_ANGLE_FULL_TURN.
  *
- * All three are halfwords.  Every read casts through `*(s16 *)&` or
- * `*(u16 *)&` even in the files that declared the base as `u8`, and
- * model_scene_controllers.c assigns them directly as `unsigned short`, so the
- * byte-wide declarations were a base for the casts rather than a claim about
- * the object.
+ * All three are signed halfwords: the distance is compared and added as a
+ * signed value and both angles feed rcos/rsin and signed modulo arithmetic,
+ * so model.c reads all three directly without halfword casts.
  */
-extern u16 gModel_wViewDistance;
+extern s16 gModel_wViewDistance;
 extern s16 gModel_wViewYaw;
 extern s16 gModel_wViewPitch;
 

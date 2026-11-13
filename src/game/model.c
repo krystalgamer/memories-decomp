@@ -61,7 +61,7 @@ s16 gModel_sTextureTintRectX;
 s16 gModel_sTextureTintRectY;
 s16 gModel_sTextureTintRectW;
 s16 gModel_sTextureTintRectH;
-u16 gModel_wViewDistance;
+s16 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
 ModelBytes8 gModel_ViewSnapshot;
@@ -306,7 +306,7 @@ void Model_DrawBackground(void)
     s32 ring_height;
     s32 texture_u_base;
     s16 initial_sprite_y;
-    u16 background_offset_bits;
+    s16 background_offset_y;
     s32 minimum_y;
     s32 wrapped_u;
     s32 ring_angle;
@@ -341,14 +341,14 @@ void Model_DrawBackground(void)
     sprite.cx = gModel_pBackgroundRecord->clut_x;
     sprite.cy = gModel_pBackgroundRecord->clut_y;
     sprite.w = 64;
-    background_offset_bits = *(u16 *)&gModel_wBackgroundOffsetY;
-    initial_sprite_y = background_offset_bits - 48;
+    background_offset_y = gModel_wBackgroundOffsetY;
+    initial_sprite_y = background_offset_y - 48;
     sprite.u = texture_u_base;
     sprite.v = texture_v_base;
     sprite.h = 256;
     sprite.y = initial_sprite_y;
     minimum_y = -(gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-    if ((s16)background_offset_bits >= minimum_y && initial_sprite_y >= minimum_y) {
+    if (background_offset_y >= minimum_y && initial_sprite_y >= minimum_y) {
         if (initial_sprite_y > 0)
             sprite.y = 0;
         if (sprite.y < 0) {
@@ -357,7 +357,7 @@ void Model_DrawBackground(void)
         }
         {
             s32 screen_end_y = sprite.y + 256;
-            s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)background_offset_bits;
+            s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + background_offset_y;
             s32 screen_input_height;
             s32 screen_trim_amount;
             if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT
@@ -383,7 +383,7 @@ void Model_DrawBackground(void)
                 sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
             }
         }
-        sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
+        sprite.x = gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
         while (sprite.x < 320) {
             if (sprite.x + sprite.w > 0)
@@ -1130,7 +1130,7 @@ void Model_UpdateAnimatedBattle(void)
         s32 selected_slot_index = gModel_aSlots[0].active_animation_command_row == 6;
 
         if (Model_IsEffectKeyQueueEmpty() != 0) {
-            s32 current_distance = (s16)gModel_wViewDistance;
+            s32 current_distance = gModel_wViewDistance;
             if (Model_AdjustCameraDistanceForSlot(selected_slot_index, 0x2BC) + 0xA >= current_distance && Model_IsCameraMoveComplete(1) != 0) {
                 if (gModel_aSlots[0].metadata.prefix.values.attack_compare_value == gModel_aSlots[1].metadata.prefix.values.attack_compare_value
                     && gModel_aSlots[1].defense_position == 0) {
@@ -2038,8 +2038,8 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
     s32 slot1_extent;
     ModelSlot *slots;
 
-    probe_offset_x = rcos(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
-    probe_offset_z = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
+    probe_offset_x = rcos(gModel_wViewYaw + 0x800) * min_extent / 4096;
+    probe_offset_z = rsin(gModel_wViewYaw + 0x800) * min_extent / 4096;
 
     slots = gModel_aSlots;
     extent_work = (s16)slots[0].cached_dimensions[3] / 2;
@@ -2452,7 +2452,7 @@ void Model_CorrectViewPitch(void) {
     s32 pitch_sample;
     s32 pitch_work;
 
-    if (*(s16 *)&gModel_wViewPitch >= 0x801) {
+    if (gModel_wViewPitch >= 0x801) {
         ref_view = &gModel_RView;
         target_y = ref_view->vry;
         height_weight = 0;
@@ -2469,7 +2469,7 @@ void Model_CorrectViewPitch(void) {
         lower_pitch_limit = pitch_target - 0x10;
 
         do {
-            pitch_sample = *(s16 *)&gModel_wViewPitch;
+            pitch_sample = gModel_wViewPitch;
             pitch_work = pitch_target + 0x10;
         } while (0);
 
@@ -2558,7 +2558,7 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
 
     Model_CorrectViewPitch();
 
-    distance_sample = *(s16 *)&gModel_wViewDistance;
+    distance_sample = gModel_wViewDistance;
     if (distance_sample < 0x12C) {
         if (distance_sample < 0x96) {
             distance_work = 0x96 - distance_sample;
@@ -2580,7 +2580,7 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
 
     do {
         if (pull_in_request != 0) {
-            distance_work = *(s16 *)&gModel_wViewDistance;
+            distance_work = gModel_wViewDistance;
             if (upper_distance < distance_work) {
                 break;
             }
@@ -2592,13 +2592,13 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
                 Model_StepViewOrbit(1, 0, 0, distance_work, 0);
             }
         }
-        if (upper_distance >= *(s16 *)&gModel_wViewDistance) {
+        if (upper_distance >= gModel_wViewDistance) {
             Model_CorrectViewPitch();
             return;
         }
     } while (0);
 
-    distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
+    distance_work = upper_distance - gModel_wViewDistance;
     if (distance_work < -0x14) {
         distance_work = -0x14;
     }
@@ -5479,19 +5479,19 @@ void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     }
     selected_view = m;
 
-    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
+    gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
 
     gModel_wViewYaw = ratan2(*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz,
                         *(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx);
 
     gModel_wViewPitch = ratan2(*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry,
-                        *(s16 *)&gModel_wViewDistance);
+                        gModel_wViewDistance);
 
-    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) * (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
+    gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) * (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
 
-    gModel_wViewYaw = (*(s16 *)&gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) %
+    gModel_wViewYaw = (gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
-    gModel_wViewPitch = (*(s16 *)&gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) %
+    gModel_wViewPitch = (gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
 }
 
@@ -5705,30 +5705,30 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
         orbit_position = pivot_position + 3;
     }
 
-    if (*(s16 *)&gModel_wViewDistance + distance_delta >= 0xB) {
-        *(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + distance_delta;
+    if (gModel_wViewDistance + distance_delta >= 0xB) {
+        gModel_wViewDistance = gModel_wViewDistance + distance_delta;
     }
 
     if ((yaw_delta & MODEL_ANGLE_MASK) != 0) {
-        angle_sum = *(s16 *)&gModel_wViewYaw + yaw_delta + MODEL_ANGLE_FULL_TURN;
+        angle_sum = gModel_wViewYaw + yaw_delta + MODEL_ANGLE_FULL_TURN;
         gModel_wViewYaw = angle_sum - angle_sum / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
     if ((pitch_delta & MODEL_ANGLE_MASK) != 0) {
-        angle_sum = *(s16 *)&gModel_wViewPitch + pitch_delta + MODEL_ANGLE_FULL_TURN;
+        angle_sum = gModel_wViewPitch + pitch_delta + MODEL_ANGLE_FULL_TURN;
         gModel_wViewPitch = angle_sum - angle_sum / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
     if (yaw_delta != 0 || pitch_delta != 0 || distance_delta != 0) {
-        cosine = rcos(*(s16 *)&gModel_wViewPitch);
-        sine = rsin(*(s16 *)&gModel_wViewPitch);
-        distance = *(s16 *)&gModel_wViewDistance;
+        cosine = rcos(gModel_wViewPitch);
+        sine = rsin(gModel_wViewPitch);
+        distance = gModel_wViewDistance;
         horizontal_or_x = distance * cosine / MODEL_FIXED_ONE;
         vertical_offset = distance * sine / MODEL_FIXED_ONE;
-        cosine = rcos(*(s16 *)&gModel_wViewYaw);
-        sine = rsin(*(s16 *)&gModel_wViewYaw);
+        cosine = rcos(gModel_wViewYaw);
+        sine = rsin(gModel_wViewYaw);
         z_offset = horizontal_or_x * sine / MODEL_FIXED_ONE;
         horizontal_or_x = horizontal_or_x * cosine / MODEL_FIXED_ONE;
         orbit_position[0] = pivot_position[0] + horizontal_or_x * direction_scale;
