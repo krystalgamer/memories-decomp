@@ -38,9 +38,9 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = MODEL_VARIANT_WORD(work, 0x1AC4);
-    matrix.t[1] = MODEL_VARIANT_WORD(work, 0x1AC8);
-    matrix.t[2] = MODEL_VARIANT_WORD(work, 0x1ACC);
+    matrix.t[0] = work->matrix.t[0];
+    matrix.t[1] = work->matrix.t[1];
+    matrix.t[2] = work->matrix.t[2];
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -56,9 +56,9 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
         last = -1;
     } else if ((u32)MODEL_VARIANT_WORD(work, 0x1B0C)
                < work->config->capture_stop) {
-        last = MODEL_VARIANT_WORD(work, 0x1B18);
+        last = work->captured_count;
         if (MODEL_VARIANT_WORD(work, 0x1B08) != MODEL_VARIANT_WORD(work, 0x1B10)) {
-            MODEL_VARIANT_WORD(work, 0x1B18)++;
+            work->captured_count++;
         }
         for (i = 0; i < 6; i++) {
             GsGetLw(work->parts[i], &part);
@@ -81,7 +81,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
             }
         }
     } else {
-        last = MODEL_VARIANT_WORD(work, 0x1B18) - 1;
+        last = work->captured_count - 1;
     }
     for (i = 0; i < 6; i++) {
         for (j = 0; j <= last; j++) {
@@ -116,9 +116,9 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
                     trail->progress[j] += 64;
                     if (trail->progress[j] >= 1024) {
                         trail->progress[j] = 1024;
-                        if (j == MODEL_VARIANT_WORD(work, 0x1B18) - 1
-                            && MODEL_VARIANT_WORD(work, 0x1B64) == 0) {
-                            MODEL_VARIANT_WORD(work, 0x1B64) = 1;
+                        if (j == work->captured_count - 1
+                            && work->phase == 0) {
+                            work->phase = 1;
                         }
                     }
                 }

@@ -30,21 +30,21 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     work = (Variant459EntryState *)ctx;
     arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(MODEL_VARIANT_WORD(work, 0x279C), MODEL_VARIANT_WORD(work, 0x2794)) + 0xC00;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     poly = (POLY_GT4 *)((u8 *)work + 0x22B4);
     for (i = 0; i < 16; i++, arm++) {
         if (!(i & 1)) {
-            phi = (i << 8) + MODEL_VARIANT_WORD(work, 0x27F0);
-            theta = (i << 9) + MODEL_VARIANT_WORD(work, 0x27F0);
+            phi = (i << 8) + work->spiral_angle;
+            theta = (i << 9) + work->spiral_angle;
         } else {
-            phi = (i << 8) - MODEL_VARIANT_WORD(work, 0x27F0);
-            theta = (i << 9) + MODEL_VARIANT_WORD(work, 0x27F0);
+            phi = (i << 8) - work->spiral_angle;
+            theta = (i << 9) + work->spiral_angle;
         }
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                length = MODEL_VARIANT_WORD(work, 0x27EC) / 64;
+                length = work->spiral_arm_length / 64;
             } else {
-                length = MODEL_VARIANT_WORD(work, 0x27EC) / 16;
+                length = work->spiral_arm_length / 16;
             }
             if (k == 0) {
                 setVector(&arm->a[0], 0, 0, 0);
@@ -58,16 +58,16 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
         }
     }
     if (!(MODEL_VARIANT_WORD(work, 0x27AC) & 1)) {
-        size = MODEL_VARIANT_WORD(work, 0x27E4);
+        size = work->spiral_size;
     } else {
-        size = MODEL_VARIANT_WORD(work, 0x27E4) + MODEL_VARIANT_WORD(work, 0x27E4) / 8;
+        size = work->spiral_size + work->spiral_size / 8;
     }
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = MODEL_VARIANT_WORD(work, 0x274C);
-    m.t[1] = MODEL_VARIANT_WORD(work, 0x2750);
-    m.t[2] = MODEL_VARIANT_WORD(work, 0x2754);
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -160,27 +160,27 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
         (u32)MODEL_VARIANT_WORD(work->config, 0x20) &&
-        MODEL_VARIANT_WORD(work, 0x27E4) < 4096) {
-        MODEL_VARIANT_WORD(work, 0x27E4) =
+        work->spiral_size < 4096) {
+        work->spiral_size =
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
                    MODEL_VARIANT_WORD(work->config, 0x20)) << 12) /
             (u32)(MODEL_VARIANT_WORD(work->config, 0x24) -
                   MODEL_VARIANT_WORD(work->config, 0x20));
-        if (MODEL_VARIANT_WORD(work, 0x27E4) >= 4096) {
-            MODEL_VARIANT_WORD(work, 0x27E4) = 4096;
+        if (work->spiral_size >= 4096) {
+            work->spiral_size = 4096;
         }
     }
     if ((u32)MODEL_VARIANT_WORD(work, 0x27B0) >=
         (u32)MODEL_VARIANT_WORD(work->config, 0x24) &&
-        MODEL_VARIANT_WORD(work, 0x27EC) > 0) {
-        MODEL_VARIANT_WORD(work, 0x27EC) = 1024 -
+        work->spiral_arm_length > 0) {
+        work->spiral_arm_length = 1024 -
             (u32)((MODEL_VARIANT_WORD(work, 0x27B0) -
                    MODEL_VARIANT_WORD(work->config, 0x24)) << 10) /
             (u32)(MODEL_VARIANT_WORD(work->config, 0x28) -
                   MODEL_VARIANT_WORD(work->config, 0x24));
-        if (MODEL_VARIANT_WORD(work, 0x27EC) <= 0) {
-            MODEL_VARIANT_WORD(work, 0x27EC) = 0;
+        if (work->spiral_arm_length <= 0) {
+            work->spiral_arm_length = 0;
         }
     }
-    MODEL_VARIANT_WORD(work, 0x27F0) += 48;
+    work->spiral_angle += 48;
 }
