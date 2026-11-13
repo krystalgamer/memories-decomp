@@ -30,7 +30,7 @@ s32 DisplayEffect_MarkInitialized(DisplayEffectState *object);
 /* Partial state/position/delay reset, with one RNG call on every invocation. */
 void DisplayEffect_ResetRecordState(DisplayEffectState *object);
 /* Exactly three addressable slots, released and nulled from index 2 to 0. */
-void DisplayEffect_ReleaseObjectRow(void **objects);
+void DisplayEffect_ReleaseObjectRow(struct DisplayObject **objects);
 /* Deactivate the fixed record and clear only its three primary object slots.
  * This does not free arena storage, clear the step or reset shared selectors. */
 void DisplayEffect_ReleaseRecord(MenuRecord *record);

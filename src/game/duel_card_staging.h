@@ -116,6 +116,14 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
  * struct pointer reproduces it exactly. */
 extern u8 gDuel_abCardStagingBuffer[];
 
+/* A pointer into the staging buffer read as bytes, as the BGR555 pixels a
+ * GPU readback stores, or as the words LoadImage2/StoreImage2 transfer. */
+typedef union {
+    u8 *bytes;
+    u16 *pixels;
+    u32 *words;
+} DuelCardStagingPointer;
+
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 

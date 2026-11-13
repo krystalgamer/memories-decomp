@@ -2068,43 +2068,6 @@ extern u16 gDuel_wAiSelectionStepDelay;
  * Duel_LoadPackageStage's on). */
 extern const char gDuel_szComSelCardError[];
 
-/* The hand card's display object as DuelScene_UpdateHandActions reads it.
- * The position pairs are unions because retail copies them as words, and the
- * members are limited to what that function touches; the canonical record is
- * DisplayObject in display_object.h. */
-typedef struct {
-    u8 pad_00[8];
-    u16 flags;                  /* 0x08 */
-    u8 pad_0A[2];
-    u32 color;                  /* 0x0C */
-    u8 pad_10[6];
-    u8 depth;                   /* 0x16 */
-    u8 pad_17[0xA];
-    u8 face;                    /* 0x21 */
-    u8 pad_22[2];
-    void (*update)();           /* 0x24 */
-    union { struct { s16 x, y; } xy; s32 word; } target;  /* 0x28 */
-    union { struct { u16 x, y; } xy; s32 word; } saved;   /* 0x2C */
-    union { struct { u16 x, y; } xy; s32 word; } pos;     /* 0x30 */
-    u8 pad_34[2];
-    u16 home_x;                 /* 0x36 */
-    u16 home_y;                 /* 0x38 */
-    u8 pad_3A[0x22];
-    u8 icon_state;              /* 0x5C */
-    u8 pad_5D[3];
-    s16 step;                   /* 0x60 */
-    u8 pad_62[6];
-    u8 kind;                    /* 0x68 */
-    u8 pad_69;
-    u8 card_index;              /* 0x6A */
-    u8 pad_6B;
-    u8 field_6C;                /* 0x6C */
-} HandCardObject;
-
-typedef char HandCardObject_field_6C_offset_must_be_0x6C[
-    (u32)&(((HandCardObject *)0)->field_6C) == 0x6C ? 1 : -1
-];
-
 void DuelScene_UpdateHandActions(void);
 
 /* gDuel_apfnSceneStateHandler duel phase entry: the duel-resume phase. It re-sets up every

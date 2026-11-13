@@ -152,6 +152,12 @@ typedef struct DisplayObject {
             u16 field_28;
             u16 field_2A;
         } h;
+        /* The same halves as signed screen coordinates (the duel hand's
+           slide target). */
+        struct {
+            s16 x;
+            s16 y;
+        } s;
         s32 word;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
@@ -190,6 +196,11 @@ typedef struct DisplayObject {
             u16 x;
             u16 y;
         } h;
+        /* The same coordinates read signed, as duel card objects use them. */
+        struct {
+            s16 x;
+            s16 y;
+        } s;
         s32 word;
     } xy;                          /* 0x30 */
     /* The second of those six words, and read both ways like its

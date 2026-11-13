@@ -65,13 +65,13 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
 
     if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
-            if (((DisplayObject *)p->grid[0][1])->field_5A == 0) {
+            if ((p->grid[0][1])->field_5A == 0) {
                 p->variant_countdown =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->variant_update_flags = p->variant_update_flags & 0xFE;
                 DisplayObject_SetResourceVariant(
-                    (DisplayObject *)p->grid[0][1], 0);
+                    p->grid[0][1], 0);
             }
         } else {
             v = p->variant_countdown - 1;
@@ -79,7 +79,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             if ((s16)v <= 0) {
                 p->variant_update_flags = p->variant_update_flags | 1;
                 DisplayObject_SetResourceVariant(
-                    (DisplayObject *)p->grid[0][1], 1);
+                    p->grid[0][1], 1);
             }
         }
     }
@@ -95,7 +95,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     default:
         c = p->variant_update_counter - 1;
         p->variant_update_counter = c;
-        if (((DisplayObject *)p->grid[0][2])->field_5A != 0) {
+        if ((p->grid[0][2])->field_5A != 0) {
             return;
         }
         if ((s8)c > 0) {
@@ -116,7 +116,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
         p->variant_update_counter = 6;
         p->requested_variant = n;
         DisplayObject_SetResourceVariant(
-            (DisplayObject *)p->grid[0][2], n);
+            p->grid[0][2], n);
         return;
     }
 
@@ -125,7 +125,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
         return;
     }
     DisplayObject_UpdateResourceVariant(
-        (DisplayObject *)p->grid[0][2],
+        p->grid[0][2],
         0
     );
 }

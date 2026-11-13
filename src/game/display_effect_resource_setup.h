@@ -39,7 +39,7 @@ int DisplayEffect_HasResourceEntry(
 /* Exactly three nullable slots, descending. Replaces blend bits, narrows
  * depth to s8 and adjusts CLUT y; zero retains GsALON, restores neutral RGB
  * and decrements CLUT y rather than selecting an opaque/idempotent mode. */
-void DisplayEffect_SetObjectRowBlend(u8 **objects, u32 attribute, s32 depth_offset);
+void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32 depth_offset);
 
 #define DISPLAY_EFFECT_VRAM_SLOT_COUNT 5
 
