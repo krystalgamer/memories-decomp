@@ -11,10 +11,8 @@
 
 /* The MODEL.MRG variant modules (stages 7-10 of Model_LoadMonsterMerge) were
  * compiled with the GCC 2.7.2 CDK compiler (profile gcc_2_7_2_cdk_g0). Their
- * helpers receive the module's work area as a byte pointer and reach its
- * fields at fixed offsets; the record arrays inside it are typed below. */
-#define MODEL_VARIANT_WORD(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define MODEL_VARIANT_HALF(p, o) (*(s16 *)((u8 *)(p) + (o)))
+ * helpers receive the module's work area as a byte pointer and type it as
+ * their owner's entry state; the shared records inside it are typed below. */
 
 /* The command row the quad, quad-pair, swarm and bloom helpers reach through
  * their timing pointer: the frame limit at + 0x20 is compared with the
