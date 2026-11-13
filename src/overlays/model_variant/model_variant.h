@@ -1085,11 +1085,12 @@ typedef struct {
     u8 unknown_AC[0xC];
 } ModelVariantRay;
 
-/* One 0xA8-byte trail record: nine colours, a ramp from bright to the base
- * colour, and nine staggered start offsets (a delay or -(j * 256)) the entry
- * handlers set per point. */
+/* One 0xA8-byte trail record: nine points, nine colours, a ramp from bright
+ * to the base colour, and nine staggered start offsets (a delay or
+ * -(j * 256)) the entry handlers set per point; the ray drawers grow each
+ * offset as the point's progress. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR point[9];
     CVECTOR color[9];
     s32 field_6C, field_70, field_74, field_78, offset[9], field_A0, field_A4;
 } ModelVariantTrail;
