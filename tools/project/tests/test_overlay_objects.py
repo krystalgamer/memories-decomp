@@ -157,8 +157,11 @@ class OverlayFingerprintTests(unittest.TestCase):
             {"name": "b", "layout": "config/r/b.yaml", "sha256": "2"},
         ]
         self.object_key = "k1"
+        self.object_bytes = {"k1": b"object 1", "k2": b"object 2", "k3": b"object 1"}
         store = patch.object(overlay_build, "ObjectStore")
-        store.start().return_value.key.side_effect = lambda segment: self.object_key
+        instance = store.start().return_value
+        instance.key.side_effect = lambda segment: self.object_key
+        instance.path.side_effect = self.object_path
         self.addCleanup(store.stop)
         for target, value in (
             ("pipeline_fingerprint", lambda root: "tools"),
@@ -169,6 +172,12 @@ class OverlayFingerprintTests(unittest.TestCase):
             patcher = patch.object(overlay_build, target, value)
             patcher.start()
             self.addCleanup(patcher.stop)
+
+    def object_path(self, key: str) -> Path:
+        path = self.root / "objects" / f"{key}.o"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(self.object_bytes[key])
+        return path
 
     def fingerprints(self) -> dict[str, str]:
         return overlay_build.module_fingerprints(self.root, self.modules, 1)
@@ -182,6 +191,11 @@ class OverlayFingerprintTests(unittest.TestCase):
         self.object_key = "k2"
         self.assertNotEqual(after["a"], self.fingerprints()["a"])
         self.assertEqual(before["b"], self.fingerprints()["b"])
+
+    def test_header_edit_with_identical_object_keeps_fingerprint(self) -> None:
+        before = self.fingerprints()
+        self.object_key = "k3"
+        self.assertEqual(before, self.fingerprints())
 
     def test_skip_verified_checks_only_unrecorded_modules(self) -> None:
         record = self.root / "verified.txt"

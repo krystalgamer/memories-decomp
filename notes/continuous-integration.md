@@ -193,7 +193,10 @@ encryption the retail bundle uses.
   run restores the newest entry for its region and compiles only changed units.
 - **Modules verified by master.** `overlay_build.py` fingerprints every input
   of a module build: its manifest entry, layout, referenced configuration
-  files, compiled object keys, build scripts, bootstrap pins and binutils.
+  files, compiled object bytes, build scripts, bootstrap pins and binutils.
+  Objects count by their bytes, so a header edit that leaves every dependent
+  unit's object unchanged (a member carve or rename, for instance) checks
+  only the modules whose objects or configuration actually changed.
   After a full build on a `master` push, the job runs `overlay_build.py record`,
   which re-verifies every built module before writing the fingerprints, and
   saves the record under `<os>-overlay-verified-v1-<region>-<sha>`. Pull

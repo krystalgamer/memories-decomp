@@ -139,7 +139,9 @@ C units are compiled once per distinct preprocessed source and profile into
 since a full verified build, record the build with
 `tools/project/overlay_build.py record --output tmp/overlay-verified.txt`
 and pass `OVERLAY_FLAGS="--skip-verified tmp/overlay-verified.txt"` to
-`make match-overlays` (see `notes/continuous-integration.md`).
+`make match-overlays` (see `notes/continuous-integration.md`). Fingerprints
+hash each module's compiled objects, so after a shared-header edit only the
+modules whose object bytes changed are rebuilt and compared.
 
 Extraction and verification hash each distinct archive once per invocation,
 not once per module. All modules retain their own expected archive hash,

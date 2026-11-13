@@ -457,7 +457,7 @@ def verify_module(root: Path, module: dict[str, Any]) -> None:
     print(f"overlay match: {name} {actual_hash}")
 
 
-FINGERPRINT_FORMAT = "overlay-module-v2"
+FINGERPRINT_FORMAT = "overlay-module-v3"
 # Every script whose behavior shapes a module's split, objects or link.
 FINGERPRINT_SCRIPTS = (
     "tools/project/build_baseline.py",
@@ -498,11 +498,20 @@ def module_fingerprints(
 
     Equal fingerprints mean an identical layout, manifest entry, referenced
     configuration, compiled objects and tools, so a module verified once
-    with a fingerprint rebuilds to the same verified bytes.
+    with a fingerprint rebuilds to the same verified bytes. Objects count by
+    their compiled bytes, not their preprocessed source: a header edit that
+    leaves a unit's object unchanged does not make its modules unverified.
     """
     store = ObjectStore(root)
     segments = {m["name"]: c_segments(root, root / m["layout"]) for m in modules}
-    store.keys((s for group in segments.values() for s in group), jobs)
+    store.ensure((s for group in segments.values() for s in group), jobs)
+    object_hashes: dict[str, str] = {}
+
+    def object_hash(segment: dict[str, str]) -> str:
+        key = store.key(segment)
+        if key not in object_hashes:
+            object_hashes[key] = hashlib.sha256(store.path(key).read_bytes()).hexdigest()
+        return object_hashes[key]
     base = pipeline_fingerprint(root)
     file_hashes: dict[str, str] = {}
 
@@ -532,7 +541,7 @@ def module_fingerprints(
             "files": {path: file_hash(path) for path in sorted(files)},
             "objects": [
                 [segment["kind"], segment["source"], segment["profile"],
-                 segment["object"], store.key(segment)]
+                 segment["object"], object_hash(segment)]
                 for segment in segments[name]
             ],
         }
