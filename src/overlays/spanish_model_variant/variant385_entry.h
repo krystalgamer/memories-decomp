@@ -11,7 +11,9 @@ typedef struct {
     u16 count, unknown_0E;
     s32 width;
     s32 inner_radius, outer_radius;
-    u8 unknown_1C[0xC];
+    u8 unknown_01C[0x8];
+    u16 ribbon_radius;
+    u8 unknown_026[0x2];
     s32 size;
     u32 start;
     u8 unknown_30[4];
@@ -33,11 +35,27 @@ typedef struct {
 } Variant385EntrySheet;
 
 /* Minimum observed extent, not an allocation capacity. */
+/* One 0x60-byte ribbon of this family: the MODEL402 ribbon with the
+ * projection flags kept between the widths and the depths. */
+typedef struct {
+    SVECTOR a[2];
+    long sa[2];
+    s32 angle[2];
+    SVECTOR b[2];
+    long sb[2];
+    s32 width[2];
+    long flag[2];
+    s32 otz[2];
+    u16 ox[2];
+    u16 oy[2];
+    u8 unknown_58[8];
+} Ribbon385;
+
 typedef struct {
     ModelVariantWebNarrow webs[3];
     Variant385EntryTube tubes[1];
     Variant385EntrySheet sheets[2];
-    u8 unknown_68C[0x300];
+    Ribbon385 ribbons[8];
     ModelVariantCurtain curtains[4];
     ModelVariantPackets packets;
     POLY_GT4 plain;
