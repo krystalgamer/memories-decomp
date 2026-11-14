@@ -607,7 +607,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (node != 0) {
         p = &gText_aChannels[slot];
-        cell = node->pad_0D[1];
+        cell = node->glyph_index;
         DisplayObject_ConfigureScreenSprite(
             obj,
             p->rect_x + (s16)node->local_x,

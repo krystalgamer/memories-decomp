@@ -402,28 +402,6 @@ void DuelEffect_ResetEntryMarkers(void) {
 #include "main.h"
 
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-#ifdef VERSION_EUROPE
-#define GLYPH_POSITION_OFFSET 0x02
-#define GLYPH_SHADE_OFFSET 0x06
-#define GLYPH_ROTATION_OFFSET 0x0A
-#define GLYPH_INDEX_OFFSET 0x0E
-#define GLYPH_FLAGS_OFFSET 0x0F
-#define GLYPH_NUDGE_OFFSET 0x12
-#define GLYPH_MODE_OFFSET 0x13
-#define GLYPH_PALETTE_OFFSET 0x14
-#define GLYPH_TINT_OFFSET 0x15
-#define GLYPH_RECORD_SIZE 0x16
-#else
-#define GLYPH_SHADE_OFFSET 0x04
-#define GLYPH_ROTATION_OFFSET 0x08
-#define GLYPH_POSITION_OFFSET 0x0C
-#define GLYPH_INDEX_OFFSET 0x10
-#define GLYPH_FLAGS_OFFSET 0x11
-#define GLYPH_NUDGE_OFFSET 0x14
-#define GLYPH_MODE_OFFSET 0x15
-#define GLYPH_PALETTE_OFFSET 0x16
-#define GLYPH_RECORD_SIZE 0x18
-#endif
 
 /* Europe shares the scratchpad setup and polygon submission with Japan, but
  * walks 0x16-byte records with 8x16, 12x16, 16x16 and special 32x16 glyphs.
@@ -454,7 +432,11 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     DuelEffectTextSprite *sprites[3];
     DuelEffectTextSprite *spr;
     POLY_GT4 *gt4;
-    u8 *p;
+#ifdef VERSION_EUROPE
+    EuropeanDuelEffectEntry *p;
+#else
+    JapaneseDuelEffectEntry *p;
+#endif
     s32 t;
     s32 w;
     s32 su;
@@ -519,7 +501,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.wh = 0x100008;
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = sprites[2]->gs.tpage = 0xA;
-    p = (u8 *)gText_aChannels[obj->resource_root_index].entry_begin;
+    /* The channel's entry pointer is typed with the North American record. */
+    p = (EuropeanDuelEffectEntry *)gText_aChannels[obj->resource_root_index].entry_begin;
 #else
     sprites[0]->words.wh = 0x100010;
     sprites[1]->words.wh = 0x100010;
@@ -527,11 +510,11 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = obj->texture_page;
     sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
-    p = (u8 *)gText_aChannels[obj->resource_root_index].entry_begin;
+    p = (JapaneseDuelEffectEntry *)gText_aChannels[obj->resource_root_index].entry_begin;
 #endif
 
     while (1) {
-        f = p[GLYPH_FLAGS_OFFSET];
+        f = p->entry_flags;
         if (!(f & 0x80)) {
             return;
         }
@@ -539,14 +522,14 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         if (!(f & 0x43)) {
             spr = sprites[0];
             spr->gs.cx = 0x280;
-            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
-            spr->gs.u = (p[GLYPH_INDEX_OFFSET] & 0x1F) * 8;
-            spr->gs.v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1;
+            spr->gs.cy = p->palette_index + 0xC0;
+            spr->gs.u = (p->glyph_index & 0x1F) * 8;
+            spr->gs.v = (u32)(p->glyph_index & 0xE0) >> 1;
         } else if (f & 0x40) {
             spr = sprites[1];
             spr->words.wh = 0x100010;
             spr->gs.tpage = 0xB;
-            res[0] = p[GLYPH_INDEX_OFFSET] & 0x7F;
+            res[0] = p->glyph_index & 0x7F;
             if (res[0] >= 0x22) {
                 s32 iconU = (u8)res[0];
                 s32 targetU;
@@ -574,7 +557,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 spr->gs.cx = su;
                 spr->gs.cy = paletteY;
                 spr->gs.attribute = obj->attribute | 0x08000000;
-                if (p[GLYPH_INDEX_OFFSET] & 0x80) {
+                if (p->glyph_index & 0x80) {
                     spr->gs.tpage = 0x1E;
                     switch (res[0]) {
                     case 0x14:
@@ -607,31 +590,31 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         } else if (f & 2) {
             spr = sprites[2];
             spr->words.wh = 0x10000C;
-            spr->gs.u = (u8)((u32)p[GLYPH_INDEX_OFFSET] % 21) * 12;
+            spr->gs.u = (u8)((u32)p->glyph_index % 21) * 12;
             {
                 u32 glyph;
                 /* Keep the boundary before the load, not around it: the
                  * palette store must fill the multiply-result latency. */
                 do {
                 } while (0);
-                glyph = p[GLYPH_INDEX_OFFSET];
+                glyph = p->glyph_index;
                 tt = glyph / 21;
                 spr->gs.cx = 0x280;
                 do {
                 } while (0);
                 spr->gs.v = tt * 16 + 0x50;
             }
-            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
+            spr->gs.cy = p->palette_index + 0xC0;
         } else {
             s32 glyph;
             spr = sprites[2];
             spr->words.wh = 0x80008;
             spr->gs.cx = 0x280;
-            spr->gs.cy = p[GLYPH_PALETTE_OFFSET] + 0xC0;
-            glyph = p[GLYPH_INDEX_OFFSET];
+            spr->gs.cy = p->palette_index + 0xC0;
+            glyph = p->glyph_index;
             if (glyph < 0xE0) {
                 spr->gs.u = (glyph & 0x1F) * 8;
-                spr->gs.v = ((u32)(p[GLYPH_INDEX_OFFSET] & 0xE0) >> 1) + 0x40;
+                spr->gs.v = ((u32)(p->glyph_index & 0xE0) >> 1) + 0x40;
             } else {
                 spr->gs.cy = 0xC7;
                 spr->words.uv = 0x40F8;
@@ -643,7 +626,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #else
         if (f & 0x60) {
             if (f & 0x20) {
-                res[0] = p[GLYPH_INDEX_OFFSET];
+                res[0] = p->glyph_index;
                 spr = sprites[1];
                 if (res[0] >= 0x22) {
                     tt = (u8)res[0];
@@ -669,23 +652,23 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 }
             } else {
                 spr = sprites[2];
-                spr->gs.cx = (p[GLYPH_PALETTE_OFFSET] * 0x10) + 0x290;
+                spr->gs.cx = (p->palette_index * 0x10) + 0x290;
                 spr->gs.cy = 0xFA;
-                spr->gs.u = ((p[GLYPH_INDEX_OFFSET] & 0xF) * 8) - 0x80;
-                spr->gs.v = (u32)(p[GLYPH_INDEX_OFFSET] & 0xF0) >> 1;
+                spr->gs.u = ((p->glyph_index & 0xF) * 8) - 0x80;
+                spr->gs.v = (u32)(p->glyph_index & 0xF0) >> 1;
             }
         } else {
             spr = sprites[0];
-            spr->gs.u = (p[GLYPH_INDEX_OFFSET] & 0xF) * 0x10;
-            spr->gs.v = p[GLYPH_INDEX_OFFSET] & 0xF0;
+            spr->gs.u = (p->glyph_index & 0xF) * 0x10;
+            spr->gs.v = p->glyph_index & 0xF0;
         }
 #endif
-        spr->gs.x = *(u16 *)(p + GLYPH_POSITION_OFFSET) + x;
-        spr->gs.y = *(u16 *)(p + GLYPH_POSITION_OFFSET + 2) + y;
-        switch (p[GLYPH_MODE_OFFSET]) {
+        spr->gs.x = p->local_x + x;
+        spr->gs.y = p->local_y + y;
+        switch (p->render_mode) {
         case 1:
-            if ((p[GLYPH_ROTATION_OFFSET + 2] |
-                 (p[GLYPH_ROTATION_OFFSET] | p[GLYPH_ROTATION_OFFSET + 1])) != 0) {
+            if ((p->field_08.rotation[2] |
+                 (p->field_08.rotation[0] | p->field_08.rotation[1])) != 0) {
 #ifdef VERSION_EUROPE
                 s8 bottomV;
                 halfWidth = (u16)spr->gs.w >> 1;
@@ -710,9 +693,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #else
                 ft4->v2 = ft4->v3 = tt;
 #endif
-                vec->vx = p[GLYPH_ROTATION_OFFSET] * 0x10;
-                vec->vy = p[GLYPH_ROTATION_OFFSET + 1] * 0x10;
-                vec->vz = p[GLYPH_ROTATION_OFFSET + 2] * 0x10;
+                vec->vx = p->field_08.rotation[0] * 0x10;
+                vec->vy = p->field_08.rotation[1] * 0x10;
+                vec->vz = p->field_08.rotation[2] * 0x10;
                 RotMatrixZYX_gte(vec, mat);
                 GsSetLsMatrix(mat);
 #ifdef VERSION_EUROPE
@@ -752,17 +735,17 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         {
             u8 uvEnd;
 #endif
-            gt4->r0 = gt4->g0 = gt4->b0 = p[GLYPH_SHADE_OFFSET];
-            gt4->r1 = gt4->g1 = gt4->b1 = p[GLYPH_SHADE_OFFSET + 1];
-            gt4->r2 = gt4->g2 = gt4->b2 = p[GLYPH_SHADE_OFFSET + 2];
-            gt4->r3 = gt4->g3 = gt4->b3 = p[GLYPH_SHADE_OFFSET + 3];
+            gt4->r0 = gt4->g0 = gt4->b0 = p->field_04.corner_shade[0];
+            gt4->r1 = gt4->g1 = gt4->b1 = p->field_04.corner_shade[1];
+            gt4->r2 = gt4->g2 = gt4->b2 = p->field_04.corner_shade[2];
+            gt4->r3 = gt4->g3 = gt4->b3 = p->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->gs.x;
 #ifdef VERSION_EUROPE
-            gt4->x1 = gt4->x3 = spr->gs.x + spr->gs.w + p[GLYPH_NUDGE_OFFSET];
+            gt4->x1 = gt4->x3 = spr->gs.x + spr->gs.w + p->field_14;
 #else
-            gt4->x1 = gt4->x3 = spr->gs.x + (p[GLYPH_NUDGE_OFFSET] + 0x10);
+            gt4->x1 = gt4->x3 = spr->gs.x + (p->field_14 + 0x10);
 #endif
-            gt4->y0 = spr->gs.y + ((u8)p[GLYPH_NUDGE_OFFSET] >> 2);
+            gt4->y0 = spr->gs.y + ((u8)p->field_14 >> 2);
             gt4->y1 = spr->gs.y;
 #ifdef VERSION_EUROPE
             gt4->y2 = gt4->y3 = spr->gs.y + spr->gs.h;
@@ -815,7 +798,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         }
         case 3:
             attribute = spr->gs.attribute & 0x8FFFFFFF;
-            spr->gs.r = spr->gs.g = spr->gs.b = p[GLYPH_TINT_OFFSET];
+            spr->gs.r = spr->gs.g = spr->gs.b = p->fade_value;
             spr->gs.attribute = attribute | 0x50000000;
             GsSortFastSprite(&spr->gs, ot, pri);
             spr->gs.attribute = attribute | 0x60000000;
@@ -825,7 +808,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             break;
 #endif
         }
-        p += GLYPH_RECORD_SIZE;
+        p++;
     }
 }
 #else
@@ -1358,7 +1341,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     result = 0;
 
     if (flags & 0x100) {
-        entry->pad_0D[1] = tagged_value;
+        entry->glyph_index = tagged_value;
         entry->entry_flags = 0xC0;
     } else {
         glyph = (tagged_value >> 20) & 0xFF;
@@ -1370,8 +1353,8 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
             return 0;
         }
 
-        entry->pad_0D[1] = glyph;
-        entry->pad_14[0] = channel->color_index_54;
+        entry->glyph_index = glyph;
+        entry->palette_index = channel->color_index_54;
         entry->entry_flags = mode | 0x80;
 
         if (mode == 3) {
@@ -4166,32 +4149,32 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
        two halfwords, and the fade runs at half the US steps. */
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         EU_ENTRY(record)->render_mode = 2;
-        *(u16 *)&EU_ENTRY(record)->field_04 = 0;
-        *(u16 *)&EU_ENTRY(record)->field_06 = 0;
+        EU_ENTRY(record)->field_04.halves[0] = 0;
+        EU_ENTRY(record)->field_04.halves[1] = 0;
         EU_ENTRY(record)->field_14 = 16;
     }
     EU_ENTRY(record)->field_14 =
         EU_ENTRY(record)->field_14 - (u8)gGraphics_nBaseFrameStep;
     if ((EU_ENTRY(record)->handler_state &
          DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
-        EU_ENTRY(record)->field_04 =
-            EU_ENTRY(record)->field_04 + gGraphics_nBaseFrameStep * 16;
-        if ((s8)EU_ENTRY(record)->field_04 < 0) {
-            EU_ENTRY(record)->field_04 = 128;
+        EU_ENTRY(record)->field_04.corner_shade[0] =
+            EU_ENTRY(record)->field_04.corner_shade[0] + gGraphics_nBaseFrameStep * 16;
+        if ((s8)EU_ENTRY(record)->field_04.corner_shade[0] < 0) {
+            EU_ENTRY(record)->field_04.corner_shade[0] = 128;
             EU_ENTRY(record)->field_14 = 8;
             EU_ENTRY(record)->handler_state |=
                 DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
-        EU_ENTRY(record)->field_06 = EU_ENTRY(record)->field_04;
+        EU_ENTRY(record)->field_04.corner_shade[2] = EU_ENTRY(record)->field_04.corner_shade[0];
     } else {
-        EU_ENTRY(record)->field_05 =
-            EU_ENTRY(record)->field_05 + gGraphics_nBaseFrameStep * 16;
-        if ((s8)EU_ENTRY(record)->field_05 < 0) {
+        EU_ENTRY(record)->field_04.corner_shade[1] =
+            EU_ENTRY(record)->field_04.corner_shade[1] + gGraphics_nBaseFrameStep * 16;
+        if ((s8)EU_ENTRY(record)->field_04.corner_shade[1] < 0) {
             EU_ENTRY(record)->field_14 = 0;
             EU_ENTRY(record)->render_mode = 0;
             EU_ENTRY(record)->handler_state = 0;
         }
-        EU_ENTRY(record)->field_07 = EU_ENTRY(record)->field_05;
+        EU_ENTRY(record)->field_04.corner_shade[3] = EU_ENTRY(record)->field_04.corner_shade[1];
     }
 }
 #else
@@ -4232,28 +4215,28 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
        steps by gGraphics_nBaseFrameStep * 24 where the US build steps by * 16. */
     if (!DisplayObjectFade_MarkInitialized(p)) {
         EU_ENTRY(p)->render_mode = 2;
-        *(u16 *)&EU_ENTRY(p)->field_04 = 0x8080;
-        *(u16 *)&EU_ENTRY(p)->field_06 = 0x8080;
+        EU_ENTRY(p)->field_04.halves[0] = 0x8080;
+        EU_ENTRY(p)->field_04.halves[1] = 0x8080;
         EU_ENTRY(p)->field_14 = 0;
     }
     if (!(EU_ENTRY(p)->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        v = EU_ENTRY(p)->field_04;
+        v = EU_ENTRY(p)->field_04.corner_shade[0];
         v -= gGraphics_nBaseFrameStep * 24;
         if (v <= 0) {
             EU_ENTRY(p)->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
         }
-        EU_ENTRY(p)->field_04 = v;
-        EU_ENTRY(p)->field_05 = v;
+        EU_ENTRY(p)->field_04.corner_shade[0] = v;
+        EU_ENTRY(p)->field_04.corner_shade[1] = v;
     } else {
-        v = EU_ENTRY(p)->field_06;
+        v = EU_ENTRY(p)->field_04.corner_shade[2];
         v -= gGraphics_nBaseFrameStep * 24;
         if (v <= 0) {
             DisplayObjectFade_ReleaseChannel(p);
             v = 0;
         }
-        EU_ENTRY(p)->field_06 = v;
-        EU_ENTRY(p)->field_07 = v;
+        EU_ENTRY(p)->field_04.corner_shade[2] = v;
+        EU_ENTRY(p)->field_04.corner_shade[3] = v;
     }
 }
 #else
@@ -4295,26 +4278,26 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
         EU_ENTRY(record)->render_mode = 1;
         a = EU_ENTRY(record)->local_x;
         b = EU_ENTRY(record)->local_y;
-        EU_ENTRY(record)->field_08 = 0;
-        EU_ENTRY(record)->field_09 = 0;
-        EU_ENTRY(record)->field_0A = 0;
-        EU_ENTRY(record)->field_04 = ((s16)a >> 4) + ((s16)b >> 3) + 1;
+        EU_ENTRY(record)->field_08.rotation[0] = 0;
+        EU_ENTRY(record)->field_08.rotation[1] = 0;
+        EU_ENTRY(record)->field_08.rotation[2] = 0;
+        EU_ENTRY(record)->field_04.corner_shade[0] = ((s16)a >> 4) + ((s16)b >> 3) + 1;
     }
 
     if (!(EU_ENTRY(record)->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        s32 v = EU_ENTRY(record)->field_04 - 1;
+        s32 v = EU_ENTRY(record)->field_04.corner_shade[0] - 1;
 
-        EU_ENTRY(record)->field_04 = v;
+        EU_ENTRY(record)->field_04.corner_shade[0] = v;
 
         if ((u8)v == 0) {
             EU_ENTRY(record)->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
     } else {
-        s32 v = EU_ENTRY(record)->field_08 + 4;
+        s32 v = EU_ENTRY(record)->field_08.rotation[0] + 4;
 
-        EU_ENTRY(record)->field_0A = v;
-        EU_ENTRY(record)->field_09 = v;
-        EU_ENTRY(record)->field_08 = v;
+        EU_ENTRY(record)->field_08.rotation[2] = v;
+        EU_ENTRY(record)->field_08.rotation[1] = v;
+        EU_ENTRY(record)->field_08.rotation[0] = v;
 
         if (v >= 0x40) {
             DisplayObjectFade_ReleaseChannel(record);
@@ -4368,8 +4351,8 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
     u16 *origin_x;
     u16 *origin_y;
 
-    origin_x = (u16 *)&EU_ENTRY(record)->field_04;
-    origin_y = (u16 *)&EU_ENTRY(record)->field_06;
+    origin_x = &EU_ENTRY(record)->field_04.halves[0];
+    origin_y = &EU_ENTRY(record)->field_04.halves[1];
 
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         EU_ENTRY_FADE_VALUE(record) = 0;
@@ -4379,18 +4362,18 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
         }
         *origin_x = EU_ENTRY(record)->local_x;
         *origin_y = EU_ENTRY(record)->local_y;
-        *(u16 *)&EU_ENTRY(record)->field_08 = rand() & 0xFFF;
-        *(u16 *)&EU_ENTRY(record)->field_0A = 0x100;
+        EU_ENTRY(record)->field_08.halves[0] = rand() & 0xFFF;
+        EU_ENTRY(record)->field_08.halves[1] = 0x100;
         if (EU_ENTRY(record)->field_14 & 0x80) {
             EU_ENTRY_FADE_VALUE(record) = 0x80;
-            *(u16 *)&EU_ENTRY(record)->field_0A = 0;
+            EU_ENTRY(record)->field_08.halves[1] = 0;
         }
     }
 
     flags = EU_ENTRY(record)->field_14;
     switch (flags & 0x80) {
     default:
-        radius = *(u16 *)&EU_ENTRY(record)->field_0A + 10;
+        radius = EU_ENTRY(record)->field_08.halves[1] + 10;
         if (radius < 0x140) {
             flags &= 0x7F;
             break;
@@ -4398,7 +4381,7 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
         DisplayObjectFade_ReleaseChannel(record);
         return;
     case 0:
-        radius = *(u16 *)&EU_ENTRY(record)->field_0A - 10;
+        radius = EU_ENTRY(record)->field_08.halves[1] - 10;
         if (radius > 0) {
             break;
         }
@@ -4414,7 +4397,7 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
         value = radius;
     } while (0);
 
-    *(u16 *)&EU_ENTRY(record)->field_0A = radius;
+    EU_ENTRY(record)->field_08.halves[1] = radius;
     if (radius >= 0xA1) {
         value = 0xA0;
     }
@@ -4422,12 +4405,12 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
 
     if (flags & 0x40) {
         flags &= 0x3F;
-        next_angle = *(u16 *)&EU_ENTRY(record)->field_08 - flags;
+        next_angle = EU_ENTRY(record)->field_08.halves[0] - flags;
     } else {
-        next_angle = *(u16 *)&EU_ENTRY(record)->field_08 + flags;
+        next_angle = EU_ENTRY(record)->field_08.halves[0] + flags;
     }
     value = next_angle & 0xFFF;
-    *(u16 *)&EU_ENTRY(record)->field_08 = value;
+    EU_ENTRY(record)->field_08.halves[0] = value;
     EU_ENTRY(record)->local_x =
         *origin_x + rcos(value) * radius / 0x1000;
     EU_ENTRY(record)->local_y =
