@@ -677,46 +677,6 @@ DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source);
  * as a damage magnitude, tie marker, or direct-attack value. */
 s32 Duel_CompareBattleStrength(DisplayObject *left, DisplayObject *right);
 
-typedef struct DuelFieldEffectObject DuelFieldEffectObject;
-
-/* The display/effect object shared by the field-wide transition handlers. */
-struct DuelFieldEffectObject {
-    s16 x;
-    s16 y;
-    u8 pad_04[0x16];
-    s16 field_1A;
-    u8 flags;
-    u8 count;
-    u8 pad_1E[4];
-    u8 timer;
-    u8 pad_23;
-    void (*callback)(DuelFieldEffectObject *);
-    u8 pad_28[0x3F];
-    u8 mark;
-    u8 pad_68[2];
-    u8 index;
-    u8 pad_6B;
-    u8 active;
-};
-
-#define DUEL_FIELD_EFFECT_OBJECT_OFFSET(member) \
-    ((u32)&(((DuelFieldEffectObject *)0)->member))
-
-typedef char DuelFieldEffectObject_size_must_be_0x70[
-    sizeof(DuelFieldEffectObject) == 0x70 ? 1 : -1
-];
-typedef char DuelFieldEffectObject_callback_offset_must_be_0x24[
-    DUEL_FIELD_EFFECT_OBJECT_OFFSET(callback) == 0x24 ? 1 : -1
-];
-typedef char DuelFieldEffectObject_mark_offset_must_be_0x67[
-    DUEL_FIELD_EFFECT_OBJECT_OFFSET(mark) == 0x67 ? 1 : -1
-];
-typedef char DuelFieldEffectObject_active_offset_must_be_0x6C[
-    DUEL_FIELD_EFFECT_OBJECT_OFFSET(active) == 0x6C ? 1 : -1
-];
-
-#undef DUEL_FIELD_EFFECT_OBJECT_OFFSET
-
 /* Adjacent application handlers from the magic-effect group table plus the
  * per-card reveal callback. They share the gDuel_aCardRecords field walk,
  * gDuel_wCardEffectFlags phase state, effect-object requests and completion gates. */
@@ -729,7 +689,7 @@ void DuelEffect_ApplyMonsterRemoval(void);
 void DuelEffect_ApplyBoardDestruction(void);
 void DuelEffect_ApplyStopDefense(void);
 void DuelEffect_ApplyRaigeki(void);
-void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *object);
+void DuelEffect_UpdateRevealCard(DisplayObject *object);
 void DuelEffect_ApplyDarkPiercingLight(void);
 void DuelEffect_ApplyStatPenalty(void);
 
@@ -1045,80 +1005,42 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *object);
 #define DUEL_CARD_DISPLAY_FACE_DOWN_VALUE 0x80
 #define DUEL_CARD_DISPLAY_DEFENSE_VALUE 0xC0
 
-/* The fields these helpers touch on a duel card's display object. This is not
- * the whole display record: the callers hold wider views of the same memory
- * under their own names. */
-/* Every field below is one Duel_CreateCardDisplayObject, Duel_UpdateCardDisplayMarker, Duel_UpdateCardDisplayState or
-   Duel_CreateHandCardDisplayObject writes or reads on the object DisplayObject_AcquireSlot hands back. The
-   offsets are unchanged; the fields added for Duel_CreateCardDisplayObject replace padding
-   this struct already carried, so no existing user's codegen can move.
+/* What the duel card helpers keep in a card's DisplayObject:
+ *   rgb (0x0C)              the dim/full colour;
+ *   back_face_handler       DisplayObject_SetResourceVariantFromSign, which
+ *                           DisplayObject_ProjectRotationFacing calls when
+ *                           the card faces away;
+ *   field_20.b.rotation_y/z (0x21/0x22) the defense and face-down turns --
+ *                           the two card-state helpers map card flags to
+ *                           them differently;
+ *   xy.s.x/xy.s.y (0x30)    the screen position, signed;
+ *   field_34.h.z            the field card's depth (Duel_CreateFieldCardObject
+ *                           stores its third argument there beside x and a
+ *                           fixed -24 y; Duel_RenderFieldCard3D loads it as
+ *                           the translation's t[2]);
+ *   field_40.clut.y (0x42)  the icon variant;
+ *   field_4C                the secondary draw callback
+ *                           (Duel_DrawCardAtOutputPosition), called by
+ *                           DisplayObject_RunSecondaryCallbackList with the
+ *                           object's ordering table once it is renderable;
+ *   texture_uv.b.u/.b.v     the icon state and the field card's v (0xC0,
+ *                           copied into the POLY_GT4's v0/v1);
+ *   resource_root_index     the original-deck number marker (0x67);
+ *   resource_branch_index   the cached card type (0x68);
+ *   resource_variant        the back-facing flag (0x69);
+ *   field_6A / field_6B     the card record index and the deck-entry index. */
 
-   Names are taken from records that already name the offset rather than
-   invented here: attribute at 0x04 from the canonical DisplayObject in
-   display_object.h, and out_x/out_y at 0x30/0x32 from DisplayObjectPosition
-   in display_object_interpolation.h, where the interpolation helpers leave
-   their eased result. Duel_CreateCardDisplayObject writes that pair as the object's initial
-   position. The card-rendering metadata names the original-deck number
-   marker at 0x67, cached card type at 0x68 and deck-entry index at 0x6B.
-   Other views of these polymorphic bytes keep their own names.
-
-   back_face_handler at 0x10 is DisplayObject's name for the same word:
-   both card constructors store DisplayObject_SetResourceVariantFromSign
-   there, which DisplayObject_ProjectRotationFacing calls when the card
-   faces away. z at 0x34 is DisplayObject's field_34.h.z: Duel_CreateFieldCardObject
-   stores its third argument there beside x and a fixed -24 y, and
-   Duel_RenderFieldCard3D loads it as the translation's t[2]. draw_callback
-   at 0x4C is the secondary callback DisplayObject_RunSecondaryCallbackList
-   calls with the object's ordering table once it is renderable;
-   Duel_CreateCardDisplayObject stores Duel_DrawCardAtOutputPosition into it.
-   texture_v at 0x5D is the high byte of DisplayObject's texture_uv:
-   Duel_CreateFieldCardObject sets it to 0xC0 and Duel_RenderFieldCard3D
-   copies it into the POLY_GT4's v0/v1. */
-/* The +0x21/+0x22 bytes are the common display rotation_y/rotation_z.
-   The two card-state helpers deliberately map card flags to them differently. */
-typedef struct {
-    u8 pad_00[0x04];
-    u32 attribute;
-    u16 flags;
-    u8 pad_0A[0x02];
-    u32 color;
-    union {
-        u32 word;
-        void (*callback)(DisplayObject *, u32);
-    } back_face_handler;
-    u8 pad_14[0x0D];
-    u8 rotation_y;
-    u8 rotation_z;
-    u8 pad_23[0x0D];
-    s16 out_x;
-    s16 out_y;
-    s16 z;
-    u8 pad_36[0x0C];
-    u16 icon_variant;
-    u8 pad_44[0x08];
-    void *draw_callback;
-    u8 pad_50[0x0C];
-    u8 icon_state;
-    u8 texture_v;
-    u8 pad_5E[0x09];
-    u8 deck_number_marker;
-    u8 card_type;
-    u8 is_back_facing;
-    u8 card_index;
-    u8 deck_index;
-} DuelCardDisplayObject;
-
-void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object);
-void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
+void Duel_UpdateCardDisplayMarker(DisplayObject *object);
+void Duel_UpdateCardDisplayState(DisplayObject *object);
 
 /* Duel_CreateHandCardDisplayObject calls this through an unprototyped cast
  * with the record alone, so its incoming a1/a2 values pass through. */
-DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 x, s32 y);
+DisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 x, s32 y);
 
 /* Creates a hand-card display object and marks it if the duel is
  * showing card markers: nonzero gDuel_pActiveSideState->card_view_mode sets
  * DUEL_CARD_FLAG_DISPLAY_MARKER on the record and copies data byte +0x04
- * plus one into deck_number_marker, or 0xFF when the view mode is negative.
+ * plus one into resource_root_index (the deck number marker), or 0xFF when the view mode is negative.
  *
  * The declaration is the interesting part. The definition takes the record
  * alone, but all three callers pass three arguments -- record, x, y -- and
@@ -1133,20 +1055,17 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 
  * DuelCreateHandCardDisplayObjectAt below, while every unit sees the real
  * prototype and the definition is checked against it.
  *
- * The return type is a card-rendering view of the shared display-pool slot.
- * Callers storing it in hand slots cast to the canonical DisplayObject;
- * duel_scene.c also uses that wider record for +0x6C. The narrow
- * return view and both measured argument-count arms below remain unchanged. */
-DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
+ * Both measured argument-count arms below remain unchanged. */
+DisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
 /* Callers that also pass the hand position in $a1/$a2 call through this. */
-typedef DuelCardDisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
+typedef DisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
     DuelCardRecord *card, s32 x, s32 y
 );
 
 /* Re-derives a duel card object's visual state from its own card record:
- * gDuel_aCardRecords[object->card_index] is the record, and every field this writes
+ * gDuel_aCardRecords[object->field_6A] is the record, and every field this writes
  * comes from that record's flags. Face-down sets field_22, defense-position
- * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and deck_number_marker
+ * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and the deck number marker
  * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
  *
  * The thing a prototype cannot say is why every caller calls it: the object
@@ -1159,13 +1078,10 @@ typedef DuelCardDisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
  * clearing the field-effect bits, and Duel_UpdateCardToFieldView in the shared reset block
  * of the card flip animation.
  *
- * `DuelCardDisplayObject *` is the definition's own view. The callers hold
- * others of the same memory -- DisplayObject, a local struct Obj,
- * and a raw u8 * read out of the record's first word -- which is why the four
- * local declarations this header replaces disagreed: two said u8 *, one u8 *
- * with a named argument, one Obj *. The pointer value is identical in every
- * case, so the call sites cast and the resident image is unchanged. */
-void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object);
+ * The four local declarations this header replaces disagreed (two said
+ * u8 *, one u8 * with a named argument, one Obj *); every caller now passes
+ * the DisplayObject it holds. */
+void Duel_ApplyCardObjectFlags(DisplayObject *object);
 
 /* The two fields Duel_GetCardEffectVariant reads out of a card's display object: the
    rotation_z byte at 0x22 and the type byte at 0x68. It is a view of those two
@@ -1220,7 +1136,7 @@ void DuelCard_RemoveFromField(DuelCardRecord *object);
 
 /* Builds the world-space field object; the position words become X/Z and
    world Y starts at -24. The caller publishes the record's object pointer. */
-DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 card_id, s32 x, s32 y);
+DisplayObject *Duel_CreateFieldCardObject(s32 card_id, s32 x, s32 y);
 /* Initializes the record from an encoded deck entry and attaches its field
    object. Callers handle retained flags/stat modifiers and old-object release. */
 void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
@@ -1733,7 +1649,7 @@ void DuelScene_UpdateResultRewards(void);
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *descriptor, s32 mode);
 
 void DuelResult_UpdateOrbitSprite(DisplayObject *object);
-void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object);
+void DuelResult_UpdateDepartingSprite(DisplayObject *object);
 
 #define DUEL_RESULT_SPRITE_COUNT 7
 

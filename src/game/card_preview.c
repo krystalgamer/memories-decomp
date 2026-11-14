@@ -583,7 +583,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
 
     ((DisplayObject *)entry->secondary_object)->subdivisions = 3;
     object->subdivisions = 3;
-    object->back_face_handler = (u32)CardPreview_UpdateVariant;
+    object->back_face_handler.word = (u32)CardPreview_UpdateVariant;
 
     {
         DisplayObject *secondary = entry->secondary_object;

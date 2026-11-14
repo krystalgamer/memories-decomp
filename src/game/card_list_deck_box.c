@@ -168,7 +168,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s = &((CardListRowSet *)gFile_StagingBuffer)[idx];
     base = 0x18;
     s->enabled = flag;
-    ((DisplayObject *)s->object)->resource_branch_index = flag;
+    s->object->resource_branch_index = flag;
     if (flag != 0) {
         base = 0x1A;
     }
@@ -267,7 +267,7 @@ void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
         object->field_6A = i++;
         DisplayObject_SelectOrderingTable1(object);
         object->field_4C = (s32)CardList_RenderDeckBoxStats;
-        record->object = (DuelCardDisplayObject *)object;
+        record->object = object;
         record++;
     } while (i < 2);
 

@@ -120,7 +120,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_0B = 0;
         slot->rgb = 0x00808080;
         slot->field_20.word = 0;
-        slot->back_face_handler = 0;
+        slot->back_face_handler.word = 0;
         slot->field_1C = 0;
         slot->field_18.center.y = 0;
         slot->field_18.center.x = 0;
@@ -1472,7 +1472,7 @@ s32 DisplayObject_ProjectRotationFacing(
         gte_stopz(area_result);
 
         {
-            s32 cb = obj->back_face_handler;
+            s32 cb = obj->back_face_handler.word;
             if (cb != 0) {
                 if (cb < 0) {
                     ((void (*)(DisplayObject *, s32))cb)(obj, facing_area);
@@ -1715,7 +1715,7 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_3C.word = 0;
     object->field_34.word = 0;
     object->field_2C.word = 0;
-    object->back_face_handler = 0;
+    object->back_face_handler.word = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
@@ -1741,7 +1741,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     object->field_44.word = initial;
     object->field_38.word = initial;
     object->field_2C.word = initial;
-    object->back_face_handler = 0;
+    object->back_face_handler.word = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;

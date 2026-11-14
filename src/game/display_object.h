@@ -70,12 +70,15 @@ typedef struct DisplayObject {
        X and Z matrix columns and reprojects instead, and a negative one -- a
        code address -- is first called as void (*)(DisplayObject *, s32) with
        the area. The preview constructor in card_preview.c
-       stores CardPreview_UpdateVariant here, and the duel card objects store
-       DisplayObject_SetResourceVariantFromSign through DuelCardDisplayObject's
-       view, so a card turned away selects its back-face variant.
+       stores CardPreview_UpdateVariant here (as the word), and the duel card
+       objects store DisplayObject_SetResourceVariantFromSign as the callback,
+       so a card turned away selects its back-face variant.
        Library_CreateFadingCardOutline stores 1, and AcquireSlot and both
        Initialize*GouraudQuad helpers clear it. */
-    u32 back_face_handler;         /* 0x10 */
+    union {
+        u32 word;
+        void (*callback)(struct DisplayObject *, u32);
+    } back_face_handler;           /* 0x10 */
     /* Cached ordering-table depth. SubmitPacket reads the signed low half
        of its mode word; the upper half selects a handler. The effect-request
        buffer at +0x14 belongs to a separate record, not this field. */
@@ -220,7 +223,7 @@ typedef struct DisplayObject {
 
        z: the low half is the depth coordinate that completes xy wherever a
        halfword reads it. Duel_CreateFieldCardObject stores its third
-       argument here (DuelCardDisplayObject's z) beside x and a fixed
+       argument here beside x and a fixed
        -24 y; Duel_RenderFieldCard3D loads it as the translation's t[2] and
        Duel_DrawProjectedFieldCardFrame as the vz it hands to gte_rtps; the
        equip-bonus and trap code copy it into an effect request's field_04
@@ -420,9 +423,7 @@ typedef struct DisplayObject {
 
        No reading governs, so the offset is the name. s32 is the spelling
        that serves them: the callback writers in this file already cast the
-       function to it, and a colour word is not a pointer. DuelCardDisplayObject
-       in duel_card_display_state.h names the same word draw_callback, as a void *,
-       because on that view only the callback reading occurs. */
+       function to it, and a colour word is not a pointer. */
     s32 field_4C;                  /* 0x4C */
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.

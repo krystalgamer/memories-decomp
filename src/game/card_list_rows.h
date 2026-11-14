@@ -19,7 +19,7 @@
  * builder and renderer. CardList_RenderDeckBoxStats independently confirms
  * the enabled halfword and the card entries below. */
 typedef struct {
-    DuelCardDisplayObject *object;
+    struct DisplayObject *object;
     s16 x;
     s16 y;
     u16 enabled;
