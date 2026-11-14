@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_CAMPAIGN_MAP_ALTERNATE_LOCATION_H
 
 #include "../../types.h"
+#include "../../game/display_object.h"
 
 #define ALTERNATE_LOCATION_COUNT 16
 
@@ -16,34 +17,33 @@
    offsets below and not a reason to merge the declarations. */
 
 /* One exit of an alternate location record, 12 bytes. Four of them sit at
-   +0x12 of the record. CampaignMap_PickAlternateExit gates an exit on `f0`
-   being non-zero, skips it when `f9` is 16, matches the pressed-input word
-   against `f6`, and returns `f9` as the destination. */
+   +0x12 of the record. The members mirror CampaignMapExit (ygo_types.h):
+   CampaignMap_PickAlternateExit gates an exit on the story flag, skips it
+   when its destination is 16, matches the pressed-input word against
+   input_mask, and returns the destination with move_steps as the move
+   length. */
 typedef struct {
-    u16 f0;
+    u16 story_flag;
     u8 pad2[4];
-    u16 f6;
+    u16 input_mask;
     u8 pad8;
-    u8 f9;
-    u8 f10;
+    u8 destination;
+    u8 move_steps;
     u8 pad11;
 } AlternateExit;
 
-/* An alternate location record, 66 bytes, indexed by the u8 at gCampaignMapAlt_Location.
-   The 66-byte stride and the exit array at +0x12 are visible in the index
-   arithmetic of CampaignMap_PickAlternateExit.
-
-   This merges the two private views the two sources used to carry. The
-   selector saw `f0`, `f16` and the exits and padded over the middle; the tick
-   saw only the pair at +0x0C, which it copies into the marker object at +0x30
-   and +0x32, and padded over everything else. Neither field falls inside the
-   other's padding, so the union of the two is the record. */
+/* An alternate location record, 66 bytes, indexed by the u8 at
+   gCampaignMapAlt_Location. The 66-byte stride and the exit array at +0x12
+   are visible in the index arithmetic of CampaignMap_PickAlternateExit.
+   The members mirror MapLocation (ygo_types.h): the confirm gate and
+   destination the selector reads, and the marker position the tick copies
+   into the location marker's xy. */
 typedef struct {
-    u16 f0;
+    u16 confirm_gate;
     u8 pad2[10];
-    u16 a;
-    u16 b;
-    u8 f16;
+    u16 marker_x;
+    u16 marker_y;
+    u8 confirm_destination;
     u8 pad17;
     AlternateExit exits[4];
 } AlternateLocation;
@@ -57,17 +57,6 @@ typedef char AlternateExit_size_must_be_12[
     sizeof(AlternateExit) == 12 ? 1 : -1
 ];
 
-/* The alternate marker/map object held in gCampaignMapAlt_pLocationMarker
-   and gCampaignMapAlt_pSpotlight.
-   CampaignMap_UpdateAlternateLocation toggles bit 0x40 of `f8` and writes the
-   location record's pair into `f48`/`f50`. */
-typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[38];
-    u16 f48;
-    u16 f50;
-} AlternateObject;
 
 /* The three symbols both sources share. The comments above already name two
  * of them while describing the layouts, so the declarations belong here too.
@@ -83,8 +72,8 @@ typedef struct {
  *
  * The adjacent controller state is defined in alternate_state.c. */
 extern AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT];
-extern AlternateObject *gCampaignMapAlt_pLocationMarker;
-extern AlternateObject *gCampaignMapAlt_pSpotlight;
+extern DisplayObject *gCampaignMapAlt_pLocationMarker;
+extern DisplayObject *gCampaignMapAlt_pSpotlight;
 extern u8 gCampaignMapAlt_bTransitionFlags;
 extern s32 gCampaignMapAlt_MoveState;
 extern u8 gCampaignMapAlt_Location;
@@ -108,8 +97,8 @@ void CampaignMap_UpdateAlternateLocation(void);
 s32 func_80169230(void);
 void func_801680E4(s32);
 void func_801682D0(s32);
-AlternateObject *func_80168A48(s32);
-void func_80066574(AlternateObject *);
+DisplayObject *func_80168A48(s32);
+void func_80066574(DisplayObject *);
 void func_80168624(void);
 void func_80021EA4(void);
 void func_80168040(void);

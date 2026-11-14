@@ -20,7 +20,7 @@ nor its existing `-O0` profile changes.
 | `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining generated data blob |
 
 The state prefix is one packed `0x54`-byte record. It includes the two
-`AlternateObject` pointers, rebuild-pending byte, transition duration,
+`DisplayObject` pointers, rebuild-pending byte, transition duration,
 location and transition flags used by the matching alternate controller.
 Consumer-backed members carry `gCampaignMapAlt_` names (below); the rest keep
 offset names. The two following

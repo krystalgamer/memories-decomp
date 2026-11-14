@@ -7,9 +7,9 @@
  * in notes/overlays/alternate-location-data.md; the remaining D_ entries cover
  * bytes no consumer has been seen to name. */
 u32 D_8016A274 = 0;
-AlternateObject *gCampaignMapAlt_pLocationMarker = 0;
+DisplayObject *gCampaignMapAlt_pLocationMarker = 0;
 u32 D_8016A27C[3] = {0};
-AlternateObject *gCampaignMapAlt_pSpotlight = 0;
+DisplayObject *gCampaignMapAlt_pSpotlight = 0;
 u32 D_8016A28C[4] = {0};
 u8 gCampaignMapAlt_bTransitionFlags = 0;
 u8 D_8016A29D = 0;

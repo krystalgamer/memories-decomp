@@ -6,7 +6,7 @@ void CampaignMap_UpdateAlternateLocation(void)
     s32 r;
 
     if (D_800C4E68 & 4) {
-        gCampaignMapAlt_pSpotlight->f8 ^= 0x40;
+        gCampaignMapAlt_pSpotlight->flags ^= 0x40;
     }
     if (gCampaignMapAlt_bTransitionFlags != 0) {
         if (func_80169230()) {
@@ -19,8 +19,8 @@ void CampaignMap_UpdateAlternateLocation(void)
             if (gCampaignMapAlt_pLocationMarker == 0) {
                 gCampaignMapAlt_pLocationMarker = func_80168A48(gCampaignMapAlt_Location);
             }
-            gCampaignMapAlt_pLocationMarker->f48 = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].a;
-            gCampaignMapAlt_pLocationMarker->f50 = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].b;
+            gCampaignMapAlt_pLocationMarker->xy.h.x = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].marker_x;
+            gCampaignMapAlt_pLocationMarker->xy.h.y = gCampaignMapAlt_aLocationTable[gCampaignMapAlt_Location].marker_y;
         } else {
             func_80066574(gCampaignMapAlt_pLocationMarker);
             gCampaignMapAlt_pLocationMarker = 0;
