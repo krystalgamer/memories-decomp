@@ -1,5 +1,6 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #include "../types.h"
+#include "scratchpad.h"
 
 /* The duel field's per-card draw paths, in address order:
    Duel_DrawProjectedFieldCardFrame projects a card's ground position and
@@ -277,7 +278,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
         u16 x = ((DisplayObject *)card->object)->xy.h.x;
-        volatile SVECTOR *scratch = (volatile SVECTOR *)0x1F8003E0;
+        volatile SVECTOR *scratch = (volatile SVECTOR *)SCRATCH_ADDR(0x3E0);
 
         scratch->vy = 0;
         scratch->vx = x;
@@ -367,12 +368,12 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         return;
     }
 
-    lm = (MATRIX *)0x1F8002C0;
-    q = (SVECTOR *)0x1F800300;
-    scale = (VECTOR *)0x1F800320;
-    up = (SVECTOR *)0x1F800380;
-    rot = (SVECTOR *)0x1F8003A0;
-    depth = (s32 *)0x1F8003E0;
+    lm = (MATRIX *)SCRATCH_ADDR(0x2C0);
+    q = (SVECTOR *)SCRATCH_ADDR(0x300);
+    scale = (VECTOR *)SCRATCH_ADDR(0x320);
+    up = (SVECTOR *)SCRATCH_ADDR(0x380);
+    rot = (SVECTOR *)SCRATCH_ADDR(0x3A0);
+    depth = (s32 *)SCRATCH_ADDR(0x3E0);
     up->vx = 0;
     up->vy = 0x1000;
     up->vz = 0;
@@ -404,9 +405,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         ScaleMatrix(lm, scale);
     }
 
-    q2 = (SVECTOR *)0x1F800310;
-    q3 = (SVECTOR *)0x1F800318;
-    q1 = (SVECTOR *)0x1F800308;
+    q2 = (SVECTOR *)SCRATCH_ADDR(0x310);
+    q3 = (SVECTOR *)SCRATCH_ADDR(0x318);
+    q1 = (SVECTOR *)SCRATCH_ADDR(0x308);
     q[0].vx = q2->vx = -0x19;
     q[1].vx = q3->vx = 0x1A;
     q[0].vz = q1->vz = 0x1D;
@@ -419,9 +420,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     RotTransSV(&q[2], &rot[2], (long *)depth);
     RotTransSV(&q[3], &rot[3], (long *)depth);
 
-    c1 = (SVECTOR *)0x1F8003C8;
-    c2 = (SVECTOR *)0x1F8003D0;
-    c3 = (SVECTOR *)0x1F8003D8;
+    c1 = (SVECTOR *)SCRATCH_ADDR(0x3C8);
+    c2 = (SVECTOR *)SCRATCH_ADDR(0x3D0);
+    c3 = (SVECTOR *)SCRATCH_ADDR(0x3D8);
     *(Bytes8 *)&rot[4] = *(Bytes8 *)&rot[0];
     *(Bytes8 *)c1 = *(Bytes8 *)&rot[1];
     *(Bytes8 *)c2 = *(Bytes8 *)&rot[2];
@@ -486,16 +487,16 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     c2->vy = 0;
     c1->vy = 0;
     rot[4].vy = 0;
-    gte_ldv0((SVECTOR *)0x1F8003C0);
+    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3C0));
     gte_rtps();
     gte_stsxy(&sprite->x0);
-    gte_ldv0((SVECTOR *)0x1F8003C8);
+    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3C8));
     gte_rtps();
     gte_stsxy(&sprite->x1);
-    gte_ldv0((SVECTOR *)0x1F8003D0);
+    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3D0));
     gte_rtps();
     gte_stsxy(&sprite->x2);
-    gte_ldv0((SVECTOR *)0x1F8003D8);
+    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3D8));
     gte_rtps();
     gte_stsxy(&sprite->x3);
     GsSortPoly(sprite, tab[2], 0xFFF);
@@ -553,9 +554,9 @@ void Duel_DrawFieldCards(void) {
             gSortedEntry_pCursor = gSortedEntry_pBase;
         }
 
-        color_word = (s32 *)0x1F8000C0;
-        field_ft4 = (POLY_FT4 *)0x1F800140;
-        field_gt4 = (POLY_GT4 *)0x1F800180;
+        color_word = (s32 *)SCRATCH_ADDR(0xC0);
+        field_ft4 = (POLY_FT4 *)SCRATCH_ADDR(0x140);
+        field_gt4 = (POLY_GT4 *)SCRATCH_ADDR(0x180);
         c = DUEL_DISPLAY_COLOR_NORMAL;
         e = gDuel_aFieldCardRecords;
         n = 0;
@@ -723,10 +724,10 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
     if ((u32)(screen_x + 0x33) < 0x173) {
         if (screen_y >= -0x3B) {
             if (screen_y < DUEL_CARD_FRAME_SCREEN_HEIGHT) {
-                o = (CardFrameScratch *)0x1F8003E0;
-                k = (SpritePrim *)0x1F800320;
-                y = (POLY_FT4 *)0x1F800344;
-                z = (SpritePrim *)0x1F800000;
+                o = (CardFrameScratch *)SCRATCH_ADDR(0x3E0);
+                k = (SpritePrim *)SCRATCH_ADDR(0x320);
+                y = (POLY_FT4 *)SCRATCH_ADDR(0x344);
+                z = (SpritePrim *)SCRATCH_ADDR(0);
                 card = &gDuel_aCardRecords[object->field_6A];
                 o->pos.h.x = screen_x;
                 o->pos.h.y = screen_y;
@@ -740,7 +741,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     if (DisplayObject_ProjectRotationFacing(object,
                                       (s16)o->pos.h.x + 0x1A,
                                       (s16)o->pos.h.y + 0x1E,
-                                      (struct ProjectionOut *)0x1F8003E0) < 0) {
+                                      (struct ProjectionOut *)SCRATCH_ADDR(0x3E0)) < 0) {
                         return;
                     }
                     g1 = object->rgb;
@@ -939,7 +940,6 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
    of the corresponding gDuel_aSideStates entry. */
 
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
-#define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
 void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
 {
@@ -951,7 +951,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
     Duel_UpdateLifePointDisplay(&gDuel_aSideStates[1]);
     pos = (DisplayObject *)widget->field_50.word;
 
-    scratch = SCRATCH;
+    scratch = (DuelStatusDigitPacket *)SCRATCH_ADDR(0x320);
     scratch->attribute = 0x09000000;
     tmp10 = DUEL_SPRITE_CLUT_CXCY;
     scratch->cxcy = tmp10;
@@ -1839,7 +1839,7 @@ void Duel_ProjectCardSlotScreenPositions(void)
     SetGeomScreen(gViewState_Current.projection);
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
-    scratch = (SVECTOR *)0x1F8003E0;
+    scratch = (SVECTOR *)SCRATCH_ADDR(0x3E0);
     i = 0;
     do {
         s32 y;
@@ -1880,7 +1880,7 @@ void Duel_InitGroundProjectionReference(void)
     ViewState_ApplyOrbit();
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
-        SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
+        SVECTOR *scratch = (SVECTOR *)SCRATCH_ADDR(0x3E0);
 
         scratch->vx = 0x3E8;
         scratch->vy = 0;
@@ -4033,7 +4033,7 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
-        SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
+        SVECTOR *scratch = (SVECTOR *)SCRATCH_ADDR(0x3E0);
         u16 *source = (u16 *)((u8 *)gDuel_aCardSlotGroundPositions + coord);
         u16 x = source[0];
 
@@ -4187,7 +4187,7 @@ void DuelScene_UpdateCardMove(void)
                 break;
             }
             gDuel_bSceneSubStep |= 0x40;
-            scratch = (DuelCardRecord *)0x1F800000;
+            scratch = (DuelCardRecord *)SCRATCH_ADDR(0);
             *scratch = gDuel_aCardRecords[object->field_6A];
             Duel_SetupFieldCardFromDeck(gDuel_bCardMoveSlot, object->field_6B);
             card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];

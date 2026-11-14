@@ -11,6 +11,7 @@
  * and the menu record reset. In every executable these are one contiguous
  * run of text (0x80035A64-0x80039F1C in the US build). */
 #include "../types.h"
+#include "scratchpad.h"
 
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
@@ -475,23 +476,23 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
-    ft4 = (POLY_FT4 *)0x1F800038;
-    vec = (SVECTOR *)0x1F800060;
+    ft4 = (POLY_FT4 *)SCRATCH_ADDR(0x38);
+    vec = (SVECTOR *)SCRATCH_ADDR(0x60);
 #ifdef VERSION_EUROPE
     /* This boundary preserves the European object's incoming-argument spill. */
     do {
-        mat = (MATRIX *)0x1F800078;
+        mat = (MATRIX *)SCRATCH_ADDR(0x78);
     } while (0);
 #else
-    mat = (MATRIX *)0x1F800078;
+    mat = (MATRIX *)SCRATCH_ADDR(0x78);
 #endif
-    res = (long *)0x1F8000A0;
-    gt4 = (POLY_GT4 *)0x1F800000;
-    sprites[0] = (DuelEffectTextSprite *)0x1F8000C0;
-    sprites[1] = (DuelEffectTextSprite *)0x1F800100;
-    sprites[2] = (DuelEffectTextSprite *)0x1F800140;
-    SetPolyGT4((POLY_GT4 *)0x1F800000);
-    SetSemiTrans((void *)0x1F800000, 1);
+    res = (long *)SCRATCH_ADDR(0xA0);
+    gt4 = (POLY_GT4 *)SCRATCH_ADDR(0);
+    sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
+    sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
+    sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
+    SetPolyGT4((POLY_GT4 *)SCRATCH_ADDR(0));
+    SetSemiTrans(SCRATCH_ADDR(0), 1);
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
@@ -863,16 +864,16 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
-    ft4 = (POLY_FT4 *)0x1F800038;
-    vec = (SVECTOR *)0x1F800060;
-    mat = (MATRIX *)0x1F800078;
-    res = (long *)0x1F8000A0;
-    gt4 = (POLY_GT4 *)0x1F800000;
-    sprites[0] = (DuelEffectTextSprite *)0x1F8000C0;
-    sprites[1] = (DuelEffectTextSprite *)0x1F800100;
-    sprites[2] = (DuelEffectTextSprite *)0x1F800140;
-    SetPolyGT4((POLY_GT4 *)0x1F800000);
-    SetSemiTrans((void *)0x1F800000, 1);
+    ft4 = (POLY_FT4 *)SCRATCH_ADDR(0x38);
+    vec = (SVECTOR *)SCRATCH_ADDR(0x60);
+    mat = (MATRIX *)SCRATCH_ADDR(0x78);
+    res = (long *)SCRATCH_ADDR(0xA0);
+    gt4 = (POLY_GT4 *)SCRATCH_ADDR(0);
+    sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
+    sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
+    sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
+    SetPolyGT4((POLY_GT4 *)SCRATCH_ADDR(0));
+    SetSemiTrans(SCRATCH_ADDR(0), 1);
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
@@ -1294,15 +1295,15 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
     } else {
         glyph = (u16 *)Krom2RawAdd2(tagged_value & 0xFFFF);
     }
-    lut = (u16 *)0x1F800000;
+    lut = (u16 *)SCRATCH_ADDR(0);
     w = gText_awGlyphColorMasks[channel->color_index_54];
     p = lut;
     for (i = 0; i < 16; i++) {
         *p++ = gText_awGlyphNibblePatterns[i] & w;
     }
     p = lut;
-    row = (u16 *)0x1F800040;
-    lut = (u16 *)0x1F800040;
+    row = (u16 *)SCRATCH_ADDR(0x40);
+    lut = (u16 *)SCRATCH_ADDR(0x40);
     /* Retail clears the u16 pairs with sw; row[0] = 0 changes the
        Japanese schedule. */
     *(u32 *)&row[0] = 0;
