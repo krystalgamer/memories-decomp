@@ -33,10 +33,11 @@ void Main_RunDebugMenu(void)
 
 /* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, in
  * address order (#2602). Each common is aligned by its size, so the slot
- * table starts at +0x10; only three slots fit before
- * gDebug_szEditorCaretLine, matching SceneScript_UpdateSlots' sweep. */
+ * table starts at +0x10; its three slots and the image-id halfword fill
+ * the 0x40 bytes before gDebug_szEditorCaretLine, matching
+ * SceneScript_UpdateSlots' sweep. */
 AiSelection gAi_Selection;
-SceneScriptSlot gSceneScript_Slots[3];
+SceneScriptSlotTable gSceneScript_Slots;
 
 #include "duel_effect_states.h"
 #include "fade.h"
@@ -57,7 +58,7 @@ void Main_RunCampaign(void) {
         return;
     }
 
-    SceneScript_UpdateSlots(gSceneScript_Slots);
+    SceneScript_UpdateSlots(gSceneScript_Slots.slots);
     Script_RunTick();
     if (gMain_bActiveModeState & 0x40)
         return;

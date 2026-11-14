@@ -5,6 +5,7 @@
 #include "../ygo_types.h"
 #include "file_staging_buffer.h"
 #include "menu_record.h"
+#include "script_image_objects.h"
 
 /* The script engine's current command word.
  *
@@ -202,46 +203,34 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode);
 /* The scene script's slot table at gSceneScript_Slots.
  *
  * Campaign_LoadScenePackage initializes the fixed scene presentation package
- * and clears
- * this table by subscripting it; Script_OpLoadImageScene is a script command
- * that runs ScriptImage_ReleaseObjects over it before reading its next operand
- * from the script
- * stream. Main_RunCampaign is one of the consumers.
+ * and clears this table; Script_OpLoadImageScene is a script command that
+ * runs ScriptImage_ReleaseObjects over it before reading its next operand
+ * from the script stream. Main_RunCampaign is one of the consumers.
  *
- * Five records of 0x14 bytes, and the shape is measured rather than assumed.
- * The pre-migration pointer-array declarations wrote
- * indices 0, 5 and 10, which are byte offsets 0, 0x14 and 0x28 -- the first
- * word of records 0, 1 and 2. A third declared it u8[100], and 100 is
- * 5 * 0x14. Our matching tree reads exactly those two words at +0x14 and
- * +0x28 in byte-exact functions.
+ * Three 0x14-byte records followed by the image-id halfword at +0x3C.
+ * Main_RunCampaign (main_mode_runners.c) defines the table in the 0x40 bytes
+ * before gDebug_szEditorCaretLine, SceneScript_UpdateSlots sweeps the three
+ * records, and Campaign_LoadScenePackage and ScriptImage_ReleaseObjects
+ * store -1 to the halfword at +0x3C. (Older declarations sized the table
+ * as five records, and a matching byte read at +0x64 lands inside the caret
+ * line; neither is resolved here.)
  *
- * object_address holds a display object: Script_OpDuelResult stores it into
- * records 0, 1 and 2, and SceneScript_UpdateColorPulse reads records 0 and 1 back. It is
- * left s32 here on purpose. ScriptImageEntry has a separate stored-pointer
- * view of the same prefix; naming the table does not merge these access forms.
- *
- * script_scene.c takes this declaration too. Its three stores are
- * the first word of slots 0, 1 and 2, as gSceneScript_Slots[i].object_address.
- * That spelling builds the unit's .text, relocations and data sections identical
- * to the pointer-array view it used to declare privately. (A cast of the
- * table to `Object **` indexed [0], [5] and [10] was the spelling that
- * differed from byte 0x8002F780.) SceneScriptSlot's measured layout is
- * defined once in ygo_types.h.
- */
-#define SCENE_SCRIPT_SLOT_SIZE 0x14
-#define SCENE_SCRIPT_SLOT_COUNT 5
+ * The scene-script code reaches the records as SceneScriptSlot (object_address
+ * is left s32: Script_OpDuelResult stores display objects into records 0, 1
+ * and 2 and SceneScript_UpdateColorPulse reads records 0 and 1 back). The
+ * script-image functions take the same bytes as a ScriptImageObjectSet: three
+ * ScriptImageEntry records and image_id. The table is a union of the two
+ * layouts, and each caller passes the member its callee declares. */
+typedef union {
+    SceneScriptSlot slots[3];
+    ScriptImageObjectSet images;
+} SceneScriptSlotTable;
 
-/* Unsized: a declared size is a -G input for this toolchain, and no consumer
- * needs the bound. The count is above, with what it was derived from.
- *
- * Main_RunCampaign (main_mode_runners.c) defines only three records: that is all the room
- * before gDebug_szEditorCaretLine, and SceneScript_UpdateSlots sweeps three.
- * Package initialization's -1 store at slot three's head (+0x3C) lands in
- * the four bytes left before that next object.
- * The five-record figure above comes from old declarations, and our
- * matching tree's byte read at +0x64 lands inside the caret line; neither
- * is resolved here. */
-extern SceneScriptSlot gSceneScript_Slots[];
+typedef char SceneScriptSlotTable_size_must_be_0x40[
+    sizeof(SceneScriptSlotTable) == 0x40 ? 1 : -1
+];
+
+extern SceneScriptSlotTable gSceneScript_Slots;
 
 /* The per-tick sweep over the first three slots. It dispatches each live
  * slot through gSceneScript_RecordCallbacks using the low byte at +4 as the callback index. */

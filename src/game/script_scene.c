@@ -57,8 +57,6 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 
-#define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
-
 void Script_OpLoadImageScene(void)
 {
     u8 *script;
@@ -70,7 +68,7 @@ void Script_OpLoadImageScene(void)
     if (ScriptCommand_MarkStarted() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots));
+        ScriptImage_ReleaseObjects(&gSceneScript_Slots.images);
         script = gScript_StreamCursor;
         next = script + 2;
         gScript_StreamCursor = next;
@@ -85,7 +83,7 @@ void Script_OpLoadImageScene(void)
             gGraphics_sViewportY = script[4] | (next2[1] << 8);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand);
+            &gSceneScript_Slots.images, gScript_ImageOperand);
     }
     flags = gScript_wCommandWord;
     if ((flags & SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE) == 0) {
@@ -93,7 +91,7 @@ void Script_OpLoadImageScene(void)
              gFile_dwCancelRequestState) == 0) {
             gScript_wCommandWord = flags | SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE;
             ScriptImage_RebuildObjects(
-                SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
+                &gSceneScript_Slots.images, -1);
             Fade_StartIn();
         }
     } else {
@@ -178,8 +176,6 @@ void Script_OpShowDialog(void)
 #ifndef SCRIPT_IMAGE_SCREEN_Y
 #define SCRIPT_IMAGE_SCREEN_Y 0xF0
 #endif
-#define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
-
 void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;gScript_ViewportTargetY=0;gScript_ViewportTargetX=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT){p4=p+4;gScript_StreamCursor=p4;gScript_ViewportTargetX=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;gScript_ViewportTargetY=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 
 void Script_OpShowImage(void) {
@@ -221,21 +217,21 @@ void Script_OpShowImage(void) {
             SCRIPT_IMAGE_SCREEN_Y + 4);
         gScript_TransitionObject = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
-        ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots));
+        ScriptImage_ReleaseObjects(&gSceneScript_Slots.images);
         gGraphics_sViewportX = gScript_ViewportTargetX;
         gGraphics_sViewportY = gScript_ViewportTargetY;
         if (gFade_bWhiteLatch == 0) {
             Fade_StartOutKeepOverlay(gFade_bWhiteLatch);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand & SCRIPT_IMAGE_OPERAND_ID_MASK);
+            &gSceneScript_Slots.images, gScript_ImageOperand & SCRIPT_IMAGE_OPERAND_ID_MASK);
         return;
     }
     if (!(flags & SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE)) {
         gScript_wCommandWord = flags | SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE;
         DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_RebuildObjects(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
+            &gSceneScript_Slots.images, -1);
         if (gFade_bWhiteLatch == 0 && !(gScript_ImageOperand & SCRIPT_IMAGE_OPERAND_SKIP_FADE_IN)) {
             Fade_StartInKeepOverlay();
         }
@@ -929,7 +925,7 @@ void Script_OpDuelResult(void) {
         if (gCampaign_PrimaryDisplayObject != 0) {
             gCampaign_PrimaryDisplayObject->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)gSceneScript_Slots);
+        ScriptImage_ReleaseObjects(&gSceneScript_Slots.images);
 #ifdef VERSION_EUROPE
         /* The European banner takes gText_bLanguageIndex as its sixth argument, one
            0x140 by 0x100 panel stands in for the US two, and the fill quad
@@ -941,12 +937,12 @@ void Script_OpDuelResult(void) {
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].object_address = (s32)object;
+        gSceneScript_Slots.slots[0].object_address = (s32)object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots[1].object_address = (s32)object;
-        gSceneScript_Slots[2].object_address = 0;
+        gSceneScript_Slots.slots[1].object_address = (s32)object;
+        gSceneScript_Slots.slots[2].object_address = 0;
         fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(fill, 1);
         fill->xy.word = 0x140;
@@ -969,15 +965,15 @@ void Script_OpDuelResult(void) {
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].object_address = (s32)object;
+        gSceneScript_Slots.slots[0].object_address = (s32)object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots[1].object_address = (s32)object;
+        gSceneScript_Slots.slots[1].object_address = (s32)object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots[2].object_address = (s32)object;
+        gSceneScript_Slots.slots[2].object_address = (s32)object;
         fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(fill, 0);
         color = 0xF00140;
@@ -1002,7 +998,7 @@ void Script_OpDuelResult(void) {
             gCampaign_PrimaryDisplayObject->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
-        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)gSceneScript_Slots);
+        ScriptImage_ReleaseObjects(&gSceneScript_Slots.images);
         gScript_wCommandWord = 0;
     }
 }
@@ -1251,7 +1247,6 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 #define CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT
 #endif
 
-#define SCENE_SCRIPT_SLOT_SIGNED_HEAD(slot) (*(s16 *)(slot))
 #define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
 
 /* Loads the fixed scene presentation/event package. The argument initializes
@@ -1265,7 +1260,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
  *
  * The clearing loop subscripts the record array rather than walking a
  * pointer. Both spellings give 112 instructions, but the walking pointer adds
- * a reference to `slot` and that changes which pseudo the allocator ranks
+ * a reference to the slot pointer and that changes which pseudo the allocator ranks
  * first: the %hi temporary for gSceneScript_Slots then takes $v0 and the address is
  * completed as `addiu $s0,$v0`, where retail coalesces the pair into
  * `lui $s0` / `addiu $s0,$s0` and emits it after the callback address rather
@@ -1273,12 +1268,12 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
  * retail's order. */
 void Campaign_LoadScenePackage(s16 scene_index)
 {
-    SceneScriptSlot *slot;
+    SceneScriptSlotTable *table;
     u32 *src;
     RECT *second;
     s32 i;
 
-    slot = gSceneScript_Slots;
+    table = &gSceneScript_Slots;
     gScript_EventState = scene_index;
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
@@ -1291,10 +1286,10 @@ void Campaign_LoadScenePackage(s16 scene_index)
     );
     DisplayEffect_ResetMenuRecords();
 
-    SCENE_SCRIPT_SLOT_SIGNED_HEAD(&slot[3]) = -1;
+    table->images.image_id = -1;
     for (i = 0; i < 3; i++) {
-        slot[i].object_address = 0;
-        slot[i].callback_control = 0;
+        table->slots[i].object_address = 0;
+        table->slots[i].callback_control = 0;
     }
     File_WaitForTransfers();
 
@@ -1384,14 +1379,14 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
-    object = (DisplayObject *)gSceneScript_Slots[0].object_address;
+    object = (DisplayObject *)gSceneScript_Slots.slots[0].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
-    object = (DisplayObject *)gSceneScript_Slots[1].object_address;
+    object = (DisplayObject *)gSceneScript_Slots.slots[1].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
