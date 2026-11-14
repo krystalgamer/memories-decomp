@@ -10,7 +10,7 @@
 #define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
 #define GPU_PACKET_BYTES(packet) ((u8 *)(packet))
 
-void Graphics_SubmitDrawModePacket(u32 *src, GsOT *ot, s32 idx, s32 flags)
+void Graphics_SubmitDrawModePacket(void *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;
     u32 draw;
