@@ -8022,6 +8022,7 @@ void DuelScene_UpdateEffectPreview(void) {
  * counter runs out -- and resets through Duel_UpdateCardDisplayState. The
  * reset follows mode 0's countdown and tops a loop that modes 1 and 2 enter
  * through their case labels, so a finished settle continues back into it. */
+/* Field meanings: see the turn-step note in duel_scene.h. */
 void Duel_UpdateCardToSelectionView(DisplayObject *p) {
     DuelCardRecord *e;
     s32 m;
@@ -8169,6 +8170,7 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
  * The reset follows mode 0's countdown and tops a loop that modes 1 and 2
  * enter through their case labels, so a finished settle continues back into
  * it. */
+/* Field meanings: see the turn-step note in duel_scene.h. */
 void Duel_UpdateCardToFieldView(DisplayObject *p) {
     DuelCardRecord *e;
     s32 m;
