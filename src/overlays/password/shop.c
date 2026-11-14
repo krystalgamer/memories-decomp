@@ -100,7 +100,7 @@ void Password_RefreshDigitDisplay(void)
     boxes = gText_aChannels;
     boxes[2].glyph_advance_x = 0x10;
     boxes[2].line_advance_y = 0x10;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[2]);
+    TextBox_BuildBlocking(&boxes[2]);
 #endif
 }
 #endif
@@ -123,7 +123,7 @@ void Password_RefreshStarchipDisplay(void)
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 0x10;
     boxes[3].line_advance_y = 0x10;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[3]);
+    TextBox_BuildBlocking(&boxes[3]);
 #endif
 }
 #endif
@@ -139,7 +139,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
     object->glyph_delay = 1;
     if (flags & 0xF) {
-        TextBox_BuildBlocking((struct DuelEffectChannel *)object);
+        TextBox_BuildBlocking(object);
     }
     if (flags & 0x80) {
         object->flags_34 |= PASSWORD_MESSAGE_BOX_WAIT_FLAG;
