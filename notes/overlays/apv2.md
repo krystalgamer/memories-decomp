@@ -58,8 +58,9 @@ by `make compiler-272-psx-prebuilt` and selected through the
   the epilogue that the retail code shares.
 - The retail delay slots are filled the way an assembler in reorder mode fills
   them. Its `move` instructions are `addu d,s,$0`, the ASPSX encoding.
-- `-fno-cse-follow-jumps` lets the natural `func_80168EC8` source match
-  without changing the others.
+- All nine candidates match at the stock `-O2` flags. An earlier
+  `func_80168EC8` source needed `-fno-cse-follow-jumps`; the current source
+  does not (see the source details below).
 
 MASPSX's normal processing cannot model this output: it always emits
 `.set noreorder` and pads jumps with `nop`. With MASPSX 2.67 only
@@ -96,3 +97,11 @@ Source details that the matches depend on:
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.
 - `exit()` is declared without a prototype (`PSYQ_EXIT_UNPROTOTYPED` in
   `src/psyq/exit.h`), as the call passes no argument.
+- `func_80168EC8` reuses the character variable `c` for the spacing of the
+  Krom, space and ASCII branches (`c = 1`, `8`, `2`), and adds it as
+  `rect->x = rect->x + c + rect->w`. Retail reloads the character from the
+  string in the Krom and ASCII branches. Without the reassignment, `-O2` CSE
+  follows the newline branch into those blocks and reuses `c`, so 12 bytes
+  of reloads disappear. Assigning `c` first ends that equivalence; the
+  constant then propagates and flow deletes the dead assignment. The
+  `rect->x += rect->w + c` form swaps the two `lhu` loads.
