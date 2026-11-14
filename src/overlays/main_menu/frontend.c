@@ -673,7 +673,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
         object->update =
-            (DisplayObjectCallback)MainMenu_UpdateFrontendEntryAfterimage;
+            MainMenu_UpdateFrontendEntryAfterimage;
         ((u8 *)&object->rgb)[0] = ((u8 *)&entry->rgb)[0];
         ((u8 *)&object->rgb)[1] = ((u8 *)&entry->rgb)[1];
         ((u8 *)&object->rgb)[2] = ((u8 *)&entry->rgb)[2];

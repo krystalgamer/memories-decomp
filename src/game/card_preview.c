@@ -226,7 +226,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     PRM->extent.wh.h = 0x60;
     PRM->rgb = win->rgb;
     PRM->cxcy.word = obj->field_40.word;
-    PRM->uv.word = obj->texture_uv;
+    PRM->uv.word = obj->texture_uv.word;
     PRM->tpage = obj->texture_page;
     DisplayObject_SubmitPacket(
         PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
@@ -583,7 +583,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
 
     ((DisplayObject *)entry->secondary_object)->subdivisions = 3;
     object->subdivisions = 3;
-    object->back_face_handler = (u32)CardPreview_UpdateVariant;
+    object->back_face_handler.word = (u32)CardPreview_UpdateVariant;
 
     {
         DisplayObject *secondary = entry->secondary_object;

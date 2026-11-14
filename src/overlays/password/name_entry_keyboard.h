@@ -17,10 +17,10 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);
 /* GlyphSprite and NameEntryGlyphUpdate are defined in ygo_types.h. */
 
 void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, DuelEffectEntry *glyphNode);
-void NameEntry_UpdateGlyphPulse(u8 *sprite);
+void NameEntry_UpdateGlyphPulse(struct DisplayObject *sprite);
 void NameEntry_UpdateGlyphFragment(struct DisplayObject *sprite);
-void NameEntry_UpdateGlyphShatter(u8 *sprite);
-void NameEntry_UpdateGlyphTransfer(u8 *sprite);
+void NameEntry_UpdateGlyphShatter(struct DisplayObject *sprite);
+void NameEntry_UpdateGlyphTransfer(struct DisplayObject *sprite);
 
 /* Screen entry and exit. NameEntry_Init builds the keyboard, the name field
    and the caret; NameEntry_PollCompletion runs one frame and returns non-zero

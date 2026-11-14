@@ -4,7 +4,8 @@
 #include "../types.h"
 #include "display_object_layout.h"
 
-typedef void (*DisplayObjectCallback)(u8 *);
+struct DisplayObject;
+typedef void (*DisplayObjectCallback)(struct DisplayObject *);
 
 /* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at gDisplayObject_aPool.
  *
@@ -69,12 +70,15 @@ typedef struct DisplayObject {
        X and Z matrix columns and reprojects instead, and a negative one -- a
        code address -- is first called as void (*)(DisplayObject *, s32) with
        the area. The preview constructor in card_preview.c
-       stores CardPreview_UpdateVariant here, and the duel card objects store
-       DisplayObject_SetResourceVariantFromSign through DuelCardDisplayObject's
-       view, so a card turned away selects its back-face variant.
+       stores CardPreview_UpdateVariant here (as the word), and the duel card
+       objects store DisplayObject_SetResourceVariantFromSign as the callback,
+       so a card turned away selects its back-face variant.
        Library_CreateFadingCardOutline stores 1, and AcquireSlot and both
        Initialize*GouraudQuad helpers clear it. */
-    u32 back_face_handler;         /* 0x10 */
+    union {
+        u32 word;
+        void (*callback)(struct DisplayObject *, u32);
+    } back_face_handler;           /* 0x10 */
     /* Cached ordering-table depth. SubmitPacket reads the signed low half
        of its mode word; the upper half selects a handler. The effect-request
        buffer at +0x14 belongs to a separate record, not this field. */
@@ -219,7 +223,7 @@ typedef struct DisplayObject {
 
        z: the low half is the depth coordinate that completes xy wherever a
        halfword reads it. Duel_CreateFieldCardObject stores its third
-       argument here (DuelCardDisplayObject's z) beside x and a fixed
+       argument here beside x and a fixed
        -24 y; Duel_RenderFieldCard3D loads it as the translation's t[2] and
        Duel_DrawProjectedFieldCardFrame as the vz it hands to gte_rtps; the
        equip-bonus and trap code copy it into an effect request's field_04
@@ -419,9 +423,7 @@ typedef struct DisplayObject {
 
        No reading governs, so the offset is the name. s32 is the spelling
        that serves them: the callback writers in this file already cast the
-       function to it, and a colour word is not a pointer. DuelCardDisplayObject
-       in duel_card_display_state.h names the same word draw_callback, as a void *,
-       because on that view only the callback reading occurs. */
+       function to it, and a colour word is not a pointer. */
     s32 field_4C;                  /* 0x4C */
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
@@ -477,7 +479,13 @@ typedef struct DisplayObject {
        current named C acquisition calls do not select its list (key 5), and
        no direct named C call to DisplayObject_InitializeTexturedGouraudQuad
        was found; this does not establish whole-program unreachability. */
-    u16 texture_uv;                /* 0x5C */
+    union {
+        u16 word;
+        struct {
+            u8 u;
+            u8 v;
+        } b;
+    } texture_uv;                  /* 0x5C */
     /* The texture u/v (low byte u, high byte v) of a resource-configured
        sprite. DisplayObject_ConfigureSpriteResource fills both bytes from
        its texture_config argument, DisplayObject_RenderSpriteSheet starts
@@ -695,10 +703,10 @@ extern u16 gDisplayObject_wAcquireCount;
  * companion object at the current position each frame.
  *
  * Declared here because this header owns both halves of its contract: the
- * DisplayObject it takes, and the DisplayObjectCallback typedef that
- * DuelScene_UpdateResultOutro casts it to when installing it. DuelScene_UpdateResultOutro's old file held
- * the only declaration and did not call the function itself, so the cast was
- * the whole use -- the declaration has to match for the address to be taken.
+ * DisplayObject it takes, and the DisplayObjectCallback typedef
+ * DuelScene_UpdateResultOutro installs it as. DuelScene_UpdateResultOutro's old file held
+ * the only declaration and did not call the function itself, so installing it
+ * was the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
  * slot; DisplayObject_FadeBrightnessAndRelease in display_object_lifecycle.h is a sibling by role but

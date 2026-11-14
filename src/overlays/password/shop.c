@@ -157,8 +157,7 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
 
     object->phase += 1;
     if ((object->updateFlags & 0x40) != 0) {
-        if (DisplayObject_MarkInitialized(
-                (DisplayObjectLifecycle *)object) == 0) {
+        if (DisplayObject_MarkInitialized((DisplayObject *)object) == 0) {
             DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
             object->step_x =
                 ((object->target_x - object->x) << 8) / object->timer;
@@ -179,7 +178,7 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION) || \
     defined(VERSION_EUROPE_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION)
-void Password_UpdateDigitCursorDecoration(u8 *object)
+void Password_UpdateDigitCursorDecoration(DisplayObject *object)
 {
     PasswordCursorView *obj = (PasswordCursorView *)object;
 

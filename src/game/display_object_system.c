@@ -120,7 +120,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_0B = 0;
         slot->rgb = 0x00808080;
         slot->field_20.word = 0;
-        slot->back_face_handler = 0;
+        slot->back_face_handler.word = 0;
         slot->field_1C = 0;
         slot->field_18.center.y = 0;
         slot->field_18.center.x = 0;
@@ -288,8 +288,8 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 
     object->field_3C.size.h = height;
     half_height = height / 2;
-    *(u8 *)&object->texture_uv = texture_u;
-    ((u8 *)&object->texture_uv)[1] = texture_v;
+    object->texture_uv.b.u = texture_u;
+    object->texture_uv.b.v = texture_v;
     object->texture_page = texture_page;
     object->field_40.clut.x = clut_x;
     object->field_40.clut.y = clut_y;
@@ -331,8 +331,8 @@ void DisplayObject_RenderSpriteList(void) {
             i = object->next;
             while (1) {
                 callback = object->update;
-                if (callback != (DisplayObjectCallback)0) {
-                    callback((u8 *)object);
+                if (callback != 0) {
+                    callback(object);
                 }
                 if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                      DISPLAY_OBJECT_RENDERABLE_MASK) != 0) {
@@ -344,7 +344,7 @@ void DisplayObject_RenderSpriteList(void) {
                 p->xy.word = object->xy.word;
                 p->extent.word = object->field_3C.word;
                 p->cxcy.word = object->field_40.word;
-                p->uv.word = object->texture_uv;
+                p->uv.word = object->texture_uv.word;
                 mode = object->ot_depth | 0x10000;
                 ot = table[idx];
                 p->tpage = object->texture_page;
@@ -403,7 +403,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = (u8 *)object;
+            DisplayObject *data = object;
 
             i = object->next;
 
@@ -413,9 +413,9 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                DisplayObject_UpdateCommandStream((DisplayObject *)data);
+                DisplayObject_UpdateCommandStream(data);
                 DisplayObject_RenderSpriteSheet(
-                    (DisplayObject *)data, table[object->ot_index],
+                    data, table[object->ot_index],
                     (s16)object->ot_depth
                 );
             }
@@ -477,7 +477,6 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
 GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
 GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 
-#define DISPLAY_OBJECT_CALLBACK_BYTES(object) ((u8 *)(object))
 #define POLY_G4_BYTES(packet) ((u8 *)(packet))
 #define POLY_GT4_BYTES(packet) ((u8 *)(packet))
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
@@ -527,7 +526,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     p->cxcy.word = object->field_40.word;
     p->rgb = object->rgb;
     flags = object->flags;
-    p->uv.word = object->texture_uv;
+    p->uv.word = object->texture_uv.word;
     if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
         p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
@@ -596,7 +595,7 @@ void DisplayObject_RenderSpriteStripList(void)
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
+            DisplayObject *data = object;
 
             i = object->next;
 
@@ -623,7 +622,7 @@ void DisplayObject_RunUpdateCallbackList(void)
 
         i = object->next;
         if (callback != 0) {
-            callback(DISPLAY_OBJECT_CALLBACK_BYTES(object));
+            callback(object);
         }
     }
 }
@@ -640,12 +639,12 @@ void DisplayObject_RunSecondaryCallbackList(void)
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
+            u8 *data = DISPLAY_OBJECT_BYTES(object);
 
             i = object->next;
 
             if (callback != 0) {
-                callback(data);
+                callback(object);
             }
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
@@ -722,8 +721,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
             object = &gDisplayObject_aPool[i];
             callback = object->update;
             i = object->next;
-            if (callback != (DisplayObjectCallback)0) {
-                callback(DISPLAY_OBJECT_BYTES(object));
+            if (callback != 0) {
+                callback(object);
             }
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
@@ -834,8 +833,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
             object = &gDisplayObject_aPool[i];
             callback = object->update;
             i = object->next;
-            if (callback != (DisplayObjectCallback)0) {
-                callback(DISPLAY_OBJECT_BYTES(object));
+            if (callback != 0) {
+                callback(object);
             }
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
@@ -1473,7 +1472,7 @@ s32 DisplayObject_ProjectRotationFacing(
         gte_stopz(area_result);
 
         {
-            s32 cb = obj->back_face_handler;
+            s32 cb = obj->back_face_handler.word;
             if (cb != 0) {
                 if (cb < 0) {
                     ((void (*)(DisplayObject *, s32))cb)(obj, facing_area);
@@ -1716,7 +1715,7 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_3C.word = 0;
     object->field_34.word = 0;
     object->field_2C.word = 0;
-    object->back_face_handler = 0;
+    object->back_face_handler.word = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
@@ -1742,7 +1741,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     object->field_44.word = initial;
     object->field_38.word = initial;
     object->field_2C.word = initial;
-    object->back_face_handler = 0;
+    object->back_face_handler.word = 0;
     object->field_20.b.rotation_y = 0;
     object->field_20.b.rotation_x = 0;
     object->field_20.b.rotation_z = 0;
@@ -1938,10 +1937,10 @@ void *DisplayObject_FindAllocatedByTag(s32 value)
     return 0;
 }
 
-s32 DisplayObject_MarkInitialized(DisplayObjectLifecycle *object)
+s32 DisplayObject_MarkInitialized(DisplayObject *object)
 {
-    if ((object->flags & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
-        object->flags |= DISPLAY_OBJECT_FLAG_ALLOCATED;
+    if ((object->field_6C & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
+        object->field_6C |= DISPLAY_OBJECT_FLAG_ALLOCATED;
         return 0;
     }
     return 1;

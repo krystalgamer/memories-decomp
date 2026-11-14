@@ -298,7 +298,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_PULSE) || \
     defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_PULSE)
-void NameEntry_UpdateGlyphPulse(u8 *sprite)
+void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
 {
     GlyphSprite *obj = (GlyphSprite *)sprite;
 #ifdef VERSION_EUROPE
@@ -315,7 +315,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
 #else
     source = obj->sourceGlyph;
 #endif
-    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)sprite) == 0) {
+    if (DisplayObject_MarkInitialized(sprite) == 0) {
         if (source != 0) {
 #ifdef VERSION_EUROPE
             obj->savedSourceX = source->local_x;
@@ -394,13 +394,13 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_SHATTER) || \
     defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_SHATTER)
-void NameEntry_UpdateGlyphShatter(u8 *object)
+void NameEntry_UpdateGlyphShatter(DisplayObject *object)
 {
     DisplayObject *piece;
     s32 dx;
     s32 dy;
 
-    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
+    if (DisplayObject_MarkInitialized(object) == 0) {
         for (dy = 0; dy < 0x10; dy += 4) {
             for (dx = 0; dx < NAME_ENTRY_SHATTER_WIDTH; dx += 4) {
                 piece = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
@@ -408,14 +408,14 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                     /* Scoped to the copy: a function-wide view costs
                        GCC a second callee-saved register for the
                        glyph. */
-                    DisplayObject *glyph = (DisplayObject *)object;
+                    DisplayObject *glyph = object;
 
                     DisplayObject_ConfigureScreenSprite(piece,
                                   (s16)glyph->xy.h.x + dx,
                                   (s16)glyph->xy.h.y + dy,
                                   4, 4,
-                                  *(u8 *)&glyph->texture_uv + dx,
-                                  ((u8 *)&glyph->texture_uv)[1] + dy,
+                                  glyph->texture_uv.b.u + dx,
+                                  glyph->texture_uv.b.v + dy,
 #ifdef VERSION_JAPAN
                                   25,
 #else
@@ -425,7 +425,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                                   (u16)glyph->field_40.clut.y);
                     piece->field_6C = 3;
                     piece->update =
-                        (DisplayObjectCallback)NameEntry_UpdateGlyphFragment;
+                        NameEntry_UpdateGlyphFragment;
                 }
             }
         }
@@ -475,9 +475,9 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
 /* Flies an accepted glyph from the keyboard to the name field on the same
  * tween prologue as the caret, dropping a fading copy of itself each frame.
  * On arrival it looks the destination glyph up and shatters it. */
-void NameEntry_UpdateGlyphTransfer(u8 *w)
+void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 {
-    DisplayObject *g = (DisplayObject *)w;
+    DisplayObject *g = w;
     DisplayObject *o;
     DuelEffectEntry *node;
     s32 n;
@@ -513,7 +513,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 #else
                       16, 16,
 #endif
-                      *(u8 *)&g->texture_uv, ((u8 *)&g->texture_uv)[1],
+                      g->texture_uv.b.u, g->texture_uv.b.v,
                       g->texture_page,
 #ifdef VERSION_JAPAN
                       0x210, 0xFF);
@@ -540,7 +540,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 #else
     node = TextBox_GetGlyphAt(3, gNameEntry_bCaretPos << 4,
 #endif
-                              (((DisplayObject *)w)->field_60 = 2, 0));
+                              ((w->field_60 = 2), 0));
     if (node == 0) {
         return;
     }
@@ -745,7 +745,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
     gNameEntry_bCaretPos += delta;
     object = (DisplayObject *)gNameEntry_pCaret;
     object->field_44.target.x = gNameEntry_bCaretPos * 16 + 0x6B;
-    object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
+    object->update = NameEntry_UpdateCaretTween;
     object->field_6C = 2;
     object->field_60 = tween_frames;
     object->field_44.target.y = object->xy.h.y;
@@ -991,7 +991,7 @@ void NameEntry_UpdateKeyboard(void)
         if (work >= 0) {
             object = gNameEntry_apKeySprites[work];
             object->field_6C = 1;
-            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            object->update = NameEntry_UpdateGlyphPulse;
             object->field_4C = 0;
             object->field_6B = 1;
             return;
@@ -999,7 +999,7 @@ void NameEntry_UpdateKeyboard(void)
         node = TextBox_GetGlyphAt(kind, gx | 2, gy);
         object = NameEntry_SpawnGlyphSprite(kind, node);
         object->field_6C = 1;
-        object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+        object->update = NameEntry_UpdateGlyphPulse;
         if (node == 0) {
             object->flags &= 0xFFBF;
         }
@@ -1013,7 +1013,7 @@ void NameEntry_UpdateKeyboard(void)
             }
             object = NameEntry_SpawnGlyphSprite(1, node);
             object->field_60 = 8;
-            object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+            object->update = NameEntry_UpdateGlyphTransfer;
             object->field_44.target.y = 204;
             object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
             object->field_6C = 6;
@@ -1072,7 +1072,7 @@ void NameEntry_UpdateKeyboard(void)
         obj = NameEntry_SpawnGlyphSprite(kind, node);
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update =
-            (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+            NameEntry_UpdateGlyphPulse;
         if (node == 0) {
             ((DisplayObject *)obj)->flags &= 0xFFBF;
         }
@@ -1082,7 +1082,7 @@ void NameEntry_UpdateKeyboard(void)
             obj = NameEntry_SpawnGlyphSprite(kind, node);
             ((DisplayObject *)obj)->field_6C = 1;
             ((DisplayObject *)obj)->update =
-                (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+                NameEntry_UpdateGlyphPulse;
             ((DisplayObject *)obj)->field_48.pivot.x = 0;
         }
         if (kind == 1) {
@@ -1096,7 +1096,7 @@ void NameEntry_UpdateKeyboard(void)
             obj = NameEntry_SpawnGlyphSprite(1, node);
             ((DisplayObject *)obj)->field_60 = 8;
             ((DisplayObject *)obj)->update =
-                (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+                NameEntry_UpdateGlyphTransfer;
             ((DisplayObject *)obj)->field_44.target.y = 204;
             ((DisplayObject *)obj)->field_44.target.x =
                 gNameEntry_bCaretPos * 16 + 112;

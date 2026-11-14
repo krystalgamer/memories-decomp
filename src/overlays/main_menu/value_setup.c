@@ -604,7 +604,7 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_6B = index;
     object->field_60 = 0xA;
     object->field_6C = value;
-    object->update = (DisplayObjectCallback)MainMenu_UpdateValueWidgetTween;
+    object->update = MainMenu_UpdateValueWidgetTween;
     object->field_34.h.field_36 = object->xy.h.x;
     object->field_38.h.field_38 = object->xy.h.y;
 }
