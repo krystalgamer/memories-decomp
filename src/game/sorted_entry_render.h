@@ -6,6 +6,41 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 
+/* One vertex of a LINE_G4 (libgpu.h) as its two words: the r/g/b/pad (or
+ * r/g/b/code) word and the x/y word. */
+typedef struct FogLineVertex {
+    u32 color;
+    u32 xy;
+} FogLineVertex;
+
+/* The scratchpad LINE_G4 that Model_DrawFogTexturedTriangles builds its
+ * triangle outlines in. The GTE stores fill the primitive's fields, and the
+ * outline is closed by copying vertex 0 into vertex 3 a word at a time. */
+typedef union FogLineG4 {
+    LINE_G4 prim;
+    struct {
+        u32 tag;
+        FogLineVertex v[4];
+        u32 pad;
+    } words;
+} FogLineG4;
+
+typedef char FogLineG4_size_must_match_LINE_G4[
+    sizeof(FogLineG4) == sizeof(LINE_G4) ? 1 : -1
+];
+
+/* The fog drivers' packet output cursor. It starts at arg->out_packetp,
+ * receives one primitive per drawn face, steps past that primitive, and ends
+ * in gGraphics_pPacketWorkCursor. */
+typedef union FogPacketCursor {
+    PACKET *bytes;
+    u32 *words;
+    POLY_GT3 *gt3;
+    POLY_GT4 *gt4;
+    LINE_G4 *lg4;
+    LINE_G2 *lg2;
+} FogPacketCursor;
+
 u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg);
 u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg);
 
@@ -64,7 +99,7 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
  * to gModel_dwFogDrawFlags (src/game/sorted_entry_render.c), and four sites read it back:
  * the two palette builders take the whole word -- Model_DrawFogTexturedTriangles and
  * Model_DrawFogTexturedQuads (src/game/sorted_entry_render.c) each do
- * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
+ * *grey = gModel_dwFogBaseColor; and *white = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
  * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene.c). */
 extern u32 gModel_dwFogBaseColor;

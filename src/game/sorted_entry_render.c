@@ -41,8 +41,6 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
    gModel_dwFogDrawFlags bits: 3 hands the block off, 2 walks it, and 0-1 draw sorted
    entries filled and the rest as outlines. */
 
-#define CVECTOR_WORD(color) (*(u32 *)(color))
-
 /*
  * HMD primitive driver for type 0x0002000D (GsUFGT3, fog-shaded textured
  * triangle), returned by Model_GetPrimitiveHandler. Bit 3 of gModel_dwFogDrawFlags hands
@@ -59,9 +57,6 @@ void SortedEntry_Append(s32 dx, s32 dy, s32 dz) {
  * All 672 instructions and relocations then match.
  */
 
-#define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
-#define PACKET_OBJECT_VIEW(type, packet) (*(type *)(packet))
-
 static inline s32 SortedEntry_PopPosition(void)
 {
     s32 z = gSortedEntry_pCursor->sorted_position;
@@ -75,10 +70,10 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
     long z;
     u32 flags;
     u32 mask;
-    CVECTOR *white;
+    u32 *white;
     s32 *scr;
     u32 *primp;
-    PACKET *out;
+    FogPacketCursor out;
     s32 n;
     u16 *rec;
     SVECTOR *vertop;
@@ -89,10 +84,10 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         return Model_DrawGt3Primitives(arg);
     }
     mask = 0xFFFFFF;
-    white = (CVECTOR *)SCRATCH_ADDR(0x3C0);
+    white = (u32 *)SCRATCH_ADDR(0x3C0);
     scr = (s32 *)SCRATCH_ADDR(0x3E0);
     primp = (u32 *)arg->primp;
-    out = arg->out_packetp;
+    out.bytes = arg->out_packetp;
     n = ((u16 *)primp)[1];
     rec = (u16 *)(arg->primtop + (primp[1] & mask));
     vertop = arg->vertop;
@@ -119,12 +114,12 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         SVECTOR *v1;
         u32 c0;
         u32 c1;
-        CVECTOR *grey = (CVECTOR *)SCRATCH_ADDR(0x3D0);
-        LINE_G4 *lg = (LINE_G4 *)SCRATCH_ADDR(0x380);
+        u32 *grey = (u32 *)SCRATCH_ADDR(0x3D0);
+        FogLineG4 *lg = (FogLineG4 *)SCRATCH_ADDR(0x380);
         POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
 
-        CVECTOR_WORD(white) = mask;
-        CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
+        *white = mask;
+        *grey = gModel_dwFogBaseColor;
         while (--n != -1) {
             if ((gModel_dwFogDrawFlags & 2) &&
                 (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
@@ -165,50 +160,50 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
                     *(u16 *)&gt->u2 = rec[4];
                     gt->tpage = rec[3];
                     gt->clut = rec[1];
-                    PACKET_OBJECT_VIEW(POLY_GT3, out) = *gt;
+                    *out.gt3 = *gt;
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
-                    addPrim(&arg->tagp->org[z], out);
-                    out += sizeof(POLY_GT3);
+                    addPrim(&arg->tagp->org[z], out.bytes);
+                    out.gt3++;
                 }
             } else {
                 gte_ldv0(&vertop[rec[7]]);
                 gte_rtps();
-                gte_stsxy(&lg->x0);
+                gte_stsxy(&lg->prim.x0);
                 gte_stflg(&scr[0]);
                 gte_ldv0(&nortop[rec[6]]);
                 gte_ldrgb(white);
                 gte_ncds();
-                gte_strgb(&lg->r0);
+                gte_strgb(&lg->prim.r0);
                 gte_stszotz(&scr[4]);
-                c0 = LINE_G4_WORD_VIEW(lg)[1];
-                c1 = LINE_G4_WORD_VIEW(lg)[2];
+                c0 = lg->words.v[0].color;
+                c1 = lg->words.v[0].xy;
                 v1 = &vertop[rec[9]];
-                LINE_G4_WORD_VIEW(lg)[7] = c0;
-                LINE_G4_WORD_VIEW(lg)[8] = c1;
+                lg->words.v[3].color = c0;
+                lg->words.v[3].xy = c1;
                 gte_ldv0(v1);
                 gte_rtps();
-                gte_stsxy(&lg->x1);
+                gte_stsxy(&lg->prim.x1);
                 gte_stflg(&scr[1]);
                 gte_ldv0(&nortop[rec[8]]);
                 gte_ldrgb(white);
                 gte_ncds();
-                gte_strgb(&lg->r1);
+                gte_strgb(&lg->prim.r1);
                 gte_stszotz(&scr[5]);
                 gte_ldv0(&vertop[rec[11]]);
                 gte_rtps();
-                gte_stsxy(&lg->x2);
+                gte_stsxy(&lg->prim.x2);
                 gte_stflg(&scr[2]);
                 gte_ldv0(&nortop[rec[10]]);
                 gte_ldrgb(white);
                 gte_ncds();
-                gte_strgb(&lg->r2);
+                gte_strgb(&lg->prim.r2);
                 gte_stszotz(&scr[6]);
                 if ((scr[0] | scr[1] | scr[2]) >= 0) {
-                    setLineG4(lg);
-                    PACKET_OBJECT_VIEW(LINE_G4, out) = *lg;
+                    setLineG4(&lg->prim);
+                    *out.lg4 = lg->prim;
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
-                    addPrim(&arg->tagp->org[z], out);
-                    out += sizeof(LINE_G4);
+                    addPrim(&arg->tagp->org[z], out.bytes);
+                    out.lg4++;
                 }
             }
             rec += 11;
@@ -217,7 +212,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
 
-        CVECTOR_WORD(white) = gModel_dwFogBaseColor;
+        *white = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
@@ -256,16 +251,16 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
                 *(u16 *)&gt->u2 = rec[4];
                 gt->tpage = rec[3];
                 gt->clut = rec[1];
-                PACKET_OBJECT_VIEW(POLY_GT3, out) = *gt;
+                *out.gt3 = *gt;
                 z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
-                addPrim(&arg->tagp->org[z], out);
-                out += sizeof(POLY_GT3);
+                addPrim(&arg->tagp->org[z], out.bytes);
+                out.gt3++;
             }
             rec += 11;
             rec++;
         }
     }
-    gGraphics_pPacketWorkCursor = (u32 *)out;
+    gGraphics_pPacketWorkCursor = out.words;
     return primp + 2;
 }
 
@@ -301,18 +296,17 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
  */
 
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
-#define LINE_G2_VIEW(packet) ((LINE_G2 *)(packet))
 
 u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 {
     long z;
     u32 flags;
     u32 mask;
-    CVECTOR *white;
+    u32 *white;
     s32 *scr;
     s32 *flg;
     u32 *primp;
-    PACKET *out;
+    FogPacketCursor out;
     s32 n;
     u16 *rec;
     SVECTOR *vertop;
@@ -324,10 +318,10 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
         return Model_DrawGt4Primitives(arg);
     }
     mask = 0xFFFFFF;
-    white = (CVECTOR *)SCRATCH_ADDR(0x3C0);
+    white = (u32 *)SCRATCH_ADDR(0x3C0);
     scr = (s32 *)SCRATCH_ADDR(0x3E0);
     primp = (u32 *)arg->primp;
-    out = arg->out_packetp;
+    out.bytes = arg->out_packetp;
     n = ((u16 *)primp)[1];
     rec = (u16 *)(arg->primtop + (primp[1] & mask));
     vertop = arg->vertop;
@@ -356,10 +350,10 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     if (flags & 3) {
         LINE_G4 *lg = (LINE_G4 *)SCRATCH_ADDR(0x380);
         POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
-        CVECTOR *grey = (CVECTOR *)SCRATCH_ADDR(0x3D0);
+        u32 *grey = (u32 *)SCRATCH_ADDR(0x3D0);
 
-        CVECTOR_WORD(white) = mask;
-        CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
+        *white = mask;
+        *grey = gModel_dwFogBaseColor;
         while (--n != -1) {
             flg = (s32 *)SCRATCH_ADDR(0x3E8);
             if ((gModel_dwFogDrawFlags & 2) &&
@@ -411,10 +405,10 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
                     *(u16 *)&gt->u3 = rec[6];
                     gt->tpage = rec[3];
                     gt->clut = rec[1];
-                    *(POLY_GT4 *)out = *gt;
+                    *out.gt4 = *gt;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                    addPrim(&arg->tagp->org[z], out);
-                    out += 0x34;
+                    addPrim(&arg->tagp->org[z], out.bytes);
+                    out.gt4++;
                 }
             } else {
                 gte_ldv0(&vertop[rec[7]]);
@@ -455,17 +449,19 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
                 gte_stszotz(&scr[7]);
                 if ((scr[0] | scr[1] | scr[2] | scr[3]) >= 0) {
                     setLineG4(lg);
-                    *(LINE_G4 *)out = *lg;
+                    *out.lg4 = *lg;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                    addPrim(&arg->tagp->org[z], out);
-                    out += 0x28;
-                    *(u32 *)&LINE_G2_VIEW(out)->x0 = *(u32 *)&lg->x0;
-                    *(u32 *)&LINE_G2_VIEW(out)->x1 = *(u32 *)&lg->x3;
-                    *(u32 *)&LINE_G2_VIEW(out)->r0 = *(u32 *)&lg->r0;
-                    *(u32 *)&LINE_G2_VIEW(out)->r1 = *(u32 *)&lg->r3;
-                    setLineG2(LINE_G2_VIEW(out));
-                    addPrim(&arg->tagp->org[z], out);
-                    out += 0x14;
+                    addPrim(&arg->tagp->org[z], out.bytes);
+                    out.lg4++;
+                    /* Scalar word copies: member-typed (in-struct) accesses
+                       reschedule the closing LINE_G2's stores. */
+                    *(u32 *)&out.lg2->x0 = *(u32 *)&lg->x0;
+                    *(u32 *)&out.lg2->x1 = *(u32 *)&lg->x3;
+                    *(u32 *)&out.lg2->r0 = *(u32 *)&lg->r0;
+                    *(u32 *)&out.lg2->r1 = *(u32 *)&lg->r3;
+                    setLineG2(out.lg2);
+                    addPrim(&arg->tagp->org[z], out.bytes);
+                    out.lg2++;
                 }
             }
             rec += 14;
@@ -473,7 +469,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
 
-        CVECTOR_WORD(white) = gModel_dwFogBaseColor;
+        *white = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
@@ -522,15 +518,15 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
                 *(u16 *)&gt->u3 = rec[6];
                 gt->tpage = rec[3];
                 gt->clut = rec[1];
-                *(POLY_GT4 *)out = *gt;
+                *out.gt4 = *gt;
                 z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                addPrim(&arg->tagp->org[z], out);
-                out += 0x34;
+                addPrim(&arg->tagp->org[z], out.bytes);
+                out.gt4++;
             }
             rec += 14;
         }
     }
-    gGraphics_pPacketWorkCursor = (u32 *)out;
+    gGraphics_pPacketWorkCursor = out.words;
     return primp + 2;
 }
 
