@@ -282,8 +282,8 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
         if (!(((DuelEffectEntry *)node)->entry_flags & 0x80)) {
             return (DuelEffectEntry *)0;
         }
-        if (((DuelEffectEntry *)node)->x_0C == x &&
-            ((DuelEffectEntry *)node)->y_0E == y) {
+        if ((s16)((DuelEffectEntry *)node)->local_x == x &&
+            (s16)((DuelEffectEntry *)node)->local_y == y) {
             return (DuelEffectEntry *)node;
         }
 #endif
@@ -321,8 +321,8 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
             obj->savedSourceX = source->local_x;
             source->local_x = 0x400;
 #else
-            obj->savedSourceX = source->x_0C;
-            source->x_0C = 0x400;
+            obj->savedSourceX = source->local_x;
+            source->local_x = 0x400;
 #endif
         }
         obj->frame = 0;
@@ -355,7 +355,7 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
 #ifdef VERSION_EUROPE
             source->local_x = obj->savedSourceX;
 #else
-            source->x_0C = obj->savedSourceX;
+            source->local_x = obj->savedSourceX;
 #endif
         }
     }
@@ -578,7 +578,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         p = &gText_aChannels[slot];
         gNameEntry_bGlyphVramSlot = (gNameEntry_bGlyphVramSlot + 1) & 0xF;
         DisplayObject_ConfigureScreenSprite(
-            obj, p->rect_x + w->x_0C, p->rect_y + w->y_0E,
+            obj, p->rect_x + (s16)w->local_x, p->rect_y + (s16)w->local_y,
             16, 16, (gNameEntry_bGlyphSequence & 0xF) << 4, gNameEntry_bGlyphSequence & 0xF0, 25, 0x210, 0xFF
         );
         obj->sequence = gNameEntry_bGlyphSequence;
@@ -706,7 +706,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         }
         DisplayObject_ConfigureScreenSprite(
             obj,
-            p->rect_x + w->x_0C + shift, p->rect_y + w->y_0E,
+            p->rect_x + (s16)w->local_x + shift, p->rect_y + (s16)w->local_y,
             16, 16, u, v, 10, 640, p->color_index_54 + 232
         );
         obj->sequence = gNameEntry_bGlyphSequence;

@@ -610,7 +610,7 @@ per function and a truthful one-argument byte-pointer callback type, included
 by definitions and installers. The glyph nodes this screen walks are the
 resident `DuelEffectEntry` records of `gDuelEffect_aEntries`, so the header consumes
 that type from [`duel_effect_states.h`](../../game/duel_effect_states.h) instead of
-describing the node again: `code_00` is the SJIS code and `x_0C`/`y_0E` the
+describing the node again: `code_00` is the SJIS code and `local_x`/`local_y` the
 signed local position this screen searches. The text-box records the screen
 builds are `DuelEffectChannel`, from the same header. Display-object
 prefixes remain local, and their `+0x44/+0x46` fields retain role-dependent

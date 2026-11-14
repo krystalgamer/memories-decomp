@@ -174,7 +174,7 @@ but their physical offsets do not:
 
 | Existing view | Coordinate members | Physical offsets | Stored type |
 | --- | --- | --- | --- |
-| Shared NA entry / Japanese shared prefix | x_0C / y_0E, unchanged | +0x0C / +0x0E | s16 |
+| Shared NA entry / Japanese shared prefix | local_x / local_y (formerly x_0C / y_0E) | +0x0C / +0x0E | s16 |
 | Legacy DuelEffectChannel entry-callback prefix | local_x / local_y | +0x0C / +0x0E | u16 |
 | EuropeanDuelEffectEntry | local_x / local_y | +0x02 / +0x04 | u16 |
 
