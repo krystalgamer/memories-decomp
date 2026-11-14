@@ -1948,8 +1948,6 @@ void Model_PlaySlotAnimationSounds(s32 index) {
 
 #define MODEL_TINT_COLOR_VIEW(color) ((ModelTintColor *)(color))
 #define SVECTOR_VIEW(vector) ((SVECTOR *)(vector))
-#define MODEL_SLOT_BYTES(slots, index) \
-    ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 
 /* The contiguous model camera and scene runtime. Model_SeparateViewFromSlots pushes the
    gModel_RView reference apart from the two model records; Model_UpdateCamera
@@ -2726,7 +2724,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (eye_transport != 0 || mode_request <= 0) {
         if (eye_transport > 0) {
             selected_slot = eye_transport - 1;
-            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
+            eye_transport = (s32)gModel_aSlots[selected_slot].cached_position;
             if (timing_work >= 0) {
                 gModel_CameraMove.eye.pair_slot = selected_slot ^ 1;
             } else {
@@ -2743,7 +2741,7 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     if (target_transport != 0 || mode_request <= 0) {
         if (target_transport > 0) {
             selected_slot = target_transport - 1;
-            target_transport = (s32)MODEL_SLOT_BYTES(gModel_aSlots[0].cached_position, selected_slot);
+            target_transport = (s32)gModel_aSlots[selected_slot].cached_position;
             if (timing_work >= 0) {
                 gModel_CameraMove.target.pair_slot = selected_slot ^ 1;
             } else {
@@ -3196,8 +3194,8 @@ s32 ModelDebug_UpdateController(void)
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-#ifndef MODEL_RENDER_BLEND_MODE_5_WORD
-#define MODEL_RENDER_BLEND_MODE_5_WORD 0x3C200000
+#ifndef MODEL_TEXTURE_PALETTE_RECT_X
+#define MODEL_TEXTURE_PALETTE_RECT_X 0x200
 #endif
 
 /* Defined rather than declared so the assembler pads the loads that feed
@@ -3246,7 +3244,7 @@ u8 gModel_bCurrentDrawMode;
         gModel_dwTpageBlendRateBits = 0x200000; \
     } \
     if ((fl) == 5) { \
-        gModel_dwSecondPassClutBits = MODEL_RENDER_BLEND_MODE_5_WORD; \
+        gModel_dwSecondPassClutBits = getClut(MODEL_TEXTURE_PALETTE_RECT_X, 0xF0) << 16; \
     } else { \
         gModel_dwSecondPassClutBits = 0; \
     } \
@@ -4755,9 +4753,6 @@ void Model_AdvanceSlotLoad(s32 index)
 #endif
 #ifndef MODEL_TEXTURE_STAGE3_RECT_Y
 #define MODEL_TEXTURE_STAGE3_RECT_Y(index) 0xF8
-#endif
-#ifndef MODEL_TEXTURE_PALETTE_RECT_X
-#define MODEL_TEXTURE_PALETTE_RECT_X 0x200
 #endif
 #ifndef MODEL_TEXTURE_TAIL_ROW_Y
 #define MODEL_TEXTURE_TAIL_ROW_Y 0xF0
