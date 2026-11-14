@@ -576,7 +576,7 @@ void Main_RunTrade(void)
     case 1:
         if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
-            DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
+            DisplayObject_SavePosition(obj);
             obj->field_60 = 0x400;
             gMain_bModeRunnerStep = 2;
         }
@@ -585,7 +585,7 @@ void Main_RunTrade(void)
         y = *(u16 *)&obj->field_60 - 0x20;
         obj->field_60 = y;
         Widget_SlideSine(
-            (DisplayObjectPosition *)obj,
+            obj,
             0,
             MAIN_RUN_TRADE_SCREEN_HEIGHT,
             (s16)y

@@ -462,7 +462,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
             quotient = 2048 / gCampaignMap_MoveState;
             marker->f96 += quotient;
             DisplayObject_InterpolatePositionCosine(
-                (DisplayObjectPosition *)marker,
+                (DisplayObject *)marker,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f12,

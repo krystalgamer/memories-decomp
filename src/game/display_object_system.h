@@ -101,37 +101,6 @@ typedef struct {
     u8 *base;
 } DisplayObjectStream;
 
-/* The motion view of a display object: a position triple at 0x30 with its
- * three 8.8 fraction bytes at 0x62, and a per-frame delta triple at 0x36.
- *
- * 0x36/0x38 is read two ways across the tree, and this is the second of them.
- * DisplayObject_SavePosition.h's DisplayObjectSnapshot and display_object_interpolation.h's
- * DisplayObjectPosition both treat the pair as a *saved* or *source* position
- * that eases into the live pair at 0x30/0x32. Here the same halfwords are
- * added to the position every frame, which is only meaningful as a velocity.
- *
- * Neither view is wrong and neither generalises: the memory belongs to
- * whichever motion path owns the object, exactly as 0x44 and 0x4C in
- * display_object.h are a colour to one renderer and a scale or a callback to
- * another. name_entry_runtime.c settles this reading for the objects
- * it drives -- it accelerates 0x38 toward 0x800 by 0x40 a frame through
- * DisplayObject_StepToward, decays 0x36 toward zero by 8 through
- * DisplayObject_StepTowardZero, then calls DisplayObject_StepPositionXY.
- * That is gravity, friction and integration, in that order. */
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;
-    s16 y;
-    s16 z;
-    s16 velocity_x;
-    s16 velocity_y;
-    s16 velocity_z;
-    u8 pad_3C[0x26];
-    u8 fraction_x;
-    u8 fraction_y;
-    u8 fraction_z;
-} DisplayObjectVelocity;
-
 /* Lives in .sdata. Declared volatile because display_object_helpers.c
    reads it through a volatile pointer; the qualifier is load-bearing
    there, not decorative.
@@ -199,12 +168,12 @@ u8 *DisplayObjectStream_ResolveOffset(
     DisplayObjectStream *object,
     const u8 *data
 );
-void DisplayObject_ResetVelocity(DisplayObjectVelocity *object);
-void DisplayObject_StepPositionX(DisplayObjectVelocity *object);
-void DisplayObject_StepPositionY(DisplayObjectVelocity *object);
-void DisplayObject_StepPositionZ(DisplayObjectVelocity *object);
-void DisplayObject_StepPositionXY(DisplayObjectVelocity *object);
-void DisplayObject_StepPositionXYZ(DisplayObjectVelocity *object);
+void DisplayObject_ResetVelocity(DisplayObject *object);
+void DisplayObject_StepPositionX(DisplayObject *object);
+void DisplayObject_StepPositionY(DisplayObject *object);
+void DisplayObject_StepPositionZ(DisplayObject *object);
+void DisplayObject_StepPositionXY(DisplayObject *object);
+void DisplayObject_StepPositionXYZ(DisplayObject *object);
 s32 DisplayObject_StepToward(s32 value, s32 target, s32 step);
 s32 DisplayObject_StepTowardZero(s32 value, s32 step);
 
@@ -214,42 +183,14 @@ s32 DisplayObject_StepTowardZero(s32 value, s32 step);
  * field_4C, and the object's draw pass supplies both arguments. */
 void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot);
 
-/* Saves the live output position before one of the interpolation helpers
- * starts moving it. The names follow DisplayObjectPosition below: the
- * helpers read the saved pair as their start point and write the output. */
-typedef struct {
-    u8 pad_00[0x30];
-    u16 out_x;
-    u16 out_y;
-    u8 pad_34[2];
-    u16 x;
-    u16 y;
-} DisplayObjectSnapshot;
-
-/* Fields the interpolation helpers read and write while easing an object
- * between its current pair at 0x36/0x38 and a target, leaving the result in
- * the pair at 0x30/0x32. Other translation units describe the same memory
- * through their own wider views.
- *
- * The halfword at 0x34 is padding here in the same sense as everywhere else:
- * these two functions do not touch it. That is not evidence that the memory
- * is unused, and it must not be treated as free space. The canonical record
- * in display_object.h spans it with pad_34[8], and DisplayObjectSnapshot
- * above spans it with pad_34[2]. */
-typedef struct {
-    u8 pad_00[0x30];
-    s16 out_x;
-    s16 out_y;
-    u8 pad_34[0x02];
-    s16 x;
-    s16 y;
-} DisplayObjectPosition;
-
-void DisplayObject_SavePosition(DisplayObjectSnapshot *object);
+/* Saves the live output position at xy into field_34/field_38's `ease`
+ * pair before one of the interpolation helpers starts moving it. The
+ * helpers ease from that pair toward a target and write xy. */
+void DisplayObject_SavePosition(DisplayObject *object);
 void DisplayObject_InterpolatePositionCosine(
-    DisplayObjectPosition *object, s32 target_x, s32 target_y, s32 phase);
+    DisplayObject *object, s32 target_x, s32 target_y, s32 phase);
 void Widget_SlideSine(
-    DisplayObjectPosition *object,
+    DisplayObject *object,
     int target_x,
     int target_y,
     int phase);

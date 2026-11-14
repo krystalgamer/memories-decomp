@@ -41,11 +41,6 @@ u16 gDuel_wViewerCardID;
 #include "text_message_staging.h"
 #endif
 
-#define DISPLAY_OBJECT_POSITION_VIEW(object) \
-    ((DisplayObjectPosition *)(object))
-#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
-    ((DisplayObjectSnapshot *)(object))
-
 #ifndef DUEL_CARD_VIEWER_SHOWN_X
 #define DUEL_CARD_VIEWER_SHOWN_X 0x94
 #endif
@@ -109,7 +104,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->xy.h.y += adj;
 #endif
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
+        DisplayObject_SavePosition(obj);
         obj->field_60 = slide_in;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
@@ -124,7 +119,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
-        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
+        DisplayObject_SavePosition(obj);
         obj->field_60 = slide_in;
         gDuel_pCardViewerBackground = obj;
         gDuel_pCardViewerTextBox = 0;
@@ -186,12 +181,12 @@ void DuelEffect_UpdateCardViewerState(void)
         if (speed != 0) {
             if (state & 0x10) {
 #ifdef VERSION_EUROPE
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  *(s16 *)&obj->xy.h.x,
                                  0x108,
                                  speed);
 #else
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  0x148,
                                  *(s16 *)&obj->xy.h.y,
                                  speed);
@@ -204,12 +199,12 @@ void DuelEffect_UpdateCardViewerState(void)
                 }
             } else {
 #ifdef VERSION_EUROPE
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  *(s16 *)&obj->xy.h.x,
                                  6,
                                  speed);
 #else
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  DUEL_CARD_VIEWER_SHOWN_X,
                                  *(s16 *)&obj->xy.h.y,
                                  speed);
@@ -235,7 +230,7 @@ void DuelEffect_UpdateCardViewerState(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (gDuel_bEffectHandlerFlags & 0x10) {
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  -0x8C,
                                  *(s16 *)&obj->xy.h.y,
                                  speed);
@@ -246,7 +241,7 @@ void DuelEffect_UpdateCardViewerState(void)
                     obj->field_60 = 0;
                 }
             } else {
-                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                Widget_SlideSine(obj,
                                  2,
                                  *(s16 *)&obj->xy.h.y,
                                  speed);
@@ -312,10 +307,10 @@ void DuelEffect_UpdateCardViewerState(void)
     }
 #endif
     slide_out = 0x400;
-    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(gDuel_pCardViewerBackground));
+    DisplayObject_SavePosition(gDuel_pCardViewerBackground);
     next_obj = gDuel_pCardViewerCard;
     gDuel_pCardViewerBackground->field_60 = slide_out;
-    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(next_obj));
+    DisplayObject_SavePosition(next_obj);
     gDuel_pCardViewerCard->field_60 = slide_out;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);

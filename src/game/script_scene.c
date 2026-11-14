@@ -611,7 +611,7 @@ void Script_OpSavePrompt(void)
         do {
             TextBox_UpdateChannels();
         } while (box->prompt_object == 0);
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)box->render_object);
+        DisplayObject_SavePosition(box->render_object);
         slot = box->render_object;
         next = gScript_wCommandWord | 0x6000;
         slot->field_60 = -0x400;
@@ -677,7 +677,7 @@ void Script_OpSavePrompt(void)
     if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_OUT) != 0) {
         if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
             gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
-            DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
+            DisplayObject_SavePosition(obj);
             *(s16 *)&box->render_object->field_60 = 0x400;
         }
         step = *(u16 *)&obj->field_60 - 0x40;
@@ -687,7 +687,7 @@ void Script_OpSavePrompt(void)
             gScript_wCommandWord = 0;
             return;
         }
-        Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
+        Widget_SlideSine(obj, -0x90, 0x38, (s16)step);
         TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
                        *(s16 *)&obj->xy.h.y);
         return;
@@ -709,7 +709,7 @@ void Script_OpSavePrompt(void)
             );
             return;
         }
-        Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
+        Widget_SlideSine(obj, 0x10, 0x38, (s16)step);
         TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
                        *(s16 *)&obj->xy.h.y);
         return;

@@ -273,8 +273,8 @@ register or inserts assembly. The table declarations live in
 starter-deck pools and pointer list of
 [`name_entry_starter_deck.h`](name_entry_starter_deck.h), is the raw
 `name_entry_tables` data subsegment at module offset `0x2B38-0x5400`, not
-code. Existing `DisplayObjectVelocity` views cover the two movement
-helper calls without changing the selection frame's layout.
+code. The two movement helpers take the canonical `DisplayObject *`
+without changing the selection frame's layout.
 
 The two external doors are the lifecycle pair: `NameEntry_Init` builds the
 screen once, while `NameEntry_PollCompletion` advances it each frame and

@@ -42,7 +42,7 @@ void GameOver_Init(void)
     object->field_6C = 0;
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+    DisplayObject_ResetVelocity(object);
     gGameOver_pTitleObject = (s32)object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
@@ -52,13 +52,11 @@ void GameOver_Init(void)
 s32 GameOver_Update(void)
 {
     DisplayObject *p;
-    DisplayObjectVelocity *motion;
     s16 value;
     u32 tail_bits;
 
     p = (DisplayObject *)gGameOver_pTitleObject;
-    motion = (DisplayObjectVelocity *)p;
-    DisplayObject_StepPositionX(motion);
+    DisplayObject_StepPositionX(p);
     value = p->field_5A;
     if (value == 0) {
         switch (p->field_6C) {
@@ -67,10 +65,10 @@ s32 GameOver_Update(void)
                 p, 1
             );
             p->field_6C = 1;
-            motion->velocity_x = -0xC0;
+            p->field_34.motion.velocity_x = -0xC0;
             break;
         case 1:
-            DisplayObject_ResetVelocity(motion);
+            DisplayObject_ResetVelocity(p);
             DisplayObject_SetResourceVariant(
                 p, 2
             );
@@ -81,9 +79,9 @@ s32 GameOver_Update(void)
                 p, 0
             );
             p->field_6C = 0;
-            if (motion->x < -0x2F) {
-                motion->x = 0x160;
-                motion->y = Rand_GetInterval(0xB0) + 0x30;
+            if (p->xy.s.x < -0x2F) {
+                p->xy.s.x = 0x160;
+                p->xy.s.y = Rand_GetInterval(0xB0) + 0x30;
             }
             break;
         }
