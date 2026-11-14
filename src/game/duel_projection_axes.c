@@ -5,10 +5,8 @@
 #include "gpu_packets.h"
 #include "duel_projection_axes.h"
 
-#define LINE_G3_COORD_WORD(packet, member) ((long *)&(packet)->member)
-
 /* The two axis sweeps of the globe wireframe, called from Library_DrawWireframeGlobe with
- * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
+ * everything living in PSX scratchpad: `packet` is the GlobeLinePacket (a LINE_G3) at 0x1F800000
  * whose three packed screen-coordinate words RotAverage3 writes, `points` is
  * the run of SVECTOR at 0x1F800038 that it projects, and `control` is the
  * RotAverage3 flag pair at 0x1F800060. The helpers vary only x or z.
@@ -17,11 +15,11 @@
  *
  * The offsets these used to be spelled with -- dst[0]/dst[4]/dst[8] on an
  * s16 pointer and (long *)(arg0 + 8) style casts -- are the members of those
- * two SDK types. Library_DrawWireframeGlobe uses the same scratchpad records.
+ * records. Library_DrawWireframeGlobe uses the same scratchpad records.
  */
 
 void Library_DrawGlobeXSpan(
-    LINE_G3 *packet,
+    GlobeLinePacket *packet,
     GsOT *ot,
     SVECTOR *points,
     long *control,
@@ -38,9 +36,9 @@ void Library_DrawGlobeXSpan(
         &points[0],
         &points[1],
         &points[2],
-        LINE_G3_COORD_WORD(packet, x0),
-        LINE_G3_COORD_WORD(packet, x1),
-        LINE_G3_COORD_WORD(packet, x2),
+        &packet->xy0.sxy,
+        &packet->xy1.sxy,
+        &packet->xy2.sxy,
         &control[0],
         &control[1]
     );
@@ -52,9 +50,9 @@ void Library_DrawGlobeXSpan(
             &points[0],
             &points[1],
             &points[2],
-            LINE_G3_COORD_WORD(packet, x0),
-            LINE_G3_COORD_WORD(packet, x1),
-            LINE_G3_COORD_WORD(packet, x2),
+            &packet->xy0.sxy,
+            &packet->xy1.sxy,
+            &packet->xy2.sxy,
             &control[0],
             &control[1]
         );
@@ -63,7 +61,7 @@ void Library_DrawGlobeXSpan(
 }
 
 void Library_DrawGlobeZSpan(
-    LINE_G3 *packet,
+    GlobeLinePacket *packet,
     GsOT *ot,
     SVECTOR *points,
     long *control,
@@ -80,9 +78,9 @@ void Library_DrawGlobeZSpan(
         &points[0],
         &points[1],
         &points[2],
-        LINE_G3_COORD_WORD(packet, x0),
-        LINE_G3_COORD_WORD(packet, x1),
-        LINE_G3_COORD_WORD(packet, x2),
+        &packet->xy0.sxy,
+        &packet->xy1.sxy,
+        &packet->xy2.sxy,
         &control[0],
         &control[1]
     );
@@ -94,9 +92,9 @@ void Library_DrawGlobeZSpan(
             &points[0],
             &points[1],
             &points[2],
-            LINE_G3_COORD_WORD(packet, x0),
-            LINE_G3_COORD_WORD(packet, x1),
-            LINE_G3_COORD_WORD(packet, x2),
+            &packet->xy0.sxy,
+            &packet->xy1.sxy,
+            &packet->xy2.sxy,
             &control[0],
             &control[1]
         );

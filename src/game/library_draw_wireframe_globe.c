@@ -24,7 +24,7 @@
 
 void Library_DrawWireframeGlobe(void)
 {
-    LINE_G3 *prim;
+    GlobeLinePacket *prim;
     SVECTOR *vec;
     SVECTOR *vec1;
     SVECTOR *vec2;
@@ -53,7 +53,7 @@ void Library_DrawWireframeGlobe(void)
         vec1 = (SVECTOR *)SCRATCH_ADDR(0x40);
         vec2 = (SVECTOR *)SCRATCH_ADDR(0x48);
         vec3 = (SVECTOR *)SCRATCH_ADDR(0x50);
-        prim = (LINE_G3 *)SCRATCH_ADDR(0);
+        prim = (GlobeLinePacket *)SCRATCH_ADDR(0);
 
         /* Retail materializes this fixed view buffer with literal lui/ori. */
         *par = *(SVECTOR *)0x80181000;
@@ -125,25 +125,25 @@ void Library_DrawWireframeGlobe(void)
             step = step / 40;
             gte_ldv0(&vec[0]);
             gte_rtps();
-            gte_stsxy(&prim->x0);
+            gte_stsxy(&prim->xy0.sxy);
             gte_ldv0(&vec[1]);
             gte_rtps();
-            gte_stsxy(&prim->x2);
+            gte_stsxy(&prim->xy2.sxy);
             i = 0;
             /* Retail reads this y0 unsigned (lhu). */
-            y = (u16)prim->y0 - step;
-            prim->x1 = prim->x0;
-            prim->y2 = y;
-            prim->y1 = y;
+            y = (u16)prim->xy0.h.y - step;
+            prim->xy1.h.x = prim->xy0.h.x;
+            prim->xy2.h.y = y;
+            prim->xy1.h.y = y;
             do {
                 Graphics_SubmitDrawModePacket((u32 *)prim, ot, 1, 1);
-                prim->y0 -= step;
-                if (prim->y0 <= 0) {
+                prim->xy0.h.y -= step;
+                if (prim->xy0.h.y <= 0) {
                     break;
                 }
                 i++;
-                prim->y1 -= step;
-                prim->y2 -= step;
+                prim->xy1.h.y -= step;
+                prim->xy2.h.y -= step;
             } while (i < 7);
             angle += 0x80;
         } while (angle < 0x1000);
