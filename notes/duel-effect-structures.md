@@ -82,7 +82,7 @@ optional count=2 behavior. This is choice-label command accounting, not
 confirmation of input or a promise that automatic wraps count as choices.
 Text_CompletePageAdvance (0x8003741C) resets it only after the first-call
 clear request and the active-entry wait have completed, together with
-the original pen/state resets and region-specific field_62 store.
+the original pen/state resets and region-specific staged_icon_variant store.
 The channel initializer does not gain a new zero store.
 
 Only five complete C units change under ten owner-qualified member
@@ -305,9 +305,9 @@ disables only this threshold check. No done flag is cleared and other
 completion paths remain unchanged.
 
 PAL instead reads/writes a u16 pixel counter over output_count AND the
-NA output_limit byte at +0x60/+0x61. Its distinct u16 limit remains over
-address-named field_62 and pad_63 at +0x62/+0x63; channel field_62 also
-stages NA icons, so it is not renamed to a universal limit. PAL consumes
+NA output_limit byte at +0x60/+0x61. Its u16 output_limit sits at
++0x62/+0x63, in the PAL branch of the record; the NA branch has
+staged_icon_variant and pad_63 there. PAL consumes
 one operand byte shifted left by three. The existing halfword casts
 are retained, NOT replaced by the new byte members.
 

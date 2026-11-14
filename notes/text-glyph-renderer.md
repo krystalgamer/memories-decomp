@@ -144,7 +144,7 @@ check, new reservation, lifetime change or real stream-pointer meaning
 is introduced; unrelated DisplayObject/ScriptImage field_10 stays intact.
 
 icon_variant names the shared entry's original u8 field_17 at +0x17.
-Only the original NA direct-icon append path copies channel field_62.
+Only the original NA direct-icon append path copies channel staged_icon_variant.
 Other glyph kinds gain no store, and Japan's trailing pad_16 is unsplit.
 The NA renderer retains the FULL-byte >=0x14 and glyph_index<0x18 guard.
 Variants 0x14/0x15/0x16/0x17 keep their exact U/CLUT-Y cases and default,
@@ -152,13 +152,13 @@ page 0x1E, 32x16 geometry, CLUT X 0x100 and attribute-bit update.
 This is not palette_index, the glyph code, a Boolean or a closed enum:
 values above the explicit cases still take the original default.
 
-The selected-card command stages NA field_62 from non-monster card type
+The selected-card command stages NA staged_icon_variant from non-monster card type
 on its first-guardian path; its initial zero, opcode priority, color-only
 early return, absent-second-star suppression and string expansion stay.
-Choice/page completion keep their NA-only clears. Channel field_62 itself
-remains address-named because Europe reads/writes a u16 output limit over
-that byte and pad_63. No shared icon-variant name, new alias, union, padding
-split, regional field, reset or expression rewrite is imposed on it.
+Choice/page completion keep their NA-only clears. Channel staged_icon_variant
+exists only in the North American branch of the record; Europe's branch has
+its u16 output_limit over the same bytes. No reset or expression rewrite is
+imposed on it.
 
 Four whole C units change fourteen qualified member identifiers only.
 The whole shared header changes three declarations, two existing offset

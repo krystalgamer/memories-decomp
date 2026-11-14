@@ -1410,7 +1410,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     if (f & 0x80) {
         q->glyph_index = a;
 #ifndef VERSION_JAPAN
-        b = p->field_62;
+        b = p->staged_icon_variant;
 #endif
         q->entry_flags = 0xA0;
 #ifndef VERSION_JAPAN
@@ -1966,7 +1966,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     object->pen_y = 0;
     object->playback_state = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    object->field_62 = 0;
+    object->staged_icon_variant = 0;
 #endif
 }
 
@@ -2399,7 +2399,7 @@ u8 gText_SelectedCardColorIndex;
    13, Text_StartCampaignDuel, is next in both the table and the image. */
 
 #ifdef VERSION_JAPAN
-/* The Japanese card-text command: no field_62 (the Japanese channel record
+/* The Japanese card-text command: no staged_icon_variant (the Japanese channel record
    ends at 0x60), a +0x100 rather than +0xD100 id for op bit 6, the stars
    without the US type and 0x17 tests, an unconditional glyph for the plain
    case, and the two-bank string lookup of the Japanese Text_LookupString. */
@@ -2478,7 +2478,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     object->pen_x += 0x10;
 }
 #elif defined(VERSION_EUROPE)
-/* The European card-text command: the Japanese shape (no field_62 reset,
+/* The European card-text command: the Japanese shape (no staged_icon_variant reset,
    +0x100 for op bit 6, the stars without the US type and 0x17 tests), a
    fourth selector (the card type with bit 7 set), the European string banks
    and the plain glyph flagged 0x100 rather than 0x80. */
@@ -2576,7 +2576,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 **slot;
 
     text = (u8 *)(s32)object->stream_index;
-    object->field_62 = 0;
+    object->staged_icon_variant = 0;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
@@ -2614,7 +2614,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
                     type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
                     id += 0x17;
                     if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
-                        object->field_62 = type;
+                        object->staged_icon_variant = type;
                     }
                     break;
                 case 2:
@@ -3281,7 +3281,7 @@ void Text_CloseChoice(DuelEffectChannel *object)
     object->prompt_object = 0;
     object->playback_state = 2;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    object->field_62 = 0;
+    object->staged_icon_variant = 0;
 #endif
     gText_CommandDisposition = 1;
 }
