@@ -560,7 +560,6 @@
       "compiler": "tools/toolchains/gcc-2.7.2-psx/bin/mips-sony-psx-gcc",
       "compiler_flags": [
         "-O2",
-        "-fno-cse-follow-jumps",
         "-G0",
         "-mel",
         "-mips1",
