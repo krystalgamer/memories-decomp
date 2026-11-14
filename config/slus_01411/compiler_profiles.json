@@ -573,11 +573,9 @@
       ],
       "aspsx_version": "2.81",
       "maspsx_flags": [
-        "--expand-div",
-        "-G0"
+        "--passthrough"
       ],
-      "data_limit": 0,
-      "assembler_mode": "gnu_reorder"
+      "data_limit": 0
     }
   }
 }
