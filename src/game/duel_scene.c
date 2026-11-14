@@ -11427,6 +11427,19 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
     return -1;
 }
 
+/* Gives up on a field card: the 1 flag and (table_index % 15) - 4 as the
+ * action code. Ai_SelectFieldPlay inlines it at both give-up sites; jump2's
+ * cross-jumping keeps the later copy and sends the first one to it. */
+static inline void Ai_GiveUpFieldPlay(DuelCardRecord *rec)
+{
+    s32 v;
+
+    v = (s8)rec->table_index % 15;
+    gAi_Selection.fields.target_code = 0;
+    gAi_Selection.fields.field_0B = 1;
+    gAi_Selection.fields.source_code = (s8)v - 4;
+}
+
 /* The AI's per-turn play decision. Writes the chosen action into the three
  * trailing bytes of the gAi_Selection selection: the action code in source_code,
  * its argument in target_code, and a flag in field_0B. It does nothing while bit
@@ -11436,16 +11449,17 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
  * equips (type 0x17) and occupied monster-row cards, and takes the first pair
  * Duel_CheckEquip accepts. Failing that it collects the type-0x14 magic cards and
  * picks one at random. Otherwise, and when neither search finds anything, it
- * walks grid slots 0xA to 0xE for the first card whose top two
- * flag bits read 10, and decides what to do with it through Ai_FindFavorableFaceUpFieldTarget and
- * Ai_FindFavorableFieldTarget, falling back to scanning the opponent's five monster zones
- * for one with 0x90000000 set.
+ * walks grid slots 0xA to 0xE for the first card whose top two flag bits read
+ * 10 and decides what to do with it: play it against the target
+ * Ai_FindFavorableFaceUpFieldTarget names, or, failing that, one turn in four
+ * against Ai_FindFavorableFieldTarget's, or else (half the time) against a
+ * random opponent monster zone with 0x90000000 set. A card with no target, or
+ * any play while the swords are up, gives up (Ai_GiveUpFieldPlay).
  *
- * The walk body keeps retail's block order inside a do-while(0): the play
- * block first, then the Ai_FindFavorableFieldTarget fallback with the give-up block inline,
- * then the zone scan. Its record, grid and give-up arithmetic are written
- * index-first through integer casts, which is the operand order retail's
- * addu instructions show. */
+ * The play block tops a loop that the no-face-up-target path enters through
+ * its case label, so a target found later continues back into it. The give-up
+ * after the play block tops an inner loop that the random-zone path falls
+ * back into. */
 s32 Ai_SelectFieldPlay(void)
 {
     DuelCardRecord *pool[6];
@@ -11453,7 +11467,6 @@ s32 Ai_SelectFieldPlay(void)
     DuelCardRecord *lista[6];
     DuelCardRecord **equip_entry;
     DuelCardRecord **target_entry;
-    DuelCardRecord **pool_cursor;
     DuelCardRecord *equip;
     DuelCardRecord *target;
     DuelCardRecord *rec;
@@ -11461,14 +11474,8 @@ s32 Ai_SelectFieldPlay(void)
     s32 slot;
     s32 n;
     s32 i;
-    s32 mask;
-    s32 res;
     s32 count;
     s32 v;
-    u8 *grid;
-    AiSelectionFields *out;
-    DuelCardRecord *recs;
-    DuelCardRecord *scanbase;
     s32 table_index;
 
     gAi_Selection.fields.source_code = 0;
@@ -11513,77 +11520,64 @@ s32 Ai_SelectFieldPlay(void)
             return 0;
         }
     }
-    slot = 0xA;
-    grid = gDuel_abFieldGridCardRecordIndices.flat;
-    out = &gAi_Selection.fields;
-    recs = gDuel_aCardRecords;
-    scanbase = &gDuel_aCardRecords[5];
-loop:
-    {
-        do {
-            n = gDuel_bActiveSide * 20;
-            /* Integer address arithmetic keeps retail's addu operand order. */
-            rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
-            /* Retail tests terrain_modifier and flags as one packed word. */
-            if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
-                v = Ai_FindFavorableFaceUpFieldTarget(rec);
-                if (v >= 0) {
-    have:
-                    if (gDuel_pActiveSideState->swords_turns_remaining == 0) {
-                        table_index = (s8)rec->table_index;
-                        slot = table_index % 5 + 1;
-                        out->field_0B = 0;
-                        out->target_code = v % 5 + 0x38;
-                        out->source_code = slot;
-                        return 0;
-                    }
-                    goto none;
-                }
-                if ((rand() & 3) == 0) {
-                    v = Ai_FindFavorableFieldTarget(rec);
-                    if (v >= 0) {
-                        goto have;
-                    }
-    none:
-                    v = (s8)rec->table_index % 15;
-                    out->target_code = 0;
-                    res = (s8)v - 4;
-                    out->field_0B = 1;
-                    out->source_code = res;
+    for (slot = 0xA; slot < 0xF; slot++) {
+        rec = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[
+            slot + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+        ]];
+        /* Retail tests terrain_modifier and flags as one packed word. */
+        if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) != 0x80000000) {
+            continue;
+        }
+        v = Ai_FindFavorableFaceUpFieldTarget(rec);
+        switch (v < 0) {
+            for (;;) {
+        case 0:
+                if (gDuel_pActiveSideState->swords_turns_remaining == 0) {
+                    /* Empty loop: stops loop.c moving this exit block out of
+                       the slot loop. */
+                    do {
+                    } while (0);
+                    table_index = (s8)rec->table_index;
+                    gAi_Selection.fields.field_0B = 0;
+                    /* The slot counter is dead here; reusing it gives it
+                       retail's $a2. */
+                    slot = table_index % 5 + 1;
+                    gAi_Selection.fields.target_code = v % 5 + 0x38;
+                    gAi_Selection.fields.source_code = slot;
                     return 0;
                 }
-                if ((rand() & 1) != 0) {
-                    count = 0;
-                    i = 0;
-                    scan = (DuelCardRecord *)((s32)((gDuel_bActiveSide ^ 1) * 15) * 28 + (s32)scanbase);
-                    mask = 0x90000000;
-                    pool_cursor = pool;
-                    do {
-                        if ((*(u32 *)&scan->terrain_modifier & mask)
-                            == mask) {
-                            *pool_cursor = scan;
-                            pool_cursor++;
-                            count++;
+                for (;;) {
+                    Ai_GiveUpFieldPlay(rec);
+                    return 0;
+        default:
+                    if ((rand() & 3) == 0) {
+                        v = Ai_FindFavorableFieldTarget(rec);
+                        if (v >= 0) {
+                            break;
                         }
-                        i++;
-                        scan++;
-                    } while (i < 5);
-                    if (count != 0) {
-                        v = count - 1;
-                        if (v != 0) {
-                            v = Rand_GetInterval(count);
+                        Ai_GiveUpFieldPlay(rec);
+                        return 0;
+                    }
+                    if (rand() & 1) {
+                        count = 0;
+                        scan = &gDuel_aCardRecords[(gDuel_bActiveSide ^ 1) * DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE];
+                        for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, scan++) {
+                            if ((*(u32 *)&scan->terrain_modifier & 0x90000000) == 0x90000000) {
+                                pool[count++] = scan;
+                            }
                         }
-                        v = (s8)pool[v]->table_index;
-                        goto have;
+                        if (count != 0) {
+                            v = count - 1;
+                            if (v != 0) {
+                                v = Rand_GetInterval(count);
+                            }
+                            v = (s8)pool[v]->table_index;
+                            break;
+                        }
                     }
                 }
-                goto none;
             }
-        } while (0);
-        slot++;
-    }
-    if (slot < 0xF) {
-        goto loop;
+        }
     }
     return 0;
 }
