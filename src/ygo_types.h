@@ -309,13 +309,16 @@ typedef struct {
         s32 word;
         u8 rotation[4];
     } field_08;
-    s16 x_0C;
-    s16 y_0E;
+    u16 local_x;
+    u16 local_y;
     u8 glyph_index;
     u8 entry_flags;
     u8 owner_channel_tag;
     u8 handler_state;
-    u8 field_14;
+    /* Mode 2's shear: TextBox_DrawEntries widens the quad's right edge by it
+       and drops its top-left corner by a quarter of it. The glyph reveal
+       starts it at 32 and eases it to 0. */
+    u8 shear;
     u8 render_mode;
     /* Glyph-kind palette and wide-icon variant selection stay distinct. */
     u8 palette_index;
@@ -339,11 +342,11 @@ typedef char DuelEffectEntry_field_04_offset_must_be_0x04[
 typedef char DuelEffectEntry_field_08_offset_must_be_0x08[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_08) == 0x08 ? 1 : -1
 ];
-typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
-    YGO_TYPE_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
+typedef char DuelEffectEntry_local_x_offset_must_be_0x0C[
+    YGO_TYPE_OFFSET(DuelEffectEntry, local_x) == 0x0C ? 1 : -1
 ];
-typedef char DuelEffectEntry_y_0E_offset_must_be_0x0E[
-    YGO_TYPE_OFFSET(DuelEffectEntry, y_0E) == 0x0E ? 1 : -1
+typedef char DuelEffectEntry_local_y_offset_must_be_0x0E[
+    YGO_TYPE_OFFSET(DuelEffectEntry, local_y) == 0x0E ? 1 : -1
 ];
 typedef char DuelEffectEntry_glyph_index_offset_must_be_0x10[
     YGO_TYPE_OFFSET(DuelEffectEntry, glyph_index) == 0x10 ? 1 : -1
@@ -358,7 +361,7 @@ typedef char DuelEffectEntry_handler_state_offset_must_be_0x13[
     YGO_TYPE_OFFSET(DuelEffectEntry, handler_state) == 0x13 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_14_offset_must_be_0x14[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_14) == 0x14 ? 1 : -1
+    YGO_TYPE_OFFSET(DuelEffectEntry, shear) == 0x14 ? 1 : -1
 ];
 typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
     YGO_TYPE_OFFSET(DuelEffectEntry, render_mode) == 0x15 ? 1 : -1
@@ -515,40 +518,11 @@ typedef char LibraryMotionState_size_must_be_0x48[
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *root_stream;
-    /* The fade callbacks in gText_SecondaryCommandHandlers reach this block. They are reached as
-       bytes at 0x04-0x0A, as local XY halfwords at 0x0C/0x0E, and as single bytes
-       at 0x13-0x15; 0x04 is additionally written as one word (0 and
-       0x80808080), which those sites spell as a width over field_04 rather
-       than a separate member.
-
-       handler_state at 0x13 combines the handler selector with
-       DISPLAY_OBJECT_FADE_FLAG_*; render_mode at 0x15 selects entry drawing.
-       These names describe the legacy entry-callback view, not live stream
-       pointers. The remaining component bytes keep field_NN:
-       0x04-0x07 and 0x08-0x0A are each written as a run of equal bytes stepped
-       together, which says component groups without saying which component
-       is which. */
-    u8 field_04;
-    u8 field_05;
-    u8 field_06;
-    u8 field_07;
-    u8 field_08;
-    u8 field_09;
-    u8 field_0A;
-    u8 pad_0B;
-    u16 local_x;
-    u16 local_y;
-    /* The object's slot in the gDuelEffect_aOccupancyValues occupancy table and the byte
-       beside it; DisplayObjectFade_ReleaseChannel clears
-       gDuelEffect_aOccupancyValues[glyph_index] and zeroes
-       entry_flags when it releases the slot. */
-    u8 glyph_index;
-    u8 entry_flags;
-    u8 pad_12;
-    u8 handler_state;
-    u8 field_14;
-    u8 render_mode;
-    u8 pad_16[10];
+    /* No code reads 0x04-0x1F of a channel. An older view named entry-handler
+       fields here (shades, rotation, local XY, handler_state, render_mode)
+       because the glyph handlers were typed to take a channel; they take
+       the DuelEffectEntry that DuelEffect_ProcessEntries walks. */
+    u8 pad_04[0x1C];
     DuelEffectEntry *entry_write_cursor;
     DuelEffectEntry *entry_begin;
     /* Every consumer proves this is a DisplayObject pointer:

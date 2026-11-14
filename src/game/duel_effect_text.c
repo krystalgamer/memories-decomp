@@ -741,11 +741,11 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r3 = gt4->g3 = gt4->b3 = p->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->gs.x;
 #ifdef VERSION_EUROPE
-            gt4->x1 = gt4->x3 = spr->gs.x + spr->gs.w + p->field_14;
+            gt4->x1 = gt4->x3 = spr->gs.x + spr->gs.w + p->shear;
 #else
-            gt4->x1 = gt4->x3 = spr->gs.x + (p->field_14 + 0x10);
+            gt4->x1 = gt4->x3 = spr->gs.x + (p->shear + 0x10);
 #endif
-            gt4->y0 = spr->gs.y + ((u8)p->field_14 >> 2);
+            gt4->y0 = spr->gs.y + ((u8)p->shear >> 2);
             gt4->y1 = spr->gs.y;
 #ifdef VERSION_EUROPE
             gt4->y2 = gt4->y3 = spr->gs.y + spr->gs.h;
@@ -960,8 +960,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 spr->gs.u = ((e->glyph_index & 0xF) * 8) - 0x80;
                 spr->gs.v = (u32)(e->glyph_index & 0xF0) >> 1;
             }
-            spr->gs.x = (u16)e->x_0C + x;
-            spr->gs.y = (u16)e->y_0E + y;
+            spr->gs.x = e->local_x + x;
+            spr->gs.y = e->local_y + y;
         } else {
             spr = sprites[0];
             switch (c) {
@@ -1103,18 +1103,18 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             spr->gs.h = hw;
             if (e->layout_selector == 1) {
                 if (nudge != 0) {
-                    spr->gs.x = (u16)e->x_0C + x + nudge;
-                    spr->gs.y = (u16)e->y_0E + y;
+                    spr->gs.x = e->local_x + x + nudge;
+                    spr->gs.y = e->local_y + y;
                 } else {
-                    spr->gs.x = (u16)e->x_0C + x;
-                    spr->gs.y = (u16)e->y_0E + y;
+                    spr->gs.x = e->local_x + x;
+                    spr->gs.y = e->local_y + y;
                 }
             } else if (e->layout_selector == 2) {
-                spr->gs.x = (u16)e->x_0C + x;
-                spr->gs.y = (u16)e->y_0E + y - 2;
+                spr->gs.x = e->local_x + x;
+                spr->gs.y = e->local_y + y - 2;
             } else {
-                spr->gs.x = (u16)e->x_0C + x;
-                spr->gs.y = (u16)e->y_0E + y + 2;
+                spr->gs.x = e->local_x + x;
+                spr->gs.y = e->local_y + y + 2;
             }
         }
         switch (e->render_mode) {
@@ -1167,8 +1167,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r3 = gt4->g3 = gt4->b3 = e->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->gs.x;
             if (e->layout_selector == 1 || (e->entry_flags & 0x20)) {
-                gt4->x1 = gt4->x3 = spr->gs.x + (e->field_14 + 0x10);
-                gt4->y0 = spr->gs.y + (e->field_14 >> 2);
+                gt4->x1 = gt4->x3 = spr->gs.x + (e->shear + 0x10);
+                gt4->y0 = spr->gs.y + (e->shear >> 2);
                 gt4->y1 = spr->gs.y;
                 gt4->y2 = gt4->y3 = spr->gs.y + 0x10;
                 gt4->u0 = gt4->u2 = spr->gs.u;
@@ -1181,8 +1181,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 gt4->v0 = gt4->v1 = spr->gs.v;
                 su = spr->gs.v + 0x10;
             } else {
-                gt4->x1 = gt4->x3 = spr->gs.x + (e->field_14 + 8);
-                gt4->y0 = spr->gs.y + (e->field_14 >> 2);
+                gt4->x1 = gt4->x3 = spr->gs.x + (e->shear + 8);
+                gt4->y0 = spr->gs.y + (e->shear >> 2);
                 gt4->y1 = spr->gs.y;
                 gt4->y2 = gt4->y3 = spr->gs.y + 0xC;
                 gt4->u0 = gt4->u2 = spr->gs.u;
@@ -1477,8 +1477,8 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     if (p->flags_34 & 0x1C00) {
         q->handler_state = 0;
     }
-    q->x_0C = p->pen_x;
-    q->y_0E = p->pen_y;
+    q->local_x = p->pen_x;
+    q->local_y = p->pen_y;
 #ifdef VERSION_JAPAN
     q = (DuelEffectEntry *)((u8 *)q + 0x18);
 #else
@@ -4102,7 +4102,7 @@ s32 gDuelEffect_nCompactionRequested;
 #ifdef VERSION_EUROPE
 s32 DisplayObjectFade_MarkInitialized(EuropeanDuelEffectEntry *object)
 #else
-s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
+s32 DisplayObjectFade_MarkInitialized(DuelEffectGlyphEntry *object)
 #endif
 {
     u8 flags = object->handler_state;
@@ -4116,7 +4116,7 @@ s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
 #ifdef VERSION_EUROPE
 void DisplayObjectFade_ReleaseChannel(EuropeanDuelEffectEntry *object)
 #else
-void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
+void DisplayObjectFade_ReleaseChannel(DuelEffectGlyphEntry *object)
 #endif
 {
 #ifndef VERSION_EUROPE
@@ -4146,17 +4146,17 @@ void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record)
         record->render_mode = 2;
         record->field_04.halves[0] = 0;
         record->field_04.halves[1] = 0;
-        record->field_14 = 16;
+        record->shear = 16;
     }
-    record->field_14 =
-        record->field_14 - (u8)gGraphics_nBaseFrameStep;
+    record->shear =
+        record->shear - (u8)gGraphics_nBaseFrameStep;
     if ((record->handler_state &
          DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
         record->field_04.corner_shade[0] =
             record->field_04.corner_shade[0] + gGraphics_nBaseFrameStep * 16;
         if ((s8)record->field_04.corner_shade[0] < 0) {
             record->field_04.corner_shade[0] = 128;
-            record->field_14 = 8;
+            record->shear = 8;
             record->handler_state |=
                 DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
@@ -4165,7 +4165,7 @@ void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record)
         record->field_04.corner_shade[1] =
             record->field_04.corner_shade[1] + gGraphics_nBaseFrameStep * 16;
         if ((s8)record->field_04.corner_shade[1] < 0) {
-            record->field_14 = 0;
+            record->shear = 0;
             record->render_mode = 0;
             record->handler_state = 0;
         }
@@ -4173,30 +4173,30 @@ void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record)
     }
 }
 #else
-void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphReveal(DuelEffectGlyphEntry *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->render_mode = 2;
         DUEL_EFFECT_FIELD_04_WORD(s32, record) = 0;
-        record->field_14 = 32;
+        record->shear = 32;
     }
-    record->field_14 = record->field_14 - gGraphics_nBaseFrameStep * 2;
+    record->shear = record->shear - gGraphics_nBaseFrameStep * 2;
     if ((record->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
-        record->field_04 = record->field_04 + gGraphics_nBaseFrameStep * 16;
-        if ((s8)record->field_04 < 0) {
-            record->field_04 = 128;
-            record->field_14 = 16;
+        record->field_04.corner_shade[0] = record->field_04.corner_shade[0] + gGraphics_nBaseFrameStep * 16;
+        if ((s8)record->field_04.corner_shade[0] < 0) {
+            record->field_04.corner_shade[0] = 128;
+            record->shear = 16;
             record->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
-        record->field_06 = record->field_04;
+        record->field_04.corner_shade[2] = record->field_04.corner_shade[0];
     } else {
-        record->field_05 = record->field_05 + gGraphics_nBaseFrameStep * 16;
-        if ((s8)record->field_05 < 0) {
-            record->field_14 = 0;
+        record->field_04.corner_shade[1] = record->field_04.corner_shade[1] + gGraphics_nBaseFrameStep * 16;
+        if ((s8)record->field_04.corner_shade[1] < 0) {
+            record->shear = 0;
             record->render_mode = 0;
             record->handler_state = 0;
         }
-        record->field_07 = record->field_05;
+        record->field_04.corner_shade[3] = record->field_04.corner_shade[1];
     }
 }
 #endif
@@ -4212,7 +4212,7 @@ void DuelEffect_UpdateGlyphConceal(EuropeanDuelEffectEntry *p)
         p->render_mode = 2;
         p->field_04.halves[0] = 0x8080;
         p->field_04.halves[1] = 0x8080;
-        p->field_14 = 0;
+        p->shear = 0;
     }
     if (!(p->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
         v = p->field_04.corner_shade[0];
@@ -4235,31 +4235,31 @@ void DuelEffect_UpdateGlyphConceal(EuropeanDuelEffectEntry *p)
     }
 }
 #else
-void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
+void DuelEffect_UpdateGlyphConceal(DuelEffectGlyphEntry *p)
 {
     s32 v;
 
     if (!DisplayObjectFade_MarkInitialized(p)) {
         p->render_mode = 2;
         DUEL_EFFECT_FIELD_04_WORD(u32, p) = 0x80808080;
-        p->field_14 = 0;
+        p->shear = 0;
     }
     if (!(p->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        v = p->field_04 - (gGraphics_nBaseFrameStep << 4);
+        v = p->field_04.corner_shade[0] - (gGraphics_nBaseFrameStep << 4);
         if (v <= 0) {
             p->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
         }
-        p->field_04 = v;
-        p->field_05 = v;
+        p->field_04.corner_shade[0] = v;
+        p->field_04.corner_shade[1] = v;
     } else {
-        v = p->field_06 - (gGraphics_nBaseFrameStep << 4);
+        v = p->field_04.corner_shade[2] - (gGraphics_nBaseFrameStep << 4);
         if (v <= 0) {
             DisplayObjectFade_ReleaseChannel(p);
             v = 0;
         }
-        p->field_06 = v;
-        p->field_07 = v;
+        p->field_04.corner_shade[2] = v;
+        p->field_04.corner_shade[3] = v;
     }
 }
 #endif
@@ -4300,7 +4300,7 @@ void DuelEffect_UpdateDelayedGlyphRotation(EuropeanDuelEffectEntry *record) {
     }
 }
 #else
-void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectGlyphEntry *record) {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         s32 a;
         s32 b;
@@ -4308,26 +4308,26 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
         record->render_mode = 1;
         a = record->local_x;
         b = record->local_y;
-        record->field_08 = 0;
-        record->field_09 = 0;
-        record->field_0A = 0;
-        record->field_04 = ((s16)a >> 4) + ((s16)b >> 3) + 1;
+        record->field_08.rotation[0] = 0;
+        record->field_08.rotation[1] = 0;
+        record->field_08.rotation[2] = 0;
+        record->field_04.corner_shade[0] = ((s16)a >> 4) + ((s16)b >> 3) + 1;
     }
 
     if (!(record->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        s32 v = record->field_04 - 1;
+        s32 v = record->field_04.corner_shade[0] - 1;
 
-        record->field_04 = v;
+        record->field_04.corner_shade[0] = v;
 
         if ((u8)v == 0) {
             record->handler_state |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
         }
     } else {
-        s32 v = record->field_08 + 4;
+        s32 v = record->field_08.rotation[0] + 4;
 
-        record->field_0A = v;
-        record->field_09 = v;
-        record->field_08 = v;
+        record->field_08.rotation[2] = v;
+        record->field_08.rotation[1] = v;
+        record->field_08.rotation[0] = v;
 
         if (v >= 0x40) {
             DisplayObjectFade_ReleaseChannel(record);
@@ -4353,19 +4353,19 @@ void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *con
         record->fade_value = 0;
         record->render_mode = 3;
         if ((rand() & 0xFF) >= 0x80) {
-            record->field_14 |= 0x40;
+            record->shear |= 0x40;
         }
         *origin_x = record->local_x;
         *origin_y = record->local_y;
         record->field_08.halves[0] = rand() & 0xFFF;
         record->field_08.halves[1] = 0x100;
-        if (record->field_14 & 0x80) {
+        if (record->shear & 0x80) {
             record->fade_value = 0x80;
             record->field_08.halves[1] = 0;
         }
     }
 
-    flags = record->field_14;
+    flags = record->shear;
     switch (flags & 0x80) {
     default:
         radius = record->field_08.halves[1] + 10;
@@ -4414,16 +4414,16 @@ void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *con
 
 void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, void *context)
 {
-    record->field_14 = (rand() & 0x1F) + 8;
-    record->field_14 = (rand() & 0x1F) + 32;
+    record->shear = (rand() & 0x1F) + 8;
+    record->shear = (rand() & 0x1F) + 32;
     record->handler_state = 4;
     DuelEffect_UpdateGlyphSpiralFade(record, context);
 }
 
 void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, void *context)
 {
-    record->field_14 = ((rand() & 0x1F) + 8) | -0x80;
-    record->field_14 = ((rand() & 0x1F) + 32) | -0x80;
+    record->shear = ((rand() & 0x1F) + 8) | -0x80;
+    record->shear = ((rand() & 0x1F) + 32) | -0x80;
     record->handler_state = 4;
     DuelEffect_UpdateGlyphSpiralFade(record, context);
 }
@@ -4434,7 +4434,7 @@ void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record)
 
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->render_mode = 3;
-        value = record->field_14;
+        value = record->shear;
         record->fade_value = 0;
         if (value != 0) {
             record->fade_value = 0x80;
@@ -4442,7 +4442,7 @@ void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record)
     }
 
     value = record->fade_value;
-    if (record->field_14 != 0) {
+    if (record->shear != 0) {
         value -= 5;
         if (value <= 0) {
             DisplayObjectFade_ReleaseChannel(record);
@@ -4461,13 +4461,13 @@ void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record)
 
 void DuelEffect_UpdateGlyphFadeIn(EuropeanDuelEffectEntry *record)
 {
-    record->field_14 = 0;
+    record->shear = 0;
     DuelEffect_UpdateGlyphLinearFade(record);
 }
 
 void DuelEffect_UpdateGlyphFadeOut(EuropeanDuelEffectEntry *record)
 {
-    record->field_14 = 0x80;
+    record->shear = 0x80;
     DuelEffect_UpdateGlyphLinearFade(record);
 }
 #endif

@@ -9,7 +9,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset);
 void NameEntry_UpdateKeyboard(void);
 /* The glyph nodes this screen walks are gDuelEffect_aEntries entries: the record's
    0x24 pointer is where TextBox_GetGlyphAt starts, and it returns the entry
-   whose x_0C/y_0E pair matches. */
+   whose local_x/local_y pair matches. */
 DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);
 /* The sprite created by NameEntry_SpawnGlyphSprite and stepped by the glyph
  * callbacks. +0x44/+0x46 are scale for the pulse callback and destination XY

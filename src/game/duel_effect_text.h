@@ -134,10 +134,8 @@ s32 Dialog_ReadChoiceInput(struct DuelEffectChannel *record);
  * heap allocation. Regional occupancy clearing remains in the implementation.
  * The European pair, which takes the European entry record, is declared with
  * that record below. */
-#ifndef VERSION_EUROPE
-s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *);
-void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
-#endif
+/* The US and Japanese pair, which take an entry, are declared with
+ * DuelEffectGlyphEntry below. */
 
 /* The four duel effect entry handlers in gDuelEffect_EntryHandlers
  * (duel_effect_command_table.c), in table order: DuelEffect_UpdateGlyphConceal,
@@ -158,11 +156,8 @@ void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
  *
  * The last two end by releasing the record's occupancy slot through
  * DisplayObjectFade_ReleaseChannel. */
-#ifndef VERSION_EUROPE
-void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record);
-void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *record);
-void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record);
-#endif
+/* The US and Japanese handlers are declared with DuelEffectGlyphEntry below;
+ * DuelEffect_ProcessEntries calls each with the entry it is walking. */
 
 /* Secondary command zero: reads a modifier byte and expands the selected
  * card's name/description, type or guardian field, or applies its staged
@@ -329,7 +324,7 @@ typedef struct {
     u8 owner_channel_tag;
     u8 handler_state;
     /* Mode 2 widens the quad's right edge and drops its top-left corner. */
-    u8 field_14;
+    u8 shear;
     u8 render_mode;
     u8 palette_index;
     u8 pad_17;
@@ -338,6 +333,21 @@ typedef struct {
 typedef char JapaneseDuelEffectEntry_size_must_be_0x18[
     sizeof(JapaneseDuelEffectEntry) == 0x18 ? 1 : -1
 ];
+
+/* The entry record the US and Japanese glyph handlers and fade helpers
+ * receive from DuelEffect_ProcessEntries. */
+#ifndef VERSION_EUROPE
+#ifdef VERSION_JAPAN
+typedef JapaneseDuelEffectEntry DuelEffectGlyphEntry;
+#else
+typedef DuelEffectEntry DuelEffectGlyphEntry;
+#endif
+s32 DisplayObjectFade_MarkInitialized(DuelEffectGlyphEntry *object);
+void DisplayObjectFade_ReleaseChannel(DuelEffectGlyphEntry *object);
+void DuelEffect_UpdateGlyphReveal(DuelEffectGlyphEntry *record);
+void DuelEffect_UpdateGlyphConceal(DuelEffectGlyphEntry *record);
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectGlyphEntry *record);
+#endif
 typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
     sizeof(struct { u8 lead; JapaneseDuelEffectEntry entry; }) == 0x1C ? 1 : -1
 ];
@@ -359,7 +369,9 @@ typedef struct {
     u8 entry_flags;    /* 0x0F */
     u8 owner_channel_tag;    /* 0x10 */
     u8 handler_state;    /* 0x11 */
-    u8 field_14;    /* 0x12 */
+    /* Mode 2's shear, as in the US entry. The spiral effects (mode 3)
+       reuse the byte for their random step, with bit 7 as the direction. */
+    u8 shear;    /* 0x12 */
     u8 render_mode;    /* 0x13 */
     u8 palette_index;    /* 0x14 */
     /* Mode 3 draws the glyph with this grey level. */

@@ -380,8 +380,8 @@ occupancy table and clears that table entry. It then zeroes the next byte,
 `Text_SetPenX` (originally `func_80038388`, `0x80038388`) is secondary
 text-command slot 6; the retail pointer at `0x80090EC4` names that entry.
 It reads two little-endian stream bytes into the existing unsigned
-halfword `pen_x`. Glyph append copies this value to each entry's local
-`x_0C`, and the renderer adds the display-object X origin.
+halfword `pen_x`. Glyph append copies this value to each entry's
+`local_x`, and the renderer adds the display-object X origin.
 
 This is the local glyph pen, not the text-box origin set by
 `TextBox_SetPos` or the script-stream cursor changed by

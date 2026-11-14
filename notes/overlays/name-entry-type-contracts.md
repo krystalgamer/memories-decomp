@@ -101,7 +101,7 @@ still saves the SOURCE node's X, stores 0x400 and restores the saved value
 at the same frame boundary; neither source ownership nor clone scale/
 tag/release timing changes. NameEntry_SpawnGlyphSprite retains signed
 coordinate casts before adding channel rect_x/rect_y and all PAL atlas
-metrics. The shared NA/Japanese x_0C/y_0E spellings, original NA pre-null
+metrics. The shared NA/Japanese local_x/local_y members (formerly x_0C/y_0E), original NA pre-null
 code read and unchecked allocation are not changed or generalized.
 
 ## Glyph lookup starts from the channel's entry beginning
