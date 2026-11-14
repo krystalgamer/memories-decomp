@@ -21,7 +21,7 @@ profiles remain intact; the wrapper file names still carry the UK addresses.
 `EuropeanDuelEffectEntry` is the existing two-byte-aligned, `0x16`-byte
 record. Its `handler_state` is
 at `0x11`, `field_14` at `0x12`, and `render_mode` at `0x13`. The callbacks'
-`EU_ENTRY_FADE_VALUE` is instead the raw byte at physical `0x15`.
+`fade_value` is instead the byte at physical `0x15`.
 It must not be substituted with the member named `render_mode`.
 
 The actual PAL `TextBox_DrawEntries` in `duel_effect_text.c` starts its
