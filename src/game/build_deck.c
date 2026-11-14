@@ -18,6 +18,7 @@ struct BuildDeckTransitionState *gBuildDeck_pState;
 #include "display_object.h"
 #include "build_deck.h"
 #include "duel_card.h"
+#include "scratchpad.h"
 #include "card_constants.h"
 
 /* The update callback BuildDeck_CreateCardTransferIcon (below)
@@ -276,8 +277,8 @@ void BuildDeck_DrawSortIcons(
 void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 {
     u8 *text;
-    GsSPRITE *sprite = (GsSPRITE *)0x1F800020;
-    GsSPRITE *header = (GsSPRITE *)0x1F800060;
+    GsSPRITE *sprite = (GsSPRITE *)SCRATCH_ADDR(0x20);
+    GsSPRITE *header = (GsSPRITE *)SCRATCH_ADDR(0x60);
 #ifdef VERSION_EUROPE
     s32 kind;
     CardList *list;
@@ -314,7 +315,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #ifdef VERSION_EUROPE
     sprite->cx = 0x280;
     sprite->cy = 0xC0;
-    text = (u8 *)0x1F800000;
+    text = (u8 *)SCRATCH_ADDR(0);
 #else
     sprite->cx = 0x290;
     sprite->cy = 0xFA;
@@ -342,7 +343,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     header->y = y + 0x11;
 #else
     row = &list->entries[list->first];
-    text = (u8 *)0x1F800000;
+    text = (u8 *)SCRATCH_ADDR(0);
 #endif
     if (kind == 0) {
         header->x = x + 0x88;
