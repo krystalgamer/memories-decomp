@@ -15,6 +15,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
 #include "../ygo_types.h"
+#include "disc_location.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * file_transfer_runtime_commons subsegments place it at the retail addresses. */
@@ -30,7 +31,7 @@ volatile u32 gFile_dwTransferState;
 u32 *gFile_ReadySourceCursor;
 s32 gFile_DsInitialized;
 volatile u16 gFile_wStepState;
-char gFile_TargetLoc[4];
+DiscLocation gFile_TargetLoc;
 u8 D_8009B108;
 void (*gFile_BeforePrimaryRequestCallback)(void);
 u8 D_8009B110;
@@ -420,7 +421,7 @@ void File_HandleReadEvent(u8 event)
 {
     if (event == 5) {
         gFile_CommandRetryCount++;
-        DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 6, (DslCB)File_HandleReadEvent, -1);
+        DsPacket(0xA0, &gFile_TargetLoc.ds, 6, (DslCB)File_HandleReadEvent, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem(File_TransferReadyCallback, -1);
@@ -434,7 +435,7 @@ void File_HandleSeekEvent(u8 event)
 {
     if (event == 5) {
         gFile_CommandRetryCount++;
-        DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 0x15, (DslCB)File_HandleSeekEvent, -1);
+        DsPacket(0xA0, &gFile_TargetLoc.ds, 0x15, (DslCB)File_HandleSeekEvent, -1);
     } else if (event == 2) {
         gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
@@ -463,9 +464,6 @@ void File_HandleRangePauseEvent(s32 event)
     }
 }
 
-#define CDL_LOC_VIEW(location) ((CdlLOC *)(location))
-#define DSL_LOC_VIEW(location) ((DslLOC *)(location))
-
 /* The rest of the asynchronous disc-transfer runtime: the later
    command-completion callbacks, secondary-to-primary activation, transfer
    advancement and request dispatch. The nine functions are contiguous and
@@ -490,7 +488,7 @@ void File_HandleRangeReadEvent(u8 event)
     if (event == 5) {
         gFile_CommandRetryCount++;
         DsPacket(
-            0x4A, DSL_LOC_VIEW(gFile_TargetLoc), 0x1B,
+            0x4A, &gFile_TargetLoc.ds, 0x1B,
             (DslCB)File_HandleRangeReadEvent, -1);
     } else if (event == 2) {
         gFile_wStepState = 5;
@@ -604,10 +602,10 @@ void File_StepActiveTransfer(void)
             return;
         case 4:
             CdIntToPos_8007E600(
-                transfer->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc)
+                transfer->absolute_lba, &gFile_TargetLoc.cd
             );
             if (DsPacket(
-                    0x4A, DSL_LOC_VIEW(gFile_TargetLoc), 0x1B,
+                    0x4A, &gFile_TargetLoc.ds, 0x1B,
                     (DslCB)File_HandleRangeReadEvent, -1) <= 0) {
                 return;
             }
@@ -663,14 +661,14 @@ void File_StepActiveTransfer(void)
         File_FinishActiveTransfer();
         return;
     }
-    CdIntToPos_8007E600(transfer->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
+    CdIntToPos_8007E600(transfer->absolute_lba, &gFile_TargetLoc.cd);
     if (gFile_dwTransferState & 0x100000) {
         if ((s32)gFile_dwTransferState < 0) {
             File_FinishActiveTransfer();
             return;
         }
         if (DsPacket(
-                0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 0x15,
+                0xA0, &gFile_TargetLoc.ds, 0x15,
                 (DslCB)File_HandleSeekEvent, -1) <= 0) {
             return;
         }
@@ -693,7 +691,7 @@ void File_StepActiveTransfer(void)
     }
     if ((s32)gFile_dwTransferState >= 0) {
         if (DsPacket(
-                0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 6,
+                0xA0, &gFile_TargetLoc.ds, 6,
                 (DslCB)File_HandleReadEvent, -1) == 0) {
             return;
         }

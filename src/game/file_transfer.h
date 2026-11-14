@@ -3,6 +3,7 @@
 
 #include "../ygo_types.h"
 #include "../psyq/libcd.h"
+#include "disc_location.h"
 #include "file_constants.h"
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
@@ -217,11 +218,8 @@ extern CdlFILTER gFile_FilterParams;
 extern volatile u16 gFile_wStepState;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
- * file_transfer_runtime.c defines it. It is four bytes, a CdlLOC (minute,
- * second, sector, mode): the definition must be four bytes for the compiler to
- * word-align it at 0x8009B104, and a char array still decays to the pointer
- * each call passes. */
-extern char gFile_TargetLoc[4];
+ * file_transfer_runtime.c defines it. */
+extern DiscLocation gFile_TargetLoc;
 
 /* The callback the request functions run before starting a primary transfer.
  * File_SetPositionTable installs File_WaitForTransfers and
