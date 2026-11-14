@@ -9,10 +9,10 @@
 extern Apv2Message D_8016947C[];
 extern s32 D_801694D0;
 
-extern void func_80168EC8(u8 *, Apv2Rect *, s32);
-extern void func_80169284(void);
+extern void SafetyCheck3(u8 *, Apv2Rect *, s32);
+extern void SafetyCheck5(void);
 
-void func_80168D5C(void)
+void SafetyCheck2(void)
 {
     DRAWENV draw;
     DISPENV disp;
@@ -46,10 +46,10 @@ void func_80168D5C(void)
         y = D_8016947C[D_801694D0].y;
         rect.x = x + i;
         rect.y = y + i;
-        func_80168EC8(D_8016947C[D_801694D0].text, &rect, color);
+        SafetyCheck3(D_8016947C[D_801694D0].text, &rect, color);
         color = 0x8000;
     }
-    func_80169284();
+    SafetyCheck5();
     SetDispMask(1);
     exit();
 }

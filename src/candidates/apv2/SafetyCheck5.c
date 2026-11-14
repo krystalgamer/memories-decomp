@@ -3,9 +3,9 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
-extern u8 D_80169494[][2];
+extern u8 safechk_coords[][2];
 
-void func_80169284(void)
+void SafetyCheck5(void)
 {
     Apv2FramePoly poly;
     s32 i;
@@ -26,8 +26,8 @@ void func_80169284(void)
                 d = &dir[j * 2];
                 n = (k + 2) >> 2;
                 idx = i + (k & 1);
-                pp->xy[k] = ((d[1] * D_80169494[16 - idx][n] + 120) << 16)
-                           | (d[0] * D_80169494[idx][n] + 160);
+                pp->xy[k] = ((d[1] * safechk_coords[16 - idx][n] + 120) << 16)
+                           | (d[0] * safechk_coords[idx][n] + 160);
             }
             DrawPrim(&poly);
         }

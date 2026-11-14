@@ -1,8 +1,10 @@
 # Build-integrated candidates
 
-Each `func_XXXXXXXX.c` is the current best source attempt for one unmatched
-function. A resident candidate lives directly here; an overlay candidate lives
-in `src/candidates/<module>/`, where `<module>` is the overlay module name used
+Each `<name>.c` is the current best source attempt for one unmatched
+function, named like its inventory row (`func_XXXXXXXX.c` until the function
+has an evidence-backed name), as is its `<name>.S` target. A resident
+candidate lives directly here; an overlay candidate lives in
+`src/candidates/<module>/`, where `<module>` is the overlay module name used
 by `config/slus_01411/overlays/<module>_functions.csv`. Keep concise refinement
 notes in the source comment rather than a separate candidate note. The
 function itself stays `unmatched_asm` in its inventory and keeps building from

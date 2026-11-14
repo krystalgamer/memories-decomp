@@ -26,7 +26,7 @@ local MODULE_WORDS = {
     [POLL_EXIT] = 0x03e00008, [SEND] = 0x00002821,
     [0x80168a30] = 0x0c01d05c, [0x80168d6c] = 0x0c01fcd4,
 }
--- D_8016941C, as in tmp/overlays/apv2/module.bin.
+-- safechk_commands, as in tmp/overlays/apv2/module.bin.
 local COMMAND_TABLE = {
     {0x01, 0, 1, 3}, {0x13, 0, 3, 3}, {0x14, 1, 3, 3}, {0x02, 3, 1, 3},
     {0x16, 0, 1, 5}, {0x0e, 1, 1, 3}, {0x0a, 0, 1, 5}, {0x0b, 0, 1, 3},
@@ -220,8 +220,8 @@ do
                  .. 'wait=3 ret=1 cause=3 results=02 01 14 zero_polls=2'))
     assert(t:has('func_80168A98 n=10 cmd=0x19(Test) nparams=1 nresults=2 '
                  .. 'wait=3 ret=1 cause=3 results=02 00'))
-    assert(t:has('func_80168160 a0=1 state 1 -> 2 ret=1'))
-    assert(t:countOf('func_80168160 a0=1 state 2 -> 2 ret=2') == 1,
+    assert(t:has('SafetyCheck a0=1 state 1 -> 2 ret=1'))
+    assert(t:countOf('SafetyCheck a0=1 state 2 -> 2 ret=2') == 1,
            'repeats print once')
     assert(t:countOf('state 14 -> 14 ret=14') == 1)
     assert(t:has('state 14 -> 15 ret=14 calls=1005 repeats_before=999'))
@@ -230,15 +230,15 @@ do
     assert(not t:has('==== TRACE RESULT ====='), 'grace period pinned')
     t:exec(CONTROL)
     t:frames(1)
-    assert(t:has('status: func_80168160 returned 0 and 5 s passed'))
+    assert(t:has('status: SafetyCheck returned 0 and 5 s passed'))
     assert(t:has('resets: 1'))
     assert(t:has('verdict: APv2 completed on the unmodified path: '
-                 .. 'func_801680F4 ran, func_80168160 returned 0 after 1007 '
+                 .. 'func_801680F4 ran, SafetyCheck returned 0 after 1007 '
                  .. 'calls at bt=0.5s, 4 CD commands sent, the warning never '
                  .. 'ran; the game ran 1 frame services afterwards'))
     assert(t:has('func_801680F4: calls=1 ra=0x80043A10 region_byte=0x41(A) '
                  .. 'state=1 message_index=1'))
-    assert(t:has('func_80168160: calls=1007 first_state=1 final_state=0 '
+    assert(t:has('SafetyCheck: calls=1007 first_state=1 final_state=0 '
                  .. 'returned_zero=yes at bt=0.5s'))
     assert(t:has('state_path: 1@0.0s > 2@0.0s > 3@0.0s > 14@0.5s > 15@0.5s '
                  .. '> 18@0.5s > 0@0.5s'))
@@ -246,9 +246,9 @@ do
     assert(t:has('func_80168C6C: sends=4 1(0x13 GetTN)x1 3(0x02 Setloc)x1 '
                  .. '6(0x0A Init)x1 10(0x19 Test)x1'))
     assert(t:has('func_80168A98: n=1 zero=2 ok=1 err=0 err_status=0'))
-    assert(t:has('func_80168D5C: never ran'))
-    assert(t:has('helpers: func_80168EC8=0 func_8016903C=0 '
-                 .. 'func_801691F0=0 func_80169284=0'))
+    assert(t:has('SafetyCheck2: never ran'))
+    assert(t:has('helpers: SafetyCheck3=0 SafetyCheck4=0 '
+                 .. 'func_801691F0=0 SafetyCheck5=0'))
     assert(t:has('signature: verified_hits_this_boot='))
     assert(t:has('refused_hits=0'))
     finished(t)
@@ -265,7 +265,7 @@ do
     t:controller(1, 2, 1)
     t:send(1)
     for _ = 1, 20 do t:poll(1, 1, 3, {1}) end
-    assert(t:countOf('refused func_') == 8)
+    assert(t:countOf(': 0x80168000 does not hold the US') == 8)
     assert(t:has('refused func_801680F4: 0x80168000 does not hold the US '
                  .. 'APv2 image (12/12 words differ; module word 0x80168000 '
                  .. 'expected 0x00000016 read 0000002A)'))
@@ -277,7 +277,7 @@ do
     assert(t:has('status: 120-second window since the last reset ended'))
     assert(t:has('refused_hits=45'))
     assert(t:has('verified_hits_this_boot=0'))
-    assert(t:has('func_80168160: calls=0'))
+    assert(t:has('SafetyCheck: calls=0'))
     assert(t:has('func_80168C6C: sends=0 -'))
     assert(t:has('verdict: inconclusive: only code other than the US APv2 '
                  .. 'image ran at the watched addresses (45 refused hits)'))
@@ -307,22 +307,22 @@ do
     t:word(MESSAGE_INDEX, 1)
     t:poll(13, -1, 3, {0x02})
     t:exec(WARNING, {ra = 0x80168474})
-    assert(t:has('WARNING func_80168D5C entry ra=0x80168474 state=6 '
+    assert(t:has('WARNING SafetyCheck2 entry ra=0x80168474 state=6 '
                  .. 'message_index=1 text@0x80168054 "     SOFTWARE '
                  .. 'TERMINATED / CONSOLE MAY HAVE BEEN MODIFIED / "'))
     t:exec(0x80168ec8, {ra = 0x80168e40})
     t:exec(0x80168ec8, {ra = 0x80168e40})
-    assert(t:countOf('func_80168EC8 first call ra=0x80168E40') == 1)
+    assert(t:countOf('SafetyCheck3 first call ra=0x80168E40') == 1)
     t:frames(GRACE)
     assert(t:has('status: the warning ran and 5 s passed'))
     assert(t:has('resets: 2'))
     assert(t:has('earlier_boot 1: select=region 0x41 state 1 message 1 '
                  .. 'controller_calls=1 sends=1 path=1@0.0s>2@0.0s '
                  .. 'returned_zero=no warning=no'))
-    assert(t:has('func_80168160: calls=0'), 'per-boot capture cleared')
+    assert(t:has('SafetyCheck: calls=0'), 'per-boot capture cleared')
     assert(t:has('func_80168A98: n=13 zero=0 ok=0 err=1'))
-    assert(t:has('verdict: the warning func_80168D5C RAN'))
-    assert(t:has('helpers: func_80168EC8=2'))
+    assert(t:has('verdict: the warning SafetyCheck2 RAN'))
+    assert(t:has('helpers: SafetyCheck3=2'))
     finished(t)
 end
 
@@ -365,7 +365,7 @@ do
     for _ = 1, 70 do t:send(0) end
     for _ = 1, 10 do t:poll(0, 1, 3, {2}) end
     for n = 1, 13 do for _ = 1, 8 do t:poll(n, -2, 5, {0x12, 0x80}) end end
-    assert(t:countOf('func_80168160 a0=1 state') == 80)
+    assert(t:countOf('SafetyCheck a0=1 state') == 80)
     assert(t:countOf('func_80168C6C n=0 cmd=0x01(Getstat)') == 60)
     assert(t:countOf('func_80168A98 n=0') == 6)
     assert(t:has('func_80168A98 n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
@@ -376,7 +376,7 @@ do
     assert(t:has('func_80168C6C: sends=70 0(0x01 Getstat)x70'))
     assert(t:has('func_80168A98: n=1 zero=0 ok=0 err=0 err_status=8'))
     assert(t:has('controller_rows=80/80 send_rows=60/60'))
-    assert(t:has('verdict: inconclusive: APv2 ran but func_80168160 never '
+    assert(t:has('verdict: inconclusive: APv2 ran but SafetyCheck never '
                  .. 'returned 0 within the window (last state 2)'))
     finished(t)
 end

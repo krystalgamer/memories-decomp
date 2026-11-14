@@ -5,52 +5,52 @@
 --   is WA_MRG module 0x16 at 0x80168000. All nine of its functions and its
 --   20 controller states are still address-named. Main_RunBootSequence
 --   (src/game/main_boot_frontend.c) calls func_801680F4 once and then
---   `while (func_80168160(1) != 0) {}`: a busy loop, not one call per frame;
+--   `while (SafetyCheck(1) != 0) {}`: a busy loop, not one call per frame;
 --   the controller's waits (states 9, 14, 19) poll VSync(-1). So: on a real
---   boot, which states does func_80168160 walk through in which order and
+--   boot, which states does SafetyCheck walk through in which order and
 --   for how long, which CD commands does func_80168C6C send with which
 --   parameters, what does func_80168A98 read back, which region and message
---   set does func_801680F4 select, and does the warning func_80168D5C ever
+--   set does func_801680F4 select, and does the warning SafetyCheck2 ever
 --   run? Each answer names something: the state order and the command per
 --   state name the 20 states and the jump table at 0x80168004; the command
 --   bytes and results confirm func_80168C6C as the command sender,
 --   func_80168A98 as the result poll and func_801680F4 as the region select;
---   a warning or helper hit (or its absence) is recorded for func_80168D5C,
---   func_80168EC8, func_8016903C, func_801691F0 and func_80169284.
+--   a warning or helper hit (or its absence) is recorded for SafetyCheck2,
+--   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5.
 --   The emulator answers like an unmodified console, so only the clean path
 --   is observable here; the warning branches stay static evidence.
 --
 -- WHERE THE VALUES LIVE (from src/candidates_target/apv2/*.S)
---   * State: the s32 D_80169474. func_80168160 loads it at 0x80168178, bounds
+--   * State: the s32 D_80169474. SafetyCheck loads it at 0x80168178, bounds
 --     it with sltiu 0x14 and indexes the jump table at 0x80168004; every case
 --     stores the next state back there. func_801680F4 writes it (1 or 0) and
 --     the message index D_801694D0 (0, 1 or 2).
 --   * func_801680F4 lbu's the BIOS region byte 0xBFC7FF52 into $v1 and never
 --     overwrites it, so $v1 at its only jr ra (0x80168158) is that byte; the
 --     ROM itself is not read.
---   * func_80168160(a0): its return value is $s0, copied to $v0 in the delay
+--   * SafetyCheck(a0): its return value is $s0, copied to $v0 in the delay
 --     slot at 0x80168A78; every path reaches the jr ra at 0x80168A90, where
 --     $v0 and D_80169474 are read.
 --   * func_80168C6C(a0 = command index n): the command is entry n of
---     D_8016941C {cmd, nparams, nresults, wait} (14 entries); the parameter
---     bytes are D_80169464[0..nparams), filled by the controller before the
---     call. All are read at the entry breakpoint.
+--     safechk_commands {cmd, nparams, nresults, wait} (14 entries); the
+--     parameter bytes are safechk_params[0..nparams), filled by the
+--     controller before the call. All are read at the entry breakpoint.
 --   * func_80168A98(a0 = n): a0 is overwritten on its error path, so n is
 --     kept from the entry breakpoint. Its only jr ra is 0x80168C64 (nop delay
 --     slot); there $v0 is the result (0 nothing yet, 1 done, -1 error, -2
 --     error with status bit 4) and $a3 the interrupt cause (low three bits
---     of 0x1F801803). The result bytes are D_8016946C[0..nresults), two
+--     of 0x1F801803). The result bytes are safechk_results[0..nresults), two
 --     bytes for cause 5. Zero returns are only counted: the busy loop calls
 --     it hundreds of thousands of times.
---   * func_80168D5C reads message D_8016947C[D_801694D0] (12-byte entries;
+--   * SafetyCheck2 reads message D_8016947C[D_801694D0] (12-byte entries;
 --     text pointer at +8). The pointer is printed only when it lies inside
 --     the module.
 --
 -- WHAT IS WATCHED
 --   Exec breakpoints: Main_RunFrameServices (0x8001306C, control);
---   func_801680F4 entry and exit; func_80168160 entry and exit;
---   func_80168A98 entry and exit; func_80168C6C, func_80168D5C,
---   func_80168EC8, func_8016903C, func_801691F0 and func_80169284 entries.
+--   func_801680F4 entry and exit; SafetyCheck entry and exit;
+--   func_80168A98 entry and exit; func_80168C6C, SafetyCheck2,
+--   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5 entries.
 --   Several modules share 0x80168000, so every hit in the module first checks
 --   12 words of the North American image (module word, jump table, function
 --   entries, exits, and the US VSync/ResetGraph jal words that differ in the
@@ -154,10 +154,10 @@ local MODULE_END = 0x80169800
 
 local STATE = 0x80169474        -- D_80169474, controller state
 local MESSAGE_INDEX = 0x801694D0 -- D_801694D0, set by func_801680F4
-local COMMANDS = 0x8016941C     -- D_8016941C {cmd, nparams, nresults, wait}
+local COMMANDS = 0x8016941C     -- safechk_commands {cmd, nparams, ...}
 local COMMAND_COUNT = 14
-local PARAMS = 0x80169464       -- D_80169464, parameter bytes
-local RESULTS = 0x8016946C      -- D_8016946C, result bytes
+local PARAMS = 0x80169464       -- safechk_params, parameter bytes
+local RESULTS = 0x8016946C      -- safechk_results, result bytes
 local BUFFER_SIZE = 8
 local MESSAGES = 0x8016947C     -- D_8016947C, 12-byte entries
 local MESSAGE_COUNT = 2
@@ -166,17 +166,17 @@ local MESSAGE_COUNT = 2
 local CONTROL = {0x8001306c, 0x27bdffe0, 'Main_RunFrameServices'}
 local SELECT = {0x801680f4, 0x3c03bfc8, 'func_801680F4'}
 local SELECT_EXIT = {0x80168158, 0x03e00008, 'func_801680F4 jr ra'}
-local CONTROLLER = {0x80168160, 0x27bdffe0, 'func_80168160'}
-local CONTROLLER_EXIT = {0x80168a90, 0x03e00008, 'func_80168160 jr ra'}
+local CONTROLLER = {0x80168160, 0x27bdffe0, 'SafetyCheck'}
+local CONTROLLER_EXIT = {0x80168a90, 0x03e00008, 'SafetyCheck jr ra'}
 local POLL = {0x80168a98, 0x00041080, 'func_80168A98'}
 local POLL_EXIT = {0x80168c64, 0x03e00008, 'func_80168A98 jr ra'}
 local SEND = {0x80168c6c, 0x00002821, 'func_80168C6C'}
-local WARNING = {0x80168d5c, 0x27bdff08, 'func_80168D5C'}
+local WARNING = {0x80168d5c, 0x27bdff08, 'SafetyCheck2'}
 local HELPERS = {
-    {0x80168ec8, 0x27bdffd0, 'func_80168EC8'},
-    {0x8016903c, 0x27bdff90, 'func_8016903C'},
+    {0x80168ec8, 0x27bdffd0, 'SafetyCheck3'},
+    {0x8016903c, 0x27bdff90, 'SafetyCheck4'},
     {0x801691f0, 0x00003821, 'func_801691F0'},
-    {0x80169284, 0x27bdffb0, 'func_80169284'},
+    {0x80169284, 0x27bdffb0, 'SafetyCheck5'},
 }
 
 -- The North American image: entry words, exits, the jump table's first
@@ -332,7 +332,7 @@ local function regs()
     return g, tonumber(r.pc)
 end
 
--- One D_8016941C entry, or nil when the index is out of range.
+-- One safechk_commands entry, or nil when the index is out of range.
 local function command(n)
     if type(n) ~= 'number' or n < 0 or n >= COMMAND_COUNT then return nil end
     local base = COMMANDS + 4 * n
@@ -647,19 +647,19 @@ local function verdict()
             .. 'the reset (control hits this boot=%d)', boot.control)
     end
     if boot.warning ~= nil then
-        return 'the warning func_80168D5C RAN (state '
+        return 'the warning SafetyCheck2 RAN (state '
             .. dec(boot.finalState) .. '); see its row'
     end
     if boot.doneAt ~= nil then
         return string.format('APv2 completed on the unmodified path: '
-            .. 'func_801680F4 %s, func_80168160 returned 0 after %d calls at '
+            .. 'func_801680F4 %s, SafetyCheck returned 0 after %d calls at '
             .. 'bt=%.1fs, %d CD commands sent, the warning never ran; the '
             .. 'game ran %d frame services afterwards',
             boot.select and 'ran' or 'NOT seen', boot.controllerCalls,
             (boot.doneAt - boot.startVs) / FPS, boot.sends,
             boot.controlAfterDone)
     end
-    return 'inconclusive: APv2 ran but func_80168160 never returned 0 '
+    return 'inconclusive: APv2 ran but SafetyCheck never returned 0 '
         .. 'within the window (last state ' .. dec(boot.finalState) .. ')'
 end
 
@@ -699,7 +699,7 @@ local function finish(reason)
         print(string.format('func_801680F4: exit not seen (entries=%d)',
                             boot.selectCalls))
     end
-    print(string.format('func_80168160: calls=%d first_state=%s '
+    print(string.format('SafetyCheck: calls=%d first_state=%s '
                         .. 'final_state=%s returned_zero=%s', boot.controllerCalls,
                         dec(boot.firstState), dec(boot.finalState),
                         boot.doneAt and string.format('yes at bt=%.1fs',
@@ -729,7 +729,7 @@ local function finish(reason)
                             .. 'err_status=%d other=%d', k, p.zero, p.ok,
                             p.err, p.err2, p.other))
     end
-    print('func_80168D5C: ' .. (boot.warning or 'never ran'))
+    print('SafetyCheck2: ' .. (boot.warning or 'never ran'))
     parts = {}
     for _, sig in ipairs(HELPERS) do
         parts[#parts + 1] = sig[3] .. '=' .. (boot.helpers[sig[3]] or 0)
@@ -765,7 +765,7 @@ local function poll()
         return
     end
     if boot.doneAt ~= nil and vsyncs - boot.doneAt >= GRACE_FRAMES then
-        finish(string.format('func_80168160 returned 0 and %d s passed',
+        finish(string.format('SafetyCheck returned 0 and %d s passed',
                              GRACE_FRAMES / FPS))
     elseif boot.warningAt ~= nil and vsyncs - boot.warningAt >= GRACE_FRAMES then
         finish(string.format('the warning ran and %d s passed',

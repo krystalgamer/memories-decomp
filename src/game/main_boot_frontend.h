@@ -16,6 +16,6 @@ s32 Main_RunFrontendLoop(void);
  * controller until it returns zero. The module is not decompiled; see
  * notes/boot-frontend-sequence.md. */
 void func_801680F4(void);
-s32 func_80168160(s32);
+s32 SafetyCheck(s32);
 
 #endif

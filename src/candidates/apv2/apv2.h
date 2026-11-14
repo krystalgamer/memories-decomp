@@ -6,7 +6,7 @@
 /* Types shared by the APv2 module candidates (WA_MRG module 0x16, loaded at
  * 0x80168000). Offsets come from the retail accesses. */
 
-/* One D_8016941C entry: a CD-ROM controller command, its parameter and
+/* One safechk_commands entry: a CD-ROM controller command, its parameter and
  * result byte counts, and a wait value. */
 typedef struct {
     u8 cmd;
@@ -33,7 +33,7 @@ typedef struct {
     s16 h;
 } Apv2Rect;
 
-/* The glyph sprite func_8016903C builds on the stack. */
+/* The glyph sprite SafetyCheck4 builds on the stack. */
 typedef struct {
     u32 tag;
     u32 code;
@@ -42,7 +42,7 @@ typedef struct {
     u16 data[16];
 } Apv2GlyphPrim;
 
-/* The frame polygon func_80169284 builds on the stack. */
+/* The frame polygon SafetyCheck5 builds on the stack. */
 typedef struct {
     u32 tag;
     u32 code;

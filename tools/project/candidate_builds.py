@@ -477,7 +477,7 @@ def write_target(address: int, module: str | None) -> Path:
         if text is not None:
             target = (
                 candidate_directory(TARGET_DIRECTORY, module)
-                / f"func_{address:08X}.S"
+                / f"{name}.S"
             )
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(text, encoding="utf-8")
@@ -508,11 +508,11 @@ def note_candidate_paths(root: Path) -> list[str]:
 def candidate_code_paths(root: Path) -> tuple[set[str], set[str]]:
     sources = {
         path.relative_to(root).as_posix()
-        for path in (root / "src/candidates").rglob("func_*.c")
+        for path in (root / "src/candidates").rglob("*.c")
     }
     targets = {
         path.relative_to(root).as_posix()
-        for path in (root / "src/candidates_target").rglob("func_*.S")
+        for path in (root / "src/candidates_target").rglob("*.S")
     }
     return sources, targets
 
@@ -638,7 +638,8 @@ def load_candidates(
         target = configured_path(
             item.get("target"), candidate_directory(TARGET_DIRECTORY, module), ".S"
         )
-        key = f"func_{address:08X}"
+        # Files carry the inventory name, address-based until a rename.
+        key = row["name"]
         if source.name != f"{key}.c" or target.name != f"{key}.S":
             raise CandidateBuildError(
                 f"{address:#010x}: source and target filenames must use {key}"

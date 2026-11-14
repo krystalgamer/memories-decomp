@@ -6,7 +6,7 @@
 extern s32 D_801694D0;
 extern Apv2Message D_8016947C[];
 
-void func_8016903C(Apv2Rect *rect, u8 *bits, u16 color, u32 range)
+void SafetyCheck4(Apv2Rect *rect, u8 *bits, u16 color, u32 range)
 {
     Apv2GlyphPrim prim;
     s32 x;
