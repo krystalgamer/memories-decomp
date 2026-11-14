@@ -15,9 +15,6 @@
 #include "sound_sequence_parser.h"
 #include "sd_read_sequence_event.h"
 
-#define SD_SEQUENCE_TRACK_OFFSET_VIEW(state, offset) \
-    ((SDSequenceTrack *)((u8 *)(state) + (offset)))
-
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {
     entry->pos = SD_FindMidiTrackChunk(entry->pos);
@@ -104,7 +101,6 @@ s32 SD_StartSequenceTracks(void)
 {
     SDSecondaryState *initial = gSD_pSecondaryState;
     s32 i;
-    s32 offset;
 
     initial->delta_scale_gate = 0;
     initial->field_0800 = 0;
@@ -117,10 +113,8 @@ s32 SD_StartSequenceTracks(void)
             do {
                 i = 0;
             } while (0);
-            offset = SD_SEQUENCE_TRACK_ARRAY_OFFSET;
             do {
-                SDSequenceTrack *entry =
-                    SD_SEQUENCE_TRACK_OFFSET_VIEW(state, offset);
+                SDSequenceTrack *entry = &state->tracks[i];
                 s32 value = entry->pos;
 
                 entry->pos_saved = value;
@@ -142,7 +136,6 @@ s32 SD_StartSequenceTracks(void)
                     count = state->track_count;
                 } while (0);
                 i++;
-                offset += SD_SEQUENCE_TRACK_RECORD_SIZE;
             } while (i < count);
         }
     }
@@ -166,8 +159,6 @@ void SD_UpdateSecondaryObjectReuseCountdowns(void) {
 
 #define SD_SEQUENCE_TRACK_BYTES(state) ((u8 *)(state)->tracks)
 #define SD_SEQUENCE_TRACK_VIEW(bytes) ((SDSequenceTrack *)(bytes))
-#define SD_SECONDARY_STATE_NEXT_TRACK(state) \
-    ((SDSecondaryState *)((u8 *)(state) + SD_SEQUENCE_TRACK_RECORD_SIZE))
 
 /* Advances every MIDI track by one runtime tick. Each track carries a
    fixed-point tempo accumulator: tempo_step is added to
@@ -269,12 +260,8 @@ s32 SD_GetSequenceStatus(void)
     s32 index;
     u16 count = object->track_count;
 
-    for (
-        index = 0;
-        index < count;
-        index++, object = SD_SECONDARY_STATE_NEXT_TRACK(object)
-    ) {
-        if (object->tracks[0].ended != 1) {
+    for (index = 0; index < count; index++) {
+        if (object->tracks[index].ended != 1) {
             return 1;
         }
     }
