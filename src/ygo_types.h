@@ -584,15 +584,21 @@ typedef struct DuelEffectChannel {
 #else
     u16 entry_range_start;
     u16 entry_range_count;
-    /* NA byte counter/limit; PAL overlays both with one u16 pixel count.
-       PAL's u16 limit remains over field_62/pad_63. */
+#ifdef VERSION_EUROPE
+    /* PAL counts glyph pixels: Text_SetOutputLimit stores both halfwords
+       (sh at 0x60 and 0x62) and TextBox_BuildStep adds each
+       glyph's advance to the count and tests it against the limit. Only
+       duel_effect_text.c reads these; PAL never uses NA's icon byte. */
+    u16 output_count;
+    u16 output_limit;
+#else
+    /* NA byte counter/limit. */
     u8 output_count;
     u8 output_limit;
-    /* NA stages an icon variant here; choice/page completion clears it.
-       PAL instead uses this byte and pad_63 as a u16 output limit.
-       Keep the offset name for these distinct regional interpretations. */
+    /* NA stages an icon variant here; choice/page completion clears it. */
     u8 field_62;
     u8 pad_63;
+#endif
 #endif
 } DuelEffectChannel;
 
@@ -670,6 +676,10 @@ typedef char DuelEffectChannel_output_count_offset_must_be_0x5E[
 ];
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x5F[
     YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x5F ? 1 : -1
+];
+#elif defined(VERSION_EUROPE)
+typedef char DuelEffectChannel_output_limit_offset_must_be_0x62[
+    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x62 ? 1 : -1
 ];
 #else
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
