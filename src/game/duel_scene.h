@@ -1141,6 +1141,21 @@ DisplayObject *Duel_CreateFieldCardObject(s32 card_id, s32 x, s32 y);
    object. Callers handle retained flags/stat modifiers and old-object release. */
 void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
 
+/* The card turn/flip animation steps. Their meaning of each DisplayObject
+ * member they drive:
+ *   field_6A                  the gDuel_aCardRecords index of the card;
+ *   field_2C.h.field_2E       the mode chosen on the first frame (0 reveal,
+ *                             1 face-up attack, 2 face-up defense);
+ *   field_6C                  the step's phase bits (0x40 started, 0x20 the
+ *                             first half of the turn is done);
+ *   field_60                  the frame counter of the current half;
+ *   position.h.field_28       the per-frame angle step;
+ *   position.h.field_2A       the turn angle, stepped unsigned; the two settle
+ *                             constants are stored signed through position.s.y
+ *                             (addiu rather than ori);
+ *   field_20.b.rotation_x/y/z the rotation bytes the angle's high byte drives
+ *                             (the word stores set several at once);
+ *   update                    cleared when the step finishes. */
 void Duel_UpdateCardToSelectionView(DisplayObject *p);
 void Duel_UpdateCardToFieldView(DisplayObject *p);
 
