@@ -61,10 +61,14 @@ by `make compiler-272-psx-prebuilt` and selected through the
 - `-fno-cse-follow-jumps` lets the natural `func_80168EC8` source match
   without changing the others.
 
-MASPSX cannot model this output: it always emits `.set noreorder` and pads
-jumps with `nop`. With MASPSX 2.67 only `func_801691F0` matches. The profile
-therefore uses `assembler_mode: gnu_reorder`: `build_baseline.py` skips MASPSX,
-rewrites `move d,s` as `addu d,s,$0`, and lets GNU as reorder the code.
+MASPSX's normal processing cannot model this output: it always emits
+`.set noreorder` and pads jumps with `nop`. With MASPSX 2.67 only
+`func_801691F0` matches. The profile therefore runs MASPSX with
+`--passthrough`, which only drops COFF debug directives, then
+`build_baseline.py` rewrites `move d,s` as `addu d,s,$0` (GNU as would emit
+`or`) and lets GNU as reorder the code. At the default optimization level
+GNU as fills delay slots as the original assembler did; `-O1`, which CI's
+system-binutils flags add, is dropped for these units.
 
 ## Candidates
 
