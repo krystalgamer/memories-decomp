@@ -496,7 +496,7 @@ calls provide a complete static inventory:
 | `242` | `+0x30400` | No direct consumer in the matching main-menu overlay |
 | `243` | `+0x30600` | No direct consumer in the matching main-menu overlay |
 | `244` | `+0x30800` | The full-screen tiled background drawn by `MainMenu_DrawFrontendBackground` |
-| `245` | `+0x30A00` | The dedicated `gMainMenu_pValueSetupPanel` sprite created by `MainMenu_StartValueSetup` |
+| `245` | `+0x30A00` | The dedicated `gTwoPlayerDuel_pSetupPanel` sprite created by `MainMenu_StartValueSetup` |
 
 Rows `242` and `243` may be retained for another data-driven or resident use;
 the absence of a direct overlay initializer is not proof that their colour

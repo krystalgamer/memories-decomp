@@ -251,13 +251,13 @@ relative to that fold:
 
 ```c
 /* does not match */
-*(u16 *)(*(u8 **)(gMainMenu_aValueSetupEntries + 4)) = *(u16 *)(gMainMenu_aValueSetupEntries + 0);
+*(u16 *)(*(u8 **)(gTwoPlayerDuel_aSetupEntries + 4)) = *(u16 *)(gTwoPlayerDuel_aSetupEntries + 0);
 ```
 
 ```
-lui   $3, %hi(gMainMenu_aValueSetupEntries+4)     # offset folded into the relocation
-lw    $4, %lo(gMainMenu_aValueSetupEntries+4)($3)
-addiu $2, $3, %lo(gMainMenu_aValueSetupEntries+4)
+lui   $3, %hi(gTwoPlayerDuel_aSetupEntries+4)     # offset folded into the relocation
+lw    $4, %lo(gTwoPlayerDuel_aSetupEntries+4)($3)
+addiu $2, $3, %lo(gTwoPlayerDuel_aSetupEntries+4)
 lhu   $3, -4($2)                # and the base is now reached backwards
 ```
 
@@ -265,7 +265,7 @@ A local pins the address so each member stays an ordinary load offset, which
 is what the target does:
 
 ```c
-u8 *state = gMainMenu_aValueSetupEntries;
+u8 *state = gTwoPlayerDuel_aSetupEntries;
 *(u16 *)(*(u8 **)(state + 4)) = *(u16 *)state;
 ```
 
@@ -1021,7 +1021,7 @@ uses to the top of the trailing block and the numbering follows.
 
 ```c
 /* target saves s3, s4, then s2, i.e. a0 -> s3, a1 -> s4, a2 -> s2 */
-gMainMenu_pValueSetupToggle = toggle;              /* third parameter dies first  -> s2 */
+gTwoPlayerDuel_pSetupToggle = toggle;              /* third parameter dies first  -> s2 */
 D_801845BC[2] = (*toggle == 0);
 *(u16 **)(state + 4) = first;     /* second to die               -> s3 */
 *(u16 **)(state + 0x10) = second; /* last to die                 -> s4 */
@@ -1069,13 +1069,13 @@ After `global = local;`, passing `local` and passing `global` to the following
 call produce the same code except for **where the `a0` load is emitted**:
 
 ```c
-gMainMenu_apValueSetupCursors[0] = object;
+gTwoPlayerDuel_apSetupCursors[0] = object;
 if (object != 0) {
     /* move a0,v0 emitted first, ahead of a1/a2/a3 */
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 3, 4, 0, 0xB, 0x20C);
 
     /* move a0,v0 emitted last, after a1/a2/a3 */
-    DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(gTwoPlayerDuel_apSetupCursors[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
 }
 ```
 
@@ -1086,7 +1086,7 @@ argument spelling off the target rather than assuming the local.
 
 The two forms can legitimately coexist in `MainMenu_StartValueSetup`: the two
 objects held in scalar globals pass the local and keep `a0` first, while
-the three held in an array pass `gMainMenu_apValueSetupCursors[i]` and sink it. That is consistent
+the three held in an array pass `gTwoPlayerDuel_apSetupCursors[i]` and sink it. That is consistent
 with the array elements also being re-read for the field update that follows,
 where a scalar global is read once and an array element twice.
 

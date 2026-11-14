@@ -24,15 +24,15 @@ u8 gMainMenu_bDuelLoadPending MAIN_MENU_STATE = 0;
 u8 D_8018459E MAIN_MENU_STATE = 4;
 u8 D_8018459F MAIN_MENU_STATE = 0x24;
 
-DisplayObject *gMainMenu_pValueSetupBackground MAIN_MENU_STATE = 0;
-DisplayObject *gMainMenu_pValueSetupPanel MAIN_MENU_STATE = 0;
+DisplayObject *gTwoPlayerDuel_pBackground MAIN_MENU_STATE = 0;
+DisplayObject *gTwoPlayerDuel_pSetupPanel MAIN_MENU_STATE = 0;
 DisplayObject *D_801845A8 MAIN_MENU_STATE = 0;
 DisplayObject *D_801845AC MAIN_MENU_STATE = 0;
-DisplayObject *gMainMenu_apValueSetupCursors[3] MAIN_MENU_STATE = {0};
-u8 gMainMenu_abValueSetupChoices[3] MAIN_MENU_STATE = {0};
+DisplayObject *gTwoPlayerDuel_apSetupCursors[3] MAIN_MENU_STATE = {0};
+u8 gTwoPlayerDuel_abSetupChoices[3] MAIN_MENU_STATE = {0};
 u8 D_801845BF MAIN_MENU_STATE = 0;
-ValueSetupEntry gMainMenu_aValueSetupEntries[2] MAIN_MENU_STATE = {{0}};
-u8 *gMainMenu_pValueSetupToggle MAIN_MENU_STATE = 0;
+ValueSetupEntry gTwoPlayerDuel_aSetupEntries[2] MAIN_MENU_STATE = {{0}};
+u8 *gTwoPlayerDuel_pSetupToggle MAIN_MENU_STATE = 0;
 
 MainMenuWidget *gTrade_pBackground MAIN_MENU_STATE = 0;
 MainMenuWidget *gTrade_pStatsModeDisplay MAIN_MENU_STATE = 0;

@@ -11,16 +11,16 @@
 
 /* Choices [0/1] belong to the two players; [2] is their shared toggle choice.
    The separate scalar names [2] at its own address. */
-extern u8 gMainMenu_abValueSetupChoices[];
+extern u8 gTwoPlayerDuel_abSetupChoices[];
 
-/* gMainMenu_pValueSetupToggle points at the caller's toggle; gMainMenu_aValueSetupEntries holds
+/* gTwoPlayerDuel_pSetupToggle points at the caller's toggle; gTwoPlayerDuel_aSetupEntries holds
    the two values and their output pointers. The remaining symbols own the
    screen's display objects. */
-extern u8 *gMainMenu_pValueSetupToggle;
-extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
-extern DisplayObject *gMainMenu_pValueSetupBackground;
-extern DisplayObject *gMainMenu_pValueSetupPanel;
-extern DisplayObject *gMainMenu_apValueSetupCursors[];
+extern u8 *gTwoPlayerDuel_pSetupToggle;
+extern ValueSetupEntry gTwoPlayerDuel_aSetupEntries[2];
+extern DisplayObject *gTwoPlayerDuel_pBackground;
+extern DisplayObject *gTwoPlayerDuel_pSetupPanel;
+extern DisplayObject *gTwoPlayerDuel_apSetupCursors[];
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);
 s32 MainMenu_UpdateValueSetup(void);

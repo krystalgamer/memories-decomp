@@ -23,15 +23,15 @@
    declarers disagreed. One translation unit forces the choice, and these are
    the results, each verified byte-identical rather than argued:
 
-     gMainMenu_apValueSetupCursors  was u8 *[], void *[] and ValueWidgetView *[]. The typed
+     gTwoPlayerDuel_apSetupCursors  was u8 *[], void *[] and ValueWidgetView *[]. The typed
                  spelling won because the drawing code dereferences it
                  twenty-odd times through named fields.
-     gMainMenu_pValueSetupBackground  was void * and u8 *, and u8 * won on the byte arithmetic
+     gTwoPlayerDuel_pBackground  was void * and u8 *, and u8 * won on the byte arithmetic
                  the starter did on it.
-     gMainMenu_pValueSetupPanel
+     gTwoPlayerDuel_pSetupPanel
                  same pair, same reason.
 
-   All of them, including the tween's gMainMenu_apValueSetupCursors[2], are display objects out of DisplayObject_AcquireSlot,
+   All of them, including the tween's gTwoPlayerDuel_apSetupCursors[2], are display objects out of DisplayObject_AcquireSlot,
    and every offset any of them was reached at is a DisplayObject member:
    flags at 0x08, update at 0x24, the position pair at 0x30, the saved pair
    at 0x36/0x38, the timer at 0x60 and the two widget bytes at 0x6B/0x6C.
@@ -47,18 +47,18 @@
    in value_setup.h after those sources were coalesced. Nothing it found is
    dropped.
 
-     gMainMenu_abValueSetupChoices  [0/1] are the two players' cursor choices:
+     gTwoPlayerDuel_abSetupChoices  [0/1] are the two players' cursor choices:
                  left/right shared-toggle positions or their value row.
                  [2] is the shared toggle choice, not a third player's row.
-     gMainMenu_pValueSetupToggle  Points at the toggle byte the caller handed in; the finish
+     gTwoPlayerDuel_pSetupToggle  Points at the toggle byte the caller handed in; the finish
                  step writes through it.
-     gMainMenu_aValueSetupEntries  The two values being edited, each a ValueSetupEntry: the
+     gTwoPlayerDuel_aSetupEntries  The two values being edited, each a ValueSetupEntry: the
                  value, the shown value tweened toward it, and the pointer
                  the finish step writes it back through. It was a u16 array
                  indexed [0]/[1] and [6]/[7], with the two pointers reached
                  by byte offset; the entry spelling builds byte-identically.
 
-   gMainMenu_abValueSetupChoices[2] (0x801845BE) is the shared toggle choice.
+   gTwoPlayerDuel_abSetupChoices[2] (0x801845BE) is the shared toggle choice.
    Input writes it; finish reads it and preserves its != 1 rule.
    The resident caller finishes on both accept and cancel, committing both. */
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
@@ -72,15 +72,15 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gMainMenu_pValueSetupBackground = object;
+    gTwoPlayerDuel_pBackground = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        gMainMenu_pValueSetupBackground->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gTwoPlayerDuel_pBackground->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 #ifdef VERSION_EUROPE
-        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupBackground, -3);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_pBackground, -3);
 #else
-        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupBackground, -2);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_pBackground, -2);
 #endif
     }
 
@@ -109,48 +109,48 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gMainMenu_pValueSetupPanel = object;
+    gTwoPlayerDuel_pSetupPanel = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0xA, 6, 0, 0, 0xE, 5, gDisplay_abResourceBank1);
-        gMainMenu_pValueSetupPanel->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gTwoPlayerDuel_pSetupPanel->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupPanel, -1);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_pSetupPanel, -1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gMainMenu_apValueSetupCursors[0] = object;
+    gTwoPlayerDuel_apSetupCursors[0] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        gMainMenu_apValueSetupCursors[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gTwoPlayerDuel_apSetupCursors[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gTwoPlayerDuel_apSetupCursors[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[0], 1);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_apSetupCursors[0], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gMainMenu_apValueSetupCursors[1] = object;
+    gTwoPlayerDuel_apSetupCursors[1] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        gMainMenu_apValueSetupCursors[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gTwoPlayerDuel_apSetupCursors[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gTwoPlayerDuel_apSetupCursors[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[1], 1);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_apSetupCursors[1], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gMainMenu_apValueSetupCursors[2] = object;
+    gTwoPlayerDuel_apSetupCursors[2] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        gMainMenu_apValueSetupCursors[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gTwoPlayerDuel_apSetupCursors[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gTwoPlayerDuel_apSetupCursors[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[2], 1);
+        DisplayObject_SetDepthOffset(gTwoPlayerDuel_apSetupCursors[2], 1);
     }
 
-    gMainMenu_pValueSetupToggle = toggle;
-    gMainMenu_abValueSetupChoices[2] = (*toggle == 0);
-    gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[1] = MAIN_MENU_VALUE_SETUP_CHOICE_VALUE;
-    gMainMenu_aValueSetupEntries[0].out = first;
-    gMainMenu_aValueSetupEntries[1].out = second;
-    gMainMenu_aValueSetupEntries[0].value = gMainMenu_aValueSetupEntries[0].shown = *first;
-    gMainMenu_aValueSetupEntries[1].value = gMainMenu_aValueSetupEntries[1].shown = *second;
+    gTwoPlayerDuel_pSetupToggle = toggle;
+    gTwoPlayerDuel_abSetupChoices[2] = (*toggle == 0);
+    gTwoPlayerDuel_abSetupChoices[0] = gTwoPlayerDuel_abSetupChoices[1] = MAIN_MENU_VALUE_SETUP_CHOICE_VALUE;
+    gTwoPlayerDuel_aSetupEntries[0].out = first;
+    gTwoPlayerDuel_aSetupEntries[1].out = second;
+    gTwoPlayerDuel_aSetupEntries[0].value = gTwoPlayerDuel_aSetupEntries[0].shown = *first;
+    gTwoPlayerDuel_aSetupEntries[1].value = gTwoPlayerDuel_aSetupEntries[1].shown = *second;
     gMain_apFrameServiceCallbacks[0] = MainMenu_DrawValueSetup;
 }
 #endif
@@ -170,41 +170,41 @@ s32 MainMenu_UpdateValueSetup(void)
     s32 step;
     u16 value;
 
-    busyA = (gMainMenu_apValueSetupCursors[0]->update != 0);
-    busyB = (gMainMenu_apValueSetupCursors[1]->update != 0);
+    busyA = (gTwoPlayerDuel_apSetupCursors[0]->update != 0);
+    busyB = (gTwoPlayerDuel_apSetupCursors[1]->update != 0);
 
-    if (gMainMenu_aValueSetupEntries[0].value != gMainMenu_aValueSetupEntries[0].shown) {
-        step = gMainMenu_aValueSetupEntries[0].value - gMainMenu_aValueSetupEntries[0].shown;
+    if (gTwoPlayerDuel_aSetupEntries[0].value != gTwoPlayerDuel_aSetupEntries[0].shown) {
+        step = gTwoPlayerDuel_aSetupEntries[0].value - gTwoPlayerDuel_aSetupEntries[0].shown;
         if (step < 0) {
-            step = gMainMenu_aValueSetupEntries[0].shown - gMainMenu_aValueSetupEntries[0].value;
+            step = gTwoPlayerDuel_aSetupEntries[0].shown - gTwoPlayerDuel_aSetupEntries[0].value;
         }
-        if (gMainMenu_aValueSetupEntries[0].shown < 2) {
+        if (gTwoPlayerDuel_aSetupEntries[0].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (gMainMenu_aValueSetupEntries[0].shown < gMainMenu_aValueSetupEntries[0].value) {
-            gMainMenu_aValueSetupEntries[0].shown = gMainMenu_aValueSetupEntries[0].shown + step;
+        if (gTwoPlayerDuel_aSetupEntries[0].shown < gTwoPlayerDuel_aSetupEntries[0].value) {
+            gTwoPlayerDuel_aSetupEntries[0].shown = gTwoPlayerDuel_aSetupEntries[0].shown + step;
         } else {
-            gMainMenu_aValueSetupEntries[0].shown = gMainMenu_aValueSetupEntries[0].shown - step;
+            gTwoPlayerDuel_aSetupEntries[0].shown = gTwoPlayerDuel_aSetupEntries[0].shown - step;
         }
         busyA++;
     }
 
-    if (gMainMenu_aValueSetupEntries[1].value != gMainMenu_aValueSetupEntries[1].shown) {
-        step = gMainMenu_aValueSetupEntries[1].value - gMainMenu_aValueSetupEntries[1].shown;
+    if (gTwoPlayerDuel_aSetupEntries[1].value != gTwoPlayerDuel_aSetupEntries[1].shown) {
+        step = gTwoPlayerDuel_aSetupEntries[1].value - gTwoPlayerDuel_aSetupEntries[1].shown;
         if (step < 0) {
-            step = gMainMenu_aValueSetupEntries[1].shown - gMainMenu_aValueSetupEntries[1].value;
+            step = gTwoPlayerDuel_aSetupEntries[1].shown - gTwoPlayerDuel_aSetupEntries[1].value;
         }
-        if (gMainMenu_aValueSetupEntries[1].shown < 2) {
+        if (gTwoPlayerDuel_aSetupEntries[1].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (gMainMenu_aValueSetupEntries[1].shown < gMainMenu_aValueSetupEntries[1].value) {
-            gMainMenu_aValueSetupEntries[1].shown = gMainMenu_aValueSetupEntries[1].shown + step;
+        if (gTwoPlayerDuel_aSetupEntries[1].shown < gTwoPlayerDuel_aSetupEntries[1].value) {
+            gTwoPlayerDuel_aSetupEntries[1].shown = gTwoPlayerDuel_aSetupEntries[1].shown + step;
         } else {
-            gMainMenu_aValueSetupEntries[1].shown = gMainMenu_aValueSetupEntries[1].shown - step;
+            gTwoPlayerDuel_aSetupEntries[1].shown = gTwoPlayerDuel_aSetupEntries[1].shown - step;
         }
         busyB++;
     }
@@ -222,24 +222,24 @@ s32 MainMenu_UpdateValueSetup(void)
     }
 
     if (busyA == 0) {
-        if (gMainMenu_abValueSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+        if (gTwoPlayerDuel_abSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) {
-                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
+                    gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
-                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
+                    gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
                 }
-                gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[2];
-                if (gMainMenu_abValueSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
-                    gMainMenu_abValueSetupChoices[1] = gMainMenu_abValueSetupChoices[2];
+                gTwoPlayerDuel_abSetupChoices[0] = gTwoPlayerDuel_abSetupChoices[2];
+                if (gTwoPlayerDuel_abSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+                    gTwoPlayerDuel_abSetupChoices[1] = gTwoPlayerDuel_abSetupChoices[2];
                 }
             } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(0, MAIN_MENU_VALUE_SETUP_CHOICE_VALUE);
             }
         } else {
             if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = gMainMenu_aValueSetupEntries[0].value;
+                value = gTwoPlayerDuel_aSetupEntries[0].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -254,32 +254,32 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                gMainMenu_aValueSetupEntries[0].value = value;
+                gTwoPlayerDuel_aSetupEntries[0].value = value;
             } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_UP) {
-                MainMenu_StartValueWidgetTween(0, gMainMenu_abValueSetupChoices[2]);
+                MainMenu_StartValueWidgetTween(0, gTwoPlayerDuel_abSetupChoices[2]);
             }
         }
     }
 
     if (busyB == 0) {
-        if (gMainMenu_abValueSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+        if (gTwoPlayerDuel_abSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_awPadRepeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_awPadRepeat[1] & PAD_DIRECTION_LEFT) {
-                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
+                    gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
-                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
+                    gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
                 }
-                gMainMenu_abValueSetupChoices[1] = gMainMenu_abValueSetupChoices[2];
-                if (gMainMenu_abValueSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
-                    gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[2];
+                gTwoPlayerDuel_abSetupChoices[1] = gTwoPlayerDuel_abSetupChoices[2];
+                if (gTwoPlayerDuel_abSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+                    gTwoPlayerDuel_abSetupChoices[0] = gTwoPlayerDuel_abSetupChoices[2];
                 }
             } else if (gInput_awPadRepeat[1] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(1, MAIN_MENU_VALUE_SETUP_CHOICE_VALUE);
             }
         } else {
             if (gInput_awPadRepeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = gMainMenu_aValueSetupEntries[1].value;
+                value = gTwoPlayerDuel_aSetupEntries[1].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_awPadRepeat[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -294,9 +294,9 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                gMainMenu_aValueSetupEntries[1].value = value;
+                gTwoPlayerDuel_aSetupEntries[1].value = value;
             } else if (gInput_awPadRepeat[1] & PAD_DIRECTION_UP) {
-                MainMenu_StartValueWidgetTween(1, gMainMenu_abValueSetupChoices[2]);
+                MainMenu_StartValueWidgetTween(1, gTwoPlayerDuel_abSetupChoices[2]);
             }
         }
     }
@@ -330,43 +330,43 @@ void MainMenu_DrawValueSetup(void)
     s32 d112;
     s32 d120;
 
-    first = gMainMenu_aValueSetupEntries[0].shown;
-    second = gMainMenu_aValueSetupEntries[1].shown;
-    mk = gMainMenu_apValueSetupCursors[2];
-    if (gMainMenu_abValueSetupChoices[2] == MAIN_MENU_VALUE_SETUP_CHOICE_LEFT) {
+    first = gTwoPlayerDuel_aSetupEntries[0].shown;
+    second = gTwoPlayerDuel_aSetupEntries[1].shown;
+    mk = gTwoPlayerDuel_apSetupCursors[2];
+    if (gTwoPlayerDuel_abSetupChoices[2] == MAIN_MENU_VALUE_SETUP_CHOICE_LEFT) {
         x = 116;
     } else {
         x = 220;
     }
     mk->xy.h.x = x;
-    gMainMenu_apValueSetupCursors[2]->xy.h.y = 74;
+    gTwoPlayerDuel_apSetupCursors[2]->xy.h.y = 74;
 
-    w = gMainMenu_apValueSetupCursors[0];
-    if (w->update != 0 || gMainMenu_abValueSetupChoices[0] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+    w = gTwoPlayerDuel_apSetupCursors[0];
+    if (w->update != 0 || gTwoPlayerDuel_abSetupChoices[0] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-        w = gMainMenu_apValueSetupCursors[0];
+        w = gTwoPlayerDuel_apSetupCursors[0];
         if (w->update == 0) {
             w->xy.h.x = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            gMainMenu_apValueSetupCursors[0]->xy.h.y = 111;
+            gTwoPlayerDuel_apSetupCursors[0]->xy.h.y = 111;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        gMainMenu_apValueSetupCursors[0]->xy.h.x = gMainMenu_apValueSetupCursors[2]->xy.h.x;
-        gMainMenu_apValueSetupCursors[0]->xy.h.y = gMainMenu_apValueSetupCursors[2]->xy.h.y;
+        gTwoPlayerDuel_apSetupCursors[0]->xy.h.x = gTwoPlayerDuel_apSetupCursors[2]->xy.h.x;
+        gTwoPlayerDuel_apSetupCursors[0]->xy.h.y = gTwoPlayerDuel_apSetupCursors[2]->xy.h.y;
     }
 
-    w = gMainMenu_apValueSetupCursors[1];
-    if (w->update != 0 || gMainMenu_abValueSetupChoices[1] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+    w = gTwoPlayerDuel_apSetupCursors[1];
+    if (w->update != 0 || gTwoPlayerDuel_abSetupChoices[1] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-        w = gMainMenu_apValueSetupCursors[1];
+        w = gTwoPlayerDuel_apSetupCursors[1];
         if (w->update == 0) {
             w->xy.h.x = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            gMainMenu_apValueSetupCursors[1]->xy.h.y = 139;
+            gTwoPlayerDuel_apSetupCursors[1]->xy.h.y = 139;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        gMainMenu_apValueSetupCursors[1]->xy.h.x = gMainMenu_apValueSetupCursors[2]->xy.h.x;
-        gMainMenu_apValueSetupCursors[1]->xy.h.y = gMainMenu_apValueSetupCursors[2]->xy.h.y;
+        gTwoPlayerDuel_apSetupCursors[1]->xy.h.x = gTwoPlayerDuel_apSetupCursors[2]->xy.h.x;
+        gTwoPlayerDuel_apSetupCursors[1]->xy.h.y = gTwoPlayerDuel_apSetupCursors[2]->xy.h.y;
     }
 
     setPolyG4(&bar);
@@ -525,11 +525,11 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     s32 valueB;
     s16 remaining;
 
-    widget = gMainMenu_apValueSetupCursors[2];
+    widget = gTwoPlayerDuel_apSetupCursors[2];
     targetX = (s16)widget->xy.h.x;
     targetY = (s16)widget->xy.h.y;
-    valueA = gMainMenu_aValueSetupEntries[0].shown;
-    valueB = gMainMenu_aValueSetupEntries[1].shown;
+    valueA = gTwoPlayerDuel_aSetupEntries[0].shown;
+    valueB = gTwoPlayerDuel_aSetupEntries[1].shown;
     if (o->field_6C == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         if (o->field_6B == 0) {
             targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
@@ -542,7 +542,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     remaining = o->field_60 - 1;
     o->field_60 = remaining;
     if (remaining <= 0) {
-        gMainMenu_abValueSetupChoices[o->field_6B] = o->field_6C;
+        gTwoPlayerDuel_abSetupChoices[o->field_6B] = o->field_6C;
         o->update = 0;
     }
     o->xy.h.x =
@@ -559,19 +559,19 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     defined(VERSION_EUROPE_MAIN_MENU_FINISH_VALUE_SETUP)
 void MainMenu_FinishValueSetup(void)
 {
-    *gMainMenu_aValueSetupEntries[0].out = gMainMenu_aValueSetupEntries[0].value;
-    *gMainMenu_aValueSetupEntries[1].out = gMainMenu_aValueSetupEntries[1].value;
-    *gMainMenu_pValueSetupToggle = (gMainMenu_abValueSetupChoices[2] != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
-    DisplayObject_ReleaseIfPresent(gMainMenu_pValueSetupBackground);
-    gMainMenu_pValueSetupBackground = 0;
-    DisplayObject_ReleaseIfPresent(gMainMenu_pValueSetupPanel);
-    gMainMenu_pValueSetupPanel = 0;
-    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[0]);
-    gMainMenu_apValueSetupCursors[0] = 0;
-    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[1]);
-    gMainMenu_apValueSetupCursors[1] = 0;
-    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[2]);
-    gMainMenu_apValueSetupCursors[2] = 0;
+    *gTwoPlayerDuel_aSetupEntries[0].out = gTwoPlayerDuel_aSetupEntries[0].value;
+    *gTwoPlayerDuel_aSetupEntries[1].out = gTwoPlayerDuel_aSetupEntries[1].value;
+    *gTwoPlayerDuel_pSetupToggle = (gTwoPlayerDuel_abSetupChoices[2] != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
+    DisplayObject_ReleaseIfPresent(gTwoPlayerDuel_pBackground);
+    gTwoPlayerDuel_pBackground = 0;
+    DisplayObject_ReleaseIfPresent(gTwoPlayerDuel_pSetupPanel);
+    gTwoPlayerDuel_pSetupPanel = 0;
+    DisplayObject_ReleaseIfPresent(gTwoPlayerDuel_apSetupCursors[0]);
+    gTwoPlayerDuel_apSetupCursors[0] = 0;
+    DisplayObject_ReleaseIfPresent(gTwoPlayerDuel_apSetupCursors[1]);
+    gTwoPlayerDuel_apSetupCursors[1] = 0;
+    DisplayObject_ReleaseIfPresent(gTwoPlayerDuel_apSetupCursors[2]);
+    gTwoPlayerDuel_apSetupCursors[2] = 0;
     gMain_apFrameServiceCallbacks[0] = 0;
 }
 #endif
@@ -599,7 +599,7 @@ s32 MainMenu_CountDecimalDigits(s32 value)
     defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
-    DisplayObject *object = gMainMenu_apValueSetupCursors[index];
+    DisplayObject *object = gTwoPlayerDuel_apSetupCursors[index];
 
     object->field_6B = index;
     object->field_60 = 0xA;

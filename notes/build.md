@@ -1392,8 +1392,8 @@ The remaining overlay data work is in the current raw tails:
 The mapped main-menu prefix now covers `0x80184558-0x80185CD4`:
 `module_state.c` defines each frontend, value-setup and Trade name once, in
 address order, with `D_` placeholders for unnamed bytes. Former second labels
-are array elements (`gMainMenu_abValueSetupChoices[2]`,
-`gMainMenu_apValueSetupCursors[2]`, `gTrade_aWorkingCards[1]`,
+are array elements (`gTwoPlayerDuel_abSetupChoices[2]`,
+`gTwoPlayerDuel_apSetupCursors[2]`, `gTrade_aWorkingCards[1]`,
 `gTrade_abReady[1]`, `gTrade_abCursorRow[1]`). The one remaining binding is
 `gTrade_abCursorRow = D_80185CCA`: GCC 2.8.1 word-aligns every byte array or
 struct in `.data`, so no C object can start at `0x80185CCA`. Retail most
