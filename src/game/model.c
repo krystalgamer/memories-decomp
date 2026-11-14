@@ -1566,7 +1566,6 @@ void Model_UpdateCreditsPresentation(void)
   s32 *active_slot_words;
   u32 slot_tick_count;
   s32 animation_row;
-  s8 next_phase;
   s32 peer_slot_index;
   s32 crossfade_offset;
   u8 *outgoing_color;
@@ -1674,17 +1673,18 @@ void Model_UpdateCreditsPresentation(void)
             {
               if ( D_8009B004.fields.credits_exit_requested )
               {
-                next_phase = 2;
-                goto set_phase_and_tick;
+                gModel_bPresentationPhase = 2;
               }
-              peer_slot_index = gModel_bCreditsActiveSlot ^ 1;
-              if ( MODEL_SLOT_VIEW(
-                       MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                       (904 * peer_slot_index) * 4)->is_active )
+              else
               {
-                Model_RequestCameraMoveToSlots(1, -1, peer_slot_index, 90);
-                next_phase = gModel_bPresentationPhase + 1;
-                goto set_phase_and_tick;
+                peer_slot_index = gModel_bCreditsActiveSlot ^ 1;
+                if ( MODEL_SLOT_VIEW(
+                         MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
+                         (904 * peer_slot_index) * 4)->is_active )
+                {
+                  Model_RequestCameraMoveToSlots(1, -1, peer_slot_index, 90);
+                  gModel_bPresentationPhase = gModel_bPresentationPhase + 1;
+                }
               }
             }
             else
@@ -1693,7 +1693,6 @@ void Model_UpdateCreditsPresentation(void)
             }
           }
           ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-          break;
         }
       }
       else
@@ -1764,19 +1763,15 @@ void Model_UpdateCreditsPresentation(void)
           --slot1_tint[1];
         if ( slot1_tint[2] )
           --slot1_tint[2];
-        if ( fade_slot_base[0].tint[0]
-          || slot0_tint[1] || slot0_tint[2]
-          || fade_slot_base[1].tint[0]
-          || slot1_tint[1] || slot1_tint[2] )
+        if ( !fade_slot_base[0].tint[0]
+          && !slot0_tint[1] && !slot0_tint[2]
+          && !fade_slot_base[1].tint[0]
+          && !slot1_tint[1] && !slot1_tint[2] )
         {
-          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
-          break;
+          fade_slot_base[1].is_active = 0;
+          fade_slot_base[0].is_active = 0;
+          gModel_bPresentationPhase = gModel_bPresentationPhase + 1;
         }
-        fade_slot_base[1].is_active = 0;
-        fade_slot_base[0].is_active = 0;
-        next_phase = gModel_bPresentationPhase + 1;
-set_phase_and_tick:
-        gModel_bPresentationPhase = next_phase;
       }
       ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
       break;

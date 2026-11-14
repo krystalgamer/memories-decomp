@@ -128,10 +128,14 @@ live byte index and XOR1. slot0_tint and slot1_tint retain separate aliases.
 All three random color samples, signed byte steps, low-two-bit gates,
 904*index THEN *4 forms, separate byte-offset form, timer wrap, fade/crossfade
 stores, module/sound polls and repeated exit/update-enable byte reads stay.
-The shared tick label still increments the LATER LIVE active slot; it is
-not replaced with the earlier captured pointer or made unconditional.
-The deliberately mixed result scratch, phase-value/next-phase bindings,
-labels and goto structure remain. Numeric resident module imports remain
+The tick increment still reads the LATER LIVE active slot; it is not
+replaced with the earlier captured pointer or made unconditional.
+The controller has no gotos: case 0 writes its next phase (2 on an exit
+request, phase + 1 after the peer camera move) and falls into its own
+tick increment, and case 2 sets phase + 1 only when every tint channel
+reached zero; jump optimisation cross-jumps those phase stores and tick
+increments into case 2's single copies. The deliberately mixed result
+scratch and phase-value binding remain. Numeric resident module imports remain
 numeric, with their original per-package ABI; no NA credits name is imposed
 on the other packages or regional implementations.
 
