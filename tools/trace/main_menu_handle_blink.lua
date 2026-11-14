@@ -1,33 +1,27 @@
 -- main_menu_handle_blink.lua
 --
 -- WHAT THIS ANSWERS
---   The main_menu overlay (SLUS-014.11, loaded at 0x80180000) keeps five
+--   The main_menu overlay (SLUS-014.11, loaded at 0x80180000) keeps two
 --   stored DisplayObject handles whose on-screen graphic nobody has
 --   identified, so they still carry address names:
---     D_80184558  0x80184558  MainMenu_InitFrontendMenu: sprite from
---                             gDisplay_abResourceBank1, resource 5/0
---                             variant 0, at (0,0), depth offset 0
---     D_8018455C  0x8018455C  same function: resource 5/0 variant 2 at
---                             (0,8), depth offset 1. Its sibling, variant 1,
---                             is the already named gMainMenu_pStartPrompt
---                             (0x80184560), which this script leaves alone.
 --     D_801845A0  0x801845A0  MainMenu_StartValueSetup: default resource
 --                             0/4 variant 0xB at (0,0), depth offset -2
---     D_801845A4  0x801845A4  same function: bank 1 resource 6/0 variant 0
---                             at (0,0xA), depth offset -1
 --     D_801845DC  0x801845DC  MainMenu_InitTradeScreen: the same 0/4
 --                             variant 0xB sprite as D_801845A0, depth offset
 --                             -2 (paired with gTrade_pStatsModeDisplay at
 --                             0x801845E0)
 --   MainMenu_StartValueSetup is called only by Main_RunTwoPlayerDuelSetup,
---   so its two handles live on the 2P Duel life-point setup screen.
+--   so D_801845A0 lives on the 2P Duel life-point setup screen.
 --   Static reading gives texture cells and depths, not what the player sees.
---   The neighbours D_80184564, D_801845A8 and D_801845AC are not referenced
---   by any instruction of the module, so they are not probed.
+--   The other handles of the same functions were named from decoded artwork
+--   (gMainMenu_pTitleLogo, gMainMenu_pCopyrightNotice,
+--   gMainMenu_pValueSetupPanel) and are not probed. The neighbours
+--   D_80184564, D_801845A8 and D_801845AC are not referenced by any
+--   instruction of the module, so they are not probed either.
 --
 --
 -- METHOD
---   Every frame the script polls the five handle globals while the main_menu
+--   Every frame the script polls the two handle globals while the main_menu
 --   overlay signature matches. A handle is a candidate only when it is
 --   non-null, 4-byte aligned, inside RAM (0x80000000-0x801FFFFF) and points
 --   at an allocated entry of gDisplayObject_aPool (0x800EFE48, 96 entries of
@@ -74,17 +68,15 @@
 --   the blink is ABANDONED and nothing is written, so a replacement object
 --   is never touched; a reset abandons the same way.
 --
--- HOW TO RUN (about three minutes; the window ends itself after four)
+-- HOW TO RUN (about two minutes; the window ends itself after three)
 --   1. Enable the debugger, select the interpreter CPU (restart the emulator
---      if you switch), Debug -> Lua editor, paste this file.
---   2. Go to the main menu (title screen with the menu) and leave it idle
---      until both D_80184558 and D_8018455C have blinked twice (~20 s).
---   3. Choose 2P Duel. It loads saves from both memory cards; once the
---      life-point setup screen is up, wait until D_801845A0 and D_801845A4
---      have blinked twice (~20 s), then back out.
---   4. Choose Trade (also loads both cards) and wait until D_801845DC has
---      blinked twice (~10 s).
---   5. Copy the whole document into
+--      if you switch), Debug -> Lua editor, paste this file at the main menu.
+--   2. Choose 2P Duel. It loads saves from both memory cards; once the
+--      life-point setup screen is up, wait until D_801845A0 has blinked
+--      twice (~10 s), then back out.
+--   3. Choose Trade (also loads both cards) and wait until D_801845DC has
+--      blinked twice (~10 s). The trace then ends by itself.
+--   4. Copy the whole document into
 --      tools/trace/result/main_menu_handle_blink.txt.
 --
 -- WHAT TO WRITE IN THE CONTEXT
@@ -160,7 +152,7 @@ local FPS = 60
 local HIDE_FRAMES = 3 * FPS
 local GAP_FRAMES = 2 * FPS
 local BLINKS = 2
-local WINDOW_FRAMES = 240 * FPS
+local WINDOW_FRAMES = 180 * FPS
 local FINISH_GRACE = 30
 local MAX_ROWS = 120
 local RAM_BASE, RAM_END = 0x80000000, 0x80200000
@@ -189,10 +181,7 @@ local RESIDENT = {
 }
 
 local handles = {
-    {name = 'D_80184558', address = 0x80184558, screen = 'main menu'},
-    {name = 'D_8018455C', address = 0x8018455C, screen = 'main menu'},
     {name = 'D_801845A0', address = 0x801845A0, screen = '2P Duel setup'},
-    {name = 'D_801845A4', address = 0x801845A4, screen = '2P Duel setup'},
     {name = 'D_801845DC', address = 0x801845DC, screen = 'Trade'},
 }
 for _, h in ipairs(handles) do
@@ -555,7 +544,7 @@ local function tick()
         if allDoneAt ~= nil and frames - allDoneAt >= GAP_FRAMES then
             finishing, finishingAt = 'every handle blinked twice', frames
         elseif frames >= WINDOW_FRAMES then
-            finishing, finishingAt = 'four-minute window ended', frames
+            finishing, finishingAt = 'three-minute window ended', frames
         end
     end
     if finishing ~= nil then
@@ -703,11 +692,10 @@ listeners_main_menu_handle_blink = {
     end),
 }
 
-print(SCRIPT_NAME .. ': armed. Route: 1) main menu, stay idle until '
-    .. 'D_80184558 and D_8018455C blinked twice; 2) 2P Duel, wait on the '
-    .. 'life-point setup until D_801845A0/D_801845A4 blinked twice, back '
-    .. 'out; 3) Trade, wait until D_801845DC blinked twice. Ends by itself '
-    .. 'within four minutes.')
+print(SCRIPT_NAME .. ': armed. Route: 1) 2P Duel, wait on the '
+    .. 'life-point setup until D_801845A0 blinked twice, back out; '
+    .. '2) Trade, wait until D_801845DC blinked twice. Ends by itself '
+    .. 'within three minutes.')
 print(SCRIPT_NAME .. ': main_menu signature '
     .. (signature() and 'matches' or 'mismatch (not resident yet)')
     .. '; ' .. (readOnlyReason() == nil and 'witnesses ready'
