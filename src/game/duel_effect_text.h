@@ -297,16 +297,37 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_stat
 
 #define JAPANESE_DUEL_EFFECT_ENTRY_COUNT 300
 
+/* The bytes TextBox_DrawEntries shades a mode-2 glyph's corners with and
+   rotates a mode-1 glyph by (x16 around X, Y and Z). The European glyph
+   effects also store halfwords there: DuelEffect_UpdateGlyphReveal and
+   DuelEffect_UpdateGlyphConceal set two corners per sh, and
+   DuelEffect_UpdateGlyphSpiralFade keeps its origin, angle and radius. */
+typedef union {
+    u16 halves[2];
+    u8 corner_shade[4];
+} DuelEffectEntryShade;
+
+typedef union {
+    u16 halves[2];
+    u8 rotation[4];
+} DuelEffectEntryRotation;
+
 typedef struct {
     /* Word alignment preserves whole-record copies during compaction. */
-    u32 pad_00[4];
-    u8 pad_10;
+    u32 pad_00;
+    DuelEffectEntryShade field_04;
+    DuelEffectEntryRotation field_08;
+    u16 local_x;
+    u16 local_y;
+    u8 glyph_index;
     u8 entry_flags;
     u8 owner_channel_tag;
     u8 handler_state;
-    u8 pad_14;
+    /* Mode 2 widens the quad's right edge and drops its top-left corner. */
+    u8 field_14;
     u8 render_mode;
-    u8 pad_16[2];
+    u8 palette_index;
+    u8 pad_17;
 } JapaneseDuelEffectEntry;
 
 typedef char JapaneseDuelEffectEntry_size_must_be_0x18[
@@ -327,20 +348,17 @@ typedef struct {
     u16 glyph_code;
     u16 local_x;   /* 0x02 */
     u16 local_y;   /* 0x04 */
-    u8 field_04;    /* 0x06 */
-    u8 field_05;
-    u8 field_06;
-    u8 field_07;
-    u8 field_08;    /* 0x0A */
-    u8 field_09;
-    u8 field_0A;
-    u8 pad_0D[2];
+    DuelEffectEntryShade field_04;    /* 0x06 */
+    DuelEffectEntryRotation field_08;    /* 0x0A */
+    u8 glyph_index;    /* 0x0E */
     u8 entry_flags;    /* 0x0F */
     u8 owner_channel_tag;    /* 0x10 */
     u8 handler_state;    /* 0x11 */
-    u8 field_14;
+    u8 field_14;    /* 0x12 */
     u8 render_mode;    /* 0x13 */
-    u8 pad_14[2];
+    u8 palette_index;    /* 0x14 */
+    /* Mode 3 draws the glyph with this grey level. */
+    u8 fade_value;    /* 0x15 */
 } EuropeanDuelEffectEntry;
 
 typedef char EuropeanDuelEffectEntry_size_must_be_0x16[
