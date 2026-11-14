@@ -568,9 +568,10 @@ built resident and overlay source, rejects local forwards as well as foreign
 function prototypes, and delegates unmatched assembly declarations to
 `unmatched_contracts.py`. A matching source that needs an earlier declaration
 must take it from its own header, keeping the definition and every caller on
-one contract. Known external entry points and address-qualified SDK copies
-live in `src/external_funcs.h`; subsystem-owned and caller-specific aliases
-stay in their owning headers.
+one contract. A resident caller of an overlay function includes that overlay's
+header; entry points of modules that are not decompiled are declared in the
+calling subsystem's header (for example the boot module's two entries in
+`src/game/main_boot_frontend.h`). There is no catch-all external header.
 
 Each of these produced a wrong answer during the header-collection campaign
 before the source was read:
