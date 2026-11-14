@@ -288,7 +288,7 @@ backing object, symbol addresses and compiler profiles remain unchanged.
 | `0x08` | `random` | Turn selection writes `rand() & 1` or a fixed flag; the hand-scene handler reads the unsigned byte. |
 | `0x09` | `source_code` | The field-play opcode and per-turn decision write the acting field slot; field-scene tests retain unsigned reads. |
 | `0x0A` | `target_code` | The field-play opcode writes its category/target value, including the existing `0xFF` to `0x3A` conversion. |
-| `0x0B` | `field_0B` | The opcode stores its third value; field-scene dispatch tests this byte with the category/target byte. |
+| `0x0B` | `change_position` | The opcode stores its third value. For a monster-row source a nonzero value makes the field scene rotate the card and end the action without attacking; `Ai_SelectFieldPlay`'s give-up path sets it to 1 with no target. |
 
 The migrated producers and consumers include the script VM initialization,
 action/state opcodes, fusion searches, turn selectors, equip/trap selectors,

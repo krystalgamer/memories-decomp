@@ -11401,13 +11401,13 @@ static inline void Ai_GiveUpFieldPlay(DuelCardRecord *rec)
 
     v = (s8)rec->table_index % 15;
     gAi_Selection.fields.target_code = 0;
-    gAi_Selection.fields.field_0B = 1;
+    gAi_Selection.fields.change_position = 1;
     gAi_Selection.fields.source_code = (s8)v - 4;
 }
 
 /* The AI's per-turn play decision. Writes the chosen action into the three
  * trailing bytes of the gAi_Selection selection: the action code in source_code,
- * its argument in target_code, and a flag in field_0B. It does nothing while bit
+ * its argument in target_code, and change_position. It does nothing while bit
  * 0x1000 of gDuel_wOutcomeFlags is set.
  *
  * One turn in four it first looks for an equip: it collects the field's
@@ -11462,7 +11462,7 @@ s32 Ai_SelectFieldPlay(void)
                                             target->card_id)) {
                             gAi_Selection.fields.source_code = (s8)equip->table_index % 5 + 6;
                             gAi_Selection.fields.target_code = (s8)target->table_index % 5 + 1;
-                            gAi_Selection.fields.field_0B = 0;
+                            gAi_Selection.fields.change_position = 0;
                             return 0;
                         }
                         target_entry++;
@@ -11481,7 +11481,7 @@ s32 Ai_SelectFieldPlay(void)
             }
             gAi_Selection.fields.source_code = (s8)lista[n]->table_index % 5 + 6;
             gAi_Selection.fields.target_code = 0;
-            gAi_Selection.fields.field_0B = 0;
+            gAi_Selection.fields.change_position = 0;
             return 0;
         }
     }
@@ -11503,7 +11503,7 @@ s32 Ai_SelectFieldPlay(void)
                     do {
                     } while (0);
                     table_index = (s8)rec->table_index;
-                    gAi_Selection.fields.field_0B = 0;
+                    gAi_Selection.fields.change_position = 0;
                     /* The slot counter is dead here; reusing it gives it
                        retail's $a2. */
                     slot = table_index % 5 + 1;
