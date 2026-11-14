@@ -1,0 +1,71 @@
+==== USER CONTEXT ==== 
+
+With the emulator in Interpreter mode I booted the game and on the main-menu after loading the save I injected the script and then did the "Soft Reset". A bunch of stuff started being printed but it was when it reached "vs=565" that the screen became black and the Konami logo showed (regular boot).
+
+I let the boot sequence play out and loaded a save, went into Library, Campaign (into the overworld), back to the main-menu, to the 2P Duel screen, loaded the save again then started a duel against "Duel Master K". This is where the trace was printed.
+
+I never saw an icon on the bottom-ride of the screen during the loads.
+ 
+==== TRACE RESULT ===== 
+ 
+script: file_position_sprite_watch 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: 180-second window ended 
+breakpoints: reinstalled at the first vsync after reset 
+vsyncs: 10800 control_hits: 8776 resets: 1 init_entries: 1 init_ra: 0x80013338 
+accesses: reads=0 writes=31 pre-init=22 init=9 post-init=0 (post-init reads=0 writes=0) dropped_rows=0 repeat_rows_suppressed=6 
+bounds: rows=28/200 tracked_pcs=15/64 untracked_pc_accesses=0 decode_mismatch=0 no_callback_address=0 
+boot_init: observed 
+qualified: yes 
+verdict: no CPU read or write of D_800E9DF0 or D_8009B0E0 after File_SetPositionTable during 8776 control frames of a qualified capture: negative evidence that neither is used on this route 
+signature Main_RunFrameServices 0x8001306C expected 0x27BDFFE0 read 27BDFFE0 ok 
+signature File_SetPositionTable 0x800136E4 expected 0x27BDFFD8 read 27BDFFD8 ok 
+signature File_SetPositionTable sb 0x80013770 expected 0xA38001D8 read A38001D8 ok 
+final: byte=00 attribute=08000000 x=0120 y=00D0 w=0018 h=0018 tpage=000B u=00 v=A0 cx=0230 cy=00FC r=80 g=80 b=80 rgb_pad=00 mx=0000 my=0000 scale=00000000 rotate=00000000 
+ 
+pc write pc=0x000005A8 byte pre-init count=4 changed=0 first_vs=15 first_f=0 last_vs=15 ra=0xBFC070A0 at=0xA009B0E0 
+pc write pc=0x00000594 sprite pre-init count=2 changed=0 first_vs=15 first_f=0 last_vs=15 ra=0xBFC070A0 at=0xA00E9DF4 
+pc write pc=0x00000598 sprite pre-init count=2 changed=0 first_vs=15 first_f=0 last_vs=15 ra=0xBFC070A0 at=0xA00E9DF8 
+pc write pc=0x0000059C sprite pre-init count=2 changed=0 first_vs=15 first_f=0 last_vs=15 ra=0xBFC070A0 at=0xA00E9DFC 
+pc write pc=0x000007B4 byte pre-init count=2 changed=0 first_vs=146 first_f=0 last_vs=209 ra=0x00000AF8 at=0x0009B000 
+pc write pc=0x800129E8 byte pre-init count=10 changed=0 first_vs=406 first_f=0 last_vs=408 ra=0xBFC06694 at=D_8009B0E0 
+pc write pc=0x80013750 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x04(x) 
+pc write pc=0x80013758 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x06(y) 
+pc write pc=0x80013760 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x0C(tpage) 
+pc write pc=0x80013768 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x00(attribute) 
+pc write pc=0x80013770 byte init count=1 changed=0 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=D_8009B0E0 
+pc write pc=0x80013774 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x14(r) 
+pc write pc=0x80013778 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x0E(u) 
+pc write pc=0x8001377C sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x08(w) 
+pc write pc=0x80013780 sprite init count=1 changed=1 first_vs=564 first_f=0 last_vs=564 ra=0x80013708 at=sprite+0x10(cx) 
+ 
+vs=15 f=0 t=   0.2s byte pre-init write pc=0x000005A8(?) ra=0xBFC070A0 at=0xA009B0E0 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x000005A8(?) ra=0xBFC070A0 at=0xA00E9DF0 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x00000594(?) ra=0xBFC070A0 at=0xA00E9DF4 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x00000598(?) ra=0xBFC070A0 at=0xA00E9DF8 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x0000059C(?) ra=0xBFC070A0 at=0xA00E9DFC width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x000005A8(?) ra=0xBFC070A0 at=0xA00E9E00 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x00000594(?) ra=0xBFC070A0 at=0xA00E9E04 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x00000598(?) ra=0xBFC070A0 at=0xA00E9E08 width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x0000059C(?) ra=0xBFC070A0 at=0xA00E9E0C width=4 ?? -> ?? decode=none 
+vs=15 f=0 t=   0.2s sprite pre-init write pc=0x000005A8(?) ra=0xBFC070A0 at=0xA00E9E10 width=4 ?? -> ?? decode=none 
+vs=16 f=0 t=   0.3s change attribute 08000000->00000000 x 0120->0000 y 00D0->0000 w 0018->0000 h 0018->0000 tpage 000B->0000 v A0->00 cx 0230->0000 cy 00FC->0000 r 80->00 g 80->00 b 80->00 
+vs=146 f=0 t=   2.4s byte pre-init write pc=0x000007B4(?) ra=0x00000AF8 at=0x0009B000 width=2048 ?? -> ?? decode=none 
+vs=209 f=0 t=   3.5s sprite pre-init write pc=0x000007B4(?) ra=0x00000AF8 at=0x000E9800 width=2048 ?? -> ?? decode=none 
+vs=406 f=0 t=   6.8s byte pre-init write pc=0x800129E8(?) ra=0xBFC06694 at=D_8009B0E0 width=4 00000000 -> 00000000 decode=ok 
+vs=408 f=0 t=   6.8s sprite pre-init write pc=0x800129E8(?) ra=0xBFC06694 at=sprite+0x00(attribute) width=4 00000000 -> 00000000 decode=ok 
+vs=408 f=0 t=   6.8s sprite pre-init write pc=0x800129E8(?) ra=0xBFC06694 at=sprite+0x04(x) width=4 00000000 -> 00000000 decode=ok 
+vs=408 f=0 t=   6.8s sprite pre-init write pc=0x800129E8(?) ra=0xBFC06694 at=sprite+0x08(w) width=4 00000000 -> 00000000 decode=ok 
+vs=557 f=0 t=   9.3s milestone File_SetPositionTable entered ra=0x80013338 before: byte=00 attribute=00000000 x=0000 y=0000 w=0000 h=0000 tpage=0000 u=00 v=00 cx=0000 cy=0000 r=00 g=00 b=00 rgb_pad=00 mx=0000 my=0000 scale=00000000 rotate=00000000 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013750(File_SetPositionTable) ra=0x80013708 at=sprite+0x04(x) width=2 0000 -> 0120 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013758(File_SetPositionTable) ra=0x80013708 at=sprite+0x06(y) width=2 0000 -> 00D0 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013760(File_SetPositionTable) ra=0x80013708 at=sprite+0x0C(tpage) width=2 0000 -> 000B decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013768(File_SetPositionTable) ra=0x80013708 at=sprite+0x00(attribute) width=4 00000000 -> 08000000 decode=ok 
+vs=564 f=0 t=   9.4s byte init write pc=0x80013770(File_SetPositionTable) ra=0x80013708 at=D_8009B0E0 width=1 00 -> 00 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013774(File_SetPositionTable) ra=0x80013708 at=sprite+0x14(r) width=4 00000000 -> 00808080 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013778(File_SetPositionTable) ra=0x80013708 at=sprite+0x0E(u) width=2 0000 -> A000 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x8001377C(File_SetPositionTable) ra=0x80013708 at=sprite+0x08(w) width=4 00000000 -> 00180018 decode=ok 
+vs=564 f=0 t=   9.4s sprite init write pc=0x80013780(File_SetPositionTable) ra=0x80013708 at=sprite+0x10(cx) width=4 00000000 -> 00FC0230 decode=ok 
+vs=565 f=0 t=   9.4s change attribute 00000000->08000000 x 0000->0120 y 0000->00D0 w 0000->0018 h 0000->0018 tpage 0000->000B v 00->A0 cx 0000->0230 cy 0000->00FC r 00->80 g 00->80 b 00->80 
+ 
+--- end of trace, copy everything above into tools/trace/result/file_position_sprite_watch.txt --- 
