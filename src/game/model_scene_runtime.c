@@ -522,10 +522,10 @@ s32 Model_FindBranchingChildCoord(ModelSlot *model, GsCOORDUNIT *parent)
     s32 j;
 
     for (i = 0; i < model->entry_count; i++) {
-        if (((GsCOORDUNIT *)model->entries)[i].super != parent)
+        if (model->entries[i].super != parent)
             continue;
         for (j = 0; j < model->entry_count; j++) {
-            if (((GsCOORDUNIT *)model->entries)[j].super == &((GsCOORDUNIT *)model->entries)[i])
+            if (model->entries[j].super == &model->entries[i])
                 break;
         }
         if (j < model->entry_count)

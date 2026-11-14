@@ -23,15 +23,14 @@ void *Model_GetSlotDataEntry(s32 index, s32 slot)
     if (slot > entry->entry_count) {
         slot = entry->root_coordinate_index;
     }
-    return entry->entries + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
+    return &entry->entries[slot];
 }
 
 u32 Model_GetCurrentDataEntry(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 
-    return (u32)entry->entries +
-           entry->root_coordinate_index * MODEL_SLOT_DATA_ENTRY_SIZE;
+    return (u32)&entry->entries[entry->root_coordinate_index];
 }
 
 void Model_CopySlotPosition(s32 idx, u16 *out) {
@@ -225,7 +224,7 @@ s32 Model_TransformPartVertex(s32 slot_index, s32 part, s32 vertex, VECTOR *out)
 
     PushMatrix();
     GsGetLwUnit(
-        (GsCOORDUNIT *)slot->entries + part,
+        slot->entries + part,
         &local_to_world
     );
     GsSetLsMatrix(&local_to_world);
