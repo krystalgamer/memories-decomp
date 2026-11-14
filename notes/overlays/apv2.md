@@ -25,9 +25,9 @@ binds those names to the region's addresses.
 | `0x4` | 20-entry state jump table |
 | `0x54` | English warning text |
 | `0xA8` | Shift-JIS warning text |
-| `0xE4` | `s8 dir[8]` |
+| `0xE4` | `safechk_offset` (`s8 dir[8]` in the candidate) |
 | `0xF4-0x140C` | code: nine functions |
-| `0x140C-0x14D4` | data: CD command table, message table, state |
+| `0x140C-0x14D4` | data: eight zero bytes, `__ps_libinfo__`, CD command table, message table, state |
 | `0x14D4-` | leftover memory, different in each region; kept raw |
 
 ## Behaviour
@@ -46,6 +46,62 @@ binds those names to the region's addresses.
 
 The USA warning reads `SOFTWARE TERMINATED` / `CONSOLE MAY HAVE BEEN MODIFIED`
 / `CALL 1-888-780-7690`.
+
+## Identification: safechk 2.0.0.3
+
+The module is Sony's runtime library `safechk`. Its `__ps_libinfo__` block at
+`0x80169414` (module offset `0x1414`) reads `50 73 1C 00 00 00 20 03`: the
+`Ps` tag, library number 28 (`safechk`), and version 2.0.0.3. The Metal Gear
+Solid decompilation ships version 1.0.0.3 as named, hand-written assembly
+(`asm/safechk.s` in `FoxdieTeam/mgs_reversing`), whose block reads
+`... 10 03`. The symbols here use its names where the call graph or the data
+bytes make the correspondence clear:
+
+| Address | Name | Former name | Evidence |
+|---|---|---|---|
+| `0x80168160` | `SafetyCheck` | `func_80168160` | The only exported entry; sends the commands and calls `SafetyCheck2`. |
+| `0x80168D5C` | `SafetyCheck2` | `func_80168D5C` | Same SDK call sequence as v1, from `ResetGraph` to `exit`. |
+| `0x80168EC8` | `SafetyCheck3` | `func_80168EC8` | Calls `strlen`, `Krom2RawAdd` and `SafetyCheck4`. |
+| `0x8016903C` | `SafetyCheck4` | `func_8016903C` | One `DrawPrim` call site, per glyph. |
+| `0x80169284` | `SafetyCheck5` | `func_80169284` | Two `DrawPrim` call sites, using `safechk_coords` and `safechk_offset`. |
+| `0x801680E4` | `safechk_offset` | `D_801680E4` | Bytes equal v1's `dh 257, 511, -255, -1, 0, 0, 0, 0`. |
+| `0x80169414` | `__ps_libinfo__` | (inside `D_8016940C`) | Library 28, version 2.0.0.3. |
+| `0x8016941C` | `safechk_commands` | `D_8016941C` | Same `{cmd, nparams, nresults, wait}` words; 14 entries against v1's 10, seven of them shared. |
+| `0x80169454` | `safechk_cdregs` | `D_80169454` | Bytes equal v1's: `0x1F801800` to `0x1F801803`. |
+| `0x80169464` | `safechk_params` | `D_80169464` | Eight zero bytes, sent as command parameters. |
+| `0x8016946C` | `safechk_results` | `D_8016946C` | Eight zero bytes, filled from the controller. |
+| `0x80169494` | `safechk_coords` | `D_80169494` | Bytes equal v1's 48. |
+
+Caveats:
+
+- v2's `SafetyCheck` is not v1's body. v1's is
+  `SafetyCheck(minute, second, sector)` and runs to completion; v2's takes one
+  `s32` (the boot loop passes 1) and advances the state in `D_80169474` once
+  per call.
+- v1's `SafetyCheck1` sends a command and waits for its result. v2 splits it
+  into `func_80168C6C` (send) and `func_80168A98` (wait), so both keep their
+  address names. `func_801680F4` (region select) and `func_801691F0` (glyph
+  width) have no v1 counterpart. The message table `D_8016947C`, the state
+  words `D_80169474`, `D_80169478`, `D_801694C4`, `D_801694C8` and
+  `D_801694D0`, and the bytes `D_801694CC`/`D_801694CD` are
+  v2-only and keep their address names too.
+- `D_80169458`, `D_8016945C` and `D_80169460` are `safechk_cdregs[1..3]`, and
+  `D_8016946D` and `D_8016946E` are `safechk_results[1..2]`. They stay separate
+  symbols: indexing the arrays in the candidates links to the same code but
+  moves the offset into the objects' relocation addends, so the object bytes
+  would change.
+- The eight zero bytes at `0x8016940C-0x80169413`, between the end of `.text`
+  and `__ps_libinfo__`, are unexplained. In v1, `.data` begins with
+  `__ps_libinfo__`.
+
+The `mgs_reversing` file opens with a note that `safechk.obj` was probably
+written in C but cannot be matched with "the PSSN compiler toolchain". It says
+that SCEI first built the runtime libraries both with GCC 2.x hosted on Unix
+(COFF) and with Psy-Q for MS-DOS, and that from Release 4.1 (September 1997)
+Sony compiled each release only with the Unix GCC 2.x and post-converted the
+COFF objects to Psy-Q format; the few `safechk.obj` releases most likely came
+from that environment. That fits the findings below: no SN `CC1PSX` build
+reproduces the module, while a Cygnus-derived GCC 2.7.2 comes closest.
 
 ## Compiler
 
