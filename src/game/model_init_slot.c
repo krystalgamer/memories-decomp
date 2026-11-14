@@ -21,12 +21,15 @@
    handlers, links the coordinate slots, and picks the first coordinate
    whose parent is not claimed by a live unit.
 
-   The retry scan is a goto loop. GCC 2.8.1 weights a register's references
-   by loop nesting; as a structured loop the retry pass lifts the shared slot
-   cursor above the 0x1F800000 scratch base and the two swap $s3/$s4. The
-   structured event loop likewise needs the one-pass block around the HMD
-   cursor reads to keep the command cursor in $s5 and the channel index in
-   $s6. */
+   The render parent search descends from the candidate to its branching
+   child until some live unit's coordinate hangs off the candidate. GCC 2.8.1
+   weights a register's references by loop nesting, so the nested search
+   loops make the shared unit cursor heavy; the record loop takes the
+   scratchpad base from a function-scope copy, which keeps the per-record
+   pointer free of a constant equivalence (local-alloc would double its live
+   length) so it still outranks the cursor for $s3. The event loop needs the
+   one-pass block around the HMD cursor reads to keep the command cursor in
+   $s5 and the channel index in $s6. */
 void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
 {
     ModelSlot *model_slot;
@@ -39,9 +42,6 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     s32 scan_index;
     u32 type_tag;
     s32 coordinate_index;
-    s32 captured_unit_count;
-    s32 unit_count_limit;
-    s32 chain_end_marker;
     s32 child_coordinate_index;
     s32 *group_words;
     GsCOORDUNIT *parent_coordinate;
@@ -49,8 +49,12 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     GsCOORDUNIT *render_parent_candidate;
     GsCOORDUNIT *root_coordinate;
     s32 noop_handler_word;
+    u8 *scratchpad;
 
     noop_handler_word = (s32)GsU_00000000;
+    /* Like noop_handler_word, a constant reload rematerializes at each use;
+       copying it per record keeps the record's pointer non-constant. */
+    scratchpad = (u8 *)SCRATCH_ADDR(0);
     model_slot = &gModel_aSlots[slot_index];
     hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
     hmd_cursor = hmd;
@@ -151,11 +155,11 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
             hmd_unit->primtop = (unsigned long *)group_words;
             if (group_words != 0) {
                 GsScanUnit((u32 *)group_words, 0, 0, 0);
-                while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)SCRATCH_ADDR(0)) != 0) {
+                while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)scratchpad) != 0) {
                     u8 *sdk_scratch;
 
                     type_tag = (u32)type_unit.type >> 24;
-                    sdk_scratch = (u8 *)SCRATCH_ADDR(0);
+                    sdk_scratch = scratchpad;
                     if (type_unit.type == 0) {
                         continue;
                     }
@@ -225,38 +229,28 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         }
         render_parent_candidate = model_slot->entries + model_slot->render_parent_coordinate_index;
         model_slot->render_parent_coordinate = render_parent_candidate;
-    retry:
-        hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
-        captured_unit_count = model_slot->hmd_unit_count;
-        scan_index = 0;
-        if (captured_unit_count != 0) {
-            chain_end_marker = -1;
-            unit_count_limit = captured_unit_count;
-        claimed:
-            if (hmd_unit->coord != 0 && hmd_unit->primtop != 0) {
-                if (*hmd_unit->primtop != chain_end_marker || *(hmd_unit->primtop + 2) != 0) {
-                    if (hmd_unit->coord->super == render_parent_candidate) {
-                        goto scanned;
-                    }
+        for (;;) {
+            hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
+            for (scan_index = 0; scan_index < model_slot->hmd_unit_count; scan_index++, hmd_unit++) {
+                /* A local terminator: loop.c hoists it only to this loop's
+                   preheader, where the retry loop cannot move it again. */
+                s32 chain_end = -1;
+
+                if (hmd_unit->coord != 0 && hmd_unit->primtop != 0 &&
+                    (hmd_unit->primtop[0] != chain_end || hmd_unit->primtop[2] != 0) &&
+                    hmd_unit->coord->super == render_parent_candidate) {
+                    break;
                 }
             }
-            scan_index++;
-            hmd_unit++;
-            if (scan_index < unit_count_limit) {
-                goto claimed;
-            }
-        scanned:
             if (scan_index < model_slot->hmd_unit_count) {
-                goto found;
+                break;
             }
+            child_coordinate_index = Model_FindBranchingChildCoord(model_slot, render_parent_candidate);
+            if (!(child_coordinate_index < model_slot->entry_count)) {
+                break;
+            }
+            render_parent_candidate = model_slot->entries + child_coordinate_index;
         }
-        child_coordinate_index = Model_FindBranchingChildCoord(model_slot, render_parent_candidate);
-        if (!(child_coordinate_index < model_slot->entry_count)) {
-            goto found;
-        }
-        render_parent_candidate = model_slot->entries + child_coordinate_index;
-        goto retry;
-    found:
         parent_coordinate = render_parent_candidate->super;
         if (parent_coordinate != model_slot->root_coordinate) {
             model_slot->render_parent_coordinate = parent_coordinate;
