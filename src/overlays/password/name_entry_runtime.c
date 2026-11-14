@@ -61,7 +61,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 #endif
     object->glyph_advance_x = 0x14;
     object->line_advance_y = 0x12;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)object);
+    TextBox_BuildBlocking(object);
 }
 #endif
 
@@ -167,7 +167,7 @@ void NameEntry_Init(void)
     boxes = gText_aChannels;
     boxes[3].glyph_advance_x = 16;
     boxes[3].line_advance_y = 16;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)&boxes[3]);
+    TextBox_BuildBlocking(&boxes[3]);
     DuelEffect_SetEntryRangeLayout(0, 1);
 #endif
 #endif
@@ -194,7 +194,7 @@ void NameEntry_Init(void)
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->glyph_advance_x = 20;
     sprite->line_advance_y = 18;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)sprite);
+    TextBox_BuildBlocking(sprite);
 #endif
 #ifdef VERSION_JAPAN
     gNameEntry_bCharacterSet = 0;
@@ -1178,7 +1178,7 @@ void NameEntry_UpdateDialog(void)
             id = gNameEntry_wPendingDialogId;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
-                    TextBox_BuildBlocking((struct DuelEffectChannel *)box);
+                    TextBox_BuildBlocking(box);
                     gDialog_bChoice = 0;
                 }
                 box->prompt_object = Dialog_OpenChoice(box);
@@ -1235,7 +1235,7 @@ void NameEntry_UpdateDialog(void)
                     gNameEntry_bStateFlags = fc & 0xFD;
                 }
             }
-            TextBox_SetPos((struct DuelEffectChannel *)box, caret->x, caret->y);
+            TextBox_SetPos(box, caret->x, caret->y);
             return;
         }
         if ((gNameEntry_wPendingDialogId & 0x8000) == 0) {
@@ -1297,7 +1297,7 @@ void NameEntry_UpdateDialog(void)
         panel = gText_aChannels;
         panel[3].glyph_advance_x = 16;
         panel[3].line_advance_y = 16;
-        TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)&panel[3]);
+        TextBox_BuildBlockingWithGlyphScratch(&panel[3]);
 #endif
         NameEntry_AdjustLength(1, 6);
         return;

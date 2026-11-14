@@ -163,7 +163,7 @@ void DuelEffect_UpdateCardViewerState(void)
 #endif
                 box->depth_offset = 0x15;
                 gDuel_pCardViewerTextBox = box;
-                TextBox_BuildBlocking((struct DuelEffectChannel *)box);
+                TextBox_BuildBlocking(box);
                 break;
             }
         }

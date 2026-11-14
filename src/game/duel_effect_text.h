@@ -569,10 +569,10 @@ struct DuelEffectChannel;
 
 void TextBox_Destroy(struct DuelEffectChannel *record);
 void TextBox_DestroyIndex(s32 index);
-void *TextBox_Create(
+struct DuelEffectChannel *TextBox_Create(
     s32 index, s32 string_id, s32 x, s32 y, s32 width, s32 height
 );
-void *TextBox_CreateFlagged(
+struct DuelEffectChannel *TextBox_CreateFlagged(
     s32 index, s32 string_id, s32 x, s32 y, s32 width, s32 height, s32 flags
 );
 

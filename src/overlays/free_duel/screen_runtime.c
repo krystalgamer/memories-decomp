@@ -100,7 +100,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 #else
     TextBox_Create(0, param, 16, 204, 288, 16);
 #endif
-    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)panel);
+    TextBox_BuildBlockingWithGlyphScratch(panel);
 }
 
 #endif

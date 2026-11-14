@@ -7418,7 +7418,7 @@ void Duel_ShowResultPage(s32 page)
 {
     s32 i;
     DisplayObject *child;
-    void *object;
+    DuelEffectChannel *object;
 
     DisplayObject_SetResourceVariant(gDuel_pResultDisplayState->root, page);
     if (page == 0) {
@@ -8594,7 +8594,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         0x120, 0x40
     );
     box->depth_offset = (u8)source->info_panel->depth_offset + 1;
-    TextBox_BuildBlocking((struct DuelEffectChannel *)box);
+    TextBox_BuildBlocking(box);
 }
 
 void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source)

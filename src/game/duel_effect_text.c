@@ -185,7 +185,7 @@ void TextBox_DestroyIndex(s32 index)
 }
 #endif
 
-void *TextBox_Create(
+DuelEffectChannel *TextBox_Create(
     s32 index,
     s32 string_id,
     s32 x,
@@ -195,10 +195,10 @@ void *TextBox_Create(
 )
 {
     TextBox_SetRect(index, x, y, width, height);
-    return (u8 *)DuelEffect_InitEntry(index, string_id, 0);
+    return DuelEffect_InitEntry(index, string_id, 0);
 }
 
-void *TextBox_CreateFlagged(
+DuelEffectChannel *TextBox_CreateFlagged(
     s32 index,
     s32 string_id,
     s32 x,
