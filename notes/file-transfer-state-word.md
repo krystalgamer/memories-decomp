@@ -123,19 +123,11 @@ A `-G8` translation unit cannot produce both forms from one declaration,
 because the assembler picks the form from whether the symbol is small-data
 eligible, which maspsx communicates with an `.extern D_8009B0F4, 4` directive
 it emits only for a symbol GCC treated as small. `file_transfer.h` therefore
-declares the one name in two arms selected per translation unit:
-
-```c
-#ifdef FILE_TRANSFER_WORDS_IN_DATA
-extern volatile u32 gFile_dwTransferState __attribute__((section(".data")));
-#else
-extern volatile u32 gFile_dwTransferState;
-#endif
-```
-
-This replaced a second link-aliased name (`D_8009B0F4_abs`). The split follows
-the unit's compiler profile: every unit selecting the `.data` arm is a `-G8`
-profile, and no unit assembled at `-G0` needs it.
+once declared the one name in two arms selected per translation unit, one of
+them carrying `__attribute__((section(".data")))` so GCC would not treat it as
+small. That arm, and the earlier link-aliased name (`D_8009B0F4_abs`) it
+replaced, are gone: `file_transfer.h` now has the single declaration
+`extern volatile u32 gFile_dwTransferState;`.
 
 `fade.h` once published `gFade_State` and `D_800E9EC8_arr` for one address
 in the same way; that view has since been folded into `&gFade_State`.
