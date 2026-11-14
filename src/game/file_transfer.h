@@ -231,11 +231,16 @@ extern char gFile_TargetLoc[4];
  * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer
  * is what every use assigns and calls. */
 extern void (*gFile_BeforePrimaryRequestCallback)(void);
+/* File_SetPositionTable clears it; nothing reads it. An emulator trace saw no
+ * other access from boot through the Library, the campaign map, 2P Duel and a
+ * duel (#418). */
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
  * 24x24 at (0x120, 0xD0), tpage 0xB, uv (0x00, 0xA0), clut (0x230, 0xFC),
  * neutral grey, attribute 0x08000000 (libgs's GsROTOFF). It was a u8[] reached
- * through offset casts; no other C source names it. */
+ * through offset casts; no other C source names it. On the traced route above
+ * nothing read or wrote it after that boot-time fill and no bottom-right icon
+ * was seen during loads, so it is not drawn there; its purpose is unknown. */
 extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 

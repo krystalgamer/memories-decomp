@@ -52,3 +52,36 @@ other stores to the control word, about one per frame, and none of them
 touched bytes one or two. Password, Trade, the campaign map and
 dialogue are now covered for this getter only. Duel results, fusion and
 ritual summons, and the credits remain uncovered for all of them.
+
+## Resident globals with no meaningful reader or writer
+
+`resident_dead_globals_watch` (#418; 18,000 vsyncs, 16,735 control hits,
+interpreter CPU, all 31 signature words verified) put read and write
+breakpoints on resident globals that the static scan leaves without a
+meaningful reader or writer, plus execution breakpoints on
+`func_8005C374` and `func_8003D32C`. The route was a soft reset, a loaded
+save, the campaign (Card Shop, the palace duel against Simon Muran, back to
+the Card Shop and Return to Title), then the debug menu (entered by
+patching the main-menu selection byte at `0x80184594` to `0x0B`) with its
+BustUp and MOVIE entries. MOVIE hung input with rendering still running and
+played no movie.
+
+Every access outside the static sites was a boot-time clear: the BIOS
+before the executable loads, and the resident `entrypoint` (`0x800129D8`)
+zeroing `.bss`. Apart from those:
+
+| Global | Static sites | What the run saw |
+| --- | --- | --- |
+| `D_8009B0A4`, `D_8009B0D4` | read by `Main_RunFrameServices` | read 17,009 times each, always 0; never written |
+| `D_8009B0B0`, `D_8009B0BC` | `Main_RunFrameServices` copies the two above into them | written 274 times each, always 0 |
+| `D_8009B0D1` | `Main_Init`, `Main_ApplyMenuSelection`, `SaveData_RequestLoad` store 0 | stored 0 twice; never read |
+| `D_8009B268` | stored beside menu requests; `Main_RunMenu` passes it to `MainMenu_InitFrontendMenu` | set to 1 by `Main_ApplyMenuSelection` (campaign start, debug menu) and `Script_OpSavePrompt`, read once by `Main_RunMenu` |
+| `D_8009B2B2` | `DebugMenu_Init` stores `0x80`, `DebugMenu_EnterMappedMode` stores 0 | set to `0x80` on entering the debug menu; never read |
+| `D_8009B2DE` | `DebugMenu_UpdateBustUpEntry` zeroes, then tests it | zeroed and read back as 0 by the BustUp entry |
+| `D_8009B4A0..A2` | written only by `func_8005C374` | never accessed |
+
+Neither `func_8005C374` nor `func_8003D32C` was called, including when the
+debug menu's MOVIE entry was chosen. The runtime agrees with the static
+scan on this route: the frame-service pair stays zero, and the
+write-only bytes are never read. The names stay address-based, because
+being dead on one route is not a role.

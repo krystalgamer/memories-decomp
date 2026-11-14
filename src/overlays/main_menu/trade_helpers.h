@@ -76,7 +76,7 @@ typedef struct {
     u8 frame;
 } MainMenuWidget;
 
-/* The two Trade display handles, D_801845DC and gTrade_pStatsModeDisplay -- the pair
+/* The two Trade display handles, gTrade_pBackground and gTrade_pStatsModeDisplay -- the pair
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
  * releases and clears. MainMenu_InitTradeScreen stores a DisplayObject_AcquireSlot
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
@@ -91,7 +91,7 @@ typedef struct {
  * those two stores OR into, named `flags` as DisplayObjectConfig
  * (display_object_config.h) names it, so the widget view is the one kept
  * here; only the DisplayObject_SetDepthOffset sites cast to bytes. */
-extern MainMenuWidget *D_801845DC;
+extern MainMenuWidget *gTrade_pBackground;
 /* Resource variant minus four carries the two players' stats-mode bits. */
 extern MainMenuWidget *gTrade_pStatsModeDisplay;
 

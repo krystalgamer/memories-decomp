@@ -4,11 +4,13 @@ The frontend's Start-button prompt and its shared, separately loaded
 display-resource bank now have canonical C bindings. The two other frontend
 singleton sprites and the value-setup sprite are bound as
 `gMainMenu_pTitleLogo`, `gMainMenu_pCopyrightNotice` and
-`gMainMenu_pValueSetupPanel` from their decoded artwork. That artwork was
+`gTwoPlayerDuel_pSetupPanel` from their decoded artwork. That artwork was
 rendered only from the North American `SU.MRG` resource bank and uploads;
 the Japanese and PAL banks were not rendered, so those images inherit the
 bindings through the shared C and selectors only. The two default-resource
-handles `D_801845A0` and `D_801845DC` stay native. See
+handles are `gTwoPlayerDuel_pBackground` and `gTrade_pBackground`: an
+emulator trace that hid each one showed the yellow brick-wall background of
+the 2P Duel setup and Trade screens disappear. See
 [display ownership](../../../notes/overlays/main-menu-display-ownership.md)
 for the input/lifecycle evidence, the decode, exact storage views and
 regional scope.
@@ -194,7 +196,7 @@ itself establish atomic persistence across two memory cards.
 
 After the updater finishes, the resident caller performs its fades and calls
 `MainMenu_ReleaseTradeDisplayHandles` (`0x80183FE4`). That helper releases
-and clears only `D_801845DC` and `gTrade_pStatsModeDisplay` (`0x801845E0`),
+and clears only `gTrade_pBackground` and `gTrade_pStatsModeDisplay` (`0x801845E0`),
 then clears the Trade drawing callback. It does not itself clear inventory cursors, offers, counts or
 navigation, save data, fade or unload the module. Its release helper handles
 null handles.
@@ -418,13 +420,13 @@ byte `gDuel_bTwoPlayerCardViewMode`, passed directly as the `u8 *` toggle.
 
 The two twelve-byte state records hold target/display halfwords at offsets
 `0/2` and `0x0C/0x0E`, with output pointers at `+4/+0x10`.
-`gMainMenu_abValueSetupChoices[0/1]` are side modes, and `[2]` is
+`gTwoPlayerDuel_abSetupChoices[0/1]` are side modes, and `[2]` is
 **one shared choice**. `MAIN_MENU_VALUE_SETUP_CHOICE_LEFT/RIGHT` are 0/1;
 `MAIN_MENU_VALUE_SETUP_CHOICE_VALUE` is 2, a side's value-bar position.
 Setup initializes the choice to `(*toggle == 0)`, and finish writes
 `(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
 caption remains unproved. The finish step reads it as
-`gMainMenu_abValueSetupChoices[2]` (once a separate label,
+`gTwoPlayerDuel_abSetupChoices[2]` (once a separate label,
 `gMainMenu_bValueSetupToggleChoice`, formerly `D_801845BE`). See
 [choice lifecycle](../../../notes/overlays/main-menu-value-choices.md)
 for the input, draw, tween, commit and real data-owner evidence. The
@@ -695,24 +697,24 @@ compiler profile, so no profile boundary marks this grouping - the call graph
 does.
 
 One unit settles the three symbols `value_setup.h` had listed as deliberately
-absent because their declarers disagreed. `gMainMenu_apValueSetupCursors` was spelled `u8 *[]`,
+absent because their declarers disagreed. `gTwoPlayerDuel_apSetupCursors` was spelled `u8 *[]`,
 `void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
 renderer dereferences it through named fields more than twenty times while
 the other three users only do byte arithmetic, which a cast covers.
-`D_801845A0` and `gMainMenu_pValueSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
+`gTwoPlayerDuel_pBackground` and `gTwoPlayerDuel_pSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 
-`gMainMenu_abValueSetupChoices[2]` is the byte formerly also labelled
+`gTwoPlayerDuel_abSetupChoices[2]` is the byte formerly also labelled
 `gMainMenu_bValueSetupToggleChoice`; it now has the array name only.
 
 The renderer and the widget tween it drives, previously the subject of this
 section, remain adjacent inside the unit. Both read the same displayed-value halfword table
-`gMainMenu_aValueSetupEntries` and the same per-side mode array
-`gMainMenu_abValueSetupChoices`, and both work in
+`gTwoPlayerDuel_aSetupEntries` and the same per-side mode array
+`gTwoPlayerDuel_abSetupChoices`, and both work in
 the value-lane geometry described below: the tween drives a side widget
 toward the bar endpoint at Y 111/139 that the renderer draws, and it writes
-the settled mode back into `gMainMenu_abValueSetupChoices` when the tween expires.
+the settled mode back into `gTwoPlayerDuel_abSetupChoices` when the tween expires.
 
 The definitions remain in executable order: `MainMenu_DrawValueSetup`
 occupies `0x80181728..0x80181CB8` and `MainMenu_UpdateValueWidgetTween` runs
@@ -724,8 +726,8 @@ complete contiguous `0x708`-byte text range, ending exactly where
 This is the **visual** slice of the value editor only. It is not the whole
 editor: `MainMenu_StartValueSetup`, `MainMenu_FinishValueSetup` and the input
 and write-back routines remain separate units. The tween's cursor, once
-labelled `gMainMenu_pValueSetupMainCursor` at `0x801845B8`, is element 2 of
-`gMainMenu_apValueSetupCursors` (the slot `MainMenu_StartValueSetup` fills
+labelled `gTwoPlayerDuel_pSetupMainCursor` at `0x801845B8`, is element 2 of
+`gTwoPlayerDuel_apSetupCursors` (the slot `MainMenu_StartValueSetup` fills
 with its third cursor sprite), and the tween now reads it as that element.
 
 ## Value-editor rendering
@@ -736,7 +738,7 @@ The old filename `starchip_bars.c` did not establish a currency role: this
 renders the two-value/shared-option editor, with 2P life points as its known
 caller context.
 
-It reads the **displayed** `u16` values at `gMainMenu_aValueSetupEntries[1]` and `[7]`,
+It reads the **displayed** `u16` values at `gTwoPlayerDuel_aSetupEntries[1]` and `[7]`,
 not the targets at `[0]` and `[6]`. It places the shared marker at X 116
 for choice zero or 220 otherwise, with Y 74. A side widget remains visible
 while its update callback is active or its mode equals 2. During an active

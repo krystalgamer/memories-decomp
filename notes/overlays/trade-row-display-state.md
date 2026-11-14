@@ -33,7 +33,7 @@ digits. This establishes the stats-mode role without identifying captions
 or pixels of the display resource.
 
 Release passes the same handle to `DisplayObject_ReleaseIfPresent` and
-clears it, after the still-native `D_801845DC` and before clearing callback
+clears it, after `gTrade_pBackground` (the screen background) and before clearing callback
 slot 1. The other display's visual identity remains unassigned. Existing
 allocation checks, unchecked later dereferences, input/dirty ordering,
 full-width subtraction and setter semantics are unchanged.

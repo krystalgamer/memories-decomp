@@ -59,7 +59,7 @@ identified checks the decoder. The value-setup sprite formerly
 panel whose own first-frame parts draw the "REGULATION OF 2P-DUEL RULES",
 "CARD INDICATE", "DECK NUMBER", "OPEN CARD" and "1P/2P" captions over the
 frame (same-depth parts are prepended to the ordering table, so the first
-record is drawn last); it is `gMainMenu_pValueSetupPanel`.
+record is drawn last); it is `gTwoPlayerDuel_pSetupPanel`.
 
 Provenance is North American only: the input is `game/DATA/SU.MRG`
 (SHA-256 `c34d1eef2445e15ed40d20ad325c9907c55123d03f35b8693e7031966ef52e51`,
@@ -69,9 +69,15 @@ the same C with the same selectors, but their banks and uploads were not
 rendered, so their artwork is not independently confirmed. The decoder is
 local scratch and no retail bytes or rendered images are committed.
 
-`D_801845A0` and `D_801845DC` remain native: they use the resident default
-resource at `tail_data_start` (`0x801AC000`), whose runtime contents are
-not present in the executable image, so their artwork is still unproven.
+The two default-resource handles could not be decoded statically: they use
+the resident default resource at `tail_data_start` (`0x801AC000`), whose
+runtime contents are not present in the executable image. An emulator trace
+(#418, `main_menu_handle_blink`, interpreter CPU, North American image)
+cleared only their renderable flag (`0x40`) for two three-second blinks
+each, with their lifetimes witnessed unchanged. Both times the whole yellow
+brick-wall background disappeared: on the 2P Duel life-point setup screen
+for the former `D_801845A0`, now `gTwoPlayerDuel_pBackground`, and on
+the Trade screen for the former `D_801845DC`, now `gTrade_pBackground`.
 
 ## The resource bank is not executable padding
 

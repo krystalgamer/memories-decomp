@@ -55,7 +55,11 @@
 --   final table; everything beyond is still counted. Silence counts as
 --   negative evidence only for a qualified capture: the control fired, the
 --   save and the load requests and the card dialog all ran, every US
---   signature word matched, no callback failed and the full window ran.
+--   signature word matched whenever it was checked while the game was
+--   running (checks from a reset until the control fires again are skipped,
+--   since RAM holds no game then), no callback failed and the full window
+--   ran. Bulk writes such as the BIOS's 2048-byte RAM clears are logged with
+--   their width and no value.
 --   Anything less is reported as inconclusive. A console reset keeps the
 --   capture (the route may span one); breakpoints are reinstalled when the
 --   BIOS shell is reached.
@@ -254,6 +258,9 @@ local function u32(addr)
     return tonumber(ffi.cast('uint32_t*', mem + off)[0])
 end
 local function readLE(addr, width)
+    -- Bulk accesses (the BIOS clears RAM 2048 bytes at a time) have no
+    -- single value worth printing.
+    if width > 4 then return nil end
     local value = 0
     for k = width - 1, 0, -1 do
         local b = u8(addr + k)
@@ -263,6 +270,7 @@ local function readLE(addr, width)
     return value
 end
 local function hexw(v, width)
+    if width > 4 then return string.format('<%d bytes>', width) end
     if v == nil then return '??' end
     return string.format('%0' .. (width * 2) .. 'X', v)
 end
@@ -538,11 +546,26 @@ local function signatureCheck()
     return bad, #SIGNATURES
 end
 
+-- The route soft-resets, and RAM holds no game from the reset until the
+-- game's frame services run again, so checks in that gap are skipped. Any
+-- other check must match, and at least one must have run.
+local signaturesVerified, signatureMismatchSeen, gameRunning = false, false, true
+local function noteSignatures()
+    if not gameRunning then return end
+    if #signatureCheck() == 0 then
+        signaturesVerified = true
+    else
+        signatureMismatchSeen = true
+    end
+end
+
 local function qualificationGaps(windowDone)
     local gaps = {}
     if not windowDone then gaps[#gaps + 1] = 'window did not complete' end
     if callbackError ~= nil then gaps[#gaps + 1] = 'a callback failed' end
-    if #signatureCheck() > 0 then gaps[#gaps + 1] = 'US signature mismatch' end
+    if signatureMismatchSeen or not signaturesVerified then
+        gaps[#gaps + 1] = 'US signature mismatch'
+    end
     if controlHits == 0 then
         gaps[#gaps + 1] = 'no Main_RunFrameServices control'
     end
@@ -642,7 +665,9 @@ local function finish(reason, windowDone)
                             or ('no (' .. table.concat(gaps, '; ') .. ')')))
     print('verdict: ' .. verdict(gaps))
     local bad, total = signatureCheck()
-    print(string.format('signatures: %d/%d US words ok', total - #bad, total))
+    print(string.format('signatures: %d/%d US words ok at end; verified '
+                        .. 'during capture: %s', total - #bad, total,
+                        signaturesVerified and 'yes' or 'no'))
     for _, line in ipairs(bad) do print(line) end
     print('final: ' .. stateTuple() .. ' footer='
           .. table.concat(frameBytes(), ' ', 0x7b, 0x80))
@@ -695,6 +720,7 @@ local function installBreakpoints(note)
     breakpoints_memcard_header_bytes_watch = {}
     add(CONTROL[1], 'Exec', 4, 'control ' .. CONTROL[3], function()
         controlHits = controlHits + 1
+        gameRunning = true
     end)
     add(DIALOG[1], 'Exec', 4, DIALOG[3], function()
         hits.dialog = hits.dialog + 1
@@ -734,6 +760,7 @@ local function poll()
         installBreakpoints('reinstalled at the first vsync after reset')
     end
     vsyncs = vsyncs + 1
+    noteSignatures()
     if callbackError ~= nil then
         finish('callback error')
         return
@@ -774,6 +801,7 @@ listeners_memcard_header_bytes_watch = {
             breakpoints_memcard_header_bytes_watch = {}
             generation = generation + 1
             resets = resets + 1
+            gameRunning = false
             reinstalled = false
             pendingRead = nil
             lastState = nil
@@ -796,6 +824,7 @@ listeners_memcard_header_bytes_watch = {
 print(SCRIPT_NAME .. ': ram ' .. ramNote)
 installBreakpoints('installed')
 do
+    noteSignatures()
     local bad, total = signatureCheck()
     print(string.format('%s: signatures %d/%d US words ok', SCRIPT_NAME,
                         total - #bad, total))

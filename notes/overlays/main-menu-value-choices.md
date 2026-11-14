@@ -7,7 +7,7 @@ The real resident caller is `Main_RunTwoPlayerDuelSetup` in
 
 ## Choices and overlapping native views
 
-`gMainMenu_abValueSetupChoices` (formerly `D_801845BC`) remains an unsized
+`gTwoPlayerDuel_abSetupChoices` (formerly `D_801845BC`) remains an unsized
 `u8[]`. Bytes 0 and 1 are the respective players' cursor choices; byte 2
 is their one shared toggle choice. They are not a current value and its
 starting value. The actual values, displayed values and output pointers
@@ -15,7 +15,7 @@ remain in the two existing `ValueSetupEntry` records.
 
 Byte 2 once had a second label, `gMainMenu_bValueSetupToggleChoice`
 (formerly `D_801845BE`, the array's own `+2`). Finish now reads it as
-`gMainMenu_abValueSetupChoices[2]`, which addresses the byte the same way,
+`gTwoPlayerDuel_abSetupChoices[2]`, which addresses the byte the same way,
 so the array is its only name.
 
 The real initialized owner in `module_state.c` remains the complete
@@ -72,7 +72,7 @@ no real-time duration is inferred.
 ## Finish also commits on cancel
 
 Finish writes both target values through their saved output pointers and
-writes `(gMainMenu_abValueSetupChoices[2] != 1)` through the saved toggle
+writes `(gTwoPlayerDuel_abSetupChoices[2] != 1)` through the saved toggle
 pointer. Thus 0 writes 1, 1 writes 0, and other byte values still write 1:
 the comparison is not replaced by logical negation or Boolean storage.
 The resident passes a byte view of the wider card-view mode; its type and

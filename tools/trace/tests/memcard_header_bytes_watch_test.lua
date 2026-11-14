@@ -405,6 +405,28 @@ do
     finished(t)
 end
 
+-- The recorded run: after the save, a soft reset's BIOS clear writes the
+-- footer 2048 bytes at a time while RAM still lacks the game. The bulk
+-- write is logged without a value, and a signature check at that moment does
+-- not undo the clean one made while the game ran.
+do
+    local t = capture(false)
+    route(t)
+    t:frames(10)
+    t:reset()
+    for address in pairs(WORDS) do t:word(address, 0) end
+    PCSX.getRegisters().pc = 0x000007B4
+    t:fire('Write', 0x8001007a, 0x80010000, 2048, 'mem')
+    assert(t:has('kernel write pc=0x000007B4 in=kernel'))
+    assert(t:has('width=2048 <2048 bytes> -> ??'))
+    t:frames(WINDOW)
+    assert(not t:has('callback_error'))
+    assert(t:has('signatures: 0/13 US words ok at end; verified during '
+                 .. 'capture: yes'))
+    assert(t:has('qualified: yes'))
+    finished(t)
+end
+
 -- An absent or unreadable 8Megs setting is never qualified negative
 -- evidence, even over a full witnessed route.
 for _, mode in ipairs({'missing', 'throw'}) do

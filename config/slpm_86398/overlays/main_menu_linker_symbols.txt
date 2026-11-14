@@ -64,10 +64,10 @@ gMainMenu_bLoadPending = 0x8018459B;
 gMainMenu_bTradeLoadPending = 0x8018459C;
 gMainMenu_bDuelLoadPending = 0x8018459D;
 
-gMainMenu_apValueSetupCursors = 0x801845B0;
-gMainMenu_pValueSetupMainCursor = 0x801845B8;
-gMainMenu_aValueSetupEntries = 0x801845C0;
-gMainMenu_pValueSetupToggle = 0x801845D8;
+gTwoPlayerDuel_apSetupCursors = 0x801845B0;
+gTwoPlayerDuel_pSetupMainCursor = 0x801845B8;
+gTwoPlayerDuel_aSetupEntries = 0x801845C0;
+gTwoPlayerDuel_pSetupToggle = 0x801845D8;
 gMainMenu_aCardSortComparators = 0x80180004;
 gMainMenu_bBackRequested = 0x80184595;
 gTrade_aSide1WorkingCards = 0x80185144;
@@ -76,8 +76,8 @@ gTrade_abSortMode = 0x80185CCC;
 gMainMenu_pTitleLogo = 0x80184558;
 gMainMenu_pCopyrightNotice = 0x8018455C;
 gMainMenu_pStartPrompt = 0x80184560;
-gMainMenu_pValueSetupPanel = 0x801845A4;
-gMainMenu_abValueSetupChoices = 0x801845BC;
+gTwoPlayerDuel_pSetupPanel = 0x801845A4;
+gTwoPlayerDuel_abSetupChoices = 0x801845BC;
 gMainMenu_bValueSetupToggleChoice = 0x801845BE;
 
 gSaveData_aPairWorkspace = 0x801D1200;
