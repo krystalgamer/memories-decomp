@@ -14,8 +14,6 @@
 #include "../game/model_scene_runtime.h"
 #include "../game/model_slot_control.h"
 
-#define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
-
 /* Initializes one model channel rooted at gModel_aSlots[slot_index]: resets its
    state, maps the HMD block, scans every unit's type records into the
    handlers, links the coordinate slots, and picks the first coordinate
@@ -33,7 +31,7 @@
 void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
 {
     ModelSlot *model_slot;
-    GsUNIT *hmd_unit;
+    ModelSlotHeadEntry *hmd_unit;
     u8 *hmd_cursor;
     GsOT *ordering_table;
     GsTYPEUNIT type_unit;
@@ -56,7 +54,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
        copying it per record keeps the record's pointer non-constant. */
     scratchpad = (u8 *)SCRATCH_ADDR(0);
     model_slot = &gModel_aSlots[slot_index];
-    hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
+    hmd_unit = model_slot->hmd_units;
     hmd_cursor = hmd;
     if (slot_index < 2) {
         ordering_table = gGraphics_apOrderingTables[2];
@@ -152,7 +150,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                 group_words = *(s32 **)hmd_cursor;
                 hmd_cursor += 4;
             } while (0);
-            hmd_unit->primtop = (unsigned long *)group_words;
+            hmd_unit->primitive_data = group_words;
             if (group_words != 0) {
                 GsScanUnit((u32 *)group_words, 0, 0, 0);
                 while (GsScanUnit(0, &type_unit, ordering_table, (u32 *)scratchpad) != 0) {
@@ -197,7 +195,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
             hmd_unit++;
         } while (scan_index < model_slot->hmd_unit_count);
     }
-    hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units) + 1;
+    hmd_unit = &model_slot->hmd_units[1];
     scan_index = 1;
     model_slot->packet_budget_bytes = packet_bytes;
     model_slot->lit_color_cache_entry_count = max_lit_color_index + scan_index;
@@ -205,7 +203,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         coordinate_index = 0;
         do {
             model_slot->entry_count++;
-            if (hmd_unit->primtop != 0) {
+            if (hmd_unit->primitive_data != 0) {
                 hmd_unit->coord = &model_slot->entries[coordinate_index];
             }
             coordinate_index++;
@@ -230,14 +228,15 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         render_parent_candidate = model_slot->entries + model_slot->render_parent_coordinate_index;
         model_slot->render_parent_coordinate = render_parent_candidate;
         for (;;) {
-            hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
+            hmd_unit = model_slot->hmd_units;
             for (scan_index = 0; scan_index < model_slot->hmd_unit_count; scan_index++, hmd_unit++) {
                 /* A local terminator: loop.c hoists it only to this loop's
                    preheader, where the retry loop cannot move it again. */
                 s32 chain_end = -1;
+                s32 *unit_words;
 
-                if (hmd_unit->coord != 0 && hmd_unit->primtop != 0 &&
-                    (hmd_unit->primtop[0] != chain_end || hmd_unit->primtop[2] != 0) &&
+                if (hmd_unit->coord != 0 && (unit_words = hmd_unit->primitive_data) != 0 &&
+                    (unit_words[0] != chain_end || unit_words[2] != 0) &&
                     hmd_unit->coord->super == render_parent_candidate) {
                     break;
                 }
