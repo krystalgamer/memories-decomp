@@ -45,8 +45,6 @@ caller that stays an observation, so the record keeps its own type.
 The function's two locals that held the copied words are renamed to match:
 `field_04` and `field_0C` became `attribute` and `rgb`.
 
-`DuelStatusDigitPacket` in `src/ygo_types.h` is the same `GsSPRITE` prefix,
-used by `Duel_DrawLifePointsAndDeckCounts`. It is left for a separate change.
-Its only user, `duel_scene.c`, edits the same lines as an open
-pull request, and `ygo_types.h` puts every overlay image in scope for
-verification.
+`DuelStatusDigitPacket` in `src/game/duel_scene.h` is the same `GsSPRITE`
+prefix, used by `Duel_DrawLifePointsAndDeckCounts`; see
+[duel-status-digit-packet.md](duel-status-digit-packet.md).

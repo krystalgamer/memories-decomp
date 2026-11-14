@@ -755,7 +755,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                 k->tpage = 0x1E;
                 g2 = object->rgb;
                 k->cxcy.word = DUEL_SPRITE_CLUT_CXCY;
-                k->rgb = g2;
+                k->rgb.word = g2;
                 n = object->resource_root_index;
                 if (n != 0) {
                     if (n < 0x29) {
@@ -832,7 +832,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         break;
                     }
                     z->tpage = 0xE;
-                    z->rgb = object->rgb;
+                    z->rgb.word = object->rgb;
                     z->xy.h.x = o->pos.h.x + 6;
                     z->xy.h.y = o->pos.h.y + 6;
                     i = (s8)card->table_index;
@@ -938,8 +938,6 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
    are displayed life points and DECK_SIZE minus the signed deck_draw_cursor
    of the corresponding gDuel_aSideStates entry. */
 
-#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
-
 void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
 {
     DisplayObject *pos;
@@ -951,54 +949,54 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
     pos = (DisplayObject *)widget->field_50.word;
 
     scratch = (DuelStatusDigitPacket *)SCRATCH_ADDR(0x320);
-    scratch->attribute = 0x09000000;
+    scratch->packed.attribute = 0x09000000;
     tmp10 = DUEL_SPRITE_CLUT_CXCY;
-    scratch->cxcy = tmp10;
-    scratch->tpage = 0x1E;
-    scratch->uv = 0x5800;
-    scratch->wh = 0x80008;
-    scratch->rgb = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->packed.cxcy = tmp10;
+    scratch->packed.tpage = 0x1E;
+    scratch->packed.uv = 0x5800;
+    scratch->packed.wh = 0x80008;
+    scratch->packed.rgb = DUEL_DISPLAY_COLOR_NORMAL;
     if (gDuel_bActiveSide == 0) {
-        scratch->rgb = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->packed.rgb = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->x = pos->xy.h.x - 3;
-    scratch->y = pos->xy.h.y - 0xD;
+    scratch->packed.x = pos->xy.h.x - 3;
+    scratch->packed.y = pos->xy.h.y - 0xD;
     Duel_DrawDecimalDigits(
         pos,
-        GS_SPRITE_VIEW(scratch),
+        &scratch->sprite,
         gDuel_aSideStates[1].displayed_life_points,
         4
     );
 
-    scratch->x = pos->xy.h.x + 0xE;
-    scratch->y = pos->xy.h.y - 5;
+    scratch->packed.x = pos->xy.h.x + 0xE;
+    scratch->packed.y = pos->xy.h.y - 5;
     Duel_DrawDecimalDigits(
         pos,
-        GS_SPRITE_VIEW(scratch),
+        &scratch->sprite,
         DECK_SIZE - gDuel_aSideStates[1].deck_draw_cursor,
         2
     );
 
-    scratch->rgb = DUEL_DISPLAY_COLOR_NORMAL;
+    scratch->packed.rgb = DUEL_DISPLAY_COLOR_NORMAL;
     if (gDuel_bActiveSide != 0) {
-        scratch->rgb = DUEL_DISPLAY_COLOR_DIMMED;
+        scratch->packed.rgb = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
-    scratch->x = pos->xy.h.x - 3;
-    scratch->y = pos->xy.h.y + 0xD;
+    scratch->packed.x = pos->xy.h.x - 3;
+    scratch->packed.y = pos->xy.h.y + 0xD;
     Duel_DrawDecimalDigits(
         pos,
-        GS_SPRITE_VIEW(scratch),
+        &scratch->sprite,
         gDuel_aSideStates[0].displayed_life_points,
         4
     );
 
-    scratch->x = pos->xy.h.x + 0xE;
-    scratch->y = pos->xy.h.y + 5;
+    scratch->packed.x = pos->xy.h.x + 0xE;
+    scratch->packed.y = pos->xy.h.y + 5;
     Duel_DrawDecimalDigits(
         pos,
-        GS_SPRITE_VIEW(scratch),
+        &scratch->sprite,
         DECK_SIZE - gDuel_aSideStates[0].deck_draw_cursor,
         2
     );
