@@ -50,6 +50,9 @@ Module-scoped symbol evidence is kept in
 These symbols are medium-confidence evidence because several modules reuse
 the same `0x80168xxx` addresses.
 
-No separate name-entry source copy or build manifest is accepted. Keep
+The image is registered as its own build module, `name_entry` (USA) and
+`japanese_name_entry` (Japan), so its retail bytes are checked like every
+other phase. Its `name_entry_matching_c.json` points at the password sources
+under `src/overlays/password/`; no second copy of the C exists. Keep
 screen-specific probes and derived artifacts under `tmp/`, and do not add this
 screen to the resident `config/slus_01411/matching_c.json`.

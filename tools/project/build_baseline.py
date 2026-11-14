@@ -251,6 +251,29 @@ def compile_c(
             ) from error
         maspsx_input = filtered_assembly
 
+    assembler_mode = profile.get("assembler_mode", "maspsx")
+    if assembler_mode == "gnu_reorder":
+        # Code built outside the game's own pipeline (a Sony library compiled
+        # with Psy-Q GCC 2.7.2): the compiler leaves delay slots to the
+        # assembler, which ASPSX filled in reorder mode. GNU as in its default
+        # reorder mode schedules them identically, so MASPSX is not used.
+        # ASPSX encodes the `move` pseudo-instruction as `addu`; GNU as
+        # would emit `or`, so spell it out as MASPSX does.
+        reorder_assembly = resolve_within(
+            root, f"{asm_directory}/{object_name}.reorder.s"
+        )
+        reorder_assembly.write_text(
+            re.sub(
+                r"(?m)^(\s*)move\t(\$\w+),(\$\w+)",
+                r"\1addu\t\2,\3,$0",
+                maspsx_input.read_text(encoding="utf-8", errors="replace"),
+            ),
+            encoding="utf-8",
+        )
+        return assemble_c_output(root, assembler, reorder_assembly, output)
+    if assembler_mode != "maspsx":
+        raise BuildError(f"unknown assembler mode {assembler_mode!r} for {source}")
+
     try:
         with maspsx_input.open("rb") as input_handle:
             with transformed_assembly.open("wb") as output_handle:

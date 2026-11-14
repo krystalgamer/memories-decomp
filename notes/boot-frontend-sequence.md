@@ -74,11 +74,10 @@ initial state values for the module. `func_80168160` dispatches through a
 warning text, this establishes a boot region/compliance role rather than an
 ordinary screen asset tail.
 
-The two module entries remain address-based. The first clearly reads the BIOS
-region byte and initializes state, but current static evidence does not fully
-separate region selection from anti-modification behavior inside the broader
-module. Naming either entry only for the warning would therefore be narrower
-than its proven inputs and state effects.
+This module is Sony's APv2 anti-modchip check. It is registered as the
+`apv2` overlay in every region; see
+[`overlays/apv2.md`](overlays/apv2.md) for its states, its compiler and
+the candidate sources.
 
 ## Spanish SDK ownership evidence
 
@@ -120,9 +119,8 @@ unique payload locations, not names inferred solely from call arguments.
 
 The resident calls support the display, timing, font, and termination paths
 already visible in the boot code. They do not establish ownership of the
-boot-local callers. The boot module remains unregistered and unresolved in the
-expanded runtime coverage audit; no game-owned C coverage or SDK exclusion is
-claimed by this evidence.
+boot-local callers, which are registered as the `apv2` overlays and kept as
+assembly with C candidates (see [`overlays/apv2.md`](overlays/apv2.md)).
 
 ## Outer startup flow
 

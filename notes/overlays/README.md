@@ -167,6 +167,8 @@ linker and whole-image matching steps are unchanged.
 | `overworld_before_coup` | `WA_MRG.MRG` | `8153` x6 | `0x80168000` | Yes |
 | `overworld_after_coup` | `WA_MRG.MRG` | `8311` x6 | `0x80168000` | Yes |
 | `main_menu` | `SU.MRG` | `98` x16 | `0x80180000` | Yes |
+| `name_entry` | `WA_MRG.MRG` | `7968` x15 | `0x80168000` | Yes |
+| `apv2` | `WA_MRG.MRG` | `5827` x3 | `0x80168000` | Yes |
 
 A module joins the build gate once `config/slus_01411/overlays.json` gives it a
 `layout`. A `config/slus_01411/overlays/<module>_matching_c.json` then lets
@@ -255,8 +257,9 @@ still runs the normal build checks; manual `workflow_dispatch` builds remain
 available. The regression suite exercises change selection through
 `test_ci_build_scope.py`; literal workflow-text snapshots are not retained.
 
-Name entry has no module of its own: its package's executable phase is the
-same image as the password screen, entered at different functions. See
+Name entry's executable phase is the same image as the password screen,
+entered at different functions; its module builds from the password sources.
+The boot APv2 protection module is described in [`apv2.md`](apv2.md). See
 [`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
 
 Per-module decompilation counts are generated into the README progress

@@ -1,0 +1,76 @@
+name: name_entry
+sha1: 1cd532773f882f3b64ef4effea65b4014488ec61
+
+options:
+  basename: name_entry
+  base_path: ../../..
+  target_path: tmp/overlays/name_entry/module.bin
+  elf_path: tmp/overlays/name_entry/build/name_entry.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/name_entry/asm
+  src_path: src
+  build_path: tmp/overlays/name_entry/build
+  asset_path: tmp/overlays/name_entry/assets
+  cache_path: tmp/overlays/name_entry/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/name_entry/name_entry.ld
+  generated_asm_macros_directory: tmp/overlays/name_entry/include
+  lib_path: tmp/overlays/name_entry/lib
+  o_path: tmp/overlays/name_entry/build
+  undefined_funcs_auto_path: tmp/overlays/name_entry/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/name_entry/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - notes/research/Unchiga_Symbols/modules/password.txt
+    - config/slus_01411/overlays/password_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, .data, overlays/password/module_header]
+
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, .rodata, overlays/password/name_entry_runtime]
+      - [0x7C, .rodata, overlays/password/shop]
+      - [0x90, .rodata, overlays/password/name_entry_main]
+      - [0xB4, c, overlays/password/func_801680B4]
+      - [0x138, c, overlays/password/name_entry_runtime]
+      - [0x1C30, c, overlays/password/shop]
+      - [0x2930, c, overlays/password/name_entry_main]
+      - [0x2B38, data, overlays/password/name_entry_tables]
+      - [0x5400, .data, overlays/password/module_state]
+      - [0x5590, data, overlays/password/data]
+
+  - [0x7800]

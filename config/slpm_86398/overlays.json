@@ -3,6 +3,18 @@
     {
       "archive": "game/japanese/DATA/WA_MRG.MRG",
       "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "layout": "config/slpm_86398/overlays/apv2.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/apv2_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "japanese_apv2",
+      "output": "tmp/overlays/japanese_apv2/module.bin",
+      "sector_count": 3,
+      "sector_offset": 5810,
+      "sha256": "d3a0866d686b186e697b2726f44f96c5c4362cfa1188a2d7008a883c55adede9"
+    },
+    {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
       "layout": "config/slpm_86398/overlays/free_duel.yaml",
       "linker_symbols": "config/slpm_86398/overlays/free_duel_linker_symbols.txt",
       "load_address": "0x80168000",
@@ -47,6 +59,18 @@
       "sector_count": 15,
       "sector_offset": 8065,
       "sha256": "6ed6e5714a6dbcf8c0637331272986c3c3a16a85fa870eb6f2d4941d34a20510"
+    },
+    {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "layout": "config/slpm_86398/overlays/name_entry.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "japanese_name_entry",
+      "output": "tmp/overlays/japanese_name_entry/module.bin",
+      "sector_count": 15,
+      "sector_offset": 7979,
+      "sha256": "72c3a14df46f11c97b07d9a6525db657a6ed2911ac240f03d2f73e1a5f66601e"
     },
     {
       "archive": "game/japanese/DATA/WA_MRG.MRG",

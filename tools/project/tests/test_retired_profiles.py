@@ -40,6 +40,13 @@ class RetiredProfileTests(unittest.TestCase):
                     # gcc-2.7.2-cdk), not with the retired gcc-2.7.2-mips
                     # profiles below.
                     self.assertIn("gcc-2.7.2-cdk", profile["compiler"])
+                elif name.startswith("gcc_2_7_2_psx_"):
+                    # The WA_MRG boot compliance module is a Sony library
+                    # built with Psy-Q GCC 2.7.2 (decompals/old-gcc
+                    # gcc-2.7.2-psx) and assembled in reorder mode; see
+                    # notes/overlays/boot-compliance.md.
+                    self.assertIn("gcc-2.7.2-psx", profile["compiler"])
+                    self.assertEqual(profile["assembler_mode"], "gnu_reorder")
                 elif name.startswith("gcc_2_8_0_"):
                     # The USA MODEL60348/168560 entry, an older debug build
                     # that prints its work size, was built with GCC 2.8.0

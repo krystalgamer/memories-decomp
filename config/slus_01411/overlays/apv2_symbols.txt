@@ -1,0 +1,5 @@
+// APv2, Sony's anti-modchip protection (WA_MRG module ID 0x16), loaded at 0x80168000 by
+// Main_RunBootSequence.
+func_801680F4 = 0x801680F4; // type:func
+func_80168160 = 0x80168160; // type:func
+D_801694CD = 0x801694CD; // size:0x1

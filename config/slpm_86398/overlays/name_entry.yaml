@@ -1,0 +1,90 @@
+name: japanese_name_entry
+sha1: 333d17ff992564d793d5503e9f38386f7c4bf44b
+
+options:
+  basename: japanese_name_entry
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_name_entry/module.bin
+  elf_path: tmp/overlays/japanese_name_entry/build/japanese_name_entry.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/japanese_name_entry/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_name_entry/build
+  asset_path: tmp/overlays/japanese_name_entry/assets
+  cache_path: tmp/overlays/japanese_name_entry/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/japanese_name_entry/japanese_name_entry.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_name_entry/include
+  lib_path: tmp/overlays/japanese_name_entry/lib
+  o_as_suffix: true
+  undefined_funcs_auto_path: tmp/overlays/japanese_name_entry/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_name_entry/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/password_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, rodata, overlays/japanese_password/module_header]
+      - [0x4, .rodata, overlays/japanese/password/update_shop_screen]
+
+  - name: module
+    type: code
+    start: 0x18
+    vram: 0x80168018
+    align: 4
+    subsegments:
+      - [0x18, c, overlays/password/func_801680B4]
+      - [0x9C, c, overlays/japanese/password/build_keyboard_text_box]
+      - [0xF0, c, overlays/japanese/password/draw_selection_frame]
+      - [0x33C, c, overlays/japanese/password/init]
+      - [0x5B4, c, overlays/japanese/password/get_glyph_at]
+      - [0x628, c, overlays/japanese/password/update_glyph_pulse]
+      - [0x728, c, overlays/japanese/password/update_glyph_fragment]
+      - [0x7CC, c, overlays/japanese/password/update_glyph_shatter]
+      - [0x8D0, c, overlays/japanese/password/update_caret_tween]
+      - [0x9D0, c, overlays/japanese/password/update_glyph_transfer]
+      - [0xBF0, c, overlays/japanese/password/spawn_glyph_sprite]
+      - [0xDB8, c, overlays/japanese/password/adjust_length]
+      - [0xE58, c, overlays/japanese/password/update_keyboard]
+      - [0x14AC, c, overlays/japanese/password/name_entry_dialog]
+      - [0x198C, c, overlays/japanese/password/refresh_digit_display]
+      - [0x1A50, c, overlays/japanese/password/refresh_starchip_display]
+      - [0x1AA8, c, overlays/japanese/password/create_message_box]
+      - [0x1B44, c, overlays/japanese/password/update_digit_cursor]
+      - [0x1C5C, c, overlays/japanese/password/update_digit_cursor_decoration]
+      - [0x1D30, c, overlays/japanese/password/set_digit_cursor_target]
+      - [0x1D50, c, overlays/japanese/password/recreate_card_preview]
+      - [0x1DA4, c, overlays/japanese/password/init_shop_screen]
+      - [0x2024, c, overlays/japanese/password/lookup_card_id]
+      - [0x209C, c, overlays/japanese/password/update_shop_screen]
+      - [0x2650, c, overlays/japanese/password/name_entry_main]
+      - [0x2840, data, overlays/japanese_password/data]
+
+  - [0x7800]

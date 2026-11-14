@@ -1,0 +1,10 @@
+address,size,name,status,module,notes
+0x801680F4,0x6C,func_801680F4,unmatched_asm,overlay/apv2,Reads the BIOS ROM region byte at 0xBFC7FF52 and selects the controller start state and message set.
+0x80168160,0x938,func_80168160,unmatched_asm,overlay/apv2,APv2 20-state controller; Main_RunBootSequence polls it with argument 1 until it returns 0.
+0x80168A98,0x1D4,func_80168A98,unmatched_asm,overlay/apv2,Polls the CD-ROM controller for the result of a command from the D_8016941C table.
+0x80168C6C,0xF0,func_80168C6C,unmatched_asm,overlay/apv2,Sends a CD-ROM command from the D_8016941C table directly through the controller registers.
+0x80168D5C,0x16C,func_80168D5C,unmatched_asm,overlay/apv2,Resets the display and draws the modification warning before calling exit().
+0x80168EC8,0x174,func_80168EC8,unmatched_asm,overlay/apv2,Draws one warning string (ASCII glyphs from the BIOS font or Krom2RawAdd kanji).
+0x8016903C,0x1B4,func_8016903C,unmatched_asm,overlay/apv2,Draws one glyph bitmap row by row as 16-pixel sprites.
+0x801691F0,0x94,func_801691F0,unmatched_asm,overlay/apv2,Measures a glyph bitmap's horizontal extent.
+0x80169284,0x188,func_80169284,unmatched_asm,overlay/apv2,Draws the warning screen frame polygons.
