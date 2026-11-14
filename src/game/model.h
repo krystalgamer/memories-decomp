@@ -902,7 +902,8 @@ typedef struct {
     s16 distance;
     s16 yaw;
     s16 pitch;
-    s16 field_06;
+    /* Zero in every preset and never read. */
+    s16 pad_06;
 } ModelCameraOrbitPreset;
 
 typedef char ModelTintColor_size_must_be_0x4[
@@ -949,8 +950,8 @@ typedef char ModelCameraOrbitPreset_halfword_layout_must_match[
     sizeof(((ModelCameraOrbitPreset *)0)->distance) == 2 &&
     sizeof(((ModelCameraOrbitPreset *)0)->yaw) == 2 &&
     sizeof(((ModelCameraOrbitPreset *)0)->pitch) == 2 &&
-    MODEL_OFFSET(ModelCameraOrbitPreset, field_06) == 6 &&
-    sizeof(((ModelCameraOrbitPreset *)0)->field_06) == 2 ? 1 : -1
+    MODEL_OFFSET(ModelCameraOrbitPreset, pad_06) == 6 &&
+    sizeof(((ModelCameraOrbitPreset *)0)->pad_06) == 2 ? 1 : -1
 ];
 
 #undef MODEL_OFFSET
