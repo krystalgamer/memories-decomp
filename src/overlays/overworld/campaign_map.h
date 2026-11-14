@@ -35,22 +35,17 @@ extern u8 D_80169619;
  * slots. The former integer view only cleared slots, while creation/release
  * constrained them to object pointers; one pointer array preserves both. */
 
-/* The two display objects the map keeps between frames. Member names are the
- * decimal byte offset.
+/* The two display objects the map keeps between frames.
  *
- * gCampaignMap_pLocationMarker is the location marker. CampaignMap_SetLocation clears it and
- * stores CampaignMap_CreateLocationMarker's return; CampaignMap_UpdateLocation
- * stores the same return, updates f48/f50 and clears it; and
- * CampaignMap_UpdateLocationTransition reads and writes f96/f48/f50.
+ * gCampaignMap_pLocationMarker is the location marker. CampaignMap_SetLocation
+ * clears it and stores CampaignMap_CreateLocationMarker's return;
+ * CampaignMap_UpdateLocation stores the same return, moves its xy to the
+ * location's marker position and clears it; and
+ * CampaignMap_UpdateLocationTransition eases it there, using field_60 as the
+ * cosine phase.
  *
- * gCampaignMap_pSpotlight holds the object DisplayObject_AcquireSlot returned.
- * CampaignMap_SetLocation reaches f8 through a byte view, while
- * CampaignMap_UpdateLocationTransition reaches f72/f74/f8 through MapObject.
- *
- * All active-path users now share set_location.c. Every byte offset reached
- * through the globals is a named member, so the struct remains the wider view;
- * byte locals stay local and cast at the global. alternate_location.h:63-66
- * spells the same f8/f48/f50 for the mechanical copy it describes. */
+ * gCampaignMap_pSpotlight is the spotlight mask. The location transition
+ * toggles its flag 0x40 and widens or narrows field_48.spotlight. */
 void CampaignMap_SetLocation(s32 index);
 void CampaignMap_UpdateLocation(void);
 

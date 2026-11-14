@@ -9,11 +9,11 @@ declaration point for all 18 C-owned symbols.
 
 | Address | Symbol | Type / observed role |
 |---|---|---|
-| `0x801695C8` | `gCampaignMap_pLocationMarker` | `MapObject *`, location marker |
+| `0x801695C8` | `gCampaignMap_pLocationMarker` | `DisplayObject *`, location marker |
 | `0x801695CC` | `gCampaignMap_dwTweenRefX` | `s32`, tween accumulator for `view.vrx` |
 | `0x801695D0` | `gCampaignMap_dwTweenRefZ` | `s32`, tween accumulator for `view.vrz` |
 | `0x801695D4` | `gCampaignMap_nTweenFramesLeft` | `s32`, remaining transition steps |
-| `0x801695D8` | `gCampaignMap_pSpotlight` | `MapObject *`, persistent map object |
+| `0x801695D8` | `gCampaignMap_pSpotlight` | `DisplayObject *`, spotlight mask |
 | `0x801695DC` | `gCampaignMap_dwTweenRefXStep` | `s32`, per-step `view.vrx` delta |
 | `0x801695E0` | `gCampaignMap_dwTweenRefZStep` | `s32`, per-step `view.vrz` delta |
 | `0x801695E4` | `gCampaignMap_dwTweenYaw` | `s32`, heading accumulator |

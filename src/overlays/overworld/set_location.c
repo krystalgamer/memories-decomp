@@ -264,7 +264,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     table = gCampaignMap_aLocationTable;
     record = table + gCampaignMap_Location;
     DisplayObject_ConfigureSpriteAtPositionWithResource(
-        object, record->f12, record->f14, 0, 1, 0,
+        object, record->marker_x, record->marker_y, 0, 1, 0,
         0x17, 0x100, gDisplay_abResourceBank0
     );
     DisplayObject_SetDepthOffset(object, 0xA);
@@ -272,8 +272,8 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     entry = table + index;
-    ((DisplayObject *)object)->xy.h.x = (u16)entry->f12;
-    ((DisplayObject *)object)->xy.h.y = (u16)entry->f14;
+    ((DisplayObject *)object)->xy.h.x = (u16)entry->marker_x;
+    ((DisplayObject *)object)->xy.h.y = (u16)entry->marker_y;
     return object;
 }
 
@@ -289,7 +289,7 @@ void CampaignMap_SetLocation(s32 index)
     s32 i;
     s32 location;
     u8 *marker;
-    MapObject *panel;
+    DisplayObject *panel;
     u16 flags;
     s32 colour[3];
 
@@ -331,7 +331,7 @@ void CampaignMap_SetLocation(s32 index)
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
     ((DisplayObject *)obj)->field_4C = (s32)DisplayObject_RenderSpotlightMask;
-    gCampaignMap_pSpotlight = (MapObject *)obj;
+    gCampaignMap_pSpotlight = (DisplayObject *)obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
@@ -339,9 +339,9 @@ void CampaignMap_SetLocation(s32 index)
     if (gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
         panel = gCampaignMap_pSpotlight;
-        flags = panel->f8;
-        gCampaignMap_pLocationMarker = (MapObject *)marker;
-        panel->f8 = flags & 0xFFBF;
+        flags = panel->flags;
+        gCampaignMap_pLocationMarker = (DisplayObject *)marker;
+        panel->flags = flags & 0xFFBF;
     }
     track = 0x70A0;
     if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0) {
@@ -405,8 +405,8 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     defined(VERSION_EUROPE_CAMPAIGN_MAP_UPDATE_LOCATION_TRANSITION)
 s32 CampaignMap_UpdateLocationTransition(void)
 {
-    MapObject *obj;
-    MapObject *marker;
+    DisplayObject *obj;
+    DisplayObject *marker;
     ViewState *cam;
     u16 flags;
     u16 raise;
@@ -421,7 +421,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         gCampaignMap_bTransitionFlags = flags | 0x80;
         if (marker != 0) {
             DisplayObject_SavePosition(marker);
-            marker->f96 = 0;
+            marker->field_60 = 0;
         }
         gCampaignMap_nTweenFramesLeft = gCampaignMap_MoveState;
         CampaignMap_StartCameraTween(
@@ -430,12 +430,12 @@ s32 CampaignMap_UpdateLocationTransition(void)
         if (gCampaignMap_Location < 10) {
             if (gCampaignMap_LocationPrev >= 10) {
                 obj = gCampaignMap_pSpotlight;
-                obj->f72 = 180;
-                obj->f74 = 340;
+                obj->field_48.spotlight.inner = 180;
+                obj->field_48.spotlight.outer = 340;
                 flags = gCampaignMap_bTransitionFlags;
-                raise = obj->f8 | 0x40;
+                raise = obj->flags | 0x40;
                 gCampaignMap_bTransitionFlags = flags | 0x60;
-                obj->f8 = raise;
+                obj->flags = raise;
             }
         }
         if (gCampaignMap_LocationPrev < 10 && gCampaignMap_Location >= 10) {
@@ -446,30 +446,30 @@ s32 CampaignMap_UpdateLocationTransition(void)
     if ((flags & 0x40) != 0) {
         marker = gCampaignMap_pSpotlight;
         if ((flags & 0x20) == 0) {
-            marker->f72 = marker->f72 + 7;
+            marker->field_48.spotlight.inner = marker->field_48.spotlight.inner + 7;
         } else {
-            step = marker->f72 - 7;
-            marker->f72 = step;
+            step = (u16)marker->field_48.spotlight.inner - 7;
+            marker->field_48.spotlight.inner = step;
             if ((s16)step < 32) {
-                marker->f72 = 32;
+                marker->field_48.spotlight.inner = 32;
             }
         }
-        marker->f74 = marker->f72 + 160;
+        marker->field_48.spotlight.outer = marker->field_48.spotlight.inner + 160;
     }
     marker = gCampaignMap_pLocationMarker;
     if (marker != 0) {
-        if (marker->f96 < 2048) {
+        if (marker->field_60 < 2048) {
             quotient = 2048 / gCampaignMap_MoveState;
-            marker->f96 += quotient;
+            marker->field_60 += quotient;
             DisplayObject_InterpolatePositionCosine(
                 (DisplayObject *)marker,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
-                ].f12,
+                ].marker_x,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
-                ].f14,
-                marker->f96
+                ].marker_y,
+                marker->field_60
             );
         }
     }
@@ -487,18 +487,18 @@ s32 CampaignMap_UpdateLocationTransition(void)
     if (gCampaignMap_nTweenFramesLeft == 0) {
         CampaignMap_SetCameraFromLocation(gCampaignMap_Location);
         if ((gCampaignMap_bTransitionFlags & 0x20) != 0) {
-            gCampaignMap_pSpotlight->f72 = 32;
-            gCampaignMap_pSpotlight->f74 = 192;
+            gCampaignMap_pSpotlight->field_48.spotlight.inner = 32;
+            gCampaignMap_pSpotlight->field_48.spotlight.outer = 192;
         }
         if (gCampaignMap_pLocationMarker != 0) {
-            gCampaignMap_pLocationMarker->f48 =
+            gCampaignMap_pLocationMarker->xy.h.x =
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
-                ].f12;
-            gCampaignMap_pLocationMarker->f50 =
+                ].marker_x;
+            gCampaignMap_pLocationMarker->xy.h.y =
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
-                ].f14;
+                ].marker_y;
         }
     }
     ViewState_ApplyOrbit();
@@ -589,13 +589,13 @@ void CampaignMap_UpdateLocation(void)
         CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
             if (gCampaignMap_pLocationMarker == 0) {
-                gCampaignMap_pLocationMarker = (MapObject *)
+                gCampaignMap_pLocationMarker = (DisplayObject *)
                     CampaignMap_CreateLocationMarker(gCampaignMap_Location);
             }
             table = gCampaignMap_aLocationTable;
             record = table + gCampaignMap_Location;
-            gCampaignMap_pLocationMarker->f48 = (u16)record->f12;
-            gCampaignMap_pLocationMarker->f50 = (u16)record->f14;
+            gCampaignMap_pLocationMarker->xy.h.x = (u16)record->marker_x;
+            gCampaignMap_pLocationMarker->xy.h.y = (u16)record->marker_y;
         } else {
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             gCampaignMap_pLocationMarker = 0;

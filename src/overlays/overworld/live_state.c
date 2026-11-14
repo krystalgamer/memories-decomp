@@ -2,11 +2,11 @@
 #include "live_state.h"
 
 /* These zeros are present in the loaded image, not zero-fill-only storage. */
-MapObject *gCampaignMap_pLocationMarker = 0;
+DisplayObject *gCampaignMap_pLocationMarker = 0;
 s32 gCampaignMap_dwTweenRefX = 0;
 s32 gCampaignMap_dwTweenRefZ = 0;
 s32 gCampaignMap_nTweenFramesLeft = 0;
-MapObject *gCampaignMap_pSpotlight = 0;
+DisplayObject *gCampaignMap_pSpotlight = 0;
 s32 gCampaignMap_dwTweenRefXStep = 0;
 s32 gCampaignMap_dwTweenRefZStep = 0;
 s32 gCampaignMap_dwTweenYaw = 0;

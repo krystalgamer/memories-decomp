@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
+#include "../../game/display_object.h"
 
 #define CAMPAIGN_MAP_LOCATION_OBJECT_COUNT 4
 
@@ -15,11 +16,11 @@
  * object (DisplayObject_RenderSpotlightMask), the camera tween's remaining
  * frame count, the transition flags (0x80 started, 0x40 spotlight resizing,
  * 0x20 shrinking) and the four exit sprites the location record spawns. */
-extern MapObject *gCampaignMap_pLocationMarker;
+extern DisplayObject *gCampaignMap_pLocationMarker;
 extern s32 gCampaignMap_dwTweenRefX;
 extern s32 gCampaignMap_dwTweenRefZ;
 extern s32 gCampaignMap_nTweenFramesLeft;
-extern MapObject *gCampaignMap_pSpotlight;
+extern DisplayObject *gCampaignMap_pSpotlight;
 extern s32 gCampaignMap_dwTweenRefXStep;
 extern s32 gCampaignMap_dwTweenRefZStep;
 extern s32 gCampaignMap_dwTweenYaw;
