@@ -162,27 +162,6 @@ extern u8 gDialog_bCallbackState;
  * bits have no reader in matched code; this is not a Boolean declaration. */
 extern u8 gMemCardWork_OperationMode;
 
-/* A 0x1C-byte partial effect prefix, historically merged from
- * DuelEffect_ApplyStatPenalty and DuelEffect_ApplyCursebreaker.
- * Both files described the same layout: the first named the halfword
- * at 0x12 and padded 0x06..0x11, the second padded straight across
- * 0x06..0x13. This retains the merged historical layout.
- * Its main-game consumers now use DuelEffectRequest directly. */
-typedef struct {
-    u16 x;             /* 0x00 */
-    u16 y;             /* 0x02 */
-    u16 field_04;      /* 0x04 */
-    u8 pad_06[0xC];    /* 0x06 */
-    s16 field_12;      /* 0x12 */
-    s32 field_14;      /* 0x14 */
-    u8 pad_18[2];      /* 0x18 */
-    s16 field_1A;      /* 0x1A */
-} DuelEffectObject;
-
-typedef char DuelEffectObject_size_must_be_0x1C[
-    sizeof(DuelEffectObject) == 0x1C ? 1 : -1
-];
-
 #define DUEL_EFFECT_STATE_CARD_VIEWER 2
 #define DUEL_EFFECT_STATE_NOOP_3 3
 #define DUEL_EFFECT_STATE_NOOP_4 4

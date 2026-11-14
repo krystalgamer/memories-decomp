@@ -7,8 +7,8 @@ clears the handle. No overlay implementation references this global.
 Its stored pointee therefore uses `DuelEffectRequest *`; the pointer's
 four-byte width, eligibility/placement and observed lifetime are unchanged.
 
-Some field-effect handlers retain `DuelFieldEffectObject` or
-`DuelEffectObject` partial views. Those names are not allocation evidence:
+Some field-effect handlers once used `DuelFieldEffectObject` or
+`DuelEffectObject` partial views (both since removed). Those names are not allocation evidence:
 their values stored in this global also come from the request allocator.
 Through this handle they access only the request prefix, including the
 payload halfwords, flags at `0x1C` and progress byte at `0x1D`. Other uses

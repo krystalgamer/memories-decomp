@@ -158,35 +158,9 @@ typedef struct {
 } ModelSeparationPair;
 
 typedef struct {
-    u8 field_0;
-    u8 field_1;
-    u8 field_2;
-    u8 field_3;
-    u8 field_4;
-    u8 field_5;
-    u8 field_6;
-    u8 field_7;
-    u16 field_8;
-    u8 field_A;
-    u8 field_B;
-} Func80028B08Ctx;
-
-typedef struct {
-    u32 field_0;
-    u32 field_4;
-} Func80028B08Extra;
-
-typedef struct {
     u32 a;
     u32 b;
 } SoundCommandPair;
-
-typedef struct {
-    u16 field_0;
-    u16 count;
-    u8 pad_04[0xC];
-    u16 indices[1];
-} SoundIndexList;
 
 typedef struct {
     u32 words[4];
@@ -210,17 +184,8 @@ typedef char ModelAnimationSample_size_must_be_0x12[
 typedef char ModelSeparationPair_size_must_be_8[
     sizeof(ModelSeparationPair) == 8 ? 1 : -1
 ];
-typedef char Func80028B08Ctx_size_must_be_0xC[
-    sizeof(Func80028B08Ctx) == 0xC ? 1 : -1
-];
-typedef char Func80028B08Extra_size_must_be_8[
-    sizeof(Func80028B08Extra) == 8 ? 1 : -1
-];
 typedef char SoundCommandPair_size_must_be_8[
     sizeof(SoundCommandPair) == 8 ? 1 : -1
-];
-typedef char SoundIndexList_indices_offset_must_be_0x10[
-    (u32)&(((SoundIndexList *)0)->indices) == 0x10 ? 1 : -1
 ];
 typedef char MainMenuTradeBlock16_size_must_be_0x10[
     sizeof(MainMenuTradeBlock16) == 0x10 ? 1 : -1
@@ -276,15 +241,6 @@ typedef struct {
 
 typedef char OptionsLayoutPositionBlock_size_must_be_6[
     sizeof(OptionsLayoutPositionBlock) == 6 ? 1 : -1
-];
-
-typedef struct {
-    OptionsLayoutPositionBlock positions;
-    u16 pad_06;
-} OptionsLayoutPositionData;
-
-typedef char OptionsLayoutPositionData_size_must_be_8[
-    sizeof(OptionsLayoutPositionData) == 8 ? 1 : -1
 ];
 
 typedef struct {
@@ -1248,11 +1204,6 @@ typedef struct {
     u32 lo;
     u32 hi;
 } Pair;
-
-typedef union {
-    u64 d;
-    Pair w;
-} Pair64;
 
 typedef char Pair_size_must_be_8[
     sizeof(Pair) == 8 ? 1 : -1
