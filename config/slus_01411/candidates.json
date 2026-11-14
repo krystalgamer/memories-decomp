@@ -21,7 +21,7 @@
       "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
       "source": "src/candidates/apv2/func_80168160.c",
       "target": "src/candidates_target/apv2/func_80168160.S",
-      "candidate_build_sha256": "a112db72e4215089bfdbb6667acbc7643a751ce83715bceccecc96c9b65d330b",
+      "candidate_build_sha256": "70835c5e228acd80e975163d4c3233dc1daba42c17a6549c3e58595b799e1b22",
       "target_bytes_sha256": "1f43ab6e0c7f8b0372aac055154094392f687557f3faab8ae5ed19c35c213714",
       "canonical_contract_sha256": "6c4679d8f177bd5e1a712ddfb32f853c88e9275adb10090b621eeece4e9ccefd",
       "canonical_contracts": {

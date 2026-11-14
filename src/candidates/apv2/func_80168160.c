@@ -32,10 +32,13 @@ loop:
         case 2:
             ret = func_80168A98(1);
             switch (ret) {
+            case 0:
+            default:
+                ret = 2;
+                break;
             case -2:
                 func_80168C6C(0);
                 D_80169474 = 17;
-            case 0:
                 ret = 2;
                 break;
             case 1:
@@ -46,9 +49,6 @@ loop:
                 break;
             case -1:
                 func_80168C6C(1);
-                ret = 2;
-                break;
-            default:
                 ret = 2;
                 break;
             }
@@ -345,10 +345,12 @@ loop:
             case -1:
                 D_80169474 = 1;
                 break;
-            case 1:
-                D_80169474 = ret;
             case 0:
             default:
+                ret = 16;
+                break;
+            case 1:
+                D_80169474 = ret;
                 ret = 16;
                 break;
             case -2:
