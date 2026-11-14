@@ -946,6 +946,27 @@ void Duel_DrawDecimalDigits(
     DisplayObject *style, GsSPRITE *digit, s32 value, s32 count
 );
 
+/* The scratchpad sprite Duel_DrawLifePointsAndDeckCounts fills and hands to
+   Duel_DrawDecimalDigits, which sets its u per digit, sorts it with
+   GsSortFastSprite and advances its x by 8. The fill writes the first 0x18
+   bytes of that GsSPRITE as packed words, so `packed` names them with
+   libgs.h's names and SpritePrim's for the pairs: wh is w in the low half
+   and h in the high half, uv is u in the low byte and v in the high byte,
+   and cxcy is cx in the low half and cy in the high half. */
+typedef union {
+    GsSPRITE sprite;
+    struct {
+        u32 attribute;
+        u16 x;
+        u16 y;
+        u32 wh;
+        u16 tpage;
+        u16 uv;
+        u32 cxcy;
+        u32 rgb;
+    } packed;
+} DuelStatusDigitPacket;
+
 void Duel_UpdateLifePointDisplay(DuelSideState *side);
 
 void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget);

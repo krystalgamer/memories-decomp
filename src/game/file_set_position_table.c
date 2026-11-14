@@ -57,7 +57,7 @@ void File_SetPositionTable(void)
     state->tpage = 0xB;
     D_800E9DF0.attribute = 0x8000000;
     D_8009B0E0 = 0;
-    state->rgb = COLOR_RGB24_NEUTRAL_GREY;
+    state->rgb.word = COLOR_RGB24_NEUTRAL_GREY;
     state->uv.word = 0xA000;
     state->extent.word = 0x180018;
     state->cxcy.word = 0xFC0230;

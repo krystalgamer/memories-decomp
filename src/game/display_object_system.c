@@ -340,7 +340,7 @@ void DisplayObject_RenderSpriteList(void) {
                 }
                 p->attribute = object->attribute;
                 idx = object->ot_index;
-                p->rgb = object->rgb;
+                p->rgb.word = object->rgb;
                 p->xy.word = object->xy.word;
                 p->extent.word = object->field_3C.word;
                 p->cxcy.word = object->field_40.word;
@@ -366,7 +366,7 @@ void DisplayObject_RenderSpriteList(void) {
                         continue;
                     }
                     setlen(packet, 9);
-                    *(s32 *)&packet->r0 = p->rgb;
+                    *(s32 *)&packet->r0 = p->rgb.word;
                     packet->code = 0x2C;
                     if ((p->attribute & GsALON) != 0) {
                         SetSemiTrans(packet, 1);
@@ -374,7 +374,7 @@ void DisplayObject_RenderSpriteList(void) {
                     mode = object->ot_depth | 0xF0000;
                 } else if ((p->attribute & GsROTOFF) == 0) {
                     p->rotate = object->field_20.h.rotation_z * 5760;
-                    p->scale = object->field_44.word;
+                    p->scale.word = object->field_44.word;
                     p->mxmy.word = object->field_48.word;
                     p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
@@ -483,7 +483,6 @@ GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C)
-#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
 #define SPRITE_SHEET_SCREEN_HEIGHT 240
@@ -524,7 +523,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     p->tpage = object->texture_page;
     p->xy.word = object->xy.word;
     p->cxcy.word = object->field_40.word;
-    p->rgb = object->rgb;
+    p->rgb.word = object->rgb;
     flags = object->flags;
     p->uv.word = object->texture_uv.word;
     if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -545,7 +544,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
             return;
         }
         setlen(packet, 9);
-        *(s32 *)&packet->r0 = p->rgb;
+        *(s32 *)&packet->r0 = p->rgb.word;
         packet->code = 0x2C;
         if ((p->attribute & GsALON) != 0) {
             SetSemiTrans(packet, 1);
@@ -554,7 +553,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
         mode = mode16 | 0xF0000;
     } else if ((p->attribute & GsROTOFF) == 0) {
         p->rotate = object->field_20.h.rotation_z * 5760;
-        p->scale = object->field_44.word;
+        p->scale.word = object->field_44.word;
         mode = mode16 | 0x30000;
         p->mxmy.word = object->field_48.word;
         p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
@@ -1077,12 +1076,12 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         }
         sheet = (u8 *)object->field_4C;
         sprite->rotate = object->field_20.h.rotation_z * 5760;
-        GS_SPRITE_VIEW(sprite)->scalex = object->field_44.scale.x;
-        GS_SPRITE_VIEW(sprite)->scaley = object->field_44.scale.y;
+        sprite->scale.h.x = object->field_44.scale.x;
+        sprite->scale.h.y = object->field_44.scale.y;
         sprite->mxmy.h.y = 0;
         sprite->mxmy.h.x = 0;
-        GS_SPRITE_VIEW(sprite)->r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
-        GS_SPRITE_VIEW(sprite)->g = DISPLAY_OBJECT_COLOR_BYTES(object)[1];
+        sprite->rgb.c.r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
+        sprite->rgb.c.g = DISPLAY_OBJECT_COLOR_BYTES(object)[1];
         blue = DISPLAY_OBJECT_COLOR_BYTES(object)[2];
         part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
         sprite->cxcy.h.cx = work->cx;
@@ -1099,7 +1098,7 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
             bits = 0x08000000;
             state->screen = attribute & bits;
         }
-        GS_SPRITE_VIEW(sprite)->b = blue;
+        sprite->rgb.c.b = blue;
         if (state->screen != 0) {
             bits = ~0x08000000;
             work->attribute &= bits;
@@ -1114,7 +1113,7 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         work->mode = 0;
         if (work->clip != 0) {
             quad = (u8 *)SCRATCH_ADDR(0x344);
-            *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb;
+            *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb.word;
             setlen(quad, 9);
             setcode(quad, 0x2C);
             gDisplayObject_fRenderRetry = 0;

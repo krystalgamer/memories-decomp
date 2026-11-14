@@ -78,9 +78,25 @@ typedef struct {
             u16 cy;
         } h;
     } cxcy;
-    u32 rgb;
+    /* GsSPRITE r/g/b and its padding byte. */
+    union {
+        u32 word;
+        struct {
+            u8 r;
+            u8 g;
+            u8 b;
+            u8 pad;
+        } c;
+    } rgb;
     SpritePos mxmy;
-    u32 scale;
+    /* GsSPRITE scalex/scaley. */
+    union {
+        u32 word;
+        struct {
+            s16 x;
+            s16 y;
+        } h;
+    } scale;
     s32 rotate;
 } SpritePrim;
 
@@ -1255,31 +1271,6 @@ typedef char DisplayObjectStreamState_command_offset_offset_must_be_0x58[
 ];
 typedef char DisplayObjectStreamState_frame_delay_offset_must_be_0x5A[
     (u32)&((DisplayObjectStreamState *)0)->frame_delay == 0x5A ? 1 : -1
-];
-
-/* The scratchpad sprite Duel_DrawLifePointsAndDeckCounts fills and hands to
-   Duel_DrawDecimalDigits as a GsSPRITE *, which sets its u per digit, sorts
-   it with GsSortFastSprite and advances its x by 8. These 0x18 bytes are the
-   first 0x18 of that libgs type, so the members take libgs.h's names, and
-   SpritePrim's for the packed pairs: wh is w in the low half and h in the
-   high half, uv is u in the low byte and v in the high byte, and cxcy is cx
-   in the low half and cy in the high half. */
-typedef struct {
-    u32 attribute;
-    u16 x;
-    u16 y;
-    u32 wh;
-    u16 tpage;
-    u16 uv;
-    u32 cxcy;
-    u32 rgb;
-} DuelStatusDigitPacket;
-
-typedef char DuelStatusDigitPacket_size_must_be_0x18[
-    sizeof(DuelStatusDigitPacket) == 0x18 ? 1 : -1
-];
-typedef char DuelStatusDigitPacket_rgb_offset_must_be_0x14[
-    (u32)&((DuelStatusDigitPacket *)0)->rgb == 0x14 ? 1 : -1
 ];
 
 /* Two words written together as a pair. free_duel/screen_runtime.c and
