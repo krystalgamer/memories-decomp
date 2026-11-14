@@ -1,6 +1,7 @@
 /* The name-entry keyboard updater, at the end of this unit, samples each pad
  * word independently; the other name-entry functions read no pad state. */
 #include "../../types.h"
+#include "../../game/scratchpad.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -80,8 +81,8 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
     s32 xp3;
     s32 right;
 
-    poly = (LINE_F3 *)0x1F800000;
-    line = (LINE_G2 *)0x1F800040;
+    poly = (LINE_F3 *)SCRATCH_ADDR(0);
+    line = (LINE_G2 *)SCRATCH_ADDR(0x40);
     /* Keep packed color writes; the constructors fill command bytes afterward. */
     *(u32 *)&poly->r0 = 0x0000FF00;
     *(u32 *)&line->r0 = 0x0000FF00;
