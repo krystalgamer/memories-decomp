@@ -6,6 +6,23 @@ manually merging their tails changes GCC's later cross-jump choices. The
 signed sector conversion retains its explicit negative adjustment before
 the arithmetic shift. No register pin or executable assembly is introduced.
 
+## Runtime reachability
+
+No resident `jal` or stored code pointer reaches `MemCardWork_InitializeOperation`
+or `MemCardWork_UpdateOperation`, and neither does any catalogued overlay
+module. Two #418 runs of `memcard_header_bytes_watch` (interpreter CPU,
+default 2 MB RAM, North American image) confirm it at runtime. The qualified
+run did two LOADs and one SAVE from the main menu, with a soft reset between
+the save and the second load. Both requests went through
+`SaveData_RequestLoad`/`SaveData_RequestWrite` and `MemCardDialog_Update` (800
+calls), and the legacy controller, `MemCard_ReqReadSector` and
+`MemCard_ReqWriteSector` never ran. The only writes to the footer bytes
+`D_8021007A..D_8021007E` were the BIOS clearing RAM during the reset; at 2 MB
+those addresses fold onto resident rodata at `0x8001007A`. The retail save
+and load path therefore does not use this controller, and the footer bytes
+are only ever written by it. They keep their address names: the trace shows
+the code is unused on that path, not what the bytes meant.
+
 ## Workspace and dispatch bounds
 
 `mem_card.h` describes a `0x1C` root and `0x268`-byte slots. The root's
